@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.17
+Version: 1.7.18
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -25,6 +25,7 @@ Author URI: http://urbangiraffe.com
 1.7.15 - Minor bug fix, show redirect names in drop-down list, add auto-generated target URL
 1.7.16 - Prevent errors caused by magic _vti_cnf.php files
 1.7.17 - Add option to disable 404 logs
+1.7.18 - Add auto-generation for source URL
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall

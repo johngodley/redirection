@@ -113,14 +113,24 @@ class Redirection_Item
 		
 			$red->redirector = new $details['redirector'];
 			
-			if ($details['new'] == '' && get_option ('redirection_auto_target') != '')
+			if (($details['new'] == '' || $details['old'] == '') && get_option ('redirection_auto_target') != '')
 			{
 				// Auto-generate a target URL
 				$id = time ();
 				
-				$details['new'] = get_option ('redirection_auto_target');
-				$details['new'] = str_replace ('$dec$', $id, $details['new']);
-				$details['new'] = str_replace ('$hex$', sprintf ('%x', $id), $details['new']);
+				if ($details['new'])
+				{
+					$details['new'] = get_option ('redirection_auto_target');
+					$details['new'] = str_replace ('$dec$', $id, $details['new']);
+					$details['new'] = str_replace ('$hex$', sprintf ('%x', $id), $details['new']);
+				}
+				
+				if ($details['old'])
+				{
+					$details['old'] = get_option ('redirection_auto_target');
+					$details['old'] = str_replace ('$dec$', $id, $details['old']);
+					$details['old'] = str_replace ('$hex$', sprintf ('%x', $id), $details['old']);
+				}
 			}
 			
 			$red->redirector->initialize ($details['new']);
