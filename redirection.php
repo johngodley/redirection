@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.18
+Version: 1.7.19
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -26,6 +26,7 @@ Author URI: http://urbangiraffe.com
 1.7.16 - Prevent errors caused by magic _vti_cnf.php files
 1.7.17 - Add option to disable 404 logs
 1.7.18 - Add auto-generation for source URL
+1.7.19 - Better database installation, better auto-generation
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -63,6 +64,7 @@ class Redirection extends Redirection_Plugin
 			if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
 				$this->add_action ('admin_head');
 			
+			$this->register_activation (__FILE__);
 			if (get_option ('redirection_post') == 'true')
 			{
 				$this->add_action ('edit_form_advanced', 'insert_old_slug');
@@ -78,6 +80,18 @@ class Redirection extends Redirection_Plugin
 			$this->add_filter ('permalink_redirect_skip');          // For YLSY permalink plugin
 			$this->add_filter ('status_header');
 		}
+		
+		// Remove WordPress redirection
+		remove_action ('template_redirect', 'wp_old_slug_redirect');
+		remove_action ('edit_form_advanced', 'wp_remember_old_slug');
+	}
+	
+	function activate ()
+	{
+		include (dirname (__FILE__).'/models/database.php');
+		
+		$db = new RE_Database;
+		$db->upgrade ();
 	}
 	
 	function status_header ($status)
@@ -130,22 +144,10 @@ class Redirection extends Redirection_Plugin
 		}
 		else if (isset ($_POST['delete']))
 		{
-			global $wpdb;
-			
-			$wpdb->query ("DROP TABLE {$wpdb->prefix}redirection;");
-			$wpdb->query ("DROP TABLE {$wpdb->prefix}redirection_log;");
-			
-			delete_option ('redirection_option');
-			delete_option ('redirection_lookup');
-			delete_option ('redirection_updates');
-			delete_option ('redirection_index');
-			delete_option ('redirection_post');
-			delete_option ('redirection_version');
-			delete_option ('redirection_global_404');
-			
-			$current = get_option('active_plugins');
-			array_splice ($current, array_search (basename (dirname (__FILE__)).'/'.basename (__FILE__), $current), 1 );
-			update_option('active_plugins', $current);
+			include (dirname (__FILE__).'/models/database.php');
+
+			$db = new RE_Database;
+			$db->remove (__FILE__);
 			
 			$this->render_message ('Redirection data has been deleted and the plugin disabled');
 		}
@@ -155,60 +157,14 @@ class Redirection extends Redirection_Plugin
 	
 	function update ()
 	{
-		global $wpdb;
-		
-    if (get_option ('redirection_version') === false)
-      add_option ('redirection_version', '1.2');
-
-		if (get_option ('redirection_lookup') === false)
-			update_option ('redirection_lookup', 'http://geomaplookup.cinnamonthoughts.org/?ip=');
-		
-		if (get_option ('redirection_version') == '1.2')
+		$version = get_option ('redirection_version');
+		if ($version != '1.9')
 		{
-			// Create database
-			$wpdb->query ("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection` (
-			  `id` int(11) unsigned NOT NULL auto_increment,
-			  `url` mediumtext NOT NULL,
-			  `type` enum('301','302','307','404','410','pass') NOT NULL default '301',
-			  `regex` int(11) unsigned NOT NULL default '0',
-			  `position` int(11) unsigned NOT NULL default '0',
-			  `redirector` text NOT NULL,
-			  `last_count` int(10) unsigned NOT NULL default '0',
-			  `last_access` datetime NOT NULL,
-			  PRIMARY KEY  (`id`)
-			)");
+			include (dirname (__FILE__).'/models/database.php');
 
-			$wpdb->query ("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_log` (
-			  `id` int(11) unsigned NOT NULL auto_increment,
-			  `created` datetime NOT NULL,
-			  `url` mediumtext NOT NULL,
-			  `sent_to` mediumtext,
-			  `agent` mediumtext NOT NULL,
-			  `referrer` mediumtext,
-			  `ip` int(11) unsigned NOT NULL default '0',
-			  `redirection_id` int(11) default NULL,
-			  PRIMARY KEY  (`id`)
-			)");
-			
-			// Convert to new format
-			$items = get_option ('redirection_list');
-			if (is_array ($items) && count ($items) > 0)
-			{
-				foreach ($items AS $item)
-				{
-					$data = array ('old' => $item->url_old, 'type' => $item->type, 'redirector' => 'A_Redirector_URL', 'new' => $item->url_new);
-					if ($item->regex)
-						$data['regex'] = 'on';
-					Redirection_Item::create ($data);
-				}
-			}
-			
-			delete_option ('redirection_list');
+			$db = new RE_Database;
+			$db->upgrade ($version, '1.9');
 		}
-		else if (get_option ('redirection_version') == '1.7')
-			$wpdb->query ("ALTER TABLE {$wpdb->prefix}redirection CHANGE `type` `type` enum('301','302','307','404','410','pass') NOT NULL DEFAULT '301' ;");
-
-		update_option ('redirection_version', '1.8');
 	}
 
 	function admin_screen ()

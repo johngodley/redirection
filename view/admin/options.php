@@ -21,11 +21,11 @@
       </td>
     </tr>
 		<tr>
-      <th valign="top" align="right"><?php _e ('Auto-generate target URL', 'redirection') ?>:</th>
+      <th valign="top" align="right"><?php _e ('Auto-generate URL', 'redirection') ?>:</th>
       <td>
 				<input type="text" name="redirection_auto_target" style="width: 95%" value="<?php echo get_option ('redirection_auto_target') ?>"/>
 				<br/>
-				<span class="sub">This will be used to auto-generate a target URL if no target is given.  You can use the special tags
+				<span class="sub">This will be used to auto-generate a URL if no URL is given.  You can use the special tags
 					$dec$ or $hex$ to have a unique ID inserted (either decimal or hex)</span>
 
 			</td>

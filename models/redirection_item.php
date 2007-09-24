@@ -101,38 +101,36 @@ class Redirection_Item
 	function create ($details)
 	{
 		global $wpdb;
-
-		$red = new Redirection_Item (array ());
 		
+		if (($details['new'] == '' || $details['old'] == '') && get_option ('redirection_auto_target') != '')
+		{
+			// Auto-generate a target URL
+			$id = time ();
+			
+			if ($details['new'] == '')
+			{
+				$details['new'] = get_option ('redirection_auto_target');
+				$details['new'] = str_replace ('$dec$', $id, $details['new']);
+				$details['new'] = str_replace ('$hex$', sprintf ('%x', $id), $details['new']);
+			}
+			
+			if ($details['old'] == '')
+			{
+				$details['old'] = get_option ('redirection_auto_target');
+				$details['old'] = str_replace ('$dec$', $id, $details['old']);
+				$details['old'] = str_replace ('$hex$', sprintf ('%x', $id), $details['old']);
+			}
+		}
+		
+		$red = new Redirection_Item (array ());
 		$red->url  = $details['old'];
 		$red->type = $details['type'];
 		
 		if ($red->is_valid ())
 		{
 			$red->regex = isset ($details['regex']) ? true : false;
-		
+
 			$red->redirector = new $details['redirector'];
-			
-			if (($details['new'] == '' || $details['old'] == '') && get_option ('redirection_auto_target') != '')
-			{
-				// Auto-generate a target URL
-				$id = time ();
-				
-				if ($details['new'])
-				{
-					$details['new'] = get_option ('redirection_auto_target');
-					$details['new'] = str_replace ('$dec$', $id, $details['new']);
-					$details['new'] = str_replace ('$hex$', sprintf ('%x', $id), $details['new']);
-				}
-				
-				if ($details['old'])
-				{
-					$details['old'] = get_option ('redirection_auto_target');
-					$details['old'] = str_replace ('$dec$', $id, $details['old']);
-					$details['old'] = str_replace ('$hex$', sprintf ('%x', $id), $details['old']);
-				}
-			}
-			
 			$red->redirector->initialize ($details['new']);
 		
 			$url           = wpdb::escape ($red->url);
