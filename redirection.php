@@ -27,6 +27,7 @@ Author URI: http://urbangiraffe.com
 1.7.17 - Add option to disable 404 logs
 1.7.18 - Add auto-generation for source URL
 1.7.19 - Better database installation, better auto-generation
+1.7.20 - Workaround for the FastCGI workaround.  Hide canonical options for WP2.3
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -43,7 +44,6 @@ For full license details see license.txt
 include (dirname (__FILE__).'/plugin.php');
 include (dirname (__FILE__).'/models/redirection_item.php');
 include (dirname (__FILE__).'/models/redirector.php');
-include (dirname (__FILE__).'/models/pager.php');
 include (dirname (__FILE__).'/models/log.php');
 
 
@@ -59,6 +59,8 @@ class Redirection extends Redirection_Plugin
 		
 		if (is_admin ())
 		{
+			include (dirname (__FILE__).'/models/pager.php');
+			
 			$this->add_action ('admin_menu');
 			
 			if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
@@ -78,7 +80,10 @@ class Redirection extends Redirection_Plugin
 			$this->add_action ('template_redirect', 'check_404');
 			$this->add_action ('send_headers');
 			$this->add_filter ('permalink_redirect_skip');          // For YLSY permalink plugin
-			$this->add_filter ('status_header');
+			
+			global $wp_db_version;
+			if ($wp_db_version < 6000)
+				$this->add_filter ('status_header');
 		}
 		
 		// Remove WordPress redirection
@@ -192,8 +197,15 @@ class Redirection extends Redirection_Plugin
 	    return $this->admin_screen_options ();
 	  else if ($_GET['sub'] == 'process')
 	    return $this->admin_screen_process ();
+		else if ($_GET['sub'] == 'import')
+			return $this->admin_screen_import ();
 	  else
 			return $this->admin_redirection ();
+	}
+	
+	function admin_screen_import ()
+	{
+		$this->render_admin ('import');
 	}
 	
 	function admin_screen_log ()

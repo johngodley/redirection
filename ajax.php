@@ -26,6 +26,8 @@ class Redirection_AJAX extends Redirection_Plugin
 {
 	function Redirection_AJAX ($id, $command)
 	{
+		include (dirname (__FILE__).'/models/pager.php');
+		
 		if (!current_user_can ('edit_plugins'))
 			die ('<p style="color: red">You are not allowed access to this resource</p>');
 		
