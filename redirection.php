@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.19
+Version: 1.7.20
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
