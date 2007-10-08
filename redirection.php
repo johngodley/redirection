@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.20
+Version: 1.7.21
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -28,6 +28,7 @@ Author URI: http://urbangiraffe.com
 1.7.18 - Add auto-generation for source URL
 1.7.19 - Better database installation, better auto-generation
 1.7.20 - Workaround for the FastCGI workaround.  Hide canonical options for WP2.3
+1.7.21 - Fix activation bug
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -96,7 +97,7 @@ class Redirection extends Redirection_Plugin
 		include (dirname (__FILE__).'/models/database.php');
 		
 		$db = new RE_Database;
-		$db->upgrade ();
+		$db->install ();
 	}
 	
 	function status_header ($status)
@@ -168,7 +169,7 @@ class Redirection extends Redirection_Plugin
 			include (dirname (__FILE__).'/models/database.php');
 
 			$db = new RE_Database;
-			$db->upgrade ($version, '1.9');
+			$db->upgrade ($version, DRAINHOLE_VERSION);
 		}
 	}
 
