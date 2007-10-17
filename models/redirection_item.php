@@ -123,20 +123,20 @@ class Redirection_Item
 		}
 		
 		$red = new Redirection_Item (array ());
+
 		$red->url  = $details['old'];
 		$red->type = $details['type'];
-		
+		$red->regex = isset ($details['regex']) ? true : false;
+
 		if ($red->is_valid ())
 		{
-			$red->regex = isset ($details['regex']) ? true : false;
-
 			$red->redirector = new $details['redirector'];
 			$red->redirector->initialize ($details['new']);
-		
+
 			$url           = wpdb::escape ($red->url);
 			$redirector    = wpdb::escape (serialize ($red->redirector));
 			$red->position = $wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection");
-		
+
 			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection (url,type,regex,position,redirector) VALUES ('$url','{$red->type}','{$red->regex}','{$red->position}','$redirector')");
 			$red->id = $wpdb->insert_id;
 			return $red;

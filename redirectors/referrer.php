@@ -19,6 +19,12 @@ this software, even if advised of the possibility of such damage.
 
 For full license details see license.txt
 ============================================================================================================ */
+if (!class_exists ('Redirector'))
+{
+	echo 'You should not reach this message.';
+	debug_backtrace ();
+}
+
 class Redirector_Referrer extends Redirector
 {
 	var $referrer;

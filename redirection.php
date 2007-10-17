@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.21
+Version: 1.7.22
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -29,6 +29,7 @@ Author URI: http://urbangiraffe.com
 1.7.19 - Better database installation, better auto-generation
 1.7.20 - Workaround for the FastCGI workaround.  Hide canonical options for WP2.3
 1.7.21 - Fix activation bug
+1.7.22 - Allow carats in regex patterns, another FastCGI workaround
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -87,9 +88,37 @@ class Redirection extends Redirection_Plugin
 				$this->add_filter ('status_header');
 		}
 		
+		$this->add_filter ('wp_redirect', 'wp_redirect', 1, 2);
+		
 		// Remove WordPress redirection
 		remove_action ('template_redirect', 'wp_old_slug_redirect');
 		remove_action ('edit_form_advanced', 'wp_remember_old_slug');
+	}
+	
+	function wp_redirect ($url, $status)
+	{
+		global $wp_version;
+    if ($wp_version < '2.1')
+		{
+    	status_header($status);
+			return $url;
+    }
+		else
+		{
+        if ($status == 301 && php_sapi_name() == 'cgi-fcgi') {
+            $servers_to_check = array('lighttpd', 'nginx');
+            foreach ($servers_to_check as $name) {
+                if (stripos($_SERVER['SERVER_SOFTWARE'], $name) !== false) {
+                    status_header($status);
+                    header("Location: $url");
+                    exit(0);
+                }
+            }
+        }
+
+        status_header($status);
+				return $url;
+    }
 	}
 	
 	function activate ()
