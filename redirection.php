@@ -179,7 +179,8 @@ class Redirection extends Redirection_Plugin
 		}
 		else if (isset ($_POST['delete']))
 		{
-			include (dirname (__FILE__).'/models/database.php');
+			if (!class_exists ('RE_Database'))
+				include (dirname (__FILE__).'/models/database.php');
 
 			$db = new RE_Database;
 			$db->remove (__FILE__);
