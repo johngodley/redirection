@@ -58,7 +58,12 @@ padding: 3px;
 }
 .type, .item { float: left;}
 
-.date, .count, .tools
+.wrap h2
+{
+clear: none;
+}
+
+.date, .count, .tools, .options
 {
 float: right;
 }

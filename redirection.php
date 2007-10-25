@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.22
+Version: 1.7.23
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -30,6 +30,7 @@ Author URI: http://urbangiraffe.com
 1.7.20 - Workaround for the FastCGI workaround.  Hide canonical options for WP2.3
 1.7.21 - Fix activation bug
 1.7.22 - Allow carats in regex patterns, another FastCGI workaround
+1.7.23 - Stop FTP log files being picked up, RSS 404 log
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -75,6 +76,8 @@ class Redirection extends Redirection_Plugin
 				$this->add_action ('edit_page_form',     'insert_old_slug');
 				$this->add_action ('edit_post',          'post_changed');
 			}
+			
+			$this->add_action ('plugins_loaded', 'inject_rss');
 		}
 		else
 		{
@@ -252,7 +255,21 @@ class Redirection extends Redirection_Plugin
 		
 		$this->render_admin ('log', array ('logs' => $logs, 'pager' => $pager));
 	}
-
+	
+	function inject_rss ()
+	{
+		if ($_GET['sub'] == 'RSS' && $_GET['page'] == 'redirection.php')
+		{
+			include (dirname (__FILE__).'/models/rss.php');
+		
+			$pager = new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log');
+				
+			$rss = new Redirection_RSS ();
+			$rss->feed (RE_Log::get_404 ($pager));
+			die ();
+		}
+	}
+	
 	function admin_screen_404 ()
 	{
 		if (isset ($_POST['delete']))

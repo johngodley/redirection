@@ -81,7 +81,7 @@ class Redirector_Factory
 	
 	function Redirector_Factory ()
 	{
-		$files = glob (dirname (__FILE__).'/../redirectors/*');
+		$files = glob (dirname (__FILE__).'/../redirectors/*.php');
 		if (count ($files) > 0)
 		{
 			foreach ($files AS $file)

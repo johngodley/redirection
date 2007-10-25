@@ -1,4 +1,7 @@
 <div class="wrap">
+	<div class="options">
+		<a href="edit.php?page=redirection.php&amp;sub=RSS">RSS</a>
+	</div>
 	<h2><?php _e ('Redirection 404 Log', 'redirection'); ?></h2>
 	
 	<?php if (count ($logs) > 0) : ?>

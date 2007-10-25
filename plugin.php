@@ -12,13 +12,13 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.1.20
+// @version    0.1.21
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
-// 0.1.6 - Corrected WP locale functions
-// 0.1.7 - Add phpdoc comments
-// 0.1.8 - Support for Admin SSL
-// 0.1.9 - URL encoding, defer localization until init
+// 0.1.6  - Corrected WP locale functions
+// 0.1.7  - Add phpdoc comments
+// 0.1.8  - Support for Admin SSL
+// 0.1.9  - URL encoding, defer localization until init
 // 0.1.10 - Better URL encoding
 // 0.1.11 - Make work in WP 2.0, fix HTTPS issue on IIS
 // 0.1.12 - Activation/deactivation actions that take into account the directory
@@ -30,6 +30,7 @@
 // 0.1.18 - Expand checked function
 // 0.1.19 - Make url() cope with sites with no trailing slash
 // 0.1.20 - Change init function to prevent overloading
+// 0.1.21 - Make widget work for WP 2.1
 // ======================================================================================
 
 
@@ -335,7 +336,7 @@ class Redirection_Plugin
 			return str_replace ('\\', urlencode ('\\'), str_replace ('&amp;amp', '&amp;', str_replace ('&', '&amp;', $url)));
 		else
 		{
-			$url = substr ($this->plugin_base, strlen (realpath (ABSPATH)));
+			$url = substr ($this->plugin_base, strlen ($this->realpath (ABSPATH)));
 			if (DIRECTORY_SEPARATOR != '/')
 				$url = str_replace (DIRECTORY_SEPARATOR, '/', $url);
 
@@ -480,6 +481,23 @@ if (!class_exists ('Widget'))
 		
 		function initialize ()
 		{
+			// Compatability functions for WP 2.1
+			if (!function_exists ('wp_register_sidebar_widget'))
+			{
+				function wp_register_sidebar_widget ($id, $name, $output_callback, $classname = '')
+				{
+					register_sidebar_widget($name, $output_callback, $classname);
+				}
+			}
+
+			if (!function_exists ('wp_register_widget_control'))
+			{
+				function wp_register_widget_control($name, $control_callback, $width = 300, $height = 200)
+				{
+					register_widget_control($name, $control_callback, $width, $height);
+				}
+			}
+			
 			if (function_exists ('wp_register_sidebar_widget'))
 			{
 				if ($this->widget_max > 1)
