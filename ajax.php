@@ -44,6 +44,9 @@ class Redirection_AJAX extends Redirection_Plugin
 	{
 		if (in_array ($_POST['type'], array ('301', '302', '307', '404', '410', 'pass')))
 		{
+			$_POST['new'] = urldecode ($_POST['new']);
+			$_POST['old'] = urldecode ($_POST['old']);
+			
 			$item = Redirection_Item::create ($_POST);
 			
 			if ($item !== false)
@@ -71,6 +74,9 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function save_redirect ($id)
 	{
+		$_POST['new'] = urldecode ($_POST['new']);
+		$_POST['old'] = urldecode ($_POST['old']);
+		
 		$redirect = Redirection_Item::get_by_id ($id);
 		$redirect->update ($_POST);
 		

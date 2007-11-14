@@ -26,10 +26,14 @@ function update_count ()
 
 function save_redirect (item,form)
 {
+  var params = Form.serialize (form, true);
+  params['url_new'] = escape (params['url_new']);
+  params['old']     = escape (params['old']);
+  
   new Ajax.Updater ('r_' + item, wp_base + 'ajax.php?cmd=save_redirect&id=' + item,
     {
       asynchronous: true, evalScripts: true,
-      parameters: Form.serialize (form),
+      parameters: params,
       onLoading: function(request) { Element.show ('loading')},
       onComplete: function(request) { Element.hide ('loading'); new Effect.Pulsate ('r_' + item, { duration: 1.5, pulses: 2});}
     });
@@ -73,10 +77,14 @@ function delete_redirect (item)
 
 function add_redirection (form,add_to_screen)
 {
+  var params = Form.serialize (form, true);
+  params['new'] = escape (params['new']);
+  params['old'] = escape (params['old']);
+  
   new Ajax.Request (wp_base + 'ajax.php?cmd=add_redirect&id=0',
     {
       asynchronous: true, evalScripts: true,
-      parameters: Form.serialize (form),
+      parameters: params,
       onSuccess: function(request)
       {
         if (add_to_screen == true)

@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 1.7.23
+Version: 1.7.24
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -31,6 +31,7 @@ Author URI: http://urbangiraffe.com
 1.7.21 - Fix activation bug
 1.7.22 - Allow carats in regex patterns, another FastCGI workaround
 1.7.23 - Stop FTP log files being picked up, RSS 404 log
+1.7.24 - Stop problems with mod_security
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall

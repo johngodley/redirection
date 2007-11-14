@@ -122,6 +122,12 @@ class Redirection_Item
 			}
 		}
 		
+		print_r ($details);
+		// Make sure that the old URL is relative
+		$details['old'] = preg_replace ('@https?://(.*?)/@', '/', $details['old']);
+		$details['old'] = preg_replace ('@https?://(.*?)$@', '/', $details['old']);
+		
+		// Create
 		$red = new Redirection_Item (array ());
 
 		$red->url  = $details['old'];
