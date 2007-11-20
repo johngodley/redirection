@@ -15,7 +15,7 @@ class RE_Database
 		  `position` int(11) unsigned NOT NULL default '0',
 		  `redirector` text NOT NULL,
 		  `last_count` int(10) unsigned NOT NULL default '0',
-		  `last_access` datetime NOT NULL,
+		  `last_access` datetime,
 		  PRIMARY KEY  (`id`)
 		)");
 

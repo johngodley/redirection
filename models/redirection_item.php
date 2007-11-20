@@ -122,7 +122,6 @@ class Redirection_Item
 			}
 		}
 		
-		print_r ($details);
 		// Make sure that the old URL is relative
 		$details['old'] = preg_replace ('@https?://(.*?)/@', '/', $details['old']);
 		$details['old'] = preg_replace ('@https?://(.*?)$@', '/', $details['old']);
@@ -143,7 +142,7 @@ class Redirection_Item
 			$redirector    = wpdb::escape (serialize ($red->redirector));
 			$red->position = $wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection");
 
-			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection (url,type,regex,position,redirector) VALUES ('$url','{$red->type}','{$red->regex}','{$red->position}','$redirector')");
+			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection (url,type,regex,position,redirector,last_access) VALUES ('$url','{$red->type}','{$red->regex}','{$red->position}','$redirector',0)");
 			$red->id = $wpdb->insert_id;
 			return $red;
 		}
