@@ -74,7 +74,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function save_redirect ($id)
 	{
-		$_POST['new'] = urldecode ($_POST['new']);
+		$_POST['url_new'] = urldecode ($_POST['url_new']);
 		$_POST['old'] = urldecode ($_POST['old']);
 		
 		$redirect = Redirection_Item::get_by_id ($id);

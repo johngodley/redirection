@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.1.21
+// @version    0.1.22
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -31,6 +31,7 @@
 // 0.1.19 - Make url() cope with sites with no trailing slash
 // 0.1.20 - Change init function to prevent overloading
 // 0.1.21 - Make widget work for WP 2.1
+// 0.1.22 - RSS compatability fix
 // ======================================================================================
 
 
@@ -375,7 +376,7 @@ class Redirection_Plugin
 		$checked = get_option ('plugin_urbangiraffe_rss');
 	
 		// Use built-in Magpie caching
-		if (!isset ($checked[$this->plugin_name]) || $now > $checked[$this->plugin_name] + ($days * 24 * 60 * 60))
+		if (function_exists ('fetch_rss') && (!isset ($checked[$this->plugin_name]) || $now > $checked[$this->plugin_name] + ($days * 24 * 60 * 60)))
 		{
 			$rss = fetch_rss ($url);
 			if (count ($rss->items) > 0)
