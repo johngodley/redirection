@@ -19,29 +19,33 @@ this software, even if advised of the possibility of such damage.
 
 For full license details see license.txt
 ============================================================================================================ */
-class Redirector_LuckyDip extends Redirector
+
+class Random_Action extends Red_Action
 {
-	function initialize ($url) { }
+	function can_change_code () { return true; }
+	function can_perform_action () { return false; }
 	
-	function name () { return __ ('Redirect to a random WordPress post', 'redirection'); }
-	
-	function show ()
+	function action_codes ()
 	{
+		return array
+		(
+			301 => get_status_header_desc (301),
+			302 => get_status_header_desc (302),
+			307 => get_status_header_desc (307)
+		);
 	}
 	
-	function save ($details)
-	{
-	}
-	
-	function get_target ($url, $matched_url, $regex)
+	function process_before ($code, $target)
 	{
 		// Pick a random WordPress page
 		global $wpdb;
-		$id = $wpdb->get_var ("SELECT ID FROM {$wpdb->prefix}posts WHERE post_status='publish' AND post_password='' AND post_type='post' ORDER BY RAND()");
-		return str_replace (get_bloginfo ('home'), '', get_permalink ($id));
+		$id = $wpdb->get_var ("SELECT ID FROM {$wpdb->prefix}posts WHERE post_status='publish' AND post_password='' AND post_type='post' ORDER BY RAND() LIMIT 0,1");
+		
+		$target = str_replace (get_bloginfo ('home'), '', get_permalink ($id));
+		
+		wp_redirect ($target, $code);
+		exit ();
 	}
 }
-
-$this->register ('Redirector_LuckyDip');
 
 ?>

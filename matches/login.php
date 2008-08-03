@@ -19,34 +19,38 @@ this software, even if advised of the possibility of such damage.
 
 For full license details see license.txt
 ============================================================================================================ */
-class Redirector_Login extends Redirector
+
+class Login_Match extends Red_Match
 {
-	function name () { return __ ('Redirect based on login status', 'redirection');}
+	function name () { return __ ('URL and login status', 'redirection');}
 	
 	function show ()
 	{
 		?>
+		</table>
+		
+		<p style="padding: 0.5em"><?php _e ('The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected.', 'redirection'); ?></p>
+		<table class="edit">
 		<tr>
-			<th valign="top">
-				<?php if (strlen ($this->url[0]) > 0) : ?>
-				<a target="_blank" href="<?php echo $this->url[0] ?>"><?php _e ('Logged in URL', 'redirection'); ?>:</a>
+			<th width="100" valign="top">
+				<?php if (strlen ($this->url_loggedin) > 0) : ?>
+				<a target="_blank" href="<?php echo $this->url_loggedin ?>"><?php _e ('Logged In', 'redirection'); ?>:</a>
 				<?php else : ?>
-				<?php _e ('Logged in URL', 'redirection'); ?>:
+				<?php _e ('Logged In', 'redirection'); ?>:
 				<?php endif; ?>
 			</th>
-			<td valign="top"><input style="width: 95%" type="text" name="url_loggedin" value="<?php echo htmlspecialchars ($this->url[0]); ?>" id="new"/></td>
+			<td valign="top"><input style="width: 95%" type="text" name="url_loggedin" value="<?php echo htmlspecialchars ($this->url_loggedin); ?>" id="new"/></td>
 		</tr>
 		<tr>
-			<th valign="top">
-				<?php if (strlen ($this->url[1]) > 0) : ?>
-				<a target="_blank" href="<?php echo $this->url[1] ?>"><?php _e ('Logged out URL', 'redirection'); ?>:</a>
+			<th width="100" valign="top">
+				<?php if (strlen ($this->url_loggedout) > 0) : ?>
+				<a target="_blank" href="<?php echo $this->url_loggedout ?>"><?php _e ('Logged Out', 'redirection'); ?>:</a>
 				<?php else : ?>
-				<?php _e ('Logged out URL', 'redirection'); ?>:
+				<?php _e ('Logged Out', 'redirection'); ?>:
 				<?php endif; ?>
 			</th>
 			<td valign="top">
-				<input style="width: 95%" type="text" name="url_loggedout" value="<?php echo htmlspecialchars ($this->url[1]); ?>" id="new"/><br/>
-				<span class="sub"><?php _e ('An empty URL means the source URL is not redirected when the user is logged in/logged out.', 'redirection'); ?></span>
+				<input style="width: 95%" type="text" name="url_loggedout" value="<?php echo htmlspecialchars ($this->url_loggedout); ?>" id="new"/><br/>
 			</td>
 		</tr>
 		<?php
@@ -54,7 +58,9 @@ class Redirector_Login extends Redirector
 	
 	function save ($details)
 	{
-		$this->url = array ($details['url_loggedin'], $details['url_loggedout']);
+		if (isset ($details['target']))
+			$details['target'] = $details;
+		return array ('url_loggedin' => $details['url_loggedin'], 'url_loggedout' => $details['url_loggedout']);
 	}
 	
 	function initialize ($url)
@@ -65,9 +71,9 @@ class Redirector_Login extends Redirector
 	function get_target ($url, $matched_url, $regex)
 	{
 		if (is_user_logged_in () === false)
-			$target = $this->url[1];
+			$target = $this->url_loggedin;
 		else
-			$target = $this->url[0];
+			$target = $this->url_loggedout;
 
 		if ($regex)
 			$target = preg_replace ('@'.str_replace ('@', '\\@', $matched_url).'@', $target, $url);
@@ -76,14 +82,17 @@ class Redirector_Login extends Redirector
 	
 	function wants_it ()
 	{
-		if (is_user_logged_in () && strlen ($this->url[0]) > 0)
+		if (is_user_logged_in () && strlen ($this->url_loggedin) > 0)
 			return true;
-		if (!is_user_logged_in () && strlen ($this->url[1]) > 0)
+		if (!is_user_logged_in () && strlen ($this->url_loggedout) > 0)
 			return true;
+	}
+	
+	function match_name ()
+	{
+		return sprintf ('login status', $this->user_agent);
 	}
 }
 
-
-$this->register ('Redirector_Login');
 
 ?>

@@ -31,7 +31,7 @@
 // 0.1.19 - Make url() cope with sites with no trailing slash
 // 0.1.20 - Change init function to prevent overloading
 // 0.1.21 - Make widget work for WP 2.1
-// 0.1.22 - RSS compatability fix
+// 0.1.22 - Make select work with option groups, RSS compatability fix
 // ======================================================================================
 
 
@@ -450,7 +450,17 @@ class Redirection_Plugin
 		if (count ($items) > 0)
 		{
 			foreach ($items AS $key => $value)
-				echo '<option value="'.$key.'"'.($key == $default ? ' selected="selected"' : '').'>'.$value.'</option>';
+			{
+				if (is_array ($value))
+				{
+					echo '<optgroup label="'.$key.'">';
+					foreach ($value AS $sub => $subvalue)
+						echo '<option value="'.$sub.'"'.($sub == $default ? ' selected="selected"' : '').'>'.$subvalue.'</option>';
+					echo '</optgroup>';
+				}
+				else
+					echo '<option value="'.$key.'"'.($key == $default ? ' selected="selected"' : '').'>'.$value.'</option>';
+			}
 		}
 	}
 }

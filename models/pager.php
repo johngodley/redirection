@@ -12,13 +12,14 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.2.6
+// @version    0.2.7
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.2.3 - Remember pager details in user data
 // 0.2.4 - Add phpdoc comments
 // 0.2.5 - Allow orderby to use tags to hide database columns
 // 0.2.6 - Fix sortable columns with only 1 page
+// 0.2.7 - Add a GROUP BY feature, make search work when position not 0
 // ======================================================================================
 
 
@@ -112,6 +113,9 @@ class RE_Pager
 		$this->steps = array (10, 25, 50, 100, 250);
 		$this->url = str_replace ('&', '&amp;', $this->url);
 		$this->url = str_replace ('&&amp;', '&amp;', $this->url);
+
+		if (!isset ($data['ss']) && $this->search != $data['ss'])
+			$this->current_page = 1;
 	}
 	
 	
@@ -224,9 +228,13 @@ class RE_Pager
 	 * @return string SQL
 	 **/
 	
-	function to_limits ($conditions = '', $searches = '', $filters = '')
+	function to_limits ($conditions = '', $searches = '', $filters = '', $group_by = '')
 	{
 		$sql = $this->to_conditions ($conditions, $searches, $filters);
+		
+		if ($group_by)
+			$sql .= ' '.$group_by.' ';
+			
 		if (strlen ($this->order_by) > 0)
 		{
 			if (!$this->is_secondary_sort ())
@@ -333,6 +341,17 @@ class RE_Pager
 	}
 	
 	
+	function sortable_class ($column, $class = true)
+	{
+		if ($column == $this->order_by)
+		{
+			if ($class)
+				printf (' class="sorted"');
+			else
+				echo ' sorted';
+		}
+	}
+	
 	/**
 	 * Return a string suitable for a sortable column heading
 	 *
@@ -391,7 +410,7 @@ class RE_Pager
 			{
 				if ($pos == $this->current_page)
 				{
-					$pages[] = $pos;
+					$pages[] = '<span class="active">'.$pos.'</span>';
 					$allow_dot = true;
 				}
 				else if ($pos == 1 || abs ($this->current_page - $pos) <= 2 || $pos == $this->total_pages ())

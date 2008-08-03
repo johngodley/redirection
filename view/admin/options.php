@@ -1,61 +1,61 @@
-<div class="wrap">
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="wrap">
   <h2><?php _e ('Options', 'redirection') ?></h2>
+	<?php $this->submenu (true); ?>
   <form method="post" action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>">
-  <table cellpadding="3" width="100%">
-    <tr>
-      <th width="260" align="right"><?php _e ('Create 301 when post slug changes', 'redirection') ?>:</th>
-      <td><input type="checkbox" name="post_change" <?php if (get_option ('redirection_post') == 'true') echo 'checked="checked"'; ?>/></td>
-    </tr>
-    <tr>
-      <th align="right"><?php _e ('Redirect index.php/index.html', 'redirection') ?>:</th>
-      <td><input type="checkbox" name="index" <?php if (get_option ('redirection_index') == 'true') echo 'checked="checked"'; ?>/></td>
-    </tr>
-    <tr>
-      <th align="right"><?php _e ('Root domain', 'redirection') ?>:</th>
-      <td>
-	      <select name="root">
-      		<option value="no"<?php if (get_option ('redirection_root') == 'no') echo ' selected="selected"'; ?>><?php _e ('No', 'redirection'); ?></option>
-      		<option value="nowww"<?php if (get_option ('redirection_root') == 'nowww') echo ' selected="selected"'; ?>><?php _e ('Strip www', 'redirection'); ?></option>
-      		<option value="www"<?php if (get_option ('redirection_root') == 'www') echo ' selected="selected"'; ?>><?php _e ('Add www', 'redirection'); ?></option>
-      	</select>
-      </td>
-    </tr>
-		<tr>
-      <th valign="top" align="right"><?php _e ('Auto-generate URL', 'redirection') ?>:</th>
-      <td>
-				<input type="text" name="redirection_auto_target" style="width: 95%" value="<?php echo get_option ('redirection_auto_target') ?>"/>
-				<br/>
-				<span class="sub">This will be used to auto-generate a URL if no URL is given.  You can use the special tags
-					$dec$ or $hex$ to have a unique ID inserted (either decimal or hex)</span>
+	
+	<fieldset>
+		<legend><?php _e ('General', 'redirection'); ?></legend>
+	  <table cellpadding="3" width="100%">
+			<tr>
+	      <th valign="top" align="right"><?php _e ('Auto-generate URL', 'redirection') ?>:</th>
+	      <td>
+					<input type="text" name="auto_target" style="width: 95%" value="<?php echo htmlspecialchars ($options['auto_target']) ?>"/>
+					<br/>
+					<span class="sub"><?php _e ('This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection'); ?></span>
 
-			</td>
-    </tr>
-		<tr>
-      <th valign="top" align="right"><?php _e ('Globally redirect unknown 404 errors', 'redirection') ?>:</th>
-      <td>
-				<input type="text" name="404_redirect" style="width: 95%" value="<?php echo get_option ('redirection_global_404') ?>"/>
-			</td>
-    </tr>
-		<tr>
-			<th align="right" valign="top">IP Lookup Service:</th>
-			<td>
-				<input type="text" style="width: 95%" name="lookup" value="<?php echo get_option ('redirection_lookup') ?>" id="lookup"/><br/>
-				<span class="sub">Example:</span>
-					 	<ul>
-							<li><code>http://geomaplookup.cinnamonthoughts.org/?ip=</code></li>
-							<li><code>http://ws.arin.net/cgi-bin/whois.pl?queryinput=</code></li>
-						</ul>
-			</td>
-		</tr>
-		<tr>
-      <th align="right"><?php _e ('Log 404 errors', 'redirection') ?>:</th>
-      <td><input type="checkbox" name="redirection_404_log" <?php if (get_option ('redirection_404_log') == 'true') echo 'checked="checked"'; ?>/></td>
-    </tr>
-		<tr>
-      <th align="right"><?php _e ('Check for updates', 'redirection') ?>:</th>
-      <td><input type="checkbox" name="redirection_updates" <?php if (get_option ('redirection_updates') == 'true') echo 'checked="checked"'; ?>/></td>
-    </tr>
-  </table>
+				</td>
+	    </tr>
+			<tr>
+				<th align="right" valign="top"><?php _e ('IP Lookup Service', 'redirection'); ?>:</th>
+				<td>
+					<input type="text" style="width: 95%" name="lookup" value="<?php echo $options['lookup'] ?>" id="lookup"/><br/>
+				</td>
+			</tr>
+			<tr>
+				<th align="right"><?php _e ('Plugin Support', 'redirection'); ?>:</th>
+				<td>
+					<input type="checkbox" name="support" <?php echo $this->checked ($options['support']) ?> id="support"/> 
+					<label for="support"><span class="sub"><?php _e ('I\'m a nice person and I have helped support the author of this plugin', 'redirection'); ?></span></label>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	
+	<fieldset>
+		<legend><?php _e ('URL Monitoring', 'redirection'); ?></legend>
+		<p><?php _e ('You can have Redirection detect changes in URLs and have an automatic redirection created in a specific group.', 'redirection'); ?></p>
+
+		<table>
+			<tr>
+				<th><?php _e ('Post &amp; Page URLs', 'redirection'); ?>:</th>
+				<td>
+					<select name="monitor_post">
+						<option value="0"><?php _e ('Don\'t monitor', 'redirection'); ?></option>
+						<?php echo $this->select ($groups, $options['monitor_post']);?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><?php _e ('Category URLs', 'redirection'); ?>:</th>
+				<td>
+					<select name="monitor_category">
+						<option value="0"><?php _e ('Don\'t monitor', 'redirection'); ?></option>
+						<?php echo $this->select ($groups, $options['monitor_category']);?>
+					</select>
+				</td>
+			</tr>
+	  </table>
+	</fieldset>
 
   <input type="submit" name="update" value="<?php _e ('Update', 'redirection') ?>"/>
 
@@ -63,8 +63,25 @@
 </div>
 
 <div class="wrap">
-	<h2>Delete Redirection</h2>
-	<p>Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.</p>
+	<h2><?php _e ('Import', 'redirection'); ?></h2>
+	
+	<p><?php _e ('Here you can import redirections from an existing .htaccess file, a CSV file, or a Redirection XML.', 'redirection'); ?></p>
+	
+	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+		<input type="file" name="upload" value=""/>
+		
+		<?php _e ('Import into', 'redirection'); ?>: <select name="group">
+			<?php echo $this->select ($groups);?>
+		</select>
+		<input type="submit" name="import" value="<?php _e ('Upload', 'redirection'); ?>"/>
+	</form>
+	
+	<p><?php _e ('Note that the group is ignored when uploading an XML file.', 'redirection'); ?></p>
+</div>
+
+<div class="wrap">
+	<h2><?php _e ('Delete Redirection', 'redirection'); ?></h2>
+	<p><?php _e ('Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.', 'redirection'); ?></p>
 
 	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8">
 			<input type="submit" name="delete" value="<?php _e ('Delete', 'redirection') ?>"/>

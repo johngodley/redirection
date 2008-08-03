@@ -1,46 +1,52 @@
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div id="added" style="display: none" class="updated">
-	<p>Your redirection has been added.</p>
+	<p><?php _e ('Your redirection has been added.', 'redirection'); ?></p>
 </div>
 
-<div class="wrap" id="add">
+<div class="wrap" id="add" <?php if ($hidden) echo ' style="display: none"' ?>>
 	<h2><?php _e ('Add new redirection', 'redirection') ?></h2>
-	
+		<?php $this->submenu (true); ?>
 	<form method="post" action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" onsubmit="add_redirection(this,<?php if ($add_to_screen) echo 'true'; else echo 'false' ?>);return false">
 	<table width="100%">
 	  <tr>
 	    <th align="right" width="100"><?php _e ('Source URL', 'redirection') ?>:</th>
-	    <td><input type="text" name="old" style="width: 95%" id="old"/></td>
+	    <td><input type="text" name="source" style="width: 95%" id="old"/></td>
 	  </tr>
 	  <tr>
-	    <th align="right"><?php _e ('Target URL', 'redirection') ?>:</th>
-	    <td><input type="text" name="new" style="width: 95%"/></td>
-	  </tr>
-	  <tr>
-	    <th align="right"><?php _e ('Type', 'redirection') ?>:</th>
+	    <th align="right"><?php _e ('Match', 'redirection') ?>:</th>
 	    <td>
-	    <select name="redirector">
-				<?php foreach ($redirectors->available AS $class => $redirector) : ?>
-				<option value="<?php echo $class ?>"><?php echo htmlspecialchars ($redirector) ?></option>
-				<?php endforeach; ?>
+	    <select name="match">
+				<?php echo $this->select (Red_Match::all ()); ?>
 			</select>
-			<strong><?php _e ('Method', 'redirection'); ?>:</strong>
-			<select name="type">
-				<option value="301">301 Permanent redirect</option>
-				<option value="302">302 Moved</option>
-				<option value="307">307 Temporary redirect</option>
-				<option value="404">404 Not found</option>
-				<option value="410">410 Gone</option>
-				<option value="pass"><?php _e ('Pass-through', 'redirection'); ?></option>
+			
+			<strong><?php _e ('Action', 'redirection'); ?>:</strong>
+			<select name="action" onchange="return change_add_redirect (this)">
+				<?php echo $this->select (Red_Item::actions (), 'url'); ?>
 			</select>
+			
+			<label><?php _e ('Regular expression', 'redirection'); ?>: <input id="regex" type="checkbox" name="regex"/></label>
 	    </td>
 	  </tr>
-	  <tr>
-	    <th align="right"><label for="regex"><?php _e ('Regex', 'redirection') ?></label>:</th>
-	    <td><input id="regex" type="checkbox" name="regex"/></td>
+	  <tr id="target">
+	    <th align="right"><?php _e ('Target URL', 'redirection') ?>:</th>
+	    <td><input type="text" name="target" style="width: 95%"/></td>
 	  </tr>
+		<?php if ($group == '') : ?>
+		<tr>
+			<th><?php _e ('Group', 'redirection'); ?>:</th>
+			<td><select name="group"><?php echo $this->select (Red_Group::get_for_select (), isset ($_GET['group']) ? intval ($_GET['group']) : 0)?></select></td>
+		</tr>
+		<?php endif; ?>
 	  <tr>
 	    <th></th>
-	    <td><input type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/></td>
+	    <td>
+				<input type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
+				<?php if ($group) : ?>
+				<input type="hidden" name="group" value="<?php echo $group ?>"/>
+				<?php endif; ?>
+				
+				<div id="error"></div>
+			</td>
 	  </tr>
 	  </table>
 	</form>

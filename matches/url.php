@@ -19,45 +19,52 @@ this software, even if advised of the possibility of such damage.
 
 For full license details see license.txt
 ============================================================================================================ */
-class Redirector_Random extends Redirector
+
+class URL_Match extends Red_Match
 {
-	function initialize ($url)
-	{
-		$this->url = array ($url);
-	}
-	
-	function name () { return __ ('Redirect to one of several URLs', 'redirection'); }
+	function name () { return __ ('URL only', 'redirection'); }
 	
 	function show ()
 	{
 		?>
+		<?php if ($this->action->can_perform_action ()) : ?>
 		<tr>
-			<th valign="top"><a target="_blank" href="<?php echo $this->url ?>"><?php _e ('Target URL', 'redirection'); ?>:</a></th>
+			<th><a target="_blank" href="<?php echo $this->url ?>"><?php _e ('Target URL', 'redirection'); ?>:</a></th>
 			<td>
-				<?php foreach ($this->url AS $url) : ?>
-				<input style="width: 90%" type="text" name="new[]" value="<?php echo htmlspecialchars ($url); ?>"/>
-				<?php endforeach; ?>
-				<a href="#" onclick="add_new_url (this); return false;">add</a>
+				<input style="width: 95%" type="text" name="target" value="<?php echo htmlspecialchars ($this->url); ?>"/>
 			</td>
 		</tr>
-		<?php
+		<?php endif; ?>
+		<?php if ($this->action->can_change_code ()) : ?>
+		<tr>
+			<th><?php _e ('HTTP Code', 'redirection'); ?>:</th>
+			<td>
+				<select name="action_code">
+					<?php $this->action->display_actions (); ?>
+				</select>
+			</td>
+		</tr>
+		<?php endif;
 	}
 	
 	function save ($details)
 	{
-		$this->url = $details['new'];
-		$this->url = array_filter ($this->url);
+		if (strlen ($details) == 0)
+			$details['target'] = '/';
+			
+		return array ('url' => $details['target']);
 	}
 	
 	function get_target ($url, $matched_url, $regex)
 	{
-		$target = $this->url[array_rand ($this->url)];
+		$target = $this->url;
 		if ($regex)
-			$target = preg_replace ('@'.str_replace ('@', '\\@', $matched_url).'@', $target, $url);
+			$target = preg_replace ('@'.str_replace ('@', '\\@', $matched_url).'@', $this->url, $url);
+			
+		if ($target == '')
+			return $matched_url;
 		return $target;
 	}
 }
-
-$this->register ('Redirector_Random');
 
 ?>

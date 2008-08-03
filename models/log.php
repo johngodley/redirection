@@ -34,26 +34,15 @@ class RE_Log
 		foreach ($values AS $key => $value)
 		 	$this->$key = $value;
 		
-		$this->ip      = long2ip ($this->ip);
 		$this->created = mysql2date ('U', $this->created);
 		$this->url     = stripslashes ($this->url);
-	}
-	
-	function get_last ($id)
-	{
-		global $wpdb;
-		
-		$row = $wpdb->get_row ("SELECT * FROM {$wpdb->prefix}redirection_log WHERE redirection_id='$id' ORDER BY created DESC LIMIT 1");
-		if ($row)
-			return new RE_Log ($row);
-		return false;
 	}
 	
 	function get_by_id ($id)
 	{
 		global $wpdb;
 		
-		$row = $wpdb->get_row ("SELECT * FROM {$wpdb->prefix}redirection_log WHERE id='$id'", ARRAY_A);
+		$row = $wpdb->get_row ("SELECT * FROM {$wpdb->prefix}redirection_logs WHERE id='$id'", ARRAY_A);
 		if ($row)
 			return new RE_Log ($row);
 		return false;
@@ -63,8 +52,9 @@ class RE_Log
 	{
 		global $wpdb;
 		
-		$pager->set_total ($wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_log WHERE redirection_id IS NOT NULL"));
-		$rows = $wpdb->get_results ("SELECT * FROM {$wpdb->prefix}redirection_log".$pager->to_limits ('redirection_id IS NOT NULL', array ('url', 'sent_to')), ARRAY_A);
+		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')), ARRAY_A);
+		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
+		
 		$items = array ();
 		if (count ($rows) > 0)
 		{
@@ -75,12 +65,13 @@ class RE_Log
 		return $items;
 	}
 	
-	function get_404 (&$pager)
+	function get_by_group (&$pager, $group)
 	{
 		global $wpdb;
 		
-		$pager->set_total ($wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_log WHERE redirection_id IS NULL"));
-		$rows = $wpdb->get_results ("SELECT * FROM {$wpdb->prefix}redirection_log".$pager->to_limits ('redirection_id IS NULL', array ('url')), ARRAY_A);
+		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("redirection_id IS NOT NULL AND group_id='".$group."'", array ('url', 'sent_to', 'ip')), ARRAY_A);
+		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
+		
 		$items = array ();
 		if (count ($rows) > 0)
 		{
@@ -91,16 +82,48 @@ class RE_Log
 		return $items;
 	}
 	
-	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL')
+	function get_by_module (&$pager, $module)
+	{
+		global $wpdb;
+
+		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("module_id='".$module."'", array ('url', 'sent_to', 'ip')), ARRAY_A);
+		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
+		
+		$items = array ();
+		if (count ($rows) > 0)
+		{
+			foreach ($rows AS $row)
+				$items[] = new RE_Log ($row);
+		}
+		
+		return $items;
+	}
+	
+	function get_by_redirect (&$pager, $redirect)
+	{
+		global $wpdb;
+		
+		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("redirection_id=$redirect", array ('url', 'sent_to', 'ip')), ARRAY_A);
+		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
+		
+		$items = array ();
+		if (count ($rows) > 0)
+		{
+			foreach ($rows AS $row)
+				$items[] = new RE_Log ($row);
+		}
+		
+		return $items;
+	}
+	
+	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL', $module_id = 'NULL', $group_id = 'NULL')
 	{
 		global $wpdb;
 		
 		// Add a log entry
 		$url    = wpdb::escape ($url);
 		$agent  = wpdb::escape ($agent);
-		
-		// Grab IP address
-		$ip = sprintf ('%u', ip2long ($ip));
+		$ip     = wpdb::escape ($ip);
 		
 		// And referring URL
 		if (strlen ($referrer) > 0)
@@ -113,40 +136,53 @@ class RE_Log
 		else
 			$target = "'".wpdb::escape ($target)."'";
 		
-		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_log (url,sent_to,created,agent,redirection_id,ip,referrer) VALUES ('$url',$target,NOW(),'$agent',$redirection_id, '$ip', $referrer)");
+		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES ('$url',$target,NOW(),'$agent',$redirection_id, '$ip', $referrer, $module_id, $group_id)");
 	}
 	
 	function show_url ($url)
 	{
-		return implode ('&#8203;/', explode ('/', substr (htmlspecialchars (urldecode ($url)), 0, 50))).(strlen ($url) > 50 ? '...' : '');
+		return implode ('&#8203;/', explode ('/', substr (htmlspecialchars (rawurldecode ($url)), 0, 80))).(strlen ($url) > 80 ? '...' : '');
 	}
-	
+
 	function delete ($id)
 	{
 		global $wpdb;
-		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_log WHERE id='$id'");
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE id='$id'");
 	}
 	
-	function delete_404 ()
+	function delete_404 ($pager)
 	{
 		global $wpdb;
-		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_log WHERE redirection_id IS NULL");
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ('redirection_id IS NULL', array ('url', 'sent_to', 'ip')));
 	}
 	
 	function delete_for_id ($id)
 	{
 		global $wpdb;
-		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_log WHERE redirection_id='$id'");
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE redirection_id='$id'");
 	}
 	
-	function delete_all ()
+	function delete_for_group ($id)
 	{
 		global $wpdb;
-		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_log WHERE redirection_id IS NOT NULL");
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=$id");
+	}
+
+	function delete_for_module ($id)
+	{
+		global $wpdb;
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE module_id=$id");
+	}
+	
+	function delete_all ($pager)
+	{
+		global $wpdb;
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')));
 	}
 	
 	function referrer ()
 	{
+		return preg_replace ('@https?://(.*?)/.*@', '$1', $this->referrer);
 		$home = get_bloginfo ('home');
 		if (substr ($this->referrer, 0, strlen ($home)) == $home)
 			return substr ($this->referrer, strlen ($home));
