@@ -191,7 +191,6 @@ class RE_Database
 
 		// Update all the redirectors
 		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `action_type` varchar(20) NOT NULL");
-		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `action_code` int(11) unsigned NOT NULL");
 	  $wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `action_data` mediumtext");
 		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_type` varchar(20) NOT NULL");
 		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `action_code` int(11) UNSIGNED DEFAULT NULL");

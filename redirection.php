@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.0.2
+Version: 2.0.3
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -33,9 +33,10 @@ Author URI: http://urbangiraffe.com
 1.7.23 - Stop FTP log files being picked up, RSS 404 log
 1.7.24 - Stop problems with mod_security
 1.7.25 - Fix database problem on some hosts
-2.0    - New verison
+2.0    - New version
 2.0.1  - Install defaults when no existing redirection setup
 2.0.2  - Correct DB install, fix IIS problem
+2.0.3  - Fix #248.  Update plugin.php to better handle odd directories
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -78,7 +79,9 @@ class Redirection extends Redirection_Plugin
 		}
 		else
 		{
-			// Create a WordPress exporter and let it handler the load
+			$this->update ();
+			
+			// Create a WordPress exporter and let it handle the load
 			$this->wp = new WordPress_Module ();
 			$this->wp->start ();
 			

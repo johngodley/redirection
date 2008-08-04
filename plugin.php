@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.1.22
+// @version    0.1.24
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -32,6 +32,8 @@
 // 0.1.20 - Change init function to prevent overloading
 // 0.1.21 - Make widget work for WP 2.1
 // 0.1.22 - Make select work with option groups, RSS compatability fix
+// 0.1.23 - Make widget count work better, fix widgets in K2
+// 0.1.24 - Make realpath better
 // ======================================================================================
 
 
@@ -404,11 +406,12 @@ class Redirection_Plugin
 	
 	function realpath ($path)
 	{
-		$path = str_replace ('~', $_SERVER['DOCUMENT_ROOT'], $path);
 		if (function_exists ('realpath'))
 			return realpath ($path);
 		else if (DIRECTORY_SEPARATOR == '/')
 		{
+			$path = preg_replace ('/^~/', $_SERVER['DOCUMENT_ROOT'], $path);
+
 	    // canonicalize
 	    $path = explode (DIRECTORY_SEPARATOR, $path);
 	    $newpath = array ();
@@ -465,11 +468,21 @@ class Redirection_Plugin
 	}
 }
 
-if (!class_exists ('Widget'))
+if (!function_exists ('pr'))
 {
-	class Widget
+	function pr ($thing)
 	{
-		function Widget ($name, $max = 1, $id = '', $args = '')
+		echo '<pre>';
+		print_r ($thing);
+		echo '</pre>';
+	}
+}
+
+if (!class_exists ('Red_Snip'))
+{
+	class Red_Snip
+	{
+		function Red_Snip ($name, $max = 1, $id = '', $args = '')
 		{
 			$this->name        = $name;
 			$this->id          = $id;
@@ -487,7 +500,7 @@ if (!class_exists ('Widget'))
 					$this->widget_available = 1;
 			}
 			
-			add_action ('plugins_loaded', array (&$this, 'initialize'));
+			add_action ('init', array (&$this, 'initialize'));
 		}
 		
 		function initialize ()
@@ -622,7 +635,7 @@ if (!class_exists ('Widget'))
 					<h2><?php echo $this->name ?></h2>
 					<p style="line-height: 30px;"><?php _e('How many widgets would you like?', $this->id); ?>
 						<select name="widget_setup_count_<?php echo $this->id () ?>" value="<?php echo $options; ?>">
-							<?php for ( $i = 1; $i < 10; ++$i ) : ?>
+							<?php for ( $i = 1; $i <= $this->widget_max; ++$i ) : ?>
 							 <option value="<?php echo $i ?>"<?php if ($this->widget_available == $i) echo ' selected="selected"' ?>><?php echo $i ?></option>
 							<?php endfor; ?>
 						</select>
