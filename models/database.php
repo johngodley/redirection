@@ -1,5 +1,22 @@
 <?php
 
+if (!function_exists ('get_home_path'))
+{
+	function get_home_path() {
+		$home = get_option( 'home' );
+		if ( $home != '' && $home != get_option( 'siteurl' ) ) {
+			$home_path = parse_url( $home );
+			$home_path = $home_path['path'];
+			$root = str_replace( $_SERVER["PHP_SELF"], '', $_SERVER["SCRIPT_FILENAME"] );
+			$home_path = trailingslashit( $root.$home_path );
+		} else {
+			$home_path = ABSPATH;
+		}
+
+		return $home_path;
+	}
+}
+	
 class A_Redirector_URL
 {
 }
@@ -85,7 +102,7 @@ class RE_Database
 		$optionswp     = '';
 		$options404    = '';
 		$optionsapache = wpdb::escape (serialize (array ('location' => get_home_path ().'.htaccess')));
-		
+
 		// Modules
 		if ($wpdb->get_var ("SELECT COUNT(*) FROM {$wpdb->prefix}redirection_modules") == 0)
 		{
