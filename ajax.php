@@ -182,7 +182,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_logs ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
+		$groups = array_filter (explode ('-', $_POST['ids']));
 		if (count ($groups) > 0)
 		{
 			foreach ($groups AS $group)
@@ -194,7 +194,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_items ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
+		$groups = array_filter (explode ('-', $_POST['ids']));
 		if (count ($groups) > 0)
 		{
 			$item = Red_Item::get_by_id ($groups[0]);
@@ -209,7 +209,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_groups ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
+		$groups = array_filter (explode ('-', $_POST['ids']));
 		if (count ($groups) > 0)
 		{
 			foreach ($groups AS $group)

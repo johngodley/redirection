@@ -403,20 +403,22 @@ function delete_items (type)
     if (confirm ('Are you sure this is what you want to do?'))
     {
       if (type == 'group')
-        url = wp_base + 'ajax.php?cmd=delete_groups&id=' + tochange;
+        url = wp_base + 'ajax.php?cmd=delete_groups&id=0';
       else if (type == 'log')
-        url = wp_base + 'ajax.php?cmd=delete_logs&id=' + tochange;
+        url = wp_base + 'ajax.php?cmd=delete_logs&id=0';
       else
-        url = wp_base + 'ajax.php?cmd=delete_items&id=' + tochange;
+        url = wp_base + 'ajax.php?cmd=delete_items&id=0';
       
       new Ajax.Request (url,
         {
-          asynchronous: true, evalScripts: true,
+          asynchronous: true,
+          evalScripts: true,
+          parameters: 'ids=' + tochange,
           onSuccess: function(request)
           {
             elements.each (function(item)
             {
-              if (item.checked)
+              if (item.value && item.checked)
                 Element.remove ('item_' + item.value);
             });
           },

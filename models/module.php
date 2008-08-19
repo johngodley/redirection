@@ -251,7 +251,7 @@ class Red_Module
 	
 	function reset ()
 	{
-		Red_Module::clear_cache ();
+		Red_Module::clear_cache ($this->id);
 		
 		$groups = Red_Group::get_for_module ($this->id);
 		if (count ($groups) > 0)

@@ -38,6 +38,7 @@ Author URI: http://urbangiraffe.com
 2.0.2  - Correct DB install, fix IIS problem
 2.0.3  - Fix #248.  Update plugin.php to better handle odd directories
 2.0.4  - get_home_path seems not be available for some people
+2.0.5  - Fix #255
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
