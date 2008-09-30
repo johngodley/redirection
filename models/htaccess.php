@@ -234,8 +234,8 @@ class Red_Htaccess
 
 		if ($this->settings['strip_index'] == 'yes')
 		{
-			$text[] = 'RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ (.*)index\.[php|htm|html](.*)\ HTTP/';
-			$text[] = 'RewriteRule ^(.*)index\.[php|html|htm](.*)$ $1$2 [R=301,NC,L]';
+			$text[] = 'RewriteCond %{THE_REQUEST} (.*)index\.(php|htm|html)\ HTTP/';
+			$text[] = 'RewriteRule ^(.*)index\.(php|html|htm)$ $1 [R=301,NC,L]';
 			$text[] = '';
 		}
 		

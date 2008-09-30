@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.1.24
+// @version    0.1.25
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -34,6 +34,7 @@
 // 0.1.22 - Make select work with option groups, RSS compatability fix
 // 0.1.23 - Make widget count work better, fix widgets in K2
 // 0.1.24 - Make realpath better
+// 0.1.25 - Support for new WP2.6 config location
 // ======================================================================================
 
 
@@ -339,10 +340,17 @@ class Redirection_Plugin
 			return str_replace ('\\', urlencode ('\\'), str_replace ('&amp;amp', '&amp;', str_replace ('&', '&amp;', $url)));
 		else
 		{
-			$url = substr ($this->plugin_base, strlen ($this->realpath (ABSPATH)));
+			$root = ABSPATH;
+			if (defined ('WP_PLUGIN_DIR'))
+				$root = WP_PLUGIN_DIR;
+				
+			$url = substr ($this->plugin_base, strlen ($this->realpath ($root)));
 			if (DIRECTORY_SEPARATOR != '/')
 				$url = str_replace (DIRECTORY_SEPARATOR, '/', $url);
 
+			if (defined ('WP_PLUGIN_URL'))
+				$url = WP_PLUGIN_URL.'/'.ltrim ($url, '/');
+			else
 			$url = get_bloginfo ('wpurl').'/'.ltrim ($url, '/');
 		
 			// Do an SSL check - only works on Apache
@@ -352,8 +360,6 @@ class Redirection_Plugin
 		}
 		return $url;
 	}
-
-	
 	
 	/**
 	 * Performs a version update check using an RSS feed.  The function ensures that the feed is only

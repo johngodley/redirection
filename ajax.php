@@ -20,7 +20,10 @@ this software, even if advised of the possibility of such damage.
 For full license details see license.txt
 ============================================================================================================ */
 
-include ('../../../wp-config.php');
+if (file_exists ('../../../wp-load.php'))
+	include ('../../../wp-load.php');
+else
+	include ('../../../wp-config.php');
 
 function urldecode_deep ($data)
 {
@@ -182,7 +185,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_logs ($id)
 	{
-		$groups = array_filter (explode ('-', $_POST['ids']));
+		$groups = array_filter (explode ('-', $id));
 		if (count ($groups) > 0)
 		{
 			foreach ($groups AS $group)
@@ -194,7 +197,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_items ($id)
 	{
-		$groups = array_filter (explode ('-', $_POST['ids']));
+		$groups = array_filter (explode ('-', $id));
 		if (count ($groups) > 0)
 		{
 			$item = Red_Item::get_by_id ($groups[0]);
