@@ -185,7 +185,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_logs ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
+		$groups = array_filter (explode ('-', $_POST['ids']));
 		if (count ($groups) > 0)
 		{
 			foreach ($groups AS $group)
