@@ -197,7 +197,7 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_items ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
+		$groups = array_filter (explode ('-', $_POST['ids']));
 		if (count ($groups) > 0)
 		{
 			$item = Red_Item::get_by_id ($groups[0]);
