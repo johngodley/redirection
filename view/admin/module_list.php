@@ -1,8 +1,9 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="wrap">
 	<h2><?php _e ('Modules', 'redirection'); ?></h2>
 	<?php $this->submenu (true); ?>
+
 	<?php if (count ($modules) > 0) : ?>
-		<table class="modules">
+		<table class="modules" style="clear: both">
 			<tr>
 				<th></th>
 				<th class="left"><?php _e ('Details', 'redirection'); ?></th>

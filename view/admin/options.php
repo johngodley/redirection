@@ -3,7 +3,7 @@
 	<?php $this->submenu (true); ?>
   <form method="post" action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>">
 	
-	<fieldset>
+	<fieldset style="clear: both">
 		<legend><?php _e ('General', 'redirection'); ?></legend>
 	  <table cellpadding="3" width="100%">
 			<tr>

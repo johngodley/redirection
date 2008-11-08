@@ -6,7 +6,7 @@ Requires at least: 2.0
 Tested up to: 2.6
 Stable tag: trunk
 
-Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors.
+Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.
 
 == Description ==
 
@@ -32,6 +32,10 @@ Existing features include:
 * Redirection statistics telling you how many times a redirection has occurred, when it last happened, who tried to do it, and where they found your URL
 * Fully localized
 
+Redirection is available in:
+
+* English
+* Français (thanks to [Oncle Tom](http://oncle-tom.net))
 
 == Installation ==
 
