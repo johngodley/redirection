@@ -1,0 +1,315 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Redirection 1.7.26\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-08-10 11:07+0800\n"
+"PO-Revision-Date: 2008-11-10 06:06+0200\n"
+"Last-Translator: Rami Yushuvaev <r_a_m_i@hotmail.com>\n"
+"Language-Team: Rami Yushuvaev <r_a_m_i@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hebrew\n"
+"X-Poedit-Country: ISRAEL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ ;_e\n"
+"X-Poedit-Basepath: .\n"
+
+#: redirection/plugin.php:613
+msgid "How many widgets would you like?"
+msgstr "כמה ווידג'טים?"
+
+#: redirection/plugin.php:620
+#: redirection/view/admin/item_details.php:40
+msgid "Save"
+msgstr "שמור"
+
+#: redirection/redirection.php:153
+msgid "Redirection"
+msgstr "הפניות"
+
+#: redirection/redirection.php:253
+msgid "Your logs have been deleted"
+msgstr "הרישומים נמחקו"
+
+#: redirection/models/pager.php:382
+msgid "Previous"
+msgstr "קודם"
+
+#: redirection/models/pager.php:383
+msgid "Next"
+msgstr "הבא"
+
+#: redirection/models/rss.php:15
+msgid "404 Report for: "
+msgstr "404 Report for: "
+
+#: redirection/redirectors/login.php:24
+msgid "Redirect based on login status"
+msgstr "Redirect based on login status"
+
+#: redirection/redirectors/login.php:32
+#: redirection/redirectors/login.php:34
+msgid "Logged in URL"
+msgstr "Logged in URL"
+
+#: redirection/redirectors/login.php:42
+#: redirection/redirectors/login.php:44
+msgid "Logged out URL"
+msgstr "Logged out URL"
+
+#: redirection/redirectors/login.php:49
+msgid "An empty URL means the source URL is not redirected when the user is logged in/logged out."
+msgstr "An empty URL means the source URL is not redirected when the user is logged in/logged out."
+
+#: redirection/redirectors/lucky_dip.php:26
+msgid "Redirect to a random WordPress post"
+msgstr "הפניה לפוסט רנדומלי"
+
+#: redirection/redirectors/random_url.php:29
+msgid "Redirect to one of several URLs"
+msgstr "הפניה לאחד ממספר URLים"
+
+#: redirection/redirectors/random_url.php:35
+#: redirection/redirectors/url.php:30
+#: redirection/view/admin/add.php:15
+#: redirection/view/admin/log_item_details.php:11
+msgid "Target URL"
+msgstr "URL היעד"
+
+#: redirection/redirectors/referrer.php:33
+msgid "Redirect based on referrer"
+msgstr "Redirect based on referrer"
+
+#: redirection/redirectors/referrer.php:39
+#: redirection/view/admin/404_item_details.php:13
+#: redirection/view/admin/404_item_details.php:15
+#: redirection/view/admin/log_item_details.php:21
+#: redirection/view/admin/log_item_details.php:23
+msgid "Referrer"
+msgstr "מפנה"
+
+#: redirection/redirectors/referrer.php:43
+msgid "Referrer Regex"
+msgstr "Referrer Regex"
+
+#: redirection/redirectors/referrer.php:49
+#: redirection/redirectors/referrer.php:51
+msgid "URL from referrer"
+msgstr "URL from referrer"
+
+#: redirection/redirectors/referrer.php:59
+#: redirection/redirectors/referrer.php:61
+msgid "Not from referrer"
+msgstr "Not from referrer"
+
+#: redirection/redirectors/referrer.php:66
+msgid "An empty URL means the source URL is not redirected."
+msgstr "המשמעות של URL ריק היא ש-URL המקור לא מהווה הפניה."
+
+#: redirection/redirectors/url.php:24
+msgid "Simple redirection"
+msgstr "הפניה פשוטה"
+
+#: redirection/view/admin/404.php:5
+msgid "Redirection 404 Log"
+msgstr "Redirection 404 Log"
+
+#: redirection/view/admin/404.php:42
+msgid "You have no 404 logs!"
+msgstr "אין רישומי שגיאות 404."
+
+#: redirection/view/admin/404.php:54
+msgid "Delete All 404s"
+msgstr "מחיקת כל 404"
+
+#: redirection/view/admin/404.php:55
+msgid "This will delete all logged 404 errors.  Please be sure this is what you want to do."
+msgstr "הפעולה תמחוק את כל רישומי שיגאות 404, האם אתה בטוח?"
+
+#: redirection/view/admin/404.php:57
+msgid "Are you sure?"
+msgstr "האם אתה בטוח?"
+
+#: redirection/view/admin/404_item.php:12
+msgid "Add redirection"
+msgstr "הוסף הפניה"
+
+#: redirection/view/admin/404_item.php:13
+#: redirection/view/admin/log_item.php:10
+#: redirection/view/admin/options.php:70
+msgid "Delete"
+msgstr "מחק"
+
+#: redirection/view/admin/404_item_details.php:3
+#: redirection/view/admin/log_item_details.php:3
+msgid "at"
+msgstr "ב"
+
+#: redirection/view/admin/404_item_details.php:7
+#: redirection/view/admin/add.php:11
+#: redirection/view/admin/item_details.php:6
+#: redirection/view/admin/log_item_details.php:7
+msgid "Source URL"
+msgstr "כתובת מקור"
+
+#: redirection/view/admin/404_item_details.php:21
+#: redirection/view/admin/log_item_details.php:29
+msgid "User Agent"
+msgstr "User Agent"
+
+#: redirection/view/admin/404_item_details.php:25
+#: redirection/view/admin/log_item_details.php:33
+msgid "IP"
+msgstr "IP"
+
+#: redirection/view/admin/add.php:6
+msgid "Add new redirection"
+msgstr "הוספת הפניה"
+
+#: redirection/view/admin/add.php:19
+msgid "Type"
+msgstr "סוג"
+
+#: redirection/view/admin/add.php:26
+msgid "Method"
+msgstr "שיטה"
+
+#: redirection/view/admin/add.php:33
+msgid "Pass-through"
+msgstr "Pass-through"
+
+#: redirection/view/admin/add.php:38
+#: redirection/view/admin/item_details.php:10
+msgid "Regex"
+msgstr "Regex"
+
+#: redirection/view/admin/add.php:43
+msgid "Add Redirection"
+msgstr "הוסף הפניה"
+
+#: redirection/view/admin/head.php:4
+msgid "Please wait..."
+msgstr "אנא המתן..."
+
+#: redirection/view/admin/item.php:14
+msgid "Reset"
+msgstr "אפֵּס"
+
+#: redirection/view/admin/item_details.php:18
+#: redirection/view/admin/item_details.php:23
+#: redirection/view/admin/item_details.php:28
+msgid "Last User"
+msgstr "משתמש אחרון"
+
+#: redirection/view/admin/item_details.php:34
+msgid "Open referrer"
+msgstr "הפניה פתוחה"
+
+#: redirection/view/admin/item_details.php:34
+msgid "Last Referrer"
+msgstr "הפני אחרונה"
+
+#: redirection/view/admin/item_details.php:40
+msgid "Cancel"
+msgstr "בטל"
+
+#: redirection/view/admin/log.php:2
+msgid "Redirection Log"
+msgstr "רישומי הפניות"
+
+#: redirection/view/admin/log.php:40
+msgid "You have no logs!"
+msgstr "אין רישומים."
+
+#: redirection/view/admin/log.php:51
+msgid "Delete All Logs"
+msgstr "מחק את כל "
+
+#: redirection/view/admin/log_item_details.php:15
+msgid "Redirected by"
+msgstr "הופנה על ידי"
+
+#: redirection/view/admin/log_item_details.php:16
+msgid "for"
+msgstr "for"
+
+#: redirection/view/admin/options.php:2
+msgid "Options"
+msgstr "הגדרות"
+
+#: redirection/view/admin/options.php:6
+msgid "Create 301 when post slug changes"
+msgstr "צור 301 כאשר משתנה ההפניה (slug) של הפוסט"
+
+#: redirection/view/admin/options.php:10
+msgid "Redirect index.php/index.html"
+msgstr "הפנה index.php/index.html"
+
+#: redirection/view/admin/options.php:14
+msgid "Root domain"
+msgstr "דומיין מקור"
+
+#: redirection/view/admin/options.php:17
+msgid "No"
+msgstr "לא"
+
+#: redirection/view/admin/options.php:18
+msgid "Strip www"
+msgstr "הסר www"
+
+#: redirection/view/admin/options.php:19
+msgid "Add www"
+msgstr "הוסף www"
+
+#: redirection/view/admin/options.php:24
+msgid "Auto-generate URL"
+msgstr "יצירה אוטומטית של URL"
+
+#: redirection/view/admin/options.php:34
+msgid "Globally redirect unknown 404 errors"
+msgstr "הפניה גלובאלית של שגיאות 404 ידועות"
+
+#: redirection/view/admin/options.php:51
+msgid "Log 404 errors"
+msgstr "רישום שגיאות 404"
+
+#: redirection/view/admin/options.php:55
+msgid "Check for updates"
+msgstr "בדוק עדכונים"
+
+#: redirection/view/admin/options.php:60
+msgid "Update"
+msgstr "עדכן"
+
+#: redirection/view/admin/pager.php:13
+msgid "Search"
+msgstr "חיפוש"
+
+#: redirection/view/admin/pager.php:16
+msgid "Per page"
+msgstr "פר עמוד"
+
+#: redirection/view/admin/pager.php:19
+msgid "go"
+msgstr "בצע"
+
+#: redirection/view/admin/redirections.php:2
+#, php-format
+msgid "%s Redirections"
+msgstr "% הפניות"
+
+#: redirection/view/admin/redirections.php:40
+msgid "You have no redirections."
+msgstr "אין הפניות."
+
+#: redirection/view/admin/version.php:5
+#, php-format
+msgid "%s ago"
+msgstr "לפני %"
+

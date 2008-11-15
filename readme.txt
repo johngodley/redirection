@@ -36,6 +36,7 @@ Redirection is available in:
 
 * English
 * Français (thanks to [Oncle Tom](http://oncle-tom.net))
+* Hebrew (thanks to [Rami](http://www.bdihot.co.il/))
 
 == Installation ==
 
