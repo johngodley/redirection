@@ -199,6 +199,9 @@ class Red_Item
 				$action_code = 404;
 			else
 				$action_code = 0;
+				
+			if (isset ($details['action_code']))
+				$action_code = intval ($details['action_code']);
 
 			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_items (url,action_type,regex,position,match_type,action_data,action_code,last_access,group_id) VALUES ('$url','$action','".($regex ? 1 : 0)."','$position','$match','$data',$action_code,0,'$group_id')");
 			
@@ -291,10 +294,11 @@ class Red_Item
 	function save_order ($items, $start)
 	{
 		global $wpdb;
+		
 		foreach ($items AS $pos => $id)
 			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET position='".($pos + $start)."' WHERE id='{$id}'");
 		
-		$item = Red_Item::get ($id);
+		$item  = Red_Item::get_by_id ($id);
 		$group = Red_Group::get ($item->group_id);
 		Red_Module::flush ($group->module_id);
 	}

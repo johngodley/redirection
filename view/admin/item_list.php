@@ -1,6 +1,9 @@
-<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="wrap">
-	<h2><?php _e ('Redirections for group', 'redirection'); ?>: <a href="edit.php?page=redirection.php&amp;sub=groups&amp;id=<?php echo $group->module_id ?>"><?php echo htmlspecialchars ($group->name); ?></a></h2>
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
+<div class="wrap">
+	<h2><?php _e ('Redirections for group', 'redirection'); ?>: <a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $group->module_id ?>"><?php echo htmlspecialchars ($group->name); ?></a></h2>
+		
 	<?php $this->submenu (true); ?>
+	
 	<div id="pager" class="pager">
 		<form method="get" action="<?php echo $this->url ($pager->url) ?>">
 			<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
@@ -13,12 +16,11 @@
 			</select>
 			
 			<?php _e ('Search', 'redirection'); ?>: 
-			<input type="text" name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
+			<input type="text" class="search-input"  name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>" style="font-size: 0.8em"/>
 
-			<?php _e ('Per page', 'redirection') ?>: 
-			<?php $pager->per_page (); ?>
+			<?php $pager->per_page ('redirection'); ?>
 
-			<input type="submit" name="go" value="<?php _e ('Go', 'redirection') ?>"/>
+			<input class="button-secondary" type="submit" name="go" value="<?php _e ('Go', 'redirection') ?>"/>
 		</form>
 	</div>
 	<br/>
@@ -51,24 +53,26 @@
 	<?php endif;?>
 	
 	<?php if (count ($items) > 0) : ?>
+		
 	<div class="pager pagertools">
 		<a href="#" onclick="return select_all ()"><?php _e ('Select All', 'redirection'); ?></a> |
 		<a href="#" onclick="return toggle_items('item')"><?php _e ('Toggle', 'redirection'); ?></a> | 
-		<a href="#" onclick="return reset_items('item')"><?php _e ('Reset Hits', 'redirection'); ?></a> |
-		<a href="#" onclick="return delete_items('item')"><?php _e ('Delete', 'redirection'); ?></a> |
+		<a href="#" onclick="return reset_items('item','<?php echo wp_create_nonce ('redirection-reset_items') ?>')"><?php _e ('Reset Hits', 'redirection'); ?></a> |
+		<a href="#" onclick="return delete_items('item','<?php echo wp_create_nonce ('redirection-delete_items') ?>')"><?php _e ('Delete', 'redirection'); ?></a> |
 		
 		<?php _e ('Move To', 'redirection'); ?>:
 		<select name="move" id="move">
 			<?php echo $this->select ($groups)?>
 		</select>
-		<input type="submit" name="go" value="Go" onclick="return move_items('item')"/>
+		
+		<input class="button-secondary" type="submit" name="go" value="Go" onclick="return move_items('item','<?php echo wp_create_nonce ('redirection-move_items') ?>')"/>
 	</div>
 	
 	<div class="sort" id="sort">
 		<img src="<?php echo $this->url () ?>/images/sort.png" width="16" height="16" alt="Sort"/>
 
 		<a id="toggle_sort_on" onclick="return sort_order ();" href="#"><?php _e ('re-order', 'redirection'); ?></a>
-		<a id="toggle_sort_off" style="display: none" onclick="return save_redirect_order (<?php echo ($pager->current_page - 1) * $pager->per_page ?>);" href="#"><?php _e ('save order', 'redirection'); ?></a>
+		<a id="toggle_sort_off" style="display: none" onclick="return save_redirect_order (<?php echo ($pager->current_page - 1) * $pager->per_page ?>,'<?php echo wp_create_nonce ('redirection-save_item_order') ?>');" href="#"><?php _e ('save order', 'redirection'); ?></a>
 	</div>
 	<?php endif; ?>
 
@@ -88,3 +92,10 @@
 </div>
 
 <?php $this->render_admin ('add', array ('methods' => $methods, 'add_to_screen' => true, 'group' => $group->id)) ?>
+
+<script type="text/javascript" charset="utf-8">
+	jQuery(document).ready(function()
+	{ 
+		editItems ('edit_redirect');
+	});
+</script>

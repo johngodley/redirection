@@ -1,505 +1,238 @@
-function update_count ()
+function editItems (cmd)
 {
-  if ($('items').childNodes.length >= 2)
+  jQuery('a.redirection-edit').click(function (item)
   {
-    if ($('items').childNodes.length >= 25)
-      Element.show ('pager');
-    Element.show ('save_order');
-    Element.show ('redirections_header');
-  }
-  else
-  {
-    Element.hide ('save_order');
-    Element.hide ('redirections_header');
-  }
-  
-  if ($('items').childNodes.length < 25)
-    Element.hide ('pager');
-}
-
-// XXX update count for what???
-
-function encode_data (params)
-{
-  params.each (function (pair)
-  {
-    if (typeof pair.value == 'object')
-      params[pair.key].each (function (otherpair) { params[pair.key][otherpair.key] = escape (otherpair.value);});
-    else
-      params[pair.key] = escape (pair.value);
+    var redirect = jQuery(item.target).parent ().parent ();   
+    var itemid   = jQuery(redirect).attr ('id').replace (/\w*_/, '');
+    
+    jQuery('#info_' + itemid).html (wp_progress);
+    jQuery(redirect).load (wp_base + 'ajax.php?cmd=' + cmd + '&id=' + itemid);
+    return false;
   });
-  
-  return params;
-}
-
-function save_redirect (item,form)
-{
-  var params = $H(Form.serialize (form, true));
-
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=save_redirect&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      parameters: encode_data (params),
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
-}
-
-function cancel_redirect (item)
-{
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=cancel_redirect&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
 }
 
 function show_redirect (item)
 {
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=show_redirect&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;},
-      onComplete: function(request) {  }
-    });
-}
-
-function delete_redirect (item)
-{
-  new Effect.Pulsate ('item_' + item, { duration: 1.5, pulses: 2});
-  
-  if (confirm ("Are you sure you want to delete the redirection?"))
-  {
-    new Ajax.Request (wp_base + 'ajax.php?cmd=delete_redirect&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onSuccess: function(request) { Element.remove ('item_' + item);update_count ();},
-        onLoading: function(request) { Element.show ('loading')},
-        onComplete: function(request) { Element.hide ('loading'); }
-      });
-  }
-}
-
-function add_redirection (form,add_to_screen)
-{
-  var params = $H(Form.serialize (form, true));
-  
-  new Ajax.Request (wp_base + 'ajax.php?cmd=add_redirect&id=0',
-    {
-      asynchronous: true, evalScripts: true,
-      parameters: params.each (function (pair) { params[pair.key] = escape (pair.value)}),
-      onSuccess: function(request)
-      {
-        if (request.responseText.indexOf ('fade error') != -1)
-          $('error').innerHTML = request.responseText;
-        else
-        {
-          if (add_to_screen == true)
-            new Insertion.Bottom('items', request.responseText);
-
-          Element.hide ('error');
-          Element.show ('added');
-          Element.hide ('none')
-        }
-      },
-      onLoading: function(request) { Element.show ('loading')},
-      onComplete: function(request) { Element.hide ('loading'); update_count (); }
-    });
-}
-
-function sort_order ()
-{
-  Sortable.create ('items', { ghosting: true });
-  Element.hide ('toggle_sort_on');
-  Element.show ('toggle_sort_off');
-  new Effect.Pulsate ('sort');
-  
-  var elements = $('items').getElementsBySelector ('li');
-  elements.each(function(item) { $(item).addClassName ('sortable')});
+  jQuery('#info_' + item).html (wp_progress);
+  jQuery('#item_' + item).load (wp_base + 'ajax.php?cmd=show_redirect&id=' + item, {}, function () { editItems ('edit_redirect'); });
   return false;
 }
 
-function save_redirect_order (start)
-{
-  if (confirm ('Are you sure you want to save the current order?'))
-  {
-    new Ajax.Request (wp_base + 'ajax.php?cmd=save_redirect_order&id=' + start,
-      {
-        asynchronous: true, evalScripts: true,
-        parameters: Sortable.serialize ('items'),
-        onLoading: function(request) { Element.show ('loading')},
-        onComplete: function(request)
-        {
-          Element.hide ('loading');
-          Element.hide ('toggle_sort_off');
-          Element.show ('toggle_sort_on');
-          
-          Sortable.destroy ('items');
-
-          var elements = $('items').getElementsBySelector ('li');
-          elements.each(function(item) { $(item).removeClassName ('sortable')});
-          
-          new Effect.Pulsate ('sort');
-        }
-      });
-  }
-  
-  return false;
-}
-
-
-function add_log_item (item)
-{
-  Element.hide ('added');
-  Element.show ('add');
-  
-  $('old').value = $('href_' + item).href.gsub (/\w*:\/\/(.*?)\//,'/');
-  new Effect.Pulsate ('submit');
-  Element.scrollTo ('add');
-  return false;
-}
-
-function toggle_log (item)
-{
-  if ($('info_' + item).getElementsByTagName ('table').length == 0)
-  {
-    new Ajax.Updater ('info_' + item, wp_base + 'ajax.php?cmd=show_log&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-      });
-  }
-  else
-  {
-    new Ajax.Updater ('info_' + item, wp_base + 'ajax.php?cmd=hide_log&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-      });
-  }
-  
-  return false;
-}
-
-function toggle_404 (item)
-{
-  if ($('info_' + item).getElementsByTagName ('table').length == 0)
-  {
-    new Ajax.Updater ('info_' + item, wp_base + 'ajax.php?cmd=show_404&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-      });
-  }
-  else
-  {
-    new Ajax.Updater ('info_' + item, wp_base + 'ajax.php?cmd=hide_404&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-      });
-  }
-  
-  return false;
-}
-
-function add_new_url (item)
-{
-  new Insertion.After(item, '<br/><input style="width: 90%" type="text" name="new[]"/>');
-}
-
-
-
-
-function save_group_order (start)
-{
-  if (confirm ('Are you sure you want to save the current order?'))
-  {
-    new Ajax.Request (wp_base + 'ajax.php?cmd=save_group_order&id=' + start,
-      {
-        asynchronous: true, evalScripts: true,
-        parameters: Sortable.serialize ('items'),
-        onLoading: function(request) { Element.show ('loading')},
-        onComplete: function(request)
-        {
-          Element.hide ('loading');
-          Element.hide ('toggle_sort_off');
-          Element.show ('toggle_sort_on');
-          
-          Sortable.destroy ('items');
-
-          var elements = $('items').getElementsBySelector ('li');
-          elements.each(function(item) { $(item).removeClassName ('sortable')});
-          
-          new Effect.Pulsate ('sort');
-        }
-      });
-  }
-}
-
-function edit_group (item)
-{
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=edit_group&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
-  return false;
-}
-
-function cancel_group (item)
-{
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=cancel_group&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
-  return false;
-}
-
-function save_group (item,form)
-{
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=save_group&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      parameters: Form.serialize (form),
-      onLoading: function(request){ $('info_' + item).innerHTML = wp_progress;}
-    });
-  return false;
-}
+// Select functions
 
 function select_all ()
 {
-  var elements = $('items').getElementsBySelector ('input');
-  var todelete = '';
-  
-  elements.each (function(item)
+  jQuery('.item :checkbox').each (function ()
   {
-    item.checked = wp_red_select;
+    this.checked = (this.checked ? '' : 'checked');
   });
-  
-  wp_red_select = !wp_red_select;
+
   return false;
 }
 
-
-function reset_items (type)
+function reset_items (type,nonce)
 {
-  var tochange = '', url;
-  var elements = $('items').getElementsBySelector ('input');
-
-  elements.each (function(item)
+  var checked = jQuery('.item :checked');
+  if (checked.length > 0)
   {
-    if (item.checked)
-      tochange += item.value + '-';
-  });
-  
-  if (tochange != '')
-  {
-    if (confirm ('Are you sure you want to reset statistics for these items?'))
+    if (confirm (wp_are_you_sure))
     {
-      if (type == 'group')
-       url = wp_base + 'ajax.php?cmd=reset_groups&id=' + tochange;
-      else
-       url = wp_base + 'ajax.php?cmd=reset_redirects&id=' + tochange;
-
-      new Ajax.Request (url,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { Element.show ('loading')},
-        onComplete: function(request) { window.location.reload (); }
-      });
+      jQuery('#loading').show ();
+      jQuery.post (wp_base + 'ajax.php?id=0&cmd=' + (type == 'group' ? 'reset_groups' : 'reset_redirects') + '&_ajax_nonce=' + nonce, checked.serialize (), function () { window.location.reload ();});
     }
   }
   else
-    alert ('You have not selected any items');
-
+    alert (wp_none_select);
+  
   return false;
 }
 
 function toggle_items (type)
 {
-  var tochange = '', url;
-  var elements = $('items').getElementsBySelector ('input');
-
-  elements.each (function(item)
+  var checked = jQuery('.item :checked');
+  if (checked.length > 0)
   {
-    if (item.checked)
-      tochange += item.value + '-';
-  });
-  
-  if (tochange != '')
-  {
-    if (type == 'group')
-     url = wp_base + 'ajax.php?cmd=toggle_groups&id=' + tochange;
-    else
-     url = wp_base + 'ajax.php?cmd=toggle_redirects&id=' + tochange;
- 
-    new Ajax.Request (url,
+    if (confirm (wp_are_you_sure))
     {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { Element.show ('loading')},
-      onComplete: function(request) { window.location.reload (); }
-    });
+      jQuery('#loading').show ();
+      jQuery.post (wp_base + 'ajax.php?id=0&cmd=' + (type == 'group' ? 'toggle_groups' : 'toggle_redirects'), checked.serialize (), function () { window.location.reload ()});
+    }
   }
   else
-    alert ('You have not selected any items');
+    alert (wp_none_select);
+  
+  return false;
+}
+
+function move_items (type,nonce)
+{
+  var checked = jQuery('.item :checked');
+  if (checked.length > 0)
+  {
+    if (confirm (wp_are_you_sure))
+    {
+      jQuery('#loading').show ();
+      jQuery.post (wp_base + 'ajax.php?id=' + jQuery('#move').attr ('value') + '&cmd=' + (type == 'group' ? 'move_groups' : 'move_redirects') + '&_ajax_nonce=' + nonce, checked.serialize (), function () { window.location.reload ()});
+    }
+  }
+  else
+    alert (wp_none_select);
 
   return false;
 }
 
-function move_items (type)
+function delete_items (type,nonce)
 {
-  var tochange = '', url;
-  var elements = $('items').getElementsBySelector ('input');
-
-  elements.each (function(item)
+  var checked = jQuery('.item :checked');
+  if (checked.length > 0)
   {
-    if (item.checked)
-      tochange += item.value + '-';
-  });
-  
-  if (tochange != '')
-  {
-    if (type == 'group')
-      url = wp_base + 'ajax.php?cmd=move_groups&id=' + tochange;
-    else
-      url = wp_base + 'ajax.php?cmd=move_redirects&id=' + tochange;
-    
-    url += '&group=' + $('move').value;
-    
-    new Ajax.Request (url,
-      {
-        asynchronous: true, evalScripts: true,
-        onSuccess: function(request)
-        {
-          elements.each (function(item)
-          {
-            if (item.checked)
-              Element.remove ('item_' + item.value);
-          });
-        },
-        onLoading: function(request) { Element.show ('loading')},
-        onComplete: function(request) { Element.hide ('loading'); }
-      });
-  }
-  else
-    alert ('You have not selected any items');
-  return false;
-}
-
-function delete_items (type)
-{
-  var tochange = '', url;
-  var elements = $('items').getElementsBySelector ('input');
-
-  elements.each (function(item)
-  {
-    if (item.checked)
-      tochange += item.value + '-';
-  });
-  
-  if (tochange != '')
-  {
-    if (confirm ('Are you sure this is what you want to do?'))
+    if (confirm (wp_are_you_sure))
     {
+      var urltype = 'delete_items';
       if (type == 'group')
-        url = wp_base + 'ajax.php?cmd=delete_groups&id=0';
+        urltype = 'delete_groups';
       else if (type == 'log')
-        url = wp_base + 'ajax.php?cmd=delete_logs&id=0';
-      else
-        url = wp_base + 'ajax.php?cmd=delete_items&id=0';
-      
-      new Ajax.Request (url,
+        urltype = 'delete_logs';
+        
+      jQuery('#loading').show ();
+      jQuery.post (wp_base + 'ajax.php?id=0&cmd=' + urltype + '&_ajax_nonce=' + nonce, checked.serialize (), function ()
         {
-          asynchronous: true,
-          evalScripts: true,
-          parameters: 'ids=' + tochange,
-          onSuccess: function(request)
+          jQuery('#loading').hide ();
+          checked.each (function ()
           {
-            elements.each (function(item)
-            {
-              if (item.value && item.checked)
-                Element.remove ('item_' + item.value);
-            });
-          },
-          onLoading: function(request) { Element.show ('loading')},
-          onComplete: function(request) { Element.hide ('loading'); }
+            jQuery(this).parent ().parent ().remove ();
+          });
         });
     }
   }
   else
-    alert ('You have not selected any items');
+    alert (wp_none_select);
+
   return false;
 }
 
-function delete_module (item)
+function sort_order ()
 {
-  if (confirm ("Are you sure you want to delete this?"))
+  jQuery('#items').sortable ();
+  jQuery('#toggle_sort_on').hide ();
+  jQuery('#toggle_sort_off').show ();
+  jQuery('#items li').addClass ('sortable');
+  return false;
+}
+
+function save_redirect_order (start,nonce)
+{
+  if (confirm (wp_are_you_sure))
   {
-    new Ajax.Request (wp_base + 'ajax.php?cmd=delete_module&id=' + item,
+    jQuery('#loading').show ();
+    jQuery.post (wp_base + 'ajax.php?cmd=save_redirect_order&id=' + start + '&_ajax_nonce=' + nonce, jQuery('#items').sortable ('serialize'), function ()
       {
-        asynchronous: true, evalScripts: true,
-        onSuccess: function(request) { Element.remove ('item_' + item);},
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
+        jQuery('#loading').hide ();
+        jQuery('#toggle_sort_off').hide ();
+        jQuery('#toggle_sort_on').show ();
+        jQuery('#items').sortable ('disable');
+        jQuery('#items li').removeClass ('sortable');
       });
+  }
+  
+  return false;
+}
+
+function save_group_order (start)
+{
+  if (confirm (wp_are_you_sure))
+  {
+    jQuery('#loading').show ();
+    jQuery.post (wp_base + 'ajax.php?cmd=save_group_order&id=' + start, jQuery('#items').sortable ('serialize'), function ()
+      {
+        jQuery('#loading').hide ();
+        jQuery('#toggle_sort_off').hide ();
+        jQuery('#toggle_sort_on').show ();
+        jQuery('#items').sortable ('disable');
+        jQuery('#items li').removeClass ('sortable');
+      });
+  }
+  
+  return false;
+}
+
+function show_group (item)
+{
+  jQuery('#info_' + item).html (wp_progress);
+  jQuery('#item_' + item).load (wp_base + 'ajax.php?cmd=show_group&id=' + item, {}, function () { editItems ('edit_group'); });
+  return false;
+}
+
+function delete_module (item, nonce)
+{
+  if (confirm (wp_are_you_sure))
+  {
+    jQuery('#info_' + item).html (wp_progress);
+    jQuery.post (wp_base + 'ajax.php?cmd=delete_module&id=' + item + '&_ajax_nonce=' + nonce, {}, function()
+    {
+      jQuery('#item_' + item);
+    });
   }
   return false;
 }
 
-function reset_module (item)
+function reset_module (item, nonce)
 {
-  if (confirm ("Are you sure you want to reset this?"))
+  if (confirm (wp_are_you_sure))
   {
-    new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=reset_module&id=' + item,
-      {
-        asynchronous: true, evalScripts: true,
-        onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-      });
+    jQuery('#info_' + item).html (wp_progress);
+    jQuery('#item_' + item).load (wp_base + 'ajax.php?cmd=reset_module&id=' + item + '&_ajax_nonce=' + nonce);
   }
   return false;
 }
 
-function edit_module (item)
+function edit_module (item, nonce)
 {
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=edit_module&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
+  jQuery('#info_' + item).html (wp_progress);
+  jQuery('#item_' + item).load (wp_base + 'ajax.php?cmd=edit_module&id=' + item + '&_ajax_nonce=' + nonce);
   return false;
 }
 
-function save_module (item,form)
+function show_module (item)
 {
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=save_module&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      parameters: Form.serialize (form),
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
+  jQuery('#info_' + item).html (wp_progress);
+  jQuery('#item_' + item).load (wp_base + 'ajax.php?cmd=show_module&id=' + item);
   return false;
 }
 
-function cancel_module (item)
+function showLogs ()
 {
-  new Ajax.Updater ('item_' + item, wp_base + 'ajax.php?cmd=cancel_module&id=' + item,
-    {
-      asynchronous: true, evalScripts: true,
-      onLoading: function(request) { $('info_' + item).innerHTML = wp_progress;}
-    });
-  return false;
+  jQuery('.show-log').click (function (item)
+  {
+    var itemid = jQuery(item.target).parent ().parent ().attr ('id').replace (/\w*_/, '');   
+    
+    jQuery('#info_' + itemid).html (wp_progress);
+    jQuery('#info_' + itemid).load (wp_base + 'ajax.php?cmd=show_log&id=' + itemid);
+    return false;
+  });
+  
+  jQuery('.add-log').click (function (item)
+  {
+    var itemid = jQuery(item.target).parent ().parent ().parent ().attr ('id').replace (/\w*_/, '');   
+    
+    jQuery('#added').hide ();
+    jQuery('#add').show ();
+    
+    jQuery('#old').attr ('value', jQuery('#href_' + itemid).attr ('href').replace (/\w*:\/\/(.*?)\//,'/'));
+    item.target = '#add';
+    return true;
+  });
 }
 
 function update_user_agent (item,box)
 {
-  $('user_agent_' + box).value = $(item).value;
+  jQuery('#user_agent_' + box).attr ('value', jQuery(item).attr ('value'));
 }
-
 
 function change_add_redirect (item)
 {
   if (item.value == 'url' || item.value == 'pass')
-    Element.show ('target');
+    jQuery('#target').show ();
   else
-    Element.hide ('target');
+    jQuery('#target').hide ();
 }

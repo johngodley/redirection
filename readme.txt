@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/support/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
-Requires at least: 2.0
+Requires at least: 2.7
 Tested up to: 2.7
 Stable tag: trunk
 
@@ -19,7 +19,7 @@ New features include:
 * Full logs for all redirected URLs
 * All URLs can be redirected, not just ones that don't exist
 * Redirection methods - redirect based upon login status, redirect to random pages, redirect based upon the referrer!
-* WordPress 2.1+ only
+* WordPress 2.7+ only
 
 Existing features include:
 
@@ -58,7 +58,7 @@ Ease of use.  Redirections are automatically created when a post URL changes, an
 
 = What is the performance of this plugin? =
 
-The plugin works in a similar manner to how WordPress handles permalinks and should result in any noticeable slowdown to your site.
+The plugin works in a similar manner to how WordPress handles permalinks and should not result in any noticeable slowdown to your site.
 
 == Screenshots ==
 

@@ -1,4 +1,5 @@
-<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><table>
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
+<table style="width: 100%">
 	<tr>
 		<th><a href="<?php echo $log->url ?>"><?php _e ('Source URL', 'redirection'); ?>:</a></th>
 		<td><input style="width: 95%" type="text" name="something" readonly="readonly" value="<?php echo htmlspecialchars (urldecode ($log->url)) ?>"/></td>
@@ -22,7 +23,7 @@
 	<tr>
 		<td></td>
 		<td>
-			<input type="submit" name="cancel" value="Cancel" onclick="return toggle_log (<?php echo $log->id ?>)"/>
+			<input class="button-secondary" type="submit" name="cancel" value="Cancel" onclick="jQuery('#info_<?php echo $log->id ?>').load (wp_base + 'ajax.php?cmd=hide_log&amp;id=<?php echo $log->id ?>', {}, function () { showLogs () }); return false"/>
 		</td>
 	</tr>
 </table>

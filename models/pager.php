@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.2.7
+// @version    0.2.8
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.2.3 - Remember pager details in user data
@@ -20,6 +20,7 @@
 // 0.2.5 - Allow orderby to use tags to hide database columns
 // 0.2.6 - Fix sortable columns with only 1 page
 // 0.2.7 - Add a GROUP BY feature, make search work when position not 0
+// 0.2.8 - WP 2.7 functions
 // ======================================================================================
 
 
@@ -451,15 +452,28 @@ class RE_Pager
 	 * @return void
 	 **/
 	
-	function per_page ()
+	function per_page ($plugin = '')
 	{
 		?>
 		<select name="perpage">
 			<?php foreach ($this->steps AS $step) : ?>
-		  	<option value="<?php echo $step ?>"<?php if ($this->per_page == $step) echo ' selected="selected"' ?>><?php echo $step ?></option>
+		  	<option value="<?php echo $step ?>"<?php if ($this->per_page == $step) echo ' selected="selected"' ?>>
+					<?php printf (__ ('%d per-page', $plugin), $step) ?>
+				</option>
 			<?php endforeach; ?>
 		</select>
 		<?php
+	}
+	
+	function page_links ()
+	{
+		$text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>',
+											number_format_i18n (($this->current_page () - 1) * $this->per_page + 1),
+											number_format_i18n ($this->current_page () * $this->per_page > $this->total ? $this->total : $this->current_page () * $this->per_page),
+											number_format_i18n ($this->total));
+
+		$links = paginate_links (array ('base' => str_replace ('99', '%#%', $this->url (99)), 'format' => '%#%', 'current' => $this->current_page (), 'total' => $this->total_pages (), 'end_size' => 3, 'mid_size' => 2, 'prev_next' => true));
+		return $text.$links;
 	}
 }
 

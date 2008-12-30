@@ -1,12 +1,12 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
-<div id="added" style="display: none" class="updated">
-	<p><?php _e ('Your redirection has been added.', 'redirection'); ?></p>
-</div>
-
 <div class="wrap" id="add" <?php if ($hidden) echo ' style="display: none"' ?>>
 	<h2><?php _e ('Add new redirection', 'redirection') ?></h2>
 
-	<form method="post" action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" onsubmit="add_redirection(this,<?php if ($add_to_screen) echo 'true'; else echo 'false' ?>);return false">
+	<div id="added" style="display: none" class="updated-red">
+		<p><?php _e ('Your redirection has been added.', 'redirection'); ?></p>
+	</div>
+
+	<form method="post" action="<?php echo $this->url () ?>/ajax.php?id=0&amp;cmd=add_redirect&amp;_ajax_nonce=<?php echo wp_create_nonce ('redirection-add_redirect');?>" id="new-redirection">
 	<table width="100%">
 	  <tr>
 	    <th align="right" width="100"><?php _e ('Source URL', 'redirection') ?>:</th>
@@ -40,7 +40,7 @@
 	  <tr>
 	    <th></th>
 	    <td>
-				<input type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
+				<input class="button-secondary" type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
 				<?php if ($group) : ?>
 				<input type="hidden" name="group" value="<?php echo $group ?>"/>
 				<?php endif; ?>
@@ -51,3 +51,29 @@
 	  </table>
 	</form>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+	 jQuery('#new-redirection').ajaxForm ( { beforeSubmit: function ()
+			{
+  			jQuery('#loading').show ();
+			},
+			success: function (response)
+			{
+				jQuery('#loading').hide ();
+
+				if (response.indexOf ('fade error') != -1)
+          jQuery('#error').html (response);
+        else
+        {
+					<?php if ($add_to_screen) : ?>
+					jQuery('#items').append (response);
+					<?php endif; ?>
+
+          jQuery('#error').hide ();
+          jQuery('#added').show ();
+          jQuery('#none').hide ();
+
+					editItems ('edit_redirect');
+        }
+			}});
+</script>

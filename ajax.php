@@ -58,21 +58,23 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function add_redirect ($id)
 	{
-		$_POST = urldecode_deep ($_POST);
-		
-		$item = Red_Item::create ($_POST);
-
-		if ($item !== false)
+		if (check_ajax_referer ('redirection-add_redirect'))
 		{
-			echo '<li class="type_'.$item->action_type.'" id="item_'.$item->id.'">';
-			$this->render_admin ('item', array ('redirect' => $item, 'date_format' => get_option ('date_format')));
-			echo '</li>';
+			$_POST = urldecode_deep ($_POST);
+		
+			$item = Red_Item::create ($_POST);
+			if ($item !== false)
+			{
+				echo '<li class="type_'.$item->action_type.'" id="item_'.$item->id.'">';
+				$this->render_admin ('item', array ('redirect' => $item, 'date_format' => get_option ('date_format')));
+				echo '</li>';
+			}
+			else
+				$this->render_error (__ ('Sorry, but your redirection was not created', 'redirection'));
 		}
-		else
-			$this->render_error (__ ('Sorry, but your redirection was not created', 'redirection'));
 	}
 	
-	function show_redirect ($id)
+	function edit_redirect ($id)
 	{
 		$redirect = Red_Item::get_by_id ($id);
 		if ($redirect)
@@ -81,15 +83,18 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function save_redirect ($id)
 	{
-		$_POST = urldecode_deep ($_POST);
+		if (check_ajax_referer ('redirection-item_save'))
+		{
+			$_POST = urldecode_deep ($_POST);
 		
-		$redirect = Red_Item::get_by_id ($id);
-		$redirect->update ($_POST);
+			$redirect = Red_Item::get_by_id ($id);
+			$redirect->update ($_POST);
 		
-		$this->render_admin ('item', array ('redirect' => $redirect, 'date_format' => get_option ('date_format')));
+			$this->render_admin ('item', array ('redirect' => $redirect, 'date_format' => get_option ('date_format')));
+		}
 	}
 	
-	function cancel_redirect ($id)
+	function show_redirect ($id)
 	{
 		$redirect = Red_Item::get_by_id ($id);
 		if ($redirect)
@@ -98,10 +103,9 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function toggle_redirects ($id)
 	{
-		$items = array_filter (explode ('-', $id));
-		if (count ($items) > 0)
+		if (count ($_POST['checkall']) > 0)
 		{
-			foreach ($items AS $item)
+			foreach ($_POST['checkall'] AS $item)
 			{
 				$redirect = Red_Item::get_by_id ($item);
 				$redirect->toggle_status ();
@@ -114,44 +118,44 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function move_redirects ($id)
 	{
-		$group = intval ($_GET['group']);
-		$items = array_filter (explode ('-', $id));
-		if (count ($items) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-move_items'))
 		{
-			foreach ($items AS $item)
+			foreach ($_POST['checkall'] AS $item)
 			{
 				$redirect = Red_Item::get_by_id ($item);
-				$redirect->move_to ($group);
+				$redirect->move_to ($id);
 			}
 		}
 	}
 	
 	function reset_redirects ($id)
 	{
-		$group = intval ($_GET['group']);
-		$items = array_filter (explode ('-', $id));
-		if (count ($items) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-reset_items'))
 		{
-			foreach ($items AS $item)
+			foreach ($_POST['checkall'] AS $item)
 			{
-				$redirect = Red_Item::get_by_id ($item);
-				$redirect->reset ($group);
+				$redirect = Red_Item::get_by_id (intval ($item));
+				$redirect->reset ();
 			}
 		}
 	}
 
 	function save_redirect_order ($start)
 	{
-		Red_Item::save_order ($_POST['items'], $start);
+		if (check_ajax_referer ('redirection-save_item_order'))
+			Red_Item::save_order ($_POST['item'], $start);
 	}
 	
 	function reset_redirect ($id)
 	{
-		$redirect = Red_Item::get_by_id ($id);
-		if ($redirect)
+		if (check_ajax_referer ('redirection-reset_items'))
 		{
-			$redirect->reset ();
-			$this->render_admin ('item', array ('redirect' => $redirect, 'date_format' => get_option ('date_format')));
+			$redirect = Red_Item::get_by_id ($id);
+			if ($redirect)
+			{
+				$redirect->reset ();
+				$this->render_admin ('item', array ('redirect' => $redirect, 'date_format' => get_option ('date_format')));
+			}
 		}
 	}
 	
@@ -166,44 +170,26 @@ class Redirection_AJAX extends Redirection_Plugin
 	function hide_log ($id)
 	{
 		$log = RE_Log::get_by_id ($id);
-		echo '<a href="#" onclick="return toggle_log('.$id.')">'.$log->show_url ($log->url).'</a>';
+		echo '<a id="href_'.$id.'" href="'.$log->url.'" onclick="return toggle_log('.$id.')">'.$log->show_url ($log->url).'</a>';
 	}
-	
-	function show_404 ($id)
-	{
-		$log      = RE_Log::get_by_id ($id);
-		$redirect = Red_Item::get_by_id ($log->redirection_id);
-		
-		$this->render_admin ('404_item_details', array ('log' => $log, 'redirect' => $redirect));
-	}
-	
-	function hide_404 ($id)
-	{
-		$log = RE_Log::get_by_id ($id);
-		echo '<a href="#" onclick="return toggle_404('.$id.')">'.$log->show_url ($log->url).'</a>';
-	}
-	
+
 	function delete_logs ($id)
 	{
-		$groups = array_filter (explode ('-', $_POST['ids']));
-		if (count ($groups) > 0)
+		if (count ($_POST['checkall']) > 0  && check_ajax_referer ('redirection-delete_items'))
 		{
-			foreach ($groups AS $group)
-				RE_Log::delete ($group);
+			foreach ($_POST['checkall'] AS $item)
+				RE_Log::delete (intval ($item));
 		}
 	}
 	
-	
-	
 	function delete_items ($id)
 	{
-		$groups = array_filter (explode ('-', $_POST['ids']));
-		if (count ($groups) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-delete_items'))
 		{
-			$item = Red_Item::get_by_id ($groups[0]);
+			$item = Red_Item::get_by_id ($_POST['checkall'][0]);
 
-			foreach ($groups AS $group)
-				Red_Item::delete ($group);
+			foreach ($_POST['checkall'] AS $item)
+				Red_Item::delete (intval ($item));
 
 			$group = Red_Group::get ($item->group_id);
 			Red_Module::flush ($group->module_id);
@@ -212,23 +198,21 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function delete_groups ($id)
 	{
-		$groups = array_filter (explode ('-', $_POST['ids']));
-		if (count ($groups) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-delete_items'))
 		{
-			foreach ($groups AS $group)
+			foreach ($_POST['checkall'] AS $group)
 				Red_Group::delete (intval ($group));
-		}
 		
-		$group = Red_Group::get ($group);
-		Red_Module::flush ($group->module_id);
+			$group = Red_Group::get ($group);
+			Red_Module::flush ($group->module_id);
+		}
 	}
 
 	function toggle_groups ($id)
 	{
-		$groups = array_filter (explode ('-', $id));
-		if (count ($groups) > 0)
+		if (count ($_POST['checkall']) > 0)
 		{
-			foreach ($groups AS $group)
+			foreach ($_POST['checkall'] AS $group)
 			{
 				$group = Red_Group::get ($group);
 				$group->toggle_status ();
@@ -247,7 +231,7 @@ class Redirection_AJAX extends Redirection_Plugin
 			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 	}
 	
-	function cancel_group ($id)
+	function show_group ($id)
 	{
 		$group = Red_Group::get ($id);
 		if ($group)
@@ -258,52 +242,52 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function save_group_order ($start)
 	{
-		Red_Group::save_order ($_POST['items'], $start);
+		if (check_ajax_referer ('redirection-save_group_order'))
+			Red_Group::save_order ($_POST['item'], $start);
 	}
 	
 	function save_group ($id)
 	{
-		$group = Red_Group::get ($id);
-		if ($group)
+		if (check_ajax_referer ('redirection-save_group'))
 		{
-			$original_module = $group->module_id;
-			$group->update ($_POST);
+			$group = Red_Group::get ($id);
+			if ($group)
+			{
+				$original_module = $group->module_id;
+				$group->update ($_POST);
 		
-			$this->render_admin ('group_item', array ('group' => $group));
+				$this->render_admin ('group_item', array ('group' => $group));
 			
-			if ($group->status == 'enabled')
-				echo '<script type="text/javascript" charset="utf-8">$("item_'.$id.'").removeClassName ("disabled");</script>';
+				if ($group->status == 'enabled')
+					echo '<script type="text/javascript" charset="utf-8">jQuery("#item_'.$id.'").removeClass ("disabled");</script>';
+				else
+					echo '<script type="text/javascript" charset="utf-8">jQuery("#item_'.$id.'").addClass ("disabled");</script>';
+			}
 			else
-				echo '<script type="text/javascript" charset="utf-8">$("item_'.$id.'").addClassName ("disabled");</script>';
+				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 		}
-		else
-			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 	}
 	
 	function move_groups ($id)
 	{
-		$group = intval ($_GET['group']);
-		$items = array_filter (explode ('-', $id));
-		if (count ($items) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-move_items'))
 		{
-			foreach ($items AS $item)
+			foreach ($_POST['checkall'] AS $item)
 			{
 				$redirect = Red_Group::get ($item);
-				$redirect->move_to ($group);
+				$redirect->move_to ($id);
 			}
 		}
 	}
 	
 	function reset_groups ($id)
 	{
-		$group = intval ($_GET['group']);
-		$items = array_filter (explode ('-', $id));
-		if (count ($items) > 0)
+		if (count ($_POST['checkall']) > 0 && check_ajax_referer ('redirection-reset_items'))
 		{
-			foreach ($items AS $item)
+			foreach ($_POST['checkall'] AS $item)
 			{
-				$redirect = Red_Group::get ($item);
-				$redirect->reset ($group);
+				$redirect = Red_Group::get (intval ($item));
+				$redirect->reset ();
 			}
 		}
 	}
@@ -311,14 +295,17 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function edit_module ($id)
 	{
-		$module = Red_Module::get ($id);
-		if ($module)
-			$this->render_admin ('module_edit', array ('module' => $module));
-		else
-			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve module data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
+		if (check_ajax_referer ('redirection-module_manage-'.$id))
+		{
+			$module = Red_Module::get ($id);
+			if ($module)
+				$this->render_admin ('module_edit', array ('module' => $module));
+			else
+				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve module data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
+		}
 	}
 	
-	function cancel_module ($id)
+	function show_module ($id)
 	{
 		$module = Red_Module::get ($id);
 		if ($module)
@@ -329,34 +316,42 @@ class Redirection_AJAX extends Redirection_Plugin
 	
 	function save_module ($id)
 	{
-		$module = Red_Module::get ($id);
-		if ($module)
+		if (check_ajax_referer ('redirection-edit_module-'.$id))
 		{
-			$module->update ($_POST);
+			$module = Red_Module::get ($id);
+			if ($module)
+			{
+				$module->update ($_POST);
 		
-			$this->render_admin ('module_item', array ('module' => $module));
+				$this->render_admin ('module_item', array ('module' => $module));
+			}
+			else
+				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 		}
-		else
-			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 	}
 	
 	function delete_module ($id)
 	{
-		$module = Red_Module::get ($id);
-		$module->delete ();
+		if (check_ajax_referer ('redirection-module_manage-'.$id))
+		{
+			$module = Red_Module::get ($id);
+			$module->delete ();
+		}
 	}
 	
 	function reset_module ($id)
 	{
-		$module = Red_Module::get ($id);
-		if ($module)
+		if (check_ajax_referer ('redirection-module_manage-'.$id))
 		{
-			$module->reset ();
-			$this->render_admin ('module_item', array ('module' => $module));
+			$module = Red_Module::get ($id);
+			if ($module)
+			{
+				$module->reset ();
+				$this->render_admin ('module_item', array ('module' => $module));
+			}
+			else
+				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 		}
-		else
-			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
-
 	}
 }
 

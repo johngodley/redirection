@@ -118,7 +118,7 @@ class RE_Log
 	
 	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL', $module_id = 'NULL', $group_id = 'NULL')
 	{
-		global $wpdb;
+		global $wpdb, $redirection;
 		
 		// Add a log entry
 		$url    = wpdb::escape ($url);
@@ -137,6 +137,11 @@ class RE_Log
 			$target = "'".wpdb::escape ($target)."'";
 		
 		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES ('$url',$target,NOW(),'$agent',$redirection_id, '$ip', $referrer, $module_id, $group_id)");
+		
+		// Expire old entries
+		$options = $redirection->get_options ();
+		if ($options['expire'] != 0)
+			$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL ".$options['expire']." DAY)");
 	}
 	
 	function show_url ($url)

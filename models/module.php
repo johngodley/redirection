@@ -79,16 +79,21 @@ class Red_Module
 
 		$type = $data['type'];
 		$name = wpdb::escape ($data['name']);
-		if (isset ($data['options']))
+		if (strlen ($name) > 0)
 		{
-			$extra  = ',options';
-			$extra2 = ",'".wpdb::escape (serialize ($data['options']))."'";
-		}
+			if (isset ($data['options']))
+			{
+				$extra  = ',options';
+				$extra2 = ",'".wpdb::escape (serialize ($data['options']))."'";
+			}
 			
-		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (name,type$extra) VALUES ('$name','$type'$extra2)");
+			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (name,type$extra) VALUES ('$name','$type'$extra2)");
 
-		Red_Module::flush ($wpdb->insert_id);
-		return $wpdb->insert_id;
+			Red_Module::flush ($wpdb->insert_id);
+			return $wpdb->insert_id;
+		}
+		
+		return false;
 	}
 	
 	function get ($id)

@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley (http://urbangiraffe.com)
-// @version    0.1.25
+// @version    0.1.26
 // @copyright  Copyright &copy; 2007 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -35,6 +35,7 @@
 // 0.1.23 - Make widget count work better, fix widgets in K2
 // 0.1.24 - Make realpath better
 // 0.1.25 - Support for new WP2.6 config location
+// 0.1.26 - WP 2.7 base change
 // ======================================================================================
 
 
@@ -323,6 +324,11 @@ class Redirection_Plugin
 	function dir ()
 	{
 		return $this->plugin_base;
+	}
+	
+	function base ()
+	{
+		return $_SERVER['PHP_SELF'];
 	}
 	
 	

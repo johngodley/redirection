@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.0.11
+Version: 2.1
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -45,6 +45,8 @@ Author URI: http://urbangiraffe.com
 2.0.9  - Fix delete redirects
 2.0.10 - Fix small issues in display with WP 2.7
 2.0.11 - Hebrew translation
+2.0.12 - Disable category monitor in 2.7
+2.1    - Change to jQuery.  Nonce protection.  Fix #352, #353, #339, #351.  Add #358, #316.
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -84,6 +86,7 @@ class Redirection extends Redirection_Plugin
 			$this->add_action ('admin_menu');
 			$this->add_action ('admin_head');
 			$this->add_action ('plugins_loaded', 'inject');
+			$this->add_filter ('contextual_help', 'contextual_help', 10, 2);
 		}
 		else
 		{
@@ -98,6 +101,22 @@ class Redirection extends Redirection_Plugin
 		}
 			
 		$this->monitor = new Red_Monitor ($this->get_options ());
+	}
+	
+	function contextual_help ($help, $screen)
+	{
+		if ($screen == 'tools_page_redirection')
+		{
+			$help .= '<h5>' . __('Redirection Help') . '</h5><div class="metabox-prefs">';
+			$help .= '<a href="http://urbangiraffe.com/plugins/redirection/">'.__ ('Redirection Documentation', 'redirection').'</a><br/>';
+			$help .= '<a href="http://urbangiraffe.com/support/forum/redirection">'.__ ('Redirection Support Forum', 'redirection').'</a><br/>';
+			$help .= '<a href="http://urbangiraffe.com/tracker/projects/redirection/issues?set_filter=1&tracker_id=1">'.__ ('Redirection Bug Tracker', 'redirection').'</a><br/>';
+			$help .= '<a href="http://urbangiraffe.com/plugins/redirection/faq/">'.__ ('Redirection FAQ', 'redirection').'</a><br/>';
+			$help .= __ ('Please read the documentation and FAQ, and check the bug tracker, before asking a question.');
+			$help .= '</div>';
+		}
+		
+		return $help;
 	}
 
 	function is_25 ()
@@ -136,7 +155,13 @@ class Redirection extends Redirection_Plugin
 	function admin_head ()
 	{
 		if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
+		{
 			$this->render_admin ('head', array ('type' => $_GET['sub'] == '' ? '301' : $_GET['sub']));
+
+			wp_enqueue_script ('jquery');
+			wp_enqueue_script ('jquery-form');
+			wp_enqueue_script ('jquery-ui-sortable');
+		}
 	}
 	
 	function admin_menu ()
@@ -198,7 +223,7 @@ class Redirection extends Redirection_Plugin
 	
 	function admin_screen_modules ()
 	{
-		if (isset ($_POST['create']))
+		if (isset ($_POST['create']) && check_admin_referer ('redirection-module_add'))
 		{
 			$_POST = stripslashes_deep ($_POST);
 			
@@ -223,7 +248,8 @@ class Redirection extends Redirection_Plugin
 		$defaults = array
 		(
 			'lookup'  => 'http://geomaplookup.cinnamonthoughts.org/?ip=',
-			'support' => false
+			'support' => false,
+			'expire'  => 0
 		);
 		
 		foreach ($defaults AS $key => $value)
@@ -237,7 +263,7 @@ class Redirection extends Redirection_Plugin
 	
 	function inject ()
 	{
-		if ($_GET['page'] == 'redirection.php' && in_array ($_GET['sub'], array ('rss', 'xml', 'csv', 'apache')))
+		if (current_user_can ('administrator') && $_GET['page'] == 'redirection.php' && in_array ($_GET['sub'], array ('rss', 'xml', 'csv', 'apache')))
 		{
 			include (dirname (__FILE__).'/models/file_io.php');
 
@@ -249,7 +275,7 @@ class Redirection extends Redirection_Plugin
 
 	function admin_screen_options ()
 	{
-		if (isset ($_POST['update']))
+		if (isset ($_POST['update']) && check_admin_referer ('redirection-update_options'))
 		{
 			$_POST = stripslashes_deep ($_POST);
 
@@ -258,12 +284,13 @@ class Redirection extends Redirection_Plugin
 			$options['monitor_category'] = $_POST['monitor_category'];
 			$options['auto_target']      = $_POST['auto_target'];
 			$options['support']          = isset ($_POST['support']) ? true : false;
+			$options['expire']           = intval ($_POST['expire']);
 			
 			update_option ('redirection_options', $options);
 
 			$this->render_message (__ ('Your options were updated', 'redirection'));
 		}
-		else if (isset ($_POST['delete']))
+		else if (isset ($_POST['delete']) && check_admin_referer ('redirection-import'))
 		{
 			include (dirname (__FILE__).'/models/database.php');
 
@@ -273,7 +300,7 @@ class Redirection extends Redirection_Plugin
 			$this->render_message (__ ('Redirection data has been deleted and the plugin disabled', 'redirection'));
 			return;
 		}
-		else if (isset ($_POST['import']))
+		else if (isset ($_POST['import']) && check_admin_referer ('redirection-delete_plugin'))
 		{
 			include (dirname (__FILE__).'/models/file_io.php');
 			
@@ -294,7 +321,7 @@ class Redirection extends Redirection_Plugin
 	{
 		include (dirname (__FILE__).'/models/pager.php');
 		
-		if (isset ($_POST['deleteall']))
+		if (isset ($_POST['deleteall']) && check_admin_referer ('redirection-process_logs'))
 		{
 			RE_Log::delete_all (new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log'));
 			$this->render_message (__ ('Your logs have been deleted', 'redirection'));
@@ -319,7 +346,7 @@ class Redirection extends Redirection_Plugin
 	{
 		include (dirname (__FILE__).'/models/pager.php');
 		
-		if (isset ($_POST['add']))
+		if (isset ($_POST['add']) && check_admin_referer ('redirection-add_group'))
 		{
 			if (Red_Group::create (stripslashes_deep ($_POST)))
 			{

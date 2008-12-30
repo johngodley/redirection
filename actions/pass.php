@@ -39,6 +39,7 @@ class Pass_Action extends Red_Action
 			}
 		}
 
+		exit ();
 		return true;
 	}
 }

@@ -38,6 +38,8 @@ class Red_Htaccess
 	{
 		$url = str_replace (' ', '%20', $url);
 		$url = str_replace ('.', '\\.', $url);
+		$url = str_replace ('\\.*', '.*', $url);
+		$url = str_replace ('%241', '$', $url);
 		return $url;
 	}
 	

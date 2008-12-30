@@ -14,6 +14,7 @@ class Red_Monitor
 			add_action ('edit_form_advanced', array (&$this, 'insert_old_post'));
 			add_action ('edit_page_form',     array (&$this, 'insert_old_post'));
 			add_action ('edit_post',          array (&$this, 'post_changed'));
+			add_action ('delete_post',        array (&$this, 'post_deleted'));
 		}
 		
 		if ($options['monitor_category'] > 0)
@@ -27,10 +28,14 @@ class Red_Monitor
 	
 	function insert_old_category ($category)
 	{
-		$url = parse_url (get_category_link ($category->cat_ID));
+		if (isset ($category->cat_ID))
+		{
+			$link = get_category_link ($category->cat_ID);
+			$url = parse_url ();
 	?>
 	<input type="hidden" name="redirection_slug" value="<?php echo attribute_escape ($url['path']) ?>"/>
 	<?php
+		}
 	}
 	
 	function category_changed ($categoryid)
@@ -76,6 +81,18 @@ class Red_Monitor
 			$new_url = parse_url ($newslug);
 
 			Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'action' => 'url', 'group' => $this->monitor_post));
+		}
+	}
+	
+	function post_deleted ($id)
+	{
+		$post = get_post ($id);
+		if ($post->post_status == 'publish' || $post->post_status == 'static')
+		{
+			$url  = get_permalink ($id);
+			$slug = parse_url ($url);
+
+			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
 		}
 	}
 }
