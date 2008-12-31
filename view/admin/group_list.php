@@ -95,7 +95,7 @@
 			</tr>
 			<tr>
 				<th width="50"></th>
-				<td><input class="button-secondary" type="submit" name="add" value="<?php _e ('Add', 'redirection'); ?>"/><input type="hidden" name="module_id" value="<?php echo $module->id ?>"/></td>
+				<td><input class="button-primary" type="submit" name="add" value="<?php _e ('Add', 'redirection'); ?>"/><input type="hidden" name="module_id" value="<?php echo $module->id ?>"/></td>
 			</tr>
 		</table>
 	</form>

@@ -40,7 +40,7 @@
 	  <tr>
 	    <th></th>
 	    <td>
-				<input class="button-secondary" type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
+				<input class="button-primary" type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
 				<?php if ($group) : ?>
 				<input type="hidden" name="group" value="<?php echo $group ?>"/>
 				<?php endif; ?>

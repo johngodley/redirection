@@ -46,7 +46,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><input class="button-secondary" type="submit" name="create" value="<?php _e ('Create', 'redirection'); ?>"/></td>
+				<td><input class="button-primary" type="submit" name="create" value="<?php _e ('Create', 'redirection'); ?>"/></td>
 			</tr>
 		</table>
 	</form>

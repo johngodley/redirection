@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1
+Version: 2.1.1
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -47,6 +47,7 @@ Author URI: http://urbangiraffe.com
 2.0.11 - Hebrew translation
 2.0.12 - Disable category monitor in 2.7
 2.1    - Change to jQuery.  Nonce protection.  Fix #352, #353, #339, #351.  Add #358, #316.
+2.1.1  - Force JS cache.  Fix log deletion
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -85,6 +86,8 @@ class Redirection extends Redirection_Plugin
 
 			$this->add_action ('admin_menu');
 			$this->add_action ('admin_head');
+			$this->add_action ('wp_print_scripts');
+			$this->add_action ('wp_print_styles');
 			$this->add_action ('plugins_loaded', 'inject');
 			$this->add_filter ('contextual_help', 'contextual_help', 10, 2);
 		}
@@ -151,17 +154,22 @@ class Redirection extends Redirection_Plugin
 		return '';
 	}
 
-
+	function wp_print_scripts ()
+	{
+		if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
+			wp_enqueue_script ('redirection', $this->url ().'/js/redirection.js', array ('jquery-form', 'jquery-ui-sortable'), $this->version ());
+	}
+	
+	function wp_print_styles ()
+	{
+		if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
+			wp_enqueue_style ('redirection', $this->url ().'/admin.css', array (), $this->version ());
+	}
+	
 	function admin_head ()
 	{
 		if (strpos ($_SERVER['REQUEST_URI'], 'redirection.php'))
-		{
 			$this->render_admin ('head', array ('type' => $_GET['sub'] == '' ? '301' : $_GET['sub']));
-
-			wp_enqueue_script ('jquery');
-			wp_enqueue_script ('jquery-form');
-			wp_enqueue_script ('jquery-ui-sortable');
-		}
 	}
 	
 	function admin_menu ()
@@ -323,7 +331,13 @@ class Redirection extends Redirection_Plugin
 		
 		if (isset ($_POST['deleteall']) && check_admin_referer ('redirection-process_logs'))
 		{
-			RE_Log::delete_all (new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log'));
+			if (isset ($_GET['module']))
+				RE_Log::delete_all (array ('module_id' => intval ($_GET['module'])), new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log'));
+			else if (isset ($_GET['group']))
+				RE_Log::delete_all (array ('group_id' => intval ($_GET['group'])), new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log'));
+			else
+				RE_Log::delete_all (array (), new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log'));
+				
 			$this->render_message (__ ('Your logs have been deleted', 'redirection'));
 		}
 			

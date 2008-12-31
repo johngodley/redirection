@@ -179,10 +179,19 @@ class RE_Log
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE module_id=$id");
 	}
 	
-	function delete_all ($pager)
+	function delete_all ($cond, $pager)
 	{
 		global $wpdb;
-		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')));
+		
+		$sql = 'redirection_id IS NOT NULL';
+		if (!empty ($cond))
+		{
+			$sql = '';
+			foreach ($cond AS $key => $value)
+				$sql .= "$key=$value";
+		}
+
+		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ($sql, array ('url', 'sent_to', 'ip')));
 	}
 	
 	function referrer ()

@@ -67,7 +67,7 @@
 	  </table>
 	</fieldset>
 
-  <input class="button-secondary" type="submit" name="update" value="<?php _e ('Update', 'redirection') ?>"/>
+  <input class="button-primary" type="submit" name="update" value="<?php _e ('Update', 'redirection') ?>"/>
 
   </form>
 </div>
@@ -85,7 +85,7 @@
 		<?php _e ('Import into', 'redirection'); ?>: <select name="group">
 			<?php echo $this->select ($groups);?>
 		</select>
-		<input class="button-secondary" type="submit" name="import" value="<?php _e ('Upload', 'redirection'); ?>"/>
+		<input class="button-primary" type="submit" name="import" value="<?php _e ('Upload', 'redirection'); ?>"/>
 	</form>
 	
 	<p><?php _e ('Note that the group is ignored when uploading an XML file.', 'redirection'); ?></p>
@@ -98,6 +98,6 @@
 	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8">
 			<?php wp_nonce_field ('redirection-delete_plugin'); ?>
 			
-			<input class="button-secondary" type="submit" name="delete" value="<?php _e ('Delete', 'redirection') ?>"/>
+			<input class="button-primary" type="submit" name="delete" value="<?php _e ('Delete', 'redirection') ?>"/>
 	</form>
 </div>
