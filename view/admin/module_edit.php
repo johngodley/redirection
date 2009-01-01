@@ -23,7 +23,7 @@
 			<tr>
 				<th></th>
 				<td>
-					<input class="button-secondary" type="submit" name="save" value="<?php _e ('Save', 'redirection'); ?>"/>
+					<input class="button-primary" type="submit" name="save" value="<?php _e ('Save', 'redirection'); ?>"/>
 					<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>" onclick="return show_module(<?php echo $module->id ?>)"/>
 				
 					<span id="info_<?php echo $module->id ?>"></span>

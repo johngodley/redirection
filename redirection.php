@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.1
+Version: 2.1.2
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -48,6 +48,7 @@ Author URI: http://urbangiraffe.com
 2.0.12 - Disable category monitor in 2.7
 2.1    - Change to jQuery.  Nonce protection.  Fix #352, #353, #339, #351.  Add #358, #316.
 2.1.1  - Force JS cache.  Fix log deletion
+2.1.2  - Minor button changes
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
