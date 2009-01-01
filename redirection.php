@@ -298,7 +298,7 @@ class Redirection extends Redirection_Plugin
 
 			$this->render_message (__ ('Your options were updated', 'redirection'));
 		}
-		else if (isset ($_POST['delete']) && check_admin_referer ('redirection-import'))
+		else if (isset ($_POST['delete']) && check_admin_referer ('redirection-delete_plugin'))
 		{
 			include (dirname (__FILE__).'/models/database.php');
 
