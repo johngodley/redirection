@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.2
+Version: 2.1.3
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -49,6 +49,7 @@ Author URI: http://urbangiraffe.com
 2.1    - Change to jQuery.  Nonce protection.  Fix #352, #353, #339, #351.  Add #358, #316.
 2.1.1  - Force JS cache.  Fix log deletion
 2.1.2  - Minor button changes
+2.1.3  - Re-enable import feature
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -309,7 +310,7 @@ class Redirection extends Redirection_Plugin
 			$this->render_message (__ ('Redirection data has been deleted and the plugin disabled', 'redirection'));
 			return;
 		}
-		else if (isset ($_POST['import']) && check_admin_referer ('redirection-delete_plugin'))
+		else if (isset ($_POST['import']) && check_admin_referer ('redirection-import'))
 		{
 			include (dirname (__FILE__).'/models/file_io.php');
 			
