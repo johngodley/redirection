@@ -31,7 +31,7 @@ class Red_Monitor
 		if (isset ($category->cat_ID))
 		{
 			$link = get_category_link ($category->cat_ID);
-			$url = parse_url ();
+			$url = parse_url ($link);
 	?>
 	<input type="hidden" name="redirection_slug" value="<?php echo attribute_escape ($url['path']) ?>"/>
 	<?php
