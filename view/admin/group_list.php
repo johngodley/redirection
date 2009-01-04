@@ -88,10 +88,10 @@
 	
 	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field ('redirection-add_group'); ?>
-		<table class="data">
+		<table class="form-table">
 			<tr>
 				<th width="50"><?php _e ('Name', 'redirection'); ?>:</th>
-				<td><input size="40" type="text" name="name" value=""/></td>
+				<td><input size="40" class="regular-text" type="text" name="name" value=""/></td>
 			</tr>
 			<tr>
 				<th width="50"></th>

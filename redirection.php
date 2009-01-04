@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.3
+Version: 2.1.4
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -50,6 +50,7 @@ Author URI: http://urbangiraffe.com
 2.1.1  - Force JS cache.  Fix log deletion
 2.1.2  - Minor button changes
 2.1.3  - Re-enable import feature
+2.1.4  - RSS feed token
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -246,7 +247,8 @@ class Redirection extends Redirection_Plugin
 				$this->render_error (__ ('Your module was not created - did you provide a name?', 'redirection'));
 		}
 		
-		$this->render_admin ('module_list', array ('modules' => Red_Module::get_all (), 'module_types' => Red_Module::get_types ()));
+		$options = $this->get_options ();
+		$this->render_admin ('module_list', array ('modules' => Red_Module::get_all (), 'module_types' => Red_Module::get_types (), 'token' => $options['token']));
 	}
 	
 	function get_options ()
@@ -259,7 +261,8 @@ class Redirection extends Redirection_Plugin
 		(
 			'lookup'  => 'http://geomaplookup.cinnamonthoughts.org/?ip=',
 			'support' => false,
-			'expire'  => 0
+			'expire'  => 0,
+			'token'   => ''
 		);
 		
 		foreach ($defaults AS $key => $value)
@@ -273,7 +276,8 @@ class Redirection extends Redirection_Plugin
 	
 	function inject ()
 	{
-		if (current_user_can ('administrator') && $_GET['page'] == 'redirection.php' && in_array ($_GET['sub'], array ('rss', 'xml', 'csv', 'apache')))
+		$options = $this->get_options ();
+		if ((current_user_can ('administrator') || $_GET['token'] == $options['token']) && $_GET['page'] == 'redirection.php' && in_array ($_GET['sub'], array ('rss', 'xml', 'csv', 'apache')))
 		{
 			include (dirname (__FILE__).'/models/file_io.php');
 
@@ -295,7 +299,11 @@ class Redirection extends Redirection_Plugin
 			$options['auto_target']      = $_POST['auto_target'];
 			$options['support']          = isset ($_POST['support']) ? true : false;
 			$options['expire']           = intval ($_POST['expire']);
+			$options['token']            = $_POST['token'];
 			
+			if (trim ($options['token']) == '')
+				$options['token'] = md5 (uniqid ());
+				
 			update_option ('redirection_options', $options);
 
 			$this->render_message (__ ('Your options were updated', 'redirection'));

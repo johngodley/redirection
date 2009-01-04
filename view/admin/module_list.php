@@ -15,7 +15,7 @@
 			
 			<?php foreach ($modules AS $pos => $module): ?>
 				<tr id="item_<?php echo $module->id ?>">
-					<?php $this->render_admin ('module_item', array ('module' => $module)); ?>
+					<?php $this->render_admin ('module_item', array ('module' => $module, 'token' => $token)); ?>
 				</tr>
 			<?php endforeach ?>
 		</table>

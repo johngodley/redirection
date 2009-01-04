@@ -27,7 +27,7 @@ class Apache_Module extends Red_Module
 	function module_flush ($items)
 	{
 		// Produce the .htaccess file
-		include (dirname (__FILE__).'/../models/htaccess.php');
+		include_once (dirname (__FILE__).'/../models/htaccess.php');
 
 		$htaccess = new Red_Htaccess ($this);
 		if (is_array ($items) && count ($items) > 0)

@@ -29,7 +29,7 @@ class Red_Apache_File extends Red_FileIO
 	
 	function collect ($module)
 	{
-		include (dirname (__FILE__).'/../models/htaccess.php');
+		include_once (dirname (__FILE__).'/../models/htaccess.php');
 
 		$this->htaccess = new Red_Htaccess ($module);
 		$pager          = new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'name', 'DESC', 'log');
