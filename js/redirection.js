@@ -138,12 +138,12 @@ function save_redirect_order (start,nonce)
   return false;
 }
 
-function save_group_order (start)
+function save_group_order (start,nonce)
 {
   if (confirm (wp_are_you_sure))
   {
     jQuery('#loading').show ();
-    jQuery.post (wp_base + 'ajax.php?cmd=save_group_order&id=' + start, jQuery('#items').sortable ('serialize'), function ()
+    jQuery.post (wp_base + 'ajax.php?cmd=save_group_order&id=' + start + '&_ajax_nonce=' + nonce, jQuery('#items').sortable ('serialize'), function ()
       {
         jQuery('#loading').hide ();
         jQuery('#toggle_sort_off').hide ();

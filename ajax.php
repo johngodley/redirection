@@ -27,6 +27,9 @@ else
 
 function urldecode_deep ($data)
 {
+	// Disabled
+	return $data;
+	
 	if (is_array ($data))
 	{
 		foreach ($data AS $key => $values)

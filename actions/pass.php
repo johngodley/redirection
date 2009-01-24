@@ -28,6 +28,7 @@ class Pass_Action extends Red_Action
 			}
 
 			include ($parts[0]);
+			exit ();
 		}
 		else
 		{
@@ -39,7 +40,6 @@ class Pass_Action extends Red_Action
 			}
 		}
 
-		exit ();
 		return true;
 	}
 }

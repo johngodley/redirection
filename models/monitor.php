@@ -15,6 +15,9 @@ class Red_Monitor
 			add_action ('edit_page_form',     array (&$this, 'insert_old_post'));
 			add_action ('edit_post',          array (&$this, 'post_changed'));
 			add_action ('delete_post',        array (&$this, 'post_deleted'));
+			
+			if ($options['monitor_new_posts'])
+				add_action ('transition_post_status', array (&$this, 'transition_post_status'), 10, 3);
 		}
 		
 		if ($options['monitor_category'] > 0)
@@ -23,6 +26,24 @@ class Red_Monitor
 			
 			add_action ('edit_category_form', array (&$this, 'insert_old_category'));
 			add_action ('edit_category', array (&$this, 'category_changed'));
+		}
+	}
+	
+	function transition_post_status ($new_status, $old_status, $post)
+	{
+		if ($new_status == 'publish')
+		{
+			$redirect = array
+			(
+				'source' => '',
+				'target' => substr (get_permalink ($post->ID), strlen (get_bloginfo ('home'))),
+				'match'  => 'url',
+				'action' => 'url',
+				'regex'  => false,
+				'group'  => $this->monitor_post
+			);
+				
+			Red_Item::create ($redirect);
 		}
 	}
 	
@@ -49,7 +70,7 @@ class Red_Monitor
 			(
 				'source' => '^'.$_POST['redirection_slug'].'/(.*)$',
 				'target' => $new_url['path'].'/$1',
-				'match'  => 'url_match',
+				'match'  => 'url',
 				'action' => 'url',
 				'regex'  => true,
 				'group'  => $this->monitor_post

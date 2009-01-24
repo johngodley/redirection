@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.4
+Version: 2.1.5
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -51,6 +51,7 @@ Author URI: http://urbangiraffe.com
 2.1.2  - Minor button changes
 2.1.3  - Re-enable import feature
 2.1.4  - RSS feed token
+2.1.5  - Fix #366, #371, #378, #390, #400.  Add #370, #357
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -75,7 +76,7 @@ include (dirname (__FILE__).'/models/monitor.php');
 include (dirname (__FILE__).'/modules/wordpress.php');
 include (dirname (__FILE__).'/modules/404.php');
 
-define ('DRAINHOLE_VERSION', '2.0.1');
+define ('REDIRECTION_VERSION', '2.0.2');
 
 class Redirection extends Redirection_Plugin
 {
@@ -105,7 +106,7 @@ class Redirection extends Redirection_Plugin
 			$this->error = new Error404_Module ();
 			$this->error->start ();
 		}
-			
+		
 		$this->monitor = new Red_Monitor ($this->get_options ());
 	}
 	
@@ -184,12 +185,12 @@ class Redirection extends Redirection_Plugin
 	{
 		$version = get_option ('redirection_version');
 
-		if ($version != DRAINHOLE_VERSION)
+		if ($version != REDIRECTION_VERSION)
 		{
 			include_once (dirname (__FILE__).'/models/database.php');
 
 			$db = new RE_Database ();
-			$db->upgrade ($version, DRAINHOLE_VERSION);
+			$db->upgrade ($version, REDIRECTION_VERSION);
 		}
 	}
 
@@ -262,7 +263,8 @@ class Redirection extends Redirection_Plugin
 			'lookup'  => 'http://geomaplookup.cinnamonthoughts.org/?ip=',
 			'support' => false,
 			'expire'  => 0,
-			'token'   => ''
+			'token'   => '',
+			'monitor_new_posts' => false
 		);
 		
 		foreach ($defaults AS $key => $value)
@@ -298,6 +300,7 @@ class Redirection extends Redirection_Plugin
 			$options['monitor_category'] = $_POST['monitor_category'];
 			$options['auto_target']      = $_POST['auto_target'];
 			$options['support']          = isset ($_POST['support']) ? true : false;
+			$options['monitor_new_posts'] = isset ($_POST['monitor_new_posts']) ? true : false;
 			$options['expire']           = intval ($_POST['expire']);
 			$options['token']            = $_POST['token'];
 			

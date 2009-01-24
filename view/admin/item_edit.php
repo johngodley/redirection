@@ -4,6 +4,14 @@
 	
 	<table class="edit">
 		<tr>
+			<th width="100"><a target="_blank" href="<?php echo $redirect->title ?>"><?php _e ('Title', 'redirection'); ?>:</a></th>
+			<td>
+				<input style="width: 85%" type="text" name="title" value="<?php echo htmlspecialchars ($redirect->title); ?>"/>
+				<span class="sub">(<?php _e ("optional", 'redirection'); ?>)</span>
+			</td>
+		</tr>
+
+		<tr>
 			<th width="100"><a target="_blank" href="<?php echo $redirect->url ?>"><?php _e ('Source URL', 'redirection'); ?>:</a></th>
 			<td>
 				<input style="width: 85%" type="text" name="old" value="<?php echo htmlspecialchars ($redirect->url); ?>" id="original"/>

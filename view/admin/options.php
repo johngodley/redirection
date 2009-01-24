@@ -56,6 +56,8 @@
 						<option value="0"><?php _e ('Don\'t monitor', 'redirection'); ?></option>
 						<?php echo $this->select ($groups, $options['monitor_post']);?>
 					</select>
+					&mdash;
+					<label for="create_url_for_new_posts"><?php _e ('Monitor new posts', 'redirection'); ?></label> <input type="checkbox" name="monitor_new_posts" <?php echo $this->checked ($options['monitor_new_posts']); ?> id="create_url_for_new_posts"/>
 				</td>
 			</tr>
 			<tr>

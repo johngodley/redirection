@@ -57,6 +57,7 @@ class RE_Database
 		  `action_code` int(11) unsigned NOT NULL,
 		  `action_data` mediumtext,
 		  `match_type` varchar(20) NOT NULL,
+		  `title` varchar(50) NOT NULL,
 		  PRIMARY KEY  (`id`)
 		)");
 
@@ -140,6 +141,8 @@ class RE_Database
 			$this->upgrade_from_2 ();
 		else if ($current == '2.0')
 			$this->upgrade_from_20 ();
+		else if ($current == '2.0.1')
+			$this->upgrade_from_21 ();
 
 		update_option ('redirection_version', $target);
 	}
@@ -164,6 +167,7 @@ class RE_Database
 		
 		$this->upgrade_from_1 ();
 		$this->upgrade_from_2 ();
+		$this->upgrade_from_21 ();
 	}
 	
 	function upgrade_from_1 ()
@@ -173,6 +177,7 @@ class RE_Database
 		$wpdb->query ("ALTER TABLE {$wpdb->prefix}redirection CHANGE `type` `type` enum('301','302','307','404','410','pass') NOT NULL DEFAULT '301' ;");
 		
 		$this->upgrade_from_2 ();
+		$this->upgrade_from_21 ();
 	}
 	
 	function upgrade_from_2 ()
@@ -303,6 +308,8 @@ class RE_Database
 		$wpdb->query ("UPDATE {$wpdb->prefix}redirection_logs SET group_id='1', module_id='1'");
 		
 		update_option ('redirection_options', $options);
+		
+		$this->upgrade_from_21 ();
 	}
 	
 	function upgrade_from_20 ()
@@ -310,6 +317,15 @@ class RE_Database
 		global $wpdb;
 		
 		$this->defaults ();
+		$this->upgrade_from_21 ();
+	}
+	
+	function upgrade_from_21 ()
+	{
+		global $wpdb;
+		
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `title` varchar(50) NOT NULL");
+		
 	}
 	
 	function remove ($plugin)

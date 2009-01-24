@@ -19,7 +19,7 @@
 <div class="item<?php if ($redirect->regex)  echo ' item-regex' ?>">
 	<input type="checkbox" class="check" name="checkall[]" value="<?php echo $redirect->id ?>"/>
 	
-	<a href="<?php echo $this->url ($redirect->url) ?>" class="redirection-edit"><?php echo RE_Log::show_url ($redirect->url); ?></a>
+	<a href="<?php echo $this->url ($redirect->url) ?>" class="redirection-edit"><?php if ($redirect->title) echo htmlspecialchars ($redirect->title); else echo RE_Log::show_url ($redirect->url); ?></a>
 	
 	<?php if ($redirect->match_type != 'url') echo '('.$redirect->match_name ().')' ?>
 	

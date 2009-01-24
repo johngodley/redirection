@@ -190,7 +190,7 @@ class Red_Item
 			$url      = wpdb::escape (Red_Item::sanitize_url ($details['source'], $regex));
 			$action   = $details['action'];
 			$position = $wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE group_id='{$group_id}'");
-			
+
 			$data = wpdb::escape ($matcher->data ($details));
 			
 			if ($action == 'url' || $action == 'random')
@@ -203,12 +203,16 @@ class Red_Item
 			if (isset ($details['action_code']))
 				$action_code = intval ($details['action_code']);
 
-			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_items (url,action_type,regex,position,match_type,action_data,action_code,last_access,group_id) VALUES ('$url','$action','".($regex ? 1 : 0)."','$position','$match','$data',$action_code,0,'$group_id')");
+			// Quick check for loop
+			if ($wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url='$url'") == 0)
+			{
+				$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_items (url,action_type,regex,position,match_type,action_data,action_code,last_access,group_id) VALUES ('$url','$action','".($regex ? 1 : 0)."','$position','$match','$data',$action_code,0,'$group_id')");
 			
-			$group = Red_Group::get ($group_id);
-			Red_Module::flush ($group->module_id);
+				$group = Red_Group::get ($group_id);
+				Red_Module::flush ($group->module_id);
 			
-			return Red_Item::get_by_id ($wpdb->insert_id);
+				return Red_Item::get_by_id ($wpdb->insert_id);
+			}
 		}
 
 		return false;
@@ -264,12 +268,14 @@ class Red_Item
 		{
 			$this->url   = $details['old'];
 			$this->regex = isset ($details['regex']) ? true : false;
+			$this->title = $details['title'];
 		
 			// Update the match
 			$this->url = $this->sanitize_url ($this->url, $this->regex);
 			
 			$data  = wpdb::escape ($this->match->data ($details));
 			$url   = wpdb::escape ($this->url);
+			$title = wpdb::escape ($this->title);
 			$regex = isset ($details['regex']) ? true : false;
 			
 			if (isset ($details['action_code']))
@@ -284,7 +290,7 @@ class Red_Item
 			
 			// Save this
 			global $wpdb;
-			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET url='$url', regex='{$this->regex}', action_code='$action_code', action_data='$data', group_id='$group_id' WHERE id='{$this->id}'");
+			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET url='$url', regex='{$this->regex}', action_code='$action_code', action_data='$data', group_id='$group_id', title='$title' WHERE id='{$this->id}'");
 			
 			$group = Red_Group::get ($group_id);
 			Red_Module::flush ($group->module_id);

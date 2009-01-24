@@ -25,7 +25,7 @@
 	</div>
 	<br/>
 	
-	<ul id="redirections_header" class="redirections_header" style="<?php if (count ($items) == 0) echo 'display: none' ?>">
+	<ul id="redirections_header" class="redirections_header">
 		<li>
 			<div class="date" style="width: 8em"><?php echo $pager->sortable ('last_access', __ ('Last Access', 'redirection')) ?></div>
 			<div class="count"><?php echo $pager->sortable ('last_count', __ ('Hits', 'redirection')) ?></div>
@@ -52,8 +52,6 @@
 	</div>
 	<?php endif;?>
 	
-	<?php if (count ($items) > 0) : ?>
-		
 	<div class="pager pagertools">
 		<a href="#" onclick="return select_all ()"><?php _e ('Select All', 'redirection'); ?></a> |
 		<a href="#" onclick="return toggle_items('item')"><?php _e ('Toggle', 'redirection'); ?></a> | 
@@ -74,7 +72,6 @@
 		<a id="toggle_sort_on" onclick="return sort_order ();" href="#"><?php _e ('re-order', 'redirection'); ?></a>
 		<a id="toggle_sort_off" style="display: none" onclick="return save_redirect_order (<?php echo ($pager->current_page - 1) * $pager->per_page ?>,'<?php echo wp_create_nonce ('redirection-save_item_order') ?>');" href="#"><?php _e ('save order', 'redirection'); ?></a>
 	</div>
-	<?php endif; ?>
 
 	<?php if (!is_array ($items) || count ($items) == 0) : ?>
 	  <p id="none"><?php _e ('You have no redirections.', 'redirection') ?></p>

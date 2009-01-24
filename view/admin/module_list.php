@@ -19,6 +19,7 @@
 				</tr>
 			<?php endforeach ?>
 		</table>
+		<p><?php _e ('Note: Hits are dependant on log entries', 'redirection')?></p>
 	<?php else : ?>
 		<p><?php _e ('You have no modules defined yet', 'redirection'); ?>.</p>
 	<?php endif; ?>

@@ -146,7 +146,7 @@ class RE_Log
 	
 	function show_url ($url)
 	{
-		return implode ('&#8203;/', explode ('/', substr (htmlspecialchars (rawurldecode ($url)), 0, 80))).(strlen ($url) > 80 ? '...' : '');
+		return implode ('&#8203;/', explode ('/', substr (htmlspecialchars ($url), 0, 80))).(strlen ($url) > 80 ? '...' : '');
 	}
 
 	function delete ($id)
