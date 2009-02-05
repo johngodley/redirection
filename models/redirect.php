@@ -204,7 +204,7 @@ class Red_Item
 				$action_code = intval ($details['action_code']);
 
 			// Quick check for loop
-			if ($wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url='$url'") == 0)
+//			if ($wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url='$url'") == 0)
 			{
 				$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_items (url,action_type,regex,position,match_type,action_data,action_code,last_access,group_id) VALUES ('$url','$action','".($regex ? 1 : 0)."','$position','$match','$data',$action_code,0,'$group_id')");
 			
