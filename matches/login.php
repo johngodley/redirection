@@ -71,9 +71,9 @@ class Login_Match extends Red_Match
 	function get_target ($url, $matched_url, $regex)
 	{
 		if (is_user_logged_in () === false)
-			$target = $this->url_loggedin;
-		else
 			$target = $this->url_loggedout;
+		else
+			$target = $this->url_loggedin;
 
 		if ($regex)
 			$target = preg_replace ('@'.str_replace ('@', '\\@', $matched_url).'@', $target, $url);

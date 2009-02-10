@@ -22,6 +22,7 @@ class Red_Htaccess
 		$url = str_replace ('%2F', '/', $url);
 		$url = str_replace ('%3A', ':', $url);
 		$url = str_replace ('+', '%20', $url);
+		$url = str_replace ('%24', '$', $url);
 		return $url;
 	}
 	
@@ -39,7 +40,7 @@ class Red_Htaccess
 		$url = str_replace (' ', '%20', $url);
 		$url = str_replace ('.', '\\.', $url);
 		$url = str_replace ('\\.*', '.*', $url);
-		$url = str_replace ('%241', '$', $url);
+		$url = str_replace ('%24', '$', $url);
 		return $url;
 	}
 	
