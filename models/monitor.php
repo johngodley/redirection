@@ -64,7 +64,7 @@ class Red_Monitor
 		$new_url = parse_url (get_category_link ($categoryid));
 		$new_url['path'] = dirname ($new_url['path']).'/'.$_POST['category_nicename'];
 
-		if ($new_url['path'] != $_POST['redirection_slug'])
+		if ($new_url['path'] != $_POST['redirection_slug'] && $_POST['redirection_slug'] != '')
 		{
 			$redirect = array
 			(
@@ -75,7 +75,7 @@ class Red_Monitor
 				'regex'  => true,
 				'group'  => $this->monitor_post
 			);
-				
+			
 			Red_Item::create ($redirect);
 		}
 	}
