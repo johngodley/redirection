@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.8
+Version: 2.1.9
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -55,6 +55,7 @@ Author URI: http://urbangiraffe.com
 2.1.6  - Redirection loops
 2.1.7  - Fix #422, #426
 2.1.8  - Fix category change 'quick edit'
+2.1.9  - Fix 'you do not permissions' error on some non-English sites
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -95,7 +96,7 @@ class Redirection extends Redirection_Plugin
 			$this->add_action ('admin_head');
 			$this->add_action ('wp_print_scripts');
 			$this->add_action ('wp_print_styles');
-			$this->add_action ('plugins_loaded', 'inject');
+			$this->add_action ('admin_init', 'inject');
 			$this->add_filter ('contextual_help', 'contextual_help', 10, 2);
 		}
 		else
