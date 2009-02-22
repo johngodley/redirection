@@ -166,7 +166,7 @@ class Red_Module
 		(
 			'apache' => __ ('Apache', 'redirection'),
 			'wp'     => __ ('WordPress', 'redirection'),
-			'404'    => __ ('404 Errors' 'redirection'),
+			'404'    => __ ('404 Errors', 'redirection'),
 		);
 	}
 	
