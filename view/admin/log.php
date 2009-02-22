@@ -9,14 +9,14 @@
 		<input type="hidden" name="sub" value="<?php echo $_GET['sub'] ?>"/>
 
 		<p class="search-box">
-			<label for="post-search-input" class="hidden"><?php _e ('Search') ?>:</label>
+			<label for="post-search-input" class="hidden"><?php _e ('Search', 'redirection') ?>:</label>
 
 			<input type="text" class="search-input" name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
 			<?php if (isset ($_GET['search']) && $_GET['search'] != '') : ?>
 				<input type="hidden" name="ss" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
 			<?php endif;?>
 
-			<input type="submit" class="button" value="Search"/>
+			<input type="submit" class="button" value="<?php _e ('Search', 'redirection'); ?>"/>
 		</p>
 	
 		<div id="pager" class="tablenav">

@@ -384,11 +384,11 @@ class Red_Item
 	{
 		$actions = array
 		(
-			'url'     => 'Redirect to URL',
-			'random'  => 'Redirect to random post',
-			'pass'    => 'Pass-through',
-			'error'   => 'Error (404)',
-			'nothing' => 'Do nothing',
+			'url'     => __ ('Redirect to URL', 'redirection'),
+			'random'  => __ ('Redirect to random post', 'redirection'),
+			'pass'    => __ ('Pass-through', 'redirection'),
+			'error'   => __ ('Error (404)', 'redirection'),
+			'nothing' => __ ('Do nothing', 'redirection'),
 		);
 		
 		if ($action)

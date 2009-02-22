@@ -20,7 +20,7 @@
 	
 	<?php if ($module->is_valid ()) : ?>
 		<div class="toolbar">
-			<strong>View as:</strong>
+			<strong><?php _e ('View as', 'redirection'); ?>:</strong>
 			
 			<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=csv&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e ('CSV', 'redirection'); ?></a>
 			<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=xml&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e ('XML', 'redirection'); ?></a>

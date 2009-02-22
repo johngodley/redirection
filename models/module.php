@@ -164,9 +164,9 @@ class Red_Module
 	{
 		return array
 		(
-			'apache' => 'Apache',
-			'wp'     => 'WordPress',
-			'404'    => '404 Errors'
+			'apache' => __ ('Apache', 'redirection'),
+			'wp'     => __ ('WordPress', 'redirection'),
+			'404'    => __ ('404 Errors' 'redirection'),
 		);
 	}
 	
@@ -189,13 +189,13 @@ class Red_Module
 	
 	function canonical ()
 	{
-		$can = array ('none' => '&mdash;', 'nowww' => 'Strip WWW', 'www' => 'Force WWW');
+		$can = array ('none' => '&mdash;', 'nowww' => __ ('Strip WWW', 'redirection'), 'www' => __ ('Force WWW', 'redirection'));
 		return $can[$this->canonical];
 	}
 	
 	function index ()
 	{
-		$can = array ('ignore' => '&mdash;', 'remove' => 'Strip index.php');
+		$can = array ('ignore' => '&mdash;', 'remove' => __ ('Strip index.php', 'redirection'));
 		return $can[$this->index];
 	}
 	

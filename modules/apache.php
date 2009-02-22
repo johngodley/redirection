@@ -77,7 +77,8 @@ class Apache_Module extends Red_Module
 				<select name="canonical">
 					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home')))), $this->canonical); ?>
 				</select>
-
+				
+				<br/>
 				<strong><?php _e ('Strip Index', 'redirection'); ?>:</strong>
 				<select name="strip_index">
 					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'yes' => __ ('Strip index files (html,php)', 'redirection')), $this->strip_index); ?>
@@ -88,7 +89,7 @@ class Apache_Module extends Red_Module
 			<th><?php _e ('Memory Limit', 'redirection'); ?>:</th>
 			<td>
 				<select name="memory_limit">
-					<?php echo $this->select (array ('0' => 'Server default', '8' => '8MB', '16' => '16MB', '32' => '32MB', '64' => '64MB', '128' => '128MB'), $this->memory_limit); ?>
+					<?php echo $this->select (array ('0' => __ ('Server default', 'redirection'), '8' => '8MB', '16' => '16MB', '32' => '32MB', '64' => '64MB', '128' => '128MB'), $this->memory_limit); ?>
 				</select>
 				
 				<strong><?php _e ('Error Level', 'redirection'); ?>:</strong>

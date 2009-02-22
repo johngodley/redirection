@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/support/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
 Requires at least: 2.7
-Tested up to: 2.7
+Tested up to: 2.7.1
 Stable tag: trunk
 
 Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.
