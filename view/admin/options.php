@@ -1,4 +1,6 @@
-<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="wrap">
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
+<div class="wrap">
+	<?php screen_icon(); ?>
   <h2><?php _e ('Options', 'redirection') ?></h2>
 	<?php $this->submenu (true); ?>
 	
@@ -60,6 +62,7 @@
 					<label for="create_url_for_new_posts"><?php _e ('Monitor new posts', 'redirection'); ?></label> <input type="checkbox" name="monitor_new_posts" <?php echo $this->checked ($options['monitor_new_posts']); ?> id="create_url_for_new_posts"/>
 				</td>
 			</tr>
+			<!--
 			<tr>
 				<th><?php _e ('Category URLs', 'redirection'); ?>:</th>
 				<td>
@@ -68,7 +71,7 @@
 						<?php echo $this->select ($groups, $options['monitor_category']);?>
 					</select>
 				</td>
-			</tr>
+			</tr>-->
 	  </table>
 
   <input class="button-primary" type="submit" name="update" value="<?php _e ('Update', 'redirection') ?>"/>

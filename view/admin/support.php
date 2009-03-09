@@ -1,4 +1,6 @@
-<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><div class="wrap">
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
+<div class="wrap">
+	<?php screen_icon(); ?>
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
 
 	<p><?php _e ('Redirection has required a great deal of time and effort to develop.  If it\'s been useful to you then you can support this development by <strong>making a small donation of $8</strong>.  This will act as an incentive for me to carry on developing it, providing countless hours of support, and including any enhancements that are suggested.', 'redirection'); ?></p>

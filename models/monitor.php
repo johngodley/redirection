@@ -22,10 +22,11 @@ class Red_Monitor
 		
 		if ($options['monitor_category'] > 0)
 		{
-			$this->monitor_category = $options['monitor_category'];
+/*			$this->monitor_category = $options['monitor_category'];
 			
 			add_action ('edit_category_form', array (&$this, 'insert_old_category'));
 			add_action ('edit_category', array (&$this, 'category_changed'));
+			*/
 		}
 	}
 	
