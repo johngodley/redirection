@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: A redirection manager
-Version: 2.1.12
+Version: 2.1.13
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -59,6 +59,7 @@ Author URI: http://urbangiraffe.com
 2.1.10 - Missing localisations
 2.1.11 - Errors on some sites
 2.1.12 - Add icons, disable category monitoring
+2.1.13 - Add Spanish and Chinese translation
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall

@@ -37,6 +37,8 @@ Redirection is available in:
 * English
 * Français (thanks to [Oncle Tom](http://oncle-tom.net))
 * Hebrew (thanks to [Rami](http://www.bdihot.co.il/))
+* Spanish (thanks to [Juan](http://unahormiga.com>))
+* Simplified Chinese (thanks to [Sha Miao](http://shamiao.com))
 
 == Installation ==
 
