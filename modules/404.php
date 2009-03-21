@@ -23,7 +23,7 @@ class Error404_Module extends Red_Module
 	{
 		$save = array
 		(
-			'log_404'      => isset ($data['log_404']) ? true : false
+			'log_404' => isset ($data['log_404']) ? true : false
 		);
 		
 		$this->load ($save);
@@ -60,7 +60,9 @@ class Error404_Module extends Red_Module
 
 	function template_redirect ()
 	{
-		if (is_404 ())
+		global $redirection;
+		
+		if (is_404 () && !$redirection->hasMatched ())
 		{
 			$url = $_SERVER['REQUEST_URI'];
 			$redirects = Red_Item::get_for_url ($url, '404');
@@ -70,6 +72,7 @@ class Error404_Module extends Red_Module
 				{
 					if ($item->matches ($url))
 					{
+						$redirection->setMatched (true);						
 						$this->matched = $item;
 						break;
 					}

@@ -276,7 +276,7 @@ class Red_Item
 			$data  = wpdb::escape ($this->match->data ($details));
 			$url   = wpdb::escape ($this->url);
 			$title = wpdb::escape ($this->title);
-			$regex = isset ($details['regex']) ? true : false;
+			$regex = isset ($details['regex']) ? 1 : 0;
 			
 			if (isset ($details['action_code']))
 				$action_code = intval ($details['action_code']);
@@ -290,7 +290,7 @@ class Red_Item
 			
 			// Save this
 			global $wpdb;
-			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET url='$url', regex='{$this->regex}', action_code='$action_code', action_data='$data', group_id='$group_id', title='$title' WHERE id='{$this->id}'");
+			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET url='$url', regex='{$regex}', action_code='$action_code', action_data='$data', group_id='$group_id', title='$title' WHERE id='{$this->id}'");
 			
 			$group = Red_Group::get ($group_id);
 			Red_Module::flush ($group->module_id);
@@ -321,12 +321,26 @@ class Red_Item
 			$target = $this->match->get_target ($url, $this->url, $this->regex);
 			if ($target)
 			{
+				$target = $this->replaceSpecialTags ($target);
 				$this->visit ($url, $target);
 				return $this->action->process_before ($this->action_code, $target);
 			}
 		}
 		
 		return false;
+	}
+	
+	function replaceSpecialTags ($target)
+	{
+		$user = wp_get_current_user ();
+		if ($user)
+		{
+			$target = str_replace ('%userid%', $user->ID, $target);
+			$target = str_replace ('%userlogin%', $user->user_login, $target);
+			$target = str_replace ('%userurl%', $user->user_url, $target);
+		}
+		
+		return $target;
 	}
 
 	function visit ($url, $target)

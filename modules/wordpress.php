@@ -28,10 +28,12 @@ class WordPress_Module extends Red_Module
 	
 	function plugins_loaded ()
 	{
+		global $redirection;
+		
 		$url = $_SERVER['REQUEST_URI'];
 		
 		// Make sure we don't try and redirect something essential
-		if (!$this->protected_url ($url))
+		if (!$this->protected_url ($url) && !$redirection->hasMatched ())
 		{
 			do_action ('redirection_first', $url, $this);
 		
@@ -42,6 +44,8 @@ class WordPress_Module extends Red_Module
 				{
 					if ($item->matches ($url))
 					{
+						global $redirection;
+						$redirection->setMatched (true);
 						$this->matched = $item;
 						break;
 					}
@@ -187,20 +191,20 @@ class WordPress_Module extends Red_Module
 					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home')))), $this->canonical); ?>
 				</select>
 
-				<strong>Strip Index:</strong>
+				<strong><?php _e ('Strip Index', 'redirection'); ?>:</strong>
 				<select name="strip_index">
 					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'yes' => __ ('Strip index files (html,php,asp)', 'redirection')), $this->strip_index); ?>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<th>Time Limit:</th>
+			<th><?php _e ('Time Limit', 'redirection') ?>:</th>
 			<td>
 				<select name="time_limit">
 					<?php echo $this->select (array ('default' => __ ('Server default', 'redirection'), '30' => __ ('30 seconds', 'redirection'), '60' => __ ('1 minute', 'redirection'), '120' => __ ('2 minutes', 'redirection'), (5 * 60) => __ ('5 minutes', 'redirection'), '0' => __ ('As long as possible', 'redirection')), $this->time_limit); ?>
 				</select>
 				
-				<strong>Error Level:</strong>
+				<strong><?php _e ('Error Level', 'redirection'); ?>:</strong>
 				<select name="error_level">
 					<?php echo $this->select (array ('default' => __ ('Server default', 'redirection'), 'none' => 'No errors', 'error' => 'Show errors'), $this->error_level); ?>
 				</select>

@@ -57,7 +57,7 @@ class RE_Database
 		  `action_code` int(11) unsigned NOT NULL,
 		  `action_data` mediumtext,
 		  `match_type` varchar(20) NOT NULL,
-		  `title` varchar(50) NOT NULL,
+		  `title` varchar(50) NULL,
 		  PRIMARY KEY  (`id`)
 		)");
 
@@ -143,6 +143,8 @@ class RE_Database
 			$this->upgrade_from_20 ();
 		else if ($current == '2.0.1')
 			$this->upgrade_from_21 ();
+		else if ($current == '2.0.2')
+			$this->upgrade_from_22 ();
 
 		update_option ('redirection_version', $target);
 	}
@@ -168,6 +170,7 @@ class RE_Database
 		$this->upgrade_from_1 ();
 		$this->upgrade_from_2 ();
 		$this->upgrade_from_21 ();
+		$this->upgrade_from_22 ();
 	}
 	
 	function upgrade_from_1 ()
@@ -178,6 +181,7 @@ class RE_Database
 		
 		$this->upgrade_from_2 ();
 		$this->upgrade_from_21 ();
+		$this->upgrade_from_22 ();
 	}
 	
 	function upgrade_from_2 ()
@@ -310,6 +314,7 @@ class RE_Database
 		update_option ('redirection_options', $options);
 		
 		$this->upgrade_from_21 ();
+		$this->upgrade_from_22 ();
 	}
 	
 	function upgrade_from_20 ()
@@ -318,14 +323,23 @@ class RE_Database
 		
 		$this->defaults ();
 		$this->upgrade_from_21 ();
+		$this->upgrade_from_22 ();
 	}
 	
 	function upgrade_from_21 ()
 	{
 		global $wpdb;
 		
-		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `title` varchar(50) NOT NULL");
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `title` varchar(50) NULL");
 		
+		$this->upgrade_from_22 ();
+	}
+	
+	function upgrade_from_22 ()
+	{
+		global $wpdb;
+		
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` CHANGE `title` `title` varchar(50) NULL");
 	}
 	
 	function remove ($plugin)

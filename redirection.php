@@ -60,6 +60,7 @@ Author URI: http://urbangiraffe.com
 2.1.11 - Errors on some sites
 2.1.12 - Add icons, disable category monitoring
 2.1.13 - Add Spanish and Chinese translation
+2.1.14 - Fix #457, add #475, #427, add Catalan translation
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -84,10 +85,12 @@ include (dirname (__FILE__).'/models/monitor.php');
 include (dirname (__FILE__).'/modules/wordpress.php');
 include (dirname (__FILE__).'/modules/404.php');
 
-define ('REDIRECTION_VERSION', '2.0.2');
+define ('REDIRECTION_VERSION', '2.1.14');
 
 class Redirection extends Redirection_Plugin
 {
+	var $hasMatched = false;
+	
 	function Redirection ()
 	{
 		$this->register_plugin ('redirection', __FILE__);
@@ -272,7 +275,8 @@ class Redirection extends Redirection_Plugin
 			'support' => false,
 			'expire'  => 0,
 			'token'   => '',
-			'monitor_new_posts' => false
+			'monitor_new_posts' => false,
+			'monitor_post' => 0
 		);
 		
 		foreach ($defaults AS $key => $value)
@@ -413,6 +417,13 @@ class Redirection extends Redirection_Plugin
 
   	$this->render_admin ('item_list', array ('items' => $items, 'pager' => $pager, 'group' => Red_Group::get ($group), 'groups' => Red_Group::get_for_select ()));
 	}
+	
+	function setMatched ($match)
+	{
+		$this->hasMatched = $match;
+	}
+	
+	function hasMatched () { return $this->hasMatched; }
 }
 
 // Instantiate the plugin
