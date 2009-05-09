@@ -89,7 +89,7 @@ class Red_Item
 	{
 		global $wpdb;
 		
-		$sql = "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type='$type' WHERE (@redirection_items.regex=1 OR @redirection_items.url='".wpdb::escape ($url)."') AND @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position";
+		$sql = "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type='$type' WHERE (@redirection_items.regex=1 OR @redirection_items.url='".$wpdb->escape ($url)."') AND @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position";
 		$sql = str_replace ('@', $wpdb->prefix, $sql);
 
 		$rows = $wpdb->get_results ($sql, ARRAY_A);
@@ -185,13 +185,13 @@ class Red_Item
 
 		if ($group_id > 0 && $matcher)
 		{
-			$match    = wpdb::escape ($details['match']);
+			$match    = $wpdb->escape ($details['match']);
 			$regex    = (isset ($details['regex']) && $details['regex'] != false) ? true : false;
-			$url      = wpdb::escape (Red_Item::sanitize_url ($details['source'], $regex));
+			$url      = $wpdb->escape (Red_Item::sanitize_url ($details['source'], $regex));
 			$action   = $details['action'];
 			$position = $wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE group_id='{$group_id}'");
 
-			$data = wpdb::escape ($matcher->data ($details));
+			$data = $wpdb->escape ($matcher->data ($details));
 			
 			if ($action == 'url' || $action == 'random')
 				$action_code = 301;
@@ -266,6 +266,8 @@ class Red_Item
 	{
 		if (strlen ($details['old']) > 0)
 		{
+			global $wpdb;
+			
 			$this->url   = $details['old'];
 			$this->regex = isset ($details['regex']) ? true : false;
 			$this->title = $details['title'];
@@ -273,9 +275,9 @@ class Red_Item
 			// Update the match
 			$this->url = $this->sanitize_url ($this->url, $this->regex);
 			
-			$data  = wpdb::escape ($this->match->data ($details));
-			$url   = wpdb::escape ($this->url);
-			$title = wpdb::escape ($this->title);
+			$data  = $wpdb->escape ($this->match->data ($details));
+			$url   = $wpdb->escape ($this->url);
+			$title = $wpdb->escape ($this->title);
 			$regex = isset ($details['regex']) ? 1 : 0;
 			
 			if (isset ($details['action_code']))

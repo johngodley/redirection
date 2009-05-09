@@ -121,20 +121,20 @@ class RE_Log
 		global $wpdb, $redirection;
 		
 		// Add a log entry
-		$url    = wpdb::escape ($url);
-		$agent  = wpdb::escape ($agent);
-		$ip     = wpdb::escape ($ip);
+		$url    = $wpdb->escape ($url);
+		$agent  = $wpdb->escape ($agent);
+		$ip     = $wpdb->escape ($ip);
 		
 		// And referring URL
 		if (strlen ($referrer) > 0)
-			$referrer = "'".wpdb::escape ($referrer)."'";
+			$referrer = "'".$wpdb->escape ($referrer)."'";
 		else
 			$referrer = 'NULL';
 			
 		if ($target == '')
 			$target = 'NULL';
 		else
-			$target = "'".wpdb::escape ($target)."'";
+			$target = "'".$wpdb->escape ($target)."'";
 		
 		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES ('$url',$target,NOW(),'$agent',$redirection_id, '$ip', $referrer, $module_id, $group_id)");
 		

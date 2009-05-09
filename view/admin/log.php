@@ -1,6 +1,8 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap"> <?php if ($pos % 2 == 1) echo ' class="alt"' ?>
 	<?php screen_icon(); ?>
+	<?php $this->render_admin('annoy')?>
+
 	<h2><?php _e ('Redirection Log', 'redirection'); ?></h2>
 
 	<?php $this->submenu (true); ?>

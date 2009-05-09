@@ -85,7 +85,7 @@ class Red_Group
 	{
 		global $wpdb;
 		
-		$name   = wpdb::escape (trim ($data['name']));
+		$name   = $wpdb->escape (trim ($data['name']));
 		$module = intval ($data['module_id']);
 
 		if ($name != '' && $module > 0)
@@ -117,7 +117,7 @@ class Red_Group
 		$this->name     = $data['name'];
 		$this->status   = isset ($data['status']) ? 'enabled' : 'disabled';
 		
-		$name = wpdb::escape ($this->name);
+		$name = $wpdb->escape ($this->name);
 		
 		$wpdb->query ("UPDATE {$wpdb->prefix}redirection_groups SET name='$name', status='{$this->status}', tracking='{$this->tracking}' WHERE id='{$this->id}'");
 		

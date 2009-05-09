@@ -371,11 +371,15 @@ class RE_Pager
 			
 		if ($column == $this->order_by)
 		{
-			$dir = basename (dirname (dirname (__FILE__)));
-			if (strpos ($url, 'ASC') !== false)
-				$img = '<img align="bottom" src="'.get_bloginfo ('wpurl').'/wp-content/plugins/'.$dir.'/images/up.gif" alt="dir" width="16" height="7"/>';
+			if (defined ('WP_PLUGIN_URL'))
+				$dir = WP_PLUGIN_URL.'/'.basename (dirname (dirname (__FILE__)));
 			else
-				$img = '<img align="bottom" src="'.get_bloginfo ('wpurl').'/wp-content/plugins/'.$dir.'/images/down.gif" alt="dir" width="16" height="7"/>';
+				$dir = get_bloginfo ('wpurl').'/wp-content/plugins/'.basename (dirname (dirname (__FILE__)));
+				
+			if (strpos ($url, 'ASC') !== false)
+				$img = '<img align="bottom" src="'.$dir.'/images/up.gif" alt="dir" width="16" height="7"/>';
+			else
+				$img = '<img align="bottom" src="'.$dir.'/images/down.gif" alt="dir" width="16" height="7"/>';
 			
 			if ($image == false)
 				$img = '';

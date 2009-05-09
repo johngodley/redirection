@@ -36,13 +36,13 @@ class Red_Module
 		global $wpdb;
 		
 		$this->name = $data['name'];
-		$name       = wpdb::escape ($data['name']);
+		$name       = $wpdb->escape ($data['name']);
 
 		$options = $this->save ($data);
 		if (empty ($options))
 			$options = 'NULL';
 		else
-			$options = "'".wpdb::escape (serialize ($options))."'";
+			$options = "'".$wpdb->escape (serialize ($options))."'";
 		
 		$wpdb->query ("UPDATE {$wpdb->prefix}redirection_modules SET name='$name', options=$options WHERE id='{$this->id}'");
 
@@ -78,13 +78,13 @@ class Red_Module
 		global $wpdb;
 
 		$type = $data['type'];
-		$name = wpdb::escape ($data['name']);
+		$name = $wpdb->escape ($data['name']);
 		if (strlen ($name) > 0)
 		{
 			if (isset ($data['options']))
 			{
 				$extra  = ',options';
-				$extra2 = ",'".wpdb::escape (serialize ($data['options']))."'";
+				$extra2 = ",'".$wpdb->escape (serialize ($data['options']))."'";
 			}
 			
 			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (name,type$extra) VALUES ('$name','$type'$extra2)");

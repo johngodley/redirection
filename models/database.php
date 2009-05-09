@@ -102,7 +102,7 @@ class RE_Database
 		
 		$optionswp     = '';
 		$options404    = '';
-		$optionsapache = wpdb::escape (serialize (array ('location' => get_home_path ().'.htaccess')));
+		$optionsapache = $wpdb->escape (serialize (array ('location' => get_home_path ().'.htaccess')));
 
 		// Modules
 		if ($wpdb->get_var ("SELECT COUNT(*) FROM {$wpdb->prefix}redirection_modules") == 0)
@@ -251,7 +251,7 @@ class RE_Database
 				{
 					$match  = 'login';
 					$data   = array ('url_loggedin' => $data['url'][0], 'url_loggedout' => $data['url'][1]);
-					$data   = wpdb::escape (serialize ($data));
+					$data   = $wpdb->escape (serialize ($data));
 					
 					if ($row->type == 'pass')
 						$action = 'pass';
@@ -277,7 +277,7 @@ class RE_Database
 					$match  = 'referrer';
 					$action = 'url';
 					$data   = array ('referrer' => $data['referrer'], 'regex' => $data['regex'], 'url_from' => $data['url'][0], 'url_notfrom' => $data['url'][1]);
-					$data   = wpdb::escape (serialize ($data));
+					$data   = $wpdb->escape (serialize ($data));
 					
 					if ($row->type == 'pass')
 						$action = 'pass';

@@ -1,9 +1,12 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
+
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
 
-	<p><?php _e ('Redirection has required a great deal of time and effort to develop.  If it\'s been useful to you then you can support this development by <strong>making a small donation of $8</strong>.  This will act as an incentive for me to carry on developing it, providing countless hours of support, and including any enhancements that are suggested.', 'redirection'); ?></p>
+	<?php $this->submenu (true); ?>
+
+	<p style="clear: both"><?php _e ('Redirection has required a great deal of time and effort to develop.  If it\'s been useful to you then you can support this development by <strong>making a small donation of $8</strong>.  This will act as an incentive for me to carry on developing it, providing countless hours of support, and including any enhancements that are suggested.', 'redirection'); ?></p>
 	
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_xclick"/>
@@ -33,8 +36,6 @@
 	<ul>
 		<li><a href="http://urbangiraffe.com/plugins/headspace2/"><strong><?php _e ('HeadSpace', 'redirection'); ?></strong></a> - <?php _e ('The most complete SEO meta-data manager and all-round general purpose plugin for WordPress.  Replace five or six plugins with one single super-plugin!', 'redirection'); ?></li>
 		<li><a href="http://urbangiraffe.com/plugins/search-unleashed/"><strong><?php _e ('Search Unleashed', 'redirection'); ?></strong></a> - <?php _e ('Attractive searches that go beyond the default WordPress search and increase the usefulness of your site.', 'redirection'); ?></li>
-		<li><a href="http://urbangiraffe.com/plugins/sniplets/"><strong><?php _e ('Sniplets', 'redirection'); ?></strong></a> - <?php _e ('very flexible and powerful text insertion that allows you to insert what you want, wherever you want it.', 'redirection'); ?></li>
+		<li><a href="http://urbangiraffe.com/plugins/sniplets/"><strong><?php _e ('Sniplets', 'redirection'); ?></strong></a> - <?php _e ('Very flexible and powerful text insertion that allows you to insert what you want, wherever you want it.', 'redirection'); ?></li>
 	</ul>
-	
-	<p><?php _e ('This notice will only be shown at periodic intervals.', 'redirection'); ?></p>
 </div>
