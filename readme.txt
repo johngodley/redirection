@@ -19,7 +19,6 @@ New features include:
 * Full logs for all redirected URLs
 * All URLs can be redirected, not just ones that don't exist
 * Redirection methods - redirect based upon login status, redirect to random pages, redirect based upon the referrer!
-* WordPress 2.7+ only
 
 Existing features include:
 
