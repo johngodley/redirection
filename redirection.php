@@ -101,6 +101,7 @@ class Redirection extends Redirection_Plugin {
 			$this->add_action( 'admin_head', 'wp_print_styles' );
 			$this->add_action( 'init', 'inject' );
 			$this->add_filter( 'contextual_help', 'contextual_help', 10, 2 );
+			$this->add_action( 'admin_footer' );
 			
 			$this->register_plugin_settings( __FILE__ );
 		}
@@ -186,8 +187,10 @@ class Redirection extends Redirection_Plugin {
 	}
 	
 	function admin_head() {
-		if ( strpos( $_SERVER['REQUEST_URI'], 'redirection.php' ) )
-			$this->render_admin( 'head', array( 'type' => $_GET['sub'] == '' ? '301' : $_GET['sub'] ) );
+		$sub = isset($_GET['sub']) ? $_GET['sub'] : '';
+		
+		if ( isset($_GET['page']) && $_GET['page'] == 'redirection.php' )
+			$this->render_admin( 'head', array( 'type' => $sub == '' ? '301' : $sub ) );
 	}
 	
 	function admin_menu() {
@@ -210,21 +213,23 @@ class Redirection extends Redirection_Plugin {
 	  
 		$sub     = $this->submenu();	
 		$options = $this->get_options();
-		
-		if ( $_GET['sub'] == 'log' )
-			return $this->admin_screen_log();
-	  elseif ( $_GET['sub'] == 'options' )
-	    return $this->admin_screen_options();
-	  elseif ( $_GET['sub'] == 'process' )
-	    return $this->admin_screen_process();
-	  elseif ( $_GET['sub'] == 'groups' )
-			return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
-		elseif ( $_GET['sub'] == 'modules' )
-			return $this->admin_screen_modules();
-		elseif ( $_GET['sub'] == 'support' )
-			return $this->render_admin('support');
-		else
-			return $this->admin_redirects(isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
+
+		if ( isset($_GET['sub']) ) {
+			if ( $_GET['sub'] == 'log' )
+				return $this->admin_screen_log();
+		  elseif ( $_GET['sub'] == 'options' )
+		    return $this->admin_screen_options();
+		  elseif ( $_GET['sub'] == 'process' )
+		    return $this->admin_screen_process();
+		  elseif ( $_GET['sub'] == 'groups' )
+				return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
+			elseif ( $_GET['sub'] == 'modules' )
+				return $this->admin_screen_modules();
+			elseif ( $_GET['sub'] == 'support' )
+				return $this->render_admin('support');
+		}
+
+		return $this->admin_redirects(isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
 	}
 	
 	function admin_screen_modules() {
@@ -249,7 +254,7 @@ class Redirection extends Redirection_Plugin {
 			$options = array();
 			
 		$defaults = array	(
-			'lookup'            => 'http://geomaplookup.cinnamonthoughts.org/?ip=',
+			'lookup'            => 'http://urbangiraffe.com/map/?from=redirection&amp;ip=',
 			'support'           => false,
 			'expire'            => 0,
 			'token'             => '',
@@ -262,13 +267,16 @@ class Redirection extends Redirection_Plugin {
 				$options[$key] = $value;
 		}
 		
+		if ($options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=')
+			$options['lookup'] = 'http://urbangiraffe.com/map/?from=redirection&amp;ip=';
+		
 		return $options;
 	}
 	
 	function inject() {
 		$options = $this->get_options();
 		
-		if ( ( current_user_can( 'administrator' ) || $_GET['token'] == $options['token'] ) && $_GET['page'] == 'redirection.php' && in_array( $_GET['sub'], array( 'rss', 'xml', 'csv', 'apache' ) ) ) {
+		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' && in_array( $_GET['sub'], array( 'rss', 'xml', 'csv', 'apache' ) ) ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
 			$exporter = new Red_FileIO;
@@ -381,9 +389,30 @@ class Redirection extends Redirection_Plugin {
 		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC' );
 		$items = Red_Item::get_by_group( $group, $pager );
 
-  	$this->render_admin( 'item_list', array( 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select() ) );
+  	$this->render_admin( 'item_list', array( 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option('date_format')) );
 	}
 	
+		/**
+		 * Displays the nice animated support logo
+		 *
+		 * @return void
+		 **/
+		function admin_footer() {
+			if ( isset($_GET['page']) && $_GET['page'] == basename( __FILE__ ) ) {
+				$options = $this->get_options();
+
+				if ( !$options['support'] ) {
+	?>
+	<script type="text/javascript" charset="utf-8">
+		jQuery(function() {
+			jQuery('#support-annoy').animate( { opacity: 0.2, backgroundColor: 'red' } ).animate( { opacity: 1, backgroundColor: 'yellow' });
+		});
+	</script>
+	<?php
+				}
+			}
+		}
+		
 	function setMatched( $match ) {
 		$this->hasMatched = $match;
 	}

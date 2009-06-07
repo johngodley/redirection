@@ -49,7 +49,7 @@ class URL_Match extends Red_Match
 	
 	function save ($details)
 	{
-		if (strlen ($details) == 0)
+		if (strlen ($details['target']) == 0)
 			$details['target'] = '/';
 			
 		return array ('url' => $details['target']);

@@ -1,5 +1,5 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
-<div class="wrap"> <?php if ($pos % 2 == 1) echo ' class="alt"' ?>
+<div class="wrap">
 	<?php screen_icon(); ?>
 	<?php $this->render_admin('annoy')?>
 
@@ -15,7 +15,7 @@
 		<p class="search-box">
 			<label for="post-search-input" class="hidden"><?php _e ('Search', 'redirection') ?>:</label>
 
-			<input type="text" class="search-input" name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
+			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars ($_GET['search']) : ''?>"/>
 			<?php if (isset ($_GET['search']) && $_GET['search'] != '') : ?>
 				<input type="hidden" name="ss" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
 			<?php endif;?>
@@ -67,7 +67,7 @@
 			<th style="width:9em"<?php $pager->sortable_class ('created') ?>><?php echo $pager->sortable ('created', __ ('Date', 'redirection')) ?></th>
 			<th<?php $pager->sortable_class ('url') ?>><?php echo $pager->sortable ('url', __ ('Source URL', 'redirection')); ?></th>
 			<th<?php $pager->sortable_class ('referrer') ?>><?php echo $pager->sortable ('referrer', __ ('Referrer', 'redirection')); ?></th>
-			<th style="width:7em" class="center<?php $pager->sortable_class ('ip', false) ?>"><?php echo $pager->sortable ('ip', __ ('IP', 'redirection')); ?></th>
+			<th style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>"><?php echo $pager->sortable ('ip', __ ('IP', 'redirection')); ?></th>
 			<th style="width:16px"></th>
 		</tr>
 		</thead>

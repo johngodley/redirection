@@ -14,11 +14,11 @@
 
 			<?php _e ('Module', 'redirection'); ?>:
 			<select name="id">
-				<?php echo $this->select ($modules, $_GET['id'])?>
+				<?php echo $this->select ($modules, isset($_GET['id']) ? $_GET['id'] : '')?>
 			</select>
 			
 			<?php _e ('Search', 'redirection'); ?>: 
-			<input type="text" class="search-input" name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>" style="font-size: 0.8em"/>
+			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars ($_GET['search']) : '' ?>" style="font-size: 0.8em"/>
 
 			<?php $pager->per_page ('redirection'); ?>
 

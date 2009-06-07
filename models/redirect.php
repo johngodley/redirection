@@ -317,7 +317,7 @@ class Red_Item
 		$matches = false;
 
 		// Check if we match the URL
-		if (($this->regex == false && ($this->url == $url || $this->url == rtrim ($url, '/'))) || ($this->regex == true && preg_match ('@'.str_replace ('@', '\\@', $this->url).'@', $url, $matches) > 0))
+		if (($this->regex == false && ($this->url == $url || $this->url == rtrim ($url, '/'))) || ($this->regex == true && @preg_match ('@'.str_replace ('@', '\\@', $this->url).'@', $url, $matches) > 0))
 		{
 			// Check if our match wants this URL
 			$target = $this->match->get_target ($url, $this->url, $this->regex);
@@ -335,11 +335,11 @@ class Red_Item
 	function replaceSpecialTags ($target)
 	{
 		$user = wp_get_current_user ();
-		if ($user)
+		if (!empty($user))
 		{
 			$target = str_replace ('%userid%', $user->ID, $target);
-			$target = str_replace ('%userlogin%', $user->user_login, $target);
-			$target = str_replace ('%userurl%', $user->user_url, $target);
+			$target = str_replace ('%userlogin%', isset($user->user_login) ? $user->user_login : '', $target);
+			$target = str_replace ('%userurl%', isset($user->user_url) ? $user->user_url : '', $target);
 		}
 		
 		return $target;
@@ -360,7 +360,7 @@ class Red_Item
 			else if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']))
 			  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 		
-			$log = RE_Log::create ($url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, $_SERVER['HTTP_REFERER'], $this->id, $this->module_id, $this->group_id);
+			$log = RE_Log::create ($url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '', $this->id, $this->module_id, $this->group_id);
 		}
 	}
 	

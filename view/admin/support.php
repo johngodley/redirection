@@ -6,13 +6,13 @@
 
 	<?php $this->submenu (true); ?>
 
-	<p style="clear: both"><?php _e ('Redirection has required a great deal of time and effort to develop.  If it\'s been useful to you then you can support this development by <strong>making a small donation of $8</strong>.  This will act as an incentive for me to carry on developing it, providing countless hours of support, and including any enhancements that are suggested.', 'redirection'); ?></p>
+	<p style="clear: both"><?php _e ('Redirection has required a great deal of time and effort to develop.  If it\'s been useful to you then you can support this development by <strong>making a small donation of $12</strong>.  This will act as an incentive for me to carry on developing it, providing countless hours of support, and including any enhancements that are suggested.', 'redirection'); ?></p>
 	
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_xclick"/>
 		<input type="hidden" name="business" value="admin@urbangiraffe.com"/>
 		<input type="hidden" name="item_name" value="Redirection"/>
-		<input type="hidden" name="amount" value="8.00"/>
+		<input type="hidden" name="amount" value="12.00"/>
 		<input type="hidden" name="buyer_credit_promo_code" value=""/>
 		<input type="hidden" name="buyer_credit_product_category" value=""/>
 		<input type="hidden" name="buyer_credit_shipping_method" value=""/>

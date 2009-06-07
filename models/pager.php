@@ -110,13 +110,10 @@ class RE_Pager
 		if (isset ($data['order']))
 			$this->order_direction = $data['order'];
 		
-		$this->search = $data['search'];
+		$this->search = isset($data['search']) ? $data['search'] : '';
 		$this->steps = array (10, 25, 50, 100, 250);
 		$this->url = str_replace ('&', '&amp;', $this->url);
 		$this->url = str_replace ('&&amp;', '&amp;', $this->url);
-
-		if (!isset ($data['ss']) && $this->search != $data['ss'])
-			$this->current_page = 1;
 	}
 	
 	
@@ -365,6 +362,7 @@ class RE_Pager
 	function sortable ($column, $text, $image = true)
 	{
 		$url = $this->url ($this->current_page, $column);
+		$img = '';
 		
 		if (isset ($this->order_tags[$column]))
 			$column = $this->order_tags[$column];
@@ -380,7 +378,7 @@ class RE_Pager
 				$img = '<img align="bottom" src="'.$dir.'/images/up.gif" alt="dir" width="16" height="7"/>';
 			else
 				$img = '<img align="bottom" src="'.$dir.'/images/down.gif" alt="dir" width="16" height="7"/>';
-			
+							
 			if ($image == false)
 				$img = '';
 		}

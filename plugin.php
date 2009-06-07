@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley(http://urbangiraffe.com)
-// @version    0.2.2
+// @version    0.2.4
 // @copyright  Copyright &copy; 2009 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -43,6 +43,8 @@
 // 0.2    - WP Coding style
 // 0.2.1  - Better HTTPS detection
 // 0.2.2  - Plugin settings, base function
+// 0.2.3  - More HTTPS
+// 0.2.4  - Ajax helper, more compatability functions
 // ======================================================================================
 
 
@@ -101,8 +103,7 @@
  * @copyright Copyright(C) John Godley
  **/
 
-class Redirection_Plugin
-{
+class Redirection_Plugin {
 	/**
 	 * Plugin name
 	 * @var string
@@ -136,9 +137,14 @@ class Redirection_Plugin
 		
 		global $wp_version;
 		if ( version_compare( $wp_version, '2.7', '<' ) )
-			$this->add_action( 'admin_menu', 'compatibility' );
+			$this->add_action( 'admin_menu', 'compatibility_27' );
+
+		if ( version_compare( $wp_version, '2.6', '<' ) )
+			$this->add_action( 'admin_menu', 'compatibility_26' );
 
 		if ( version_compare( $wp_version, '2.5', '<' ) ) {
+			$this->add_action( 'admin_menu', 'compatibility_25' );
+
 			if ( !function_exists( 'is_front_page' ) ) {
 				function is_front_page ( ) {
 					return is_home ();
@@ -147,11 +153,71 @@ class Redirection_Plugin
 		}
 	}
 
+	function compatibility_25() {
+		if ( !function_exists( 'check_ajax_referer' ) ) {
+			function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
+				if ( $query_arg )
+					$nonce = $_REQUEST[$query_arg];
+				else
+					$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
+
+				$result = wp_verify_nonce( $nonce, $action );
+
+				if ( $die && false == $result )
+					die('-1');
+
+				do_action('check_ajax_referer', $action, $result);
+
+				return $result;
+			}
+		}
+	}
+
+	function compatibility_26() {
+		if ( !function_exists( 'admin_url' ) ) {
+			function admin_url() {
+				$url = site_url('wp-admin/', 'admin');
+
+				if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+					$url .= ltrim($path, '/');
+
+				return $url;
+			}
+		}
+		
+		if ( !function_exists( 'is_ssl' ) ) {
+			function is_ssl() {
+				if ( isset($_SERVER['HTTPS']) ) {
+					if ( 'on' == strtolower($_SERVER['HTTPS']) )
+						return true;
+					if ( '1' == $_SERVER['HTTPS'] )
+						return true;
+					} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
+						return true;
+					}
+					return false;
+				}		
+		}
+		
+		if ( !function_exists( 'site_url' ) ) {
+			function site_url($path = '', $scheme = null) {
+				$scheme = ( is_ssl() ? 'https' : 'http' );
+
+				$url = str_replace( 'http://', "{$scheme}://", get_option('siteurl') );
+
+				if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
+					$url .= '/' . ltrim($path, '/');
+
+				return apply_filters('site_url', $url, $path, $orig_scheme);
+			}
+		}
+	}
+	
 	/**
 	 * Backwards compatible admin functions
 	 * @return void
 	 **/
-	function compatibility() {
+	function compatibility_27() {
 		if ( !function_exists( 'screen_icon' ) ) {
 			function screen_icon() {
 			}
@@ -218,7 +284,10 @@ class Redirection_Plugin
 		add_action( 'activate_'.basename( dirname( $pluginfile ) ).'/'.basename( $pluginfile ), array( &$this, $function == '' ? 'activate' : $function ) );
 	}
 
-
+	function register_ajax( $action, $function = '', $priority = 10 ) {
+		add_action( 'wp_ajax_'.$action, array( &$this, $function == '' ? $action : $function ), $priority );
+	}
+	
 	/**
 	 * Special deactivation function that takes into account the plugin directory
 	 *
@@ -350,8 +419,7 @@ class Redirection_Plugin
 		return $this->plugin_base;
 	}
 
-	function base ()
-	{
+	function base () {
 		$parts = explode( '?', basename( $_SERVER['REQUEST_URI'] ) );
 		return $parts[0];
 	}
@@ -382,7 +450,7 @@ class Redirection_Plugin
 
 		// Do an SSL check - only works on Apache
 		global $is_IIS;
-		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'ON' && !$is_IIS )
+		if ( isset( $_SERVER['HTTPS'] ) && strtolower( $_SERVER['HTTPS'] ) == 'on' && $is_IIS === false )
 			$url = str_replace( 'http://', 'https://', $url );
 
 		return $url;
@@ -508,5 +576,3 @@ if ( !function_exists( 'pr' ) ) {
 		echo '</pre>';
 	}
 }
-
-?>

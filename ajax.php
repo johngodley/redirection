@@ -311,8 +311,12 @@ class Redirection_AJAX extends Redirection_Plugin
 	function show_module ($id)
 	{
 		$module = Red_Module::get ($id);
-		if ($module)
-			$this->render_admin ('module_item', array ('module' => $module));
+		if ($module) {
+			global $redirection;
+			$options = $redirection->get_options();
+			
+			$this->render_admin ('module_item', array ('module' => $module, 'token' => $options['token']));
+		}
 		else
 			$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 	}
@@ -324,9 +328,11 @@ class Redirection_AJAX extends Redirection_Plugin
 			$module = Red_Module::get ($id);
 			if ($module)
 			{
+				global $redirection;
+				$options = $redirection->get_options();
 				$module->update ($_POST);
 		
-				$this->render_admin ('module_item', array ('module' => $module));
+				$this->render_admin ('module_item', array ('module' => $module, 'token' => $options['token']));
 			}
 			else
 				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
@@ -349,12 +355,20 @@ class Redirection_AJAX extends Redirection_Plugin
 			$module = Red_Module::get ($id);
 			if ($module)
 			{
+				global $redirection;
+				$options = $redirection->get_options();
+
 				$module->reset ();
-				$this->render_admin ('module_item', array ('module' => $module));
+				$this->render_admin ('module_item', array ('module' => $module, 'token' => $options['token']));
 			}
 			else
 				$this->render_admin ('error', array ('message' => __ ('Failed to retrieve group data', 'redirection'), 'file' => __FILE__, 'line' => __LINE__));
 		}
+	}
+	
+	function base () {
+		$parts = explode( '?', basename( $_SERVER['REQUEST_URI'] ) );
+		return str_replace('ajax', 'tools', $parts[0]);
 	}
 }
 

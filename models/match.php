@@ -28,7 +28,7 @@ class Red_Match
 	{
 		if ($values)
 		{
-			$obj = unserialize ($values);
+			$obj = @unserialize ($values);
 			if ($obj === false)
 				$this->url = $values;
 			else

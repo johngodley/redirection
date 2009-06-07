@@ -31,7 +31,7 @@
 	    <th align="right"><?php _e ('Target URL', 'redirection') ?>:</th>
 	    <td><input type="text" name="target" style="width: 95%"/></td>
 	  </tr>
-		<?php if ($group == '') : ?>
+		<?php if (isset($group) && $group == '') : ?>
 		<tr>
 			<th><?php _e ('Group', 'redirection'); ?>:</th>
 			<td><select name="group"><?php echo $this->select (Red_Group::get_for_select (), isset ($_GET['group']) ? intval ($_GET['group']) : 0)?></select></td>
@@ -41,7 +41,7 @@
 	    <th></th>
 	    <td>
 				<input class="button-primary" type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
-				<?php if ($group) : ?>
+				<?php if (isset($group)) : ?>
 				<input type="hidden" name="group" value="<?php echo $group ?>"/>
 				<?php endif; ?>
 				
@@ -65,7 +65,7 @@
           jQuery('#error').html (response);
         else
         {
-					<?php if ($add_to_screen) : ?>
+					<?php if (isset($add_to_screen)) : ?>
 					jQuery('#items').append (response);
 					<?php endif; ?>
 

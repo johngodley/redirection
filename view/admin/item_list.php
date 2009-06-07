@@ -11,7 +11,7 @@
 		<form method="get" action="<?php echo $this->url ($pager->url) ?>">
 			<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
 			<input type="hidden" name="curpage" value="<?php echo $pager->current_page () ?>"/>
-			<input type="hidden" name="sub" value="<?php echo $_GET['sub'] ?>"/>
+			<input type="hidden" name="sub" value="<?php echo isset($_GET['sub']) ? $_GET['sub'] : ''?>"/>
 
 			<?php _e ('Group', 'redirection'); ?>:
 			<select name="id">
@@ -19,7 +19,7 @@
 			</select>
 			
 			<?php _e ('Search', 'redirection'); ?>: 
-			<input type="text" class="search-input"  name="search" value="<?php echo htmlspecialchars ($_GET['search']) ?>" style="font-size: 0.8em"/>
+			<input type="text" class="search-input"  name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars ($_GET['search']) : '' ?>" style="font-size: 0.8em"/>
 
 			<?php $pager->per_page ('redirection'); ?>
 
@@ -91,7 +91,7 @@
 	<?php endif; ?>
 </div>
 
-<?php $this->render_admin ('add', array ('methods' => $methods, 'add_to_screen' => true, 'group' => $group->id)) ?>
+<?php $this->render_admin ('add', array ('add_to_screen' => true, 'group' => $group->id, 'hidden' => false)) ?>
 
 <script type="text/javascript" charset="utf-8">
 	jQuery(document).ready(function()

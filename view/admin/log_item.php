@@ -13,7 +13,7 @@
 	<a href="<?php echo $this->url ($log->referrer) ?>"><?php echo $log->show_url ($log->referrer ()) ?></a>
 	<?php endif; ?>
 </td>
-<td style="width:7em" class="center<?php $pager->sortable_class ('ip', false) ?>">
+<td style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>">
 	<a target="_blank" href="<?php echo $lookup.$log->ip ?>"><?php echo htmlspecialchars ($log->ip) ?></a>
 </td>
 <td style="width: 16px" class="lastcol">

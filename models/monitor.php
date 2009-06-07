@@ -102,11 +102,6 @@ class Red_Monitor
 			$old_url = parse_url ($oldslug);
 			$new_url = parse_url ($newslug);
 
-			$conflicting_items = Red_Item::get_for_url ($new_url['path'], 'wp');
-			foreach ($conflicting_items as $item) {
-				Red_Item::delete ($item->id);
-			}
-
 			Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'action' => 'url', 'group' => $this->monitor_post));
 		}
 	}

@@ -6,6 +6,7 @@ class WordPress_Module extends Red_Module
 	var $strip_index  = 'default';
 	var $error_level  = 'default';
 	var $time_limit   = 0;
+	var $matched;
 
 	function start ()
 	{
@@ -56,12 +57,12 @@ class WordPress_Module extends Red_Module
 		}
 	}
 	
-	function protected_url ()
+	function protected_url ($url)
 	{
 		global $redirection;
 		$part = explode ('?', $url);
 		
-		if ($part[0] == str_replace (get_bloginfo ('home'), '', $redirection->url ()).'/ajax.php')
+		if ($part[0] == str_replace (get_bloginfo ('home'), '', $redirection->url ()).'/ajax.php' || strpos($url, 'wp-cron.php') !== false)
 			return true;
 		return false;
 	}
@@ -117,7 +118,7 @@ class WordPress_Module extends Red_Module
 
 	function send_headers ($obj)
 	{
-		if ($this->matched->type == '410')
+		if ( !empty($this->matched) && $this->matched->type == '410')
 			status_header (410);
 	}
 
