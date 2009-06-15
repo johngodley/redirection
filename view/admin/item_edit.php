@@ -1,5 +1,5 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
-<form method="post" accept-charset="utf-8" action="<?php echo $this->url (); ?>/ajax.php?id=<?php echo $redirect->id ?>&amp;cmd=save_redirect&amp;_ajax_nonce=<?php echo wp_create_nonce ('redirection-item_save')?>" id="redirect_form_<?php echo $redirect->id ?>" style="padding: 3px">
+<form method="post" accept-charset="utf-8" action="<?php echo admin_url( 'admin-ajax.php' ) ?>" style="padding: 3px">
 	<h3><?php printf (__ ('%s by matching %s', 'redirection'), $redirect->actions ($redirect->action_type), $redirect->match->name ()) ?></h3>
 	
 	<table class="edit">
@@ -25,22 +25,14 @@
 			<th></th>
 			<td>
 				<input class="button-primary" type="submit" name="save" value="<?php _e ('Save', 'redirection'); ?>"/>
-				<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>" onclick="return show_redirect(<?php echo $redirect->id ?>);"/>
-			
+				<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>"/>
+
+				<input type="hidden" name="action" value="red_redirect_save"/>
+				<input type="hidden" name="id" value="<?php echo $redirect->id; ?>"/>
+				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_save_'.$redirect->id ); ?>"/>
+
 				<span id="info_<?php echo $redirect->id ?>"></span>
 			</td>
 		</tr>
 	</table>
 </form>
-
-<script type="text/javascript" charset="utf-8">
-	 jQuery('#redirect_form_<?php echo $redirect->id ?>').ajaxForm ( { beforeSubmit: function ()
-			{
-  			jQuery('#info_<?php echo $redirect->id ?>').html (wp_progress);
-			},
-			success: function (response)
-			{
-				jQuery('#item_<?php echo $redirect->id ?>').html (response);
-				editItems ('edit_redirect');
-			}});
-</script>

@@ -1,6 +1,5 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <script type="text/javascript">
-  wp_base        = '<?php echo $this->url () ?>/';
   wp_please_wait = '<?php _e ('Please wait...', 'redirection') ?>';
 	wp_type        = '<?php echo $type ?>';
 	wp_progress    = '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>';

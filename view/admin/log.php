@@ -30,7 +30,7 @@
 					<option value="delete"><?php _e('Delete'); ?></option>
 				</select>
 				
-				<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="doaction2" class="button-secondary action" />
+				<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="actionator" class="button-secondary action" />
 
 				<?php $pager->per_page ('redirection'); ?>
 
@@ -59,25 +59,27 @@
 
 	<?php if (count ($logs) > 0) : ?>
 		<table class="widefat post fixed" id="items" cellspacing="0" cellpadding="0">
-		<thead>
-		<tr>
-			<th width="16" class="check-column">
-				<input type="checkbox" name="select_all" value="" onclick="select_all (); return true"/>
-			</th>
-			<th style="width:9em"<?php $pager->sortable_class ('created') ?>><?php echo $pager->sortable ('created', __ ('Date', 'redirection')) ?></th>
-			<th<?php $pager->sortable_class ('url') ?>><?php echo $pager->sortable ('url', __ ('Source URL', 'redirection')); ?></th>
-			<th<?php $pager->sortable_class ('referrer') ?>><?php echo $pager->sortable ('referrer', __ ('Referrer', 'redirection')); ?></th>
-			<th style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>"><?php echo $pager->sortable ('ip', __ ('IP', 'redirection')); ?></th>
-			<th style="width:16px"></th>
-		</tr>
-		</thead>
-		
-		<?php foreach ($logs AS $pos => $log) : ?>
-			<tr id="item_<?php echo $log->id ?>" <?php if ($pos % 2 == 1) echo ' class="alt"' ?>>
-				<?php $this->render_admin ('log_item', array ('log' => $log, 'pos' => $pos, 'lookup' => $lookup, 'pager' => $pager)); ?>
+			<thead>
+			<tr>
+				<th width="16" class="manage-column column-cb check-column">
+					<input type="checkbox" name="select_all" value="" onclick="select_all (); return true"/>
+				</th>
+				<th style="width:9em"<?php $pager->sortable_class ('created') ?>><?php echo $pager->sortable ('created', __ ('Date', 'redirection')) ?></th>
+				<th><?php echo $pager->sortable ('url', __ ('Source URL', 'redirection')); ?></th>
+				<th><?php echo $pager->sortable ('referrer', __ ('Referrer', 'redirection')); ?></th>
+				<th style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>"><?php echo $pager->sortable ('ip', __ ('IP', 'redirection')); ?></th>
+				<th style="width:16px"></th>
 			</tr>
-		<?php endforeach; ?>
-	</table>
+			</thead>
+		
+			<tbody>
+			<?php foreach ($logs AS $pos => $log) : ?>
+				<tr id="item_<?php echo $log->id ?>" <?php if ($pos % 2 == 1) echo ' class="alt"' ?>>
+					<?php $this->render_admin ('log_item', array ('log' => $log, 'pos' => $pos, 'lookup' => $lookup, 'pager' => $pager)); ?>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
 
 	<?php else : ?>
 	<p><?php _e ('There are no logs to display!', 'redirection'); ?></p>
@@ -100,16 +102,15 @@
 	</form>
 </div>
 
-<script type="text/javascript" charset="utf-8">
-	jQuery(document).ready(function()
-	{ 
-		showLogs ();
-		
-		jQuery('#doaction2').click (function ()
-		{
-			if (jQuery('#action2_select').attr ('value') == 'delete')
-				delete_items ('log','<?php echo wp_create_nonce ('redirection-delete_items'); ?>');
-			return false;
-		});
+<script type="text/javascript">
+jQuery(document).ready( function() {
+	var redirection = new Redirection( {
+		progress: '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>',
+		ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ) ?>',
+		nonce: '<?php echo wp_create_nonce( 'redirection-items' ); ?>',
+		none_select: '<?php _e( 'No items have been selected', 'redirection' ); ?>',
+		are_you_sure: '<?php _e( 'Are you sure?', 'redirection'); ?>',
 	});
+	redirection.logs();
+});
 </script>

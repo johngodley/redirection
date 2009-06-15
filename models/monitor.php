@@ -39,7 +39,7 @@ class Red_Monitor
 				'source' => '',
 				'target' => substr (get_permalink ($post->ID), strlen (get_bloginfo ('home'))),
 				'match'  => 'url',
-				'action' => 'url',
+				'red_action' => 'url',
 				'regex'  => false,
 				'group'  => $this->monitor_post
 			);
@@ -72,7 +72,7 @@ class Red_Monitor
 				'source' => '^'.$_POST['redirection_slug'].'/(.*)$',
 				'target' => $new_url['path'].'/$1',
 				'match'  => 'url',
-				'action' => 'url',
+				'red_action' => 'url',
 				'regex'  => true,
 				'group'  => $this->monitor_post
 			);
@@ -102,7 +102,7 @@ class Red_Monitor
 			$old_url = parse_url ($oldslug);
 			$new_url = parse_url ($newslug);
 
-			Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'action' => 'url', 'group' => $this->monitor_post));
+			Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'red_action' => 'url', 'group' => $this->monitor_post));
 		}
 	}
 	
@@ -114,7 +114,7 @@ class Red_Monitor
 			$url  = get_permalink ($id);
 			$slug = parse_url ($url);
 
-			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
+			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'red_action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
 		}
 	}
 }

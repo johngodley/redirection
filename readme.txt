@@ -34,11 +34,12 @@ Existing features include:
 Redirection is available in:
 
 * English
-* French (thanks to [Oncle Tom](http://oncle-tom.net))
-* Hebrew (thanks to [Rami](http://www.bdihot.co.il/))
-* Spanish (thanks to [Juan](http://unahormiga.com>))
-* Simplified Chinese (thanks to [Sha Miao](http://shamiao.com))
-* Catalan (thanks to Robert Bu)
+* French by [Oncle Tom](http://oncle-tom.net)
+* Hebrew by [Rami](http://www.bdihot.co.il/)
+* Spanish by [Juan](http://unahormiga.com>)
+* Simplified Chinese by [Sha Miao](http://shamiao.com)
+* Catalan by [Robert Bu]()
+* Japanese by [Naoko McCracken](http://detlog.org/)
 
 == Installation ==
 

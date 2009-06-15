@@ -55,23 +55,24 @@
 
 		<?php if (count ($groups) > 0) : ?>
 		<div class="pager pagertools">
-			<a href="#" onclick="return select_all ()"><?php _e ('Select All', 'redirection'); ?></a> |
-			<a href="#" onclick="return toggle_items('group')"><?php _e ('Toggle', 'redirection'); ?></a> | 
-			<a href="#" onclick="return reset_items('group','<?php echo wp_create_nonce ('redirection-reset_items') ?>')"><?php _e ('Reset Hits', 'redirection'); ?></a> |
-			<a href="#" onclick="return delete_items('group','<?php echo wp_create_nonce ('redirection-delete_items') ?>')"><?php _e ('Delete', 'redirection'); ?></a> |
+			<a class="select-all" href="#select-all"><?php _e ('Select All', 'redirection'); ?></a> |
+			<a class="toggle-all" href="#toggle-all"><?php _e ('Toggle', 'redirection'); ?></a> | 
+			<a class="reset-all"  href="#reset-all"><?php _e ('Reset Hits', 'redirection'); ?></a> |
+			<a class="delete-all" href="#delete-all"><?php _e ('Delete', 'redirection'); ?></a> |
 
 			<?php _e ('Move To', 'redirection'); ?>:
 			<select name="move" id="move">
 				<?php echo $this->select ($modules)?>
 			</select>
-			<input class="button-secondary" type="submit" name="go" value="Go" onclick="return move_items('group','<?php echo wp_create_nonce ('redirection-move_items') ?>')"/>
+			
+			<input class="button-secondary move-all" type="submit" value="<?php _e( 'Go', 'redirection'); ?>"/>
 		</div>
 		
 		<div class="sort" id="sort">
 			<img src="<?php echo $this->url () ?>/images/sort.png" width="16" height="16" alt="Sort"/>
 
-			<a id="toggle_sort_on" onclick="return sort_order ();" href="#"><?php _e ('re-order', 'redirection'); ?></a>
-			<a id="toggle_sort_off" style="display: none" onclick="return save_group_order (<?php echo ($pager->current_page - 1) * $pager->per_page ?>,'<?php echo wp_create_nonce ('redirection-save_group_order') ?>');" href="#"><?php _e ('save order', 'redirection'); ?></a>
+			<a class="sort-on"   id="toggle_sort_on"  href="#"><?php _e ('re-order', 'redirection'); ?></a>
+			<a class="sort-save" id="toggle_sort_off"  href="#" style="display: none"><?php _e ('save order', 'redirection'); ?></a>
 		</div>
 		<?php endif; ?>
 	
@@ -106,9 +107,17 @@
 	</form>
 </div>
 
-<script type="text/javascript" charset="utf-8">
-	jQuery(document).ready(function()
-	{ 
-		editItems ('edit_group');
+<script type="text/javascript">
+jQuery(document).ready( function() {
+	var redirection = new Redirection( {
+		progress: '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>',
+		ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ) ?>',
+		nonce: '<?php echo wp_create_nonce( 'redirection-items' ); ?>',
+		none_select: '<?php _e( 'No items have been selected', 'redirection' ); ?>',
+		are_you_sure: '<?php _e( 'Are you sure?', 'redirection'); ?>',
+		page: <?php echo ($pager->current_page - 1) * $pager->per_page ?>
 	});
+	
+	redirection.edit_items( 'group' );
+});
 </script>

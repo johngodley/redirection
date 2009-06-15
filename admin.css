@@ -722,3 +722,29 @@ font-size: 1.2em;
 {
 text-align: center;
 }
+
+
+.bulleted li {
+list-style-type: square;
+margin-left: 20px;
+}
+
+.donations li
+{
+list-style-type: none;
+float: left;
+text-align: center;
+padding: 1em 2em;
+}
+
+.translators li
+{
+float: left;
+width: 300px;
+margin-left: 1.5em;
+}
+
+div .supporter strong
+{
+background-color: yellow;
+}

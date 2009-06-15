@@ -1,19 +1,21 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
-<td width="16" class="item center">
+<td width="16" class="center">
 	<input type="checkbox" class="check" name="checkall[]" value="<?php echo $log->id ?>"/>
 </td>
-<td style="width:9em"<?php $pager->sortable_class ('created') ?>>
-	<a href="#" class="show-log"><?php echo date (str_replace ('F', 'M', get_option ('date_format')), $log->created) ?></a>
+<td style="width:9em">
+	<a href="<?php echo admin_url( 'admin-ajax.php' ); ?>?action=red_log_show&amp;id=<?php echo $log->id ?>&amp;_ajax_nonce=<?php echo wp_create_nonce( 'redirection-log_'.$log->id )?>" class="show-log">
+		<?php echo date (str_replace ('F', 'M', get_option ('date_format')), $log->created) ?>
+	</a>
 </td>
-<td id="info_<?php echo $log->id ?>"<?php $pager->sortable_class ('url') ?>>
-	<a id="href_<?php echo $log->id ?>" href="<?php echo $log->url ?>" onclick="return toggle_log(<?php echo $log->id ?>)"><?php echo $log->show_url ($log->url) ?></a>
+<td class="info">
+	<a class="details" href="<?php echo $log->url ?>"><?php echo $log->show_url ($log->url) ?></a>
 </td>
-<td<?php $pager->sortable_class ('referrer') ?>>
+<td>
 	<?php if (strlen ($log->referrer) > 0) : ?>
 	<a href="<?php echo $this->url ($log->referrer) ?>"><?php echo $log->show_url ($log->referrer ()) ?></a>
 	<?php endif; ?>
 </td>
-<td style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>">
+<td style="width:9em" class="center">
 	<a target="_blank" href="<?php echo $lookup.$log->ip ?>"><?php echo htmlspecialchars ($log->ip) ?></a>
 </td>
 <td style="width: 16px" class="lastcol">

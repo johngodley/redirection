@@ -90,10 +90,10 @@ class Red_Apache_File extends Red_FileIO
 				foreach ($items AS $item)
 				{
 					$item['group']  = $group;
-					$item['action'] = 'url';
+					$item['red_action'] = 'url';
 					$item['match']  = 'url';
 					if ($item['code'] == 0)
-						$item['action'] = 'pass';
+						$item['red_action'] = 'pass';
 						
 					Red_Item::create ($item);
 				}

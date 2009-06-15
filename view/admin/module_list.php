@@ -56,3 +56,10 @@
 		</table>
 	</form>
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready( function() {
+	var redirection = new Redirection( { progress: '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>' });
+	redirection.modules();
+});
+</script>

@@ -3,36 +3,10 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.14
+Version: 2.1.15
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
-1.1    - Added .htaccess processing, counter reset, and Search Regex
-         Better item deletion, and infinite redirection protection
-1.2    - AJAX support(delete/edit), split admin interface, bug fixes, better regex, redirections to external sites
-1.3    - Highlight internal redirects.  Fix bug in Google code
-1.4    - Change to wpurl
-1.5    - Make non-regex pattern not match subpatterns of itself
-1.6    - Allow 'custom' scripts
-1.7    - Interface redesign and feature upgrade
-1.7.9  - Fix bug with PHP4. Add search box and IP lookup service.  Add log delete function & update notification.  Add 410.
-         Add optional global 404 redirect
-1.7.10 - Fix bug where other plugins that hook redirections wouldn't work when no redirections are defined
-1.7.11 - Fix bug where index.html was not being redirected correctly
-1.7.12 - Better database performance, clean up log display, make usable in WP 2.0+
-1.7.13 - Workaround for FastCGI bug
-1.7.14 - Add delete option, stop AJAX from looping on a bad redirection
-1.7.15 - Minor bug fix, show redirect names in drop-down list, add auto-generated target URL
-1.7.16 - Prevent errors caused by magic _vti_cnf.php files
-1.7.17 - Add option to disable 404 logs
-1.7.18 - Add auto-generation for source URL
-1.7.19 - Better database installation, better auto-generation
-1.7.20 - Workaround for the FastCGI workaround.  Hide canonical options for WP2.3
-1.7.21 - Fix activation bug
-1.7.22 - Allow carats in regex patterns, another FastCGI workaround
-1.7.23 - Stop FTP log files being picked up, RSS 404 log
-1.7.24 - Stop problems with mod_security
-1.7.25 - Fix database problem on some hosts
 2.0    - New version
 2.0.1  - Install defaults when no existing redirection setup
 2.0.2  - Correct DB install, fix IIS problem
@@ -61,6 +35,7 @@ Author URI: http://urbangiraffe.com
 2.1.12 - Add icons, disable category monitoring
 2.1.13 - Add Spanish and Chinese translation
 2.1.14 - Fix #457, add #475, #427, add Catalan translation. WP2.8 compatability
+2.1.15 - Use WP Ajax, add Japanese
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -104,6 +79,12 @@ class Redirection extends Redirection_Plugin {
 			$this->add_action( 'admin_footer' );
 			
 			$this->register_plugin_settings( __FILE__ );
+			
+			// Ajax functions
+			if ( defined( 'DOING_AJAX' ) ) {
+				include_once dirname( __FILE__ ).'/ajax.php';
+				$this->ajax = new RedirectionAjax();
+			}
 		}
 		else {
 			$this->update();
@@ -267,7 +248,7 @@ class Redirection extends Redirection_Plugin {
 				$options[$key] = $value;
 		}
 		
-		if ($options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=')
+		if ($options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=' || $options['lookup'] == 'http://geomaplookup.net/?ip=')
 			$options['lookup'] = 'http://urbangiraffe.com/map/?from=redirection&amp;ip=';
 		
 		return $options;
@@ -389,7 +370,7 @@ class Redirection extends Redirection_Plugin {
 		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC' );
 		$items = Red_Item::get_by_group( $group, $pager );
 
-  	$this->render_admin( 'item_list', array( 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option('date_format')) );
+  	$this->render_admin( 'item_list', array( 'items' => $items, 'modules' => Red_Group::get_for_select(), 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option('date_format')) );
 	}
 	
 		/**
@@ -419,6 +400,21 @@ class Redirection extends Redirection_Plugin {
 	
 	function hasMatched() {
 		return $this->hasMatched;
+	}
+	
+	function locales() {
+		$locales = array();
+		$readme  = @file_get_contents( dirname( __FILE__ ).'/readme.txt' );
+		if ( $readme ) {
+			if ( preg_match_all( '/^\* (.*?) by \[(.*?)\]\((.*?)\)/m', $readme, $matches ) ) {
+				foreach ( $matches[1] AS $pos => $match ) {
+					$locales[$match] = '<a href="'.$matches[3][$pos].'">'.$matches[2][$pos].'</a>';
+				}
+			}
+		}
+		
+		ksort( $locales );
+		return $locales;
 	}
 }
 

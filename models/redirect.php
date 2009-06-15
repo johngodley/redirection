@@ -188,7 +188,7 @@ class Red_Item
 			$match    = $wpdb->escape ($details['match']);
 			$regex    = (isset ($details['regex']) && $details['regex'] != false) ? true : false;
 			$url      = $wpdb->escape (Red_Item::sanitize_url ($details['source'], $regex));
-			$action   = $details['action'];
+			$action   = $details['red_action'];
 			$position = $wpdb->get_var ("SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE group_id='{$group_id}'");
 
 			$data = $wpdb->escape ($matcher->data ($details));

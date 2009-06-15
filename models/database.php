@@ -157,7 +157,7 @@ class RE_Database
 		{
 			foreach ($items AS $item)
 			{
-				$data = array ('old' => $item->url_old, 'type' => $item->type, 'action' => 'A_Redirector_URL', 'new' => $item->url_new);
+				$data = array ('old' => $item->url_old, 'type' => $item->type, 'red_action' => 'A_Redirector_URL', 'new' => $item->url_new);
 				if ($item->regex)
 					$data['regex'] = 'on';
 					

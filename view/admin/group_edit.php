@@ -1,6 +1,6 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="item" style="width:70%">
-	<form method="post" accept-charset="utf-8" action="<?php echo $this->url (); ?>/ajax.php?id=<?php echo $group->id ?>&amp;cmd=save_group&amp;_ajax_nonce=<?php echo wp_create_nonce ('redirection-save_group')?>" id="redirect_form_<?php echo $group->id ?>">
+	<form method="post" accept-charset="utf-8" action="<?php echo admin_url( 'admin-ajax.php' ) ?>">
 		<table class="edit">
 			<tr>
 				<th width="70"><?php _e ('Name', 'redirection'); ?>:</th>
@@ -18,23 +18,13 @@
 				<th width="70"></th>
 				<td>
 					<input class="button-primary" type="submit" name="save" value="<?php _e ('Save', 'redirection'); ?>"/>
-					<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>" onclick="return show_group(<?php echo $group->id ?>);"/>
-				
-					<span id="info_<?php echo $group->id ?>"></span>
+					<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>"/>
+					
+					<input type="hidden" name="action" value="red_group_save"/>
+					<input type="hidden" name="id" value="<?php echo $group->id; ?>"/>
+					<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce ('redirection-group_save_'.$group->id); ?>"/>
 				</td>
 			</tr>
 		</table>
 	</form>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-	 jQuery('#redirect_form_<?php echo $group->id ?>').ajaxForm ( { beforeSubmit: function ()
-			{
-  			jQuery('#info_<?php echo $group->id ?>').html (wp_progress);
-			},
-			success: function (response)
-			{
-				jQuery('#item_<?php echo $group->id ?>').html (response);
-				editItems ('edit_group');
-			}});
-</script>

@@ -45,6 +45,7 @@
 // 0.2.2  - Plugin settings, base function
 // 0.2.3  - More HTTPS
 // 0.2.4  - Ajax helper, more compatability functions
+// 0.2.5  - _n helper
 // ======================================================================================
 
 
@@ -574,5 +575,11 @@ if ( !function_exists( 'pr' ) ) {
 		echo '<pre>';
 		print_r( $thing );
 		echo '</pre>';
+	}
+}
+
+if ( !function_exists( '_n' ) ) {
+	function _n($single, $plural, $number, $domain = 'default') {
+		return __ngettext($single, $plural, $number, $domain = 'default');
 	}
 }

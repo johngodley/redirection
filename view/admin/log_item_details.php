@@ -23,7 +23,7 @@
 	<tr>
 		<td></td>
 		<td>
-			<input class="button-secondary" type="submit" name="cancel" value="Cancel" onclick="jQuery('#info_<?php echo $log->id ?>').load (wp_base + 'ajax.php?cmd=hide_log&amp;id=<?php echo $log->id ?>', {}, function () { showLogs () }); return false"/>
+			<input class="button-secondary" type="submit" name="cancel" value="Cancel"/>
 		</td>
 	</tr>
 </table>

@@ -89,7 +89,7 @@ class Red_Csv_File extends Red_FileIO
 	
 				if ($csv[0] != 'source' && $csv[1] != 'target')
 				{
-					Red_Item::create (array ('source' => trim ($csv[0]), 'target' => $csv[1], 'regex' => $this->is_regex ($csv[0]), 'group' => $group, 'match' => 'url', 'action' => $csv[2] == 0 ? 'pass' : 'url'));
+					Red_Item::create (array ('source' => trim ($csv[0]), 'target' => $csv[1], 'regex' => $this->is_regex ($csv[0]), 'group' => $group, 'match' => 'url', 'red_action' => $csv[2] == 0 ? 'pass' : 'url'));
 					$count++;
 				}
 			}

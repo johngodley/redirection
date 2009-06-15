@@ -6,7 +6,7 @@
 		<p><?php _e ('Your redirection has been added.', 'redirection'); ?></p>
 	</div>
 
-	<form method="post" action="<?php echo $this->url () ?>/ajax.php?id=0&amp;cmd=add_redirect&amp;_ajax_nonce=<?php echo wp_create_nonce ('redirection-add_redirect');?>" id="new-redirection">
+	<form method="post" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" id="new-redirection">
 	<table width="100%">
 	  <tr>
 	    <th align="right" width="100"><?php _e ('Source URL', 'redirection') ?>:</th>
@@ -20,7 +20,7 @@
 			</select>
 			
 			<strong><?php _e ('Action', 'redirection'); ?>:</strong>
-			<select name="action" onchange="return change_add_redirect (this)">
+			<select name="red_action" onchange="return change_add_redirect (this)">
 				<?php echo $this->select (Red_Item::actions (), 'url'); ?>
 			</select>
 			
@@ -45,6 +45,9 @@
 				<input type="hidden" name="group" value="<?php echo $group ?>"/>
 				<?php endif; ?>
 				
+				<input type="hidden" name="action" value="red_redirect_add"/>
+				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_add' ); ?>"/>
+				
 				<div id="error"></div>
 			</td>
 	  </tr>
@@ -53,27 +56,26 @@
 </div>
 
 <script type="text/javascript" charset="utf-8">
-	 jQuery('#new-redirection').ajaxForm ( { beforeSubmit: function ()
-			{
-  			jQuery('#loading').show ();
-			},
-			success: function (response)
-			{
-				jQuery('#loading').hide ();
+	jQuery( '#new-redirection' ).ajaxForm( {
+		beforeSubmit: function () {
+			jQuery( '#loading' ).show ();
+		},
+		success: function( response ) {
+			jQuery( '#loading' ).hide ();
 
-				if (response.indexOf ('fade error') != -1)
-          jQuery('#error').html (response);
-        else
-        {
-					<?php if (isset($add_to_screen)) : ?>
-					jQuery('#items').append (response);
-					<?php endif; ?>
+			if ( response.indexOf( 'fade error' ) != -1 )
+      	jQuery( '#error' ).html (response);
+	    else {
+				<?php if ( isset( $add_to_screen ) ) : ?>
+				jQuery( '#items' ).append( response );
+				<?php endif; ?>
 
-          jQuery('#error').hide ();
-          jQuery('#added').show ();
-          jQuery('#none').hide ();
+	      jQuery( '#error' ).hide();
+	      jQuery( '#added' ).show();
+	      jQuery( '#none' ).hide();
 
-					editItems ('edit_redirect');
-        }
-			}});
+				redirection.edit_items( 'redirect' );
+	    }
+		}
+	});
 </script>
