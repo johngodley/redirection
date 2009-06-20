@@ -94,7 +94,8 @@ var Redirection;
     }
 
     function delete_all( type ) {
-      var checked = $( 'input[name=checkall\\[\\]]:checked' );
+      var checked = $( 'input.check :checked' );
+      alert('here');
 
       if ( checked.length > 0 ) {
         if ( confirm( opts.are_you_sure ) ) {
