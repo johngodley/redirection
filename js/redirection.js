@@ -130,7 +130,7 @@ var Redirection;
       var item = $( element ).parents( type )
       var href = element.href;
       
-      if ( href.indexOf( 'admin-ajax.php' ) )
+      if ( href.indexOf( 'admin-ajax.php' ) == -1 )
         href = opts.ajaxurl + '?action=red_redirect_edit&id=' + item.attr( 'id' ).substr( 5 ) + '&_ajax_nonce=' + opts.nonce;
 
       $( item ).find( ':last' ).html( opts.progress );

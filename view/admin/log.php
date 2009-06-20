@@ -103,8 +103,10 @@
 </div>
 
 <script type="text/javascript">
+var redirection;
+
 jQuery(document).ready( function() {
-	var redirection = new Redirection( {
+	redirection = new Redirection( {
 		progress: '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>',
 		ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ) ?>',
 		nonce: '<?php echo wp_create_nonce( 'redirection-items' ); ?>',

@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.15
+Version: 2.1.16
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -36,6 +36,7 @@ Author URI: http://urbangiraffe.com
 2.1.13 - Add Spanish and Chinese translation
 2.1.14 - Fix #457, add #475, #427, add Catalan translation. WP2.8 compatability
 2.1.15 - Use WP Ajax, add Japanese
+2.1.16 - Fix group edit and log add entry
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -77,6 +78,7 @@ class Redirection extends Redirection_Plugin {
 			$this->add_action( 'init', 'inject' );
 			$this->add_filter( 'contextual_help', 'contextual_help', 10, 2 );
 			$this->add_action( 'admin_footer' );
+			$this->add_filter( 'print_scripts_array' );
 			
 			$this->register_plugin_settings( __FILE__ );
 			
@@ -98,6 +100,15 @@ class Redirection extends Redirection_Plugin {
 		}
 		
 		$this->monitor = new Red_Monitor($this->get_options());
+	}
+	
+	function print_scripts_array( $scripts ) {
+		$farb = array_search( 'farbtastic', $scripts );
+
+		if ( $farb && ( !isset( $_GET['page'] ) || $_GET['page'] != 'ozh_admin_menu' ) )
+			unset( $scripts[$farb] );
+
+		return $scripts;
 	}
 	
 	function plugin_settings( $links ) {

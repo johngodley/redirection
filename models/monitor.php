@@ -92,17 +92,19 @@ class Red_Monitor
 
 	function post_changed ($id)
 	{
-		$post    = get_post ($id);
-		$newslug = get_permalink ($id);
-		$oldslug = $_POST['redirection_slug'];
-		$base    = get_option ('home');
+		if (isset($_POST['redirection_slug'])) {
+			$post    = get_post ($id);
+			$newslug = get_permalink ($id);
+			$oldslug = $_POST['redirection_slug'];
+			$base    = get_option ('home');
 
-		if ($newslug != $oldslug && strlen ($oldslug) > 0 && ($post->post_status == 'publish' || $post->post_status == 'static') && $_POST['redirection_status'] != 'draft' && $_POST['redirection_status'] != 'pending' && $newslug != '/')
-		{
-			$old_url = parse_url ($oldslug);
-			$new_url = parse_url ($newslug);
+			if ($newslug != $oldslug && strlen ($oldslug) > 0 && ($post->post_status == 'publish' || $post->post_status == 'static') && $_POST['redirection_status'] != 'draft' && $_POST['redirection_status'] != 'pending' && $newslug != '/')
+			{
+				$old_url = parse_url ($oldslug);
+				$new_url = parse_url ($newslug);
 
-			Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'red_action' => 'url', 'group' => $this->monitor_post));
+				Red_Item::create (array ('source' => $old_url['path'], 'target' => $new_url['path'], 'match' => 'url', 'red_action' => 'url', 'group' => $this->monitor_post));
+			}
 		}
 	}
 	

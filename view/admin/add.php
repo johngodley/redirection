@@ -31,7 +31,7 @@
 	    <th align="right"><?php _e ('Target URL', 'redirection') ?>:</th>
 	    <td><input type="text" name="target" style="width: 95%"/></td>
 	  </tr>
-		<?php if (isset($group) && $group == '') : ?>
+		<?php if (!isset($group)) : ?>
 		<tr>
 			<th><?php _e ('Group', 'redirection'); ?>:</th>
 			<td><select name="group"><?php echo $this->select (Red_Group::get_for_select (), isset ($_GET['group']) ? intval ($_GET['group']) : 0)?></select></td>
