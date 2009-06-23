@@ -37,7 +37,7 @@ class WordPress_Module extends Red_Module
 		if (!$this->protected_url ($url) && !$redirection->hasMatched ())
 		{
 			do_action ('redirection_first', $url, $this);
-		
+
 			$redirects = Red_Item::get_for_url ($url, 'wp');
 			if (!empty ($redirects))
 			{

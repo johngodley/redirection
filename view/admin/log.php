@@ -61,8 +61,8 @@
 		<table class="widefat post fixed" id="items" cellspacing="0" cellpadding="0">
 			<thead>
 			<tr>
-				<th width="16" class="manage-column column-cb check-column">
-					<input type="checkbox" name="select_all" value="" onclick="select_all (); return true"/>
+				<th width="16" id="cb" class="manage-column column-cb check-column">
+					<input type="checkbox" name="checkall" value=""/>
 				</th>
 				<th style="width:9em"<?php $pager->sortable_class ('created') ?>><?php echo $pager->sortable ('created', __ ('Date', 'redirection')) ?></th>
 				<th><?php echo $pager->sortable ('url', __ ('Source URL', 'redirection')); ?></th>

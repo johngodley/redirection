@@ -94,8 +94,7 @@ var Redirection;
     }
 
     function delete_all( type ) {
-      var checked = $( 'input.check :checked' );
-      alert('here');
+      var checked = $( '.item :checked' );
 
       if ( checked.length > 0 ) {
         if ( confirm( opts.are_you_sure ) ) {
@@ -255,6 +254,14 @@ var Redirection;
         // Copy details
         $( '#old' ).val( $( item ).find( '.details' ).attr( 'href' ).replace( /\w*:\/\/(.*?)\//, '/' ) );
         return true;
+      });
+
+      $( '#cb input' ).unbind( 'click' ).click( function() {
+        var checked = $( this ).attr( 'checked' );
+
+        $( 'input.check' ).each( function( pos, item ) {
+          $( item ).attr( 'checked', checked );
+        });
       });
     }
     
