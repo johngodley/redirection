@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.17
+Version: 2.1.18
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -38,6 +38,7 @@ Author URI: http://urbangiraffe.com
 2.1.15 - Use WP Ajax, add Japanese
 2.1.16 - Fix group edit and log add entry
 2.1.17 - Log JS fixes
+2.1.18 - FIx module deletion
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -230,8 +231,12 @@ class Redirection extends Redirection_Plugin {
 			$_POST = stripslashes_deep( $_POST );
 			
 			if ( ( $module = Red_Module::create( $_POST ) ) ) {
+				$moduleid = 0;
+				if ( isset($_POST['module']))
+					$moduleid = intval( $_POST['module'] );
+				
 				$this->render_message( __( 'Your module was successfully created', 'redirection' ) );
-				Red_Module::flush( intval( $_POST['module'] ) );
+				Red_Module::flush( $moduleid );
 			}
 			else
 				$this->render_error( __( 'Your module was not created - did you provide a name?', 'redirection' ) );

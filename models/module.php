@@ -81,6 +81,7 @@ class Red_Module
 		$name = $wpdb->escape ($data['name']);
 		if (strlen ($name) > 0)
 		{
+			$extra2 = '';
 			if (isset ($data['options']))
 			{
 				$extra  = ',options';

@@ -2,6 +2,13 @@
 
 class Apache_Module extends Red_Module
 {
+	var $site      = '';
+	var $location  = '';
+	var $canonical = '';
+	var $strip_index = '';
+	var $memory_limit = '';
+	var $error_level  = '';
+	
 	function is_valid ()
 	{
 		if (!$this->location || !file_exists (dirname ($this->location)) && !is_writable (dirname ($this->location)))

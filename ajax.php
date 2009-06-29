@@ -40,6 +40,7 @@ class RedirectionAjax extends Redirection_Plugin {
 			$this->register_ajax( 'red_module_load' );
 			$this->register_ajax( 'red_module_save' );
 			$this->register_ajax( 'red_module_reset' );
+			$this->register_ajax( 'red_module_delete' );
 			
 			$this->register_ajax( 'red_group_edit' );
 			$this->register_ajax( 'red_group_load' );
@@ -159,7 +160,6 @@ class RedirectionAjax extends Redirection_Plugin {
 	
 	function red_module_delete() {
 		$id = intval( $_GET['id'] );
-		
 		if ( check_ajax_referer( 'redirection-module_'.$id ) ) {
 			$module = Red_Module::get( $id );
 			$module->delete();

@@ -116,10 +116,7 @@ class Red_Monitor
 			$url  = get_permalink ($id);
 			$slug = parse_url ($url);
 
-			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'red_action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
+//			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'red_action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
 		}
 	}
 }
-			
-
-?>
