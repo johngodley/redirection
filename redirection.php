@@ -107,7 +107,7 @@ class Redirection extends Redirection_Plugin {
 	function print_scripts_array( $scripts ) {
 		$farb = array_search( 'farbtastic', $scripts );
 
-		if ( $farb && ( !isset( $_GET['page'] ) || $_GET['page'] != 'ozh_admin_menu' ) )
+		if ( $farb && isset( $_GET['page'] ) && $_GET['page'] == 'redirection.php' )
 			unset( $scripts[$farb] );
 
 		return $scripts;
