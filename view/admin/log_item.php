@@ -1,5 +1,5 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
-<td width="16" class="center">
+<td width="16" class="center item">
 	<input type="checkbox" class="check" name="checkall[]" value="<?php echo $log->id ?>"/>
 </td>
 <td style="width:9em">

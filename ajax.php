@@ -32,6 +32,8 @@ class RedirectionAjax extends Redirection_Plugin {
 	
 	function init() {
 		if ( current_user_can( 'administrator' ) ) {
+			$_POST = stripslashes_deep( $_POST );
+			
 			$this->register_ajax( 'red_log_show' );
 			$this->register_ajax( 'red_log_hide' );
 			$this->register_ajax( 'red_log_delete' );

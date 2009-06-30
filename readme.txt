@@ -40,6 +40,7 @@ Redirection is available in:
 * Simplified Chinese by [Sha Miao](http://shamiao.com)
 * Catalan by [Robert Bu]()
 * Japanese by [Naoko McCracken](http://detlog.org/)
+* Hindi by (Ashish)[http://outshinesolutions.com]
 
 == Installation ==
 
