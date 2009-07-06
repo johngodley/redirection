@@ -36,7 +36,7 @@ var Redirection;
       if ( confirm( opts.are_you_sure ) ) {
         $( '#loading' ).show();
         
-        $.post( ajaxurl, {
+        $.post( opts.ajaxurl, {
             action: 'red_' + type + '_saveorder',
             page:   opts.page,
             _ajax_nonce: opts.nonce,
@@ -107,7 +107,7 @@ var Redirection;
 
           $( '#loading' ).show();
           
-          $.post( ajaxurl, {
+          $.post( opts.ajaxurl, {
               checked: checked.serialize(),
               action: urltype,
               _ajax_nonce: opts.nonce

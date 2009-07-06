@@ -3,43 +3,9 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.19
+Version: 2.1.20
 Author: John Godley
 Author URI: http://urbangiraffe.com
-============================================================================================================
-2.0    - New version
-2.0.1  - Install defaults when no existing redirection setup
-2.0.2  - Correct DB install, fix IIS problem
-2.0.3  - Fix #248.  Update plugin.php to better handle odd directories
-2.0.4  - get_home_path seems not be available for some people
-2.0.5  - Fix #264
-2.0.6  - Support for wp-load.php
-2.0.7  - Fix incorrect automatic redirection with static home pages
-2.0.8  - Refix log delete
-2.0.9  - Fix delete redirects
-2.0.10 - Fix small issues in display with WP 2.7
-2.0.11 - Hebrew translation
-2.0.12 - Disable category monitor in 2.7
-2.1    - Change to jQuery.  Nonce protection.  Fix #352, #353, #339, #351.  Add #358, #316.
-2.1.1  - Force JS cache.  Fix log deletion
-2.1.2  - Minor button changes
-2.1.3  - Re-enable import feature
-2.1.4  - RSS feed token
-2.1.5  - Fix #366, #371, #378, #390, #400.  Add #370, #357
-2.1.6  - Redirection loops
-2.1.7  - Fix #422, #426
-2.1.8  - Fix category change 'quick edit'
-2.1.9  - Fix 'you do not permissions' error on some non-English sites
-2.1.10 - Missing localisations
-2.1.11 - Errors on some sites
-2.1.12 - Add icons, disable category monitoring
-2.1.13 - Add Spanish and Chinese translation
-2.1.14 - Fix #457, add #475, #427, add Catalan translation. WP2.8 compatability
-2.1.15 - Use WP Ajax, add Japanese
-2.1.16 - Fix group edit and log add entry
-2.1.17 - Log JS fixes
-2.1.18 - Fix module deletion
-2.1.19 - Add Hindi translation, fix some ajax
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
