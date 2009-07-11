@@ -1,0 +1,992 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2009 Grib <grib69@gmail.com>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid   ""
+msgstr  "Project-Id-Version: Redirection 2.1.20\n"
+        "Report-Msgid-Bugs-To: grib69@gmail.com\n"
+        "POT-Creation-Date: 2009-07-08 12:29+0800\n"
+        "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+        "Last-Translator: Yuri Gribov <grib69@gmail.com>\n"
+        "Language-Team: www.wp-ru.ru <grib69@gmail.com>\n"
+        "MIME-Version: 1.0\n"
+        "Content-Type: text/plain; charset=UTF-8\n"
+        "Content-Transfer-Encoding: 8bit\n"
+        "Plural-Forms: nplurals=3; plural=n%100/10==1 ? 2 : n%10==1 ? 0 : (n+9)%10>3 ? 2 : 1;\n"
+
+#: modules/apache.php:186
+#, php-format
+msgid   " for external site: <code>%s</code>"
+msgstr  " для внешнего сайта: <code>%s</code>"
+
+#: models/pager.php:463
+#, php-format
+msgid   "%d per-page"
+msgstr  "%d на страницу"
+
+#: redirection.php:289
+#, php-format
+msgid   "%d redirection was successfully imported"
+msgid_plural    "%d redirections were successfully imported"
+msgstr[0]       "%d перенаправление было успешно импортировано"
+msgstr[1]       "%d перенаправления были успешно импортированы"
+
+#: view/admin/item_edit.php:3
+#, php-format
+msgid   "%s by matching %s"
+msgstr  "%s сопоставление %s"
+
+#: fileio/xml.php:105
+#, php-format
+msgid   "%s imported on %s at %s"
+msgstr  ""
+
+#: modules/wordpress.php:205
+msgid   "1 minute"
+msgstr  "1 минута"
+
+#: modules/wordpress.php:205
+msgid   "2 minutes"
+msgstr  "2 минуты"
+
+#: modules/wordpress.php:205
+msgid   "30 seconds"
+msgstr  "30 секунд"
+
+#: models/database.php:112 models/module.php:170
+msgid   "404 Errors"
+msgstr  "Ошибки 404"
+
+#: modules/wordpress.php:205
+msgid   "5 minutes"
+msgstr  "5 минут"
+
+#: modules/404.php:57 modules/wordpress.php:252
+msgid   "<small>No options have been set</small>"
+msgstr  "<small>Нет настраиваемых параметров</small>"
+
+#: modules/apache.php:151
+msgid   "<strong>Could not write to configured <code>.htaccess</code> file - "
+        "check file permissions</strong>"
+msgstr  "<strong>Невозможно записать файл <code>.htaccess</code> - "
+	"проверьте права доступа</strong>"
+
+#: modules/404.php:46 modules/wordpress.php:228
+msgid   "<strong>Disabled: You must enable <a href=\"options-permalink.php"
+        "\">permalinks</a> before using this</strong>"
+msgstr  "<strong>Отключено: Перед использованием должны быть включены "
+	"<a href=\"options-permalink.php\">ЧПУ</a>"
+
+#: modules/apache.php:158
+msgid   "<strong>Disabled: enter the location of an <code>.htaccess</code> "
+        "file for this to be valid</strong>"
+msgstr  ""
+
+#: modules/apache.php:145
+msgid   "<strong>Location is invalid - check that path exists</strong>"
+msgstr  "<strong>Неправильное расположение - проверьте что путь существует</strong>"
+
+#: view/admin/module_list.php:34
+msgid   "A module is a controlling element that determines how redirections "
+        "are handled.  Elements in a WordPress module are handled by "
+        "WordPress, elements in an Apache module are handled by <code>."
+        "htaccess</code>, and elements in a 404 module affect how 404 errors "
+        "are logged."
+msgstr  "Модуль представляет собой элемент управления, который определяет, "
+	"как обрабатываются перенаправления. Элементы модуля WordPress "
+	"обрабатываются WordPress, элементы модуля Apache обрабатываются "
+	"файлом <code>.htaccess</code> и элементы модуля 404 влияют на "
+	"журналирование ошибок 404"
+
+#: view/admin/options.php:47
+msgid   "A unique token allowing feed readers access to Redirection RSS "
+        "(leave blank to auto-generate)"
+msgstr  "Уникальная строка, для доступа к RSS фиду плагина "
+	"(оставьте пустой для автоматической генерации)"
+
+#: view/admin/add.php:22
+msgid   "Action"
+msgstr  "Действие"
+
+#: view/admin/group_list.php:104
+msgid   "Add"
+msgstr  "Добавить"
+
+#: view/admin/group_list.php:93
+msgid   "Add Group"
+msgstr  "Добавить группу"
+
+#: view/admin/module_list.php:33
+msgid   "Add Module"
+msgstr  "Добавить модуль"
+
+#: view/admin/add.php:43
+msgid   "Add Redirection"
+msgstr  "Добавить перенаправление"
+
+#: view/admin/add.php:3
+msgid   "Add new redirection"
+msgstr  "Добавить новое перенаправление"
+
+#: modules/apache.php:130
+msgid   "Advanced: For management of external sites"
+msgstr  "Дополнительно: для управления внешними сайтами"
+
+#: view/admin/support.php:70
+msgid   "All translators will have a link to their website placed on the "
+        "plugin homepage at <a href=\"http://urbangiraffe.com/plugins/"
+        "redirection/\">UrbanGiraffe</a> and <a href=\"http://wordpress.org/"
+        "extend/plugins/redirection/\">WordPress.org</a>, in addition to "
+        "being an individual supporter."
+msgstr  "Все переводчики имеют ссылку на свой сайт с домашней страницы "
+	"плагина  на <a href=\"http://urbangiraffe.com/plugins/redirection/\">UrbanGiraffe</a> "
+	"и <a href=\"http://wordpress.org/extend/plugins/redirection/\">WordPress.org</a>, а "
+	"также имеют возможность получать индивидуальную поддержку."
+
+#: modules/apache.php:115
+msgid   "Allow IPs"
+msgstr  "Разрешить IP"
+
+#: models/database.php:111 models/module.php:168 view/admin/module_item.php:28
+msgid   "Apache"
+msgstr  "Apache"
+
+#: view/admin/log.php:33
+msgid   "Apply"
+msgstr  ""
+
+#: view/admin/log.php:114 view/admin/item_list.php:105 view/admin/head.php:6
+#: view/admin/group_list.php:117
+msgid   "Are you sure?"
+msgstr  "Вы уверены?"
+
+#: modules/wordpress.php:205
+msgid   "As long as possible"
+msgstr  "Как можно дольше"
+
+#: view/admin/options.php:15
+msgid   "Auto-generate URL"
+msgstr  "Автоматическая генерация URL"
+
+#: modules/apache.php:109
+msgid   "Ban IPs"
+msgstr  "Блокировать IP"
+
+#: view/admin/log.php:29
+msgid   "Bulk Actions"
+msgstr  "Массовые действия"
+
+#: view/admin/module_item.php:26
+msgid   "CSV"
+msgstr  "CSV"
+
+#: view/admin/item_edit.php:28 view/admin/module_edit.php:28
+#: view/admin/group_edit.php:21
+msgid   "Cancel"
+msgstr  "Отмена"
+
+#: modules/apache.php:82 modules/wordpress.php:189
+msgid   "Canonical"
+msgstr  "Основа"
+
+#: view/admin/options.php:69
+msgid   "Category URLs"
+msgstr  "Категории URL"
+
+#: view/admin/support.php:56
+msgid   "Commercial<br/>Donation"
+msgstr  "Коммерческий<br/>взнос"
+
+#: view/admin/module_list.php:54
+msgid   "Create"
+msgstr  "Создать"
+
+#: view/admin/log.php:67
+msgid   "Date"
+msgstr  "Дата"
+
+#: view/admin/options.php:110 view/admin/log.php:30
+#: view/admin/item_list.php:62 view/admin/group_list.php:61
+msgid   "Delete"
+msgstr  "Удалить"
+
+#: view/admin/log.php:100
+msgid   "Delete Logs"
+msgstr  "Удалить журналы"
+
+#: view/admin/options.php:104
+msgid   "Delete Redirection"
+msgstr  "Удалить плагин"
+
+#: view/admin/module_list.php:13
+msgid   "Details"
+msgstr  "Детали"
+
+#: view/admin/group_edit.php:15
+msgid   "Disabling a group will disable all items contained within it"
+msgstr  "Отключение группы, приведет к отключению всех пунктов, содержащихся в ней"
+
+#: models/pager.php:472
+#, php-format
+msgid   "Displaying %s&#8211;%s of %s"
+msgstr  "Показано %s&#8211;%s из %s"
+
+#: models/redirect.php:412
+msgid   "Do nothing"
+msgstr  "Ничего не делать"
+
+#: view/admin/options.php:60 view/admin/options.php:72
+msgid   "Don't monitor"
+msgstr  "Не отслеживать"
+
+#: view/admin/group_edit.php:14
+msgid   "Enabled"
+msgstr  "Включено"
+
+#: models/redirect.php:411
+msgid   "Error (404)"
+msgstr  "Ошибка 404"
+
+#: modules/apache.php:102 modules/wordpress.php:208
+msgid   "Error Level"
+msgstr  "Уровень ошибок"
+
+#: view/admin/options.php:37
+msgid   "Expire Logs"
+msgstr  "Время жизни журнала"
+
+#: view/admin/log.php:101
+msgid   "Export to CSV"
+msgstr  "Экспорт в CSV"
+
+#: matches/user_agent.php:33
+msgid   "FeedBurner"
+msgstr  "FeedBurner"
+
+#: view/admin/log.php:49
+msgid   "Filter"
+msgstr  "Фильтр"
+
+#: matches/user_agent.php:35
+msgid   "FireFox"
+msgstr  "FireFox"
+
+#: models/module.php:193
+msgid   "Force WWW"
+msgstr  "Принудительно WWW"
+
+#: modules/apache.php:85 modules/wordpress.php:192
+#, php-format
+msgid   "Force WWW (www.%s)"
+msgstr  "Принудительно WWW (www.%s)"
+
+#: view/admin/support.php:71
+msgid   "Full details of producing a translation can be found in this <a href="
+        "\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-"
+        "plugins/\">guide to translating WordPress plugins</a>."
+msgstr  "Полную информацию о подготовке перевода, можно найти в "
+	"<a href=\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-"
+	"plugins/\">руководстве по переводу плагинов для WordPress</a>."
+
+#: view/admin/item_list.php:26 view/admin/item_list.php:69
+#: view/admin/group_list.php:68
+msgid   "Go"
+msgstr  "Вперед"
+
+#: view/admin/log.php:43 view/admin/add.php:36 view/admin/item_list.php:16
+msgid   "Group"
+msgstr  "Группа"
+
+#: view/admin/submenu.php:5 view/admin/module_list.php:14
+msgid   "Groups"
+msgstr  "Группы"
+
+#: view/admin/group_list.php:6
+msgid   "Groups for module"
+msgstr  "Группы для модуля"
+
+#: matches/referrer.php:47 matches/user_agent.php:56 matches/url.php:40
+msgid   "HTTP Code"
+msgstr  "Код HTTP"
+
+#: view/admin/options.php:87
+msgid   "Here you can import redirections from an existing .htaccess file, a "
+        "CSV file, or a Redirection XML."
+msgstr  "Вы можете импортировать правила перенаправлений из существующих .htaccess, "
+	"CSV или XML файлов"
+
+#: view/admin/item_list.php:34 view/admin/module_list.php:16
+#: view/admin/group_list.php:35
+msgid   "Hits"
+msgstr  "Счетчик"
+
+#: view/admin/options.php:33
+msgid   "I'm a nice person and I have helped support the author of this plugin"
+msgstr  "Я - хороший человек и я поддержал автора данного плагина"
+
+#: view/admin/log.php:70
+msgid   "IP"
+msgstr  "IP"
+
+#: view/admin/options.php:24
+msgid   "IP Lookup Service"
+msgstr  "Сервис разрешения имен по IP"
+
+#: modules/apache.php:178
+msgid   "IPs are allowed"
+msgstr  "Разрешенные IP"
+
+#: modules/apache.php:175
+msgid   "IPs are banned"
+msgstr  "Запрещенные IP"
+
+#: view/admin/support.php:13
+msgid   "If you are using this plugin in a commercial setup, or feel that "
+        "it's been particularly useful, then you may want to consider a "
+        "<strong>commercial donation</strong>."
+msgstr  "Если Вы используете данный плагин в коммерческих проектах, или "
+	"считаете, что он был Вам особенно полезен, то вполне возможно, что Вы "
+	"захотите сделать <strong>коммерческий взнос</strong>."
+
+#: view/admin/support.php:62
+msgid   "If you're multi-lingual then you may want to consider donating a "
+        "translation:"
+msgstr  "Если Вы владеете другим языком, Вы можете оказать помощь, сделав перевод:"
+
+#: view/admin/options.php:85
+msgid   "Import"
+msgstr  "Импорт"
+
+#: view/admin/options.php:94
+msgid   "Import into"
+msgstr  "Импортировать в"
+
+#: view/admin/support.php:36
+msgid   "Individual<br/>Donation"
+msgstr  "Индивидуальный<br/>взнос"
+
+#: matches/user_agent.php:34
+msgid   "Internet Explorer"
+msgstr  "Internet Explorer"
+
+#: view/admin/module_list.php:15
+msgid   "Items"
+msgstr  "Элементы"
+
+#: view/admin/item_list.php:33
+msgid   "Last Access"
+msgstr  "Последний"
+
+#: modules/apache.php:85 modules/apache.php:91 modules/wordpress.php:192
+#: modules/wordpress.php:197
+msgid   "Leave as is"
+msgstr  "Оставить как есть"
+
+#: modules/apache.php:72
+msgid   "Location"
+msgstr  "Расположение"
+
+#: view/admin/submenu.php:7
+msgid   "Log"
+msgstr  "Журнал"
+
+#: modules/404.php:37
+msgid   "Log 404s"
+msgstr  "Журналирование 404"
+
+#: matches/login.php:37 matches/login.php:39
+msgid   "Logged In"
+msgstr  ""
+
+#: matches/login.php:47 matches/login.php:49
+msgid   "Logged Out"
+msgstr  ""
+
+#: view/admin/add.php:16
+msgid   "Match"
+msgstr  "Совпадение"
+
+#: matches/referrer.php:63 matches/referrer.php:65 matches/user_agent.php:74
+#: matches/user_agent.php:76
+msgid   "Matched"
+msgstr  "Совпадают"
+
+#: modules/apache.php:96
+msgid   "Memory Limit"
+msgstr  "Лимит памяти"
+
+#: models/database.php:119
+msgid   "Modified posts"
+msgstr  "Измененные записи"
+
+#: view/admin/log.php:38 view/admin/group_list.php:15
+msgid   "Module"
+msgstr  "Модуль"
+
+#: view/admin/submenu.php:6 view/admin/module_list.php:6
+msgid   "Modules"
+msgstr  "Модули"
+
+#: view/admin/options.php:64
+msgid   "Monitor new posts"
+msgstr  "Отслеживание новых записей"
+
+#: view/admin/item_list.php:64 view/admin/group_list.php:63
+msgid   "Move To"
+msgstr  "Переместить"
+
+#: view/admin/module_edit.php:18 view/admin/module_list.php:41
+#: view/admin/group_edit.php:6 view/admin/group_list.php:36
+#: view/admin/group_list.php:99
+msgid   "Name"
+msgstr  "Название"
+
+#: models/pager.php:405
+msgid   "Next"
+msgstr  ""
+
+#: matches/user_agent.php:39
+msgid   "Nintendo Wii"
+msgstr  "Nintendo Wii"
+
+#: modules/apache.php:104
+msgid   "No errors"
+msgstr  "Без ошибок"
+
+#: view/admin/log.php:113 view/admin/item_list.php:104 view/admin/head.php:7
+#: view/admin/group_list.php:116
+msgid   "No items have been selected"
+msgstr  "Ничего не выбрано"
+
+#: redirection.php:291
+msgid   "No items were imported"
+msgstr  "Ничего не импортировано"
+
+#: matches/referrer.php:73 matches/referrer.php:75 matches/user_agent.php:84
+#: matches/user_agent.php:86
+msgid   "Not matched"
+msgstr  "Не совпадают"
+
+#: view/admin/options.php:100
+msgid   "Note that the group is ignored when uploading an XML file."
+msgstr  "Примечание: группа будет проигнорирована, при загрузке XML-файла."
+
+#: view/admin/module_list.php:26
+msgid   "Note: Hits are dependant on log entries"
+msgstr  "Примечание: показания счетчика зависят от записей в журнале"
+
+#: matches/user_agent.php:36
+msgid   "Opera"
+msgstr  "Opera"
+
+#: view/admin/module_list.php:17
+msgid   "Operations"
+msgstr  "Действия"
+
+#: view/admin/options.php:6 view/admin/submenu.php:8
+msgid   "Options"
+msgstr  "Настройки"
+
+#: models/redirect.php:410
+msgid   "Pass-through"
+msgstr  "Транзит (pass-through)"
+
+#: redirection.php:96
+msgid   "Please read the documentation and FAQ, and check the bug tracker, "
+        "before asking a question."
+msgstr  "Пожалуйста, прочтите документацию и FAQ, а также проверьте ошибку на трекере, "
+	"прежде чем задать вопрос."
+
+#: redirection.php:336
+msgid   "Please specify a group name"
+msgstr  "Пожалуйста, определите имя группы"
+
+#: view/admin/head.php:3
+msgid   "Please wait..."
+msgstr  "Пожалуйста подождите..."
+
+#: view/admin/options.php:30
+msgid   "Plugin Support"
+msgstr  "Поддержка плагина"
+
+#: view/admin/item_list.php:36
+msgid   "Position"
+msgstr  "Сортировка"
+
+#: view/admin/options.php:57
+msgid   "Post &amp; Page URLs"
+msgstr  "URL записей и страниц"
+
+#: models/pager.php:404
+msgid   "Previous"
+msgstr  "Предыдущая"
+
+#: view/admin/log.php:94
+msgid   "Process Current Logs"
+msgstr  "Действия с текущим журналом"
+
+#: view/admin/module_item.php:29
+msgid   "RSS"
+msgstr  "RSS"
+
+#: view/admin/options.php:44
+msgid   "RSS Token"
+msgstr  "Отпечаток RSS"
+
+#: modules/apache.php:121
+msgid   "Raw .htaccess"
+msgstr  "Сырой .htaccess"
+
+#: view/admin/log_item_details.php:9
+msgid   "Redirect to"
+msgstr  "Перенаправить на"
+
+#: models/redirect.php:408
+msgid   "Redirect to URL"
+msgstr  "Перенаправить на URL"
+
+#: models/redirect.php:409
+msgid   "Redirect to random post"
+msgstr  "Перенаправить на случайную запись"
+
+#: view/admin/log_item_details.php:15
+msgid   "Redirected by"
+msgstr  ""
+
+#: redirection.php:158
+msgid   "Redirection"
+msgstr  "Перенаправления"
+
+#: redirection.php:94
+msgid   "Redirection Bug Tracker"
+msgstr  "Сообщить об ошибках"
+
+#: redirection.php:92
+msgid   "Redirection Documentation"
+msgstr  "Документация по плагину"
+
+#: redirection.php:95
+msgid   "Redirection FAQ"
+msgstr  "Часто задаваемые вопросы (FAQ)"
+
+#: redirection.php:91
+msgid   "Redirection Help"
+msgstr  "Помощь"
+
+#: view/admin/log.php:6
+msgid   "Redirection Log"
+msgstr  "Журнал перенаправлений"
+
+#: view/admin/support.php:5
+msgid   "Redirection Support"
+msgstr  "Поддержка"
+
+#: redirection.php:93
+msgid   "Redirection Support Forum"
+msgstr  "Форум поддержки"
+
+#: redirection.php:279
+msgid   "Redirection data has been deleted and the plugin disabled"
+msgstr  "Все настройки перенаправлений были удалены и плагин отключен"
+
+#: view/admin/support.php:9
+msgid   "Redirection is free to use - life is wonderful and lovely!  However, "
+        "it has required a great deal of time and effort to develop and if it "
+        "has been useful you can help support this development by "
+        "<strong>making a small donation</strong>."
+msgstr  "Этот плагин, абсолютно свободен для использования - жизнь прекрасна! "
+	"Тем не менее, он требует много времени и усилий в разработке и если "
+	"он был Вам полезен, Вы можете поддержать его дальнейшее развитие, "
+	"<strong>сделав небольшое пожертвование</strong>."
+
+#: models/database.php:118
+msgid   "Redirections"
+msgstr  "Перенаправления"
+
+#: view/admin/item_list.php:6
+msgid   "Redirections for group"
+msgstr  "Перенаправление для группы"
+
+#: view/admin/submenu.php:4
+msgid   "Redirects"
+msgstr  "Перенаправления"
+
+#: matches/referrer.php:40 view/admin/log.php:69
+msgid   "Referrer"
+msgstr  "Реферер"
+
+#: matches/referrer.php:43 view/admin/item_edit.php:18
+msgid   "Regex"
+msgstr  ""
+
+#: view/admin/add.php:27
+msgid   "Regular expression"
+msgstr  "Регулярное выражение"
+
+#: view/admin/item_list.php:61 view/admin/group_list.php:60
+msgid   "Reset Hits"
+msgstr  "Обнулить счетчик"
+
+#: matches/user_agent.php:37
+msgid   "Safari"
+msgstr  "Safari"
+
+#: view/admin/item_edit.php:27 view/admin/module_edit.php:27
+#: view/admin/group_edit.php:20
+msgid   "Save"
+msgstr  "Сохранить"
+
+#: view/admin/log.php:16 view/admin/log.php:23 view/admin/item_list.php:21
+#: view/admin/group_list.php:20
+msgid   "Search"
+msgstr  "Поиск"
+
+#: view/admin/item_list.php:59 view/admin/group_list.php:58
+msgid   "Select All"
+msgstr  "Выбрать все"
+
+#: view/admin/options.php:105
+msgid   "Selecting this option will delete all redirections, all logs, and "
+        "any options associated with the Redirection plugin.  Make sure this "
+        "is what you want to do."
+msgstr  "Выбор данной опции удалит все настроенные перенаправления, все журналы и "
+	"все другие настройки, связанные с данным плагином. Убедитесь, "
+	"что это именно то, что Вы желаете."
+
+#: modules/apache.php:99 modules/apache.php:104 modules/wordpress.php:205
+#: modules/wordpress.php:210
+msgid   "Server default"
+msgstr  "Настройки сервера"
+
+#: redirection.php:84
+msgid   "Settings"
+msgstr  "Настройки"
+
+#: modules/apache.php:104
+msgid   "Show errors"
+msgstr  "Показывать ошибки"
+
+#: modules/apache.php:127
+msgid   "Site URL"
+msgstr  "URL сайта"
+
+#: ajax.php:370
+msgid   "Sorry, but your redirection was not created"
+msgstr  "Извините, перенаправление не было создано"
+
+#: view/admin/item_edit.php:15 view/admin/log.php:68 view/admin/add.php:12
+#: view/admin/log_item_details.php:4
+msgid   "Source URL"
+msgstr  "URL источника"
+
+#: modules/apache.php:89 modules/wordpress.php:195
+msgid   "Strip Index"
+msgstr  "Удаление индекса"
+
+#: models/module.php:193
+msgid   "Strip WWW"
+msgstr  "Удалить WWW"
+
+#: modules/apache.php:85 modules/wordpress.php:192
+#, php-format
+msgid   "Strip WWW (%s)"
+msgstr  "Удалить WWW (%s)"
+
+#: modules/apache.php:91
+msgid   "Strip index files (html,php)"
+msgstr  "Удалить файлы index (html,php) "
+
+#: modules/wordpress.php:197
+msgid   "Strip index files (html,php,asp)"
+msgstr  "Удалить файлы index (html,php,asp)"
+
+#: models/module.php:199
+msgid   "Strip index.php"
+msgstr  "Удалить index.php"
+
+#: view/admin/submenu.php:9
+msgid   "Support"
+msgstr  "Поддержка"
+
+#: matches/url.php:32 view/admin/add.php:31
+msgid   "Target URL"
+msgstr  "URL назначения"
+
+#: matches/login.php:32
+msgid   "The target URL will be chosen from one of the following URLs, "
+        "depending if the user is logged in or out.  Leaving a URL blank "
+        "means that the user is not redirected."
+msgstr  "Будет выбран один из следующих URL-адресов, в зависимости "
+	"от того, войдет пользователь в систему или нет. Если оставить поле пустым "
+	"- пользователь перенаправляться не будет"
+
+#: matches/referrer.php:57
+msgid   "The visitor will be redirected from the source URL if the referrer "
+        "matches.  You can specify a <em>matched</em> target URL as the "
+        "address to send visitors if they do match, and <em>not matched</em> "
+        "if they don't match.  Leaving a URL blank means that the visitor is "
+        "not redirected."
+msgstr  "Посетитель будет перенапрвлен на URL источника при совпадении реферера. Вы "
+	"можете определить различные целевые URL при совпадении и не совпадении. Если оставить поле пустым, "
+	"посетитель никуда перенаправляться не будет."
+
+#: matches/user_agent.php:67
+msgid   "The visitor will be redirected from the source URL if the user agent "
+        "matches.  You can specify a <em>matched</em> target URL as the "
+        "address to send visitors if they do match, and <em>not matched</em> "
+        "if they don't match.  Leaving a URL blank means that the visitor is "
+        "not redirected. <strong>All matches are performed as regular "
+        "expressions</strong>.\n"
+msgstr  "Посетитель будет перенаправлен при совпадении User-Agent. Вы можете определить "
+	"различные целевые URL при совпадении или не совпадении. Если оставить поле пустым, "
+	"то посетитель никуда перенаправляться не будет. <strong>Все условия вводятся, как регулярные "
+	"выражения</strong>.\n"
+
+#: view/admin/log.php:85
+msgid   "There are no logs to display!"
+msgstr  "Журналы отсутствуют!"
+
+#: view/admin/log.php:95
+msgid   "These actions will affect all currently available logs (i.e. your "
+        "search phrase will restrict the log items)."
+msgstr  "Эти действия коснутся всех имеющихся в настоящее время журналов "
+	"(поиск по журналу будет ограничен)"
+
+#: view/admin/support.php:10
+msgid   "This will act as an incentive for me to carry on developing, "
+        "providing countless hours of support, and including new features and "
+        "suggestions. You get some useful software and I get to carry on "
+        "making it.  Everybody wins."
+msgstr  "Это будет для меня стимулом, продолжать заниматься разработкой данного "
+	"плагина, тратить много времени на оказание поддержки, в том числе "
+	"на реализацию новых предложенных возможностей. Вы получаете новые "
+	"программы, а я продолжаю этим заниматься. Все остаются в выигрыше."
+
+#: view/admin/options.php:19
+msgid   "This will be used to auto-generate a URL if no URL is given.  You "
+        "can use the special tags $dec$ or $hex$ to have a unique ID inserted "
+        "(either decimal or hex)"
+msgstr  "Используется для автоматической генерации URL, если URL не представлен. Вы "
+	"можете использовать специальные тэги $dec$ или $hex$ для вставки уникального ID "
+	"(десятичные или шестнадцатиричные)"
+
+#: modules/wordpress.php:202
+msgid   "Time Limit"
+msgstr  "Лимит времени"
+
+#: view/admin/item_edit.php:7
+msgid   "Title"
+msgstr  "Название"
+
+#: view/admin/item_list.php:60 view/admin/group_list.php:59
+msgid   "Toggle"
+msgstr  "Вкл/Выкл"
+
+#: view/admin/group_edit.php:10
+msgid   "Tracked"
+msgstr  "Слежение"
+
+#: view/admin/support.php:60
+msgid   "Translations"
+msgstr  "Переводчики"
+
+#: view/admin/item_list.php:35 view/admin/module_list.php:45
+msgid   "Type"
+msgstr  "Тип"
+
+#: view/admin/item_list.php:36
+msgid   "URL"
+msgstr  "URL"
+
+#: view/admin/options.php:52
+msgid   "URL Monitoring"
+msgstr  "Отслеживание URL"
+
+#: matches/login.php:25
+msgid   "URL and login status"
+msgstr  "URL и статус входа"
+
+#: matches/referrer.php:28
+msgid   "URL and referrer"
+msgstr  "URL и реферер"
+
+#: matches/user_agent.php:27
+msgid   "URL and user agent"
+msgstr  "URL и User-Agent"
+
+#: matches/url.php:25
+msgid   "URL only"
+msgstr  "Только URL"
+
+#: view/admin/options.php:79
+msgid   "Update"
+msgstr  "Обновить"
+
+#: view/admin/options.php:97
+msgid   "Upload"
+msgstr  "Загрузить"
+
+#: matches/user_agent.php:44 view/admin/log_item_details.php:20
+msgid   "User Agent"
+msgstr  "User-Agent"
+
+#: view/admin/module_item.php:24
+msgid   "View as"
+msgstr  "Смотреть как"
+
+#: view/admin/group_edit.php:11
+msgid   "Whether to track 'hits' to items"
+msgstr  "Отслеживать кол-во срабатываний"
+
+#: models/database.php:110 models/module.php:169
+msgid   "WordPress"
+msgstr  "WordPress"
+
+#: modules/apache.php:77
+#, php-format
+msgid   "WordPress is installed in: <code>%s</code>"
+msgstr  "WordPress установлен в: <code>%s</code>"
+
+#: view/admin/module_item.php:27
+msgid   "XML"
+msgstr  "XML"
+
+#: fileio/xml.php:168
+msgid   "XML importing is only available with PHP5 - you have PHP4."
+msgstr  "Импорт XML доступен только с PHP5, у Вас установлен PHP4"
+
+#: view/admin/options.php:53
+msgid   "You can have Redirection detect changes in URLs and have an "
+        "automatic redirection created in a specific group."
+msgstr  "Вы можете включить слежение за изменением URL и "
+	"автоматически создавать перенаправление в определенной группе."
+
+#: view/admin/group_list.php:88
+msgid   "You have no groups in this module."
+msgstr  "Нет групп в данном модуле"
+
+#: view/admin/module_list.php:28
+msgid   "You have no modules defined yet"
+msgstr  "Вы не определили модули"
+
+#: view/admin/item_list.php:80
+msgid   "You have no redirections."
+msgstr  "Нет перенаправлений"
+
+#: redirection.php:332
+msgid   "Your group was added successfully"
+msgstr  "Ваша группа успешно добавлена"
+
+#: redirection.php:309
+msgid   "Your logs have been deleted"
+msgstr  "Ваши журналы были удалены"
+
+#: redirection.php:209
+msgid   "Your module was not created - did you provide a name?"
+msgstr  "Модуль не был создан - не указали имя?"
+
+#: redirection.php:205
+msgid   "Your module was successfully created"
+msgstr  "Модуль успешно создан"
+
+#: redirection.php:271
+msgid   "Your options were updated"
+msgstr  "Ваши настройки были обновлены"
+
+#: view/admin/add.php:6
+msgid   "Your redirection has been added."
+msgstr  "Ваше правило перенаправления добавлено."
+
+#: view/admin/options.php:40
+msgid   "days (enter 0 for no expiry)"
+msgstr  "дней (введите 0 для неограниченного времени)"
+
+#: view/admin/module_item.php:45
+msgid   "delete"
+msgstr  "удалить"
+
+#: view/admin/item.php:27 view/admin/group_item.php:20
+msgid   "disabled"
+msgstr  "отключено"
+
+#: view/admin/module_item.php:42
+msgid   "edit"
+msgstr  "править"
+
+#: view/admin/group_item.php:4
+msgid   "edit group"
+msgstr  "править группу"
+
+#: view/admin/log_item_details.php:16
+msgid   "for"
+msgstr  "для"
+
+#: modules/apache.php:163
+msgid   "force WWW"
+msgstr  "принудительное WWW"
+
+#: view/admin/group_list.php:25
+msgid   "go"
+msgstr  "вперед"
+
+#: matches/user_agent.php:38
+msgid   "iPhone"
+msgstr  "iPhone"
+
+#: modules/apache.php:169
+#, php-format
+msgid   "memory limit at %dMB"
+msgstr  "лимит памяти %dMB"
+
+#: fileio/csv.php:21
+#, php-format
+msgid   "module_%d.csv"
+msgstr  "module_%d.csv"
+
+#: fileio/xml.php:32
+#, php-format
+msgid   "module_%d.xml"
+msgstr  "module_%d.xml"
+
+#: modules/apache.php:172 modules/wordpress.php:247
+msgid   "no errors"
+msgstr  "нет ошибок"
+
+#: view/admin/item_edit.php:10
+msgid   "optional"
+msgstr  "не обязательно"
+
+#: view/admin/item_list.php:75 view/admin/group_list.php:74
+msgid   "re-order"
+msgstr  "поменять местами"
+
+#: view/admin/module_item.php:48
+msgid   "reset"
+msgstr  "сбросить"
+
+#: view/admin/item_list.php:76 view/admin/group_list.php:75
+msgid   "save order"
+msgstr  "сохранить порядок"
+
+#: modules/apache.php:172 modules/wordpress.php:247
+msgid   "show errors"
+msgstr  "показать ошибки"
+
+#: modules/apache.php:163
+msgid   "strip WWW"
+msgstr  "удалить WWW"
+
+#: modules/apache.php:166 modules/wordpress.php:236
+msgid   "strip index"
+msgstr  "удалить index"
+
+#: modules/wordpress.php:243
+#, php-format
+msgid   "time limit at %ss"
+msgstr  "лимит времени %ss"
+
+#: modules/wordpress.php:241
+msgid   "time limit set as long as possible"
+msgstr  "лимит времени установлен на максимально возможный"

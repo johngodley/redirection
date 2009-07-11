@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley(http://urbangiraffe.com)
-// @version    0.2.4
+// @version    0.2.6
 // @copyright  Copyright &copy; 2009 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -46,6 +46,7 @@
 // 0.2.3  - More HTTPS
 // 0.2.4  - Ajax helper, more compatability functions
 // 0.2.5  - _n helper
+// 0.2.6  - Compatability functions js_esc
 // ======================================================================================
 
 
@@ -137,6 +138,10 @@ class Redirection_Plugin {
 		$this->add_action( 'init', 'load_locale' );
 		
 		global $wp_version;
+		
+		if ( version_compare( $wp_version, '2.8', '<' ) )
+			$this->add_action( 'admin_menu', 'compatibility_28' );
+			
 		if ( version_compare( $wp_version, '2.7', '<' ) )
 			$this->add_action( 'admin_menu', 'compatibility_27' );
 
@@ -150,6 +155,18 @@ class Redirection_Plugin {
 				function is_front_page ( ) {
 					return is_home ();
 				}
+			}
+		}
+	}
+	
+	function compatibility_28() {
+		if ( !function_exists( 'esc_js' ) ) {
+			function esc_js( $text ) {
+				$safe_text = wp_check_invalid_utf8( $text );
+				$safe_text = _wp_specialchars( $safe_text, ENT_COMPAT );
+				$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
+				$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
+				return apply_filters( 'js_escape', $safe_text, $text );
 			}
 		}
 	}

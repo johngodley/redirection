@@ -98,7 +98,6 @@
 		<?php wp_nonce_field ('redirection-process_logs'); ?>
 		
 		<input class="button-primary" type="submit" name="deleteall" value="<?php _e ('Delete Logs', 'redirection'); ?>"/>
-		<input class="button-primary" type="submit" name="download" value="<?php _e ('Export to CSV', 'redirection'); ?>"/>
 	</form>
 </div>
 
