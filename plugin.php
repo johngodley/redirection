@@ -163,7 +163,7 @@ class Redirection_Plugin {
 		if ( !function_exists( 'esc_js' ) ) {
 			function esc_js( $text ) {
 				$safe_text = wp_check_invalid_utf8( $text );
-				$safe_text = _wp_specialchars( $safe_text, ENT_COMPAT );
+				$safe_text = wp_specialchars( $safe_text, ENT_COMPAT );
 				$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
 				$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
 				return apply_filters( 'js_escape', $safe_text, $text );

@@ -194,3 +194,6 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 = 2.1.21 =
 * Fix #620
 * Add Russian translation
+
+= 2.1.22 =
+* Pre WP2.8 compatibility fix
