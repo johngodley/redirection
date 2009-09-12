@@ -34,6 +34,16 @@
 				</td>
 			</tr>
 			<tr>
+				<th align="right"><?php _e ('Logging', 'redirection'); ?>:</th>
+				<td>
+					<input type="checkbox" name="log_redirections" <?php echo $this->checked ($options['log_redirections']) ?> id="log_redirections"/> 
+					<label for="log_redirections"><span class="sub"><?php _e ('log redirected requests', 'redirection'); ?></span></label><br />
+					<input type="checkbox" name="log_404s" <?php echo $this->checked ($options['log_404s']) ?> id="log_404s"/> 
+					<label for="log_404s"><span class="sub"><?php _e ('log 404 Not Found requests', 'redirection'); ?></span></label><br />
+					<?php _e( 'Uncheck one or both of these to turn off logging and reduce database load if your redirected URLs are hit very frequently, and/or your site is very busy and pages are often not found.', 'redirection' ); ?>
+				</td>
+			</tr>
+			<tr>
 				<th align="right"><?php _e ('Expire Logs', 'redirection'); ?>:</th>
 				<td>
 					<input size="5" type="text" name="expire" value="<?php echo $options['expire'] ?>"/>

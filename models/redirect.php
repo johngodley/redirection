@@ -89,7 +89,7 @@ class Red_Item
 	{
 		global $wpdb;
 		
-		$sql = "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type='$type' WHERE (@redirection_items.regex=1 OR @redirection_items.url='".$wpdb->escape ($url)."') ORDER BY @redirection_groups.position,@redirection_items.position";
+		$sql = "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type='$type' WHERE (@redirection_items.regex=1 OR @redirection_items.url='".$wpdb->escape ($url)."' OR @redirection_items.url='".$wpdb->escape( urldecode( $url ) )."') ORDER BY @redirection_groups.position,@redirection_items.position";
 		$sql = str_replace ('@', $wpdb->prefix, $sql);
 
 		$rows = $wpdb->get_results ($sql, ARRAY_A);
@@ -311,13 +311,12 @@ class Red_Item
 		Red_Module::flush ($group->module_id);
 	}
 
-	function matches ($url)
-	{
+	function matches( $url ) {
 		$this->url = str_replace (' ', '%20', $this->url);
 		$matches = false;
 
 		// Check if we match the URL
-		if (($this->regex == false && ($this->url == $url || $this->url == rtrim ($url, '/'))) || ($this->regex == true && @preg_match ('@'.str_replace ('@', '\\@', $this->url).'@', $url, $matches) > 0))
+		if (($this->regex == false && ($this->url == $url || $this->url == rtrim ($url, '/') || $this->url == urldecode( $url ))) || ($this->regex == true && @preg_match ('@'.str_replace ('@', '\\@', $this->url).'@', $url, $matches) > 0) || ($this->regex == true && @preg_match ('@'.str_replace ('@', '\\@', $this->url).'@', urldecode( $url ), $matches) > 0))
 		{
 			// Check if our match wants this URL
 			$target = $this->match->get_target ($url, $this->url, $this->regex);
@@ -354,7 +353,7 @@ class Red_Item
 	{
 		if ($this->tracking && $this->id)
 		{
-			global $wpdb;
+			global $wpdb, $redirection;
 
 			// Update the counters
 			$count = $this->last_count + 1;
@@ -364,8 +363,10 @@ class Red_Item
 			  $ip = $_SERVER['REMOTE_ADDR'];
 			else if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']))
 			  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		
-			$log = RE_Log::create ($url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '', $this->id, $this->module_id, $this->group_id);
+			
+			$options = $redirection->get_options ();
+			if ($options['log_redirections'])
+				$log = RE_Log::create ($url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '', $this->id, $this->module_id, $this->group_id);
 		}
 	}
 	

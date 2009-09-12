@@ -102,14 +102,15 @@ class RE_Database
 		
 		$optionswp     = '';
 		$options404    = '';
-		$optionsapache = $wpdb->escape (serialize (array ('location' => get_home_path ().'.htaccess')));
+		$optionsaoache = '';
+//		$optionsapache = $wpdb->escape (serialize (array ('location' => get_home_path ().'.htaccess')));
 
 		// Modules
 		if ($wpdb->get_var ("SELECT COUNT(*) FROM {$wpdb->prefix}redirection_modules") == 0)
 		{
 			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (id,type,name,options) VALUES (1,'wp','".__ ('WordPress', 'redirection')."','$optionswp')");
 			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (id,type,name,options) VALUES (2,'apache','".__ ('Apache', 'redirection')."','$optionsapache')");
-			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (id,type,name,options) VALUES (3,'404','".__ ('404 Errors', 'redirection')."','$option404')");
+			$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_modules (id,type,name,options) VALUES (3,'404','".__ ('404 Errors', 'redirection')."','$options404')");
 		}
 
 		// Groups
@@ -145,6 +146,12 @@ class RE_Database
 			$this->upgrade_from_21 ();
 		else if ($current == '2.0.2')
 			$this->upgrade_from_22 ();
+
+		// Check that the IP field exists - some users don't have this
+		$test = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_logs LIMIT 0,1");
+		if ( !empty( $test ) && !isset( $test[0]->ip ) ) {
+			@$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `ip` varchar(17) NOT NULL");
+		}
 
 		update_option ('redirection_version', $target);
 	}

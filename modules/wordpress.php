@@ -20,7 +20,7 @@ class WordPress_Module extends Red_Module
 		// Remove WordPress 2.3 redirection
 		remove_action ('template_redirect', 'wp_old_slug_redirect');
 		remove_action ('edit_form_advanced', 'wp_remember_old_slug');
-		
+
 		// A WP < 2.3 fix
 		global $wp_db_version;
 		if ($wp_db_version < 6000)
@@ -32,21 +32,19 @@ class WordPress_Module extends Red_Module
 		global $redirection;
 		
 		$url = $_SERVER['REQUEST_URI'];
-		
+
 		// Make sure we don't try and redirect something essential
-		if (!$this->protected_url ($url) && !$redirection->hasMatched ())
-		{
+		if (!$this->protected_url ($url) && !$redirection->hasMatched ()) {
 			do_action ('redirection_first', $url, $this);
 
-			$redirects = Red_Item::get_for_url ($url, 'wp');
-			if (!empty ($redirects))
-			{
-				foreach ($redirects AS $key => $item)
-				{
-					if ($item->matches ($url))
-					{
+			$redirects = Red_Item::get_for_url( $url, 'wp' );
+
+			if ( !empty( $redirects) ) {
+				foreach ($redirects AS $key => $item) {
+					if ( $item->matches( $url ) ) {
 						global $redirection;
-						$redirection->setMatched (true);
+						
+						$redirection->setMatched( true );
 						$this->matched = $item;
 						break;
 					}
@@ -124,26 +122,26 @@ class WordPress_Module extends Red_Module
 
 	function wp_redirect ($url, $status)
 	{
-		global $wp_version;
-    if ($wp_version < '2.1')
-		{
-    	status_header($status);
+		global $wp_version, $is_IIS;
+    if ( $wp_version < '2.1' ) {
+    	status_header( $status );
 			return $url;
-    }
-		else
-		{
-        if ($status == 301 && php_sapi_name() == 'cgi-fcgi') {
-            $servers_to_check = array('lighttpd', 'nginx');
-            foreach ($servers_to_check as $name) {
-                if (stripos($_SERVER['SERVER_SOFTWARE'], $name) !== false) {
-                    status_header($status);
-                    header("Location: $url");
-                    exit(0);
+    } elseif ( $is_IIS ) {
+			header( "Refresh: 0;url=$url" );
+			return $url;
+		} else {
+        if ( $status == 301 && php_sapi_name() == 'cgi-fcgi' ) {
+            $servers_to_check = array( 'lighttpd', 'nginx' );
+            foreach ( $servers_to_check as $name ) {
+                if ( stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
+                    status_header( $status );
+                    header( "Location: $url" );
+                    exit( 0 );
                 }
             }
         }
 
-        status_header($status);
+        status_header( $status );
 				return $url;
     }
 	}

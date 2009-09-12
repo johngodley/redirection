@@ -98,7 +98,7 @@ var redirection;
 
 jQuery(document).ready( function() {
 	redirection = new Redirection( {
-		progress: '<?php echo esc_js( '<img src="'.$this->url().'/images/progress.gif" alt="loading" width="50" height="16"/>' ) ?>',
+		progress: '<?php echo '<img src="'.$this->url().'/images/progress.gif" alt="loading" width="50" height="16"/>' ?>',
 		ajaxurl: '<?php echo esc_js( admin_url( 'admin-ajax.php' ) ) ?>',
 		nonce: '<?php echo esc_js( wp_create_nonce( 'redirection-items' ) ); ?>',
 		none_select: '<?php echo esc_js( __( 'No items have been selected', 'redirection' ) ); ?>',

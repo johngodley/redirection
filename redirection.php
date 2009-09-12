@@ -30,7 +30,7 @@ include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/modules/wordpress.php';
 include dirname( __FILE__ ).'/modules/404.php';
 
-define( 'REDIRECTION_VERSION', '2.1.14' );
+define( 'REDIRECTION_VERSION', '2.1.15' );
 
 class Redirection extends Redirection_Plugin {
 	var $hasMatched = false;
@@ -93,7 +93,7 @@ class Redirection extends Redirection_Plugin {
 			$help .= '<a href="http://urbangiraffe.com/support/forum/redirection">'.__( 'Redirection Support Forum', 'redirection' ).'</a><br/>';
 			$help .= '<a href="http://urbangiraffe.com/tracker/projects/redirection/issues?set_filter=1&amp;tracker_id=1">'.__( 'Redirection Bug Tracker', 'redirection' ).'</a><br/>';
 			$help .= '<a href="http://urbangiraffe.com/plugins/redirection/faq/">'.__( 'Redirection FAQ', 'redirection' ).'</a><br/>';
-			$help .= __( 'Please read the documentation and FAQ, and check the bug tracker, before asking a question.' );
+			$help .= __( 'Please read the documentation and FAQ, and check the bug tracker, before asking a question.', 'redirection' );
 			$help .= '</div>';
 		}
 		
@@ -221,6 +221,8 @@ class Redirection extends Redirection_Plugin {
 		$defaults = array	(
 			'lookup'            => 'http://urbangiraffe.com/map/?from=redirection&amp;ip=',
 			'support'           => false,
+			'log_redirections'  => true,
+			'log_404s'          => true,
 			'expire'            => 0,
 			'token'             => '',
 			'monitor_new_posts' => false,
@@ -254,14 +256,16 @@ class Redirection extends Redirection_Plugin {
 		if ( isset( $_POST['update'] ) && check_admin_referer( 'redirection-update_options' ) ) {
 			$_POST = stripslashes_deep( $_POST );
 
-			$options['lookup']           = $_POST['lookup'];
-			$options['monitor_post']     = $_POST['monitor_post'];
-			$options['monitor_category'] = $_POST['monitor_category'];
-			$options['auto_target']      = $_POST['auto_target'];
-			$options['support']          = isset( $_POST['support'] ) ? true : false;
+			$options['lookup']            = $_POST['lookup'];
+			$options['monitor_post']      = $_POST['monitor_post'];
+			$options['monitor_category']  = $_POST['monitor_category'];
+			$options['auto_target']       = $_POST['auto_target'];
+			$options['support']           = isset( $_POST['support'] ) ? true : false;
+			$options['log_redirections']  = (bool) @ $_POST['log_redirections'];
+			$options['log_404s']          = (bool) @ $_POST['log_404s'];
 			$options['monitor_new_posts'] = isset( $_POST['monitor_new_posts'] ) ? true : false;
-			$options['expire']           = intval( $_POST['expire'] );
-			$options['token']            = $_POST['token'];
+			$options['expire']            = intval( $_POST['expire'] );
+			$options['token']             = $_POST['token'];
 			
 			if ( trim( $options['token'] ) == '' )
 				$options['token'] = md5( uniqid() );

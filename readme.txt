@@ -42,6 +42,9 @@ Redirection is available in:
 * Japanese by Naoko McCracken
 * Hindi by Ashish
 * Russian by Grib
+* Bahasa Indonesia by Septian Fujianto
+* German by Fabian Schulz
+* Italian by Raffaello Tesi
 
 == Installation ==
 
@@ -197,3 +200,8 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.1.22 =
 * Pre WP2.8 compatibility fix
+
+= 2.1.23 =
+* Add Bahasa Indonesian translation
+* Add German translation
+* Add patch to disable logs (thanks to Simon Wheatley!)

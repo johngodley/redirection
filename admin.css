@@ -748,3 +748,7 @@ div .supporter strong
 {
 background-color: yellow;
 }
+
+#items, .item {
+direction:ltr;
+}

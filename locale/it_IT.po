@@ -1,0 +1,968 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Redirection\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-08-06 19:29+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Raffaello Tesi <info@raffaellotesi.com>\n"
+"Language-Team: Raffaello Tesi <info@raffaellotesi.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: C:\\redirection\n"
+"X-Poedit-SearchPath-1: C:\\redirection\\2.3\n"
+"X-Poedit-SearchPath-2: C:\\redirection\\actions\n"
+"X-Poedit-SearchPath-3: C:\\redirection\\fileio\n"
+"X-Poedit-SearchPath-4: C:\\redirection\\images\n"
+"X-Poedit-SearchPath-5: C:\\redirection\\images\\modules\n"
+"X-Poedit-SearchPath-6: C:\\redirection\\js\n"
+"X-Poedit-SearchPath-7: C:\\redirection\\locale\n"
+"X-Poedit-SearchPath-8: C:\\redirection\\models\n"
+"X-Poedit-SearchPath-9: C:\\redirection\\modules\n"
+"X-Poedit-SearchPath-10: C:\\redirection\\matches\n"
+"X-Poedit-SearchPath-11: C:\\redirection\\view\n"
+"X-Poedit-SearchPath-12: C:\\redirection\\view\\admin\n"
+
+#: C:\redirection/ajax.php:370
+msgid "Sorry, but your redirection was not created"
+msgstr "Mi dispiace, il reindirizzamento non è stato creato"
+
+#: C:\redirection/redirection.php:84
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: C:\redirection/redirection.php:91
+msgid "Redirection Help"
+msgstr "Aiuto Redirection"
+
+#: C:\redirection/redirection.php:92
+msgid "Redirection Documentation"
+msgstr "Documentazione Redirection"
+
+#: C:\redirection/redirection.php:93
+msgid "Redirection Support Forum"
+msgstr "Forum di supporto Redirection"
+
+#: C:\redirection/redirection.php:94
+msgid "Redirection Bug Tracker"
+msgstr "Bug Tracker Redirection"
+
+#: C:\redirection/redirection.php:95
+msgid "Redirection FAQ"
+msgstr "Redirection FAQ"
+
+#: C:\redirection/redirection.php:96
+msgid "Please read the documentation and FAQ, and check the bug tracker, before asking a question."
+msgstr "Prima di porre una domanda, si prega di leggere attentamente la documentazione e le FAQ, e controllare il bug tracker."
+
+#: C:\redirection/redirection.php:158
+msgid "Redirection"
+msgstr "Redirection"
+
+#: C:\redirection/redirection.php:205
+msgid "Your module was successfully created"
+msgstr "Il modulo è stato creato con successo"
+
+#: C:\redirection/redirection.php:209
+msgid "Your module was not created - did you provide a name?"
+msgstr "Il modulo non è stato creato - è stato inserito un nome?"
+
+#: C:\redirection/redirection.php:271
+msgid "Your options were updated"
+msgstr "Le opzioni sono state aggiornate"
+
+#: C:\redirection/redirection.php:279
+msgid "Redirection data has been deleted and the plugin disabled"
+msgstr "I dati di Redirection sono stati rimossi e il plugin è stato disattivato"
+
+#: C:\redirection/redirection.php:291
+msgid "No items were imported"
+msgstr "Non è stato importato nessun elemento"
+
+#: C:\redirection/redirection.php:309
+msgid "Your logs have been deleted"
+msgstr "I log sono stati cancellati"
+
+#: C:\redirection/redirection.php:332
+msgid "Your group was added successfully"
+msgstr "Il gruppo è stato aggiunto con successo"
+
+#: C:\redirection/redirection.php:336
+msgid "Please specify a group name"
+msgstr "Inserire il nome del gruppo"
+
+#: C:\redirection/fileio/csv.php:21
+#, php-format
+msgid "module_%d.csv"
+msgstr "module_%d.csv"
+
+#: C:\redirection/fileio/xml.php:32
+#, php-format
+msgid "module_%d.xml"
+msgstr "module_%d.xml"
+
+#: C:\redirection/fileio/xml.php:105
+#, php-format
+msgid "%s imported on %s at %s"
+msgstr "%s importato in %s a %s"
+
+#: C:\redirection/fileio/xml.php:168
+msgid "XML importing is only available with PHP5 - you have PHP4."
+msgstr "L'importazione XML è disponibile solo con PHP5 - è stata invece identificata la versione PHP4"
+
+#: C:\redirection/matches/login.php:25
+msgid "URL and login status"
+msgstr "status URL e login"
+
+#: C:\redirection/matches/login.php:32
+msgid "The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected."
+msgstr "L'URL di arrivo verrà scelta tra una delle seguenti, a seconda che l'utente abbia effettuato o meno il login. Lasciando l'URL vuota l'utente non verrà reindirizzato."
+
+#: C:\redirection/matches/login.php:37
+#: C:\redirection/matches/login.php:39
+msgid "Logged In"
+msgstr "Logged in"
+
+#: C:\redirection/matches/login.php:47
+#: C:\redirection/matches/login.php:49
+msgid "Logged Out"
+msgstr "Logged out"
+
+#: C:\redirection/matches/referrer.php:28
+msgid "URL and referrer"
+msgstr "URL e referrer"
+
+#: C:\redirection/matches/referrer.php:40
+msgid "Referrer"
+msgstr "Referrer"
+
+#: C:\redirection/matches/referrer.php:43
+msgid "Regex"
+msgstr "Regex"
+
+#: C:\redirection/matches/referrer.php:47
+#: C:\redirection/matches/url.php:40
+#: C:\redirection/matches/user_agent.php:56
+msgid "HTTP Code"
+msgstr "Codice HTTP"
+
+#: C:\redirection/matches/referrer.php:57
+msgid "The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected."
+msgstr "Il visitatore sarà reindirizzato dalla URL di partenza se il referrer corrisponde. È possibile specificare una URL di arrivo <em>matched</em>, ovvero da utilizzare come reindirizzamento se il referrer corrisponde, e <em>not matched</em> se non corrisponde. Lasciando l'URL vuota l'utente non viene reindirizzato."
+
+#: C:\redirection/matches/referrer.php:63
+#: C:\redirection/matches/referrer.php:65
+#: C:\redirection/matches/user_agent.php:74
+#: C:\redirection/matches/user_agent.php:76
+msgid "Matched"
+msgstr "Matched"
+
+#: C:\redirection/matches/referrer.php:73
+#: C:\redirection/matches/referrer.php:75
+#: C:\redirection/matches/user_agent.php:84
+#: C:\redirection/matches/user_agent.php:86
+msgid "Not matched"
+msgstr "Not matched"
+
+#: C:\redirection/matches/url.php:25
+msgid "URL only"
+msgstr "solo URL"
+
+#: C:\redirection/matches/url.php:32
+msgid "Target URL"
+msgstr "URL di arrivo"
+
+#: C:\redirection/matches/user_agent.php:27
+msgid "URL and user agent"
+msgstr "URL e user agent"
+
+#: C:\redirection/matches/user_agent.php:33
+msgid "FeedBurner"
+msgstr "FeedBurner"
+
+#: C:\redirection/matches/user_agent.php:34
+msgid "Internet Explorer"
+msgstr "Internet Explorer"
+
+#: C:\redirection/matches/user_agent.php:35
+msgid "FireFox"
+msgstr "Firefox"
+
+#: C:\redirection/matches/user_agent.php:36
+msgid "Opera"
+msgstr "Opera"
+
+#: C:\redirection/matches/user_agent.php:37
+msgid "Safari"
+msgstr "Safari"
+
+#: C:\redirection/matches/user_agent.php:38
+msgid "iPhone"
+msgstr "iPhone"
+
+#: C:\redirection/matches/user_agent.php:39
+msgid "Nintendo Wii"
+msgstr "Nintendo Wii"
+
+#: C:\redirection/matches/user_agent.php:44
+msgid "User Agent"
+msgstr "User agent"
+
+#: C:\redirection/matches/user_agent.php:67
+msgid "The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.\n"
+msgstr "Il visitatore sarà reindirizzato dalla URL di partenza se l'user agent corrisponde. È possibile specificare una URL di arrivo <em>matched</em>, ovvero da utilizzare come reindirizzamento se l'user agent corrisponde, e <em>not matched</em> se non corrisponde. <strong>Tutte le corrispondenze sono create come espressioni regolari (regex)</strong>.\n"
+
+#: C:\redirection/models/database.php:110
+#: C:\redirection/models/module.php:169
+msgid "WordPress"
+msgstr "WordPress"
+
+#: C:\redirection/models/database.php:111
+#: C:\redirection/models/module.php:168
+msgid "Apache"
+msgstr "Apache"
+
+#: C:\redirection/models/database.php:112
+#: C:\redirection/models/module.php:170
+msgid "404 Errors"
+msgstr "Errori 404"
+
+#: C:\redirection/models/database.php:118
+msgid "Redirections"
+msgstr "Reindirizzamenti"
+
+#: C:\redirection/models/database.php:119
+msgid "Modified posts"
+msgstr "Post modificati"
+
+#: C:\redirection/models/module.php:193
+msgid "Strip WWW"
+msgstr "Rimuovi WWW"
+
+#: C:\redirection/models/module.php:193
+msgid "Force WWW"
+msgstr "Forza WWW"
+
+#: C:\redirection/models/module.php:199
+msgid "Strip index.php"
+msgstr "Rimuovi index.php"
+
+#: C:\redirection/models/pager.php:404
+msgid "Previous"
+msgstr "Precedente"
+
+#: C:\redirection/models/pager.php:405
+msgid "Next"
+msgstr "Successivo"
+
+#: C:\redirection/models/pager.php:463
+#, php-format
+msgid "%d per-page"
+msgstr "%d per pagina"
+
+#: C:\redirection/models/pager.php:472
+#, php-format
+msgid "Displaying %s&#8211;%s of %s"
+msgstr "Mostrati %s&#8211;%s su %s"
+
+#: C:\redirection/models/redirect.php:408
+msgid "Redirect to URL"
+msgstr "Reindirizza a URL"
+
+#: C:\redirection/models/redirect.php:409
+msgid "Redirect to random post"
+msgstr "Reindirizza a un post a caso"
+
+#: C:\redirection/models/redirect.php:410
+msgid "Pass-through"
+msgstr "Pass-through"
+
+#: C:\redirection/models/redirect.php:411
+msgid "Error (404)"
+msgstr "Errore (404)"
+
+#: C:\redirection/models/redirect.php:412
+msgid "Do nothing"
+msgstr "Non fare niente"
+
+#: C:\redirection/modules/404.php:37
+msgid "Log 404s"
+msgstr "Crea log per gli errori 404"
+
+#: C:\redirection/modules/404.php:46
+#: C:\redirection/modules/wordpress.php:228
+msgid "<strong>Disabled: You must enable <a href=\"options-permalink.php\">permalinks</a> before using this</strong>"
+msgstr "<strong>Disattivato: occorre attivare i <a href=\"options-permalink.php\">permalink</a> prima di poterlo usare</strong>"
+
+#: C:\redirection/modules/404.php:57
+#: C:\redirection/modules/wordpress.php:252
+msgid "<small>No options have been set</small>"
+msgstr "<small>Non è stata selezionata nessuna opzione</small>"
+
+#: C:\redirection/modules/apache.php:72
+msgid "Location"
+msgstr "Path"
+
+#: C:\redirection/modules/apache.php:77
+#, php-format
+msgid "WordPress is installed in: <code>%s</code>"
+msgstr "WordPress è installato in: <code>%s</code>"
+
+#: C:\redirection/modules/apache.php:82
+#: C:\redirection/modules/wordpress.php:189
+msgid "Canonical"
+msgstr "Canonica"
+
+#: C:\redirection/modules/apache.php:85
+#: C:\redirection/modules/apache.php:91
+#: C:\redirection/modules/wordpress.php:192
+#: C:\redirection/modules/wordpress.php:197
+msgid "Leave as is"
+msgstr "Lascia com'è"
+
+#: C:\redirection/modules/apache.php:85
+#: C:\redirection/modules/wordpress.php:192
+#, php-format
+msgid "Strip WWW (%s)"
+msgstr "Rimuovi WWW (%s)"
+
+#: C:\redirection/modules/apache.php:85
+#: C:\redirection/modules/wordpress.php:192
+#, php-format
+msgid "Force WWW (www.%s)"
+msgstr "Forza WWW (www.%s)"
+
+#: C:\redirection/modules/apache.php:89
+#: C:\redirection/modules/wordpress.php:195
+msgid "Strip Index"
+msgstr "Rimuovi Index"
+
+#: C:\redirection/modules/apache.php:91
+msgid "Strip index files (html,php)"
+msgstr "Rimuovi i file index (html, php)"
+
+#: C:\redirection/modules/apache.php:96
+msgid "Memory Limit"
+msgstr "Limite memoria"
+
+#: C:\redirection/modules/apache.php:99
+#: C:\redirection/modules/apache.php:104
+#: C:\redirection/modules/wordpress.php:205
+#: C:\redirection/modules/wordpress.php:210
+msgid "Server default"
+msgstr "Server default"
+
+#: C:\redirection/modules/apache.php:102
+#: C:\redirection/modules/wordpress.php:208
+msgid "Error Level"
+msgstr "Livello d'errore"
+
+#: C:\redirection/modules/apache.php:104
+msgid "No errors"
+msgstr "Nessun errore"
+
+#: C:\redirection/modules/apache.php:104
+msgid "Show errors"
+msgstr "Mostra gli errori"
+
+#: C:\redirection/modules/apache.php:109
+msgid "Ban IPs"
+msgstr "Blocca IP"
+
+#: C:\redirection/modules/apache.php:115
+msgid "Allow IPs"
+msgstr "Approva IP"
+
+#: C:\redirection/modules/apache.php:121
+msgid "Raw .htaccess"
+msgstr "Contenuto .htaccess"
+
+#: C:\redirection/modules/apache.php:127
+msgid "Site URL"
+msgstr "URL sito"
+
+#: C:\redirection/modules/apache.php:130
+msgid "Advanced: For management of external sites"
+msgstr "Avanzato: per la gestione di siti esterni"
+
+#: C:\redirection/modules/apache.php:145
+msgid "<strong>Location is invalid - check that path exists</strong>"
+msgstr "<strong>Path non valido - controllare che il path esista</strong>"
+
+#: C:\redirection/modules/apache.php:151
+msgid "<strong>Could not write to configured <code>.htaccess</code> file - check file permissions</strong>"
+msgstr "<strong>Non è possibile modificare il file <code>.htaccess</code> - controllare i permessi del file</strong>"
+
+#: C:\redirection/modules/apache.php:158
+msgid "<strong>Disabled: enter the location of an <code>.htaccess</code> file for this to be valid</strong>"
+msgstr "<strong>Disattivato: inserire la posizione del file <code>.htaccess</code> per attivarlo</strong>"
+
+#: C:\redirection/modules/apache.php:163
+msgid "strip WWW"
+msgstr "rimuovi WWW"
+
+#: C:\redirection/modules/apache.php:163
+msgid "force WWW"
+msgstr "forza WWW"
+
+#: C:\redirection/modules/apache.php:166
+#: C:\redirection/modules/wordpress.php:236
+msgid "strip index"
+msgstr "rimuovi index"
+
+#: C:\redirection/modules/apache.php:169
+#, php-format
+msgid "memory limit at %dMB"
+msgstr "limite memoria a %d MB"
+
+#: C:\redirection/modules/apache.php:172
+#: C:\redirection/modules/wordpress.php:247
+msgid "no errors"
+msgstr "nessun errore"
+
+#: C:\redirection/modules/apache.php:172
+#: C:\redirection/modules/wordpress.php:247
+msgid "show errors"
+msgstr "mostra errori"
+
+#: C:\redirection/modules/apache.php:175
+msgid "IPs are banned"
+msgstr "Sono bloccati gli IP"
+
+#: C:\redirection/modules/apache.php:178
+msgid "IPs are allowed"
+msgstr "Sono permessi gli IP"
+
+#: C:\redirection/modules/apache.php:186
+#, php-format
+msgid " for external site: <code>%s</code>"
+msgstr " per il sito esterno: <code>%s</code>"
+
+#: C:\redirection/modules/wordpress.php:197
+msgid "Strip index files (html,php,asp)"
+msgstr "Rimuovi i file index  (html,php,asp)"
+
+#: C:\redirection/modules/wordpress.php:202
+msgid "Time Limit"
+msgstr "Tempo limite"
+
+#: C:\redirection/modules/wordpress.php:205
+msgid "30 seconds"
+msgstr "30 secondi"
+
+#: C:\redirection/modules/wordpress.php:205
+msgid "1 minute"
+msgstr "1 minuto"
+
+#: C:\redirection/modules/wordpress.php:205
+msgid "2 minutes"
+msgstr "2 minuti"
+
+#: C:\redirection/modules/wordpress.php:205
+msgid "5 minutes"
+msgstr "5 minuti"
+
+#: C:\redirection/modules/wordpress.php:205
+msgid "As long as possible"
+msgstr "Il più lungo possibile"
+
+#: C:\redirection/modules/wordpress.php:241
+msgid "time limit set as long as possible"
+msgstr "tempo limite settato al massimo possibile"
+
+#: C:\redirection/modules/wordpress.php:243
+#, php-format
+msgid "time limit at %ss"
+msgstr "tempo limite di %s s"
+
+#: C:\redirection/view/admin/add.php:3
+msgid "Add new redirection"
+msgstr "Aggiungi un nuovo reindirizzamento"
+
+#: C:\redirection/view/admin/add.php:6
+msgid "Your redirection has been added."
+msgstr "Il reindirizzamento è stato creato."
+
+#: C:\redirection/view/admin/add.php:12
+msgid "Source URL"
+msgstr "URL di partenza"
+
+#: C:\redirection/view/admin/add.php:16
+msgid "Match"
+msgstr "Match"
+
+#: C:\redirection/view/admin/add.php:22
+msgid "Action"
+msgstr "Azione"
+
+#: C:\redirection/view/admin/add.php:27
+msgid "Regular expression"
+msgstr "Espressione regolare (regex)"
+
+#: C:\redirection/view/admin/add.php:36
+msgid "Group"
+msgstr "Gruppo"
+
+#: C:\redirection/view/admin/add.php:43
+msgid "Add Redirection"
+msgstr "Crea reindirizzamento"
+
+#: C:\redirection/view/admin/group_edit.php:6
+#: C:\redirection/view/admin/group_list.php:36
+#: C:\redirection/view/admin/group_list.php:99
+#: C:\redirection/view/admin/module_edit.php:18
+#: C:\redirection/view/admin/module_list.php:41
+msgid "Name"
+msgstr "Nome"
+
+#: C:\redirection/view/admin/group_edit.php:10
+msgid "Tracked"
+msgstr "Tracking"
+
+#: C:\redirection/view/admin/group_edit.php:11
+msgid "Whether to track 'hits' to items"
+msgstr "Effettuare il tracking degli accessi a questo elemento"
+
+#: C:\redirection/view/admin/group_edit.php:14
+msgid "Enabled"
+msgstr "Attivato"
+
+#: C:\redirection/view/admin/group_edit.php:15
+msgid "Disabling a group will disable all items contained within it"
+msgstr "Disattivando un gruppo, tutti gli elementi in esso contenuti verranno disattivati"
+
+#: C:\redirection/view/admin/group_edit.php:20
+#: C:\redirection/view/admin/item_edit.php:27
+#: C:\redirection/view/admin/module_edit.php:27
+msgid "Save"
+msgstr "Salva"
+
+#: C:\redirection/view/admin/group_edit.php:21
+#: C:\redirection/view/admin/item_edit.php:28
+#: C:\redirection/view/admin/module_edit.php:28
+msgid "Cancel"
+msgstr "Annulla"
+
+#: C:\redirection/view/admin/group_item.php:4
+msgid "edit group"
+msgstr "modifica gruppo"
+
+#: C:\redirection/view/admin/group_item.php:20
+#: C:\redirection/view/admin/item.php:27
+msgid "disabled"
+msgstr "disattivato"
+
+#: C:\redirection/view/admin/group_list.php:6
+msgid "Groups for module"
+msgstr "Gruppi per il modulo"
+
+#: C:\redirection/view/admin/group_list.php:15
+#: C:\redirection/view/admin/log.php:38
+msgid "Module"
+msgstr "Modulo"
+
+#: C:\redirection/view/admin/group_list.php:20
+#: C:\redirection/view/admin/item_list.php:21
+#: C:\redirection/view/admin/log.php:16
+#: C:\redirection/view/admin/log.php:23
+msgid "Search"
+msgstr "Cerca"
+
+#: C:\redirection/view/admin/group_list.php:25
+msgid "go"
+msgstr "vai"
+
+#: C:\redirection/view/admin/group_list.php:35
+#: C:\redirection/view/admin/item_list.php:34
+#: C:\redirection/view/admin/module_list.php:16
+msgid "Hits"
+msgstr "Visite"
+
+#: C:\redirection/view/admin/group_list.php:58
+#: C:\redirection/view/admin/item_list.php:59
+msgid "Select All"
+msgstr "Seleziona tutto"
+
+#: C:\redirection/view/admin/group_list.php:59
+#: C:\redirection/view/admin/item_list.php:60
+msgid "Toggle"
+msgstr "Inverti"
+
+#: C:\redirection/view/admin/group_list.php:60
+#: C:\redirection/view/admin/item_list.php:61
+msgid "Reset Hits"
+msgstr "Azzera visite"
+
+#: C:\redirection/view/admin/group_list.php:61
+#: C:\redirection/view/admin/item_list.php:62
+#: C:\redirection/view/admin/log.php:30
+#: C:\redirection/view/admin/options.php:110
+msgid "Delete"
+msgstr "Rimuovi"
+
+#: C:\redirection/view/admin/group_list.php:63
+#: C:\redirection/view/admin/item_list.php:64
+msgid "Move To"
+msgstr "Sposta in"
+
+#: C:\redirection/view/admin/group_list.php:68
+#: C:\redirection/view/admin/item_list.php:26
+#: C:\redirection/view/admin/item_list.php:69
+msgid "Go"
+msgstr "Vai"
+
+#: C:\redirection/view/admin/group_list.php:74
+#: C:\redirection/view/admin/item_list.php:75
+msgid "re-order"
+msgstr "riordina"
+
+#: C:\redirection/view/admin/group_list.php:75
+#: C:\redirection/view/admin/item_list.php:76
+msgid "save order"
+msgstr "salva ordine"
+
+#: C:\redirection/view/admin/group_list.php:88
+msgid "You have no groups in this module."
+msgstr "Non ci sono gruppi in questo modulo."
+
+#: C:\redirection/view/admin/group_list.php:93
+msgid "Add Group"
+msgstr "Aggiungi gruppo"
+
+#: C:\redirection/view/admin/group_list.php:104
+msgid "Add"
+msgstr "Aggiungi"
+
+#: C:\redirection/view/admin/group_list.php:116
+#: C:\redirection/view/admin/head.php:7
+#: C:\redirection/view/admin/item_list.php:104
+#: C:\redirection/view/admin/log.php:112
+msgid "No items have been selected"
+msgstr "Nessun elemento è stato selezionato"
+
+#: C:\redirection/view/admin/group_list.php:117
+#: C:\redirection/view/admin/head.php:6
+#: C:\redirection/view/admin/item_list.php:105
+#: C:\redirection/view/admin/log.php:113
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+#: C:\redirection/view/admin/head.php:3
+msgid "Please wait..."
+msgstr "Attendere prego..."
+
+#: C:\redirection/view/admin/item_edit.php:3
+#, php-format
+msgid "%s by matching %s"
+msgstr "%s nel caso di: %s"
+
+#: C:\redirection/view/admin/item_edit.php:7
+msgid "Title"
+msgstr "Titolo"
+
+#: C:\redirection/view/admin/item_edit.php:10
+msgid "optional"
+msgstr "opzionale"
+
+#: C:\redirection/view/admin/item_list.php:6
+msgid "Redirections for group"
+msgstr "Reindirizzamenti per il gruppo"
+
+#: C:\redirection/view/admin/item_list.php:33
+msgid "Last Access"
+msgstr "Ultimo accesso"
+
+#: C:\redirection/view/admin/item_list.php:35
+#: C:\redirection/view/admin/module_list.php:45
+msgid "Type"
+msgstr "Tipo"
+
+#: C:\redirection/view/admin/item_list.php:36
+msgid "URL"
+msgstr "URL"
+
+#: C:\redirection/view/admin/item_list.php:36
+msgid "Position"
+msgstr "Path"
+
+#: C:\redirection/view/admin/item_list.php:80
+msgid "You have no redirections."
+msgstr "Non ci sono reindirezzamenti."
+
+#: C:\redirection/view/admin/log.php:6
+msgid "Redirection Log"
+msgstr "Log reindirizzamenti"
+
+#: C:\redirection/view/admin/log.php:29
+msgid "Bulk Actions"
+msgstr "Azioni di massa"
+
+#: C:\redirection/view/admin/log.php:33
+msgid "Apply"
+msgstr "Applica"
+
+#: C:\redirection/view/admin/log.php:49
+msgid "Filter"
+msgstr "Filtro"
+
+#: C:\redirection/view/admin/log.php:67
+msgid "Date"
+msgstr "Data"
+
+#: C:\redirection/view/admin/log.php:70
+msgid "IP"
+msgstr "IP"
+
+#: C:\redirection/view/admin/log.php:85
+msgid "There are no logs to display!"
+msgstr "Non ci sono log da mostrare!"
+
+#: C:\redirection/view/admin/log.php:94
+msgid "Process Current Logs"
+msgstr "Processa il log corrente"
+
+#: C:\redirection/view/admin/log.php:95
+msgid "These actions will affect all currently available logs (i.e. your search phrase will restrict the log items)."
+msgstr "Queste azioni coinvolgeranno tutti i log disponibili al momemto (ad esempio la frase di ricerca restringerà gli elementi del log visualizzati)."
+
+#: C:\redirection/view/admin/log.php:100
+msgid "Delete Logs"
+msgstr "Cancella i log"
+
+#: C:\redirection/view/admin/log_item_details.php:9
+msgid "Redirect to"
+msgstr "Reindirizza a"
+
+#: C:\redirection/view/admin/log_item_details.php:15
+msgid "Redirected by"
+msgstr "Reindirizzato da"
+
+#: C:\redirection/view/admin/log_item_details.php:16
+msgid "for"
+msgstr "per"
+
+#: C:\redirection/view/admin/module_item.php:24
+msgid "View as"
+msgstr "Mostra come"
+
+#: C:\redirection/view/admin/module_item.php:26
+msgid "CSV"
+msgstr "CSV"
+
+#: C:\redirection/view/admin/module_item.php:27
+msgid "XML"
+msgstr "XML"
+
+#: C:\redirection/view/admin/module_item.php:29
+msgid "RSS"
+msgstr "RSS"
+
+#: C:\redirection/view/admin/module_item.php:42
+msgid "edit"
+msgstr "modifica"
+
+#: C:\redirection/view/admin/module_item.php:45
+msgid "delete"
+msgstr "rimuovi"
+
+#: C:\redirection/view/admin/module_item.php:48
+msgid "reset"
+msgstr "azzera"
+
+#: C:\redirection/view/admin/module_list.php:6
+#: C:\redirection/view/admin/submenu.php:6
+msgid "Modules"
+msgstr "Moduli"
+
+#: C:\redirection/view/admin/module_list.php:13
+msgid "Details"
+msgstr "Dettagli"
+
+#: C:\redirection/view/admin/module_list.php:14
+#: C:\redirection/view/admin/submenu.php:5
+msgid "Groups"
+msgstr "Gruppi"
+
+#: C:\redirection/view/admin/module_list.php:15
+msgid "Items"
+msgstr "Elementi"
+
+#: C:\redirection/view/admin/module_list.php:17
+msgid "Operations"
+msgstr "Operazioni"
+
+#: C:\redirection/view/admin/module_list.php:26
+msgid "Note: Hits are dependant on log entries"
+msgstr "Nota: le visite dipendono dalle informazioni del log"
+
+#: C:\redirection/view/admin/module_list.php:28
+msgid "You have no modules defined yet"
+msgstr "Non ci sono moduli definiti"
+
+#: C:\redirection/view/admin/module_list.php:33
+msgid "Add Module"
+msgstr "Aggiungi modulo"
+
+#: C:\redirection/view/admin/module_list.php:34
+msgid "A module is a controlling element that determines how redirections are handled.  Elements in a WordPress module are handled by WordPress, elements in an Apache module are handled by <code>.htaccess</code>, and elements in a 404 module affect how 404 errors are logged."
+msgstr "Il modulo è un elemento di controllo che determina la gestione dei reindirizzamenti. Gli elementi di un modulo di WordPress sono gestiti da WordPress, gli elementi in un modulo di Apache sono gestiti dal file <code>.htaccess</code> e gli elementi di un modulo 404 influenzeranno la gestione del log per gli errori 404."
+
+#: C:\redirection/view/admin/module_list.php:54
+msgid "Create"
+msgstr "Crea"
+
+#: C:\redirection/view/admin/options.php:6
+#: C:\redirection/view/admin/submenu.php:8
+msgid "Options"
+msgstr "Opzioni"
+
+#: C:\redirection/view/admin/options.php:15
+msgid "Auto-generate URL"
+msgstr "Genera URL automaticamente"
+
+#: C:\redirection/view/admin/options.php:19
+msgid "This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)"
+msgstr "Se non viene inserita nessuna URL, questa stringa verrà usata per generarne automaticamente una. È possibile usare i tag speciali $dec$ o $hex$ per inserire un ID unico (decimale o esadecimale)"
+
+#: C:\redirection/view/admin/options.php:24
+msgid "IP Lookup Service"
+msgstr "Servizio di ricerca IP"
+
+#: C:\redirection/view/admin/options.php:30
+msgid "Plugin Support"
+msgstr "Supporto plugin"
+
+#: C:\redirection/view/admin/options.php:33
+msgid "I'm a nice person and I have helped support the author of this plugin"
+msgstr "Sono una brava persona e ho contribuito a sostenere l'autore di questo plugin"
+
+#: C:\redirection/view/admin/options.php:37
+msgid "Expire Logs"
+msgstr "I log scadono dopo"
+
+#: C:\redirection/view/admin/options.php:40
+msgid "days (enter 0 for no expiry)"
+msgstr "giorni (inserire 0 per nessuna scadenza)"
+
+#: C:\redirection/view/admin/options.php:44
+msgid "RSS Token"
+msgstr "Token RSS"
+
+#: C:\redirection/view/admin/options.php:47
+msgid "A unique token allowing feed readers access to Redirection RSS (leave blank to auto-generate)"
+msgstr "Un token unico permette ai feed reader di accedere ai feed RSS di Redirection (lasciare vuoto per generarlo automaticamente)"
+
+#: C:\redirection/view/admin/options.php:52
+msgid "URL Monitoring"
+msgstr "Controllo URL"
+
+#: C:\redirection/view/admin/options.php:53
+msgid "You can have Redirection detect changes in URLs and have an automatic redirection created in a specific group."
+msgstr "È possibile impostare Redirection per identificare i cambiamenti nelle URL e creare automaticamente un reindirizzamento in un gruppo specifico."
+
+#: C:\redirection/view/admin/options.php:57
+msgid "Post &amp; Page URLs"
+msgstr "URL dei post e delle pagine"
+
+#: C:\redirection/view/admin/options.php:60
+#: C:\redirection/view/admin/options.php:72
+msgid "Don't monitor"
+msgstr "Non controllare"
+
+#: C:\redirection/view/admin/options.php:64
+msgid "Monitor new posts"
+msgstr "Controlla i nuovi post"
+
+#: C:\redirection/view/admin/options.php:69
+msgid "Category URLs"
+msgstr "URL della categoria"
+
+#: C:\redirection/view/admin/options.php:79
+msgid "Update"
+msgstr "Aggiorna"
+
+#: C:\redirection/view/admin/options.php:85
+msgid "Import"
+msgstr "Importa"
+
+#: C:\redirection/view/admin/options.php:87
+msgid "Here you can import redirections from an existing .htaccess file, a CSV file, or a Redirection XML."
+msgstr "È possibile importare reindirizzamentti direttamente da un file .htacess, CSV o XML già esistente."
+
+#: C:\redirection/view/admin/options.php:94
+msgid "Import into"
+msgstr "Importa in"
+
+#: C:\redirection/view/admin/options.php:97
+msgid "Upload"
+msgstr "Carica"
+
+#: C:\redirection/view/admin/options.php:100
+msgid "Note that the group is ignored when uploading an XML file."
+msgstr "Nota: il gruppo viene ignorato quando si effettua l'upload di un file XML."
+
+#: C:\redirection/view/admin/options.php:104
+msgid "Delete Redirection"
+msgstr "Rimuovi Redirection"
+
+#: C:\redirection/view/admin/options.php:105
+msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
+msgstr "Selezionando questa opzione tutti i reindirizzamenti, i log e qualunque altra opzione associata con Redirection verranno cancellati. Assicurarsi che questo è proprio ciò che si vuole fare."
+
+#: C:\redirection/view/admin/submenu.php:4
+msgid "Redirects"
+msgstr "Reindirizzamenti"
+
+#: C:\redirection/view/admin/submenu.php:7
+msgid "Log"
+msgstr "Log"
+
+#: C:\redirection/view/admin/submenu.php:9
+msgid "Support"
+msgstr "Supporto"
+
+#: C:\redirection/view/admin/support.php:5
+msgid "Redirection Support"
+msgstr "Forum di supporto Redirection"
+
+#: C:\redirection/view/admin/support.php:9
+msgid "Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>."
+msgstr "Redirection può essere utilizzato gratuitamente - la vita è davvero fantastica e piena di belle cose! La creazione di questo plugin ha comunque richiesto molto tempo e lavoro, sarebbe pertanto gradito un sostegno al suo sviluppo <strong>facendo una piccola donazione</strong>."
+
+#: C:\redirection/view/admin/support.php:10
+msgid "This will act as an incentive for me to carry on developing, providing countless hours of support, and including new features and suggestions. You get some useful software and I get to carry on making it.  Everybody wins."
+msgstr "Ciò costituirebbe per me uno sprone a proseguire lo sviluppo, incluse le numerose ore dedicate al supporto, l'inserimento di nuove caratteristiche e suggerimenti. Tu riceverai un software utile e io continuerò a fornirtelo. Insomma, una vittoria per tutti."
+
+#: C:\redirection/view/admin/support.php:13
+msgid "If you are using this plugin in a commercial setup, or feel that it's been particularly useful, then you may want to consider a <strong>commercial donation</strong>."
+msgstr "Se hai intenzione di utilizzare questo plugin per un sito commerciale, o ritieni che sia particolarmente utile, puoi magari pensare di fare una <strong>donazione commerciale</strong>."
+
+#: C:\redirection/view/admin/support.php:36
+msgid "Individual<br/>Donation"
+msgstr "Donazione<br/>individuale"
+
+#: C:\redirection/view/admin/support.php:56
+msgid "Commercial<br/>Donation"
+msgstr "Donazione<br/>commerciale"
+
+#: C:\redirection/view/admin/support.php:60
+msgid "Translations"
+msgstr "Traduzioni"
+
+#: C:\redirection/view/admin/support.php:62
+msgid "If you're multi-lingual then you may want to consider donating a translation:"
+msgstr "Se parli più lingue potresti essere interessato a donare una traduzione."
+
+#: C:\redirection/view/admin/support.php:70
+msgid "All translators will have a link to their website placed on the plugin homepage at <a href=\"http://urbangiraffe.com/plugins/redirection/\">UrbanGiraffe</a> and <a href=\"http://wordpress.org/extend/plugins/redirection/\">WordPress.org</a>, in addition to being an individual supporter."
+msgstr "Tutti i traduttori verranno citati inserendo un link al loro sito internet su <a href=\"http://urbangiraffe.com/plugins/redirection/\">UrbanGiraffe</a> e <a href=\"http://wordpress.org/extend/plugins/redirection/\">WordPress.org</a>, oltre a diventare sostenitori individuali."
+
+#: C:\redirection/view/admin/support.php:71
+msgid "Full details of producing a translation can be found in this <a href=\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/\">guide to translating WordPress plugins</a>."
+msgstr "I dettagli completi su come creare una traduzione sono presenti nella <a href=\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/\">guida per tradurre i plugin di Wordpress</a>."
+

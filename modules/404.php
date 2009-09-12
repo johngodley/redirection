@@ -94,8 +94,10 @@ class Error404_Module extends Red_Module
 							  $myip = $_SERVER['REMOTE_ADDR'];
 							else if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']))
 							  $myip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-				
-							$log = RE_Log::create ($_SERVER['REQUEST_URI'], '', $_SERVER['HTTP_USER_AGENT'], $myip, isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '', 'NULL', $module->id);
+
+							$options = $redirection->get_options ();
+							if ($options['log_404s'])
+								$log = RE_Log::create ($_SERVER['REQUEST_URI'], '', $_SERVER['HTTP_USER_AGENT'], $myip, isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '', 'NULL', $module->id);
 						}
 					}
 				}
