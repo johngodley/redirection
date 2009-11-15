@@ -45,6 +45,8 @@ Redirection is available in:
 * Bahasa Indonesia by Septian Fujianto
 * German by Fabian Schulz
 * Italian by Raffaello Tesi
+* Ukrainian by WordPress plugins Ukraine
+* Polish by Kuba Majerczyk
 
 == Installation ==
 
@@ -205,3 +207,8 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 * Add Bahasa Indonesian translation
 * Add German translation
 * Add patch to disable logs (thanks to Simon Wheatley!)
+
+= 2.1.24 =
+* Add Ukrainian translation
+* Add Polish translation
+* Database optimisation

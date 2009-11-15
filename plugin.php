@@ -12,7 +12,7 @@
 // Lesser General Public License for more details.
 // ======================================================================================
 // @author     John Godley(http://urbangiraffe.com)
-// @version    0.2.6
+// @version    0.2.7
 // @copyright  Copyright &copy; 2009 John Godley, All Rights Reserved
 // ======================================================================================
 // 0.1.6  - Corrected WP locale functions
@@ -47,6 +47,7 @@
 // 0.2.4  - Ajax helper, more compatability functions
 // 0.2.5  - _n helper
 // 0.2.6  - Compatability functions js_esc
+// 0.2.7  - Allow multiple hooks in add_action/add_filter
 // ======================================================================================
 
 
@@ -265,28 +266,38 @@ class Redirection_Plugin {
 	/**
 	 * Register a WordPress action and map it back to the calling object
 	 *
-	 * @param string $action Name of the action
-	 * @param string $function Function name(optional)
+	 * @param mixed $action Name of the action (single string or array of strings)
+	 * @param string $function Function name (optional, if an array is given for $action then first $action is used as function name)
 	 * @param int $priority WordPress priority(optional)
 	 * @param int $accepted_args Number of arguments the function accepts(optional)
 	 * @return void
 	 **/
-	function add_action( $action, $function = '', $priority = 10, $accepted_args = 1 ) {
-		add_action( $action, array( &$this, $function == '' ? $action : $function ), $priority, $accepted_args );
+	function add_action( $actions, $function = '', $priority = 10, $accepted_args = 1 ) {
+		if ( !is_array( $actions ) )
+			$actions = array( $actions );
+			
+		foreach ( $actions AS $action ) {
+			add_action( $action, array( &$this, $function == '' ? $actions[0] : $function ), $priority, $accepted_args );
+		}
 	}
 
 
 	/**
 	 * Register a WordPress filter and map it back to the calling object
 	 *
-	 * @param string $action Name of the action
-	 * @param string $function Function name(optional)
+	 * @param mixed $action Name of the action (single string or array of strings)
+	 * @param string $function Function name (optional, if an array is given for $action then first $action is used as function name)
 	 * @param int $priority WordPress priority(optional)
 	 * @param int $accepted_args Number of arguments the function accepts(optional)
 	 * @return void
 	 **/
-	function add_filter( $filter, $function = '', $priority = 10, $accepted_args = 1 ) {
-		add_filter( $filter, array( &$this, $function == '' ? $filter : $function ), $priority, $accepted_args );
+	function add_filter( $filters, $function = '', $priority = 10, $accepted_args = 1 ) {
+		if ( !is_array( $filters ) )
+			$filters = array( $filters );
+		
+		foreach ( $filters AS $filter ) {
+			add_filter( $filter, array( &$this, $function == '' ? $filters[0] : $function ), $priority, $accepted_args );
+		}
 	}
 
 
@@ -576,6 +587,19 @@ class Redirection_Plugin {
 		if ( $charset != 'UTF-8' && function_exists( 'mb_strlen' ) )
 			return mb_strlen( $text );
 		return strlen( $text );
+	}
+	
+	/**
+	 * Returns version of plugin
+	 *
+	 * @return string Version
+	 **/
+	function version() {
+		$plugin_data = implode( '', file( $this->plugin_base ) );
+		
+		if ( preg_match( '|Version:(.*)|i', $plugin_data, $version ) )
+			return trim( $version[1] );
+		return '';
 	}
 }
 

@@ -147,6 +147,9 @@ class RE_Database
 		else if ($current == '2.0.2')
 			$this->upgrade_from_22 ();
 
+		if ( version_compare( $current, '2.1.16' ) == -1 )
+			$this->upgrade_to_216();
+		
 		// Check that the IP field exists - some users don't have this
 		$test = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_logs LIMIT 0,1");
 		if ( !empty( $test ) && !isset( $test[0]->ip ) ) {
@@ -342,11 +345,20 @@ class RE_Database
 		$this->upgrade_from_22 ();
 	}
 	
-	function upgrade_from_22 ()
-	{
+	function upgrade_from_22 ()	{
 		global $wpdb;
 		
 		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` CHANGE `title` `title` varchar(50) NULL");
+	}
+	
+	function upgrade_to_216() {
+		global $wpdb;
+		
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_groups` ADD INDEX (module_id)");
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_groups` ADD INDEX (status)");
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX (url(200))");
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX (status)");
+		$wpdb->query ("ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX (regex)");
 	}
 	
 	function remove ($plugin)
