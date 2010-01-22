@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.24
+Version: 2.1.25
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -195,9 +195,9 @@ class Redirection extends Redirection_Plugin {
 	
 	function admin_screen_modules() {
 		if ( isset( $_POST['create'] ) && check_admin_referer( 'redirection-module_add' ) ) {
-			$_POST = stripslashes_deep( $_POST );
+			$data = stripslashes_deep( $_POST );
 			
-			if ( ( $module = Red_Module::create( $_POST ) ) ) {
+			if ( ( $module = Red_Module::create( $data ) ) ) {
 				$moduleid = 0;
 				if ( isset($_POST['module']))
 					$moduleid = intval( $_POST['module'] );
@@ -254,18 +254,16 @@ class Redirection extends Redirection_Plugin {
 
 	function admin_screen_options() {
 		if ( isset( $_POST['update'] ) && check_admin_referer( 'redirection-update_options' ) ) {
-			$_POST = stripslashes_deep( $_POST );
-
-			$options['lookup']            = $_POST['lookup'];
-			$options['monitor_post']      = $_POST['monitor_post'];
-			$options['monitor_category']  = $_POST['monitor_category'];
-			$options['auto_target']       = $_POST['auto_target'];
+			$options['lookup']            = stripslashes( $_POST['lookup'] );
+			$options['monitor_post']      = stripslashes( $_POST['monitor_post'] );
+			$options['monitor_category']  = stripslashes( $_POST['monitor_category'] );
+			$options['auto_target']       = stripslashes( $_POST['auto_target'] );
 			$options['support']           = isset( $_POST['support'] ) ? true : false;
 			$options['log_redirections']  = (bool) @ $_POST['log_redirections'];
 			$options['log_404s']          = (bool) @ $_POST['log_404s'];
 			$options['monitor_new_posts'] = isset( $_POST['monitor_new_posts'] ) ? true : false;
 			$options['expire']            = intval( $_POST['expire'] );
-			$options['token']             = $_POST['token'];
+			$options['token']             = stripslashes( $_POST['token'] );
 			
 			if ( trim( $options['token'] ) == '' )
 				$options['token'] = md5( uniqid() );
