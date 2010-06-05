@@ -60,7 +60,7 @@ class WordPress_Module extends Red_Module
 		global $redirection;
 		$part = explode ('?', $url);
 		
-		if ($part[0] == str_replace (get_bloginfo ('home'), '', $redirection->url ()).'/ajax.php' || strpos($url, 'wp-cron.php') !== false)
+		if ($part[0] == str_replace (get_bloginfo ('url'), '', $redirection->url ()).'/ajax.php' || strpos($url, 'wp-cron.php') !== false)
 			return true;
 		return false;
 	}

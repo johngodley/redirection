@@ -98,7 +98,7 @@ class Red_Monitor
 			$oldslug = $_POST['redirection_slug'];
 			$base    = get_option ('home');
 
-			if ($newslug != $oldslug && strlen ($oldslug) > 0 && ($post->post_status == 'publish' || $post->post_status == 'static') && $_POST['redirection_status'] != 'draft' && $_POST['redirection_status'] != 'pending' && $newslug != '/')
+			if ($newslug != $oldslug && strlen ($oldslug) > 0 && ( strpos( $oldslug, '?p=' ) === false ) && ($post->post_status == 'publish' || $post->post_status == 'static') && $_POST['redirection_status'] != 'draft' && $_POST['redirection_status'] != 'pending' && $newslug != '/')
 			{
 				$old_url = parse_url ($oldslug);
 				$new_url = parse_url ($newslug);

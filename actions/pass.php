@@ -5,8 +5,10 @@ class Pass_Action extends Red_Action
 	function process_before ($code, $target)
 	{
 		// Determine what we are passing to:  local URL, remote URL, file
-		if (substr ($target, 0, 7) == 'http://' || substr ($target, 0, 8) == 'https://')
+		if (substr ($target, 0, 7) == 'http://' || substr ($target, 0, 8) == 'https://') {
 			echo @wp_remote_fopen ($target);
+			die();
+		}
 		else if (substr ($target, 0, 7) == 'file://')
 		{
 			$parts = explode ('?', substr ($target, 7));
