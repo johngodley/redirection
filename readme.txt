@@ -47,6 +47,7 @@ Redirection is available in:
 * Italian by Raffaello Tesi
 * Ukrainian by WordPress plugins Ukraine
 * Polish by Kuba Majerczyk
+* Arabic by Jerry John
 
 == Installation ==
 
@@ -218,3 +219,7 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.2.26 =
 * WP 3.0 compatibility
+
+= 2.2.27 =
+* Arabic translation
+
