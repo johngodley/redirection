@@ -81,7 +81,12 @@ class RE_Pager
 			$this->current_page = intval ($data['curpage']);
 
 		global $user_ID;
-		$per_page = get_usermeta ($user_ID, 'ug_per_page');
+		
+		if ( function_exists( 'get_user_meta' ) )
+			$per_page = get_user_meta ($user_ID, 'ug_per_page');
+		else
+			$per_page = get_usermeta ($user_ID, 'ug_per_page');
+		
 		if (isset ($data['perpage']))
 		{
 			$this->per_page = intval ($data['perpage']);

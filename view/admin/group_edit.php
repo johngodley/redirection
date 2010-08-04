@@ -4,7 +4,7 @@
 		<table class="edit">
 			<tr>
 				<th width="70"><?php _e ('Name', 'redirection'); ?>:</th>
-				<td><input style="width: 95%" type="text" name="name" value="<?php echo htmlspecialchars ($group->name) ?>"/></td>
+				<td><input style="width: 95%" type="text" name="name" value="<?php echo esc_attr( $group->name ) ?>"/></td>
 			</tr>
 			<tr>
 				<th width="70"><?php _e ('Tracked', 'redirection'); ?>:</th>

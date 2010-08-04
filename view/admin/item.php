@@ -19,9 +19,9 @@
 <div class="item<?php if ($redirect->regex)  echo ' item-regex' ?>">
 	<input type="checkbox" class="check" name="checkall[]" value="<?php echo $redirect->id ?>"/>
 	
-	<a href="<?php echo $this->url ($redirect->url) ?>" class="redirection-edit"><?php if ($redirect->title) echo htmlspecialchars ($redirect->title); else echo RE_Log::show_url ($redirect->url); ?></a>
+	<a href="<?php echo $this->url ($redirect->url) ?>" class="redirection-edit"><?php if ($redirect->title) echo esc_html( $redirect->title ); else echo RE_Log::show_url ($redirect->url); ?></a>
 	
-	<?php if ($redirect->match_type != 'url') echo '('.$redirect->match_name ().')' ?>
+	<?php if ($redirect->match_type != 'url') echo '('.esc_html( $redirect->match_name() ).')' ?>
 	
 	<?php if ($redirect->status == 'disabled') : ?>
 		&mdash; <?php _e ('disabled', 'redirection'); ?>

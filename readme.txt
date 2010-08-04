@@ -48,6 +48,7 @@ Redirection is available in:
 * Ukrainian by WordPress plugins Ukraine
 * Polish by Kuba Majerczyk
 * Arabic by Jerry John
+* Brazilian Portuguese by Pedro Padron
 
 == Installation ==
 
@@ -223,3 +224,5 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 = 2.2.27 =
 * Arabic translation
 
+= 2.2.28 =
+* Brazilian Portuguese translation

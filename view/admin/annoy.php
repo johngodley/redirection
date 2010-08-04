@@ -1,3 +1,4 @@
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <?php
 	$options = $this->get_options ();
 	$sub = isset ($_GET['sub']) ? $_GET['sub'] : '';

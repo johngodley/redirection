@@ -14,7 +14,7 @@
 
 <div class="item">
 	<input class="check" type="checkbox" name="checkall[]" value="<?php echo $group->id ?>"/>
-	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=redirects&amp;id=<?php echo $group->id ?>"><?php echo htmlspecialchars ($group->name); ?></a><?php echo $group->items () ?>
+	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=redirects&amp;id=<?php echo $group->id ?>"><?php echo esc_html( $group->name ); ?></a><?php echo $group->items () ?>
 	
 	<?php if ($group->status == 'disabled') : ?>
 		&mdash; <?php _e ('disabled', 'redirection'); ?>

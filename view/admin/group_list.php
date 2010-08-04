@@ -3,7 +3,7 @@
 	<?php screen_icon(); ?>
 	<?php $this->render_admin('annoy')?>
 
-	<h2><?php _e ('Groups for module', 'redirection'); ?>: <a href="edit.php?page=redirection.php&amp;sub=modules"><?php echo htmlspecialchars ($module->name) ?></a></h2>
+	<h2><?php _e ('Groups for module', 'redirection'); ?>: <a href="edit.php?page=redirection.php&amp;sub=modules"><?php echo esc_html( $module->name ) ?></a></h2>
 		
 	<?php $this->submenu (true); ?>
 	<div id="pager" class="pager">
@@ -18,7 +18,7 @@
 			</select>
 			
 			<?php _e ('Search', 'redirection'); ?>: 
-			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars ($_GET['search']) : '' ?>" style="font-size: 0.8em"/>
+			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? esc_attr( $_GET['search'] ) : '' ?>" style="font-size: 0.8em"/>
 
 			<?php $pager->per_page ('redirection'); ?>
 

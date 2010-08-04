@@ -42,7 +42,7 @@
 	    <td>
 				<input class="button-primary" type="submit" name="add" value="<?php _e ('Add Redirection', 'redirection') ?>" id="submit"/>
 				<?php if (isset($group)) : ?>
-				<input type="hidden" name="group" value="<?php echo $group ?>"/>
+				<input type="hidden" name="group" value="<?php echo esc_attr( $group ) ?>"/>
 				<?php endif; ?>
 				
 				<input type="hidden" name="action" value="red_redirect_add"/>

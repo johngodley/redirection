@@ -13,7 +13,7 @@
 
 <td valign="top">
 	<h4>
-		<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo htmlspecialchars ($module->name); ?></a>
+		<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo esc_html( $module->name ); ?></a>
 		<?php echo $module->name_extra (); ?>
 	</h4>
 	

@@ -14,7 +14,7 @@
 			<tr>
 	      <th valign="top" align="right"><?php _e ('Auto-generate URL', 'redirection') ?>:</th>
 	      <td>
-					<input type="text" name="auto_target" style="width: 95%" value="<?php echo htmlspecialchars ($options['auto_target']) ?>"/>
+					<input type="text" name="auto_target" style="width: 95%" value="<?php echo esc_attr( $options['auto_target'] ) ?>"/>
 					<br/>
 					<span class="sub"><?php _e ('This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection'); ?></span>
 
@@ -23,7 +23,7 @@
 			<tr>
 				<th align="right" valign="top"><?php _e ('IP Lookup Service', 'redirection'); ?>:</th>
 				<td>
-					<input type="text" style="width: 95%" name="lookup" value="<?php echo $options['lookup'] ?>" id="lookup"/><br/>
+					<input type="text" style="width: 95%" name="lookup" value="<?php echo esc_attr( $options['lookup'] ) ?>" id="lookup"/><br/>
 				</td>
 			</tr>
 			<tr>
@@ -46,14 +46,14 @@
 			<tr>
 				<th align="right"><?php _e ('Expire Logs', 'redirection'); ?>:</th>
 				<td>
-					<input size="5" type="text" name="expire" value="<?php echo $options['expire'] ?>"/>
+					<input size="5" type="text" name="expire" value="<?php echo esc_attr( $options['expire'] ) ?>"/>
 					<?php _e ('days (enter 0 for no expiry)', 'redirection'); ?>
 				</td>
 			</tr>
 			<tr>
 				<th align="right"><?php _e ('RSS Token', 'redirection'); ?>:</th>
 				<td>
-					<input class="regular-text" size="5" type="text" name="token" value="<?php echo $options['token'] ?>"/><br/>
+					<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token'] ) ?>"/><br/>
 					<?php _e ('A unique token allowing feed readers access to Redirection RSS (leave blank to auto-generate)', 'redirection'); ?>
 				</td>
 			</tr>

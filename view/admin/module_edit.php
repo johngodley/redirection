@@ -16,7 +16,7 @@
 		<table class="edit">
 			<tr>
 				<th><?php _e ('Name', 'redirection'); ?>:</th>
-				<td><input type="text" name="name" value="<?php echo htmlspecialchars ($module->name) ?>" style="width: 95%"/></td>
+				<td><input type="text" name="name" value="<?php echo esc_attr( $module->name ) ?>" style="width: 95%"/></td>
 			</tr>
 
 			<?php $module->config (); ?>

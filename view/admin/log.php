@@ -8,16 +8,16 @@
 	<?php $this->submenu (true); ?>
 
 	<form method="get" action="<?php echo $this->url ($pager->url) ?>">
-		<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
+		<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ) ?>"/>
 		<input type="hidden" name="curpage" value="<?php echo $pager->current_page () ?>"/>
-		<input type="hidden" name="sub" value="<?php echo $_GET['sub'] ?>"/>
+		<input type="hidden" name="sub" value="<?php echo esc_attr( $_GET['sub'] ) ?>"/>
 
 		<p class="search-box">
 			<label for="post-search-input" class="hidden"><?php _e ('Search', 'redirection') ?>:</label>
 
-			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars ($_GET['search']) : ''?>"/>
+			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search']) ? esc_attr( $_GET['search'] ) : ''?>"/>
 			<?php if (isset ($_GET['search']) && $_GET['search'] != '') : ?>
-				<input type="hidden" name="ss" value="<?php echo htmlspecialchars ($_GET['search']) ?>"/>
+				<input type="hidden" name="ss" value="<?php echo esc_attr( $_GET['search'] ) ?>"/>
 			<?php endif;?>
 
 			<input type="submit" class="button" value="<?php _e ('Search', 'redirection'); ?>"/>
