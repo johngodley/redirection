@@ -8,9 +8,9 @@
 	<?php $this->submenu (true); ?>
 	<div id="pager" class="pager">
 		<form method="get" action="<?php echo $this->url ($pager->url) ?>">
-			<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
+			<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ) ?>"/>
 			<input type="hidden" name="curpage" value="<?php echo $pager->current_page () ?>"/>
-			<input type="hidden" name="sub" value="<?php echo $_GET['sub'] ?>"/>
+			<input type="hidden" name="sub" value="<?php echo esc_attr( $_GET['sub'] ) ?>"/>
 
 			<?php _e ('Module', 'redirection'); ?>:
 			<select name="id">
