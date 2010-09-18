@@ -218,14 +218,14 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 = 2.1.25 =
 * Fix deep slashes
 
-= 2.2.26 =
+= 2.1.26 =
 * WP 3.0 compatibility
 
-= 2.2.27 =
+= 2.1.27 =
 * Arabic translation
 
-= 2.2.28 =
+= 2.1.28 =
 * Brazilian Portuguese translation
 
-= 2.2.29 =
+= 2.1.29 =
 * Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
