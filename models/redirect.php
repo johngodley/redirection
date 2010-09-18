@@ -359,11 +359,11 @@ class Red_Item
 			$count = $this->last_count + 1;
 			$wpdb->query ("UPDATE {$wpdb->prefix}redirection_items SET last_count='$count', last_access=NOW() WHERE id='{$this->id}'");
 
-			if (isset ($_SERVER['REMOTE_ADDR']))
-			  $ip = $_SERVER['REMOTE_ADDR'];
-			else if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']))
+			if (isset ($_SERVER['HTTP_X_FORWARDED_FOR']))
 			  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			
+			elseif (isset ($_SERVER['REMOTE_ADDR']))
+			  $ip = $_SERVER['REMOTE_ADDR'];
+
 			$options = $redirection->get_options ();
 			if ($options['log_redirections'])
 				$log = RE_Log::create ($url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '', $this->id, $this->module_id, $this->group_id);
