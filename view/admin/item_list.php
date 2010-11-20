@@ -28,6 +28,9 @@
 	</div>
 	<br/>
 	
+	<a href="http://polldaddy.com/s/EE1960D4BC58B079">Take part in a survey about Redirection!</a>
+	<br/><br/>
+	
 	<ul id="redirections_header" class="redirections_header">
 		<li>
 			<div class="date" style="width: 8em"><?php echo $pager->sortable ('last_access', __ ('Last Access', 'redirection')) ?></div>
