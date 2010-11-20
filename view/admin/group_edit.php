@@ -19,6 +19,7 @@
 				<td>
 					<input class="button-primary" type="submit" name="save" value="<?php _e ('Save', 'redirection'); ?>"/>
 					<input class="button-secondary" type="submit" name="cancel" value="<?php _e ('Cancel', 'redirection'); ?>"/>
+					<img class="loader" src="<?php echo $this->url(); ?>/images/progress.gif" alt="loading" width="50" height="16" style="display: none"/>
 					
 					<input type="hidden" name="action" value="red_group_save"/>
 					<input type="hidden" name="id" value="<?php echo $group->id; ?>"/>

@@ -140,6 +140,7 @@ class RedirectionAjax extends Redirection_Plugin {
 				$module->update( $this->post );
 		
 				$this->render_admin( 'module_item', array( 'module' => $module, 'token' => $options['token'] ) );
+				die();
 			}
 		}
 	}
@@ -228,9 +229,6 @@ class RedirectionAjax extends Redirection_Plugin {
 				foreach ( $items[1] AS $group ) {
 					Red_Group::delete( intval( $group ) );
 				}
-		
-				$group = Red_Group::get( $group );
-				Red_Module::flush( $group->module_id );
 			}
 		}
 	}

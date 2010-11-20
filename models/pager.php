@@ -82,17 +82,10 @@ class RE_Pager
 
 		global $user_ID;
 		
-		if ( function_exists( 'get_user_meta' ) )
-			$per_page = get_user_meta ($user_ID, 'ug_per_page');
-		else
-			$per_page = get_usermeta ($user_ID, 'ug_per_page');
-		
 		if (isset ($data['perpage']))
 		{
 			$this->per_page = intval ($data['perpage']);
 			$per_page[get_class ($this)][$this->id] = $this->per_page;
-			
-			update_usermeta ($user_ID, 'ug_per_page', $per_page);
 		}
 		else if (isset ($per_page[get_class ($this)]) && isset ($per_page[get_class ($this)][$this->id]))
 			$this->per_page = $per_page[get_class ($this)][$this->id];

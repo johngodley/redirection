@@ -19,8 +19,8 @@ this software, even if advised of the possibility of such damage.
 
 For full license details see license.txt
 ============================================================================================================ */
-class RE_Log
-{
+
+class RE_Log {
 	var $id;
 	var $created;
 	var $url;
@@ -48,11 +48,10 @@ class RE_Log
 		return false;
 	}
 	
-	function get (&$pager)
-	{
+	function get( &$pager ) {
 		global $wpdb;
 		
-		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')), ARRAY_A);
+		$rows = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs FORCE INDEX(created) ".$pager->to_limits ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')), ARRAY_A );
 		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
 		
 		$items = array ();
@@ -197,7 +196,7 @@ class RE_Log
 	function referrer ()
 	{
 		return preg_replace ('@https?://(.*?)/.*@', '$1', $this->referrer);
-		$home = get_bloginfo ('home');
+		$home = get_bloginfo ('url');
 		if (substr ($this->referrer, 0, strlen ($home)) == $home)
 			return substr ($this->referrer, strlen ($home));
 		return $this->referrer;

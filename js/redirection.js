@@ -133,11 +133,13 @@ var Redirection;
       if ( href.indexOf( 'admin-ajax.php' ) == -1 )
         href = opts.ajaxurl + '?action=red_redirect_edit&id=' + item.attr( 'id' ).substr( 5 ) + '&_ajax_nonce=' + opts.nonce;
 
-      $( item ).find( ':last' ).html( opts.progress );
+      $( item ).find( '.operations div' ).hide();
+      $( item ).find( '.loader' ).show();
       $( item ).load( href, function() {
         // Setup cancel handler
         $( item ).find( 'input[name=cancel]').click( function() {
-          $( item ).find( 'td:last' ).html( opts.progress );
+          $( item ).find( '.loader' ).show();
+          
           $( item ).load( href.replace( '_edit', '_load' ), function () {
             reset_func( type );
           });
@@ -150,7 +152,7 @@ var Redirection;
         // Form handler
   		  $( item ).find( 'form' ).ajaxForm( {
   		    beforeSubmit: function( data, form ) {
-            $( item ).find( 'td:last' ).html( opts.progress );
+            $( item ).find( '.loader' ).show();
             
   					if ( form.find( 'input[name=status]' ).length > 0 )
   					  changestatus = form.find( 'input[name=status]' ).attr( 'checked' );
@@ -175,14 +177,17 @@ var Redirection;
 		
     function modules() {
       // Edit module
-      $( 'a.edit' ).unbind( 'click' ).click( function() { return form_loader( this, 'tr', modules ); } );
+      $( 'a.edit' ).unbind( 'click' ).click( function() {
+        return form_loader( this, 'tr', modules );
+      } );
 
       // Reset links
       $( 'a.reset' ).unbind( 'click' ).click( function() {
         var item = $( this ).parents( 'tr' )
         var href = this.href;
 
-        $( item ).find( 'td:last' ).html( opts.progress );
+        $( item ).find( '.operations div' ).hide();
+        $( item ).find( '.loader' ).show();
         $( item ).load( this.href, function() {
           modules();
         });
@@ -190,11 +195,12 @@ var Redirection;
         return false;
       });
 
-      // Reset links
+      // Delete links
       $( 'a.rdelete' ).unbind( 'click' ).click( function() {
         var item = $( this ).parents( 'tr' )
 
-        $( item ).find( 'td:last' ).html( opts.progress );
+        $( item ).find( '.operations a' ).hide();
+        $( item ).find( '.loader' ).show();
         $.get( this.href, function() {
           $( item ).fadeOut();
         });
@@ -273,6 +279,11 @@ var Redirection;
 
   	return api;
   }
+  
+  $( document ).ready( function() {
+		$( '#support-annoy' ).animate( { opacity: 0.2, backgroundColor: 'red' } ).animate( { opacity: 1, backgroundColor: 'yellow' } );
+  } );
+  
 })(jQuery);
 
 function update_user_agent (item,box)

@@ -137,117 +137,8 @@ class Redirection_Plugin {
 		$this->plugin_name = $name;
 
 		$this->add_action( 'init', 'load_locale' );
-		
-		global $wp_version;
-		
-		if ( version_compare( $wp_version, '2.8', '<' ) )
-			$this->add_action( 'admin_menu', 'compatibility_28' );
-			
-		if ( version_compare( $wp_version, '2.7', '<' ) )
-			$this->add_action( 'admin_menu', 'compatibility_27' );
-
-		if ( version_compare( $wp_version, '2.6', '<' ) )
-			$this->add_action( 'admin_menu', 'compatibility_26' );
-
-		if ( version_compare( $wp_version, '2.5', '<' ) ) {
-			$this->add_action( 'admin_menu', 'compatibility_25' );
-
-			if ( !function_exists( 'is_front_page' ) ) {
-				function is_front_page ( ) {
-					return is_home ();
-				}
-			}
-		}
 	}
 	
-	function compatibility_28() {
-		if ( !function_exists( 'esc_js' ) ) {
-			function esc_js( $text ) {
-				$safe_text = wp_specialchars( $safe_text, ENT_COMPAT );
-				$safe_text = preg_replace( '/&#(x)?0*(?(1)27|39);?/i', "'", stripslashes( $safe_text ) );
-				$safe_text = preg_replace( "/\r?\n/", "\\n", addslashes( $safe_text ) );
-				return apply_filters( 'js_escape', $safe_text, $text );
-			}
-		}
-	}
-
-	function compatibility_25() {
-		if ( !function_exists( 'check_ajax_referer' ) ) {
-			function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
-				if ( $query_arg )
-					$nonce = $_REQUEST[$query_arg];
-				else
-					$nonce = $_REQUEST['_ajax_nonce'] ? $_REQUEST['_ajax_nonce'] : $_REQUEST['_wpnonce'];
-
-				$result = wp_verify_nonce( $nonce, $action );
-
-				if ( $die && false == $result )
-					die('-1');
-
-				do_action('check_ajax_referer', $action, $result);
-
-				return $result;
-			}
-		}
-	}
-
-	function compatibility_26() {
-		if ( !function_exists( 'admin_url' ) ) {
-			function admin_url() {
-				$url = site_url('wp-admin/', 'admin');
-
-				if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-					$url .= ltrim($path, '/');
-
-				return $url;
-			}
-		}
-		
-		if ( !function_exists( 'is_ssl' ) ) {
-			function is_ssl() {
-				if ( isset($_SERVER['HTTPS']) ) {
-					if ( 'on' == strtolower($_SERVER['HTTPS']) )
-						return true;
-					if ( '1' == $_SERVER['HTTPS'] )
-						return true;
-					} elseif ( isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
-						return true;
-					}
-					return false;
-				}		
-		}
-		
-		if ( !function_exists( 'site_url' ) ) {
-			function site_url($path = '', $scheme = null) {
-				$scheme = ( is_ssl() ? 'https' : 'http' );
-
-				$url = str_replace( 'http://', "{$scheme}://", get_option('siteurl') );
-
-				if ( !empty($path) && is_string($path) && strpos($path, '..') === false )
-					$url .= '/' . ltrim($path, '/');
-
-				return apply_filters('site_url', $url, $path, $orig_scheme);
-			}
-		}
-	}
-	
-	/**
-	 * Backwards compatible admin functions
-	 * @return void
-	 **/
-	function compatibility_27() {
-		if ( !function_exists( 'screen_icon' ) ) {
-			function screen_icon() {
-			}
-		}
-		
-		if ( !function_exists( 'add_meta_box' ) ) {
-			function add_meta_box ( $id, $title, $callback, $page, $context = 'advanced', $priority = 'default', $callback_args=null ) {
-				add_action( 'dbx_post_advanced', $callback );
-			}
-		}	
-	}
-
 	/**
 	 * Hook called to change the locale directory
 	 * @return void
@@ -546,16 +437,16 @@ class Redirection_Plugin {
 		if ( count( $items ) > 0 ) {
 			foreach ( $items AS $key => $value ) {
 				if ( is_array( $value ) )	{
-					echo '<optgroup label="'.$key.'">';
+					echo '<optgroup label="'.esc_attr( $key ).'">';
 
 					foreach ( $value AS $sub => $subvalue ) {
-						echo '<option value="'.$sub.'"'.( $sub == $default ? ' selected="selected"' : '' ).'>'.$subvalue.'</option>';
+						echo '<option value="'.esc_attr( $sub ).'"'.( $sub == $default ? ' selected="selected"' : '' ).'>'.esc_html( $subvalue ).'</option>';
 					}
 
 					echo '</optgroup>';
 				}
 				else
-					echo '<option value="'.$key.'"'.( $key == $default ? ' selected="selected"' : '' ).'>'.$value.'</option>';
+					echo '<option value="'.esc_attr( $key ).'"'.( $key == $default ? ' selected="selected"' : '' ).'>'.esc_html( $value ).'</option>';
 			}
 		}
 	}

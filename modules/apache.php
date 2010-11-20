@@ -2,6 +2,11 @@
 
 class Apache_Module extends Red_Module
 {
+	var $name;
+	var $allow_ip  = false;
+	var $raw;
+	var $ban_ip = false;
+	
 	var $site      = '';
 	var $location  = '';
 	var $canonical = '';
@@ -82,7 +87,7 @@ class Apache_Module extends Red_Module
 			<th><?php _e ('Canonical', 'redirection'); ?>:</th>
 			<td>
 				<select name="canonical">
-					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('home')))), $this->canonical); ?>
+					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url')))), $this->canonical); ?>
 				</select>
 				
 				<br/>
@@ -178,13 +183,5 @@ class Apache_Module extends Red_Module
 			$options[] = __ ('IPs are allowed', 'redirection');
 			
 		echo '<small>'.ucfirst (implode (', ', $options)).'</small>';
-	}
-	
-	function name_extra ()
-	{
-		if ($this->site != '')
-			return sprintf (__ (' for external site: <code>%s</code>', 'redirection'), $this->site);
-	}
+	}	
 }
-
-?>

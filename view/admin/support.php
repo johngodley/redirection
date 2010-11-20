@@ -3,7 +3,7 @@
 	<?php screen_icon(); ?>
 	
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
-	<?php $this->submenu (true); ?>
+	<?php $this->render_admin( 'submenu'  ); ?>
 	
 	<p style="clear: both">
 		<?php _e( 'Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>.', 'redirection'); ?>
@@ -18,7 +18,7 @@
 				<input type="hidden" name="cmd" value="_xclick">
 				<input type="hidden" name="business" value="admin@urbangiraffe.com">
 				<input type="hidden" name="item_name" value="Redirection - Individual">
-				<input type="hidden" name="amount" value="12.00">
+				<input type="hidden" name="amount" value="14.00">
 				<input type="hidden" name="buyer_credit_promo_code" value="">
 				<input type="hidden" name="buyer_credit_product_category" value="">
 				<input type="hidden" name="buyer_credit_shipping_method" value="">
@@ -33,7 +33,7 @@
 				<input type="image" style="border: none" src="<?php echo $this->url () ?>/images/donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!"/>
 			</form>
 			
-			<p><strong>$12</strong><br/><?php _e( 'Individual<br/>Donation', 'redirection' ); ?></p>
+			<p><strong>$14</strong><br/><?php _e( 'Individual<br/>Donation', 'redirection' ); ?></p>
 		</li>
 		<li>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -62,13 +62,11 @@
 	<p><?php _e( 'If you\'re multi-lingual then you may want to consider donating a translation:', 'redirection' )?>
 		
 	<ul class="translators">
-		<?php foreach( $this->locales() AS $language => $author ) : ?>
-			<li><?php echo $language ?> &mdash; <?php echo $author; ?></li>
+		<?php foreach( $this->locales() AS $language ) : ?>
+			<li><?php echo esc_html( $language ); ?></li>
 		<?php endforeach; ?>
 	</ul>
 
-	<p style="clear: both"><br/><?php _e( 'All translators will have a link to their website placed on the plugin homepage at <a href="http://urbangiraffe.com/plugins/redirection/">UrbanGiraffe</a> and <a href="http://wordpress.org/extend/plugins/redirection/">WordPress.org</a>, in addition to being an individual supporter.', 'redirection' )?></p>
+	<p style="clear: both"><br/><?php _e( 'All translators will have a link to their website placed on the plugin homepage at <a href="http://urbangiraffe.com/plugins/redirection/">UrbanGiraffe</a>, in addition to being an individual supporter.', 'redirection' )?></p>
 	<p><?php _e( 'Full details of producing a translation can be found in this <a href="http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/">guide to translating WordPress plugins</a>.', 'redirection' )?>
-	
-	<?php echo $this->contextual_help( '', 'tools_page_redirection' ); ?>
 </div>

@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.1.29
+Version: 2.2
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -30,25 +30,23 @@ include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/modules/wordpress.php';
 include dirname( __FILE__ ).'/modules/404.php';
 
-define( 'REDIRECTION_VERSION', '2.1.16' );
+define( 'REDIRECTION_VERSION', '2.2' );
+
+if ( class_exists( 'Redirection' ) )
+	return;
 
 class Redirection extends Redirection_Plugin {
 	var $hasMatched = false;
 	
 	function Redirection() {
-		$this->register_plugin('redirection', __FILE__);
+		$this->register_plugin( 'redirection', __FILE__ );
 		
 		if ( is_admin() ) {
 			$this->add_action( 'admin_menu' );
-			$this->add_action( 'admin_head' );
-			$this->add_action( 'wp_print_scripts' );
-			$this->add_action( 'wp_print_styles' );
-			$this->add_action( 'admin_head', 'wp_print_styles' );
+			$this->add_action( 'load-tools_page_redirection', 'redirection_head' );
 			$this->add_action( 'init', 'inject' );
-			$this->add_filter( 'contextual_help', 'contextual_help', 10, 2 );
-			$this->add_action( 'admin_footer' );
-			$this->add_filter( 'print_scripts_array' );
 			
+			$this->register_activation( __FILE__ );
 			$this->register_plugin_settings( __FILE__ );
 			
 			// Ajax functions
@@ -68,57 +66,34 @@ class Redirection extends Redirection_Plugin {
 			$this->error->start();
 		}
 		
-		$this->monitor = new Red_Monitor($this->get_options());
+		$this->monitor = new Red_Monitor( $this->get_options() );
 	}
 	
-	function print_scripts_array( $scripts ) {
-		$farb = array_search( 'farbtastic', $scripts );
+	function update() {
+		$version = get_option( 'redirection_version' );
 
-		if ( $farb && isset( $_GET['page'] ) && $_GET['page'] == 'redirection.php' )
-			unset( $scripts[$farb] );
+		if ( $version != REDIRECTION_VERSION ) {
+			include_once dirname( __FILE__ ).'/models/database.php';
 
-		return $scripts;
+			$db = new RE_Database();
+			return $db->upgrade( $version, REDIRECTION_VERSION );
+		}
+		
+		return true;
+	}
+	
+	function activate() {
+		if ( $this->update() === false ) {
+			$db = new RE_Database();
+			$db->remove( $version, REDIRECTION_VERSION );
+	    exit();
+		}
 	}
 	
 	function plugin_settings( $links ) {
-		$settings_link = '<a href="tools.php?page='.basename( __FILE__ ).'">'.__('Settings', 'redirection').'</a>';
+		$settings_link = '<a href="tools.php?page='.basename( __FILE__ ).'">'.__( 'Settings', 'redirection' ).'</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
-	}
-	
-	function contextual_help( $help, $screen ) {
-		if ( $screen == 'tools_page_redirection' ) {
-			$help .= '<h5>' . __( 'Redirection Help' ) . '</h5><div class="metabox-prefs">';
-			$help .= '<a href="http://urbangiraffe.com/plugins/redirection/">'.__( 'Redirection Documentation', 'redirection' ).'</a><br/>';
-			$help .= '<a href="http://urbangiraffe.com/support/forum/redirection">'.__( 'Redirection Support Forum', 'redirection' ).'</a><br/>';
-			$help .= '<a href="http://urbangiraffe.com/tracker/projects/redirection/issues?set_filter=1&amp;tracker_id=1">'.__( 'Redirection Bug Tracker', 'redirection' ).'</a><br/>';
-			$help .= '<a href="http://urbangiraffe.com/plugins/redirection/faq/">'.__( 'Redirection FAQ', 'redirection' ).'</a><br/>';
-			$help .= __( 'Please read the documentation and FAQ, and check the bug tracker, before asking a question.', 'redirection' );
-			$help .= '</div>';
-		}
-		
-		return $help;
-	}
-
-	function is_25() {
-		global $wp_version;
-		if ( version_compare( '2.5', $wp_version ) <= 0 )
-			return true;
-		return false;
-	}
-	
-	function submenu( $inwrap = false ) {
-		// Decide what to do
-		$sub = isset( $_GET['sub'] ) ? $_GET['sub'] : '';
-	  $url = explode( '&', $_SERVER['REQUEST_URI'] );
-	  $url = $url[0];
-
-		if ( !$this->is_25() && $inwrap == false )
-			$this->render_admin( 'submenu', array( 'url' => $url, 'sub' => $sub, 'class' => 'id="subsubmenu"' ) );
-		elseif ( $this->is_25() && $inwrap == true )
-			$this->render_admin( 'submenu', array( 'url' => $url, 'sub' => $sub, 'class' => 'class="subsubsub"', 'trail' => ' | ' ) );
-			
-		return $sub;
 	}
 	
 	function version() {
@@ -129,50 +104,29 @@ class Redirection extends Redirection_Plugin {
 		return '';
 	}
 
-	function wp_print_scripts() {
-		if ( strpos( $_SERVER['REQUEST_URI'], 'redirection.php' ) ) {
-			if (!function_exists ('wp_print_styles')) {
-				wp_deregister_script ('jquery');
-				wp_enqueue_script( 'jquery', $this->url ().'/2.3/jquery.js', array(), $this->version () );
-				wp_enqueue_script( 'jquery-ui-core', $this->url ().'/2.3/ui.core.js', array('jquery'), $this->version () );
-				wp_enqueue_script( 'jquery-ui-sortable', $this->url ().'/2.3/ui.sortable.js', array('jquery-ui-core'), $this->version () );
-			}
-			
-			wp_enqueue_script( 'redirection', $this->url().'/js/redirection.js', array('jquery-form', 'jquery-ui-sortable' ), $this->version() );
-		}
-	}
-	
-	function wp_print_styles() {
-		if ( strpos( $_SERVER['REQUEST_URI'], 'redirection.php' ) )
-			echo '<link rel="stylesheet" href="'.$this->url().'/admin.css" type="text/css" media="screen" title="no title" charset="utf-8"/>';
-	}
-	
-	function admin_head() {
-		$sub = isset($_GET['sub']) ? $_GET['sub'] : '';
+	function redirection_head() {
+		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'js/redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
+		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
 		
-		if ( isset($_GET['page']) && $_GET['page'] == 'redirection.php' )
-			$this->render_admin( 'head', array( 'type' => $sub == '' ? '301' : $sub ) );
+		wp_localize_script( 'redirection', 'Redirectioni10n', array(
+			'please_wait'  => __( 'Please wait...', 'redirection' ),
+			'type'         => 1,
+			'progress'     => '<img src="'.plugin_dir_url( __FILE__ ).'/images/progress.gif" alt="loading" width="50" height="16"/>',
+		  'are_you_sure' => __( 'Are you sure?', 'redirection' ),
+			'none_select'  => __( 'No items have been selected', 'redirection' )
+		) );
 	}
-	
+
 	function admin_menu() {
   	add_management_page( __( "Redirection", 'redirection' ), __( "Redirection", 'redirection' ), "administrator", basename( __FILE__ ), array( &$this, "admin_screen" ) );
 	}
 
-	function update() {
-		$version = get_option( 'redirection_version' );
-
-		if ( $version != REDIRECTION_VERSION ) {
-			include_once dirname( __FILE__ ).'/models/database.php';
-
-			$db = new RE_Database();
-			$db->upgrade( $version, REDIRECTION_VERSION );
-		}
-	}
-
 	function admin_screen() {
 	  $this->update();
-	  
-		$sub     = $this->submenu();	
+
+		// Decide what to do
+		$sub = isset( $_GET['sub'] ) ? $_GET['sub'] : '';
+
 		$options = $this->get_options();
 
 		if ( isset($_GET['sub']) ) {
@@ -183,14 +137,14 @@ class Redirection extends Redirection_Plugin {
 		  elseif ( $_GET['sub'] == 'process' )
 		    return $this->admin_screen_process();
 		  elseif ( $_GET['sub'] == 'groups' )
-				return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
+				return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
 			elseif ( $_GET['sub'] == 'modules' )
 				return $this->admin_screen_modules();
 			elseif ( $_GET['sub'] == 'support' )
 				return $this->render_admin('support');
 		}
 
-		return $this->admin_redirects(isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0);
+		return $this->admin_redirects( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
 	}
 	
 	function admin_screen_modules() {
@@ -199,7 +153,7 @@ class Redirection extends Redirection_Plugin {
 			
 			if ( ( $module = Red_Module::create( $data ) ) ) {
 				$moduleid = 0;
-				if ( isset($_POST['module']))
+				if ( isset( $_POST['module'] ) )
 					$moduleid = intval( $_POST['module'] );
 				
 				$this->render_message( __( 'Your module was successfully created', 'redirection' ) );
@@ -226,15 +180,16 @@ class Redirection extends Redirection_Plugin {
 			'expire'            => 0,
 			'token'             => '',
 			'monitor_new_posts' => false,
-			'monitor_post'      => 0
+			'monitor_post'      => 0,
+			'auto_target'       => '',
 		);
 		
-		foreach ( $defaults AS $key => $value ){
+		foreach ( $defaults AS $key => $value ) {
 			if ( !isset( $options[$key] ) )
 				$options[$key] = $value;
 		}
 		
-		if ($options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=' || $options['lookup'] == 'http://geomaplookup.net/?ip=')
+		if ( $options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=' || $options['lookup'] == 'http://geomaplookup.net/?ip=' )
 			$options['lookup'] = 'http://urbangiraffe.com/map/?from=redirection&amp;ip=';
 		
 		return $options;
@@ -326,11 +281,11 @@ class Redirection extends Redirection_Plugin {
 		$this->render_admin( 'log', array( 'logs' => $logs, 'pager' => $pager, 'lookup' => $options['lookup'] ) );
 	}
 	
-	function admin_groups($module) {
+	function admin_groups( $module ) {
 		include dirname( __FILE__ ).'/models/pager.php';
 		
-		if (isset( $_POST['add'] ) && check_admin_referer( 'redirection-add_group' ) ) {
-			if ( Red_Group::create(stripslashes_deep( $_POST ) ) ) {
+		if ( isset( $_POST['add'] ) && check_admin_referer( 'redirection-add_group' ) ) {
+			if ( Red_Group::create( stripslashes_deep( $_POST ) ) ) {
 				$this->render_message( __( 'Your group was added successfully', 'redirection' ) );
 				Red_Module::flush( $module );
 			}
@@ -356,30 +311,9 @@ class Redirection extends Redirection_Plugin {
 		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC' );
 		$items = Red_Item::get_by_group( $group, $pager );
 
-  	$this->render_admin( 'item_list', array( 'items' => $items, 'modules' => Red_Group::get_for_select(), 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option('date_format')) );
+  	$this->render_admin( 'item_list', array( 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option( 'date_format' ) ) );
 	}
-	
-		/**
-		 * Displays the nice animated support logo
-		 *
-		 * @return void
-		 **/
-		function admin_footer() {
-			if ( isset($_GET['page']) && $_GET['page'] == basename( __FILE__ ) ) {
-				$options = $this->get_options();
 
-				if ( !$options['support'] ) {
-	?>
-	<script type="text/javascript" charset="utf-8">
-		jQuery(function() {
-			jQuery('#support-annoy').animate( { opacity: 0.2, backgroundColor: 'red' } ).animate( { opacity: 1, backgroundColor: 'yellow' });
-		});
-	</script>
-	<?php
-				}
-			}
-		}
-		
 	function setMatched( $match ) {
 		$this->hasMatched = $match;
 	}
@@ -390,16 +324,20 @@ class Redirection extends Redirection_Plugin {
 	
 	function locales() {
 		$locales = array();
-		$readme  = @file_get_contents( dirname( __FILE__ ).'/readme.txt' );
-		if ( $readme ) {
-			if ( preg_match_all( '/^\* (.*?) by \[(.*?)\]\((.*?)\)/m', $readme, $matches ) ) {
-				foreach ( $matches[1] AS $pos => $match ) {
-					$locales[$match] = '<a href="'.$matches[3][$pos].'">'.$matches[2][$pos].'</a>';
+		if ( file_exists( dirname( __FILE__ ).'/readme.txt' ) ) {
+			$readme = file_get_contents( dirname( __FILE__ ).'/readme.txt' );
+			
+			$start = strpos( $readme, __( 'Redirection is available in' ) );
+			$end   = strpos( $readme, '==', $start );
+			if ( $start !== false && $end !== false ) {
+				if ( preg_match_all( '/^\* (.*?) by (.*?)/m', substr( $readme, $start, $end ), $matches ) > 0 ) {
+					$locales = $matches[1];
 				}
 			}
+		
+			sort( $locales );
 		}
 		
-		ksort( $locales );
 		return $locales;
 	}
 }

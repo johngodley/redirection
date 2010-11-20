@@ -5,7 +5,7 @@
 
 	<h2><?php _e ('Redirection Log', 'redirection'); ?></h2>
 
-	<?php $this->submenu (true); ?>
+	<?php $this->render_admin( 'submenu' ); ?>
 
 	<form method="get" action="<?php echo $this->url ($pager->url) ?>">
 		<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ) ?>"/>
