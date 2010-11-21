@@ -82,7 +82,6 @@ class Red_Csv_File extends Red_FileIO
 		if ( $file ) {
 			while ( ( $csv = fgetcsv( $file, 1000, ',' ) ) ) {
 				if ( $csv[0] != 'source' && $csv[1] != 'target') {
-					pr($csv);
 					Red_Item::create( array(
 						'source' => trim( $csv[0] ),
 						'target' => trim( $csv[1] ),
