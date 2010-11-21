@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.2
+Version: 2.2.1
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -243,7 +243,7 @@ class Redirection extends Redirection_Plugin {
 			
 			$count = $importer->import( $_POST['group'], $_FILES['upload'] );
 			if ( $count > 0 )
-				$this->render_message( sprintf( __ngettext( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
+				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
 			else
 				$this->render_message( __( 'No items were imported', 'redirection' ) );
 		}

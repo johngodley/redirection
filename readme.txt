@@ -49,7 +49,7 @@ Redirection is available in:
 * Polish by Kuba Majerczyk
 * Arabic by Jerry John
 * Brazilian Portuguese by Pedro Padron
-* Dutch by Marlon Navas
+* Dutch by Marlon Navas & Pieter Carette
 
 == Installation ==
 
@@ -238,3 +238,8 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 * Better new-install process
 * Upgrades from 1.0 of Redirection no longer supported
 * Optimized DB tables
+
+= 2.2.1 =
+* More Dutch translation
+* Use fgetcsv for CSV importer - better handling
+* Allow http as URL parameter

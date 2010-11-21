@@ -248,9 +248,8 @@ class Red_Item {
 	
 	function sanitize_url( $url, $regex )	{
 		// Make sure that the old URL is relative
-		$url = preg_replace( '@https?://(.*?)/@', '/', $url );
-		$url = preg_replace( '@https?://(.*?)$@', '/', $url );
-		$url = preg_replace( '@/{2,}@', '/', $url );
+		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
+		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
 
 		if ( substr( $url, 0, 1) != '/' && $regex == false )
 			$url = '/'.$url;
@@ -309,8 +308,9 @@ class Red_Item {
 
 			if ( $target ) {
 				$target = $this->replaceSpecialTags( $target );
+
 				$this->visit( $url, $target );
-				
+			
 				if ( $this->status == 'enabled' )
 					return $this->action->process_before( $this->action_code, $target );
 			}

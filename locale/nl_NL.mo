@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Redirection 2.1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-15 08:36+0100\n"
-"PO-Revision-Date: 2010-10-10 21:55+0100\n"
-"Last-Translator: Marlon Navas <marlon@innoverso.nl>\n"
+"PO-Revision-Date: 2010-11-20 16:15+0100\n"
+"Last-Translator: Pieter <pieterc@gmail.com>\n"
 "Language-Team:  <marlon@innoverso.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,7 +118,7 @@ msgstr "Verwijzing Toevoegen"
 
 #: view/admin/add.php:3
 msgid "Add new redirection"
-msgstr "Nieuwe Verwijzing Toevoegen"
+msgstr "Nieuwe verwijzing toevoegen"
 
 #: modules/apache.php:123
 msgid "Advanced: For management of external sites"
@@ -186,7 +186,7 @@ msgstr "Categorie URLs"
 
 #: view/admin/support.php:56
 msgid "Commercial<br/>Donation"
-msgstr "Commerciële<br/>Donatie"
+msgstr "Commerci&euml;le<br/>Donatie"
 
 #: view/admin/module_list.php:54
 msgid "Create"
@@ -339,7 +339,7 @@ msgstr "IP-adressen zijn verboden"
 
 #: view/admin/support.php:13
 msgid "If you are using this plugin in a commercial setup, or feel that it's been particularly useful, then you may want to consider a <strong>commercial donation</strong>."
-msgstr "Als je deze plugin in een zakelijke opzet gebruikt, of voelt dat het bijzonder nuttig is geweest, dan wil je misschien een <strong>zakelijke donatie</ strong> overwegen."
+msgstr "Als je deze plugin in een zakelijke omgeving gebruikt, of voelt dat het bijzonder nuttig is geweest, dan wil je misschien een <strong>zakelijke donatie</ strong> overwegen."
 
 #: view/admin/support.php:62
 msgid "If you're multi-lingual then you may want to consider donating a translation:"
@@ -509,7 +509,7 @@ msgstr "Stel aub een groepsnaam in"
 
 #: view/admin/head.php:3
 msgid "Please wait..."
-msgstr "Even wachten..."
+msgstr "Even wachten aub..."
 
 #: view/admin/options.php:30
 msgid "Plugin Support"
@@ -517,7 +517,7 @@ msgstr "Plugin Ondersteuning"
 
 #: view/admin/item_list.php:36
 msgid "Position"
-msgstr "Positie"
+msgstr "Plaats"
 
 #: view/admin/options.php:57
 msgid "Post &amp; Page URLs"
@@ -557,7 +557,7 @@ msgstr "Verwijzing naar een willekeurig bericht"
 
 #: view/admin/log_item_details.php:15
 msgid "Redirected by"
-msgstr "Verwijst door"
+msgstr "Verwijsd door"
 
 #: redirection.php:178
 msgid "Redirection"
@@ -744,7 +744,7 @@ msgstr "Deze acties zullen voor alle momenteel beschikbare logs gelden (dwz je z
 
 #: view/admin/support.php:10
 msgid "This will act as an incentive for me to carry on developing, providing countless hours of support, and including new features and suggestions. You get some useful software and I get to carry on making it.  Everybody wins."
-msgstr "Deze zal als een stimulans voor mij fungeren om door te gaan met het ontwikkelen, het leveren van talloze uren ondersteuning, en het toevoegen van nieuwe functies en suggesties. Je krijgt nuttige software en ik kan door met het ontwikkelen hiervan. Iedereen wint."
+msgstr "Dit stimuleert mij om door te gaan met het ontwikkelen, het leveren van talloze uren ondersteuning en het toevoegen van nieuwe functies en suggesties. Je krijgt nuttige software en ik kan door met het ontwikkelen hiervan. Iedereen wint."
 
 #: view/admin/options.php:19
 msgid "This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)"
@@ -765,7 +765,7 @@ msgstr "Schakel"
 
 #: view/admin/group_edit.php:10
 msgid "Tracked"
-msgstr "Getrackte"
+msgstr "Getraceerd"
 
 #: view/admin/support.php:60
 msgid "Translations"
@@ -798,7 +798,7 @@ msgstr "URL en user agent"
 
 #: matches/url.php:25
 msgid "URL only"
-msgstr "alleen URL"
+msgstr "Alleen URL"
 
 #: view/admin/options.php:79
 msgid "Update"
@@ -829,7 +829,7 @@ msgstr "WordPress"
 #: modules/apache.php:70
 #, php-format
 msgid "WordPress is installed in: <code>%s</code>"
-msgstr "WordPress is geïnstalleerd in deze map: <code>%s</code>"
+msgstr "WordPress is geïnstalleerd in: <code>%s</code>"
 
 #: view/admin/module_item.php:27
 msgid "XML"
@@ -849,7 +849,7 @@ msgstr "Je hebt geen groepen in deze module."
 
 #: view/admin/module_list.php:28
 msgid "You have no modules defined yet"
-msgstr "Je hebt  nog geen modules gedefinieerd."
+msgstr "Je hebt nog geen modules gedefinieerd."
 
 #: view/admin/item_list.php:80
 msgid "You have no redirections."
@@ -943,7 +943,7 @@ msgstr "optioneel"
 #: view/admin/group_list.php:74
 #: view/admin/item_list.php:75
 msgid "re-order"
-msgstr "ordenen"
+msgstr "herordenen"
 
 #: view/admin/module_item.php:48
 msgid "reset"

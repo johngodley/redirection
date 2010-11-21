@@ -75,29 +75,29 @@ class Red_Csv_File extends Red_FileIO
     return $elements;
 	}
 	
-	function load ($group, $data)
-	{
-		// Split it into lines
-		$lines = array_filter (explode ("\r", $data));
-		if (count ($lines) > 0)
-		{
-			$count = 0;
-			
-			foreach ($lines AS $line)
-			{
-				$csv = $this->parse_csv ($line);
-	
-				if ($csv[0] != 'source' && $csv[1] != 'target')
-				{
-					Red_Item::create (array ('source' => trim ($csv[0]), 'target' => $csv[1], 'regex' => $this->is_regex ($csv[0]), 'group' => $group, 'match' => 'url', 'red_action' => $csv[2] == 0 ? 'pass' : 'url'));
+	function load( $group, $data, $filename ) {
+		$count = 0;
+		$file  = fopen( $filename, 'r' );
+		
+		if ( $file ) {
+			while ( ( $csv = fgetcsv( $file, 1000, ',' ) ) ) {
+				if ( $csv[0] != 'source' && $csv[1] != 'target') {
+					pr($csv);
+					Red_Item::create( array(
+						'source' => trim( $csv[0] ),
+						'target' => trim( $csv[1] ),
+						'regex'  => $this->is_regex( $csv[0] ),
+						'group'  => $group,
+						'match'  => 'url',
+						'red_action' => 'url'
+					) );
+					
 					$count++;
 				}
 			}
-			
-			return $count;
 		}
 
-		return 0;
+		return $count;
 	}
 	
 	function is_regex ($url)

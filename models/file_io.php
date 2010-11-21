@@ -30,31 +30,29 @@ class Red_FileIO
 		return false;
 	}
 
-	function import ($group, $file)
-	{
-		if (is_uploaded_file ($file['tmp_name']))
-		{
-			$parts = pathinfo ($file['name']);
+	function import( $group, $file ) {
+		if ( is_uploaded_file( $file['tmp_name'] ) ) {
+			$parts = pathinfo( $file['name'] );
 
-			if ($parts['extension'] == 'xml')
-			{
-				include (dirname (__FILE__).'/../fileio/xml.php');
-				$importer = new Red_Xml_File ();
+			if ( $parts['extension'] == 'xml') {
+				include dirname( __FILE__ ).'/../fileio/xml.php';
+				$importer = new Red_Xml_File();
+				$data = @file_get_contents ($file['tmp_name']);
 			}
-			else if ($parts['extension'] == 'csv')
-			{
-				include (dirname (__FILE__).'/../fileio/csv.php');
-				$importer = new Red_Csv_File ();
+			elseif ( $parts['extension'] == 'csv' ) {
+				include dirname( __FILE__ ).'/../fileio/csv.php';
+				$importer = new Red_Csv_File();
+				$data = '';
 			}
-			else
-			{
-				include (dirname (__FILE__).'/../fileio/apache.php');
-				$importer = new Red_Apache_File ();
+			else {
+				include dirname( __FILE__ ).'/../fileio/apache.php';
+				$importer = new Red_Apache_File();
+				$data = @file_get_contents ($file['tmp_name']);
 			}
 			
-			$data = @file_get_contents ($file['tmp_name']);
-			return $importer->load ($group, $data);
+			return $importer->load( $group, $data, $file['tmp_name'] );
 		}
+
 		return 0;
 	}
 	
