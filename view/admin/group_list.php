@@ -114,8 +114,8 @@ jQuery(document ).ready( function() {
 		progress: '<?php echo esc_js( '<img src="'.$this->url().'/images/progress.gif" alt="loading" width="50" height="16"/>'  ) ?>',
 		ajaxurl: '<?php echo esc_js( admin_url( 'admin-ajax.php'  )  ) ?>',
 		nonce: '<?php echo esc_js( wp_create_nonce( 'redirection-items'  )  ); ?>',
-		none_select: '<?php echo esc_js( __( 'No items have been selected', 'redirection'  )  ); ?>',
-		are_you_sure: '<?php echo esc_js( __( 'Are you sure?', 'redirection' )  ); ?>',
+		none_select: '<?php echo esc_js( __( 'No items have been selected', 'redirection' ) ); ?>',
+		are_you_sure: '<?php echo esc_js( __( 'Are you sure?', 'redirection') ); ?>',
 		page: <?php echo( $pager->current_page - 1 ) * $pager->per_page ?>
 	} );
 	
