@@ -265,7 +265,6 @@ class Red_Htaccess
 	
 	function save ($filename, $name)
 	{
-		die("SAVING HTACCESS");
 		$text = $this->generate ($name);
 		
 		// Does the file already exist?
@@ -291,5 +290,3 @@ class Red_Htaccess
 		return false;
 	}
 }
-
-?>

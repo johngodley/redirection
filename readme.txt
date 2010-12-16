@@ -245,3 +245,6 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.2.2 =
 * Fix encoding of JS strings 
+
+= 2.2.3 =
+* Remove debug from htaccess module
