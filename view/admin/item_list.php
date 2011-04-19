@@ -2,8 +2,16 @@
 <div class="wrap">
 	<?php screen_icon(); ?>
 	<?php $this->render_admin( 'annoy' ); ?>
-	
-	<h2><?php _e ('Redirections for group', 'redirection'); ?>: <a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $group->module_id ?>"><?php echo htmlspecialchars ($group->name); ?></a></h2>
+
+	<h2>
+		<?php _e ('Redirections for group', 'redirection'); ?>:
+		
+		<?php if ( $group ) : ?>
+		<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $group->module_id ?>">
+			<?php echo esc_html( $group->name ); ?>
+		</a>
+		<?php endif; ?>
+	</h2>
 		
 	<?php $this->render_admin( 'submenu' ); ?>
 
@@ -32,7 +40,7 @@
 		<li>
 			<div class="date" style="width: 8em"><?php echo $pager->sortable ('last_access', __ ('Last Access', 'redirection')) ?></div>
 			<div class="count"><?php echo $pager->sortable ('last_count', __ ('Hits', 'redirection')) ?></div>
-			<div class="type"><?php echo $pager->sortable ('type', __ ('Type', 'redirection'), false) ?></div>
+			<div class="type"><?php echo $pager->sortable ('action_type', __ ('Type', 'redirection')) ?></div>
 			<div class="item"><?php echo $pager->sortable ('url', __ ('URL', 'redirection'))  ?> / <?php echo $pager->sortable ('position', __ ('Position', 'redirection'))  ?></div>
 		</li>
 	</ul>
@@ -91,7 +99,7 @@
 	<?php endif; ?>
 </div>
 
-<?php $this->render_admin ('add', array ('add_to_screen' => true, 'group' => $group->id, 'hidden' => false)) ?>
+<?php $this->render_admin ('add', array ('add_to_screen' => true, 'group' => $group ? $group->id : 0, 'hidden' => false)) ?>
 
 <script type="text/javascript">
 var redirection;

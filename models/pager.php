@@ -164,8 +164,9 @@ class RE_Pager
 	 * @return string SQL
 	 **/
 	
-	function to_conditions ($conditions, $searches = '', $filters = '')
-	{
+	function to_conditions ($conditions, $searches = '', $filters = '')	{
+		global $wpdb;
+		
 		$sql = '';
 		if ($conditions != '')
 			$sql .= ' WHERE '.$conditions;
@@ -180,12 +181,12 @@ class RE_Pager
 
 			$searchbits = array ();
 			foreach ($searches AS $search)
-				$searchbits[] = "$search LIKE \"%{$this->search}%\"";
+				$searchbits[] = $wpdb->prepare( $search.' LIKE "%s"', '%'.$this->search.'%' );
 
 			$sql .= implode (' OR ', $searchbits);
 			$sql .= ')';
 		}
-		
+
 		// Add filters
 		if (is_array ($filters) && !empty ($this->filters))
 		{
@@ -195,7 +196,7 @@ class RE_Pager
 				if (isset ($this->filters[$filter]))
 				{
 					if ($this->filters[$filter] != '')
-						$searchbits[] = sprintf ("%s = '%s'", $filter, $this->filters[$filter]);
+						$searchbits[] = $wpdb->prepare( $filter." = %s", $this->filters[$filter] );
 				}
 			}
 
@@ -224,8 +225,9 @@ class RE_Pager
 	 * @return string SQL
 	 **/
 	
-	function to_limits ($conditions = '', $searches = '', $filters = '', $group_by = '')
-	{
+	function to_limits ($conditions = '', $searches = '', $filters = '', $group_by = '') {
+		global $wpdb;
+		
 		$sql = $this->to_conditions ($conditions, $searches, $filters);
 		
 		if ($group_by)
@@ -240,7 +242,7 @@ class RE_Pager
 		}
 
 		if ($this->per_page > 0)
-			$sql .= ' LIMIT '.$this->offset ().','.$this->per_page;
+			$sql .= $wpdb->prepare( ' LIMIT %d,%d', $this->offset(), $this->per_page );
 		return $sql;
 	}
 

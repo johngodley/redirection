@@ -252,3 +252,9 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.2.4 =
 * Add Hungarian translation, thanks to daSSad
+
+= 2.2.5 =
+* Add Turkish translation, thanks to Fatih Cevik
+* Fix search box
+* Fix 410 error code
+* Fix DB errors when MySQL doesn't auto-convert data types

@@ -129,8 +129,8 @@ class Red_Item {
 	 */
 	function get_by_group( $group, &$pager ) {
 		global $wpdb;
-		
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items ".$pager->to_limits( 'group_id='.$group, array( 'url', 'action_data' ) ) ) );
+
+		$rows = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items ".$pager->to_limits( 'group_id='.$group, array( 'url', 'action_data' ) ) );
 		$pager->set_total( $wpdb->get_var( "SELECT FOUND_ROWS()" ));
 
 		$items = array();
@@ -182,7 +182,7 @@ class Red_Item {
 		$group_id  = intval( $details['group'] );
 
 		if ( $group_id > 0 && $matcher ) {
-			$regex    = ( isset( $details['regex']) && $details['regex'] != false) ? true : false;
+			$regex    = ( isset( $details['regex']) && $details['regex'] != false) ? 1 : 0;
 			$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
 
 			$action = $details['red_action'];
@@ -203,7 +203,7 @@ class Red_Item {
 				'match_type'  => $details['match'],
 				'action_data' => $matcher->data( $details ),
 				'action_code' => $action_code,
-				'last_access' => 0,
+				'last_access' => '0000-00-00 00:00:00',
 				'group_id'    => $group_id
 			);
 
@@ -261,7 +261,7 @@ class Red_Item {
 		if ( strlen( $details['old'] ) > 0 ) {
 			global $wpdb;
 			
-			$this->regex = isset( $details['regex'] ) ? true : false;
+			$this->regex = isset( $details['regex'] ) ? 1 : 0;
 			$this->url   = $this->sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
 		

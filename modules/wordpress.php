@@ -60,12 +60,16 @@ class WordPress_Module extends Red_Module {
 		return $status;
 	}
 
-	function send_headers( $obj )
-	{
-		if ( !empty($this->matched ) && $this->matched->type == '410' )
-			status_header( 410 );
+	function send_headers( $obj )	{
+		if ( !empty( $this->matched ) && $this->matched->match->action_code == '410' ) {
+			add_filter( 'status_header', array( &$this, 'set_header_410' ) );
+		}
 	}
 
+	function set_header_410() {
+		return 'HTTP/1.1 410 Gone';
+	}
+	
 	function wp_redirect( $url, $status )
 	{
 		global $wp_version, $is_IIS;
