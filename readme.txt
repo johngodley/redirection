@@ -50,6 +50,7 @@ Redirection is available in:
 * Brazilian Portuguese by Pedro Padron
 * Dutch by Marlon Navas & Pieter Carette
 * Hungarian by daSSad
+* Turkish by Fatih Cevik
 
 == Installation ==
 
