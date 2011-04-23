@@ -139,19 +139,19 @@ class Red_Htaccess
 	
 	function target ($action, $data, $code, $regex)
 	{
-		$cmd = 'action_'.$action;
+		$target = 'action_'.$action;
 
-		if (method_exists ($this, $cmd))
-			return $this->$cmd ($data, $code, $regex);
+		if (method_exists ($this, $target))
+			return $this->$target ($data, $code, $regex);
 		return '';
 	}
 	
 	function add ($item)
 	{
-		$cmd = 'add_'.$item->match_type;
+		$target = 'add_'.$item->match_type;
 		
-		if (method_exists ($this, $cmd))
-			$this->$cmd ($item, $item->match);
+		if (method_exists ($this, $target))
+			$this->$target ($item, $item->match);
 	}
 	
 	function generate ($name)

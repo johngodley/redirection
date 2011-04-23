@@ -259,3 +259,6 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 * Fix search box
 * Fix 410 error code
 * Fix DB errors when MySQL doesn't auto-convert data types
+
+= 2.2.6 =
+* Remove warning from VaultPress
