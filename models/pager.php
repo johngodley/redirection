@@ -344,9 +344,9 @@ class RE_Pager
 		if ($column == $this->order_by)
 		{
 			if ($class)
-				printf (' class="sorted"');
+				printf (' class="sortedd"');
 			else
-				echo ' sorted';
+				echo ' sortedd';
 		}
 	}
 	

@@ -115,27 +115,10 @@ class RE_Log {
 		return $items;
 	}
 	
-	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL', $module_id = 'NULL', $group_id = 'NULL')
-	{
+	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL', $module_id = 'NULL', $group_id = 'NULL') {
 		global $wpdb, $redirection;
 		
-		// Add a log entry
-		$url    = $wpdb->escape ($url);
-		$agent  = $wpdb->escape ($agent);
-		$ip     = $wpdb->escape ($ip);
-		
-		// And referring URL
-		if (strlen ($referrer) > 0)
-			$referrer = "'".$wpdb->escape ($referrer)."'";
-		else
-			$referrer = 'NULL';
-			
-		if ($target == '')
-			$target = 'NULL';
-		else
-			$target = "'".$wpdb->escape ($target)."'";
-		
-		$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES ('$url',$target,NOW(),'$agent',$redirection_id, '$ip', $referrer, $module_id, $group_id)");
+		$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES (%s,%s,NOW(),%s,%d,%s,%s,%d,%d)", $url, $target, $agent, $redirection_id, $ip, $referrer, $module_id, $group_id ) );
 		
 		// Expire old entries
 		$options = $redirection->get_options ();

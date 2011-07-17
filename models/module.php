@@ -35,7 +35,7 @@ class Red_Module {
 		
 		$this->name = $data['name'];
 		$options = $this->save( $data );
-		$wpdb->update( $wpdb->prefix.'redirection_modules', array( 'name' => trim( $data['name'] ), 'options' => empty( $options ) ? '' : serialize( $options ) ), array( 'id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix.'redirection_modules', array( 'name' => trim( $data['name'] ), 'options' => empty( $options ) ? '' : serialize( $options ) ), array( 'id' => intval( $this->id ) ) );
 
 		Red_Module::clear_cache( $this->id );
 	}

@@ -2,8 +2,8 @@
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
-Requires at least: 2.9
-Tested up to: 3.1.2
+Requires at least: 3.0
+Tested up to: 3.2.1
 Stable tag: trunk
 
 Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.
@@ -85,152 +85,31 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 == Changelog ==
 
-= 2.0    = 
-* New version
+= 2.2.7 =
+* Better database compat
 
-= 2.0.1  = 
-* Install defaults when no existing redirection setup
+= 2.2.6 =
+* Remove warning from VaultPress
 
-= 2.0.2  = 
-* Correct DB install
-* Fix IIS problem
+= 2.2.5 =
+* Add Turkish translation, thanks to Fatih Cevik
+* Fix search box
+* Fix 410 error code
+* Fix DB errors when MySQL doesn't auto-convert data types
 
-= 2.0.3  = 
-* Fix #248
-* Update plugin.php to better handle odd directories
+= 2.2.4 =
+* Add Hungarian translation, thanks to daSSad
 
-= 2.0.4  = 
-* get_home_path seems not be available for some people
+= 2.2.3 =
+* Remove debug from htaccess module
 
-= 2.0.5  = 
-* Fix #264
+= 2.2.2 =
+* Fix encoding of JS strings 
 
-= 2.0.6  = 
-* Support for wp-load.php
-
-= 2.0.7  = 
-* Fix incorrect automatic redirection with static home pages
-
-= 2.0.8  = 
-* Refix log delete
-
-= 2.0.9  = 
-* Fix delete redirects
-
-= 2.0.10 = 
-* Fix small issues in display with WP 2.7
-
-= 2.0.11 = 
-* Hebrew translation
-
-= 2.0.12 = 
-* Disable category monitor in 2.7
-
-= 2.1    = 
-* Change to jQuery
-* Nonce protection
-* Fix #352, #353, #339, #351
-* Add #358, #316.
-
-= 2.1.1  = 
-* Force JS cache
-* Fix log deletion
-
-= 2.1.2  = 
-* Minor button changes
-
-= 2.1.3  = 
-* Re-enable import feature
-
-= 2.1.4  = 
-* RSS feed token
-
-= 2.1.5  = 
-* Fix #366, #371, #378, #390, #400.
-* Add #370, #357
-
-= 2.1.6  = 
-* Redirection loops
-
-= 2.1.7  = 
-* Fix #422, #426
-
-= 2.1.8  = 
-* Fix category change 'quick edit'
-
-= 2.1.9  = 
-* Fix 'you do not permissions' error on some non-English sites
-
-= 2.1.10 = 
-* Missing localisations
-
-= 2.1.11 = 
-* Errors on some sites
-
-= 2.1.12 = 
-* Add icons
-* Disable category monitoring
-
-= 2.1.13 = 
-* Add Spanish and Chinese translation
-
-= 2.1.14 = 
-* Fix #457
-* Add #475, #427
-* Add Catalan translation.
-* WP2.8 compatibility
-
-= 2.1.15 = 
-* Use WP Ajax
-* Add Japanese
-
-= 2.1.16 = 
-* Fix group edit and log add entry
-
-= 2.1.17 = 
-* Log JS fixes
-
-= 2.1.18 = 
-* Fix module deletion
-
-= 2.1.19 = 
-* Add Hindi translation
-* Fix some ajax
-
-= 2.1.20 =
-* Fix for some users with problems deleting redirections
-
-= 2.1.21 =
-* Fix #620
-* Add Russian translation
-
-= 2.1.22 =
-* Pre WP2.8 compatibility fix
-
-= 2.1.23 =
-* Add Bahasa Indonesian translation
-* Add German translation
-* Add patch to disable logs (thanks to Simon Wheatley!)
-
-= 2.1.24 =
-* Add Ukrainian translation
-* Add Polish translation
-* Database optimisation
-
-= 2.1.25 =
-* Fix deep slashes
-
-= 2.1.26 =
-* WP 3.0 compatibility
-
-= 2.1.27 =
-* Arabic translation
-
-= 2.1.28 =
-* Brazilian Portuguese translation
-
-= 2.1.29 =
-* Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
+= 2.2.1 =
+* More Dutch translation
+* Use fgetcsv for CSV importer - better handling
+* Allow http as URL parameter
 
 = 2.2 =
 * Add Dutch translation
@@ -240,25 +119,149 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 * Upgrades from 1.0 of Redirection no longer supported
 * Optimized DB tables
 
-= 2.2.1 =
-* More Dutch translation
-* Use fgetcsv for CSV importer - better handling
-* Allow http as URL parameter
+= 2.1.29 =
+* Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
 
-= 2.2.2 =
-* Fix encoding of JS strings 
+= 2.1.28 =
+* Brazilian Portuguese translation
 
-= 2.2.3 =
-* Remove debug from htaccess module
+= 2.1.27 =
+* Arabic translation
 
-= 2.2.4 =
-* Add Hungarian translation, thanks to daSSad
+= 2.1.26 =
+* WP 3.0 compatibility
 
-= 2.2.5 =
-* Add Turkish translation, thanks to Fatih Cevik
-* Fix search box
-* Fix 410 error code
-* Fix DB errors when MySQL doesn't auto-convert data types
+= 2.1.25 =
+* Fix deep slashes
 
-= 2.2.6 =
-* Remove warning from VaultPress
+= 2.1.24 =
+* Add Ukrainian translation
+* Add Polish translation
+* Database optimisation
+
+= 2.1.23 =
+* Add Bahasa Indonesian translation
+* Add German translation
+* Add patch to disable logs (thanks to Simon Wheatley!)
+
+= 2.1.22 =
+* Pre WP2.8 compatibility fix
+
+= 2.1.21 =
+* Fix #620
+* Add Russian translation
+
+= 2.1.20 =
+* Fix for some users with problems deleting redirections
+
+= 2.1.19 = 
+* Add Hindi translation
+* Fix some ajax
+
+= 2.1.18 = 
+* Fix module deletion
+
+= 2.1.17 = 
+* Log JS fixes
+
+= 2.1.16 = 
+* Fix group edit and log add entry
+
+= 2.1.15 = 
+* Use WP Ajax
+* Add Japanese
+
+= 2.1.14 = 
+* Fix #457
+* Add #475, #427
+* Add Catalan translation.
+* WP2.8 compatibility
+
+= 2.1.13 = 
+* Add Spanish and Chinese translation
+
+= 2.1.12 = 
+* Add icons
+* Disable category monitoring
+
+= 2.1.11 = 
+* Errors on some sites
+
+= 2.1.10 = 
+* Missing localisations
+
+= 2.1.9  = 
+* Fix 'you do not permissions' error on some non-English sites
+
+= 2.1.8  = 
+* Fix category change 'quick edit'
+
+= 2.1.7  = 
+* Fix #422, #426
+
+= 2.1.6  = 
+* Redirection loops
+
+= 2.1.5  = 
+* Fix #366, #371, #378, #390, #400.
+* Add #370, #357
+
+= 2.1.4  = 
+* RSS feed token
+
+= 2.1.3  = 
+* Re-enable import feature
+
+= 2.1.2  = 
+* Minor button changes
+
+= 2.1.1  = 
+* Force JS cache
+* Fix log deletion
+
+= 2.1    = 
+* Change to jQuery
+* Nonce protection
+* Fix #352, #353, #339, #351
+* Add #358, #316.
+
+= 2.0.12 = 
+* Disable category monitor in 2.7
+
+= 2.0.11 = 
+* Hebrew translation
+
+= 2.0.10 = 
+* Fix small issues in display with WP 2.7
+
+= 2.0.9  = 
+* Fix delete redirects
+
+= 2.0.8  = 
+* Refix log delete
+
+= 2.0.7  = 
+* Fix incorrect automatic redirection with static home pages
+
+= 2.0.6  = 
+* Support for wp-load.php
+
+= 2.0.5  = 
+* Fix #264
+
+= 2.0.4  = 
+* get_home_path seems not be available for some people
+
+= 2.0.3  = 
+* Fix #248
+* Update plugin.php to better handle odd directories
+
+= 2.0.2  = 
+* Correct DB install
+* Fix IIS problem
+
+= 2.0.1  = 
+* Install defaults when no existing redirection setup
+
+= 2.0    = 
+* New version

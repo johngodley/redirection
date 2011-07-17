@@ -99,8 +99,8 @@ class Red_Group {
 
 			$data = array(
 				'name'      => trim( $name ),
-				'module_id' => $module,
-				'position'  => $position
+				'module_id' => intval( $module ),
+				'position'  => intval( $position )
 			);
 
 			if ( isset( $data['status'] ) && isset( $data['position'] ) )
@@ -121,7 +121,7 @@ class Red_Group {
 		$this->tracking = isset( $data['tracking'] ) ? true : false;
 		$this->status   = isset( $data['status'] ) ? 'enabled' : 'disabled';
 		
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $data['name'], 'status' => $this->status, 'tracking' => $this->tracking ), array( 'id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $data['name'], 'status' => $this->status, 'tracking' => intval( $this->tracking ) ), array( 'id' => intval( $this->id ) ) );
 		
 		Red_Module::flush( $this->module_id );
 	}
