@@ -51,6 +51,8 @@ Redirection is available in:
 * Dutch by Marlon Navas & Pieter Carette
 * Hungarian by daSSad
 * Turkish by Fatih Cevik
+* Romanian translation, thanks to Alina
+* Greek, thanks to Stefanos Kofopoulos
 
 == Installation ==
 
@@ -84,6 +86,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
 
 == Changelog ==
+
+= 2.2.8 =
+* Add Romanian translation, thanks to Alina
+* Add Greek, thanks to Stefanos Kofopoulos
 
 = 2.2.7 =
 * Better database compat
