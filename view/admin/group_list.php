@@ -15,7 +15,7 @@
 
 			<?php _e( 'Module', 'redirection' ); ?>:
 			<select name="id">
-				<?php echo $this->select( $modules, isset($_GET['id'] ) ? $_GET['id'] : '' )?>
+				<?php echo $this->select( $modules, isset($_GET['id'] ) ? intval( $_GET['id'] ) : '' )?>
 			</select>
 			
 			<?php _e( 'Search', 'redirection' ); ?>: 

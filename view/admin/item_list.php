@@ -23,7 +23,7 @@
 
 			<?php _e ('Group', 'redirection'); ?>:
 			<select name="id">
-				<?php echo $this->select ($groups, isset( $_GET['id'] ) ? $_GET['id'] : '')?>
+				<?php echo $this->select ($groups, isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '')?>
 			</select>
 			
 			<?php _e ('Search', 'redirection'); ?>: 

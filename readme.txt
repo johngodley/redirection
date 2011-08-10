@@ -87,6 +87,10 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 == Changelog ==
 
+= 2.2.9 =
+* Fix XSS in admin menu
+* Update Russian translation, thanks to Alexey Pazdnikov
+
 = 2.2.8 =
 * Add Romanian translation, thanks to Alina
 * Add Greek, thanks to Stefanos Kofopoulos

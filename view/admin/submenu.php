@@ -2,12 +2,12 @@
 
 <ul class="subsubsub">
   <li>
-		<a <?php if ( !isset( $_GET['sub'] ) ) echo 'class="current"'; ?>href="?page=redirection.php<?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.urlencode( $_GET['id'] ) ?>">
+		<a <?php if ( !isset( $_GET['sub'] ) ) echo 'class="current"'; ?>href="?page=redirection.php<?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
 			<?php _e( 'Redirects', 'redirection' ); ?>
 		</a> |
 	</li>
   <li>
-		<a <?php if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'groups' ) echo 'class="current"'; ?>href="?page=redirection.php&amp;sub=groups<?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.$_GET['id'] ?>">
+		<a <?php if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'groups' ) echo 'class="current"'; ?>href="?page=redirection.php&amp;sub=groups<?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
 			<?php _e( 'Groups', 'redirection' ); ?>
 		</a> |
 	</li>
