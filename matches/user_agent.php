@@ -26,7 +26,7 @@ class Agent_Match extends Red_Match {
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
 	}
-	
+
 	function show()	{
 		$defined = array( 
 			'feedburner|feedvalidator' => __( 'FeedBurner', 'redirection' ),
@@ -35,6 +35,8 @@ class Agent_Match extends Red_Match {
 			'Opera'                    => __( 'Opera', 'redirection' ),
 			'Safari'                   => __( 'Safari', 'redirection' ),
 			'iPhone'                   => __( 'iPhone', 'redirection' ),
+			'iPad'                     => __( 'iPad', 'redirection' ),
+			'Android'                  => __( 'Android', 'redirection' ),
 			'Wii'                      => __( 'Nintendo Wii', 'redirection' ),
 		 );
 		

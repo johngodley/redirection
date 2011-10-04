@@ -87,6 +87,9 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 == Changelog ==
 
+= 2.2.10 =
+* Fix XSS in referrers log
+
 = 2.2.9 =
 * Fix XSS in admin menu
 * Update Russian translation, thanks to Alexey Pazdnikov

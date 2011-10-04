@@ -8,15 +8,15 @@
 	</a>
 </td>
 <td class="info">
-	<a class="details" href="<?php echo $log->url ?>"><?php echo $log->show_url ($log->url) ?></a>
+	<a class="details" href="<?php echo esc_attr( $log->url ) ?>"><?php echo $log->show_url( $log->url ) ?></a>
 </td>
 <td>
 	<?php if (strlen ($log->referrer) > 0) : ?>
-	<a href="<?php echo $this->url ($log->referrer) ?>"><?php echo $log->show_url ($log->referrer ()) ?></a>
+	<a href="<?php echo esc_attr( $this->url ( $log->referrer) ) ?>"><?php echo $log->show_url( $log->referrer() ) ?></a>
 	<?php endif; ?>
 </td>
 <td style="width:9em" class="center">
-	<a target="_blank" href="<?php echo $lookup.$log->ip ?>"><?php echo htmlspecialchars ($log->ip) ?></a>
+	<a target="_blank" href="<?php echo $lookup.esc_attr( $log->ip ) ?>"><?php echo esc_html( $log->ip ) ?></a>
 </td>
 <td style="width: 16px" class="lastcol">
 	<a href="#add" class="add-log"><img src="<?php echo $this->url () ?>/images/add.png" width="16" height="16" alt="Add"/></a>
