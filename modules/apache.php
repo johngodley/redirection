@@ -6,21 +6,21 @@ class Apache_Module extends Red_Module
 	var $allow_ip  = false;
 	var $raw;
 	var $ban_ip = false;
-	
+
 	var $site      = '';
 	var $location  = '';
 	var $canonical = '';
 	var $strip_index = '';
 	var $memory_limit = '';
 	var $error_level  = '';
-	
+
 	function is_valid ()
 	{
 		if (!$this->location || !file_exists (dirname ($this->location)) && !is_writable (dirname ($this->location)))
 			return false;
 		return true;
 	}
-	
+
 	function load ($data)
 	{
 		$mine = array ('location', 'canonical', 'strip_index', 'memory_limit', 'error_level', 'ban_ip', 'allow_ip', 'raw', 'site');
@@ -30,12 +30,12 @@ class Apache_Module extends Red_Module
 				$this->$key = $data[$key];
 		}
 	}
-	
+
 	function module_flush_delete ()
 	{
 		@unlink ($this->location);
 	}
-	
+
 	function module_flush ($items)
 	{
 		// Produce the .htaccess file
@@ -47,10 +47,10 @@ class Apache_Module extends Red_Module
 			foreach ($items AS $item)
 				$htaccess->add ($item);
 		}
-		
+
 		$htaccess->save ($this->location, $this->name);
 	}
-	
+
 	function save ($data)
 	{
 		$save = array
@@ -65,11 +65,11 @@ class Apache_Module extends Red_Module
 			'raw'          => $data['raw'],
 			'site'         => preg_replace ('@https?://@', '', $data['site'])
 		);
-		
+
 		$this->load ($save);
 		return $save;
 	}
-	
+
 	function config ()
 	{
 		?>
@@ -89,7 +89,7 @@ class Apache_Module extends Red_Module
 				<select name="canonical">
 					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url')))), $this->canonical); ?>
 				</select>
-				
+
 				<br/>
 				<strong><?php _e ('Strip Index', 'redirection'); ?>:</strong>
 				<select name="strip_index">
@@ -103,7 +103,7 @@ class Apache_Module extends Red_Module
 				<select name="memory_limit">
 					<?php echo $this->select (array ('0' => __ ('Server default', 'redirection'), '8' => '8MB', '16' => '16MB', '32' => '32MB', '64' => '64MB', '128' => '128MB'), $this->memory_limit); ?>
 				</select>
-				
+
 				<strong><?php _e ('Error Level', 'redirection'); ?>:</strong>
 				<select name="error_level">
 					<?php echo $this->select (array ('default' => __ ('Server default', 'redirection'), 'none' => __ ('No errors', 'redirection'), 'error' => __ ('Show errors', 'redirection')), $this->error_level); ?>
@@ -135,10 +135,10 @@ class Apache_Module extends Red_Module
 				<span class="sub"><?php _e ('Advanced: For management of external sites', 'redirection'); ?></span>
 			</td>
 		</tr>
-		
+
 		<?php
 	}
-	
+
 	function options ()
 	{
 		echo '<p>';
@@ -162,26 +162,26 @@ class Apache_Module extends Red_Module
 		else
 			echo __ ('<strong>Disabled: enter the location of an <code>.htaccess</code> file for this to be valid</strong>', 'redirection');
 		echo '</p>';
-		
+
 		$options = array ();
 		if ($this->canonical != 'default' && !empty ($this->canonical))
 			$options[] = ($this->canonical == 'nowww') ? __ ('strip WWW', 'redirection') : __ ('force WWW', 'redirection');
-			
+
 		if ($this->strip_index != 'default' && !empty ($this->strip_index))
 			$options[] = __ ('strip index', 'redirection');
-			
+
 		if ($this->memory_limit > 0 && !empty ($this->memory_limit))
 			$options[] = sprintf (__ ('memory limit at %dMB', 'redirection'), $this->memory_limit);
-			
+
 		if ($this->error_level != 'default' && !empty ($this->error_level))
 			$options[] = ($this->error_level == 'none') ? __ ('no errors', 'redirection') : __ ('show errors', 'redirection');
-		
+
 		if (!empty ($this->ban_ip))
 			$options[] = __ ('IPs are banned', 'redirection');
-		
+
 		if (!empty ($this->allow_ip))
 			$options[] = __ ('IPs are allowed', 'redirection');
-			
+
 		echo '<small>'.ucfirst (implode (', ', $options)).'</small>';
-	}	
+	}
 }

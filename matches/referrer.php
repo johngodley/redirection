@@ -23,18 +23,18 @@ For full license details see license.txt
 class Referrer_Match extends Red_Match {
 	var $referrer;
 	var $regex;
-	
+
 	function name() {
 		return __( 'URL and referrer', 'redirection' );
 	}
-	
+
 	function show() {
-		$codes = array( 
+		$codes = array(
 			301 => get_status_header_desc( 301 ),
 			302 => get_status_header_desc( 302 ),
 			307 => get_status_header_desc( 307 )
 		 );
-		
+
 		?>
 		<tr>
 			<th width="100"><?php _e( 'Referrer', 'redirection' ); ?>:</th>
@@ -81,11 +81,11 @@ class Referrer_Match extends Red_Match {
 		</tr>
 		<?php
 	}
-	
+
 	function save( $details )	{
 		if ( isset( $details['target'] ) )
 			$details['url_from'] = $details['target'];
-			
+
 		return array(
 			'url_from'    => $details['url_from'],
 			'url_notfrom' => $details['url_notfrom'],
@@ -93,7 +93,7 @@ class Referrer_Match extends Red_Match {
 			'referrer'    => $details['referrer']
 		);
 	}
-	
+
 	function initialize( $url ) {
 		$this->url = array( $url, '' );
 	}
@@ -102,10 +102,10 @@ class Referrer_Match extends Red_Match {
 		// Match referrer
 		return true;
 	}
-	
+
 	function get_target( $url, $matched_url, $regex ) {
 		$target = false;
-		
+
 		// Check if referrer matches
 		if ( ( $this->regex == false && $_SERVER['HTTP_REFERER'] == $this->referrer ) ||( $this->regex == true && preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', $_SERVER['HTTP_REFERER'], $matches ) ) ) {
 			$target = $this->url_from;
@@ -117,7 +117,7 @@ class Referrer_Match extends Red_Match {
 			$target = $this->url_notfrom;
 		return $target;
 	}
-	
+
 	function match_name()	{
 		return sprintf( 'referrer - <code>%s</code>', $this->referrer );
 	}

@@ -25,27 +25,27 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 class RedirectionAjax extends Redirection_Plugin {
 	var $post;
-	
+
 	function RedirectionAjax() {
 		$this->register_plugin( 'redirection', __FILE__ );
 
 		add_action( 'init', array( &$this, 'init' ) );
 	}
-	
+
 	function init() {
 		if ( current_user_can( 'administrator' ) ) {
 			$this->post = stripslashes_deep( $_POST );
-			
+
 			$this->register_ajax( 'red_log_show' );
 			$this->register_ajax( 'red_log_hide' );
 			$this->register_ajax( 'red_log_delete' );
-			
+
 			$this->register_ajax( 'red_module_edit' );
 			$this->register_ajax( 'red_module_load' );
 			$this->register_ajax( 'red_module_save' );
 			$this->register_ajax( 'red_module_reset' );
 			$this->register_ajax( 'red_module_delete' );
-			
+
 			$this->register_ajax( 'red_group_edit' );
 			$this->register_ajax( 'red_group_load' );
 			$this->register_ajax( 'red_group_save' );
@@ -66,14 +66,14 @@ class RedirectionAjax extends Redirection_Plugin {
 			$this->register_ajax( 'red_redirect_add' );
 		}
 	}
-	
+
 	function red_log_show() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-log_'.$id ) ) {
 			$log      = RE_Log::get_by_id( $id );
 			$redirect = Red_Item::get_by_id( $log->redirection_id );
-			
+
 			$this->render_admin( 'log_item_details', array( 'log' => $log, 'redirect' => $redirect ) );
 			die();
 		}
@@ -81,7 +81,7 @@ class RedirectionAjax extends Redirection_Plugin {
 
 	function red_log_hide() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-log_'.$id ) ) {
 			$log = RE_Log::get_by_id( $id );
 
@@ -89,7 +89,7 @@ class RedirectionAjax extends Redirection_Plugin {
 			die();
 		}
 	}
-	
+
 	function red_log_delete()	{
 		if ( check_ajax_referer( 'redirection-items' ) ) {
 			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
@@ -99,36 +99,36 @@ class RedirectionAjax extends Redirection_Plugin {
 			}
 		}
 	}
-	
+
 	function red_module_edit() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-module_'.$id ) ) {
 			$module = Red_Module::get( $id );
-			
+
 			if ( $module )
 				$this->render_admin( 'module_edit', array( 'module' => $module ) );
-				
+
 			die();
 		}
 	}
-	
+
 	function red_module_load() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-module_'.$id ) ) {
 			$module = Red_Module::get ($id);
 			if ($module) {
 				global $redirection;
 				$options = $redirection->get_options();
-			
+
 				$this->render_admin( 'module_item', array( 'module' => $module, 'token' => $options['token'] ) );
 			}
-			
+
 			die();
 		}
 	}
-	
+
 	function red_module_save() {
 		$id = intval( $this->post['id'] );
 
@@ -138,19 +138,19 @@ class RedirectionAjax extends Redirection_Plugin {
 				global $redirection;
 				$options = $redirection->get_options();
 				$module->update( $this->post );
-		
+
 				$this->render_admin( 'module_item', array( 'module' => $module, 'token' => $options['token'] ) );
 				die();
 			}
 		}
 	}
-	
+
 	function red_module_reset() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-module_'.$id ) ) {
 			$module = Red_Module::get( $id );
-			
+
 			if ( $module ) {
 				global $redirection;
 				$options = $redirection->get_options();
@@ -158,11 +158,11 @@ class RedirectionAjax extends Redirection_Plugin {
 				$module->reset ();
 				$this->render_admin( 'module_item', array( 'module' => $module, 'token' => $options['token'] ) );
 			}
-			
+
 			die();
 		}
 	}
-	
+
 	function red_module_delete() {
 		$id = intval( $_GET['id'] );
 		if ( check_ajax_referer( 'redirection-module_'.$id ) ) {
@@ -173,19 +173,19 @@ class RedirectionAjax extends Redirection_Plugin {
 
 	function red_group_edit() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-group_'.$id ) ) {
 			$group = Red_Group::get( $id );
 			if ( $group )
 				$this->render_admin( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
-				
+
 			die();
 		}
 	}
-	
+
 	function red_group_load() {
 		$id = intval( $_GET['id'] );
-		
+
 		if ( check_ajax_referer( 'redirection-group_'.$id ) ) {
 			$group = Red_Group::get( $id );
 			if ( $group )
@@ -202,10 +202,10 @@ class RedirectionAjax extends Redirection_Plugin {
 			if ( $group ) {
 				$original_module = $group->module_id;
 				$group->update( $this->post );
-		
+
 				$this->render_admin( 'group_item', array( 'group' => $group ) );
 			}
-			
+
 			die();
 		}
 	}
@@ -217,12 +217,12 @@ class RedirectionAjax extends Redirection_Plugin {
 					$group = Red_Group::get( $group );
 					$group->toggle_status();
 				}
-			
+
 				Red_Module::flush( $group->module_id );
 			}
 		}
 	}
-	
+
 	function red_group_delete() {
 		if ( check_ajax_referer( 'redirection-items' ) ) {
 			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
@@ -232,7 +232,7 @@ class RedirectionAjax extends Redirection_Plugin {
 			}
 		}
 	}
-	
+
 	function red_group_reset() {
 		if ( check_ajax_referer( 'redirection-items' ) ) {
 			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
@@ -243,11 +243,11 @@ class RedirectionAjax extends Redirection_Plugin {
 			}
 		}
 	}
-	
+
 	function red_group_move() {
 		if ( check_ajax_referer( 'redirection-items' ) ) {
 			$target = intval( $this->post['target'] );
-			
+
 			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
 				foreach ( $items[1] AS $group ) {
 					$redirect = Red_Group::get( $group );
@@ -270,7 +270,7 @@ class RedirectionAjax extends Redirection_Plugin {
 			$redirect = Red_Item::get_by_id( intval( $_GET['id'] ) );
 			if ( $redirect )
 				$this->render_admin( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
-				
+
 			die();
 		}
 	}
@@ -280,18 +280,18 @@ class RedirectionAjax extends Redirection_Plugin {
 			$redirect = Red_Item::get_by_id( intval( $_GET['id'] ) );
 			if ( $redirect )
 				$this->render_admin( 'item', array( 'redirect' => $redirect, 'date_format' => get_option( 'date_format' ) ) );
-			
+
 			die();
 		}
 	}
-	
+
 	function red_redirect_save() {
 		$id = intval( $this->post['id'] );
 
 		if ( check_ajax_referer( 'redirection-redirect_save_'.$id ) ) {
 			$redirect = Red_Item::get_by_id( $id );
 			$redirect->update( $this->post );
-		
+
 			$this->render_admin( 'item', array( 'redirect' => $redirect, 'date_format' => get_option( 'date_format' ) ) );
 			die();
 		}
@@ -305,12 +305,12 @@ class RedirectionAjax extends Redirection_Plugin {
 					$redirect->toggle_status();
 				}
 			}
-			
+
 			$group = Red_Group::get( $redirect->group_id );
 			Red_Module::flush( $group->module_id );
 		}
 	}
-	
+
 	function red_redirect_delete() {
 		if ( check_ajax_referer( 'redirection-items' ) ) {
 			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
@@ -368,7 +368,7 @@ class RedirectionAjax extends Redirection_Plugin {
 			}
 			else
 				$this->render_error (__ ('Sorry, but your redirection was not created', 'redirection'));
-				
+
 			die();
 		}
 	}

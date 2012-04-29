@@ -5,7 +5,7 @@
 // modify it under the terms of the GNU Lesser General Public
 // License as published by the Free Software Foundation; either
 // version 2.1 of the License, or (at your option) any later version.
-// 
+//
 // This library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -38,7 +38,7 @@
  * Searching is achieved by specifying the columns that can be searched:
  *
  * $rows = $wpdb->get_results ("SELECT * FROM wp_posts".$pager->to_limits ("post_type=page", array ('post_content', 'post_excerpt')));
- * 
+ *
  * Additionally you can output column headings with correct URLs:
  *   <th><?php echo $pager->sortable ('post_username', 'Username') ?></th>
  *
@@ -59,8 +59,8 @@ class RE_Pager
 	var $search          = null;
 	var $filters         = array ();
 	var $id;
-	
-	
+
+
 	/**
 	 * Construct a pager object using the $_GET data, the current URL, and default preferences
 	 *
@@ -76,12 +76,12 @@ class RE_Pager
 		// Remove all pager params from the url
 		$this->id  = $id;
 		$this->url = $url;
-		
+
 		if (isset ($data['curpage']))
 			$this->current_page = intval ($data['curpage']);
 
 		global $user_ID;
-		
+
 		if (isset ($data['perpage']))
 		{
 			$this->per_page = intval ($data['perpage']);
@@ -92,10 +92,10 @@ class RE_Pager
 
 		if ($orderby != '')
 			$this->order_by = $orderby;
-		
+
 		if (isset ($data['orderby']))
 			$this->order_by = $data['orderby'];
-		
+
 		if (!empty ($tags))
 		{
 			$this->order_tags = $tags;
@@ -107,21 +107,21 @@ class RE_Pager
 		$this->order_original  = $orderby;
 		if (isset ($data['order']))
 			$this->order_direction = $data['order'];
-		
+
 		$this->search = isset($data['search']) ? $data['search'] : '';
 		$this->steps = array (10, 25, 50, 100, 250);
 		$this->url = str_replace ('&', '&amp;', $this->url);
 		$this->url = str_replace ('&&amp;', '&amp;', $this->url);
 	}
-	
-	
+
+
 	/**
 	 * Set the total number of entries that match the conditions
 	 *
 	 * @param int $total Count
 	 * @return void
 	 **/
-	
+
 	function set_total ($total)
 	{
 		$this->total = $total;
@@ -129,32 +129,32 @@ class RE_Pager
 		if ($this->current_page <= 0 || $this->current_page > $this->total_pages ())
 			$this->current_page = 1;
 	}
-	
-	
+
+
 	/**
 	 * Return the current page offset
 	 *
 	 * @return int Current page offset
 	 **/
-	
+
 	function offset ()
 	{
 		return ($this->current_page - 1) * $this->per_page;
 	}
-	
-	
+
+
 	/**
 	 * @todo explain
 	 * @return void
 	 **/
 	// XXX
-	
+
 	function is_secondary_sort ()
 	{
 		return substr ($this->order_by, 0, 1) == '_' ? true : false;
 	}
-	
-	
+
+
 	/**
 	 * Returns a set of conditions without any limits.  This is suitable for a COUNT SQL
 	 *
@@ -163,14 +163,14 @@ class RE_Pager
 	 * @param array $filters Array of columns to filter on
 	 * @return string SQL
 	 **/
-	
+
 	function to_conditions ($conditions, $searches = '', $filters = '')	{
 		global $wpdb;
-		
+
 		$sql = '';
 		if ($conditions != '')
 			$sql .= ' WHERE '.$conditions;
-		
+
 		// Add on search conditions
 		if (is_array ($searches) && $this->search != '')
 		{
@@ -206,16 +206,16 @@ class RE_Pager
 					$sql .= ' WHERE (';
 				else
 					$sql .= ' AND (';
-				
+
 				$sql .= implode (' AND ', $searchbits);
 				$sql .= ')';
 			}
 		}
-		
+
 		return $sql;
 	}
-	
-	
+
+
 	/**
 	 * Returns a set of conditions with limits.
 	 *
@@ -224,15 +224,15 @@ class RE_Pager
 	 * @param array $filters Array of columns to filter on
 	 * @return string SQL
 	 **/
-	
+
 	function to_limits ($conditions = '', $searches = '', $filters = '', $group_by = '') {
 		global $wpdb;
-		
+
 		$sql = $this->to_conditions ($conditions, $searches, $filters);
-		
+
 		if ($group_by)
 			$sql .= ' '.$group_by.' ';
-			
+
 		if (strlen ($this->order_by) > 0)
 		{
 			if (!$this->is_secondary_sort ())
@@ -246,7 +246,7 @@ class RE_Pager
 		return $sql;
 	}
 
-	
+
 	/**
 	 * Return the url with all the params added back
 	 *
@@ -254,7 +254,7 @@ class RE_Pager
 	 * @param string $orderby Optional order
 	 * @return string URL
 	 **/
-	
+
 	function url ($offset, $orderby = '')
 	{
 		// Position
@@ -262,7 +262,7 @@ class RE_Pager
 			$url = preg_replace ('/curpage=\d*/', 'curpage='.$offset, $this->url);
 		else
 			$url = $this->url.'&amp;curpage='.$offset;
-			
+
 		// Order
 		if ($orderby != '')
 		{
@@ -270,60 +270,60 @@ class RE_Pager
 				$url = preg_replace ('/orderby=\w*/', 'orderby='.$orderby, $url);
 			else
 				$url = $url.'&amp;orderby='.$orderby;
-			
+
 			if (!empty ($this->order_tags) && isset ($this->order_tags[$orderby]))
 				$dir = $this->order_direction == 'ASC' ? 'DESC' : 'ASC';
 			else if ($this->order_by == $orderby)
 				$dir = $this->order_direction == 'ASC' ? 'DESC' : 'ASC';
 			else
 				$dir = $this->order_direction;
-				
+
 			if (strpos ($url, 'order=') !== false)
 				$url = preg_replace ('/order=\w*/', 'order='.$dir, $url);
 			else
 				$url = $url.'&amp;order='.$dir;
 		}
-		
+
 		return str_replace ('&go=go', '', $url);
 	}
-	
-	
+
+
 	/**
 	 * Return current page
 	 *
 	 * @return int
 	 **/
-	
+
 	function current_page () { return $this->current_page; }
-	
-	
+
+
 	/**
 	 * Return total number of pages
 	 *
 	 * @return int
 	 **/
-	
+
 	function total_pages ()
 	{
 		if ($this->per_page == 0)
 			return 1;
 		return ceil ($this->total / $this->per_page);
 	}
-	
-	
+
+
 	/**
 	 * Determine if we have a next page
 	 *
 	 * @return boolean
 	 **/
-	
+
 	function have_next_page ()
 	{
 		if ($this->current_page < $this->total_pages ())
 			return true;
 		return false;
 	}
-	
+
 
 	/**
 	 * Determine if we have a previous page
@@ -337,8 +337,8 @@ class RE_Pager
 			return true;
 		return false;
 	}
-	
-	
+
+
 	function sortable_class ($column, $class = true)
 	{
 		if ($column == $this->order_by)
@@ -349,7 +349,7 @@ class RE_Pager
 				echo ' sortedd';
 		}
 	}
-	
+
 	/**
 	 * Return a string suitable for a sortable column heading
 	 *
@@ -358,41 +358,41 @@ class RE_Pager
 	 * @param boolean $image Whether to show a direction image
 	 * @return string URL
 	 **/
-	
+
 	function sortable ($column, $text, $image = true)
 	{
 		$url = $this->url ($this->current_page, $column);
 		$img = '';
-		
+
 		if (isset ($this->order_tags[$column]))
 			$column = $this->order_tags[$column];
-			
+
 		if ($column == $this->order_by)
 		{
 			if (defined ('WP_PLUGIN_URL'))
 				$dir = WP_PLUGIN_URL.'/'.basename (dirname (dirname (__FILE__)));
 			else
 				$dir = get_bloginfo ('wpurl').'/wp-content/plugins/'.basename (dirname (dirname (__FILE__)));
-				
+
 			if (strpos ($url, 'ASC') !== false)
 				$img = '<img align="bottom" src="'.$dir.'/images/up.gif" alt="dir" width="16" height="7"/>';
 			else
 				$img = '<img align="bottom" src="'.$dir.'/images/down.gif" alt="dir" width="16" height="7"/>';
-							
+
 			if ($image == false)
 				$img = '';
 		}
-		
+
 		return '<a href="'.$url.'">'.$text.'</a>'.$img;
 	}
-	
-	
+
+
 	/**
 	 * Returns an array of page numbers => link, given the current page (next and previous etc)
 	 *
 	 * @return array Array of page links
 	 **/
-	
+
 	function area_pages ()
 	{
 		// First page
@@ -403,12 +403,12 @@ class RE_Pager
 		{
 			$previous = __ ('Previous', 'redirection');
 			$next     = __ ('Next', 'redirection');
-			
+
 			if ($this->have_previous_page ())
 				$pages[] = '<a href="'.$this->url ($this->current_page - 1).'">'.$previous.'</a> |';
 			else
 				$pages[] = $previous.' |';
-				
+
 			for ($pos = 1; $pos <= $this->total_pages (); $pos++)
 			{
 				if ($pos == $this->current_page)
@@ -424,7 +424,7 @@ class RE_Pager
 					$pages[] = '&hellip;';
 				}
 			}
-			
+
 			if ($this->have_next_page ())
 				$pages[] = '| <a href="'.$this->url ($this->current_page + 1).'">'.$next.'</a>';
 			else
@@ -433,27 +433,27 @@ class RE_Pager
 
 		return $pages;
 	}
-	
-	
+
+
 	/**
 	 * @todo
 	 * @return boolean
 	 **/
-	
+
 	function filtered ($field, $value)
 	{
 		if (isset ($this->filters[$field]) && $this->filters[$field] == $value)
 			return true;
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * Display a SELECT box suitable for a per-page
 	 *
 	 * @return void
 	 **/
-	
+
 	function per_page ($plugin = '')
 	{
 		?>
@@ -466,7 +466,7 @@ class RE_Pager
 		</select>
 		<?php
 	}
-	
+
 	function page_links ()
 	{
 		$text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>',

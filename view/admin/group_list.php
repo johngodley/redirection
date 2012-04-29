@@ -4,9 +4,9 @@
 	<?php $this->render_admin( 'annoy'  ); ?>
 
 	<h2><?php _e( 'Groups for module', 'redirection' ); ?>: <a href="edit.php?page=redirection.php&amp;sub=modules"><?php echo esc_html( $module->name  ) ?></a></h2>
-		
+
 	<?php $this->render_admin( 'submenu'  ); ?>
-	
+
 	<div id="pager" class="pager">
 		<form method="get" action="<?php echo $this->url( $pager->url ) ?>">
 			<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page']  ) ?>"/>
@@ -17,8 +17,8 @@
 			<select name="id">
 				<?php echo $this->select( $modules, isset($_GET['id'] ) ? intval( $_GET['id'] ) : '' )?>
 			</select>
-			
-			<?php _e( 'Search', 'redirection' ); ?>: 
+
+			<?php _e( 'Search', 'redirection' ); ?>:
 			<input type="text" class="search-input" name="search" value="<?php echo isset($_GET['search'] ) ? esc_attr( $_GET['search']  ) : '' ?>" style="font-size: 0.8em"/>
 
 			<?php $pager->per_page( 'redirection' ); ?>
@@ -28,7 +28,7 @@
 	</div>
 
 	<br/>
-	
+
 	<?php if ( count( $groups ) > 0 ) : ?>
 		<ul id="redirections_header" class="redirections_header">
 			<li>
@@ -37,7 +37,7 @@
 				<div class="item"><?php echo $pager->sortable( 'name', __( 'Name', 'redirection' ) )  ?></div>
 			</li>
 		</ul>
-		
+
 		<ul class="redirections" id="items">
 		<?php if ( count( $groups ) > 0 ) : ?>
 			<?php foreach ( $groups AS $group ) : ?>
@@ -45,7 +45,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 		</ul>
-		
+
 		<?php if ( $pager->total_pages() > 0 ) : ?>
 		<div class="pagertools">
 		<?php foreach ( $pager->area_pages() AS $page ) : ?>
@@ -57,7 +57,7 @@
 		<?php if ( count( $groups ) > 0 ) : ?>
 		<div class="pager pagertools">
 			<a class="select-all" href="#select-all"><?php _e( 'Select All', 'redirection' ); ?></a> |
-			<a class="toggle-all" href="#toggle-all"><?php _e( 'Toggle', 'redirection' ); ?></a> | 
+			<a class="toggle-all" href="#toggle-all"><?php _e( 'Toggle', 'redirection' ); ?></a> |
 			<a class="reset-all"  href="#reset-all"><?php _e( 'Reset Hits', 'redirection' ); ?></a> |
 			<a class="delete-all" href="#delete-all"><?php _e( 'Delete', 'redirection' ); ?></a> |
 
@@ -65,10 +65,10 @@
 			<select name="move" id="move">
 				<?php echo $this->select( $modules )?>
 			</select>
-			
+
 			<input class="button-secondary move-all" type="submit" value="<?php _e( 'Go', 'redirection' ); ?>"/>
 		</div>
-		
+
 		<div class="sort" id="sort">
 			<img src="<?php echo $this->url() ?>/images/sort.png" width="16" height="16" alt="Sort"/>
 
@@ -76,11 +76,11 @@
 			<a class="sort-save" id="toggle_sort_off"  href="#" style="display: none"><?php _e( 'save order', 'redirection' ); ?></a>
 		</div>
 		<?php endif; ?>
-	
+
 		<div id="loading" style="display: none">
 			<img src="<?php echo $this->url() ?>/images/loading.gif" alt="loading" width="32" height="32"/>
 		</div>
-		
+
 		<?php global $is_IE; if ( !$is_IE ) : ?>
 		<div style="clear: both"></div>
 		<?php endif; ?>
@@ -92,7 +92,7 @@
 
 <div class="wrap">
 	<h2><?php _e( 'Add Group', 'redirection' ); ?></h2>
-	
+
 	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field( 'redirection-add_group' ); ?>
 		<table class="form-table">
@@ -118,7 +118,7 @@ jQuery(document ).ready( function() {
 		are_you_sure: '<?php echo esc_js( __( 'Are you sure?', 'redirection') ); ?>',
 		page: <?php echo( $pager->current_page - 1 ) * $pager->per_page ?>
 	} );
-	
+
 	redirection.edit_items( 'group'  );
 } );
 </script>

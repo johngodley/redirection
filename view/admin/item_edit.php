@@ -1,7 +1,7 @@
 <?php if ( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 <form method="post" accept-charset="utf-8" action="<?php echo admin_url( 'admin-ajax.php' ) ?>" style="padding: 3px">
 	<h3><?php printf( __( '%s by matching %s', 'redirection' ), esc_html( $redirect->actions( $redirect->action_type ) ), esc_html( $redirect->match->name() ) ) ?></h3>
-	
+
 	<table class="edit">
 		<tr>
 			<th width="100"><?php _e ('Title', 'redirection'); ?>:</th>

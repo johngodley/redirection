@@ -24,11 +24,11 @@ class Login_Match extends Red_Match {
 	function name() {
 		return __( 'URL and login status', 'redirection' );
 	}
-	
+
 	function show()	{
 		?>
 		</table>
-		
+
 		<p style="padding: 0.5em">
 			<?php _e( 'The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected.', 'redirection' ); ?>
 		</p>
@@ -45,7 +45,7 @@ class Login_Match extends Red_Match {
 				<input style="width: 95%" type="text" name="url_loggedin" value="<?php echo esc_attr( $this->url_loggedin ); ?>"/>
 			</td>
 		</tr>
-		<tr>
+		<tr>]
 			<th width="100" valign="top">
 				<?php if ( strlen( $this->url_loggedout ) > 0 ) : ?>
 					<a target="_blank" href="<?php echo $this->url_loggedout ?>"><?php _e( 'Logged Out', 'redirection' ); ?>:</a>
@@ -59,7 +59,7 @@ class Login_Match extends Red_Match {
 		</tr>
 		<?php
 	}
-	
+
 	function save( $details )	{
 		if ( isset( $details['target'] ) )
 			$details['target'] = $details;
@@ -69,11 +69,11 @@ class Login_Match extends Red_Match {
 			'url_loggedout' => $details['url_loggedout']
 		);
 	}
-	
+
 	function initialize( $url )	{
 		$this->url = array( $url, '' );
 	}
-	
+
 	function get_target( $url, $matched_url, $regex ) {
 		if ( is_user_logged_in() === false )
 			$target = $this->url_loggedout;
@@ -84,14 +84,14 @@ class Login_Match extends Red_Match {
 			$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
 		return $target;
 	}
-	
+
 	function wants_it()	{
 		if ( is_user_logged_in() && strlen( $this->url_loggedin ) > 0 )
 			return true;
 		if ( !is_user_logged_in() && strlen( $this->url_loggedout ) > 0 )
 			return true;
 	}
-	
+
 	function match_name() {
 		return sprintf( 'login status', $this->user_agent );
 	}

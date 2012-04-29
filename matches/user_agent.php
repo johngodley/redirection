@@ -22,13 +22,13 @@ For full license details see license.txt
 
 class Agent_Match extends Red_Match {
 	var $user_agent;
-	
+
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
 	}
 
 	function show()	{
-		$defined = array( 
+		$defined = array(
 			'feedburner|feedvalidator' => __( 'FeedBurner', 'redirection' ),
 			'MSIE'                     => __( 'Internet Explorer', 'redirection' ),
 			'Firefox'                  => __( 'FireFox', 'redirection' ),
@@ -39,7 +39,7 @@ class Agent_Match extends Red_Match {
 			'Android'                  => __( 'Android', 'redirection' ),
 			'Wii'                      => __( 'Nintendo Wii', 'redirection' ),
 		 );
-		
+
 		?>
 		<tr>
 			<th width="100"><?php _e( 'User Agent', 'redirection' ); ?>:</th>
@@ -62,7 +62,7 @@ class Agent_Match extends Red_Match {
 			</td>
 		</tr>
 		<?php endif; ?>
-		
+
 		<?php if ( $this->action->can_perform_action() ) : ?>
 		</table>
 		<p style="padding: 0.5em"><?php _e( 'The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don\'t match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.
@@ -94,18 +94,18 @@ class Agent_Match extends Red_Match {
 		<?php endif; ?>
 		<?php
 	}
-	
+
 	function save( $details )	{
 		if ( isset( $details['target'] ) )
 			$details['url_from'] = $details['target'];
-			
+
 		return array(
 			'url_from'    => $details['url_from'],
 			'url_notfrom' => $details['url_notfrom'],
 			'user_agent'  => $details['user_agent']
 		);
 	}
-	
+
 	function initialize( $url ) {
 		$this->url = array( $url, '' );
 	}
@@ -114,7 +114,7 @@ class Agent_Match extends Red_Match {
 		// Match referrer
 		return true;
 	}
-	
+
 	function get_target( $url, $matched_url, $regex ) {
 		// Check if referrer matches
 		if ( preg_match( '@'.str_replace( '@', '\\@', $this->user_agent ).'@i', $_SERVER['HTTP_USER_AGENT'], $matches ) > 0 )
@@ -123,7 +123,7 @@ class Agent_Match extends Red_Match {
 			return $this->url_notfrom;
 		return false;
 	}
-	
+
 	function match_name()	{
 		return sprintf( 'user agent - %s', $this->user_agent );
 	}

@@ -3,16 +3,16 @@
 class Red_Rss_File extends Red_FileIO
 {
 	var $title;
-	
+
 	function collect ($module)
 	{
 		$pager = new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log');
 		$pager->per_page = 100;
-		
+
 		$this->name  = $module->name;
 		$this->items = RE_Log::get_by_module ($pager, $module->id);
 	}
-	
+
 	function feed ()
 	{
 		$title = sprintf ('%s log', $this->name);
@@ -20,7 +20,7 @@ class Red_Rss_File extends Red_FileIO
 		header ('Content-type: text/xml; charset='.get_option ('blog_charset'), true);
 		echo '<?xml version="1.0" encoding="'.get_option ('blog_charset').'"?'.">\r\n";
 ?>
-<rss version="2.0" 
+<rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -50,5 +50,5 @@ class Red_Rss_File extends Red_FileIO
 		die();
 	}
 }
-	
+
 ?>

@@ -18,12 +18,12 @@
 	    <select name="match">
 				<?php echo $this->select (Red_Match::all ()); ?>
 			</select>
-			
+
 			<strong><?php _e ('Action', 'redirection'); ?>:</strong>
 			<select name="red_action" onchange="return change_add_redirect (this)">
 				<?php echo $this->select (Red_Item::actions (), 'url'); ?>
 			</select>
-			
+
 			<label><?php _e ('Regular expression', 'redirection'); ?>: <input id="regex" type="checkbox" name="regex"/></label>
 	    </td>
 	  </tr>
@@ -44,10 +44,10 @@
 				<?php if (isset($group)) : ?>
 				<input type="hidden" name="group" value="<?php echo esc_attr( $group ) ?>"/>
 				<?php endif; ?>
-				
+
 				<input type="hidden" name="action" value="red_redirect_add"/>
 				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_add' ); ?>"/>
-				
+
 				<div id="error"></div>
 			</td>
 	  </tr>

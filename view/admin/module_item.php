@@ -15,13 +15,13 @@
 	<h4>
 		<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo esc_html( $module->name ); ?></a>
 	</h4>
-	
+
 	<?php $module->options(); ?>
-	
+
 	<?php if ( $module->is_valid() ) : ?>
 		<div class="toolbar">
 			<strong><?php _e( 'View as', 'redirection' ); ?>:</strong>
-			
+
 			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=csv&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'CSV', 'redirection' ); ?></a>
 			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=xml&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'XML', 'redirection' ); ?></a>
 			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=apache&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'Apache', 'redirection' ); ?></a>
@@ -44,7 +44,7 @@
 		|
 		<a class="reset" href="<?php echo admin_url( 'admin-ajax.php'  ); ?>?action=red_module_reset&amp;id=<?php echo $module->id; ?>&amp;_ajax_nonce=<?php echo wp_create_nonce( 'redirection-module_'.$module->id  ); ?>"><?php _e( 'reset', 'redirection' ); ?></a>
 	</div>
-	
+
 	<img class="loader" src="<?php echo $this->url(); ?>/images/progress.gif" alt="loading" width="50" height="16" style="display: none"/>
 </td>
 

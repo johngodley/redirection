@@ -1,17 +1,17 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap supporter">
 	<?php screen_icon(); ?>
-	
+
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
 	<?php $this->render_admin( 'submenu'  ); ?>
-	
+
 	<p style="clear: both">
 		<?php _e( 'Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>.', 'redirection'); ?>
 		<?php _e( 'This will act as an incentive for me to carry on developing, providing countless hours of support, and including new features and suggestions. You get some useful software and I get to carry on making it.  Everybody wins.', 'redirection'); ?>
 	</p>
-	
+
 	<p><?php _e( 'If you are using this plugin in a commercial setup, or feel that it\'s been particularly useful, then you may want to consider a <strong>commercial donation</strong>.', 'redirection' )?>
-	
+
 	<ul class="donations">
 		<li>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -32,7 +32,7 @@
 				<input type="hidden" name="bn" value="PP-DonationsBF">
 				<input type="image" style="border: none" src="<?php echo $this->url () ?>/images/donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!"/>
 			</form>
-			
+
 			<p><strong>$14</strong><br/><?php _e( 'Individual<br/>Donation', 'redirection' ); ?></p>
 		</li>
 		<li>
@@ -56,11 +56,11 @@
 			<p><strong>$$$</strong><br/><?php _e( 'Commercial<br/>Donation', 'redirection' ); ?></p>
 		</li>
 	</ul>
-	
+
 	<h3 style="clear: both"><?php _e( 'Translations', 'redirection' )?></h3>
-	
+
 	<p><?php _e( 'If you\'re multi-lingual then you may want to consider donating a translation:', 'redirection' )?>
-		
+
 	<ul class="translators">
 		<?php foreach( $this->locales() AS $language ) : ?>
 			<li><?php echo esc_html( $language ); ?></li>

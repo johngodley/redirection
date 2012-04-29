@@ -28,104 +28,104 @@ class RE_Log {
 	var $referrer;
 	var $ip;
 	var $redirection_id;
-	
+
 	function RE_Log ($values)
 	{
 		foreach ($values AS $key => $value)
 		 	$this->$key = $value;
-		
+
 		$this->created = mysql2date ('U', $this->created);
 		$this->url     = stripslashes ($this->url);
 	}
-	
+
 	function get_by_id ($id)
 	{
 		global $wpdb;
-		
+
 		$row = $wpdb->get_row ("SELECT * FROM {$wpdb->prefix}redirection_logs WHERE id='$id'", ARRAY_A);
 		if ($row)
 			return new RE_Log ($row);
 		return false;
 	}
-	
+
 	function get( &$pager ) {
 		global $wpdb;
-		
+
 		$rows = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs FORCE INDEX(created) ".$pager->to_limits ('redirection_id IS NOT NULL', array ('url', 'sent_to', 'ip')), ARRAY_A );
 		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
-		
+
 		$items = array ();
 		if (count ($rows) > 0)
 		{
 			foreach ($rows AS $row)
 				$items[] = new RE_Log ($row);
 		}
-		
+
 		return $items;
 	}
-	
+
 	function get_by_group (&$pager, $group)
 	{
 		global $wpdb;
-		
+
 		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("redirection_id IS NOT NULL AND group_id='".$group."'", array ('url', 'sent_to', 'ip')), ARRAY_A);
 		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
-		
+
 		$items = array ();
 		if (count ($rows) > 0)
 		{
 			foreach ($rows AS $row)
 				$items[] = new RE_Log ($row);
 		}
-		
+
 		return $items;
 	}
-	
+
 	function get_by_module (&$pager, $module)
 	{
 		global $wpdb;
 
 		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("module_id='".$module."'", array ('url', 'sent_to', 'ip')), ARRAY_A);
 		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
-		
+
 		$items = array ();
 		if (count ($rows) > 0)
 		{
 			foreach ($rows AS $row)
 				$items[] = new RE_Log ($row);
 		}
-		
+
 		return $items;
 	}
-	
+
 	function get_by_redirect (&$pager, $redirect)
 	{
 		global $wpdb;
-		
+
 		$rows = $wpdb->get_results ("SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_logs".$pager->to_limits ("redirection_id=$redirect", array ('url', 'sent_to', 'ip')), ARRAY_A);
 		$pager->set_total ($wpdb->get_var ("SELECT FOUND_ROWS()"));
-		
+
 		$items = array ();
 		if (count ($rows) > 0)
 		{
 			foreach ($rows AS $row)
 				$items[] = new RE_Log ($row);
 		}
-		
+
 		return $items;
 	}
-	
+
 	function create ($url, $target, $agent, $ip, $referrer, $redirection_id = 'NULL', $module_id = 'NULL', $group_id = 'NULL') {
 		global $wpdb, $redirection;
-		
+
 		$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}redirection_logs (url,sent_to,created,agent,redirection_id,ip,referrer,module_id,group_id) VALUES (%s,%s,NOW(),%s,%d,%s,%s,%d,%d)", $url, $target, $agent, $redirection_id, $ip, $referrer, $module_id, $group_id ) );
-		
+
 		// Expire old entries
 		$options = $redirection->get_options ();
 		if ($options['expire'] != 0)
 			$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL ".$options['expire']." DAY)");
 	}
-	
+
 	function show_url ($url)
 	{
 		return implode ('&#8203;/', explode ('/', substr (esc_html ($url), 0, 80))).(strlen ($url) > 80 ? '...' : '');
@@ -136,19 +136,19 @@ class RE_Log {
 		global $wpdb;
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE id='$id'");
 	}
-	
+
 	function delete_404 ($pager)
 	{
 		global $wpdb;
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ('redirection_id IS NULL', array ('url', 'sent_to', 'ip')));
 	}
-	
+
 	function delete_for_id ($id)
 	{
 		global $wpdb;
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE redirection_id='$id'");
 	}
-	
+
 	function delete_for_group ($id)
 	{
 		global $wpdb;
@@ -160,11 +160,11 @@ class RE_Log {
 		global $wpdb;
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs WHERE module_id=$id");
 	}
-	
+
 	function delete_all ($cond, $pager)
 	{
 		global $wpdb;
-		
+
 		$sql = 'redirection_id IS NOT NULL';
 		if (!empty ($cond))
 		{
@@ -175,7 +175,7 @@ class RE_Log {
 
 		$wpdb->query ("DELETE FROM {$wpdb->prefix}redirection_logs ".$pager->to_conditions ($sql, array ('url', 'sent_to', 'ip')));
 	}
-	
+
 	function referrer ()
 	{
 		return preg_replace ('@https?://(.*?)/.*@', '$1', $this->referrer);

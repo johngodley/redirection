@@ -17,7 +17,7 @@
 				<th><?php _e( 'Hits', 'redirection' ); ?></th>
 				<th><?php _e( 'Operations', 'redirection' ); ?></th>
 			</tr>
-			
+
 			<?php foreach ( $modules AS $pos => $module ): ?>
 				<tr id="item_<?php echo $module->id ?>">
 					<?php $this->render_admin( 'module_item', array( 'module' => $module, 'token' => $token ) ); ?>
@@ -36,7 +36,7 @@
 
 	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field( 'redirection-module_add' ); ?>
-		
+
 		<table class="edit" summary="modules">
 			<tr>
 				<th width="100"><?php _e( 'Name', 'redirection' ); ?>:</th>

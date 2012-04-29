@@ -24,7 +24,7 @@ class URL_Match extends Red_Match {
 	function name () {
 		return __( 'URL only', 'redirection' );
 	}
-	
+
 	function show() {
 ?>
 	<?php if ( $this->action->can_perform_action() ) : ?>
@@ -46,19 +46,19 @@ class URL_Match extends Red_Match {
 		</tr>
 		<?php endif;
 	}
-	
+
 	function save( $details )	{
 		if ( !isset( $details['target'] ) || strlen( $details['target'] ) == 0 )
 			$details['target'] = '/';
-			
+
 		return array( 'url' => $details['target'] );
 	}
-	
+
 	function get_target( $url, $matched_url, $regex ) {
 		$target = $this->url;
 		if ( $regex )
 			$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $this->url, $url );
-			
+
 		if ( $target == '' )
 			return $matched_url;
 		return $target;

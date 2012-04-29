@@ -3,12 +3,12 @@
 class Error404_Module extends Red_Module
 {
 	var $log_404      = true;
-	
+
 	function start ()
 	{
 		add_action ('template_redirect', array (&$this, 'template_redirect'));
 	}
-	
+
 	function load ($data)
 	{
 		$mine = array ('log_404');
@@ -18,18 +18,18 @@ class Error404_Module extends Red_Module
 				$this->$key = $data[$key];
 		}
 	}
-	
+
 	function save ($data)
 	{
 		$save = array
 		(
 			'log_404' => isset ($data['log_404']) ? true : false
 		);
-		
+
 		$this->load ($save);
 		return $save;
 	}
-	
+
 	function config ()
 	{
 		?>
@@ -39,7 +39,7 @@ class Error404_Module extends Red_Module
 		</tr>
 		<?php
 	}
-	
+
 	function options ()
 	{
 		if (!$this->is_valid ())
@@ -47,10 +47,10 @@ class Error404_Module extends Red_Module
 		else
 		{
 			$options = array ();
-		
+
 			if (!empty ($this->log_404))
 				$options[] = '404s are logged';
-			
+
 			if (count ($options) > 0)
 				echo '<small>'.ucfirst (implode (', ', $options)).'</small>';
 			else
@@ -61,7 +61,7 @@ class Error404_Module extends Red_Module
 	function template_redirect ()
 	{
 		global $redirection;
-		
+
 		if (is_404 () && !$redirection->hasMatched ())
 		{
 			$url = $_SERVER['REQUEST_URI'];
@@ -72,7 +72,7 @@ class Error404_Module extends Red_Module
 				{
 					if ($item->matches ($url))
 					{
-						$redirection->setMatched (true);						
+						$redirection->setMatched (true);
 						$this->matched = $item;
 						break;
 					}
@@ -82,7 +82,7 @@ class Error404_Module extends Red_Module
 			if (empty ($this->matched))
 			{
 				$modules = Red_Module::get_by_type ('404');
-			
+
 				if (count ($modules) > 0)
 				{
 					foreach ($modules AS $module)

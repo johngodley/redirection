@@ -8,7 +8,7 @@ class Red_Xml_File extends Red_FileIO
 		$this->id      = $module->id;
 		$this->type    = $module->type;
 		$this->options = unserialize ($module->options);
-		
+
 		if (!is_array ($this->options))
 			$this->options = array ();
 
@@ -23,7 +23,7 @@ class Red_Xml_File extends Red_FileIO
 		}
 		else
 			$this->groups = array ();
-			
+
 		return true;
 	}
 
@@ -58,10 +58,10 @@ class Red_Xml_File extends Red_FileIO
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</module>
-</redirection>	
+</redirection>
 		<?php
 	}
-	
+
 	function output_item ($item)
 	{
 		$data = unserialize ($item->action_data);
@@ -95,7 +95,7 @@ class Red_Xml_File extends Red_FileIO
 		if (function_exists ('simplexml_load_string'))
 		{
 			global $wpdb;
-			
+
 			$xml = simplexml_load_string ($data);
 
 			// Extract module
@@ -104,24 +104,24 @@ class Red_Xml_File extends Red_FileIO
 				'type' => (string)$xml->module['type'],
 				'name' => sprintf (__ ('%s imported on %s at %s', 'redirection'), (string)$xml->module['name'], date ('M d Y'), date ('H:i'))
 			);
-			
+
 			if (isset ($xml->module->options))
 			{
 				foreach ($xml->module->options->option AS $option)
 					$options[(string)$option['name']] = trim ((string)$option);
-					
+
 				$moduledata['options'] = $options;
 			}
 
 			$module = Red_Module::create ($moduledata);
-			
+
 			// Look at groups
 			if (count ($xml->module->group) > 0)
 			{
 				foreach ($xml->module->group AS $group)
 				{
 					$id = Red_Group::create (array ('module_id' => $module, 'name' => (string)$group['name'], 'status' => (string)$group['status'], 'position' => (string)$group['position']));
-					
+
 					// Look at items
 					if (count ($group->item) > 0)
 					{
@@ -132,12 +132,12 @@ class Red_Xml_File extends Red_FileIO
 							{
 								foreach ($item->action->option AS $option)
 									$actiondata[(string)$option['key']] = trim ((string)$option);
-									
+
 								$actiondata = serialize ($actiondata);
 							}
 							else
 								$actiondata = trim ((string)$item->action);
-							
+
 							$data = array
 							(
 								'group_id'    => $id,
@@ -150,10 +150,10 @@ class Red_Xml_File extends Red_FileIO
 								'action_code' => (string)$item->action['code'],
 								'action_data' => $actiondata
 							);
-							
+
 							foreach ($data AS $key => $value)
 								$data[$key] = "'".$wpdb->escape ($value)."'";
-							
+
 							// Easier to insert it directly here
 							$wpdb->query ("INSERT INTO {$wpdb->prefix}redirection_items (".implode (',', array_keys ($data)).") VALUES (".implode (',', $data).")");
 							$count++;

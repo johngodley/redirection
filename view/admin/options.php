@@ -5,11 +5,11 @@
 
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
 	<?php $this->render_admin( 'submenu'  ); ?>
-	
+
   <form method="post" action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" style="clear: both">
-	
+
 	<?php wp_nonce_field( 'redirection-update_options' ); ?>
-	
+
 	  <table cellpadding="3" width="100%" class="form-table">
 			<tr>
 	      <th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
@@ -29,16 +29,16 @@
 			<tr>
 				<th align="right"><?php _e( 'Plugin Support', 'redirection' ); ?>:</th>
 				<td>
-					<input type="checkbox" name="support" <?php echo $this->checked( $options['support'] ) ?> id="support"/> 
+					<input type="checkbox" name="support" <?php echo $this->checked( $options['support'] ) ?> id="support"/>
 					<label for="support"><span class="sub"><?php _e( 'I\'m a nice person and I have helped support the author of this plugin', 'redirection' ); ?></span></label>
 				</td>
 			</tr>
 			<tr>
 				<th align="right"><?php _e( 'Logging', 'redirection' ); ?>:</th>
 				<td>
-					<input type="checkbox" name="log_redirections" <?php echo $this->checked( $options['log_redirections'] ) ?> id="log_redirections"/> 
+					<input type="checkbox" name="log_redirections" <?php echo $this->checked( $options['log_redirections'] ) ?> id="log_redirections"/>
 					<label for="log_redirections"><span class="sub"><?php _e( 'log redirected requests', 'redirection' ); ?></span></label><br />
-					<input type="checkbox" name="log_404s" <?php echo $this->checked( $options['log_404s'] ) ?> id="log_404s"/> 
+					<input type="checkbox" name="log_404s" <?php echo $this->checked( $options['log_404s'] ) ?> id="log_404s"/>
 					<label for="log_404s"><span class="sub"><?php _e( 'log 404 Not Found requests', 'redirection' ); ?></span></label><br />
 					<?php _e( 'Uncheck one or both of these to turn off logging and reduce database load if your redirected URLs are hit very frequently, and/or your site is very busy and pages are often not found.', 'redirection'  ); ?>
 				</td>
@@ -58,7 +58,7 @@
 				</td>
 			</tr>
 		</table>
-		
+
 		<h3><?php _e( 'URL Monitoring', 'redirection' ); ?></h3>
 		<p><?php _e( 'You can have Redirection detect changes in URLs and have an automatic redirection created in a specific group.', 'redirection' ); ?></p>
 
@@ -93,20 +93,20 @@
 
 <div class="wrap">
 	<h2><?php _e( 'Import', 'redirection' ); ?></h2>
-	
+
 	<p><?php _e( 'Here you can import redirections from an existing .htaccess file, a CSV file, or a Redirection XML.', 'redirection' ); ?></p>
-	
+
 	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'redirection-import' ); ?>
-		
+
 		<input type="file" name="upload" value=""/>
-		
+
 		<?php _e( 'Import into', 'redirection' ); ?>: <select name="group">
 			<?php echo $this->select( $groups );?>
 		</select>
 		<input class="button-primary" type="submit" name="import" value="<?php _e( 'Upload', 'redirection' ); ?>"/>
 	</form>
-	
+
 	<p><?php _e( 'Note that the group is ignored when uploading an XML file.', 'redirection' ); ?></p>
 </div>
 
@@ -116,7 +116,7 @@
 
 	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
 			<?php wp_nonce_field( 'redirection-delete_plugin' ); ?>
-			
+
 			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>"/>
 	</form>
 </div>

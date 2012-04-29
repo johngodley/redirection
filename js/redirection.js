@@ -35,7 +35,7 @@ var Redirection;
     function sort_order_save( type ) {
       if ( confirm( opts.are_you_sure ) ) {
         $( '#loading' ).show();
-        
+
         $.post( opts.ajaxurl, {
             action: 'red_' + type + '_saveorder',
             page:   opts.page,
@@ -53,7 +53,7 @@ var Redirection;
 
       return false;
     }
-    
+
     function sort_order() {
       $( '#items' ).sortable();
       $( '#toggle_sort_on' ).hide();
@@ -84,7 +84,7 @@ var Redirection;
 
       return false;
     }
-    
+
     function select_all() {
       $( '.item :checkbox' ).each(function () {
         this.checked = (this.checked ? '' : 'checked');
@@ -99,14 +99,14 @@ var Redirection;
       if ( checked.length > 0 ) {
         if ( confirm( opts.are_you_sure ) ) {
           var urltype = 'red_redirect_delete';
-          
+
           if ( type == 'group' )
             urltype = 'red_group_delete';
           else if ( type == 'log' )
             urltype = 'red_log_delete';
 
           $( '#loading' ).show();
-          
+
           $.post( opts.ajaxurl, {
               checked: checked.serialize(),
               action: urltype,
@@ -125,11 +125,11 @@ var Redirection;
 
       return false;
     }
-    
+
     function form_loader( element, type, reset_func ) {
       var item = $( element ).parents( type )
       var href = element.href;
-      
+
       if ( href.indexOf( 'admin-ajax.php' ) == -1 )
         href = opts.ajaxurl + '?action=red_redirect_edit&id=' + item.attr( 'id' ).substr( 5 ) + '&_ajax_nonce=' + opts.nonce;
 
@@ -139,34 +139,34 @@ var Redirection;
         // Setup cancel handler
         $( item ).find( 'input[name=cancel]').click( function() {
           $( item ).find( '.loader' ).show();
-          
+
           $( item ).load( href.replace( '_edit', '_load' ), function () {
             reset_func( type );
           });
-          
+
           return false;
         });
-        
+
         var changestatus = null;
-        
+
         // Form handler
   		  $( item ).find( 'form' ).ajaxForm( {
   		    beforeSubmit: function( data, form ) {
             $( item ).find( '.loader' ).show();
-            
+
   					if ( form.find( 'input[name=status]' ).length > 0 )
   					  changestatus = form.find( 'input[name=status]' ).attr( 'checked' );
 				  },
   				success: function( response ) {
   					$( item ).html( response );
-  					
+
   				  if ( changestatus !== null ) {
   				    if ( changestatus === true )
   					    $( item ).removeClass( 'disabled' );
   					  else
   					    $( item ).addClass( 'disabled' );
   					}
-  					
+
   					reset_func( type );
   				}
   			});
@@ -174,7 +174,7 @@ var Redirection;
 
       return false;
     }
-		
+
     function modules() {
       // Edit module
       $( 'a.edit' ).unbind( 'click' ).click( function() {
@@ -208,16 +208,16 @@ var Redirection;
         return false;
       });
     }
-    
+
     function edit_items( type ) {
       $( 'a.redirection-edit' ).unbind( 'click' ).click(function() { return form_loader( this, 'li', edit_items ) } );
-      
+
       $( 'a.select-all' ).unbind( 'click' ).click(function() { return select_all(); } );
       $( 'a.toggle-all' ).unbind( 'click' ).click(function() { return do_items( type, 'toggle' ); });
       $( 'a.reset-all' ).unbind( 'click' ).click(function() { return do_items( type, 'reset' ); });
       $( 'a.delete-all' ).unbind( 'click' ).click(function() { return delete_all( type ); });
       $( 'input.move-all' ).unbind( 'click' ).click(function() { return move_all( type ); });
-      
+
       $( 'a.sort-on' ).unbind( 'click' ).click(function() { return sort_order(); });
       $( 'a.sort-save' ).unbind( 'click' ).click(function() { return sort_order_save( type ); });
     }
@@ -226,10 +226,10 @@ var Redirection;
       $( '.show-log' ).unbind( 'click' ).click( function() {
         var item = $( this ).parents( 'tr' )
         var href = this.href;
-        
+
         // Set loading icon
         $( item ).find( '.info' ).html( opts.progress );
-        
+
         // Load info
         $( item ).find( '.info' ).load( this.href, function() {
           // Setup cancel handler
@@ -237,11 +237,11 @@ var Redirection;
             $( item ).find( '.info' ).load( href.replace( 'red_log_show', 'red_log_hide' ), function () {
               logs();
             });
-            
+
             return false;
           });
         } );
-        
+
         return false;
       });
 
@@ -270,7 +270,7 @@ var Redirection;
         });
       });
     }
-    
+
     var api = {
       logs: logs,
       edit_items: edit_items,
@@ -279,11 +279,11 @@ var Redirection;
 
   	return api;
   }
-  
+
   $( document ).ready( function() {
 		$( '#support-annoy' ).animate( { opacity: 0.2, backgroundColor: 'red' } ).animate( { opacity: 1, backgroundColor: 'yellow' } );
   } );
-  
+
 })(jQuery);
 
 function update_user_agent (item,box)

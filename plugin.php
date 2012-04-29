@@ -138,7 +138,7 @@ class Redirection_Plugin {
 
 		$this->add_action( 'init', 'load_locale' );
 	}
-	
+
 	/**
 	 * Hook called to change the locale directory
 	 * @return void
@@ -166,7 +166,7 @@ class Redirection_Plugin {
 	function add_action( $actions, $function = '', $priority = 10, $accepted_args = 1 ) {
 		if ( !is_array( $actions ) )
 			$actions = array( $actions );
-			
+
 		foreach ( $actions AS $action ) {
 			add_action( $action, array( &$this, $function == '' ? $actions[0] : $function ), $priority, $accepted_args );
 		}
@@ -185,7 +185,7 @@ class Redirection_Plugin {
 	function add_filter( $filters, $function = '', $priority = 10, $accepted_args = 1 ) {
 		if ( !is_array( $filters ) )
 			$filters = array( $filters );
-		
+
 		foreach ( $filters AS $filter ) {
 			add_filter( $filter, array( &$this, $function == '' ? $filters[0] : $function ), $priority, $accepted_args );
 		}
@@ -206,7 +206,7 @@ class Redirection_Plugin {
 	function register_ajax( $action, $function = '', $priority = 10 ) {
 		add_action( 'wp_ajax_'.$action, array( &$this, $function == '' ? $action : $function ), $priority );
 	}
-	
+
 	/**
 	 * Special deactivation function that takes into account the plugin directory
 	 *
@@ -217,7 +217,7 @@ class Redirection_Plugin {
 	function register_deactivation( $pluginfile, $function = '' ) {
 		add_action( 'deactivate_'.basename( dirname( $pluginfile ) ).'/'.basename( $pluginfile ), array( &$this, $function == '' ? 'deactivate' : $function ) );
 	}
-	
+
 	function register_plugin_settings( $pluginfile, $function = '' ) {
 		add_action( 'plugin_action_links_'.basename( dirname( $pluginfile ) ).'/'.basename( $pluginfile ), array( &$this, $function == '' ? 'plugin_settings' : $function ), 10, 4 );
 	}
@@ -342,7 +342,7 @@ class Redirection_Plugin {
 		$parts = explode( '?', basename( $_SERVER['REQUEST_URI'] ) );
 		return $parts[0];
 	}
-	
+
 	/**
 	 * Get a URL to the plugin.  Useful for specifying JS and CSS files
 	 *
@@ -479,7 +479,7 @@ class Redirection_Plugin {
 			return mb_strlen( $text );
 		return strlen( $text );
 	}
-	
+
 	/**
 	 * Returns version of plugin
 	 *
@@ -487,7 +487,7 @@ class Redirection_Plugin {
 	 **/
 	function version() {
 		$plugin_data = implode( '', file( $this->plugin_base ) );
-		
+
 		if ( preg_match( '|Version:(.*)|i', $plugin_data, $version ) )
 			return trim( $version[1] );
 		return '';

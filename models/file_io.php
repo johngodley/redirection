@@ -3,16 +3,16 @@
 class Red_FileIO
 {
 	var $items = array ();
-	
+
 	function export ($type)
 	{
 		include (dirname (__FILE__).'/../models/pager.php');
-		
+
 		$module = Red_Module::get (intval ($_GET['module']));
 		if ($module)
 		{
 			include (dirname (__FILE__)."/../fileio/$type.php");
-			
+
 			if ($type == 'rss')
 				$exporter = new Red_Rss_File ();
 			else if ($type == 'xml')
@@ -26,7 +26,7 @@ class Red_FileIO
 			$exporter->feed ();
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -49,14 +49,12 @@ class Red_FileIO
 				$importer = new Red_Apache_File();
 				$data = @file_get_contents ($file['tmp_name']);
 			}
-			
+
 			return $importer->load( $group, $data, $file['tmp_name'] );
 		}
 
 		return 0;
 	}
-	
+
 	function load ($group, $data) { }
 }
-
-?>

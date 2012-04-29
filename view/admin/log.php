@@ -22,14 +22,14 @@
 
 			<input type="submit" class="button" value="<?php _e ('Search', 'redirection'); ?>"/>
 		</p>
-	
+
 		<div id="pager" class="tablenav">
 			<div class="alignleft actions">
 				<select name="action2" id="action2_select">
 					<option value="-1" selected="selected"><?php _e('Bulk Actions'); ?></option>
 					<option value="delete"><?php _e('Delete'); ?></option>
 				</select>
-				
+
 				<input type="submit" value="<?php _e('Apply'); ?>" name="doaction2" id="actionator" class="button-secondary action" />
 
 				<?php $pager->per_page ('redirection'); ?>
@@ -50,7 +50,7 @@
 
 				<br class="clear" />
 			</div>
-		
+
 			<div class="tablenav-pages">
 				<?php echo $pager->page_links (); ?>
 			</div>
@@ -71,7 +71,7 @@
 				<th style="width:16px"></th>
 			</tr>
 			</thead>
-		
+
 			<tbody>
 			<?php foreach ($logs AS $pos => $log) : ?>
 				<tr id="item_<?php echo $log->id ?>" <?php if ($pos % 2 == 1) echo ' class="alt"' ?>>
@@ -84,7 +84,7 @@
 	<?php else : ?>
 	<p><?php _e ('There are no logs to display!', 'redirection'); ?></p>
 	<?php endif; ?>
-	
+
 	<div style="clear: both"></div>
 </div>
 
@@ -93,10 +93,10 @@
 <div class="wrap">
 	<h2><?php _e ('Process Current Logs', 'redirection'); ?></h2>
 	<p><?php _e ('These actions will affect all currently available logs (i.e. your search phrase will restrict the log items).', 'redirection'); ?></p>
-	
+
 	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field ('redirection-process_logs'); ?>
-		
+
 		<input class="button-primary" type="submit" name="deleteall" value="<?php _e ('Delete Logs', 'redirection'); ?>"/>
 	</form>
 </div>

@@ -16,9 +16,9 @@
 	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=redirects&amp;id=<?php echo $group->id ?>">
 		<?php echo esc_html( $group->name ); ?>
 	</a>
-	
+
 	<?php echo $group->items () ?>
-	
+
 	<?php if ($group->status == 'disabled') : ?>
 		&mdash; <?php _e ('disabled', 'redirection'); ?>
 	<?php endif; ?>

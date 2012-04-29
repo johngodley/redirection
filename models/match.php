@@ -22,7 +22,7 @@ For full license details see license.txt
 
 class Red_Match {
 	var $url;
-	
+
 	function Red_Match( $values = '' ) {
 		if ( $values ) {
 			$obj = @unserialize( $values );
@@ -35,60 +35,60 @@ class Red_Match {
 			}
 		}
 	}
-	
+
 	function data( $details ) {
 		$data = $this->save( $details );
 		if ( count( $data ) == 1 && !is_array( current( $data ) ) )
 			$data = current( $data );
 		else
-			$data = serialize( $data );	
+			$data = serialize( $data );
 		return $data;
 	}
-	
+
 	function save( $details ) {
 		return array();
 	}
-	
+
 	function name() {
 		return '';
 	}
-	
+
 	function show() {
 	}
-	
+
 	function wants_it() {
 		return true;
 	}
-	
+
 	function get_target( $url, $matched_url, $regex ) {
 		return $false;
 	}
-	
+
 	function create( $name, $data = '' ) {
 		$avail = Red_Match::available();
 		if ( isset( $avail[strtolower( $name )] ) ) {
 			$classname = $name.'_match';
-			
+
 			if ( !class_exists( strtolower( $classname ) ) )
 				include( dirname( __FILE__ ).'/../matches/'.$avail[strtolower( $name )] );
 			return new $classname( $data );
 		}
-		
+
 		return false;
 	}
-	
+
 	function all() {
 		$data = array();
-		
+
 		$avail = Red_Match::available();
 		foreach ( $avail AS $name => $file ) {
 			$obj = Red_Match::create( $name );
 			$data[$name] = $obj->name();
 		}
-		
+
 		return $data;
 	}
-	
+
 	function available() {
 	 	return array (
 			'url'      => 'url.php',
@@ -97,7 +97,7 @@ class Red_Match {
 			'login'    => 'login.php',
 		 );
 	}
-	
+
 	function match_name() {
 		return '';
 	}
