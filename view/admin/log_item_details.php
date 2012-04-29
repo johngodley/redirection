@@ -18,7 +18,7 @@
 	<?php endif; ?>
 	<tr>
 		<th><?php _e ('User Agent', 'redirection'); ?>:</th>
-		<td><input style="width: 95%" type="text" readonly="readonly" name="other" value="<?php echo esc_html ($log->agent) ?>"/></td>
+		<td><input style="width: 95%" type="text" readonly="readonly" name="other" value="<?php echo esc_attr ($log->agent) ?>"/></td>
 	</tr>
 	<tr>
 		<td></td>

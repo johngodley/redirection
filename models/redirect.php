@@ -96,7 +96,7 @@ class Red_Item {
 		$items = array();
 		if ( count( $rows ) > 0 ) {
 			foreach ( $rows AS $row ) {
-				$items[$row->group_pos.'.'.$row->position] = new Red_Item( $row );
+				$items[$row->group_pos * 1000 + $row->position] = new Red_Item( $row );
 			}
 		}
 
