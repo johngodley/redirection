@@ -7,7 +7,7 @@
 
 	<?php $this->render_admin( 'submenu' ); ?>
 
-	<form method="get" action="<?php echo $this->url ($pager->url) ?>">
+	<form method="get" action="">
 		<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page'] ) ?>"/>
 		<input type="hidden" name="curpage" value="<?php echo $pager->current_page () ?>"/>
 		<input type="hidden" name="sub" value="<?php echo esc_attr( $_GET['sub'] ) ?>"/>
@@ -65,8 +65,8 @@
 					<input type="checkbox" name="checkall" value=""/>
 				</th>
 				<th style="width:9em"<?php $pager->sortable_class ('created') ?>><?php echo $pager->sortable ('created', __ ('Date', 'redirection')) ?></th>
-				<th><?php echo $pager->sortable ('url', __ ('Source URL', 'redirection')); ?></th>
-				<th><?php echo $pager->sortable ('referrer', __ ('Referrer', 'redirection')); ?></th>
+				<th><?php echo __ ('Source URL', 'redirection'); ?></th>
+				<th><?php echo __ ('Referrer', 'redirection'); ?></th>
 				<th style="width:9em" class="center<?php $pager->sortable_class ('ip', false) ?>"><?php echo $pager->sortable ('ip', __ ('IP', 'redirection')); ?></th>
 				<th style="width:16px"></th>
 			</tr>
@@ -94,7 +94,7 @@
 	<h2><?php _e ('Process Current Logs', 'redirection'); ?></h2>
 	<p><?php _e ('These actions will affect all currently available logs (i.e. your search phrase will restrict the log items).', 'redirection'); ?></p>
 
-	<form action="<?php echo $this->url ($_SERVER['REQUEST_URI']) ?>" method="post" accept-charset="utf-8">
+	<form action="" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field ('redirection-process_logs'); ?>
 
 		<input class="button-primary" type="submit" name="deleteall" value="<?php _e ('Delete Logs', 'redirection'); ?>"/>

@@ -90,12 +90,6 @@ class RE_Pager
 		else if (isset ($per_page[get_class ($this)]) && isset ($per_page[get_class ($this)][$this->id]))
 			$this->per_page = $per_page[get_class ($this)][$this->id];
 
-		if ($orderby != '')
-			$this->order_by = $orderby;
-
-		if (isset ($data['orderby']))
-			$this->order_by = $data['orderby'];
-
 		if (!empty ($tags))
 		{
 			$this->order_tags = $tags;
@@ -233,14 +227,6 @@ class RE_Pager
 		if ($group_by)
 			$sql .= ' '.$group_by.' ';
 
-		if (strlen ($this->order_by) > 0)
-		{
-			if (!$this->is_secondary_sort ())
-				$sql .= " ORDER BY ".$this->order_by.' '.$this->order_direction;
-			else
-				$sql .= " ORDER BY ".$this->order_original.' '.$this->order_direction;
-		}
-
 		if ($this->per_page > 0)
 			$sql .= $wpdb->prepare( ' LIMIT %d,%d', $this->offset(), $this->per_page );
 		return $sql;
@@ -361,7 +347,9 @@ class RE_Pager
 
 	function sortable ($column, $text, $image = true)
 	{
-		$url = $this->url ($this->current_page, $column);
+		return $text;
+		$url = admin_url( add_query_arg( array( 'orderby' => $column ), 'redirection.php' ) );
+
 		$img = '';
 
 		if (isset ($this->order_tags[$column]))
@@ -369,10 +357,7 @@ class RE_Pager
 
 		if ($column == $this->order_by)
 		{
-			if (defined ('WP_PLUGIN_URL'))
-				$dir = WP_PLUGIN_URL.'/'.basename (dirname (dirname (__FILE__)));
-			else
-				$dir = get_bloginfo ('wpurl').'/wp-content/plugins/'.basename (dirname (dirname (__FILE__)));
+			$dir = WP_PLUGIN_URL.'/'.basename (dirname (dirname (__FILE__)));
 
 			if (strpos ($url, 'ASC') !== false)
 				$img = '<img align="bottom" src="'.$dir.'/images/up.gif" alt="dir" width="16" height="7"/>';

@@ -339,8 +339,7 @@ class Redirection_Plugin {
 	}
 
 	function base () {
-		$parts = explode( '?', basename( $_SERVER['REQUEST_URI'] ) );
-		return $parts[0];
+		return admin_url( $this->plugin_name );
 	}
 
 	/**

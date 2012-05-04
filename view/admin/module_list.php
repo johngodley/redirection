@@ -34,7 +34,7 @@
 	<h2><?php _e( 'Add Module', 'redirection' ); ?></h2>
 	<p><?php _e( 'A module is a controlling element that determines how redirections are handled.  Elements in a WordPress module are handled by WordPress, elements in an Apache module are handled by <code>.htaccess</code>, and elements in a 404 module affect how 404 errors are logged.', 'redirection' ); ?></p>
 
-	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
+	<form action="" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field( 'redirection-module_add' ); ?>
 
 		<table class="edit" summary="modules">

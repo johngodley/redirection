@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.2.11
+Version: 2.2.12
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -257,16 +257,16 @@ class Redirection extends Redirection_Plugin {
 
 		if ( isset( $_POST['deleteall'] ) && check_admin_referer( 'redirection-process_logs' ) ) {
 			if ( isset( $_GET['module'] ) )
-				RE_Log::delete_all( array( 'module_id' => intval( $_GET['module'] ) ), new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all( array( 'module_id' => intval( $_GET['module'] ) ), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'redirection.php' ) ), 'created', 'DESC', 'log' ) );
 			else if (isset($_GET['group']))
-				RE_Log::delete_all( array( 'group_id' => intval( $_GET['group'] ) ), new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all( array( 'group_id' => intval( $_GET['group'] ) ), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'redirection.php' ) ), 'created', 'DESC', 'log' ) );
 			else
-				RE_Log::delete_all( array(), new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all( array(), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'redirection.php' ) ), 'created', 'DESC', 'log' ) );
 
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}
 
-		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'created', 'DESC', 'log' );
+		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'redirection.php' ) ), 'created', 'DESC', 'log' );
 
 		if ( isset( $_GET['module'] ) )
 			$logs = RE_Log::get_by_module( $pager, intval( $_GET['module'] ) );
@@ -296,7 +296,7 @@ class Redirection extends Redirection_Plugin {
 		if ( $module == 0 )
 			$module = Red_Module::get_first_id();
 
-		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC' );
+		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'groups' ), 'redirection.php' ) ), 'position', 'ASC' );
 		$items = Red_Group::get_all( $module, $pager );
 
   	$this->render_admin( 'group_list', array( 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => Red_Module::get( $module ) ) );
@@ -308,7 +308,7 @@ class Redirection extends Redirection_Plugin {
 		if ( $group == 0 )
 			$group = Red_Group::get_first_id();
 
-		$pager = new RE_Pager( $_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC' );
+		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array(), 'redirection.php' ) ), 'position', 'ASC' );
 		$items = Red_Item::get_by_group( $group, $pager );
 
   	$this->render_admin( 'item_list', array( 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option( 'date_format' ) ) );

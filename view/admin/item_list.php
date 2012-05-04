@@ -16,7 +16,7 @@
 	<?php $this->render_admin( 'submenu' ); ?>
 
 	<div id="pager" class="pager">
-		<form method="get" action="<?php echo $this->url ($pager->url) ?>">
+		<form method="get" action="">
 			<input type="hidden" name="page" value="<?php echo $_GET['page'] ?>"/>
 			<input type="hidden" name="curpage" value="<?php echo $pager->current_page () ?>"/>
 			<input type="hidden" name="sub" value="<?php echo esc_attr( isset($_GET['sub']) ? $_GET['sub'] : '' )?>"/>
@@ -38,10 +38,10 @@
 
 	<ul id="redirections_header" class="redirections_header">
 		<li>
-			<div class="date" style="width: 8em"><?php echo $pager->sortable ('last_access', __ ('Last Access', 'redirection')) ?></div>
-			<div class="count"><?php echo $pager->sortable ('last_count', __ ('Hits', 'redirection')) ?></div>
-			<div class="type"><?php echo $pager->sortable ('action_type', __ ('Type', 'redirection')) ?></div>
-			<div class="item"><?php echo $pager->sortable ('url', __ ('URL', 'redirection'))  ?> / <?php echo $pager->sortable ('position', __ ('Position', 'redirection'))  ?></div>
+			<div class="date" style="width: 8em"><?php echo __ ('Last Access', 'redirection') ?></div>
+			<div class="count"><?php echo __('Hits', 'redirection') ?></div>
+			<div class="type"><?php echo __ ('Type', 'redirection') ?></div>
+			<div class="item"><?php echo __('URL', 'redirection')  ?> / <?php echo __ ('Position', 'redirection')  ?></div>
 		</li>
 	</ul>
 

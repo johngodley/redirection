@@ -89,6 +89,9 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 == Changelog ==
 
+= 2.2.12 =
+* Cleanup some XSS issues
+
 = 2.2.11 =
 * Add Lithuanian
 * Add Belarusian

@@ -6,7 +6,7 @@
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
 	<?php $this->render_admin( 'submenu'  ); ?>
 
-  <form method="post" action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" style="clear: both">
+  <form method="post" action="" style="clear: both">
 
 	<?php wp_nonce_field( 'redirection-update_options' ); ?>
 
@@ -96,7 +96,7 @@
 
 	<p><?php _e( 'Here you can import redirections from an existing .htaccess file, a CSV file, or a Redirection XML.', 'redirection' ); ?></p>
 
-	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+	<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'redirection-import' ); ?>
 
 		<input type="file" name="upload" value=""/>
@@ -114,7 +114,7 @@
 	<h2><?php _e( 'Delete Redirection', 'redirection' ); ?></h2>
 	<p><?php _e( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.', 'redirection' ); ?></p>
 
-	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
+	<form action="" method="post" accept-charset="utf-8">
 			<?php wp_nonce_field( 'redirection-delete_plugin' ); ?>
 
 			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>"/>

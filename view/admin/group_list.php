@@ -8,7 +8,7 @@
 	<?php $this->render_admin( 'submenu'  ); ?>
 
 	<div id="pager" class="pager">
-		<form method="get" action="<?php echo $this->url( $pager->url ) ?>">
+		<form method="get" action="">
 			<input type="hidden" name="page" value="<?php echo esc_attr( $_GET['page']  ) ?>"/>
 			<input type="hidden" name="curpage" value="<?php echo $pager->current_page() ?>"/>
 			<input type="hidden" name="sub" value="<?php echo esc_attr( $_GET['sub']  ) ?>"/>
@@ -33,8 +33,8 @@
 		<ul id="redirections_header" class="redirections_header">
 			<li>
 				<div class="tools" style="width: 6.5em">&nbsp;</div>
-				<div class="count"><?php echo $pager->sortable( 'redirects', __( 'Hits', 'redirection' ) ) ?></div>
-				<div class="item"><?php echo $pager->sortable( 'name', __( 'Name', 'redirection' ) )  ?></div>
+				<div class="count"><?php echo __( 'Hits', 'redirection' ) ?></div>
+				<div class="item"><?php echo __( 'Name', 'redirection' )  ?></div>
 			</li>
 		</ul>
 
@@ -93,7 +93,7 @@
 <div class="wrap">
 	<h2><?php _e( 'Add Group', 'redirection' ); ?></h2>
 
-	<form action="<?php echo $this->url( $_SERVER['REQUEST_URI'] ) ?>" method="post" accept-charset="utf-8">
+	<form action="" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field( 'redirection-add_group' ); ?>
 		<table class="form-table">
 			<tr>

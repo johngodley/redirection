@@ -15,7 +15,7 @@ class Red_Xml_File extends Red_FileIO
 		$this->groups = Red_Group::get_for_module ($module->id);
 		if (is_array ($this->groups) && count ($this->groups) > 0)
 		{
-			$pager = new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'position', 'ASC', 'log');
+			$pager = new RE_Pager ($_GET, admin_url( 'redirection.php' ), 'position', 'ASC', 'log');
 			$pager->per_page = 0;
 
 			foreach ($this->groups AS $pos => $group)

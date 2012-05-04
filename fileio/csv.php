@@ -4,7 +4,7 @@ class Red_Csv_File extends Red_FileIO
 {
 	function collect ($module)
 	{
-		$pager = new RE_Pager ($_GET, $_SERVER['REQUEST_URI'], 'name', 'DESC', 'log');
+		$pager = new RE_Pager ($_GET, admin_url( 'redirection.php' ), 'name', 'DESC', 'log');
 		$pager->per_page = 0;
 		$this->id        = $module->id;
 
