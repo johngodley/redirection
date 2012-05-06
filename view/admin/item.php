@@ -9,7 +9,7 @@
 </div>
 
 <div class="count">
-	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=log&amp;redirect=<?php echo $redirect->id ?>"><?php echo $redirect->last_count ?></a>
+	<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=log&amp;redirect=<?php echo $redirect->id ?>"><?php echo $redirect->last_count ?></a>
 </div>
 
 <div class="type">

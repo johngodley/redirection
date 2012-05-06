@@ -1,6 +1,6 @@
 <?php if( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 <td class="logo">
-	<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>">
+	<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups&amp;id=<?php echo $module->id ?>">
 	<?php if( $module->type == 'apache' ) : ?>
 	<img src="<?php echo $this->url() ?>/images/modules/apache.png" width="55" height="56" alt="Apache"/>
 	<?php elseif( $module->type == 'wp' ) : ?>
@@ -13,7 +13,7 @@
 
 <td valign="top">
 	<h4>
-		<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo esc_html( $module->name ); ?></a>
+		<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo esc_html( $module->name ); ?></a>
 	</h4>
 
 	<?php $module->options(); ?>
@@ -22,17 +22,17 @@
 		<div class="toolbar">
 			<strong><?php _e( 'View as', 'redirection' ); ?>:</strong>
 
-			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=csv&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'CSV', 'redirection' ); ?></a>
-			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=xml&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'XML', 'redirection' ); ?></a>
-			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=apache&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'Apache', 'redirection' ); ?></a>
-			<a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=rss&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'RSS', 'redirection' ); ?></a>
+			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=csv&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'CSV', 'redirection' ); ?></a>
+			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=xml&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'XML', 'redirection' ); ?></a>
+			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=apache&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'Apache', 'redirection' ); ?></a>
+			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=rss&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'RSS', 'redirection' ); ?></a>
 		</div>
 	<?php endif; ?>
 </td>
 
-<td class="center"><a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo $module->groups(); ?></a></td>
+<td class="center"><a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo $module->groups(); ?></a></td>
 <td class="center"><?php echo $module->redirects(); ?></td>
-<td class="center"><a href="<?php echo $this->base(); ?>?page=redirection.php&amp;sub=log&amp;module=<?php echo $module->id ?>"><?php echo number_format_i18n( $module->hits() ); ?></a></td>
+<td class="center"><a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=log&amp;module=<?php echo $module->id ?>"><?php echo number_format_i18n( $module->hits() ); ?></a></td>
 
 <?php $nonce = wp_create_nonce( 'redirection-module_manage-'.$module->id ); ?>
 

@@ -5,7 +5,7 @@
 
 <div class="count">
 	<?php if ($group->tracking) : ?>
-	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=log&amp;group=<?php echo $group->id ?>"><?php echo $group->hits (); ?></a>
+	<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ) ?>?&amp;sub=log&amp;group=<?php echo $group->id ?>"><?php echo $group->hits (); ?></a>
 	<?php else : ?>
 		&mdash;
 	<?php endif; ?>
@@ -13,7 +13,7 @@
 
 <div class="item">
 	<input class="check" type="checkbox" name="checkall[]" value="<?php echo $group->id ?>"/>
-	<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=redirects&amp;id=<?php echo $group->id ?>">
+	<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ) ?>&amp;sub=redirects&amp;id=<?php echo $group->id ?>">
 		<?php echo esc_html( $group->name ); ?>
 	</a>
 
