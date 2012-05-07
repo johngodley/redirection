@@ -252,14 +252,12 @@ var Redirection;
   		});
 
       $( '.add-log' ).unbind( 'click' ).click( function( item ) {
-        var item = $( this ).parents( 'tr' )
-
         $( '#added' ).hide ();
         $( '#add' ).show ();
 
         // Copy details
-        $( '#old' ).val( $( item ).find( '.details' ).attr( 'href' ).replace( /\w*:\/\/(.*?)\//, '/' ) );
-        return true;
+        $( '#old' ).val( $( this ).attr( 'href' ) );
+        return false;
       });
 
       $( '#cb input' ).unbind( 'click' ).click( function() {

@@ -70,7 +70,7 @@ class Red_Xml_File extends Red_FileIO
 	<source><?php echo htmlspecialchars ($item->url) ?></source>
 	<match type="<?php echo $item->match_type ?>" regex="<?php echo $item->regex ?>"></match>
 	<action type="<?php echo $item->action_type ?>" code="<?php echo $item->action_code ?>">
-		<?php if (is_array ($data) && count ($data) > 0) : ?>xxx
+		<?php if (is_array ($data) && count ($data) > 0) : ?>
 			<?php foreach ($data AS $key => $value) : ?>
 				<option name="'.$key.'">
 					<?php if (is_array ($value)) : ?>
@@ -171,4 +171,3 @@ class Red_Xml_File extends Red_FileIO
 		return $count;
 	}
 }
-?>

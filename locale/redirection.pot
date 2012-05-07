@@ -1,16 +1,20 @@
-# Copyright (C) 2010 Redirection
+# Copyright (C) 2012 Redirection
 # This file is distributed under the same license as the Redirection package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Redirection 2.2.5\n"
+"Project-Id-Version: Redirection 2.2.13\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/redirection\n"
-"POT-Creation-Date: 2011-07-17 10:14:58+00:00\n"
+"POT-Creation-Date: 2012-05-07 13:59:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: ajax.php:370
+msgid "Sorry, but your redirection was not created"
+msgstr ""
 
 #: fileio/csv.php:21
 msgid "module_%d.csv"
@@ -28,533 +32,198 @@ msgstr ""
 msgid "XML importing is only available with PHP5 - you have PHP4."
 msgstr ""
 
-#: view/admin/group_list.php:6
-msgid "Groups for module"
+#: matches/login.php:25
+msgid "URL and login status"
 msgstr ""
 
-#: view/admin/group_list.php:16 view/admin/log.php:38
-msgid "Module"
+#: matches/login.php:33
+msgid ""
+"The target URL will be chosen from one of the following URLs, depending if "
+"the user is logged in or out.  Leaving a URL blank means that the user is "
+"not redirected."
 msgstr ""
 
-#: view/admin/group_list.php:21 view/admin/log.php:16 view/admin/log.php:23
-#: view/admin/item_list.php:29
-msgid "Search"
+#: matches/login.php:39 matches/login.php:41
+msgid "Logged In"
 msgstr ""
 
-#: view/admin/group_list.php:26
-msgid "go"
+#: matches/login.php:51 matches/login.php:53
+msgid "Logged Out"
 msgstr ""
 
-#: view/admin/group_list.php:36 view/admin/item_list.php:42
-#: view/admin/module_list.php:17
-msgid "Hits"
+#: matches/referrer.php:28
+msgid "URL and referrer"
 msgstr ""
 
-#: view/admin/group_list.php:37 view/admin/group_list.php:100
-#: view/admin/module_edit.php:18 view/admin/module_list.php:42
-#: view/admin/group_edit.php:6
-msgid "Name"
-msgstr ""
-
-#: view/admin/group_list.php:59 view/admin/item_list.php:67
-msgid "Select All"
-msgstr ""
-
-#: view/admin/group_list.php:60 view/admin/item_list.php:68
-msgid "Toggle"
-msgstr ""
-
-#: view/admin/group_list.php:61 view/admin/item_list.php:69
-msgid "Reset Hits"
-msgstr ""
-
-#: view/admin/group_list.php:62 view/admin/log.php:30
-#: view/admin/item_list.php:70 view/admin/options.php:120
-msgid "Delete"
-msgstr ""
-
-#: view/admin/group_list.php:64 view/admin/item_list.php:72
-msgid "Move To"
-msgstr ""
-
-#: view/admin/group_list.php:69 view/admin/item_list.php:34
-#: view/admin/item_list.php:77
-msgid "Go"
-msgstr ""
-
-#: view/admin/group_list.php:75 view/admin/item_list.php:83
-msgid "re-order"
-msgstr ""
-
-#: view/admin/group_list.php:76 view/admin/item_list.php:84
-msgid "save order"
-msgstr ""
-
-#: view/admin/group_list.php:89
-msgid "You have no groups in this module."
-msgstr ""
-
-#: view/admin/group_list.php:94
-msgid "Add Group"
-msgstr ""
-
-#: view/admin/group_list.php:105
-msgid "Add"
-msgstr ""
-
-#: view/admin/group_list.php:117 view/admin/log.php:112
-#: view/admin/item_list.php:112 redirection.php:116
-msgid "No items have been selected"
-msgstr ""
-
-#: view/admin/group_list.php:118 view/admin/log.php:113
-#: view/admin/item_list.php:113 redirection.php:115
-msgid "Are you sure?"
-msgstr ""
-
-#: view/admin/submenu.php:6
-msgid "Redirects"
-msgstr ""
-
-#: view/admin/submenu.php:11 view/admin/module_list.php:15
-msgid "Groups"
-msgstr ""
-
-#: view/admin/submenu.php:16 view/admin/module_list.php:6
-msgid "Modules"
-msgstr ""
-
-#: view/admin/submenu.php:21
-msgid "Log"
-msgstr ""
-
-#: view/admin/submenu.php:26 view/admin/options.php:6
-msgid "Options"
-msgstr ""
-
-#: view/admin/submenu.php:31
-msgid "Support"
-msgstr ""
-
-#: view/admin/module_item.php:23
-msgid "View as"
-msgstr ""
-
-#: view/admin/module_item.php:25
-msgid "CSV"
-msgstr ""
-
-#: view/admin/module_item.php:26
-msgid "XML"
-msgstr ""
-
-#: view/admin/module_item.php:27 models/module.php:160 models/database.php:95
-msgid "Apache"
-msgstr ""
-
-#: view/admin/module_item.php:28
-msgid "RSS"
-msgstr ""
-
-#: view/admin/module_item.php:41
-msgid "edit"
-msgstr ""
-
-#: view/admin/module_item.php:43
-msgid "delete"
-msgstr ""
-
-#: view/admin/module_item.php:45
-msgid "reset"
-msgstr ""
-
-#: view/admin/log.php:6
-msgid "Redirection Log"
-msgstr ""
-
-#: view/admin/log.php:29
-msgid "Bulk Actions"
-msgstr ""
-
-#: view/admin/log.php:33
-msgid "Apply"
-msgstr ""
-
-#: view/admin/log.php:43 view/admin/item_list.php:24 view/admin/add.php:36
-msgid "Group"
-msgstr ""
-
-#: view/admin/log.php:49
-msgid "Filter"
-msgstr ""
-
-#: view/admin/log.php:67
-msgid "Date"
-msgstr ""
-
-#: view/admin/log.php:68 view/admin/log_item_details.php:4
-#: view/admin/item_edit.php:15 view/admin/add.php:12
-msgid "Source URL"
-msgstr ""
-
-#: view/admin/log.php:69 matches/referrer.php:40
+#: matches/referrer.php:40 view/admin/log.php:69
 msgid "Referrer"
 msgstr ""
 
-#: view/admin/log.php:70
-msgid "IP"
-msgstr ""
-
-#: view/admin/log.php:85
-msgid "There are no logs to display!"
-msgstr ""
-
-#: view/admin/log.php:94
-msgid "Process Current Logs"
-msgstr ""
-
-#: view/admin/log.php:95
-msgid ""
-"These actions will affect all currently available logs (i.e. your search "
-"phrase will restrict the log items)."
-msgstr ""
-
-#: view/admin/log.php:100
-msgid "Delete Logs"
-msgstr ""
-
-#: view/admin/item_list.php:7
-msgid "Redirections for group"
-msgstr ""
-
-#: view/admin/item_list.php:41
-msgid "Last Access"
-msgstr ""
-
-#: view/admin/item_list.php:43 view/admin/module_list.php:46
-msgid "Type"
-msgstr ""
-
-#: view/admin/item_list.php:44
-msgid "URL"
-msgstr ""
-
-#: view/admin/item_list.php:44
-msgid "Position"
-msgstr ""
-
-#: view/admin/item_list.php:88
-msgid "You have no redirections."
-msgstr ""
-
-#: view/admin/log_item_details.php:9
-msgid "Redirect to"
-msgstr ""
-
-#: view/admin/log_item_details.php:15
-msgid "Redirected by"
-msgstr ""
-
-#: view/admin/log_item_details.php:16
-msgid "for"
-msgstr ""
-
-#: view/admin/log_item_details.php:20 matches/user_agent.php:43
-msgid "User Agent"
-msgstr ""
-
-#: view/admin/item.php:27 view/admin/group_item.php:23
-msgid "disabled"
-msgstr ""
-
-#: view/admin/item_edit.php:3
-msgid "%s by matching %s"
-msgstr ""
-
-#: view/admin/item_edit.php:7
-msgid "Title"
-msgstr ""
-
-#: view/admin/item_edit.php:10
-msgid "optional"
-msgstr ""
-
-#: view/admin/item_edit.php:18 matches/referrer.php:43
+#: matches/referrer.php:43 view/admin/item_edit.php:18
 msgid "Regex"
 msgstr ""
 
-#: view/admin/item_edit.php:27 view/admin/module_edit.php:27
-#: view/admin/group_edit.php:20
-msgid "Save"
+#: matches/referrer.php:47 matches/url.php:40 matches/user_agent.php:57
+msgid "HTTP Code"
 msgstr ""
 
-#: view/admin/item_edit.php:28 view/admin/module_edit.php:28
-#: view/admin/group_edit.php:21
-msgid "Cancel"
+#: matches/referrer.php:57
+msgid ""
+"The visitor will be redirected from the source URL if the referrer matches.  "
+"You can specify a <em>matched</em> target URL as the address to send "
+"visitors if they do match, and <em>not matched</em> if they don't match.  "
+"Leaving a URL blank means that the visitor is not redirected."
 msgstr ""
 
-#: view/admin/add.php:3
-msgid "Add new redirection"
+#: matches/referrer.php:63 matches/referrer.php:65 matches/user_agent.php:75
+#: matches/user_agent.php:77
+msgid "Matched"
 msgstr ""
 
-#: view/admin/add.php:6
-msgid "Your redirection has been added."
+#: matches/referrer.php:73 matches/referrer.php:75 matches/user_agent.php:85
+#: matches/user_agent.php:87
+msgid "Not matched"
 msgstr ""
 
-#: view/admin/add.php:16
-msgid "Match"
+#: matches/url.php:25
+msgid "URL only"
 msgstr ""
 
-#: view/admin/add.php:22
-msgid "Action"
-msgstr ""
-
-#: view/admin/add.php:27
-msgid "Regular expression"
-msgstr ""
-
-#: view/admin/add.php:31 matches/url.php:32
+#: matches/url.php:32 view/admin/add.php:31
 msgid "Target URL"
 msgstr ""
 
-#: view/admin/add.php:43
-msgid "Add Redirection"
+#: matches/user_agent.php:27
+msgid "URL and user agent"
 msgstr ""
 
-#: view/admin/group_item.php:3
-msgid "edit group"
+#: matches/user_agent.php:32
+msgid "FeedBurner"
 msgstr ""
 
-#: view/admin/module_list.php:14
-msgid "Details"
+#: matches/user_agent.php:33
+msgid "Internet Explorer"
 msgstr ""
 
-#: view/admin/module_list.php:16
-msgid "Items"
+#: matches/user_agent.php:34
+msgid "FireFox"
 msgstr ""
 
-#: view/admin/module_list.php:18
-msgid "Operations"
+#: matches/user_agent.php:35
+msgid "Opera"
 msgstr ""
 
-#: view/admin/module_list.php:27
-msgid "Note: Hits are dependant on log entries"
+#: matches/user_agent.php:36
+msgid "Safari"
 msgstr ""
 
-#: view/admin/module_list.php:29
-msgid "You have no modules defined yet"
+#: matches/user_agent.php:37
+msgid "iPhone"
 msgstr ""
 
-#: view/admin/module_list.php:34
-msgid "Add Module"
+#: matches/user_agent.php:38
+msgid "iPad"
 msgstr ""
 
-#: view/admin/module_list.php:35
+#: matches/user_agent.php:39
+msgid "Android"
+msgstr ""
+
+#: matches/user_agent.php:40
+msgid "Nintendo Wii"
+msgstr ""
+
+#: matches/user_agent.php:45 view/admin/log_item_details.php:20
+msgid "User Agent"
+msgstr ""
+
+#: matches/user_agent.php:68
 msgid ""
-"A module is a controlling element that determines how redirections are "
-"handled.  Elements in a WordPress module are handled by WordPress, elements "
-"in an Apache module are handled by <code>.htaccess</code>, and elements in a "
-"404 module affect how 404 errors are logged."
+"The visitor will be redirected from the source URL if the user agent "
+"matches.  You can specify a <em>matched</em> target URL as the address to "
+"send visitors if they do match, and <em>not matched</em> if they don't "
+"match.  Leaving a URL blank means that the visitor is not redirected. "
+"<strong>All matches are performed as regular expressions</strong>.\n"
 msgstr ""
 
-#: view/admin/module_list.php:55
-msgid "Create"
+#: models/database.php:94 models/module.php:161
+msgid "WordPress"
 msgstr ""
 
-#: view/admin/support.php:5
-msgid "Redirection Support"
+#: models/database.php:95 models/module.php:160 view/admin/module_item.php:27
+msgid "Apache"
 msgstr ""
 
-#: view/admin/support.php:9
-msgid ""
-"Redirection is free to use - life is wonderful and lovely!  However, it has "
-"required a great deal of time and effort to develop and if it has been "
-"useful you can help support this development by <strong>making a small "
-"donation</strong>."
+#: models/database.php:96
+msgid "404"
 msgstr ""
 
-#: view/admin/support.php:10
-msgid ""
-"This will act as an incentive for me to carry on developing, providing "
-"countless hours of support, and including new features and suggestions. You "
-"get some useful software and I get to carry on making it.  Everybody wins."
+#: models/database.php:101
+msgid "Redirections"
 msgstr ""
 
-#: view/admin/support.php:13
-msgid ""
-"If you are using this plugin in a commercial setup, or feel that it's been "
-"particularly useful, then you may want to consider a <strong>commercial "
-"donation</strong>."
+#: models/database.php:102
+msgid "Modified Posts"
 msgstr ""
 
-#: view/admin/support.php:36
-msgid "Individual<br/>Donation"
+#: models/group.php:194
+msgid "Yes"
 msgstr ""
 
-#: view/admin/support.php:56
-msgid "Commercial<br/>Donation"
+#: models/group.php:195
+msgid "No"
 msgstr ""
 
-#: view/admin/support.php:60
-msgid "Translations"
+#: models/module.php:162
+msgid "404 Errors"
 msgstr ""
 
-#: view/admin/support.php:62
-msgid ""
-"If you're multi-lingual then you may want to consider donating a translation:"
+#: models/module.php:187
+msgid "Strip WWW"
 msgstr ""
 
-#: view/admin/support.php:70
-msgid ""
-"All translators will have a link to their website placed on the plugin "
-"homepage at <a href=\"http://urbangiraffe.com/plugins/redirection/"
-"\">UrbanGiraffe</a>, in addition to being an individual supporter."
+#: models/module.php:187
+msgid "Force WWW"
 msgstr ""
 
-#: view/admin/support.php:71
-msgid ""
-"Full details of producing a translation can be found in this <a href="
-"\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/"
-"\">guide to translating WordPress plugins</a>."
+#: models/module.php:192
+msgid "Strip index.php"
 msgstr ""
 
-#: view/admin/options.php:15
-msgid "Auto-generate URL"
+#: models/pager.php:389
+msgid "Previous"
 msgstr ""
 
-#: view/admin/options.php:19
-msgid ""
-"This will be used to auto-generate a URL if no URL is given.  You can use "
-"the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal "
-"or hex)"
+#: models/pager.php:390
+msgid "Next"
 msgstr ""
 
-#: view/admin/options.php:24
-msgid "IP Lookup Service"
+#: models/pager.php:448
+msgid "%d per-page"
 msgstr ""
 
-#: view/admin/options.php:30
-msgid "Plugin Support"
+#: models/pager.php:457
+msgid "Displaying %s&#8211;%s of %s"
 msgstr ""
 
-#: view/admin/options.php:33
-msgid "I'm a nice person and I have helped support the author of this plugin"
+#: models/redirect.php:386
+msgid "Redirect to URL"
 msgstr ""
 
-#: view/admin/options.php:37
-msgid "Logging"
+#: models/redirect.php:387
+msgid "Redirect to random post"
 msgstr ""
 
-#: view/admin/options.php:40
-msgid "log redirected requests"
+#: models/redirect.php:388
+msgid "Pass-through"
 msgstr ""
 
-#: view/admin/options.php:42
-msgid "log 404 Not Found requests"
+#: models/redirect.php:389
+msgid "Error (404)"
 msgstr ""
 
-#: view/admin/options.php:43
-msgid ""
-"Uncheck one or both of these to turn off logging and reduce database load if "
-"your redirected URLs are hit very frequently, and/or your site is very busy "
-"and pages are often not found."
-msgstr ""
-
-#: view/admin/options.php:47
-msgid "Expire Logs"
-msgstr ""
-
-#: view/admin/options.php:50
-msgid "days (enter 0 for no expiry)"
-msgstr ""
-
-#: view/admin/options.php:54
-msgid "RSS Token"
-msgstr ""
-
-#: view/admin/options.php:57
-msgid ""
-"A unique token allowing feed readers access to Redirection RSS (leave blank "
-"to auto-generate)"
-msgstr ""
-
-#: view/admin/options.php:62
-msgid "URL Monitoring"
-msgstr ""
-
-#: view/admin/options.php:63
-msgid ""
-"You can have Redirection detect changes in URLs and have an automatic "
-"redirection created in a specific group."
-msgstr ""
-
-#: view/admin/options.php:67
-msgid "Post &amp; Page URLs"
-msgstr ""
-
-#: view/admin/options.php:70 view/admin/options.php:82
-msgid "Don't monitor"
-msgstr ""
-
-#: view/admin/options.php:74
-msgid "Monitor new posts"
-msgstr ""
-
-#: view/admin/options.php:79
-msgid "Category URLs"
-msgstr ""
-
-#: view/admin/options.php:89
-msgid "Update"
-msgstr ""
-
-#: view/admin/options.php:95
-msgid "Import"
-msgstr ""
-
-#: view/admin/options.php:97
-msgid ""
-"Here you can import redirections from an existing .htaccess file, a CSV "
-"file, or a Redirection XML."
-msgstr ""
-
-#: view/admin/options.php:104
-msgid "Import into"
-msgstr ""
-
-#: view/admin/options.php:107
-msgid "Upload"
-msgstr ""
-
-#: view/admin/options.php:110
-msgid "Note that the group is ignored when uploading an XML file."
-msgstr ""
-
-#: view/admin/options.php:114
-msgid "Delete Redirection"
-msgstr ""
-
-#: view/admin/options.php:115
-msgid ""
-"Selecting this option will delete all redirections, all logs, and any "
-"options associated with the Redirection plugin.  Make sure this is what you "
-"want to do."
-msgstr ""
-
-#: view/admin/group_edit.php:10
-msgid "Tracked"
-msgstr ""
-
-#: view/admin/group_edit.php:11
-msgid "Whether to track 'hits' to items"
-msgstr ""
-
-#: view/admin/group_edit.php:14
-msgid "Enabled"
-msgstr ""
-
-#: view/admin/group_edit.php:15
-msgid "Disabling a group will disable all items contained within it"
+#: models/redirect.php:390
+msgid "Do nothing"
 msgstr ""
 
 #: modules/404.php:37
@@ -691,86 +360,6 @@ msgstr ""
 msgid "IPs are allowed"
 msgstr ""
 
-#: models/redirect.php:386
-msgid "Redirect to URL"
-msgstr ""
-
-#: models/redirect.php:387
-msgid "Redirect to random post"
-msgstr ""
-
-#: models/redirect.php:388
-msgid "Pass-through"
-msgstr ""
-
-#: models/redirect.php:389
-msgid "Error (404)"
-msgstr ""
-
-#: models/redirect.php:390
-msgid "Do nothing"
-msgstr ""
-
-#: models/module.php:161 models/database.php:94
-msgid "WordPress"
-msgstr ""
-
-#: models/module.php:162
-msgid "404 Errors"
-msgstr ""
-
-#: models/module.php:187
-msgid "Strip WWW"
-msgstr ""
-
-#: models/module.php:187
-msgid "Force WWW"
-msgstr ""
-
-#: models/module.php:192
-msgid "Strip index.php"
-msgstr ""
-
-#: models/database.php:96
-msgid "404"
-msgstr ""
-
-#: models/database.php:101
-msgid "Redirections"
-msgstr ""
-
-#: models/database.php:102
-msgid "Modified Posts"
-msgstr ""
-
-#: models/pager.php:404
-msgid "Previous"
-msgstr ""
-
-#: models/pager.php:405
-msgid "Next"
-msgstr ""
-
-#: models/pager.php:463
-msgid "%d per-page"
-msgstr ""
-
-#: models/pager.php:472
-msgid "Displaying %s&#8211;%s of %s"
-msgstr ""
-
-#: models/group.php:194
-msgid "Yes"
-msgstr ""
-
-#: models/group.php:195
-msgid "No"
-msgstr ""
-
-#: ajax.php:370
-msgid "Sorry, but your redirection was not created"
-msgstr ""
-
 #: redirection.php:94
 msgid "Settings"
 msgstr ""
@@ -779,7 +368,17 @@ msgstr ""
 msgid "Please wait..."
 msgstr ""
 
-#. #-#-#-#-#  plugin.pot (Redirection 2.2.5)  #-#-#-#-#
+#: redirection.php:115 view/admin/group_list.php:118
+#: view/admin/item_list.php:113 view/admin/log.php:113
+msgid "Are you sure?"
+msgstr ""
+
+#: redirection.php:116 view/admin/group_list.php:117
+#: view/admin/item_list.php:112 view/admin/log.php:112
+msgid "No items have been selected"
+msgstr ""
+
+#. #-#-#-#-#  plugin.pot (Redirection 2.2.13)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: redirection.php:121
 msgid "Redirection"
@@ -827,94 +426,503 @@ msgstr ""
 msgid "Redirection is available in"
 msgstr ""
 
-#: matches/url.php:25
-msgid "URL only"
+#: view/admin/add.php:3
+msgid "Add new redirection"
 msgstr ""
 
-#: matches/url.php:40 matches/user_agent.php:55 matches/referrer.php:47
-msgid "HTTP Code"
+#: view/admin/add.php:6
+msgid "Your redirection has been added."
 msgstr ""
 
-#: matches/login.php:25
-msgid "URL and login status"
+#: view/admin/add.php:12 view/admin/item_edit.php:15 view/admin/log.php:68
+#: view/admin/log_item_details.php:4
+msgid "Source URL"
 msgstr ""
 
-#: matches/login.php:33
+#: view/admin/add.php:16
+msgid "Match"
+msgstr ""
+
+#: view/admin/add.php:22
+msgid "Action"
+msgstr ""
+
+#: view/admin/add.php:27
+msgid "Regular expression"
+msgstr ""
+
+#: view/admin/add.php:36 view/admin/item_list.php:24 view/admin/log.php:43
+msgid "Group"
+msgstr ""
+
+#: view/admin/add.php:43
+msgid "Add Redirection"
+msgstr ""
+
+#: view/admin/group_edit.php:6 view/admin/group_list.php:37
+#: view/admin/group_list.php:100 view/admin/module_edit.php:18
+#: view/admin/module_list.php:42
+msgid "Name"
+msgstr ""
+
+#: view/admin/group_edit.php:10
+msgid "Tracked"
+msgstr ""
+
+#: view/admin/group_edit.php:11
+msgid "Whether to track 'hits' to items"
+msgstr ""
+
+#: view/admin/group_edit.php:14
+msgid "Enabled"
+msgstr ""
+
+#: view/admin/group_edit.php:15
+msgid "Disabling a group will disable all items contained within it"
+msgstr ""
+
+#: view/admin/group_edit.php:20 view/admin/item_edit.php:27
+#: view/admin/module_edit.php:27
+msgid "Save"
+msgstr ""
+
+#: view/admin/group_edit.php:21 view/admin/item_edit.php:28
+#: view/admin/module_edit.php:28
+msgid "Cancel"
+msgstr ""
+
+#: view/admin/group_item.php:3
+msgid "edit group"
+msgstr ""
+
+#: view/admin/group_item.php:23 view/admin/item.php:27
+msgid "disabled"
+msgstr ""
+
+#: view/admin/group_list.php:6
+msgid "Groups for module"
+msgstr ""
+
+#: view/admin/group_list.php:16 view/admin/log.php:38
+msgid "Module"
+msgstr ""
+
+#: view/admin/group_list.php:21 view/admin/item_list.php:29
+#: view/admin/log.php:16 view/admin/log.php:23
+msgid "Search"
+msgstr ""
+
+#: view/admin/group_list.php:26
+msgid "go"
+msgstr ""
+
+#: view/admin/group_list.php:36 view/admin/item_list.php:42
+#: view/admin/module_list.php:17
+msgid "Hits"
+msgstr ""
+
+#: view/admin/group_list.php:59 view/admin/item_list.php:67
+msgid "Select All"
+msgstr ""
+
+#: view/admin/group_list.php:60 view/admin/item_list.php:68
+msgid "Toggle"
+msgstr ""
+
+#: view/admin/group_list.php:61 view/admin/item_list.php:69
+msgid "Reset Hits"
+msgstr ""
+
+#: view/admin/group_list.php:62 view/admin/item_list.php:70
+#: view/admin/log.php:30 view/admin/options.php:120
+msgid "Delete"
+msgstr ""
+
+#: view/admin/group_list.php:64 view/admin/item_list.php:72
+msgid "Move To"
+msgstr ""
+
+#: view/admin/group_list.php:69 view/admin/item_list.php:34
+#: view/admin/item_list.php:77
+msgid "Go"
+msgstr ""
+
+#: view/admin/group_list.php:75 view/admin/item_list.php:83
+msgid "re-order"
+msgstr ""
+
+#: view/admin/group_list.php:76 view/admin/item_list.php:84
+msgid "save order"
+msgstr ""
+
+#: view/admin/group_list.php:89
+msgid "You have no groups in this module."
+msgstr ""
+
+#: view/admin/group_list.php:94
+msgid "Add Group"
+msgstr ""
+
+#: view/admin/group_list.php:105
+msgid "Add"
+msgstr ""
+
+#: view/admin/item_edit.php:3
+msgid "%s by matching %s"
+msgstr ""
+
+#: view/admin/item_edit.php:7
+msgid "Title"
+msgstr ""
+
+#: view/admin/item_edit.php:10
+msgid "optional"
+msgstr ""
+
+#: view/admin/item_list.php:7
+msgid "Redirections for group"
+msgstr ""
+
+#: view/admin/item_list.php:41
+msgid "Last Access"
+msgstr ""
+
+#: view/admin/item_list.php:43 view/admin/module_list.php:46
+msgid "Type"
+msgstr ""
+
+#: view/admin/item_list.php:44
+msgid "URL"
+msgstr ""
+
+#: view/admin/item_list.php:44
+msgid "Position"
+msgstr ""
+
+#: view/admin/item_list.php:88
+msgid "You have no redirections."
+msgstr ""
+
+#: view/admin/log.php:6
+msgid "Redirection Log"
+msgstr ""
+
+#: view/admin/log.php:29
+msgid "Bulk Actions"
+msgstr ""
+
+#: view/admin/log.php:33
+msgid "Apply"
+msgstr ""
+
+#: view/admin/log.php:49
+msgid "Filter"
+msgstr ""
+
+#: view/admin/log.php:67
+msgid "Date"
+msgstr ""
+
+#: view/admin/log.php:70
+msgid "IP"
+msgstr ""
+
+#: view/admin/log.php:85
+msgid "There are no logs to display!"
+msgstr ""
+
+#: view/admin/log.php:94
+msgid "Process Current Logs"
+msgstr ""
+
+#: view/admin/log.php:95
 msgid ""
-"The target URL will be chosen from one of the following URLs, depending if "
-"the user is logged in or out.  Leaving a URL blank means that the user is "
-"not redirected."
+"These actions will affect all currently available logs (i.e. your search "
+"phrase will restrict the log items)."
 msgstr ""
 
-#: matches/login.php:39 matches/login.php:41
-msgid "Logged In"
+#: view/admin/log.php:100
+msgid "Delete Logs"
 msgstr ""
 
-#: matches/login.php:51 matches/login.php:53
-msgid "Logged Out"
+#: view/admin/log_item_details.php:9
+msgid "Redirect to"
 msgstr ""
 
-#: matches/user_agent.php:27
-msgid "URL and user agent"
+#: view/admin/log_item_details.php:15
+msgid "Redirected by"
 msgstr ""
 
-#: matches/user_agent.php:32
-msgid "FeedBurner"
+#: view/admin/log_item_details.php:16
+msgid "for"
 msgstr ""
 
-#: matches/user_agent.php:33
-msgid "Internet Explorer"
+#: view/admin/module_item.php:23
+msgid "View as"
 msgstr ""
 
-#: matches/user_agent.php:34
-msgid "FireFox"
+#: view/admin/module_item.php:25
+msgid "CSV"
 msgstr ""
 
-#: matches/user_agent.php:35
-msgid "Opera"
+#: view/admin/module_item.php:26
+msgid "XML"
 msgstr ""
 
-#: matches/user_agent.php:36
-msgid "Safari"
+#: view/admin/module_item.php:28
+msgid "RSS"
 msgstr ""
 
-#: matches/user_agent.php:37
-msgid "iPhone"
+#: view/admin/module_item.php:41
+msgid "edit"
 msgstr ""
 
-#: matches/user_agent.php:38
-msgid "Nintendo Wii"
+#: view/admin/module_item.php:43
+msgid "delete"
 msgstr ""
 
-#: matches/user_agent.php:66
+#: view/admin/module_item.php:45
+msgid "reset"
+msgstr ""
+
+#: view/admin/module_list.php:6 view/admin/submenu.php:16
+msgid "Modules"
+msgstr ""
+
+#: view/admin/module_list.php:14
+msgid "Details"
+msgstr ""
+
+#: view/admin/module_list.php:15 view/admin/submenu.php:11
+msgid "Groups"
+msgstr ""
+
+#: view/admin/module_list.php:16
+msgid "Items"
+msgstr ""
+
+#: view/admin/module_list.php:18
+msgid "Operations"
+msgstr ""
+
+#: view/admin/module_list.php:27
+msgid "Note: Hits are dependant on log entries"
+msgstr ""
+
+#: view/admin/module_list.php:29
+msgid "You have no modules defined yet"
+msgstr ""
+
+#: view/admin/module_list.php:34
+msgid "Add Module"
+msgstr ""
+
+#: view/admin/module_list.php:35
 msgid ""
-"The visitor will be redirected from the source URL if the user agent "
-"matches.  You can specify a <em>matched</em> target URL as the address to "
-"send visitors if they do match, and <em>not matched</em> if they don't "
-"match.  Leaving a URL blank means that the visitor is not redirected. "
-"<strong>All matches are performed as regular expressions</strong>.\n"
+"A module is a controlling element that determines how redirections are "
+"handled.  Elements in a WordPress module are handled by WordPress, elements "
+"in an Apache module are handled by <code>.htaccess</code>, and elements in a "
+"404 module affect how 404 errors are logged."
 msgstr ""
 
-#: matches/user_agent.php:73 matches/user_agent.php:75 matches/referrer.php:63
-#: matches/referrer.php:65
-msgid "Matched"
+#: view/admin/module_list.php:55
+msgid "Create"
 msgstr ""
 
-#: matches/user_agent.php:83 matches/user_agent.php:85 matches/referrer.php:73
-#: matches/referrer.php:75
-msgid "Not matched"
+#: view/admin/options.php:6 view/admin/submenu.php:26
+msgid "Options"
 msgstr ""
 
-#: matches/referrer.php:28
-msgid "URL and referrer"
+#: view/admin/options.php:15
+msgid "Auto-generate URL"
 msgstr ""
 
-#: matches/referrer.php:57
+#: view/admin/options.php:19
 msgid ""
-"The visitor will be redirected from the source URL if the referrer matches.  "
-"You can specify a <em>matched</em> target URL as the address to send "
-"visitors if they do match, and <em>not matched</em> if they don't match.  "
-"Leaving a URL blank means that the visitor is not redirected."
+"This will be used to auto-generate a URL if no URL is given.  You can use "
+"the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal "
+"or hex)"
+msgstr ""
+
+#: view/admin/options.php:24
+msgid "IP Lookup Service"
+msgstr ""
+
+#: view/admin/options.php:30
+msgid "Plugin Support"
+msgstr ""
+
+#: view/admin/options.php:33
+msgid "I'm a nice person and I have helped support the author of this plugin"
+msgstr ""
+
+#: view/admin/options.php:37
+msgid "Logging"
+msgstr ""
+
+#: view/admin/options.php:40
+msgid "log redirected requests"
+msgstr ""
+
+#: view/admin/options.php:42
+msgid "log 404 Not Found requests"
+msgstr ""
+
+#: view/admin/options.php:43
+msgid ""
+"Uncheck one or both of these to turn off logging and reduce database load if "
+"your redirected URLs are hit very frequently, and/or your site is very busy "
+"and pages are often not found."
+msgstr ""
+
+#: view/admin/options.php:47
+msgid "Expire Logs"
+msgstr ""
+
+#: view/admin/options.php:50
+msgid "days (enter 0 for no expiry)"
+msgstr ""
+
+#: view/admin/options.php:54
+msgid "RSS Token"
+msgstr ""
+
+#: view/admin/options.php:57
+msgid ""
+"A unique token allowing feed readers access to Redirection RSS (leave blank "
+"to auto-generate)"
+msgstr ""
+
+#: view/admin/options.php:62
+msgid "URL Monitoring"
+msgstr ""
+
+#: view/admin/options.php:63
+msgid ""
+"You can have Redirection detect changes in URLs and have an automatic "
+"redirection created in a specific group."
+msgstr ""
+
+#: view/admin/options.php:67
+msgid "Post &amp; Page URLs"
+msgstr ""
+
+#: view/admin/options.php:70 view/admin/options.php:82
+msgid "Don't monitor"
+msgstr ""
+
+#: view/admin/options.php:74
+msgid "Monitor new posts"
+msgstr ""
+
+#: view/admin/options.php:79
+msgid "Category URLs"
+msgstr ""
+
+#: view/admin/options.php:89
+msgid "Update"
+msgstr ""
+
+#: view/admin/options.php:95
+msgid "Import"
+msgstr ""
+
+#: view/admin/options.php:97
+msgid ""
+"Here you can import redirections from an existing .htaccess file, a CSV "
+"file, or a Redirection XML."
+msgstr ""
+
+#: view/admin/options.php:104
+msgid "Import into"
+msgstr ""
+
+#: view/admin/options.php:107
+msgid "Upload"
+msgstr ""
+
+#: view/admin/options.php:110
+msgid "Note that the group is ignored when uploading an XML file."
+msgstr ""
+
+#: view/admin/options.php:114
+msgid "Delete Redirection"
+msgstr ""
+
+#: view/admin/options.php:115
+msgid ""
+"Selecting this option will delete all redirections, all logs, and any "
+"options associated with the Redirection plugin.  Make sure this is what you "
+"want to do."
+msgstr ""
+
+#: view/admin/submenu.php:6
+msgid "Redirects"
+msgstr ""
+
+#: view/admin/submenu.php:21
+msgid "Log"
+msgstr ""
+
+#: view/admin/submenu.php:31
+msgid "Support"
+msgstr ""
+
+#: view/admin/support.php:5
+msgid "Redirection Support"
+msgstr ""
+
+#: view/admin/support.php:9
+msgid ""
+"Redirection is free to use - life is wonderful and lovely!  However, it has "
+"required a great deal of time and effort to develop and if it has been "
+"useful you can help support this development by <strong>making a small "
+"donation</strong>."
+msgstr ""
+
+#: view/admin/support.php:10
+msgid ""
+"This will act as an incentive for me to carry on developing, providing "
+"countless hours of support, and including new features and suggestions. You "
+"get some useful software and I get to carry on making it.  Everybody wins."
+msgstr ""
+
+#: view/admin/support.php:13
+msgid ""
+"If you are using this plugin in a commercial setup, or feel that it's been "
+"particularly useful, then you may want to consider a <strong>commercial "
+"donation</strong>."
+msgstr ""
+
+#: view/admin/support.php:36
+msgid "Individual<br/>Donation"
+msgstr ""
+
+#: view/admin/support.php:56
+msgid "Commercial<br/>Donation"
+msgstr ""
+
+#: view/admin/support.php:60
+msgid "Translations"
+msgstr ""
+
+#: view/admin/support.php:62
+msgid ""
+"If you're multi-lingual then you may want to consider donating a translation:"
+msgstr ""
+
+#: view/admin/support.php:70
+msgid ""
+"All translators will have a link to their website placed on the plugin "
+"homepage at <a href=\"http://urbangiraffe.com/plugins/redirection/"
+"\">UrbanGiraffe</a>, in addition to being an individual supporter."
+msgstr ""
+
+#: view/admin/support.php:71
+msgid ""
+"Full details of producing a translation can be found in this <a href="
+"\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/"
+"\">guide to translating WordPress plugins</a>."
 msgstr ""
 
 #. Plugin URI of the plugin/theme

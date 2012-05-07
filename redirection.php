@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.2.13
+Version: 2.2.14
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -257,28 +257,28 @@ class Redirection extends Redirection_Plugin {
 
 		if ( isset( $_POST['deleteall'] ) && check_admin_referer( 'redirection-process_logs' ) ) {
 			if ( isset( $_GET['module'] ) )
-				RE_Log::delete_all( array( 'module_id' => intval( $_GET['module'] ) ), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'tools.php?page=redirection.php' ) ), 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all( 'module', intval( $_GET['module'] ) );
 			else if (isset($_GET['group']))
-				RE_Log::delete_all( array( 'group_id' => intval( $_GET['group'] ) ), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'tools.php?page=redirection.php' ) ), 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all( 'group', intval( $_GET['group_id'] ) );
 			else
-				RE_Log::delete_all( array(), new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'tools.php?page=redirection.php' ) ), 'created', 'DESC', 'log' ) );
+				RE_Log::delete_all();
 
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}
 
-		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'log' ), 'tools.php?page=redirection.php' ) ), 'created', 'DESC', 'log' );
+		$table = new Redirection_Log_Table();
 
 		if ( isset( $_GET['module'] ) )
-			$logs = RE_Log::get_by_module( $pager, intval( $_GET['module'] ) );
+			$table->prepare_items( 'module', intval( $_GET['module'] ) );
 		else if (isset($_GET['group']))
-			$logs = RE_Log::get_by_group( $pager, intval( $_GET['group'] ) );
+			$table->prepare_items( 'group', intval( $_GET['group'] ) );
 		else if (isset($_GET['redirect']))
-			$logs = RE_Log::get_by_redirect( $pager, intval( $_GET['redirect'] ) );
+			$table->prepare_items( 'redirect', intval( $_GET['redirect'] ) );
 		else
-			$logs = RE_Log::get( $pager );
+			$table->prepare_items();
 
 		$options = $this->get_options();
-		$this->render_admin( 'log', array( 'logs' => $logs, 'pager' => $pager, 'lookup' => $options['lookup'] ) );
+		$this->render_admin( 'log', array( 'table' => $table, 'lookup' => $options['lookup'] ) );
 	}
 
 	function admin_groups( $module ) {
@@ -299,7 +299,7 @@ class Redirection extends Redirection_Plugin {
 		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'groups' ), 'tools.php?page=redirection.php' ) ), 'position', 'ASC' );
 		$items = Red_Group::get_all( $module, $pager );
 
-  	$this->render_admin( 'group_list', array( 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => Red_Module::get( $module ) ) );
+  		$this->render_admin( 'group_list', array( 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => Red_Module::get( $module ) ) );
 	}
 
 	function admin_redirects( $group ) {

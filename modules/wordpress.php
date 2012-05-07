@@ -14,7 +14,6 @@ class WordPress_Module extends Red_Module {
 		add_filter( 'wp_redirect',             array( &$this, 'wp_redirect' ), 1, 2 );
 
 		// Remove WordPress 2.3 redirection
-		// XXX still needed?
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
 	}

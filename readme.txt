@@ -4,7 +4,7 @@ Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 2.2.13
+Stable tag: 2.2.14
 
 Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.
 
@@ -49,7 +49,7 @@ Redirection is available in:
 * Arabic by Jerry John
 * Brazilian Portuguese by Pedro Padron
 * Dutch by Marlon Navas, Pieter Carette, and Bart Kummel
-* Hungarian by daSSad
+* Hungarian by daSSad and Szépe Viktor
 * Turkish by Fatih Cevik
 * Romanian translation, thanks to Alina
 * Greek, thanks to Stefanos Kofopoulos
@@ -88,6 +88,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
 
 == Changelog ==
+
+= 2.2.14 =
+* Clean up log code, using WP_List_Table to power it
+* Update Hungarian translation
 
 = 2.2.13 =
 * Fix some broken links in admin pages

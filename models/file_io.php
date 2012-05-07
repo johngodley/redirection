@@ -6,8 +6,6 @@ class Red_FileIO
 
 	function export ($type)
 	{
-		include (dirname (__FILE__).'/../models/pager.php');
-
 		$module = Red_Module::get (intval ($_GET['module']));
 		if ($module)
 		{

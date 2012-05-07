@@ -353,171 +353,7 @@ list-style-type: square;
   margin: 0; padding: 0;
 margin-left: 20px;  
 }
-/*
-.stats
-{
-width: 100%;
-margin: 10px 0;
-border-collapse: collapse;
-border: 1px solid #555;
-}
 
-.stats a { border: 0; text-decoration: underline;}
-
-.stats th, .stats tfoot td
-{
-text-align: left;
-padding: 3px;
-background-color: #555;
-color: white;
-}
-
-.stats tfoot td a, .stats thead th a
-{
-color: white;
-}
-
-.stats tbody td
-{
-border-right: 1px solid #ddd;
-}
-
-.stats thead a
-{
-padding: 3px;  
-}
-
-.stats tbody td a
-{
-padding: 3px;  
-color: #222;
-}
-
-.stats tfoot a:hover
-{
-color: yellow;
-}
-
-.stats tfoot td
-{
-color: #bbb;
-}
-
-.stats tfoot .active
-{
-font-weight: bold;
-color: yellow;
-}
-
-
-.stats tfoot td a
-{
-}
-
-.stats thead a:hover
-{
-color: #FFFF88;
-}
-
-.stats tbody td a:hover
-{
-background-color: #FFFF88;
-padding: 3px;
-}
-
-.stats tbody td.sorted
-{
-background-color: #F0F7FF;  
-}
-
-.stats tbody .alt td.sorted
-{
-background-color: #E0E9F1;  
-}
-
-.stats thead th.sorted
-{
-background-color: #222;
-}
-
-.stats tbody td.lastcol
-{
-border-right: 1px solid #333;
-}
-
-.stats tfoot td
-{
-text-align: right;
-}
-
-.alt
-{
-background-color: #eee;
-}
-
-.stats td.detail
-{
-padding: 0;
-}
-
-.stats td, .stats th
-{
-padding: 5px;
-vertical-align: top;
-}
-
-.stats img
-{
-vertical-align: middle;
-}
-
-.stats p
-{
-margin: 5px 0px 0px 0px;
-}
-
-
-.stats table
-{
-width: 100%;
-border: 1px solid #BEBE74;
-padding: 6px 3px;
-background-color: #FFFFE1;
-font-size: 0.8em !important;
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
-border-radius: 10px;
-}
-
-.stats table input
-{
-font-size: 0.8em;
-}
-
-.stats table th
-{
-text-align: right;
-width: 8em;
-padding: 3px;
-background-color: transparent;
-color: #333;
-}
-
-.stats table td
-{
-  padding: 0px;
-}
-
-.stats tfoot td
-{
-font-size: 0.9em;
-padding: 5px 10px;
-}
-
-.stats .center
-{
-text-align: center;
-}*/
 
 .extra
 {
@@ -714,3 +550,12 @@ background-color: yellow;
 #items, .item {
 direction:ltr;
 }
+
+.wp-list-table .column-created {
+	width: 150px;
+}
+
+.wp-list-table .column-ip {
+	width: 120px;
+}
+

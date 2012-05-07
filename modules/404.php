@@ -97,7 +97,7 @@ class Error404_Module extends Red_Module
 
 							$options = $redirection->get_options ();
 							if ($options['log_404s'])
-								$log = RE_Log::create ($_SERVER['REQUEST_URI'], '', $_SERVER['HTTP_USER_AGENT'], $myip, isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '', 'NULL', $module->id);
+								$log = RE_Log::create( $_SERVER['REQUEST_URI'], '', $_SERVER['HTTP_USER_AGENT'], $myip, isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '', array( 'module_id' => $module->id ) );
 						}
 					}
 				}
