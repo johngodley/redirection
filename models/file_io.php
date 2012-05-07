@@ -13,8 +13,6 @@ class Red_FileIO
 
 			if ($type == 'rss')
 				$exporter = new Red_Rss_File ();
-			else if ($type == 'xml')
-				$exporter = new Red_Xml_File ();
 			else if ($type == 'csv')
 				$exporter = new Red_Csv_File ();
 			else if ($type == 'apache')
@@ -32,12 +30,7 @@ class Red_FileIO
 		if ( is_uploaded_file( $file['tmp_name'] ) ) {
 			$parts = pathinfo( $file['name'] );
 
-			if ( $parts['extension'] == 'xml') {
-				include dirname( __FILE__ ).'/../fileio/xml.php';
-				$importer = new Red_Xml_File();
-				$data = @file_get_contents ($file['tmp_name']);
-			}
-			elseif ( $parts['extension'] == 'csv' ) {
+			if ( $parts['extension'] == 'csv' ) {
 				include dirname( __FILE__ ).'/../fileio/csv.php';
 				$importer = new Red_Csv_File();
 				$data = '';

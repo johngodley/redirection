@@ -198,7 +198,7 @@ class Redirection extends Redirection_Plugin {
 	function inject() {
 		$options = $this->get_options();
 
-		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'tools.php?page=redirection.php' && in_array( $_GET['sub'], array( 'rss', 'xml', 'csv', 'apache' ) ) ) {
+		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'tools.php?page=redirection.php' && in_array( $_GET['sub'], array( 'rss', 'csv', 'apache' ) ) ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
 			$exporter = new Red_FileIO;

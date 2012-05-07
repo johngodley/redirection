@@ -23,7 +23,6 @@
 			<strong><?php _e( 'View as', 'redirection' ); ?>:</strong>
 
 			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=csv&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'CSV', 'redirection' ); ?></a>
-			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=xml&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'XML', 'redirection' ); ?></a>
 			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=apache&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'Apache', 'redirection' ); ?></a>
 			<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=rss&amp;module=<?php echo $module->id ?>&amp;token=<?php echo $token ?>"><?php _e( 'RSS', 'redirection' ); ?></a>
 		</div>

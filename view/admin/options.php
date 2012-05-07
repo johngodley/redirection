@@ -94,7 +94,7 @@
 <div class="wrap">
 	<h2><?php _e( 'Import', 'redirection' ); ?></h2>
 
-	<p><?php _e( 'Here you can import redirections from an existing .htaccess file, a CSV file, or a Redirection XML.', 'redirection' ); ?></p>
+	<p><?php _e( 'Here you can import redirections from an existing .htaccess file, or a CSV file.', 'redirection' ); ?></p>
 
 	<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'redirection-import' ); ?>
