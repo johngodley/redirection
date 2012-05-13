@@ -122,7 +122,7 @@ class Redirection extends Redirection_Plugin {
 		global $wpdb;
 
 		// Expire old entries
-		$options = $redirection->get_options();
+		$options = $this->get_options();
 		if ( $options['expire'] != 0 ) {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire'] ) );
 			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire'] ) );
