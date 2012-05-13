@@ -5,7 +5,7 @@
 
 	<h2><?php _e ('Redirection Log', 'redirection'); ?></h2>
 
-	<?php $this->render_admin( 'submenu' ); ?>
+	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
 
 	<form method="POST" action="">
 		<?php $table->search_box( __( 'Search' ), 'search_id' ); ?>

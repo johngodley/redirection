@@ -55,6 +55,7 @@ Redirection is available in:
 * Greek, thanks to Stefanos Kofopoulos
 * Belarusian, thanks to Alexander Ovsov
 * Czech, thanks to Martin Jurica
+* Danish, thanks to Rasmus Himmelstrup
 
 == Installation ==
 
@@ -88,6 +89,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
 
 == Changelog ==
+
+= 2.3.0 =
+* Remove 404 module and move 404 logs into a seperate option
+* Add Danish translation, thanks to Rasmus Himmelstrup
 
 = 2.2.14 =
 * Clean up log code, using WP_List_Table to power it

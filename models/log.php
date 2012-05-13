@@ -46,27 +46,27 @@ class RE_Log {
 		return false;
 	}
 
-	function create ($url, $target, $agent, $ip, $referrer, $extra = array() ) {
+	function create( $url, $target, $agent, $ip, $referrer, $extra = array()) {
 		global $wpdb, $redirection;
 
 		$insert = array(
-			'url'            => urldecode( $url ),
-			'sent_to'        => $target,
-			'created'        => current_time( 'mysql' ),
-			'agent'          => $agent,
-			'ip'             => $ip,
-			'referrer'       => $referrer,
-			'redirection_id' => isset( $extra['redirect_id'] ) ? $extra['redirect_id'] : 0,
-			'module_id'      => isset( $extra['module_id'] ) ? $extra['module_id'] : 0,
-			'group_id'       => isset( $extra['group_id'] ) ? $extra['group_id'] : 0,
+			'url'     => urldecode( $url ),
+			'created' => current_time( 'mysql' ),
+			'ip'      => $ip,
 		);
 
-		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
+		if ( !empty( $agent ) )
+			$insert['agent'] = $agent;
 
-		// Expire old entries
-		$options = $redirection->get_options();
-		if ( $options['expire'] != 0 )
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire'] ) );
+		if ( !empty( $referrer ) )
+			$insert['referrer'] = $referrer;
+
+		$insert['sent_to']        = $target;
+		$insert['redirection_id'] = isset( $extra['redirect_id'] ) ? $extra['redirect_id'] : 0;
+		$insert['module_id']      = isset( $extra['module_id'] ) ? $extra['module_id'] : 0;
+		$insert['group_id']       = isset( $extra['group_id'] ) ? $extra['group_id'] : 0;
+
+		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
 	}
 
 	function show_url( $url ) {
@@ -113,6 +113,70 @@ class RE_Log {
 			$where_cond = " WHERE ".implode( ' AND ', $where );
 
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_logs ".$where_cond );
+	}
+}
+
+class RE_404 {
+	var $id;
+	var $created;
+	var $url;
+	var $agent;
+	var $referrer;
+	var $ip;
+
+	function RE_404( $values ) {
+		foreach ( $values AS $key => $value ) {
+		 	$this->$key = $value;
+		 }
+
+		$this->created = mysql2date ('U', $this->created);
+	}
+
+	function get_by_id( $id ) {
+		global $wpdb;
+
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
+		if ( $row )
+			return new RE_404( $row );
+		return false;
+	}
+
+	function create( $url, $agent, $ip, $referrer ) {
+		global $wpdb, $redirection;
+
+		$insert = array(
+			'url'     => urldecode( $url ),
+			'created' => current_time( 'mysql' ),
+			'ip'      => ip2long( $ip ),
+		);
+
+		if ( !empty( $agent ) )
+			$insert['agent'] = $agent;
+
+		if ( !empty( $referrer ) )
+			$insert['referrer'] = $referrer;
+
+		$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
+	}
+
+	function delete( $id ) {
+		global $wpdb;
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
+	}
+
+	function delete_all() {
+		global $wpdb;
+
+		$where = array();
+		if ( isset( $_POST['s'] ) )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$_POST['s'].'%' );
+
+		$where_cond = "";
+		if ( count( $where ) > 0 )
+			$where_cond = " WHERE ".implode( ' AND ', $where );
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_404 ".$where_cond );
 	}
 }
 

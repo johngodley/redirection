@@ -7,13 +7,13 @@
 		<?php _e ('Redirections for group', 'redirection'); ?>:
 
 		<?php if ( $group ) : ?>
-		<a href="<?php echo $this->base (); ?>?page=redirection.php&amp;sub=groups&amp;id=<?php echo $group->module_id ?>">
+		<a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups&amp;id=<?php echo $group->module_id ?>">
 			<?php echo esc_html( $group->name ); ?>
 		</a>
 		<?php endif; ?>
 	</h2>
 
-	<?php $this->render_admin( 'submenu' ); ?>
+	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
 
 	<div id="pager" class="pager">
 		<form method="get" action="">

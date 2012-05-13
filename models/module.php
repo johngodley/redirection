@@ -159,7 +159,6 @@ class Red_Module {
 		return array (
 			'apache' => __( 'Apache', 'redirection' ),
 			'wp'     => __( 'WordPress', 'redirection' ),
-			'404'    => __( '404 Errors', 'redirection' ),
 		 );
 	}
 
@@ -167,7 +166,6 @@ class Red_Module {
 		$map = array (
 			'apache' => array( 'Apache_Module',    'apache.php' ),
 			'wp'     => array( 'WordPress_Module', 'wordpress.php' ),
-			'404'    => array( 'Error404_Module',  '404.php' )
 		 );
 
 		if ( isset( $map[$data->type] ) ) {

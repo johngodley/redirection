@@ -16,8 +16,23 @@ class Redirector_Referrer {
 }
 
 class RE_Database {
+	function get_charset() {
+		global $wpdb;
+
+		$charset_collate = '';
+		if ( ! empty($wpdb->charset) )
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+
+		if ( ! empty($wpdb->collate) )
+			$charset_collate .= " COLLATE $wpdb->collate";
+
+		return $charset_collate;
+	}
+
 	function install() {
 		global $wpdb;
+
+		$charset_collate = $this->get_charset();
 
 		$create = array(
 			"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_items`(
@@ -40,7 +55,7 @@ class RE_Database {
 			  KEY `regex` (`regex`),
 				KEY `group_idpos` (`group_id`,`position`),
 			  KEY `group` (`group_id`)
-			)",
+			) $charset_collate",
 
 			"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_groups`(
 			  `id` int(11) NOT NULL auto_increment,
@@ -52,7 +67,7 @@ class RE_Database {
 			  PRIMARY KEY ( `id`),
 				KEY `module_id` (`module_id`),
 		  	KEY `status` (`status`)
-			)",
+			) $charset_collate",
 
 			"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_logs`(
 			  `id` int(11) unsigned NOT NULL auto_increment,
@@ -71,7 +86,7 @@ class RE_Database {
 			  KEY `ip` (`ip`),
 			  KEY `group_id` (`group_id`),
 			  KEY `module_id` (`module_id`)
-			)",
+			) $charset_collate",
 
 		 	"CREATE TABLE `{$wpdb->prefix}redirection_modules`(
 			  `id` int(11) unsigned NOT NULL auto_increment,
@@ -81,7 +96,21 @@ class RE_Database {
 		  	PRIMARY KEY ( `id`),
 			  KEY `name` (`name`),
 			  KEY `type` (`type`)
-			)",
+			) $charset_collate",
+
+			"CREATE TABLE `{$wpdb->prefix}redirection_404` (
+			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			  `created` datetime NOT NULL,
+			  `url` varchar(255) NOT NULL DEFAULT '',
+			  `agent` varchar(255) DEFAULT NULL,
+			  `referrer` varchar(255) DEFAULT NULL,
+			  `ip` int(10) unsigned NOT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `created` (`created`),
+			  KEY `url` (`url`),
+			  KEY `ip` (`ip`),
+			  KEY `referrer` (`referrer`)
+			) $charset_collate;"
 		);
 
 		foreach ( $create AS $sql ) {
@@ -131,6 +160,11 @@ class RE_Database {
 
 			if ( version_compare( $current, '2.2' ) == -1 )
 				$this->upgrade_to_220();
+
+			if ( version_compare( $current, '2.3.1' ) == -1 )
+				$this->upgrade_to_231();
+
+			$success = true;
 		}
 
 		// Set our current version
@@ -138,6 +172,29 @@ class RE_Database {
 
 		$wpdb->hide_errors();
 		return $success;
+	}
+
+	function upgrade_to_231() {
+		global $wpdb;
+
+		$charset_collate = $this->get_charset();
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_modules WHERE type='404'" );
+		$wpdb->query( "UPDATE {$wpdb->prefix}redirection_groups SET module_id=1 WHERE module_id=3" );
+
+		$wpdb->query( "CREATE TABLE `{$wpdb->prefix}redirection_404` (
+			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			  `created` datetime NOT NULL,
+			  `url` varchar(255) NOT NULL DEFAULT '',
+			  `agent` varchar(255) DEFAULT NULL,
+			  `referrer` varchar(255) DEFAULT NULL,
+			  `ip` int(10) unsigned NOT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `created` (`created`),
+			  KEY `url` (`url`),
+  			  KEY `ip` (`ip`,`id`)
+			  KEY `referrer` (`referrer`)
+			) $charset_collate;" );
 	}
 
 	function upgrade_from_20() {
@@ -196,6 +253,7 @@ class RE_Database {
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_logs;" );
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_groups;" );
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_modules;" );
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_404;" );
 
 		delete_option( 'redirection_lookup' );
 		delete_option( 'redirection_post' );
