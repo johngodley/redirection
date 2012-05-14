@@ -24,6 +24,7 @@ class Red_Item {
 	var $url         = null;
 	var $regex       = false;
 	var $action_data = null;
+	var $action_code = 0;
 
 	var $last_access   = null;
 	var $last_count    = 0;

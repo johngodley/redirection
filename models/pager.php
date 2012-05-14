@@ -54,7 +54,7 @@ class Redirection_Log_Table extends WP_List_Table {
 	function get_columns(){
 		$columns = array(
 			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-			'created'  => __( 'Date', 'redirection' ),
+			'id'       => __( 'Date', 'redirection' ),
 			'url'      => __( 'Source URL', 'redirection' ),
 			'referrer' => __( 'Referrer', 'redirection' ),
 			'ip'       => __( 'IP', 'redirection' ),
@@ -64,7 +64,7 @@ class Redirection_Log_Table extends WP_List_Table {
 
 	function get_sortable_columns() {
 		$sortable_columns = array(
-			'created'  => array( 'created', true ),
+			'id'       => array( 'id', true ),
 			'url'      => array( 'url', false),
 			'referrer' => array( 'referrer', false ),
 			'ip'       => array( 'item_id', false ),
@@ -100,11 +100,11 @@ class Redirection_Log_Table extends WP_List_Table {
 		// Process any stuff
 		$this->process_bulk_action();
 
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'happened_at';
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
 		if ( !in_array( $orderby, array_keys( $this->get_sortable_columns() ) ) )
-			$orderby = 'created';
+			$orderby = 'id';
 
 		if ( !in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
@@ -254,7 +254,7 @@ class Redirection_404_Table extends WP_List_Table {
 
 		$table = $wpdb->prefix.'redirection_404';
 
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", $this->get_pagenum() - 1, $per_page ) );
+		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
