@@ -32,14 +32,11 @@ class Red_Apache_File extends Red_FileIO
 		include_once (dirname (__FILE__).'/../models/htaccess.php');
 
 		$this->htaccess = new Red_Htaccess ($module);
-		$pager          = new RE_Pager ($_GET, admin_url( 'redirection.php' ), 'name', 'DESC', 'log');
-
-		$pager->per_page = 0;
 		$this->name      = $module->name;
 		$this->id        = $module->id;
 
 		// Get the items
-		$items = Red_Item::get_by_module ($pager, $module->id);
+		$items = Red_Item::get_by_module( $module->id );
 
 		foreach ($items AS $item)
 			$this->htaccess->add ($item);

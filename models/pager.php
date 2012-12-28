@@ -54,7 +54,7 @@ class Redirection_Log_Table extends WP_List_Table {
 	function get_columns(){
 		$columns = array(
 			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-			'id'       => __( 'Date', 'redirection' ),
+			'created'       => __( 'Date', 'redirection' ),
 			'url'      => __( 'Source URL', 'redirection' ),
 			'referrer' => __( 'Referrer', 'redirection' ),
 			'ip'       => __( 'IP', 'redirection' ),
@@ -64,7 +64,7 @@ class Redirection_Log_Table extends WP_List_Table {
 
 	function get_sortable_columns() {
 		$sortable_columns = array(
-			'id'       => array( 'id', true ),
+			'created'       => array( 'id', true ),
 			'url'      => array( 'url', false),
 			'referrer' => array( 'referrer', false ),
 			'ip'       => array( 'item_id', false ),

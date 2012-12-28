@@ -107,17 +107,15 @@ class Red_Item {
 		return $items;
 	}
 
-	function get_by_module( &$pager, $module ) {
+	function get_by_module( $module ) {
 		global $wpdb;
 
 		$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
-		$sql .= $pager->to_limits( "{$wpdb->prefix}redirection_groups.module_id=".$module, array( 'url', 'action_data' ));
+		$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
 
 		$rows = $wpdb->get_results( $sql );
-		$pager->set_total( $wpdb->get_var( "SELECT FOUND_ROWS()" ));
 		$items = array();
-		if ( count( $rows) > 0)
-		{
+		if ( count( $rows) > 0) {
 			foreach( $rows AS $row)
 				$items[] = new Red_Item( $row);
 		}

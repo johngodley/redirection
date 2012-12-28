@@ -6,11 +6,8 @@ class Red_Rss_File extends Red_FileIO
 
 	function collect ($module)
 	{
-		$pager = new RE_Pager ($_GET, admin_url( 'redirection.php' ), 'created', 'DESC', 'log');
-		$pager->per_page = 100;
-
 		$this->name  = $module->name;
-		$this->items = RE_Log::get_by_module ($pager, $module->id);
+		$this->items = RE_Log::get_by_module( $module->id );
 	}
 
 	function feed ()

@@ -67,7 +67,7 @@ class Red_Group {
 		global $wpdb;
 
 		$data = array();
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_modules.name AS module_name,{$wpdb->prefix}redirection_groups.name AS group_name,{$wpdb->prefix}redirection_groups.id FROM {$wpdb->prefix}redirection_groups INNER JOIN {$wpdb->prefix}redirection_modules ON {$wpdb->prefix}redirection_modules.id={$wpdb->prefix}redirection_groups.module_id ORDER BY {$wpdb->prefix}redirection_modules.name,{$wpdb->prefix}redirection_groups.position" ) );
+		$rows = $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_modules.name AS module_name,{$wpdb->prefix}redirection_groups.name AS group_name,{$wpdb->prefix}redirection_groups.id FROM {$wpdb->prefix}redirection_groups INNER JOIN {$wpdb->prefix}redirection_modules ON {$wpdb->prefix}redirection_modules.id={$wpdb->prefix}redirection_groups.module_id ORDER BY {$wpdb->prefix}redirection_modules.name,{$wpdb->prefix}redirection_groups.position" );
 		if ( $rows ) {
 			foreach ( $rows AS $row ) {
 				$data[$row->module_name][$row->id] = $row->group_name;

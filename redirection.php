@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.3.1
+Version: 2.3.2
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -194,7 +194,7 @@ class Redirection extends Redirection_Plugin {
 	function inject() {
 		$options = $this->get_options();
 
-		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'tools.php?page=redirection.php' && in_array( $_GET['sub'], array( 'rss', 'csv', 'apache' ) ) ) {
+		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' && in_array( $_GET['sub'], array( 'rss', 'xml', 'csv', 'apache' ) ) ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
 			$exporter = new Red_FileIO;

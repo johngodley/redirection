@@ -4,11 +4,9 @@ class Red_Csv_File extends Red_FileIO
 {
 	function collect ($module)
 	{
-		$pager = new RE_Pager ($_GET, admin_url( 'redirection.php' ), 'name', 'DESC', 'log');
-		$pager->per_page = 0;
 		$this->id        = $module->id;
 
-		$items = Red_Item::get_by_module ($pager, $module->id);
+		$items = Red_Item::get_by_module( $module->id );
 		if (count ($items) > 0)
 		{
 			foreach ($items AS $item)
