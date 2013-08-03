@@ -37,7 +37,7 @@ class RE_Log {
 		$this->url     = stripslashes ($this->url);
 	}
 
-	function get_by_id( $id ) {
+	static function get_by_id( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_logs WHERE id=%d", $id ) );
@@ -46,7 +46,7 @@ class RE_Log {
 		return false;
 	}
 
-	function create( $url, $target, $agent, $ip, $referrer, $extra = array()) {
+	static function create( $url, $target, $agent, $ip, $referrer, $extra = array()) {
 		global $wpdb, $redirection;
 
 		$insert = array(
@@ -69,32 +69,32 @@ class RE_Log {
 		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
 	}
 
-	function show_url( $url ) {
+	static function show_url( $url ) {
 		$url = urldecode( $url );
 		return implode('&#8203;/', explode( '/', substr( $url, 0, 80 ) ) ).( strlen( $url ) > 80 ? '...' : '' );
 	}
 
-	function delete( $id ) {
+	static function delete( $id ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE id=%d", $id ) );
 	}
 
-	function delete_for_id( $id ) {
+	static function delete_for_id( $id ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE redirection_id=%d", $id ) );
 	}
 
-	function delete_for_group( $id ) {
+	static function delete_for_group( $id ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $id ) );
 	}
 
-	function delete_for_module( $id ) {
+	static function delete_for_module( $id ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE module_id=%d", $id ) );
 	}
 
-	function delete_all( $type = 'all', $id = 0 ) {
+	static function delete_all( $type = 'all', $id = 0 ) {
 		global $wpdb;
 
 		$where = array();
@@ -132,7 +132,7 @@ class RE_404 {
 		$this->created = mysql2date ('U', $this->created);
 	}
 
-	function get_by_id( $id ) {
+	static function get_by_id( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
@@ -141,7 +141,7 @@ class RE_404 {
 		return false;
 	}
 
-	function create( $url, $agent, $ip, $referrer ) {
+	static function create( $url, $agent, $ip, $referrer ) {
 		global $wpdb, $redirection;
 
 		$insert = array(
@@ -159,13 +159,13 @@ class RE_404 {
 		$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
 	}
 
-	function delete( $id ) {
+	static function delete( $id ) {
 		global $wpdb;
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
 	}
 
-	function delete_all() {
+	static function delete_all() {
 		global $wpdb;
 
 		$where = array();

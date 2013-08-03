@@ -1,6 +1,8 @@
 <?php
 
 class Red_Module {
+	var $id;
+
 	function Red_Module( $values = '' )	{
 		if ( is_object( $values ) ) {
 			foreach ( $values AS $key => $value ) {
@@ -18,14 +20,14 @@ class Red_Module {
 	function module_flush_delete() {
 	}
 
-	function flush( $id ) {
-		$module = Red_Module::get( $id );
+	static function flush( $id ) {
+		$module = self::get( $id );
 		if ( $module && $module->is_valid() )
 			$module->module_flush( Red_Item::get_all_for_module( $id ) );
 	}
 
-	function flush_delete( $id ) {
-		$module = Red_Module::get( $id );
+	static function flush_delete( $id ) {
+		$module = self::get( $id );
 		if ( $module )
 			$module->module_flush_delete();
 	}
@@ -37,7 +39,7 @@ class Red_Module {
 		$options = $this->save( $data );
 		$wpdb->update( $wpdb->prefix.'redirection_modules', array( 'name' => trim( $data['name'] ), 'options' => empty( $options ) ? '' : serialize( $options ) ), array( 'id' => intval( $this->id ) ) );
 
-		Red_Module::clear_cache( $this->id );
+		self::clear_cache( $this->id );
 	}
 
 	function delete() {
@@ -53,13 +55,13 @@ class Red_Module {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_modules WHERE id=%d", $this->id ) );
 
 		RE_Log::delete_for_module( $this->id );
-		Red_Module::clear_cache( $this->id );
-		Red_Module::flush_delete( $this->id );
+		self::clear_cache( $this->id );
+		self::flush_delete( $this->id );
 	}
 
-	function clear_cache( $module ) {
+	static function clear_cache( $module ) {
 		delete_option( 'redirection_module_cache' );
-		Red_Module::flush( $module );
+		self::flush( $module );
 	}
 
 	function create( $data ) {
@@ -76,19 +78,19 @@ class Red_Module {
 
 			$wpdb->insert( $wpdb->prefix.'redirection_modules', $db );
 
-			Red_Module::flush( $wpdb->insert_id );
+			self::flush( $wpdb->insert_id );
 			return $wpdb->insert_id;
 		}
 
 		return false;
 	}
 
-	function get( $id ) {
+	static function get( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_modules WHERE id=%d", $id ) );
 		if ( $row )
-			return Red_Module::new_item( $row );
+			return self::new_item( $row );
 		return false;
 	}
 
@@ -103,7 +105,7 @@ class Red_Module {
 		$items = array();
 		if ( count( $rows ) > 0 ) {
 			foreach ( $rows AS $row ) {
-				$items[] = Red_Module::new_item( $row );
+				$items[] = self::new_item( $row );
 			}
 		}
 
@@ -115,24 +117,24 @@ class Red_Module {
 	/**
 	 * Get all modules
 	 */
-	function get_all() {
+	static function get_all() {
 		global $wpdb;
 
 		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_modules WHERE id > 0 ORDER BY id" );
 		$items = array();
 		if ( count( $rows ) > 0 ) {
 			foreach ( $rows AS $row ) {
-				$items[] = Red_Module::new_item( $row );
+				$items[] = self::new_item( $row );
 			}
 		}
 
-		return $items;
+		return array_filter( $items );
 	}
 
 	/**
 	 * Get first module
 	 */
-	function get_first_id() {
+	static function get_first_id() {
 		global $wpdb;
 		return $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_modules ORDER BY id LIMIT 0,1" );
 	}
@@ -141,9 +143,9 @@ class Red_Module {
 	 * Get all modules
 	 */
 
-	function get_for_select() {
+	static function get_for_select() {
 		$data  = array();
-		$items = Red_Module::get_all();
+		$items = self::get_all();
 
 		foreach ( $items AS $item ) {
 			$data[$item->id] = $item->name;
@@ -155,14 +157,14 @@ class Red_Module {
 	/**
 	 * Get all module types
 	 */
-	function get_types() {
+	static function get_types() {
 		return array (
 			'apache' => __( 'Apache', 'redirection' ),
 			'wp'     => __( 'WordPress', 'redirection' ),
 		 );
 	}
 
-	function new_item( $data ) {
+	static function new_item( $data ) {
 		$map = array (
 			'apache' => array( 'Apache_Module',    'apache.php' ),
 			'wp'     => array( 'WordPress_Module', 'wordpress.php' ),
@@ -241,7 +243,7 @@ class Red_Module {
 	}
 
 	function reset() {
-		Red_Module::clear_cache( $this->id );
+		self::clear_cache( $this->id );
 
 		$groups = Red_Group::get_for_module( $this->id );
 		if ( count( $groups ) > 0 )	{
@@ -263,4 +265,3 @@ class Red_Module {
 	function config() {
 	}
 }
-

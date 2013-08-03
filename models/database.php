@@ -122,7 +122,6 @@ class RE_Database {
 		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_modules" ) == 0 ) {
 			$wpdb->insert( $wpdb->prefix.'redirection_modules', array( 'type' => 'wp', 'name' => __( 'WordPress', 'redirection' ), 'options' => '' ) );
 			$wpdb->insert( $wpdb->prefix.'redirection_modules', array( 'type' => 'apache', 'name' => __( 'Apache', 'redirection' ), 'options' => '' ) );
-			$wpdb->insert( $wpdb->prefix.'redirection_modules', array( 'type' => '404', 'name' => __( '404', 'redirection' ), 'options' => '' ) );
 		}
 
 		// Groups
@@ -192,7 +191,7 @@ class RE_Database {
 			  PRIMARY KEY (`id`),
 			  KEY `created` (`created`),
 			  KEY `url` (`url`),
-  			  KEY `ip` (`ip`,`id`)
+  			  KEY `ip` (`ip`,`id`),
 			  KEY `referrer` (`referrer`)
 			) $charset_collate;" );
 	}

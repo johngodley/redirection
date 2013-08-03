@@ -12,7 +12,7 @@ class Red_Group {
 	/**
 	 * Get list of groups
 	 */
-	function get( $id ) {
+	static function get( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_groups.*,COUNT( {$wpdb->prefix}redirection_items.id ) AS items,SUM( {$wpdb->prefix}redirection_items.last_count ) AS redirects FROM {$wpdb->prefix}redirection_groups LEFT JOIN {$wpdb->prefix}redirection_items ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id=%d GROUP BY {$wpdb->prefix}redirection_groups.id", $id ) );
@@ -21,7 +21,7 @@ class Red_Group {
 		return false;
 	}
 
-	function get_for_module( $module ) {
+	static function get_for_module( $module ) {
 		global $wpdb;
 
 		$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS {$wpdb->prefix}redirection_groups.* FROM {$wpdb->prefix}redirection_groups WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
@@ -41,7 +41,7 @@ class Red_Group {
 	 * Get all groups with number of items in each group
 	 * DBW
 	 */
-	function get_all( $module, $pager )	{
+	static function get_all( $module, $pager )	{
 		global $wpdb;
 
 		$sql  = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS {$wpdb->prefix}redirection_groups.*,COUNT( {$wpdb->prefix}redirection_items.id ) AS items,SUM( {$wpdb->prefix}redirection_items.last_count ) AS redirects FROM {$wpdb->prefix}redirection_groups LEFT JOIN {$wpdb->prefix}redirection_items ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
@@ -63,7 +63,7 @@ class Red_Group {
 	 * Get list of groups
 	 * DBW
 	 */
-	function get_for_select() {
+	static function get_for_select() {
 		global $wpdb;
 
 		$data = array();
@@ -80,13 +80,13 @@ class Red_Group {
 	/**
 	 * Get first group ID
 	 */
-	function get_first_id()	{
+	static function get_first_id()	{
 		global $wpdb;
 
 		return $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY id LIMIT 0,1" );
 	}
 
-	function create( $data ) {
+	static function create( $data ) {
 		global $wpdb;
 
 		$name   = trim( $data['name'] );
@@ -126,10 +126,10 @@ class Red_Group {
 		Red_Module::flush( $this->module_id );
 	}
 
-	function delete( $group ) {
+	static function delete( $group ) {
 		global $wpdb;
 
-		$obj = Red_Group::get( $group );
+		$obj = self::get( $group );
 
 		// Delete all items in this group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) );
@@ -146,14 +146,14 @@ class Red_Group {
 		}
 	}
 
-	function save_order( $items, $start ) {
+	static function save_order( $items, $start ) {
 		global $wpdb;
 
 		foreach ( $items AS $pos => $id ) {
 			$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'position' => $pos + $start ), array( 'id' => intval( $id ) ) );
 		}
 
-		$group = Red_Group::get( $items[0] );
+		$group = self::get( $items[0] );
 		Red_Module::flush( $group->module_id );
 	}
 

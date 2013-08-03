@@ -34,7 +34,7 @@ class Red_Monitor {
 			$before = esc_url( $_POST['redirection_slug'] );
 			$site   = parse_url( get_site_url() );
 
-			if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $before != $after && $before != '/' && $before != $site['path'].'/' ) {
+			if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $before != $after && $before != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $before != $site['path'].'/' ) ) ) {
 				Red_Item::create( array(
 					'source'     => $before,
 					'target'     => $after,
