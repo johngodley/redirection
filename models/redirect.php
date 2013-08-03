@@ -20,7 +20,9 @@ this software, even if advised of the possibility of such damage.
 For full license details see license.txt
 ============================================================================================================ */
 class Red_Item {
-  var $id          = null;
+	var $id          = null;
+	var $created;
+	var $referrer;
 	var $url         = null;
 	var $regex       = false;
 	var $action_data = null;
@@ -62,7 +64,7 @@ class Red_Item {
 		}
 	}
 
-	function get_all_for_module( $module ) {
+	static function get_all_for_module( $module ) {
 		global $wpdb;
 
 		$sql = "SELECT @redirection_items.*,@redirection_groups.tracking FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id='$module' WHERE @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position";
@@ -79,7 +81,7 @@ class Red_Item {
 		return $items;
 	}
 
-	function exists( $url ) {
+	static function exists( $url ) {
 		global $wpdb;
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url=%s", $url ) ) > 0 )
@@ -87,7 +89,7 @@ class Red_Item {
 		return false;
 	}
 
-	function get_for_url( $url, $type )	{
+	static function get_for_url( $url, $type )	{
 		global $wpdb;
 
 		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_groups.position AS group_pos,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type=%s WHERE( @redirection_items.regex=1 OR @redirection_items.url=%s)", $type, $url );
@@ -107,7 +109,7 @@ class Red_Item {
 		return $items;
 	}
 
-	function get_by_module( $module ) {
+	static function get_by_module( $module ) {
 		global $wpdb;
 
 		$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
@@ -126,10 +128,11 @@ class Red_Item {
 	/**
 	 * Get redirection items in a group
 	 */
-	function get_by_group( $group, &$pager ) {
+	static function get_by_group( $group, &$pager ) {
 		global $wpdb;
 
-		$rows = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items ".$pager->to_limits( 'group_id='.$group, array( 'url', 'action_data' ) ) );
+// fdsfdsXXX get rid of SQL_CALC and order by position
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d ORDER BY position", $group ) );
 		$pager->set_total( $wpdb->get_var( "SELECT FOUND_ROWS()" ));
 
 		$items = array();
@@ -142,7 +145,7 @@ class Red_Item {
 		return $items;
 	}
 
-	function get_by_id( $id ) {
+	static function get_by_id( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id=%d", $id ) );
@@ -151,7 +154,7 @@ class Red_Item {
 		return false;
 	}
 
-	function auto_generate() {
+	static function auto_generate() {
 		global $redirection;
 
 		$options = $redirection->get_options();
@@ -163,15 +166,15 @@ class Red_Item {
 		return $url;
 	}
 
-	function create( $details ) {
+	static function create( $details ) {
 		global $wpdb;
 
 		// Auto generate URLs
 		if ( $details['source'] == '' )
-			$details['source'] = Red_Item::auto_generate();
+			$details['source'] = self::auto_generate();
 
 		if ( $details['target'] == '' )
-			$details['target'] = Red_Item::auto_generate();
+			$details['target'] = self::auto_generate();
 
 		// Make sure we don't redirect to ourself
 		if ( $details['source'] == $details['target'] )
@@ -195,7 +198,7 @@ class Red_Item {
 				$action_code = intval( $details['action_code'] );
 
 			$data = array(
-				'url'         => Red_Item::sanitize_url( $details['source'], $regex),
+				'url'         => self::sanitize_url( $details['source'], $regex),
 				'action_type' => $details['red_action'],
 				'regex'       => $regex,
 				'position'    => $position,
@@ -206,18 +209,20 @@ class Red_Item {
 				'group_id'    => $group_id
 			);
 
+			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE url=%s AND action_type=%s AND action_data=%s", $data['action_data'], $data['action_type'], $data['url'] ) );
+
 			$wpdb->insert( $wpdb->prefix.'redirection_items', $data );
 
 			$group = Red_Group::get( $group_id );
 			Red_Module::flush( $group->module_id );
 
-			return Red_Item::get_by_id( $wpdb->insert_id );
+			return self::get_by_id( $wpdb->insert_id );
 		}
 
 		return false;
 	}
 
-	function delete_by_group( $group ) {
+	static function delete_by_group( $group ) {
 		global $wpdb;
 
 		RE_Log::delete_for_group( $group);
@@ -228,7 +233,7 @@ class Red_Item {
 		Red_Module::flush( $group->module_id );
 	}
 
-	function delete( $id ) {
+	static function delete( $id ) {
 		global $wpdb;
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $id ) );
@@ -245,7 +250,7 @@ class Red_Item {
 	}
 
 
-	function sanitize_url( $url, $regex )	{
+	static function sanitize_url( $url, $regex )	{
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
@@ -261,7 +266,7 @@ class Red_Item {
 			global $wpdb;
 
 			$this->regex = isset( $details['regex'] ) ? 1 : 0;
-			$this->url   = $this->sanitize_url( $details['old'], $this->regex );
+			$this->url   = self::sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
 
 			$data  = $this->match->data( $details );
@@ -283,14 +288,14 @@ class Red_Item {
 		}
 	}
 
-	function save_order( $items, $start ) {
+	static function save_order( $items, $start ) {
 		global $wpdb;
 
 		foreach ( $items AS $pos => $id ) {
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos + $start ), array( 'id' => $id ) );
 		}
 
-		$item  = Red_Item::get_by_id( $id );
+		$item  = self::get_by_id( $id );
 		$group = Red_Group::get( $item->group_id );
 		if ( $group )
 			Red_Module::flush( $group->module_id );
@@ -380,7 +385,7 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 
-	function actions( $action = '' ) {
+	static function actions( $action = '' ) {
 		$actions = array(
 			'url'     => __( 'Redirect to URL', 'redirection' ),
 			'random'  => __( 'Redirect to random post', 'redirection' ),
