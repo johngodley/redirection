@@ -12,20 +12,14 @@
 
 	  <table cellpadding="3" width="100%" class="form-table">
 			<tr>
-	      <th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
-	      <td>
-					<input type="text" name="auto_target" style="width: 95%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
-					<br/>
-					<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
+		      <th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
+		      <td>
+						<input type="text" name="auto_target" style="width: 95%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
+						<br/>
+						<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
 
-				</td>
-	    </tr>
-			<tr>
-				<th align="right" valign="top"><?php _e( 'IP Lookup Service', 'redirection' ); ?>:</th>
-				<td>
-					<input type="text" style="width: 95%" name="lookup" value="<?php echo esc_attr( $options['lookup']  ) ?>" id="lookup"/><br/>
-				</td>
-			</tr>
+					</td>
+		    </tr>
 			<tr>
 				<th align="right"><?php _e( 'Plugin Support', 'redirection' ); ?>:</th>
 				<td>

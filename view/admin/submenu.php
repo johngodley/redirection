@@ -2,7 +2,7 @@
 
 <ul class="subsubsub">
 	<li>
-		<a <?php if ( !isset( $_GET['sub'] ) ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?><?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
+		<a <?php if ( !isset( $_GET['sub'] ) || $_GET['sub'] == '' ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?><?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
 			<?php _e( 'Redirects', 'redirection' ); ?>
 		</a> |
 	</li>

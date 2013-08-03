@@ -7,8 +7,10 @@
 
 	<p style="clear: both">
 		<?php _e( 'Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>.', 'redirection'); ?>
-		<?php _e( 'This will act as an incentive for me to carry on developing, providing countless hours of support, and including new features and suggestions. You get some useful software and I get to carry on making it.  Everybody wins.', 'redirection'); ?>
+		<?php _e( 'This will act as an incentive for me to carry on developing. You get some useful software and I get to carry on making it.  Everybody wins.', 'redirection'); ?>		
 	</p>
+
+	<p><?php _e( 'Please note that a donation is just a donation - it is not a payment for support. I am not a business, this is not a product, and I\'m afraid I cannot provide paid support' ); ?></p>
 
 	<p><?php _e( 'If you are using this plugin in a commercial setup, or feel that it\'s been particularly useful, then you may want to consider a <strong>commercial donation</strong>.', 'redirection' )?>
 
@@ -18,7 +20,7 @@
 				<input type="hidden" name="cmd" value="_xclick">
 				<input type="hidden" name="business" value="admin@urbangiraffe.com">
 				<input type="hidden" name="item_name" value="Redirection - Individual">
-				<input type="hidden" name="amount" value="14.00">
+				<input type="hidden" name="amount" value="16.00">
 				<input type="hidden" name="buyer_credit_promo_code" value="">
 				<input type="hidden" name="buyer_credit_product_category" value="">
 				<input type="hidden" name="buyer_credit_shipping_method" value="">
