@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.3.2
+Version: 2.3.3
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -169,7 +169,6 @@ class Redirection extends Redirection_Plugin {
 			$options = array();
 
 		$defaults = array	(
-			'lookup'            => 'http://urbangiraffe.com/map/?from=redirection&amp;ip=',
 			'support'           => false,
 			'log_redirections'  => true,
 			'log_404s'          => true,
@@ -185,8 +184,7 @@ class Redirection extends Redirection_Plugin {
 				$options[$key] = $value;
 		}
 
-		if ( $options['lookup'] == 'http://geomaplookup.cinnamonthoughts.org/?ip=' || $options['lookup'] == 'http://geomaplookup.net/?ip=' )
-			$options['lookup'] = 'http://urbangiraffe.com/map/?from=redirection&amp;ip=';
+		$options['lookup'] = 'http://geomaplookup.net/?ip=';
 
 		return $options;
 	}
@@ -285,10 +283,11 @@ class Redirection extends Redirection_Plugin {
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}
 
-		$table = new Redirection_404_Table();
+		$options = $this->get_options();
+
+		$table = new Redirection_404_Table( $options );
 		$table->prepare_items( isset( $_GET['ip'] ) ? $_GET['ip'] : false );
 
-		$options = $this->get_options();
 		$this->render_admin( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'] ) );
 	}
 
