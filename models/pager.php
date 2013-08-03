@@ -4,7 +4,11 @@ if ( !class_exists( 'WP_List_Table' ) )
     require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 
 class Redirection_Log_Table extends WP_List_Table {
-	function __construct() {
+	private $lookup;
+
+	function __construct( $options ) {
+		$this->lookup = $options['lookup'];
+
 		//Set parent defaults
 		parent::__construct( array(
 			'singular'  => 'item',     //singular name of the listed records
@@ -24,7 +28,7 @@ class Redirection_Log_Table extends WP_List_Table {
 	}
 
 	function column_ip( $item ) {
-		return '<a href="http://urbangiraffe.com/map/?ip='.esc_attr( $item->ip ).'&amp;from=redirection">'.esc_html( $item->ip ).'</a>';
+		return '<a href="'.esc_attr( $this->lookup ).esc_attr( $item->ip ).'">'.esc_html( $item->ip ).'</a>';
 	}
 
 	function column_url( $item ) {
@@ -143,7 +147,11 @@ class Redirection_Log_Table extends WP_List_Table {
 }
 
 class Redirection_404_Table extends WP_List_Table {
-	function __construct() {
+	private $lookup;
+
+	function __construct( $options ) {
+		$this->lookup = $options['lookup'];
+
 		//Set parent defaults
 		parent::__construct( array(
 			'singular'  => 'item',     //singular name of the listed records
@@ -161,7 +169,7 @@ class Redirection_404_Table extends WP_List_Table {
 	function column_ip( $item ) {
 		$actions['add'] = '<a href="'.admin_url( 'tools.php?page=redirection.php&sub=404s&ip='.esc_attr( long2ip( $item->ip ) ) ).'">'.__( 'Show only this IP', 'redirection' ).'</a>';
 
-		return sprintf( '%1$s %2$s', '<a href="http://urbangiraffe.com/map/?ip='.esc_attr( long2ip( $item->ip ) ).'&amp;from=redirection">'.long2ip( $item->ip ).'</a>', $this->row_actions( $actions ) );
+		return sprintf( '%1$s %2$s', '<a href="'.esc_attr( $this->lookup ).esc_attr( long2ip( $item->ip ) ).'">'.long2ip( $item->ip ).'</a>', $this->row_actions( $actions ) );
 	}
 
 	function column_url( $item ) {
