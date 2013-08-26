@@ -206,9 +206,6 @@ class Red_Group {
 	function hits() {
 		global $wpdb;
 
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $this->id ) );
-		if ( $count > 0 )
-			return $count;
-		return 0;
+		return (int)$wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $this->id ) );
 	}
 }

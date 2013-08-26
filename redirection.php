@@ -260,7 +260,9 @@ class Redirection extends Redirection_Plugin {
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}
 
-		$table = new Redirection_Log_Table();
+		$options = $this->get_options();
+
+		$table = new Redirection_Log_Table( $options );
 
 		if ( isset( $_GET['module'] ) )
 			$table->prepare_items( 'module', intval( $_GET['module'] ) );
@@ -271,7 +273,6 @@ class Redirection extends Redirection_Plugin {
 		else
 			$table->prepare_items();
 
-		$options = $this->get_options();
 		$this->render_admin( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'] ) );
 	}
 

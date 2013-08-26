@@ -1,4 +1,4 @@
-=== Plugin Name ===
+ === Plugin Name ===
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
@@ -93,6 +93,7 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 = 2.3.3 =
 * Fix PHP strict, props to Juliette Folmer
 * Fix RSS entry date, props to Juliette
+* Fix pagination
 
 = 2.3.2 =
 * WP 3.5 compat

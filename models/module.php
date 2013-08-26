@@ -236,7 +236,7 @@ class Red_Module {
 	function hits() {
 		global $wpdb;
 
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id ) FROM {$wpdb->prefix}redirection_logs WHERE module_id=%d", $this->id ) );
+		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE module_id=%d", $this->id ) );
 		if ( $count > 0 )
 			return $count;
 		return 0;

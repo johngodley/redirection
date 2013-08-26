@@ -70,7 +70,6 @@ class RE_Log {
 	}
 
 	static function show_url( $url ) {
-		$url = urldecode( $url );
 		return implode('&#8203;/', explode( '/', substr( $url, 0, 80 ) ) ).( strlen( $url ) > 80 ? '...' : '' );
 	}
 

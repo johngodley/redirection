@@ -131,9 +131,8 @@ class Red_Item {
 	static function get_by_group( $group, &$pager ) {
 		global $wpdb;
 
-// fdsfdsXXX get rid of SQL_CALC and order by position
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d ORDER BY position", $group ) );
-		$pager->set_total( $wpdb->get_var( "SELECT FOUND_ROWS()" ));
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d ORDER BY position", $group ).$pager->to_limits() );
+		$pager->set_total( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) ) );
 
 		$items = array();
 		if ( count( $rows ) > 0 ) {

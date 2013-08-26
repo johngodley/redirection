@@ -25,10 +25,11 @@ class Red_Match {
 
 	function Red_Match( $values = '' ) {
 		if ( $values ) {
-			$obj = @unserialize( $values );
-			if ( $obj === false )
-				$this->url = $values;
-			else {
+			$this->url = $values;
+
+			$obj = maybe_unserialize( $values );
+
+			if ( is_array( $obj ) ) {
 				foreach ( $obj AS $key => $value ) {
 					$this->$key = $value;
 				}
