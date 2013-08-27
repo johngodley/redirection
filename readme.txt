@@ -3,8 +3,8 @@ Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
 Requires at least: 3.2
-Tested up to: 3.6
-Stable tag: 2.2.14
+Tested up to: 3.7
+Stable tag: 2.3.3
 
 Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.
 
@@ -87,6 +87,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Documentation ==
 
 Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
+
+== Upgrade Notice ==
+
+= 2.3.3 =
+* Full WordPress 3.5+ compatability! Note that this contains database changes so please backup your data.
 
 == Changelog ==
 
