@@ -406,7 +406,7 @@ class RE_Pager
 
 			$searchbits = array ();
 			foreach ($searches AS $search)
-				$searchbits[] = $wpdb->prepare( $search.' LIKE "%s"', '%'.$this->search.'%' );
+				$searchbits[] = $wpdb->prepare( $search.' LIKE %s', '%'.like_escape( $this->search ).'%' );
 
 			$sql .= implode (' OR ', $searchbits);
 			$sql .= ')';

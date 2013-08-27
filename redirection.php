@@ -310,7 +310,11 @@ class Redirection extends Redirection_Plugin {
 		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'groups' ), 'tools.php?page=redirection.php' ) ), 'position', 'ASC' );
 		$items = Red_Group::get_all( $module, $pager );
 
-  		$this->render_admin( 'group_list', array( 'options' => $this->get_options(), 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => Red_Module::get( $module ) ) );
+		$module = Red_Module::get( $module );
+		if ( $module )
+  			$this->render_admin( 'group_list', array( 'options' => $this->get_options(), 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
+  		else
+  			$this->render_message( __( 'Unknown module', 'redirection' ) );
 	}
 
 	function admin_redirects( $group ) {

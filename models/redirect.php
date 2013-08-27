@@ -131,8 +131,13 @@ class Red_Item {
 	static function get_by_group( $group, &$pager ) {
 		global $wpdb;
 
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d ORDER BY position", $group ).$pager->to_limits() );
-		$pager->set_total( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) ) );
+		$sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group );
+
+		if ( $pager->search )
+			$sql .= $wpdb->prepare( ' AND url LIKE %s', '%'.like_escape( $pager->search ).'%' );
+
+		$rows = $wpdb->get_results( $sql.' ORDER BY position' );
+		$pager->set_total( $wpdb->get_var( $sql ) );
 
 		$items = array();
 		if ( count( $rows ) > 0 ) {
