@@ -361,13 +361,15 @@ class RedirectionAjax extends Redirection_Plugin {
 	function red_redirect_add()	{
 		if ( check_ajax_referer( 'redirection-redirect_add' ) ) {
 			$item = Red_Item::create( $this->post );
-			if ( $item !== false ) {
+			if ( is_wp_error( $item ) )
+				$this->render_error( $item->get_error_message() );
+			elseif ( $item !== false ) {
 				echo '<li class="type_'.$item->action_type.'" id="item_'.$item->id.'">';
 				$this->render_admin( 'item', array( 'redirect' => $item, 'date_format' => get_option( 'date_format' ) ) );
 				echo '</li>';
 			}
 			else
-				$this->render_error (__ ('Sorry, but your redirection was not created', 'redirection'));
+				$this->render_error( __( 'Sorry, but your redirection was not created', 'redirection' ) );
 
 			die();
 		}

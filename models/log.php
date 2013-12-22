@@ -29,12 +29,13 @@ class RE_Log {
 	var $ip;
 	var $redirection_id;
 
-	function RE_Log ($values) {
-		foreach ($values AS $key => $value)
+	function RE_Log( $values ) {
+		foreach ( $values AS $key => $value ) {
 		 	$this->$key = $value;
+		}
 
-		$this->created = mysql2date ('U', $this->created);
-		$this->url     = stripslashes ($this->url);
+		$this->created = mysql2date( 'U', $this->created );
+		$this->url     = stripslashes( $this->url );
 	}
 
 	static function get_by_id( $id ) {
@@ -42,7 +43,7 @@ class RE_Log {
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_logs WHERE id=%d", $id ) );
 		if ( $row )
-			return new RE_Log ($row);
+			return new RE_Log( $row );
 		return false;
 	}
 
@@ -65,6 +66,9 @@ class RE_Log {
 		$insert['redirection_id'] = isset( $extra['redirect_id'] ) ? $extra['redirect_id'] : 0;
 		$insert['module_id']      = isset( $extra['module_id'] ) ? $extra['module_id'] : 0;
 		$insert['group_id']       = isset( $extra['group_id'] ) ? $extra['group_id'] : 0;
+
+		$insert = apply_filters( 'redirection_log_data', $insert );
+		do_action( 'redirection_log', $insert );
 
 		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
 	}

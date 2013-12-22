@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.3.4
+Version: 2.3.5
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -45,6 +45,8 @@ class Redirection extends Redirection_Plugin {
 			$this->add_action( 'load-tools_page_redirection', 'redirection_head' );
 			$this->add_action( 'init', 'inject' );
 
+			add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
+
 			$this->register_activation( __FILE__ );
 			$this->register_plugin_settings( __FILE__ );
 
@@ -79,6 +81,12 @@ class Redirection extends Redirection_Plugin {
 		return true;
 	}
 
+	function set_per_page( $status, $option, $value ) {
+		if ( $option == 'redirection_log_per_page' )
+			return $value;
+		return $status;
+	}
+
 	function activate() {
 		if ( $this->update() === false ) {
 			$db = new RE_Database();
@@ -102,6 +110,9 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function redirection_head() {
+		if ( isset( $_GET['sub'] ) && ( $_GET['sub'] == 'log' || $_GET['sub'] == '404s' ) )
+			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
+
 		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'js/redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
 		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
 
@@ -115,7 +126,7 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_menu() {
-  		add_management_page( __( "Redirection", 'redirection' ), __( "Redirection", 'redirection' ), "administrator", basename( __FILE__ ), array( &$this, "admin_screen" ) );
+  		add_management_page( __( "Redirection", 'redirection' ), __( "Redirection", 'redirection' ), apply_filters( 'redirection_role', 'administrator' ), basename( __FILE__ ), array( &$this, "admin_screen" ) );
 	}
 
 	function expire_logs() {
@@ -172,7 +183,7 @@ class Redirection extends Redirection_Plugin {
 			'support'           => false,
 			'log_redirections'  => true,
 			'log_404s'          => true,
-			'expire'            => 0,
+			'expire'            => 7,
 			'token'             => '',
 			'monitor_new_posts' => false,
 			'monitor_post'      => 0,
@@ -184,7 +195,7 @@ class Redirection extends Redirection_Plugin {
 				$options[$key] = $value;
 		}
 
-		$options['lookup'] = 'http://geomaplookup.net/?ip=';
+		$options['lookup'] = 'http://urbangiraffe.com/map/?ip=';
 
 		return $options;
 	}
@@ -204,7 +215,6 @@ class Redirection extends Redirection_Plugin {
 	function admin_screen_options() {
 		if ( isset( $_POST['update'] ) && check_admin_referer( 'redirection-update_options' ) ) {
 			$options['monitor_post']      = stripslashes( $_POST['monitor_post'] );
-//			$options['monitor_category']  = stripslashes( $_POST['monitor_category'] );
 			$options['auto_target']       = stripslashes( $_POST['auto_target'] );
 			$options['support']           = isset( $_POST['support'] ) ? true : false;
 			$options['log_redirections']  = (bool) @ $_POST['log_redirections'];

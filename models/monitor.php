@@ -10,7 +10,6 @@ class Red_Monitor {
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
 				add_action( 'post_updated', array( &$this, 'post_updated' ), 11, 3 );
-				add_action( 'delete_post',  array( &$this, 'post_deleted' ) );
 				add_action( 'edit_form_advanced', array( &$this, 'insert_old_post' ) );
 				add_action( 'edit_page_form',     array( &$this, 'insert_old_post' ) );
 			}
@@ -28,6 +27,9 @@ class Red_Monitor {
 	}
 
 	function post_updated( $post_id, $post, $post_before ) {
+		if ( $post->post_status != 'publish' || is_post_type_hierarchical( $post->post_type ) )
+			return;
+
 		if ( isset( $_POST['redirection_slug'] ) ) {
 			$after  = parse_url( get_permalink( $post_id ) );
 			$after  = $after['path'];
@@ -43,18 +45,6 @@ class Red_Monitor {
 					'group'      => $this->monitor_post
 				) );
 			}
-		}
-	}
-
-	function post_deleted ($id)
-	{
-		$post = get_post ($id);
-		if ($post->post_status == 'publish' || $post->post_status == 'static')
-		{
-			$url  = get_permalink ($id);
-			$slug = parse_url ($url);
-
-//			Red_Item::create (array ('source' => $slug['path'], 'target' => '', 'match' => 'url', 'red_action' => 'error', 'group' => $this->monitor_post, 'action_code' => 410));
 		}
 	}
 }

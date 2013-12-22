@@ -54,13 +54,6 @@ color: red;
 .modules td.logo
 {
 background-color: #d4d4d4;
--moz-border-radius: 10px 0 0 10px;
--webkit-border-top-left-radius: 10px;
--webkit-border-bottom-left-radius: 10px;
-border-top-right-radius: 0px;
-border-top-left-radius: 10px;
-border-bottom-right-radius: 0px;
-border-bottom-left-radius: 10px;
 width: 70px;
 text-align: center;
 }
@@ -69,13 +62,6 @@ text-align: center;
 {
   background-color: #d4d4d4;
   text-align: center;
-}
-
-.modules td.edit, .modules td.operations
-{
-  -moz-border-radius: 0 10px 10px 0px;
-  -webkit-border-top-right-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
 }
 
 .modules td table td
@@ -92,9 +78,6 @@ color: black;
 {
 margin-top: 7px;
 font-size: 0.8em;
-border-radius: 10px;
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
 background-color: #d4d4d4;
 padding: 5px 10px 4px 10px;
 }
@@ -214,9 +197,6 @@ color: #999;
 
 .redirections li, .redirections_header li
 {
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
-border-radius: 10px;
 list-style-type: none;
 overflow: hidden;
 }
@@ -276,9 +256,6 @@ cursor: move;
 
 .sort
 {
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
-border-radius: 10px;
 width: 8em;
 text-align: center;
 padding: 4px 2px;
@@ -303,17 +280,11 @@ vertical-align: middle;
 
 .type
 {
--moz-border-radius: 10px 0px 0px 10px;
--webkit-border-top-left-radius: 10px;
--webkit-border-bottom-left-radius: 10px;
 margin-right: 3px;
 }
 
 .tools
 {
--moz-border-radius: 0px 10px 10px 0px;
--webkit-border-top-left-radius: 10px;
--webkit-border-bottom-left-radius: 10px;
 height: 1.4em;
 }
 
@@ -502,10 +473,6 @@ font-size: 1.2em;
 	border-style: solid;
 	padding: 0 0.6em;
 	margin: 5px 15px 2px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
 	background-color: #ffffe0;
 	border-color: #e6db55;
 }

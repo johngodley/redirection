@@ -1,7 +1,6 @@
 <?php if ( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<?php $this->render_admin( 'annoy'  ); ?>
 
 	<h2><?php _e( 'Groups for module', 'redirection' ); ?>: <a href="edit.php?page=redirection.php&amp;sub=modules"><?php echo esc_html( $module->name  ) ?></a></h2>
 

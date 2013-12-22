@@ -228,9 +228,12 @@ class Redirection_404_Table extends WP_List_Table {
 	}
 
 	function prepare_items( $restrict_by_ip = false ) {
-		global $wpdb;
+		global $wpdb, $current_user;
 
-		$per_page     = 25;
+		$screen = get_current_screen();
+		$per_page = get_user_meta( $current_user->ID, $screen->get_option( 'per_page', 'option' ), true );
+
+		$per_page     = $per_page ? $per_page : 25;
 		$columns      = $this->get_columns();
 		$sortable     = $this->get_sortable_columns();
 		$current_page = $this->get_pagenum();

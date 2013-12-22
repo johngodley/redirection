@@ -1,7 +1,6 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<?php $this->render_admin('annoy')?>
 
 	<h2><?php _e ('Redirection Log', 'redirection'); ?></h2>
 
@@ -18,8 +17,8 @@
 <?php $this->render_admin ('add', array ('hidden' => true))?>
 
 <div class="wrap">
-	<h2><?php _e ('Process Current Logs', 'redirection'); ?></h2>
-	<p><?php _e ('These actions will affect all currently available logs (i.e. your search phrase will restrict the log items).', 'redirection'); ?></p>
+	<h2><?php _e( 'Process Current Logs', 'redirection' ); ?></h2>
+	<p><?php _e( 'These actions will affect all currently available logs (i.e. your search phrase will restrict the log items).', 'redirection' ); ?></p>
 
 	<form action="" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field ('redirection-process_logs'); ?>
@@ -28,7 +27,7 @@
 			<input type="hidden" name="s" value="<?php echo esc_attr( $_POST['s'] ); ?>" />
 		<?php endif; ?>
 
-		<input class="button-primary" type="submit" name="deleteall" value="<?php _e ('Delete Logs', 'redirection'); ?>"/>
+		<input class="button-primary" type="submit" name="deleteall" value="<?php esc_attr_e( 'Delete Logs', 'redirection' ); ?>"/>
 	</form>
 </div>
 

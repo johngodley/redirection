@@ -48,7 +48,7 @@
 				<input type="hidden" name="action" value="red_redirect_add"/>
 				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_add' ); ?>"/>
 
-				<div id="error"></div>
+				<div id="error" style="margin-top: 10px"></div>
 			</td>
 	  </tr>
 	  </table>

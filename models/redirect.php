@@ -182,48 +182,54 @@ class Red_Item {
 
 		// Make sure we don't redirect to ourself
 		if ( $details['source'] == $details['target'] )
-			$details['target'] .= '-1';
+			return new WP_Error( 'redirect-add', __( 'Source and target URL must be different', 'redirection' ) );
 
-		$matcher = Red_Match::create( $details['match'] );
-		$group_id  = intval( $details['group'] );
+		$matcher  = Red_Match::create( $details['match'] );
+		$group_id = intval( $details['group'] );
+		$group    = Red_Group::get( $group_id );
 
-		if ( $group_id > 0 && $matcher ) {
-			$regex    = ( isset( $details['regex']) && $details['regex'] != false) ? 1 : 0;
-			$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
+		if ( $group_id <= 0 || !$group )
+			return new WP_Error( 'redirect-add', __( 'Invalid group when creating redirect', 'redirection' ) );
 
-			$action = $details['red_action'];
-			$action_code = 0;
-			if ( $action == 'url' || $action == 'random' )
-				$action_code = 301;
-			elseif ( $action == 'error' )
-				$action_code = 404;
+		if ( !$matcher )
+			return new WP_Error( 'redirect-add', __( 'Invalid source URL when creating redirect for given match type', 'redirection' ) );
 
-			if ( isset( $details['action_code'] ) )
-				$action_code = intval( $details['action_code'] );
+		$regex    = ( isset( $details['regex']) && $details['regex'] != false) ? 1 : 0;
+		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
 
-			$data = array(
-				'url'         => self::sanitize_url( $details['source'], $regex),
-				'action_type' => $details['red_action'],
-				'regex'       => $regex,
-				'position'    => $position,
-				'match_type'  => $details['match'],
-				'action_data' => $matcher->data( $details ),
-				'action_code' => $action_code,
-				'last_access' => '0000-00-00 00:00:00',
-				'group_id'    => $group_id
-			);
+		$action = $details['red_action'];
+		$action_code = 0;
+		if ( $action == 'url' || $action == 'random' )
+			$action_code = 301;
+		elseif ( $action == 'error' )
+			$action_code = 404;
 
-			$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE url=%s AND action_type=%s AND action_data=%s", $data['action_data'], $data['action_type'], $data['url'] ) );
+		if ( isset( $details['action_code'] ) )
+			$action_code = intval( $details['action_code'] );
 
-			$wpdb->insert( $wpdb->prefix.'redirection_items', $data );
+		$data = array(
+			'url'         => self::sanitize_url( $details['source'], $regex),
+			'action_type' => $details['red_action'],
+			'regex'       => $regex,
+			'position'    => $position,
+			'match_type'  => $details['match'],
+			'action_data' => $matcher->data( $details ),
+			'action_code' => $action_code,
+			'last_access' => '0000-00-00 00:00:00',
+			'group_id'    => $group_id
+		);
 
-			$group = Red_Group::get( $group_id );
+		$data = apply_filters( 'redirection_create_redirect', $data );
+
+		$wpdb->delete( $wpdb->prefix.'redirection_items', array( 'url' => $data['action_data'], 'action_type' => $data['action_type'], 'action_data' => $data['url'] ) );
+
+		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
 			Red_Module::flush( $group->module_id );
 
 			return self::get_by_id( $wpdb->insert_id );
 		}
 
-		return false;
+		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
 	}
 
 	static function delete_by_group( $group ) {
