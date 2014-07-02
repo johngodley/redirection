@@ -97,6 +97,7 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.3.6 =
 * Updated Italian translation, props to Raffaello Tesi
+* Simplify logging options
 
 = 2.3.5 =
 * Default log settings to 7 days, props to Maura

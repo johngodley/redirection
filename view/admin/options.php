@@ -1,79 +1,79 @@
 <?php if( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
+
+<?php
+
+$expiry = array(
+	-1 => __( 'No logs', 'redirection' ),
+	1  => __( 'A day', 'redirection' ),
+	7  => __( 'A week', 'redirection' ),
+	31 => __( 'A month', 'redirection' ),
+	0  => __( 'Keep forever', 'redirection' ),
+);
+
+?>
+
 <div class="wrap">
 	<?php screen_icon( ); ?>
 
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
 	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
 
-  <form method="post" action="" style="clear: both">
-
+  <form method="post" action="">
 	<?php wp_nonce_field( 'redirection-update_options' ); ?>
 
-	  <table cellpadding="3" width="100%" class="form-table">
-			<tr>
-		      <th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
-		      <td>
-						<input type="text" name="auto_target" style="width: 95%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
-						<br/>
-						<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
-
-					</td>
-		    </tr>
-			<tr>
-				<th align="right"><?php _e( 'Plugin Support', 'redirection' ); ?>:</th>
-				<td>
-					<input type="checkbox" name="support" <?php echo checked( $options['support'] ) ?> id="support"/>
-					<label for="support"><span class="sub"><?php _e( 'I\'m a nice person and I have helped support the author of this plugin', 'redirection' ); ?></span></label>
-				</td>
-			</tr>
-
-		</table>
-
-		<h3><?php _e( 'Logging', 'redirection' ); ?></h3>
-		<p><?php _e( 'Log redirections and 404 errors. Each time something is logged it will add a small load to your site. You may want to turn this if your redirected URLs are hit very frequently, and/or your site is very busy and pages are often not found.', 'redirection'  ); ?></p>
-
-		<table cellpadding="3" width="100%" class="form-table">
+	<table cellpadding="3" width="100%" class="form-table">
 		<tr>
-			<th align="right"><?php _e( 'Logging', 'redirection' ); ?>:</th>
+			<th align="right"><?php _e( 'Plugin Support', 'redirection' ); ?>:</th>
 			<td>
-				<input type="checkbox" name="log_redirections" <?php echo checked( $options['log_redirections'] ) ?> id="log_redirections"/>
-				<label for="log_redirections"><span class="sub"><?php _e( 'log redirected requests', 'redirection' ); ?></span></label><br />
-				<input type="checkbox" name="log_404s" <?php echo checked( $options['log_404s'] ) ?> id="log_404s"/>
-				<label for="log_404s"><span class="sub"><?php _e( 'log 404 Not Found requests', 'redirection' ); ?></span></label><br />
+				<input type="checkbox" name="support" <?php echo checked( $options['support'] ) ?> id="support"/>
+				<label for="support"><span class="sub"><?php _e( 'I\'m a nice person and I have helped support the author of this plugin', 'redirection' ); ?></span></label>
 			</td>
 		</tr>
 		<tr>
-			<th align="right"><?php _e( 'Expire Logs', 'redirection' ); ?>:</th>
+			<th align="right"><?php _e( 'Redirect Logs', 'redirection' ); ?>:</th>
 			<td>
-				<input size="5" type="text" name="expire" value="<?php echo esc_attr( $options['expire']  ) ?>"/>
-				<?php _e( 'days (enter 0 for no expiry)', 'redirection' ); ?>
+				<select name="expire_redirect">
+					<?php echo $this->select( $expiry, $options['expire_redirect'] ); ?>
+				</select>
+
+				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
+			</td>
+		</tr>
+		<tr>
+			<th align="right"><?php _e( '404 Logs', 'redirection' ); ?>:</th>
+			<td>
+				<select name="expire_404">
+					<?php echo $this->select( $expiry, $options['expire_404'] ); ?>
+				</select>
+
+				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
+			</td>
+		</tr>
+		<tr>
+			<th><?php _e( 'Monitor changes to posts', 'redirection' ); ?>:</th>
+			<td>
+				<select name="monitor_post">
+					<option value="0"><?php _e( 'Don\'t monitor', 'redirection' ); ?></option>
+					<?php echo $this->select( $groups, $options['monitor_post'] );?>
+				</select>
 			</td>
 		</tr>
 		<tr>
 			<th align="right"><?php _e( 'RSS Token', 'redirection' ); ?>:</th>
 			<td>
 				<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token']  ) ?>"/><br/>
-				<?php _e( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)', 'redirection' ); ?>
+				<span class="sub"><?php _e( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)', 'redirection' ); ?></span>
 			</td>
 		</tr>
-		</table>
-
-		<h3><?php _e( 'URL Monitoring', 'redirection' ); ?></h3>
-		<p><?php _e( 'You can have Redirection detect changes in URLs and have an automatic redirection created in a specific group.', 'redirection' ); ?></p>
-
-		<table class="form-table">
-			<tr>
-				<th><?php _e( 'Post &amp; Page URLs', 'redirection' ); ?>:</th>
-				<td>
-					<select name="monitor_post">
-						<option value="0"><?php _e( 'Don\'t monitor', 'redirection' ); ?></option>
-						<?php echo $this->select( $groups, $options['monitor_post'] );?>
-					</select>
-					&mdash;
-					<label for="create_url_for_new_posts"><?php _e( 'Monitor new posts', 'redirection' ); ?></label> <input type="checkbox" name="monitor_new_posts" <?php echo checked( $options['monitor_new_posts'] ); ?> id="create_url_for_new_posts"/>
-				</td>
-			</tr>
-	  </table>
+		<tr>
+	      	<th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
+	      	<td>
+				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
+				<br/>
+				<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
+			</td>
+	    </tr>
+	</table>
 
   <input class="button-primary" type="submit" name="update" value="<?php _e( 'Update', 'redirection' ) ?>"/>
 
@@ -95,8 +95,6 @@
 		</select>
 		<input class="button-primary" type="submit" name="import" value="<?php _e( 'Upload', 'redirection' ); ?>"/>
 	</form>
-
-	<p><?php _e( 'Note that the group is ignored when uploading an XML file.', 'redirection' ); ?></p>
 </div>
 
 <div class="wrap">

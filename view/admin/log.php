@@ -6,8 +6,14 @@
 
 	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
 
-	<form method="POST" action="">
+	<form action="tools.php">
+		<input type="hidden" name="page" value="redirection.php"/>
+		<input type="hidden" name="sub" value="<?php echo esc_attr( $type ); ?>"/>
+
 		<?php $table->search_box( __( 'Search' ), 'search_id' ); ?>
+	</form>
+
+	<form method="POST" action="">
 		<?php $table->display(); ?>
 	</form>
 

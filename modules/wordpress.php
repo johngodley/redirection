@@ -29,7 +29,7 @@ class WordPress_Module extends Red_Module {
 
 			$redirects = Red_Item::get_for_url( $url, 'wp' );
 
-			foreach ( (array)$redirects AS $key => $item ) {
+			foreach ( (array)$redirects AS $item ) {
 				if ( $item->matches( $url ) ) {
 					$redirection->setMatched( true );
 					$this->matched = $item;
