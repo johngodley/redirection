@@ -199,7 +199,7 @@ class Redirection extends Redirection_Plugin {
 		if ( $options === false )
 			$options = array();
 
-		$defaults = array	(
+		$defaults = array(
 			'support'         => false,
 			'token'           => '',
 			'monitor_post'    => 0,
@@ -402,14 +402,13 @@ class Redirection extends Redirection_Plugin {
 
 	/**
 	 * Matches 404s
-	 * @return [type] [description]
 	 */
 	function template_redirect() {
 		if ( is_404() )	{
 			$options = $this->get_options();
 
-			if ( $options['log_404s'] ) {
-				$log = RE_404::create( red_get_url(), red_user_agent(), red_ip(), red_http_referrer() );
+			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 ) {
+				RE_404::create( red_get_url(), red_user_agent(), red_ip(), red_http_referrer() );
 			}
 		}
 	}
