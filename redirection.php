@@ -204,8 +204,8 @@ class Redirection extends Redirection_Plugin {
 			'token'           => '',
 			'monitor_post'    => 0,
 			'auto_target'     => '',
-			'expire_redirect' => -1,
-			'expire_404'      => -1
+			'expire_redirect' => 7,
+			'expire_404'      => 7,
 		);
 
 		foreach ( $defaults AS $key => $value ) {

@@ -6,7 +6,8 @@ $expiry = array(
 	-1 => __( 'No logs', 'redirection' ),
 	1  => __( 'A day', 'redirection' ),
 	7  => __( 'A week', 'redirection' ),
-	31 => __( 'A month', 'redirection' ),
+	30 => __( 'A month', 'redirection' ),
+	60 => __( 'Two months', 'redirection' ),
 	0  => __( 'Keep forever', 'redirection' ),
 );
 
