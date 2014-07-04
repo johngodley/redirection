@@ -1,41 +1,31 @@
 <?php
 
 class Red_Csv_File extends Red_FileIO {
-	var $id;
-	var $items;
-
-	function collect( $module ) {
-		$this->id = $module->id;
-
-		$items = Red_Item::get_by_module( $module->id );
-
-		if ( count( $items ) > 0 ) {
-			foreach ( $items AS $item ) {
-				$this->items[] = array(
-					'source' => $item->url,
-					'target' => ( $item->action_type == 'url' ? $item->action_data : '' ),
-					'last_count' => $item->last_count
-				);
-			}
-		}
-	}
-
-	function feed( $filename = '', $heading = '' ) {
-		$filename = sprintf( __( 'module_%d.csv', 'redirection' ), $this->id );
+	function export( array $items ) {
+		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.csv';
 
 		header( 'Content-Type: text/csv' );
 		header( 'Cache-Control: no-cache, must-revalidate' );
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
 
-		if ( count( $this->items ) > 0 ) {
-			echo "source,target,hits\r\n";
+		$stdout = fopen( 'php://output', 'w' );
 
-			$stdout = fopen( 'php://output', 'w' );
+		fputcsv( $stdout, array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
 
-			foreach ( $this->items AS $line ) {
-				fputcsv( $stdout, $line );
-			}
+		foreach ( $items AS $line ) {
+			$csv = array(
+				$line->url,
+				$line->action_data,
+				$line->regex,
+				$line->action_type,
+				$line->action->action_code,
+				$line->match->action->type,
+				$line->last_count,
+				$line->title,
+			);
+
+			fputcsv( $stdout, $csv );
 		}
 	}
 

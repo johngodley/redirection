@@ -1,29 +1,25 @@
 <?php
 
-class Red_FileIO
-{
-	var $items = array ();
+abstract class Red_FileIO {
+	var $items = array();
 
-	function export ($type)
-	{
-		$module = Red_Module::get (intval ($_GET['module']));
-		if ($module)
-		{
-			include (dirname (__FILE__)."/../fileio/$type.php");
+	public static function create( $type ) {
+		$exporter = false;
 
-			if ($type == 'rss')
-				$exporter = new Red_Rss_File ();
-			else if ($type == 'csv')
-				$exporter = new Red_Csv_File ();
-			else if ($type == 'apache')
-				$exporter = new Red_Apache_File ();
-
-			$exporter->collect ($module);
-			$exporter->feed ();
-			return true;
+		if ( $type == 'rss' ) {
+			include dirname( dirname( __FILE__ ) )."/fileio/rss.php";
+			$exporter = new Red_Rss_File();
+		}
+		elseif ( $type == 'csv' ) {
+			include dirname( dirname( __FILE__ ) )."/fileio/csv.php";
+			$exporter = new Red_Csv_File();
+		}
+		elseif ( $type == 'apache' ) {
+			include dirname( dirname( __FILE__ ) )."/fileio/apache.php";
+			$exporter = new Red_Apache_File();
 		}
 
-		return false;
+		return $exporter;
 	}
 
 	function import( $group, $file ) {
@@ -47,5 +43,6 @@ class Red_FileIO
 		return 0;
 	}
 
-	function load ($group, $data, $filename = '' ) { }
+	abstract function export( array $items );
+	abstract function load( $group, $data, $filename = '' );
 }

@@ -235,12 +235,16 @@ class Redirection extends Redirection_Plugin {
 	function inject() {
 		$options = $this->get_options();
 
-		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' && in_array( $_GET['sub'], array( 'rss', 'xml', 'csv', 'apache' ) ) ) {
+		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
-			$exporter = new Red_FileIO;
-			if ( $exporter->export( $_GET['sub'] ) )
+			$exporter = Red_FileIO::create( $_GET['sub'] );
+			if ( $exporter ) {
+				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
+
+				$exporter->export( $items );
 				die();
+			}
 		}
 	}
 
@@ -260,6 +264,9 @@ class Redirection extends Redirection_Plugin {
 			$options['token']           = stripslashes( $_POST['token'] );
 			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 31 );
 			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 31 );
+
+			if ( trim( $options['token'] ) == '' )
+				$options['token'] = md5( uniqid() );
 
 			update_option( 'redirection_options', $options );
 
