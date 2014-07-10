@@ -136,7 +136,7 @@ class Red_Item {
 		if ( $pager->search )
 			$sql .= $wpdb->prepare( ' AND url LIKE %s', '%'.like_escape( $pager->search ).'%' );
 
-		$rows = $wpdb->get_results( $sql.' ORDER BY position' );
+		$rows = $wpdb->get_results( $sql.' ORDER BY position'.$pager->to_limits() );
 		$pager->set_total( $wpdb->get_var( $sql ) );
 
 		$items = array();
