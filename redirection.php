@@ -235,7 +235,7 @@ class Redirection extends Redirection_Plugin {
 	function inject() {
 		$options = $this->get_options();
 
-		if ( isset($_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' ) {
+		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
 			$exporter = Red_FileIO::create( $_GET['sub'] );
@@ -245,6 +245,13 @@ class Redirection extends Redirection_Plugin {
 				$exporter->export( $items );
 				die();
 			}
+		}
+		elseif ( isset( $_POST['export-csv'] ) && check_admin_referer( 'redirection-log_management' ) ) {
+			if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'log' )
+				RE_Log::export_to_csv();
+			else
+				RE_404::export_to_csv();
+			die();
 		}
 	}
 
@@ -300,18 +307,12 @@ class Redirection extends Redirection_Plugin {
 	function admin_screen_log() {
 		include dirname( __FILE__ ).'/models/pager.php';
 
-		if ( isset( $_POST['deleteall'] ) && check_admin_referer( 'redirection-process_logs' ) ) {
-			if ( isset( $_GET['module'] ) )
-				RE_Log::delete_all( 'module', intval( $_GET['module'] ) );
-			else if (isset($_GET['group']))
-				RE_Log::delete_all( 'group', intval( $_GET['group_id'] ) );
-			else
-				RE_Log::delete_all();
+		$options = $this->get_options();
 
+		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
+			RE_Log::delete_all();
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}
-
-		$options = $this->get_options();
 
 		$table = new Redirection_Log_Table( $options );
 
@@ -330,7 +331,7 @@ class Redirection extends Redirection_Plugin {
 	function admin_screen_404() {
 		include dirname( __FILE__ ).'/models/pager.php';
 
-		if ( isset( $_POST['deleteall'] ) && check_admin_referer( 'redirection-process_logs' ) ) {
+		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
 			RE_404::delete_all();
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
 		}

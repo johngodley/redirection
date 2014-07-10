@@ -108,14 +108,58 @@ class RE_Log {
 		elseif ( $type == 'redirect' )
 			$where[] = $wpdb->prepare( 'redirection_id=%d', $id );
 
-		if ( isset( $_POST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$_POST['s'].'%' );
+		if ( isset( $_REQUEST['s'] ) )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_REQUEST['s'] ).'%' );
 
 		$where_cond = "";
 		if ( count( $where ) > 0 )
 			$where_cond = " WHERE ".implode( ' AND ', $where );
 
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_logs ".$where_cond );
+	}
+
+	static function export_to_csv() {
+		global $wpdb;
+
+		$filename = 'redirection-log-'.date_i18n( get_option( 'date_format' ) ).'.csv';
+
+		header( 'Content-Type: text/csv' );
+		header( 'Cache-Control: no-cache, must-revalidate' );
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
+
+		$stdout = fopen( 'php://output', 'w' );
+
+		fputcsv( $stdout, array( 'date', 'source', 'target', 'ip', 'referrer', 'agent' ) );
+
+		$extra = '';
+		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
+		if ( isset( $_REQUEST['s'] ) )
+			$extra = $wpdb->prepare( " WHERE url LIKE %s", '%'.like_escape( $_REQUEST['s'] ).'%' );
+
+		$total_items = $wpdb->get_var( $sql.$extra );
+		$exported = 0;
+
+		while ( $exported < $total_items ) {
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_logs LIMIT %d,%d", $exported, 100 ) );
+			$exported += count( $rows );
+
+			foreach ( $rows AS $row ) {
+				$csv = array(
+					$row->created,
+					$row->url,
+					$row->sent_to,
+					$row->ip,
+					$row->referrer,
+					$row->agent,
+				);
+
+				fputcsv( $stdout, $csv );
+			}
+
+			if ( count( $rows ) < 100 )
+				break;
+		}
 	}
 }
 
@@ -172,14 +216,56 @@ class RE_404 {
 		global $wpdb;
 
 		$where = array();
-		if ( isset( $_POST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$_POST['s'].'%' );
+		if ( isset( $_REQUEST['s'] ) )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_REQUEST['s'] ).'%' );
 
 		$where_cond = "";
 		if ( count( $where ) > 0 )
 			$where_cond = " WHERE ".implode( ' AND ', $where );
 
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_404 ".$where_cond );
+	}
+
+	static function export_to_csv() {
+		global $wpdb;
+
+		$filename = 'redirection-log-'.date_i18n( get_option( 'date_format' ) ).'.csv';
+
+		header( 'Content-Type: text/csv' );
+		header( 'Cache-Control: no-cache, must-revalidate' );
+		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
+
+		$stdout = fopen( 'php://output', 'w' );
+
+		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer' ) );
+
+		$extra = '';
+		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
+		if ( isset( $_REQUEST['s'] ) )
+			$extra = $wpdb->prepare( " WHERE url LIKE %s", '%'.like_escape( $_REQUEST['s'] ).'%' );
+
+		$total_items = $wpdb->get_var( $sql.$extra );
+		$exported = 0;
+
+		while ( $exported < $total_items ) {
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_404 LIMIT %d,%d", $exported, 100 ) );
+			$exported += count( $rows );
+
+			foreach ( $rows AS $row ) {
+				$csv = array(
+					$row->created,
+					$row->url,
+					long2ip( $row->ip ),
+					$row->referrer,
+				);
+
+				fputcsv( $stdout, $csv );
+			}
+
+			if ( count( $rows ) < 100 )
+				break;
+		}
 	}
 }
 
