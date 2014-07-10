@@ -32,7 +32,6 @@
 		<ul id="redirections_header" class="redirections_header">
 			<li>
 				<div class="tools" style="width: 6.5em">&nbsp;</div>
-				<div class="count"><?php echo __( 'Hits', 'redirection' ) ?></div>
 				<div class="item"><?php echo __( 'Name', 'redirection' )  ?></div>
 			</li>
 		</ul>

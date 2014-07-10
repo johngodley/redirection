@@ -30,7 +30,6 @@
 </td>
 
 <td class="center"><a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups&amp;id=<?php echo $module->id ?>"><?php echo $module->groups(); ?></a></td>
-<td class="center"><?php echo $module->redirects(); ?></td>
 <td class="center"><a href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=log&amp;module=<?php echo $module->id ?>"><?php echo number_format_i18n( $module->hits() ); ?></a></td>
 
 <?php $nonce = wp_create_nonce( 'redirection-module_manage-'.$module->id ); ?>

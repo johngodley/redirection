@@ -13,7 +13,6 @@
 				<th class="left"><?php _e( 'Details', 'redirection' ); ?></th>
 				<th><?php _e( 'Groups', 'redirection' ); ?></th>
 				<th><?php _e( 'Items', 'redirection' ); ?></th>
-				<th><?php _e( 'Hits', 'redirection' ); ?></th>
 				<th><?php _e( 'Operations', 'redirection' ); ?></th>
 			</tr>
 
