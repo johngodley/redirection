@@ -411,7 +411,7 @@ class RE_Pager
 		$this->id  = $id;
 		$this->url = $url;
 
-		if (isset ($data['curpage']))
+		if (isset ($data['curpage']) && $data['curpage'] > 0)
 			$this->current_page = intval ($data['curpage']);
 
 		global $user_ID;
@@ -601,6 +601,15 @@ class RE_Pager
 			else
 				$url = $url.'&amp;order='.$dir;
 		}
+
+		if ( isset( $_GET['id'] ) )
+			$url .= '&amp;id='.intval( $_GET['id'] );
+
+		if ( isset( $_GET['perpage'] ) )
+			$url .= '&amp;perpage='.intval( $_GET['perpage'] );
+
+		if ( isset( $_GET['search'] ) )
+			$url .= '&amp;search='.urlencode( $_GET['search'] );
 
 		return str_replace ('&go=go', '', $url);
 	}
