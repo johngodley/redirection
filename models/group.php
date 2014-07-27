@@ -9,6 +9,10 @@ class Red_Group {
 		}
 	}
 
+	public function get_id() {
+		return $this->id;
+	}
+
 	/**
 	 * Get list of groups
 	 */
@@ -83,7 +87,7 @@ class Red_Group {
 	static function get_first_id()	{
 		global $wpdb;
 
-		return $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY id LIMIT 0,1" );
+		return intval( $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY id LIMIT 0,1" ) );
 	}
 
 	static function create( $data ) {

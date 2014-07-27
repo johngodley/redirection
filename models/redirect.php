@@ -32,6 +32,8 @@ class Red_Item {
 	var $last_count    = 0;
 
 	var $tracking      = true;
+	private $status;
+	private $position;
 
 	function Red_Item( $values, $type = '', $match = '' )	{
 		if ( is_object( $values ) ) {
@@ -62,6 +64,18 @@ class Red_Item {
 			$this->type  = $type;
 			$this->match = $match;
 		}
+	}
+
+	public function get_id() {
+		return $this->id;
+	}
+
+	public function get_position() {
+		return $this->position;
+	}
+
+	public function get_action_code() {
+		return $this->action_code;
 	}
 
 	static function get_all_for_module( $module ) {
@@ -239,16 +253,16 @@ class Red_Item {
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) );
 
-		$group = Red_Group::get( $group_id );
+		$group = Red_Group::get( $wpdb->insert_id );
 		Red_Module::flush( $group->module_id );
 	}
 
-	static function delete( $id ) {
+	public function delete() {
 		global $wpdb;
 
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $this->id ) );
 
-		RE_Log::delete_for_id( $id );
+		RE_Log::delete_for_id( $this->id );
 
 		// Reorder all elements
 		$rows = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}redirection_items ORDER BY position" );
@@ -289,7 +303,6 @@ class Red_Item {
 				$this->group_id = intval( $details['group_id'] );
 
 			// Save this
-			global $wpdb;
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
 
 			$group = Red_Group::get( $this->group_id );
@@ -367,6 +380,10 @@ class Red_Item {
 		}
 	}
 
+	public function is_enabled() {
+		return $this->status == 'enabled';
+	}
+
 	function reset() {
 		global $wpdb;
 
@@ -388,10 +405,17 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'group_id' => $group ), array( 'id' => $this->id ) );
 	}
 
-	function toggle_status() {
+	function enable() {
 		global $wpdb;
 
-		$this->status = ( $this->status == 'enabled' ) ? 'disabled' : 'enabled';
+		$this->status = true;
+		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
+	}
+
+	function disable() {
+		global $wpdb;
+
+		$this->status = false;
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 

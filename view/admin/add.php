@@ -20,7 +20,7 @@
 			</select>
 
 			<strong><?php _e ('Action', 'redirection'); ?>:</strong>
-			<select name="red_action" onchange="return change_add_redirect (this)">
+			<select name="red_action">
 				<?php echo $this->select (Red_Item::actions (), 'url'); ?>
 			</select>
 
@@ -54,28 +54,3 @@
 	  </table>
 	</form>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-	jQuery( '#new-redirection' ).ajaxForm( {
-		beforeSubmit: function () {
-			jQuery( '#loading' ).show ();
-		},
-		success: function( response ) {
-			jQuery( '#loading' ).hide ();
-
-			if ( response.indexOf( 'fade error' ) != -1 )
-      	jQuery( '#error' ).html (response);
-	    else {
-				<?php if ( isset( $add_to_screen ) ) : ?>
-				jQuery( '#items' ).append( response );
-				<?php endif; ?>
-
-	      jQuery( '#error' ).hide();
-	      jQuery( '#added' ).show();
-	      jQuery( '#none' ).hide();
-
-				redirection.edit_items( 'redirect' );
-	    }
-		}
-	});
-</script>

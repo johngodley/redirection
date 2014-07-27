@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: http://urbangiraffe.com/plugins/redirection/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 2.3.6
+Version: 2.3.7
 Author: John Godley
 Author URI: http://urbangiraffe.com
 ============================================================================================================
@@ -111,18 +111,14 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function redirection_head() {
-		if ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) )
+		if ( !isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'js/redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
 		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'please_wait'  => __( 'Please wait...', 'redirection' ),
-			'type'      => 1,
-			'progress'     => '<img src="'.plugin_dir_url( __FILE__ ).'/images/progress.gif" alt="loading" width="50" height="16"/>',
-		  	'are_you_sure' => __( 'Are you sure?', 'redirection' ),
-			'none_select'  => __( 'No items have been selected', 'redirection' )
+			'error_msg' => __( 'Sorry, unable to do that. Please try refreshing the page.' ),
 		) );
 	}
 
@@ -186,7 +182,7 @@ class Redirection extends Redirection_Plugin {
 				return $this->render_admin('support', array( 'options' => $this->get_options() ) );
 		}
 
-		return $this->admin_redirects( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
+		return $this->admin_redirects( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
 	}
 
 	function admin_screen_modules() {
@@ -369,16 +365,18 @@ class Redirection extends Redirection_Plugin {
   			$this->render_message( __( 'Unknown module', 'redirection' ) );
 	}
 
-	function admin_redirects( $group ) {
+	function admin_redirects( $group_id ) {
 		include dirname( __FILE__ ).'/models/pager.php';
 
-		if ( $group == 0 )
-			$group = Red_Group::get_first_id();
+		if ( $group_id == 0 )
+			$group_id = Red_Group::get_first_id();
 
-		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array(), 'tools.php?page=redirection.php' ) ), 'position', 'ASC' );
-		$items = Red_Item::get_by_group( $group, $pager );
+		$group = Red_Group::get( $group_id );
 
-  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option( 'date_format' ) ) );
+		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
+		$table->prepare_items();
+
+  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function setMatched( $match ) {

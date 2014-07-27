@@ -45,7 +45,7 @@ class Agent_Match extends Red_Match {
 			<th width="100"><?php _e( 'User Agent', 'redirection' ); ?>:</th>
 			<td>
 				<input id="user_agent_<?php echo $this->id ?>" style="width: 65%" type="text" name="user_agent" value="<?php echo esc_attr( $this->user_agent ); ?>"/>
-				<select style="width: 30%" onchange="return update_user_agent( this,<?php echo $this->id ?> )">
+				<select style="width: 30%" class="change-user-agent">
 					<?php foreach ( $defined AS $key => $value ) : ?>
 						<option value="<?php echo $key ?>"<?php if ( $key == $this->user_agent ) echo ' selected="selected"' ?>><?php echo esc_html( $value ) ?></option>
 					<?php endforeach; ?>

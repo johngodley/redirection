@@ -111,6 +111,7 @@ text-align: center;
 .edit
 {
 width: 100%;
+margin-left: -5px;
 }
 
 .edit th
@@ -126,6 +127,11 @@ text-align: center;
 .edit .left
 {
 text-align: left;
+}
+
+.widefat .edit td, .widefat .edit th {
+	padding: 4px;
+	margin: 4px;
 }
 
 .redirections h3
@@ -526,3 +532,30 @@ direction:ltr;
 	width: 120px;
 }
 
+.wp-list-table .column-type {
+	width: 50px;
+	text-align: left;
+}
+
+.wp-list-table .column-hits {
+	width: 50px;
+	text-align: left;
+}
+
+.wp-list-table .column-last_access {
+	width: 100px;
+	text-align: left;
+}
+
+table.edit.loading .table-loading .spinner {
+	float: left;
+	display: block;
+}
+
+table.edit.loading .table-actions {
+	display: none;
+}
+
+table.items .red-disabled {
+	text-decoration: line-through;
+}

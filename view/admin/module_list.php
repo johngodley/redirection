@@ -30,7 +30,6 @@
 
 <script type="text/javascript">
 jQuery(document ).ready( function() {
-	var redirection = new Redirection( {} );
-	redirection.modules();
+	new Redirection_Modules();
 } );
 </script>
