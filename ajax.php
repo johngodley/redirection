@@ -302,6 +302,8 @@ class RedirectionAjax extends Redirection_Plugin {
 			else
 				$json['error'] = __( 'Sorry, but your redirection was not created', 'redirection' );
 		}
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - bad nonce';
 
 		echo json_encode( $json );
 		die();

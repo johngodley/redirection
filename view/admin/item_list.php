@@ -26,6 +26,6 @@ var redirection;
 
 jQuery(document).ready( function() {
 	new Redirection_Items();
-	new Redirection_Add( 'select[name=red_action]', '#target', true );
+	new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
 });
 </script>

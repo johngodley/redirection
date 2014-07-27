@@ -137,7 +137,15 @@ var Redirection;
 		logs();
 	};
 
-	Redirection_Add = function( selector, target, add_to_screen ) {
+	function get_redirect_error( response ) {
+		if ( parseInt( response, 10 ) === 0 || parseInt( response, 10 ) === -1 )
+			return Redirectioni10n.error_msg;
+		else if ( response.error )
+			return response.error;
+		return false;
+	}
+
+	Redirection_Add = function( selector, target, add_form, add_to_screen ) {
 		$( selector ).on( 'change', function() {
 			if ( $( this ).val() == 'url' || $( this ).val() == 'pass' )
 				$( target ).show();
@@ -145,32 +153,30 @@ var Redirection;
 				$( target ).hide();
 		} );
 
-		$( '#new-redirection' ).ajaxForm( {
+		$( add_form ).find( 'form' ).ajaxForm( {
 			beforeSubmit: function () {
-				$( '#loading' ).show ();
-				$( '#error' ).hide();
-				$( '#added' ).hide();
+				$( add_form ).removeClass( 'loaded-error' ).addClass( 'loading' );
 			},
 			success: function( response ) {
-				$( '#loading' ).hide ();
+				var error = get_redirect_error( response );
 
-				if ( response == 0 || response == -1 )
-					$( '#error' ).html( Redirectioni10n.error_msg );
-				else if ( response.error )
-					$( '#error' ).html( response.error );
-				else {
-					if ( add_to_screen === true ) {
-						$( 'table.items' ).append( response.html );
-						$( 'table.items tr' ).each( function( pos, item ) {
-							$( item ).removeClass( 'alternate' );
-							if ( pos % 2 == 0 )
-								$( item ).addClass( 'alternate' );
-						} );
-					}
+				$( add_form ).removeClass( 'loading' );
 
-					$( '#error' ).hide();
-					$( '#added' ).show();
-					$( '#none' ).hide();
+				if ( error ) {
+					$( add_form ).addClass( 'loaded-error' );
+					$( add_form ).find( '.red-error' ).html( error );
+					return;
+				}
+
+				if ( add_to_screen === true ) {
+					$( add_form ).addClass( 'loaded' );
+
+					$( 'table.items' ).append( response.html );
+					$( 'table.items tr' ).each( function( pos, item ) {
+						$( item ).removeClass( 'alternate' );
+						if ( pos % 2 == 0 )
+							$( item ).addClass( 'alternate' );
+					} );
 				}
 			},
 			dataType: 'json'

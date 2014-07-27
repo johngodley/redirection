@@ -3,11 +3,11 @@
 <div class="wrap" id="add" <?php if ( $hidden ) echo ' style="display: none"' ?>>
 	<h2><?php _e( 'Add new redirection', 'redirection' ) ?></h2>
 
-	<div id="added" style="display: none" class="updated-red">
+	<div class="red-added">
 		<p><?php _e( 'Your redirection has been added.', 'redirection' ); ?></p>
 	</div>
 
-	<form method="post" action="<?php echo admin_url( 'admin-ajax.php' ); ?>" id="new-redirection">
+	<form method="post" action="<?php echo admin_url( 'admin-ajax.php' ); ?>">
 		<table width="100%">
 		  <tr>
 			<th align="right" width="100"><?php _e( 'Source URL', 'redirection' ) ?>:</th>
@@ -41,7 +41,7 @@
 		  <tr>
 			<th></th>
 			<td>
-				<input class="button-primary" type="submit" name="add" value="<?php _e( 'Add Redirection', 'redirection' ) ?>" id="submit"/>
+				<input class="button-primary" type="submit" name="add" value="<?php esc_attr_e( 'Add Redirection', 'redirection' ) ?>" id="submit"/>
 				<?php if ( isset( $group ) ) : ?>
 				<input type="hidden" name="group" value="<?php echo esc_attr( $group ) ?>"/>
 				<?php endif; ?>
@@ -49,7 +49,7 @@
 				<input type="hidden" name="action" value="red_redirect_add"/>
 				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_add' ); ?>"/>
 
-				<div id="error" style="margin-top: 10px"></div>
+				<div class="red-error"></div>
 			</td>
 		  </tr>
 	  </table>

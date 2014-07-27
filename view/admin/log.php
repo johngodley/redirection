@@ -40,7 +40,7 @@ var redirection;
 (function($) {
 	$(document).ready( function() {
 		new Redirection_Logs();
-		new Redirection_Add( 'select[name=red_action]', '#target' );
+		new Redirection_Add( 'select[name=red_action]', '#target', '#add', false );
 	});
 })(jQuery);
 </script>
