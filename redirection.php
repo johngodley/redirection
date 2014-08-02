@@ -282,7 +282,7 @@ class Redirection extends Redirection_Plugin {
 		elseif ( isset( $_POST['delete'] ) && check_admin_referer( 'redirection-delete_plugin' ) ) {
 			include dirname( __FILE__ ).'/models/database.php';
 
-			$db = new RE_Database;
+			$db = new RE_Database();
 			$db->remove( __FILE__ );
 
 			$this->render_message( __( 'Redirection data has been deleted and the plugin disabled', 'redirection' ) );
@@ -291,9 +291,8 @@ class Redirection extends Redirection_Plugin {
 		elseif ( isset( $_POST['import'] ) && check_admin_referer( 'redirection-import' ) ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
-			$importer = new Red_FileIO;
+			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
 
-			$count = $importer->import( $_POST['group'], $_FILES['upload'] );
 			if ( $count > 0 )
 				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
 			else
