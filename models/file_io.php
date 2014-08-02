@@ -22,11 +22,11 @@ abstract class Red_FileIO {
 		return $exporter;
 	}
 
-	function import( $group, $file ) {
+	public static function import( $group, $file ) {
 		if ( is_uploaded_file( $file['tmp_name'] ) ) {
 			$parts = pathinfo( $file['name'] );
 
-			if ( $parts['extension'] == 'csv' ) {
+			if ( isset( $parts['extension'] ) && $parts['extension'] == 'csv' ) {
 				include dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
 				$importer = new Red_Csv_File();
 				$data = '';
