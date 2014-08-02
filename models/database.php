@@ -88,7 +88,7 @@ class RE_Database {
 			  KEY `module_id` (`module_id`)
 			) $charset_collate",
 
-		 	"CREATE TABLE `{$wpdb->prefix}redirection_modules`(
+		 	"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_modules`(
 			  `id` int(11) unsigned NOT NULL auto_increment,
 			  `type` varchar(20) NOT NULL default '',
 			  `name` varchar(50) NOT NULL default '',
@@ -98,7 +98,7 @@ class RE_Database {
 			  KEY `type` (`type`)
 			) $charset_collate",
 
-			"CREATE TABLE `{$wpdb->prefix}redirection_404` (
+			"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_404` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			  `created` datetime NOT NULL,
 			  `url` varchar(255) NOT NULL DEFAULT '',
@@ -181,7 +181,7 @@ class RE_Database {
 		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_modules WHERE type='404'" );
 		$wpdb->query( "UPDATE {$wpdb->prefix}redirection_groups SET module_id=1 WHERE module_id=3" );
 
-		$wpdb->query( "CREATE TABLE `{$wpdb->prefix}redirection_404` (
+		$wpdb->query( "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_404` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			  `created` datetime NOT NULL,
 			  `url` varchar(255) NOT NULL DEFAULT '',
