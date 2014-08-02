@@ -35,7 +35,7 @@
 				<input type="image" style="border: none" src="<?php echo $this->url () ?>/images/donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!"/>
 			</form>
 
-			<p><strong>$14</strong><br/><?php _e( 'Individual<br/>Donation', 'redirection' ); ?></p>
+			<p><strong>$16</strong><br/><?php _e( 'Individual<br/>Donation', 'redirection' ); ?></p>
 		</li>
 		<li>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
