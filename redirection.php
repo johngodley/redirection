@@ -270,8 +270,8 @@ class Redirection extends Redirection_Plugin {
 			$options['auto_target']     = stripslashes( $_POST['auto_target'] );
 			$options['support']         = isset( $_POST['support'] ) ? true : false;
 			$options['token']           = stripslashes( $_POST['token'] );
-			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 31 );
-			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 31 );
+			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 60 );
+			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 60 );
 
 			if ( trim( $options['token'] ) == '' )
 				$options['token'] = md5( uniqid() );

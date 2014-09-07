@@ -99,6 +99,9 @@ Full documentation can be found on the [Redirection](http://urbangiraffe.com/plu
 
 = 2.3.7 =
 * New redirect page to match WP style
+* new module page to match WP style
+* Configurable permissions via redirection_role filter, props to RodGer-GR
+* Fix saving 2 month log period
 
 = 2.3.6 =
 * Updated Italian translation, props to Raffaello Tesi
