@@ -58,11 +58,10 @@ class Redirection extends Redirection_Plugin {
 			add_action( 'wp_ajax_red_redirect_add', array( &$this, 'ajax_redirect_add' ) );
 			add_action( 'wp_ajax_red_redirect_edit', array( &$this, 'ajax_redirect_edit' ) );
 			add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
+
+			$this->update();
 		}
 		else {
-			// XXX do I really want to run this on every page?
-			$this->update();
-
 			// Create a WordPress exporter and let it handle the load
 			$this->wp = new WordPress_Module();
 			$this->wp->start();
@@ -78,8 +77,8 @@ class Redirection extends Redirection_Plugin {
 		if ( $version != REDIRECTION_VERSION ) {
 			include_once dirname( __FILE__ ).'/models/database.php';
 
-			$db = new RE_Database();
-			return $db->upgrade( $version, REDIRECTION_VERSION );
+			$database = new RE_Database();
+			return $database->upgrade( $version, REDIRECTION_VERSION );
 		}
 
 		return true;
@@ -89,14 +88,6 @@ class Redirection extends Redirection_Plugin {
 		if ( $option == 'redirection_log_per_page' )
 			return $value;
 		return $status;
-	}
-
-	function activate() {
-		if ( $this->update() === false ) {
-			$db = new RE_Database();
-			$db->remove( $version, REDIRECTION_VERSION );
-	    	exit();
-		}
 	}
 
 	function plugin_settings( $links ) {
