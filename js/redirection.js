@@ -69,7 +69,9 @@ var Redirection;
 						return;
 
 					container.html( response.html );
-					container.closest( 'tr' ).find( '.column-type' ).html( response.code );
+
+					if ( response.code )
+						container.closest( 'tr' ).find( '.column-type' ).html( response.code );
 				}, 'json' );
 			} );
 
@@ -87,8 +89,13 @@ var Redirection;
 	Redirection_Modules = function() {
 		function modules() {
 			// Edit module
-			$( 'a.edit' ).unbind( 'click' ).click( function() {
-				return form_loader( this, 'tr', modules );
+			$( 'a.edit' ).unbind( 'click' ).click( function( ev ) {
+				var container = $( this ).closest( 'tr' );
+				ev.preventDefault();
+
+				$.get( $( this ).attr( 'href' ), function( response ) {
+					container.html( response );
+				} );
 			} );
 
 			// Reset links

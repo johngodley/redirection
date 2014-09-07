@@ -187,11 +187,14 @@ class Red_Item {
 	static function create( $details ) {
 		global $wpdb;
 
+		$details = array_map( 'trim', $details );
+		$details = array_map( 'stripslashes', $details );
+
 		// Auto generate URLs
-		if ( $details['source'] == '' )
+		if ( empty( $details['source'] ) )
 			$details['source'] = self::auto_generate();
 
-		if ( $details['target'] == '' )
+		if ( empty( $details['target'] ) )
 			$details['target'] = self::auto_generate();
 
 		// Make sure we don't redirect to ourself
@@ -288,6 +291,8 @@ class Red_Item {
 	function update( $details ) {
 		if ( strlen( $details['old'] ) > 0 ) {
 			global $wpdb;
+
+			$details = array_map( 'stripslashes', $details );
 
 			$this->regex = isset( $details['regex'] ) ? 1 : 0;
 			$this->url   = self::sanitize_url( $details['old'], $this->regex );
