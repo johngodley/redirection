@@ -1,7 +1,7 @@
 <?php if ( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 <table class="edit" data-url="<?php echo admin_url( 'admin-ajax.php' ) ?>">
 	<tr>
-		<th width="100"><?php _e ('Title', 'redirection'); ?>:</th>
+		<th width="100"><?php _e ('Description', 'redirection'); ?>:</th>
 		<td>
 			<input style="width: 85%" type="text" name="title" value="<?php echo esc_attr( $redirect->title ); ?>"/>
 			<span class="sub">(<?php _e( "optional", 'redirection' ); ?>)</span>
