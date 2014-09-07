@@ -1,12 +1,27 @@
 <?php
 
 class Red_Group {
-	function Red_Group(  $values = ''  )	{
+	private $items = 0;
+	private $name;
+
+	public function __construct( $values = ''  ) {
 		if ( is_object( $values ) ) {
 			foreach ( $values AS $key => $value ) {
 			 	$this->$key = $value;
 			}
 		}
+	}
+
+	public function get_name() {
+		return $this->name;
+	}
+
+	public function get_id() {
+		return $this->id;
+	}
+
+	public function is_disabled() {
+		return $this->status == 'disabled' ? true : false;
 	}
 
 	/**
@@ -83,7 +98,7 @@ class Red_Group {
 	static function get_first_id()	{
 		global $wpdb;
 
-		return $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY id LIMIT 0,1" );
+		return intval( $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY id LIMIT 0,1" ) );
 	}
 
 	static function create( $data ) {
@@ -118,32 +133,25 @@ class Red_Group {
 	function update( $data ) {
 		global $wpdb;
 
+		$data = array_map( 'stripslashes', $data );
+
 		$this->tracking = isset( $data['tracking'] ) ? true : false;
 		$this->status   = isset( $data['status'] ) ? 'enabled' : 'disabled';
+		$this->name     = trim( wp_kses( $data['name'], array() ) );
 
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $data['name'], 'status' => $this->status, 'tracking' => intval( $this->tracking ) ), array( 'id' => intval( $this->id ) ) );
+		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $this->name, 'status' => $this->status, 'tracking' => intval( $this->tracking ) ), array( 'id' => intval( $this->id ) ) );
 
 		Red_Module::flush( $this->module_id );
 	}
 
-	static function delete( $group ) {
+	function delete() {
 		global $wpdb;
 
-		$obj = self::get( $group );
-
 		// Delete all items in this group
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) );
 
 		// Delete the group
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $group ) );
-
-		// Update positions
-		$rows = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}redirection_groups ORDER BY position" );
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows AS $pos => $row ) {
-				$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'position' => intval( $pos ) ), array( 'id' => intval( $row->id ) ) );
-			}
-		}
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $this->id ) );
 	}
 
 	static function save_order( $items, $start ) {
@@ -177,10 +185,10 @@ class Red_Group {
 		RE_Log::delete_for_group( $this->id );
 	}
 
-	function items() {
-		if ( $this->items > 0 )
-			return sprintf( ' (%d)', $this->items );
-		return '';
+	function get_item_count() {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) );
 	}
 
 	function type() {

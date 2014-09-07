@@ -39,15 +39,8 @@ var redirection;
 
 (function($) {
 	$(document).ready( function() {
-		redirection = new Redirection( {
-			progress: '<img src="<?php echo $this->url () ?>/images/progress.gif" alt="loading" width="50" height="16"/>',
-			ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ) ?>',
-			nonce: '<?php echo wp_create_nonce( 'redirection-items' ); ?>',
-			none_select: '<?php echo esc_js( __( 'No items have been selected', 'redirection' ) ); ?>',
-			are_you_sure: '<?php echo esc_js( __( 'Are you sure?', 'redirection') ); ?>',
-		});
-
-		redirection.logs();
+		new Redirection_Logs();
+		new Redirection_Add( 'select[name=red_action]', '#target', '#add', false );
 	});
 })(jQuery);
 </script>

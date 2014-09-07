@@ -1,7 +1,10 @@
 <?php
 
 class Red_Module {
-	var $id;
+	private $id;
+	private $type;
+	private $name;
+	private $options;
 
 	function Red_Module( $values = '' )	{
 		if ( is_object( $values ) ) {
@@ -34,6 +37,8 @@ class Red_Module {
 
 	function update( $data ) {
 		global $wpdb;
+
+		$data = array_map( 'stripslashes', $data );
 
 		$this->name = $data['name'];
 		$options = $this->save( $data );
@@ -263,5 +268,21 @@ class Red_Module {
 	}
 
 	function config() {
+	}
+
+	function get_id() {
+		return $this->id;
+	}
+
+	function get_type() {
+		return $this->type;
+	}
+
+	public function get_name() {
+		return $this->name;
+	}
+
+	public function get_type_string() {
+		return '';
 	}
 }

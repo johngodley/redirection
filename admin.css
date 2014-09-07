@@ -1,12 +1,3 @@
-#MB_window {
-	top: 200px;
-}
-
-#MB_header a
-{
-border: none;
-}
-
 .modules
 {
 width: 100%;
@@ -98,396 +89,6 @@ color: black;
 color: white;
 }
 
-.left
-{
-text-align: left;
-}
-
-.center
-{
-text-align: center;
-}
-
-.edit
-{
-width: 100%;
-}
-
-.edit th
-{
-text-align: right;
-}
-
-.edit .center
-{
-text-align: center;
-}
-
-.edit .left
-{
-text-align: left;
-}
-
-.redirections h3
-{
-padding: 0px;
-margin: 0.5em 0 0.5em 1em;
-font-size: 1.1em;
-}
-
-
-.redirections img
-{
-vertical-align: middle;
-}
-
-.redirections, .redirections_header
-{
-padding: 0;
-margin: 0;
-
-}
-
-.redirections li a
-{
-border: none;
-}
-
-
-
-.redirections li { background-color: #e6e6e6; }
-.check { border: none; background-color: transparent;}
-.redirections .count, .redirections .type { background-color: #d4d4d4;}
-
-.redirections .type_url { background-color: #C9F2C9; }
-.redirections .type_url .count { background-color: #A0D8A0; }
-.redirections .type_url .type { background-color: #A0D8A0; }
-.redirections .type_url .tools { background-color: #A0D8A0; }
-
-.redirections .type_error { background-color: #F3C7EC; }
-.redirections .type_error .count{ background-color: #D18EC6; }
-.redirections .type_error .type { background-color: #D18EC6; }
-.redirections .type_error .tools { background-color: #D18EC6; }
-
-.redirections .type_random { background-color: #F3EBB1; }
-.redirections .type_random .count { background-color: #D3CB8D; }
-.redirections .type_random .type { background-color: #D3CB8D; }
-.redirections .type_random .tools { background-color: #D3CB8D; }
-
-.redirections .type_pass { background-color: #AEC5E7; }
-.redirections .type_pass .count { background-color: #7E9BC5; }
-.redirections .type_pass .type { background-color: #7E9BC5; }
-.redirections .type_pass .tools { background-color: #7E9BC5; }
-
-.redirections li.disabled
-{
-background-color: #f2f2f2;
-color: #999;
-}
-
-.redirections li.disabled .tools, .redirections li.disabled .count, .redirections li.disabled .info, .redirections li.disabled .type
-{
-background-color: #d4d4d4;
-}
-
-.redirections li.disabled a
-{
-color: #999;
-}
-
-.redirections li, .redirections_header li
-{
-list-style-type: none;
-overflow: hidden;
-}
-
-.redirections li a
-{
-text-decoration: underline;
-}
-
-.item
-{
-overflow: hidden;
-}
-
-.item, .date, .count, .tools, .type
-{
-padding: 5px 8px;
-height: 100%;
-}
-
-.item-regex
-{
-font-style: italic;
-}
-
-.type, .item { float: left;}
-
-.wrap h2
-{
-clear: none;
-}
-
-.date, .count, .tools, .options
-{
-float: right;
-}
-
-
-.type { width: 3em; text-align: center; color: #333;}
-
-.date
-{
-text-align: center;
-}
-
-
-.count
-{
-width: 5em;
-text-align: center;
-}
-
-.sortable
-{
-cursor: move;
-}
-
-.sort
-{
-width: 8em;
-text-align: center;
-padding: 4px 2px;
-font-size: 0.8em;
-background-color: #ccc;
-}
-
-.sort a
-{
-color: #555;
-border: none;
-}
-
-.sort a:hover
-{
-color: white;
-}
-.sort img
-{
-vertical-align: middle;
-}
-
-.type
-{
-margin-right: 3px;
-}
-
-.tools
-{
-height: 1.4em;
-}
-
-
-.pager
-{
-font-size: 0.9em;
-text-align: right;
-}
-
-.pagertools
-{
-float: right;
-font-size: 0.9em;
-margin-left: 10px;
-margin-bottom: 2px;
-}
-
-.pager select, .pager input { font-size: 0.9em;  }
-
-
-.sub
-{
-font-weight: normal;
-font-size: 0.8em;
-color: #666;
-}
-
-.sub ul
-{
-margin: 0; padding: 0;  
-list-style-type: square;
-}
-
-.sub ul li
-{
-  margin: 0; padding: 0;
-margin-left: 20px;  
-}
-
-
-.extra
-{
-width: 100%;
-}
-
-.extra td
-{
-font-size: 1em;
-}
-
-.extra th
-{
-background-color: #ccc;
-text-align: right;
-}
-
-.extra ul
-{
-margin: 0; padding: 0;
-}
-
-.extra ul
-{
-list-style-type: none;
-}
-
-.extra ul li ul
-{
-margin-left: 20px;
-list-style-type: square;
-}
-
-.urls
-{
-width: 100%;
-font-size: 0.9em;
-}
-
-.urls td
-{
-font-size: 1em;
-padding: 2px 5px;
-}
-
-.urls p
-{
-margin: 0;
-padding-bottom: 4px;
-}
-
-.nounder
-{
-  border: none !important;
-  text-decoration: none !important;
-}
-
-.alturl
-{
-background-color: #efefef;
-}
-
-.internal
-{
-background-color: #FDD1D1;
-}
-
-.searchargs
-{
-	width: 100%;
-}
-
-.searchargs th
-{ text-align: right}
-
-.searchargs .term
-{
-	width: 90%;
-}
-.results li
-{
-	margin-bottom: 10px;
-}
-
-.searchx
-{
-	color: #0F3D09;
-	padding-bottom: 10px;
-	font-size: 0.9em;
-}
-
-.searchx strong, .replacex strong
-{
-	color: red;
-}
-
-.replacex
-{
-	color: #1B0E5E;
-	margin-top: 10px;
-	font-size: 0.9em;
-}
-
-.edit_url input
-{
-  width: 95%;
-}
-
-.regex
-{
-font-style: italic;
-}
-
-table.data
-{
-width: 100%;
-}
-
-table.data th
-{
-text-align: right;
-padding-right: 1em;
-}
-
-fieldset
-{
-margin-bottom: 1em;
-padding: 0.5em 1em 1em 1em;
-border: 1px solid #ccc;
-}
-
-fieldset th
-{
-text-align: right;
-}
-
-fieldset legend
-{
-font-weight: bold;
-font-size: 1.2em;
-}
-
-.updated-red
-{
-	border-width: 1px;
-	border-style: solid;
-	padding: 0 0.6em;
-	margin: 5px 15px 2px;
-	background-color: #ffffe0;
-	border-color: #e6db55;
-}
-
-.updated-red p{
-	margin: 0.5em 0;
-	line-height: 1;
-	padding: 2px;
-}
-
-.widefat .center
-{
-text-align: center;
-}
-
 
 .bulleted li {
 list-style-type: square;
@@ -518,6 +119,14 @@ background-color: yellow;
 direction:ltr;
 }
 
+.wp-list-table .column-moduletype {
+	width: 100px;
+}
+
+.wp-list-table .column-groups {
+	width: 50px;
+}
+
 .wp-list-table .column-created {
 	width: 150px;
 }
@@ -526,3 +135,70 @@ direction:ltr;
 	width: 120px;
 }
 
+.wp-list-table .column-type {
+	width: 50px;
+	text-align: left;
+}
+
+.wp-list-table .column-hits {
+	width: 50px;
+	text-align: left;
+}
+
+.wp-list-table .column-redirects {
+	width: 100px;
+	text-align: left;
+}
+
+.wp-list-table .column-last_access {
+	width: 100px;
+	text-align: left;
+}
+
+table.edit.loading .table-loading .spinner {
+	float: left;
+	display: block;
+}
+
+table.edit.loading .table-actions {
+	display: none;
+}
+
+table.items .red-disabled {
+	text-decoration: line-through;
+}
+
+.red-added {
+	display: none;
+}
+
+.red-error {
+	display: none;
+	border-width: 1px;
+	border-style: solid;
+	padding: 1em 1em;
+	margin: 10px 0px;
+	background-color: #F55B7C;
+	border-color: red;
+	color: white;
+}
+
+.loaded .red-added {
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	padding: 0 0.6em;
+	margin: 5px 15px 2px;
+	background-color: #ffffe0;
+	border-color: #e6db55;
+}
+
+.loading .updated-red p {
+	margin: 0.5em 0;
+	line-height: 1;
+	padding: 2px;
+}
+
+.loaded-error .red-error {
+	display: block;
+}

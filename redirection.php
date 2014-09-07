@@ -43,7 +43,6 @@ class Redirection extends Redirection_Plugin {
 		if ( is_admin() ) {
 			$this->add_action( 'admin_menu' );
 			$this->add_action( 'load-tools_page_redirection', 'redirection_head' );
-			$this->add_action( 'init', 'inject' );
 
 			add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 			add_action( 'redirection_log_delete', array( $this, 'expire_logs' ) );
@@ -51,15 +50,18 @@ class Redirection extends Redirection_Plugin {
 			$this->register_activation( __FILE__ );
 			$this->register_plugin_settings( __FILE__ );
 
-			// Ajax functions
-			if ( defined( 'DOING_AJAX' ) ) {
-				include_once dirname( __FILE__ ).'/ajax.php';
-				$this->ajax = new RedirectionAjax();
-			}
+			add_action( 'wp_ajax_red_log_delete', array( &$this, 'ajax_log_delete' ) );
+			add_action( 'wp_ajax_red_module_edit', array( &$this, 'ajax_module_edit' ) );
+			add_action( 'wp_ajax_red_module_save', array( &$this, 'ajax_module_save' ) );
+			add_action( 'wp_ajax_red_group_edit', array( &$this, 'ajax_group_edit' ) );
+			add_action( 'wp_ajax_red_group_save', array( &$this, 'ajax_group_save' ) );
+			add_action( 'wp_ajax_red_redirect_add', array( &$this, 'ajax_redirect_add' ) );
+			add_action( 'wp_ajax_red_redirect_edit', array( &$this, 'ajax_redirect_edit' ) );
+			add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
+
+			$this->update();
 		}
 		else {
-			$this->update();
-
 			// Create a WordPress exporter and let it handle the load
 			$this->wp = new WordPress_Module();
 			$this->wp->start();
@@ -75,8 +77,8 @@ class Redirection extends Redirection_Plugin {
 		if ( $version != REDIRECTION_VERSION ) {
 			include_once dirname( __FILE__ ).'/models/database.php';
 
-			$db = new RE_Database();
-			return $db->upgrade( $version, REDIRECTION_VERSION );
+			$database = new RE_Database();
+			return $database->upgrade( $version, REDIRECTION_VERSION );
 		}
 
 		return true;
@@ -86,14 +88,6 @@ class Redirection extends Redirection_Plugin {
 		if ( $option == 'redirection_log_per_page' )
 			return $value;
 		return $status;
-	}
-
-	function activate() {
-		if ( $this->update() === false ) {
-			$db = new RE_Database();
-			$db->remove( $version, REDIRECTION_VERSION );
-	    	exit();
-		}
 	}
 
 	function plugin_settings( $links ) {
@@ -111,18 +105,18 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function redirection_head() {
-		if ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) )
+		include dirname( __FILE__ ).'/models/pager.php';
+
+		$this->inject();
+
+		if ( !isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'js/redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
 		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'please_wait'  => __( 'Please wait...', 'redirection' ),
-			'type'      => 1,
-			'progress'     => '<img src="'.plugin_dir_url( __FILE__ ).'/images/progress.gif" alt="loading" width="50" height="16"/>',
-		  	'are_you_sure' => __( 'Are you sure?', 'redirection' ),
-			'none_select'  => __( 'No items have been selected', 'redirection' )
+			'error_msg' => __( 'Sorry, unable to do that. Please try refreshing the page.' ),
 		) );
 	}
 
@@ -190,8 +184,10 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_screen_modules() {
-		$options = $this->get_options();
-		$this->render_admin( 'module_list', array( 'options' => $this->get_options(), 'modules' => Red_Module::get_all(), 'module_types' => Red_Module::get_types(), 'token' => $options['token'] ) );
+		$pager = new Redirection_Module_Table();
+		$pager->prepare_items();
+
+		$this->render_admin( 'module_list', array( 'options' => $this->get_options(), 'table' => $pager ) );
 	}
 
 	function get_options() {
@@ -235,6 +231,11 @@ class Redirection extends Redirection_Plugin {
 	function inject() {
 		$options = $this->get_options();
 
+		if ( isset( $_POST['id'] ) && !isset( $_POST['action'] ) ) {
+			wp_safe_redirect( add_query_arg( 'id', intval( $_POST['id'] ), $_SERVER['REQUEST_URI'] ) );
+			die();
+		}
+
 		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' ) {
 			include dirname( __FILE__ ).'/models/file_io.php';
 
@@ -269,8 +270,8 @@ class Redirection extends Redirection_Plugin {
 			$options['auto_target']     = stripslashes( $_POST['auto_target'] );
 			$options['support']         = isset( $_POST['support'] ) ? true : false;
 			$options['token']           = stripslashes( $_POST['token'] );
-			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 31 );
-			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 31 );
+			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 60 );
+			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 60 );
 
 			if ( trim( $options['token'] ) == '' )
 				$options['token'] = md5( uniqid() );
@@ -304,8 +305,6 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_screen_log() {
-		include dirname( __FILE__ ).'/models/pager.php';
-
 		$options = $this->get_options();
 
 		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
@@ -328,8 +327,6 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_screen_404() {
-		include dirname( __FILE__ ).'/models/pager.php';
-
 		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
 			RE_404::delete_all();
 			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
@@ -344,8 +341,6 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_groups( $module ) {
-		include dirname( __FILE__ ).'/models/pager.php';
-
 		if ( isset( $_POST['add'] ) && check_admin_referer( 'redirection-add_group' ) ) {
 			if ( Red_Group::create( stripslashes_deep( $_POST ) ) ) {
 				$this->render_message( __( 'Your group was added successfully', 'redirection' ) );
@@ -358,26 +353,26 @@ class Redirection extends Redirection_Plugin {
 		if ( $module == 0 )
 			$module = Red_Module::get_first_id();
 
-		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array( 'sub' => 'groups' ), 'tools.php?page=redirection.php' ) ), 'position', 'ASC' );
-		$items = Red_Group::get_all( $module, $pager );
+		$table = new Redirection_Group_Table( Red_Module::get_for_select(), $module );
+		$table->prepare_items();
 
 		$module = Red_Module::get( $module );
 		if ( $module )
-  			$this->render_admin( 'group_list', array( 'options' => $this->get_options(), 'groups' => $items, 'pager' => $pager, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
+  			$this->render_admin( 'group_list', array( 'options' => $this->get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
   		else
   			$this->render_message( __( 'Unknown module', 'redirection' ) );
 	}
 
-	function admin_redirects( $group ) {
-		include dirname( __FILE__ ).'/models/pager.php';
+	function admin_redirects( $group_id ) {
+		if ( $group_id == 0 )
+			$group_id = Red_Group::get_first_id();
 
-		if ( $group == 0 )
-			$group = Red_Group::get_first_id();
+		$group = Red_Group::get( $group_id );
 
-		$pager = new RE_Pager( $_GET, admin_url( add_query_arg( array(), 'tools.php?page=redirection.php' ) ), 'position', 'ASC' );
-		$items = Red_Item::get_by_group( $group, $pager );
+		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
+		$table->prepare_items();
 
-  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'items' => $items, 'pager' => $pager, 'group' => Red_Group::get( $group ), 'groups' => Red_Group::get_for_select(), 'date_format' => get_option( 'date_format' ) ) );
+  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function setMatched( $match ) {
@@ -418,6 +413,160 @@ class Redirection extends Redirection_Plugin {
 				RE_404::create( red_get_url(), red_user_agent(), red_ip(), red_http_referrer() );
 			}
 		}
+	}
+
+	public function ajax_log_delete()	{
+		if ( check_ajax_referer( 'redirection-items' ) ) {
+			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
+				foreach ( $items[1] AS $item ) {
+					RE_Log::delete( intval( $item ) );
+				}
+			}
+		}
+	}
+
+	private function check_ajax_referer( $nonce ) {
+		if ( check_ajax_referer( $nonce, 'nonce', false ) === false )
+			$this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce' ) );
+	}
+
+	public function ajax_module_edit() {
+		$module_id = intval( $_POST['id'] );
+
+		$this->check_ajax_referer( 'red_edit-'.$module_id );
+
+		$module = Red_Module::get( $module_id );
+		if ( $module )
+			$json['html'] = $this->capture_admin( 'module_edit', array( 'module' => $module ) );
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find module';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_module_save() {
+		global $hook_suffix;
+
+		include dirname( __FILE__ ).'/models/pager.php';
+
+		$hook_suffix = '';
+		$module_id = intval( $_POST['id'] );
+
+		$this->check_ajax_referer( 'red_module_save_'.$module_id );
+
+		$module = Red_Module::get( $module_id );
+
+		if ( $module ) {
+			$module->update( $_POST );
+
+			$pager = new Redirection_Module_Table( array(), false );
+			$json = array( 'html' => $pager->column_name( $module ) );
+		}
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find module';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_group_edit() {
+		$group_id = intval( $_POST['id'] );
+
+		$this->check_ajax_referer( 'red-edit_'.$group_id );
+
+		$group = Red_Group::get( $group_id );
+		if ( $group )
+			$json['html'] = $this->capture_admin( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find group';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_group_save() {
+		global $hook_suffix;
+
+		include dirname( __FILE__ ).'/models/pager.php';
+
+		$hook_suffix = '';
+		$group_id = intval( $_POST['id'] );
+
+		$this->check_ajax_referer( 'redirection-group_save_'.$group_id );
+
+		$group = Red_Group::get( $group_id );
+		if ( $group ) {
+			$group->update( $this->post );
+
+			$pager = new Redirection_Group_Table( array(), false );
+			$json = array( 'html' => $pager->column_name( $group ) );
+		}
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_redirect_edit() {
+		$this->check_ajax_referer( 'red-edit_'.intval( $_POST['id'] ) );
+		$redirect = Red_Item::get_by_id( intval( $_POST['id'] ) );
+
+		if ( $redirect )
+			$json['html'] = $this->capture_admin( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_redirect_save() {
+		global $hook_suffix;
+
+		include dirname( __FILE__ ).'/models/pager.php';
+
+		$hook_suffix = '';
+
+		$red_id = intval( $_POST['id'] );
+
+		$this->check_ajax_referer( 'redirection-redirect_save_'.$red_id );
+
+		$redirect = Red_Item::get_by_id( $red_id );
+		if ( $redirect ) {
+			$redirect->update( $_POST );
+
+			$pager = new Redirection_Table( array() );
+			$json = array( 'html' => $pager->column_url( $redirect ), 'code' => $redirect->get_action_code() );
+		}
+		else
+			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_redirect_add()	{
+		global $hook_suffix;
+
+		include dirname( __FILE__ ).'/models/pager.php';
+
+		$hook_suffix = '';
+
+		$this->check_ajax_referer( 'redirection-redirect_add' );
+
+		$item = Red_Item::create( $this->post );
+		if ( is_wp_error( $item ) )
+			$json['error'] = $item->get_error_message();
+		elseif ( $item !== false ) {
+			$pager = new Redirection_Table( array() );
+			$json = array( 'html' => $pager->get_row( $item ) );
+		}
+		else
+			$json['error'] = __( 'Sorry, but your redirection was not created', 'redirection' );
+
+		$this->output_ajax_response( $json );
+	}
+
+	private function output_ajax_response( array $data ) {
+		header( 'Content-Type: application/json' );
+		echo json_encode( $data );
+		die();
 	}
 }
 

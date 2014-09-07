@@ -53,16 +53,15 @@ class Apache_Module extends Red_Module
 
 	function save ($data)
 	{
-		$save = array
-		(
-			'location'     => $data['location'],
-			'canonical'    => $data['canonical'],
-			'strip_index'  => $data['strip_index'],
-			'memory_limit' => $data['memory_limit'],
-			'error_level'  => $data['error_level'],
-			'ban_ip'       => $data['ban_ip'],
-			'allow_ip'     => $data['allow_ip'],
-			'raw'          => $data['raw'],
+		$save = array (
+			'location'     => isset( $data['location'] ) ? $data['location'] : false,
+			'canonical'    => isset( $data['canonical'] ) ? $data['canonical'] : false,
+			'strip_index'  => isset( $data['strip_index'] ) ? $data['strip_index'] : false,
+			'memory_limit' => isset( $data['memory_limit'] ) ? $data['memory_limit'] : false,
+			'error_level'  => isset( $data['error_level'] ) ? $data['error_level'] : false,
+			'ban_ip'       => isset( $data['ban_ip'] ) ? $data['ban_ip'] : false,
+			'allow_ip'     => isset( $data['allow_ip'] ) ? $data['allow_ip'] : false,
+			'raw'          => isset( $data['raw'] ) ? $data['raw'] : false,
 			'site'         => preg_replace ('@https?://@', '', $data['site'])
 		);
 
@@ -183,5 +182,9 @@ class Apache_Module extends Red_Module
 			$options[] = __ ('IPs are allowed', 'redirection');
 
 		echo '<small>'.ucfirst (implode (', ', $options)).'</small>';
+	}
+
+	public function get_type_string() {
+		return __( 'Apache', 'redirection' );
 	}
 }

@@ -62,7 +62,7 @@ class Red_Match {
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
-		return $false;
+		return false;
 	}
 
 	static function create( $name, $data = '' ) {

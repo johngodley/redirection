@@ -1,298 +1,192 @@
 var Redirection;
 
 (function($) {
-  Redirection = function( args ) {
-    var opts = $.extend({
-      ajaxurl: '',
-      nonce:   '',
-      are_you_sure: 'Are you sure?',
-      none_selected: 'No items were selected',
-      page: 0
-    }, args);
+	Redirection_Items = function() {
+		function edit_items() {
+			$( 'table.items' ).on( 'click', '.row-actions a.red-auto', function( ev ) {
+				ev.preventDefault();
 
-    function do_items( type, command ) {
-      var checked = $( '.item :checked' );
-      if ( checked.length > 0 ) {
-        if ( confirm( opts.are_you_sure ) ) {
-          $( '#loading' ).show ();
+				$( this ).closest( 'tr' ).find( 'input[type=checkbox]' ).prop( 'checked', true );
+				$( 'select[name=action]' ).find( 'option[value=' + $( this ).data( 'action' ) + ']' ).prop( 'selected', true );
+				$( '#doaction' ).click();
+			} );
 
-          $.post( opts.ajaxurl, {
-              _ajax_nonce: opts.nonce,
-              action: 'red_' + type + '_' + command,
-              checked: checked.serialize()
-            },
-            function() {
-              window.location.reload();
-            });
-        }
-      }
-      else
-        alert( opts.none_selected );
+			$( 'table.items' ).on( 'click', '.row-actions a.red-ajax', function( ev ) {
+				var action = $( this ).data( 'action' );
+				var container = $( this ).closest( 'td' );
 
-      return false;
-    }
+				ev.preventDefault();
 
-    function sort_order_save( type ) {
-      if ( confirm( opts.are_you_sure ) ) {
-        $( '#loading' ).show();
+				container.data( 'cancel', container.html() );
 
-        $.post( opts.ajaxurl, {
-            action: 'red_' + type + '_saveorder',
-            page:   opts.page,
-            _ajax_nonce: opts.nonce,
-            items: $( '#items' ).sortable( 'serialize' )
-          },
-          function() {
-            $( '#loading' ).hide ();
-            $( '#toggle_sort_off' ).hide ();
-            $( '#toggle_sort_on' ).show ();
-            $( '#items' ).sortable( 'disable' );
-            $( '#items li' ).removeClass( 'sortable' );
-          });
-      }
+				show_loading( container.find( '.row-actions' ) );
 
-      return false;
-    }
+				$.post( ajaxurl, {
+					action: $( this ).data( 'action' ),
+					nonce: $( this ).data( 'nonce' ),
+					id: $( this ).data( 'id' )
+				}, function( response ) {
+					if ( show_error( response ) )
+						return;
 
-    function sort_order() {
-      $( '#items' ).sortable();
-      $( '#toggle_sort_on' ).hide();
-      $( '#toggle_sort_off' ).show();
-      $( '#items li' ).addClass( 'sortable' );
-      return false;
-    }
+					container.html( response.html );
+					connect_redirect_edit( container );
+				}, 'json' );
+			} );
 
-    function move_all( type ) {
-      var checked = $( '.item :checked' );
-      if ( checked.length > 0 ) {
-        if ( confirm( opts.are_you_sure ) ) {
-          $( '#loading' ).show ();
+			$( document ).on( 'change', 'select.change-user-agent', function( ev ) {
+				$( this ).closest( 'td' ).find( 'input[type=text]' ).val( $( this ).val() );
+			} );
+		}
 
-          $.post( opts.ajaxurl, {
-              _ajax_nonce: opts.nonce,
-              action: 'red_' + type + '_move',
-              target: $( '#move' ).val(),
-              checked: checked.serialize()
-            },
-            function() {
-              window.location.reload();
-            });
-        }
-      }
-      else
-        alert( opts.none_selected );
+		function show_loading( container ) {
+			container.replaceWith( '<div class="spinner" style="display: block"></div>' );
+		}
 
-      return false;
-    }
+		function show_error( response ) {
+			if (response == 0 || response == -1) {
+				alert( Redirectioni10n.error_msg );
+				return true;
+			}
+			else if (response.error) {
+				alert( response.error );
+				return true;
+			}
 
-    function select_all() {
-      $( '.item :checkbox' ).each(function () {
-        this.checked = (this.checked ? '' : 'checked');
-      });
+			return false;
+		}
 
-      return false;
-    }
+		function connect_redirect_edit( container ) {
+			container.find( 'input[name=save]' ).on( 'click', function( ev ) {
+				var form = $( this ).closest( 'table.edit' );
 
-    function delete_all( type ) {
-      var checked = $( '.item :checked' );
+				ev.preventDefault();
 
-      if ( checked.length > 0 ) {
-        if ( confirm( opts.are_you_sure ) ) {
-          var urltype = 'red_redirect_delete';
+				form.addClass( 'loading' );
 
-          if ( type == 'group' )
-            urltype = 'red_group_delete';
-          else if ( type == 'log' )
-            urltype = 'red_log_delete';
+				$.post( form.data( 'url' ), form.find( 'input, select' ).serialize(), function( response ) {
+					if ( show_error( response ) )
+						return;
 
-          $( '#loading' ).show();
+					container.html( response.html );
 
-          $.post( opts.ajaxurl, {
-              checked: checked.serialize(),
-              action: urltype,
-              _ajax_nonce: opts.nonce
-            },
-            function() {
-              $( '#loading' ).hide();
-              checked.each( function(pos, item) {
-                $( '#item_' + $( item ).val() ).fadeOut();
-              });
-            });
-        }
-      }
-      else
-        alert( opts.none_selected );
+					if ( response.code )
+						container.closest( 'tr' ).find( '.column-type' ).html( response.code );
+				}, 'json' );
+			} );
 
-      return false;
-    }
+			container.find( 'input[name=cancel]' ).on( 'click', function( ev ) {
+				ev.preventDefault();
 
-    function form_loader( element, type, reset_func ) {
-      var item = $( element ).parents( type )
-      var href = element.href;
+				container.html( container.data( 'cancel' ) );
+				container.data( 'cancel', null );
+			} );
+		}
 
-      if ( href.indexOf( 'admin-ajax.php' ) == -1 )
-        href = opts.ajaxurl + '?action=red_redirect_edit&id=' + item.attr( 'id' ).substr( 5 ) + '&_ajax_nonce=' + opts.nonce;
+		edit_items();
+	};
 
-      $( item ).find( '.operations div' ).hide();
-      $( item ).find( '.loader' ).show();
-      $( item ).load( href, function() {
-        // Setup cancel handler
-        $( item ).find( 'input[name=cancel]').click( function() {
-          $( item ).find( '.loader' ).show();
+	Redirection_Modules = function() {
+		function modules() {
+			// Edit module
+			$( 'a.edit' ).unbind( 'click' ).click( function( ev ) {
+				var container = $( this ).closest( 'tr' );
+				ev.preventDefault();
 
-          $( item ).load( href.replace( '_edit', '_load' ), function () {
-            reset_func( type );
-          });
+				$.get( $( this ).attr( 'href' ), function( response ) {
+					container.html( response );
+				} );
+			} );
 
-          return false;
-        });
+			// Reset links
+			$( 'a.reset' ).unbind( 'click' ).click( function() {
+				var item = $( this ).parents( 'tr' )
+				var href = this.href;
 
-        var changestatus = null;
+				$( item ).find( '.operations div' ).hide();
+				$( item ).find( '.loader' ).show();
+				$( item ).load( this.href, function() {
+					modules();
+				});
 
-        // Form handler
-  		  $( item ).find( 'form' ).ajaxForm( {
-  		    beforeSubmit: function( data, form ) {
-            $( item ).find( '.loader' ).show();
+				return false;
+			});
 
-  					if ( form.find( 'input[name=status]' ).length > 0 )
-  					  changestatus = form.find( 'input[name=status]' ).attr( 'checked' );
-				  },
-  				success: function( response ) {
-  					$( item ).html( response );
+			// Delete links
+			$( 'a.rdelete' ).unbind( 'click' ).click( function() {
+				var item = $( this ).parents( 'tr' )
 
-  				  if ( changestatus !== null ) {
-  				    if ( changestatus === true )
-  					    $( item ).removeClass( 'disabled' );
-  					  else
-  					    $( item ).addClass( 'disabled' );
-  					}
+				$( item ).find( '.operations a' ).hide();
+				$( item ).find( '.loader' ).show();
+				$.get( this.href, function() {
+					$( item ).fadeOut();
+				});
 
-  					reset_func( type );
-  				}
-  			});
-  		});
+				return false;
+			});
+		}
 
-      return false;
-    }
+		modules();
+	};
 
-    function modules() {
-      // Edit module
-      $( 'a.edit' ).unbind( 'click' ).click( function() {
-        return form_loader( this, 'tr', modules );
-      } );
+	Redirection_Logs = function() {
+		function logs() {
+			$( '.add-log' ).unbind( 'click' ).click( function( item ) {
+				$( '#added' ).hide ();
+				$( '#add' ).show ();
 
-      // Reset links
-      $( 'a.reset' ).unbind( 'click' ).click( function() {
-        var item = $( this ).parents( 'tr' )
-        var href = this.href;
+				// Copy details
+				$( '#old' ).val( $( this ).attr( 'href' ) );
+				return false;
+			} );
+		}
 
-        $( item ).find( '.operations div' ).hide();
-        $( item ).find( '.loader' ).show();
-        $( item ).load( this.href, function() {
-          modules();
-        });
+		logs();
+	};
 
-        return false;
-      });
+	function get_redirect_error( response ) {
+		if ( parseInt( response, 10 ) === 0 || parseInt( response, 10 ) === -1 )
+			return Redirectioni10n.error_msg;
+		else if ( response.error )
+			return response.error;
+		return false;
+	}
 
-      // Delete links
-      $( 'a.rdelete' ).unbind( 'click' ).click( function() {
-        var item = $( this ).parents( 'tr' )
+	Redirection_Add = function( selector, target, add_form, add_to_screen ) {
+		$( selector ).on( 'change', function() {
+			if ( $( this ).val() == 'url' || $( this ).val() == 'pass' )
+				$( target ).show();
+			else
+				$( target ).hide();
+		} );
 
-        $( item ).find( '.operations a' ).hide();
-        $( item ).find( '.loader' ).show();
-        $.get( this.href, function() {
-          $( item ).fadeOut();
-        });
+		$( add_form ).find( 'form' ).ajaxForm( {
+			beforeSubmit: function () {
+				$( add_form ).removeClass( 'loaded-error' ).addClass( 'loading' );
+			},
+			success: function( response ) {
+				var error = get_redirect_error( response );
 
-        return false;
-      });
-    }
+				$( add_form ).removeClass( 'loading' );
 
-    function edit_items( type ) {
-      $( 'a.redirection-edit' ).unbind( 'click' ).click(function() { return form_loader( this, 'li', edit_items ) } );
+				if ( error ) {
+					$( add_form ).addClass( 'loaded-error' );
+					$( add_form ).find( '.red-error' ).html( error );
+					return;
+				}
 
-      $( 'a.select-all' ).unbind( 'click' ).click(function() { return select_all(); } );
-      $( 'a.toggle-all' ).unbind( 'click' ).click(function() { return do_items( type, 'toggle' ); });
-      $( 'a.reset-all' ).unbind( 'click' ).click(function() { return do_items( type, 'reset' ); });
-      $( 'a.delete-all' ).unbind( 'click' ).click(function() { return delete_all( type ); });
-      $( 'input.move-all' ).unbind( 'click' ).click(function() { return move_all( type ); });
+				if ( add_to_screen === true ) {
+					$( add_form ).addClass( 'loaded' );
 
-      $( 'a.sort-on' ).unbind( 'click' ).click(function() { return sort_order(); });
-      $( 'a.sort-save' ).unbind( 'click' ).click(function() { return sort_order_save( type ); });
-    }
-
-    function logs() {
-      $( '.show-log' ).unbind( 'click' ).click( function() {
-        var item = $( this ).parents( 'tr' )
-        var href = this.href;
-
-        // Set loading icon
-        $( item ).find( '.info' ).html( opts.progress );
-
-        // Load info
-        $( item ).find( '.info' ).load( this.href, function() {
-          // Setup cancel handler
-          $( item ).find( '.info input[name=cancel]').click( function() {
-            $( item ).find( '.info' ).load( href.replace( 'red_log_show', 'red_log_hide' ), function () {
-              logs();
-            });
-
-            return false;
-          });
-        } );
-
-        return false;
-      });
-
-  		$( '#actionator' ).unbind( 'click' ).click( function() {
-  			if ( $( '#action2_select' ).val() == 'delete' )
-  				delete_all( 'log' );
-  			return false;
-  		});
-
-      $( '.add-log' ).unbind( 'click' ).click( function( item ) {
-        $( '#added' ).hide ();
-        $( '#add' ).show ();
-
-        // Copy details
-        $( '#old' ).val( $( this ).attr( 'href' ) );
-        return false;
-      });
-
-      $( '#cb input' ).unbind( 'click' ).click( function() {
-        var checked = $( this ).attr( 'checked' );
-
-        $( 'input.check' ).each( function( pos, item ) {
-          $( item ).attr( 'checked', checked );
-        });
-      });
-    }
-
-    var api = {
-      logs: logs,
-      edit_items: edit_items,
-      modules: modules
-  	};
-
-  	return api;
-  }
-
-  $( document ).ready( function() {
-		$( '#support-annoy' ).animate( { opacity: 0.2, backgroundColor: 'red' } ).animate( { opacity: 1, backgroundColor: 'yellow' } );
-  } );
-
-})(jQuery);
-
-function update_user_agent (item,box)
-{
-  jQuery('#user_agent_' + box).attr ('value', jQuery(item).attr ('value'));
-}
-
-function change_add_redirect (item)
-{
-  if (item.value == 'url' || item.value == 'pass')
-    jQuery('#target').show ();
-  else
-    jQuery('#target').hide ();
-}
+					$( 'table.items' ).append( response.html );
+					$( 'table.items tr' ).each( function( pos, item ) {
+						$( item ).removeClass( 'alternate' );
+						if ( pos % 2 == 0 )
+							$( item ).addClass( 'alternate' );
+					} );
+				}
+			},
+			dataType: 'json'
+		});
+	};
+} )( jQuery );

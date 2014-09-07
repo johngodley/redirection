@@ -115,4 +115,8 @@ class WordPress_Module extends Red_Module {
 		if ( !$this->is_valid() )
 			echo __( '<strong>Disabled: You must enable <a href="options-permalink.php">permalinks</a> before using this</strong>', 'redirection' );
 	}
+
+	public function get_type_string() {
+		return __( 'WordPress', 'redirection' );
+	}
 }
