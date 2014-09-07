@@ -33,7 +33,7 @@ class RedirectionAjax extends Redirection_Plugin {
 	}
 
 	function init() {
-		if ( current_user_can( 'administrator' ) ) {
+		if ( current_user_can( apply_filters( 'redirection_role', 'administrator' ) ) ) {
 			$this->post = stripslashes_deep( $_POST );
 
 			$this->register_ajax( 'red_log_show' );
