@@ -71,6 +71,8 @@ The plugin is simple to install:
 
 You can find full details of installing a plugin on the [plugin installation page](http://urbangiraffe.com/articles/how-to-install-a-wordpress-plugin/).
 
+Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
+
 == Frequently Asked Questions ==
 
 = Why would I want to use this instead of .htaccess? =
@@ -80,15 +82,6 @@ Ease of use.  Redirections are automatically created when a post URL changes, an
 = What is the performance of this plugin? =
 
 The plugin works in a similar manner to how WordPress handles permalinks and should not result in any noticeable slowdown to your site.
-
-== Screenshots ==
-
-1. Simple interface to add a redirection
-2. A graphical interface to manage all your redirections
-
-== Documentation ==
-
-Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
 
 == Upgrade Notice ==
 
