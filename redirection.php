@@ -417,7 +417,7 @@ class Redirection extends Redirection_Plugin {
 
 	public function ajax_log_delete()	{
 		if ( check_ajax_referer( 'redirection-items' ) ) {
-			if ( preg_match_all( '/=(\d*)/', $this->post['checked'], $items ) > 0) {
+			if ( preg_match_all( '/=(\d*)/', $_POST['checked'], $items ) > 0) {
 				foreach ( $items[1] AS $item ) {
 					RE_Log::delete( intval( $item ) );
 				}
@@ -494,7 +494,7 @@ class Redirection extends Redirection_Plugin {
 
 		$group = Red_Group::get( $group_id );
 		if ( $group ) {
-			$group->update( $this->post );
+			$group->update( $_POST );
 
 			$pager = new Redirection_Group_Table( array(), false );
 			$json = array( 'html' => $pager->column_name( $group ) );
@@ -550,7 +550,7 @@ class Redirection extends Redirection_Plugin {
 
 		$this->check_ajax_referer( 'redirection-redirect_add' );
 
-		$item = Red_Item::create( $this->post );
+		$item = Red_Item::create( $_POST );
 		if ( is_wp_error( $item ) )
 			$json['error'] = $item->get_error_message();
 		elseif ( $item !== false ) {

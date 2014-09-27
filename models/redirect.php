@@ -184,7 +184,7 @@ class Red_Item {
 		return $url;
 	}
 
-	static function create( $details ) {
+	static function create( array $details ) {
 		global $wpdb;
 
 		$details = array_map( 'trim', $details );
