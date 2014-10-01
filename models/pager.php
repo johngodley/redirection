@@ -128,7 +128,7 @@ class Redirection_Table extends WP_List_Table {
 		}
 	}
 
-	protected function extra_tablenav( $which ) {
+	function extra_tablenav( $which ) {
 		if ( $which == 'bottom' )
 			return;
 
