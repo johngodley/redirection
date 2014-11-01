@@ -47,7 +47,6 @@ class Redirection extends Redirection_Plugin {
 			add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 			add_action( 'redirection_log_delete', array( $this, 'expire_logs' ) );
 
-			$this->register_activation( __FILE__ );
 			$this->register_plugin_settings( __FILE__ );
 
 			add_action( 'wp_ajax_red_log_delete', array( &$this, 'ajax_log_delete' ) );
