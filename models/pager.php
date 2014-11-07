@@ -113,19 +113,21 @@ class Redirection_Table extends WP_List_Table {
 					$redirections[] = $redirect;
 			}
 
-			array_map( function( $item ) {
-				if ( $this->current_action() == 'reset' )
-					$item->reset();
-				elseif ( $this->current_action() == 'enable' )
-					$item->enable();
-				elseif ( $this->current_action() == 'disable' )
-					$item->disable();
-				elseif ( $this->current_action() == 'delete' )
-					$item->delete();
-			}, $redirections );
+			array_map( array( &$this, 'process_action_items' ), $redirections );
 
 			Red_Module::flush( $this->current_group->module_id );
 		}
+	}
+
+	function process_action_items( $item ) {
+		if ( $this->current_action() == 'reset' )
+			$item->reset();
+		elseif ( $this->current_action() == 'enable' )
+			$item->enable();
+		elseif ( $this->current_action() == 'disable' )
+			$item->disable();
+		elseif ( $this->current_action() == 'delete' )
+			$item->delete();
 	}
 
 	function extra_tablenav( $which ) {
