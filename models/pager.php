@@ -288,10 +288,12 @@ class Redirection_Group_Table extends WP_List_Table {
 					$groups[] = $redirect;
 			}
 
-			array_map( function( $item ) {
-				$item->delete();
-			}, $groups );
+			array_map( array( &$this, 'delete_item' ), $groups );
 		}
+	}
+
+	function delete_item( $item ) {
+		$item->delete();
 	}
 
 	protected function extra_tablenav( $which ) {
