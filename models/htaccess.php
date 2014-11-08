@@ -173,7 +173,7 @@ class Red_Htaccess {
 			$existing = @file_get_contents( $filename );
 
 			// Remove any existing Redirection module
-			$text .= preg_replace( '@# Created by Redirection Module: '.$name.'(.*?)# End of Redirection@s', '', $existing );
+			$text .= preg_replace( '@# Created by Redirection(.*?)# End of Redirection@sm', '', $existing );
 		}
 
 		$file = @fopen( $filename, 'w' );
