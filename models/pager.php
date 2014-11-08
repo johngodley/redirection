@@ -296,7 +296,7 @@ class Redirection_Group_Table extends WP_List_Table {
 		$item->delete();
 	}
 
-	protected function extra_tablenav( $which ) {
+	function extra_tablenav( $which ) {
 		if ( $which == 'bottom' )
 			return;
 
