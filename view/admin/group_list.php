@@ -32,7 +32,7 @@
 				<th width="50"></th>
 				<td>
 					<input class="button-primary" type="submit" name="add" value="<?php esc_attr_e( 'Add', 'redirection' ); ?>"/>
-					<input type="hidden" name="module_id" value="<?php echo $module->id ?>"/>
+					<input type="hidden" name="module_id" value="<?php echo $module->get_id() ?>"/>
 				</td>
 			</tr>
 		</table>
