@@ -53,20 +53,12 @@ class Red_Csv_File extends Red_FileIO {
 		return $count;
 	}
 
-	function is_regex ($url) {
-		$regex  = '()[]$^?+';
-		$escape = false;
+	function is_regex( $url ) {
+		$regex = '()[]$^*';
 
-		for ( $x = 0; $x < strlen( $url ); $x++ ) {
+		if ( strpbrk( $url, $regex ) === false )
+			return false;
 
-			if ( $url{$x} == '\\' )
-				$escape = true;
-			elseif ( strpos( $regex, $url{$x} ) !== false && !$escape )
-				return true;
-			else
-				$escape = false;
-		}
-
-		return false;
+		return true;
 	}
 }
