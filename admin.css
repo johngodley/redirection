@@ -168,6 +168,10 @@ table.items .red-disabled {
 	text-decoration: line-through;
 }
 
+table.edit {
+	width: 100%;
+}
+
 .red-added {
 	display: none;
 }
