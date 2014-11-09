@@ -157,9 +157,14 @@ class Redirection_Table extends WP_List_Table {
 		global $wpdb, $current_user;
 
 		$screen = get_current_screen();
-		$per_page = get_user_meta( $current_user->ID, $screen->get_option( 'per_page', 'option' ), true );
 
-		$per_page = $per_page ? $per_page : 25;
+		$per_page = 25;
+		if ( $screen->get_option( 'per_page', 'option' ) ) {
+			$per_page = intval( get_user_meta( $current_user->ID, $screen->get_option( 'per_page', 'option' ), true ) );
+			if ( $per_page === 0 )
+				$per_page = 25;
+		}
+
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 
@@ -638,7 +643,11 @@ class Redirection_404_Table extends WP_List_Table {
 }
 
 class Redirection_Module_Table extends WP_List_Table {
-	function __construct() {
+	private $token = false;
+
+	function __construct( $token ) {
+		$this->token = $token;
+
 		//Set parent defaults
 		parent::__construct( array(
 			'singular'  => 'item',     //singular name of the listed records
@@ -671,7 +680,16 @@ class Redirection_Module_Table extends WP_List_Table {
 	}
 
 	function column_name( $item ) {
-		$actions['edit']   = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Edit', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
+		$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Edit', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
+
+		if ( $this->token ) {
+			if ( $item->get_type() === 'wp' ) {
+				$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
+			}
+
+			$actions['htaccess'] = sprintf( '<a href="%s">.htaccess</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=apache&amp;module='.intval( $item->get_id() ) );
+			$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
+		}
 
 		return '<a href="#" data-action="%s" data-nonce="%s" data-id="%s">'.esc_html( $item->get_name() ).'</a>'.$this->row_actions( $actions );
 	}

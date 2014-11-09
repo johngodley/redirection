@@ -183,10 +183,11 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function admin_screen_modules() {
-		$pager = new Redirection_Module_Table();
+		$options = $this->get_options();
+		$pager = new Redirection_Module_Table( $options['token'] );
 		$pager->prepare_items();
 
-		$this->render_admin( 'module_list', array( 'options' => $this->get_options(), 'table' => $pager ) );
+		$this->render_admin( 'module_list', array( 'options' => $options, 'table' => $pager ) );
 	}
 
 	function get_options() {
@@ -450,6 +451,7 @@ class Redirection extends Redirection_Plugin {
 
 		$hook_suffix = '';
 		$module_id = intval( $_POST['id'] );
+		$options = $this->get_options();
 
 		$this->check_ajax_referer( 'red_module_save_'.$module_id );
 
@@ -458,7 +460,7 @@ class Redirection extends Redirection_Plugin {
 		if ( $module ) {
 			$module->update( $_POST );
 
-			$pager = new Redirection_Module_Table( array(), false );
+			$pager = new Redirection_Module_Table( $options['token'] );
 			$json = array( 'html' => $pager->column_name( $module ) );
 		}
 		else
