@@ -45,7 +45,6 @@ class Redirection extends Redirection_Plugin {
 			$this->add_action( 'load-tools_page_redirection', 'redirection_head' );
 
 			add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
-			add_action( 'redirection_log_delete', array( $this, 'expire_logs' ) );
 
 			$this->register_plugin_settings( __FILE__ );
 
@@ -65,6 +64,8 @@ class Redirection extends Redirection_Plugin {
 			$this->wp = new WordPress_Module();
 			$this->wp->start();
 		}
+
+		add_action( 'redirection_log_delete', array( $this, 'expire_logs' ) );
 
 		$this->monitor = new Red_Monitor( $this->get_options() );
 		$this->add_action ('template_redirect' );
@@ -131,18 +132,18 @@ class Redirection extends Redirection_Plugin {
 
 		if ( $options['expire_redirect'] > 0 ) {
 			$cleanup = true;
-			$logs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire'] ) );
-
+			$logs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire_redirect'] ) );
 			if ( $logs > 0 )
-				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire'] ) );
+				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire_redirect'] ) );
 		}
 
 		if ( $options['expire_404'] > 0 ) {
 			$cleanup = true;
-			$l404 = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire'] ) );
+			echo $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire_404'] );
+			$l404 = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire_404'] ) );
 
 			if ( $l404 > 0 )
-				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire'] ) );
+				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT 1000", $options['expire_404'] ) );
 		}
 
 		if ( $cleanup ) {
