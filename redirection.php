@@ -369,11 +369,15 @@ class Redirection extends Redirection_Plugin {
 			$group_id = Red_Group::get_first_id();
 
 		$group = Red_Group::get( $group_id );
+		if ( $group === false ) {
+			$this->render_error( __( 'Invalid group ID', 'redirection' ) );
+		}
+		else {
+			$table = new Redirection_Table( Red_Group::get_for_select(), $group );
+			$table->prepare_items();
 
-		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
-		$table->prepare_items();
-
-  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+	  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+	  	}
 	}
 
 	function setMatched( $match ) {
