@@ -60,7 +60,11 @@ class Redirection_Table extends WP_List_Table {
 			$after = '</span>';
 		}
 
-		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->url ).'">'.esc_html( $item->url ).'</a>'.$after, $this->row_actions( $actions ) );
+		$title = $item->url;
+		if ( $item->title )
+			$title = $item->title;
+
+		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->url ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
 	}
 
 	function column_cb($item){
