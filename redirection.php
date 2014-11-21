@@ -112,7 +112,7 @@ class Redirection extends Redirection_Plugin {
 		if ( !isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
 
-		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'js/redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
+		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
 		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
