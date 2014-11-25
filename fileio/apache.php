@@ -1,7 +1,7 @@
 <?php
 
 class Red_Apache_File extends Red_FileIO {
-	var $htaccess;
+	public $htaccess;
 
 	function export( array $items ) {
 		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';

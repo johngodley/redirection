@@ -20,18 +20,18 @@ this software, even if advised of the possibility of such damage.
 For full license details see license.txt
 ============================================================================================================ */
 class Red_Item {
-	var $id          = null;
-	var $created;
-	var $referrer;
-	var $url         = null;
-	var $regex       = false;
-	var $action_data = null;
-	var $action_code = 0;
+	public $id          = null;
+	public $created;
+	public $referrer;
+	public $url         = null;
+	public $regex       = false;
+	public $action_data = null;
+	public $action_code = 0;
 
-	var $last_access   = null;
-	var $last_count    = 0;
+	public $last_access   = null;
+	public $last_count    = 0;
 
-	var $tracking      = true;
+	public $tracking      = true;
 	private $status;
 	private $position;
 

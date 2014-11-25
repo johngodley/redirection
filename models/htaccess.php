@@ -1,7 +1,7 @@
 <?php
 
 class Red_Htaccess {
-	var $items;
+	public $items;
 
 	function encode_from( $url )	{
 		return '^'.$this->encode( $url ).'$';

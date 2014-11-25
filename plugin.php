@@ -111,19 +111,19 @@ class Redirection_Plugin {
 	 * Plugin name
 	 * @var string
 	 **/
-	var $plugin_name;
+	public $plugin_name;
 
 	/**
 	 * Plugin 'view' directory
 	 * @var string Directory
 	 **/
-	var $plugin_base;
+	public  $plugin_base;
 
 	/**
 	 * Version URL(if enabled)
 	 * @var string URL
 	 **/
-	var $version_url;
+	public  $version_url;
 
 	/**
 	 * Register your plugin with a name and base directory.  This <strong>must</strong> be called once.

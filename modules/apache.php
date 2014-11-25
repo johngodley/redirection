@@ -2,17 +2,17 @@
 
 class Apache_Module extends Red_Module
 {
-	var $name;
-	var $allow_ip  = false;
-	var $raw;
-	var $ban_ip = false;
+	public  $name;
+	public $allow_ip  = false;
+	public $raw;
+	public $ban_ip = false;
 
-	var $site      = '';
-	var $location  = '';
-	var $canonical = '';
-	var $strip_index = '';
-	var $memory_limit = '';
-	var $error_level  = '';
+	public $site      = '';
+	public $location  = '';
+	public $canonical = '';
+	public $strip_index = '';
+	public $memory_limit = '';
+	public $error_level  = '';
 
 	function is_valid ()
 	{

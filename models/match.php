@@ -21,7 +21,7 @@ For full license details see license.txt
 ============================================================================================================ */
 
 class Red_Match {
-	var $url;
+	public $url;
 
 	function Red_Match( $values = '' ) {
 		if ( $values ) {

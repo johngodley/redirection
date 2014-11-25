@@ -1,7 +1,7 @@
 <?php
 
 class Red_Monitor {
-	var $monitor_post;
+	public $monitor_post;
 
 	function Red_Monitor( $options ) {
 		if ( $options['monitor_post'] > 0 ) {

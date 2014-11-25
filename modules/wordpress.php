@@ -1,10 +1,10 @@
 <?php
 
 class WordPress_Module extends Red_Module {
-	var $canonical    = 'default';
-	var $strip_index  = 'default';
-	var $time_limit   = 0;
-	var $matched;
+	public $canonical    = 'default';
+	public $strip_index  = 'default';
+	public $time_limit   = 0;
+	public $matched;
 
 	function start() {
 		// Setup the various filters and actions that allow Redirection to h appen

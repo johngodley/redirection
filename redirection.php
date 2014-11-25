@@ -35,7 +35,7 @@ if ( class_exists( 'Redirection' ) )
 	return;
 
 class Redirection extends Redirection_Plugin {
-	var $hasMatched = false;
+	public $hasMatched = false;
 
 	function __construct() {
 		$this->register_plugin( 'redirection', __FILE__ );

@@ -21,7 +21,7 @@ For full license details see license.txt
 ============================================================================================================ */
 
 class Agent_Match extends Red_Match {
-	var $user_agent;
+	public $user_agent;
 
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
