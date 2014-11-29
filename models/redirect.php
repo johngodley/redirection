@@ -216,7 +216,7 @@ class Red_Item {
 
 		$action = $details['red_action'];
 		$action_code = 0;
-		if ( $action == 'url' || $action == 'random' )
+		if ( $action == 'url' || $action == 'random' || $action == 'latest' )
 			$action_code = 301;
 		elseif ( $action == 'error' )
 			$action_code = 404;
@@ -428,6 +428,7 @@ class Red_Item {
 		$actions = array(
 			'url'     => __( 'Redirect to URL', 'redirection' ),
 			'random'  => __( 'Redirect to random post', 'redirection' ),
+			'latest'  => __( 'Redirect to latest post', 'redirection' ),
 			'pass'    => __( 'Pass-through', 'redirection' ),
 			'error'   => __( 'Error (404)', 'redirection' ),
 			'nothing' => __( 'Do nothing', 'redirection' ),
@@ -443,7 +444,7 @@ class Red_Item {
 	}
 
 	function type()	{
-		if ( ( $this->action_type == 'url' || $this->action_type == 'error' || $this->action_type == 'random' ) && $this->action_code > 0 )
+		if ( ( $this->action_type == 'url' || $this->action_type == 'error' || $this->action_type == 'random' || $this->action_type == 'latest'  ) && $this->action_code > 0 )
 			return $this->action_code;
 		else if ( $this->action_type == 'pass' )
 			return 'pass';
