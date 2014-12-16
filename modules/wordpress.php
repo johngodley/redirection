@@ -20,11 +20,13 @@ class WordPress_Module extends Red_Module {
 
 	function init() {
 		global $redirection;
-
 		$url = $_SERVER['REQUEST_URI'];
+		$url = rtrim($url,"/");
+		$url .= '/';
 
 		// Make sure we don't try and redirect something essential
 		if ( !$this->protected_url( $url ) && !$redirection->hasMatched() ) {
+
 			do_action( 'redirection_first', $url, $this );
 
 			$redirects = Red_Item::get_for_url( $url, 'wp' );
@@ -39,6 +41,7 @@ class WordPress_Module extends Red_Module {
 
 			do_action( 'redirection_last', $url, $this );
 		}
+
 	}
 
 	function protected_url( $url )
