@@ -218,7 +218,7 @@ class Red_Item {
 
 		$action = $details['red_action'];
 		$action_code = 0;
-		if ( $action == 'url' || $action == 'random' || $action == 'latest' )
+		if ( $action == 'url' || $action == 'random' || $action == 'latest' || $action == 'follow_up' )
 			$action_code = 301;
 		elseif ( $action == 'error' )
 			$action_code = 404;
@@ -226,17 +226,35 @@ class Red_Item {
 		if ( isset( $details['action_code'] ) )
 			$action_code = intval( $details['action_code'] );
 
-		$data = array(
-			'url'         => self::sanitize_url( $details['source'], $regex),
-			'action_type' => $details['red_action'],
-			'regex'       => $regex,
-			'position'    => $position,
-			'match_type'  => $details['match'],
-			'action_data' => $matcher->data( $details ),
-			'action_code' => $action_code,
-			'last_access' => '0000-00-00 00:00:00',
-			'group_id'    => $group_id
-		);
+		if( $action == 'follow_up' ){   // auto regex with follow-up url
+			$regex = 1;
+			$url = self::sanitize_url( $details['source'], $regex);
+			$url = rtrim( $url , '/' );
+			$data = array(
+				'url'         => $url.'(.*)',
+				'action_type' => $details['red_action'],
+				'regex'       => $regex,
+				'position'    => $position,
+				'match_type'  => $details['match'],
+				'action_data' => $matcher->data( $details ),
+				'action_code' => $action_code,
+				'last_access' => '0000-00-00 00:00:00',
+				'group_id'    => $group_id
+			);
+		}else{
+			$data = array(
+				'url'         => self::sanitize_url( $details['source'], $regex),
+				'action_type' => $details['red_action'],
+				'regex'       => $regex,
+				'position'    => $position,
+				'match_type'  => $details['match'],
+				'action_data' => $matcher->data( $details ),
+				'action_code' => $action_code,
+				'last_access' => '0000-00-00 00:00:00',
+				'group_id'    => $group_id
+			);
+		}
+
 
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
@@ -428,12 +446,13 @@ class Red_Item {
 
 	static function actions( $action = '' ) {
 		$actions = array(
-			'url'     => __( 'Redirect to URL', 'redirection' ),
-			'random'  => __( 'Redirect to random post', 'redirection' ),
-			'latest'  => __( 'Redirect to latest post', 'redirection' ),
-			'pass'    => __( 'Pass-through', 'redirection' ),
-			'error'   => __( 'Error (404)', 'redirection' ),
-			'nothing' => __( 'Do nothing', 'redirection' ),
+			'follow_up' => __( 'Follow up to given URL structure', 'redirection' ),
+			'url'       => __( 'Redirect to URL', 'redirection' ),
+			'random'    => __( 'Redirect to random post', 'redirection' ),
+			'latest'    => __( 'Redirect to latest post', 'redirection' ),
+			'pass'      => __( 'Pass-through', 'redirection' ),
+			'error'     => __( 'Error (404)', 'redirection' ),
+			'nothing'   => __( 'Do nothing', 'redirection' ),
 		);
 
 		if ( $action )
@@ -446,7 +465,7 @@ class Red_Item {
 	}
 
 	function type()	{
-		if ( ( $this->action_type == 'url' || $this->action_type == 'error' || $this->action_type == 'random' || $this->action_type == 'latest'  ) && $this->action_code > 0 )
+		if ( ( $this->action_type == 'url' || $this->action_type == 'follow_up' || $this->action_type == 'error' || $this->action_type == 'random' || $this->action_type == 'latest'  ) && $this->action_code > 0 )
 			return $this->action_code;
 		else if ( $this->action_type == 'pass' )
 			return 'pass';

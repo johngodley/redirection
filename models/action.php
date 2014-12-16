@@ -35,12 +35,13 @@ class Red_Action
 	{
 		return array
 		(
-			'url'     => array( 'url.php', 'Url_Action' ),
-			'error'   => array( 'error.php', 'Error_Action' ),
-			'nothing' => array( 'nothing.php', 'Nothing_Action' ),
-			'random'  => array( 'random.php', 'Random_Action' ),
-			'latest'  => array( 'latest.php', 'Latest_Action' ),
-			'pass'    => array( 'pass.php', 'Pass_Action' ),
+			'follow_up' => array( 'follow_up.php', 'FollowUp_Action' ),
+			'url'       => array( 'url.php', 'Url_Action' ),
+			'error'     => array( 'error.php', 'Error_Action' ),
+			'nothing'   => array( 'nothing.php', 'Nothing_Action' ),
+			'random'    => array( 'random.php', 'Random_Action' ),
+			'latest'    => array( 'latest.php', 'Latest_Action' ),
+			'pass'      => array( 'pass.php', 'Pass_Action' ),
 		);
 	}
 

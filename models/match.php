@@ -91,12 +91,13 @@ class Red_Match {
 	}
 
 	static function available() {
-	 	return array (
+		return array(
 			'url'      => 'url.php',
 			'referrer' => 'referrer.php',
 			'agent'    => 'user_agent.php',
 			'login'    => 'login.php',
-		 );
+			'follow'   => 'follow.php',
+		);
 	}
 
 	function match_name() {
