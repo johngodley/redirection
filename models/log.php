@@ -21,13 +21,13 @@ For full license details see license.txt
 ============================================================================================================ */
 
 class RE_Log {
-	var $id;
-	var $created;
-	var $url;
-	var $agent;
-	var $referrer;
-	var $ip;
-	var $redirection_id;
+	public $id;
+	public $created;
+	public $url;
+	public $agent;
+	public $referrer;
+	public $ip;
+	public $redirection_id;
 
 	function RE_Log( $values ) {
 		foreach ( $values AS $key => $value ) {
@@ -164,12 +164,12 @@ class RE_Log {
 }
 
 class RE_404 {
-	var $id;
-	var $created;
-	var $url;
-	var $agent;
-	var $referrer;
-	var $ip;
+	public $id;
+	public $created;
+	public $url;
+	public $agent;
+	public $referrer;
+	public $ip;
 
 	function RE_404( $values ) {
 		foreach ( $values AS $key => $value ) {

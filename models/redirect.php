@@ -20,18 +20,18 @@ this software, even if advised of the possibility of such damage.
 For full license details see license.txt
 ============================================================================================================ */
 class Red_Item {
-	var $id          = null;
-	var $created;
-	var $referrer;
-	var $url         = null;
-	var $regex       = false;
-	var $action_data = null;
-	var $action_code = 0;
+	public $id          = null;
+	public $created;
+	public $referrer;
+	public $url         = null;
+	public $regex       = false;
+	public $action_data = null;
+	public $action_code = 0;
 
-	var $last_access   = null;
-	var $last_count    = 0;
+	public $last_access   = null;
+	public $last_count    = 0;
 
-	var $tracking      = true;
+	public $tracking      = true;
 	private $status;
 	private $position;
 
@@ -105,6 +105,7 @@ class Red_Item {
 
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
+
 
 		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_groups.position AS group_pos,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type=%s WHERE( @redirection_items.regex=1 OR @redirection_items.url=%s)", $type, $url );
 		$sql = str_replace( '@', $wpdb->prefix, $sql);
@@ -216,7 +217,7 @@ class Red_Item {
 
 		$action = $details['red_action'];
 		$action_code = 0;
-		if ( $action == 'url' || $action == 'random' )
+		if ( $action == 'url' || $action == 'random' || $action == 'latest' || $action == 'follow_up' )
 			$action_code = 301;
 		elseif ( $action == 'error' )
 			$action_code = 404;
@@ -224,17 +225,35 @@ class Red_Item {
 		if ( isset( $details['action_code'] ) )
 			$action_code = intval( $details['action_code'] );
 
-		$data = array(
-			'url'         => self::sanitize_url( $details['source'], $regex),
-			'action_type' => $details['red_action'],
-			'regex'       => $regex,
-			'position'    => $position,
-			'match_type'  => $details['match'],
-			'action_data' => $matcher->data( $details ),
-			'action_code' => $action_code,
-			'last_access' => '0000-00-00 00:00:00',
-			'group_id'    => $group_id
-		);
+		if( $action == 'follow_up' ){   // auto regex with follow-up url
+			$regex = 1;
+			$url = self::sanitize_url( $details['source'], $regex);
+			$url = rtrim( $url , '/' );
+			$data = array(
+				'url'         => $url.'(.*)',
+				'action_type' => $details['red_action'],
+				'regex'       => $regex,
+				'position'    => $position,
+				'match_type'  => $details['match'],
+				'action_data' => $matcher->data( $details ),
+				'action_code' => $action_code,
+				'last_access' => '0000-00-00 00:00:00',
+				'group_id'    => $group_id
+			);
+		}else{
+			$data = array(
+				'url'         => self::sanitize_url( $details['source'], $regex),
+				'action_type' => $details['red_action'],
+				'regex'       => $regex,
+				'position'    => $position,
+				'match_type'  => $details['match'],
+				'action_data' => $matcher->data( $details ),
+				'action_code' => $action_code,
+				'last_access' => '0000-00-00 00:00:00',
+				'group_id'    => $group_id
+			);
+		}
+
 
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
@@ -426,11 +445,13 @@ class Red_Item {
 
 	static function actions( $action = '' ) {
 		$actions = array(
-			'url'     => __( 'Redirect to URL', 'redirection' ),
-			'random'  => __( 'Redirect to random post', 'redirection' ),
-			'pass'    => __( 'Pass-through', 'redirection' ),
-			'error'   => __( 'Error (404)', 'redirection' ),
-			'nothing' => __( 'Do nothing', 'redirection' ),
+			'follow_up' => __( 'Follow up to given URL structure', 'redirection' ),
+			'url'       => __( 'Redirect to URL', 'redirection' ),
+			'random'    => __( 'Redirect to random post', 'redirection' ),
+			'latest'    => __( 'Redirect to latest post', 'redirection' ),
+			'pass'      => __( 'Pass-through', 'redirection' ),
+			'error'     => __( 'Error (404)', 'redirection' ),
+			'nothing'   => __( 'Do nothing', 'redirection' ),
 		);
 
 		if ( $action )
@@ -443,7 +464,7 @@ class Red_Item {
 	}
 
 	function type()	{
-		if ( ( $this->action_type == 'url' || $this->action_type == 'error' || $this->action_type == 'random' ) && $this->action_code > 0 )
+		if ( ( $this->action_type == 'url' || $this->action_type == 'follow_up' || $this->action_type == 'error' || $this->action_type == 'random' || $this->action_type == 'latest'  ) && $this->action_code > 0 )
 			return $this->action_code;
 		else if ( $this->action_type == 'pass' )
 			return 'pass';

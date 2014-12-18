@@ -1,7 +1,7 @@
 <?php
 
 abstract class Red_FileIO {
-	var $items = array();
+	public $items = array();
 
 	public static function create( $type ) {
 		$exporter = false;

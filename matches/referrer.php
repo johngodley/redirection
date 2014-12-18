@@ -21,8 +21,8 @@ For full license details see license.txt
 ============================================================================================================ */
 
 class Referrer_Match extends Red_Match {
-	var $referrer;
-	var $regex;
+	public $referrer;
+	public $regex;
 
 	function name() {
 		return __( 'URL and referrer', 'redirection' );

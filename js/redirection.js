@@ -154,7 +154,7 @@ var Redirection;
 
 	Redirection_Add = function( selector, target, add_form, add_to_screen ) {
 		$( selector ).on( 'change', function() {
-			if ( $( this ).val() == 'url' || $( this ).val() == 'pass' )
+			if ( $( this ).val() == 'url' || $( this ).val() == 'pass' || $( this ).val() == 'follow_up' )
 				$( target ).show();
 			else
 				$( target ).hide();
