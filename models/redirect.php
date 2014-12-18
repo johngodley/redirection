@@ -106,7 +106,6 @@ class Red_Item {
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
 
-		$url = rtrim($url,"/");
 
 		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_groups.position AS group_pos,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type=%s WHERE( @redirection_items.regex=1 OR @redirection_items.url=%s)", $type, $url );
 		$sql = str_replace( '@', $wpdb->prefix, $sql);
