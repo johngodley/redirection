@@ -124,7 +124,7 @@ class Red_Group {
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', $data );
 
 			Red_Module::flush( $module );
-			return $wpdb->insert_id;
+			return Red_Group::get( $wpdb->insert_id );
 		}
 
 		return false;
