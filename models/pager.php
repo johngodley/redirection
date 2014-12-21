@@ -377,6 +377,8 @@ class Redirection_Group_Table extends WP_List_Table {
 }
 
 class Redirection_Log_Table extends WP_List_Table {
+	const REFERRER_MAX = 120;
+	const TARGET_MAX = 80;
 	private $lookup;
 
 	function __construct( $options ) {
@@ -406,7 +408,7 @@ class Redirection_Log_Table extends WP_List_Table {
 
 	function column_url( $item ) {
 		$actions = array(
-			'target' => esc_html( $item->sent_to ),
+			'target' => esc_html( substr( $item->sent_to, 0, self::TARGET_MAX ) ),
 		);
 
 		return sprintf( '%1$s %2$s', '<a href="'.esc_url( $item->url ).'">'.esc_html( $item->show_url( $item->url ) ).'</a>', $this->row_actions( $actions ) );
@@ -414,7 +416,7 @@ class Redirection_Log_Table extends WP_List_Table {
 
 	function column_referrer( $item ) {
 		$actions = array(
-			'agent' => esc_html( $item->agent ),
+			'agent' => esc_html( substr( $item->agent, 0, self::REFERRER_MAX ) ),
 		);
 
 		return sprintf( '%1$s %2$s', '<a href="'.esc_url( $item->referrer ).'">'.esc_html( parse_url( $item->referrer, PHP_URL_HOST ) ).'</a>', $this->row_actions( $actions ) );
