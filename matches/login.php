@@ -32,7 +32,7 @@ class Login_Match extends Red_Match {
 		<tr>
 			<th></th>
 			<td>
-				<p style="padding: 0.5em">
+				<p>
 					<?php _e( 'The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected.', 'redirection' ); ?>
 				</p>
 			</td>

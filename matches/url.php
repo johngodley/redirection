@@ -36,7 +36,7 @@ class URL_Match extends Red_Match {
 		</tr>
 		<?php endif; ?>
 		<?php if ( $this->action->can_change_code() ) : ?>
-		<tr>
+		<tr class="advanced">
 			<th><?php _e( 'HTTP Code', 'redirection' ); ?>:</th>
 			<td>
 				<select name="action_code">

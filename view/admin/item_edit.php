@@ -1,18 +1,19 @@
 <?php if ( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 <table class="edit" data-url="<?php echo admin_url( 'admin-ajax.php' ) ?>">
 	<tr>
-		<th width="100"><?php _e ('Description', 'redirection'); ?>:</th>
-		<td>
-			<input style="width: 85%" type="text" name="title" value="<?php echo esc_attr( $redirect->title ); ?>"/>
-			<span class="sub">(<?php _e( "optional", 'redirection' ); ?>)</span>
-		</td>
-	</tr>
-
-	<tr>
 		<th width="100"><a target="_blank" href="<?php echo esc_url( $redirect->url ) ?>"><?php _e( 'Source URL', 'redirection' ); ?>:</a></th>
 		<td>
 			<input style="width: 85%" type="text" name="old" value="<?php echo esc_attr( $redirect->url ); ?>" id="original"/>
 			<label><?php _e( 'Regex', 'redirection' ); ?>: <input type="checkbox" name="regex" <?php if ( $redirect->regex == true ) echo ' checked="checked"' ?>/></label>
+
+			<a href="#" class="advanced-toggle">&#9881;</a>
+		</td>
+	</tr>
+	<tr class="advanced">
+		<th width="100"><?php _e ('Description', 'redirection'); ?>:</th>
+		<td>
+			<input style="width: 85%" type="text" name="title" value="<?php echo esc_attr( $redirect->title ); ?>"/>
+			<span class="sub">(<?php _e( "optional", 'redirection' ); ?>)</span>
 		</td>
 	</tr>
 

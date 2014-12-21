@@ -3,6 +3,12 @@ var Redirection;
 (function($) {
 	Redirection_Items = function() {
 		function edit_items() {
+			$( 'table.items' ).on( 'click', '.advanced-toggle', function( ev ) {
+				ev.preventDefault();
+				$( this ).toggleClass( 'advanced-toggled' );
+				$( this ).closest( 'table' ).find( '.advanced' ).toggle();
+			} );
+
 			$( 'table.items' ).on( 'click', '.row-actions a.red-auto', function( ev ) {
 				ev.preventDefault();
 
