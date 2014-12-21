@@ -173,6 +173,7 @@ var Redirection;
 			success: function( response ) {
 				var error = get_redirect_error( response );
 
+				$( add_form ).find( 'input[type=text]' ).val( '' );
 				$( add_form ).removeClass( 'loading' );
 
 				if ( error ) {
