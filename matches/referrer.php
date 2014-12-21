@@ -53,10 +53,12 @@ class Referrer_Match extends Red_Match {
 				</select>
 			</td>
 		</tr>
-		</table>
-		<p style="padding: 0.5em"><?php _e( 'The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don\'t match.  Leaving a URL blank means that the visitor is not redirected.', 'redirection' ); ?></p>
-		<table class="edit">
-
+		<tr>
+			<th><?php _e( 'HTTP Code', 'redirection' ); ?>:</th>
+			<td>
+				<p style="padding: 0.5em"><?php _e( 'The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don\'t match.  Leaving a URL blank means that the visitor is not redirected.', 'redirection' ); ?></p>
+			</td>
+		</tr>
 		<tr>
 			<th width="100" valign="top">
 				<?php if ( strlen( $this->url_from ) > 0 ) : ?>
@@ -88,9 +90,9 @@ class Referrer_Match extends Red_Match {
 
 		return array(
 			'url_from'    => $details['url_from'],
-			'url_notfrom' => $details['url_notfrom'],
+			'url_notfrom' => isset( $details['url_notfrom'] ) ? $details['url_notfrom'] : false,
 			'regex'       => isset( $details['regex'] ) ? true : false,
-			'referrer'    => $details['referrer']
+			'referrer'    => isset( $details['referrer'] ) ? $details['referrer'] : false
 		);
 	}
 

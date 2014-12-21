@@ -69,8 +69,8 @@ class Login_Match extends Red_Match {
 			$details['target'] = $details;
 
 		return array(
-			'url_loggedin' => $details['url_loggedin'],
-			'url_loggedout' => $details['url_loggedout']
+			'url_loggedin' => isset( $details['url_loggedin'] ) ? $details['url_loggedin'] : false,
+			'url_loggedout' => isset( $details['url_loggedout'] ) ? $details['url_loggedout'] : false,
 		);
 	}
 
