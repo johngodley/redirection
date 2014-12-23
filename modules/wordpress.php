@@ -41,25 +41,18 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	function protected_url( $url )
-	{
-		global $redirection;
-		$part = explode( '?', $url );
-
-		if ( $part[0] == str_replace( get_bloginfo( 'url' ), '', $redirection->url() ).'/ajax.php' || strpos($url, 'wp-cron.php' ) !== false )
-			return true;
+	function protected_url( $url ) {
 		return false;
 	}
 
-	function status_header( $status )
-	{
+	function status_header( $status ) {
 		// Fix for incorrect headers sent when using FastCGI/IIS
 		if ( substr( php_sapi_name(), 0, 3 ) == 'cgi' )
 			return str_replace( 'HTTP/1.1', 'Status:', $status );
 		return $status;
 	}
 
-	function send_headers( $obj )	{
+	function send_headers( $obj ) {
 		if ( !empty( $this->matched ) && $this->matched->match->action_code == '410' ) {
 			add_filter( 'status_header', array( &$this, 'set_header_410' ) );
 		}
@@ -102,16 +95,14 @@ class WordPress_Module extends Red_Module {
 		return $skip;
 	}
 
-	function is_valid()
-	{
+	function is_valid() {
 		$perm = get_option( 'permalink_structure' );
 		if ( $perm === false || $perm == '' )
 			return false;
 		return true;
 	}
 
-	function options()
-	{
+	function options() {
 		if ( !$this->is_valid() )
 			echo __( '<strong>Disabled: You must enable <a href="options-permalink.php">permalinks</a> before using this</strong>', 'redirection' );
 	}

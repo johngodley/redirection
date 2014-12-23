@@ -4,7 +4,7 @@
 
 	<h2><?php _e( 'Redirections', 'redirection' ); ?>:</h2>
 
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<form action="tools.php">
 		<input type="hidden" name="page" value="redirection.php"/>
@@ -19,7 +19,7 @@
 	<div style="clear: both"></div>
 </div>
 
-<?php $this->render_admin( 'add', array( 'add_to_screen' => true, 'group' => $group ? $group->id : 0, 'hidden' => false ) ); ?>
+<?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group ? $group->id : 0, 'hidden' => false ) ); ?>
 
 <script type="text/javascript">
 var redirection;

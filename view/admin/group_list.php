@@ -4,7 +4,7 @@
 
 	<h2><?php _e( 'Groups', 'redirection' ); ?></a></h2>
 
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<form action="tools.php">
 		<input type="hidden" name="page" value="redirection.php"/>

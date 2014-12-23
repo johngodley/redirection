@@ -6,7 +6,7 @@
 	</tr>
 	<tr>
 		<th width="70"><?php _e ('Tracked', 'redirection'); ?>:</th>
-		<td><label><input type="checkbox" name="tracking"<?php echo $this->checked ($group->tracking) ?>/> <span class="sub"><?php _e ('Whether to track \'hits\' to items', 'redirection'); ?></span></label></td>
+		<td><label><input type="checkbox" name="tracking"<?php echo checked ($group->tracking) ?>/> <span class="sub"><?php _e ('Whether to track \'hits\' to items', 'redirection'); ?></span></label></td>
 	</tr>
 	<tr>
 		<th width="70"><?php _e ('Enabled', 'redirection'); ?>:</th>

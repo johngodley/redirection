@@ -19,7 +19,6 @@ For full license details see license.txt
 ============================================================================================================
 */
 
-include dirname( __FILE__ ).'/plugin.php';
 include dirname( __FILE__ ).'/models/redirect.php';
 include dirname( __FILE__ ).'/models/match.php';
 include dirname( __FILE__ ).'/models/log.php';
@@ -31,22 +30,18 @@ include dirname( __FILE__ ).'/modules/wordpress.php';
 
 define( 'REDIRECTION_VERSION', '2.3.1' );     // DB schema version. Only change if DB needs changing
 
-if ( class_exists( 'Redirection' ) )
-	return;
-
-class Redirection extends Redirection_Plugin {
+class Redirection {
 	var $hasMatched = false;
 
 	function __construct() {
-		$this->register_plugin( 'redirection', __FILE__ );
-
 		if ( is_admin() ) {
-			$this->add_action( 'admin_menu' );
-			$this->add_action( 'load-tools_page_redirection', 'redirection_head' );
+			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+			add_action( 'init', array( &$this, 'init' ) );
+			add_action( 'load-tools_page_redirection', array( &$this, 'redirection_head' ) );
 
 			add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
-			$this->register_plugin_settings( __FILE__ );
+			add_action( 'plugin_action_links_'.basename( dirname( __FILE__ ) ).'/'.basename( __FILE__ ), array( &$this, 'plugin_settings' ), 10, 4 );
 
 			add_action( 'wp_ajax_red_log_delete', array( &$this, 'ajax_log_delete' ) );
 			add_action( 'wp_ajax_red_module_edit', array( &$this, 'ajax_module_edit' ) );
@@ -68,7 +63,46 @@ class Redirection extends Redirection_Plugin {
 		add_action( 'redirection_log_delete', array( $this, 'expire_logs' ) );
 
 		$this->monitor = new Red_Monitor( $this->get_options() );
-		$this->add_action ('template_redirect' );
+		add_action( 'template_redirect', array( &$this, 'template_redirect' ) );
+	}
+
+	public function init() {
+		load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( __FILE__ ) ).'/locale/' );
+	}
+
+	private function render( $template, $template_vars = array() ) {
+		foreach ( $template_vars AS $key => $val ) {
+			$$key = $val;
+		}
+
+		if ( file_exists( dirname( __FILE__ )."/view/admin/$template.php" ) )
+			include dirname( __FILE__ )."/view/admin/$template.php";
+	}
+
+	private function capture( $ug_name, $ug_vars = array() ) {
+		ob_start();
+
+		$this->render( $ug_name, $ug_vars );
+		$output = ob_get_contents();
+
+		ob_end_clean();
+		return $output;
+	}
+
+	private function render_error( $message ) {
+	?>
+<div class="fade error" id="message">
+ <p><?php echo $message ?></p>
+</div>
+<?php
+	}
+
+	private function render_message( $message, $timeout = 0 ) {
+		?>
+<div class="updated" id="message" onclick="this.parentNode.removeChild(this)">
+ <p><?php echo $message ?></p>
+</div>
+	<?php
 	}
 
 	function update() {
@@ -84,6 +118,22 @@ class Redirection extends Redirection_Plugin {
 		return true;
 	}
 
+	private function select( $items, $default = '' ) {
+		foreach ( $items AS $key => $value ) {
+			if ( is_array( $value ) )	{
+				echo '<optgroup label="'.esc_attr( $key ).'">';
+
+				foreach ( $value AS $sub => $subvalue ) {
+					echo '<option value="'.esc_attr( $sub ).'"'.( $sub == $default ? ' selected="selected"' : '' ).'>'.esc_html( $subvalue ).'</option>';
+				}
+
+				echo '</optgroup>';
+			}
+			else
+				echo '<option value="'.esc_attr( $key ).'"'.( $key == $default ? ' selected="selected"' : '' ).'>'.esc_html( $value ).'</option>';
+		}
+	}
+
 	function set_per_page( $status, $option, $value ) {
 		if ( $option == 'redirection_log_per_page' )
 			return $value;
@@ -91,20 +141,15 @@ class Redirection extends Redirection_Plugin {
 	}
 
 	function plugin_settings( $links ) {
-		$settings_link = '<a href="tools.php?page='.basename( __FILE__ ).'">'.__( 'Settings', 'redirection' ).'</a>';
+		$settings_link = '<a href="tools.php?page='.basename( __FILE__ ).'&amp;sub=options">'.__( 'Settings', 'redirection' ).'</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
 	}
 
-	function version() {
-		$plugin_data = implode( '', file( __FILE__ ) );
-
-		if ( preg_match( '|Version:(.*)|i', $plugin_data, $version ) )
-			return trim( $version[1] );
-		return '';
-	}
-
 	function redirection_head() {
+		$version = get_plugin_data( __FILE__ );
+		$version = $version['Version'];
+
 		include dirname( __FILE__ ).'/models/pager.php';
 
 		$this->inject();
@@ -112,8 +157,8 @@ class Redirection extends Redirection_Plugin {
 		if ( !isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
 
-		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $this->version() );
-		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $this->version() );
+		wp_enqueue_script( 'redirection', plugin_dir_url( __FILE__ ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
+		wp_enqueue_style( 'redirection', plugin_dir_url( __FILE__ ).'admin.css', $version );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'error_msg' => __( 'Sorry, unable to do that. Please try refreshing the page.' ),
@@ -177,7 +222,7 @@ class Redirection extends Redirection_Plugin {
 			elseif ( $_GET['sub'] == 'modules' )
 				return $this->admin_screen_modules();
 			elseif ( $_GET['sub'] == 'support' )
-				return $this->render_admin('support', array( 'options' => $this->get_options() ) );
+				return $this->render('support', array( 'options' => $this->get_options() ) );
 		}
 
 		return $this->admin_redirects( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
@@ -188,7 +233,7 @@ class Redirection extends Redirection_Plugin {
 		$pager = new Redirection_Module_Table( $options['token'] );
 		$pager->prepare_items();
 
-		$this->render_admin( 'module_list', array( 'options' => $options, 'table' => $pager ) );
+		$this->render( 'module_list', array( 'options' => $options, 'table' => $pager ) );
 	}
 
 	function get_options() {
@@ -302,7 +347,7 @@ class Redirection extends Redirection_Plugin {
 		}
 
 		$groups = Red_Group::get_for_select();
-		$this->render_admin( 'options', array( 'options' => $this->get_options(), 'groups' => $groups ) );
+		$this->render( 'options', array( 'options' => $this->get_options(), 'groups' => $groups ) );
 	}
 
 	function admin_screen_log() {
@@ -324,7 +369,7 @@ class Redirection extends Redirection_Plugin {
 		else
 			$table->prepare_items();
 
-		$this->render_admin( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => 'log' ) );
+		$this->render( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => 'log' ) );
 	}
 
 	function admin_screen_404() {
@@ -338,7 +383,7 @@ class Redirection extends Redirection_Plugin {
 		$table = new Redirection_404_Table( $options );
 		$table->prepare_items( isset( $_GET['ip'] ) ? $_GET['ip'] : false );
 
-		$this->render_admin( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => '404s' ) );
+		$this->render( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => '404s' ) );
 	}
 
 	function admin_groups( $module ) {
@@ -359,7 +404,7 @@ class Redirection extends Redirection_Plugin {
 
 		$module = Red_Module::get( $module );
 		if ( $module )
-  			$this->render_admin( 'group_list', array( 'options' => $this->get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
+  			$this->render( 'group_list', array( 'options' => $this->get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
   		else
   			$this->render_message( __( 'Unknown module', 'redirection' ) );
 	}
@@ -376,7 +421,7 @@ class Redirection extends Redirection_Plugin {
 		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
 		$table->prepare_items();
 
-  		$this->render_admin( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+  		$this->render( 'item_list', array( 'options' => $this->get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function setMatched( $match ) {
@@ -441,7 +486,7 @@ class Redirection extends Redirection_Plugin {
 
 		$module = Red_Module::get( $module_id );
 		if ( $module )
-			$json['html'] = $this->capture_admin( 'module_edit', array( 'module' => $module ) );
+			$json['html'] = $this->capture( 'module_edit', array( 'module' => $module ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find module';
 
@@ -480,7 +525,7 @@ class Redirection extends Redirection_Plugin {
 
 		$group = Red_Group::get( $group_id );
 		if ( $group )
-			$json['html'] = $this->capture_admin( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
+			$json['html'] = $this->capture( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find group';
 
@@ -515,7 +560,7 @@ class Redirection extends Redirection_Plugin {
 		$redirect = Red_Item::get_by_id( intval( $_POST['id'] ) );
 
 		if ( $redirect )
-			$json['html'] = $this->capture_admin( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
+			$json['html'] = $this->capture( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
 

@@ -4,7 +4,7 @@
 
 	<h2><?php _e( 'Modules', 'redirection' ); ?></h2>
 
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<form method="POST" action="">
 		<?php $table->display(); ?>

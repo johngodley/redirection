@@ -3,7 +3,7 @@
 	<?php screen_icon(); ?>
 
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<p style="clear: both">
 		<?php _e( 'Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>.', 'redirection'); ?>

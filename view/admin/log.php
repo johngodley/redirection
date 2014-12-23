@@ -4,7 +4,7 @@
 
 	<h2><?php _e ('Redirection Log', 'redirection'); ?></h2>
 
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<form action="tools.php">
 		<input type="hidden" name="page" value="redirection.php"/>
@@ -32,7 +32,7 @@
 	<div style="clear: both"></div>
 </div>
 
-<?php $this->render_admin ('add', array ('hidden' => true))?>
+<?php $this->render ('add', array ('hidden' => true))?>
 
 <script type="text/javascript">
 var redirection;

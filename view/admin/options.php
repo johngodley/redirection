@@ -17,7 +17,7 @@ $expiry = array(
 	<?php screen_icon( ); ?>
 
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
-	<?php $this->render_admin( 'submenu', array( 'options' => $options ) ); ?>
+	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
   <form method="post" action="">
 	<?php wp_nonce_field( 'redirection-update_options' ); ?>
