@@ -92,7 +92,13 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.3.3 =
 * Full WordPress 3.5+ compatability! Note that this contains database changes so please backup your data.
 
+= 2.4 =
+* Major refactor. Please backup your data before upgrading.
+
 == Changelog ==
+
+= 2.4 =
+* Major code refactor
 
 = 2.3.12 =
 * Persian translation added from Danial Hatami
