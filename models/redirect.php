@@ -173,9 +173,7 @@ class Red_Item {
 	}
 
 	static function auto_generate() {
-		global $redirection;
-
-		$options = $redirection->get_options();
+		$options = red_get_options();
 		$id = time();
 
 		$url = $options['auto_target'];
