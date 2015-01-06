@@ -42,7 +42,7 @@ class Redirection_Table extends WP_List_Table {
 	}
 
 	function column_hits( $item ) {
-		return esc_html( $item->last_count );
+		return esc_html( number_format_i18n( $item->last_count, 0 ) );
 	}
 
 	function column_url( $item ) {
@@ -678,7 +678,7 @@ class Redirection_Module_Table extends WP_List_Table {
 	}
 
 	function column_hits( $item ) {
-		return esc_html( $item->hits() );
+		return esc_html( number_format_i18n( $item->hits(), 0 ) );
 	}
 
 	function column_moduletype( $item ) {
