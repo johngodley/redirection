@@ -163,7 +163,7 @@ class Redirection_Table extends WP_List_Table {
 		$screen = get_current_screen();
 
 		$per_page = 25;
-		if ( $screen->get_option( 'per_page', 'option' ) ) {
+		if ( $screen && $screen->get_option( 'per_page', 'option' ) ) {
 			$per_page = intval( get_user_meta( $current_user->ID, $screen->get_option( 'per_page', 'option' ), true ) );
 			if ( $per_page === 0 )
 				$per_page = 25;
