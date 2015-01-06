@@ -184,7 +184,6 @@ class Redirection {
 
 		if ( $options['expire_404'] > 0 ) {
 			$cleanup = true;
-			echo $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire_404'] );
 			$l404 = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $options['expire_404'] ) );
 
 			if ( $l404 > 0 )
