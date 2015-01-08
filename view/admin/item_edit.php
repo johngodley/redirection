@@ -28,7 +28,7 @@
 
 				<input type="hidden" name="action" value="red_redirect_save"/>
 				<input type="hidden" name="id" value="<?php echo esc_attr( $redirect->id ); ?>"/>
-				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce( 'redirection-redirect_save_'.$redirect->id ); ?>"/>
+				<?php wp_nonce_field( 'redirection-redirect_save_'.$redirect->id ) ?>
 
 				<span id="info_<?php echo esc_attr( $redirect->id ) ?>"></span>
 			</div>

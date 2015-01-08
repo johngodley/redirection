@@ -16,7 +16,7 @@
 
 				<input type="hidden" name="action" value="red_module_save"/>
 				<input type="hidden" name="id" value="<?php echo esc_attr( $module->get_id() ); ?>"/>
-				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce ('red_module_save_'.$module->get_id() ); ?>"/>
+				<?php wp_nonce_field( 'red_module_save_'.$module->get_id() ) ?>
 			</div>
 
 			<div class="table-loading">

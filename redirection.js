@@ -29,7 +29,7 @@ var Redirection;
 
 				$.post( ajaxurl, {
 					action: $( this ).data( 'action' ),
-					nonce: $( this ).data( 'nonce' ),
+					_ajax_nonce: $( this ).data( 'nonce' ),
 					id: $( this ).data( 'id' )
 				}, function( response ) {
 					if ( show_error( response ) )
