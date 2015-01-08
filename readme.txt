@@ -100,6 +100,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix problem where deleting your last group would cause Redirection to only show an error
 * Add limits to referrer and destination in the logs
 * Redirect title now shows in the main list again. The field is hidden when editing until toggled
+* Fix 'bad nonce' error, props to Jonathan Harrell
 
 = 2.3.11 =
 * Fix log cleanup options
