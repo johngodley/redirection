@@ -173,9 +173,7 @@ class Red_Item {
 	}
 
 	static function auto_generate() {
-		global $redirection;
-
-		$options = $redirection->get_options();
+		$options = red_get_options();
 		$id = time();
 
 		$url = $options['auto_target'];
@@ -379,7 +377,7 @@ class Red_Item {
 			elseif ( isset( $_SERVER['REMOTE_ADDR'] ) )
 			  $ip = $_SERVER['REMOTE_ADDR'];
 
-			$options = $redirection->get_options();
+			$options = red_get_options();
 			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 )
 				$log = RE_Log::create( $url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '', array( 'redirect_id' => $this->id, 'module_id' => $this->module_id, 'group_id' => $this->group_id) );
 		}
