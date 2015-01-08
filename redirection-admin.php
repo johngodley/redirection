@@ -348,7 +348,7 @@ class Redirection_Admin {
 	}
 
 	private function check_ajax_referer( $nonce ) {
-		if ( check_ajax_referer( $nonce, 'nonce', false ) === false )
+		if ( check_ajax_referer( $nonce, false, false ) === false )
 			$this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce' ) );
 	}
 

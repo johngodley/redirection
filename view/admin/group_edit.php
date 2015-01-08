@@ -21,7 +21,7 @@
 
 				<input type="hidden" name="action" value="red_group_save"/>
 				<input type="hidden" name="id" value="<?php echo esc_attr( $group->id ); ?>"/>
-				<input type="hidden" name="_ajax_nonce" value="<?php echo wp_create_nonce ('redirection-group_save_'.$group->id); ?>"/>
+				<?php wp_nonce_field( 'redirection-group_save_'.$group->id ) ?>
 			</div>
 
 			<div class="table-loading">
