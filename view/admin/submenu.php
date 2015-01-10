@@ -2,12 +2,12 @@
 
 <ul class="subsubsub">
 	<li>
-		<a <?php if ( !isset( $_GET['sub'] ) || $_GET['sub'] == '' ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?><?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
+		<a <?php if ( !isset( $_GET['sub'] ) || $_GET['sub'] == '' ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>">
 			<?php _e( 'Redirects', 'redirection' ); ?>
 		</a> |
 	</li>
 	<li>
-		<a <?php if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'groups' ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups<?php if ( isset( $_GET['id'] ) ) echo '&amp;id='.intval( $_GET['id'] ) ?>">
+		<a <?php if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'groups' ) echo 'class="current"'; ?> href="<?php echo admin_url( 'tools.php?page=redirection.php' ); ?>&amp;sub=groups">
 			<?php _e( 'Groups', 'redirection' ); ?>
 		</a> |
 	</li>
