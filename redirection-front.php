@@ -1,11 +1,6 @@
 <?php
 
-include dirname( __FILE__ ).'/models/module.php';
-include dirname( __FILE__ ).'/models/log.php';
-include dirname( __FILE__ ).'/models/match.php';
-include dirname( __FILE__ ).'/models/action.php';
 include dirname( __FILE__ ).'/modules/wordpress.php';
-include dirname( __FILE__ ).'/models/redirect.php';
 
 class Redirection {
 	private static $instance = null;

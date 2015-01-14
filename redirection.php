@@ -22,6 +22,13 @@ For full license details see license.txt
 define( 'REDIRECTION_VERSION', '2.3.1' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
 
+include dirname( __FILE__ ).'/models/module.php';
+include dirname( __FILE__ ).'/models/log.php';
+include dirname( __FILE__ ).'/models/flusher.php';
+include dirname( __FILE__ ).'/models/match.php';
+include dirname( __FILE__ ).'/models/action.php';
+include dirname( __FILE__ ).'/models/redirect.php';
+
 function red_get_options() {
 	$options = get_option( 'redirection_options' );
 	if ( $options === false )

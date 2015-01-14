@@ -1,11 +1,6 @@
 <?php
 
-include dirname( __FILE__ ).'/models/redirect.php';
-include dirname( __FILE__ ).'/models/match.php';
-include dirname( __FILE__ ).'/models/log.php';
 include dirname( __FILE__ ).'/models/group.php';
-include dirname( __FILE__ ).'/models/module.php';
-include dirname( __FILE__ ).'/models/action.php';
 include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/models/pager.php';
 include dirname( __FILE__ ).'/models/file_io.php';
