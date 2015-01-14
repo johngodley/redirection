@@ -97,6 +97,8 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.3.13 =
 * Split admin and front-end code out to streamline the loading a bit
 * Fix bad groups link when viewing redirects in a group, props to Patrick Fabre
+* Improved plugin activation/deactivation and cleanup
+* Improved log clearing
 
 = 2.3.12 =
 * Persian translation by Danial Hatami
