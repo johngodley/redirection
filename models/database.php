@@ -1,35 +1,20 @@
 <?php
 
-class A_Redirector_URL {
-}
-
-class Redirector_Login {
-}
-
-class Redirector_LuckyDip {
-}
-
-class Redirector_Random {
-}
-
-class Redirector_Referrer {
-}
-
 class RE_Database {
-	function get_charset() {
+	private function get_charset() {
 		global $wpdb;
 
 		$charset_collate = '';
-		if ( ! empty($wpdb->charset) )
+		if ( ! empty( $wpdb->charset ) )
 			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
 
-		if ( ! empty($wpdb->collate) )
+		if ( ! empty( $wpdb->collate ) )
 			$charset_collate .= " COLLATE $wpdb->collate";
 
 		return $charset_collate;
 	}
 
-	function install() {
+	public function install() {
 		global $wpdb;
 
 		$charset_collate = $this->get_charset();
@@ -137,7 +122,7 @@ class RE_Database {
 		}
 	}
 
-	function upgrade( $current, $target ) {
+	public function upgrade( $current, $target ) {
 		global $wpdb;
 
 		$wpdb->show_errors();
@@ -173,7 +158,7 @@ class RE_Database {
 		return $success;
 	}
 
-	function upgrade_to_231() {
+	private function upgrade_to_231() {
 		global $wpdb;
 
 		$charset_collate = $this->get_charset();
@@ -196,14 +181,14 @@ class RE_Database {
 			) $charset_collate;" );
 	}
 
-	function upgrade_from_20() {
+	private function upgrade_from_20() {
 		global $wpdb;
 
 		$this->upgrade_from_21();
 		$this->upgrade_from_22();
 	}
 
-	function upgrade_from_21() {
+	private function upgrade_from_21() {
 		global $wpdb;
 
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `title` varchar(50) NULL" );
@@ -211,13 +196,13 @@ class RE_Database {
 		$this->upgrade_from_22();
 	}
 
-	function upgrade_from_22() {
+	private function upgrade_from_22() {
 		global $wpdb;
 
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` CHANGE `title` `title` varchar(50) NULL" );
 	}
 
-	function upgrade_to_216() {
+	private function upgrade_to_216() {
 		global $wpdb;
 
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_groups` ADD INDEX(module_id)" );
@@ -227,7 +212,7 @@ class RE_Database {
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX(regex)" );
 	}
 
-	function upgrade_to_220() {
+	private function upgrade_to_220() {
 		global $wpdb;
 
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `group_idpos` (`group_id`,`position`)" );
@@ -244,7 +229,7 @@ class RE_Database {
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_modules` ADD INDEX `type` (`type`)" );
 	}
 
-	function remove( $plugin ) {
+	public function remove( $plugin ) {
 		global $wpdb;
 
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection;" );
@@ -259,9 +244,5 @@ class RE_Database {
 		delete_option( 'redirection_root' );
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_version' );
-
-		$current = get_option( 'active_plugins' );
-		array_splice( $current, array_search( basename( dirname( $plugin ) ).'/'.basename( $plugin ), $current ), 1 );
-		update_option( 'active_plugins', $current );
 	}
 }

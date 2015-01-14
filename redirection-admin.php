@@ -26,6 +26,9 @@ class Redirection_Admin {
 
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
+		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
+		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
+
 		add_action( 'wp_ajax_red_log_delete', array( &$this, 'ajax_log_delete' ) );
 		add_action( 'wp_ajax_red_module_edit', array( &$this, 'ajax_module_edit' ) );
 		add_action( 'wp_ajax_red_module_save', array( &$this, 'ajax_module_save' ) );
@@ -36,7 +39,21 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
-		$this->update();
+	}
+
+	public static function plugin_activated() {
+		Red_Flusher::schedule();
+	}
+
+	public static function plugin_deactivated() {
+		Red_Flusher::clear();
+	}
+
+	public static function plugin_uninstall() {
+		include dirname( REDIRECTION_FILE ).'/models/database.php';
+
+		$db = new RE_Database();
+		$db->remove( REDIRECTION_FILE );
 	}
 
 	private function render( $template, $template_vars = array() ) {
@@ -61,7 +78,7 @@ class Redirection_Admin {
 	private function render_error( $message ) {
 	?>
 <div class="fade error" id="message">
- <p><?php echo $message ?></p>
+	<p><?php echo $message ?></p>
 </div>
 <?php
 	}
@@ -69,7 +86,7 @@ class Redirection_Admin {
 	private function render_message( $message, $timeout = 0 ) {
 		?>
 <div class="updated" id="message" onclick="this.parentNode.removeChild(this)">
- <p><?php echo $message ?></p>
+	<p><?php echo $message ?></p>
 </div>
 	<?php
 	}
@@ -215,13 +232,15 @@ class Redirection_Admin {
 
 			update_option( 'redirection_options', $options );
 
+			Red_Flusher::schedule();
 			$this->render_message( __( 'Your options were updated', 'redirection' ) );
 		}
 		elseif ( isset( $_POST['delete'] ) && check_admin_referer( 'redirection-delete_plugin' ) ) {
-			include dirname( REDIRECTION_FILE ).'/models/database.php';
+			$this->plugin_uninstall();
 
-			$db = new RE_Database();
-			$db->remove( REDIRECTION_FILE );
+			$current = get_option( 'active_plugins' );
+			array_splice( $current, array_search( basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), $current ), 1 );
+			update_option( 'active_plugins', $current );
 
 			$this->render_message( __( 'Redirection data has been deleted and the plugin disabled', 'redirection' ) );
 			return;
@@ -479,5 +498,7 @@ class Redirection_Admin {
 		die();
 	}
 }
+
+register_activation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_activated' ) );
 
 add_action( 'init', array( 'Redirection_Admin', 'init' ) );
