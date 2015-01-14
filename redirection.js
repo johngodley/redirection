@@ -185,6 +185,7 @@ var Redirection;
 				if ( add_to_screen === true ) {
 					$( add_form ).addClass( 'loaded' );
 
+					$( 'table tr.no-items' ).remove();
 					$( 'table.items' ).append( response.html );
 					$( 'table.items tr' ).each( function( pos, item ) {
 						$( item ).removeClass( 'alternate' );
