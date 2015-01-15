@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
-Requires at least: 3.2
+Requires at least: 3.4
 Tested up to: 4.2
 Stable tag: 2.3.12
 
