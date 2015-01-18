@@ -61,8 +61,8 @@ class Redirection_Admin {
 			$$key = $val;
 		}
 
-		if ( file_exists( dirname( REDIRECTION_FILE )."/view/admin/$template.php" ) )
-			include dirname( REDIRECTION_FILE )."/view/admin/$template.php";
+		if ( file_exists( dirname( REDIRECTION_FILE )."/view/$template.php" ) )
+			include dirname( REDIRECTION_FILE )."/view/$template.php";
 	}
 
 	private function capture( $ug_name, $ug_vars = array() ) {
