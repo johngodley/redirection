@@ -1,5 +1,7 @@
 <?php
 
+@ini_set("auto_detect_line_endings", true);
+
 class Red_Csv_File extends Red_FileIO {
 	function export( array $items ) {
 		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.csv';
