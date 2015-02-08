@@ -13,14 +13,11 @@ class Red_Flusher {
 		$total += $this->expire_logs( $options['expire_redirect'] );
 		$total += $this->expire_404( $options['expire_404'] );
 
-			error_log('WPCRON: flushing '.$total);
-
 		if ( $total >= self::DELETE_MAX ) {
 			$next = time() + self::DELETE_KEEP_ON;
 
 			// There are still more logs to clear - keep on doing until we've clean or until the next normal event
 			if ( $next < wp_next_scheduled( self::DELETE_HOOK ) ) {
-				error_log('WPCRON: scheduling a single event '.date( 'Y-m-d H:i:s', time() + self::DELETE_KEEP_ON ));
 				wp_schedule_single_event( time() + ( self::DELETE_KEEP_ON * 60 ), self::DELETE_HOOK );
 			}
 		}
