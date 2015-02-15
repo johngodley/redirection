@@ -34,14 +34,15 @@ function red_get_options() {
 	if ( $options === false )
 		$options = array();
 
-	$defaults = array(
+	$defaults = apply_filters( 'red_default_options', array(
 		'support'         => false,
 		'token'           => '',
 		'monitor_post'    => 0,
 		'auto_target'     => '',
 		'expire_redirect' => 7,
 		'expire_404'      => 7,
-	);
+		'modules'         => array()
+	) );
 
 	foreach ( $defaults AS $key => $value ) {
 		if ( !isset( $options[$key] ) )
