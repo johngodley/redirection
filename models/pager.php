@@ -664,59 +664,53 @@ class Redirection_Module_Table extends WP_List_Table {
 
 	function get_columns() {
 		$columns = array(
-			'moduletype'   => __( 'Type', 'redirection' ),
-			'name' => __( 'Name', 'redirection' ),
-			'groups' => __( 'Groups', 'redirection' ),
-			'hits'   => __( 'Hits', 'redirection' ),
+			'name'   => __( 'Module', 'redirection' ),
+			'total' => __( 'Redirects', 'redirection' ),
+			'export' => __( 'Export', 'redirection' ),
 		);
 
 		return $columns;
 	}
 
-	function column_groups( $item ) {
-		return esc_html( $item->groups() );
-	}
+	function column_export( $item ) {
+		if ( $this->token ) {
+			$actions['htaccess'] = sprintf( '<a href="%s">.htaccess</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=apache&amp;module='.intval( $item->get_id() ) );
+			$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
 
-	function column_hits( $item ) {
-		return esc_html( number_format_i18n( $item->hits(), 0 ) );
-	}
+			if ( $item->get_id() === WordPress_Module::MODULE_ID ) {
+				$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
+			}
+		}
 
-	function column_moduletype( $item ) {
-		return esc_html( $item->get_type_string() );
+		return implode( ' | ', $actions );
 	}
 
 	function column_name( $item ) {
-		$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Edit', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
+		$actions['edit'] = __( 'No configuration', 'redirection' );
 
-		if ( $this->token ) {
-			if ( $item->get_type() === 'wp' ) {
-				$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
-			}
+		if ( $item->can_edit_config() )
+			$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Configure', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
 
-			$actions['htaccess'] = sprintf( '<a href="%s">.htaccess</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=apache&amp;module='.intval( $item->get_id() ) );
-			$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
-		}
+		return '<p><a href="#" data-action="%s" data-nonce="%s" data-id="%s">'.esc_html( $item->get_name() ).'</a></p>'.$item->get_description().$this->row_actions( $actions );
+	}
 
-		return '<a href="#" data-action="%s" data-nonce="%s" data-id="%s">'.esc_html( $item->get_name() ).'</a>'.$this->row_actions( $actions );
+	function column_total( $item ) {
+		return esc_html( $item->get_total_redirects() );
 	}
 
 	function prepare_items( $type = '', $id = 0 ) {
 		global $wpdb;
 
-		$table = $wpdb->prefix.'redirection_modules';
-		$rows = $wpdb->get_results( "SELECT * FROM {$table}" );
-		$this->total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" );
-
+		$options  = red_get_options();
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, array(), $sortable );
-
-		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
-			$this->items[] = Red_Module::new_item( $row );
-		}
-
+		$this->items = array(
+			new WordPress_Module( $options['modules'][WordPress_Module::MODULE_ID] ),
+			new Apache_Module( $options['modules'][Apache_Module::MODULE_ID] )
+		);
+		$this->total_items = count( $this->items );
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,
 			'per_page'    => 100,

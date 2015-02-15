@@ -239,7 +239,7 @@ class Red_Item {
 		$wpdb->delete( $wpdb->prefix.'redirection_items', array( 'url' => $data['action_data'], 'action_type' => $data['action_type'], 'action_data' => $data['url'] ) );
 
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
-			Red_Module::flush( $group->module_id );
+// XXX			Red_Module::flush( $group->module_id );
 
 			return self::get_by_id( $wpdb->insert_id );
 		}
