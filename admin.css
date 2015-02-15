@@ -97,6 +97,14 @@ table.items .red-disabled {
 	text-align: left;
 }
 
+.wp-list-table .column-export {
+	width: 200px;
+}
+
+.wp-list-table .column-module, .wp-list-table .column-total {
+	width: 100px;
+}
+
 table.items table.edit {
 	width: 100%;
 }

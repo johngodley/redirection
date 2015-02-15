@@ -78,6 +78,8 @@ var Redirection;
 
 					if ( response.code )
 						container.closest( 'tr' ).find( '.column-type' ).html( response.code );
+					else if ( response.module )
+						container.closest( 'tr' ).find( '.column-module' ).html( response.module );
 				}, 'json' );
 			} );
 
