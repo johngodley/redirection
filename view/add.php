@@ -9,49 +9,51 @@
 
 	<form method="post" action="<?php echo admin_url( 'admin-ajax.php' ); ?>">
 		<table width="100%">
-		  <tr>
-			<th align="right" width="100"><?php _e( 'Source URL', 'redirection' ) ?>:</th>
-			<td><input type="text" name="source" style="width: 95%" id="old"/></td>
-		  </tr>
-		  <tr>
-			<th align="right"><?php _e( 'Match', 'redirection' ) ?>:</th>
-			<td>
-				<select name="match">
-					<?php echo $this->select( Red_Match::all() ); ?>
-				</select>
+			<tr>
+				<th align="right" width="100"><?php _e( 'Source URL', 'redirection' ) ?>:</th>
+				<td><input type="text" name="source" style="width: 95%" id="old"/></td>
+			</tr>
+			<tr>
+				<th align="right"><?php _e( 'Match', 'redirection' ) ?>:</th>
+				<td>
+					<select name="match">
+						<?php echo $this->select( Red_Match::all() ); ?>
+					</select>
 
-				<strong><?php _e( 'Action', 'redirection' ); ?>:</strong>
-				<select name="red_action">
-					<?php echo $this->select( Red_Item::actions(), 'url' ); ?>
-				</select>
+					<strong><?php _e( 'Action', 'redirection' ); ?>:</strong>
+					<select name="red_action">
+						<?php echo $this->select( Red_Item::actions(), 'url' ); ?>
+					</select>
 
-				<label><?php _e( 'Regular expression', 'redirection' ); ?>: <input id="regex" type="checkbox" name="regex"/></label>
-			</td>
-		  </tr>
-		  <tr id="target">
-			<th align="right"><?php _e( 'Target URL', 'redirection' ) ?>:</th>
-			<td><input type="text" name="target" style="width: 95%"/></td>
-		  </tr>
-			<?php if ( !isset( $group ) ) : ?>
+					<label><?php _e( 'Regular expression', 'redirection' ); ?>: <input id="regex" type="checkbox" name="regex"/></label>
+				</td>
+			</tr>
+			<tr id="target">
+				<th align="right"><?php _e( 'Target URL', 'redirection' ) ?>:</th>
+				<td><input type="text" name="target" style="width: 95%"/></td>
+			</tr>
 			<tr>
 				<th><?php _e( 'Group', 'redirection' ); ?>:</th>
-				<td><select name="group"><?php echo $this->select( Red_Group::get_for_select(), isset( $_GET['group'] ) ? intval( $_GET['group'] ) : 0 )?></select></td>
+				<td>
+					<select name="group_id">
+						<?php echo $this->select( Red_Group::get_for_select(), $group )?>
+					</select>
+				</td>
 			</tr>
-			<?php endif; ?>
-		  <tr>
-			<th></th>
-			<td>
-				<input class="button-primary" type="submit" name="add" value="<?php esc_attr_e( 'Add Redirection', 'redirection' ) ?>" id="submit"/>
-				<?php if ( isset( $group ) ) : ?>
-				<input type="hidden" name="group" value="<?php echo esc_attr( $group ) ?>"/>
-				<?php endif; ?>
+			<tr>
+				<th></th>
+				<td>
+					<input class="button-primary" type="submit" name="add" value="<?php esc_attr_e( 'Add Redirection', 'redirection' ) ?>" id="submit"/>
+					<?php if ( isset( $group ) ) : ?>
+					<input type="hidden" name="group" value="<?php echo esc_attr( $group ) ?>"/>
+					<?php endif; ?>
 
-				<input type="hidden" name="action" value="red_redirect_add"/>
-				<?php wp_nonce_field( 'redirection-redirect_add' ) ?>
+					<input type="hidden" name="action" value="red_redirect_add"/>
+					<?php wp_nonce_field( 'redirection-redirect_add' ) ?>
 
-				<div class="red-error"></div>
-			</td>
-		  </tr>
+					<div class="red-error"></div>
+				</td>
+			</tr>
 	  </table>
 	</form>
 </div>

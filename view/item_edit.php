@@ -10,10 +10,18 @@
 		</td>
 	</tr>
 	<tr class="advanced">
-		<th width="100"><?php _e ('Description', 'redirection'); ?>:</th>
+		<th width="100"><?php _e( 'Description', 'redirection' ); ?>:</th>
 		<td>
 			<input style="width: 85%" type="text" name="title" value="<?php echo esc_attr( $redirect->title ); ?>"/>
-			<span class="sub">(<?php _e( "optional", 'redirection' ); ?>)</span>
+			<span class="sub">(<?php _e( 'optional', 'redirection' ); ?>)</span>
+		</td>
+	</tr>
+	<tr class="advanced">
+		<th width="100"><?php _e( 'Group', 'redirection' ); ?>:</th>
+		<td>
+			<select name="group_id">
+				<?php echo $this->select( Red_Group::get_for_select(), $redirect->get_group_id() );?>
+			</select>
 		</td>
 	</tr>
 

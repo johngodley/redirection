@@ -379,15 +379,19 @@ class Redirection_Admin {
 
 		$module = Red_Module::get( $module_id );
 		if ( $module ) {
-			global $hook_suffix;
+			$result = $module->update( $_POST );
 
-			$module->update( $_POST );
+			if ( $result === true ) {
+				global $hook_suffix;
 
-			$hook_suffix = '';
-			$options = red_get_options();
-			$pager = new Redirection_Module_Table( $options['token'] );
+				$hook_suffix = '';
+				$options = red_get_options();
+				$pager = new Redirection_Module_Table( $options['token'] );
 
-			$json = array( 'html' => $pager->column_name( $module ) );
+				$json = array( 'html' => $pager->column_name( $module ) );
+			}
+			else
+				$json['error'] = $result;
 		}
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find module';

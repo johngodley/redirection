@@ -134,3 +134,18 @@ table.items table.edit th {
 	font-weight: bold;
 	font-size: 14px;
 }
+
+.module-config {
+	padding-left: 40px;
+	padding-top: 10px;
+	font-style: italic;
+}
+
+.error-container {
+	margin-top: 20px;
+	padding: 20px;
+	background-color: red;
+	color: white;
+	font-weight: bold;
+	display: none;
+}

@@ -120,7 +120,7 @@ class Redirection_Table extends WP_List_Table {
 
 			array_map( array( &$this, 'process_action_items' ), $redirections );
 
-			Red_Module::flush( $this->current_group->module_id );
+			Red_Module::flush( $this->current_group->get_id() );
 		}
 	}
 
@@ -307,11 +307,19 @@ class Redirection_Group_Table extends WP_List_Table {
 			foreach( (array)$_POST['item'] AS $id ) {
 				$group = Red_Group::get( intval( $id ) );
 
-				if ( $group )
-					$groups[] = $group;
+				if ( $group ) {
+					if ( $this->current_action() === 'delete' )
+						$group->delete();
+					else if ( $this->current_action() === 'enable' ) {
+						$group->enable();
+						Red_Module::flush( $group->get_id() );
+					}
+					else if ( $this->current_action() === 'disable' ) {
+						$group->disable();
+						Red_Module::flush( $group->get_id() );
+					}
+				}
 			}
-
-			array_map( array( &$this, $this->current_action() ), $groups );
 		}
 	}
 
@@ -712,12 +720,18 @@ class Redirection_Module_Table extends WP_List_Table {
 	}
 
 	function column_name( $item ) {
+		$config = $item->get_config();
 		$actions['edit'] = __( 'No configuration', 'redirection' );
 
 		if ( $item->can_edit_config() )
 			$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Configure', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
 
-		return '<p><a href="#" data-action="%s" data-nonce="%s" data-id="%s">'.esc_html( $item->get_name() ).'</a></p>'.$item->get_description().$this->row_actions( $actions );
+		if ( count( $config ) > 0 )
+			$config = '<div class="module-config">'.join( '<br/>', $config ).'</div>';
+		else
+			$config = '';
+
+		return '<p>'.esc_html( $item->get_name() ).'</p>'.$item->get_description().$config.$this->row_actions( $actions );
 	}
 
 	function column_total( $item ) {

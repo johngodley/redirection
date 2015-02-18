@@ -42,12 +42,33 @@ abstract class Red_Module {
 		);
 	}
 
-	abstract public function update( $options );
-	abstract public function can_edit_config();
+	static function flush( $group_id ) {
+		$group = Red_Group::get( $group_id );
+
+		if ( $group ) {
+			$module = Red_Module::get( $group->get_module_id() );
+
+			if ( $module )
+				$module->flush_module();
+		}
+	}
+
+	static function flush_by_module( $module_id ) {
+		$module = Red_Module::get( $module_id );
+
+		if ( $module )
+			$module->flush_module();
+	}
+
 	abstract public function get_id();
 	abstract public function get_name();
-	abstract public function render_config();
 	abstract public function get_description();
 
+	abstract public function render_config();
+	abstract public function get_config();
+	abstract public function can_edit_config();
+	abstract public function update( $options );
+
 	abstract protected function load( $options );
+	abstract protected function flush_module();
 }

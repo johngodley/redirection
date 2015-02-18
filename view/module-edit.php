@@ -18,6 +18,8 @@
 				<?php wp_nonce_field( 'red_module_save_'.$module->get_id() ) ?>
 			</div>
 
+			<div class="error-container">An error</div>
+
 			<div class="table-loading">
 				<div class="spinner"></div>
 			</div>

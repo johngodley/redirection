@@ -24,9 +24,6 @@ class Red_Group {
 		return $this->status === 'enabled' ? true : false;
 	}
 
-	/**
-	 * Get list of groups
-	 */
 	static function get( $id ) {
 		global $wpdb;
 
@@ -39,7 +36,7 @@ class Red_Group {
 	static function get_for_module( $module ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS {$wpdb->prefix}redirection_groups.* FROM {$wpdb->prefix}redirection_groups WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
+		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_groups.* FROM {$wpdb->prefix}redirection_groups WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
 
 		$rows = $wpdb->get_results( $sql );
 		$items = array();
@@ -74,18 +71,16 @@ class Red_Group {
 		return $items;
 	}
 
-	/**
-	 * Get list of groups
-	 * DBW
-	 */
 	static function get_for_select() {
 		global $wpdb;
 
 		$data = array();
-		$rows = $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_modules.name AS module_name,{$wpdb->prefix}redirection_groups.name AS group_name,{$wpdb->prefix}redirection_groups.id FROM {$wpdb->prefix}redirection_groups INNER JOIN {$wpdb->prefix}redirection_modules ON {$wpdb->prefix}redirection_modules.id={$wpdb->prefix}redirection_groups.module_id ORDER BY {$wpdb->prefix}redirection_modules.name,{$wpdb->prefix}redirection_groups.position" );
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
+
 		if ( $rows ) {
 			foreach ( $rows AS $row ) {
-				$data[$row->module_name][$row->id] = $row->group_name;
+				$module = Red_Module::get( $row->module_id );
+				$data[$module->get_name()][$row->id] = $row->name;
 			}
 		}
 
@@ -123,15 +118,21 @@ class Red_Group {
 		return false;
 	}
 
-	function update( $data ) {
+	public function update( $data ) {
 		global $wpdb;
 
+		$old_id = $this->module_id;
 		$this->name = trim( wp_kses( stripslashes( $data['name'] ), array() ) );
 
 		if ( Red_Module::is_valid_id( intval( $data['module_id'] ) ) )
 			$this->module_id = intval( $data['module_id'] );
 
 		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $this->name, 'module_id' => $this->module_id ), array( 'id' => intval( $this->id ) ) );
+
+		if ( $old_id !== $this->module_id ) {
+			Red_Module::flush_by_module( $old_id );
+			Red_Module::flush_by_module( $this->module_id );
+		}
 	}
 
 	public function delete() {
@@ -140,31 +141,13 @@ class Red_Group {
 		// Delete all items in this group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) );
 
+ 		Red_Module::flush( $this->id );
+
 		// Delete the group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $this->id ) );
 
 		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) == 0 )
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
-	}
-
-	static function save_order( $items, $start ) {
-		global $wpdb;
-
-		foreach ( $items AS $pos => $id ) {
-			$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'position' => $pos + $start ), array( 'id' => intval( $id ) ) );
-		}
-
-		$group = self::get( $items[0] );
-		Red_Module::flush( $group->module_id );
-	}
-
-	function move_to( $module ) {
-		global $wpdb;
-
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'module_id' => intval( $module ) ), array( 'id' => $this->id ) );
-
-		Red_Module::flush( $module );
-		Red_Module::flush( $this->id );
 	}
 
 	function reset() {
@@ -195,6 +178,8 @@ class Red_Group {
 
 		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'status' => 'enabled' ), array( 'id' => $this->id ) );
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'enabled' ), array( 'group_id' => $this->id ) );
+
+		Red_Module::flush( $this->id );
 	}
 
 	public function disable() {
@@ -202,6 +187,8 @@ class Red_Group {
 
 		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'status' => 'disabled' ), array( 'id' => $this->id ) );
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'disabled' ), array( 'group_id' => $this->id ) );
+
+		Red_Module::flush( $this->id );
 	}
 
 	public function get_module_id() {

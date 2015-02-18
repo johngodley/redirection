@@ -24,6 +24,7 @@ var Redirection;
 				ev.preventDefault();
 
 				container.data( 'cancel', container.html() );
+				container.find( '.error-container' ).hide();
 
 				show_loading( container.find( '.row-actions' ) );
 
@@ -40,7 +41,7 @@ var Redirection;
 				}, 'json' );
 			} );
 
-			$( document ).on( 'change', 'select.change-user-agent', function( ev ) {
+			$( document ).on( 'change', 'select.change-user-agent', function() {
 				$( this ).closest( 'td' ).find( 'input[type=text]' ).val( $( this ).val() );
 			} );
 		}
@@ -49,13 +50,19 @@ var Redirection;
 			container.replaceWith( '<div class="spinner" style="display: block"></div>' );
 		}
 
-		function show_error( response ) {
-			if (response == 0 || response == -1) {
-				alert( Redirectioni10n.error_msg );
+		function show_error( response, container ) {
+			if ( response == 0 || response == -1 ) {
+				if ( typeof container !== 'undefined' && container )
+					container.text( Redirectioni10n.error_msg ).show();
+				else
+					alert( Redirectioni10n.error_msg );
 				return true;
 			}
-			else if (response.error) {
-				alert( response.error );
+			else if ( response.error ) {
+				if ( typeof container !== 'undefined' && container )
+					container.text( response.error ).show();
+				else
+					alert( response.error );
 				return true;
 			}
 
@@ -71,7 +78,9 @@ var Redirection;
 				form.addClass( 'loading' );
 
 				$.post( form.data( 'url' ), form.find( 'input, select' ).serialize(), function( response ) {
-					if ( show_error( response ) )
+					form.removeClass( 'loading' );
+
+					if ( show_error( response, container.find( '.error-container' ) ) )
 						return;
 
 					container.html( response.html );

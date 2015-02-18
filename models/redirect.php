@@ -126,14 +126,14 @@ class Red_Item {
 	static function get_by_module( $module ) {
 		global $wpdb;
 
-		$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
+		$sql = "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
 		$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
 
 		$rows = $wpdb->get_results( $sql );
 		$items = array();
-		if ( count( $rows) > 0) {
-			foreach( $rows AS $row)
-				$items[] = new Red_Item( $row);
+
+		foreach( (array)$rows AS $row ) {
+			$items[] = new Red_Item( $row );
 		}
 
 		return $items;
@@ -239,8 +239,7 @@ class Red_Item {
 		$wpdb->delete( $wpdb->prefix.'redirection_items', array( 'url' => $data['action_data'], 'action_type' => $data['action_type'], 'action_data' => $data['url'] ) );
 
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
-// XXX			Red_Module::flush( $group->module_id );
-
+			Red_Module::flush( $group_id );
 			return self::get_by_id( $wpdb->insert_id );
 		}
 
@@ -272,6 +271,8 @@ class Red_Item {
 				$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos ), array( 'id' => $row->id ) );
 			}
 		}
+
+		Red_Module::flush( $this->group_id );
 	}
 
 
@@ -296,21 +297,25 @@ class Red_Item {
 			$this->url   = self::sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
 
-			$data  = $this->match->data( $details );
+			$data = $this->match->data( $details );
 
 			$this->action_code = 0;
 			if ( isset( $details['action_code'] ) )
 				$this->action_code = intval( $details['action_code'] );
 
-			if ( isset( $details['group_id'] ) )
+			$old_group = false;
+			if ( isset( $details['group_id'] ) ) {
+				$old_group = intval( $this->group_id );
 				$this->group_id = intval( $details['group_id'] );
+			}
 
 			// Save this
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
 
-			$group = Red_Group::get( $this->group_id );
-			if ( $group )
-				Red_Module::flush( $group->module_id );
+			if ( $old_group !== $this->group_id ) {
+				Red_Module::flush( $this->group_id );
+				Red_Module::flush( $old_group );
+			}
 		}
 	}
 
@@ -321,10 +326,7 @@ class Red_Item {
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos + $start ), array( 'id' => $id ) );
 		}
 
-		$item  = self::get_by_id( $id );
-		$group = Red_Group::get( $item->group_id );
-		if ( $group )
-			Red_Module::flush( $group->module_id );
+		Red_Module::flush( $this->group_id );
 	}
 
 	function matches( $url ) {
@@ -408,14 +410,14 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'group_id' => $group ), array( 'id' => $this->id ) );
 	}
 
-	function enable() {
+	public function enable() {
 		global $wpdb;
 
 		$this->status = true;
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 
-	function disable() {
+	public function disable() {
 		global $wpdb;
 
 		$this->status = false;
@@ -446,5 +448,9 @@ class Red_Item {
 		else if ( $this->action_type == 'pass' )
 			return 'pass';
 		return '&mdash;';
+	}
+
+	public function get_group_id() {
+		return $this->group_id;
 	}
 }

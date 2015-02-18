@@ -16,6 +16,10 @@ class WordPress_Module extends Red_Module {
 	public function render_config() {
 	}
 
+	public function get_config() {
+		return array();
+	}
+
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
 		add_action( 'init',                    array( &$this, 'init' ) );
@@ -103,9 +107,13 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function update( $data ) {
+		return false;
 	}
 
 	protected function load( $options ) {
+	}
+
+	protected function flush_module() {
 	}
 
 	public function permalink_redirect_skip( $skip ) {
