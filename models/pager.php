@@ -37,13 +37,13 @@ class Redirection_Table extends WP_List_Table {
 	}
 
 	function column_last_access( $item ) {
-		if ( $item->last_access == 0 )
+		if ( $item->get_last_hit() == 0 )
 			return '&mdash;';
-		return date_i18n( get_option( 'date_format' ), $item->last_access );
+		return date_i18n( get_option( 'date_format' ), $item->get_last_hit() );
 	}
 
 	function column_hits( $item ) {
-		return esc_html( number_format_i18n( $item->last_count, 0 ) );
+		return esc_html( number_format_i18n( $item->get_hits(), 0 ) );
 	}
 
 	function column_url( $item ) {
@@ -61,18 +61,18 @@ class Redirection_Table extends WP_List_Table {
 			$after = '</span>';
 		}
 
-		$title = $item->url;
-		if ( $item->title )
-			$title = $item->title;
+		$title = $item->get_url();
+		if ( $item->get_title() )
+			$title = $item->get_title();
 
-		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->url ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
+		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->get_url() ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
 	}
 
 	function column_cb($item){
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->id                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->get_id()                //The value of the checkbox should be the record's id
 		);
 	}
 
@@ -270,7 +270,7 @@ class Redirection_Group_Table extends WP_List_Table {
 	}
 
 	function column_module( $item ) {
-		$module = Red_Module::get( $item->module_id );
+		$module = Red_Module::get( $item->get_module_id() );
 
 		if ( $module )
 			return esc_html( $module->get_name() );

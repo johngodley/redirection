@@ -1,39 +1,22 @@
 <?php
-/**
- * Redirection
- *
- * @package Redirection
- * @author John Godley
- * @copyright Copyright( C) John Godley
- **/
 
-/*
-============================================================================================================
-This software is provided "as is" and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
-the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or
-consequential damages( including, but not limited to, procurement of substitute goods or services; loss of
-use, data, or profits; or business interruption) however caused and on any theory of liability, whether in
-contract, strict liability, or tort( including negligence or otherwise) arising in any way out of the use of
-this software, even if advised of the possibility of such damage.
-
-For full license details see license.txt
-============================================================================================================ */
 class Red_Item {
-	var $id          = null;
-	var $created;
-	var $referrer;
-	var $url         = null;
-	var $regex       = false;
-	var $action_data = null;
-	var $action_code = 0;
-
-	var $last_access   = null;
-	var $last_count    = 0;
-
-	var $tracking      = true;
+	private $id          = null;
+	private $created;
+	private $referrer;
+	private $url         = null;
+	private $regex       = false;
+	private $action_data = null;
+	private $action_code = 0;
+	private $action_type;
+	private $match_type;
+	private $title;
+	private $last_access = null;
+	private $last_count  = 0;
+	private $tracking    = true;
 	private $status;
 	private $position;
+	private $group_id;
 
 	function Red_Item( $values, $type = '', $match = '' )	{
 		if ( is_object( $values ) ) {
@@ -64,18 +47,6 @@ class Red_Item {
 			$this->type  = $type;
 			$this->match = $match;
 		}
-	}
-
-	public function get_id() {
-		return $this->id;
-	}
-
-	public function get_position() {
-		return $this->position;
-	}
-
-	public function get_action_code() {
-		return $this->action_code;
 	}
 
 	static function get_all_for_module( $module ) {
@@ -450,7 +421,47 @@ class Red_Item {
 		return '&mdash;';
 	}
 
+	public function get_id() {
+		return $this->id;
+	}
+
+	public function get_position() {
+		return $this->position;
+	}
+
 	public function get_group_id() {
 		return $this->group_id;
+	}
+
+	public function get_url() {
+		return $this->url;
+	}
+
+	public function get_title() {
+		return $this->title;
+	}
+
+	public function get_hits() {
+		return $this->last_count;
+	}
+
+	public function get_last_hit() {
+		return $this->last_access;
+	}
+
+	public function is_regex() {
+		return $this->regex ? true : false;
+	}
+
+	public function get_match_type() {
+		return $this->match_type;
+	}
+
+	public function get_action_type() {
+		return $this->action_type;
+	}
+
+	public function get_action_code() {
+		return $this->action_code;
 	}
 }

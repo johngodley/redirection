@@ -34,59 +34,59 @@ class Red_Htaccess {
 	}
 
 	private function add_referrer( $item, $match ) {
-		$from = $this->encode_from( ltrim( $item->url, '/' ) );
-		if ( $item->regex )
-			$from = $this->encode_regex( ltrim( $item->url, '/' ) );
+		$from = $this->encode_from( ltrim( $item->get_url(), '/' ) );
+		if ( $item->is_regex() )
+			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
 
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->referrer ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_REFERER} %s [NC]', ( $match->regex ? $this->encode_regex( $match->referrer ) : $this->encode_from( $match->referrer ) ) );
 
 			if ( $match->url_from ) {
-				$to = $this->target( $item->action_type, $match->url_from, $item->action_code, $item->regex );
+				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 
 			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->action_type, $match->url_notfrom, $item->action_code, $item->regex );
+				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
 	}
 
 	private function add_agent( $item, $match ) {
-		$from = $this->encode( ltrim( $item->url, '/' ) );
-		if ( $item->regex )
-			$from = $this->encode_regex( ltrim( $item->url, '/' ) );
+		$from = $this->encode( ltrim( $item->get_url(), '/' ) );
+		if ( $item->is_regex() )
+			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
 
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->user_agent ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', ( $match->regex ? $this->encode_regex( $match->user_agent ) : $this->encode2nd( $match->user_agent ) ) );
 
 			if ( $match->url_from )	{
-				$to = $this->target( $item->action_type, $match->url_from, $item->action_code, $item->regex );
+				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 
 			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->action_type, $match->url_notfrom, $item->action_code, $item->regex );
+				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
 	}
 
 	private function add_url( $item, $match ) {
-		$url = $item->url;
+		$url = $item->get_url();
 
-		if ( $item->regex === false && strpos( $url, '?') !== false || strpos( $url, '&' ) !== false ) {
+		if ( $item->is_regex() == false && strpos( $url, '?') !== false || strpos( $url, '&' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
 		}
 
-		$to   = $this->target( $item->action_type, $match->url, $item->action_code, $item->regex );
+		$to   = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->is_regex() );
 		$from = $this->encode_from( $url );
 
-		if ( $item->regex )
-			$from = $this->encode_regex( $item->url );
+		if ( $item->is_regex() )
+			$from = $this->encode_regex( $item->get_url() );
 
 		if ( $to )
 			$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
@@ -157,7 +157,7 @@ class Red_Htaccess {
 	}
 
 	public function add( $item ) {
-		$target = 'add_'.$item->match_type;
+		$target = 'add_'.$item->get_match_type();
 
 		if ( method_exists( $this, $target ) )
 			$this->$target( $item, $item->match );
