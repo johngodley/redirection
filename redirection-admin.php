@@ -452,7 +452,7 @@ class Redirection_Admin {
 		if ( $redirect ) {
 			$redirect->update( $_POST );
 
-			$pager = new Redirection_Table( array() );
+			$pager = new Redirection_Table( array(), 0 );
 			$json = array( 'html' => $pager->column_url( $redirect ), 'code' => $redirect->get_action_code() );
 		}
 		else

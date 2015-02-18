@@ -74,10 +74,19 @@ class Red_Htaccess {
 	}
 
 	private function add_url( $item, $match ) {
+		$url = $item->url;
+
+		if ( $item->regex === false && strpos( $url, '?') !== false || strpos( $url, '&' ) !== false ) {
+			$url_parts = parse_url( $url );
+			$url = $url_parts['path'];
+			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
+		}
+
 		$to   = $this->target( $item->action_type, $match->url, $item->action_code, $item->regex );
-		$from = $this->encode_from( ltrim( $item->url, '/' ) );
+		$from = $this->encode_from( $url );
+
 		if ( $item->regex )
-			$from = $this->encode_regex( ltrim ($item->url, '/' ) );
+			$from = $this->encode_regex( $item->url );
 
 		if ( $to )
 			$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );

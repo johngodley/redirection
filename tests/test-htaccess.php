@@ -68,6 +68,28 @@ and a line at the end';
 		$this->assertEquals( $existing_without_redirection, $file );
 	}
 
-	// XXX test each redirection output
+	public function testRedirectUrl() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_code' => 301 ) ) );
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php', 'action_code' => 302 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteRule ^/my-test$  [R=301,L]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[6] ) );
+	}
+
+	public function testRedirectUrlWithQuery() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test?query=1', 'action_code' => 301 ) ) );
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php?query=1&thing=2', 'action_code' => 302 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1$', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^/my-test$  [R=301,L]', trim( $lines[6] ) );
+		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1&thing=2$', trim( $lines[7] ) );
+		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[8] ) );
+	}
 }
 
