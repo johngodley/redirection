@@ -200,7 +200,7 @@ class Red_Item {
 			return new WP_Error( 'redirect-add', __( 'Source and target URL must be different', 'redirection' ) );
 
 		$matcher  = Red_Match::create( $details['match'] );
-		$group_id = intval( $details['group'] );
+		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
 
 		if ( $group_id <= 0 || !$group )

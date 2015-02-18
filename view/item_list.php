@@ -19,13 +19,11 @@
 	<div style="clear: both"></div>
 </div>
 
-<?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group ? $group->id : 0, 'hidden' => false ) ); ?>
+<?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group, 'hidden' => false ) ); ?>
 
 <script type="text/javascript">
-var redirection;
-
 jQuery(document).ready( function() {
-	new Redirection_Items();
-	new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
+	var items = new Redirection_Items();
+	var add = new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
 });
 </script>

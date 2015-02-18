@@ -6,11 +6,11 @@ if ( !class_exists( 'WP_List_Table' ) )
 class Redirection_Table extends WP_List_Table {
 	private $groups;
 	private $total_items;
-	private $current_group;
+	private $current_group_id;
 
-	function __construct( array $groups, Red_Group $current_group = null ) {
+	function __construct( array $groups, $current_group_id ) {
 		$this->groups = $groups;
-		$this->current_group = $current_group;
+		$this->current_group_id = $current_group_id;
 
 		//Set parent defaults
 		parent::__construct( array(
@@ -111,28 +111,32 @@ class Redirection_Table extends WP_List_Table {
 
 		if ( in_array( $this->current_action(), array( 'reset', 'enable', 'disable', 'delete' ) ) ) {
 			$redirections = array();
+			$flush = array();
 
 			foreach( (array)$_POST['item'] AS $id ) {
 				$redirect = Red_Item::get_by_id( intval( $id ) );
-				if ( $redirect )
-					$redirections[] = $redirect;
+
+				if ( $redirect ) {
+					if ( $this->current_action() === 'reset' )
+						$redirect->reset();
+					elseif ( $this->current_action() === 'enable' ) {
+						$redirect->enable();
+						$flush[] = $redirect->get_group_id();
+					}
+					elseif ( $this->current_action() === 'disable' ) {
+						$redirect->disable();
+						$flush[] = $redirect->get_group_id();
+					}
+					elseif ( $this->current_action() === 'delete' )
+						$redirect->delete();
+				}
 			}
 
-			array_map( array( &$this, 'process_action_items' ), $redirections );
-
-			Red_Module::flush( $this->current_group->get_id() );
+			$flush = array_unique( $flush );
+			foreach ( $flush AS $group_id ) {
+				Red_Module::flush( $group_id );
+			}
 		}
-	}
-
-	function process_action_items( $item ) {
-		if ( $this->current_action() == 'reset' )
-			$item->reset();
-		elseif ( $this->current_action() == 'enable' )
-			$item->enable();
-		elseif ( $this->current_action() == 'disable' )
-			$item->disable();
-		elseif ( $this->current_action() == 'delete' )
-			$item->delete();
 	}
 
 	function extra_tablenav( $which ) {
@@ -142,10 +146,12 @@ class Redirection_Table extends WP_List_Table {
 ?>
 		<div class="alignleft actions">
 			<select name="id">
+				<option value="0"<?php selected( 0, $this->current_group_id ); ?>><?php _e( 'No group filter', 'redirection' ); ?></option>
+
 				<?php foreach ( $this->groups AS $module_name => $groups ) : ?>
 					<optgroup label="<?php echo esc_attr( $module_name ); ?>">
-						<?php foreach ( $groups AS $group_name => $group ) : ?>
-							<option value="<?php echo esc_attr( $group_name ); ?>"<?php selected( $group_name, $this->current_group->get_id() ); ?>>
+						<?php foreach ( $groups AS $group_id => $group ) : ?>
+							<option value="<?php echo esc_attr( $group_id ); ?>"<?php selected( $group_id, $this->current_group_id ); ?>>
 								<?php echo esc_html( $group ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -191,7 +197,7 @@ class Redirection_Table extends WP_List_Table {
 		if ( isset( $_GET['s'] ) )
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
 
-		if ( isset( $_REQUEST['id'] ) )
+		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
 			$where[] = $wpdb->prepare( "group_id=%d", intval( $_REQUEST['id'] ) );
 
 		$where_cond = "";

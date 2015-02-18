@@ -156,7 +156,7 @@ class Redirection_Admin {
 	function admin_screen() {
 	  	$this->update();
 
-		if ( isset($_GET['sub']) ) {
+		if ( isset( $_GET['sub'] ) ) {
 			if ( $_GET['sub'] == 'log' )
 				return $this->admin_screen_log();
 			elseif ( $_GET['sub'] == '404s' )
@@ -166,14 +166,14 @@ class Redirection_Admin {
 			elseif ( $_GET['sub'] == 'process' )
 				return $this->admin_screen_process();
 			elseif ( $_GET['sub'] == 'groups' )
-				return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
+				return $this->admin_groups( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
 			elseif ( $_GET['sub'] == 'modules' )
 				return $this->admin_screen_modules();
 			elseif ( $_GET['sub'] == 'support' )
 				return $this->render('support', array( 'options' => red_get_options() ) );
 		}
 
-		return $this->admin_redirects( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
+		return $this->admin_redirects( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
 	}
 
 	function admin_screen_modules() {
@@ -310,18 +310,10 @@ class Redirection_Admin {
 	}
 
 	function admin_redirects( $group_id ) {
-		if ( $group_id == 0 )
-			$group_id = Red_Group::get_first_id();
-
-		$group = Red_Group::get( $group_id );
-		if ( $group === false ) {
-			$group = Red_Group::create( 'Redirections', 1 );
-		}
-
-		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
+		$table = new Redirection_Table( Red_Group::get_for_select(), $group_id );
 		$table->prepare_items();
 
-  		$this->render( 'item_list', array( 'options' => red_get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+  		$this->render( 'item_list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function locales() {
@@ -480,7 +472,7 @@ class Redirection_Admin {
 		if ( is_wp_error( $item ) )
 			$json['error'] = $item->get_error_message();
 		elseif ( $item !== false ) {
-			$pager = new Redirection_Table( array() );
+			$pager = new Redirection_Table( array(), 0 );
 			$json = array( 'html' => $pager->get_row( $item ) );
 		}
 		else
