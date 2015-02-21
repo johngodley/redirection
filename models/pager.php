@@ -704,44 +704,55 @@ class Redirection_Module_Table extends WP_List_Table {
 
 	function get_columns() {
 		$columns = array(
+			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
 			'name'   => __( 'Module', 'redirection' ),
 			'total' => __( 'Redirects', 'redirection' ),
-			'export' => __( 'Export', 'redirection' ),
 		);
 
 		return $columns;
 	}
 
-	function column_export( $item ) {
-		if ( $this->token ) {
-			$actions['htaccess'] = sprintf( '<a href="%s">.htaccess</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=apache&amp;module='.intval( $item->get_id() ) );
-			$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
-
-			if ( $item->get_id() === WordPress_Module::MODULE_ID ) {
-				$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
-			}
-		}
-
-		return implode( ' | ', $actions );
+	function column_cb($item){
+		return sprintf(
+			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
+			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
+			/*$2%s*/ $item->get_id()                //The value of the checkbox should be the record's id
+		);
 	}
 
 	function column_name( $item ) {
 		$config = $item->get_config();
-		$actions['edit'] = __( 'No configuration', 'redirection' );
 
 		if ( $item->can_edit_config() )
 			$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Configure', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
+
+		if ( $item->get_id() === WordPress_Module::MODULE_ID && $this->token )
+			$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
+
+		$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
+		$actions['view-htaccess'] = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_htaccess" data-nonce="%s">.htaccess</a>', $item->get_id(), wp_create_nonce( 'red_get_htaccess' ) );
+		$actions['view-nginx']    = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_nginx" data-nonce="%s">Nginx</a>', $item->get_id(), wp_create_nonce( 'red_get_nginx' ) );
 
 		if ( count( $config ) > 0 )
 			$config = '<div class="module-config">'.join( '<br/>', $config ).'</div>';
 		else
 			$config = '';
 
-		return '<p>'.esc_html( $item->get_name() ).'</p>'.$item->get_description().$config.$this->row_actions( $actions );
+		return '<p><strong>'.esc_html( $item->get_name() ).'</strong></p>'.$item->get_description().$config.$this->row_actions( $actions );
 	}
 
 	function column_total( $item ) {
 		return esc_html( $item->get_total_redirects() );
+	}
+
+	function get_bulk_actions() {
+		$actions = array(
+			'csv'      => __( 'Download as CSV', 'redirection' ),
+			'htaccess' => __( 'Download as .htaccess', 'redirection' ),
+			'nginx'    => __( 'Download as Nginx block', 'redirection' ),
+		);
+
+		return $actions;
 	}
 
 	function prepare_items( $type = '', $id = 0 ) {
@@ -752,10 +763,7 @@ class Redirection_Module_Table extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, array(), $sortable );
-		$this->items = array(
-			new WordPress_Module( $options['modules'][WordPress_Module::MODULE_ID] ),
-			new Apache_Module( $options['modules'][Apache_Module::MODULE_ID] )
-		);
+		$this->items = Red_Module::get_for_select();
 		$this->total_items = count( $this->items );
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,

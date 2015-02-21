@@ -4,10 +4,6 @@ class Red_Apache_File extends Red_FileIO {
 	var $htaccess;
 
 	function export( array $items ) {
-		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
-
-		$htaccess = new Red_Htaccess();
-
 		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.htaccess';
 
 		header( 'Content-Type: application/octet-stream' );
@@ -15,11 +11,19 @@ class Red_Apache_File extends Red_FileIO {
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
 
+		echo $htaccess->generate( $items );
+	}
+
+	public function get( array $items ) {
+		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
+
+		$htaccess = new Red_Htaccess();
+
 		foreach ( $items AS $item ) {
-			$htaccess->add ($item);
+			$htaccess->add( $item );
 		}
 
-		echo $htaccess->generate();
+		return $htaccess->get();
 	}
 
 	function load( $group, $data, $filename = '' ) {

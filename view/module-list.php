@@ -9,6 +9,8 @@
 	<form method="POST" action="">
 		<?php $table->display(); ?>
 	</form>
+
+	<p><?php _e( 'Note that you can use the Bulk Actions dropdown to export multiple modules.', 'redirection' ); ?></p>
 </div>
 
 <script type="text/javascript">

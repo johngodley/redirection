@@ -37,6 +37,8 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_redirect_add', array( &$this, 'ajax_redirect_add' ) );
 		add_action( 'wp_ajax_red_redirect_edit', array( &$this, 'ajax_redirect_edit' ) );
 		add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
+		add_action( 'wp_ajax_red_get_htaccess', array( &$this, 'ajax_get_htaccess' ) );
+		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 	}
@@ -479,6 +481,38 @@ class Redirection_Admin {
 			$json['error'] = __( 'Sorry, but your redirection was not created', 'redirection' );
 
 		$this->output_ajax_response( $json );
+	}
+
+	private function get_module_column( $module_id, $export_type ) {
+		$json['error'] = __( 'Invalid module', 'redirection' );
+
+		$module = Red_Module::get( $module_id );
+		$exporter = Red_FileIO::create( $export_type );
+
+		if ( $module && $exporter ) {
+			global $hook_suffix;
+
+			$hook_suffix = '';
+			$options  = red_get_options();
+			$pager    = new Redirection_Module_Table( $options['token'] );
+			$items    = Red_Item::get_all_for_module( $module_id );
+
+			$json = array( 'html' => $pager->column_name( $module ) );
+
+			$json['html'] .= '<textarea readonly="readonly" class="module-export" rows="10">'.esc_textarea( $exporter->get( $items ) ).'</textarea>';
+			$json['html'] .= '<div class="table-actions"><a href="?page=redirection.php&amp;token='.$options['token'].'&amp;sub='.$export_type.'&amp;module='.$module_id.'"><input class="button-primary" type="button" value="'.__( 'Download', 'redirection' ).'"/></a> ';
+			$json['html'] .= '<input class="button-secondary" type="submit" name="cancel" value="'.__( 'Cancel', 'redirection' ).'"/>';
+		}
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_get_nginx() {
+		$this->get_module_column( intval( $_POST['id'] ), 'nginx' );
+	}
+
+	public function ajax_get_htaccess() {
+		$this->get_module_column( intval( $_POST['id'] ), 'apache' );
 	}
 
 	private function output_ajax_response( array $data ) {

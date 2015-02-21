@@ -6,17 +6,21 @@ abstract class Red_FileIO {
 	public static function create( $type ) {
 		$exporter = false;
 
-		if ( $type == 'rss' ) {
-			include dirname( dirname( __FILE__ ) )."/fileio/rss.php";
+		if ( $type === 'rss' ) {
+			include dirname( dirname( __FILE__ ) ).'/fileio/rss.php';
 			$exporter = new Red_Rss_File();
 		}
-		elseif ( $type == 'csv' ) {
-			include dirname( dirname( __FILE__ ) )."/fileio/csv.php";
+		elseif ( $type === 'csv' ) {
+			include dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
 			$exporter = new Red_Csv_File();
 		}
-		elseif ( $type == 'apache' ) {
-			include dirname( dirname( __FILE__ ) )."/fileio/apache.php";
+		elseif ( $type === 'apache' ) {
+			include dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
 			$exporter = new Red_Apache_File();
+		}
+		elseif ( $type === 'nginx' ) {
+			include dirname( dirname( __FILE__ ) ).'/fileio/nginx.php';
+			$exporter = new Red_Nginx_File();
 		}
 
 		return $exporter;

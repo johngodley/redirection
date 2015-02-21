@@ -149,3 +149,12 @@ table.items table.edit th {
 	font-weight: bold;
 	display: none;
 }
+
+.module-export {
+	border: 1px solid #ddd;
+	padding: 5px;
+	font-family: courier;
+	background-color: #eee;
+	margin-top: 15px;
+	width: 100%;
+}

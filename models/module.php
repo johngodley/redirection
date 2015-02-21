@@ -2,6 +2,7 @@
 
 include_once dirname( dirname( __FILE__ ) ).'/modules/wordpress.php';
 include_once dirname( dirname( __FILE__ ) ).'/modules/apache.php';
+include_once dirname( dirname( __FILE__ ) ).'/modules/nginx.php';
 
 abstract class Red_Module {
 	public function __construct( $options ) {
@@ -17,6 +18,8 @@ abstract class Red_Module {
 			return new Apache_Module( isset( $options['modules'][Apache_Module::MODULE_ID] ) ? $options['modules'][Apache_Module::MODULE_ID] : array() );
 		else if ( $id === WordPress_Module::MODULE_ID )
 			return new WordPress_Module( isset( $options['modules'][WordPress_Module::MODULE_ID] ) ? $options['modules'][WordPress_Module::MODULE_ID] : array() );
+		else if ( $id === Nginx_Module::MODULE_ID )
+			return new Nginx_Module( isset( $options['modules'][Nginx_Module::MODULE_ID] ) ? $options['modules'][Nginx_Module::MODULE_ID] : array() );
 
 		return false;
 	}
@@ -39,6 +42,7 @@ abstract class Red_Module {
 		return array(
 			WordPress_Module::MODULE_ID => Red_Module::get( WordPress_Module::MODULE_ID ),
 			Apache_Module::MODULE_ID    => Red_Module::get( Apache_Module::MODULE_ID ),
+			Nginx_Module::MODULE_ID     => Nginx_Module::get( Nginx_Module::MODULE_ID ),
 		);
 	}
 

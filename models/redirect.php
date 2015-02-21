@@ -462,6 +462,10 @@ class Red_Item {
 	}
 
 	public function get_action_code() {
-		return $this->action_code;
+		return intval( $this->action_code );
+	}
+
+	public function get_action_data() {
+		return $this->action_data;
 	}
 }
