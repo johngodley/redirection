@@ -19,14 +19,11 @@ class Red_Rss_File extends Red_FileIO {
 <?php
 	foreach ( (array)$items as $log ) : ?>
 	<item>
-		<title><?php echo esc_html( $log->url ); ?></title>
-		<link><![CDATA[<?php echo esc_url( home_url() ); echo esc_url( $log->url ); ?>]]></link>
-		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $log->created, false); ?></pubDate>
-		<guid isPermaLink="false"><?php echo esc_html( $log->id ); ?></guid>
-		<description><?php echo esc_html( $log->url ); ?></description>
-		<?php if ( $log->referrer ) : ?>
-		<content:encoded><?php printf( __( 'Referred by %s' ), esc_html( $log->referrer ) ); ?></content:encoded>
-		<?php endif; ?>
+		<title><?php echo esc_html( $log->get_url() ); ?></title>
+		<link><![CDATA[<?php echo esc_url( home_url() ); echo esc_url( $log->get_url() ); ?>]]></link>
+		<pubDate><?php echo date( 'D, d M Y H:i:s +0000', $log->get_last_hit() ); ?></pubDate>
+		<guid isPermaLink="false"><?php echo esc_html( $log->get_id() ); ?></guid>
+		<description><?php echo esc_html( $log->get_url() ); ?></description>
 	</item>
 	<?php endforeach; ?>
 </channel>
