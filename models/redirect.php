@@ -170,6 +170,13 @@ class Red_Item {
 		if ( $details['source'] == $details['target'] )
 			return new WP_Error( 'redirect-add', __( 'Source and target URL must be different', 'redirection' ) );
 
+		$parsed_url = parse_url( $details['source'] );
+		$parsed_domain = parse_url( site_url() );
+
+		if ( ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
+			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), $parsed_url['path'], $parsed_domain['host'] ) );
+		}
+
 		$matcher  = Red_Match::create( $details['match'] );
 		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
