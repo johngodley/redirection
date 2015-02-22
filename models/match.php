@@ -94,7 +94,7 @@ class Red_Match {
 	 	return array (
 			'url'      => 'url.php',
 			'referrer' => 'referrer.php',
-			'agent'    => 'user_agent.php',
+			'agent'    => 'user-agent.php',
 			'login'    => 'login.php',
 		 );
 	}

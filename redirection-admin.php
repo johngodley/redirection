@@ -3,7 +3,7 @@
 include dirname( __FILE__ ).'/models/group.php';
 include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/models/pager.php';
-include dirname( __FILE__ ).'/models/file_io.php';
+include dirname( __FILE__ ).'/models/file-io.php';
 
 class Redirection_Admin {
 	private static $instance = null;
@@ -308,14 +308,14 @@ class Redirection_Admin {
 		$table = new Redirection_Group_Table( Red_Module::get_for_select() );
 		$table->prepare_items();
 
-		$this->render( 'group_list', array( 'options' => red_get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
+		$this->render( 'group-list', array( 'options' => red_get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
 	}
 
 	function admin_redirects( $group_id ) {
 		$table = new Redirection_Table( Red_Group::get_for_select(), $group_id );
 		$table->prepare_items();
 
-  		$this->render( 'item_list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+  		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function locales() {
@@ -400,7 +400,7 @@ class Redirection_Admin {
 
 		$group = Red_Group::get( $group_id );
 		if ( $group )
-			$json['html'] = $this->capture( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
+			$json['html'] = $this->capture( 'group-edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find group';
 
@@ -434,7 +434,7 @@ class Redirection_Admin {
 		$redirect = Red_Item::get_by_id( intval( $_POST['id'] ) );
 
 		if ( $redirect )
-			$json['html'] = $this->capture( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
+			$json['html'] = $this->capture( 'item-edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
 
