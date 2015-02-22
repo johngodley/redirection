@@ -13,6 +13,9 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	public function get( array $items ) {
+		if ( count( $items ) === 0 )
+			return '';
+
 		$lines   = array();
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
