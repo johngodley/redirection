@@ -241,7 +241,7 @@ Redirection_Add.prototype.on_change_type = function( ev ) {
 };
 
 Redirection_Add.prototype.before_submit = function() {
-	this.$( this.add_form ).removeClass( this.LOADED_ERROR_CLASS ).addClass( this.LOADING_CLASS );
+	this.$( this.add_form ).removeClass( this.LOADED_ERROR_CLASS + ' ' + this.LOADED_CLASS ).addClass( this.LOADING_CLASS );
 };
 
 Redirection_Add.prototype.on_success = function( response ) {
@@ -253,6 +253,8 @@ Redirection_Add.prototype.on_success = function( response ) {
 		this.add_error( this.add_form, error );
 	else if ( this.add_to_screen === true )
 		this.add_redirect_to_list( this.add_form, response.html );
+	else
+		this.show_added_notice( this.add_form );
 };
 
 Redirection_Add.prototype.reset_form = function() {
@@ -268,9 +270,13 @@ Redirection_Add.prototype.add_error = function( add_form, error ) {
 Redirection_Add.prototype.add_redirect_to_list = function( add_form, html ) {
 	this.$( this.ITEM_TABLE ).append( html );
 
-	this.$( add_form ).addClass( this.LOADED_CLASS );
+	this.show_added_notice( add_form );
 	this.set_alternate_rows( this.ITEM_TABLE + ' tr' );
 	this.remove_empty_row( this.EMPTY_TABLE );
+};
+
+Redirection_Add.prototype.show_added_notice = function( add_form ) {
+	this.$( add_form ).addClass( this.LOADED_CLASS );
 };
 
 Redirection_Add.prototype.remove_empty_row = function( empty_rows ) {

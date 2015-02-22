@@ -173,7 +173,7 @@ class Red_Item {
 		$parsed_url = parse_url( $details['source'] );
 		$parsed_domain = parse_url( site_url() );
 
-		if ( ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
+		if ( isset( $parsed_url['scheme'] ) && ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
 			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), $parsed_url['path'], $parsed_domain['host'] ) );
 		}
 
