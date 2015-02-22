@@ -704,20 +704,11 @@ class Redirection_Module_Table extends WP_List_Table {
 
 	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
 			'name'   => __( 'Module', 'redirection' ),
 			'total' => __( 'Redirects', 'redirection' ),
 		);
 
 		return $columns;
-	}
-
-	function column_cb($item){
-		return sprintf(
-			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
-			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->get_id()                //The value of the checkbox should be the record's id
-		);
 	}
 
 	function column_name( $item ) {
@@ -743,16 +734,6 @@ class Redirection_Module_Table extends WP_List_Table {
 
 	function column_total( $item ) {
 		return esc_html( $item->get_total_redirects() );
-	}
-
-	function get_bulk_actions() {
-		$actions = array(
-			'csv'      => __( 'Download as CSV', 'redirection' ),
-			'htaccess' => __( 'Download as .htaccess', 'redirection' ),
-			'nginx'    => __( 'Download as Nginx block', 'redirection' ),
-		);
-
-		return $actions;
 	}
 
 	function prepare_items( $type = '', $id = 0 ) {

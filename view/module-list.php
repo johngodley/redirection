@@ -9,12 +9,14 @@
 	<form method="POST" action="">
 		<?php $table->display(); ?>
 	</form>
-
-	<p><?php _e( 'Note that you can use the Bulk Actions dropdown to export multiple modules.', 'redirection' ); ?></p>
 </div>
 
 <script type="text/javascript">
-jQuery(document ).ready( function() {
-	new Redirection_Items();
-} );
+( function( $ ) {
+	$( document ).ready( function() {
+		var items = new Redirection_Items( $ );
+
+		items.setup( 'table.items' );
+	} );
+} )( jQuery );
 </script>

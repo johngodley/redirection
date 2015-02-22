@@ -22,8 +22,13 @@
 <?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group, 'hidden' => false ) ); ?>
 
 <script type="text/javascript">
-jQuery(document).ready( function() {
-	var items = new Redirection_Items();
-	var add = new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
-});
+( function( $ ) {
+	$( document ).ready( function() {
+		var items = new Redirection_Items( $ );
+		var adder = new Redirection_Add( $, '#target', true );
+
+		adder.setup( 'select[name=red_action]', '#add' );
+		items.setup( 'table.items' );
+	} );
+} )( jQuery );
 </script>
