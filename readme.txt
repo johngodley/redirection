@@ -98,6 +98,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Reworked modules
 * Nginx module (experimental)
 * View .htaccess/Nginx inline
+* Beginnings of some unit tests!
 
 = 2.3.13 =
 * Split admin and front-end code out to streamline the loading a bit
