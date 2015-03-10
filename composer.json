@@ -1,0 +1,17 @@
+{
+    "name": "MarkArts/redirection",
+    "description": "This is a fork of johngodley/redirection with a bugfix",
+    "license": "GNU GENERAL PUBLIC LICENSE",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+          "name":"johngodley"
+        },
+        {
+            "name": "Mark Arts",
+            "email": "markarts@hoppinger.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
