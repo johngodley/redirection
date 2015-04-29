@@ -19,6 +19,8 @@ class WordPress_Module extends Red_Module {
 	public function init() {
 		$url = $_SERVER['REQUEST_URI'];
 
+		$url = apply_filters( 'redirection_url', $url );
+
 		// Make sure we don't try and redirect something essential
 		if ( !$this->protected_url( $url ) && $this->matched === false ) {
 			do_action( 'redirection_first', $url, $this );
