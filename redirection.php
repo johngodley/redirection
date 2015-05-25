@@ -36,7 +36,7 @@ function red_get_options() {
 
 	$defaults = array(
 		'support'         => false,
-		'token'           => '',
+		'token'           => md5( uniqid() ),
 		'monitor_post'    => 0,
 		'auto_target'     => '',
 		'expire_redirect' => 7,
