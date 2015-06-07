@@ -66,14 +66,6 @@ class Red_Item {
 		return $items;
 	}
 
-	static function exists( $url ) {
-		global $wpdb;
-
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url=%s", $url ) ) > 0 )
-			return true;
-		return false;
-	}
-
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
 
@@ -105,30 +97,6 @@ class Red_Item {
 
 		foreach( (array)$rows AS $row ) {
 			$items[] = new Red_Item( $row );
-		}
-
-		return $items;
-	}
-
-	/**
-	 * Get redirection items in a group
-	 */
-	static function get_by_group( $group, &$pager ) {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group );
-
-		if ( $pager->search )
-			$sql .= $wpdb->prepare( ' AND url LIKE %s', '%'.like_escape( $pager->search ).'%' );
-
-		$pager->set_total( $wpdb->get_var( "SELECT COUNT(*) ".$sql ) );
-		$rows = $wpdb->get_results( "SELECT * ".$sql.' ORDER BY position'.$pager->to_limits() );
-
-		$items = array();
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows AS $row ) {
-				$items[] = new Red_Item( $row );
-			}
 		}
 
 		return $items;
@@ -224,17 +192,6 @@ class Red_Item {
 		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
 	}
 
-	static function delete_by_group( $group ) {
-		global $wpdb;
-
-		RE_Log::delete_for_group( $group);
-
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) );
-
-		$group = Red_Group::get( $wpdb->insert_id );
-		Red_Module::flush( $group->module_id );
-	}
-
 	public function delete() {
 		global $wpdb;
 
@@ -253,7 +210,6 @@ class Red_Item {
 		Red_Module::flush( $this->group_id );
 	}
 
-
 	static function sanitize_url( $url, $regex )	{
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
@@ -263,7 +219,6 @@ class Red_Item {
 			$url = '/'.$url;
 		return $url;
 	}
-
 
 	function update( $details ) {
 		if ( strlen( $details['old'] ) > 0 ) {
@@ -314,7 +269,7 @@ class Red_Item {
 		// Check if we match the URL
 		if ( ( $this->regex == false && ( $this->url == $url || $this->url == rtrim( $url, '/' ) || $this->url == urldecode( $url ) ) ) ||( $this->regex == true && @preg_match( '@'.str_replace( '@', '\\@', $this->url).'@', $url, $matches) > 0) ||( $this->regex == true && @preg_match( '@'.str_replace( '@', '\\@', $this->url).'@', urldecode( $url ), $matches) > 0) ) {
 			// Check if our match wants this URL
-			$target = $this->match->get_target( $url, $this->url, $this->regex);
+			$target = $this->match->get_target( $url, $this->url, $this->regex );
 
 			if ( $target ) {
 				$target = $this->replaceSpecialTags( $target );
