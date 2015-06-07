@@ -71,7 +71,7 @@ $expiry = array(
 	      	<td>
 				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
 				<br/>
-				<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags $dec$ or $hex$ to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
+				<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags <code>$dec$</code> or <code>$hex$</code> to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
 			</td>
 	    </tr>
 	</table>
@@ -84,7 +84,7 @@ $expiry = array(
 <div class="wrap">
 	<h2><?php _e( 'Import', 'redirection' ); ?></h2>
 
-	<p><?php _e( 'Here you can import redirections from an existing .htaccess file, or a CSV file.', 'redirection' ); ?></p>
+	<p><?php _e( 'Here you can import redirections from an existing <code>.htaccess</code> file, or a CSV file.', 'redirection' ); ?></p>
 
 	<form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		<?php wp_nonce_field( 'redirection-import' ); ?>
