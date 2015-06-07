@@ -1,39 +1,22 @@
 <?php
-/**
- * Redirection
- *
- * @package Redirection
- * @author John Godley
- * @copyright Copyright( C) John Godley
- **/
 
-/*
-============================================================================================================
-This software is provided "as is" and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
-the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or
-consequential damages( including, but not limited to, procurement of substitute goods or services; loss of
-use, data, or profits; or business interruption) however caused and on any theory of liability, whether in
-contract, strict liability, or tort( including negligence or otherwise) arising in any way out of the use of
-this software, even if advised of the possibility of such damage.
-
-For full license details see license.txt
-============================================================================================================ */
 class Red_Item {
-	var $id          = null;
-	var $created;
-	var $referrer;
-	var $url         = null;
-	var $regex       = false;
-	var $action_data = null;
-	var $action_code = 0;
-
-	var $last_access   = null;
-	var $last_count    = 0;
-
-	var $tracking      = true;
+	private $id          = null;
+	private $created;
+	private $referrer;
+	private $url         = null;
+	private $regex       = false;
+	private $action_data = null;
+	private $action_code = 0;
+	private $action_type;
+	private $match_type;
+	private $title;
+	private $last_access = null;
+	private $last_count  = 0;
+	private $tracking    = true;
 	private $status;
 	private $position;
+	private $group_id;
 
 	function Red_Item( $values, $type = '', $match = '' )	{
 		if ( is_object( $values ) ) {
@@ -66,18 +49,6 @@ class Red_Item {
 		}
 	}
 
-	public function get_id() {
-		return $this->id;
-	}
-
-	public function get_position() {
-		return $this->position;
-	}
-
-	public function get_action_code() {
-		return $this->action_code;
-	}
-
 	static function get_all_for_module( $module ) {
 		global $wpdb;
 
@@ -95,18 +66,10 @@ class Red_Item {
 		return $items;
 	}
 
-	static function exists( $url ) {
-		global $wpdb;
-
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$wpdb->prefix}redirection_items WHERE url=%s", $url ) ) > 0 )
-			return true;
-		return false;
-	}
-
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking,@redirection_groups.position AS group_pos,@redirection_modules.id AS module_id FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' INNER JOIN @redirection_modules ON @redirection_modules.id=@redirection_groups.module_id AND @redirection_modules.type=%s WHERE( @redirection_items.regex=1 OR @redirection_items.url=%s)", $type, $url );
+		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.position AS group_pos FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE (@redirection_items.regex=1 OR @redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
 		$sql = str_replace( '@', $wpdb->prefix, $sql);
 
 		$rows = $wpdb->get_results( $sql ) ;
@@ -126,38 +89,14 @@ class Red_Item {
 	static function get_by_module( $module ) {
 		global $wpdb;
 
-		$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
+		$sql = "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
 		$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
 
 		$rows = $wpdb->get_results( $sql );
 		$items = array();
-		if ( count( $rows) > 0) {
-			foreach( $rows AS $row)
-				$items[] = new Red_Item( $row);
-		}
 
-		return $items;
-	}
-
-	/**
-	 * Get redirection items in a group
-	 */
-	static function get_by_group( $group, &$pager ) {
-		global $wpdb;
-
-		$sql = $wpdb->prepare( "FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group );
-
-		if ( $pager->search )
-			$sql .= $wpdb->prepare( ' AND url LIKE %s', '%'.like_escape( $pager->search ).'%' );
-
-		$pager->set_total( $wpdb->get_var( "SELECT COUNT(*) ".$sql ) );
-		$rows = $wpdb->get_results( "SELECT * ".$sql.' ORDER BY position'.$pager->to_limits() );
-
-		$items = array();
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows AS $row ) {
-				$items[] = new Red_Item( $row );
-			}
+		foreach( (array)$rows AS $row ) {
+			$items[] = new Red_Item( $row );
 		}
 
 		return $items;
@@ -199,8 +138,15 @@ class Red_Item {
 		if ( $details['source'] == $details['target'] )
 			return new WP_Error( 'redirect-add', __( 'Source and target URL must be different', 'redirection' ) );
 
+		$parsed_url = parse_url( $details['source'] );
+		$parsed_domain = parse_url( site_url() );
+
+		if ( isset( $parsed_url['scheme'] ) && ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
+			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), $parsed_url['path'], $parsed_domain['host'] ) );
+		}
+
 		$matcher  = Red_Match::create( $details['match'] );
-		$group_id = intval( $details['group'] );
+		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
 
 		if ( $group_id <= 0 || !$group )
@@ -239,23 +185,11 @@ class Red_Item {
 		$wpdb->delete( $wpdb->prefix.'redirection_items', array( 'url' => $data['action_data'], 'action_type' => $data['action_type'], 'action_data' => $data['url'] ) );
 
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
-			Red_Module::flush( $group->module_id );
-
+			Red_Module::flush( $group_id );
 			return self::get_by_id( $wpdb->insert_id );
 		}
 
 		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
-	}
-
-	static function delete_by_group( $group ) {
-		global $wpdb;
-
-		RE_Log::delete_for_group( $group);
-
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group ) );
-
-		$group = Red_Group::get( $wpdb->insert_id );
-		Red_Module::flush( $group->module_id );
 	}
 
 	public function delete() {
@@ -272,8 +206,9 @@ class Red_Item {
 				$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos ), array( 'id' => $row->id ) );
 			}
 		}
-	}
 
+		Red_Module::flush( $this->group_id );
+	}
 
 	static function sanitize_url( $url, $regex )	{
 		// Make sure that the old URL is relative
@@ -285,7 +220,6 @@ class Red_Item {
 		return $url;
 	}
 
-
 	function update( $details ) {
 		if ( strlen( $details['old'] ) > 0 ) {
 			global $wpdb;
@@ -296,21 +230,25 @@ class Red_Item {
 			$this->url   = self::sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
 
-			$data  = $this->match->data( $details );
+			$data = $this->match->data( $details );
 
 			$this->action_code = 0;
 			if ( isset( $details['action_code'] ) )
 				$this->action_code = intval( $details['action_code'] );
 
-			if ( isset( $details['group_id'] ) )
+			$old_group = false;
+			if ( isset( $details['group_id'] ) ) {
+				$old_group = intval( $this->group_id );
 				$this->group_id = intval( $details['group_id'] );
+			}
 
 			// Save this
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
 
-			$group = Red_Group::get( $this->group_id );
-			if ( $group )
-				Red_Module::flush( $group->module_id );
+			if ( $old_group !== $this->group_id ) {
+				Red_Module::flush( $this->group_id );
+				Red_Module::flush( $old_group );
+			}
 		}
 	}
 
@@ -321,10 +259,7 @@ class Red_Item {
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos + $start ), array( 'id' => $id ) );
 		}
 
-		$item  = self::get_by_id( $id );
-		$group = Red_Group::get( $item->group_id );
-		if ( $group )
-			Red_Module::flush( $group->module_id );
+		Red_Module::flush( $this->group_id );
 	}
 
 	function matches( $url ) {
@@ -334,7 +269,7 @@ class Red_Item {
 		// Check if we match the URL
 		if ( ( $this->regex == false && ( $this->url == $url || $this->url == rtrim( $url, '/' ) || $this->url == urldecode( $url ) ) ) ||( $this->regex == true && @preg_match( '@'.str_replace( '@', '\\@', $this->url).'@', $url, $matches) > 0) ||( $this->regex == true && @preg_match( '@'.str_replace( '@', '\\@', $this->url).'@', urldecode( $url ), $matches) > 0) ) {
 			// Check if our match wants this URL
-			$target = $this->match->get_target( $url, $this->url, $this->regex);
+			$target = $this->match->get_target( $url, $this->url, $this->regex );
 
 			if ( $target ) {
 				$target = $this->replaceSpecialTags( $target );
@@ -408,14 +343,14 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'group_id' => $group ), array( 'id' => $this->id ) );
 	}
 
-	function enable() {
+	public function enable() {
 		global $wpdb;
 
 		$this->status = true;
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 
-	function disable() {
+	public function disable() {
 		global $wpdb;
 
 		$this->status = false;
@@ -446,5 +381,53 @@ class Red_Item {
 		else if ( $this->action_type == 'pass' )
 			return 'pass';
 		return '&mdash;';
+	}
+
+	public function get_id() {
+		return $this->id;
+	}
+
+	public function get_position() {
+		return $this->position;
+	}
+
+	public function get_group_id() {
+		return $this->group_id;
+	}
+
+	public function get_url() {
+		return $this->url;
+	}
+
+	public function get_title() {
+		return $this->title;
+	}
+
+	public function get_hits() {
+		return $this->last_count;
+	}
+
+	public function get_last_hit() {
+		return $this->last_access;
+	}
+
+	public function is_regex() {
+		return $this->regex ? true : false;
+	}
+
+	public function get_match_type() {
+		return $this->match_type;
+	}
+
+	public function get_action_type() {
+		return $this->action_type;
+	}
+
+	public function get_action_code() {
+		return intval( $this->action_code );
+	}
+
+	public function get_action_data() {
+		return $this->action_data;
 	}
 }

@@ -12,7 +12,11 @@
 </div>
 
 <script type="text/javascript">
-jQuery(document ).ready( function() {
-	new Redirection_Items();
-} );
+( function( $ ) {
+	$( document ).ready( function() {
+		var items = new Redirection_Items( $ );
+
+		items.setup( 'table.items' );
+	} );
+} )( jQuery );
 </script>

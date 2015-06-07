@@ -1,7 +1,24 @@
 <?php
 
 class WordPress_Module extends Red_Module {
+	const MODULE_ID = 1;
+
 	private $matched = false;
+
+	public function get_id() {
+		return self::MODULE_ID;
+	}
+
+	public function can_edit_config() {
+		return false;
+	}
+
+	public function render_config() {
+	}
+
+	public function get_config() {
+		return array();
+	}
 
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
@@ -89,8 +106,14 @@ class WordPress_Module extends Red_Module {
 		return $url;
 	}
 
-	public function save( $data ) {
-		return array();
+	public function update( $data ) {
+		return false;
+	}
+
+	protected function load( $options ) {
+	}
+
+	protected function flush_module() {
 	}
 
 	public function permalink_redirect_skip( $skip ) {
@@ -100,20 +123,12 @@ class WordPress_Module extends Red_Module {
 		return $skip;
 	}
 
-	public function is_valid() {
-		$perm = get_option( 'permalink_structure' );
-		if ( $perm === false || $perm == '' )
-			return false;
-		return true;
-	}
-
-	public function options() {
-		if ( !$this->is_valid() )
-			echo __( '<strong>Disabled: You must enable <a href="options-permalink.php">permalinks</a> before using this</strong>', 'redirection' );
-	}
-
-	public function get_type_string() {
+	public function get_name() {
 		return __( 'WordPress', 'redirection' );
+	}
+
+	public function get_description() {
+		return __( 'WordPress-powered redirects. This requires no further configuration, and you can track hits.', 'redirection' );
 	}
 
 	private function get_url() {

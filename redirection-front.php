@@ -1,6 +1,6 @@
 <?php
 
-include dirname( __FILE__ ).'/modules/wordpress.php';
+include_once dirname( __FILE__ ).'/modules/wordpress.php';
 
 class Redirection {
 	private static $instance = null;
@@ -15,7 +15,7 @@ class Redirection {
 	}
 
 	public function __construct() {
-		$this->module = new WordPress_Module();
+		$this->module = Red_Module::get( WordPress_Module::MODULE_ID );
 		$this->module->start();
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );

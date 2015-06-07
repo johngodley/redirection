@@ -21,18 +21,27 @@
 <div class="wrap">
 	<h2><?php _e( 'Add Group', 'redirection' ); ?></h2>
 
+	<p><?php _e( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.', 'redirection' ); ?></p>
+
 	<form action="" method="post" accept-charset="utf-8">
 		<?php wp_nonce_field( 'redirection-add_group' ); ?>
 		<table class="form-table">
 			<tr>
-				<th width="50"><?php _e( 'Name', 'redirection' ); ?>:</th>
-				<td><input size="40" class="regular-text" type="text" name="name" value=""/></td>
+				<th style="width: 50px"><?php _e( 'Name', 'redirection' ); ?>:</th>
+				<td>
+					<input size="30" class="regular-text" type="text" name="name" value=""/>
+
+					<select name="module_id">
+						<?php foreach ( Red_Module::get_for_select() AS $module ) : ?>
+							<option value="<?php echo esc_attr( $module->get_id() ); ?>"><?php echo esc_html( $module->get_name() ); ?></option>
+						<?php endforeach; ?>
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<th width="50"></th>
+				<th style="width: 50px"></th>
 				<td>
 					<input class="button-primary" type="submit" name="add" value="<?php esc_attr_e( 'Add', 'redirection' ); ?>"/>
-					<input type="hidden" name="module_id" value="<?php echo $module->get_id() ?>"/>
 				</td>
 			</tr>
 		</table>
@@ -40,10 +49,13 @@
 </div>
 
 <script type="text/javascript">
-var redirection;
+( function( $ ) {
+	$( document ).ready( function() {
+		var items = new Redirection_Items( $ );
+		var adder = new Redirection_Add( $, '#target', true );
 
-jQuery(document).ready( function() {
-	new Redirection_Items();
-	new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
-});
+		adder.setup( 'select[name=red_action]', '#add' );
+		items.setup( 'table.items' );
+	} );
+} )( jQuery );
 </script>

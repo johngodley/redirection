@@ -1,190 +1,114 @@
 <?php
 
-class Apache_Module extends Red_Module
-{
-	var $name;
-	var $allow_ip  = false;
-	var $raw;
-	var $ban_ip = false;
+class Apache_Module extends Red_Module {
+	const MODULE_ID = 2;
 
-	var $site      = '';
-	var $location  = '';
-	var $canonical = '';
-	var $strip_index = '';
-	var $memory_limit = '';
-	var $error_level  = '';
+	private $location  = '';
+	private $canonical = '';
 
-	function is_valid ()
-	{
-		if (!$this->location || !file_exists (dirname ($this->location)) && !is_writable (dirname ($this->location)))
-			return false;
+	public function get_id() {
+		return self::MODULE_ID;
+	}
+
+	public function can_edit_config() {
 		return true;
 	}
 
-	function load ($data)
-	{
-		$mine = array ('location', 'canonical', 'strip_index', 'memory_limit', 'error_level', 'ban_ip', 'allow_ip', 'raw', 'site');
-		foreach ($mine AS $key)
-		{
-			if (isset ($data[$key]))
+	protected function load( $data ) {
+		$mine = array( 'location', 'canonical' );
+
+		foreach ( $mine AS $key ) {
+			if ( isset( $data[$key] ) )
 				$this->$key = $data[$key];
 		}
 	}
 
-	function module_flush_delete ()
-	{
-		@unlink ($this->location);
-	}
+	protected function flush_module() {
+		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
 
-	function module_flush ($items)
-	{
+		if ( empty( $this->location ) )
+			return;
+
+		$items = Red_Item::get_by_module( $this->get_id() );
+
 		// Produce the .htaccess file
-		include_once (dirname (__FILE__).'/../models/htaccess.php');
-
-		$htaccess = new Red_Htaccess ($this);
-		if (is_array ($items) && count ($items) > 0)
-		{
-			foreach ($items AS $item)
-				$htaccess->add ($item);
+		$htaccess = new Red_Htaccess();
+		if ( is_array( $items ) && count( $items ) > 0 ) {
+			foreach ( $items AS $item ) {
+				if ( $item->is_enabled() )
+					$htaccess->add( $item );
+			}
 		}
 
-		$htaccess->save ($this->location, $this->name);
+		return $htaccess->save( $this->location );
 	}
 
-	function save ($data)
-	{
-		$save = array (
-			'location'     => isset( $data['location'] ) ? $data['location'] : false,
-			'canonical'    => isset( $data['canonical'] ) ? $data['canonical'] : false,
-			'strip_index'  => isset( $data['strip_index'] ) ? $data['strip_index'] : false,
-			'memory_limit' => isset( $data['memory_limit'] ) ? $data['memory_limit'] : false,
-			'error_level'  => isset( $data['error_level'] ) ? $data['error_level'] : false,
-			'ban_ip'       => isset( $data['ban_ip'] ) ? $data['ban_ip'] : false,
-			'allow_ip'     => isset( $data['allow_ip'] ) ? $data['allow_ip'] : false,
-			'raw'          => isset( $data['raw'] ) ? $data['raw'] : false,
-			'site'         => preg_replace ('@https?://@', '', $data['site'])
+	public function update( $data ) {
+		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
+
+		$save = array(
+			'location'  => isset( $data['location'] ) ? $data['location'] : false,
+			'canonical' => isset( $data['canonical'] ) ? $data['canonical'] : false,
 		);
 
-		$this->load ($save);
-		return $save;
+		if ( !empty( $this->location ) && $save['location'] !== $this->location ) {
+			// Location has moved. Remove from old location
+			$htaccess = new Red_Htaccess();
+			$htaccess->save( $this->location, '' );
+		}
+
+		$this->load( $save );
+
+		if ( $save['location'] && $this->flush_module() === false )
+			return __( 'Cannot write to chosen location - check path and permissions.', 'redirection' );
+
+		$options = red_get_options();
+		$options['modules'][self::MODULE_ID] = $save;
+
+		update_option( 'redirection_options', $options );
+		return true;
 	}
 
-	function config ()
-	{
+	public function render_config() {
+		$without = preg_replace( '@https?://(www)?@', '', get_bloginfo( 'url' ) );
 		?>
 		<tr>
-			<th valign="top"><?php _e ('Location', 'redirection'); ?>:</th>
+			<th valign="top" width="170"><?php _e( '.htaccess Location', 'redirection' ); ?>:</th>
 			<td>
-				<input type="text" name="location" value="<?php echo htmlspecialchars ($this->location) ?>" style="width: 95%"/>
-				<?php if ($this->location == '') : ?>
-					<br/>
-					<span class="sub"><?php printf (__ ('WordPress is installed in: <code>%s</code>', 'redirection'), ABSPATH); ?></span>
-				<?php endif; ?>
+				<input type="text" name="location" value="<?php echo esc_attr( $this->location ) ?>" style="width: 95%"/>
+
+				<p class="sub"><?php _e( 'If you want Redirection to automatically update your <code>.htaccess</code> file then enter the full path and filename here. You can also download the file and update it manually.', 'redirection' ); ?></p>
+				<p class="sub"><?php printf( __( 'WordPress is installed in: <code>%s</code>', 'redirection' ), ABSPATH ); ?></p>
 			</td>
 		</tr>
 		<tr>
-			<th><?php _e ('Canonical', 'redirection'); ?>:</th>
+			<th valign="top"><?php _e( 'Canonical URL', 'redirection' ); ?>:</th>
 			<td>
 				<select name="canonical">
-					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'nowww' => sprintf (__ ('Strip WWW (%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url'))), 'www' => sprintf (__ ('Force WWW (www.%s)', 'redirection'), preg_replace ('@https?://(www)?@', '', get_bloginfo ('url')))), $this->canonical); ?>
+					<option <?php selected( $this->canonical, '' ); ?> value=""><?php _e( 'Default server', 'redirection' ); ?></option>
+					<option <?php selected( $this->canonical, 'nowww' ); ?> value="nowww"><?php printf( __( 'Remove WWW (%s)', 'redirection' ), $without ); ?></option>
+					<option <?php selected( $this->canonical, 'www' ); ?> value="www"><?php printf( __( 'Add WWW (www.%s)', 'redirection' ), $without ); ?></option>
 				</select>
 
-				<br/>
-				<strong><?php _e ('Strip Index', 'redirection'); ?>:</strong>
-				<select name="strip_index">
-					<?php echo $this->select (array ('default' => __ ('Leave as is', 'redirection'), 'yes' => __ ('Strip index files (html,php)', 'redirection')), $this->strip_index); ?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th><?php _e ('Memory Limit', 'redirection'); ?>:</th>
-			<td>
-				<select name="memory_limit">
-					<?php echo $this->select (array ('0' => __ ('Server default', 'redirection'), '8' => '8MB', '16' => '16MB', '32' => '32MB', '64' => '64MB', '128' => '128MB'), $this->memory_limit); ?>
-				</select>
-
-				<strong><?php _e ('Error Level', 'redirection'); ?>:</strong>
-				<select name="error_level">
-					<?php echo $this->select (array ('default' => __ ('Server default', 'redirection'), 'none' => __ ('No errors', 'redirection'), 'error' => __ ('Show errors', 'redirection')), $this->error_level); ?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<th><?php _e ('Ban IPs', 'redirection'); ?>:</th>
-			<td>
-				<input type="text" name="ban_ip" value="<?php echo htmlspecialchars ($this->ban_ip) ?>" style="width: 95%"/>
-			</td>
-		</tr>
-		<tr>
-			<th><?php _e ('Allow IPs', 'redirection'); ?>:</th>
-			<td>
-				<input type="text" name="allow_ip" value="<?php echo htmlspecialchars ($this->allow_ip) ?>" style="width: 95%"/>
-			</td>
-		</tr>
-		<tr>
-			<th valign="top"><?php _e ('Raw .htaccess', 'redirection'); ?>:</th>
-			<td>
-				<textarea style="width: 95%" name="raw"><?php echo htmlspecialchars ($this->raw)?></textarea>
-			</td>
-		</tr>
-		<tr>
-			<th><?php _e ('Site URL', 'redirection'); ?>:</th>
-			<td>
-				<input type="text" size="40" name="site" value="<?php echo htmlspecialchars ($this->site) ?>"/>
-				<span class="sub"><?php _e ('Advanced: For management of external sites', 'redirection'); ?></span>
+				<p class="sub"><?php _e( 'Automatically remove or add www to your site.', 'redirection' ); ?></p>
 			</td>
 		</tr>
 
 		<?php
 	}
 
-	function options ()
-	{
-		echo '<p>';
-		if ($this->location)
-		{
-			if (!file_exists (dirname ($this->location)))
-			{
-				echo '<code>'.$this->location.'</code></p>';
-				echo __ ('<strong>Location is invalid - check that path exists</strong>', 'redirection');
-				return;
-			}
-			else if ((file_exists ($this->location) && !is_writable ($this->location)) || (!file_exists ($this->location) && !is_writable (dirname ($this->location))))
-			{
-				echo '<code>'.$this->location.'</code></p>';
-				echo __ ('<strong>Could not write to configured <code>.htaccess</code> file - check file permissions</strong>', 'redirection');
-				return;
-			}
-			else
-				echo '<code>'.$this->location.'</code>';
-		}
-		else
-			echo __ ('<strong>Disabled: enter the location of an <code>.htaccess</code> file for this to be valid</strong>', 'redirection');
-		echo '</p>';
+	public function get_config() {
+		if ( !empty( $this->location ) )
+			return array( sprintf( __( '<code>.htaccess</code> saved to %s', 'redirection' ), esc_html( $this->location ) ) );
 
-		$options = array ();
-		if ($this->canonical != 'default' && !empty ($this->canonical))
-			$options[] = ($this->canonical == 'nowww') ? __ ('strip WWW', 'redirection') : __ ('force WWW', 'redirection');
-
-		if ($this->strip_index != 'default' && !empty ($this->strip_index))
-			$options[] = __ ('strip index', 'redirection');
-
-		if ($this->memory_limit > 0 && !empty ($this->memory_limit))
-			$options[] = sprintf (__ ('memory limit at %dMB', 'redirection'), $this->memory_limit);
-
-		if ($this->error_level != 'default' && !empty ($this->error_level))
-			$options[] = ($this->error_level == 'none') ? __ ('no errors', 'redirection') : __ ('show errors', 'redirection');
-
-		if (!empty ($this->ban_ip))
-			$options[] = __ ('IPs are banned', 'redirection');
-
-		if (!empty ($this->allow_ip))
-			$options[] = __ ('IPs are allowed', 'redirection');
-
-		echo '<small>'.ucfirst (implode (', ', $options)).'</small>';
+		return array();
 	}
 
-	public function get_type_string() {
+	public function get_name() {
 		return __( 'Apache', 'redirection' );
+	}
+
+	public function get_description() {
+		return __( 'Uses Apache <code>.htaccess</code> files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits.', 'redirection' );
 	}
 }

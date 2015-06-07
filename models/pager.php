@@ -7,10 +7,11 @@ class Redirection_Table extends WP_List_Table {
 	private $groups;
 	private $current_group;
 	private $total_items;
+	private $current_group_id;
 
-	function __construct( array $groups, Red_Group $current_group = null ) {
+	function __construct( array $groups, $current_group_id ) {
 		$this->groups = $groups;
-		$this->current_group = $current_group;
+		$this->current_group_id = $current_group_id;
 
 		//Set parent defaults
 		parent::__construct( array(
@@ -37,13 +38,13 @@ class Redirection_Table extends WP_List_Table {
 	}
 
 	function column_last_access( $item ) {
-		if ( $item->last_access == 0 )
+		if ( $item->get_last_hit() == 0 )
 			return '&mdash;';
-		return date_i18n( get_option( 'date_format' ), $item->last_access );
+		return date_i18n( get_option( 'date_format' ), $item->get_last_hit() );
 	}
 
 	function column_hits( $item ) {
-		return esc_html( number_format_i18n( $item->last_count, 0 ) );
+		return esc_html( number_format_i18n( $item->get_hits(), 0 ) );
 	}
 
 	function column_url( $item ) {
@@ -61,18 +62,18 @@ class Redirection_Table extends WP_List_Table {
 			$after = '</span>';
 		}
 
-		$title = $item->url;
-		if ( $item->title )
-			$title = $item->title;
+		$title = $item->get_url();
+		if ( $item->get_title() )
+			$title = $item->get_title();
 
-		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->url ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
+		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->get_url() ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
 	}
 
 	function column_cb($item){
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->id                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->get_id()                //The value of the checkbox should be the record's id
 		);
 	}
 
@@ -111,28 +112,32 @@ class Redirection_Table extends WP_List_Table {
 
 		if ( in_array( $this->current_action(), array( 'reset', 'enable', 'disable', 'delete' ) ) ) {
 			$redirections = array();
+			$flush = array();
 
 			foreach( (array)$_POST['item'] AS $id ) {
 				$redirect = Red_Item::get_by_id( intval( $id ) );
-				if ( $redirect )
-					$redirections[] = $redirect;
+
+				if ( $redirect ) {
+					if ( $this->current_action() === 'reset' )
+						$redirect->reset();
+					elseif ( $this->current_action() === 'enable' ) {
+						$redirect->enable();
+						$flush[] = $redirect->get_group_id();
+					}
+					elseif ( $this->current_action() === 'disable' ) {
+						$redirect->disable();
+						$flush[] = $redirect->get_group_id();
+					}
+					elseif ( $this->current_action() === 'delete' )
+						$redirect->delete();
+				}
 			}
 
-			array_map( array( &$this, 'process_action_items' ), $redirections );
-
-			Red_Module::flush( $this->current_group->module_id );
+			$flush = array_unique( $flush );
+			foreach ( $flush AS $group_id ) {
+				Red_Module::flush( $group_id );
+			}
 		}
-	}
-
-	function process_action_items( $item ) {
-		if ( $this->current_action() == 'reset' )
-			$item->reset();
-		elseif ( $this->current_action() == 'enable' )
-			$item->enable();
-		elseif ( $this->current_action() == 'disable' )
-			$item->disable();
-		elseif ( $this->current_action() == 'delete' )
-			$item->delete();
 	}
 
 	function extra_tablenav( $which ) {
@@ -142,10 +147,12 @@ class Redirection_Table extends WP_List_Table {
 ?>
 		<div class="alignleft actions">
 			<select name="id">
+				<option value="0"<?php selected( 0, $this->current_group_id ); ?>><?php _e( 'No group filter', 'redirection' ); ?></option>
+
 				<?php foreach ( $this->groups AS $module_name => $groups ) : ?>
 					<optgroup label="<?php echo esc_attr( $module_name ); ?>">
-						<?php foreach ( $groups AS $group_name => $group ) : ?>
-							<option value="<?php echo esc_attr( $group_name ); ?>"<?php selected( $group_name, $this->current_group->get_id() ); ?>>
+						<?php foreach ( $groups AS $group_id => $group ) : ?>
+							<option value="<?php echo esc_attr( $group_id ); ?>"<?php selected( $group_id, $this->current_group_id ); ?>>
 								<?php echo esc_html( $group ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -191,7 +198,7 @@ class Redirection_Table extends WP_List_Table {
 		if ( isset( $_GET['s'] ) )
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
 
-		if ( isset( $_REQUEST['id'] ) )
+		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
 			$where[] = $wpdb->prepare( "group_id=%d", intval( $_REQUEST['id'] ) );
 
 		$where_cond = "";
@@ -217,11 +224,9 @@ class Redirection_Table extends WP_List_Table {
 
 class Redirection_Group_Table extends WP_List_Table {
 	private $modules;
-	private $current_module;
 
-	function __construct( $modules, $current_module ) {
+	function __construct( $modules ) {
 		$this->modules = $modules;
-		$this->current_module = $current_module;
 
 		//Set parent defaults
 		parent::__construct( array(
@@ -236,6 +241,7 @@ class Redirection_Group_Table extends WP_List_Table {
 			'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
 			'name'      => __( 'Name', 'redirection' ),
 			'redirects' => __( 'Redirects', 'redirection' ),
+			'module'    => __( 'Module', 'redirection' ),
 		);
 
 		return $columns;
@@ -249,7 +255,10 @@ class Redirection_Group_Table extends WP_List_Table {
 		);
 
 		$after = $before = '';
-		if ( $item->is_disabled() ) {
+		if ( $item->is_enabled() )
+			$actions['disable']  = sprintf( '<a class="red-auto" data-action="%s" href="#">'.__( 'Disable', 'redirection' ).'</a>', 'disable', $item->get_id() );
+		else {
+			$actions['enable']   = sprintf( '<a class="red-auto" data-action="%s" href="#">'.__( 'Enable', 'redirection' ).'</a>', 'enable',  $item->get_id() );
 			$before = '<span class="red-disabled">';
 			$after = '</span>';
 		}
@@ -258,7 +267,15 @@ class Redirection_Group_Table extends WP_List_Table {
 	}
 
 	function column_redirects( $item ) {
-		return esc_html( $item->get_item_count() );
+		return esc_html( $item->get_total_redirects() );
+	}
+
+	function column_module( $item ) {
+		$module = Red_Module::get( $item->get_module_id() );
+
+		if ( $module )
+			return esc_html( $module->get_name() );
+		return esc_html( __( 'Unknown', 'redirection' ) );
 	}
 
 	function column_cb($item){
@@ -279,7 +296,9 @@ class Redirection_Group_Table extends WP_List_Table {
 
 	function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'redirection' ),
+			'delete'  => __( 'Delete', 'redirection' ),
+			'enable'  => __( 'Enable', 'redirection' ),
+			'disable' => __( 'Disable', 'redirection' ),
 		);
 
 		return $actions;
@@ -289,33 +308,54 @@ class Redirection_Group_Table extends WP_List_Table {
 		if ( !isset( $_POST['item'] ) )
 			return;
 
-		if ( in_array( $this->current_action(), array( 'delete' ) ) ) {
+		if ( in_array( $this->current_action(), array( 'delete', 'enable', 'disable' ) ) ) {
 			$groups = array();
 
 			foreach( (array)$_POST['item'] AS $id ) {
-				$redirect = Red_Group::get( intval( $id ) );
-				if ( $redirect )
-					$groups[] = $redirect;
-			}
+				$group = Red_Group::get( intval( $id ) );
 
-			array_map( array( &$this, 'delete_item' ), $groups );
+				if ( $group ) {
+					if ( $this->current_action() === 'delete' )
+						$group->delete();
+					else if ( $this->current_action() === 'enable' ) {
+						$group->enable();
+						Red_Module::flush( $group->get_id() );
+					}
+					else if ( $this->current_action() === 'disable' ) {
+						$group->disable();
+						Red_Module::flush( $group->get_id() );
+					}
+				}
+			}
 		}
 	}
 
-	function delete_item( $item ) {
+	private function delete( $item ) {
 		$item->delete();
+	}
+
+	private function enable( $item ) {
+		$item->enable();
+	}
+
+	private function disable( $item ) {
+		$item->disable();
 	}
 
 	function extra_tablenav( $which ) {
 		if ( $which == 'bottom' )
 			return;
 
+		$selected = 0;
+		if ( isset( $_POST['id'] ) )
+			$selected = intval( $_POST['id'] );
 ?>
 		<div class="alignleft actions">
 			<select name="id">
-				<?php foreach ( $this->modules AS $module_name => $module ) : ?>
-					<option value="<?php echo esc_attr( $module_name ); ?>"<?php selected( $module_name, $this->current_module ); ?>>
-						<?php echo esc_html( $module ); ?>
+				<option value="0"<?php selected( 0, $selected ); ?>><?php _e( 'All modules', 'redirection' ); ?></option>
+				<?php foreach ( $this->modules AS $module_id => $module ) : ?>
+					<option value="<?php echo esc_attr( $module_id ); ?>"<?php selected( $module_id, $selected ); ?>>
+						<?php echo esc_html( $module->get_name() ); ?>
 					</option>
 				<?php endforeach; ?>
 			</select>
@@ -353,7 +393,7 @@ class Redirection_Group_Table extends WP_List_Table {
 		if ( isset( $_GET['s'] ) )
 			$where[] = $wpdb->prepare( 'name LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
 
-		if ( isset( $_REQUEST['id'] ) )
+		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
 			$where[] = $wpdb->prepare( "module_id=%d", intval( $_REQUEST['id'] ) );
 
 		$where_cond = "";
@@ -665,59 +705,48 @@ class Redirection_Module_Table extends WP_List_Table {
 
 	function get_columns() {
 		$columns = array(
-			'moduletype'   => __( 'Type', 'redirection' ),
-			'name' => __( 'Name', 'redirection' ),
-			'groups' => __( 'Groups', 'redirection' ),
-			'hits'   => __( 'Hits', 'redirection' ),
+			'name'   => __( 'Module', 'redirection' ),
+			'total' => __( 'Redirects', 'redirection' ),
 		);
 
 		return $columns;
 	}
 
-	function column_groups( $item ) {
-		return esc_html( $item->groups() );
-	}
-
-	function column_hits( $item ) {
-		return esc_html( number_format_i18n( $item->hits(), 0 ) );
-	}
-
-	function column_moduletype( $item ) {
-		return esc_html( $item->get_type_string() );
-	}
-
 	function column_name( $item ) {
-		$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Edit', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
+		$config = $item->get_config();
 
-		if ( $this->token ) {
-			if ( $item->get_type() === 'wp' ) {
-				$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
-			}
+		if ( $item->can_edit_config() )
+			$actions['edit'] = sprintf( '<a href="#" class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s">'.__( 'Configure', 'redirection' ).'</a>', 'red_module_edit', wp_create_nonce( 'red_edit-'.$item->get_id() ), $item->get_id() );
 
-			$actions['htaccess'] = sprintf( '<a href="%s">.htaccess</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=apache&amp;module='.intval( $item->get_id() ) );
-			$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
-		}
+		if ( $item->get_id() === WordPress_Module::MODULE_ID && $this->token )
+			$actions['rss'] = sprintf( '<a href="%s">RSS</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=rss&amp;module='.intval( $item->get_id() ) );
 
-		return '<a href="#" data-action="%s" data-nonce="%s" data-id="%s">'.esc_html( $item->get_name() ).'</a>'.$this->row_actions( $actions );
+		$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
+		$actions['view-htaccess'] = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_htaccess" data-nonce="%s">.htaccess</a>', $item->get_id(), wp_create_nonce( 'red_get_htaccess' ) );
+		$actions['view-nginx']    = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_nginx" data-nonce="%s">Nginx</a>', $item->get_id(), wp_create_nonce( 'red_get_nginx' ) );
+
+		if ( count( $config ) > 0 )
+			$config = '<div class="module-config">'.join( '<br/>', $config ).'</div>';
+		else
+			$config = '';
+
+		return '<p><strong>'.esc_html( $item->get_name() ).'</strong></p>'.$item->get_description().$config.$this->row_actions( $actions );
+	}
+
+	function column_total( $item ) {
+		return esc_html( $item->get_total_redirects() );
 	}
 
 	function prepare_items( $type = '', $id = 0 ) {
 		global $wpdb;
 
-		$table = $wpdb->prefix.'redirection_modules';
-		$rows = $wpdb->get_results( "SELECT * FROM {$table}" );
-		$this->total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" );
-
+		$options  = red_get_options();
 		$columns  = $this->get_columns();
 		$sortable = $this->get_sortable_columns();
 
 		$this->_column_headers = array( $columns, array(), $sortable );
-
-		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
-			$this->items[] = Red_Module::new_item( $row );
-		}
-
+		$this->items = Red_Module::get_for_select();
+		$this->total_items = count( $this->items );
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,
 			'per_page'    => 100,

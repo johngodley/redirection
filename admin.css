@@ -97,6 +97,14 @@ table.items .red-disabled {
 	text-align: left;
 }
 
+.wp-list-table .column-export {
+	width: 200px;
+}
+
+.wp-list-table .column-module, .wp-list-table .column-total {
+	width: 100px;
+}
+
 table.items table.edit {
 	width: 100%;
 }
@@ -125,4 +133,28 @@ table.items table.edit th {
 .donations li strong {
 	font-weight: bold;
 	font-size: 14px;
+}
+
+.module-config {
+	padding-left: 40px;
+	padding-top: 10px;
+	font-style: italic;
+}
+
+.error-container {
+	margin-top: 20px;
+	padding: 20px;
+	background-color: red;
+	color: white;
+	font-weight: bold;
+	display: none;
+}
+
+.module-export {
+	border: 1px solid #ddd;
+	padding: 5px;
+	font-family: courier;
+	background-color: #eee;
+	margin-top: 15px;
+	width: 100%;
 }

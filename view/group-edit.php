@@ -5,12 +5,14 @@
 		<td><input style="width: 95%" type="text" name="name" value="<?php echo esc_attr( $group->get_name() ) ?>"/></td>
 	</tr>
 	<tr>
-		<th width="70"><?php _e ('Tracked', 'redirection'); ?>:</th>
-		<td><label><input type="checkbox" name="tracking"<?php echo checked ($group->tracking) ?>/> <span class="sub"><?php _e ('Whether to track \'hits\' to items', 'redirection'); ?></span></label></td>
-	</tr>
-	<tr>
-		<th width="70"><?php _e ('Enabled', 'redirection'); ?>:</th>
-		<td><label><input type="checkbox" name="status"<?php if ($group->status == 'enabled') echo ' checked="checked"' ?>/> <span class="sub"><?php _e ('Disabling a group will disable all items contained within it', 'redirection'); ?></span></label></td>
+		<th width="70"><?php _e( 'Module', 'redirection' ); ?></th>
+		<td>
+			<select name="module_id">
+				<?php foreach ( Red_Module::get_for_select() AS $module ) : ?>
+					<option value="<?php echo esc_attr( $module->get_id() ); ?>"<?php selected( $module->get_id(), $group->get_module_id() ); ?>><?php echo esc_html( $module->get_name() ); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<th width="70"></th>
@@ -21,6 +23,7 @@
 
 				<input type="hidden" name="action" value="red_group_save"/>
 				<input type="hidden" name="id" value="<?php echo esc_attr( $group->id ); ?>"/>
+
 				<?php wp_nonce_field( 'redirection-group_save_'.$group->id ) ?>
 			</div>
 

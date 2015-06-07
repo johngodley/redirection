@@ -19,13 +19,16 @@
 	<div style="clear: both"></div>
 </div>
 
-<?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group ? $group->id : 0, 'hidden' => false ) ); ?>
+<?php $this->render( 'add', array( 'add_to_screen' => true, 'group' => $group, 'hidden' => false ) ); ?>
 
 <script type="text/javascript">
-var redirection;
+( function( $ ) {
+	$( document ).ready( function() {
+		var items = new Redirection_Items( $ );
+		var adder = new Redirection_Add( $, '#target', true );
 
-jQuery(document).ready( function() {
-	new Redirection_Items();
-	new Redirection_Add( 'select[name=red_action]', '#target', '#add', true );
-});
+		adder.setup( 'select[name=red_action]', '#add' );
+		items.setup( 'table.items' );
+	} );
+} )( jQuery );
 </script>

@@ -3,7 +3,7 @@
 include dirname( __FILE__ ).'/models/group.php';
 include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/models/pager.php';
-include dirname( __FILE__ ).'/models/file_io.php';
+include dirname( __FILE__ ).'/models/file-io.php';
 
 class Redirection_Admin {
 	private static $instance = null;
@@ -37,6 +37,8 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_redirect_add', array( &$this, 'ajax_redirect_add' ) );
 		add_action( 'wp_ajax_red_redirect_edit', array( &$this, 'ajax_redirect_edit' ) );
 		add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
+		add_action( 'wp_ajax_red_get_htaccess', array( &$this, 'ajax_get_htaccess' ) );
+		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 	}
@@ -61,8 +63,8 @@ class Redirection_Admin {
 			$$key = $val;
 		}
 
-		if ( file_exists( dirname( REDIRECTION_FILE )."/view/admin/$template.php" ) )
-			include dirname( REDIRECTION_FILE )."/view/admin/$template.php";
+		if ( file_exists( dirname( REDIRECTION_FILE )."/view/$template.php" ) )
+			include dirname( REDIRECTION_FILE )."/view/$template.php";
 	}
 
 	private function capture( $ug_name, $ug_vars = array() ) {
@@ -156,7 +158,7 @@ class Redirection_Admin {
 	function admin_screen() {
 	  	$this->update();
 
-		if ( isset($_GET['sub']) ) {
+		if ( isset( $_GET['sub'] ) ) {
 			if ( $_GET['sub'] == 'log' )
 				return $this->admin_screen_log();
 			elseif ( $_GET['sub'] == '404s' )
@@ -166,14 +168,14 @@ class Redirection_Admin {
 			elseif ( $_GET['sub'] == 'process' )
 				return $this->admin_screen_process();
 			elseif ( $_GET['sub'] == 'groups' )
-				return $this->admin_groups( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
+				return $this->admin_groups( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
 			elseif ( $_GET['sub'] == 'modules' )
 				return $this->admin_screen_modules();
 			elseif ( $_GET['sub'] == 'support' )
 				return $this->render('support', array( 'options' => red_get_options() ) );
 		}
 
-		return $this->admin_redirects( isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0 );
+		return $this->admin_redirects( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
 	}
 
 	function admin_screen_modules() {
@@ -181,7 +183,7 @@ class Redirection_Admin {
 		$pager = new Redirection_Module_Table( $options['token'] );
 		$pager->prepare_items();
 
-		$this->render( 'module_list', array( 'options' => $options, 'table' => $pager ) );
+		$this->render( 'module-list', array( 'options' => $options, 'table' => $pager ) );
 	}
 
 	function inject() {
@@ -296,40 +298,24 @@ class Redirection_Admin {
 
 	function admin_groups( $module ) {
 		if ( isset( $_POST['add'] ) && check_admin_referer( 'redirection-add_group' ) ) {
-			if ( Red_Group::create( stripslashes_deep( $_POST ) ) ) {
+			if ( Red_Group::create( stripslashes( $_POST['name'] ), intval( $_POST['module_id'] ) ) ) {
 				$this->render_message( __( 'Your group was added successfully', 'redirection' ) );
-				Red_Module::flush( $module );
 			}
 			else
 				$this->render_error( __( 'Please specify a group name', 'redirection' ) );
 		}
 
-		if ( $module == 0 )
-			$module = Red_Module::get_first_id();
-
-		$table = new Redirection_Group_Table( Red_Module::get_for_select(), $module );
+		$table = new Redirection_Group_Table( Red_Module::get_for_select() );
 		$table->prepare_items();
 
-		$module = Red_Module::get( $module );
-		if ( $module )
-  			$this->render( 'group_list', array( 'options' => red_get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
-  		else
-  			$this->render_message( __( 'Unknown module', 'redirection' ) );
+		$this->render( 'group-list', array( 'options' => red_get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
 	}
 
 	function admin_redirects( $group_id ) {
-		if ( $group_id == 0 )
-			$group_id = Red_Group::get_first_id();
-
-		$group = Red_Group::get( $group_id );
-		if ( $group === false ) {
-			$group = Red_Group::create( array( 'name' => 'Redirections', 'module_id' => 1 ) );
-		}
-
-		$table = new Redirection_Table( Red_Group::get_for_select(), $group );
+		$table = new Redirection_Table( Red_Group::get_for_select(), $group_id );
 		$table->prepare_items();
 
-  		$this->render( 'item_list', array( 'options' => red_get_options(), 'group' => $group, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+  		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function locales() {
@@ -373,7 +359,7 @@ class Redirection_Admin {
 
 		$module = Red_Module::get( $module_id );
 		if ( $module )
-			$json['html'] = $this->capture( 'module_edit', array( 'module' => $module ) );
+			$json['html'] = $this->capture( 'module-edit', array( 'module' => $module ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find module';
 
@@ -381,21 +367,25 @@ class Redirection_Admin {
 	}
 
 	public function ajax_module_save() {
-		global $hook_suffix;
-
-		$hook_suffix = '';
 		$module_id = intval( $_POST['id'] );
-		$options = red_get_options();
 
 		$this->check_ajax_referer( 'red_module_save_'.$module_id );
 
 		$module = Red_Module::get( $module_id );
-
 		if ( $module ) {
-			$module->update( $_POST );
+			$result = $module->update( $_POST );
 
-			$pager = new Redirection_Module_Table( $options['token'] );
-			$json = array( 'html' => $pager->column_name( $module ) );
+			if ( $result === true ) {
+				global $hook_suffix;
+
+				$hook_suffix = '';
+				$options = red_get_options();
+				$pager = new Redirection_Module_Table( $options['token'] );
+
+				$json = array( 'html' => $pager->column_name( $module ) );
+			}
+			else
+				$json['error'] = $result;
 		}
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find module';
@@ -410,7 +400,7 @@ class Redirection_Admin {
 
 		$group = Red_Group::get( $group_id );
 		if ( $group )
-			$json['html'] = $this->capture( 'group_edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
+			$json['html'] = $this->capture( 'group-edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find group';
 
@@ -428,9 +418,10 @@ class Redirection_Admin {
 		$group = Red_Group::get( $group_id );
 		if ( $group ) {
 			$group->update( $_POST );
+			$module = Red_Module::get( $group->get_module_id() );
 
 			$pager = new Redirection_Group_Table( array(), false );
-			$json = array( 'html' => $pager->column_name( $group ) );
+			$json = array( 'html' => $pager->column_name( $group ), 'module' => $module->get_name() );
 		}
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
@@ -443,7 +434,7 @@ class Redirection_Admin {
 		$redirect = Red_Item::get_by_id( intval( $_POST['id'] ) );
 
 		if ( $redirect )
-			$json['html'] = $this->capture( 'item_edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
+			$json['html'] = $this->capture( 'item-edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
 		else
 			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
 
@@ -463,7 +454,7 @@ class Redirection_Admin {
 		if ( $redirect ) {
 			$redirect->update( $_POST );
 
-			$pager = new Redirection_Table( array() );
+			$pager = new Redirection_Table( array(), 0 );
 			$json = array( 'html' => $pager->column_url( $redirect ), 'code' => $redirect->get_action_code() );
 		}
 		else
@@ -483,13 +474,45 @@ class Redirection_Admin {
 		if ( is_wp_error( $item ) )
 			$json['error'] = $item->get_error_message();
 		elseif ( $item !== false ) {
-			$pager = new Redirection_Table( array() );
+			$pager = new Redirection_Table( array(), 0 );
 			$json = array( 'html' => $pager->get_row( $item ) );
 		}
 		else
 			$json['error'] = __( 'Sorry, but your redirection was not created', 'redirection' );
 
 		$this->output_ajax_response( $json );
+	}
+
+	private function get_module_column( $module_id, $export_type ) {
+		$json['error'] = __( 'Invalid module', 'redirection' );
+
+		$module = Red_Module::get( $module_id );
+		$exporter = Red_FileIO::create( $export_type );
+
+		if ( $module && $exporter ) {
+			global $hook_suffix;
+
+			$hook_suffix = '';
+			$options  = red_get_options();
+			$pager    = new Redirection_Module_Table( $options['token'] );
+			$items    = Red_Item::get_all_for_module( $module_id );
+
+			$json = array( 'html' => $pager->column_name( $module ) );
+
+			$json['html'] .= '<textarea readonly="readonly" class="module-export" rows="10">'.esc_textarea( $exporter->get( $items ) ).'</textarea>';
+			$json['html'] .= '<div class="table-actions"><a href="?page=redirection.php&amp;token='.$options['token'].'&amp;sub='.$export_type.'&amp;module='.$module_id.'"><input class="button-primary" type="button" value="'.__( 'Download', 'redirection' ).'"/></a> ';
+			$json['html'] .= '<input class="button-secondary" type="submit" name="cancel" value="'.__( 'Cancel', 'redirection' ).'"/>';
+		}
+
+		$this->output_ajax_response( $json );
+	}
+
+	public function ajax_get_nginx() {
+		$this->get_module_column( intval( $_POST['id'] ), 'nginx' );
+	}
+
+	public function ajax_get_htaccess() {
+		$this->get_module_column( intval( $_POST['id'] ), 'apache' );
 	}
 
 	private function output_ajax_response( array $data ) {
