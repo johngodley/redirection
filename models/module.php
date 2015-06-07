@@ -27,7 +27,7 @@ abstract class Red_Module {
 	public function get_total_redirects() {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $this->get_id() ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $this->get_id() ) );
 	}
 
 	static public function is_valid_id( $id ) {
