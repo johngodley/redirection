@@ -5,6 +5,7 @@ if ( !class_exists( 'WP_List_Table' ) )
 
 class Redirection_Table extends WP_List_Table {
 	private $groups;
+	private $current_group;
 	private $total_items;
 	private $current_group_id;
 

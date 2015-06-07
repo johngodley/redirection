@@ -241,7 +241,7 @@ class RE_404 {
 		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer' ) );
 
 		$extra = '';
-		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
+		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404";
 		if ( isset( $_REQUEST['s'] ) )
 			$extra = $wpdb->prepare( " WHERE url LIKE %s", '%'.like_escape( $_REQUEST['s'] ).'%' );
 
