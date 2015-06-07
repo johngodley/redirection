@@ -95,7 +95,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 = 2.4 =
-* Reworked modules
+* Reworked modules now no longer stored in database
 * Nginx module (experimental)
 * View .htaccess/Nginx inline
 * Beginnings of some unit tests!
