@@ -44,6 +44,11 @@ class Redirection_Admin {
 	}
 
 	public static function plugin_activated() {
+		include dirname( REDIRECTION_FILE ).'/models/database.php';
+		
+		$db = new RE_Database();
+		$db->install();
+		
 		Red_Flusher::schedule();
 	}
 
