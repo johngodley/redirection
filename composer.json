@@ -1,0 +1,13 @@
+{
+    "name": "johngodley/redirection",
+    "description": "Redirection is a WordPress plugin to manage 301 redirections, keep track of 404 errors, and generally tidy up any loose ends your site may have. This is particularly useful if you are migrating pages from an old website, or are changing the directory of your WordPress installation.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "John Godley",
+            "email": "email@unknown.com"
+        }
+    ],
+    "require": {}
+}
