@@ -276,7 +276,7 @@ class Red_Item {
 
 				$this->visit( $url, $target );
 
-				if ( $this->status == 'enabled' )
+				if ( $this->status === 'enabled' )
 					return $this->action->process_before( $this->action_code, $target );
 			}
 		}
@@ -319,7 +319,7 @@ class Red_Item {
 	}
 
 	public function is_enabled() {
-		return $this->status == 'enabled';
+		return $this->status === 'enabled';
 	}
 
 	function reset() {
@@ -346,14 +346,14 @@ class Red_Item {
 	public function enable() {
 		global $wpdb;
 
-		$this->status = true;
+		$this->status = 'enabled';
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 
 	public function disable() {
 		global $wpdb;
 
-		$this->status = false;
+		$this->status = 'disabled';
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
 	}
 
