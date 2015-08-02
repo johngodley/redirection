@@ -1,4 +1,4 @@
- === Plugin Name ===
+=== Plugin Name ===
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
@@ -99,6 +99,8 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Nginx module (experimental)
 * View .htaccess/Nginx inline
 * Beginnings of some unit tests!
+* Fix DB creation on activation
+* Updated Japanese locale, props to Naoko
 
 = 2.3.16 =
 * Fix export options not showing for some people
