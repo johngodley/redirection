@@ -44,7 +44,6 @@ class RE_Log {
 
 		$insert['sent_to']        = $target;
 		$insert['redirection_id'] = isset( $extra['redirect_id'] ) ? $extra['redirect_id'] : 0;
-		$insert['module_id']      = isset( $extra['module_id'] ) ? $extra['module_id'] : 0;
 		$insert['group_id']       = isset( $extra['group_id'] ) ? $extra['group_id'] : 0;
 
 		$insert = apply_filters( 'redirection_log_data', $insert );
@@ -70,11 +69,6 @@ class RE_Log {
 	static function delete_for_group( $id ) {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $id ) );
-	}
-
-	static function delete_for_module( $id ) {
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE module_id=%d", $id ) );
 	}
 
 	static function delete_all( $type = 'all', $id = 0 ) {
