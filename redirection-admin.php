@@ -44,6 +44,7 @@ class Redirection_Admin {
 	}
 
 	public static function plugin_activated() {
+		Redirection_Admin::update();
 		Red_Flusher::schedule();
 	}
 
@@ -93,7 +94,7 @@ class Redirection_Admin {
 	<?php
 	}
 
-	private function update() {
+	private static function update() {
 		$version = get_option( 'redirection_version' );
 
 		if ( $version != REDIRECTION_VERSION ) {
@@ -156,7 +157,7 @@ class Redirection_Admin {
 	}
 
 	function admin_screen() {
-	  	$this->update();
+	  	Redirection_Admin::update();
 
 		if ( isset( $_GET['sub'] ) ) {
 			if ( $_GET['sub'] == 'log' )
