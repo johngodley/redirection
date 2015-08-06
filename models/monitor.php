@@ -31,10 +31,19 @@ class Red_Monitor {
 			return;
 
 		if ( isset( $_POST['redirection_slug'] ) ) {
+
 			$after  = parse_url( get_permalink( $post_id ) );
 			$after  = $after['path'];
 			$before = esc_url( $_POST['redirection_slug'] );
 			$site   = parse_url( get_site_url() );
+
+			// Delete all redirects on the new permalink to make sure that it doesn't redirect to another post
+			if(Red_Item::exists($after))
+			{
+				foreach (Red_Item::get_for_url($after, "wp") as $red_item) {
+					$red_item->delete();
+				}
+			}
 
 			if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $before != $after && $before != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $before != $site['path'].'/' ) ) ) {
 				Red_Item::create( array(
