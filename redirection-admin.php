@@ -41,9 +41,12 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
+        $current = get_option( 'active_plugins' );
+        if ( array_search( basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), $current ) !== false ) // If currently active
+            Red_Flusher::schedule(); // To ensure that a cron exists on upgrade.
 	}
 
-	public static function plugin_activated() {
+	public static function plugin_activated() { // Not fired on an upgrade.
 		Redirection_Admin::update();
 		Red_Flusher::schedule();
 	}
