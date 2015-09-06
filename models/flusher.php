@@ -4,7 +4,7 @@ class Red_Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
 	const DELETE_MAX = 1000;
-	const DELETE_KEEP_ON = 15;  // 15 minutes
+	const DELETE_KEEP_ON = 5;  // 5 minutes
 
 	public function flush() {
 		$total = 0;
@@ -14,11 +14,11 @@ class Red_Flusher {
 		$total += $this->expire_404( $options['expire_404'] );
 
 		if ( $total >= self::DELETE_MAX ) {
-			$next = time() + self::DELETE_KEEP_ON;
+			$next = time() + self::DELETE_KEEP_ON * 60;
 
 			// There are still more logs to clear - keep on doing until we've clean or until the next normal event
 			if ( $next < wp_next_scheduled( self::DELETE_HOOK ) ) {
-				wp_schedule_single_event( time() + ( self::DELETE_KEEP_ON * 60 ), self::DELETE_HOOK );
+				wp_schedule_single_event( time() + $next, self::DELETE_HOOK );
 			}
 		}
 
@@ -26,7 +26,7 @@ class Red_Flusher {
 	}
 
 	private function optimize_logs() {
-		$rand = mt_rand( 1, 5000 );
+		$rand = mt_rand( 1, 100 );
 
 		if ( $rand === 11 )
 			$wpdb->query( "OPTIMIZE TABLE {$wpdb->prefix}redirection_logs" );
