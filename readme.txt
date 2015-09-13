@@ -101,6 +101,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Beginnings of some unit tests!
 * Fix DB creation on activation, props syntax53
 * Updated Japanese locale, props to Naoko
+* Remove deprecated like escaping
 
 = 2.3.16 =
 * Fix export options not showing for some people

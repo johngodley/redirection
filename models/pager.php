@@ -195,8 +195,8 @@ class Redirection_Table extends WP_List_Table {
 			$order = 'desc';
 
 		$where = array();
-		if ( isset( $_GET['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
+		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
 			$where[] = $wpdb->prepare( "group_id=%d", intval( $_REQUEST['id'] ) );
@@ -390,8 +390,8 @@ class Redirection_Group_Table extends WP_List_Table {
 			$order = 'desc';
 
 		$where = array();
-		if ( isset( $_GET['s'] ) )
-			$where[] = $wpdb->prepare( 'name LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
+		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
+			$where[] = $wpdb->prepare( 'name LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
 			$where[] = $wpdb->prepare( "module_id=%d", intval( $_REQUEST['id'] ) );
@@ -532,8 +532,8 @@ class Redirection_Log_Table extends WP_List_Table {
 			$order = 'desc';
 
 		$where = array();
-		if ( isset( $_GET['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
+		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		$where_cond = "";
 		if ( count( $where ) > 0 )
@@ -662,8 +662,8 @@ class Redirection_404_Table extends WP_List_Table {
 			$order = 'desc';
 
 		$where = array();
-		if ( isset( $_GET['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.like_escape( $_GET['s'] ).'%' );
+		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		if ( $restrict_by_ip !== false )
 			$where[] = $wpdb->prepare( 'ip=INET_ATON(%s)', $restrict_by_ip );
@@ -673,7 +673,7 @@ class Redirection_404_Table extends WP_List_Table {
 			$where_cond = " WHERE ".implode( ' AND ', $where );
 
 		$table = $wpdb->prefix.'redirection_404';
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
+		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d",  ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
