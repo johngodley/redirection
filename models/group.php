@@ -46,7 +46,9 @@ class Red_Group {
 		if ( $rows ) {
 			foreach ( $rows AS $row ) {
 				$module = Red_Module::get( $row->module_id );
-				$data[$module->get_name()][$row->id] = $row->name;
+				if ( $module ) {
+					$data[$module->get_name()][$row->id] = $row->name;
+				}
 			}
 		}
 
