@@ -1,0 +1,41 @@
+{
+  "name": "redirection",
+  "version": "2.4.1",
+  "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
+  "main": "redirection.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johngodley/redirection.git"
+  },
+  "keywords": [
+    "post",
+    "admin",
+    "seo",
+    "pages",
+    "manage",
+    "301",
+    "404",
+    "redirect",
+    "permalink"
+  ],
+  "author": "John Godley",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/johngodley/redirection/issues"
+  },
+  "homepage": "https://github.com/johngodley/redirection",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "glob-all": "^3.0.1",
+    "gulp": "^3.9.0",
+    "gulp-deleted": "0.0.2",
+    "gulp-sort": "^1.1.1",
+    "gulp-wp-pot": "^1.0.4",
+    "path": "^0.12.7",
+    "through": "^2.3.8",
+    "underscore": "^1.8.3"
+  }
+}
