@@ -1,11 +1,11 @@
 <?php
 
 class Red_Monitor {
-	var $monitor_post;
+	private $monitor_group_id;
 
-	function Red_Monitor( $options ) {
+	function __construct( $options ) {
 		if ( $options['monitor_post'] > 0 ) {
-			$this->monitor_post = $options['monitor_post'];
+			$this->monitor_group_id = intval( $options['monitor_post'] );
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
@@ -16,7 +16,7 @@ class Red_Monitor {
 		}
 	}
 
-	function insert_old_post() {
+	public function insert_old_post() {
 		global $post;
 
 		$url = parse_url( get_permalink() );
@@ -26,8 +26,8 @@ class Red_Monitor {
 <?php
 	}
 
-	function post_updated( $post_id, $post, $post_before ) {
-		if ( $post->post_status != 'publish' || is_post_type_hierarchical( $post->post_type ) )
+	public function post_updated( $post_id, $post, $post_before ) {
+		if ( $post->post_status !== 'publish' || is_post_type_hierarchical( $post->post_type ) )
 			return;
 
 		if ( isset( $_POST['redirection_slug'] ) ) {
@@ -36,13 +36,13 @@ class Red_Monitor {
 			$before = esc_url( $_POST['redirection_slug'] );
 			$site   = parse_url( get_site_url() );
 
-			if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $before != $after && $before != '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $before != $site['path'].'/' ) ) ) {
+			if ( in_array( $post->post_status, array( 'publish', 'static' ) ) && $before !== $after && $before !== '/' && ( !isset( $site['path'] ) || ( isset( $site['path'] ) && $before !== $site['path'].'/' ) ) ) {
 				Red_Item::create( array(
 					'source'     => $before,
 					'target'     => $after,
 					'match'      => 'url',
 					'red_action' => 'url',
-					'group'      => $this->monitor_post
+					'group_id'   => $this->monitor_group_id
 				) );
 			}
 		}
