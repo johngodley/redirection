@@ -15,14 +15,14 @@ class Red_Csv_File extends Red_FileIO {
 
 		foreach ( $items AS $line ) {
 			$csv = array(
-				$line->url,
-				$line->action_data,
-				$line->regex,
-				$line->action_type,
-				$line->action->action_code,
-				$line->match->action->type,
-				$line->last_count,
-				$line->title,
+				$line->get_url(),
+				$line->get_action_data(),
+				$line->is_regex(),
+				$line->get_action_type(),
+				$line->get_action_code(),
+				$line->get_action_type(),
+				$line->get_hits(),
+				$line->get_title(),
 			);
 
 			fputcsv( $stdout, $csv );
