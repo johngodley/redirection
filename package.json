@@ -28,8 +28,14 @@
   },
   "homepage": "https://github.com/johngodley/redirection",
   "devDependencies": {
+    "del": "^2.0.2",
+    "glob-all": "^3.0.1",
     "gulp": "^3.9.0",
+    "gulp-deleted": "0.0.2",
     "gulp-sort": "^1.1.1",
-    "gulp-wp-pot": "^1.0.4"
+    "gulp-wp-pot": "^1.0.4",
+    "path": "^0.12.7",
+    "through": "^2.3.8",
+    "underscore": "^1.8.3"
   }
 }
