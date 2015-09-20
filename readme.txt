@@ -96,6 +96,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 2.4.2 =
 * Add Gulp task to generate POT file
+* Fix post monitor auto-redirect not working
 
 = 2.4.1 =
 * Fix error for people with an unknown module in a group
