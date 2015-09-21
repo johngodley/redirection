@@ -76,14 +76,28 @@ class Red_Item {
 		$items = array();
 		if ( count( $rows ) > 0 ) {
 			foreach ( $rows AS $row ) {
-				$items[$row->group_pos * 1000 + $row->position] = new Red_Item( $row );
+				$items[] = array( 'position' => ( $row->group_pos * 1000 ) + $row->position, 'item' => new Red_Item( $row ) );
 			}
 		}
+
+		usort( $items, array( 'Red_Item', 'sort_urls' ) );
+		$items = array_map( array( 'Red_Item', 'reduce_sorted_items' ), $items );
 
 		// Sort it in PHP
 		ksort( $items );
 		$items = array_values( $items );
 		return $items;
+	}
+
+	static function sort_urls( $first, $second ) {
+		if ( $first['position'] === $second['position'] )
+			return 0;
+
+		return $first['position'] < $second['position'];
+	}
+
+	static function reduce_sorted_items( $item ) {
+		return $item['item'];
 	}
 
 	static function get_by_module( $module ) {
