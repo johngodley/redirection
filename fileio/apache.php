@@ -51,7 +51,7 @@ class Red_Apache_File extends Red_FileIO {
 			// Add items to group
 			if ( count( $items ) > 0 ) {
 				foreach ( $items AS $item ) {
-					$item['group']  = $group;
+					$item['group_id']  = $group;
 					$item['red_action'] = 'url';
 					$item['match']  = 'url';
 

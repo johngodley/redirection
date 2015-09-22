@@ -40,7 +40,7 @@ class Red_Csv_File extends Red_FileIO {
 						'source' => trim( $csv[0] ),
 						'target' => trim( $csv[1] ),
 						'regex'  => $this->is_regex( $csv[0] ),
-						'group'  => $group,
+						'group_id'  => $group,
 						'match'  => 'url',
 						'red_action' => 'url'
 					) );
