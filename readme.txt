@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, pages, manage, 301, 404, redirect, permalink
-Requires at least: 3.4
+Requires at least: 4.0.0
 Tested up to: 4.4
 Stable tag: 2.4.2
 
@@ -96,6 +96,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Another database change. Please backup your data
 
 == Changelog ==
+
+= 2.4.3 =
+* Bump minimum WP to 4.0.0
+* Updated German translation, props to Konrad Tadesse
+* Additional check when creating redirections in case of bad data
 
 = 2.4.2 =
 * Add Gulp task to generate POT file
