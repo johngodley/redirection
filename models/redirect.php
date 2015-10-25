@@ -20,18 +20,24 @@ class Red_Item {
 
 	function Red_Item( $values, $type = '', $match = '' )	{
 		if ( is_object( $values ) ) {
-			foreach ( $values AS $key => $value ) {
+			foreach ( $values as $key => $value ) {
 			 	$this->$key = $value;
 			}
 
 			if ( $this->match_type ) {
-				$this->match              = Red_Match::create( $this->match_type, $this->action_data);
+				$this->match              = Red_Match::create( $this->match_type, $this->action_data );
 				$this->match->id          = $this->id;
 				$this->match->action_code = $this->action_code;
 			}
 
-			if ( $this->action_type )	{
-				$this->action        = Red_Action::create( $this->action_type, $this->action_code);
+			$action = false;
+
+			if ( $this->action_type ) {
+				$action = Red_Action::create( $this->action_type, $this->action_code );
+			}
+
+			if ( $action ) {
+				$this->action = $action;
 				$this->match->action = $this->action;
 			}
 			else
@@ -40,7 +46,7 @@ class Red_Item {
 			if ( $this->last_access == '0000-00-00 00:00:00' )
 				$this->last_access = 0;
 			else
-				$this->last_access = mysql2date( 'U', $this->last_access);
+				$this->last_access = mysql2date( 'U', $this->last_access );
 		}
 		else {
 			$this->url   = $values;
