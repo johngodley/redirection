@@ -24,11 +24,13 @@ class Red_Item {
 			 	$this->$key = $value;
 			}
 
-			if ( $this->match_type ) {
-				$this->match              = Red_Match::create( $this->match_type, $this->action_data );
-				$this->match->id          = $this->id;
-				$this->match->action_code = $this->action_code;
+			if ( $this->match_type === '' ) {
+				$this->match_type = 'url';
 			}
+
+			$this->match              = Red_Match::create( $this->match_type, $this->action_data );
+			$this->match->id          = $this->id;
+			$this->match->action_code = $this->action_code;
 
 			$action = false;
 
