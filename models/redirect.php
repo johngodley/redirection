@@ -18,7 +18,7 @@ class Red_Item {
 	private $position;
 	private $group_id;
 
-	function Red_Item( $values, $type = '', $match = '' )	{
+	function __construct( $values, $type = '', $match = '' )	{
 		if ( is_object( $values ) ) {
 			foreach ( $values as $key => $value ) {
 			 	$this->$key = $value;

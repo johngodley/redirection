@@ -2,7 +2,7 @@
 
 class Red_Action
 {
-	function Red_Action ($values)
+	function __construct ($values)
 	{
 		if (is_array ($values))
 		{

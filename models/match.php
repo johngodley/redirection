@@ -3,7 +3,7 @@
 class Red_Match {
 	var $url;
 
-	function Red_Match( $values = '' ) {
+	function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->url = $values;
 
