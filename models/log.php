@@ -145,7 +145,7 @@ class RE_404 {
 	var $referrer;
 	var $ip;
 
-	function RE_404( $values ) {
+	function __construct( $values ) {
 		foreach ( $values AS $key => $value ) {
 		 	$this->$key = $value;
 		 }
