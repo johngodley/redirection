@@ -95,8 +95,8 @@ class RE_Database {
 
 		// Groups
 		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) == 0 ) {
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Modified Posts' ), 'module_id' => 1, 'position' => 1 ) );
+			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections', 'redirection' ), 'module_id' => 1, 'position' => 0 ) );
+			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Modified Posts', 'redirection' ), 'module_id' => 1, 'position' => 1 ) );
 
 			$options = get_option( 'redirection_options' );
 			$options['monitor_post']     = 2;
