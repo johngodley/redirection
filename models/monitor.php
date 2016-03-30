@@ -27,7 +27,7 @@ class Red_Monitor {
 	}
 
 	public function post_updated( $post_id, $post, $post_before ) {
-		if ( $post->post_status !== 'publish' || is_post_type_hierarchical( $post->post_type ) )
+		if ( $post_before->post_status !== 'publish' || $post->post_status !== 'publish' || is_post_type_hierarchical( $post->post_type ) )
 			return;
 
 		if ( isset( $_POST['redirection_slug'] ) ) {
