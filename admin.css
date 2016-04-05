@@ -47,9 +47,13 @@ table.items .red-disabled {
 }
 
 .advanced-toggle {
-	font-size: 26px;
 	margin-left: 15px;
 	vertical-align: sub;
+}
+
+.advanced-toggle img {
+	width: 15px;
+	height: 15px;
 }
 
 .advanced-toggled {

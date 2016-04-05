@@ -5,8 +5,6 @@
 		<td>
 			<input style="width: 85%" type="text" name="old" value="<?php echo esc_attr( $redirect->get_url() ); ?>" id="original"/>
 			<label><?php _e( 'Regex', 'redirection' ); ?>: <input type="checkbox" name="regex" <?php if ( $redirect->is_regex() ) echo ' checked="checked"' ?>/></label>
-
-			<a href="#" class="advanced-toggle">&#9881;</a>
 		</td>
 	</tr>
 	<tr class="advanced">
@@ -33,6 +31,10 @@
 			<div class="table-actions">
 				<input class="button-primary" type="submit" name="save" value="<?php _e( 'Save', 'redirection' ); ?>"/>
 				<input class="button-secondary" type="submit" name="cancel" value="<?php _e( 'Cancel', 'redirection' ); ?>"/>
+
+				<a href="#" class="advanced-toggle" title="<?php esc_attr_e( 'Advanced Settings' ); ?>">
+					<img src="https://s.w.org/images/core/emoji/72x72/2699.png"/>
+				</a>
 
 				<input type="hidden" name="action" value="red_redirect_save"/>
 				<input type="hidden" name="id" value="<?php echo esc_attr( $redirect->get_id() ); ?>"/>
