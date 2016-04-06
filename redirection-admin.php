@@ -60,7 +60,7 @@ class Redirection_Admin {
 	}
 
 	private function render( $template, $template_vars = array() ) {
-		foreach ( $template_vars AS $key => $val ) {
+		foreach ( $template_vars as $key => $val ) {
 			$$key = $val;
 		}
 
@@ -97,7 +97,7 @@ class Redirection_Admin {
 	private static function update() {
 		$version = get_option( 'redirection_version' );
 
-		if ( $version != REDIRECTION_VERSION ) {
+		if ( $version !== REDIRECTION_VERSION ) {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 			$database = new RE_Database();
@@ -108,23 +108,23 @@ class Redirection_Admin {
 	}
 
 	private function select( $items, $default = '' ) {
-		foreach ( $items AS $key => $value ) {
+		foreach ( $items as $key => $value ) {
 			if ( is_array( $value ) )	{
 				echo '<optgroup label="'.esc_attr( $key ).'">';
 
-				foreach ( $value AS $sub => $subvalue ) {
-					echo '<option value="'.esc_attr( $sub ).'"'.( $sub == $default ? ' selected="selected"' : '' ).'>'.esc_html( $subvalue ).'</option>';
+				foreach ( $value as $sub => $subvalue ) {
+					echo '<option value="'.esc_attr( $sub ).'"'.( $sub === $default ? ' selected="selected"' : '' ).'>'.esc_html( $subvalue ).'</option>';
 				}
 
 				echo '</optgroup>';
 			}
 			else
-				echo '<option value="'.esc_attr( $key ).'"'.( $key == $default ? ' selected="selected"' : '' ).'>'.esc_html( $value ).'</option>';
+				echo '<option value="'.esc_attr( $key ).'"'.( $key === $default ? ' selected="selected"' : '' ).'>'.esc_html( $value ).'</option>';
 		}
 	}
 
 	function set_per_page( $status, $option, $value ) {
-		if ( $option == 'redirection_log_per_page' )
+		if ( $option === 'redirection_log_per_page' )
 			return $value;
 		return $status;
 	}
@@ -141,7 +141,7 @@ class Redirection_Admin {
 
 		$this->inject();
 
-		if ( !isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
+		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
@@ -153,27 +153,27 @@ class Redirection_Admin {
 	}
 
 	function admin_menu() {
-  		add_management_page( __( "Redirection", 'redirection' ), __( "Redirection", 'redirection' ), apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, "admin_screen" ) );
+		add_management_page( __( 'Redirection', 'redirection' ), __( 'Redirection', 'redirection' ), apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 	}
 
 	function admin_screen() {
 	  	Redirection_Admin::update();
 
 		if ( isset( $_GET['sub'] ) ) {
-			if ( $_GET['sub'] == 'log' )
+			if ( $_GET['sub'] === 'log' )
 				return $this->admin_screen_log();
-			elseif ( $_GET['sub'] == '404s' )
+			elseif ( $_GET['sub'] === '404s' )
 				return $this->admin_screen_404();
-			elseif ( $_GET['sub'] == 'options' )
+			elseif ( $_GET['sub'] === 'options' )
 				return $this->admin_screen_options();
-			elseif ( $_GET['sub'] == 'process' )
+			elseif ( $_GET['sub'] === 'process' )
 				return $this->admin_screen_process();
-			elseif ( $_GET['sub'] == 'groups' )
+			elseif ( $_GET['sub'] === 'groups' )
 				return $this->admin_groups( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
-			elseif ( $_GET['sub'] == 'modules' )
+			elseif ( $_GET['sub'] === 'modules' )
 				return $this->admin_screen_modules();
-			elseif ( $_GET['sub'] == 'support' )
-				return $this->render('support', array( 'options' => red_get_options() ) );
+			elseif ( $_GET['sub'] === 'support' )
+				return $this->render( 'support', array( 'options' => red_get_options() ) );
 		}
 
 		return $this->admin_redirects( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
@@ -190,12 +190,12 @@ class Redirection_Admin {
 	function inject() {
 		$options = red_get_options();
 
-		if ( isset( $_POST['id'] ) && !isset( $_POST['action'] ) ) {
+		if ( isset( $_POST['id'] ) && ! isset( $_POST['action'] ) ) {
 			wp_safe_redirect( add_query_arg( 'id', intval( $_POST['id'] ), $_SERVER['REQUEST_URI'] ) );
 			die();
 		}
 
-		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] == $options['token'] && $_GET['page'] == 'redirection.php' ) {
+		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] === $options['token'] && $_GET['page'] === 'redirection.php' ) {
 			$exporter = Red_FileIO::create( $_GET['sub'] );
 			if ( $exporter ) {
 				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
@@ -205,7 +205,7 @@ class Redirection_Admin {
 			}
 		}
 		elseif ( isset( $_POST['export-csv'] ) && check_admin_referer( 'redirection-log_management' ) ) {
-			if ( isset( $_GET['sub'] ) && $_GET['sub'] == 'log' )
+			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' )
 				RE_Log::export_to_csv();
 			else
 				RE_404::export_to_csv();
@@ -230,7 +230,7 @@ class Redirection_Admin {
 			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 60 );
 			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 60 );
 
-			if ( trim( $options['token'] ) == '' )
+			if ( trim( $options['token'] ) === '' )
 				$options['token'] = md5( uniqid() );
 
 			update_option( 'redirection_options', $options );
@@ -273,9 +273,9 @@ class Redirection_Admin {
 
 		if ( isset( $_GET['module'] ) )
 			$table->prepare_items( 'module', intval( $_GET['module'] ) );
-		else if (isset($_GET['group']))
+		else if ( isset( $_GET['group'] ) )
 			$table->prepare_items( 'group', intval( $_GET['group'] ) );
-		else if (isset($_GET['redirect']))
+		else if ( isset( $_GET['redirect'] ) )
 			$table->prepare_items( 'redirect', intval( $_GET['redirect'] ) );
 		else
 			$table->prepare_items();
@@ -316,7 +316,7 @@ class Redirection_Admin {
 		$table = new Redirection_Table( Red_Group::get_for_select(), $group_id );
 		$table->prepare_items();
 
-  		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
 	function locales() {
@@ -338,10 +338,10 @@ class Redirection_Admin {
 		return $locales;
 	}
 
-	public function ajax_log_delete()	{
+	public function ajax_log_delete() {
 		if ( check_ajax_referer( 'redirection-items' ) ) {
-			if ( preg_match_all( '/=(\d*)/', $_POST['checked'], $items ) > 0) {
-				foreach ( $items[1] AS $item ) {
+			if ( preg_match_all( '/=(\d*)/', $_POST['checked'], $items ) > 0 ) {
+				foreach ( $items[1] as $item ) {
 					RE_Log::delete( intval( $item ) );
 				}
 			}
@@ -464,7 +464,7 @@ class Redirection_Admin {
 		$this->output_ajax_response( $json );
 	}
 
-	public function ajax_redirect_add()	{
+	public function ajax_redirect_add() {
 		global $hook_suffix;
 
 		$hook_suffix = '';
