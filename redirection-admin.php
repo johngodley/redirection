@@ -518,7 +518,7 @@ class Redirection_Admin {
 
 	private function output_ajax_response( array $data ) {
 		header( 'Content-Type: application/json' );
-		echo json_encode( $data );
+		echo wp_json_encode( $data );
 		die();
 	}
 }
