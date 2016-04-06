@@ -1,4 +1,4 @@
-<?php if( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
+<?php if ( ! defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 
 <?php
 
@@ -62,14 +62,14 @@ $expiry = array(
 		<tr>
 			<th align="right"><?php _e( 'RSS Token', 'redirection' ); ?>:</th>
 			<td>
-				<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token']  ) ?>"/><br/>
+				<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token'] ) ?>"/><br/>
 				<span class="sub"><?php _e( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)', 'redirection' ); ?></span>
 			</td>
 		</tr>
 		<tr>
 	      	<th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
 	      	<td>
-				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
+				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target'] ) ?>"/>
 				<br/>
 				<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags <code>$dec$</code> or <code>$hex$</code> to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
 			</td>
@@ -105,6 +105,6 @@ $expiry = array(
 	<form action="" method="post" accept-charset="utf-8">
 			<?php wp_nonce_field( 'redirection-delete_plugin' ); ?>
 
-			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>"/>
+			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>" onclick="return confirm( '<?php esc_attr_e( "Are you sure you want to delete everything?" );?>')"/>
 	</form>
 </div>
