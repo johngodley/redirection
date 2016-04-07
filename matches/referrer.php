@@ -1,28 +1,8 @@
 <?php
-/**
- * Redirection
- *
- * @package Redirection
- * @author John Godley
- * @copyright Copyright( C ) John Godley
- **/
-
-/*
-============================================================================================================
-This software is provided "as is" and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
-the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or
-consequential damages( including, but not limited to, procurement of substitute goods or services; loss of
-use, data, or profits; or business interruption ) however caused and on any theory of liability, whether in
-contract, strict liability, or tort( including negligence or otherwise ) arising in any way out of the use of
-this software, even if advised of the possibility of such damage.
-
-For full license details see license.txt
-============================================================================================================ */
 
 class Referrer_Match extends Red_Match {
-	var $referrer;
-	var $regex;
+	public $referrer;
+	public $regex;
 
 	function name() {
 		return __( 'URL and referrer', 'redirection' );
@@ -32,7 +12,7 @@ class Referrer_Match extends Red_Match {
 		$codes = array(
 			301 => get_status_header_desc( 301 ),
 			302 => get_status_header_desc( 302 ),
-			307 => get_status_header_desc( 307 )
+			307 => get_status_header_desc( 307 ),
 		 );
 
 		?>
@@ -40,15 +20,15 @@ class Referrer_Match extends Red_Match {
 			<th width="100"><?php _e( 'Referrer', 'redirection' ); ?>:</th>
 			<td valign="top">
 				<input style="width: 85%" type="text" name="referrer" value="<?php echo esc_attr( $this->referrer ); ?>"/>
-				<label><?php _e( 'Regex', 'redirection' ); ?>: <input type="checkbox" name="regex" <?php if ( $this->regex == true ) echo ' checked="checked"' ?>/></label>
+				<label><?php _e( 'Regex', 'redirection' ); ?>: <input type="checkbox" name="regex" <?php if ( $this->regex === true ) echo ' checked="checked"' ?>/></label>
 			</td>
 		</tr>
 		<tr>
 			<th><?php _e( 'HTTP Code', 'redirection' ); ?>:</th>
 			<td>
 				<select name="action_code">
-					<?php foreach ( $codes AS $key => $code ) : ?>
-						<option value="<?php echo $key ?>"<?php if ( $key == $this->action_code ) echo ' selected="selected"' ?>><?php printf( '%s - %s', $key, $code ) ?></option>
+					<?php foreach ( $codes as $key => $code ) : ?>
+						<option value="<?php echo $key ?>"<?php if ( $key === $this->action_code ) echo ' selected="selected"' ?>><?php printf( '%s - %s', $key, $code ) ?></option>
 					<?php endforeach?>
 				</select>
 			</td>
@@ -84,7 +64,7 @@ class Referrer_Match extends Red_Match {
 		<?php
 	}
 
-	function save( $details )	{
+	function save( $details ) {
 		if ( isset( $details['target'] ) )
 			$details['url_from'] = $details['target'];
 
@@ -92,7 +72,7 @@ class Referrer_Match extends Red_Match {
 			'url_from'    => $details['url_from'],
 			'url_notfrom' => isset( $details['url_notfrom'] ) ? $details['url_notfrom'] : false,
 			'regex'       => isset( $details['regex'] ) ? true : false,
-			'referrer'    => isset( $details['referrer'] ) ? $details['referrer'] : false
+			'referrer'    => isset( $details['referrer'] ) ? $details['referrer'] : false,
 		);
 	}
 
@@ -109,18 +89,18 @@ class Referrer_Match extends Red_Match {
 		$target = false;
 
 		// Check if referrer matches
-		if ( ( $this->regex == false && $_SERVER['HTTP_REFERER'] == $this->referrer ) ||( $this->regex == true && preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', $_SERVER['HTTP_REFERER'], $matches ) ) ) {
+		if ( ( $this->regex === false && $_SERVER['HTTP_REFERER'] === $this->referrer ) || ( $this->regex === true && preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', $_SERVER['HTTP_REFERER'], $matches ) ) ) {
 			$target = $this->url_from;
 
 			if ( $regex )
 				$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
 		}
-		elseif ( $this->url_notfrom != '' )
+		elseif ( $this->url_notfrom !== '' )
 			$target = $this->url_notfrom;
 		return $target;
 	}
 
-	function match_name()	{
+	function match_name() {
 		return sprintf( 'referrer - <code>%s</code>', $this->referrer );
 	}
 }

@@ -85,16 +85,16 @@ class RE_Database {
 			  KEY `url` (`url`),
 			  KEY `ip` (`ip`),
 			  KEY `referrer` (`referrer`)
-			) $charset_collate;"
+		  	) $charset_collate;",
 		);
 
-		foreach ( $create AS $sql ) {
+		foreach ( $create as $sql ) {
 			if ( $wpdb->query( $sql ) === false )
 				return false;
 		}
 
 		// Groups
-		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) == 0 ) {
+		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) === 0 ) {
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Modified Posts' ), 'module_id' => 1, 'position' => 1 ) );
 
@@ -116,23 +116,23 @@ class RE_Database {
 			$success = $this->install();
 		else {
 			// Try and upgrade from a previous version
-			if ( $current == '2.0' )
+			if ( $current === '2.0' )
 				$this->upgrade_from_20();
-			elseif ( $current == '2.0.1' )
+			elseif ( $current === '2.0.1' )
 				$this->upgrade_from_21();
-			elseif ( $current == '2.0.2' )
+			elseif ( $current === '2.0.2' )
 				$this->upgrade_from_22();
 
-			if ( version_compare( $current, '2.1.16' ) == -1 )
+			if ( version_compare( $current, '2.1.16' ) === -1 )
 				$this->upgrade_to_216();
 
-			if ( version_compare( $current, '2.2' ) == -1 )
+			if ( version_compare( $current, '2.2' ) === -1 )
 				$this->upgrade_to_220();
 
-			if ( version_compare( $current, '2.3.1' ) == -1 )
+			if ( version_compare( $current, '2.3.1' ) === -1 )
 				$this->upgrade_to_231();
 
-			if ( version_compare( $current, '2.3.2' ) == -1 )
+			if ( version_compare( $current, '2.3.2' ) === -1 )
 				$this->upgrade_to_232();
 
 			$success = true;

@@ -17,9 +17,9 @@ class Nginx_Module extends Red_Module {
 	protected function load( $data ) {
 		$mine = array( 'location', 'canonical' );
 
-		foreach ( $mine AS $key ) {
-			if ( isset( $data[$key] ) )
-				$this->$key = $data[$key];
+		foreach ( $mine as $key ) {
+			if ( isset( $data[ $key ] ) )
+				$this->$key = $data[ $key ];
 		}
 	}
 

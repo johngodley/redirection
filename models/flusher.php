@@ -68,7 +68,7 @@ class Red_Flusher {
 		$options = red_get_options();
 
 		if ( $options['expire_redirect'] > 0 || $options['expire_404'] > 0 ) {
-			if ( !wp_next_scheduled( self::DELETE_HOOK ) )
+			if ( ! wp_next_scheduled( self::DELETE_HOOK ) )
 				wp_schedule_event( time(), self::DELETE_FREQ, self::DELETE_HOOK );
 		}
 		else

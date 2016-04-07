@@ -1,7 +1,8 @@
 <?php
 
-if ( !class_exists( 'WP_List_Table' ) )
-    require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+}
 
 class Redirection_Table extends WP_List_Table {
 	private $groups;
@@ -15,18 +16,18 @@ class Redirection_Table extends WP_List_Table {
 
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'item',     //singular name of the listed records
-			'plural'    => 'items',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'singular'  => 'item',	 //singular name of the listed records
+			'plural'	=> 'items',	//plural name of the listed records
+			'ajax'	  => false,	  //does this table support ajax?
 		) );
 	}
 
-	function get_columns(){
+	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-			'type'       => __( 'Type', 'redirection' ),
-			'url'       => __( 'URL', 'redirection' ),
-			'hits'      => __( 'Hits', 'redirection' ),
+			'cb'	   => '<input type="checkbox" />', //Render a checkbox instead of text
+			'type'	   => __( 'Type', 'redirection' ),
+			'url'	   => __( 'URL', 'redirection' ),
+			'hits'	  => __( 'Hits', 'redirection' ),
 			'last_access' => __( 'Last Access', 'redirection' ),
 		);
 
@@ -38,7 +39,7 @@ class Redirection_Table extends WP_List_Table {
 	}
 
 	function column_last_access( $item ) {
-		if ( $item->get_last_hit() == 0 )
+		if ( $item->get_last_hit() === 0 )
 			return '&mdash;';
 		return date_i18n( get_option( 'date_format' ), $item->get_last_hit() );
 	}
@@ -49,7 +50,7 @@ class Redirection_Table extends WP_List_Table {
 
 	function column_url( $item ) {
 		$actions = array(
-			'edit'     => sprintf( '<a class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s" href="#">'.__( 'Edit', 'redirection' ).'</a>', 'red_redirect_edit', wp_create_nonce( 'red-edit_'.$item->get_id() ), $item->get_id() ),
+			'edit'	 => sprintf( '<a class="red-ajax" data-action="%s" data-nonce="%s" data-id="%s" href="#">'.__( 'Edit', 'redirection' ).'</a>', 'red_redirect_edit', wp_create_nonce( 'red-edit_'.$item->get_id() ), $item->get_id() ),
 			'delete'   => sprintf( '<a class="red-auto" data-action="%s" href="#">'.__( 'Delete', 'redirection' ).'</a>', 'delete', $item->get_id() ),
 		);
 
@@ -69,11 +70,11 @@ class Redirection_Table extends WP_List_Table {
 		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->get_url() ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
 	}
 
-	function column_cb($item){
+	function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->get_id()                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->get_id()				//The value of the checkbox should be the record's id
 		);
 	}
 
@@ -90,7 +91,7 @@ class Redirection_Table extends WP_List_Table {
 
 	function get_sortable_columns() {
 		$sortable_columns = array(
-			'url'      => array( 'url', false),
+			'url' => array( 'url', false ),
 		);
 		return $sortable_columns;
 	}
@@ -107,14 +108,14 @@ class Redirection_Table extends WP_List_Table {
 	}
 
 	function process_bulk_action() {
-		if ( !isset( $_POST['item'] ) )
+		if ( ! isset( $_POST['item'] ) )
 			return;
 
 		if ( in_array( $this->current_action(), array( 'reset', 'enable', 'disable', 'delete' ) ) ) {
 			$redirections = array();
 			$flush = array();
 
-			foreach( (array)$_POST['item'] AS $id ) {
+			foreach( (array) $_POST['item'] as $id ) {
 				$redirect = Red_Item::get_by_id( intval( $id ) );
 
 				if ( $redirect ) {
@@ -134,14 +135,14 @@ class Redirection_Table extends WP_List_Table {
 			}
 
 			$flush = array_unique( $flush );
-			foreach ( $flush AS $group_id ) {
+			foreach ( $flush as $group_id ) {
 				Red_Module::flush( $group_id );
 			}
 		}
 	}
 
 	function extra_tablenav( $which ) {
-		if ( $which == 'bottom' )
+		if ( $which === 'bottom' )
 			return;
 
 ?>
@@ -149,9 +150,9 @@ class Redirection_Table extends WP_List_Table {
 			<select name="id">
 				<option value="0"<?php selected( 0, $this->current_group_id ); ?>><?php _e( 'No group filter', 'redirection' ); ?></option>
 
-				<?php foreach ( $this->groups AS $module_name => $groups ) : ?>
+				<?php foreach ( $this->groups as $module_name => $groups ) : ?>
 					<optgroup label="<?php echo esc_attr( $module_name ); ?>">
-						<?php foreach ( $groups AS $group_id => $group ) : ?>
+						<?php foreach ( $groups as $group_id => $group ) : ?>
 							<option value="<?php echo esc_attr( $group_id ); ?>"<?php selected( $group_id, $this->current_group_id ); ?>>
 								<?php echo esc_html( $group ); ?>
 							</option>
@@ -188,10 +189,10 @@ class Redirection_Table extends WP_List_Table {
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
-		if ( !in_array( $orderby, array_keys( $sortable ) ) )
+		if ( ! in_array( $orderby, array_keys( $sortable ) ) )
 			$orderby = 'id';
 
-		if ( !in_array( $order, array( 'asc', 'desc' ) ) )
+		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
 
 		$where = array();
@@ -199,25 +200,25 @@ class Redirection_Table extends WP_List_Table {
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
-			$where[] = $wpdb->prepare( "group_id=%d", intval( $_REQUEST['id'] ) );
+			$where[] = $wpdb->prepare( 'group_id=%d', intval( $_REQUEST['id'] ) );
 
-		$where_cond = "";
+		$where_cond = '';
 		if ( count( $where ) > 0 )
-			$where_cond = " WHERE ".implode( ' AND ', $where );
+			$where_cond = ' WHERE '.implode( ' AND ', $where );
 
 		$table = $wpdb->prefix.'redirection_items';
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
+		$rows		= $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$this->total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
+		foreach ( (array) $rows as $row ) {
 			$this->items[] = new Red_Item( $row );
 		}
 
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $this->total_items / $per_page )
+			'per_page'	=> $per_page,
+			'total_pages' => ceil( $this->total_items / $per_page ),
 		) );
 	}
 }
@@ -230,18 +231,18 @@ class Redirection_Group_Table extends WP_List_Table {
 
 		//Set parent defaults
 		parent::__construct( array(
-			'singular' => 'item',     //singular name of the listed records
-			'plural'   => 'items',    //plural name of the listed records
-			'ajax'     => false        //does this table support ajax?
+			'singular' => 'item',	 //singular name of the listed records
+			'plural'   => 'items',	//plural name of the listed records
+			'ajax'	 => false,	  //does this table support ajax?
 		) );
 	}
 
-	function get_columns(){
+	function get_columns() {
 		$columns = array(
-			'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
-			'name'      => __( 'Name', 'redirection' ),
+			'cb'		=> '<input type="checkbox" />', //Render a checkbox instead of text
+			'name'	  => __( 'Name', 'redirection' ),
 			'redirects' => __( 'Redirects', 'redirection' ),
-			'module'    => __( 'Module', 'redirection' ),
+			'module'	=> __( 'Module', 'redirection' ),
 		);
 
 		return $columns;
@@ -278,11 +279,11 @@ class Redirection_Group_Table extends WP_List_Table {
 		return esc_html( __( 'Unknown', 'redirection' ) );
 	}
 
-	function column_cb($item){
+	function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->id                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->id				//The value of the checkbox should be the record's id
 		);
 	}
 
@@ -305,13 +306,13 @@ class Redirection_Group_Table extends WP_List_Table {
 	}
 
 	function process_bulk_action() {
-		if ( !isset( $_POST['item'] ) )
+		if ( ! isset( $_POST['item'] ) )
 			return;
 
 		if ( in_array( $this->current_action(), array( 'delete', 'enable', 'disable' ) ) ) {
 			$groups = array();
 
-			foreach( (array)$_POST['item'] AS $id ) {
+			foreach( (array) $_POST['item'] as $id ) {
 				$group = Red_Group::get( intval( $id ) );
 
 				if ( $group ) {
@@ -343,7 +344,7 @@ class Redirection_Group_Table extends WP_List_Table {
 	}
 
 	function extra_tablenav( $which ) {
-		if ( $which == 'bottom' )
+		if ( $which === 'bottom' )
 			return;
 
 		$selected = 0;
@@ -353,7 +354,7 @@ class Redirection_Group_Table extends WP_List_Table {
 		<div class="alignleft actions">
 			<select name="id">
 				<option value="0"<?php selected( 0, $selected ); ?>><?php _e( 'All modules', 'redirection' ); ?></option>
-				<?php foreach ( $this->modules AS $module_id => $module ) : ?>
+				<?php foreach ( $this->modules as $module_id => $module ) : ?>
 					<option value="<?php echo esc_attr( $module_id ); ?>"<?php selected( $module_id, $selected ); ?>>
 						<?php echo esc_html( $module->get_name() ); ?>
 					</option>
@@ -383,10 +384,10 @@ class Redirection_Group_Table extends WP_List_Table {
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
-		if ( !in_array( $orderby, array_keys( $sortable ) ) )
+		if ( ! in_array( $orderby, array_keys( $sortable ) ) )
 			$orderby = $wpdb->prefix.'redirection_groups.name';
 
-		if ( !in_array( $order, array( 'asc', 'desc' ) ) )
+		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
 
 		$where = array();
@@ -394,25 +395,25 @@ class Redirection_Group_Table extends WP_List_Table {
 			$where[] = $wpdb->prepare( 'name LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
 		if ( isset( $_REQUEST['id'] ) && intval( $_REQUEST['id'] ) > 0 )
-			$where[] = $wpdb->prepare( "module_id=%d", intval( $_REQUEST['id'] ) );
+			$where[] = $wpdb->prepare( 'module_id=%d', intval( $_REQUEST['id'] ) );
 
-		$where_cond = "";
+		$where_cond = '';
 		if ( count( $where ) > 0 )
-			$where_cond = " WHERE ".implode( ' AND ', $where );
+			$where_cond = ' WHERE '.implode( ' AND ', $where );
 
 		$table = $wpdb->prefix.'redirection_groups';
 		$rows  = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$this->total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
+		foreach ( (array) $rows as $row ) {
 			$this->items[] = new Red_Group( $row );
 		}
 
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $this->total_items / $per_page )
+			'per_page'	=> $per_page,
+			'total_pages' => ceil( $this->total_items / $per_page ),
 		) );
 	}
 }
@@ -427,16 +428,16 @@ class Redirection_Log_Table extends WP_List_Table {
 
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'item',     //singular name of the listed records
-			'plural'    => 'items',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'singular'  => 'item',	 //singular name of the listed records
+			'plural'	=> 'items',	//plural name of the listed records
+			'ajax'	  => false,		//does this table support ajax?
 		) );
 	}
 
 	function column_created( $item ) {
 		$actions = array();
 
-		if ( $item->sent_to == '' ) {
+		if ( $item->sent_to === '' ) {
 			$actions['add'] = '<a href="'.esc_url( $item->url ).'" class="add-log">'.__( 'Add redirect', 'redirection' ).'</a>';
 		}
 
@@ -463,45 +464,45 @@ class Redirection_Log_Table extends WP_List_Table {
 		return sprintf( '%1$s %2$s', '<a href="'.esc_url( $item->referrer ).'">'.esc_html( parse_url( $item->referrer, PHP_URL_HOST ) ).'</a>', $this->row_actions( $actions ) );
 	}
 
-	function column_cb($item){
+	function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->id                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->id				//The value of the checkbox should be the record's id
 		);
 	}
 
-	function get_columns(){
+	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
-			'created'       => __( 'Date', 'redirection' ),
-			'url'      => __( 'Source URL', 'redirection' ),
+			'cb'	   => '<input type="checkbox" />', //Render a checkbox instead of text
+			'created'	   => __( 'Date', 'redirection' ),
+			'url'	  => __( 'Source URL', 'redirection' ),
 			'referrer' => __( 'Referrer', 'redirection' ),
-			'ip'       => __( 'IP', 'redirection' ),
+			'ip'	   => __( 'IP', 'redirection' ),
 		);
 		return $columns;
 	}
 
 	function get_sortable_columns() {
 		$sortable_columns = array(
-			'created'       => array( 'id', true ),
-			'url'      => array( 'url', false),
+			'created'	   => array( 'id', true ),
+			'url'	  => array( 'url', false ),
 			'referrer' => array( 'referrer', false ),
-			'ip'       => array( 'item_id', false ),
+			'ip'	   => array( 'item_id', false ),
 		);
 		return $sortable_columns;
 	}
 
 	function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'redirection' )
+			'delete' => __( 'Delete', 'redirection' ),
 		);
 		return $actions;
 	}
 
 	function process_bulk_action() {
 		if ( 'delete' === $this->current_action() ) {
-			foreach( $_POST['item'] AS $id ) {
+			foreach( $_POST['item'] as $id ) {
 				RE_Log::delete( intval( $id ) );
 			}
 		}
@@ -525,33 +526,33 @@ class Redirection_Log_Table extends WP_List_Table {
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
-		if ( !in_array( $orderby, array_keys( $sortable ) ) )
+		if ( ! in_array( $orderby, array_keys( $sortable ) ) )
 			$orderby = 'id';
 
-		if ( !in_array( $order, array( 'asc', 'desc' ) ) )
+		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
 
 		$where = array();
 		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );
 
-		$where_cond = "";
+		$where_cond = '';
 		if ( count( $where ) > 0 )
-			$where_cond = " WHERE ".implode( ' AND ', $where );
+			$where_cond = ' WHERE '.implode( ' AND ', $where );
 
 		$table = $wpdb->prefix.'redirection_logs';
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
+		$rows		= $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d", ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
+		foreach ( (array) $rows as $row ) {
 			$this->items[] = new RE_Log( $row );
 		}
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $total_items / $per_page )
+			'per_page'	=> $per_page,
+			'total_pages' => ceil( $total_items / $per_page ),
 		) );
 	}
 }
@@ -564,9 +565,9 @@ class Redirection_404_Table extends WP_List_Table {
 
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'item',     //singular name of the listed records
-			'plural'    => 'items',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'singular'  => 'item',	 //singular name of the listed records
+			'plural'	=> 'items',	//plural name of the listed records
+			'ajax'	  => false,		//does this table support ajax?
 		) );
 	}
 
@@ -594,21 +595,21 @@ class Redirection_404_Table extends WP_List_Table {
 		return sprintf( '%1$s %2$s', '<a href="'.esc_url( $item->referrer ).'">'.esc_html( parse_url( $item->referrer, PHP_URL_HOST ) ).'</a>', $this->row_actions( $actions ) );
 	}
 
-	function column_cb($item){
+	function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-			/*$2%s*/ $item->id                //The value of the checkbox should be the record's id
+			/*$2%s*/ $item->id				//The value of the checkbox should be the record's id
 		);
 	}
 
-	function get_columns(){
+	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />', //Render a checkbox instead of text
+			'cb'	   => '<input type="checkbox" />', //Render a checkbox instead of text
 			'created'  => __( 'Date', 'redirection' ),
-			'url'      => __( 'Source URL', 'redirection' ),
+			'url'	  => __( 'Source URL', 'redirection' ),
 			'referrer' => __( 'Referrer', 'redirection' ),
-			'ip'       => __( 'IP', 'redirection' ),
+			'ip'	   => __( 'IP', 'redirection' ),
 		);
 		return $columns;
 	}
@@ -616,7 +617,7 @@ class Redirection_404_Table extends WP_List_Table {
 	function get_sortable_columns() {
 		$sortable_columns = array(
 			'created'  => array( 'id', true ),
-			'url'      => array( 'url', false),
+			'url'	  => array( 'url', false ),
 			'referrer' => array( 'referrer', false ),
 		);
 		return $sortable_columns;
@@ -624,14 +625,14 @@ class Redirection_404_Table extends WP_List_Table {
 
 	function get_bulk_actions() {
 		$actions = array(
-			'delete' => __( 'Delete', 'redirection' )
+			'delete' => __( 'Delete', 'redirection' ),
 		);
 		return $actions;
 	}
 
 	function process_bulk_action() {
 		if ( 'delete' === $this->current_action() ) {
-			foreach( $_POST['item'] AS $id ) {
+			foreach( $_POST['item'] as $id ) {
 				RE_404::delete( intval( $id ) );
 			}
 		}
@@ -655,10 +656,10 @@ class Redirection_404_Table extends WP_List_Table {
 		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
-		if ( !in_array( $orderby, array_keys( $sortable ) ) )
+		if ( ! in_array( $orderby, array_keys( $sortable ) ) )
 			$orderby = 'id';
 
-		if ( !in_array( $order, array( 'asc', 'desc' ) ) )
+		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
 
 		$where = array();
@@ -668,23 +669,23 @@ class Redirection_404_Table extends WP_List_Table {
 		if ( $restrict_by_ip !== false )
 			$where[] = $wpdb->prepare( 'ip=INET_ATON(%s)', $restrict_by_ip );
 
-		$where_cond = "";
+		$where_cond = '';
 		if ( count( $where ) > 0 )
-			$where_cond = " WHERE ".implode( ' AND ', $where );
+			$where_cond = ' WHERE '.implode( ' AND ', $where );
 
 		$table = $wpdb->prefix.'redirection_404';
-		$rows        = $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d",  ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
+		$rows		= $wpdb->get_results( "SELECT * FROM {$table} ".$where_cond.$wpdb->prepare( " ORDER BY $orderby $order LIMIT %d,%d",  ( $this->get_pagenum() - 1 ) * $per_page, $per_page ) );
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table}".$where_cond );
 
 		$this->items = array();
-		foreach ( (array)$rows AS $row ) {
+		foreach ( (array) $rows as $row ) {
 			$this->items[] = new RE_Log( $row );
 		}
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $total_items / $per_page )
+			'per_page'	=> $per_page,
+			'total_pages' => ceil( $total_items / $per_page ),
 		) );
 	}
 }
@@ -697,9 +698,9 @@ class Redirection_Module_Table extends WP_List_Table {
 
 		//Set parent defaults
 		parent::__construct( array(
-			'singular'  => 'item',     //singular name of the listed records
-			'plural'    => 'items',    //plural name of the listed records
-			'ajax'      => false        //does this table support ajax?
+			'singular'  => 'item',	 //singular name of the listed records
+			'plural'	=> 'items',	//plural name of the listed records
+			'ajax'	  => false,		//does this table support ajax?
 		) );
 	}
 
@@ -723,7 +724,7 @@ class Redirection_Module_Table extends WP_List_Table {
 
 		$actions['csv'] = sprintf( '<a href="%s">CSV</a>', '?page=redirection.php&amp;token='.$this->token.'&amp;sub=csv&amp;module='.intval( $item->get_id() ) );
 		$actions['view-htaccess'] = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_htaccess" data-nonce="%s">.htaccess</a>', $item->get_id(), wp_create_nonce( 'red_get_htaccess' ) );
-		$actions['view-nginx']    = sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_nginx" data-nonce="%s">Nginx</a>', $item->get_id(), wp_create_nonce( 'red_get_nginx' ) );
+		$actions['view-nginx']	= sprintf( '<a href="#" class="red-ajax" data-id="%d" data-action="red_get_nginx" data-nonce="%s">Nginx</a>', $item->get_id(), wp_create_nonce( 'red_get_nginx' ) );
 
 		if ( count( $config ) > 0 )
 			$config = '<div class="module-config">'.join( '<br/>', $config ).'</div>';
@@ -749,8 +750,8 @@ class Redirection_Module_Table extends WP_List_Table {
 		$this->total_items = count( $this->items );
 		$this->set_pagination_args( array(
 			'total_items' => $this->total_items,
-			'per_page'    => 100,
-			'total_pages' => ceil( $this->total_items / 100 )
+			'per_page'	=> 100,
+			'total_pages' => ceil( $this->total_items / 100 ),
 		) );
 	}
 }

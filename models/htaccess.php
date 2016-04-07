@@ -4,7 +4,7 @@ class Red_Htaccess {
 	private $items = array();
 	const INSERT_REGEX = '@\n?# Created by Redirection(.*?)# End of Redirection\n?@sm';
 
-	private function encode_from( $url )	{
+	private function encode_from( $url ) {
 		return '^'.$this->encode( $url ).'$';
 	}
 
@@ -17,7 +17,7 @@ class Red_Htaccess {
 		return $url;
 	}
 
-	private function encode( $url )	{
+	private function encode( $url ) {
 		$url = urlencode( $url );
 		$url = str_replace( '%2F', '/', $url );
 		$url = str_replace( '+', '%20', $url );
@@ -76,7 +76,7 @@ class Red_Htaccess {
 	private function add_url( $item, $match ) {
 		$url = $item->get_url();
 
-		if ( $item->is_regex() == false && strpos( $url, '?') !== false || strpos( $url, '&' ) !== false ) {
+		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
@@ -109,7 +109,7 @@ class Red_Htaccess {
 	}
 
 	private function action_error( $data, $code, $regex) {
-		if ( $code == '410' )
+		if ( $code === '410' )
 			return '/ [G,L]';
 		return '/ [F,L]';
 	}
@@ -135,7 +135,7 @@ class Red_Htaccess {
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
 		$text[] = '# Created by Redirection';
-		$text[] = '# '.date ('r');
+		$text[] = '# '.date( 'r' );
 		$text[] = '# Redirection '.trim( $version['Version'] ).' - http://urbangiraffe.com/plugins/redirection/';
 		$text[] = '';
 

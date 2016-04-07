@@ -10,7 +10,7 @@ class Red_Group {
 
 	public function __construct( $values = ''  ) {
 		if ( is_object( $values ) ) {
-			foreach ( $values AS $key => $value ) {
+			foreach ( $values as $key => $value ) {
 			 	$this->$key = $value;
 			}
 		}
@@ -44,10 +44,10 @@ class Red_Group {
 		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
 
 		if ( $rows ) {
-			foreach ( $rows AS $row ) {
+			foreach ( $rows as $row ) {
 				$module = Red_Module::get( $row->module_id );
 				if ( $module ) {
-					$data[$module->get_name()][$row->id] = $row->name;
+					$data[ $module->get_name() ][ $row->id ] = $row->name;
 				}
 			}
 		}
@@ -66,7 +66,7 @@ class Red_Group {
 			$data = array(
 				'name'      => trim( $name ),
 				'module_id' => intval( $module_id ),
-				'position'  => intval( $position )
+				'position'  => intval( $position ),
 			);
 
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', $data );
@@ -100,12 +100,12 @@ class Red_Group {
 		// Delete all items in this group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) );
 
- 		Red_Module::flush( $this->id );
+		Red_Module::flush( $this->id );
 
 		// Delete the group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $this->id ) );
 
-		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) == 0 )
+		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) === 0 )
 			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
 	}
 
