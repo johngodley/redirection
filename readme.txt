@@ -90,12 +90,18 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Upgrade Notice ==
 
 = 2.3.3 =
-* Full WordPress 3.5+ compatability! Note that this contains database changes so please backup your data.
+* Full WordPress 3.5+ compatibility! Note that this contains database changes so please backup your data.
 
 = 2.4 =
 * Another database change. Please backup your data
 
 == Changelog ==
+
+= 2.4.4 =
+* Fix large advanced settings icon
+* Add text domain to plugin file, props Bernhard Kau
+* Better PHP7 compatibility, props to Ohad Raz
+* Better Polylang compatibility, props to imrehg
 
 = 2.4.3 =
 * Bump minimum WP to 4.0.0

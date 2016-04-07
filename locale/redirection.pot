@@ -1,4 +1,4 @@
-# Copyright (C) 2015 Redirection
+# Copyright (C) 2016 Redirection
 # This file is distributed under the same license as the Redirection package.
 msgid ""
 msgstr ""
@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
@@ -195,39 +195,39 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: models/redirect.php:139
+#: models/redirect.php:161
 msgid "Source and target URL must be different"
 msgstr ""
 
-#: models/redirect.php:145
+#: models/redirect.php:167
 msgid "You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>)."
 msgstr ""
 
-#: models/redirect.php:153
+#: models/redirect.php:175
 msgid "Invalid group when creating redirect"
 msgstr ""
 
-#: models/redirect.php:156
+#: models/redirect.php:178
 msgid "Invalid source URL when creating redirect for given match type"
 msgstr ""
 
-#: models/redirect.php:362
+#: models/redirect.php:384
 msgid "Redirect to URL"
 msgstr ""
 
-#: models/redirect.php:363
+#: models/redirect.php:385
 msgid "Redirect to random post"
 msgstr ""
 
-#: models/redirect.php:364
+#: models/redirect.php:386
 msgid "Pass-through"
 msgstr ""
 
-#: models/redirect.php:365
+#: models/redirect.php:387
 msgid "Error (404)"
 msgstr ""
 
-#: models/redirect.php:366
+#: models/redirect.php:388
 msgid "Do nothing"
 msgstr ""
 
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: redirection-admin.php:505, view/group-edit.php:22, view/item-edit.php:35, view/module-edit.php:13
+#: redirection-admin.php:505, view/group-edit.php:22, view/item-edit.php:33, view/module-edit.php:13
 msgid "Cancel"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgstr ""
 msgid "Regular expression"
 msgstr ""
 
-#: view/add.php:36, view/item-edit.php:20
+#: view/add.php:36, view/item-edit.php:18
 msgid "Group"
 msgstr ""
 
@@ -381,7 +381,7 @@ msgstr ""
 msgid "Add Redirection"
 msgstr ""
 
-#: view/group-edit.php:21, view/item-edit.php:34, view/module-edit.php:12
+#: view/group-edit.php:21, view/item-edit.php:32, view/module-edit.php:12
 msgid "Save"
 msgstr ""
 
@@ -401,11 +401,11 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: view/item-edit.php:13
+#: view/item-edit.php:11
 msgid "Description"
 msgstr ""
 
-#: view/item-edit.php:16
+#: view/item-edit.php:14
 msgid "optional"
 msgstr ""
 
