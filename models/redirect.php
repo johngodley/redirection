@@ -60,8 +60,7 @@ class Red_Item {
 	static function get_all_for_module( $module ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position", $module );
-		$sql = str_replace( '@', $wpdb->prefix, $sql );
+		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.tracking FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE {$wpdb->prefix}redirection_items.status='enabled' ORDER BY {$wpdb->prefix}redirection_groups.position,{$wpdb->prefix}redirection_items.position", $module );
 
 		$rows  = $wpdb->get_results( $sql );
 		$items = array();
@@ -77,8 +76,7 @@ class Red_Item {
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.position AS group_pos FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE (@redirection_items.regex=1 OR @redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
-		$sql = str_replace( '@', $wpdb->prefix, $sql);
+		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.position AS group_pos FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1 OR {$wpdb->prefix}redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
 
 		$rows = $wpdb->get_results( $sql ) ;
 		$items = array();
