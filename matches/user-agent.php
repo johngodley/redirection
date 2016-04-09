@@ -79,13 +79,17 @@ class Agent_Match extends Red_Match {
 
 	function save( $details ) {
 		if ( isset( $details['target'] ) )
-			$details['url_from'] = $details['target'];
+			$details['url_from'] = $this->sanitize_url( $details['target'] );
 
 		return array(
-			'url_from'    => isset( $details['url_from'] ) ? $details['url_from'] : false,
-			'url_notfrom' => isset( $details['url_notfrom'] ) ? $details['url_notfrom'] : false,
-			'user_agent'  => isset( $details['user_agent'] ) ? $details['user_agent'] : false,
+			'url_from'    => isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : false,
+			'url_notfrom' => isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : false,
+			'user_agent'  => isset( $details['user_agent'] ) ? $this->sanitize_agent( $details['user_agent'] ) : false,
 		);
+	}
+
+	private function sanitize_agent( $agent ) {
+		return $this->sanitize_url( $agent );
 	}
 
 	function initialize( $url ) {

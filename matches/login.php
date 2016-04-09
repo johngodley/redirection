@@ -46,11 +46,11 @@ class Login_Match extends Red_Match {
 
 	function save( $details ) {
 		if ( isset( $details['target'] ) )
-			$details['target'] = $details;
+			$details['target'] = $this->sanitize_url( $details );
 
 		return array(
-			'url_loggedin' => isset( $details['url_loggedin'] ) ? $details['url_loggedin'] : false,
-			'url_loggedout' => isset( $details['url_loggedout'] ) ? $details['url_loggedout'] : false,
+			'url_loggedin' => isset( $details['url_loggedin'] ) ? $this->sanitize_url( $details['url_loggedin'] ) : false,
+			'url_loggedout' => isset( $details['url_loggedout'] ) ? $this->sanitize_url( $details['url_loggedout'] ) : false,
 		);
 	}
 

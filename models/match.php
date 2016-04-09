@@ -45,6 +45,16 @@ class Red_Match {
 		return false;
 	}
 
+	function sanitize_url( $url ) {
+		// No new lines
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Clean control codes
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+
+		return $url;
+	}
+
 	static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
