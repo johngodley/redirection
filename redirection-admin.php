@@ -97,6 +97,8 @@ class Redirection_Admin {
 	private static function update() {
 		$version = get_option( 'redirection_version' );
 
+		Red_Flusher::schedule();
+
 		if ( $version !== REDIRECTION_VERSION ) {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
