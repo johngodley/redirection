@@ -303,7 +303,7 @@ class Red_Item {
 			$target = $this->match->get_target( $url, $this->url, $this->regex );
 
 			if ( $target ) {
-				$target = $this->replaceSpecialTags( $target );
+				$target = $this->replace_special_tags( $target );
 
 				$this->visit( $url, $target );
 
@@ -315,7 +315,7 @@ class Red_Item {
 		return false;
 	}
 
-	function replaceSpecialTags( $target ) {
+	function replace_special_tags( $target ) {
 		if ( is_numeric( $target ) )
 			$target = get_permalink( $target );
 		else {
