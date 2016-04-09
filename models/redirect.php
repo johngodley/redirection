@@ -230,13 +230,24 @@ class Red_Item {
 		Red_Module::flush( $this->group_id );
 	}
 
-	static function sanitize_url( $url, $regex ) {
+	static function sanitize_url( $url, $regex = false ) {
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
 
+		// No hash
+		$url = preg_replace( '/#.*$/', '', $url );
+
+		// No new lines
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Clean control codes
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+
+		// Ensure a slash at start
 		if ( substr( $url, 0, 1 ) !== '/' && $regex === false )
 			$url = '/'.$url;
+
 		return $url;
 	}
 
