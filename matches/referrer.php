@@ -66,14 +66,18 @@ class Referrer_Match extends Red_Match {
 
 	function save( $details ) {
 		if ( isset( $details['target'] ) )
-			$details['url_from'] = $details['target'];
+			$details['url_from'] = $this->sanitize_url( $details['target'] );
 
 		return array(
-			'url_from'    => $details['url_from'],
-			'url_notfrom' => isset( $details['url_notfrom'] ) ? $details['url_notfrom'] : false,
+			'url_from'    => $this->sanitize_url( $details['url_from'] ),
+			'url_notfrom' => isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : false,
 			'regex'       => isset( $details['regex'] ) ? true : false,
-			'referrer'    => isset( $details['referrer'] ) ? $details['referrer'] : false,
+			'referrer'    => isset( $details['referrer'] ) ? $this->sanitize_referrer( $details['referrer'] ) : false,
 		);
+	}
+
+	public function sanitize_referrer( $agent ) {
+		return $this->sanitize_url( $agent );
 	}
 
 	function initialize( $url ) {

@@ -31,7 +31,7 @@ class URL_Match extends Red_Match {
 		if ( ! isset( $details['target'] ) || strlen( $details['target'] ) === 0 )
 			$details['target'] = '/';
 
-		return array( 'url' => $details['target'] );
+		return array( 'url' => $this->sanitize_url( $details['target'] ) );
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
