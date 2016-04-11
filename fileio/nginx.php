@@ -91,6 +91,11 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function add_redirect( $source, $target, $code ) {
+		$source = preg_replace( "/[\r\n\t].*?$/s", '', $source );
+		$source = preg_replace( '/[^\PC\s]/u', '', $source );
+		$target = preg_replace( "/[\r\n\t].*?$/s", '', $target );
+		$target = preg_replace( '/[^\PC\s]/u', '', $target );
+
 		return 'rewrite ^'.$source.'$ '.$target.' '.$code.';';
 	}
 }

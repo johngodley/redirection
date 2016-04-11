@@ -24,4 +24,16 @@ class NginxTest extends WP_UnitTestCase {
 		$this->assertEquals( '}', trim( $lines[count( $lines ) - 3] ) );
 		$this->assertEquals( '# End of Redirection', trim( $lines[count( $lines ) - 1] ) );
 	}
+
+	public function testInvalidRegex() {
+		$regex = "something\nwith newline";
+		$nginx = new Red_Nginx_File();
+		$redirects = array( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => $regex, 'action_data' => $regex, 'action_code' => 301 ) ) );
+
+		$file = $nginx->get( $redirects );
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( count( $lines ), 9 );
+		$this->assertEquals( 'rewrite ^something$ something permanent;', trim( $lines[5] ) );
+	}
 }

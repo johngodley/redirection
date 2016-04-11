@@ -26,6 +26,8 @@ class Red_Htaccess {
 	}
 
 	private function encode_regex( $url ) {
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
 		$url = str_replace( ' ', '%20', $url );
 		$url = str_replace( '.', '\\.', $url );
 		$url = str_replace( '\\.*', '.*', $url );
