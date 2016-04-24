@@ -365,7 +365,8 @@ class Red_Item {
 	}
 
 	function show_url( $url ) {
-		return implode( '&#8203;/', explode( '/', $url ) );
+		//return implode( '&#8203;/', explode( '/', $url ) );
+		return $url;
 	}
 
 	function move_to( $group ) {
