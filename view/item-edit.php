@@ -22,6 +22,12 @@
 			</select>
 		</td>
 	</tr>
+	<tr class="advanced">
+		<th width="100"><?php _e( 'Position', 'redirection' ); ?>:</th>
+		<td>
+			<input style="width: 95%" type="text" name="position" value="<?php echo esc_attr( $redirect->get_position() ); ?>"/>
+		</td>
+	</tr>
 
 	<?php $redirect->match->show(); ?>
 
