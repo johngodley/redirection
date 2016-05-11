@@ -28,6 +28,9 @@ class Red_Item {
 				$this->match_type = 'url';
 			}
 
+			// force regex to be boolean
+			$this->regex = (bool) $this->regex;
+
 			$this->match              = Red_Match::create( $this->match_type, $this->action_data );
 			$this->match->id          = $this->id;
 			$this->match->action_code = $this->action_code;
@@ -42,13 +45,15 @@ class Red_Item {
 				$this->action = $action;
 				$this->match->action = $this->action;
 			}
-			else
+			else {
 				$this->action = Red_Action::create( 'nothing', 0 );
+			}
 
-			if ( $this->last_access === '0000-00-00 00:00:00' )
+			if ( $this->last_access === '0000-00-00 00:00:00' ) {
 				$this->last_access = 0;
-			else
+			} else {
 				$this->last_access = mysql2date( 'U', $this->last_access );
+			}
 		}
 		else {
 			$this->url   = $values;
@@ -96,8 +101,9 @@ class Red_Item {
 	}
 
 	static function sort_urls( $first, $second ) {
-		if ( $first['position'] === $second['position'] )
+		if ( $first['position'] === $second['position'] ) {
 			return 0;
+		}
 
 		return $first['position'] < $second['position'];
 	}
@@ -126,8 +132,9 @@ class Red_Item {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id=%d", $id ) );
-		if ( $row )
+		if ( $row ) {
 			return new Red_Item( $row );
+		}
 		return false;
 	}
 
@@ -148,15 +155,18 @@ class Red_Item {
 		$details = array_map( 'stripslashes', $details );
 
 		// Auto generate URLs
-		if ( empty( $details['source'] ) )
+		if ( empty( $details['source'] ) ) {
 			$details['source'] = self::auto_generate();
+		}
 
-		if ( empty( $details['target'] ) )
+		if ( empty( $details['target'] ) ) {
 			$details['target'] = self::auto_generate();
+		}
 
 		// Make sure we don't redirect to ourself
-		if ( $details['source'] === $details['target'] )
+		if ( $details['source'] === $details['target'] ) {
 			return new WP_Error( 'redirect-add', __( 'Source and target URL must be different', 'redirection' ) );
+		}
 
 		$parsed_url = parse_url( $details['source'] );
 		$parsed_domain = parse_url( site_url() );
@@ -169,24 +179,28 @@ class Red_Item {
 		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
 
-		if ( $group_id <= 0 || ! $group )
+		if ( $group_id <= 0 || ! $group ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid group when creating redirect', 'redirection' ) );
+		}
 
-		if ( ! $matcher )
+		if ( ! $matcher ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid source URL when creating redirect for given match type', 'redirection' ) );
+		}
 
 		$regex    = ( isset( $details['regex'] ) && $details['regex'] !== false ) ? 1 : 0;
 		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
 
 		$action = $details['red_action'];
 		$action_code = 0;
-		if ( $action === 'url' || $action === 'random' )
+		if ( $action === 'url' || $action === 'random' ) {
 			$action_code = 301;
-		elseif ( $action === 'error' )
+		} elseif ( $action === 'error' ) {
 			$action_code = 404;
+		}
 
-		if ( isset( $details['action_code'] ) )
+		if ( isset( $details['action_code'] ) ) {
 			$action_code = intval( $details['action_code'] );
+		}
 
 		$data = array(
 			'url'         => self::sanitize_url( $details['source'], $regex ),
@@ -245,8 +259,9 @@ class Red_Item {
 		$url = preg_replace( '/[^\PC\s]/u', '', $url );
 
 		// Ensure a slash at start
-		if ( substr( $url, 0, 1 ) !== '/' && $regex === false )
+		if ( substr( $url, 0, 1 ) !== '/' && $regex === false ) {
 			$url = '/'.$url;
+		}
 
 		return $url;
 	}
@@ -257,15 +272,16 @@ class Red_Item {
 
 			$details = array_map( 'stripslashes', $details );
 
-			$this->regex = isset( $details['regex'] ) ? 1 : 0;
+			$this->regex = isset( $details['regex'] );
 			$this->url   = self::sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
 
 			$data = $this->match->data( $details );
 
 			$this->action_code = 0;
-			if ( isset( $details['action_code'] ) )
+			if ( isset( $details['action_code'] ) ) {
 				$this->action_code = intval( $details['action_code'] );
+			}
 
 			$old_group = false;
 			if ( isset( $details['group_id'] ) ) {
@@ -307,8 +323,9 @@ class Red_Item {
 
 				$this->visit( $url, $target );
 
-				if ( $this->status === 'enabled' )
+				if ( $this->status === 'enabled' ) {
 					return $this->action->process_before( $this->action_code, $target );
+				}
 			}
 		}
 
@@ -316,9 +333,9 @@ class Red_Item {
 	}
 
 	function replace_special_tags( $target ) {
-		if ( is_numeric( $target ) )
+		if ( is_numeric( $target ) ) {
 			$target = get_permalink( $target );
-		else {
+		} else {
 			$user = wp_get_current_user();
 			if ( ! empty( $user ) ) {
 				$target = str_replace( '%userid%', $user->ID, $target );
@@ -338,14 +355,16 @@ class Red_Item {
 			$count = $this->last_count + 1;
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=%d, last_access=NOW() WHERE id=%d", $count, $this->id ) );
 
-			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-			  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			elseif ( isset( $_SERVER['REMOTE_ADDR'] ) )
-			  $ip = $_SERVER['REMOTE_ADDR'];
+			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+				$ip = $_SERVER['REMOTE_ADDR'];
+			}
 
 			$options = red_get_options();
-			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 )
+			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 ) {
 				$log = RE_Log::create( $url, $target, $_SERVER['HTTP_USER_AGENT'], $ip, isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '', array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
+			}
 		}
 	}
 
@@ -397,8 +416,9 @@ class Red_Item {
 			'nothing' => __( 'Do nothing', 'redirection' ),
 		);
 
-		if ( $action )
+		if ( $action ) {
 			return $actions[ $action ];
+		}
 		return $actions;
 	}
 
@@ -407,10 +427,11 @@ class Red_Item {
 	}
 
 	function type() {
-		if ( ( $this->action_type === 'url' || $this->action_type === 'error' || $this->action_type === 'random' ) && $this->action_code > 0 )
+		if ( ( $this->action_type === 'url' || $this->action_type === 'error' || $this->action_type === 'random' ) && $this->action_code > 0 ) {
 			return $this->action_code;
-		else if ( $this->action_type === 'pass' )
+		} elseif ( $this->action_type === 'pass' ) {
 			return 'pass';
+		}
 		return '&mdash;';
 	}
 
@@ -443,7 +464,7 @@ class Red_Item {
 	}
 
 	public function is_regex() {
-		return $this->regex ? true : false;
+		return $this->regex;
 	}
 
 	public function get_match_type() {
