@@ -18,7 +18,7 @@
 		<th width="100"><?php _e( 'Group', 'redirection' ); ?>:</th>
 		<td>
 			<select name="group_id">
-				<?php echo $this->select( Red_Group::get_for_select(), $redirect->get_group_id() );?>
+				<?php echo $this->select( Red_Group::get_for_select(), intval( $redirect->get_group_id() ) );?>
 			</select>
 		</td>
 	</tr>

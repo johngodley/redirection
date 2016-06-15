@@ -34,7 +34,7 @@ $expiry = array(
 			<th align="right"><?php _e( 'Redirect Logs', 'redirection' ); ?>:</th>
 			<td>
 				<select name="expire_redirect">
-					<?php echo $this->select( $expiry, $options['expire_redirect'] ); ?>
+					<?php echo $this->select( $expiry, intval( $options['expire_redirect'] ) ); ?>
 				</select>
 
 				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
@@ -44,7 +44,7 @@ $expiry = array(
 			<th align="right"><?php _e( '404 Logs', 'redirection' ); ?>:</th>
 			<td>
 				<select name="expire_404">
-					<?php echo $this->select( $expiry, $options['expire_404'] ); ?>
+					<?php echo $this->select( $expiry, intval( $options['expire_404'] ) ); ?>
 				</select>
 
 				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
@@ -55,7 +55,7 @@ $expiry = array(
 			<td>
 				<select name="monitor_post">
 					<option value="0"><?php _e( 'Don\'t monitor', 'redirection' ); ?></option>
-					<?php echo $this->select( $groups, $options['monitor_post'] );?>
+					<?php echo $this->select( $groups, intval( $options['monitor_post'] ) );?>
 				</select>
 			</td>
 		</tr>

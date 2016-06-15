@@ -64,7 +64,7 @@ class Red_Action {
 
 	function display_actions() {
 		foreach ( $this->action_codes() as $key => $code ) {
-			echo '<option value="'.$key.'"'.( ( $key === $this->action_code ) ? ' selected="selected"' : '' ).'>'.sprintf( '%s - %s', $key, $code ).'</option>';
+			echo '<option value="'.$key.'"'.( ( $key === intval( $this->action_code ) ) ? ' selected="selected"' : '' ).'>'.sprintf( '%s - %s', $key, $code ).'</option>';
 		}
 	}
 }

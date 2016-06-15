@@ -28,7 +28,7 @@ class Referrer_Match extends Red_Match {
 			<td>
 				<select name="action_code">
 					<?php foreach ( $codes as $key => $code ) : ?>
-						<option value="<?php echo $key ?>"<?php if ( $key === $this->action_code ) echo ' selected="selected"' ?>><?php printf( '%s - %s', $key, $code ) ?></option>
+						<option value="<?php echo $key ?>"<?php if ( $key === intval( $this->action_code ) ) echo ' selected="selected"' ?>><?php printf( '%s - %s', $key, $code ) ?></option>
 					<?php endforeach?>
 				</select>
 			</td>
