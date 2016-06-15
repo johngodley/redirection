@@ -11,7 +11,7 @@ class Red_Apache_File extends Red_FileIO {
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
 
-		echo $htaccess->generate( $items );
+		echo $this->get( $items );
 	}
 
 	public function get( array $items ) {
