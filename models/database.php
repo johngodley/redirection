@@ -35,7 +35,7 @@ class RE_Database {
 			  `match_type` varchar(20) NOT NULL,
 			  `title` varchar(50) NULL,
 			  PRIMARY KEY ( `id`),
-				KEY `url` (`url`(200)),
+				KEY `url` (`url`(191)),
 			  KEY `status` (`status`),
 			  KEY `regex` (`regex`),
 				KEY `group_idpos` (`group_id`,`position`),
@@ -76,9 +76,9 @@ class RE_Database {
 			"CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_404` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			  `created` datetime NOT NULL,
-			  `url` varchar(255) NOT NULL DEFAULT '',
-			  `agent` varchar(255) DEFAULT NULL,
-			  `referrer` varchar(255) DEFAULT NULL,
+			  `url` varchar(191) NOT NULL DEFAULT '',
+			  `agent` varchar(191) DEFAULT NULL,
+			  `referrer` varchar(191) DEFAULT NULL,
 			  `ip` int(10) unsigned NOT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `created` (`created`),
@@ -156,9 +156,9 @@ class RE_Database {
 		$wpdb->query( "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}redirection_404` (
 			  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			  `created` datetime NOT NULL,
-			  `url` varchar(255) NOT NULL DEFAULT '',
-			  `agent` varchar(255) DEFAULT NULL,
-			  `referrer` varchar(255) DEFAULT NULL,
+			  `url` varchar(191) NOT NULL DEFAULT '',
+			  `agent` varchar(191) DEFAULT NULL,
+			  `referrer` varchar(191) DEFAULT NULL,
 			  `ip` int(10) unsigned NOT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `created` (`created`),
@@ -200,7 +200,7 @@ class RE_Database {
 
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_groups` ADD INDEX(module_id)" );
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_groups` ADD INDEX(status)" );
-		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX(url(200))" );
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX(url(191))" );
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX(status)" );
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX(regex)" );
 	}
