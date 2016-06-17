@@ -103,9 +103,9 @@ class WordPress_Module extends Red_Module {
 			}
 		}
 		elseif ( $status == 307) {
-		status_header( $status );
-		header( "Cache-Control: no-cache, must-revalidate, max-age=0" );
-		return $url;
+			status_header( $status );
+			header( "Cache-Control: no-cache, must-revalidate, max-age=0" );
+			return $url;
 		}
 		status_header( $status );
 		return $url;
