@@ -100,7 +100,7 @@ class Red_Item {
 		if ( $first['position'] === $second['position'] )
 			return 0;
 
-		return $first['position'] < $second['position'];
+		return ($first['position'] < $second['position']) ? -1 : 1;
 	}
 
 	static function reduce_sorted_items( $item ) {
