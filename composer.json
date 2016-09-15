@@ -1,7 +1,7 @@
 {
-	"name": "johngodley/redirection",
-	"description": "Manage all your WordPress 301 redirects and monitor 404 errors",
-	"homepage": "https://github.com/johngodley/redirection",
+	"name": "timeincoss/redirection",
+	"description": "Manage all your WordPress 301 redirects and monitor 404 errors (Time Inc fork)",
+	"homepage": "https://github.com/timeincoss/redirection",
 	"keywords": [
 		"wordpress"
 	],
