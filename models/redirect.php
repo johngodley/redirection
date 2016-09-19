@@ -76,13 +76,17 @@ class Red_Item {
 	static function get_for_url( $url, $type ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.position AS group_pos FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1 OR {$wpdb->prefix}redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
+        $sql = "SELECT {$wpdb->prefix}redirection_items.*
+                  FROM {$wpdb->prefix}redirection_items
+            INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id = {$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status = 'enabled'
+                 WHERE {$wpdb->prefix}redirection_items.url = %s";
 
-		$rows = $wpdb->get_results( $sql );
+		$rows = $wpdb->get_results( $wpdb->prepare( $sql, $url ) );
+
 		$items = array();
 		if ( count( $rows ) > 0 ) {
 			foreach ( $rows as $row ) {
-				$items[] = array( 'position' => ( $row->group_pos * 1000 ) + $row->position, 'item' => new Red_Item( $row ) );
+				$items[] = array( 'position' => $row->position, 'item' => new Red_Item( $row ) );
 			}
 		}
 
@@ -92,6 +96,7 @@ class Red_Item {
 		// Sort it in PHP
 		ksort( $items );
 		$items = array_values( $items );
+
 		return $items;
 	}
 
@@ -298,7 +303,7 @@ class Red_Item {
 		$matches   = false;
 
 		// Check if we match the URL
-		if ( ( $this->regex === false && ( $this->url === $url || $this->url === rtrim( $url, '/' ) || $this->url === urldecode( $url ) ) ) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', $url, $matches ) > 0) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', urldecode( $url ), $matches ) > 0) ) {
+		if ( $this->url === $url || $this->url === rtrim( $url, '/' ) || $this->url === urldecode( $url ) ) {
 			// Check if our match wants this URL
 			$target = $this->match->get_target( $url, $this->url, $this->regex );
 

@@ -24,8 +24,6 @@
 					<select name="red_action">
 						<?php echo $this->select( Red_Item::actions(), 'url' ); ?>
 					</select>
-
-					<label><?php _e( 'Regular expression', 'redirection' ); ?>: <input id="regex" type="checkbox" name="regex"/></label>
 				</td>
 			</tr>
 			<tr id="target">
