@@ -95,6 +95,19 @@ class Redirection_Admin {
 	}
 
 	private static function update() {
+		if ( is_multisite() ) {
+			foreach(wp_get_sites() as $site) {
+				switch_to_blog($site['blog_id']); // switch sites
+				static::site_do_update();
+				restore_current_blog(); // restore site
+			}
+		} else {
+			static::site_do_update();
+		}
+		return true;
+	}
+	
+	private static function site_do_update() {
 		$version = get_option( 'redirection_version' );
 
 		Red_Flusher::schedule();
@@ -105,8 +118,6 @@ class Redirection_Admin {
 			$database = new RE_Database();
 			return $database->upgrade( $version, REDIRECTION_VERSION );
 		}
-
-		return true;
 	}
 
 	private function select( $items, $default = '' ) {
