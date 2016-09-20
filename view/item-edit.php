@@ -4,7 +4,6 @@
 		<th width="100"><a target="_blank" href="<?php echo esc_url( $redirect->get_url() ) ?>"><?php _e( 'Source URL', 'redirection' ); ?>:</a></th>
 		<td>
 			<input style="width: 85%" type="text" name="old" value="<?php echo esc_attr( $redirect->get_url() ); ?>" id="original"/>
-			<label><?php _e( 'Regex', 'redirection' ); ?>: <input type="checkbox" name="regex" <?php if ( $redirect->is_regex() ) echo ' checked="checked"' ?>/></label>
 		</td>
 	</tr>
 	<tr class="advanced">
