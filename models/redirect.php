@@ -210,6 +210,7 @@ class Red_Item {
 		$wpdb->delete( $wpdb->prefix.'redirection_items', array( 'url' => $data['action_data'], 'action_type' => $data['action_type'], 'action_data' => $data['url'] ) );
 
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
+			do_action( 'redirection_post_update', $data['url'] );
 			Red_Module::flush( $group_id );
 			return self::get_by_id( $wpdb->insert_id );
 		}
@@ -285,6 +286,9 @@ class Red_Item {
 				Red_Module::flush( $this->group_id );
 				Red_Module::flush( $old_group );
 			}
+
+			do_action( 'redirection_post_update', $this->url );
+
 		}
 	}
 
