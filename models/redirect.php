@@ -59,41 +59,51 @@ class Red_Item {
 
 	static function get_all_for_module( $module ) {
 		global $wpdb;
+		
+		$transient_key = 'redirection_' . substr( hash( 'md5', 'get_all_for_module' . $module , true), 0, 8);
+		// Get any existing copy of our transient data
+		if ( false === ( $items = get_transient( $transient_key ) ) ) {
+			// It wasn't there, so regenerate the data and save the transient
+			$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position", $module );
+			$sql = str_replace( '@', $wpdb->prefix, $sql );
 
-		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.tracking FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE @redirection_items.status='enabled' ORDER BY @redirection_groups.position,@redirection_items.position", $module );
-		$sql = str_replace( '@', $wpdb->prefix, $sql );
-
-		$rows  = $wpdb->get_results( $sql );
-		$items = array();
-		if ( count( $rows) > 0 ) {
-			foreach ( $rows AS $row ) {
-				$items[] = new Red_Item( $row );
-			}
+			$rows  = $wpdb->get_results( $sql );
+			$items = array();
+			if ( count( $rows) > 0 ) {
+				foreach ( $rows AS $row ) {
+					$items[] = new Red_Item( $row );
+				}
+			}	
+			set_transient( transient_key, $items, 24 * HOUR_IN_SECONDS );
 		}
-
 		return $items;
 	}
 
 	static function get_for_url( $url, $type )	{
 		global $wpdb;
+		$transient_key = 'redirection_' . substr( hash( 'md5', 'get_for_url' . $url . $type  , true), 0, 8);
+		// Get any existing copy of our transient data
+		if ( false === ( $items = get_transient( $transient_key ) ) ) {
+			// It wasn't there, so regenerate the data and save the transient
+			$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.position AS group_pos FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE (@redirection_items.regex=1 OR @redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
+			$sql = str_replace( '@', $wpdb->prefix, $sql);
 
-		$sql = $wpdb->prepare( "SELECT @redirection_items.*,@redirection_groups.position AS group_pos FROM @redirection_items INNER JOIN @redirection_groups ON @redirection_groups.id=@redirection_items.group_id AND @redirection_groups.status='enabled' AND @redirection_groups.module_id=%d WHERE (@redirection_items.regex=1 OR @redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
-		$sql = str_replace( '@', $wpdb->prefix, $sql);
-
-		$rows = $wpdb->get_results( $sql ) ;
-		$items = array();
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows AS $row ) {
-				$items[] = array( 'position' => ( $row->group_pos * 1000 ) + $row->position, 'item' => new Red_Item( $row ) );
+			$rows = $wpdb->get_results( $sql ) ;
+			$items = array();
+			if ( count( $rows ) > 0 ) {
+				foreach ( $rows AS $row ) {
+					$items[] = array( 'position' => ( $row->group_pos * 1000 ) + $row->position, 'item' => new Red_Item( $row ) );
+				}
 			}
+
+			usort( $items, array( 'Red_Item', 'sort_urls' ) );
+			$items = array_map( array( 'Red_Item', 'reduce_sorted_items' ), $items );
+
+			// Sort it in PHP
+			ksort( $items );
+			$items = array_values( $items );
+			set_transient( transient_key, $items, 24 * HOUR_IN_SECONDS );
 		}
-
-		usort( $items, array( 'Red_Item', 'sort_urls' ) );
-		$items = array_map( array( 'Red_Item', 'reduce_sorted_items' ), $items );
-
-		// Sort it in PHP
-		ksort( $items );
-		$items = array_values( $items );
 		return $items;
 	}
 
@@ -110,17 +120,20 @@ class Red_Item {
 
 	static function get_by_module( $module ) {
 		global $wpdb;
+		$transient_key = 'redirection_' . substr( hash( 'md5', 'get_for_url' . $url . $type  , true), 0, 8);
+		// Get any existing copy of our transient data
+		if ( false === ( $items = get_transient( $transient_key ) ) ) {
+			$sql = "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
+			$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
 
-		$sql = "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
-		$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
+			$rows = $wpdb->get_results( $sql );
+			$items = array();
 
-		$rows = $wpdb->get_results( $sql );
-		$items = array();
-
-		foreach( (array)$rows AS $row ) {
-			$items[] = new Red_Item( $row );
+			foreach( (array)$rows AS $row ) {
+				$items[] = new Red_Item( $row );
+			}
+			set_transient( transient_key, $items, 24 * HOUR_IN_SECONDS );
 		}
-
 		return $items;
 	}
 
