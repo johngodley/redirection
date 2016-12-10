@@ -25,8 +25,13 @@ class Red_Csv_File extends Red_FileIO {
 				$line->get_title(),
 			);
 
-			fputcsv( $stdout, $csv );
+			$csv = array_map( array( $this, 'escape_csv' ), $csv );
+			fwrite( $stdout, join( $csv, ',') );
 		}
+	}
+
+	private function escape_csv( $item ) {
+		return '"'.str_replace( '"', '""', $item ).'"';
 	}
 
 	function load( $group, $data, $filename = '' ) {
