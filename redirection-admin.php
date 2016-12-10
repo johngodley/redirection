@@ -57,6 +57,8 @@ class Redirection_Admin {
 
 		$db = new RE_Database();
 		$db->remove( REDIRECTION_FILE );
+
+		delete_option( 'redirection_options' );
 	}
 
 	private function render( $template, $template_vars = array() ) {
