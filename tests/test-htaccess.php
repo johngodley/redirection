@@ -79,6 +79,17 @@ and a line at the end';
 		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[6] ) );
 	}
 
+	public function testError() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test', 'action_code' => 404 ) ) );
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test.php', 'action_code' => 410 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteRule ^/my-test$ / [F]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^/my-test\.php$ / [G]', trim( $lines[6] ) );
+	}
+
 	public function testRedirectUrlWithQuery() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test?query=1', 'action_code' => 301 ) ) );
