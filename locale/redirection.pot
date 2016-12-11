@@ -15,219 +15,219 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
 
-#: matches/login.php:27
+#: matches/login.php:7
 msgid "URL and login status"
 msgstr ""
 
-#: matches/login.php:36
+#: matches/login.php:16
 msgid "The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected."
 msgstr ""
 
-#: matches/login.php:43, matches/login.php:45
+#: matches/login.php:23, matches/login.php:25
 msgid "Logged In"
 msgstr ""
 
-#: matches/login.php:55, matches/login.php:57
+#: matches/login.php:35, matches/login.php:37
 msgid "Logged Out"
 msgstr ""
 
-#: matches/referrer.php:28
+#: matches/referrer.php:8
 msgid "URL and referrer"
 msgstr ""
 
-#: matches/referrer.php:40, models/pager.php:479, models/pager.php:610
+#: matches/referrer.php:21, models/pager.php:480, models/pager.php:611
 msgid "Referrer"
 msgstr ""
 
-#: matches/referrer.php:43, view/item-edit.php:7
+#: matches/referrer.php:24, view/item-edit.php:7
 msgid "Regex"
 msgstr ""
 
-#: matches/referrer.php:47, matches/referrer.php:57, matches/url.php:40, matches/user-agent.php:57
+#: matches/referrer.php:28, matches/referrer.php:38, matches/url.php:20, matches/user-agent.php:38
 msgid "HTTP Code"
 msgstr ""
 
-#: matches/referrer.php:65, matches/referrer.php:67, matches/user-agent.php:77, matches/user-agent.php:79
+#: matches/referrer.php:46, matches/referrer.php:48, matches/user-agent.php:58, matches/user-agent.php:60
 msgid "Matched"
 msgstr ""
 
-#: matches/referrer.php:75, matches/referrer.php:77, matches/user-agent.php:87, matches/user-agent.php:89
+#: matches/referrer.php:56, matches/referrer.php:58, matches/user-agent.php:68, matches/user-agent.php:70
 msgid "Not matched"
 msgstr ""
 
-#: matches/url.php:25
+#: matches/url.php:5
 msgid "URL only"
 msgstr ""
 
-#: matches/url.php:32, view/add.php:32
+#: matches/url.php:12, view/add.php:32
 msgid "Target URL"
 msgstr ""
 
-#: matches/user-agent.php:27
+#: matches/user-agent.php:7
 msgid "URL and user agent"
 msgstr ""
 
-#: matches/user-agent.php:32
+#: matches/user-agent.php:12
 msgid "FeedBurner"
 msgstr ""
 
-#: matches/user-agent.php:33
+#: matches/user-agent.php:13
 msgid "Internet Explorer"
 msgstr ""
 
-#: matches/user-agent.php:34
+#: matches/user-agent.php:14
 msgid "FireFox"
 msgstr ""
 
-#: matches/user-agent.php:35
+#: matches/user-agent.php:15
 msgid "Opera"
 msgstr ""
 
-#: matches/user-agent.php:36
+#: matches/user-agent.php:16
 msgid "Safari"
 msgstr ""
 
-#: matches/user-agent.php:37
+#: matches/user-agent.php:17
 msgid "iPhone"
 msgstr ""
 
-#: matches/user-agent.php:38
+#: matches/user-agent.php:18
 msgid "iPad"
 msgstr ""
 
-#: matches/user-agent.php:39
+#: matches/user-agent.php:19
 msgid "Android"
 msgstr ""
 
-#: matches/user-agent.php:40
+#: matches/user-agent.php:20
 msgid "Nintendo Wii"
 msgstr ""
 
-#: matches/user-agent.php:45
+#: matches/user-agent.php:25
 msgid "User Agent"
 msgstr ""
 
-#: models/pager.php:27
+#: models/pager.php:28
 msgid "Type"
 msgstr ""
 
-#: models/pager.php:28
+#: models/pager.php:29
 msgid "URL"
 msgstr ""
 
-#: models/pager.php:29
+#: models/pager.php:30
 msgid "Hits"
 msgstr ""
 
-#: models/pager.php:30
+#: models/pager.php:31
 msgid "Last Access"
 msgstr ""
 
-#: models/pager.php:52, models/pager.php:252
+#: models/pager.php:53, models/pager.php:253
 msgid "Edit"
 msgstr ""
 
-#: models/pager.php:53, models/pager.php:100, models/pager.php:253, models/pager.php:299, models/pager.php:497, models/pager.php:627, view/options.php:108
+#: models/pager.php:54, models/pager.php:101, models/pager.php:254, models/pager.php:300, models/pager.php:498, models/pager.php:628, view/options.php:108
 msgid "Delete"
 msgstr ""
 
-#: models/pager.php:58, models/pager.php:102, models/pager.php:259, models/pager.php:301
+#: models/pager.php:59, models/pager.php:103, models/pager.php:260, models/pager.php:302
 msgid "Disable"
 msgstr ""
 
-#: models/pager.php:60, models/pager.php:101, models/pager.php:261, models/pager.php:300
+#: models/pager.php:61, models/pager.php:102, models/pager.php:262, models/pager.php:301
 msgid "Enable"
 msgstr ""
 
-#: models/pager.php:103
+#: models/pager.php:104
 msgid "Reset Hits"
 msgstr ""
 
-#: models/pager.php:150
+#: models/pager.php:151
 msgid "No group filter"
 msgstr ""
 
-#: models/pager.php:242, view/group-edit.php:4, view/group-list.php:30
+#: models/pager.php:243, view/group-edit.php:4, view/group-list.php:30
 msgid "Name"
 msgstr ""
 
-#: models/pager.php:243, models/pager.php:709, view/submenu.php:6
+#: models/pager.php:244, models/pager.php:710, view/submenu.php:6
 msgid "Redirects"
 msgstr ""
 
-#: models/pager.php:244, models/pager.php:708, view/group-edit.php:8
+#: models/pager.php:245, models/pager.php:709, view/group-edit.php:8
 msgid "Module"
 msgstr ""
 
-#: models/pager.php:254
+#: models/pager.php:255
 msgid "View Redirects"
 msgstr ""
 
-#: models/pager.php:278
+#: models/pager.php:279
 msgid "Unknown"
 msgstr ""
 
-#: models/pager.php:355
+#: models/pager.php:356
 msgid "All modules"
 msgstr ""
 
-#: models/pager.php:440, models/pager.php:574
+#: models/pager.php:441, models/pager.php:575
 msgid "Add redirect"
 msgstr ""
 
-#: models/pager.php:477, models/pager.php:608
+#: models/pager.php:478, models/pager.php:609
 msgid "Date"
 msgstr ""
 
-#: models/pager.php:478, models/pager.php:609, view/add.php:13, view/item-edit.php:4
+#: models/pager.php:479, models/pager.php:610, view/add.php:13, view/item-edit.php:4
 msgid "Source URL"
 msgstr ""
 
-#: models/pager.php:480, models/pager.php:611
+#: models/pager.php:481, models/pager.php:612
 msgid "IP"
 msgstr ""
 
-#: models/pager.php:580
+#: models/pager.php:581
 msgid "Show only this IP"
 msgstr ""
 
-#: models/pager.php:719
+#: models/pager.php:720
 msgid "Configure"
 msgstr ""
 
-#: models/redirect.php:161
+#: models/redirect.php:160
 msgid "Source and target URL must be different"
 msgstr ""
 
-#: models/redirect.php:167
+#: models/redirect.php:166
 msgid "You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>)."
 msgstr ""
 
-#: models/redirect.php:175
+#: models/redirect.php:174
 msgid "Invalid group when creating redirect"
 msgstr ""
 
-#: models/redirect.php:178
+#: models/redirect.php:177
 msgid "Invalid source URL when creating redirect for given match type"
 msgstr ""
 
-#: models/redirect.php:384
+#: models/redirect.php:394
 msgid "Redirect to URL"
 msgstr ""
 
-#: models/redirect.php:385
+#: models/redirect.php:395
 msgid "Redirect to random post"
 msgstr ""
 
-#: models/redirect.php:386
+#: models/redirect.php:396
 msgid "Pass-through"
 msgstr ""
 
-#: models/redirect.php:387
+#: models/redirect.php:397
 msgid "Error (404)"
 msgstr ""
 
-#: models/redirect.php:388
+#: models/redirect.php:398
 msgid "Do nothing"
 msgstr ""
 
@@ -287,69 +287,69 @@ msgstr ""
 msgid "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module."
 msgstr ""
 
-#: modules/wordpress.php:127
+#: modules/wordpress.php:133
 msgid "WordPress"
 msgstr ""
 
-#: modules/wordpress.php:131
+#: modules/wordpress.php:137
 msgid "WordPress-powered redirects. This requires no further configuration, and you can track hits."
 msgstr ""
 
-#: redirection-admin.php:133
+#: redirection-admin.php:139
 msgid "Settings"
 msgstr ""
 
-#: redirection-admin.php:145
+#: redirection-admin.php:151
 msgid "Log entries"
 msgstr ""
 
-#: redirection-admin.php:156, redirection-admin.php:156
+#: redirection-admin.php:162, redirection-admin.php:162
 msgid "Redirection"
 msgstr ""
 
-#: redirection-admin.php:223, redirection-admin.php:239
+#: redirection-admin.php:229, redirection-admin.php:245
 msgid "Your options were updated"
 msgstr ""
 
-#: redirection-admin.php:248
+#: redirection-admin.php:254
 msgid "Redirection data has been deleted and the plugin disabled"
 msgstr ""
 
-#: redirection-admin.php:255
+#: redirection-admin.php:261
 msgid "%d redirection was successfully imported"
 msgid_plural "%d redirections were successfully imported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redirection-admin.php:257
+#: redirection-admin.php:263
 msgid "No items were imported"
 msgstr ""
 
-#: redirection-admin.php:269, redirection-admin.php:289
+#: redirection-admin.php:275, redirection-admin.php:295
 msgid "Your logs have been deleted"
 msgstr ""
 
-#: redirection-admin.php:303
+#: redirection-admin.php:309
 msgid "Your group was added successfully"
 msgstr ""
 
-#: redirection-admin.php:306
+#: redirection-admin.php:312
 msgid "Please specify a group name"
 msgstr ""
 
-#: redirection-admin.php:482
+#: redirection-admin.php:488
 msgid "Sorry, but your redirection was not created"
 msgstr ""
 
-#: redirection-admin.php:488
+#: redirection-admin.php:494
 msgid "Invalid module"
 msgstr ""
 
-#: redirection-admin.php:504
+#: redirection-admin.php:510
 msgid "Download"
 msgstr ""
 
-#: redirection-admin.php:505, view/group-edit.php:22, view/item-edit.php:33, view/module-edit.php:13
+#: redirection-admin.php:511, view/group-edit.php:22, view/item-edit.php:33, view/module-edit.php:13
 msgid "Cancel"
 msgstr ""
 
