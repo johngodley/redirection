@@ -15,7 +15,9 @@ class Url_Action extends Red_Action {
 	}
 
 	function process_before( $code, $target ) {
-		wp_redirect( $target, $code );
-		die();
+		$redirect = wp_redirect( $target, $code );
+		if ( $redirect ) {
+			die();
+		}
 	}
 }
