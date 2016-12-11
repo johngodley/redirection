@@ -110,10 +110,10 @@ class Red_Htaccess {
 		return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
 	}
 
-	private function action_error( $data, $code, $regex) {
-		if ( $code === '410' )
-			return '/ [G,L]';
-		return '/ [F,L]';
+	private function action_error( $data, $code, $regex ) {
+		if ( $code === 410 )
+			return '/ [G]';
+		return '/ [F]';
 	}
 
 	private function action_url( $data, $code, $regex ) {
