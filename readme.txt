@@ -100,10 +100,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.5 =
 * Fix no group created on install
 * Fix missing export key on install
-* Add 408 HTTP code, props to radenui
+* Add 308 HTTP code, props to radenui
 * Fix imported URLs set to regex, props to alpipego
 * Fix sorting of URLs, props to JordanReiter
-* Don't cache 407s, props to rmarchant
+* Don't cache 307s, props to rmarchant
 * Abort redirect exit if no redirection happened, props to junc
 
 = 2.4.5 =
