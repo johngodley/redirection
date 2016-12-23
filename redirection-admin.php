@@ -41,6 +41,8 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
+
+		$this->export_rss();
 	}
 
 	public static function plugin_activated() {
@@ -160,6 +162,20 @@ class Redirection_Admin {
 
 	function admin_menu() {
 		add_management_page( __( 'Redirection', 'redirection' ), __( 'Redirection', 'redirection' ), apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
+	}
+
+	function export_rss() {
+		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' && $_GET['sub'] === 'rss' ) {
+			$options = red_get_options();
+
+			if ( $_GET['token'] === $options['token'] && !empty( $options['token'] ) ) {
+				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
+
+				$exporter = Red_FileIO::create( 'rss' );
+				$exporter->export( $items );
+				die();
+			}
+		}
 	}
 
 	function admin_screen() {
