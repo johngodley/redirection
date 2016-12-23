@@ -103,6 +103,15 @@ and a line at the end';
 		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[8] ) );
 	}
 
+	public function testRedirectUrlWithTargetQuery() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_data' => '/target?test=1&test=2%20', 'action_code' => 301 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteRule ^/my-test$ /target?test=1&test=2%20 [R=301,L]', trim( $lines[5] ) );
+	}
+
 	public function testInvalidRegex() {
 		$regex = "something\nwith newline";
 		$htaccess = new Red_Htaccess();
