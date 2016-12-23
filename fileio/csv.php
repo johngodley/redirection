@@ -34,7 +34,7 @@ class Red_Csv_File extends Red_FileIO {
 		return '"'.str_replace( '"', '""', $item ).'"';
 	}
 
-	function load( $group, $data, $filename = '' ) {
+	public function load( $group, $filename, $data ) {
 		$count = 0;
 		$file  = fopen( $filename, 'r' );
 
