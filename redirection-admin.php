@@ -210,15 +210,14 @@ class Redirection_Admin {
 	}
 
 	function inject() {
-		$options = red_get_options();
-
 		if ( isset( $_POST['id'] ) && ! isset( $_POST['action'] ) ) {
 			wp_safe_redirect( add_query_arg( 'id', intval( $_POST['id'] ), $_SERVER['REQUEST_URI'] ) );
 			die();
 		}
 
-		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['token'] === $options['token'] && $_GET['page'] === 'redirection.php' ) {
+		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
 			$exporter = Red_FileIO::create( $_GET['sub'] );
+
 			if ( $exporter ) {
 				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
 
