@@ -14,8 +14,6 @@ $expiry = array(
 ?>
 
 <div class="wrap">
-	<?php screen_icon( ); ?>
-
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
 	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
