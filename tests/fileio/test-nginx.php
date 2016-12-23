@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/../fileio/nginx.php';
+require dirname( __FILE__ ) . '/../../fileio/nginx.php';
 
 class NginxTest extends WP_UnitTestCase {
 	public function testEmpty() {

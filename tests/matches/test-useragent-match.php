@@ -1,20 +1,19 @@
 <?php
 
-require dirname( __FILE__ ) . '/../matches/referrer.php';
+require dirname( __FILE__ ) . '/../../matches/user-agent.php';
 
-class ReferrerMatchTest extends WP_UnitTestCase {
+class UserAgentMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
-		$match = new Referrer_Match();
+		$match = new Agent_Match();
 		$saved = array(
 			'url_from' => '/some/url',
 			'url_notfrom' => '/some/url',
-			'regex' => false,
-			'referrer' => "some",
+			'user_agent' => 'user agent',
 		);
 		$source = array(
 			'url_from' => "/some/url\nsomethingelse1",
 			'url_notfrom' => "/some/url\nsomethingelse2",
-			'referrer' => "some\nreferrer",
+			'user_agent' => "user agent\nhere",
 		);
 
 		$this->assertEquals( $match->save( $source ), $saved );

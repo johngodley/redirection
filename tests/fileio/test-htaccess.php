@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/../models/htaccess.php';
+require dirname( __FILE__ ) . '/../../models/htaccess.php';
 
 class HtaccessTest extends WP_UnitTestCase {
 	private function getExisting() {
