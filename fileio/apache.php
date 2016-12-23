@@ -26,7 +26,7 @@ class Red_Apache_File extends Red_FileIO {
 		return $htaccess->get();
 	}
 
-	function load( $group, $data, $filename = '' ) {
+	public function load( $group, $filename, $data ) {
 		// Remove any comments
 		$data = preg_replace( '@#(.*)@', '', $data );
 		$data = str_replace( "\n", "\r", $data );
@@ -80,9 +80,9 @@ class Red_Apache_File extends Red_FileIO {
 			// Add items to group
 			if ( count( $items ) > 0 ) {
 				foreach ( $items as $item ) {
-					$item['group_id']  = $group;
+					$item['group_id'] = $group;
 					$item['red_action'] = 'url';
-					$item['match']  = 'url';
+					$item['match'] = 'url';
 
 					if ( $item['code'] === 0 )
 						$item['red_action'] = 'pass';

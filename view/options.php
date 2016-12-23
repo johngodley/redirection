@@ -96,6 +96,11 @@ $expiry = array(
 		</select>
 		<input class="button-primary" type="submit" name="import" value="<?php _e( 'Upload', 'redirection' ); ?>"/>
 	</form>
+
+	<h5>CSV Format</h5>
+	<code>
+		Source URL, Target URL, [Regex 0=false, 1=true], [HTTP Code]
+	</code>
 </div>
 
 <div class="wrap">
