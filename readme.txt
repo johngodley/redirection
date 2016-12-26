@@ -100,6 +100,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.6 =
 * Show example CSV
 * Allow regex and redirect code to be set on import
+* Fix a bunch of database installation problems
 
 = 2.5 =
 * Fix no group created on install
