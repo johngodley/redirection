@@ -186,19 +186,17 @@ class DatabaseTest extends WP_UnitTestCase {
 
 		$database = new RE_Database();
 
-		foreach ( $database->get_all_tables() as $table => $sql ) {
-			$create = $this->getCreateTable( $table );
+		foreach ( $database->get_all_tables() as $table => $expected ) {
+			$actual = $this->getCreateTable( $table );
+			$actual = preg_replace( '/^\s+/m', '', $actual );
+			$actual = preg_replace( '/\s?COLLATE \w*/', '', $actual );
+			$actual = preg_replace( '/\).*?$/', ') '.$database->get_charset(), $actual );
 
 			// 'massage' all the SQL so we can try and match it
-			$create = preg_replace( '/^\s+/m', '', $create );
-			$sql = preg_replace( '/^\s+/m', '', $sql );
-			$sql = str_replace( 'IF NOT EXISTS ', '', $sql );
-			$sql = str_replace( 'DEFAULT CHARACTER SET utf8mb4 ', '', $sql );
-			$create = str_replace( 'COLLATE utf8mb4_unicode_ci ', '', $create );
-			$create = str_replace( ' COLLATE utf8mb4_unicode_ci,', ',', $create );
-			$create = preg_replace( '/ENGINE=.*? DEFAULT CHARSET=.*? /', '', $create );
+			$expected = preg_replace( '/^\s+/m', '', $expected );
+			$expected = str_replace( 'IF NOT EXISTS ', '', $expected );
 
-			$this->assertEquals( $sql, $create, 'Database table for '.$version.' '.$table.' does not match' );
+			$this->assertEquals( $expected, $actual, 'Database table for '.$version.' '.$table.' does not match' );
 		}
 
 		// Check deleted tables don't exist
