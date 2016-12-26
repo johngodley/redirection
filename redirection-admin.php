@@ -109,6 +109,11 @@ class Redirection_Admin {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 			$database = new RE_Database();
+
+			if ( $version === false ) {
+				$database->install();
+			}
+
 			return $database->upgrade( $version, REDIRECTION_VERSION );
 		}
 
