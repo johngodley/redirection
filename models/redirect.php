@@ -339,7 +339,7 @@ class Red_Item {
 			$count = $this->last_count + 1;
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=%d, last_access=NOW() WHERE id=%d", $count, $this->id ) );
 
-			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
+			if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) != '0.0.0.0' )
 			  $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 			elseif ( isset( $_SERVER['REMOTE_ADDR'] ) )
 			  $ip = $_SERVER['REMOTE_ADDR'];
