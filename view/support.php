@@ -1,13 +1,11 @@
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap supporter">
-	<?php screen_icon(); ?>
-
 	<h2><?php _e ('Redirection Support', 'redirection'); ?></h2>
 	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
 	<p style="clear: both; padding-top: 20px">
 		<?php _e( 'Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>.', 'redirection'); ?>
-		<?php _e( 'This will act as an incentive for me to carry on developing. You get some useful software and I get to carry on making it.  Everybody wins.', 'redirection'); ?>		
+		<?php _e( 'This will act as an incentive for me to carry on developing. You get some useful software and I get to carry on making it.  Everybody wins.', 'redirection'); ?>
 	</p>
 
 	<p><?php _e( 'Please note that a donation is just a donation - it is not a payment for support. I am not a business, this is not a product, and I\'m afraid I cannot provide paid support' ); ?></p>

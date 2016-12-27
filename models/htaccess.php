@@ -11,7 +11,11 @@ class Red_Htaccess {
 	private function encode2nd( $url ) {
 		$url = urlencode( $url );
 		$url = str_replace( '%2F', '/', $url );
+		$url = str_replace( '%3F', '?', $url );
 		$url = str_replace( '%3A', ':', $url );
+		$url = str_replace( '%3D', '=', $url );
+		$url = str_replace( '%26', '&', $url );
+		$url = str_replace( '%25', '%', $url );
 		$url = str_replace( '+', '%20', $url );
 		$url = str_replace( '%24', '$', $url );
 		return $url;
@@ -110,10 +114,10 @@ class Red_Htaccess {
 		return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
 	}
 
-	private function action_error( $data, $code, $regex) {
-		if ( $code === '410' )
-			return '/ [G,L]';
-		return '/ [F,L]';
+	private function action_error( $data, $code, $regex ) {
+		if ( $code === 410 )
+			return '/ [G]';
+		return '/ [F]';
 	}
 
 	private function action_url( $data, $code, $regex ) {
