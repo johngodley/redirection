@@ -14,6 +14,7 @@ class Random_Action extends Red_Action {
 			301 => get_status_header_desc( 301 ),
 			302 => get_status_header_desc( 302 ),
 			307 => get_status_header_desc( 307 ),
+                        308 => get_status_header_desc( 308 ),
 		);
 	}
 

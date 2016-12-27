@@ -100,7 +100,7 @@ class Red_Item {
 		if ( $first['position'] === $second['position'] )
 			return 0;
 
-		return $first['position'] < $second['position'];
+		return ($first['position'] < $second['position']) ? -1 : 1;
 	}
 
 	static function reduce_sorted_items( $item ) {
@@ -176,7 +176,7 @@ class Red_Item {
 		if ( ! $matcher )
 			return new WP_Error( 'redirect-add', __( 'Invalid source URL when creating redirect for given match type', 'redirection' ) );
 
-		$regex    = ( isset( $details['regex'] ) && $details['regex'] !== false ) ? 1 : 0;
+		$regex    = ( isset( $details['regex'] ) && (bool) $details['regex'] !== false ) ? 1 : 0;
 		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
 
 		$action = $details['red_action'];
