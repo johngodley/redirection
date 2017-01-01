@@ -1,33 +1,13 @@
 <?php
-/**
- * Redirection
- *
- * @package Redirection
- * @author John Godley
- * @copyright Copyright( C ) John Godley
- **/
-
-/*
-============================================================================================================
-This software is provided "as is" and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
-the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or
-consequential damages( including, but not limited to, procurement of substitute goods or services; loss of
-use, data, or profits; or business interruption ) however caused and on any theory of liability, whether in
-contract, strict liability, or tort( including negligence or otherwise ) arising in any way out of the use of
-this software, even if advised of the possibility of such damage.
-
-For full license details see license.txt
-============================================================================================================ */
 
 class Agent_Match extends Red_Match {
-	var $user_agent;
+	public $user_agent;
 
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
 	}
 
-	function show()	{
+	function show() {
 		$defined = array(
 			'feedburner|feedvalidator' => __( 'FeedBurner', 'redirection' ),
 			'MSIE'                     => __( 'Internet Explorer', 'redirection' ),
@@ -41,29 +21,30 @@ class Agent_Match extends Red_Match {
 		 );
 
 		?>
-		<tr>
-			<th width="100"><?php _e( 'User Agent', 'redirection' ); ?>:</th>
-			<td>
-				<input id="user_agent_<?php echo $this->id ?>" style="width: 65%" type="text" name="user_agent" value="<?php echo esc_attr( $this->user_agent ); ?>"/>
-				<select style="width: 30%" class="change-user-agent">
-					<?php foreach ( $defined AS $key => $value ) : ?>
-						<option value="<?php echo $key ?>"<?php if ( $key == $this->user_agent ) echo ' selected="selected"' ?>><?php echo esc_html( $value ) ?></option>
-					<?php endforeach; ?>
-				</select>
-			</td>
-		</tr>
-		<?php if ( $this->action->can_change_code() ) : ?>
-		<tr>
-			<th><?php _e( 'HTTP Code', 'redirection' ); ?>:</th>
-			<td>
-				<select name="action_code">
-					<?php $this->action->display_actions(); ?>
-				</select>
-			</td>
-		</tr>
-		<?php endif; ?>
+<tr>
+	<th width="100"><?php _e( 'User Agent', 'redirection' ); ?>:</th>
+	<td>
+		<input id="user_agent_<?php echo $this->id ?>" style="width: 65%" type="text" name="user_agent" value="<?php echo esc_attr( $this->user_agent ); ?>"/>
+		<select style="width: 30%" class="change-user-agent">
+			<?php foreach ( $defined as $key => $value ) : ?>
+				<option value="<?php echo $key ?>"<?php if ( $key === $this->user_agent ) echo ' selected="selected"' ?>><?php echo esc_html( $value ) ?></option>
+			<?php endforeach; ?>
+		</select>
+	</td>
+</tr>
 
-		<?php if ( $this->action->can_perform_action() ) : ?>
+<?php if ( $this->action->can_change_code() ) : ?>
+<tr>
+	<th><?php _e( 'HTTP Code', 'redirection' ); ?>:</th>
+	<td>
+		<select name="action_code">
+			<?php $this->action->display_actions(); ?>
+		</select>
+	</td>
+</tr>
+<?php endif; ?>
+
+<?php if ( $this->action->can_perform_action() ) : ?>
 		<tr>
 			<th></th>
 			<td>
@@ -93,19 +74,22 @@ class Agent_Match extends Red_Match {
 				<input style="width: 95%" type="text" name="url_notfrom" value="<?php echo esc_attr( $this->url_notfrom ); ?>" id="new"/><br/>
 			</td>
 		</tr>
-		<?php endif; ?>
-		<?php
+<?php endif;
 	}
 
-	function save( $details )	{
+	function save( $details ) {
 		if ( isset( $details['target'] ) )
-			$details['url_from'] = $details['target'];
+			$details['url_from'] = $this->sanitize_url( $details['target'] );
 
 		return array(
-			'url_from'    => isset( $details['url_from'] ) ? $details['url_from'] : false,
-			'url_notfrom' => isset( $details['url_notfrom'] ) ? $details['url_notfrom'] : false,
-			'user_agent'  => isset( $details['user_agent'] ) ? $details['user_agent'] : false
+			'url_from'    => isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : false,
+			'url_notfrom' => isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : false,
+			'user_agent'  => isset( $details['user_agent'] ) ? $this->sanitize_agent( $details['user_agent'] ) : false,
 		);
+	}
+
+	private function sanitize_agent( $agent ) {
+		return $this->sanitize_url( $agent );
 	}
 
 	function initialize( $url ) {
@@ -121,12 +105,12 @@ class Agent_Match extends Red_Match {
 		// Check if referrer matches
 		if ( preg_match( '@'.str_replace( '@', '\\@', $this->user_agent ).'@i', $_SERVER['HTTP_USER_AGENT'], $matches ) > 0 )
 			return preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $this->url_from, $url );
-		elseif ( $this->url_notfrom != '' )
+		elseif ( $this->url_notfrom !== '' )
 			return $this->url_notfrom;
 		return false;
 	}
 
-	function match_name()	{
+	function match_name() {
 		return sprintf( 'user agent - %s', $this->user_agent );
 	}
 }

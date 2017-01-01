@@ -36,7 +36,7 @@
 				<th><?php _e( 'Group', 'redirection' ); ?>:</th>
 				<td>
 					<select name="group_id">
-						<?php echo $this->select( Red_Group::get_for_select(), $group )?>
+						<?php echo $this->select( Red_Group::get_for_select(), ( isset( $group ) ? intval( $group ) : '' ) )?>
 					</select>
 				</td>
 			</tr>

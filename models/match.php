@@ -1,16 +1,16 @@
 <?php
 
 class Red_Match {
-	var $url;
+	public $url;
 
-	function Red_Match( $values = '' ) {
+	function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->url = $values;
 
 			$obj = maybe_unserialize( $values );
 
 			if ( is_array( $obj ) ) {
-				foreach ( $obj AS $key => $value ) {
+				foreach ( $obj as $key => $value ) {
 					$this->$key = $value;
 				}
 			}
@@ -19,7 +19,7 @@ class Red_Match {
 
 	function data( $details ) {
 		$data = $this->save( $details );
-		if ( count( $data ) == 1 && !is_array( current( $data ) ) )
+		if ( count( $data ) === 1 && ! is_array( current( $data ) ) )
 			$data = current( $data );
 		else
 			$data = serialize( $data );
@@ -45,13 +45,23 @@ class Red_Match {
 		return false;
 	}
 
+	function sanitize_url( $url ) {
+		// No new lines
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Clean control codes
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+
+		return $url;
+	}
+
 	static function create( $name, $data = '' ) {
 		$avail = self::available();
-		if ( isset( $avail[strtolower( $name )] ) ) {
+		if ( isset( $avail[ strtolower( $name ) ] ) ) {
 			$classname = $name.'_match';
 
-			if ( !class_exists( strtolower( $classname ) ) )
-				include( dirname( __FILE__ ).'/../matches/'.$avail[strtolower( $name )] );
+			if ( ! class_exists( strtolower( $classname ) ) )
+				include( dirname( __FILE__ ).'/../matches/'.$avail[ strtolower( $name ) ] );
 			return new $classname( $data );
 		}
 
@@ -62,16 +72,16 @@ class Red_Match {
 		$data = array();
 
 		$avail = self::available();
-		foreach ( $avail AS $name => $file ) {
+		foreach ( $avail as $name => $file ) {
 			$obj = self::create( $name );
-			$data[$name] = $obj->name();
+			$data[ $name ] = $obj->name();
 		}
 
 		return $data;
 	}
 
 	static function available() {
-	 	return array (
+	 	return array(
 			'url'      => 'url.php',
 			'referrer' => 'referrer.php',
 			'agent'    => 'user-agent.php',

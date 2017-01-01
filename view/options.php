@@ -1,4 +1,4 @@
-<?php if( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
+<?php if ( ! defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
 
 <?php
 
@@ -14,8 +14,6 @@ $expiry = array(
 ?>
 
 <div class="wrap">
-	<?php screen_icon( ); ?>
-
   <h2><?php _e( 'Options', 'redirection' ) ?></h2>
 	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
@@ -34,7 +32,7 @@ $expiry = array(
 			<th align="right"><?php _e( 'Redirect Logs', 'redirection' ); ?>:</th>
 			<td>
 				<select name="expire_redirect">
-					<?php echo $this->select( $expiry, $options['expire_redirect'] ); ?>
+					<?php echo $this->select( $expiry, intval( $options['expire_redirect'] ) ); ?>
 				</select>
 
 				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
@@ -44,7 +42,7 @@ $expiry = array(
 			<th align="right"><?php _e( '404 Logs', 'redirection' ); ?>:</th>
 			<td>
 				<select name="expire_404">
-					<?php echo $this->select( $expiry, $options['expire_404'] ); ?>
+					<?php echo $this->select( $expiry, intval( $options['expire_404'] ) ); ?>
 				</select>
 
 				<?php _e( '(time to keep logs for)', 'redirection' ); ?>
@@ -55,21 +53,21 @@ $expiry = array(
 			<td>
 				<select name="monitor_post">
 					<option value="0"><?php _e( 'Don\'t monitor', 'redirection' ); ?></option>
-					<?php echo $this->select( $groups, $options['monitor_post'] );?>
+					<?php echo $this->select( $groups, intval( $options['monitor_post'] ) );?>
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<th align="right"><?php _e( 'RSS Token', 'redirection' ); ?>:</th>
 			<td>
-				<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token']  ) ?>"/><br/>
+				<input class="regular-text" size="5" type="text" name="token" value="<?php echo esc_attr( $options['token'] ) ?>"/><br/>
 				<span class="sub"><?php _e( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)', 'redirection' ); ?></span>
 			</td>
 		</tr>
 		<tr>
 	      	<th valign="top" align="right"><?php _e( 'Auto-generate URL', 'redirection' ) ?>:</th>
 	      	<td>
-				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target']  ) ?>"/>
+				<input type="text" name="auto_target" style="width: 65%" value="<?php echo esc_attr( $options['auto_target'] ) ?>"/>
 				<br/>
 				<span class="sub"><?php _e( 'This will be used to auto-generate a URL if no URL is given.  You can use the special tags <code>$dec$</code> or <code>$hex$</code> to have a unique ID inserted (either decimal or hex)', 'redirection' ); ?></span>
 			</td>
@@ -96,6 +94,11 @@ $expiry = array(
 		</select>
 		<input class="button-primary" type="submit" name="import" value="<?php _e( 'Upload', 'redirection' ); ?>"/>
 	</form>
+
+	<h5>CSV Format</h5>
+	<code>
+		Source URL, Target URL, [Regex 0=false, 1=true], [HTTP Code]
+	</code>
 </div>
 
 <div class="wrap">
@@ -105,6 +108,6 @@ $expiry = array(
 	<form action="" method="post" accept-charset="utf-8">
 			<?php wp_nonce_field( 'redirection-delete_plugin' ); ?>
 
-			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>"/>
+			<input class="button-primary" type="submit" name="delete" value="<?php _e( 'Delete', 'redirection' ) ?>" onclick="return confirm( '<?php esc_attr_e( "Are you sure you want to delete everything?" );?>')"/>
 	</form>
 </div>

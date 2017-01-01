@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/../models/htaccess.php';
+require dirname( __FILE__ ) . '/../../models/htaccess.php';
 
 class HtaccessTest extends WP_UnitTestCase {
 	private function getExisting() {
@@ -79,10 +79,21 @@ and a line at the end';
 		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[6] ) );
 	}
 
+	public function testError() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test', 'action_code' => 404 ) ) );
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test.php', 'action_code' => 410 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteRule ^/my-test$ / [F]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^/my-test\.php$ / [G]', trim( $lines[6] ) );
+	}
+
 	public function testRedirectUrlWithQuery() {
 		$htaccess = new Red_Htaccess();
-		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test?query=1', 'action_code' => 301 ) ) );
-		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php?query=1&thing=2', 'action_code' => 302 ) ) );
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test?query=1', 'action_code' => 301 ) ) );
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php?query=1&thing=2', 'action_code' => 302 ) ) );
 		$file = $htaccess->get();
 		$lines = explode( "\n", $file );
 
@@ -91,5 +102,25 @@ and a line at the end';
 		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1&thing=2$', trim( $lines[7] ) );
 		$this->assertEquals( 'RewriteRule ^/my-test\.php$  [R=302,L]', trim( $lines[8] ) );
 	}
-}
 
+	public function testRedirectUrlWithTargetQuery() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_data' => '/target?test=1&test=2%20', 'action_code' => 301 ) ) );
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'RewriteRule ^/my-test$ /target?test=1&test=2%20 [R=301,L]', trim( $lines[5] ) );
+	}
+
+	public function testInvalidRegex() {
+		$regex = "something\nwith newline";
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => $regex, 'action_data' => $regex, 'action_code' => 301 ) ) );
+
+		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( count( $lines ), 9 );
+		$this->assertEquals( 'RewriteRule something something%0Awith%20newline [R=301,L]', trim( $lines[5] ) );
+	}
+}

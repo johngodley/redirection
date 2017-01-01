@@ -1,33 +1,13 @@
 <?php
-/**
- * Redirection
- *
- * @package Redirection
- * @author John Godley
- * @copyright Copyright( C ) John Godley
- **/
-
-/*
-============================================================================================================
-This software is provided "as is" and any express or implied warranties, including, but not limited to, the
-implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
-the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or
-consequential damages( including, but not limited to, procurement of substitute goods or services; loss of
-use, data, or profits; or business interruption ) however caused and on any theory of liability, whether in
-contract, strict liability, or tort( including negligence or otherwise ) arising in any way out of the use of
-this software, even if advised of the possibility of such damage.
-
-For full license details see license.txt
-============================================================================================================ */
 
 class Login_Match extends Red_Match {
-	var $user_agent = '';
+	public $user_agent = '';
 
 	function name() {
 		return __( 'URL and login status', 'redirection' );
 	}
 
-	function show()	{
+	function show() {
 		?>
 		<tr>
 			<th></th>
@@ -64,17 +44,17 @@ class Login_Match extends Red_Match {
 		<?php
 	}
 
-	function save( $details )	{
+	function save( $details ) {
 		if ( isset( $details['target'] ) )
-			$details['target'] = $details;
+			$details['target'] = $this->sanitize_url( $details );
 
 		return array(
-			'url_loggedin' => isset( $details['url_loggedin'] ) ? $details['url_loggedin'] : false,
-			'url_loggedout' => isset( $details['url_loggedout'] ) ? $details['url_loggedout'] : false,
+			'url_loggedin' => isset( $details['url_loggedin'] ) ? $this->sanitize_url( $details['url_loggedin'] ) : false,
+			'url_loggedout' => isset( $details['url_loggedout'] ) ? $this->sanitize_url( $details['url_loggedout'] ) : false,
 		);
 	}
 
-	function initialize( $url )	{
+	function initialize( $url ) {
 		$this->url = array( $url, '' );
 	}
 
@@ -89,11 +69,14 @@ class Login_Match extends Red_Match {
 		return $target;
 	}
 
-	function wants_it()	{
+	function wants_it() {
 		if ( is_user_logged_in() && strlen( $this->url_loggedin ) > 0 )
 			return true;
-		if ( !is_user_logged_in() && strlen( $this->url_loggedout ) > 0 )
+
+		if ( ! is_user_logged_in() && strlen( $this->url_loggedout ) > 0 )
 			return true;
+
+		return false;
 	}
 
 	function match_name() {

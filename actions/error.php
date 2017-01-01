@@ -9,10 +9,10 @@ class Error_Action extends Red_Action {
 		return false;
 	}
 
-	function action_codes()	{
-		return array (
+	function action_codes() {
+		return array(
 			404 => get_status_header_desc( 404 ),
-			410 => get_status_header_desc( 410 )
+			410 => get_status_header_desc( 410 ),
 		);
 	}
 

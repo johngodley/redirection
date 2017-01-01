@@ -17,9 +17,9 @@ class Apache_Module extends Red_Module {
 	protected function load( $data ) {
 		$mine = array( 'location', 'canonical' );
 
-		foreach ( $mine AS $key ) {
-			if ( isset( $data[$key] ) )
-				$this->$key = $data[$key];
+		foreach ( $mine as $key ) {
+			if ( isset( $data[ $key ] ) )
+				$this->$key = $data[ $key ];
 		}
 	}
 
@@ -34,7 +34,7 @@ class Apache_Module extends Red_Module {
 		// Produce the .htaccess file
 		$htaccess = new Red_Htaccess();
 		if ( is_array( $items ) && count( $items ) > 0 ) {
-			foreach ( $items AS $item ) {
+			foreach ( $items as $item ) {
 				if ( $item->is_enabled() )
 					$htaccess->add( $item );
 			}
@@ -51,7 +51,7 @@ class Apache_Module extends Red_Module {
 			'canonical' => isset( $data['canonical'] ) ? $data['canonical'] : false,
 		);
 
-		if ( !empty( $this->location ) && $save['location'] !== $this->location ) {
+		if ( ! empty( $this->location ) && $save['location'] !== $this->location ) {
 			// Location has moved. Remove from old location
 			$htaccess = new Red_Htaccess();
 			$htaccess->save( $this->location, '' );
@@ -63,7 +63,7 @@ class Apache_Module extends Red_Module {
 			return __( 'Cannot write to chosen location - check path and permissions.', 'redirection' );
 
 		$options = red_get_options();
-		$options['modules'][self::MODULE_ID] = $save;
+		$options['modules'][ self::MODULE_ID ] = $save;
 
 		update_option( 'redirection_options', $options );
 		return true;
@@ -98,7 +98,7 @@ class Apache_Module extends Red_Module {
 	}
 
 	public function get_config() {
-		if ( !empty( $this->location ) )
+		if ( ! empty( $this->location ) )
 			return array( sprintf( __( '<code>.htaccess</code> saved to %s', 'redirection' ), esc_html( $this->location ) ) );
 
 		return array();

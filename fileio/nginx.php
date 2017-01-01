@@ -20,12 +20,12 @@ class Red_Nginx_File extends Red_FileIO {
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
 		$lines[] = '# Created by Redirection';
-		$lines[] = '# '.date ('r');
+		$lines[] = '# '.date( 'r' );
 		$lines[] = '# Redirection '.trim( $version['Version'] ).' - http://urbangiraffe.com/plugins/redirection/';
 		$lines[] = '';
 		$lines[] = 'server {';
 
-		foreach ( $items AS $item ) {
+		foreach ( $items as $item ) {
 			$lines[] = $this->get_nginx_item( $item );
 		}
 
@@ -91,8 +91,11 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function add_redirect( $source, $target, $code ) {
+		$source = preg_replace( "/[\r\n\t].*?$/s", '', $source );
+		$source = preg_replace( '/[^\PC\s]/u', '', $source );
+		$target = preg_replace( "/[\r\n\t].*?$/s", '', $target );
+		$target = preg_replace( '/[^\PC\s]/u', '', $target );
+
 		return 'rewrite ^'.$source.'$ '.$target.' '.$code.';';
 	}
 }
-
-

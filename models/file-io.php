@@ -1,7 +1,7 @@
 <?php
 
 abstract class Red_FileIO {
-	var $items = array();
+	public $items = array();
 
 	public static function create( $type ) {
 		$exporter = false;
@@ -30,23 +30,22 @@ abstract class Red_FileIO {
 		if ( is_uploaded_file( $file['tmp_name'] ) ) {
 			$parts = pathinfo( $file['name'] );
 
-			if ( isset( $parts['extension'] ) && $parts['extension'] == 'csv' ) {
+			if ( isset( $parts['extension'] ) && $parts['extension'] === 'csv' ) {
 				include dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
 				$importer = new Red_Csv_File();
 				$data = '';
-			}
-			else {
+			} else {
 				include dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
 				$importer = new Red_Apache_File();
-				$data = @file_get_contents ($file['tmp_name']);
+				$data = @file_get_contents( $file['tmp_name'] );
 			}
 
-			return $importer->load( $group, $data, $file['tmp_name'] );
+			return $importer->load( $group, $file['tmp_name'], $data );
 		}
 
 		return 0;
 	}
 
 	abstract function export( array $items );
-	abstract function load( $group, $data, $filename = '' );
+	abstract function load( $group, $filename, $data );
 }
