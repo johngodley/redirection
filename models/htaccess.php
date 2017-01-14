@@ -6,7 +6,7 @@ class Red_Htaccess {
 
 	private function encode_from( $url, $regex = false ) {
 		if ( $regex ) 
-			return $this->encode( $url )
+			return $this->encode( $url );
 		return '^'.$this->encode( $url ).'$';
 	}
 
