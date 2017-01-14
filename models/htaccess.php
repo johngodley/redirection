@@ -4,7 +4,9 @@ class Red_Htaccess {
 	private $items = array();
 	const INSERT_REGEX = '@\n?# Created by Redirection(.*?)# End of Redirection\n?@sm';
 
-	private function encode_from( $url ) {
+	private function encode_from( $url, $regex = false ) {
+		if ( $regex ) 
+			return $this->encode( $url );
 		return '^'.$this->encode( $url ).'$';
 	}
 
@@ -89,7 +91,7 @@ class Red_Htaccess {
 		}
 
 		$to   = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->is_regex() );
-		$from = $this->encode_from( $url );
+		$from = $this->encode_from( $url, $item->is_regex() );
 
 		if ( $item->is_regex() )
 			$from = $this->encode_regex( $item->get_url() );
