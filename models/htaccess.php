@@ -82,7 +82,7 @@ class Red_Htaccess {
 	private function add_url( $item, $match ) {
 		$url = $item->get_url();
 
-		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
+		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
