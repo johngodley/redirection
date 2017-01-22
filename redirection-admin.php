@@ -166,7 +166,7 @@ class Redirection_Admin {
 	}
 
 	function admin_menu() {
-		add_management_page( __( 'Redirection', 'redirection' ), __( 'Redirection', 'redirection' ), apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
+		add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 	}
 
 	function export_rss() {
