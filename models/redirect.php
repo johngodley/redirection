@@ -277,8 +277,9 @@ class Red_Item {
 			// Save this
 			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
 
+			Red_Module::flush( $this->group_id );
+
 			if ( $old_group !== $this->group_id ) {
-				Red_Module::flush( $this->group_id );
 				Red_Module::flush( $old_group );
 			}
 		}
