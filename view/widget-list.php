@@ -25,5 +25,8 @@
 		}
 		echo '</ul>';
 	}
+	if ( ! empty( $link ) ) {
+		echo '<a href="' . $link . '">' . __( 'View All', 'redirection' ) . '</a>';
+	}
 	?>
 </div>

@@ -584,16 +584,18 @@ class Redirection_Admin {
 			// Top 404s.
 			$id    = 'redirection-widget-top-404s';
 			$title = __( 'Top 404s', 'redirection' );
+			$link  = 'tools.php?page=' . basename( REDIRECTION_FILE ) . '&sub=404s';
 			$table = $wpdb->prefix . 'redirection_404';
 			$rows  = $wpdb->get_results( "SELECT url, count(distinct id) as last_count FROM {$table} " . $wpdb->prepare( "GROUP BY url ORDER BY last_count DESC, url LIMIT %d", $records ) );
-			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'rows' => $rows ) );
+			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'link' => $link, 'rows' => $rows ) );
 
 			// Top Redirects.
 			$id    = 'redirection-widget-top-redirects';
 			$title = __( 'Top Redirects', 'redirection' );
+			$link  = 'tools.php?page=' . basename( REDIRECTION_FILE );
 			$table = $wpdb->prefix . 'redirection_items';
 			$rows  = $wpdb->get_results( "SELECT url, last_count FROM {$table} WHERE status = 'enabled' AND last_count > 0 " . $wpdb->prepare( "ORDER BY last_count DESC, url LIMIT %d", $records ) );
-			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'rows' => $rows ) );
+			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'link' => $link, 'rows' => $rows ) );
 			?>
 		</div>
 		<?php
