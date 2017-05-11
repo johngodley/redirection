@@ -23,6 +23,7 @@ class Redirection_Admin {
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 		add_action( 'load-tools_page_redirection', array( &$this, 'redirection_head' ) );
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( &$this, 'plugin_settings' ), 10, 4 );
+		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
 
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
@@ -546,6 +547,56 @@ class Redirection_Admin {
 		header( 'Content-Type: application/json' );
 		echo wp_json_encode( $data );
 		die();
+	}
+
+	/**
+	 * Registers the widget and content callback.
+	 */
+	public function add_dashboard_widget() {
+		$version = get_plugin_data( REDIRECTION_FILE );
+		$version = $version['Version'];
+
+		wp_enqueue_style( 'redirection-widget', plugin_dir_url( REDIRECTION_FILE ) . 'widget.css', $version );
+
+		wp_add_dashboard_widget(
+			'redirection',
+			'Redirection',
+			array( $this, 'dashboard_widget_content' )
+		);
+	}
+
+	/**
+	 * Provides the initial content for the widget.
+	 */
+	public function dashboard_widget_content() {
+		global $wpdb;
+
+		$records = 5;
+
+		if ( defined( 'REDIRECTION_WIDGET_TOP' ) && is_numeric( REDIRECTION_WIDGET_TOP ) && 0 < REDIRECTION_WIDGET_TOP ) {
+			$records = REDIRECTION_WIDGET_TOP;
+		}
+
+		?>
+		<!-- Main content -->
+		<div id="redirection-widget">
+			<?php
+			// Top 404s.
+			$id    = 'redirection-widget-top-404s';
+			$title = __( 'Top 404s', 'redirection' );
+			$table = $wpdb->prefix . 'redirection_404';
+			$rows  = $wpdb->get_results( "SELECT url, count(distinct id) as last_count FROM {$table} " . $wpdb->prepare( "GROUP BY url ORDER BY last_count DESC, url LIMIT %d", $records ) );
+			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'rows' => $rows ) );
+
+			// Top Redirects.
+			$id    = 'redirection-widget-top-redirects';
+			$title = __( 'Top Redirects', 'redirection' );
+			$table = $wpdb->prefix . 'redirection_items';
+			$rows  = $wpdb->get_results( "SELECT url, last_count FROM {$table} WHERE status = 'enabled' AND last_count > 0 " . $wpdb->prepare( "ORDER BY last_count DESC, url LIMIT %d", $records ) );
+			$this->render( 'widget-list', array( 'id' => $id, 'title' => $title, 'rows' => $rows ) );
+			?>
+		</div>
+		<?php
 	}
 }
 
