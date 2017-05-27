@@ -14,7 +14,7 @@ class Red_Csv_File extends Red_FileIO {
 		fputcsv( $stdout, array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
 
 		foreach ( $items as $line ) {
-			fwrite( $stdout, $this->item_as_csv( $line ) );
+			fwrite( $stdout, $this->item_as_csv( $line )."\n" );
 		}
 	}
 
