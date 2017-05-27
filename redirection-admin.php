@@ -353,7 +353,7 @@ class Redirection_Admin {
 			$start = strpos( $readme, 'Redirection is available in' );
 			$end   = strpos( $readme, '==', $start );
 			if ( $start !== false && $end !== false ) {
-				if ( preg_match_all( '/^\* (.*?) by (.*?)/m', substr( $readme, $start, $end ), $matches ) > 0 ) {
+				if ( preg_match_all( '/^\* (.*? by .*)/m', substr( $readme, $start, $end ), $matches ) > 0 ) {
 					$locales = $matches[1];
 				}
 			}
