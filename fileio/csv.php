@@ -11,10 +11,14 @@ class Red_Csv_File extends Red_FileIO {
 
 		$stdout = fopen( 'php://output', 'w' );
 
-		fputcsv( $stdout, array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
+		$this->output_to_file( $stdout, $items );
+	}
+
+	public function output_to_file( $handle, array $items ) {
+		fputcsv( $handle, array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
 
 		foreach ( $items as $line ) {
-			fwrite( $stdout, $this->item_as_csv( $line )."\n" );
+			fwrite( $handle, $this->item_as_csv( $line ).PHP_EOL );
 		}
 	}
 
