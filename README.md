@@ -13,17 +13,36 @@ https://wordpress.org/plugins/redirection/
 
 ## Customisation
 
-The following WordPress filters are available for customisation:
-
 ### Request Information
+
+The following WordPress filters are available for customisation of a server requests:
+
 - `redirection_request_url` - The request URL
 - `redirection_request_agent` - The request user agent
 - `redirection_request_referrer` - The request referrer
 - `redirection_request_ip` - The request IP address
 
 ### Logging
+
+The following WordPress filters are available for customisation of logged data:
+
 - `redirection_404_data` - Data to be inserted into the 404 table
 - `redirection_log_data` - Data to be inserted into the redirect log table
+
+### Redirect source and target
+
+- `redirection_url_source` - The original URL used before matching a request. Return false to stop any redirection
+- `redirection_url_target` - The target URL after a request has been matched (and after any regular expression captures have been replaced). Return false to stop any redirection
+
+### Dynamic URL data
+
+The following special words can be inserted into a target URL:
+
+- `%userid%` - Insert user's ID
+- `%userlogin%` - Insert user's login name
+- `%userurl%` - Insert user's custom URL
+
+Additionally, if the target URL is a number without any slashes then Redirection will treat it as a post ID and redirect to the full URL for that post.
 
 ## Support
 
