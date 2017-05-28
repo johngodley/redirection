@@ -342,33 +342,9 @@ class Red_Item {
 
 			$options = red_get_options();
 			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 ) {
-				$log = RE_Log::create( $url, $target, $this->get_user_agent(), $this->get_ip(), $this->get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
+				$log = RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
 			}
 		}
-	}
-
-	private function get_ip() {
-		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		elseif ( isset( $_SERVER['REMOTE_ADDR'] ) )
-			return $_SERVER['REMOTE_ADDR'];
-		return '';
-	}
-
-	private function get_referrer() {
-		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			return $_SERVER['HTTP_REFERER'];
-		}
-
-		return '';
-	}
-
-	private function get_user_agent() {
-		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
-			return $_SERVER['HTTP_USER_AGENT'];
-		}
-
-		return '';
 	}
 
 	public function is_enabled() {
