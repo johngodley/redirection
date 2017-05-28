@@ -303,33 +303,15 @@ class Red_Item {
 		if ( ( $this->regex === false && ( $this->url === $url || $this->url === rtrim( $url, '/' ) || $this->url === urldecode( $url ) ) ) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', $url, $matches ) > 0) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', urldecode( $url ), $matches ) > 0) ) {
 			// Check if our match wants this URL
 			$target = $this->match->get_target( $url, $this->url, $this->regex );
+			$target = apply_filters( 'redirection_url_target', $target, $this->url );
 
-			if ( $target ) {
-				$target = $this->replace_special_tags( $target );
-
+			if ( $target && $this->is_enabled() ) {
 				$this->visit( $url, $target );
-
-				if ( $this->status === 'enabled' )
-					return $this->action->process_before( $this->action_code, $target );
+				return $this->action->process_before( $this->action_code, $target );
 			}
 		}
 
 		return false;
-	}
-
-	function replace_special_tags( $target ) {
-		if ( is_numeric( $target ) )
-			$target = get_permalink( $target );
-		else {
-			$user = wp_get_current_user();
-			if ( ! empty( $user ) ) {
-				$target = str_replace( '%userid%', $user->ID, $target );
-				$target = str_replace( '%userlogin%', isset( $user->user_login ) ? $user->user_login : '', $target );
-				$target = str_replace( '%userurl%', isset( $user->user_url ) ? $user->user_url : '', $target );
-			}
-		}
-
-		return $target;
 	}
 
 	function visit( $url, $target ) {
