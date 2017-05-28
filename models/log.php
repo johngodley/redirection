@@ -176,6 +176,8 @@ class RE_404 {
 
 		if ( ! empty( $referrer ) )
 			$insert['referrer'] = $referrer;
+			
+		$insert = apply_filters( 'redirection_404_data', $insert );
 
 		$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
 	}
