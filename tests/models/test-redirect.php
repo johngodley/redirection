@@ -46,10 +46,12 @@ class RedirectTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301, 'status' => 'enabled' ) );
 		$item->matches( '/source' );
 
+		$data = $action->get_args();
+
 		$this->assertEquals( '/target', $this->capturedUrl );   // URL is redirected
 		$this->assertEquals( 1, $action->get_call_count() );
-		$this->assertEquals( '/target', $action->get_args()[0][0] );
-		$this->assertEquals( '/source', $action->get_args()[0][1] );
+		$this->assertEquals( '/target', $data[0][0] );
+		$this->assertEquals( '/source', $data[0][1] );
 		$this->assertEquals( 1, $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" ) );
 
 		$this->resetCaptured();
