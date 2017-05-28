@@ -15,10 +15,15 @@ https://wordpress.org/plugins/redirection/
 
 The following WordPress filters are available for customisation:
 
+### Request Information
 - `redirection_request_url` - The request URL
 - `redirection_request_agent` - The request user agent
 - `redirection_request_referrer` - The request referrer
 - `redirection_request_ip` - The request IP address
+
+### Logging
+- `redirection_404_data` - Data to be inserted into the 404 table
+- `redirection_log_data` - Data to be inserted into the redirect log table
 
 ## Support
 
