@@ -31,6 +31,11 @@ class Red_Monitor {
 	}
 
 	public function can_monitor_post( $post, $post_before, $form_data ) {
+		// Check this is the for the expected post
+		if ( $form_data['ID'] !== $post->ID ) {
+            return false;
+        }
+
 		// Don't do anything if we're not published
 		if ( $post->post_status !== 'publish' || $post_before->post_status !== 'publish' ) {
 			return false;
@@ -96,8 +101,6 @@ class Red_Monitor {
 			) );
 
 			return true;
-		} else if ( $before === $this->get_site_path() ) {
-			do_action( 'redirection_remove_existing', $after, $post_id );
 		}
 
 		return false;
