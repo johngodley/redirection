@@ -102,6 +102,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add filters for source and target URLs
 * Add filters for log and 404s
 * Add filters for request data
+* Add filter for monitoring post permalinks
 
 = 2.6 =
 * Show example CSV
