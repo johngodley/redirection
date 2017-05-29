@@ -20,10 +20,15 @@ class MonitorTest extends WP_UnitTestCase {
 		return array( 'redirection_slug' => true );
 	}
 
-	public function testUnpublished() {
+	public function testDraftToPublish() {
 		$monitor = new Red_Monitor( array() );
 
 		$this->assertFalse( $monitor->can_monitor_post( $this->getDraftPost(), $this->getPublishedPost(), $this->getFormData() ) );
+	}
+
+	public function testPublishToDraft() {
+		$monitor = new Red_Monitor( array() );
+
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getDraftPost(), $this->getFormData() ) );
 	}
 
@@ -33,13 +38,13 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost( 'page' ), $this->getPublishedPost(), $this->getFormData() ) );
 	}
 
-	public function testRedirectionEnabled() {
+	public function testPostUpdatedButNoRedirection() {
 		$monitor = new Red_Monitor( array() );
 
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getPublishedPost(), array() ) );
 	}
 
-	public function testCanMonitor() {
+	public function testPostUpdated() {
 		$monitor = new Red_Monitor( array() );
 
 		$this->assertTrue( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getPublishedPost(), $this->getFormData() ) );
@@ -61,5 +66,36 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( 11, has_action( 'post_updated', array( $monitor, 'post_updated' ) ) );
 		$this->assertEquals( 10, has_action( 'edit_form_advanced', array( $monitor, 'insert_old_post' ) ) );
 		$this->assertEquals( 10, has_action( 'edit_page_form', array( $monitor, 'insert_old_post' ) ) );
+	}
+
+	public function testPermalinkNotChanged() {
+		$monitor = new Red_Monitor( array() );
+
+		$this->assertFalse( $monitor->has_permalink_changed( 'before', 'before' ) );
+	}
+
+	public function testPermalinkChanged() {
+		$monitor = new Red_Monitor( array() );
+
+		$this->assertTrue( $monitor->has_permalink_changed( 'before', 'after' ) );
+	}
+
+	public function testPermalinkChangedButPreviousIsSite() {
+		$monitor = new Red_Monitor( array() );
+
+		$this->assertFalse( $monitor->has_permalink_changed( '/', '/' ) );
+	}
+
+	public function testRedirectCreated() {
+		$monitor = new Red_Monitor( array() );
+
+		$this->assertTrue( $monitor->check_for_modified_slug( 1, '/something' ) );
+	}
+
+	public function testMultipleRedirectsNotCreated() {
+		$monitor = new Red_Monitor( array() );
+
+		$monitor->check_for_modified_slug( 1, '/something' );
+		$this->assertFalse( $monitor->check_for_modified_slug( 1, '/somethingelse' ) );
 	}
 }

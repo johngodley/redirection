@@ -28,14 +28,17 @@ class Red_Monitor {
 	}
 
 	public function can_monitor_post( $post, $post_before, $form_data ) {
+		// Don't do anything if we're not published
 		if ( $post->post_status !== 'publish' || $post_before->post_status !== 'publish' ) {
 			return false;
 		}
 
+		// Hierarchical post? Do nothing
 	 	if ( is_post_type_hierarchical( $post->post_type ) ) {
 			return false;
 		}
 
+		// Old Redirection slug not defined? Do nothing
 		if ( ! isset( $form_data['redirection_slug'] ) ) {
 			return false;
 		}
@@ -43,22 +46,53 @@ class Red_Monitor {
 		return true;
 	}
 
+	/**
+	 * Called when a post has been updated - check if the slug has changed
+	 */
 	public function post_updated( $post_id, $post, $post_before ) {
 		if ( $this->can_monitor_post( $post, $post_before, $_POST ) ) {
-			$after  = parse_url( get_permalink( $post_id ) );
-			$after  = $after['path'];
-			$before = esc_url( $_POST['redirection_slug'] );
-			$site   = parse_url( get_site_url() );
-
-			if ( $before !== $after && $before !== '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $before !== $site['path'].'/' ) ) ) {
-				Red_Item::create( array(
-					'source'     => $before,
-					'target'     => $after,
-					'match'      => 'url',
-					'red_action' => 'url',
-					'group_id'   => $this->monitor_group_id,
-				) );
-			}
+			$this->check_for_modified_slug( $post_id, $_POST['redirection_slug'] );
 		}
+	}
+
+	/**
+	 * Changed if permalinks are different and the before wasn't the site url (we don't want to redirect the site URL)
+	 */
+	public function has_permalink_changed( $before, $after ) {
+		if ( $before !== $after && $this->get_site_path() !== $before ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function get_site_path() {
+		$path = parse_url( get_site_url(), PHP_URL_PATH );
+
+		if ( $path ) {
+			return rtrim( $path, '/' ).'/';
+		}
+
+		return '/';
+	}
+
+	public function check_for_modified_slug( $post_id, $before ) {
+		$after  = parse_url( get_permalink( $post_id ) );
+		$after  = $after['path'];
+		$before = esc_url( $before );
+
+		if ( $this->has_permalink_changed( $before, $after ) ) {
+			Red_Item::create( array(
+				'source'     => $before,
+				'target'     => $after,
+				'match'      => 'url',
+				'red_action' => 'url',
+				'group_id'   => $this->monitor_group_id,
+			) );
+
+			return true;
+		}
+
+		return false;
 	}
 }
