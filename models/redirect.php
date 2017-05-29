@@ -163,7 +163,7 @@ class Red_Item {
 		$parsed_domain = parse_url( site_url() );
 
 		if ( isset( $parsed_url['scheme'] ) && ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
-			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), $parsed_url['path'], $parsed_domain['host'] ) );
+			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), isset( $parsed_url['path'] ) ? $parsed_url['path'] : '', $parsed_domain['host'] ) );
 		}
 
 		$matcher  = Red_Match::create( $details['match'] );
@@ -211,6 +211,12 @@ class Red_Item {
 		}
 
 		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
+	}
+
+	public static function disable_where_matches( $url ) {
+		global $wpdb;
+
+		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'disabled' ), array( 'url' => $url ) );
 	}
 
 	public function delete() {

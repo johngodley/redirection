@@ -5,22 +5,25 @@ class Red_Monitor {
 
 	function __construct( $options ) {
 		if ( isset( $options['monitor_post'] ) && $options['monitor_post'] > 0 ) {
-			$this->monitor_group_id = intval( $options['monitor_post'] );
+			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
-				add_action( 'post_updated', array( &$this, 'post_updated' ), 11, 3 );
-				add_action( 'edit_form_advanced', array( &$this, 'insert_old_post' ) );
-				add_action( 'edit_page_form',     array( &$this, 'insert_old_post' ) );
+				add_action( 'post_updated', array( $this, 'post_updated' ), 11, 3 );
+				add_action( 'edit_form_advanced', array( $this, 'insert_old_post' ) );
+				add_action( 'edit_page_form',     array( $this, 'insert_old_post' ) );
+				add_filter( 'redirection_remove_existing', array( $this, 'remove_existing_redirect' ) );
+				add_filter( 'redirection_permalink_changed', array( $this, 'has_permalink_changed' ), 10, 3 );
 			}
 		}
 	}
 
-	public function insert_old_post() {
-		global $post;
+	public function remove_existing_redirect( $url ) {
+		Red_Item::disable_where_matches( $url );
+	}
 
-		$url = parse_url( get_permalink() );
-		$url = $url['path'];
+	public function insert_old_post() {
+		$url = parse_url( get_permalink(), PHP_URL_PATH );
 
 ?>
 	<input type="hidden" name="redirection_slug" value="<?php echo esc_attr( $url ) ?>"/>
@@ -58,7 +61,7 @@ class Red_Monitor {
 	/**
 	 * Changed if permalinks are different and the before wasn't the site url (we don't want to redirect the site URL)
 	 */
-	public function has_permalink_changed( $before, $after ) {
+	public function has_permalink_changed( $result, $before, $after ) {
 		if ( $before !== $after && $this->get_site_path() !== $before ) {
 			return true;
 		}
@@ -77,11 +80,13 @@ class Red_Monitor {
 	}
 
 	public function check_for_modified_slug( $post_id, $before ) {
-		$after  = parse_url( get_permalink( $post_id ) );
-		$after  = $after['path'];
+		$after  = parse_url( get_permalink( $post_id ), PHP_URL_PATH );
 		$before = esc_url( $before );
 
-		if ( $this->has_permalink_changed( $before, $after ) ) {
+		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
+			do_action( 'redirection_remove_existing', $after, $post_id );
+
+			// Create a new redirect for this post
 			Red_Item::create( array(
 				'source'     => $before,
 				'target'     => $after,
@@ -91,6 +96,8 @@ class Red_Monitor {
 			) );
 
 			return true;
+		} else if ( $before === $this->get_site_path() ) {
+			do_action( 'redirection_remove_existing', $after, $post_id );
 		}
 
 		return false;
