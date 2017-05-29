@@ -32,7 +32,7 @@ class Red_Monitor {
 
 	public function can_monitor_post( $post, $post_before, $form_data ) {
 		// Check this is the for the expected post
-		if ( $form_data['ID'] !== $post->ID ) {
+		if ( ! isset( $form_data['ID'] ) || ! isset( $post->ID ) || $form_data['ID'] !== $post->ID ) {
             return false;
         }
 
@@ -42,7 +42,7 @@ class Red_Monitor {
 		}
 
 		// Hierarchical post? Do nothing
-	 	if ( is_post_type_hierarchical( $post->post_type ) ) {
+		if ( is_post_type_hierarchical( $post->post_type ) ) {
 			return false;
 		}
 

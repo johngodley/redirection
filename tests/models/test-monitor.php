@@ -15,6 +15,7 @@ class MonitorTest extends WP_UnitTestCase {
 		return (object) array(
 			'post_status' => $status,
 			'post_type' => $type,
+			'ID' => 1,
 		);
 	}
 
@@ -27,7 +28,7 @@ class MonitorTest extends WP_UnitTestCase {
 	}
 
 	private function getFormData() {
-		return array( 'redirection_slug' => true );
+		return array( 'redirection_slug' => true, 'ID' => 1 );
 	}
 
 	public function testDraftToPublish() {
