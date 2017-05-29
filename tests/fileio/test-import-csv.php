@@ -10,7 +10,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testSourceTarget() {
 		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target' ), 1 );
+		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
 		$target = array(
 			'source' => '/source',
 			'target' => '/target',
@@ -40,8 +40,32 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testRedirectCode() {
 		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 310 ), 1 );
+		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', 308 ), 1 );
 
-		$this->assertEquals( 310, $csv['action_code'] );
+		$this->assertEquals( 308, $csv['action_code'] );
+	}
+
+	public function testInvalidRedirectCode() {
+		$exporter = new Red_Csv_File();
+		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', 666 ), 1 );
+
+		$this->assertEquals( 301, $csv['action_code'] );
+	}
+
+	public function testCreateRedirect() {
+		global $wpdb;
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, '"/old","/new","0","url","301","url","2",""' );
+		rewind( $file );
+
+		$exporter = new Red_Csv_File();
+		$count = $exporter->load_from_file( 1, $file );
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		$this->assertEquals( 1, $count );
+		$this->assertEquals( '/old', $redirect->url );
+		$this->assertEquals( '/new', $redirect->action_data );
+		$this->assertEquals( 301, $redirect->action_code );
 	}
 }

@@ -186,8 +186,9 @@ class Red_Item {
 		elseif ( $action === 'error' )
 			$action_code = 404;
 
-		if ( isset( $details['action_code'] ) )
+		if ( isset( $details['action_code'] ) && get_status_header_desc( $details['action_code'] ) !== '' ) {
 			$action_code = intval( $details['action_code'] );
+		}
 
 		$data = array(
 			'url'         => self::sanitize_url( $details['source'], $regex ),
