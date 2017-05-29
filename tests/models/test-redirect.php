@@ -67,6 +67,27 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->resetCaptured();
 	}
 
+	public function testDisableWhereMatches() {
+		global $wpdb;
+
+		Red_Item::create( array(
+			'source'     => '/from',
+			'target'     => '/to',
+			'group_id'   => 1,
+			'match'      => 'url',
+			'red_action' => 'url',
+		) );
+
+		$before = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		Red_Item::disable_where_matches( '/from' );
+
+		$after = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		$this->assertEquals( 'enabled', $before->status );
+		$this->assertEquals( 'disabled', $after->status );
+	}
+
 	private function capturedRedirect() {
 		add_filter( 'wp_redirect', array( $this, 'captureRedirectResult' ) );
 	}
