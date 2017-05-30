@@ -99,10 +99,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 2.6.1 =
 * Fix CSV export merging everything into one line
+* Fix bug with HTTP codes not being imported from CSV
 * Add filters for source and target URLs
 * Add filters for log and 404s
 * Add filters for request data
 * Add filter for monitoring post permalinks
+* Fix export of 404 and logs
 
 = 2.6 =
 * Show example CSV

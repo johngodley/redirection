@@ -221,21 +221,23 @@ class Redirection_Admin {
 		}
 
 		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
-			$exporter = Red_FileIO::create( $_GET['sub'] );
+			if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'redirection-log_management' ) ) {
+				if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' )
+					RE_Log::export_to_csv();
+				else
+					RE_404::export_to_csv();
 
-			if ( $exporter ) {
-				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
-
-				$exporter->export( $items );
 				die();
+			} else {
+				$exporter = Red_FileIO::create( $_GET['sub'] );
+
+				if ( $exporter ) {
+					$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
+
+					$exporter->export( $items );
+					die();
+				}
 			}
-		}
-		elseif ( isset( $_POST['export-csv'] ) && check_admin_referer( 'redirection-log_management' ) ) {
-			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' )
-				RE_Log::export_to_csv();
-			else
-				RE_404::export_to_csv();
-			die();
 		}
 	}
 
