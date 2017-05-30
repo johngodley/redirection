@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Redirection
+# Copyright (C) 2017 Redirection
 # This file is distributed under the same license as the Redirection package.
 msgid ""
 msgstr ""
@@ -7,13 +7,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: matches/login.php:7
 msgid "URL and login status"
@@ -45,6 +45,10 @@ msgstr ""
 
 #: matches/referrer.php:28, matches/referrer.php:38, matches/url.php:20, matches/user-agent.php:38
 msgid "HTTP Code"
+msgstr ""
+
+#: matches/referrer.php:40
+msgid "The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected."
 msgstr ""
 
 #: matches/referrer.php:46, matches/referrer.php:48, matches/user-agent.php:58, matches/user-agent.php:60
@@ -107,6 +111,20 @@ msgstr ""
 msgid "User Agent"
 msgstr ""
 
+#: matches/user-agent.php:51
+msgid ""
+"The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.\n"
+""
+msgstr ""
+
+#: models/database.php:120, view/item-list.php:3
+msgid "Redirections"
+msgstr ""
+
+#: models/database.php:121
+msgid "Modified Posts"
+msgstr ""
+
 #: models/pager.php:28
 msgid "Type"
 msgstr ""
@@ -127,7 +145,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: models/pager.php:54, models/pager.php:101, models/pager.php:254, models/pager.php:300, models/pager.php:498, models/pager.php:628, view/options.php:108
+#: models/pager.php:54, models/pager.php:101, models/pager.php:254, models/pager.php:300, models/pager.php:498, models/pager.php:628, view/options.php:111
 msgid "Delete"
 msgstr ""
 
@@ -147,7 +165,7 @@ msgstr ""
 msgid "No group filter"
 msgstr ""
 
-#: models/pager.php:243, view/group-edit.php:4, view/group-list.php:30
+#: models/pager.php:243, view/group-edit.php:4, view/group-list.php:28
 msgid "Name"
 msgstr ""
 
@@ -211,23 +229,23 @@ msgstr ""
 msgid "Invalid source URL when creating redirect for given match type"
 msgstr ""
 
-#: models/redirect.php:394
+#: models/redirect.php:380
 msgid "Redirect to URL"
 msgstr ""
 
-#: models/redirect.php:395
+#: models/redirect.php:381
 msgid "Redirect to random post"
 msgstr ""
 
-#: models/redirect.php:396
+#: models/redirect.php:382
 msgid "Pass-through"
 msgstr ""
 
-#: models/redirect.php:397
+#: models/redirect.php:383
 msgid "Error (404)"
 msgstr ""
 
-#: models/redirect.php:398
+#: models/redirect.php:384
 msgid "Do nothing"
 msgstr ""
 
@@ -295,61 +313,57 @@ msgstr ""
 msgid "WordPress-powered redirects. This requires no further configuration, and you can track hits."
 msgstr ""
 
-#: redirection-admin.php:139
+#: redirection-admin.php:146
 msgid "Settings"
 msgstr ""
 
-#: redirection-admin.php:151
+#: redirection-admin.php:158
 msgid "Log entries"
 msgstr ""
 
-#: redirection-admin.php:162, redirection-admin.php:162
-msgid "Redirection"
-msgstr ""
-
-#: redirection-admin.php:229, redirection-admin.php:245
+#: redirection-admin.php:249, redirection-admin.php:265
 msgid "Your options were updated"
 msgstr ""
 
-#: redirection-admin.php:254
+#: redirection-admin.php:274
 msgid "Redirection data has been deleted and the plugin disabled"
 msgstr ""
 
-#: redirection-admin.php:261
+#: redirection-admin.php:281
 msgid "%d redirection was successfully imported"
 msgid_plural "%d redirections were successfully imported"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redirection-admin.php:263
+#: redirection-admin.php:283
 msgid "No items were imported"
 msgstr ""
 
-#: redirection-admin.php:275, redirection-admin.php:295
+#: redirection-admin.php:295, redirection-admin.php:315
 msgid "Your logs have been deleted"
 msgstr ""
 
-#: redirection-admin.php:309
+#: redirection-admin.php:329
 msgid "Your group was added successfully"
 msgstr ""
 
-#: redirection-admin.php:312
+#: redirection-admin.php:332
 msgid "Please specify a group name"
 msgstr ""
 
-#: redirection-admin.php:488
+#: redirection-admin.php:508
 msgid "Sorry, but your redirection was not created"
 msgstr ""
 
-#: redirection-admin.php:494
+#: redirection-admin.php:514
 msgid "Invalid module"
 msgstr ""
 
-#: redirection-admin.php:510
+#: redirection-admin.php:530
 msgid "Download"
 msgstr ""
 
-#: redirection-admin.php:511, view/group-edit.php:22, view/item-edit.php:33, view/module-edit.php:13
+#: redirection-admin.php:531, view/group-edit.php:22, view/item-edit.php:33, view/module-edit.php:13
 msgid "Cancel"
 msgstr ""
 
@@ -385,19 +399,19 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: view/group-list.php:5, view/submenu.php:11
+#: view/group-list.php:3, view/submenu.php:11
 msgid "Groups"
 msgstr ""
 
-#: view/group-list.php:22
+#: view/group-list.php:20
 msgid "Add Group"
 msgstr ""
 
-#: view/group-list.php:24
+#: view/group-list.php:22
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
 msgstr ""
 
-#: view/group-list.php:44
+#: view/group-list.php:42
 msgid "Add"
 msgstr ""
 
@@ -409,23 +423,19 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
-#: view/item-list.php:5
-msgid "Redirections"
-msgstr ""
-
-#: view/log.php:5
+#: view/log.php:3
 msgid "Redirection Log"
 msgstr ""
 
-#: view/log.php:19
+#: view/log.php:17
 msgid "Log Management"
 msgstr ""
 
-#: view/log.php:23
+#: view/log.php:21
 msgid "These apply to the current search term, if any, otherwise all logs."
 msgstr ""
 
-#: view/module-list.php:5, view/submenu.php:16
+#: view/module-list.php:3, view/submenu.php:16
 msgid "Modules"
 msgstr ""
 
@@ -453,71 +463,79 @@ msgstr ""
 msgid "Keep forever"
 msgstr ""
 
-#: view/options.php:19, view/submenu.php:42
+#: view/options.php:17, view/submenu.php:42
 msgid "Options"
 msgstr ""
 
-#: view/options.php:27
+#: view/options.php:25
 msgid "Plugin Support"
 msgstr ""
 
-#: view/options.php:34
+#: view/options.php:28
+msgid "I'm a nice person and I have helped support the author of this plugin"
+msgstr ""
+
+#: view/options.php:32
 msgid "Redirect Logs"
 msgstr ""
 
-#: view/options.php:40, view/options.php:50
+#: view/options.php:38, view/options.php:48
 msgid "(time to keep logs for)"
 msgstr ""
 
-#: view/options.php:44
+#: view/options.php:42
 msgid "404 Logs"
 msgstr ""
 
-#: view/options.php:54
+#: view/options.php:52
 msgid "Monitor changes to posts"
 msgstr ""
 
-#: view/options.php:63
+#: view/options.php:55
+msgid "Don't monitor"
+msgstr ""
+
+#: view/options.php:61
 msgid "RSS Token"
 msgstr ""
 
-#: view/options.php:66
+#: view/options.php:64
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
 msgstr ""
 
-#: view/options.php:70
+#: view/options.php:68
 msgid "Auto-generate URL"
 msgstr ""
 
-#: view/options.php:74
+#: view/options.php:72
 msgid "This will be used to auto-generate a URL if no URL is given.  You can use the special tags <code>$dec$</code> or <code>$hex$</code> to have a unique ID inserted (either decimal or hex)"
 msgstr ""
 
-#: view/options.php:79
+#: view/options.php:77
 msgid "Update"
 msgstr ""
 
-#: view/options.php:85
+#: view/options.php:83
 msgid "Import"
 msgstr ""
 
-#: view/options.php:87
+#: view/options.php:85
 msgid "Here you can import redirections from an existing <code>.htaccess</code> file, or a CSV file."
 msgstr ""
 
-#: view/options.php:94
+#: view/options.php:92
 msgid "Import into"
 msgstr ""
 
-#: view/options.php:97
+#: view/options.php:95
 msgid "Upload"
 msgstr ""
 
-#: view/options.php:102
+#: view/options.php:105
 msgid "Delete Redirection"
 msgstr ""
 
-#: view/options.php:103
+#: view/options.php:106
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
 msgstr ""
 
@@ -537,30 +555,42 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: view/support.php:5
+#: view/support.php:3
 msgid "Redirection Support"
 msgstr ""
 
-#: view/support.php:9
+#: view/support.php:7
 msgid "Redirection is free to use - life is wonderful and lovely!  However, it has required a great deal of time and effort to develop and if it has been useful you can help support this development by <strong>making a small donation</strong>."
 msgstr ""
 
-#: view/support.php:10
+#: view/support.php:8
 msgid "This will act as an incentive for me to carry on developing. You get some useful software and I get to carry on making it.  Everybody wins."
 msgstr ""
 
-#: view/support.php:38
+#: view/support.php:13
+msgid "If you are using this plugin in a commercial setup, or feel that it's been particularly useful, then you may want to consider a <strong>commercial donation</strong>."
+msgstr ""
+
+#: view/support.php:36
 msgid "Individual<br/>Donation"
 msgstr ""
 
-#: view/support.php:58
+#: view/support.php:56
 msgid "Commercial<br/>Donation"
 msgstr ""
 
-#: view/support.php:62
+#: view/support.php:60
+msgid "Help! Frequently Asked Questions"
+msgstr ""
+
+#: view/support.php:77
 msgid "Translations"
 msgstr ""
 
-#: view/support.php:72
-msgid "Full details of producing a translation can be found in this <a href="http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/">guide to translating WordPress plugins</a>."
+#: view/support.php:79
+msgid "Many thanks to the following for their translations:"
+msgstr ""
+
+#: view/support.php:87
+msgid "Full details of producing a translation can be found in this <a href=\"http://urbangiraffe.com/articles/translating-wordpress-themes-and-plugins/\">guide to translating WordPress plugins</a>."
 msgstr ""
