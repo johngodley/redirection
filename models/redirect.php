@@ -351,10 +351,6 @@ class Red_Item {
 		RE_Log::delete_for_id( $this->id );
 	}
 
-	function show_url( $url ) {
-		return implode( '&#8203;/', explode( '/', $url ) );
-	}
-
 	function move_to( $group ) {
 		global $wpdb;
 

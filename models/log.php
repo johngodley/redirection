@@ -53,7 +53,7 @@ class RE_Log {
 	}
 
 	static function show_url( $url ) {
-		return implode( '&#8203;/', explode( '/', substr( $url, 0, 80 ) ) ).( strlen( $url ) > 80 ? '...' : '' );
+		return $url;
 	}
 
 	static function delete( $id ) {
@@ -176,7 +176,7 @@ class RE_404 {
 
 		if ( ! empty( $referrer ) )
 			$insert['referrer'] = $referrer;
-			
+
 		$insert = apply_filters( 'redirection_404_data', $insert );
 
 		$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
