@@ -61,6 +61,8 @@ class Red_Csv_File extends Red_FileIO {
 	public function load_from_file( $group_id, $file ) {
 		$count = 0;
 
+		ini_set( 'auto_detect_line_endings', true );
+
 		while ( ( $csv = fgetcsv( $file, 1000, ',' ) ) ) {
 			$item = $this->csv_as_item( $csv, $group_id );
 
@@ -70,6 +72,7 @@ class Red_Csv_File extends Red_FileIO {
 			}
 		}
 
+		ini_set( 'auto_detect_line_endings', false );
 		return $count;
 	}
 
