@@ -53,7 +53,8 @@ class RE_Log {
 	}
 
 	static function show_url( $url ) {
-		return implode( '&#8203;/', explode( '/', substr( $url, 0, 80 ) ) ).( strlen( $url ) > 80 ? '...' : '' );
+		//return implode( '&#8203;/', explode( '/', substr( $url, 0, 80 ) ) ).( strlen( $url ) > 80 ? '...' : '' );
+		return substr( $url, 0, 80 ).( strlen( $url ) > 80 ? '...' : '' );
 	}
 
 	static function delete( $id ) {
