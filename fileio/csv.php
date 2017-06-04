@@ -49,7 +49,11 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function load( $group, $filename, $data ) {
+		ini_set( 'auto_detect_line_endings', true );
+
 		$file = fopen( $filename, 'r' );
+
+		ini_set( 'auto_detect_line_endings', false );
 
 		if ( $file ) {
 			return $this->load_from_file( $group, $file );
@@ -61,18 +65,18 @@ class Red_Csv_File extends Red_FileIO {
 	public function load_from_file( $group_id, $file ) {
 		$count = 0;
 
-		ini_set( 'auto_detect_line_endings', true );
-
-		while ( ( $csv = fgetcsv( $file, 1000, ',' ) ) ) {
+		while ( ( $csv = fgetcsv( $file, 5000, ',' ) ) ) {
 			$item = $this->csv_as_item( $csv, $group_id );
 
 			if ( $item ) {
-				Red_Item::create( $item );
-				$count++;
+				$created = Red_Item::create( $item );
+
+				if ( ! is_wp_error( $created ) ) {
+					$count++;
+				}
 			}
 		}
 
-		ini_set( 'auto_detect_line_endings', false );
 		return $count;
 	}
 
