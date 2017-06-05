@@ -40,6 +40,9 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_get_htaccess', array( &$this, 'ajax_get_htaccess' ) );
 		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
 
+		add_action( 'wp_ajax_red_load_settings', array( &$this, 'ajax_load_settings' ) );
+		add_action( 'wp_ajax_red_save_settings', array( &$this, 'ajax_save_settings' ) );
+
 		$this->monitor = new Red_Monitor( red_get_options() );
 
 		$this->export_rss();
@@ -154,15 +157,43 @@ class Redirection_Admin {
 
 		$this->inject();
 
-		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) )
+		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
+		}
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
+
+		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
+			wp_enqueue_script( 'redirection-ui', 'http://localhost:3312/redirection-ui.js', array( 'redirection' ), $version );
+		} else {
+			wp_enqueue_script( 'redirection-ui', plugin_dir_url( REDIRECTION_FILE ).'redirection-ui.js', array( 'redirection' ), $version );
+		}
+
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'error_msg' => __( 'Sorry, unable to do that. Please try refreshing the page.' ),
+			'WP_API_root' => admin_url( 'admin-ajax.php' ),
+			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
+			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
+			'locale' => $this->get_i18n_data(),
+			'localeSlug' => get_locale(),
 		) );
+	}
+
+	private function get_i18n_data() {
+		$i18n_json = REDIRECTION_FILE . 'locale/json/redirection-' . get_locale() . '.json';
+
+		if ( is_file( $i18n_json ) && is_readable( $i18n_json ) ) {
+			$locale_data = @file_get_contents( $i18n_json );
+
+			if ( $locale_data ) {
+				return $locale_data;
+			}
+		}
+
+		// Return empty if we have nothing to return so it doesn't fail when parsed in JS
+		return '{}';
 	}
 
 	function admin_menu() {
@@ -243,6 +274,7 @@ class Redirection_Admin {
 
 	function admin_screen_options() {
 		if ( isset( $_POST['regenerate'] ) && check_admin_referer( 'redirection-update_options' ) ) {
+			// XXX not used
 			$options = red_get_options();
 			$options['token'] = md5( uniqid() );
 
@@ -250,23 +282,7 @@ class Redirection_Admin {
 
 			$this->render_message( __( 'Your options were updated', 'redirection' ) );
 		}
-		elseif ( isset( $_POST['update'] ) && check_admin_referer( 'redirection-update_options' ) ) {
-			$options['monitor_post']    = stripslashes( $_POST['monitor_post'] );
-			$options['auto_target']     = stripslashes( $_POST['auto_target'] );
-			$options['support']         = isset( $_POST['support'] ) ? true : false;
-			$options['token']           = stripslashes( $_POST['token'] );
-			$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 60 );
-			$options['expire_404']      = min( intval( $_POST['expire_404'] ), 60 );
-
-			if ( trim( $options['token'] ) === '' )
-				$options['token'] = md5( uniqid() );
-
-			update_option( 'redirection_options', $options );
-
-			Red_Flusher::schedule();
-			$this->render_message( __( 'Your options were updated', 'redirection' ) );
-		}
-		elseif ( isset( $_POST['delete'] ) && check_admin_referer( 'redirection-delete_plugin' ) ) {
+		elseif ( isset( $_POST['delete'] ) && check_admin_referer( 'wp_rest' ) ) {
 			$this->plugin_uninstall();
 
 			$current = get_option( 'active_plugins' );
@@ -276,13 +292,14 @@ class Redirection_Admin {
 			$this->render_message( __( 'Redirection data has been deleted and the plugin disabled', 'redirection' ) );
 			return;
 		}
-		elseif ( isset( $_POST['import'] ) && check_admin_referer( 'redirection-import' ) ) {
+		elseif ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
 			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
 
-			if ( $count > 0 )
+			if ( $count > 0 ) {
 				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
-			else
+			} else {
 				$this->render_message( __( 'No items were imported', 'redirection' ) );
+			}
 		}
 
 		$groups = Red_Group::get_for_select();
@@ -542,6 +559,46 @@ class Redirection_Admin {
 
 	public function ajax_get_htaccess() {
 		$this->get_module_column( intval( $_POST['id'] ), 'apache' );
+	}
+
+	public function ajax_load_settings() {
+		$this->check_ajax_referer( 'wp_rest' );
+		$this->output_ajax_response( array( 'settings' => red_get_options(), 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
+	}
+
+	public function ajax_save_settings( $settings ) {
+		$this->check_ajax_referer( 'wp_rest' );
+
+		$options = red_get_options();
+		$options['monitor_post']    = stripslashes( $_POST['monitor_post'] );
+		$options['auto_target']     = stripslashes( $_POST['auto_target'] );
+		$options['support']         = isset( $_POST['support'] ) && $_POST['support'] === 'true' ? true : false;
+		$options['token']           = stripslashes( $_POST['token'] );
+		$options['expire_redirect'] = min( intval( $_POST['expire_redirect'] ), 60 );
+		$options['expire_404']      = min( intval( $_POST['expire_404'] ), 60 );
+
+		if ( trim( $options['token'] ) === '' ) {
+			$options['token'] = md5( uniqid() );
+		}
+
+		update_option( 'redirection_options', $options );
+		Red_Flusher::schedule();   // XXX this should be an action
+
+		$this->output_ajax_response( array( 'settings' => $options, 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
+	}
+
+	private function groups_to_json( $groups, $depth = 0 ) {
+		$items = array();
+
+		foreach ( $groups as $text => $value ) {
+			if ( is_array( $value ) && $depth === 0 ) {
+				$items[] = (object)array( 'text' => $text, 'value' => $this->groups_to_json( $value, 1 ) );
+			} else {
+				$items[] = (object)array( 'text' => $value, 'value' => $text );
+			}
+		}
+
+		return $items;
 	}
 
 	private function output_ajax_response( array $data ) {
