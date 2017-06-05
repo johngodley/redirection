@@ -49,6 +49,34 @@ The following special words can be inserted into a target URL:
 
 Additionally, if the target URL is a number without any slashes then Redirection will treat it as a post ID and redirect to the full URL for that post.
 
+## Building
+
+Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Gulp, Node, and Yarn installed. Install required modules with:
+
+`yarn install`
+
+### Language files
+
+`gulp pot` - Updates language files
+
+### React
+
+Some parts of the UI are React and can be built with:
+
+`yarn run dist`
+
+To use in development mode then set `REDIRECTION_DEV_MODE` to true in PHP, and run:
+
+`yarn run start`
+
+This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
+
+### Releasing
+
+Finally, to produce a release copy:
+
+`gulp svn`
+
 ## Support
 
 Please raise any bug reports or enhancement requests here. Pull requests are always welcome.
