@@ -167,7 +167,7 @@ class Red_Item {
 		}
 
 		$matcher  = Red_Match::create( $details['match'] );
-		$group_id = intval( $details['group_id'] );
+		$group_id = intval( $details['group'] );
 		$group    = Red_Group::get( $group_id );
 
 		if ( $group_id <= 0 || ! $group )
