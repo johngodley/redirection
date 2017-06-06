@@ -1,5 +1,7 @@
 <?php
 
+@ini_set("auto_detect_line_endings", true);
+
 class Red_Csv_File extends Red_FileIO {
 	const CSV_SOURCE = 0;
 	const CSV_TARGET = 1;
