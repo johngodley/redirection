@@ -83,7 +83,8 @@ class RE_Log {
 			$where[] = $wpdb->prepare( 'redirection_id=%d', $id );
 
 		if ( isset( $_REQUEST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+			$like = $wpdb->esc_like( $_REQUEST['s'] );
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'. $like .'%' );
 
 		$where_cond = '';
 		if ( count( $where ) > 0 )
@@ -109,7 +110,8 @@ class RE_Log {
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
 		if ( isset( $_REQUEST['s'] ) )
-			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+			$like = $wpdb->esc_like( $_REQUEST['s'] );
+			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'. $like .'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
@@ -193,7 +195,8 @@ class RE_404 {
 
 		$where = array();
 		if ( isset( $_REQUEST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+			$like = $wpdb->esc_like( $_REQUEST['s'] );
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'. $like .'%' );
 
 		$where_cond = '';
 		if ( count( $where ) > 0 )
@@ -219,7 +222,8 @@ class RE_404 {
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404";
 		if ( isset( $_REQUEST['s'] ) )
-			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+			$like = $wpdb->esc_like( $_REQUEST['s'] );
+			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'. $like .'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
