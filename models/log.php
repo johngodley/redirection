@@ -31,7 +31,7 @@ class RE_Log {
 		global $wpdb, $redirection;
 
 		$insert = array(
-			'url'     => urldecode( $url ),
+			'url'     => esc_url_raw( urldecode( $url ) ),
 			'created' => current_time( 'mysql' ),
 			'ip'      => $ip,
 		);
@@ -166,7 +166,7 @@ class RE_404 {
 		global $wpdb, $redirection;
 
 		$insert = array(
-			'url'     => urldecode( $url ),
+			'url'     => esc_url_raw( urldecode( $url ) ),
 			'created' => current_time( 'mysql' ),
 			'ip'      => ip2long( $ip ),
 		);
