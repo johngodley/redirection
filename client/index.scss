@@ -1,4 +1,5 @@
 @import 'globals';
+@import 'slider';
 
 .spinner-container {
 	display: inline-block;
@@ -75,5 +76,79 @@ body.ReactModal__Body--open {
 		opacity: 1;
 
 		box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+	}
+}
+
+.faq {
+	h3 {
+		font-size: 14px;
+		font-style: italic;
+	}
+}
+
+.donation {
+	.donation-amount {
+		float: left;
+		margin-top: 10px;
+
+		span {
+			font-size: 28px;
+			margin-top: 4px;
+			vertical-align: bottom;
+		}
+	}
+
+	input[type=number] {
+		width: 60px;
+		margin-left: 10px;
+	}
+}
+
+.donation-slider {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	width: 500px;
+	margin-left: 5px;
+
+	.rc-slider-dot {
+		border: 2px solid #ddd;
+		background-color: #fff;
+	}
+
+	.rc-slider-dot-active {
+		border-color: $slider;
+	}
+
+	.rc-slider-rail {
+		background-color: #ddd;
+	}
+
+	.rc-slider-track {
+		background-color: $slider;
+	}
+
+	.rc-slider-handle {
+		border: solid 2px $slider;
+		background-color: #fff;
+	}
+
+	.rc-slider-handle:hover {
+		border-color: $slider;
+	}
+
+	.rc-slider-handle:active {
+		border-color: $slider;
+		box-shadow: 0 0 5px $slider;
+	}
+
+	.rc-slider-dot-active {
+		border-color: red;
+	}
+}
+
+.newsletter {
+	span {
+		font-size: 12px;
+		font-style: italic;
 	}
 }
