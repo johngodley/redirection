@@ -25,6 +25,8 @@ const SVN_SOURCE_FILES = [
 	'!postcss.config.js',
 	'!README.md',
 	'!phpunit.xml',
+	'!webpack.config.js',
+	'!package-lock.json',
 ];
 
 gulp.task( 'pot', [ 'pot:extract', 'pot:generate', 'pot:json' ] );
