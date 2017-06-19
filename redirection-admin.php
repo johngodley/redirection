@@ -598,11 +598,11 @@ class Redirection_Admin {
 		}
 
 		if ( isset( $settings['expire_redirect'] ) ) {
-			$options['expire_redirect'] = max( 0, min( intval( $settings['expire_redirect'], 10 ), 60 ) );
+			$options['expire_redirect'] = max( -1, min( intval( $settings['expire_redirect'], 10 ), 60 ) );
 		}
 
 		if ( isset( $settings['expire_404'] ) ) {
-			$options['expire_404'] = max( 0, min( intval( $settings['expire_404'], 10 ), 60 ) );
+			$options['expire_404'] = max( -1, min( intval( $settings['expire_404'], 10 ), 60 ) );
 		}
 
 		update_option( 'redirection_options', $options );
