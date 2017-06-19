@@ -67,11 +67,17 @@ class Red_Monitor {
 	 * Changed if permalinks are different and the before wasn't the site url (we don't want to redirect the site URL)
 	 */
 	public function has_permalink_changed( $result, $before, $after ) {
-		if ( $before !== $after && $this->get_site_path() !== $before ) {
-			return true;
+		// Check it's not redirecting from the root
+		if ( $this->get_site_path() === $before || $before === '/' ) {
+			return false;
 		}
 
-		return false;
+		// Are the URLs the same?
+		if ( $before === $after ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private function get_site_path() {

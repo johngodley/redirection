@@ -92,7 +92,7 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testPermalinkChangedButPreviousIsSite() {
 		$monitor = new Red_Monitor( array( 'monitor_post' => 1 ) );
 
-		$this->assertFalse( $monitor->has_permalink_changed( false, '/', '/' ) );
+		$this->assertFalse( $monitor->has_permalink_changed( false, '/', '/after' ) );
 	}
 
 	public function testRedirectCreated() {
