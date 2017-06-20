@@ -1,4 +1,3 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -27,7 +26,7 @@ class DeletePlugin extends React.Component {
 	}
 
 	handleDelete() {
-		this.dom.submit();
+		this.props.onDelete();
 	}
 
 	render() {
@@ -35,13 +34,11 @@ class DeletePlugin extends React.Component {
 
 		return (
 			<div className="wrap">
-				<form action="" method="post" onSubmit={ this.onSubmit } ref={ dom => this.dom = dom }>
+				<form action="" method="post" onSubmit={ this.onSubmit }>
 					<h2>{ __( 'Delete Redirection' ) }</h2>
 
 					<p>{ ( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.' ) }</p>
-
 					<input className="button-primary" type="submit" name="delete" value={ __( 'Delete' ) } />
-					<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
 				</form>
 
 				<Modal isOpen={ this.state.isModal } onRequestClose={ this.onClose } contentLabel="Modal" overlayClassName="modal" className="modal-content">

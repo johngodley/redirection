@@ -42,6 +42,7 @@ class Redirection_Admin {
 
 		add_action( 'wp_ajax_red_load_settings', array( &$this, 'ajax_load_settings' ) );
 		add_action( 'wp_ajax_red_save_settings', array( &$this, 'ajax_save_settings' ) );
+		add_action( 'wp_ajax_red_delete_plugin', array( $this, 'ajax_delete_plugin' ) );
 
 		add_action( 'redirection_save_options', array( &$this, 'flush_schedule' ) );
 
@@ -279,17 +280,7 @@ class Redirection_Admin {
 	}
 
 	function admin_screen_options() {
-		if ( isset( $_POST['delete'] ) && check_admin_referer( 'wp_rest' ) ) {
-			$this->plugin_uninstall();
-
-			$current = get_option( 'active_plugins' );
-			array_splice( $current, array_search( basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), $current ), 1 );
-			update_option( 'active_plugins', $current );
-
-			$this->render_message( __( 'Redirection data has been deleted and the plugin disabled', 'redirection' ) );
-			return;
-		}
-		elseif ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
+		if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
 			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
 
 			if ( $count > 0 ) {
@@ -557,6 +548,18 @@ class Redirection_Admin {
 
 	public function ajax_get_htaccess() {
 		$this->get_module_column( intval( $_POST['id'] ), 'apache' );
+	}
+
+	public function ajax_delete_plugin() {
+		$this->check_ajax_referer( 'wp_rest' );
+
+		$this->plugin_uninstall();
+
+		$current = get_option( 'active_plugins' );
+		array_splice( $current, array_search( basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), $current ), 1 );
+		update_option( 'active_plugins', $current );
+
+		return $this->output_ajax_response( array( 'location' => admin_url().'plugins.php' ) );
 	}
 
 	public function ajax_load_settings() {

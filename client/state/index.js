@@ -15,7 +15,7 @@ import reducers from './reducers';
  */
 
 const composeEnhancers = composeWithDevTools( {
-	name: 'VR Viewer'
+	name: 'Redirection'
 } );
 
 const middlewares = [

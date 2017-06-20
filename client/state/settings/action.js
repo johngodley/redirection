@@ -67,3 +67,15 @@ export const saveSettings = settings => {
 		return dispatch( { type: SETTING_SAVING } );
 	};
 };
+
+export const deletePlugin = () => {
+	return dispatch => {
+		getApi( 'red_delete_plugin' )
+			.then( data => data.json() )
+			.then( json => {
+				document.location.href = json.location;
+			} );
+
+		return dispatch( { type: SETTING_SAVING } );
+	};
+};
