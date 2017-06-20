@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 /**
  * Internal dependencies
  */
-import { loadSettings } from 'state/settings/action';
+import { loadSettings, deletePlugin } from 'state/settings/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
 import Spinner from 'component/wordpress/spinner';
 import AdminNotice from 'component/wordpress/admin-notice';
@@ -37,7 +37,7 @@ class Options extends React.Component {
 			<div>
 				<OptionsForm />
 				<Importer />
-				<DeletePlugin />
+				<DeletePlugin onDelete={ this.props.onDeletePlugin } />
 			</div>
 		);
 	}
@@ -48,6 +48,9 @@ function mapDispatchToProps( dispatch ) {
 		onLoadSettings: () => {
 			dispatch( loadSettings() );
 		},
+		onDeletePlugin: () => {
+			dispatch( deletePlugin() );
+		}
 	};
 }
 

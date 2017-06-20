@@ -100,6 +100,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.6.4 =
 * Fix log option not saving 'never'
 * Additional check for auto-redirect from root
+* Fix delete plugin button
 
 = 2.6.2 =
 * Set auto_detect_line_endings when importing CSV
