@@ -129,7 +129,7 @@ class RE_Database {
 
 		foreach ( $this->get_all_tables() as $sql ) {
 			if ( $wpdb->query( $sql ) === false ) {
-				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues' );
+				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues - '.$sql.' = '.$wpdb->print_error() );
 				return false;
 			}
 		}
