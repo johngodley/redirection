@@ -31,14 +31,21 @@ class Redirection_Request {
 		return apply_filters( 'redirection_request_referrer', $referrer );
 	}
 
+	// Note this currently only supports IP4
 	public static function get_ip() {
 		$ip = '';
 
-		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+			$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$ip = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$ip = array_shift( $ip );
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip = $_SERVER['REMOTE_ADDR'];
 		}
+
+		$ip = trim( $ip );
+		$ip = filter_var( $ip, FILTER_VALIDATE_IP ) ? $ip : '';
 
 		return apply_filters( 'redirection_request_ip', $ip );
 	}
