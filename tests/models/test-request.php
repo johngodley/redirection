@@ -1,6 +1,8 @@
 <?php
 
 class RequestTest extends WP_UnitTestCase {
+	private $ip = false;
+
 	private function monitorAction( $hook ) {
 		$action = new MockAction();
 
@@ -81,39 +83,101 @@ class RequestTest extends WP_UnitTestCase {
 		$this->assertEquals( 'referrer', $this->getActionData( $action ) );
 	}
 
+	public function monitorRequestIP() {
+		$this->ip = false;
+		add_filter( 'redirection_request_ip', array( $this, 'do_ip_filter' ) );
+	}
+
+	public function removeMonitorRequestIP() {
+		remove_filter( 'redirection_request_ip', array( $this, 'do_ip_filter' ) );
+	}
+
+	public function do_ip_filter( $ip ) {
+		$this->ip = $ip;
+		return $ip;
+	}
+
 	public function testNoIP() {
-		$action = $this->monitorAction( 'redirection_request_ip' );
+		$this->monitorRequestIP();
+
+		$_SERVER['REMOTE_ADDR'] = 'something';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '', $result );
+		$this->assertEquals( '', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
+
+	public function testInvalidIP() {
+		$this->monitorRequestIP();
+
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 
 		$result = Redirection_Request::get_ip();
 
 		$this->assertEquals( '', $result );
-		$this->assertEquals( 1, $action->get_call_count() );
-		$this->assertEquals( '', $this->getActionData( $action ) );
+		$this->assertEquals( '', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
+
+	public function testMultipleForwardedIP() {
+		$this->monitorRequestIP();
+
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = ' 192.1.1.1, 192.1.1.2, 192.1.2.3';
+		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '192.1.1.1', $result );
+		$this->assertEquals( '192.1.1.1', $this->ip );
+
+		$this->removeMonitorRequestIP();
 	}
 
 	public function testPreferForwardedIP() {
-		$action = $this->monitorAction( 'redirection_request_ip' );
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = 'forwarded';
-		$_SERVER['REMOTE_ADDR'] = 'remote address';
+		$this->monitorRequestIP();
+
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '192.1.1.1';
+		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
 
 		$result = Redirection_Request::get_ip();
 
-		$this->assertEquals( 'forwarded', $result );
-		$this->assertEquals( 1, $action->get_call_count() );
-		$this->assertEquals( 'forwarded', $this->getActionData( $action ) );
+		$this->assertEquals( '192.1.1.1', $result );
+		$this->assertEquals( '192.1.1.1', $this->ip );
+
+		$this->removeMonitorRequestIP();
 	}
 
 	public function testDefaultHostIP() {
-		$action = $this->monitorAction( 'redirection_request_ip' );
+		$this->monitorRequestIP();
+
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
-		$_SERVER['REMOTE_ADDR'] = 'remote address';
+		$_SERVER['REMOTE_ADDR'] = '192.1.1.1';
 
 		$result = Redirection_Request::get_ip();
 
-		$this->assertEquals( 'remote address', $result );
-		$this->assertEquals( 1, $action->get_call_count() );
-		$this->assertEquals( 'remote address', $this->getActionData( $action ) );
+		$this->assertEquals( '192.1.1.1', $result );
+		$this->assertEquals( '192.1.1.1', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
+
+	public function testCloudfareIP() {
+		$this->monitorRequestIP();
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		$_SERVER['HTTP_CF_CONNECTING_IP'] = '192.1.1.3';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '192.1.1.3', $result );
+		$this->assertEquals( '192.1.1.3', $this->ip );
+
+		$this->removeMonitorRequestIP();
 	}
 }
