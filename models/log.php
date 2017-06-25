@@ -50,6 +50,8 @@ class RE_Log {
 		do_action( 'redirection_log', $insert );
 
 		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
+
+		return $wpdb->insert_id;
 	}
 
 	static function show_url( $url ) {
@@ -82,8 +84,8 @@ class RE_Log {
 		elseif ( $type === 'redirect' )
 			$where[] = $wpdb->prepare( 'redirection_id=%d', $id );
 
-		if ( isset( $_REQUEST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+		// if ( isset( $_REQUEST['s'] ) )
+		// 	$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$where_cond = '';
 		if ( count( $where ) > 0 )
@@ -108,8 +110,8 @@ class RE_Log {
 
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
-		if ( isset( $_REQUEST['s'] ) )
-			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+		// if ( isset( $_REQUEST['s'] ) )
+		// 	$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
@@ -135,6 +137,13 @@ class RE_Log {
 				break;
 		}
 	}
+
+	public function to_json() {
+		return array(
+			'sent_to' => $this->sent_to,
+			'ip' => $this->ip,
+		);
+	}
 }
 
 class RE_404 {
@@ -157,8 +166,10 @@ class RE_404 {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
-		if ( $row )
+		if ( $row ) {
 			return new RE_404( $row );
+		}
+
 		return false;
 	}
 
@@ -171,11 +182,13 @@ class RE_404 {
 			'ip'      => ip2long( $ip ),
 		);
 
-		if ( ! empty( $agent ) )
+		if ( ! empty( $agent ) ) {
 			$insert['agent'] = $agent;
+		}
 
-		if ( ! empty( $referrer ) )
+		if ( ! empty( $referrer ) ) {
 			$insert['referrer'] = $referrer;
+		}
 
 		$insert = apply_filters( 'redirection_404_data', $insert );
 
@@ -192,8 +205,8 @@ class RE_404 {
 		global $wpdb;
 
 		$where = array();
-		if ( isset( $_REQUEST['s'] ) )
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+		// if ( isset( $_REQUEST['s'] ) )
+		// 	$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$where_cond = '';
 		if ( count( $where ) > 0 )
@@ -205,7 +218,7 @@ class RE_404 {
 	static function export_to_csv() {
 		global $wpdb;
 
-		$filename = 'redirection-log-'.date_i18n( get_option( 'date_format' ) ).'.csv';
+		$filename = 'redirection-404-'.date_i18n( get_option( 'date_format' ) ).'.csv';
 
 		header( 'Content-Type: text/csv' );
 		header( 'Cache-Control: no-cache, must-revalidate' );
@@ -218,8 +231,8 @@ class RE_404 {
 
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404";
-		if ( isset( $_REQUEST['s'] ) )
-			$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+		// if ( isset( $_REQUEST['s'] ) )
+		// 	$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
@@ -242,5 +255,74 @@ class RE_404 {
 			if ( count( $rows ) < 100 )
 				break;
 		}
+	}
+
+	public function to_json() {
+		return array(
+			'ip' => long2ip( $this->ip ),
+		);
+	}
+}
+
+class RE_Filter_Log {
+	static function get( $table, $construct, array $params ) {
+		global $wpdb;
+
+		$orderby = 'id';
+		$direction = 'DESC';
+		$limit = 20;
+		$offset = 0;
+		$where = '';
+
+		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'ip', 'url' ), true ) ) {
+			$orderby = $params['orderBy'];
+		}
+
+		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
+			$direction = strtoupper( $params['direction'] );
+		}
+
+		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 ) {
+			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'ip' ) {
+				$where = $wpdb->prepare( "WHERE ip=%s", $params['filter'] );
+			} else {
+				$where = $wpdb->prepare( 'WHERE url LIKE %s', '%'.$wpdb->esc_like( trim( $params['filter'] ) ).'%' );
+			}
+		}
+
+		if ( isset( $params['perPage'] ) ) {
+			$limit = intval( $params['perPage'], 10 );
+			$limit = min( 100, $limit );
+			$limit = max( 10, $limit );
+		}
+
+		if ( isset( $params['page'] ) ) {
+			$offset = intval( $params['page'], 10 );
+			$offset = max( 0, $offset );
+			$offset *= $limit;
+		}
+
+		$table = $wpdb->prefix.$table;
+		$sql = trim( "SELECT * FROM {$table} $where " ).$wpdb->prepare( " ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit );
+
+		$rows		= $wpdb->get_results( $sql );
+		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where );
+		$items = array();
+
+		foreach ( $rows as $row ) {
+			$item = new $construct( $row );
+			$items[] = array_merge( $item->to_json(), array(
+				'id' => intval( $item->id, 10 ),
+				'created' => date_i18n( get_option( 'date_format' ), $item->created ).' '.gmdate( get_option( 'time_format' ), $item->created ),
+				'url' => $item->url,
+				'agent' => $item->agent,
+				'referrer' => $item->referrer,
+			) );
+		}
+
+		return array(
+			'items' => $items,
+			'total' => intval( $total_items, 10 ),
+		);
 	}
 }
