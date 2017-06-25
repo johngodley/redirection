@@ -49,6 +49,11 @@ The following special words can be inserted into a target URL:
 
 Additionally, if the target URL is a number without any slashes then Redirection will treat it as a post ID and redirect to the full URL for that post.
 
+### Permissions
+
+Access to the Redirection admin interface is given to `administrator`. You can modify this with the filter `redirection_role`, returning your
+own WordPress access level.
+
 ## Building
 
 Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Gulp, Node, and Yarn installed. Install required modules with:

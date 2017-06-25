@@ -58,7 +58,8 @@ function red_get_options() {
 	return $options;
 }
 
-if ( is_admin() )
+if ( is_admin() ) {
 	include dirname( __FILE__ ).'/redirection-admin.php';
-else
+} else {
 	include dirname( __FILE__ ).'/redirection-front.php';
+}
