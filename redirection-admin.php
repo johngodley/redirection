@@ -667,6 +667,10 @@ class Redirection_Admin {
 		if ( $type === 'log' ) {
 			return RE_Filter_Log::get( 'redirection_logs', 'RE_Log', $params );
 		} else if ( $type === '404' ) {
+			if ( isset( $params['filterBy'] ) && isset( $params['filter'] ) && $params['filterBy'] === 'ip' ) {
+				$params['filter'] = ip2long( $params['filter'] );
+			}
+
 			return RE_Filter_Log::get( 'redirection_404', 'RE_404', $params );
 		}
 

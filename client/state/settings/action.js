@@ -1,4 +1,4 @@
-/* global fetch, Redirectioni10n */
+/* global fetch */
 /**
  * Internal dependencies
  */
@@ -10,25 +10,7 @@ import {
 	SETTING_SAVED,
 	SETTING_SAVE_FAILED,
 } from './type';
-
-const getApi = ( action, data ) => {
-	const form = new FormData();
-
-	form.append( 'action', action );
-	form.append( '_wpnonce', Redirectioni10n.WP_API_nonce );
-
-	if ( data ) {
-		for ( const variable in data ) {
-			form.append( variable, data[ variable ] );
-		}
-	}
-
-	return fetch( Redirectioni10n.WP_API_root, {
-		method: 'post',
-		body: form,
-		credentials: 'same-origin',
-	} );
-};
+import getApi from 'lib/api';
 
 export const loadSettings = () => {
 	return dispatch => {

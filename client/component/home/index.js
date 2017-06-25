@@ -10,6 +10,8 @@ import React from 'react';
 
 import Options from 'component/options';
 import Support from 'component/support';
+import Logs from 'component/logs';
+import Logs404 from 'component/logs404';
 
 class Home extends React.Component {
 	getContent() {
@@ -17,6 +19,14 @@ class Home extends React.Component {
 
 		if ( parts[ 1 ] === 'sub=support' ) {
 			return <Support />;
+		}
+
+		if ( parts[ 1 ] === 'sub=404s' ) {
+			return <Logs404 />;
+		}
+
+		if ( parts[ 1 ] === 'sub=log' ) {
+			return <Logs />;
 		}
 
 		return <Options />;

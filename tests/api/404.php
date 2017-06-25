@@ -45,7 +45,7 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 	public function testIPFilter() {
 		$this->createAB( 5 );
 
-		$result = $this->get_logs( array( 'filter' => ip2long( '192.168.1.1' ), 'filterBy' => 'ip' ) );
+		$result = $this->get_logs( array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ) );
 
 		$this->assertEquals( 1, count( $result->items ) );
 	}
@@ -53,8 +53,8 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 	public function testBadIPFilter() {
 		$this->createAB();
 
-		$result = $this->get_logs( array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ) );
+		$result = $this->get_logs( array( 'filter' => 'cats', 'filterBy' => 'ip' ) );
 
-		$this->assertEquals( 0, count( $result->items ) );
+		$this->assertEquals( 2, count( $result->items ) );
 	}
 }

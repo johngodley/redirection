@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
  * Internal dependencies
  */
 
+import 'lib/polyfill';
 import createReduxStore from 'state';
 import { getInitialState } from 'state/initial';
 import './index.scss';

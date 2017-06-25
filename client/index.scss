@@ -41,7 +41,6 @@
 
 #react-ui {
 	clear: both;
-	padding-top: 15px;
 }
 
 body.ReactModal__Body--open {
@@ -151,4 +150,53 @@ body.ReactModal__Body--open {
 		font-size: 12px;
 		font-style: italic;
 	}
+}
+
+@keyframes loading-fade {
+	0% { opacity: .5; }
+	50% { opacity: 1; }
+	100% { opacity: .5; }
+}
+
+.wp-list-table {
+	.is-placeholder {
+		td {
+			position: relative;
+			height: 50px;
+		}
+
+		.loading {
+			content: '';
+			position: absolute;
+			top: 16px;
+			right: 8px;
+			bottom: 16px;
+			left: 8px;
+			padding-left: 8px;
+			padding-top: 8px;
+			// width: 100%;
+			background-color: lighten( $gray, 20% );
+			animation: loading-fade 1.6s ease-in-out infinite;
+		}
+	}
+
+	.item-loading {
+		opacity: 0.3;
+	}
+
+}
+
+.widefat thead tr td.column-check, .widefat tfoot tr td.column-check {
+    width: 2.2em;
+	padding-top: 9px;
+	padding-left: 3px;
+	vertical-align: middle;
+}
+
+input.current-page {
+	width: 55px;
+}
+
+.fixed .column-date {
+	width: 165px !important;
 }
