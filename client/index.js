@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import i18n from 'i18n-calypso';
+import i18n from 'lib/locale';
 
 /**
  * Internal dependencies

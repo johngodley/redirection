@@ -1,13 +1,27 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:52
-__( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:52
-__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/component/options/delete-plugin.js:50
-__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/component/options/delete-plugin.js:49
-__( "Delete the plugin - are you sure?", "redirection" ), // client/component/options/delete-plugin.js:48
-__( "Delete", "redirection" ), // client/component/options/delete-plugin.js:43
-__( "Delete Redirection", "redirection" ), // client/component/options/delete-plugin.js:39
+__( "No! Don't delete the logs", "redirection" ), // client/component/logs/delete-all.js:44
+__( "Yes! Delete the logs", "redirection" ), // client/component/logs/delete-all.js:44
+__( "Once deleted your current logs will no longer be available. You can set an delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/component/logs/delete-all.js:42
+__( "Delete the logs - are you sure?", "redirection" ), // client/component/logs/delete-all.js:41
+__( "Delete All", "redirection" ), // client/component/logs/delete-all.js:38
+__( "Export to CSV", "redirection" ), // client/component/logs/export-csv.js:16
+__( "IP", "redirection" ), // client/component/logs/index.js:44
+__( "Referrer", "redirection" ), // client/component/logs/index.js:40
+__( "Source URL", "redirection" ), // client/component/logs/index.js:36
+__( "Date", "redirection" ), // client/component/logs/index.js:32
+__( "IP", "redirection" ), // client/component/logs404/index.js:42
+__( "Referrer", "redirection" ), // client/component/logs404/index.js:38
+__( "Source URL", "redirection" ), // client/component/logs404/index.js:34
+__( "Date", "redirection" ), // client/component/logs404/index.js:30
+__( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
+__( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
+__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/component/options/delete-plugin.js:47
+__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/component/options/delete-plugin.js:46
+__( "Delete the plugin - are you sure?", "redirection" ), // client/component/options/delete-plugin.js:45
+__( "Delete", "redirection" ), // client/component/options/delete-plugin.js:41
+__( "Delete Redirection", "redirection" ), // client/component/options/delete-plugin.js:38
 __( "Source URL, Target URL, [Regex 0=false, 1=true], [HTTP Code]", "redirection" ), // client/component/options/importer.js:49
 __( "CSV Format", "redirection" ), // client/component/options/importer.js:47
 __( "Upload", "redirection" ), // client/component/options/importer.js:45
@@ -35,7 +49,7 @@ __( "A month", "redirection" ), // client/component/options/options-form.js:23
 __( "A week", "redirection" ), // client/component/options/options-form.js:22
 __( "A day", "redirection" ), // client/component/options/options-form.js:21
 __( "No logs", "redirection" ), // client/component/options/options-form.js:20
-__( "Thank you for making a donation!", "redirection" ), // client/component/support/donation.js:101
+__( "Thank you for making a donation!", "redirection" ), // client/component/support/donation.js:103
 __( "Yes I'd like to donate", "redirection" ), // client/component/support/donation.js:57
 __( "Please note I do not provide support and this is just a donation.", "redirection" ), // client/component/support/donation.js:56
 __( "You get some useful software and I get to carry on making it better.", "redirection" ), // client/component/support/donation.js:53
@@ -56,5 +70,24 @@ __( "Want to keep up to date with changes to Redirection?", "redirection" ), // 
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:35
 __( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/component/support/newsletter.js:24
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:22
+__( "No results", "redirection" ), // client/component/table/empty-row.js:15
+__( "Sorry but something went wrong loading the data - please try again", "redirection" ), // client/component/table/failed-row.js:16
+__( "Select All", "redirection" ), // client/component/table/header/index.js:19
+_n( "%s item", "%s items", 1, "redirection" ), // client/component/table/navigation-pages.js:115
+__( "Last page", "redirection" ), // client/component/table/navigation-pages.js:98
+__( "Next page", "redirection" ), // client/component/table/navigation-pages.js:98
+__( "of %(page)s", "redirection" ), // client/component/table/navigation-pages.js:87
+__( "Current Page", "redirection" ), // client/component/table/navigation-pages.js:83
+__( "Prev page", "redirection" ), // client/component/table/navigation-pages.js:80
+__( "First page", "redirection" ), // client/component/table/navigation-pages.js:80
+__( "Apply", "redirection" ), // client/component/table/navigation.js:48
+__( "Delete", "redirection" ), // client/component/table/navigation.js:45
+__( "Bulk Actions", "redirection" ), // client/component/table/navigation.js:44
+__( "Select bulk action", "redirection" ), // client/component/table/navigation.js:41
+__( "Show only this IP", "redirection" ), // client/component/table/row/404.js:78
+__( "Add Redirect", "redirection" ), // client/component/table/row/404.js:61
+__( "Show only this IP", "redirection" ), // client/component/table/row/log.js:69
+__( "Search", "redirection" ), // client/component/table/search.js:38
+__( "Search by IP", "redirection" ), // client/component/table/search.js:38
 );
 /* THIS IS THE END OF THE GENERATED FILE */

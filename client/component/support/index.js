@@ -25,7 +25,7 @@ class Support extends React.Component {
 		const { support = false, newsletter = false } = this.props.values ? this.props.values : {};
 
 		return (
-			<div>
+			<div style={ { paddingTop: '5px' } }>
 				<Donation support={ support } />
 				<Newsletter newsletter={ newsletter } />
 				<Faq />

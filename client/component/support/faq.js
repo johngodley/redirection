@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { translate as __ } from 'lib/locale';
 
 const faq = [
 	{

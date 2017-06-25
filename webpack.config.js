@@ -16,7 +16,7 @@ const config = {
 	output: {
 		path: path.join( __dirname ),
 		filename: 'redirection-ui.js',
-		publicPath: getDevUrl,
+		chunkFilename: 'redirection-[name]-[chunkhash].js',
 	},
 	module: {
 		rules: [
@@ -39,6 +39,12 @@ const config = {
 					'sass-loader',
 				]
 			},
+			{
+				test: [
+					path.resolve( __dirname, 'node_modules/redbox-react' ),
+				],
+				use: 'null-loader'
+			}
 		]
 	},
 	resolve: {
@@ -60,15 +66,25 @@ const config = {
 				]
 			}
 		} ),
-		new webpack.ProvidePlugin( {
-			Promise: 'es6-promise',
-			fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
-		} ),
 	],
 	watchOptions: {
 		ignored: [ /node_modules/ ],
 	},
-	devServer: {
+};
+
+if ( isProduction() ) {
+	config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false, drop_console: true, dead_code: true, unused: true, drop_debugger: true } } ) );
+	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
+	config.plugins.push( new webpack.optimize.ModuleConcatenationPlugin() );
+	config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
+} else {
+	config.output.publicPath = getDevUrl;
+	config.devtool = 'inline-source-map';
+	config.entry.unshift( 'webpack/hot/only-dev-server' );
+	config.entry.unshift( 'webpack-dev-server/client?' + getDevUrl );
+	config.entry.unshift( 'react-hot-loader/patch' );
+	config.plugins.push( new webpack.NamedModulesPlugin() );
+	config.devServer = {
 		historyApiFallback: {
 			index: '/'
 		},
@@ -92,19 +108,7 @@ const config = {
 			warnings: false,
 			publicPath: false
 		}
-	}
-};
-
-if ( isProduction() ) {
-	config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false, drop_console: true, dead_code: true, unused: true, drop_debugger: true } } ) );
-	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
-//	config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
-} else {
-	config.devtool = 'inline-source-map';
-	config.entry.unshift( 'webpack/hot/only-dev-server' );
-	config.entry.unshift( 'webpack-dev-server/client?' + getDevUrl );
-	config.entry.unshift( 'react-hot-loader/patch' );
-	config.plugins.push( new webpack.NamedModulesPlugin() );
+	};
 }
 
 module.exports = config;
