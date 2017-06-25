@@ -4,11 +4,11 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
-import Slider from 'rc-slider';
+import ReactSimpleRange from 'react-simple-range';
 
-const MIN = 10;
+const MIN = 16;
 const MAX = 100;
 
 class Donation extends React.Component {
@@ -59,8 +59,10 @@ class Donation extends React.Component {
 		);
 	}
 
-	handleChange( value ) {
-		this.setState( { amount: parseInt( value, 10 ) } );
+	handleChange( data ) {
+		if ( this.state.amount !== data.value ) {
+			this.setState( { amount: parseInt( data.value, 10 ) } );
+		}
 	}
 
 	handleInput( ev ) {
@@ -101,7 +103,7 @@ class Donation extends React.Component {
 				<h2>{ __( 'Thank you for making a donation!' ) }</h2>
 
 				<div>
-					<Slider className="donation-slider" min={ MIN } max={ MAX } step={ 2 } defaultValue={ this.state.amount } value={ this.state.amount } marks={ marks } onChange={ this.onChange } />
+					<ReactSimpleRange min={ MIN } max={ MAX } step={ 2 } defaultValue={ this.state.amount } value={ this.state.amount } onChange={ this.onChange } sliderSize={ 12 } thumbSize={ 18 } />
 				</div>
 
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
