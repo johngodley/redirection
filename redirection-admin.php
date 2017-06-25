@@ -20,31 +20,33 @@ class Redirection_Admin {
 	}
 
 	function __construct() {
-		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-		add_action( 'load-tools_page_redirection', array( &$this, 'redirection_head' ) );
-		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( &$this, 'plugin_settings' ), 10, 4 );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_action( 'load-tools_page_redirection', array( $this, 'redirection_head' ) );
+		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
 
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
 		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
-		add_action( 'wp_ajax_red_log_delete', array( &$this, 'ajax_log_delete' ) );
-		add_action( 'wp_ajax_red_module_edit', array( &$this, 'ajax_module_edit' ) );
-		add_action( 'wp_ajax_red_module_save', array( &$this, 'ajax_module_save' ) );
-		add_action( 'wp_ajax_red_group_edit', array( &$this, 'ajax_group_edit' ) );
-		add_action( 'wp_ajax_red_group_save', array( &$this, 'ajax_group_save' ) );
-		add_action( 'wp_ajax_red_redirect_add', array( &$this, 'ajax_redirect_add' ) );
-		add_action( 'wp_ajax_red_redirect_edit', array( &$this, 'ajax_redirect_edit' ) );
-		add_action( 'wp_ajax_red_redirect_save', array( &$this, 'ajax_redirect_save' ) );
-		add_action( 'wp_ajax_red_get_htaccess', array( &$this, 'ajax_get_htaccess' ) );
-		add_action( 'wp_ajax_red_get_nginx', array( &$this, 'ajax_get_nginx' ) );
+		add_action( 'wp_ajax_red_module_edit', array( $this, 'ajax_module_edit' ) );
+		add_action( 'wp_ajax_red_module_save', array( $this, 'ajax_module_save' ) );
+		add_action( 'wp_ajax_red_group_edit', array( $this, 'ajax_group_edit' ) );
+		add_action( 'wp_ajax_red_group_save', array( $this, 'ajax_group_save' ) );
+		add_action( 'wp_ajax_red_redirect_add', array( $this, 'ajax_redirect_add' ) );
+		add_action( 'wp_ajax_red_redirect_edit', array( $this, 'ajax_redirect_edit' ) );
+		add_action( 'wp_ajax_red_redirect_save', array( $this, 'ajax_redirect_save' ) );
+		add_action( 'wp_ajax_red_get_htaccess', array( $this, 'ajax_get_htaccess' ) );
+		add_action( 'wp_ajax_red_get_nginx', array( $this, 'ajax_get_nginx' ) );
 
-		add_action( 'wp_ajax_red_load_settings', array( &$this, 'ajax_load_settings' ) );
-		add_action( 'wp_ajax_red_save_settings', array( &$this, 'ajax_save_settings' ) );
+		add_action( 'wp_ajax_red_load_settings', array( $this, 'ajax_load_settings' ) );
+		add_action( 'wp_ajax_red_save_settings', array( $this, 'ajax_save_settings' ) );
+		add_action( 'wp_ajax_red_get_logs', array( $this, 'ajax_get_logs' ) );
+		add_action( 'wp_ajax_red_log_action', array( $this, 'ajax_log_action' ) );
 		add_action( 'wp_ajax_red_delete_plugin', array( $this, 'ajax_delete_plugin' ) );
+		add_action( 'wp_ajax_red_delete_all', array( $this, 'ajax_delete_all' ) );
 
-		add_action( 'redirection_save_options', array( &$this, 'flush_schedule' ) );
+		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 
@@ -63,7 +65,7 @@ class Redirection_Admin {
 	}
 
 	public static function plugin_uninstall() {
-		include dirname( REDIRECTION_FILE ).'/models/database.php';
+		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 		$db = new RE_Database();
 		$db->remove( REDIRECTION_FILE );
@@ -80,8 +82,9 @@ class Redirection_Admin {
 			$$key = $val;
 		}
 
-		if ( file_exists( dirname( REDIRECTION_FILE )."/view/$template.php" ) )
+		if ( file_exists( dirname( REDIRECTION_FILE )."/view/$template.php" ) ) {
 			include dirname( REDIRECTION_FILE )."/view/$template.php";
+		}
 	}
 
 	private function capture( $ug_name, $ug_vars = array() ) {
@@ -179,13 +182,20 @@ class Redirection_Admin {
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'error_msg' => __( 'Sorry, unable to do that. Please try refreshing the page.' ),
 			'WP_API_root' => admin_url( 'admin-ajax.php' ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
+			'pluginRoot' => admin_url( 'tools.php?page=redirection.php' ),
+			'per_page' => $this->get_per_page(),
 			'locale' => $this->get_i18n_data(),
 			'localeSlug' => get_locale(),
 		) );
+	}
+
+	private function get_per_page() {
+		$per_page = intval( get_user_meta( get_current_user_id(), 'redirection_log_per_page', true ), 10 );
+
+		return $per_page > 0 ? $per_page : 25;
 	}
 
 	private function get_i18n_data() {
@@ -259,11 +269,12 @@ class Redirection_Admin {
 		}
 
 		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
-			if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'redirection-log_management' ) ) {
-				if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' )
+			if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
+				if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
 					RE_Log::export_to_csv();
-				else
+				} else {
 					RE_404::export_to_csv();
+				}
 
 				die();
 			} else {
@@ -297,37 +308,13 @@ class Redirection_Admin {
 	function admin_screen_log() {
 		$options = red_get_options();
 
-		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
-			RE_Log::delete_all();
-			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
-		}
-
-		$table = new Redirection_Log_Table( $options );
-
-		if ( isset( $_GET['module'] ) )
-			$table->prepare_items( 'module', intval( $_GET['module'] ) );
-		else if ( isset( $_GET['group'] ) )
-			$table->prepare_items( 'group', intval( $_GET['group'] ) );
-		else if ( isset( $_GET['redirect'] ) )
-			$table->prepare_items( 'redirect', intval( $_GET['redirect'] ) );
-		else
-			$table->prepare_items();
-
-		$this->render( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => 'log' ) );
+		$this->render( 'log', array( 'options' => $options, 'title' => __( 'Redirection Log', 'redirection' ) ) );
 	}
 
 	function admin_screen_404() {
-		if ( isset( $_POST['delete-all'] ) && check_admin_referer( 'redirection-log_management' ) ) {
-			RE_404::delete_all();
-			$this->render_message( __( 'Your logs have been deleted', 'redirection' ) );
-		}
-
 		$options = red_get_options();
 
-		$table = new Redirection_404_Table( $options );
-		$table->prepare_items( isset( $_GET['ip'] ) ? $_GET['ip'] : false );
-
-		$this->render( 'log', array( 'options' => $options, 'table' => $table, 'lookup' => $options['lookup'], 'type' => '404s' ) );
+		$this->render( 'log', array( 'options' => $options, 'title' => __( 'Redirection 404', 'redirection' ) ) );
 	}
 
 	function admin_groups( $module ) {
@@ -352,39 +339,16 @@ class Redirection_Admin {
 		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
 	}
 
-	function locales() {
-		$locales = array();
-		if ( file_exists( dirname( REDIRECTION_FILE ).'/readme.txt' ) ) {
-			$readme = file_get_contents( dirname( REDIRECTION_FILE ).'/readme.txt' );
-
-			$start = strpos( $readme, 'Redirection is available in' );
-			$end   = strpos( $readme, '==', $start );
-			if ( $start !== false && $end !== false ) {
-				if ( preg_match_all( '/^\* (.*? by .*)/m', substr( $readme, $start, $end ), $matches ) > 0 ) {
-					$locales = $matches[1];
-				}
-			}
-
-			sort( $locales );
-		}
-
-		return $locales;
-	}
-
-	public function ajax_log_delete() {
-		if ( check_ajax_referer( 'redirection-items' ) ) {
-			if ( preg_match_all( '/=(\d*)/', $_POST['checked'], $items ) > 0 ) {
-				foreach ( $items[1] as $item ) {
-					RE_Log::delete( intval( $item ) );
-				}
-			}
-		}
-	}
-
 	private function check_ajax_referer( $nonce ) {
 		if ( check_ajax_referer( $nonce, false, false ) === false ) {
-			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce' ) );
+			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce ("'.$nonce.'")' ) );
 		}
+
+		if ( current_user_can( apply_filters( 'redirection_role', 'administrator' ) ) === false ) {
+			return $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action' ) ) );
+		}
+
+		return true;
 	}
 
 	public function ajax_module_edit() {
@@ -551,7 +515,10 @@ class Redirection_Admin {
 	}
 
 	public function ajax_delete_plugin() {
-		$this->check_ajax_referer( 'wp_rest' );
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
 
 		$this->plugin_uninstall();
 
@@ -563,12 +530,18 @@ class Redirection_Admin {
 	}
 
 	public function ajax_load_settings() {
-		$this->check_ajax_referer( 'wp_rest' );
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
 		return $this->output_ajax_response( array( 'settings' => red_get_options(), 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
 	}
 
 	public function ajax_save_settings( $settings = array() ) {
-		$this->check_ajax_referer( 'wp_rest' );
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
 
 		if ( empty( $settings ) ) {
 			$settings = $_POST;
@@ -614,6 +587,92 @@ class Redirection_Admin {
 		return $this->output_ajax_response( array( 'settings' => $options, 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
 	}
 
+	public function ajax_get_logs( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		$result = $this->get_logs( $params );
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_log_action( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		// Do the action
+		if ( isset( $params['bulk'] ) && isset( $params['items'] ) && $params['bulk'] === 'delete' ) {
+			$items = explode( ',', $params['items'] );
+
+			if ( $this->get_log_type( $params ) === 'log' ) {
+				array_map( array( 'RE_Log', 'delete' ), $items );
+			} else {
+				array_map( array( 'RE_404', 'delete' ), $items );
+			}
+		}
+
+		$result = $this->get_logs( $params );
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_delete_all( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		if ( isset( $params['logType'] ) ) {
+			if ( $params['logType'] === 'log' ) {
+				RE_Log::delete_all();
+			} else {
+				RE_404::delete_all();
+			}
+		}
+
+		$result = $this->get_logs( $params );
+
+		return $this->output_ajax_response( $result );
+	}
+
+	private function get_log_type( $params ) {
+		$type = 'log';
+
+		if ( isset( $params['logType'] ) && in_array( $params['logType'], array( 'log', '404' ), true ) ) {
+			$type = $params['logType'];
+		}
+
+		return $type;
+	}
+
+	private function get_logs( array $params ) {
+		$type = $this->get_log_type( $params );
+
+		if ( $type === 'log' ) {
+			return RE_Filter_Log::get( 'redirection_logs', 'RE_Log', $params );
+		} else if ( $type === '404' ) {
+			return RE_Filter_Log::get( 'redirection_404', 'RE_404', $params );
+		}
+
+		return array( 'items' => array(), 'total' => 0 );
+	}
+
 	private function groups_to_json( $groups, $depth = 0 ) {
 		$items = array();
 
@@ -634,7 +693,7 @@ class Redirection_Admin {
 		if ( defined( 'DOING_AJAX' ) ) {
 			header( 'Content-Type: application/json' );
 			echo $result;
-			die();
+			wp_die();
 		}
 
 		return $result;
