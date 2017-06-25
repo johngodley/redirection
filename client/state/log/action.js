@@ -43,7 +43,7 @@ export const loadLogs = logType => getLogs( { logType } );
 export const setPage = page => getLogs( { page } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
-export const setSearch = filter => getLogs( { filter, filterBy: '' } );
+export const setSearch = filter => getLogs( { filter } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter } );
 
 export const performTableAction = action => {

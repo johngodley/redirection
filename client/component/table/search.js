@@ -19,7 +19,7 @@ class SearchBox extends React.Component {
 	}
 
 	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.filterBy !== this.props.filterBy ) {
+		if ( nextProps.filterBy !== this.props.filterBy || nextProps.filter !== this.props.filter ) {
 			this.setState( { search: nextProps.filter } );
 		}
 	}
