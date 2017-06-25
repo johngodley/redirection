@@ -1,6 +1,5 @@
 const gulp = require( 'gulp' );
 const i18n_calypso = require( 'i18n-calypso/cli' );
-const tap = require( 'gulp-tap' );
 const po2json = require( 'gulp-po2json' );
 const wpPot = require( 'gulp-wp-pot' );
 const sort = require( 'gulp-sort' );
@@ -39,7 +38,7 @@ gulp.task( 'pot:json', done => {
 } );
 
 gulp.task( 'pot:extract', () => {
-	globby( 'client/**/*.js' )
+	globby( [ 'client/**/*.js', '!client/lib/polyfill/index.js' ] )
 		.then( files => {
 			let result = i18n_calypso( {
 				projectName: 'Redirection',
