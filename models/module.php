@@ -27,7 +27,7 @@ abstract class Red_Module {
 	public function get_total_redirects() {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $this->get_id() ) );
+		return intval( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $this->get_id() ) ), 10 );
 	}
 
 	static public function is_valid_id( $id ) {
@@ -65,13 +65,8 @@ abstract class Red_Module {
 	}
 
 	abstract public function get_id();
-	abstract public function get_name();
-	abstract public function get_description();
 
-	abstract public function render_config();
-	abstract public function get_config();
-	abstract public function can_edit_config();
-	abstract public function update( $options );
+	abstract public function update( array $options );
 
 	abstract protected function load( $options );
 	abstract protected function flush_module();
