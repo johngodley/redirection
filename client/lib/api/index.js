@@ -1,5 +1,17 @@
 /* global fetch, Redirectioni10n */
 
+const addData = ( form, data, preName ) => {
+	for ( const variable in data ) {
+		if ( data[ variable ] !== '' && data[ variable ] !== undefined ) {
+			if ( typeof data[ variable ] === 'object' ) {
+				addData( form, data[ variable ], variable + '_' );
+			} else {
+				form.append( preName + variable, data[ variable ] );
+			}
+		}
+	}
+};
+
 const getApi = ( action, data ) => {
 	const form = new FormData();
 
@@ -7,11 +19,7 @@ const getApi = ( action, data ) => {
 	form.append( '_wpnonce', Redirectioni10n.WP_API_nonce );
 
 	if ( data ) {
-		for ( const variable in data ) {
-			if ( data[ variable ] !== '' ) {
-				form.append( variable, data[ variable ] );
-			}
-		}
+		addData( form, data, '' );
 	}
 
 	return fetch( Redirectioni10n.WP_API_root, {
