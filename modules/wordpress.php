@@ -9,15 +9,8 @@ class WordPress_Module extends Red_Module {
 		return self::MODULE_ID;
 	}
 
-	public function can_edit_config() {
-		return false;
-	}
-
-	public function render_config() {
-	}
-
-	public function get_config() {
-		return array();
+	public function get_name() {
+		return 'WordPress';
 	}
 
 	public function start() {
@@ -112,7 +105,7 @@ class WordPress_Module extends Red_Module {
 		return $url;
 	}
 
-	public function update( $data ) {
+	public function update( array $data ) {
 		return false;
 	}
 
@@ -127,13 +120,5 @@ class WordPress_Module extends Red_Module {
 		if ( $this->matched )
 			$skip[] = $_SERVER['REQUEST_URI'];
 		return $skip;
-	}
-
-	public function get_name() {
-		return __( 'WordPress', 'redirection' );
-	}
-
-	public function get_description() {
-		return __( 'WordPress-powered redirects. This requires no further configuration, and you can track hits.', 'redirection' );
 	}
 }

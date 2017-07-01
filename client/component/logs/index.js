@@ -15,6 +15,7 @@ import { loadLogs, deleteAll } from 'state/log/action';
 import { LOGS_TYPE_REDIRECT } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
+import LogRow from './row';
 
 class Logs extends React.Component {
 	constructor( props ) {
@@ -23,8 +24,16 @@ class Logs extends React.Component {
 		props.onLoad( LOGS_TYPE_REDIRECT );
 	}
 
+	renderRow( row, key, status ) {
+		return <LogRow item={ row } key={ key } selected={ status.isSelected } isLoading={ status.isLoading } />;
+	}
+
 	render() {
 		const headers = [
+			{
+				name: 'cb',
+				check: true,
+			},
 			{
 				name: 'date',
 				title: __( 'Date' ),
@@ -46,7 +55,7 @@ class Logs extends React.Component {
 
 		return (
 			<div>
-				<Table headers={ headers } row={ LOGS_TYPE_REDIRECT } />
+				<Table headers={ headers } store={ this.props.log } row={ this.renderRow } />
 
 				<br />
 				<DeleteAll onDelete={ this.props.onDeleteAll } />
@@ -56,6 +65,14 @@ class Logs extends React.Component {
 			</div>
 		);
 	}
+}
+
+function mapStateToProps( state ) {
+	const { log } = state;
+
+	return {
+		log,
+	};
 }
 
 function mapDispatchToProps( dispatch ) {
@@ -70,6 +87,6 @@ function mapDispatchToProps( dispatch ) {
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )( Logs );

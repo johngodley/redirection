@@ -20,7 +20,7 @@ const dispatchRequest = ( dispatch, action, params ) => {
 				throw json.error;
 			}
 
-			dispatch( { type: LOG_LOADED, logs: json.items, total: json.total } );
+			dispatch( { type: LOG_LOADED, rows: json.items, total: json.total } );
 		} )
 		.catch( error => {
 			dispatch( { type: LOG_FAILED, error } );
@@ -43,7 +43,7 @@ export const loadLogs = logType => getLogs( { logType } );
 export const setPage = page => getLogs( { page } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
-export const setSearch = filter => getLogs( { filter } );
+export const setSearch = filter => getLogs( { filter, page: 0 } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter } );
 
 export const performTableAction = action => {

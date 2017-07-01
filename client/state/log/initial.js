@@ -13,7 +13,7 @@ export function getInitialLog() {
 	return {
 		orderBy: query.orderby && [ 'ip', 'url', ].indexOf( query.orderby ) !== -1 ? query.orderby : 'date',
 		direction: query.direction && query.direction === 'asc' ? 'asc' : 'desc',
-		logs: [],
+		rows: [],
 		status: STATUS_IN_PROGRESS,
 		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : 0,
 		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : 25,

@@ -1,20 +1,16 @@
-<?php if ( !defined( 'ABSPATH' ) ) die( 'No direct access allowed' ); ?>
+<?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?>
 <div class="wrap">
-	<h2><?php _e( 'Modules', 'redirection' ); ?></h2>
+	<h2><?php _e( 'Modules', 'redirection' ) ?></h2>
 
 	<?php $this->render( 'submenu', array( 'options' => $options ) ); ?>
 
-	<form method="POST" action="">
-		<?php $table->display(); ?>
-	</form>
+	<div id="react-ui">
+		<noscript>Please enable JavaScript</noscript>
+	</div>
 </div>
 
-<script type="text/javascript">
-( function( $ ) {
-	$( document ).ready( function() {
-		var items = new Redirection_Items( $ );
-
-		items.setup( 'table.items' );
+<script>
+	addLoadEvent( function() {
+		redirection.show( 'react-ui' );
 	} );
-} )( jQuery );
 </script>

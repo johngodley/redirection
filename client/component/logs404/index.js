@@ -12,9 +12,10 @@ import { translate as __ } from 'lib/locale';
 
 import Table from 'component/table';
 import { loadLogs, deleteAll } from 'state/log/action';
-import { LOGS_TYPE_404 } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
+import { LOGS_TYPE_404 } from 'state/log/type';
+import Row404 from './row';
 
 class Logs404 extends React.Component {
 	constructor( props ) {
@@ -23,8 +24,16 @@ class Logs404 extends React.Component {
 		props.onLoad( LOGS_TYPE_404 );
 	}
 
+	renderRow( row, key, status ) {
+		return <Row404 item={ row } key={ key } selected={ status.isSelected } isLoading={ status.isLoading } />;
+	}
+
 	render() {
 		const headers = [
+			{
+				name: 'cb',
+				check: true,
+			},
 			{
 				name: 'date',
 				title: __( 'Date' ),
@@ -46,7 +55,7 @@ class Logs404 extends React.Component {
 
 		return (
 			<div>
-				<Table headers={ headers } row={ LOGS_TYPE_404 } />
+				<Table headers={ headers } row={ this.renderRow } store={ this.props.log } />
 
 				<br />
 				<DeleteAll onDelete={ this.props.onDeleteAll } />
@@ -57,6 +66,14 @@ class Logs404 extends React.Component {
 	}
 }
 
+function mapStateToProps( state ) {
+	const { log } = state;
+
+	return {
+		log,
+	};
+}
+
 function mapDispatchToProps( dispatch ) {
 	return {
 		onLoad: logType => {
@@ -65,13 +82,10 @@ function mapDispatchToProps( dispatch ) {
 		onDeleteAll: () => {
 			dispatch( deleteAll() );
 		},
-		onExportCSV: () => {
-			dispatch( exportCSV() );
-		},
 	};
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )( Logs404 );

@@ -38,6 +38,10 @@ class PaginationLinks extends React.Component {
 
 	componentWillUpdate( nextProps ) {
 		this.setClickers( nextProps );
+
+		if ( nextProps.page !== this.props.page ) {
+			this.setState( { currentPage: nextProps.page } );
+		}
 	}
 
 	setClickers( props ) {

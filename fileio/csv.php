@@ -28,6 +28,16 @@ class Red_Csv_File extends Red_FileIO {
 		}
 	}
 
+	public function get( array $items ) {
+		$lines[] = implode( ',', array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
+
+		foreach ( $items as $line ) {
+			$lines[] = $this->item_as_csv( $line );
+		}
+
+		return implode( PHP_EOL, $lines );
+	}
+
 	public function item_as_csv( $item ) {
 		$csv = array(
 			$item->get_url(),

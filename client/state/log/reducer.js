@@ -48,7 +48,7 @@ const filterObject = obj => {
 export default function scene( state = {}, action ) {
 	switch ( action.type ) {
 		case LOG_SET_ALL_SELECTED:
-			return { ... state, selected: action.onoff ? state.logs.map( item => item.id ) : [] };
+			return { ... state, selected: action.onoff ? state.rows.map( item => item.id ) : [] };
 
 		case LOG_SET_SELECTED:
 			return { ... state, selected: setSelected( state.selected, action.items ) };
@@ -64,7 +64,7 @@ export default function scene( state = {}, action ) {
 			return { ... state, status: STATUS_FAILED, error: action.error };
 
 		case LOG_LOADED:
-			return { ... state, logs: action.logs, status: STATUS_COMPLETE, total: action.total };
+			return { ... state, rows: action.rows, status: STATUS_COMPLETE, total: action.total };
 	}
 
 	return state;

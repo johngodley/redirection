@@ -108,41 +108,6 @@ body.ReactModal__Body--open {
 	margin-bottom: 20px;
 	width: 500px;
 	margin-left: 5px;
-
-	.rc-slider-dot {
-		border: 2px solid #ddd;
-		background-color: #fff;
-	}
-
-	.rc-slider-dot-active {
-		border-color: $slider;
-	}
-
-	.rc-slider-rail {
-		background-color: #ddd;
-	}
-
-	.rc-slider-track {
-		background-color: $slider;
-	}
-
-	.rc-slider-handle {
-		border: solid 2px $slider;
-		background-color: #fff;
-	}
-
-	.rc-slider-handle:hover {
-		border-color: $slider;
-	}
-
-	.rc-slider-handle:active {
-		border-color: $slider;
-		box-shadow: 0 0 5px $slider;
-	}
-
-	.rc-slider-dot-active {
-		border-color: red;
-	}
 }
 
 .newsletter {
@@ -164,26 +129,29 @@ body.ReactModal__Body--open {
 			position: relative;
 			height: 50px;
 		}
-
-		.loading {
-			content: '';
-			position: absolute;
-			top: 16px;
-			right: 8px;
-			bottom: 16px;
-			left: 8px;
-			padding-left: 8px;
-			padding-top: 8px;
-			// width: 100%;
-			background-color: lighten( $gray, 20% );
-			animation: loading-fade 1.6s ease-in-out infinite;
-		}
 	}
 
 	.item-loading {
 		opacity: 0.3;
 	}
+}
 
+.loading {
+	content: '';
+	position: absolute;
+	top: 16px;
+	right: 8px;
+	bottom: 16px;
+	left: 8px;
+	padding-left: 8px;
+	padding-top: 8px;
+	background-color: lighten( $gray, 20% );
+	animation: loading-fade 1.6s ease-in-out infinite;
+}
+
+.loading-small {
+	width: 25px;
+	height: 25px;
 }
 
 .widefat thead tr td.column-check, .widefat tfoot tr td.column-check {
@@ -199,4 +167,23 @@ input.current-page {
 
 .fixed .column-date {
 	width: 165px !important;
+}
+
+.loader-wrapper {
+	position: relative;
+}
+
+.loader-textarea {
+	height: 100px;
+}
+
+.edit {
+	th {
+		vertical-align: top;
+		padding-top: 5px !important;
+	}
+
+	input[type=text] {
+		width: 80%;
+	}
 }
