@@ -256,10 +256,8 @@ class Redirection_Admin {
 
 	function admin_screen_modules() {
 		$options = red_get_options();
-		$pager = new Redirection_Module_Table( $options['token'] );
-		$pager->prepare_items();
 
-		$this->render( 'module-list', array( 'options' => $options, 'table' => $pager ) );
+		$this->render( 'module-list', array( 'options' => $options ) );
 	}
 
 	function inject() {
@@ -277,11 +275,13 @@ class Redirection_Admin {
 				}
 
 				die();
-			} else {
-				$exporter = Red_FileIO::create( $_GET['sub'] );
+			}
+
+			if ( $this->user_has_access() && $_GET['sub'] === 'modules' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
+				$exporter = Red_FileIO::create( $_GET['exporter'] );
 
 				if ( $exporter ) {
-					$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
+					$items = Red_Item::get_all_for_module( intval( $_GET['export'] ) );
 
 					$exporter->export( $items );
 					die();
