@@ -31,18 +31,18 @@ abstract class Red_Module {
 	}
 
 	static public function is_valid_id( $id ) {
-		if ( $id === Apache_Module::MODULE_ID || $id === WordPress_Module::MODULE_ID )
+		if ( $id === Apache_Module::MODULE_ID || $id === WordPress_Module::MODULE_ID || $id === Nginx_Module::MODULE_ID ) {
 			return true;
+		}
+
 		return false;
 	}
 
-	static function get_for_select() {
-		$options = red_get_options();
-
+	static function get_all() {
 		return array(
-			WordPress_Module::MODULE_ID => Red_Module::get( WordPress_Module::MODULE_ID ),
-			Apache_Module::MODULE_ID    => Red_Module::get( Apache_Module::MODULE_ID ),
-			Nginx_Module::MODULE_ID     => Nginx_Module::get( Nginx_Module::MODULE_ID ),
+			WordPress_Module::MODULE_ID => Red_Module::get( WordPress_Module::MODULE_ID )->get_name(),
+			Apache_Module::MODULE_ID    => Red_Module::get( Apache_Module::MODULE_ID )->get_name(),
+			Nginx_Module::MODULE_ID     => Nginx_Module::get( Nginx_Module::MODULE_ID )->get_name(),
 		);
 	}
 

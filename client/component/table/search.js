@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
-import { setSearch } from 'state/log/action';
 
 class SearchBox extends React.Component {
 	constructor( props ) {
@@ -58,15 +57,4 @@ SearchBox.propTypes = {
 	status: PropTypes.string.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
-	return {
-		onSearch: search => {
-			dispatch( setSearch( search ) );
-		}
-	};
-}
-
-export default connect(
-	null,
-	mapDispatchToProps,
-)( SearchBox );
+export default SearchBox;

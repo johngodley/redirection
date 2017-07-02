@@ -3,62 +3,45 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import PropTypes from 'prop-types';
 
+/**
+ * Internal dependencies
+ */
 import SortableColumn from './sortable-column';
 import Column from './column';
-import { setAllSelected } from 'state/log/action';
-
-const CheckColumn = props => {
-	const { onSetAllSelected, isDisabled, isSelected } = props;
-
-	return (
-		<td className="manage-column column-cb column-check" onClick={ onSetAllSelected }>
-			<label className="screen-reader-text">{ __( 'Select All' ) }</label>
-			<input type="checkbox" disabled={ isDisabled } checked={ isSelected } />
-		</td>
-	);
-};
+import CheckColumn from './check-column';
 
 const TableHeader = props => {
-	const { orderBy, direction, isDisabled, onSetAllSelected, isSelected, headers } = props;
+	const { isDisabled, onSetAllSelected, onSetOrderBy, isSelected, headers, table } = props;
+	const setSelected = ev => {
+		onSetAllSelected( ev.target.checked );
+	};
 
 	return (
 		<tr>
 			{ headers.map( item => {
 				if ( item.check === true ) {
-					return <CheckColumn onSetAllSelected={ onSetAllSelected } isDisabled={ isDisabled } isSelected={ isSelected } key={ item.name } />;
+					return <CheckColumn onSetAllSelected={ setSelected } isDisabled={ isDisabled } isSelected={ isSelected } key={ item.name } />;
 				}
 
 				if ( item.sortable === false ) {
 					return <Column name={ item.name } text={ item.title } key={ item.name } />;
 				}
 
-				return <SortableColumn orderBy={ orderBy } direction={ direction } name={ item.name } text={ item.title } key={ item.name } />;
+				return <SortableColumn table={ table } name={ item.name } text={ item.title } key={ item.name } onSetOrderBy={ onSetOrderBy } />;
 			} ) }
 		</tr>
 	);
 };
 
-function mapStateToProps( state ) {
-	const { orderBy, direction } = state.log;
+TableHeader.propTypes = {
+	table: PropTypes.object.isRequired,
+	isDisabled: PropTypes.bool.isRequired,
+	isSelected: PropTypes.bool.isRequired,
+	headers: PropTypes.array.isRequired,
+	onSetAllSelected: PropTypes.func.isRequired,
+	onSetOrderBy: PropTypes.func.isRequired,
+};
 
-	return {
-		orderBy,
-		direction,
-	};
-}
-
-function mapDispatchToProps( dispatch ) {
-	return {
-		onSetAllSelected: ev => {
-			dispatch( setAllSelected( ev.target.checked ) );
-		}
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)( TableHeader );
+export default TableHeader;

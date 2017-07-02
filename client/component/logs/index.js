@@ -18,6 +18,7 @@ import { LOGS_TYPE_REDIRECT } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import LogRow from './row';
+import { setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 
 const headers = [
 	{
@@ -59,10 +60,10 @@ class Logs extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } />
-				<TableNav total={ total } selected={ table.selected } table={ table } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } />
-				<TableNav total={ total } selected={ table.selected } table={ table } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
 
 				<br />
 				<DeleteAll onDelete={ this.props.onDeleteAll } />
@@ -89,6 +90,21 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onDeleteAll: () => {
 			dispatch( deleteAll() );
+		},
+		onSearch: search => {
+			dispatch( setSearch( search ) );
+		},
+		onChangePage: page => {
+			dispatch( setPage( page ) );
+		},
+		onTableAction: action => {
+			dispatch( performTableAction( action ) );
+		},
+		onSetAllSelected: onoff => {
+			dispatch( setAllSelected( onoff ) );
+		},
+		onSetOrderBy: ( column, direction ) => {
+			dispatch( setOrderBy( column, direction ) );
 		},
 	};
 }

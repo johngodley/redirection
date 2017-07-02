@@ -13,9 +13,10 @@ import Support from 'component/support';
 import Logs from 'component/logs';
 import Logs404 from 'component/logs404';
 import Modules from 'component/modules';
+import Grouper from 'component/groups';
 
 class Home extends React.Component {
-	getContent() {
+	render() {
 		const parts = document.location.search.split( '&' );
 
 		if ( parts[ 1 ] === 'sub=support' ) {
@@ -34,14 +35,15 @@ class Home extends React.Component {
 			return <Modules />;
 		}
 
-		return <Options />;
-	}
+		if ( parts[ 1 ] === 'sub=groups' ) {
+			return <Grouper />;
+		}
 
-	render() {
-		// Will need a better way of doing this once the other pages are in React
-		const content = this.getContent();
+		if ( parts[ 1 ] === 'sub=options' ) {
+			return <Options />;
+		}
 
-		return content;
+		return null;
 	}
 }
 

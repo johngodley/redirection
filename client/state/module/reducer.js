@@ -23,11 +23,21 @@ const mergeRows = ( existingRows, newRows ) => {
 			name,
 			redirects: existingRows[ x ].redirects,
 			data: existingRows[ x ].data,
+			module_id: existingRows[ x ].module_id,
+			displayName: existingRows[ x ].displayName,
 		};
 
 		if ( newRows[ name ] ) {
 			mergedRows[ x ].redirects = parseInt( newRows[ name ].redirects, 10 );
+			mergedRows[ x ].module_id = parseInt( newRows[ name ].module_id, 10 );
 			mergedRows[ x ].data = newRows[ name ].data;
+			mergedRows[ x ].displayName = newRows[ name ].displayName;
+		}
+	}
+
+	for ( const moduleName in newRows ) {
+		if ( ! mergedRows.find( item => item.name === moduleName ) ) {
+			mergedRows.push( newRows[ moduleName ] );
 		}
 	}
 

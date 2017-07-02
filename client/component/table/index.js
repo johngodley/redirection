@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
@@ -18,7 +19,7 @@ const isDisabledHeader = ( status, rows ) => status !== STATUS_COMPLETE || rows.
 const isSelectedHeader = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
 
 const Table = props => {
-	const { headers, row, rows, total, table, status } = props;
+	const { headers, row, rows, total, table, status, onSetAllSelected, onSetOrderBy } = props;
 	const isDisabled = isDisabledHeader( status, rows );
 	const isSelected = isSelectedHeader( table.selected, rows );
 
@@ -37,16 +38,27 @@ const Table = props => {
 	return (
 		<table className="wp-list-table widefat fixed striped items">
 			<thead>
-				<TableHeader isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } />
+				<TableHeader table={ table } isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } onSetOrderBy={ onSetOrderBy } onSetAllSelected={ onSetAllSelected } />
 			</thead>
 
 			{ content }
 
 			<tfoot>
-				<TableHeader isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } />
+				<TableHeader table={ table } isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } onSetOrderBy={ onSetOrderBy } onSetAllSelected={ onSetAllSelected } />
 			</tfoot>
 		</table>
 	);
+};
+
+Table.propTypes = {
+	headers: PropTypes.array.isRequired,
+	row: PropTypes.func.isRequired,
+	rows: PropTypes.array.isRequired,
+	table: PropTypes.object.isRequired,
+	onSetAllSelected: PropTypes.func.isRequired,
+	onSetOrderBy: PropTypes.func.isRequired,
+	status: PropTypes.string.isRequired,
+	total: PropTypes.number.isRequired,
 };
 
 export default Table;

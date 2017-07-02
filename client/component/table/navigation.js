@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
 
@@ -11,7 +10,6 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 import NavigationPages from './navigation-pages';
-import { performTableAction } from 'state/log/action';
 
 class TableNav extends React.Component {
 	constructor( props ) {
@@ -31,28 +29,40 @@ class TableNav extends React.Component {
 		ev.preventDefault();
 
 		if ( this.state.action !== '-1' ) {
-			this.props.onTableAction( this.state.action );
+			this.props.onAction( this.state.action );
 			this.setState( { action: '-1' } );
 		}
 	}
 
+	getBulk( bulk ) {
+		const { selected } = this.props;
+
+		return (
+			<div className="alignleft actions bulkactions">
+				<label htmlFor="bulk-action-selector-top" className="screen-reader-text">{ __( 'Select bulk action' ) }</label>
+
+				<select name="action" id="bulk-action-selector-top" value={ this.state.action } disabled={ selected.length === 0 } onChange={ this.handleChange }>
+					<option value="-1">{ __( 'Bulk Actions' ) }</option>
+
+					{ bulk.map( item => <option key={ item.id } value={ item.id }>{ item.name }</option> ) }
+				</select>
+
+				<input type="submit" id="doaction" className="button action" value={ __( 'Apply' ) } disabled={ selected.length === 0 } onClick={ this.handleClick } />
+			</div>
+
+		);
+	}
+
 	render() {
-		const { total, selected, table } = this.props;
+		const { total, table, bulk } = this.props;
 
 		return (
 			<div className="tablenav top">
-				<div className="alignleft actions bulkactions">
-					<label htmlFor="bulk-action-selector-top" className="screen-reader-text">{ __( 'Select bulk action' ) }</label>
+				{ bulk && this.getBulk( bulk ) }
 
-					<select name="action" id="bulk-action-selector-top" value={ this.state.action } disabled={ selected.length === 0 } onChange={ this.handleChange }>
-						<option value="-1">{ __( 'Bulk Actions' ) }</option>
-						<option value="delete">{ __( 'Delete' ) }</option>
-					</select>
+				{ this.props.children ? this.props.children : null }
 
-					<input type="submit" id="doaction" className="button action" value={ __( 'Apply' ) } disabled={ selected.length === 0 } onClick={ this.handleClick } />
-				</div>
-
-				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } /> }
+				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } /> }
 			</div>
 		);
 	}
@@ -62,17 +72,9 @@ TableNav.propTypes = {
 	total: PropTypes.number.isRequired,
 	selected: PropTypes.array.isRequired,
 	table: PropTypes.object.isRequired,
+	onAction: PropTypes.func.isRequired,
+	onChangePage: PropTypes.func.isRequired,
+	bulk: PropTypes.array,
 };
 
-function mapDispatchToProps( dispatch ) {
-	return {
-		onTableAction: action => {
-			dispatch( performTableAction( action ) );
-		}
-	};
-}
-
-export default connect(
-	null,
-	mapDispatchToProps,
-)( TableNav );
+export default TableNav;

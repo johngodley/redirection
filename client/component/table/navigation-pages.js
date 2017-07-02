@@ -3,15 +3,9 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { translate as __, numberFormat } from 'lib/locale';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-
-/**
- * Internal dependencies
- */
-import { setPage } from 'state/log/action';
 
 const Nav = props => {
 	const { title, button, className, enabled, onClick } = props;
@@ -135,15 +129,4 @@ NavigationPages.propTypes = {
 	onChangePage: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
-	return {
-		onChangePage: page => {
-			dispatch( setPage( page ) );
-		}
-	};
-}
-
-export default connect(
-	null,
-	mapDispatchToProps,
-)( NavigationPages );
+export default NavigationPages;

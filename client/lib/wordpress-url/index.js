@@ -23,5 +23,9 @@ export function getWordPressUrl( query, defaults ) {
 		}
 	}
 
+	if ( existing.filterby && ! existing.filter ) {
+		delete existing.filterby;
+	}
+
 	return '?' + qs.stringify( existing );
 }

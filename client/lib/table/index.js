@@ -29,18 +29,31 @@ const removeIfExists = ( current, newItems ) => {
 	return newArray;
 };
 
-export const getDefaultTable = ( allowedOrder, allowedFilter ) => {
+export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultOrder = '', subParams = [] ) => {
 	const query = getPageUrl();
+	const defaults = {
+		orderBy: defaultOrder,
+		direction: 'desc',
+		page: 0,
+		perPage: parseInt( Redirectioni10n.per_page, 10 ),
+		selected: [],
+		filterBy: '',
+		filter: '',
+		error: false,
+	};
+
+	if ( query.sub && subParams.indexOf( query.sub ) === -1 ) {
+		return defaults;
+	}
 
 	return {
-		orderBy: query.orderby && allowedOrder.indexOf( query.orderby ) !== -1 ? query.orderby : 'date',
-		direction: query.direction && query.direction === 'asc' ? 'asc' : 'desc',
-		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : 0,
-		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : 25,
-		selected: [],
-		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) ? query.filterby : '',
-		filter: query.filter ? query.filter : '',
-		error: false,
+		... defaults,
+		orderBy: query.orderby && allowedOrder.indexOf( query.orderby ) !== -1 ? query.orderby : defaults.orderBy,
+		direction: query.direction && query.direction === 'asc' ? 'asc' : defaults.direction,
+		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : defaults.page,
+		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.perPage,
+		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) ? query.filterby : defaults.filterBy,
+		filter: query.filter ? query.filter : defaults.filter,
 	};
 };
 

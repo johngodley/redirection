@@ -15,12 +15,7 @@ import getApi from 'lib/api';
 export const loadSettings = () => {
 	return dispatch => {
 		getApi( 'red_load_settings' )
-			.then( data => data.json() )
 			.then( json => {
-				if ( json === 0 ) {
-					throw 'Invalid data';
-				}
-
 				dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups } );
 			} )
 			.catch( error => {
@@ -34,12 +29,7 @@ export const loadSettings = () => {
 export const saveSettings = settings => {
 	return dispatch => {
 		getApi( 'red_save_settings', settings )
-			.then( data => data.json() )
 			.then( json => {
-				if ( json === 0 ) {
-					throw 'Invalid data';
-				}
-
 				dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups } );
 			} )
 			.catch( error => {
@@ -53,7 +43,6 @@ export const saveSettings = settings => {
 export const deletePlugin = () => {
 	return dispatch => {
 		getApi( 'red_delete_plugin' )
-			.then( data => data.json() )
 			.then( json => {
 				document.location.href = json.location;
 			} );
