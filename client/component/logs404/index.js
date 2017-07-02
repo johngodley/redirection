@@ -11,11 +11,37 @@ import { translate as __ } from 'lib/locale';
  */
 
 import Table from 'component/table';
+import TableNav from 'component/table/navigation';
+import SearchBox from 'component/table/search';
 import { loadLogs, deleteAll } from 'state/log/action';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import { LOGS_TYPE_404 } from 'state/log/type';
 import Row404 from './row';
+
+const headers = [
+	{
+		name: 'cb',
+		check: true,
+	},
+	{
+		name: 'date',
+		title: __( 'Date' ),
+	},
+	{
+		name: 'url',
+		title: __( 'Source URL' ),
+	},
+	{
+		name: 'referrer',
+		title: __( 'Referrer' ),
+	},
+	{
+		name: 'ip',
+		title: __( 'IP' ),
+		sortable: false,
+	},
+];
 
 class Logs404 extends React.Component {
 	constructor( props ) {
@@ -29,33 +55,14 @@ class Logs404 extends React.Component {
 	}
 
 	render() {
-		const headers = [
-			{
-				name: 'cb',
-				check: true,
-			},
-			{
-				name: 'date',
-				title: __( 'Date' ),
-			},
-			{
-				name: 'url',
-				title: __( 'Source URL' ),
-			},
-			{
-				name: 'referrer',
-				title: __( 'Referrer' ),
-			},
-			{
-				name: 'ip',
-				title: __( 'IP' ),
-				sortable: false,
-			},
-		];
+		const { status, total, table, rows } = this.props.log;
 
 		return (
 			<div>
-				<Table headers={ headers } row={ this.renderRow } store={ this.props.log } />
+				<SearchBox status={ status } table={ table } />
+				<TableNav total={ total } selected={ table.selected } table={ table } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } />
+				<TableNav total={ total } selected={ table.selected } table={ table } />
 
 				<br />
 				<DeleteAll onDelete={ this.props.onDeleteAll } />

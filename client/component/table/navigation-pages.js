@@ -6,7 +6,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __, numberFormat } from 'lib/locale';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
+/**
+ * Internal dependencies
+ */
 import { setPage } from 'state/log/action';
 
 const Nav = props => {
@@ -124,15 +128,12 @@ class NavigationPages extends React.Component {
 	}
 }
 
-function mapStateToProps( state ) {
-	const { perPage, page, total } = state.log;
-
-	return {
-		perPage,
-		page,
-		total,
-	};
-}
+NavigationPages.propTypes = {
+	total: PropTypes.number.isRequired,
+	perPage: PropTypes.number.isRequired,
+	page: PropTypes.number.isRequired,
+	onChangePage: PropTypes.func.isRequired,
+};
 
 function mapDispatchToProps( dispatch ) {
 	return {
@@ -143,6 +144,6 @@ function mapDispatchToProps( dispatch ) {
 }
 
 export default connect(
-	mapStateToProps,
+	null,
 	mapDispatchToProps,
 )( NavigationPages );

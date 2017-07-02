@@ -12,7 +12,7 @@ const addData = ( form, data, preName ) => {
 	}
 };
 
-const getApi = ( action, data ) => {
+const getApiRequest = ( action, data ) => {
 	const form = new FormData();
 
 	form.append( 'action', action );
@@ -28,5 +28,17 @@ const getApi = ( action, data ) => {
 		credentials: 'same-origin',
 	} );
 };
+
+const getApi = ( action, params ) => getApiRequest( action, params )
+	.then( data => data.json() )
+	.then( json => {
+		if ( json === 0 ) {
+			throw 'Invalid data';
+		} else if ( json.error ) {
+			throw json.error;
+		}
+
+		return json;
+	} );
 
 export default getApi;

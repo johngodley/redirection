@@ -10,14 +10,7 @@ import getApi from 'lib/api';
 
 const processRequest = ( action, dispatch, params ) => {
 	getApi( action, params )
-		.then( data => data.json() )
 		.then( json => {
-			if ( json === 0 ) {
-				throw 'Invalid data';
-			} else if ( json.error ) {
-				throw json.error;
-			}
-
 			dispatch( { type: MODULE_LOADED, rows: json } );
 		} )
 		.catch( error => {

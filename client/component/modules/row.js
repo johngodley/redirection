@@ -127,7 +127,8 @@ class LogModule extends React.Component {
 	}
 
 	render() {
-		const { name, redirects, data, isLoading } = this.props.item;
+		const { name, redirects, data } = this.props.item;
+		const { isLoading } = this.props;
 		const menu = this.getMenu( name, redirects );
 		const total = redirects === null ? '-' : redirects;
 		let showItem;

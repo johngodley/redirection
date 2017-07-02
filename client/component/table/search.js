@@ -5,7 +5,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
+import PropTypes from 'prop-types';
 
+/**
+ * Internal dependencies
+ */
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { setSearch } from 'state/log/action';
 
@@ -13,14 +17,14 @@ class SearchBox extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { search: props.filter };
+		this.state = { search: props.table.filter };
 		this.handleChange = this.onChange.bind( this );
 		this.handleSubmit = this.onSubmit.bind( this );
 	}
 
 	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.filterBy !== this.props.filterBy || nextProps.filter !== this.props.filter ) {
-			this.setState( { search: nextProps.filter } );
+		if ( nextProps.table.filterBy !== this.props.table.filterBy || nextProps.table.filter !== this.props.table.filter ) {
+			this.setState( { search: nextProps.table.filter } );
 		}
 	}
 
@@ -34,8 +38,9 @@ class SearchBox extends React.Component {
 	}
 
 	render() {
-		const disabled = status === STATUS_IN_PROGRESS || ( this.state.search === '' && this.props.filter === '' );
-		const name = this.props.filterBy === 'ip' ? __( 'Search by IP' ) : __( 'Search' );
+		const { status } = this.props;
+		const disabled = status === STATUS_IN_PROGRESS || ( this.state.search === '' && this.props.table.filter === '' );
+		const name = this.props.table.filterBy === 'ip' ? __( 'Search by IP' ) : __( 'Search' );
 
 		return (
 			<form onSubmit={ this.handleSubmit }>
@@ -48,15 +53,10 @@ class SearchBox extends React.Component {
 	}
 }
 
-function mapStateToProps( state ) {
-	const { filter, filterBy, status } = state.log;
-
-	return {
-		filter,
-		filterBy,
-		status,
-	};
-}
+SearchBox.propTypes = {
+	table: PropTypes.object.isRequired,
+	status: PropTypes.string.isRequired,
+};
 
 function mapDispatchToProps( dispatch ) {
 	return {
@@ -67,6 +67,6 @@ function mapDispatchToProps( dispatch ) {
 }
 
 export default connect(
-	mapStateToProps,
+	null,
 	mapDispatchToProps,
 )( SearchBox );

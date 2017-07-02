@@ -5,7 +5,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
+import PropTypes from 'prop-types';
 
+/**
+ * Internal dependencies
+ */
 import NavigationPages from './navigation-pages';
 import { performTableAction } from 'state/log/action';
 
@@ -33,7 +37,7 @@ class TableNav extends React.Component {
 	}
 
 	render() {
-		const { total, selected } = this.props;
+		const { total, selected, table } = this.props;
 
 		return (
 			<div className="tablenav top">
@@ -48,20 +52,17 @@ class TableNav extends React.Component {
 					<input type="submit" id="doaction" className="button action" value={ __( 'Apply' ) } disabled={ selected.length === 0 } onClick={ this.handleClick } />
 				</div>
 
-				{ total > 0 && <NavigationPages /> }
+				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } /> }
 			</div>
 		);
 	}
 }
 
-function mapStateToProps( state ) {
-	const { total, selected } = state.log;
-
-	return {
-		total,
-		selected,
-	};
-}
+TableNav.propTypes = {
+	total: PropTypes.number.isRequired,
+	selected: PropTypes.array.isRequired,
+	table: PropTypes.object.isRequired,
+};
 
 function mapDispatchToProps( dispatch ) {
 	return {
@@ -72,6 +73,6 @@ function mapDispatchToProps( dispatch ) {
 }
 
 export default connect(
-	mapStateToProps,
+	null,
 	mapDispatchToProps,
 )( TableNav );

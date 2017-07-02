@@ -14,6 +14,19 @@ import Table from 'component/table';
 import { getModule } from 'state/module/action';
 import ModuleRow from './row';
 
+const headers = [
+	{
+		name: 'modules',
+		title: __( 'Module' ),
+		sortable: false,
+	},
+	{
+		name: 'redirects',
+		title: __( 'Redirects' ),
+		sortable: false,
+	},
+];
+
 class Modules extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -26,22 +39,11 @@ class Modules extends React.Component {
 	}
 
 	render() {
-		const headers = [
-			{
-				name: 'modules',
-				title: __( 'Module' ),
-				sortable: false,
-			},
-			{
-				name: 'redirects',
-				title: __( 'Redirects' ),
-				sortable: false,
-			},
-		];
+		const { status, total, table, rows } = this.props.module;
 
 		return (
 			<div>
-				<Table headers={ headers } store={ this.props.module } row={ this.renderRow } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } />
 			</div>
 		);
 	}

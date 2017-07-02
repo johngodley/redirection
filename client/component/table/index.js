@@ -8,53 +8,44 @@ import React from 'react';
  * Internal dependencies
  */
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import TableNav from './navigation';
-import TableContent from './table-content';
-import SearchBox from './search';
-import LoadingRow from './loading-row';
-import TableHeader from './header/';
-import EmptyRow from './empty-row';
-import FailedRow from './failed-row';
+import TableHeader from './header';
+import DataRow from './row/data-row';
+import LoadingRow from './row/loading-row';
+import EmptyRow from './row/empty-row';
+import FailedRow from './row/failed-row';
 
-const isDisabled = ( status, rows ) => status !== STATUS_COMPLETE || rows.length === 0;
-const isSelected = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
-const hasNavigation = store => typeof store.filter !== 'undefined';
+const isDisabledHeader = ( status, rows ) => status !== STATUS_COMPLETE || rows.length === 0;
+const isSelectedHeader = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
 
 const Table = props => {
-	const { store, headers, row } = props;
-	const { rows, status, selected, error } = store;
+	const { headers, row, rows, total, table, status } = props;
+	const isDisabled = isDisabledHeader( status, rows );
+	const isSelected = isSelectedHeader( table.selected, rows );
 
 	let content = null;
 
 	if ( rows.length > 0 ) {
-		content = <TableContent rows={ rows } status={ status } selected={ selected } row={ row } />;
+		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } />;
 	} else if ( rows.length === 0 && status === STATUS_IN_PROGRESS ) {
 		content = <LoadingRow headers={ headers } />;
 	} else if ( rows.length === 0 && status === STATUS_COMPLETE ) {
 		content = <EmptyRow headers={ headers } />;
 	} else if ( status === STATUS_FAILED ) {
-		content = <FailedRow headers={ headers } error={ error } />;
+		content = <FailedRow headers={ headers } error={ table.error } />;
 	}
 
 	return (
-		<div>
-			{ hasNavigation( store ) && <SearchBox redux={ store } /> }
-			{ hasNavigation( store ) && <TableNav /> }
+		<table className="wp-list-table widefat fixed striped items">
+			<thead>
+				<TableHeader isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } />
+			</thead>
 
-			<table className="wp-list-table widefat fixed striped items">
-				<thead>
-					<TableHeader isDisabled={ isDisabled( status, rows ) } isSelected={ isSelected( selected, rows ) } headers={ headers } />
-				</thead>
+			{ content }
 
-				{ content }
-
-				<tfoot>
-					<TableHeader isDisabled={ isDisabled( status, rows ) } isSelected={ isSelected( selected, rows ) } headers={ headers } />
-				</tfoot>
-			</table>
-
-			{ hasNavigation( store ) && <TableNav /> }
-		</div>
+			<tfoot>
+				<TableHeader isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } />
+			</tfoot>
+		</table>
 	);
 };
 
