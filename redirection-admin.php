@@ -581,10 +581,10 @@ class Redirection_Admin {
 
 		if ( isset( $settings['token'] ) ) {
 			$options['token'] = stripslashes( $settings['token'] );
+		}
 
-			if ( trim( $options['token'] ) === '' ) {
-				$options['token'] = md5( uniqid() );
-			}
+		if ( !isset( $settings['token'] ) || trim( $options['token'] ) === '' ) {
+			$options['token'] = md5( uniqid() );
 		}
 
 		if ( isset( $settings['newsletter'] ) ) {
