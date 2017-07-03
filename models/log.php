@@ -47,9 +47,11 @@ class RE_Log {
 		$insert['group_id']       = isset( $extra['group_id'] ) ? $extra['group_id'] : 0;
 
 		$insert = apply_filters( 'redirection_log_data', $insert );
-		do_action( 'redirection_log', $insert );
+		if ( $insert ) {
+			do_action( 'redirection_log', $insert );
 
-		$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
+			$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
+		}
 
 		return $wpdb->insert_id;
 	}
@@ -191,8 +193,9 @@ class RE_404 {
 		}
 
 		$insert = apply_filters( 'redirection_404_data', $insert );
-
-		$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
+		if ( $insert ) {
+			$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
+		}
 	}
 
 	static function delete( $id ) {
