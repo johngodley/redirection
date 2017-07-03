@@ -1,5 +1,4 @@
 @import 'globals';
-@import 'slider';
 
 .spinner-container {
 	display: inline-block;
@@ -136,7 +135,7 @@ body.ReactModal__Body--open {
 	}
 }
 
-.loading {
+.placeholder-loading {
 	content: '';
 	position: absolute;
 	top: 16px;

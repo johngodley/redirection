@@ -10,8 +10,8 @@ const LoadingRow = props => {
 	return (
 		<tbody>
 			<tr className="is-placeholder">
-				<td><div className="loading"></div></td>
-				{ headers.map( ( item, pos ) => <td key={ pos }><div className="loading"></div></td> ) }
+				<td><div className="placeholder-loading"></div></td>
+				{ headers.map( ( item, pos ) => <td key={ pos }><div className="placeholder-loading"></div></td> ) }
 			</tr>
 		</tbody>
 	);

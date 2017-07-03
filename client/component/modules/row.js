@@ -70,7 +70,7 @@ const exporter = ( modType, modName, pos, getData ) => {
 const Loader = () => {
 	return (
 		<div className="loader-wrapper">
-			<div className="loading loading-small">
+			<div className="placeholder-loading loading-small">
 			</div>
 		</div>
 	);

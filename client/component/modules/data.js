@@ -14,7 +14,7 @@ const ModuleData = props => {
 	if ( isLoading ) {
 		return (
 			<div className="loader-wrapper loader-textarea">
-				<div className="loading">
+				<div className="placeholder-loading">
 				</div>
 			</div>
 		);
