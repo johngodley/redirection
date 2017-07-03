@@ -13,7 +13,7 @@ import {
 	STATUS_IN_PROGRESS,
 	STATUS_COMPLETE,
 	STATUS_FAILED,
- } from './type';
+} from './type';
 
 export default function scene( state = {}, action ) {
 	switch ( action.type ) {
@@ -30,7 +30,7 @@ export default function scene( state = {}, action ) {
 			return { ... state, saveStatus: STATUS_IN_PROGRESS };
 
 		case SETTING_SAVED:
-			return { ... state, saveStatus: STATUS_COMPLETE };
+			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups };
 
 		case SETTING_SAVE_FAILED:
 			return { ... state, saveStatus: STATUS_FAILED };

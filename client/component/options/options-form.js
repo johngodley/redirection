@@ -48,6 +48,16 @@ class OptionsForm extends React.Component {
 		this.props.onSaveSettings( this.state );
 	}
 
+	componentWillUpdate( nextProps ) {
+		if ( nextProps.values.token !== this.props.values.token ) {
+			this.setState( { token: nextProps.values.token } );
+		}
+
+		if ( nextProps.values.auto_target !== this.props.values.auto_target ) {
+			this.setState( { auto_target: nextProps.values.auto_target } );
+		}
+	}
+
 	render() {
 		const { groups, saveStatus } = this.props;
 		const monitor = [ dontMonitor ].concat( groups );
