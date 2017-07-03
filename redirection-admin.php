@@ -148,8 +148,10 @@ class Redirection_Admin {
 	}
 
 	function set_per_page( $status, $option, $value ) {
-		if ( $option === 'redirection_log_per_page' )
-			return $value;
+		if ( $option === 'redirection_log_per_page' ) {
+			return max( 1, min( intval( $value, 10 ), 100 ) );
+		}
+
 		return $status;
 	}
 
