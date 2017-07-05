@@ -28,6 +28,7 @@ class GroupRow extends React.Component {
 		this.handleSave = this.onSave.bind( this );
 		this.handleDelete = this.onDelete.bind( this );
 		this.handleDisable = this.onDisable.bind( this );
+		this.handleEnable = this.onEnable.bind( this );
 
 		this.handleChange = this.onChange.bind( this );
 		this.handleSelect = this.onSelect.bind( this );
@@ -52,6 +53,11 @@ class GroupRow extends React.Component {
 	onDisable( ev ) {
 		ev.preventDefault();
 		this.props.onTableAction( 'disable', this.props.item.id );
+	}
+
+	onEnable( ev ) {
+		ev.preventDefault();
+		this.props.onTableAction( 'enable', this.props.item.id );
 	}
 
 	onSelected() {
@@ -85,14 +91,15 @@ class GroupRow extends React.Component {
 	}
 
 	renderActions() {
-		const { id } = this.props.item;
+		const { id, enabled } = this.props.item;
 
 		return (
 			<RowActions>
 				<a href="#" onClick={ this.handleEdit }>{ __( 'Edit' ) }</a> |&nbsp;
 				<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 				<a href={ Redirectioni10n.pluginRoot + '&id=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
-				<a href="#" onClick={ this.handleDisable }>{ __( 'Disable' ) }</a>
+				{ enabled && <a href="#" onClick={ this.handleDisable }>{ __( 'Disable' ) }</a> }
+				{ ! enabled && <a href="#" onClick={ this.handleEnable }>{ __( 'Enable' ) }</a> }
 			</RowActions>
 		);
 	}
