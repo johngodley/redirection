@@ -36,7 +36,7 @@ export default function scene( state = {}, action ) {
 			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: setTableParams( action, 'name' ) };
 
 		case GROUP_ITEM_SAVED:
-			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ) };
+			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ), total: action.total };
 
 		case GROUP_ITEM_FAILED:
 			return { ... state, saving: false };

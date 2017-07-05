@@ -183,7 +183,7 @@ class Red_Group {
 		$sql = trim( "SELECT * FROM {$table} $where " ).$wpdb->prepare( " ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit );
 
 		$rows = $wpdb->get_results( $sql );
-		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where );
+		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
 		$items = array();
 
 		foreach ( $rows as $row ) {
