@@ -106,7 +106,7 @@ class PaginationLinks extends React.Component {
 class NavigationPages extends React.Component {
 	render() {
 		const { total, perPage, page, onChangePage } = this.props;
-		const onePage = total < perPage;
+		const onePage = total <= perPage;
 		const classes = classnames( {
 			'tablenav-pages': true,
 			'one-page': onePage,
