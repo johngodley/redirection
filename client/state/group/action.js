@@ -66,11 +66,15 @@ export const saveGroup = ( groupId, name, moduleId ) => {
 
 export const performTableAction = ( action, ids ) => {
 	return ( dispatch, getState ) => {
-		const { table } = getState().group;
+		const { table, total } = getState().group;
 		const params = mergeWithTable( {
 			items: ids ? ids : table.selected.join( ',' ),
 			bulk: action,
 		}, table );
+
+		if ( action === 'delete' && params.page > 0 && params.perPage * params.page === total - 1 ) {
+			params.page -= 1;
+		}
 
 		return processRequest( 'red_group_action', dispatch, params );
 	};
@@ -95,6 +99,11 @@ export const createGroup = ( name, moduleId ) => {
 				dispatch( { type: GROUP_ITEM_FAILED, error } );
 			} );
 
-		return dispatch( { type: GROUP_ITEM_SAVING, ... params } );
+		return dispatch( { type: GROUP_ITEM_SAVING, ... mergeWithTable( {
+			group: {
+				name,
+				moduleId,
+			},
+		}, table ) } );
 	};
 };
