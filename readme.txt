@@ -103,6 +103,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix 404 page showing options
 * Fix RSS token not regenerating
 * 404 and log filters can now avoid logging
+* Use React on modules page
 
 = 2.6.3 =
 * Use React on log and 404 pages
