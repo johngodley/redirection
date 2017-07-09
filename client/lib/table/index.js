@@ -5,18 +5,6 @@
 
 import { getPageUrl, setPageUrl } from 'lib/wordpress-url';
 
-const filterObject = obj => {
-	const newObj = {};
-
-	Object.keys( obj ).forEach( key => {
-		if ( obj[ key ] !== undefined ) {
-			newObj[ key ] = obj[ key ];
-		}
-	} );
-
-	return newObj;
-};
-
 const removeIfExists = ( current, newItems ) => {
 	const newArray = [];
 
@@ -57,18 +45,26 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 	};
 };
 
-export const mergeWithTable = ( params, state ) => {
-	const { orderBy, direction, page, perPage, filter, filterBy } = state;
+export const mergeWithTable = ( state, params ) => {
+	const newState = Object.assign( {}, state );
+	const tableParams = [ 'orderBy', 'direction', 'page', 'perPage', 'filter', 'filterBy' ];
 
-	return Object.assign( {}, { orderBy, direction, page, perPage, filter, filterBy }, params );
+	for ( let x = 0; x < tableParams.length; x++ ) {
+		if ( params[ tableParams[ x ] ] !== undefined ) {
+			newState[ tableParams[ x ] ] = params[ tableParams[ x ] ];
+		}
+	}
+
+	return newState;
 };
 
-export const setTableParams = ( data, defaultOrder = '' ) => {
-	const { orderBy = defaultOrder, direction = 'desc', page = 0, perPage, filter = '', filterBy = '', selected = [], error = false } = data;
+export const setTableParams = ( state, params, defaultOrder = '' ) => {
+	const newState = mergeWithTable( state, params );
+	const { orderBy, direction, page, perPage, filter, filterBy } = newState;
 
-	setPageUrl( { orderBy, direction, offset: page, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '' } );
+	setPageUrl( { orderBy, direction, page, perPage, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '', perPage: parseInt( Redirectioni10n.per_page, 10 ) } );
 
-	return filterObject( { orderBy, direction, page, perPage, filter, filterBy, selected, error } );
+	return newState;
 };
 
 export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );

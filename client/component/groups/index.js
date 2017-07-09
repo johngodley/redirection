@@ -95,8 +95,9 @@ class Groups extends React.Component {
 		this.setState( { name: '' } );
 	}
 
-// XXX delete items on last page - need to go back 1 page - need to return new page number
-// XXX reorder groups!
+// XXX delete on last page for logs too
+// XXX update all reducers to use new table functions - check that app works
+
 	render() {
 		const { status, total, table, rows, saving } = this.props.group;
 		const { module } = this.props;

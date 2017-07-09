@@ -28,7 +28,7 @@ const dispatchRequest = ( dispatch, action, params ) => {
 const getLogs = args => {
 	return ( dispatch, getState ) => {
 		const { logType, table } = getState().log;
-		const params = mergeWithTable( { logType, ... args }, table );
+		const params = mergeWithTable( table, { logType, ... args } );
 
 		return dispatchRequest( dispatch, 'red_get_logs', params );
 	};
@@ -55,10 +55,10 @@ export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } )
 export const performTableAction = action => {
 	return ( dispatch, getState ) => {
 		const { table } = getState().log;
-		const params = mergeWithTable( {
+		const params = mergeWithTable( table, {
 			items: table.selected.join( ',' ),
 			bulk: action,
-		}, table );
+		} );
 
 		return dispatchRequest( dispatch, 'red_log_action', params );
 	};

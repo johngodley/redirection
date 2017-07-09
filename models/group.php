@@ -61,7 +61,7 @@ class Red_Group {
 	static function create( $name, $module_id ) {
 		global $wpdb;
 
-		$name = trim( $name );
+		$name = trim( stripslashes( $name ) );
 		$module_id = intval( $module_id, 10 );
 
 		if ( $name !== '' && Red_Module::is_valid_id( $module_id ) ) {
