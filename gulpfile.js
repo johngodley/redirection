@@ -6,7 +6,9 @@ const sort = require( 'gulp-sort' );
 const path = require( 'path' );
 const globby = require( 'globby' );
 const fs = require( 'fs' );
-const config = require( './.config.json' );  // Local config
+const zip = require( 'gulp-zip' );
+const config = require( './.config.json' ); // Local config
+const pkg = require( './package.json' );
 
 const SVN_SOURCE_FILES = [
 	'./**',
@@ -43,7 +45,7 @@ gulp.task( 'pot:extract', () => {
 			let result = i18n_calypso( {
 				projectName: 'Redirection',
 				inputPaths: files,
-//				output: 'redirection-strings.php',
+				// output: 'redirection-strings.php',
 				phpArrayName: 'redirection_strings',
 				format: 'PHP',
 				textdomain: 'redirection',
@@ -58,7 +60,7 @@ gulp.task( 'pot:extract', () => {
 		} );
 } );
 
-gulp.task( 'pot:generate', function() {
+gulp.task( 'pot:generate', () => {
 	const pot = {
 		domain: 'redirection',
 		destFile: 'redirection.pot',
@@ -67,15 +69,15 @@ gulp.task( 'pot:generate', function() {
 	};
 
 	return gulp.src( [ '**/*.php' ] )
-        .pipe( sort() )
-        .pipe( wpPot( pot ) )
-        .pipe( gulp.dest( 'locale/redirection.pot' ) );
+		.pipe( sort() )
+		.pipe( wpPot( pot ) )
+		.pipe( gulp.dest( 'locale/redirection.pot' ) );
 } );
 
-const removeFromTarget = paths => {
+const removeFromTarget = ( paths, rootPath ) => {
 	paths
 		.map( item => {
-			const relative = path.resolve( '..', path.relative( path.join( config.svn_target, '..' ), item ) );
+			const relative = path.resolve( '..', path.relative( path.join( rootPath, '..' ), item ) );
 
 			if ( ! fs.existsSync( relative ) ) {
 				return relative;
@@ -85,19 +87,39 @@ const removeFromTarget = paths => {
 		} )
 		.filter( item => item )
 		.map( item => {
-			const relative = path.join( config.svn_target, '..', path.relative( '..', item ) );
+			const relative = path.join( rootPath, '..', path.relative( '..', item ) );
 
+			/* eslint-disable no-console */
 			console.log( 'Removed: ' + relative );
 			fs.unlinkSync( relative );
 		} );
 };
 
-gulp.task( 'svn', function() {
-	return gulp.src( SVN_SOURCE_FILES )
-        .pipe( gulp.dest( config.svn_target ) )
-		.on( 'end', function() {
-			// Check which files are in the target but dont exist in the source
-			globby( config.svn_target + '**' )
-				.then( removeFromTarget );
-		} );
+const copyPlugin = ( target, cb ) => gulp.src( SVN_SOURCE_FILES )
+	.pipe( gulp.dest( target ) )
+	.on( 'end', () => {
+		// Check which files are in the target but dont exist in the source
+		globby( target + '**' )
+			.then( paths => {
+				removeFromTarget( paths, target );
+			} );
+
+		if ( cb ) {
+			cb();
+		}
+	} );
+
+gulp.task( 'svn', () => copyPlugin( config.svn_target ) );
+
+gulp.task( 'export', () => {
+	const zipTarget = path.resolve( config.export_target, '..' );
+	const zipName = 'redirection-' + pkg.version + '.zip';
+
+	console.log( 'Exporting: ' + zipName );
+
+	return copyPlugin( config.export_target, () => {
+		return gulp.src( config.export_target + '/**' )
+			.pipe( zip( zipName ) )
+			.pipe( gulp.dest( zipTarget ) );
+	} );
 } );
