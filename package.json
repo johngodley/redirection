@@ -5,6 +5,7 @@
   "main": "redirection.php",
   "scripts": {
     "test": "jest",
+	"watch": "jest --watch",
     "testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
     "start": "NODE_ENV=development DEBUG=tinker* webpack-dev-server --progress --colors --hot --config ./webpack.config.js --port 3312",
     "dist": "NODE_ENV=production webpack --progress --colors --config ./webpack.config.js",
@@ -69,7 +70,7 @@
     "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
-    "postcss-cssnext": "^2.11.0",
+    "postcss-cssnext": "^3.0.0",
     "postcss-focus": "^2.0.0",
     "postcss-loader": "^2.0.6",
     "postcss-reporter": "^4.0.0",
