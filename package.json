@@ -4,7 +4,7 @@
   "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
   "main": "redirection.php",
   "scripts": {
-    "test": "phpunit",
+    "test": "jest",
     "testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
     "start": "NODE_ENV=development DEBUG=tinker* webpack-dev-server --progress --colors --hot --config ./webpack.config.js --port 3312",
     "dist": "NODE_ENV=production webpack --progress --colors --config ./webpack.config.js",
@@ -63,6 +63,7 @@
     "html-webpack-plugin": "^2.28.0",
     "i18n-calypso": "^1.7.4",
     "imports-loader": "^0.7.1",
+    "jest": "^20.0.4",
     "json-loader": "^0.5.4",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
@@ -78,6 +79,7 @@
     "through": "^2.3.8",
     "underscore": "^1.8.3",
     "webpack": "^3.0.0",
+    "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "^2.5.0",
     "webpack-remove-debug": "^0.1.0"
   },
@@ -122,5 +124,10 @@
         "experimentalObjectRestSpread": true
       }
     }
+  },
+  "jest": {
+    "modulePaths": [
+      "./client"
+    ]
   }
 }

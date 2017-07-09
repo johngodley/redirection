@@ -4,8 +4,8 @@ module.exports = {
 	parser: 'babel-eslint',
 	env: {
 		browser: true,
-		mocha: true,
-		node: true
+		node: true,
+		jest: true
 	},
 	globals: {
 		asyncRequire: true,
