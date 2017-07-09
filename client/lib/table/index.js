@@ -5,6 +5,8 @@
 
 import { getPageUrl, setPageUrl } from 'lib/wordpress-url';
 
+const tableParams = [ 'orderBy', 'direction', 'page', 'perPage', 'filter', 'filterBy' ];
+
 const removeIfExists = ( current, newItems ) => {
 	const newArray = [];
 
@@ -27,7 +29,6 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		selected: [],
 		filterBy: '',
 		filter: '',
-		error: false,
 	};
 
 	if ( query.sub && subParams.indexOf( query.sub ) === -1 ) {
@@ -45,9 +46,20 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 	};
 };
 
+export const mergeWithTableForApi = ( state, params ) => {
+	const newState = {};
+
+	for ( let x = 0; x < tableParams.length; x++ ) {
+		const value = tableParams[ x ];
+
+		newState[ value ] = state[ value ];
+	}
+
+	return Object.assign( {}, newState, params );
+};
+
 export const mergeWithTable = ( state, params ) => {
 	const newState = Object.assign( {}, state );
-	const tableParams = [ 'orderBy', 'direction', 'page', 'perPage', 'filter', 'filterBy' ];
 
 	for ( let x = 0; x < tableParams.length; x++ ) {
 		if ( params[ tableParams[ x ] ] !== undefined ) {
@@ -62,7 +74,7 @@ export const setTableParams = ( state, params, defaultOrder = '' ) => {
 	const newState = mergeWithTable( state, params );
 	const { orderBy, direction, page, perPage, filter, filterBy } = newState;
 
-	setPageUrl( { orderBy, direction, page, perPage, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '', perPage: parseInt( Redirectioni10n.per_page, 10 ) } );
+	setPageUrl( { orderBy, direction, offset: page, perPage, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '', perPage: parseInt( Redirectioni10n.per_page, 10 ) } );
 
 	return newState;
 };

@@ -14,58 +14,25 @@ import {
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
 const mergeRows = ( existingRows, newRows ) => {
-	const mergedRows = [];
+	const mergedRows = existingRows.slice( 0 );
 
-	for ( let x = 0; x < existingRows.length; x++ ) {
-		const name = existingRows[ x ].name;
+	for ( let x = 0; x < newRows.length; x++ ) {
+		const pos = mergedRows.findIndex( item => item.module_id === newRows[ x ].module_id );
 
-		mergedRows[ x ] = {
-			name,
-			redirects: existingRows[ x ].redirects,
-			data: existingRows[ x ].data,
-			module_id: existingRows[ x ].module_id,
-			displayName: existingRows[ x ].displayName,
-		};
-
-		if ( newRows[ name ] ) {
-			mergedRows[ x ].redirects = parseInt( newRows[ name ].redirects, 10 );
-			mergedRows[ x ].module_id = parseInt( newRows[ name ].module_id, 10 );
-			mergedRows[ x ].data = newRows[ name ].data;
-			mergedRows[ x ].displayName = newRows[ name ].displayName;
-		}
-	}
-
-	for ( const moduleName in newRows ) {
-		if ( ! mergedRows.find( item => item.name === moduleName ) ) {
-			mergedRows.push( newRows[ moduleName ] );
+		if ( pos === -1 ) {
+			mergedRows.push( newRows[ x ] );
+		} else {
+			mergedRows[ pos ] = Object.assign( {}, newRows[ x ], mergedRows[ pos ] );
 		}
 	}
 
 	return mergedRows;
 };
 
-const setData = ( existing, module, moduleData ) => {
-	const copied = existing.slice();
-
-	for ( let x = 0; x < copied.length; x++ ) {
-		if ( copied[ x ].name === module ) {
-			copied[ x ].data = null;
-
-			if ( moduleData ) {
-				copied[ x ].data = Object.assign( {}, copied[ x ].data, moduleData );
-			}
-
-			break;
-		}
-	}
-
-	return copied;
-};
-
-export default function scene( state = {}, action ) {
+export default function modules( state = {}, action ) {
 	switch ( action.type ) {
 		case MODULE_LOADING:
-			return { ... state, rows: setData( state.rows, action.module, action.moduleData ), status: STATUS_IN_PROGRESS };
+			return { ... state, status: STATUS_IN_PROGRESS, error: false };
 
 		case MODULE_FAILED:
 			return { ... state, status: STATUS_FAILED, error: action.error };

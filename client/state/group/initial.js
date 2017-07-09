@@ -11,6 +11,7 @@ export function getInitialGroup() {
 		total: 0,
 		status: STATUS_IN_PROGRESS,
 		saving: false,
+		error: false,
 
 		table: getDefaultTable( [ 'name' ], [ 'name' ], 'name', [ 'groups' ] )
 	};

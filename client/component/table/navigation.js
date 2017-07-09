@@ -28,9 +28,9 @@ class TableNav extends React.Component {
 	onClick( ev ) {
 		ev.preventDefault();
 
-		if ( this.state.action !== '-1' ) {
+		if ( parseInt( this.state.action, 10 ) !== -1 ) {
 			this.props.onAction( this.state.action );
-			this.setState( { action: '-1' } );
+			this.setState( { action: -1 } );
 		}
 	}
 
@@ -47,7 +47,7 @@ class TableNav extends React.Component {
 					{ bulk.map( item => <option key={ item.id } value={ item.id }>{ item.name }</option> ) }
 				</select>
 
-				<input type="submit" id="doaction" className="button action" value={ __( 'Apply' ) } disabled={ selected.length === 0 } onClick={ this.handleClick } />
+				<input type="submit" id="doaction" className="button action" value={ __( 'Apply' ) } disabled={ selected.length === 0 || parseInt( this.state.action, 10 ) === -1 } onClick={ this.handleClick } />
 			</div>
 
 		);

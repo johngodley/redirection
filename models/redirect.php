@@ -170,11 +170,13 @@ class Red_Item {
 		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
 
-		if ( $group_id <= 0 || ! $group )
+		if ( $group_id <= 0 || ! $group ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid group when creating redirect', 'redirection' ) );
+		}
 
-		if ( ! $matcher )
+		if ( ! $matcher ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid source URL when creating redirect for given match type', 'redirection' ) );
+		}
 
 		$regex    = ( isset( $details['regex'] ) && (bool) $details['regex'] !== false ) ? 1 : 0;
 		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );

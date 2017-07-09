@@ -168,6 +168,8 @@ class Redirection_Admin {
 	}
 
 	function redirection_head() {
+		global $wp_version;
+
 		$options = red_get_options();
 		$version = get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
@@ -197,6 +199,7 @@ class Redirection_Admin {
 			'locale' => $this->get_i18n_data(),
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
+			'versions' => implode( ', ', array( 'Plugin '.$version, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
 		) );
 	}
 
@@ -338,11 +341,11 @@ class Redirection_Admin {
 
 	private function check_ajax_referer( $nonce ) {
 		if ( check_ajax_referer( $nonce, false, false ) === false ) {
-			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce ("'.$nonce.'")' ) );
+			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce "'.$nonce.'" ('.__LINE__.')' ) );
 		}
 
 		if ( $this->user_has_access() === false ) {
-			return $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action' ) ) );
+			return $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action ('.__LINE__.')' ) ) );
 		}
 
 		return true;
@@ -456,7 +459,14 @@ class Redirection_Admin {
 		if ( ! Red_Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 ) ) {
 			global $wpdb;
 
-			return $this->output_ajax_response( new WP_Error( 'Failed creating group - '.$wpdb->last_error ) );
+			$cause = 'unknown';
+			if ( !isset( $params['name'] ) || !isset( $params['module_id'] ) ) {
+				$cause = 'invalid parameters';
+			} else if ( $wpdb->last_error ) {
+				$cause = $wpdb->last_error;
+			}
+
+			return $this->output_ajax_response( array( 'error' => 'Failed creating group - '.$cause.' ('.__LINE__.')' ) );
 		}
 
 		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
@@ -492,7 +502,7 @@ class Redirection_Admin {
 			$groupId = intval( $params['groupId'], 10 );
 		}
 
-		$result = new WP_Error( 'Invalid group' );
+		$result = array( 'error' => 'Invalid group or parameters ('.__LINE__.')' );
 		if ( $groupId > 0 ) {
 			$group = Red_Group::get( $params['groupId'] );
 
@@ -515,29 +525,34 @@ class Redirection_Admin {
 			$params = $_POST;
 		}
 
-		$modules = array( 'apache', 'nginx', 'wordpress' );
 		$moduleType = false;
 
-		if ( isset( $params['moduleName'] ) && in_array( $params['moduleName'], array( 'apache', 'nginx', 'wordpress' ) ) ) {
-			$modules = array( $params['moduleName'] );
+		$modules = array( 1, 2, 3 );
+		if ( isset( $params['moduleId'] ) ) {
+			$moduleId = intval( $params['moduleId'], 10 );
+
+			if ( $moduleId > 0 && $moduleId <= 3 ) {
+				$modules = array( $moduleId );
+			}
 		}
 
 		if ( isset( $params['moduleType'] ) && in_array( $params['moduleType'], array( 'csv', 'apache', 'nginx' ) ) ) {
 			$moduleType = $params['moduleType'];
 		}
 
-		foreach ( $modules as $module ) {
-			$result[ $module ] = $this->get_module_data( $module, $moduleType );
-		}
+		foreach ( $modules as $moduleId ) {
+			$module = Red_Module::get( $moduleId );
+			$moduleData = $this->get_module_data( $module, $moduleType );
 
-		if ( isset( $result[ 'apache'] ) ) {
-			$apache = Red_Module::get( Apache_Module::MODULE_ID );
+			if ( $module->get_id() === Apache_Module::MODULE_ID ) {
+				$moduleData['data'] = array(
+					'installed' => ABSPATH,
+					'location' => $module->get_location(),
+					'canonical' => $module->get_canonical(),
+				);
+			}
 
-			$result['apache']['data'] = array(
-				'installed' => ABSPATH,
-				'location' => $apache->get_location(),
-				'canonical' => $apache->get_canonical(),
-			);
+			$result[] = $moduleData;
 		}
 
 		return $this->output_ajax_response( $result );
@@ -578,8 +593,7 @@ class Redirection_Admin {
 		return false;
 	}
 
-	private function get_module_data( $moduleName, $type ) {
-		$module = $this->get_module( $moduleName );
+	private function get_module_data( $module, $type ) {
 		$data = array(
 			'redirects' => $module->get_total_redirects(),
 			'module_id' => $module->get_id(),

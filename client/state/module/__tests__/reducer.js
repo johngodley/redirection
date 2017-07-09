@@ -75,10 +75,11 @@ describe( 'modules reducer', () => {
 	} );
 
 	test( 'MODULE_FAILED sets status to failed', () => {
-		const state = reducer( DEFAULT_STATE, { type: MODULE_FAILED } );
+		const state = reducer( DEFAULT_STATE, { type: MODULE_FAILED, error: 'failed' } );
 
 		expect( state.table ).toEqual( NEW_TABLE );
 		expect( state.status ).toEqual( STATUS_FAILED );
+		expect( state.error ).toEqual( 'failed' );
 	} );
 
 	test( 'MODULE_LOADED sets status complete and updates rows on first time', () => {

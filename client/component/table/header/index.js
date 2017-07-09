@@ -40,8 +40,8 @@ TableHeader.propTypes = {
 	isDisabled: PropTypes.bool.isRequired,
 	isSelected: PropTypes.bool.isRequired,
 	headers: PropTypes.array.isRequired,
-	onSetAllSelected: PropTypes.func.isRequired,
-	onSetOrderBy: PropTypes.func.isRequired,
+	onSetAllSelected: PropTypes.func,
+	onSetOrderBy: PropTypes.func,
 };
 
 export default TableHeader;

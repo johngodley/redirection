@@ -23,7 +23,7 @@ export default function scene( state = {}, action ) {
 		case LOG_LOADING:
 			const { logType } = action;
 
-			return { ... state, table: setTableParams( action, 'date' ), logType, status: STATUS_IN_PROGRESS };
+			return { ... state, table: setTableParams( state.table, action, 'date' ), logType, status: STATUS_IN_PROGRESS, error: false };
 
 		case LOG_FAILED:
 			return { ... state, status: STATUS_FAILED, error: action.error };

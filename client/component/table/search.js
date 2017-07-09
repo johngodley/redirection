@@ -55,6 +55,7 @@ class SearchBox extends React.Component {
 SearchBox.propTypes = {
 	table: PropTypes.object.isRequired,
 	status: PropTypes.string.isRequired,
+	onSearch: PropTypes.func.isRequired,
 };
 
 export default SearchBox;

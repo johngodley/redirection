@@ -9,12 +9,15 @@ import {
 	LOG_SET_ALL_SELECTED,
 } from './type';
 import getApi from 'lib/api';
-import { mergeWithTable } from 'lib/table';
+import { mergeWithTable, mergeWithTableForApi } from 'lib/table';
 
 const logCollect = json => ( { rows: json.items, total: json.total } );
 
-const dispatchRequest = ( dispatch, action, params ) => {
-	getApi( action, params )
+const dispatchRequest = ( dispatch, action, params, table = false ) => {
+	const data = table ? mergeWithTableForApi( table, params ) : params;
+	const reducer = table ? Object.assign( {}, mergeWithTable( table, params ), params ) : params;
+
+	getApi( action, data )
 		.then( json => {
 			dispatch( { type: LOG_LOADED, ... logCollect( json ) } );
 		} )
@@ -22,15 +25,14 @@ const dispatchRequest = ( dispatch, action, params ) => {
 			dispatch( { type: LOG_FAILED, error } );
 		} );
 
-	return dispatch( { ... params, type: LOG_LOADING } );
+	return dispatch( { ... reducer, type: LOG_LOADING } );
 };
 
 const getLogs = args => {
 	return ( dispatch, getState ) => {
-		const { logType, table } = getState().log;
-		const params = mergeWithTable( table, { logType, ... args } );
+		const { table, logType } = getState().log;
 
-		return dispatchRequest( dispatch, 'red_get_logs', params );
+		return dispatchRequest( dispatch, 'red_get_logs', { logType, ... args }, table );
 	};
 };
 
@@ -52,14 +54,18 @@ export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter } )
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
 
-export const performTableAction = action => {
+export const performTableAction = ( action, ids ) => {
 	return ( dispatch, getState ) => {
-		const { table } = getState().log;
-		const params = mergeWithTable( table, {
-			items: table.selected.join( ',' ),
+		const { table, total } = getState().log;
+		const params = {
+			items: ids ? ids : table.selected.join( ',' ),
 			bulk: action,
-		} );
+		};
 
-		return dispatchRequest( dispatch, 'red_log_action', params );
+		if ( action === 'delete' && params.page > 0 && params.perPage * params.page === total - 1 ) {
+			params.page -= 1;
+		}
+
+		return dispatchRequest( dispatch, 'red_log_action', params, table );
 	};
 };

@@ -20,9 +20,9 @@ const processRequest = ( action, dispatch, params ) => {
 	return dispatch( { ... params, type: MODULE_LOADING } );
 };
 
-export const getModule = ( moduleName, moduleType ) => {
+export const getModule = ( moduleId, moduleType ) => {
 	return ( dispatch ) => {
-		const params = { moduleName, moduleType };
+		const params = { moduleId, moduleType };
 
 		return processRequest( 'red_get_module', dispatch, params );
 	};

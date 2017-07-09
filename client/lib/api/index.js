@@ -32,6 +32,9 @@ const getApiRequest = ( action, data ) => {
 const getApi = ( action, params ) => getApiRequest( action, params )
 	.then( data => data.json() )
 	.then( json => {
+		Redirectioni10n.failedAction = action;
+		Redirectioni10n.failedData = params;
+
 		if ( json === 0 ) {
 			throw 'Invalid data';
 		} else if ( json.error ) {

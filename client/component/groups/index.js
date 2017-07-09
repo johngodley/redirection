@@ -16,6 +16,7 @@ import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import Spinner from 'component/wordpress/spinner';
 import GroupRow from './row';
+import ErrorNotice from 'component/wordpress/error-notice';
 import { getModule } from 'state/module/action';
 import { getGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter, createGroup } from 'state/group/action';
 import { STATUS_COMPLETE } from 'state/settings/type';
@@ -95,20 +96,20 @@ class Groups extends React.Component {
 		this.setState( { name: '' } );
 	}
 
-// XXX delete on last page for logs too
-// XXX update all reducers to use new table functions - check that app works
-
 	render() {
-		const { status, total, table, rows, saving } = this.props.group;
+		const { status, total, table, rows, saving, error } = this.props.group;
 		const { module } = this.props;
 
 		return (
 			<div>
+				{ error && total > 0 && <ErrorNotice message={ error } /> }
+				{ module.error && <ErrorNotice message={ module.error } /> }
+
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
 					<TableFilter selected="0" options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
 
 				<h2>{ __( 'Add Group' ) }</h2>
@@ -119,14 +120,14 @@ class Groups extends React.Component {
 						<tr>
 							<th style={ { width: '50px' } }>{ __( 'Name' ) }</th>
 							<td>
-								<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ saving } />
+								<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ saving || module.status !== STATUS_COMPLETE } />
 
-								<select name="module_id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ saving }>
+								<select name="module_id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ saving || module.status !== STATUS_COMPLETE }>
 									{ module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
 								</select>
 
 								&nbsp;
-								<input className="button-primary" type="submit" name="add" value="Add" onClick={ this.handleSubmit } disabled={ saving } />
+								<input className="button-primary" type="submit" name="add" value="Add" onClick={ this.handleSubmit } disabled={ saving || this.state.name === '' || module.status !== STATUS_COMPLETE } />
 
 								{ saving && <Spinner /> }
 							</td>

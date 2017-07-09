@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import { setSelected, saveGroup, performTableAction } from 'state/group/action';
-import { STATUS_COMPLETE } from 'state/settings/type';
+import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { getModuleName } from 'state/module/selector';
 
 class GroupRow extends React.Component {
@@ -159,7 +159,7 @@ class GroupRow extends React.Component {
 					{ redirects }
 				</td>
 				<td>
-					{ module.status === STATUS_COMPLETE ? getModuleName( module, module_id ) : this.renderLoader() }
+					{ module.status !== STATUS_IN_PROGRESS ? getModuleName( module, module_id ) : this.renderLoader() }
 				</td>
 			</tr>
 		);

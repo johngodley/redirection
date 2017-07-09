@@ -40,6 +40,25 @@
 
 #react-ui {
 	clear: both;
+
+	.notice-error {
+		margin-top: 3em;
+
+		.closer {
+			float: right;
+			padding-top: 5px;
+			font-size: 18px;
+			cursor: pointer;
+			color: #333;
+		}
+
+		textarea {
+			font-family: courier;
+			font-size: 12px;
+			background-color: #eee;
+			width: 100%;
+		}
+	}
 }
 
 body.ReactModal__Body--open {

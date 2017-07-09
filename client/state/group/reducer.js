@@ -33,13 +33,13 @@ const getGroup = action => ( { groupId: action.id, name: action.name, enabled: a
 export default function groups( state = {}, action ) {
 	switch ( action.type ) {
 		case GROUP_ITEM_SAVING:
-			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: setTableParams( state.table, action, 'name' ) };
+			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: setTableParams( state.table, action, 'name' ), error: false };
 
 		case GROUP_ITEM_SAVED:
-			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ), total: action.total };
+			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ), total: action.total ? action.total : state.total };
 
 		case GROUP_ITEM_FAILED:
-			return { ... state, saving: false };
+			return { ... state, saving: false, error: action.error };
 
 		case GROUP_SET_ALL_SELECTED:
 			return { ... state, table: setTableAllSelected( state.table, state.rows, action.onoff ) };
@@ -48,7 +48,7 @@ export default function groups( state = {}, action ) {
 			return { ... state, table: setTableSelected( state.table, action.items ) };
 
 		case GROUP_LOADING:
-			return { ... state, table: setTableParams( state.table, action, 'name' ), status: STATUS_IN_PROGRESS };
+			return { ... state, table: setTableParams( state.table, action, 'name' ), status: STATUS_IN_PROGRESS, error: false };
 
 		case GROUP_FAILED:
 			return { ... state, status: STATUS_FAILED, error: action.error };

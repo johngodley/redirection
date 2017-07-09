@@ -4,6 +4,8 @@ class MonitorTest extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->group = Red_Group::create( 'group', 1 );
+
 		update_option( 'siteurl', 'http://example.com' );
 		update_option( 'home', 'http://example.com' );
 
@@ -98,7 +100,7 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testRedirectCreated() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( array( 'monitor_post' => 1 ) );
+		$monitor = new Red_Monitor( array( 'monitor_post' => $this->group->get_id() ) );
 		$action = new MockAction();
 		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
 		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
