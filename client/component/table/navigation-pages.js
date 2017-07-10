@@ -3,11 +3,9 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { translate as __, numberFormat } from 'lib/locale';
 import classnames from 'classnames';
-
-import { setPage } from 'state/log/action';
+import PropTypes from 'prop-types';
 
 const Nav = props => {
 	const { title, button, className, enabled, onClick } = props;
@@ -108,7 +106,7 @@ class PaginationLinks extends React.Component {
 class NavigationPages extends React.Component {
 	render() {
 		const { total, perPage, page, onChangePage } = this.props;
-		const onePage = total < perPage;
+		const onePage = total <= perPage;
 		const classes = classnames( {
 			'tablenav-pages': true,
 			'one-page': onePage,
@@ -124,25 +122,11 @@ class NavigationPages extends React.Component {
 	}
 }
 
-function mapStateToProps( state ) {
-	const { perPage, page, total } = state.log;
+NavigationPages.propTypes = {
+	total: PropTypes.number.isRequired,
+	perPage: PropTypes.number.isRequired,
+	page: PropTypes.number.isRequired,
+	onChangePage: PropTypes.func.isRequired,
+};
 
-	return {
-		perPage,
-		page,
-		total,
-	};
-}
-
-function mapDispatchToProps( dispatch ) {
-	return {
-		onChangePage: page => {
-			dispatch( setPage( page ) );
-		}
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)( NavigationPages );
+export default NavigationPages;

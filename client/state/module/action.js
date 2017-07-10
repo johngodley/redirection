@@ -10,14 +10,7 @@ import getApi from 'lib/api';
 
 const processRequest = ( action, dispatch, params ) => {
 	getApi( action, params )
-		.then( data => data.json() )
 		.then( json => {
-			if ( json === 0 ) {
-				throw 'Invalid data';
-			} else if ( json.error ) {
-				throw json.error;
-			}
-
 			dispatch( { type: MODULE_LOADED, rows: json } );
 		} )
 		.catch( error => {
@@ -27,9 +20,9 @@ const processRequest = ( action, dispatch, params ) => {
 	return dispatch( { ... params, type: MODULE_LOADING } );
 };
 
-export const getModule = ( moduleName, moduleType ) => {
+export const getModule = ( moduleId, moduleType ) => {
 	return ( dispatch ) => {
-		const params = { moduleName, moduleType };
+		const params = { moduleId, moduleType };
 
 		return processRequest( 'red_get_module', dispatch, params );
 	};

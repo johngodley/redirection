@@ -29,20 +29,26 @@ class Redirection_Admin {
 		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
-		add_action( 'wp_ajax_red_group_edit', array( $this, 'ajax_group_edit' ) );
-		add_action( 'wp_ajax_red_group_save', array( $this, 'ajax_group_save' ) );
 		add_action( 'wp_ajax_red_redirect_add', array( $this, 'ajax_redirect_add' ) );
 		add_action( 'wp_ajax_red_redirect_edit', array( $this, 'ajax_redirect_edit' ) );
 		add_action( 'wp_ajax_red_redirect_save', array( $this, 'ajax_redirect_save' ) );
 
 		add_action( 'wp_ajax_red_load_settings', array( $this, 'ajax_load_settings' ) );
 		add_action( 'wp_ajax_red_save_settings', array( $this, 'ajax_save_settings' ) );
+
 		add_action( 'wp_ajax_red_get_logs', array( $this, 'ajax_get_logs' ) );
 		add_action( 'wp_ajax_red_log_action', array( $this, 'ajax_log_action' ) );
+
 		add_action( 'wp_ajax_red_delete_plugin', array( $this, 'ajax_delete_plugin' ) );
 		add_action( 'wp_ajax_red_delete_all', array( $this, 'ajax_delete_all' ) );
+
 		add_action( 'wp_ajax_red_get_module', array( $this, 'ajax_get_module' ) );
 		add_action( 'wp_ajax_red_set_module', array( $this, 'ajax_set_module' ) );
+
+		add_action( 'wp_ajax_red_get_group', array( $this, 'ajax_get_group' ) );
+		add_action( 'wp_ajax_red_set_group', array( $this, 'ajax_set_group' ) );
+		add_action( 'wp_ajax_red_group_action', array( $this, 'ajax_group_action' ) );
+		add_action( 'wp_ajax_red_create_group', array( $this, 'ajax_create_group' ) );
 
 		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 
@@ -162,6 +168,8 @@ class Redirection_Admin {
 	}
 
 	function redirection_head() {
+		global $wp_version;
+
 		$options = red_get_options();
 		$version = get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
@@ -191,6 +199,7 @@ class Redirection_Admin {
 			'locale' => $this->get_i18n_data(),
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
+			'versions' => implode( ', ', array( 'Plugin '.$version, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
 		) );
 	}
 
@@ -320,18 +329,7 @@ class Redirection_Admin {
 	}
 
 	function admin_groups( $module ) {
-		if ( isset( $_POST['add'] ) && check_admin_referer( 'redirection-add_group' ) ) {
-			if ( Red_Group::create( stripslashes( $_POST['name'] ), intval( $_POST['module_id'] ) ) ) {
-				$this->render_message( __( 'Your group was added successfully', 'redirection' ) );
-			}
-			else
-				$this->render_error( __( 'Please specify a group name', 'redirection' ) );
-		}
-
-		$table = new Redirection_Group_Table( Red_Module::get_for_select() );
-		$table->prepare_items();
-
-		$this->render( 'group-list', array( 'options' => red_get_options(), 'table' => $table, 'modules' => Red_Module::get_for_select(), 'module' => $module ) );
+		$this->render( 'group-list', array( 'options' => red_get_options() ) );
 	}
 
 	function admin_redirects( $group_id ) {
@@ -343,11 +341,11 @@ class Redirection_Admin {
 
 	private function check_ajax_referer( $nonce ) {
 		if ( check_ajax_referer( $nonce, false, false ) === false ) {
-			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce ("'.$nonce.'")' ) );
+			return $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce "'.$nonce.'" ('.__LINE__.')' ) );
 		}
 
 		if ( $this->user_has_access() === false ) {
-			return $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action' ) ) );
+			return $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action ('.__LINE__.')' ) ) );
 		}
 
 		return true;
@@ -355,42 +353,6 @@ class Redirection_Admin {
 
 	private function user_has_access() {
 		return current_user_can( apply_filters( 'redirection_role', 'administrator' ) );
-	}
-
-	public function ajax_group_edit() {
-		$group_id = intval( $_POST['id'] );
-
-		$this->check_ajax_referer( 'red-edit_'.$group_id );
-
-		$group = Red_Group::get( $group_id );
-		if ( $group )
-			$json['html'] = $this->capture( 'group-edit', array( 'group' => $group, 'modules' => Red_Module::get_for_select() ) );
-		else
-			$json['error'] = __( 'Unable to perform action' ).' - could not find group';
-
-		return $this->output_ajax_response( $json );
-	}
-
-	public function ajax_group_save() {
-		global $hook_suffix;
-
-		$hook_suffix = '';
-		$group_id = intval( $_POST['id'] );
-
-		$this->check_ajax_referer( 'redirection-group_save_'.$group_id );
-
-		$group = Red_Group::get( $group_id );
-		if ( $group ) {
-			$group->update( $_POST );
-			$module = Red_Module::get( $group->get_module_id() );
-
-			$pager = new Redirection_Group_Table( array(), false );
-			$json = array( 'html' => $pager->column_name( $group ), 'module' => $module->get_name() );
-		}
-		else
-			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
-
-		return $this->output_ajax_response( $json );
 	}
 
 	public function ajax_redirect_edit() {
@@ -447,6 +409,112 @@ class Redirection_Admin {
 		return $this->output_ajax_response( $json );
 	}
 
+	public function ajax_group_action( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		$action = false;
+		$items = array();
+		if ( isset( $params['items'] ) ) {
+			$items = array_map( 'intval', explode( ',', $params['items'] ) );
+		}
+
+		if ( isset( $params['bulk'] ) && in_array( $params['bulk'], array( 'delete', 'enable', 'disable' ) ) ) {
+			$action = $params['bulk'];
+
+			foreach ( $items as $item ) {
+				$group = Red_Group::get( intval( $item, 10 ) );
+
+				if ( $group ) {
+					if ( $action === 'delete' ) {
+						$group->delete();
+					} else if ( $action === 'disable' ) {
+						$group->disable();
+					} else if ( $action === 'enable' ) {
+						$group->enable();
+					}
+				}
+			}
+		}
+
+		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
+	}
+
+	public function ajax_create_group( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		if ( ! Red_Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 ) ) {
+			global $wpdb;
+
+			$cause = 'unknown';
+			if ( !isset( $params['name'] ) || !isset( $params['module_id'] ) ) {
+				$cause = 'invalid parameters';
+			} else if ( $wpdb->last_error ) {
+				$cause = $wpdb->last_error;
+			}
+
+			return $this->output_ajax_response( array( 'error' => 'Failed creating group - '.$cause.' ('.__LINE__.')' ) );
+		}
+
+		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
+	}
+
+	public function ajax_get_group( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
+	}
+
+	public function ajax_set_group( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		$groupId = 0;
+		$name = '';
+		$moduleId = 0;
+		if ( isset( $params['groupId'] ) ) {
+			$groupId = intval( $params['groupId'], 10 );
+		}
+
+		$result = array( 'error' => 'Invalid group or parameters ('.__LINE__.')' );
+		if ( $groupId > 0 ) {
+			$group = Red_Group::get( $params['groupId'] );
+
+			if ( $group && isset( $params['name'] ) && isset( $params['moduleId'] ) ) {
+				$group->update( $params );
+				$result = $group->to_json();
+			}
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
 	public function ajax_get_module( $params ) {
 		$ajax = $this->check_ajax_referer( 'wp_rest' );
 		if ( $ajax !== true ) {
@@ -457,29 +525,34 @@ class Redirection_Admin {
 			$params = $_POST;
 		}
 
-		$modules = array( 'apache', 'nginx', 'wordpress' );
 		$moduleType = false;
 
-		if ( isset( $params['moduleName'] ) && in_array( $params['moduleName'], array( 'apache', 'nginx', 'wordpress' ) ) ) {
-			$modules = array( $params['moduleName'] );
+		$modules = array( 1, 2, 3 );
+		if ( isset( $params['moduleId'] ) ) {
+			$moduleId = intval( $params['moduleId'], 10 );
+
+			if ( $moduleId > 0 && $moduleId <= 3 ) {
+				$modules = array( $moduleId );
+			}
 		}
 
 		if ( isset( $params['moduleType'] ) && in_array( $params['moduleType'], array( 'csv', 'apache', 'nginx' ) ) ) {
 			$moduleType = $params['moduleType'];
 		}
 
-		foreach ( $modules as $module ) {
-			$result[ $module ] = $this->get_module_data( $module, $moduleType );
-		}
+		foreach ( $modules as $moduleId ) {
+			$module = Red_Module::get( $moduleId );
+			$moduleData = $this->get_module_data( $module, $moduleType );
 
-		if ( isset( $result[ 'apache'] ) ) {
-			$apache = Red_Module::get( Apache_Module::MODULE_ID );
+			if ( $module->get_id() === Apache_Module::MODULE_ID ) {
+				$moduleData['data'] = array(
+					'installed' => ABSPATH,
+					'location' => $module->get_location(),
+					'canonical' => $module->get_canonical(),
+				);
+			}
 
-			$result['apache']['data'] = array(
-				'installed' => ABSPATH,
-				'location' => $apache->get_location(),
-				'canonical' => $apache->get_canonical(),
-			);
+			$result[] = $moduleData;
 		}
 
 		return $this->output_ajax_response( $result );
@@ -520,9 +593,12 @@ class Redirection_Admin {
 		return false;
 	}
 
-	private function get_module_data( $moduleName, $type ) {
-		$module = $this->get_module( $moduleName );
-		$data = array( 'redirects' => $module->get_total_redirects() );
+	private function get_module_data( $module, $type ) {
+		$data = array(
+			'redirects' => $module->get_total_redirects(),
+			'module_id' => $module->get_id(),
+			'displayName' => $module->get_name(),
+		);
 
 		if ( $type ) {
 			$exporter = Red_FileIO::create( $type );
@@ -709,7 +785,7 @@ class Redirection_Admin {
 		return $items;
 	}
 
-	private function output_ajax_response( array $data ) {
+	private function output_ajax_response( $data ) {
 		$result = wp_json_encode( $data );
 
 		if ( defined( 'DOING_AJAX' ) ) {

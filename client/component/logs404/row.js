@@ -11,7 +11,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import { setFilter, setSelected } from 'state/log/action';
+import { setFilter, setSelected, performTableAction } from 'state/log/action';
 import RowActions from 'component/table/row-action';
 
 const Referrer = props => {
@@ -42,6 +42,9 @@ const LogRow404 = props => {
 		ev.preventDefault();
 		props.onAdd( props.item );
 	};
+	const handleDelete = () => {
+		props.onDelete( id );
+	};
 
 	return (
 		<tr className={ isLoading ? 'item-loading' : '' }>
@@ -51,6 +54,7 @@ const LogRow404 = props => {
 			<td>
 				{ created }
 				<RowActions>
+					<a href="#" onClick={ handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 					<a href="#" onClick={ handleAdd }>{ __( 'Add Redirect' ) }</a>
 				</RowActions>
 			</td>
@@ -88,7 +92,10 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );
-		}
+		},
+		onDelete: item => {
+			dispatch( performTableAction( 'delete', item ) );
+		},
 	};
 }
 

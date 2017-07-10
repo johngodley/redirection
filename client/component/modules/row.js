@@ -16,15 +16,11 @@ import { getModule, setModule, downloadFile } from 'state/module/action';
 import ApacheConfigure from './apache';
 import ModuleData from './data';
 
-const MODULES = {
-	wordpress: 'WordPress',
-	apache: 'Apache',
-	nginx: 'Nginx',
-};
+const MODULE_APACHE = 2;
 const EXPORTS = {
-	wordpress: [ 'rss', 'csv', 'apache', 'nginx' ],
-	apache: [ 'csv', 'apache', 'nginx', 'config' ],
-	nginx: [ 'csv', 'apache', 'nginx' ],
+	1: [ 'rss', 'csv', 'apache', 'nginx' ],
+	2: [ 'csv', 'apache', 'nginx', 'config' ],
+	3: [ 'csv', 'apache', 'nginx' ],
 };
 const EXPORT_NAME = {
 	rss: 'RSS',
@@ -32,30 +28,24 @@ const EXPORT_NAME = {
 	apache: 'Apache',
 	nginx: 'Nginx',
 };
-const MODULE_ID = {
-	wordpress: 1,
-	apache: 2,
-	nginx: 3,
-};
 const DESCRIPTIONS = {
-	wordpress: __( 'WordPress-powered redirects. This requires no further configuration, and you can track hits.' ),
-	apache: __( 'Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits.', {
+	1: __( 'WordPress-powered redirects. This requires no further configuration, and you can track hits.' ),
+	2: __( 'Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits.', {
 		components: {
 			code: <code />,
 		}
 	} ),
-	nginx: __( 'For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module.' ),
+	3: __( 'For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module.' ),
 };
 
-const moduleName = name => MODULES[ name ] ? MODULES[ name ] : '';
 const description = name => DESCRIPTIONS[ name ] ? DESCRIPTIONS[ name ] : '';
-const getUrl = ( modId, modType ) => Redirectioni10n.pluginRoot + '&sub=modules&export=' + MODULE_ID[ modId ] + '&exporter=' + modType;
+const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=modules&export=' + moduleId + '&exporter=' + modType;
 
-const exporter = ( modType, modName, pos, getData ) => {
-	const url = getUrl( modName, modType );
+const exporter = ( modType, moduleId, pos, getData ) => {
+	const url = getUrl( moduleId, modType );
 	const clicker = ev => {
 		ev.preventDefault();
-		getData( modName, modType );
+		getData( moduleId, modType );
 	};
 
 	if ( modType === 'config' ) {
@@ -112,14 +102,14 @@ class LogModule extends React.Component {
 		this.setState( { showing: false } );
 	}
 
-	getMenu( name, redirects ) {
+	getMenu( module_id, redirects ) {
 		if ( redirects > 0 ) {
-			return EXPORTS[ name ]
-				.map( ( item, pos ) => exporter( item, name, pos, this.onClick ) )
+			return EXPORTS[ module_id ]
+				.map( ( item, pos ) => exporter( item, module_id, pos, this.onClick ) )
 				.reduce( ( prev, curr ) => [ prev, ' | ', curr ] );
 		}
 
-		if ( name === 'apache' && redirects === 0 ) {
+		if ( module_id === MODULE_APACHE && redirects === 0 ) {
 			return exporter( 'config', 'apache', 0, this.onClick );
 		}
 
@@ -127,8 +117,9 @@ class LogModule extends React.Component {
 	}
 
 	render() {
-		const { name, redirects, data, isLoading } = this.props.item;
-		const menu = this.getMenu( name, redirects );
+		const { redirects, module_id, displayName, data } = this.props.item;
+		const { isLoading } = this.props;
+		const menu = this.getMenu( module_id, redirects );
 		const total = redirects === null ? '-' : redirects;
 		let showItem;
 
@@ -143,8 +134,8 @@ class LogModule extends React.Component {
 		return (
 			<tr>
 				<td className="module-contents">
-					<p><strong>{ moduleName( name ) }</strong></p>
-					<p>{ description( name ) }</p>
+					<p><strong>{ displayName }</strong></p>
+					<p>{ description( module_id ) }</p>
 
 					{ this.state.showing ? showItem : <RowActions>{ menu }</RowActions> }
 				</td>

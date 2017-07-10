@@ -1,6 +1,10 @@
 <?php
 
 class RedirectTest extends WP_UnitTestCase {
+	public function setUp() {
+		$this->group = Red_Group::create( 'group', 1 );
+	}
+
 	public function testRemoveHttp() {
 		$this->assertEquals( Red_Item::sanitize_url( 'http://domain.com/some/url' ), '/some/url' );
 		$this->assertEquals( Red_Item::sanitize_url( 'https://domain.com/some/url' ), '/some/url' );
@@ -73,7 +77,7 @@ class RedirectTest extends WP_UnitTestCase {
 		Red_Item::create( array(
 			'source'     => '/from',
 			'target'     => '/to',
-			'group_id'   => 1,
+			'group_id'   => $this->group->get_id(),
 			'match'      => 'url',
 			'red_action' => 'url',
 		) );

@@ -3,31 +3,30 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
  */
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import TableNav from './navigation';
-import TableContent from './table-content';
-import SearchBox from './search';
-import LoadingRow from './loading-row';
-import TableHeader from './header/';
-import EmptyRow from './empty-row';
-import FailedRow from './failed-row';
+import TableHeader from './header';
+import DataRow from './row/data-row';
+import LoadingRow from './row/loading-row';
+import EmptyRow from './row/empty-row';
+import FailedRow from './row/failed-row';
 
-const isDisabled = ( status, rows ) => status !== STATUS_COMPLETE || rows.length === 0;
-const isSelected = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
-const hasNavigation = store => typeof store.filter !== 'undefined';
+const isDisabledHeader = ( status, rows ) => status !== STATUS_COMPLETE || rows.length === 0;
+const isSelectedHeader = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
 
 const Table = props => {
-	const { store, headers, row } = props;
-	const { rows, status, selected, error } = store;
+	const { headers, row, rows, total, table, status, onSetAllSelected, onSetOrderBy, error } = props;
+	const isDisabled = isDisabledHeader( status, rows );
+	const isSelected = isSelectedHeader( table.selected, rows );
 
 	let content = null;
 
 	if ( rows.length > 0 ) {
-		content = <TableContent rows={ rows } status={ status } selected={ selected } row={ row } />;
+		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } />;
 	} else if ( rows.length === 0 && status === STATUS_IN_PROGRESS ) {
 		content = <LoadingRow headers={ headers } />;
 	} else if ( rows.length === 0 && status === STATUS_COMPLETE ) {
@@ -37,25 +36,33 @@ const Table = props => {
 	}
 
 	return (
-		<div>
-			{ hasNavigation( store ) && <SearchBox redux={ store } /> }
-			{ hasNavigation( store ) && <TableNav /> }
+		<table className="wp-list-table widefat fixed striped items">
+			<thead>
+				<TableHeader table={ table } isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } onSetOrderBy={ onSetOrderBy } onSetAllSelected={ onSetAllSelected } />
+			</thead>
 
-			<table className="wp-list-table widefat fixed striped items">
-				<thead>
-					<TableHeader isDisabled={ isDisabled( status, rows ) } isSelected={ isSelected( selected, rows ) } headers={ headers } />
-				</thead>
+			{ content }
 
-				{ content }
-
-				<tfoot>
-					<TableHeader isDisabled={ isDisabled( status, rows ) } isSelected={ isSelected( selected, rows ) } headers={ headers } />
-				</tfoot>
-			</table>
-
-			{ hasNavigation( store ) && <TableNav /> }
-		</div>
+			<tfoot>
+				<TableHeader table={ table } isDisabled={ isDisabled } isSelected={ isSelected } headers={ headers } rows={ rows } total={ total } onSetOrderBy={ onSetOrderBy } onSetAllSelected={ onSetAllSelected } />
+			</tfoot>
+		</table>
 	);
+};
+
+Table.propTypes = {
+	headers: PropTypes.array.isRequired,
+	row: PropTypes.func.isRequired,
+	rows: PropTypes.array.isRequired,
+	table: PropTypes.object.isRequired,
+	onSetAllSelected: PropTypes.func,
+	onSetOrderBy: PropTypes.func,
+	status: PropTypes.string.isRequired,
+	total: PropTypes.number.isRequired,
+	error: PropTypes.oneOfType( [
+		PropTypes.bool,
+		PropTypes.string,
+	] ).isRequired,
 };
 
 export default Table;

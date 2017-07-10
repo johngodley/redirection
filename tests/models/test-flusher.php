@@ -19,7 +19,7 @@ class FlusherTest extends WP_UnitTestCase {
 	private function getLogCount() {
 		global $wpdb;
 
-		return intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" ) );
+		return intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" ), 10 );
 	}
 
 	public function testNothingScheduled() {
@@ -60,8 +60,8 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testFlush() {
-		$this->addLog( 5 );   // Wont get flushed
-		$this->addLog( 8 );   // Will get flushed
+		$this->addLog( 5 );
+		$this->addLog( 8 );
 		$this->assertEquals( 2, $this->getLogCount() );
 
 		$flusher = new Red_Flusher();

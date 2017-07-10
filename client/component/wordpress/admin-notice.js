@@ -4,6 +4,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 class AdminNotice extends React.Component {
 	constructor( props ) {
@@ -11,6 +12,7 @@ class AdminNotice extends React.Component {
 
 		this.state = { visible: true };
 		this.onClick = this.dismiss.bind( this );
+		window.scrollTo( 0, 0 );
 	}
 
 	dismiss() {
@@ -18,7 +20,7 @@ class AdminNotice extends React.Component {
 	}
 
 	render() {
-		const { message, isError } = this.props;
+		const { message, isError = false } = this.props;
 		const classes = classnames( {
 			notice: true,
 			'notice-error': isError,
@@ -37,5 +39,10 @@ class AdminNotice extends React.Component {
 		);
 	}
 }
+
+AdminNotice.propTypes = {
+	message: PropTypes.string.isRequired,
+	isError: PropTypes.bool,
+};
 
 export default AdminNotice;

@@ -3,16 +3,15 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import classnames from 'classnames';
-
-import { setOrderBy } from 'state/log/action';
+import PropTypes from 'prop-types';
 
 const SortableColumn = props => {
-	const { direction, orderBy, name, text } = props;
+	const { name, text, table } = props;
+	const { direction, orderBy } = table;
 	const click = ev => {
 		ev.preventDefault();
-		props.onChange( name, orderBy === name && direction === 'desc' ? 'asc' : 'desc' );
+		props.onSetOrderBy( name, orderBy === name && direction === 'desc' ? 'asc' : 'desc' );
 	};
 	const classes = classnames( {
 		'manage-column': true,
@@ -33,15 +32,11 @@ const SortableColumn = props => {
 	);
 };
 
-function mapDispatchToProps( dispatch ) {
-	return {
-		onChange: ( column, direction ) => {
-			dispatch( setOrderBy( column, direction ) );
-		},
-	};
-}
+SortableColumn.propTypes = {
+	table: PropTypes.object.isRequired,
+	name: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
+	onSetOrderBy: PropTypes.func.isRequired,
+};
 
-export default connect(
-	null,
-	mapDispatchToProps
-)( SortableColumn );
+export default SortableColumn;

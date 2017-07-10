@@ -10,7 +10,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import { setFilter, setSelected } from 'state/log/action';
+import { setFilter, setSelected, performTableAction } from 'state/log/action';
 
 const RowActions = props => {
 	return (
@@ -44,13 +44,21 @@ const LogRow = props => {
 	const handleSelected = () => {
 		props.onSetSelected( [ id ] );
 	};
+	const handleDelete = () => {
+		props.onDelete( id );
+	};
 
 	return (
 		<tr className={ isLoading ? 'item-loading' : '' }>
 			<th scope="row" className="check-column">
 				<input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ handleSelected } />
 			</th>
-			<td>{ created }</td>
+			<td>
+				{ created }
+				<RowActions>
+					<a href="#" onClick={ handleDelete }>{ __( 'Delete' ) }</a>
+				</RowActions>
+			</td>
 			<td>
 				<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 				<RowActions>
@@ -80,6 +88,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );
+		},
+		onDelete: item => {
+			dispatch( performTableAction( 'delete', item ) );
 		},
 	};
 }

@@ -1,23 +1,46 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
+__( "Name", "redirection" ), // client/component/groups/index.js:121
+__( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/component/groups/index.js:116
+__( "Add Group", "redirection" ), // client/component/groups/index.js:115
+__( "All modules", "redirection" ), // client/component/groups/index.js:81
+__( "Disable", "redirection" ), // client/component/groups/index.js:56
+__( "Enable", "redirection" ), // client/component/groups/index.js:52
+__( "Delete", "redirection" ), // client/component/groups/index.js:48
+__( "Module", "redirection" ), // client/component/groups/index.js:40
+__( "Redirects", "redirection" ), // client/component/groups/index.js:35
+__( "Name", "redirection" ), // client/component/groups/index.js:31
+__( "Cancel", "redirection" ), // client/component/groups/row.js:128
+__( "Save", "redirection" ), // client/component/groups/row.js:127
+__( "Module", "redirection" ), // client/component/groups/row.js:116
+__( "Name", "redirection" ), // client/component/groups/row.js:112
+__( "Enable", "redirection" ), // client/component/groups/row.js:102
+__( "Disable", "redirection" ), // client/component/groups/row.js:101
+__( "View Redirects", "redirection" ), // client/component/groups/row.js:100
+__( "Delete", "redirection" ), // client/component/groups/row.js:99
+__( "Edit", "redirection" ), // client/component/groups/row.js:98
 __( "No! Don't delete the logs", "redirection" ), // client/component/logs/delete-all.js:44
 __( "Yes! Delete the logs", "redirection" ), // client/component/logs/delete-all.js:44
 __( "Once deleted your current logs will no longer be available. You can set an delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/component/logs/delete-all.js:42
 __( "Delete the logs - are you sure?", "redirection" ), // client/component/logs/delete-all.js:41
 __( "Delete All", "redirection" ), // client/component/logs/delete-all.js:38
 __( "Export to CSV", "redirection" ), // client/component/logs/export-csv.js:16
-__( "IP", "redirection" ), // client/component/logs/index.js:51
-__( "Referrer", "redirection" ), // client/component/logs/index.js:47
-__( "Source URL", "redirection" ), // client/component/logs/index.js:43
-__( "Date", "redirection" ), // client/component/logs/index.js:39
-__( "Show only this IP", "redirection" ), // client/component/logs/row.js:69
-__( "IP", "redirection" ), // client/component/logs404/index.js:51
-__( "Referrer", "redirection" ), // client/component/logs404/index.js:47
-__( "Source URL", "redirection" ), // client/component/logs404/index.js:43
-__( "Date", "redirection" ), // client/component/logs404/index.js:39
-__( "Show only this IP", "redirection" ), // client/component/logs404/row.js:71
-__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:54
+__( "Delete", "redirection" ), // client/component/logs/index.js:50
+__( "IP", "redirection" ), // client/component/logs/index.js:42
+__( "Referrer", "redirection" ), // client/component/logs/index.js:38
+__( "Source URL", "redirection" ), // client/component/logs/index.js:34
+__( "Date", "redirection" ), // client/component/logs/index.js:30
+__( "Show only this IP", "redirection" ), // client/component/logs/row.js:77
+__( "Delete", "redirection" ), // client/component/logs/row.js:59
+__( "Delete", "redirection" ), // client/component/logs404/index.js:50
+__( "IP", "redirection" ), // client/component/logs404/index.js:42
+__( "Referrer", "redirection" ), // client/component/logs404/index.js:38
+__( "Source URL", "redirection" ), // client/component/logs404/index.js:34
+__( "Date", "redirection" ), // client/component/logs404/index.js:30
+__( "Show only this IP", "redirection" ), // client/component/logs404/row.js:75
+__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:58
+__( "Delete", "redirection" ), // client/component/logs404/row.js:57
 __( "Cancel", "redirection" ), // client/component/modules/apache.js:78
 __( "Save", "redirection" ), // client/component/modules/apache.js:77
 __( "Automatically remove or add www to your site.", "redirection" ), // client/component/modules/apache.js:70
@@ -31,12 +54,12 @@ __( ".htaccess Location", "redirection" ), // client/component/modules/apache.js
 __( "Cancel", "redirection" ), // client/component/modules/data.js:28
 __( "Download", "redirection" ), // client/component/modules/data.js:27
 __( "Failed to load", "redirection" ), // client/component/modules/data.js:25
-__( "Redirects", "redirection" ), // client/component/modules/index.js:37
-__( "Module", "redirection" ), // client/component/modules/index.js:32
-__( "Configure", "redirection" ), // client/component/modules/row.js:62
-__( "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module.", "redirection" ), // client/component/modules/row.js:47
-__( "Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits.", "redirection" ), // client/component/modules/row.js:42
-__( "WordPress-powered redirects. This requires no further configuration, and you can track hits.", "redirection" ), // client/component/modules/row.js:41
+__( "Redirects", "redirection" ), // client/component/modules/index.js:26
+__( "Module", "redirection" ), // client/component/modules/index.js:21
+__( "Configure", "redirection" ), // client/component/modules/row.js:52
+__( "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module.", "redirection" ), // client/component/modules/row.js:38
+__( "Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits.", "redirection" ), // client/component/modules/row.js:33
+__( "WordPress-powered redirects. This requires no further configuration, and you can track hits.", "redirection" ), // client/component/modules/row.js:32
 __( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
 __( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
 __( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/component/options/delete-plugin.js:47
@@ -92,21 +115,29 @@ __( "Want to keep up to date with changes to Redirection?", "redirection" ), // 
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:35
 __( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/component/support/newsletter.js:24
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:22
-__( "No results", "redirection" ), // client/component/table/empty-row.js:15
-__( "Sorry but something went wrong loading the data - please try again", "redirection" ), // client/component/table/failed-row.js:16
-__( "Select All", "redirection" ), // client/component/table/header/index.js:18
-_n( "%s item", "%s items", 1, "redirection" ), // client/component/table/navigation-pages.js:119
-__( "Last page", "redirection" ), // client/component/table/navigation-pages.js:102
-__( "Next page", "redirection" ), // client/component/table/navigation-pages.js:102
-__( "of %(page)s", "redirection" ), // client/component/table/navigation-pages.js:91
-__( "Current Page", "redirection" ), // client/component/table/navigation-pages.js:87
-__( "Prev page", "redirection" ), // client/component/table/navigation-pages.js:84
-__( "First page", "redirection" ), // client/component/table/navigation-pages.js:84
-__( "Apply", "redirection" ), // client/component/table/navigation.js:48
-__( "Delete", "redirection" ), // client/component/table/navigation.js:45
-__( "Bulk Actions", "redirection" ), // client/component/table/navigation.js:44
-__( "Select bulk action", "redirection" ), // client/component/table/navigation.js:41
-__( "Search", "redirection" ), // client/component/table/search.js:38
-__( "Search by IP", "redirection" ), // client/component/table/search.js:38
+__( "Filter", "redirection" ), // client/component/table/filter.js:35
+__( "Select All", "redirection" ), // client/component/table/header/check-column.js:14
+_n( "%s item", "%s items", 1, "redirection" ), // client/component/table/navigation-pages.js:117
+__( "Last page", "redirection" ), // client/component/table/navigation-pages.js:100
+__( "Next page", "redirection" ), // client/component/table/navigation-pages.js:100
+__( "of %(page)s", "redirection" ), // client/component/table/navigation-pages.js:89
+__( "Current Page", "redirection" ), // client/component/table/navigation-pages.js:85
+__( "Prev page", "redirection" ), // client/component/table/navigation-pages.js:82
+__( "First page", "redirection" ), // client/component/table/navigation-pages.js:82
+__( "Apply", "redirection" ), // client/component/table/navigation.js:50
+__( "Bulk Actions", "redirection" ), // client/component/table/navigation.js:45
+__( "Select bulk action", "redirection" ), // client/component/table/navigation.js:42
+__( "No results", "redirection" ), // client/component/table/row/empty-row.js:15
+__( "Sorry but something went wrong loading the data - please try again", "redirection" ), // client/component/table/row/failed-row.js:16
+__( "Search", "redirection" ), // client/component/table/search.js:42
+__( "Search by IP", "redirection" ), // client/component/table/search.js:42
+__( "Please include these details in your report", "redirection" ), // client/component/wordpress/error-notice.js:65
+__( "Important details for the thing you just did", "redirection" ), // client/component/wordpress/error-notice.js:64
+__( "If this is a new problem then please either create a new issue, or send it directly to john@urbangiraffe.com. Include a description of what you were trying to do and the important details listed below. If you can include a screenshot then even better.", "redirection" ), // client/component/wordpress/error-notice.js:62
+__( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot.", "redirection" ), // client/component/wordpress/error-notice.js:61
+__( "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.", "redirection" ), // client/component/wordpress/error-notice.js:56
+__( "It didn't work when I tried again", "redirection" ), // client/component/wordpress/error-notice.js:55
+__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it could work - great!", "redirection" ), // client/component/wordpress/error-notice.js:53
+__( "Something went wrong 🙁", "redirection" ), // client/component/wordpress/error-notice.js:52
 );
 /* THIS IS THE END OF THE GENERATED FILE */
