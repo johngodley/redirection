@@ -56,10 +56,11 @@ export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } )
 
 export const performTableAction = ( action, ids ) => {
 	return ( dispatch, getState ) => {
-		const { table, total } = getState().log;
+		const { table, total, logType } = getState().log;
 		const params = {
 			items: ids ? ids : table.selected.join( ',' ),
 			bulk: action,
+			logType,
 		};
 
 		if ( action === 'delete' && params.page > 0 && params.perPage * params.page === total - 1 ) {
