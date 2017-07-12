@@ -270,6 +270,7 @@ class Red_Item {
 			$this->regex = isset( $details['regex'] ) ? 1 : 0;
 			$this->url   = self::sanitize_url( $details['old'], $this->regex );
 			$this->title = $details['title'];
+			$this->position = $details['position'];
 
 			$data = $this->match->data( $details );
 
@@ -284,7 +285,7 @@ class Red_Item {
 			}
 
 			// Save this
-			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
+			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title, 'position' => $this->position ), array( 'id' => $this->id ) );
 
 			Red_Module::flush( $this->group_id );
 

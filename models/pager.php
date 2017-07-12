@@ -186,11 +186,11 @@ class Redirection_Table extends WP_List_Table {
 		// Process any stuff
 		$this->process_bulk_action();
 
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'position';
 		$order   = ( ! empty( $_GET['order'] ) ) ? strtolower( $_GET['order'] ) : 'desc';
 
 		if ( ! in_array( $orderby, array_keys( $sortable ) ) )
-			$orderby = 'id';
+			$orderby = 'position';
 
 		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
