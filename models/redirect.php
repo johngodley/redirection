@@ -210,7 +210,12 @@ class Red_Item {
 
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
 			Red_Module::flush( $group_id );
-			return self::get_by_id( $wpdb->insert_id );
+
+			$redirect = self::get_by_id( $wpdb->insert_id );
+
+			do_action( 'redirection_redirect_after_create', $wpdb->insert_id, $redirect );
+
+			return $redirect;
 		}
 
 		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
@@ -238,6 +243,8 @@ class Red_Item {
 		}
 
 		Red_Module::flush( $this->group_id );
+
+		do_action( 'redirection_redirect_after_delete', $this->id );
 	}
 
 	static function sanitize_url( $url, $regex = false ) {
@@ -291,6 +298,10 @@ class Red_Item {
 			if ( $old_group !== $this->group_id ) {
 				Red_Module::flush( $old_group );
 			}
+
+			$redirect = self::get_by_id( $this->id );
+
+			do_action( 'redirection_redirect_after_update', $this->id, $redirect );
 		}
 	}
 
