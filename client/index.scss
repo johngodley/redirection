@@ -1,0 +1,211 @@
+@import 'globals';
+
+.spinner-container {
+	display: inline-block;
+	position: relative;
+}
+
+.css-spinner {
+	position: absolute;
+	left: 10px;
+	top: -25px;
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-color: #333;
+
+	border-radius: 100%;
+	-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+	animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-scaleout {
+  0% { -webkit-transform: scale(0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes sk-scaleout {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+#react-ui {
+	clear: both;
+
+	.notice-error {
+		margin-top: 3em;
+
+		.closer {
+			float: right;
+			padding-top: 5px;
+			font-size: 18px;
+			cursor: pointer;
+			color: #333;
+		}
+
+		textarea {
+			font-family: courier;
+			font-size: 12px;
+			background-color: #eee;
+			width: 100%;
+		}
+	}
+}
+
+body.ReactModal__Body--open {
+	#react-ui {
+		background-color: #eee;
+		opacity: 0.2;
+	}
+}
+
+.modal {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	text-align: center;
+
+	.modal-content {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 10000;
+		margin: auto;
+		padding: 20px;
+		width: 500px;
+		height: 200px;
+		border-radius: 10px;
+		background: white;
+		opacity: 1;
+
+		box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+	}
+}
+
+.faq {
+	h3 {
+		font-size: 14px;
+		font-style: italic;
+	}
+}
+
+.donation {
+	.donation-amount {
+		float: left;
+		margin-top: 10px;
+
+		span {
+			font-size: 28px;
+			margin-top: 4px;
+			vertical-align: bottom;
+		}
+	}
+
+	input[type=number] {
+		width: 60px;
+		margin-left: 10px;
+	}
+}
+
+.donation-slider {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	width: 500px;
+	margin-left: 5px;
+}
+
+.newsletter {
+	span {
+		font-size: 12px;
+		font-style: italic;
+	}
+}
+
+@keyframes loading-fade {
+	0% { opacity: .5; }
+	50% { opacity: 1; }
+	100% { opacity: .5; }
+}
+
+.wp-list-table {
+	.is-placeholder {
+		td {
+			position: relative;
+			height: 50px;
+		}
+	}
+
+	.item-loading {
+		opacity: 0.3;
+	}
+
+	strike {
+		opacity: 0.6;
+	}
+}
+
+.placeholder-loading {
+	content: '';
+	position: absolute;
+	top: 16px;
+	right: 8px;
+	bottom: 16px;
+	left: 8px;
+	padding-left: 8px;
+	padding-top: 8px;
+	background-color: lighten( $gray, 20% );
+	animation: loading-fade 1.6s ease-in-out infinite;
+}
+
+.loading-small {
+	width: 25px;
+	height: 25px;
+}
+
+.widefat thead tr td.column-check, .widefat tfoot tr td.column-check {
+    width: 2.2em;
+	padding-top: 9px;
+	padding-left: 3px;
+	vertical-align: middle;
+}
+
+input.current-page {
+	width: 55px;
+}
+
+.fixed .column-date {
+	width: 165px !important;
+}
+
+.loader-wrapper {
+	position: relative;
+}
+
+.loader-textarea {
+	height: 100px;
+}
+
+.edit {
+	th {
+		vertical-align: top;
+		padding-top: 5px !important;
+	}
+
+	input[type=text] {
+		width: 80%;
+	}
+}

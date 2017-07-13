@@ -207,6 +207,14 @@ class Red_Htaccess {
 			$existing = file_get_contents( $filename );
 		}
 
-		return file_put_contents( $filename, $this->get( $existing ) );
+		$file = @fopen( $filename, 'w' );
+		if ( $file ) {
+			$result = fwrite( $file, $this->get( $existing ) );
+			fclose( $file );
+
+			return $result !== false;
+		}
+
+		return false;
 	}
 }

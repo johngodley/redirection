@@ -1,0 +1,19 @@
+{
+	"presets": [
+		[ "es2015", { "modules": false } ],
+		"stage-2",
+		"react"
+	],
+	"plugins": [
+		"transform-object-rest-spread",
+		"react-hot-loader/babel"
+	],
+	"env": {
+		"test": {
+			"presets": ["es2015"]
+		},
+		"production": {
+			"plugins": ["transform-react-remove-prop-types"]
+		}
+	}
+}

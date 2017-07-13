@@ -10,6 +10,10 @@ class Nginx_Module extends Red_Module {
 		return self::MODULE_ID;
 	}
 
+	public function get_name() {
+		return 'Nginx';
+	}
+
 	public function can_edit_config() {
 		return false;
 	}
@@ -26,7 +30,7 @@ class Nginx_Module extends Red_Module {
 	protected function flush_module() {
 	}
 
-	public function update( $data ) {
+	public function update( array $data ) {
 		return false;
 	}
 
@@ -35,13 +39,5 @@ class Nginx_Module extends Red_Module {
 
 	public function get_config() {
 		return array();
-	}
-
-	public function get_name() {
-		return __( 'Nginx', 'redirection' );
-	}
-
-	public function get_description() {
-		return __( 'For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module.', 'redirection' );
 	}
 }

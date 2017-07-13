@@ -162,3 +162,12 @@ table.items table.edit th {
 	margin-top: 15px;
 	width: 100%;
 }
+
+ul.translators {
+	list-style-type: disc;
+	margin-left: 30px;
+}
+
+ul.translators li {
+	line-height: 1em;
+}

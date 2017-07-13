@@ -1,107 +1,125 @@
-'use strict';
+const gulp = require( 'gulp' );
+const i18n_calypso = require( 'i18n-calypso/cli' );
+const po2json = require( 'gulp-po2json' );
+const wpPot = require( 'gulp-wp-pot' );
+const sort = require( 'gulp-sort' );
+const path = require( 'path' );
+const globby = require( 'globby' );
+const fs = require( 'fs' );
+const zip = require( 'gulp-zip' );
+const config = require( './.config.json' ); // Local config
+const pkg = require( './package.json' );
 
-var gulp = require( 'gulp' );
-
-var SVN_SOURCE = [
-    './**',
-
-    '!package.json',
-    '!phpunit.xml',
-    '!gulpfile.js',
-    '!node_modules/**',
-    '!tests/**',
-    '!bin/**',
-    '!node_modules',
-    '!tests',
-    '!bin'
+const SVN_SOURCE_FILES = [
+	'./**',
+	'!node_modules/**',
+	'!node_modules',
+	'!bin/**',
+	'!bin',
+	'!client/**',
+	'!client',
+	'!tests/**',
+	'!tests',
+	'!yarn.lock',
+	'!package.json',
+	'!gulpfile.js',
+	'!postcss.config.js',
+	'!README.md',
+	'!phpunit.xml',
+	'!webpack.config.js',
+	'!package-lock.json',
 ];
 
-var SVN_SOURCE2 = [
-    '*/**',
+gulp.task( 'pot', [ 'pot:extract', 'pot:generate', 'pot:json' ] );
 
-    '!package.json',
-    '!phpunit.xml',
-    '!gulpfile.js',
-    '!node_modules/**',
-    '!tests/**',
-    '!bin/**',
-    '!node_modules',
-    '!tests',
-    '!bin'
-];
-
-// Based on gulp-deleted, but with 'force: true'
-function cleaner( dest, destPatterns ) {
-    var path, through, glob, _, del;
-
-    glob = require("glob-all");
-
-    through = require("through");
-
-    path = require("path");
-
-    _ = require("underscore");
-
-    del = require("del");
-
-    var repl = /\\/g
-
-    if (destPatterns === undefined) return through(function write(data) {this.emit('data', data)},function end () {this.emit('end')});
-
-    var srcFiles, destFiles, files, onEnd, onFile;
-    files = [];
-    srcFiles = [];
-
-    destFiles = glob.sync( destPatterns, {cwd: path.join(process.cwd(), dest) } );
-
-    onFile = function(file) {
-        srcFiles.push(file.path);
-        this.push(file);
-        return files.push(file);
-    };
-
-    onEnd = function() {
-        for (var i = srcFiles.length -1, l = -1; i > l; i--){
-            srcFiles[i] = srcFiles[i].replace(repl, "/").substr(process.cwd().length + 1);
-            if (srcFiles[i] == '') {
-                srcFiles.splice(i,1);
-            }
-        }
-
-        //compare source and destination files and delete any missing in source at destination
-        var deletedFiles = _.difference(destFiles, srcFiles);
-
-        _.each(deletedFiles, function(item, index) {
-            deletedFiles[index] = path.join(process.cwd(), dest,  deletedFiles[index]);
-            del.sync(deletedFiles[index], { force: true });
-        } );
-
-        return this.emit("end");
-    };
-
-    return through(onFile, onEnd);
-}
-
-gulp.task( 'pot', function() {
-    var wpPot = require( 'gulp-wp-pot' );
-    var sort = require( 'gulp-sort' );
-
-    return gulp.src( [ '**/*.php' ] )
-        .pipe( sort() )
-        .pipe( wpPot( {
-            domain: 'redirection',
-            destFile: 'redirection.pot',
-            package: 'Redirection',
-            bugReport: 'https://wordpress.org/plugins/redirection/'
-        } ) )
-        .pipe( gulp.dest( 'locale' ) );
+gulp.task( 'pot:json', done => {
+	gulp.src( [ 'locale/*.po' ] )
+		.pipe( po2json() )
+		.pipe( gulp.dest( 'locale/json/' ) )
+		.on( 'end', done );
 } );
 
-gulp.task( 'svn', function() {
-    var config = require( './.config.json' );  // Local config
-    var deleted = require( 'gulp-deleted' );
+gulp.task( 'pot:extract', () => {
+	globby( [ 'client/**/*.js', '!client/lib/polyfill/index.js' ] )
+		.then( files => {
+			let result = i18n_calypso( {
+				projectName: 'Redirection',
+				inputPaths: files,
+				// output: 'redirection-strings.php',
+				phpArrayName: 'redirection_strings',
+				format: 'PHP',
+				textdomain: 'redirection',
+				keywords: [ 'translate', '__' ]
+			} );
 
-    return gulp.src( SVN_SOURCE )
-        .pipe( cleaner( config.svn_relative, SVN_SOURCE2 ) )
-        .pipe( gulp.dest( config.svn_target ) );
+			// There's a bug where it doesnt escape $ correctly - do it here
+			result = result.replace( /\$(.*?)\$/g, '%%$1%%' );
+			result = result.replace( /%%/g, '\\$' );
+
+			fs.writeFileSync( 'redirection-strings.php', result, 'utf8' );
+		} );
+} );
+
+gulp.task( 'pot:generate', () => {
+	const pot = {
+		domain: 'redirection',
+		destFile: 'redirection.pot',
+		'package': 'Redirection',
+		bugReport: 'https://wordpress.org/plugins/redirection/'
+	};
+
+	return gulp.src( [ '**/*.php' ] )
+		.pipe( sort() )
+		.pipe( wpPot( pot ) )
+		.pipe( gulp.dest( 'locale/redirection.pot' ) );
+} );
+
+const removeFromTarget = ( paths, rootPath ) => {
+	paths
+		.map( item => {
+			const relative = path.resolve( '..', path.relative( path.join( rootPath, '..' ), item ) );
+
+			if ( ! fs.existsSync( relative ) ) {
+				return relative;
+			}
+
+			return false;
+		} )
+		.filter( item => item )
+		.map( item => {
+			const relative = path.join( rootPath, '..', path.relative( '..', item ) );
+
+			/* eslint-disable no-console */
+			console.log( 'Removed: ' + relative );
+			fs.unlinkSync( relative );
+		} );
+};
+
+const copyPlugin = ( target, cb ) => gulp.src( SVN_SOURCE_FILES )
+	.pipe( gulp.dest( target ) )
+	.on( 'end', () => {
+		// Check which files are in the target but dont exist in the source
+		globby( target + '**' )
+			.then( paths => {
+				removeFromTarget( paths, target );
+			} );
+
+		if ( cb ) {
+			cb();
+		}
+	} );
+
+gulp.task( 'svn', () => copyPlugin( config.svn_target ) );
+
+gulp.task( 'export', () => {
+	const zipTarget = path.resolve( config.export_target, '..' );
+	const zipName = 'redirection-' + pkg.version + '.zip';
+
+	console.log( 'Exporting: ' + zipName );
+
+	return copyPlugin( config.export_target, () => {
+		return gulp.src( config.export_target + '/**' )
+			.pipe( zip( zipName ) )
+			.pipe( gulp.dest( zipTarget ) );
+	} );
 } );

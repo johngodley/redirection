@@ -163,18 +163,20 @@ class Red_Item {
 		$parsed_domain = parse_url( site_url() );
 
 		if ( isset( $parsed_url['scheme'] ) && ( $parsed_url['scheme'] === 'http' || $parsed_url['scheme'] === 'https' ) && $parsed_url['host'] !== $parsed_domain['host'] ) {
-			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), $parsed_url['path'], $parsed_domain['host'] ) );
+			return new WP_Error( 'redirect-add', sprintf( __( 'You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>).', 'redirection' ), isset( $parsed_url['path'] ) ? $parsed_url['path'] : '', $parsed_domain['host'] ) );
 		}
 
 		$matcher  = Red_Match::create( $details['match'] );
 		$group_id = intval( $details['group_id'] );
 		$group    = Red_Group::get( $group_id );
 
-		if ( $group_id <= 0 || ! $group )
+		if ( $group_id <= 0 || ! $group ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid group when creating redirect', 'redirection' ) );
+		}
 
-		if ( ! $matcher )
+		if ( ! $matcher ) {
 			return new WP_Error( 'redirect-add', __( 'Invalid source URL when creating redirect for given match type', 'redirection' ) );
+		}
 
 		$regex    = ( isset( $details['regex'] ) && (bool) $details['regex'] !== false ) ? 1 : 0;
 		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
@@ -186,8 +188,9 @@ class Red_Item {
 		elseif ( $action === 'error' )
 			$action_code = 404;
 
-		if ( isset( $details['action_code'] ) )
+		if ( isset( $details['action_code'] ) && get_status_header_desc( $details['action_code'] ) !== '' ) {
 			$action_code = intval( $details['action_code'] );
+		}
 
 		$data = array(
 			'url'         => self::sanitize_url( $details['source'], $regex ),
@@ -211,6 +214,12 @@ class Red_Item {
 		}
 
 		return new WP_Error( 'redirect-add', __( 'Unable to add new redirect - delete Redirection from the options page and re-install' ) );
+	}
+
+	public static function disable_where_matches( $url ) {
+		global $wpdb;
+
+		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'disabled' ), array( 'url' => $url ) );
 	}
 
 	public function delete() {
@@ -303,33 +312,15 @@ class Red_Item {
 		if ( ( $this->regex === false && ( $this->url === $url || $this->url === rtrim( $url, '/' ) || $this->url === urldecode( $url ) ) ) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', $url, $matches ) > 0) || ( $this->regex === true && @preg_match( '@'.str_replace( '@', '\\@', $this->url ).'@', urldecode( $url ), $matches ) > 0) ) {
 			// Check if our match wants this URL
 			$target = $this->match->get_target( $url, $this->url, $this->regex );
+			$target = apply_filters( 'redirection_url_target', $target, $this->url );
 
-			if ( $target ) {
-				$target = $this->replace_special_tags( $target );
-
+			if ( $target && $this->is_enabled() ) {
 				$this->visit( $url, $target );
-
-				if ( $this->status === 'enabled' )
-					return $this->action->process_before( $this->action_code, $target );
+				return $this->action->process_before( $this->action_code, $target );
 			}
 		}
 
 		return false;
-	}
-
-	function replace_special_tags( $target ) {
-		if ( is_numeric( $target ) )
-			$target = get_permalink( $target );
-		else {
-			$user = wp_get_current_user();
-			if ( ! empty( $user ) ) {
-				$target = str_replace( '%userid%', $user->ID, $target );
-				$target = str_replace( '%userlogin%', isset( $user->user_login ) ? $user->user_login : '', $target );
-				$target = str_replace( '%userurl%', isset( $user->user_url ) ? $user->user_url : '', $target );
-			}
-		}
-
-		return $target;
 	}
 
 	function visit( $url, $target ) {
@@ -342,33 +333,9 @@ class Red_Item {
 
 			$options = red_get_options();
 			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 ) {
-				$log = RE_Log::create( $url, $target, $this->get_user_agent(), $this->get_ip(), $this->get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
+				$log = RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
 			}
 		}
-	}
-
-	private function get_ip() {
-		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		elseif ( isset( $_SERVER['REMOTE_ADDR'] ) )
-			return $_SERVER['REMOTE_ADDR'];
-		return '';
-	}
-
-	private function get_referrer() {
-		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			return $_SERVER['HTTP_REFERER'];
-		}
-
-		return '';
-	}
-
-	private function get_user_agent() {
-		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
-			return $_SERVER['HTTP_USER_AGENT'];
-		}
-
-		return '';
 	}
 
 	public function is_enabled() {
@@ -384,10 +351,6 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'last_count' => 0, 'last_access' => $this->last_access ), array( 'id' => $this->id ) );
 
 		RE_Log::delete_for_id( $this->id );
-	}
-
-	function show_url( $url ) {
-		return implode( '&#8203;/', explode( '/', $url ) );
 	}
 
 	function move_to( $group ) {
