@@ -13,7 +13,7 @@
 		echo '<ul>';
 		printf(
 			'<li><span class="last-count header">%1$s</span> <span class="url header">%2$s</span></li>',
-			__( 'Count', 'redirection' ),
+			__( 'Hits', 'redirection' ),
 			__( 'URL', 'redirection' )
 		);
 		foreach ( $rows as $row ) {
