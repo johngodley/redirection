@@ -174,9 +174,6 @@ function mapDispatchToProps( dispatch ) {
 		onFilter: moduleId => {
 			dispatch( setFilter( 'module', moduleId ) );
 		},
-		onTableAction: action => {
-			dispatch( performTableAction( action ) );
-		},
 		onCreate: ( name, moduleId ) => {
 			dispatch( createGroup( name, moduleId ) );
 		}

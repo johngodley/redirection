@@ -42,9 +42,6 @@ table.items .red-disabled {
 	display: block;
 }
 
-.advanced {
-	display: none;
-}
 
 .advanced-toggle {
 	margin-left: 15px;
@@ -86,17 +83,7 @@ table.items .red-disabled {
 	text-align: left;
 }
 
-.wp-list-table .column-hits {
-	width: 50px;
-	text-align: left;
-}
-
 .wp-list-table .column-redirects {
-	width: 100px;
-	text-align: left;
-}
-
-.wp-list-table .column-last_access {
 	width: 100px;
 	text-align: left;
 }

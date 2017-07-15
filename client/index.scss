@@ -156,6 +156,16 @@ body.ReactModal__Body--open {
 	strike {
 		opacity: 0.6;
 	}
+
+	.column-last_count {
+		width: 70px;
+		text-align: left;
+	}
+
+	.column-last_access {
+		width: 120px;
+		text-align: left;
+	}
 }
 
 .placeholder-loading {
@@ -207,5 +217,65 @@ input.current-page {
 
 	input[type=text] {
 		width: 80%;
+	}
+}
+
+.redirects {
+	.target {
+		color: #999;
+	}
+
+	.disabled {
+		opacity: 0.5;
+	}
+}
+
+a.advanced {
+	font-size: 16px;
+}
+
+.add-new {
+	width: 100%;
+
+	table {
+		width: 80%;
+
+		th {
+			text-align: left;
+		}
+	}
+}
+
+table.edit-redirection {
+	th {
+		width: 130px;
+	}
+
+	table {
+		border-spacing: 0;
+		width: 100%;
+
+		th {
+			padding: 0;
+		}
+
+		td {
+			padding: 3px 6px;
+		}
+
+		input[type=text] {
+			width: 80%;
+		}
+	}
+
+	tr.redirect-group {
+		td, th {
+			padding-top: 15px !important;
+		}
+	}
+
+	.no-margin td {
+		padding: 0px;
+		padding-left: 4px;
 	}
 }

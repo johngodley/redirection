@@ -14,6 +14,7 @@ import Logs from 'component/logs';
 import Logs404 from 'component/logs404';
 import Modules from 'component/modules';
 import Grouper from 'component/groups';
+import Redirects from 'component/redirects';
 
 class Home extends React.Component {
 	render() {
@@ -43,7 +44,7 @@ class Home extends React.Component {
 			return <Options />;
 		}
 
-		return null;
+		return <Redirects />;
 	}
 }
 
