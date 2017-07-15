@@ -27,11 +27,16 @@ class URL_Match extends Red_Match {
 		<?php endif;
 	}
 
-	function save( $details ) {
-		if ( ! isset( $details['target'] ) || strlen( $details['target'] ) === 0 )
-			$details['target'] = '/';
+	public function save( array $details, $no_target_url = false ) {
+		if ( ! isset( $details['action_data'] ) || strlen( $details['action_data'] ) === 0 ) {
+			$details['action_data'] = '/';
+		}
 
-		return array( 'url' => $this->sanitize_url( $details['target'] ) );
+		if ( $no_target_url ) {
+			return null;
+		}
+
+		return $this->sanitize_url( $details['action_data'] );
 	}
 
 	function get_target( $url, $matched_url, $regex ) {

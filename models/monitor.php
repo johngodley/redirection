@@ -98,7 +98,7 @@ class Red_Monitor {
 			do_action( 'redirection_remove_existing', $after, $post_id );
 
 			// Create a new redirect for this post
-			$x = Red_Item::create( array(
+			Red_Item::create( array(
 				'source'     => $before,
 				'target'     => $after,
 				'match'      => 'url',

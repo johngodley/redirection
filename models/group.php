@@ -198,11 +198,14 @@ class Red_Group {
 	}
 
 	public function to_json() {
+		$module = Red_Module::get( $this->get_module_id() );
+
 		return array(
 			'id' => $this->get_id(),
 			'name' => $this->get_name(),
 			'redirects' => $this->get_total_redirects(),
 			'module_id' => $this->get_module_id(),
+			'moduleName' => $module ? $module->get_name() : '',
 			'enabled' => $this->is_enabled(),
 		);
 	}

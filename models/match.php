@@ -1,6 +1,6 @@
 <?php
 
-class Red_Match {
+abstract class Red_Match {
 	public $url;
 
 	function __construct( $values = '' ) {
@@ -17,25 +17,8 @@ class Red_Match {
 		}
 	}
 
-	function data( $details ) {
-		$data = $this->save( $details );
-		if ( count( $data ) === 1 && ! is_array( current( $data ) ) )
-			$data = current( $data );
-		else
-			$data = serialize( $data );
-		return $data;
-	}
-
-	function save( $details ) {
-		return array();
-	}
-
-	function name() {
-		return '';
-	}
-
-	function show() {
-	}
+	abstract public function save( array $details, $no_target_url = false );
+	abstract public function name();
 
 	function wants_it() {
 		return true;
@@ -45,7 +28,7 @@ class Red_Match {
 		return false;
 	}
 
-	function sanitize_url( $url ) {
+	protected function sanitize_url( $url ) {
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
@@ -87,9 +70,5 @@ class Red_Match {
 			'agent'    => 'user-agent.php',
 			'login'    => 'login.php',
 		 );
-	}
-
-	function match_name() {
-		return '';
 	}
 }
