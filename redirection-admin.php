@@ -2,7 +2,6 @@
 
 include dirname( __FILE__ ).'/models/group.php';
 include dirname( __FILE__ ).'/models/monitor.php';
-include dirname( __FILE__ ).'/models/pager.php';
 include dirname( __FILE__ ).'/models/file-io.php';
 
 class Redirection_Admin {
@@ -29,10 +28,6 @@ class Redirection_Admin {
 		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
-		add_action( 'wp_ajax_red_redirect_add', array( $this, 'ajax_redirect_add' ) );
-		add_action( 'wp_ajax_red_redirect_edit', array( $this, 'ajax_redirect_edit' ) );
-		add_action( 'wp_ajax_red_redirect_save', array( $this, 'ajax_redirect_save' ) );
-
 		add_action( 'wp_ajax_red_load_settings', array( $this, 'ajax_load_settings' ) );
 		add_action( 'wp_ajax_red_save_settings', array( $this, 'ajax_save_settings' ) );
 
@@ -44,6 +39,10 @@ class Redirection_Admin {
 
 		add_action( 'wp_ajax_red_get_module', array( $this, 'ajax_get_module' ) );
 		add_action( 'wp_ajax_red_set_module', array( $this, 'ajax_set_module' ) );
+
+		add_action( 'wp_ajax_red_get_redirect', array( $this, 'ajax_get_redirect' ) );
+		add_action( 'wp_ajax_red_set_redirect', array( $this, 'ajax_set_redirect' ) );
+		add_action( 'wp_ajax_red_redirect_action', array( $this, 'ajax_redirect_action' ) );
 
 		add_action( 'wp_ajax_red_get_group', array( $this, 'ajax_get_group' ) );
 		add_action( 'wp_ajax_red_set_group', array( $this, 'ajax_set_group' ) );
@@ -101,14 +100,6 @@ class Redirection_Admin {
 		return $output;
 	}
 
-	private function render_error( $message ) {
-	?>
-<div class="fade error" id="message">
-	<p><?php echo $message ?></p>
-</div>
-<?php
-	}
-
 	private function render_message( $message, $timeout = 0 ) {
 		?>
 <div class="updated" id="message" onclick="this.parentNode.removeChild(this)">
@@ -135,22 +126,6 @@ class Redirection_Admin {
 		}
 
 		return true;
-	}
-
-	private function select( $items, $default = '' ) {
-		foreach ( $items as $key => $value ) {
-			if ( is_array( $value ) )	{
-				echo '<optgroup label="'.esc_attr( $key ).'">';
-
-				foreach ( $value as $sub => $subvalue ) {
-					echo '<option value="'.esc_attr( $sub ).'"'.( $sub === $default ? ' selected="selected"' : '' ).'>'.esc_html( $subvalue ).'</option>';
-				}
-
-				echo '</optgroup>';
-			}
-			else
-				echo '<option value="'.esc_attr( $key ).'"'.( $key === $default ? ' selected="selected"' : '' ).'>'.esc_html( $value ).'</option>';
-		}
 	}
 
 	function set_per_page( $status, $option, $value ) {
@@ -333,10 +308,7 @@ class Redirection_Admin {
 	}
 
 	function admin_redirects( $group_id ) {
-		$table = new Redirection_Table( Red_Group::get_for_select(), $group_id );
-		$table->prepare_items();
-
-		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id, 'table' => $table, 'date_format' => get_option( 'date_format' ) ) );
+		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id ) );
 	}
 
 	private function check_ajax_referer( $nonce ) {
@@ -353,60 +325,6 @@ class Redirection_Admin {
 
 	private function user_has_access() {
 		return current_user_can( apply_filters( 'redirection_role', 'administrator' ) );
-	}
-
-	public function ajax_redirect_edit() {
-		$this->check_ajax_referer( 'red-edit_'.intval( $_POST['id'] ) );
-		$redirect = Red_Item::get_by_id( intval( $_POST['id'] ) );
-
-		if ( $redirect )
-			$json['html'] = $this->capture( 'item-edit', array( 'redirect' => $redirect, 'groups' => Red_Group::get_for_select() ) );
-		else
-			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
-
-		return $this->output_ajax_response( $json );
-	}
-
-	public function ajax_redirect_save() {
-		global $hook_suffix;
-
-		$hook_suffix = '';
-
-		$red_id = intval( $_POST['id'] );
-
-		$this->check_ajax_referer( 'redirection-redirect_save_'.$red_id );
-
-		$redirect = Red_Item::get_by_id( $red_id );
-		if ( $redirect ) {
-			$redirect->update( $_POST );
-
-			$pager = new Redirection_Table( array(), 0 );
-			$json = array( 'html' => $pager->column_url( $redirect ), 'code' => $redirect->get_action_code() );
-		}
-		else
-			$json['error'] = __( 'Unable to perform action' ).' - could not find redirect';
-
-		return $this->output_ajax_response( $json );
-	}
-
-	public function ajax_redirect_add() {
-		global $hook_suffix;
-
-		$hook_suffix = '';
-
-		$this->check_ajax_referer( 'redirection-redirect_add' );
-
-		$item = Red_Item::create( $_POST );
-		if ( is_wp_error( $item ) )
-			$json['error'] = $item->get_error_message();
-		elseif ( $item !== false ) {
-			$pager = new Redirection_Table( array(), 0 );
-			$json = array( 'html' => $pager->get_row( $item ) );
-		}
-		else
-			$json['error'] = __( 'Sorry, but your redirection was not created', 'redirection' );
-
-		return $this->output_ajax_response( $json );
 	}
 
 	public function ajax_group_action( $params ) {
@@ -513,6 +431,88 @@ class Redirection_Admin {
 		}
 
 		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_get_redirect( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		return $this->output_ajax_response( Red_Item::get_filtered( $params ) );
+	}
+
+	public function ajax_set_redirect( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		$redirectId = 0;
+		if ( isset( $params['id'] ) ) {
+			$redirectId = intval( $params['id'], 10 );
+		}
+
+		$result = array( 'error' => 'Invalid redirect details' );
+		if ( $redirectId === 0 ) {
+			$redirect = Red_Item::create( $params );
+
+			if ( !is_wp_error( $redirect ) ) {
+				return $this->output_ajax_response( Red_Item::get_filtered( $params ) );
+			}
+		} else {
+			$redirect = Red_Item::get_by_id( $redirectId );
+
+			if ( $redirect && $redirect->update( $params ) ) {
+				$result = $redirect->to_json();
+			}
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_redirect_action( $params ) {
+		$ajax = $this->check_ajax_referer( 'wp_rest' );
+		if ( $ajax !== true ) {
+			return $ajax;
+		}
+
+		if ( empty( $params ) ) {
+			$params = $_POST;
+		}
+
+		$action = false;
+		$items = array();
+		if ( isset( $params['items'] ) ) {
+			$items = array_map( 'intval', explode( ',', $params['items'] ) );
+		}
+		if ( isset( $params['bulk'] ) && in_array( $params['bulk'], array( 'delete', 'enable', 'disable' ) ) ) {
+			$action = $params['bulk'];
+
+			foreach ( $items as $item ) {
+				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
+
+				if ( $redirect ) {
+					if ( $action === 'delete' ) {
+						$redirect->delete();
+					} else if ( $action === 'disable' ) {
+						$redirect->disable();
+					} else if ( $action === 'enable' ) {
+						$redirect->enable();
+					}
+				}
+			}
+		}
+
+		return $this->output_ajax_response( Red_Item::get_filtered( $params ) );
 	}
 
 	public function ajax_get_module( $params ) {
