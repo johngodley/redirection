@@ -147,16 +147,6 @@ class Red_Item {
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $this->id ) );
 
-		RE_Log::delete_for_id( $this->id );
-
-		// Reorder all elements
-		$rows = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}redirection_items ORDER BY position" );
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows as $pos => $row ) {
-				$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos ), array( 'id' => $row->id ) );
-			}
-		}
-
 		Red_Module::flush( $this->group_id );
 	}
 
