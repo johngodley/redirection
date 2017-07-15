@@ -31,7 +31,7 @@ const setRedirect = ( existing, newRedirect ) => {
 export default function redirects( state = {}, action ) {
 	switch ( action.type ) {
 		case REDIRECT_ITEM_SAVING:
-			return { ... state, saving: true, rows: setRedirect( state.rows, action.redirect ), table: setTableParams( state.table, action, 'name' ), error: false };
+			return { ... state, saving: true, rows: setRedirect( state.rows, action.redirect ), table: action.refresh === false ? state.table : setTableParams( state.table, action, 'name' ), error: false };
 
 		case REDIRECT_ITEM_SAVED:
 			return { ... state, saving: false, rows: action.redirect.items ? action.redirect.items : setRedirect( state.rows, action.redirect ), total: action.redirect.total ? action.redirect.total : state.total };

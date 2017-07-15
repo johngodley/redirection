@@ -48,7 +48,7 @@ export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: REDIRECT_SET_ALL_SELECTED, onoff } );
 
-export const saveRedirect = redirect => {
+export const saveRedirect = ( redirect, refresh ) => {
 	return ( dispatch, getState ) => {
 		const { table } = getState().redirect;
 
@@ -67,7 +67,7 @@ export const saveRedirect = redirect => {
 				dispatch( { type: REDIRECT_ITEM_FAILED, error: error.message ? error.message : error } );
 			} );
 
-		return dispatch( { type: REDIRECT_ITEM_SAVING, ... table, redirect: redirect } );
+		return dispatch( { type: REDIRECT_ITEM_SAVING, ... table, redirect: redirect, refresh } );
 	};
 };
 

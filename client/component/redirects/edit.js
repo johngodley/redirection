@@ -197,7 +197,7 @@ class EditRedirect extends React.Component {
 			action_data: getActionData( this.state ),
 		};
 
-		this.props.onSave( redirect );
+		this.props.onSave( redirect, this.props.refresh );
 
 		if ( this.props.onCancel ) {
 			this.props.onCancel();
@@ -356,7 +356,19 @@ class EditRedirect extends React.Component {
 					<Select name="group" value={ group_id } items={ nestedGroups( groups ) } onChange={ this.handleGroup } />
 				</td>
 			</tr>
-		)
+		);
+	}
+
+	canSave() {
+		if ( this.state.url === '' ) {
+			return false;
+		}
+
+		if ( hasUrlTarget( this.state.action_type ) && this.state.target === '' ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	render() {
@@ -385,17 +397,17 @@ class EditRedirect extends React.Component {
 
 					{ this.getTarget() }
 
-					{ advanced && this.getGroup() }
+					{ this.getGroup() }
 
 					<tr>
 						<th></th>
 						<td>
 							<div className="table-actions">
-								<input className="button-primary" type="submit" name="save" value={ saveButton } onClick={ this.handleSave } /> &nbsp;
+								<input className="button-primary" type="submit" name="save" value={ saveButton } onClick={ this.handleSave } disabled={ ! this.canSave() } /> &nbsp;
 								{ onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ onCancel } /> }
 								&nbsp;
 
-								{ this.canShowAdvanced() && <a href="#" onClick={ this.handleAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
+								{ this.canShowAdvanced() && this.props.advanced !== false && <a href="#" onClick={ this.handleAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
 							</div>
 						</td>
 					</tr>
@@ -409,6 +421,8 @@ EditRedirect.propTypes = {
 	item: PropTypes.object.isRequired,
 	onCancel: PropTypes.func,
 	saveButton: PropTypes.string,
+	advanced: PropTypes.bool,
+	refresh: PropTypes.bool,
 };
 
 function mapStateToProps( state ) {
@@ -421,8 +435,8 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onSave: redirect => {
-			dispatch( saveRedirect( redirect ) );
+		onSave: ( redirect, refresh ) => {
+			dispatch( saveRedirect( redirect, refresh ) );
 		},
 	};
 }

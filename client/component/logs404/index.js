@@ -13,12 +13,13 @@ import { translate as __ } from 'lib/locale';
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
-import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
-import { LOGS_TYPE_404 } from 'state/log/type';
 import AdminNotice from 'component/wordpress/admin-notice';
 import Row404 from './row';
+import { LOGS_TYPE_404 } from 'state/log/type';
+import { getGroup } from 'state/group/action';
+import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 
 const headers = [
 	{
@@ -56,6 +57,7 @@ class Logs404 extends React.Component {
 		super( props );
 
 		props.onLoad( LOGS_TYPE_404 );
+		this.props.onLoadGroups();
 	}
 
 	renderRow( row, key, status ) {
@@ -96,6 +98,9 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onLoad: logType => {
 			dispatch( loadLogs( logType ) );
+		},
+		onLoadGroups: () => {
+			dispatch( getGroup() );
 		},
 		onDeleteAll: () => {
 			dispatch( deleteAll() );
