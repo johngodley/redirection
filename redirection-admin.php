@@ -494,7 +494,7 @@ class Redirection_Admin {
 		if ( isset( $params['items'] ) ) {
 			$items = array_map( 'intval', explode( ',', $params['items'] ) );
 		}
-		if ( isset( $params['bulk'] ) && in_array( $params['bulk'], array( 'delete', 'enable', 'disable' ) ) ) {
+		if ( isset( $params['bulk'] ) && in_array( $params['bulk'], array( 'delete', 'enable', 'disable', 'reset' ) ) ) {
 			$action = $params['bulk'];
 
 			foreach ( $items as $item ) {
@@ -507,6 +507,8 @@ class Redirection_Admin {
 						$redirect->disable();
 					} else if ( $action === 'enable' ) {
 						$redirect->enable();
+					} else if ( $action === 'reset' ) {
+						$redirect->reset();
 					}
 				}
 			}

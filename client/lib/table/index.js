@@ -79,5 +79,9 @@ export const setTableParams = ( state, params, defaultOrder = '' ) => {
 	return newState;
 };
 
+export const clearSelected = state => {
+	return Object.assign( {}, state, { selected: [] } );
+};
+
 export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );
 export const setTableAllSelected = ( table, rows, onoff ) => ( { ... table, selected: onoff ? rows.map( item => item.id ) : [] } );
