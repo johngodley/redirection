@@ -102,7 +102,7 @@ class Groups extends React.Component {
 
 		return (
 			<div>
-				{ error && total > 0 && <ErrorNotice message={ error } /> }
+				{ error && <ErrorNotice message={ error } /> }
 				{ module.error && <ErrorNotice message={ module.error } /> }
 
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />

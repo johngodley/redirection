@@ -26,7 +26,7 @@ const processRequest = ( action, dispatch, params = {}, table = {} ) => {
 		} )
 		.catch( error => {
 			console.error( error );
-			dispatch( { type: REDIRECT_FAILED, error: error.message } );
+			dispatch( { type: REDIRECT_FAILED, error: error.message ? error.message : error } );
 		} );
 
 	return dispatch( { ... reducer, type: REDIRECT_LOADING } );

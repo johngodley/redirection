@@ -83,13 +83,25 @@ class Redirects extends React.Component {
 		].concat( nestedGroups( groups ) );
 	}
 
+	renderNew() {
+		return (
+			<div>
+				<h1>{ __( 'Add new redirection' ) }</h1>
+				<div className="add-new edit">
+					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } />
+				</div>
+			</div>
+		);
+	}
+
 	render() {
 		const { status, total, table, rows, error } = this.props.redirect;
 		const { group } = this.props;
 
 		return (
 			<div className="redirects">
-				{ error && total > 0 && <ErrorNotice message={ error } /> }
+				{ error && <ErrorNotice message={ error } /> }
+				{ group.error && <ErrorNotice message={ group.error } /> }
 
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
@@ -98,10 +110,7 @@ class Redirects extends React.Component {
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
 
-				<h1>{ __( 'Add new redirection' ) }</h1>
-				<div className="add-new edit">
-					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } />
-				</div>
+				{ status === STATUS_COMPLETE && group.status === STATUS_COMPLETE && this.renderNew() }
 			</div>
 		);
 	}

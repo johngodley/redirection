@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { loadSettings, deletePlugin } from 'state/settings/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
 import Spinner from 'component/wordpress/spinner';
-import AdminNotice from 'component/wordpress/admin-notice';
+import ErrorNotice from 'component/wordpress/error-notice';
 import OptionsForm from './options-form';
 import DeletePlugin from 'component/options/delete-plugin';
 import Importer from 'component/options/importer';
@@ -25,12 +25,12 @@ class Options extends React.Component {
 	}
 
 	render() {
-		const { loadStatus } = this.props;
+		const { loadStatus, error } = this.props;
 
 		if ( loadStatus === STATUS_IN_PROGRESS ) {
 			return <Spinner />;
 		} else if ( loadStatus === STATUS_FAILED ) {
-			return <AdminNotice message={ __( 'Failed to load data' ) } isError={ true } />;
+			return <ErrorNotice message={ error } />;
 		}
 
 		return (
@@ -55,10 +55,11 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { loadStatus } = state.settings;
+	const { loadStatus, error } = state.settings;
 
 	return {
 		loadStatus,
+		error,
 	};
 }
 

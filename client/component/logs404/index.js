@@ -15,7 +15,7 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
-import AdminNotice from 'component/wordpress/admin-notice';
+import ErrorNotice from 'component/wordpress/error-notice';
 import Row404 from './row';
 import { LOGS_TYPE_404 } from 'state/log/type';
 import { getGroup } from 'state/group/action';
@@ -66,10 +66,12 @@ class Logs404 extends React.Component {
 
 	render() {
 		const { status, total, table, rows, error } = this.props.log;
+		const { redirect } = this.props;
 
 		return (
 			<div>
-				{ error && total > 0 && <AdminNotice message={ error } isError={ true } /> }
+				{ error && <ErrorNotice message={ error } /> }
+				{ redirect.error && <ErrorNotice message={ redirect.error } /> }
 
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
@@ -87,10 +89,11 @@ class Logs404 extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { log } = state;
+	const { log, redirect } = state;
 
 	return {
 		log,
+		redirect,
 	};
 }
 

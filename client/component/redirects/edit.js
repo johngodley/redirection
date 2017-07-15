@@ -398,7 +398,6 @@ class EditRedirect extends React.Component {
 						{ advanced && this.getTargetCode() }
 
 						{ this.getTarget() }
-
 						{ this.getGroup() }
 
 						<tr>

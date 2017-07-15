@@ -26,7 +26,7 @@ class ErrorNotice extends React.Component {
 			'Versions: ' + Redirectioni10n.versions,
 			'Nonce: ' + Redirectioni10n.WP_API_nonce,
 			'Last Action: ' + Redirectioni10n.failedAction,
-			'Last Data: ' + JSON.stringify( Redirectioni10n.failedData ),
+			'Last Data: ' + JSON.stringify( Redirectioni10n.failedData ? Redirectioni10n.failedData : '' ),
 			'Error: ' + error,
 		];
 

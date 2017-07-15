@@ -17,7 +17,7 @@ import { LOGS_TYPE_REDIRECT } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import LogRow from './row';
-import AdminNotice from 'component/wordpress/admin-notice';
+import ErrorNotice from 'component/wordpress/error-notice';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 
 const headers = [
@@ -67,7 +67,7 @@ class Logs extends React.Component {
 
 		return (
 			<div>
-				{ error && total > 0 && <AdminNotice message={ error } isError={ true } /> }
+				{ error && <ErrorNotice message={ error } /> }
 
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
