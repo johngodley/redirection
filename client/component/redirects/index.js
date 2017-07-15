@@ -15,8 +15,8 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import GroupRow from './row';
-import ErrorNotice from 'component/wordpress/error-notice';
 import EditRedirect from './edit';
+import Spinner from 'component/wordpress/spinner';
 import { getRedirect, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
@@ -60,6 +60,10 @@ const bulk = [
 		id: 'disable',
 		name: __( 'Disable' ),
 	},
+	{
+		id: 'reset',
+		name: __( 'Reset hits' ),
+	}
 ];
 
 class Redirects extends React.Component {
@@ -84,11 +88,15 @@ class Redirects extends React.Component {
 	}
 
 	renderNew() {
+		const { saving } = this.props.redirect;
+
 		return (
 			<div>
 				<h1>{ __( 'Add new redirection' ) }</h1>
 				<div className="add-new edit">
-					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } />
+					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } disabled={ saving } />
+
+					{ saving && <Spinner /> }
 				</div>
 			</div>
 		);

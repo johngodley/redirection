@@ -361,6 +361,10 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
+		if ( this.props.disabled === true ) {
+			return false;
+		}
+
 		if ( this.state.url === '' ) {
 			return false;
 		}
@@ -425,6 +429,7 @@ EditRedirect.propTypes = {
 	saveButton: PropTypes.string,
 	advanced: PropTypes.bool,
 	refresh: PropTypes.bool,
+	disabled: PropTypes.bool,
 };
 
 function mapStateToProps( state ) {
