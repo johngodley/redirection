@@ -30,6 +30,7 @@ class RedirectRow extends React.Component {
 		this.handleDisable = this.onDisable.bind( this );
 		this.handleEnable = this.onEnable.bind( this );
 		this.handleCancel = this.onCancel.bind( this );
+		this.handleSelected = this.onSelected.bind( this );
 	}
 
 	componentWillUpdate( nextProps ) {
@@ -60,6 +61,10 @@ class RedirectRow extends React.Component {
 	onEnable( ev ) {
 		ev.preventDefault();
 		this.props.onTableAction( 'enable', this.props.item.id );
+	}
+
+	onSelected() {
+		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
 	getMenu() {
