@@ -8,6 +8,7 @@ import log from 'state/log/reducer';
 import module from 'state/module/reducer';
 import group from 'state/group/reducer';
 import redirect from 'state/redirect/reducer';
+import message from 'state/message/reducer';
 
 const reducer = combineReducers( {
 	settings,
@@ -15,6 +16,7 @@ const reducer = combineReducers( {
 	module,
 	group,
 	redirect,
+	message,
 } );
 
 export default reducer;

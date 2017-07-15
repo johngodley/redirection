@@ -10,9 +10,8 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 import { loadSettings, deletePlugin } from 'state/settings/action';
-import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
+import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import Spinner from 'component/wordpress/spinner';
-import ErrorNotice from 'component/wordpress/error-notice';
 import OptionsForm from './options-form';
 import DeletePlugin from 'component/options/delete-plugin';
 import Importer from 'component/options/importer';
@@ -25,18 +24,16 @@ class Options extends React.Component {
 	}
 
 	render() {
-		const { loadStatus, error } = this.props;
+		const { loadStatus } = this.props;
 
 		if ( loadStatus === STATUS_IN_PROGRESS ) {
 			return <Spinner />;
-		} else if ( loadStatus === STATUS_FAILED ) {
-			return <ErrorNotice message={ error } />;
 		}
 
 		return (
 			<div>
-				<OptionsForm />
-				<Importer />
+				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
+				{ loadStatus === STATUS_COMPLETE && <Importer /> }
 				<DeletePlugin onDelete={ this.props.onDeletePlugin } />
 			</div>
 		);
@@ -55,11 +52,10 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { loadStatus, error } = state.settings;
+	const { loadStatus } = state.settings;
 
 	return {
 		loadStatus,
-		error,
 	};
 }
 

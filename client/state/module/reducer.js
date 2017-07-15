@@ -32,10 +32,10 @@ const mergeRows = ( existingRows, newRows ) => {
 export default function modules( state = {}, action ) {
 	switch ( action.type ) {
 		case MODULE_LOADING:
-			return { ... state, status: STATUS_IN_PROGRESS, error: false };
+			return { ... state, status: STATUS_IN_PROGRESS };
 
 		case MODULE_FAILED:
-			return { ... state, status: STATUS_FAILED, error: action.error };
+			return { ... state, status: STATUS_FAILED };
 
 		case MODULE_LOADED:
 			return { ... state, rows: mergeRows( state.rows, action.rows ), status: STATUS_COMPLETE };

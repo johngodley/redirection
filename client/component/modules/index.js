@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import Table from 'component/table';
 import { getModule } from 'state/module/action';
 import ModuleRow from './row';
-import ErrorNotice from 'component/wordpress/error-notice';
 
 const headers = [
 	{
@@ -40,13 +39,12 @@ class Modules extends React.Component {
 	}
 
 	render() {
-		const { status, total, table, rows, error } = this.props.module;
+		const { status, total, table, rows } = this.props.module;
 
 		return (
 			<div>
-				{ error && <ErrorNotice message={ error } /> }
 				<br />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } />
 			</div>
 		);
 	}

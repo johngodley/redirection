@@ -25,8 +25,7 @@ const processRequest = ( action, dispatch, params = {}, table = {} ) => {
 			dispatch( { type: REDIRECT_LOADED, ... redirectCollect( json ) } );
 		} )
 		.catch( error => {
-			console.error( error );
-			dispatch( { type: REDIRECT_FAILED, error: error.message ? error.message : error } );
+			dispatch( { type: REDIRECT_FAILED, error } );
 		} );
 
 	return dispatch( { ... reducer, type: REDIRECT_LOADING } );
@@ -63,8 +62,7 @@ export const saveRedirect = ( redirect, refresh ) => {
 				dispatch( { type: REDIRECT_ITEM_SAVED, redirect: json } );
 			} )
 			.catch( error => {
-				console.error( error );
-				dispatch( { type: REDIRECT_ITEM_FAILED, error: error.message ? error.message : error } );
+				dispatch( { type: REDIRECT_ITEM_FAILED, error } );
 			} );
 
 		return dispatch( { type: REDIRECT_ITEM_SAVING, ... table, redirect: redirect, refresh } );

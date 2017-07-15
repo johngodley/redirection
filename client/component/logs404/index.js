@@ -15,7 +15,6 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
-import ErrorNotice from 'component/wordpress/error-notice';
 import Row404 from './row';
 import { LOGS_TYPE_404 } from 'state/log/type';
 import { getGroup } from 'state/group/action';
@@ -65,17 +64,13 @@ class Logs404 extends React.Component {
 	}
 
 	render() {
-		const { status, total, table, rows, error } = this.props.log;
-		const { redirect } = this.props;
+		const { status, total, table, rows } = this.props.log;
 
 		return (
 			<div>
-				{ error && <ErrorNotice message={ error } /> }
-				{ redirect.error && <ErrorNotice message={ redirect.error } /> }
-
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } />
 
 				<br />
@@ -89,11 +84,10 @@ class Logs404 extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { log, redirect } = state;
+	const { log } = state;
 
 	return {
 		log,
-		redirect,
 	};
 }
 

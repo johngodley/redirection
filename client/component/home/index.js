@@ -15,36 +15,56 @@ import Logs404 from 'component/logs404';
 import Modules from 'component/modules';
 import Grouper from 'component/groups';
 import Redirects from 'component/redirects';
+import Error from 'component/error';
+import Notice from 'component/notice';
 
 class Home extends React.Component {
-	render() {
-		const parts = document.location.search.split( '&' );
+	getPage() {
+		const page = document.location.search.split( '&' );
 
-		if ( parts[ 1 ] === 'sub=support' ) {
-			return <Support />;
+		if ( page.length > 1 ) {
+			return page[ 1 ].split( '=' )[ 1 ];
 		}
 
-		if ( parts[ 1 ] === 'sub=404s' ) {
-			return <Logs404 />;
-		}
+		return 'redirect';
+	}
 
-		if ( parts[ 1 ] === 'sub=log' ) {
-			return <Logs />;
-		}
+	getContent( page ) {
+		switch ( page ) {
+			case 'support':
+				return <Support />;
 
-		if ( parts[ 1 ] === 'sub=modules' ) {
-			return <Modules />;
-		}
+			case '404s':
+				return <Logs404 />;
 
-		if ( parts[ 1 ] === 'sub=groups' ) {
-			return <Grouper />;
-		}
+			case 'log':
+				return <Logs />;
 
-		if ( parts[ 1 ] === 'sub=options' ) {
-			return <Options />;
+			case 'modules':
+				return <Modules />;
+
+			case 'groups':
+				return <Grouper />;
+
+			case 'options':
+				return <Options />;
 		}
 
 		return <Redirects />;
+	}
+
+	render() {
+		const page = this.getPage();
+
+		return (
+			<div className="redirection">
+				<Error />
+
+				{ this.getContent( page ) }
+
+				<Notice />
+			</div>
+		);
 	}
 }
 

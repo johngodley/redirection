@@ -16,7 +16,6 @@ import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import Spinner from 'component/wordpress/spinner';
 import GroupRow from './row';
-import ErrorNotice from 'component/wordpress/error-notice';
 import { getModule } from 'state/module/action';
 import { getGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter, createGroup } from 'state/group/action';
 import { STATUS_COMPLETE } from 'state/settings/type';
@@ -77,10 +76,10 @@ class Groups extends React.Component {
 	getModules( modules ) {
 		return [
 			{
-				id: '',
-				name: __( 'All modules' ),
+				value: '',
+				text: __( 'All modules' ),
 			}
-		].concat( modules.map( item => ( { id: item.module_id, name: item.displayName } ) ) );
+		].concat( modules.map( item => ( { value: item.module_id, text: item.displayName } ) ) );
 	}
 
 	onChange( ev ) {
@@ -97,19 +96,16 @@ class Groups extends React.Component {
 	}
 
 	render() {
-		const { status, total, table, rows, saving, error } = this.props.group;
+		const { status, total, table, rows, saving } = this.props.group;
 		const { module } = this.props;
 
 		return (
 			<div>
-				{ error && <ErrorNotice message={ error } /> }
-				{ module.error && <ErrorNotice message={ module.error } /> }
-
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
 					<TableFilter selected="0" options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
 
 				<h2>{ __( 'Add Group' ) }</h2>

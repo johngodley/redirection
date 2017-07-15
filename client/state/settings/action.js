@@ -45,6 +45,9 @@ export const deletePlugin = () => {
 		getApi( 'red_delete_plugin' )
 			.then( json => {
 				document.location.href = json.location;
+			} )
+			.catch( error => {
+				dispatch( { type: SETTING_SAVE_FAILED, error } );
 			} );
 
 		return dispatch( { type: SETTING_SAVING } );
