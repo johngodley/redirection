@@ -181,7 +181,7 @@ class EditRedirect extends React.Component {
 		}
 	}
 
-	onSave() {
+	onSave( ev ) {
 		const { url, title, regex, match_type, action_type, group_id, action_code } = this.state;
 		const groups = this.props.group.rows;
 
@@ -197,6 +197,7 @@ class EditRedirect extends React.Component {
 			action_data: getActionData( this.state ),
 		};
 
+		ev.preventDefault();
 		this.props.onSave( redirect, this.props.refresh );
 
 		if ( this.props.onCancel ) {
@@ -376,43 +377,45 @@ class EditRedirect extends React.Component {
 		const { saveButton = __( 'Save' ), onCancel } = this.props;
 
 		return (
-			<table className="edit edit-redirection">
-				<tbody>
-					<tr>
-						<th>{ __( 'Source URL' ) }</th>
-						<td>
-							<input type="text" name="url" value={ url } onChange={ this.handleChange } /> &nbsp;
-							<label>
-								{ __( 'Regex' ) } <sup><a target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
-								&nbsp;
-								<input type="checkbox" name="regex" checked={ regex } onChange={ this.handleChange } />
-							</label>
-						</td>
-					</tr>
+			<form onSubmit={ this.handleSave } >
+				<table className="edit edit-redirection">
+					<tbody>
+						<tr>
+							<th>{ __( 'Source URL' ) }</th>
+							<td>
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } /> &nbsp;
+								<label>
+									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
+									&nbsp;
+									<input type="checkbox" name="regex" checked={ regex } onChange={ this.handleChange } />
+								</label>
+							</td>
+						</tr>
 
-					{ advanced && this.getTitle() }
-					{ advanced && this.getMatch() }
-					{ advanced && this.getMatchExtra() }
-					{ advanced && this.getTargetCode() }
+						{ advanced && this.getTitle() }
+						{ advanced && this.getMatch() }
+						{ advanced && this.getMatchExtra() }
+						{ advanced && this.getTargetCode() }
 
-					{ this.getTarget() }
+						{ this.getTarget() }
 
-					{ this.getGroup() }
+						{ this.getGroup() }
 
-					<tr>
-						<th></th>
-						<td>
-							<div className="table-actions">
-								<input className="button-primary" type="submit" name="save" value={ saveButton } onClick={ this.handleSave } disabled={ ! this.canSave() } /> &nbsp;
-								{ onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ onCancel } /> }
-								&nbsp;
+						<tr>
+							<th></th>
+							<td>
+								<div className="table-actions">
+									<input className="button-primary" type="submit" name="save" value={ saveButton } disabled={ ! this.canSave() } /> &nbsp;
+									{ onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ onCancel } /> }
+									&nbsp;
 
-								{ this.canShowAdvanced() && this.props.advanced !== false && <a href="#" onClick={ this.handleAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+									{ this.canShowAdvanced() && this.props.advanced !== false && <a href="#" onClick={ this.handleAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		);
 	}
 }
