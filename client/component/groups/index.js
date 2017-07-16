@@ -14,7 +14,6 @@ import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
-import Spinner from 'component/wordpress/spinner';
 import GroupRow from './row';
 import { getModule } from 'state/module/action';
 import { getGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter, createGroup } from 'state/group/action';
@@ -124,8 +123,6 @@ class Groups extends React.Component {
 
 								&nbsp;
 								<input className="button-primary" type="submit" name="add" value="Add" onClick={ this.handleSubmit } disabled={ saving || this.state.name === '' || module.status !== STATUS_COMPLETE } />
-
-								{ saving && <Spinner /> }
 							</td>
 						</tr>
 					</tbody>

@@ -16,7 +16,6 @@ import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import GroupRow from './row';
 import EditRedirect from './edit';
-import Spinner from 'component/wordpress/spinner';
 import { getRedirect, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
@@ -95,8 +94,6 @@ class Redirects extends React.Component {
 				<h1>{ __( 'Add new redirection' ) }</h1>
 				<div className="add-new edit">
 					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } disabled={ saving } />
-
-					{ saving && <Spinner /> }
 				</div>
 			</div>
 		);

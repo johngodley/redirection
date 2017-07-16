@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 
 /**
- * External dependencies
+ * Internal dependencies
  */
 
 import { clearNotices } from 'state/message/action';

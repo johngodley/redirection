@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 
 /**
- * External dependencies
+ * Internal dependencies
  */
 
 import { clearErrors } from 'state/message/action';

@@ -13,7 +13,6 @@ import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/wordpress/form-table';
 import Select from 'component/wordpress/select';
-import Spinner from 'component/wordpress/spinner';
 
 const timeToKeep = [
 	{ value: -1, text: __( 'No logs' ) },
@@ -101,8 +100,6 @@ class OptionsForm extends React.Component {
 				</FormTable>
 
 				<input className="button-primary" type="submit" name="update" value={ __( 'Update' ) } disabled={ saveStatus === STATUS_IN_PROGRESS } />
-
-				{ saveStatus === STATUS_IN_PROGRESS && <Spinner /> }
 			</form>
 		);
 	}
