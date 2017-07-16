@@ -4,7 +4,7 @@
 
 import {
 	mergeWithTable,
-	setTableParams,
+	mergeWithTable,
 	setTableSelected,
 	setTableAllSelected,
 } from 'lib/table';
@@ -56,8 +56,8 @@ describe( 'tables', () => {
 		expect( state ).toEqual( NEW_TABLE );
 	} );
 
-	test( 'setTableParams with param changes just that param and updates URL', () => {
-		const state = setTableParams( NEW_TABLE, { perPage: 50 }, 'name' );
+	test( 'mergeWithTable with param changes just that param and updates URL', () => {
+		const state = mergeWithTable( NEW_TABLE, { perPage: 50 }, 'name' );
 
 		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { perPage: 50 } ) );
 		expect( setPageUrl.mock.calls.length ).toBe( 1 );

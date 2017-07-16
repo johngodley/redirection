@@ -30,8 +30,9 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		filterBy: '',
 		filter: '',
 	};
+	const sub = query.sub === undefined ? '' : query.sub;
 
-	if ( query.sub && subParams.indexOf( query.sub ) === -1 ) {
+	if ( subParams.indexOf( sub ) === -1 ) {
 		return defaults;
 	}
 
@@ -41,7 +42,7 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		direction: query.direction && query.direction === 'asc' ? 'asc' : defaults.direction,
 		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : defaults.page,
 		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.perPage,
-		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) ? query.filterby : defaults.filterBy,
+		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) !== -1 ? query.filterby : defaults.filterBy,
 		filter: query.filter ? query.filter : defaults.filter,
 	};
 };
@@ -66,15 +67,6 @@ export const mergeWithTable = ( state, params ) => {
 			newState[ tableParams[ x ] ] = params[ tableParams[ x ] ];
 		}
 	}
-
-	return newState;
-};
-
-export const setTableParams = ( state, params, defaultOrder = '' ) => {
-	const newState = mergeWithTable( state, params );
-	const { orderBy, direction, page, perPage, filter, filterBy } = newState;
-
-	setPageUrl( { orderBy, direction, offset: page, perPage, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '', perPage: parseInt( Redirectioni10n.per_page, 10 ) } );
 
 	return newState;
 };

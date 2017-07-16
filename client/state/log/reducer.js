@@ -10,7 +10,7 @@ import {
 	LOG_SET_ALL_SELECTED,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import { setTableParams, setTableSelected, setTableAllSelected } from 'lib/table';
+import { mergeWithTable, setTableSelected, setTableAllSelected } from 'lib/table';
 
 export default function scene( state = {}, action ) {
 	switch ( action.type ) {
@@ -23,7 +23,7 @@ export default function scene( state = {}, action ) {
 		case LOG_LOADING:
 			const { logType } = action;
 
-			return { ... state, table: setTableParams( state.table, action, 'date' ), logType, status: STATUS_IN_PROGRESS, error: false };
+			return { ... state, table: mergeWithTable( state.table, action, 'date' ), logType, status: STATUS_IN_PROGRESS, error: false };
 
 		case LOG_FAILED:
 			return { ... state, status: STATUS_FAILED, error: action.error };

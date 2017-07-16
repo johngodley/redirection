@@ -13,7 +13,7 @@ import {
 	GROUP_ITEM_FAILED,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import { setTableParams, setTableSelected, setTableAllSelected } from 'lib/table';
+import { mergeWithTable, setTableSelected, setTableAllSelected } from 'lib/table';
 
 const setGroup = ( existing, newGroup ) => {
 	const dupe = existing.slice( 0 );
@@ -33,7 +33,7 @@ const getGroup = action => ( { groupId: action.id, name: action.name, enabled: a
 export default function groups( state = {}, action ) {
 	switch ( action.type ) {
 		case GROUP_ITEM_SAVING:
-			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: setTableParams( state.table, action, 'name' ) };
+			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: mergeWithTable( state.table, action, 'name' ) };
 
 		case GROUP_ITEM_SAVED:
 			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ), total: action.total ? action.total : state.total };
@@ -48,7 +48,7 @@ export default function groups( state = {}, action ) {
 			return { ... state, table: setTableSelected( state.table, action.items ) };
 
 		case GROUP_LOADING:
-			return { ... state, table: setTableParams( state.table, action, 'name' ), status: STATUS_IN_PROGRESS };
+			return { ... state, table: mergeWithTable( state.table, action, 'name' ), status: STATUS_IN_PROGRESS };
 
 		case GROUP_FAILED:
 			return { ... state, status: STATUS_FAILED };

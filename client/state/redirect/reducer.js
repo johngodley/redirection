@@ -13,7 +13,7 @@ import {
 	REDIRECT_ITEM_FAILED,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import { setTableParams, setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { mergeWithTable, setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
 
 const setRedirect = ( existing, newRedirect ) => {
 	const dupe = existing.slice( 0 );
@@ -31,7 +31,7 @@ const setRedirect = ( existing, newRedirect ) => {
 export default function redirects( state = {}, action ) {
 	switch ( action.type ) {
 		case REDIRECT_ITEM_SAVING:
-			return { ... state, saving: true, rows: setRedirect( state.rows, action.redirect ), table: action.refresh === false ? state.table : setTableParams( state.table, action, 'name' ) };
+			return { ... state, saving: true, rows: setRedirect( state.rows, action.redirect ), table: action.refresh === false ? state.table : mergeWithTable( state.table, action, 'name' ) };
 
 		case REDIRECT_ITEM_SAVED:
 			return { ... state, saving: false, rows: action.redirect.items ? action.redirect.items : setRedirect( state.rows, action.redirect ), total: action.redirect.total ? action.redirect.total : state.total };
@@ -46,7 +46,7 @@ export default function redirects( state = {}, action ) {
 			return { ... state, table: setTableSelected( state.table, action.items ) };
 
 		case REDIRECT_LOADING:
-			return { ... state, table: setTableParams( state.table, action, 'name' ), status: STATUS_IN_PROGRESS };
+			return { ... state, table: mergeWithTable( state.table, action, 'name' ), status: STATUS_IN_PROGRESS };
 
 		case REDIRECT_FAILED:
 			return { ... state, status: STATUS_FAILED };
