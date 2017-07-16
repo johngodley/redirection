@@ -110,7 +110,7 @@ class Redirects extends React.Component {
 			<div className="redirects">
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
-					<TableFilter selected="0" options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
+					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />

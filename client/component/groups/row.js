@@ -97,7 +97,7 @@ class GroupRow extends React.Component {
 			<RowActions>
 				<a href="#" onClick={ this.handleEdit }>{ __( 'Edit' ) }</a> |&nbsp;
 				<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
-				<a href={ Redirectioni10n.pluginRoot + '&id=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
+				<a href={ Redirectioni10n.pluginRoot + '&filterby=group&filter=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
 				{ enabled && <a href="#" onClick={ this.handleDisable }>{ __( 'Disable' ) }</a> }
 				{ ! enabled && <a href="#" onClick={ this.handleEnable }>{ __( 'Enable' ) }</a> }
 			</RowActions>
