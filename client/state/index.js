@@ -9,6 +9,7 @@ import {
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
+import { urlMiddleware } from 'state/middleware';
 
 /**
  * Internal dependencies
@@ -20,6 +21,7 @@ const composeEnhancers = composeWithDevTools( {
 
 const middlewares = [
 	thunk,
+	urlMiddleware,
 ];
 
 export default function createReduxStore( initialState = {} ) {
