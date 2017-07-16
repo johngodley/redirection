@@ -108,7 +108,7 @@ class Redirects extends React.Component {
 
 		return (
 			<div className="redirects">
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'group' ] } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
 					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>

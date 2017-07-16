@@ -41,7 +41,7 @@ export const getRedirect = args => {
 
 export const setOrderBy = ( orderBy, direction ) => getRedirect( { orderBy, direction } );
 export const setPage = page => getRedirect( { page } );
-export const setSearch = filter => getRedirect( { filter, page: 0 } );
+export const setSearch = filter => getRedirect( { filter, filterBy: '', page: 0 } );
 export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter } );
 
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items } );

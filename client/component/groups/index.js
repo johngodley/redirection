@@ -101,7 +101,7 @@ class Groups extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
 					<TableFilter selected="0" options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>

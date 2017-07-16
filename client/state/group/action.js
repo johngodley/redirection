@@ -41,7 +41,7 @@ export const getGroup = args => {
 
 export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
 export const setPage = page => getGroup( { page } );
-export const setSearch = filter => getGroup( { filter, page: 0 } );
+export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0 } );
 export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter } );
 
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items } );
