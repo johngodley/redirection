@@ -8,6 +8,7 @@ import React from 'react';
  * Internal dependencies
  */
 
+import { getPluginPage } from 'lib/wordpress-url';
 import Options from 'component/options';
 import Support from 'component/support';
 import Logs from 'component/logs';
@@ -19,16 +20,6 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 
 class Home extends React.Component {
-	getPage() {
-		const page = document.location.search.split( '&' );
-
-		if ( page.length > 1 ) {
-			return page[ 1 ].split( '=' )[ 1 ];
-		}
-
-		return 'redirect';
-	}
-
 	getContent( page ) {
 		switch ( page ) {
 			case 'support':
@@ -54,7 +45,7 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const page = this.getPage();
+		const page = getPluginPage();
 
 		return (
 			<div className="redirection">

@@ -1,8 +1,11 @@
+/* global document */
 /**
  * Internal dependencies
  */
 
 import * as qs from 'querystring';
+
+const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'modules', 'options', 'support' ];
 
 export function setPageUrl( query, defaults ) {
 	history.pushState( {}, null, getWordPressUrl( query, defaults ) );
@@ -28,4 +31,18 @@ export function getWordPressUrl( query, defaults ) {
 	}
 
 	return '?' + qs.stringify( existing );
+}
+
+export function getPluginPage( url ) {
+	const params = url ? url.split( '&' ) : document.location.search.split( '&' );
+
+	if ( params.length > 1 ) {
+		const page = params[ 1 ].split( '=' )[ 1 ];
+
+		if ( ALLOWED_PAGES.indexOf( page ) !== -1 ) {
+			return page;
+		}
+	}
+
+	return 'redirect';
 }
