@@ -29,7 +29,7 @@ class TableFilter extends React.Component {
 
 		return (
 			<div className="alignleft actions">
-				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.handleChange } />
+				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.handleChange } isEnabled={ this.props.isEnabled } />
 
 				<button className="button" onClick={ this.handleSubmit } disabled={ ! isEnabled }>{ __( 'Filter' ) }</button>
 			</div>

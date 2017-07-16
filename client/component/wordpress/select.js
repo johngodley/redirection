@@ -22,10 +22,10 @@ const SelectItem = props => {
 };
 
 const Select = props => {
-	const { items, value, name, onChange } = props;
+	const { items, value, name, onChange, isEnabled = true } = props;
 
 	return (
-		<select name={ name } value={ value } onChange={ onChange }>
+		<select name={ name } value={ value } onChange={ onChange } disabled={ ! isEnabled } >
 			{ items.map( ( item, pos ) => <SelectItem value={ item.value } text={ item.text } key={ pos } /> ) }
 		</select>
 	);
@@ -39,6 +39,7 @@ Select.propTypes = {
 	] ).isRequired,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
+	isEnabled: PropTypes.bool,
 };
 
 export default Select;
