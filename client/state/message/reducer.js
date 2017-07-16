@@ -11,6 +11,7 @@ import { translate as __ } from 'lib/locale';
 import { MESSAGE_CLEAR_ERRORS, MESSAGE_CLEAR_NOTICES } from './type';
 import {
 	REDIRECT_FAILED,
+	REDIRECT_ITEM_SAVING,
 	REDIRECT_ITEM_FAILED,
 	REDIRECT_ITEM_SAVED,
 } from 'state/redirect/type';
@@ -18,13 +19,19 @@ import {
 	GROUP_FAILED,
 	GROUP_ITEM_FAILED,
 	GROUP_ITEM_SAVED,
+	GROUP_ITEM_SAVING,
 } from 'state/group/type';
 import { LOG_FAILED } from 'state/log/type';
-import { MODULE_FAILED } from 'state/module/type';
+import {
+	MODULE_FAILED,
+	MODULE_SAVING,
+	MODULE_SAVED,
+} from 'state/module/type';
 import {
 	SETTING_LOAD_FAILED,
 	SETTING_SAVE_FAILED,
 	SETTING_SAVED,
+	SETTING_SAVING,
 } from 'state/settings/type';
 
 const parseError = error => ( {
@@ -34,6 +41,14 @@ const parseError = error => ( {
 } );
 const addError = ( existing, error ) => existing.slice( 0 ).concat( [ parseError( error ) ] );
 const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ] );
+
+const NOTICES = {
+	REDIRECT_ITEM_SAVING: __( 'Saving redirection' ),
+	REDIRECT_ITEM_SAVED: __( 'Redirection saved' ),
+	SETTING_SAVED: __( 'Settings saved' ),
+	GROUP_ITEM_SAVED: __( 'Group saved' ),
+	MODULE_SAVED: __( 'Module saved' ),
+};
 
 export default function messages( state = {}, action ) {
 	switch ( action.type ) {
@@ -49,14 +64,17 @@ export default function messages( state = {}, action ) {
 			console.error( action.error );
 			return { ... state, errors: addError( state.errors, action.error ) };
 
+		case REDIRECT_ITEM_SAVING:
+		case MODULE_SAVING:
+		case SETTING_SAVING:
+		case GROUP_ITEM_SAVING:
+			return { ... state, inProgress: state.inProgress + 1 };
+
 		case REDIRECT_ITEM_SAVED:
-			return { ... state, notices: addNotice( state.notices, __( 'Redirection saved' ) ) };
-
 		case SETTING_SAVED:
-			return { ... state, notices: addNotice( state.notices, __( 'Settings saved' ) ) };
-
 		case GROUP_ITEM_SAVED:
-			return { ... state, notices: addNotice( state.notices, __( 'Group saved' ) ) };
+		case MODULE_SAVED:
+			return { ... state, notices: addNotice( state.notices, NOTICES[ action.type ] ), inProgress: Math.max( 0, state.inProgress - 1 ) };
 
 		case MESSAGE_CLEAR_NOTICES:
 			return { ... state, notices: [] };

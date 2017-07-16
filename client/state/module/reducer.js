@@ -10,6 +10,8 @@ import {
 	MODULE_LOADING,
 	MODULE_LOADED,
 	MODULE_FAILED,
+	MODULE_SAVING,
+	MODULE_SAVED,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
@@ -31,12 +33,14 @@ const mergeRows = ( existingRows, newRows ) => {
 
 export default function modules( state = {}, action ) {
 	switch ( action.type ) {
+		case MODULE_SAVING:
 		case MODULE_LOADING:
 			return { ... state, status: STATUS_IN_PROGRESS };
 
 		case MODULE_FAILED:
 			return { ... state, status: STATUS_FAILED };
 
+		case MODULE_SAVED:
 		case MODULE_LOADED:
 			return { ... state, rows: mergeRows( state.rows, action.rows ), status: STATUS_COMPLETE };
 	}

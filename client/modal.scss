@@ -1,0 +1,46 @@
+body.ReactModal__Body--open {
+	#react-ui {
+		background-color: #eee;
+		opacity: 0.2;
+	}
+}
+
+.modal {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	text-align: center;
+
+	.modal-content, .modal-table {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 10000;
+		margin: auto;
+		padding: 20px;
+		border-radius: 10px;
+		background: white;
+		opacity: 1;
+
+		box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+	}
+
+	.modal-content {
+		width: 500px;
+		height: 200px;
+	}
+
+	.modal-table {
+		width: 700px;
+		height: 130px;
+
+		.edit-redirection {
+			width: 100% !important;
+		}
+	}
+}
