@@ -18,6 +18,7 @@ import Grouper from 'component/groups';
 import Redirects from 'component/redirects';
 import Error from 'component/error';
 import Notice from 'component/notice';
+import Progress from 'component/progress';
 
 class Home extends React.Component {
 	getContent( page ) {
@@ -53,6 +54,7 @@ class Home extends React.Component {
 
 				{ this.getContent( page ) }
 
+				<Progress />
 				<Notice />
 			</div>
 		);
