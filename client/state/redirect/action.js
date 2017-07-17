@@ -13,6 +13,7 @@ import {
 } from './type';
 import getApi from 'lib/api';
 import { mergeWithTable, removeDefaults } from 'lib/table';
+import { translate as __ } from 'lib/locale';
 
 const processRequest = ( action, dispatch, params = {}, table = {} ) => {
 	const tableData = mergeWithTable( table, params );
@@ -69,6 +70,10 @@ export const performTableAction = ( action, ids ) => {
 
 		if ( action === 'delete' && table.page > 0 && table.perPage * table.page === total - 1 ) {
 			table.page -= 1;
+		}
+
+		if ( action === 'delete' && ! confirm( __( 'Are you sure you want to delete this item?', 'Are you sure you want to delete these items?', { count: params.items.length } ) ) ) {
+			return;
 		}
 
 		const tableData = mergeWithTable( table, params );

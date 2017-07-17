@@ -95,6 +95,10 @@
 		width: 120px;
 		text-align: left;
 	}
+
+	.disabled {
+		opacity: 0.5;
+	}
 }
 
 .placeholder-container {
@@ -158,10 +162,6 @@ input.current-page {
 .redirects {
 	.target {
 		color: #999;
-	}
-
-	.disabled {
-		opacity: 0.5;
 	}
 }
 
