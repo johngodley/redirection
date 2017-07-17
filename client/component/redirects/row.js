@@ -13,7 +13,9 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import EditRedirect from './edit';
+import Spinner from 'component/wordpress/spinner';
 import { setSelected, performTableAction } from 'state/redirect/action';
+import { STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 
 const CODE_PASS = 'pass';
 const CODE_NOTHING = 'nothing';
@@ -120,7 +122,7 @@ class RedirectRow extends React.Component {
 		return <strike>{ url }</strike>;
 	}
 
-	renderSource( url, title ) {
+	renderSource( url, title, saving ) {
 		const name = title ? title : <a href={ url } target="_blank" rel="noopener noreferrer">{ this.getUrl( url ) }</a>;
 
 		return (
@@ -128,7 +130,7 @@ class RedirectRow extends React.Component {
 				{ name }<br />
 				<span className="target">{ this.getTarget() }</span>
 
-				<RowActions>
+				<RowActions disabled={ saving }>
 					{ this.getMenu() }
 				</RowActions>
 			</td>
@@ -137,18 +139,22 @@ class RedirectRow extends React.Component {
 
 	render() {
 		const { id, url, hits, last_access, enabled, title } = this.props.item;
-		const { selected, isLoading } = this.props;
+		const { selected, status } = this.props;
+		const isLoading = status === STATUS_IN_PROGRESS;
+		const isSaving = status === STATUS_SAVING;
+		const hideRow = ! enabled || isLoading || isSaving;
 
 		return (
-			<tr className={ enabled ? '' : 'disabled' }>
+			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					<input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } />
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td>
 					{ this.getCode() }
 				</td>
 
-				{ this.state.editing ? <td><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title ) }
+				{ this.state.editing ? <td><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title, isSaving ) }
 
 				<td>
 					{ numberFormat( hits ) }
@@ -164,7 +170,7 @@ class RedirectRow extends React.Component {
 RedirectRow.propTypes = {
 	item: PropTypes.object.isRequired,
 	selected: PropTypes.bool.isRequired,
-	isLoading: PropTypes.bool.isRequired,
+	status: PropTypes.string.isRequired,
 };
 
 function mapDispatchToProps( dispatch ) {

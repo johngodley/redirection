@@ -14,12 +14,12 @@ import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
-import GroupRow from './row';
+import RedirectRow from './row';
 import EditRedirect from './edit';
 import { getRedirect, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
-import { STATUS_COMPLETE } from 'state/settings/type';
+import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 import { nestedGroups } from 'state/group/selector';
 
 const headers = [
@@ -69,12 +69,17 @@ class Redirects extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		this.handleRender = this.renderRow.bind( this );
 		this.props.onLoadRedirects();
 		this.props.onLoadGroups();
 	}
 
 	renderRow( row, key, status ) {
-		return <GroupRow item={ row } key={ key } selected={ status.isSelected } isLoading={ status.isLoading } />;
+		const { saving } = this.props.redirect;
+		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
+		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
+
+		return <RedirectRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
 	}
 
 	getGroups( groups ) {
@@ -87,13 +92,11 @@ class Redirects extends React.Component {
 	}
 
 	renderNew() {
-		const { saving } = this.props.redirect;
-
 		return (
 			<div>
 				<h1>{ __( 'Add new redirection' ) }</h1>
 				<div className="add-new edit">
-					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } disabled={ saving } />
+					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } />
 				</div>
 			</div>
 		);
@@ -106,11 +109,11 @@ class Redirects extends React.Component {
 		return (
 			<div className="redirects">
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'group' ] } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk }>
-					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
+				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk } status={ status } >
+					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE && status !== STATUS_IN_PROGRESS } onFilter={ this.props.onFilter } />
 				</TableNav>
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
 
 				{ status === STATUS_COMPLETE && group.status === STATUS_COMPLETE && this.renderNew() }
 			</div>
