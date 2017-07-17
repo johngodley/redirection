@@ -35,3 +35,12 @@
     opacity: 0;
   }
 }
+
+.spinner-small {
+	.css-spinner {
+		width: 20px;
+		height: 20px;
+		top: -15px;
+		left: 5px;
+	}
+}

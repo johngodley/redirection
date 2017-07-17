@@ -3,13 +3,21 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Spinner = () => {
+const Spinner = props => {
+	const { size = '' } = props;
+	const klasses = 'spinner-container' + ( size ? ' spinner-' + size : '' );
+
 	return (
-		<div className="spinner-container">
+		<div className={ klasses }>
 			<span className="css-spinner" />
 		</div>
 	);
+};
+
+Spinner.propTypes = {
+	size: PropTypes.string,
 };
 
 export default Spinner;
