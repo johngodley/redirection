@@ -17,13 +17,21 @@ class Progress extends React.Component {
 		super( props );
 	}
 
-	renderProgress() {
+	getMessage( inProgress ) {
+		if ( inProgress > 1 ) {
+			return __( 'Saving...' ) + ' (' + inProgress + ')';
+		}
+
+		return __( 'Saving...' );
+	}
+
+	renderProgress( inProgress ) {
 		const klasses = 'notice notice-progress redirection-notice';
 
 		return (
 			<div className={ klasses }>
 				<Spinner />
-				<p>{ __( 'Saving...' ) }</p>
+				<p>{ this.getMessage( inProgress ) }</p>
 			</div>
 		);
 	}
@@ -35,7 +43,7 @@ class Progress extends React.Component {
 			return null;
 		}
 
-		return this.renderProgress();
+		return this.renderProgress( inProgress );
 	}
 }
 
