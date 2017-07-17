@@ -12,23 +12,22 @@ import {
 	GROUP_SET_ALL_SELECTED,
 } from './type';
 import getApi from 'lib/api';
-import { mergeWithTable, mergeWithTableForApi } from 'lib/table';
-
-const groupCollect = json => ( { rows: json.items, total: json.total } );
+import { mergeWithTable, removeDefaults } from 'lib/table';
+import { translate as __ } from 'lib/locale';
 
 const processRequest = ( action, dispatch, params = {}, table = {} ) => {
-	const data = table ? mergeWithTableForApi( table, params ) : params;
-	const reducer = table ? Object.assign( {}, mergeWithTable( table, params ), params ) : params;
+	const tableData = mergeWithTable( table, params );
+	const data = removeDefaults( { ... table, ... params }, 'name' );
 
 	getApi( action, data )
 		.then( json => {
-			dispatch( { type: GROUP_LOADED, ... groupCollect( json ) } );
+			dispatch( { type: GROUP_LOADED, ... json } );
 		} )
 		.catch( error => {
 			dispatch( { type: GROUP_FAILED, error } );
 		} );
 
-	return dispatch( { ... reducer, type: GROUP_LOADING } );
+	return dispatch( { table: tableData, type: GROUP_LOADING } );
 };
 
 export const getGroup = args => {
@@ -39,28 +38,25 @@ export const getGroup = args => {
 	};
 };
 
-export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
-export const setPage = page => getGroup( { page } );
-export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0 } );
-export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter } );
-
-export const setSelected = items => ( { type: GROUP_SET_SELECTED, items } );
-export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );
-
-export const saveGroup = ( groupId, name, moduleId ) => {
+export const saveGroup = item => {
 	return ( dispatch, getState ) => {
-		const data = { groupId, name, moduleId };
 		const { table } = getState().group;
 
-		getApi( 'red_set_group', mergeWithTableForApi( table, data ) )
+		if ( item.id === 0 ) {
+			table.page = 0;
+			table.orderBy = 'id';
+			table.direction = 'desc';
+		}
+
+		getApi( 'red_set_group', removeDefaults( { ... table, ... item } ) )
 			.then( json => {
-				dispatch( { type: GROUP_ITEM_SAVED, ... json } );
+				dispatch( { type: GROUP_ITEM_SAVED, item: json.item, items: json.items, total: json.total, saving: [ item.id ] } );
 			} )
 			.catch( error => {
-				dispatch( { type: GROUP_ITEM_FAILED, error } );
+				dispatch( { type: GROUP_ITEM_FAILED, error, item, saving: [ item.id ] } );
 			} );
 
-		return dispatch( { type: GROUP_ITEM_SAVING, ... table, group: data } );
+		return dispatch( { type: GROUP_ITEM_SAVING, table, item, saving: [ item.id ] } );
 	};
 };
 
@@ -68,37 +64,37 @@ export const performTableAction = ( action, ids ) => {
 	return ( dispatch, getState ) => {
 		const { table, total } = getState().group;
 		const params = {
-			items: ids ? ids : table.selected.join( ',' ),
+			items: ids ? [ ids ] : table.selected,
 			bulk: action,
 		};
 
-		if ( action === 'delete' && params.page > 0 && params.perPage * params.page === total - 1 ) {
-			params.page -= 1;
+		if ( action === 'delete' && table.page > 0 && table.perPage * table.page === total - 1 ) {
+			table.page -= 1;
 		}
 
-		return processRequest( 'red_group_action', dispatch, params, table );
-	};
-};
+		if ( action === 'delete' && ! confirm( __( 'Are you sure you want to delete this item?', 'Are you sure you want to delete these items?', { count: params.items.length } ) ) ) {
+			return;
+		}
 
-export const createGroup = ( name, moduleId ) => {
-	return ( dispatch, getState ) => {
-		const { table } = getState().group;
-		const params = {
-			name,
-			moduleId,
-		};
+		const tableData = mergeWithTable( table, params );
+		const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk } }, 'name' );
 
-		params.orderBy = 'id';
-		params.direction = 'desc';
-
-		getApi( 'red_create_group', mergeWithTableForApi( table, params ) )
+		getApi( 'red_group_action', data )
 			.then( json => {
-				dispatch( { type: GROUP_ITEM_SAVED, ... json } );
+				dispatch( { type: GROUP_ITEM_SAVED, ... json, saving: params.items } );
 			} )
 			.catch( error => {
-				dispatch( { type: GROUP_ITEM_FAILED, error } );
+				dispatch( { type: GROUP_ITEM_FAILED, error, saving: params.items } );
 			} );
 
-		return dispatch( { type: GROUP_ITEM_SAVING, ... table, group: { name, moduleId } } );
+		return dispatch( { type: GROUP_ITEM_SAVING, table: tableData, saving: params.items } );
 	};
 };
+
+export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
+export const setPage = page => getGroup( { page } );
+export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0 } );
+export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter } );
+
+export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
+export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );

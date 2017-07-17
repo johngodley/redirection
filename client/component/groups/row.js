@@ -14,8 +14,9 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import { setSelected, saveGroup, performTableAction } from 'state/group/action';
-import { STATUS_IN_PROGRESS } from 'state/settings/type';
+import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModuleName } from 'state/module/selector';
+import Spinner from 'component/wordpress/spinner';
 
 class GroupRow extends React.Component {
 	constructor( props ) {
@@ -72,7 +73,7 @@ class GroupRow extends React.Component {
 
 	onSave( ev ) {
 		this.onEdit( ev );
-		this.props.onSaveGroup( this.props.item.id, this.state.name, this.state.moduleId );
+		this.props.onSaveGroup( { id: this.props.item.id, name: this.state.name, moduleId: this.state.moduleId } );
 	}
 
 	onSelect( ev ) {
@@ -90,11 +91,11 @@ class GroupRow extends React.Component {
 		);
 	}
 
-	renderActions() {
+	renderActions( saving ) {
 		const { id, enabled } = this.props.item;
 
 		return (
-			<RowActions>
+			<RowActions disabled={ saving }>
 				<a href="#" onClick={ this.handleEdit }>{ __( 'Edit' ) }</a> |&nbsp;
 				<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 				<a href={ Redirectioni10n.pluginRoot + '&filterby=group&filter=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
@@ -144,16 +145,20 @@ class GroupRow extends React.Component {
 
 	render() {
 		const { name, redirects, id, module_id, enabled } = this.props.item;
-		const { selected, isLoading, module } = this.props;
+		const { selected, module, status } = this.props;
+		const isLoading = status === STATUS_IN_PROGRESS;
+		const isSaving = status === STATUS_SAVING;
+		const hideRow = ! enabled || isLoading || isSaving;
 
 		return (
-			<tr>
+			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					<input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } />
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td>
 					{ ! this.state.editing && this.getName( name, enabled ) }
-					{ this.state.editing ? this.renderEdit() : this.renderActions() }
+					{ this.state.editing ? this.renderEdit() : this.renderActions( isSaving ) }
 				</td>
 				<td>
 					{ redirects }
@@ -169,7 +174,7 @@ class GroupRow extends React.Component {
 GroupRow.propTypes = {
 	item: PropTypes.object.isRequired,
 	selected: PropTypes.bool.isRequired,
-	isLoading: PropTypes.bool.isRequired,
+	status: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -185,8 +190,8 @@ function mapDispatchToProps( dispatch ) {
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );
 		},
-		onSaveGroup: ( groupId, name, moduleId ) => {
-			dispatch( saveGroup( groupId, name, moduleId ) );
+		onSaveGroup: item => {
+			dispatch( saveGroup( item ) );
 		},
 		onTableAction: ( action, ids ) => {
 			dispatch( performTableAction( action, ids ) );
