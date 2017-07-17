@@ -64,10 +64,13 @@ class Redirection_Table extends WP_List_Table {
 		}
 
 		$title = $item->get_url();
+		// TG Start mod to add position and Desc to URL display
+		$desc = "";
 		if ( $item->get_title() )
-			$title = $item->get_title();
-
-		return sprintf( '%1$s %2$s', $before.'<a href="'.esc_url( $item->get_url() ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
+			$desc = $item->get_title();
+		$desc = ($item->get_group_id() * 1000 + $item->get_position()) . ' ' . $desc;
+		return sprintf( '%1$s %2$s', $desc . ' ' . $before.'<a href="'.esc_url( $item->get_url() ).'">'.esc_html( $title ).'</a>'.$after, $this->row_actions( $actions ) );
+		// TG End
 	}
 
 	function column_cb( $item ) {
@@ -194,7 +197,12 @@ class Redirection_Table extends WP_List_Table {
 
 		if ( ! in_array( $order, array( 'asc', 'desc' ) ) )
 			$order = 'desc';
-
+ 	    // TG Start Just hardcode the order by position because this is how
+        // redirection items are processed
+	    //$orderby = 'position';
+		$orderby = '(group_id * 1000 + position)';
+	    $order = 'asc';
+        // TG End
 		$where = array();
 		if ( isset( $_GET['s'] ) && strlen( $_GET['s'] ) > 0 )
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_GET['s'] ).'%' );

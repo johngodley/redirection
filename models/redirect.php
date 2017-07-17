@@ -179,7 +179,9 @@ class Red_Item {
 		}
 
 		$regex    = ( isset( $details['regex'] ) && (bool) $details['regex'] !== false ) ? 1 : 0;
-		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
+		// TG The following re-positions items separated by 1. Making this 10.
+//		$position = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
+		$position = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(position)+10 FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $group_id ) );
 
 		$action = $details['red_action'];
 		$action_code = 0;
@@ -277,14 +279,21 @@ class Red_Item {
 			if ( isset( $details['action_code'] ) )
 				$this->action_code = intval( $details['action_code'] );
 
+		    // TG Start Load position now that it is set in the UI
+			$this->position = 0;
+			if ( isset( $details['position'] ) )
+				$this->position = intval( $details['position'] );
+            // TG End
+
 			$old_group = false;
 			if ( isset( $details['group_id'] ) ) {
 				$old_group = intval( $this->group_id );
 				$this->group_id = intval( $details['group_id'] );
 			}
 
+			// TG Add position to line below
 			// Save this
-			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
+			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'url' => $this->url, 'regex' => $this->regex, 'action_code' => $this->action_code, 'action_data' => $data, 'position' => $this->position, 'group_id' => $this->group_id, 'title' => $this->title ), array( 'id' => $this->id ) );
 
 			Red_Module::flush( $this->group_id );
 
