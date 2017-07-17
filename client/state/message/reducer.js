@@ -41,6 +41,7 @@ const parseError = error => ( {
 } );
 const addError = ( existing, error ) => existing.slice( 0 ).concat( [ parseError( error ) ] );
 const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ] );
+const reduceProgress = state => Math.max( 0, state.inProgress - 1 );
 
 const NOTICES = {
 	REDIRECT_ITEM_SAVING: __( 'Saving redirection' ),
@@ -62,7 +63,7 @@ export default function messages( state = {}, action ) {
 		case REDIRECT_FAILED:
 			/* eslint-disable */
 			console.error( action.error );
-			return { ... state, errors: addError( state.errors, action.error ) };
+			return { ... state, errors: addError( state.errors, action.error ), inProgress: reduceProgress( state ) };
 
 		case REDIRECT_ITEM_SAVING:
 		case MODULE_SAVING:
@@ -74,7 +75,7 @@ export default function messages( state = {}, action ) {
 		case SETTING_SAVED:
 		case GROUP_ITEM_SAVED:
 		case MODULE_SAVED:
-			return { ... state, notices: addNotice( state.notices, NOTICES[ action.type ] ), inProgress: Math.max( 0, state.inProgress - 1 ) };
+			return { ... state, notices: addNotice( state.notices, NOTICES[ action.type ] ), inProgress: reduceProgress( state ) };
 
 		case MESSAGE_CLEAR_NOTICES:
 			return { ... state, notices: [] };

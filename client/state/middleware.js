@@ -43,7 +43,7 @@ export const urlMiddleware = () => next => action => {
 		case GROUP_LOADING:
 		case MODULE_LOADING:
 		case LOG_LOADING:
-			setUrlForPage( action.type, action );
+			setUrlForPage( action.type, action.table ? action.table : action );
 			break;
 	}
 
