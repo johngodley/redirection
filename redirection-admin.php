@@ -4,6 +4,8 @@ include dirname( __FILE__ ).'/models/group.php';
 include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/models/file-io.php';
 
+define( 'RED_DEFAULT_PER_PAGE', 25 );
+
 class Redirection_Admin {
 	private static $instance = null;
 	private $monitor;

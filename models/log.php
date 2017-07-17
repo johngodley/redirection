@@ -273,7 +273,7 @@ class RE_Filter_Log {
 
 		$orderby = 'id';
 		$direction = 'DESC';
-		$limit = 20;
+		$limit = RED_DEFAULT_PER_PAGE;
 		$offset = 0;
 		$where = '';
 

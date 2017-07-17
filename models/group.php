@@ -97,6 +97,8 @@ class Red_Group {
 			Red_Module::flush_by_module( $old_id );
 			Red_Module::flush_by_module( $this->module_id );
 		}
+
+		return true;
 	}
 
 	public function delete() {
@@ -147,7 +149,7 @@ class Red_Group {
 
 		$orderby = 'id';
 		$direction = 'DESC';
-		$limit = 20;
+		$limit = RED_DEFAULT_PER_PAGE;
 		$offset = 0;
 		$where = '';
 

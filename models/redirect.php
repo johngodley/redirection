@@ -332,7 +332,7 @@ class Red_Item {
 
 		$orderby = 'id';
 		$direction = 'DESC';
-		$limit = 20;
+		$limit = RED_DEFAULT_PER_PAGE;
 		$offset = 0;
 		$where = '';
 
