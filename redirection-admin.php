@@ -49,7 +49,6 @@ class Redirection_Admin {
 		add_action( 'wp_ajax_red_get_group', array( $this, 'ajax_get_group' ) );
 		add_action( 'wp_ajax_red_set_group', array( $this, 'ajax_set_group' ) );
 		add_action( 'wp_ajax_red_group_action', array( $this, 'ajax_group_action' ) );
-		add_action( 'wp_ajax_red_create_group', array( $this, 'ajax_create_group' ) );
 
 		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 
@@ -154,7 +153,7 @@ class Redirection_Admin {
 		$this->inject();
 
 		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
-			add_screen_option( 'per_page', array( 'label' => __( 'Log entries (100 max)', 'redirection' ), 'default' => 25, 'option' => 'redirection_log_per_page' ) );
+			add_screen_option( 'per_page', array( 'label' => __( 'Log entries (100 max)', 'redirection' ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
 		}
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
@@ -183,7 +182,7 @@ class Redirection_Admin {
 	private function get_per_page() {
 		$per_page = intval( get_user_meta( get_current_user_id(), 'redirection_log_per_page', true ), 10 );
 
-		return $per_page > 0 ? $per_page : 25;
+		return $per_page > 0 ? $per_page : RED_DEFAULT_PER_PAGE;
 	}
 
 	private function get_i18n_data() {
@@ -366,32 +365,6 @@ class Redirection_Admin {
 		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
 	}
 
-	public function ajax_create_group( $params ) {
-		$ajax = $this->check_ajax_referer( 'wp_rest' );
-		if ( $ajax !== true ) {
-			return $ajax;
-		}
-
-		if ( empty( $params ) ) {
-			$params = $_POST;
-		}
-
-		if ( ! Red_Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 ) ) {
-			global $wpdb;
-
-			$cause = 'unknown';
-			if ( !isset( $params['name'] ) || !isset( $params['module_id'] ) ) {
-				$cause = 'invalid parameters';
-			} else if ( $wpdb->last_error ) {
-				$cause = $wpdb->last_error;
-			}
-
-			return $this->output_ajax_response( array( 'error' => 'Failed creating group - '.$cause.' ('.__LINE__.')' ) );
-		}
-
-		return $this->output_ajax_response( Red_Group::get_filtered( $params ) );
-	}
-
 	public function ajax_get_group( $params ) {
 		$ajax = $this->check_ajax_referer( 'wp_rest' );
 		if ( $ajax !== true ) {
@@ -418,17 +391,24 @@ class Redirection_Admin {
 		$groupId = 0;
 		$name = '';
 		$moduleId = 0;
-		if ( isset( $params['groupId'] ) ) {
-			$groupId = intval( $params['groupId'], 10 );
+		if ( isset( $params['id'] ) ) {
+			$groupId = intval( $params['id'], 10 );
 		}
 
 		$result = array( 'error' => 'Invalid group or parameters ('.__LINE__.')' );
 		if ( $groupId > 0 ) {
-			$group = Red_Group::get( $params['groupId'] );
+			$group = Red_Group::get( $groupId );
 
 			if ( $group && isset( $params['name'] ) && isset( $params['moduleId'] ) ) {
-				$group->update( $params );
-				$result = $group->to_json();
+				if ( $group->update( $params ) ) {
+					$result = array( 'item' => $group->to_json() );
+				}
+			}
+		} else {
+			$group = Red_Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 );
+
+			if ( $group ) {
+				$result = $this->output_ajax_response( Red_Group::get_filtered( $params ) );
 			}
 		}
 
@@ -463,7 +443,7 @@ class Redirection_Admin {
 			$redirectId = intval( $params['id'], 10 );
 		}
 
-		$result = array( 'error' => 'Invalid redirect details' );
+		$result = array( 'error' => 'Invalid redirect details ('.__LINE__.')' );
 		if ( $redirectId === 0 ) {
 			$redirect = Red_Item::create( $params );
 
@@ -474,7 +454,7 @@ class Redirection_Admin {
 			$redirect = Red_Item::get_by_id( $redirectId );
 
 			if ( $redirect && $redirect->update( $params ) ) {
-				$result = $redirect->to_json();
+				$result = array( 'item' => $redirect->to_json() );
 			}
 		}
 
