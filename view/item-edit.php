@@ -22,7 +22,17 @@
 			</select>
 		</td>
 	</tr>
-
+	<?php
+	// TG Add edit for position
+	 ?>
+	<tr class="advanced">
+		<th width="100"><?php _e( 'Position', 'redirection' ); ?>:</th>
+		<td>
+			<input style="width: 100px" type="number" min="0" max="999" name="position" value="<?php
+			echo esc_attr( $redirect->get_position() ); ?>"
+			/>
+		</td>
+	</tr>
 	<?php $redirect->match->show(); ?>
 
 	<tr>
