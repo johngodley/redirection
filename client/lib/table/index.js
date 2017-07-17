@@ -71,6 +71,26 @@ export const mergeWithTable = ( state, params ) => {
 	return newState;
 };
 
+export const removeDefaults = ( table, defaultOrder ) => {
+	if ( table.direction === 'desc' ) {
+		delete table.direction;
+	}
+
+	if ( table.orderBy === defaultOrder ) {
+		delete table.orderBy;
+	}
+
+	if ( table.page === 0 ) {
+		delete table.page;
+	}
+
+	if ( table.perPage === parseInt( Redirectioni10n.per_page, 10 ) ) {
+		delete table.perPage;
+	}
+
+	return table;
+};
+
 export const clearSelected = state => {
 	return Object.assign( {}, state, { selected: [] } );
 };

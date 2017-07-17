@@ -25,14 +25,14 @@ const Table = props => {
 
 	let content = null;
 
-	if ( rows.length > 0 ) {
-		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } />;
-	} else if ( rows.length === 0 && status === STATUS_IN_PROGRESS ) {
-		content = <LoadingRow headers={ headers } />;
+	if ( status === STATUS_IN_PROGRESS && rows.length === 0 ) {
+		content = <LoadingRow headers={ headers } rows={ rows } />;
 	} else if ( rows.length === 0 && status === STATUS_COMPLETE ) {
 		content = <EmptyRow headers={ headers } />;
 	} else if ( status === STATUS_FAILED ) {
 		content = <FailedRow headers={ headers } />;
+	} else if ( rows.length > 0 ) {
+		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } />;
 	}
 
 	return (
