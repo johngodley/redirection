@@ -110,7 +110,7 @@ class LogModule extends React.Component {
 		}
 
 		if ( module_id === MODULE_APACHE && redirects === 0 ) {
-			return exporter( 'config', 'apache', 0, this.onClick );
+			return [ exporter( 'config', 'apache', 0, this.onClick ) ];
 		}
 
 		return null;

@@ -24,7 +24,7 @@ const mergeRows = ( existingRows, newRows ) => {
 		if ( pos === -1 ) {
 			mergedRows.push( newRows[ x ] );
 		} else {
-			mergedRows[ pos ] = Object.assign( {}, newRows[ x ], mergedRows[ pos ] );
+			mergedRows[ pos ] = Object.assign( {}, mergedRows[ pos ], newRows[ x ] );
 		}
 	}
 
