@@ -47,18 +47,6 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 	};
 };
 
-export const mergeWithTableForApi = ( state, params ) => {
-	const newState = {};
-
-	for ( let x = 0; x < tableParams.length; x++ ) {
-		const value = tableParams[ x ];
-
-		newState[ value ] = state[ value ];
-	}
-
-	return Object.assign( {}, newState, params );
-};
-
 export const mergeWithTable = ( state, params ) => {
 	const newState = Object.assign( {}, state );
 

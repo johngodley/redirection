@@ -70,7 +70,7 @@ export const processRequest = ( action, dispatch, status, params = {}, table = {
 	return dispatch( { table: tableData, type: status.saving } );
 };
 
-export const copyReplace = ( data, item, cb ) => {
+const copyReplace = ( data, item, cb ) => {
 	const dupe = data.slice( 0 );
 
 	for ( let x = 0; x < data.length; x++ ) {
