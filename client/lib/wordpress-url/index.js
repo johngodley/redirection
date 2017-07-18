@@ -11,12 +11,12 @@ export function setPageUrl( query, defaults ) {
 	history.pushState( {}, null, getWordPressUrl( query, defaults ) );
 }
 
-export function getPageUrl() {
-	return qs.parse( document.location.search.slice( 1 ) );
+export function getPageUrl( query ) {
+	return qs.parse( query ? query.slice( 1 ) : document.location.search.slice( 1 ) );
 }
 
-export function getWordPressUrl( query, defaults ) {
-	const existing = qs.parse( document.location.search.slice( 1 ) );
+export function getWordPressUrl( query, defaults, url ) {
+	const existing = getPageUrl( url );
 
 	for ( const param in query ) {
 		if ( query[ param ] && defaults[ param ] !== query[ param ] ) {
@@ -34,14 +34,10 @@ export function getWordPressUrl( query, defaults ) {
 }
 
 export function getPluginPage( url ) {
-	const params = url ? url.split( '&' ) : document.location.search.split( '&' );
+	const params = getPageUrl( url );
 
-	if ( params.length > 1 ) {
-		const page = params[ 1 ].split( '=' )[ 1 ];
-
-		if ( ALLOWED_PAGES.indexOf( page ) !== -1 ) {
-			return page;
-		}
+	if ( ALLOWED_PAGES.indexOf( params.page ) !== -1 ) {
+		return params.page;
 	}
 
 	return 'redirect';

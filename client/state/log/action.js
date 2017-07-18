@@ -9,15 +9,15 @@ import {
 	LOG_SET_ALL_SELECTED,
 } from './type';
 import getApi from 'lib/api';
-import { mergeWithTable, mergeWithTableForApi } from 'lib/table';
+import { mergeWithTable, removeDefaults } from 'lib/table';
 
 const logCollect = json => ( { rows: json.items, total: json.total } );
 
 const dispatchRequest = ( dispatch, action, params, table = false ) => {
-	const data = table ? mergeWithTableForApi( table, params ) : params;
+	const data = table ? mergeWithTable( table, params ) : params;
 	const reducer = table ? Object.assign( {}, mergeWithTable( table, params ), params ) : params;
 
-	getApi( action, data )
+	getApi( action, removeDefaults( data ) )
 		.then( json => {
 			dispatch( { type: LOG_LOADED, ... logCollect( json ) } );
 		} )
