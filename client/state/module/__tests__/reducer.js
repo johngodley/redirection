@@ -79,7 +79,6 @@ describe( 'modules reducer', () => {
 
 		expect( state.table ).toEqual( NEW_TABLE );
 		expect( state.status ).toEqual( STATUS_FAILED );
-		expect( state.error ).toEqual( 'failed' );
 	} );
 
 	test( 'MODULE_LOADED sets status complete and updates rows on first time', () => {
