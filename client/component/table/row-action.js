@@ -16,7 +16,10 @@ const RowActions = props => {
 };
 
 RowActions.propTypes = {
-	children: PropTypes.array.isRequired,
+	children: PropTypes.oneOfType( [
+		PropTypes.array,
+		PropTypes.object,
+	] ).isRequired,
 	disabled: PropTypes.bool,
 };
 

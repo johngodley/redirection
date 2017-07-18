@@ -57,7 +57,7 @@ class LogRow404 extends React.Component {
 		return (
 			<Modal isOpen={ this.state.editing } onRequestClose={ this.handleClose } contentLabel="Modal" overlayClassName="modal" className="modal-table">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } refresh={ false } />
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } />
 				</div>
 			</Modal>
 		);
@@ -86,9 +86,7 @@ class LogRow404 extends React.Component {
 				</td>
 				<td>
 					<Referrer url={ referrer } />
-					<RowActions>
-						{ agent }
-					</RowActions>
+					{ agent && <RowActions>{ [ agent ] }</RowActions> }
 				</td>
 				<td>
 					<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">

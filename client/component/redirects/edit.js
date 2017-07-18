@@ -198,7 +198,7 @@ class EditRedirect extends React.Component {
 		};
 
 		ev.preventDefault();
-		this.props.onSave( redirect, this.props.refresh );
+		this.props.onSave( redirect );
 
 		if ( this.props.onCancel ) {
 			this.props.onCancel();
@@ -361,10 +361,6 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
-		if ( this.props.disabled === true ) {
-			return false;
-		}
-
 		if ( this.state.url === '' ) {
 			return false;
 		}
@@ -428,8 +424,6 @@ EditRedirect.propTypes = {
 	onCancel: PropTypes.func,
 	saveButton: PropTypes.string,
 	advanced: PropTypes.bool,
-	refresh: PropTypes.bool,
-	disabled: PropTypes.bool,
 };
 
 function mapStateToProps( state ) {
@@ -442,8 +436,8 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onSave: ( redirect, refresh ) => {
-			dispatch( saveRedirect( redirect, refresh ) );
+		onSave: redirect => {
+			dispatch( saveRedirect( redirect ) );
 		},
 	};
 }
