@@ -37,7 +37,8 @@ import {
 const parseError = error => ( {
 	action: Redirectioni10n.failedAction,
 	data: JSON.stringify( Redirectioni10n.failedData ? Redirectioni10n.failedData : '' ),
-	error: error.message ? error.message : error
+	error: error.message ? error.message : error,
+	response: Redirectioni10n.failedResponse,
 } );
 const addError = ( existing, error ) => existing.slice( 0 ).concat( [ parseError( error ) ] );
 const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ] );

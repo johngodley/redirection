@@ -40,11 +40,13 @@ class Error extends React.Component {
 		for ( let x = 0; x < errors.length; x++ ) {
 			message.push( '' );
 			message.push( 'Action: ' + errors[ x ].action );
-			message.push( 'Error: ' + errors[ x ].error );
 
 			if ( errors[ x ].data !== '""' ) {
-				message.push( 'Data: ' + errors[ x ].data );
+				message.push( 'Params: ' + errors[ x ].data );
 			}
+
+			message.push( 'Error: ' + errors[ x ].error );
+			message.push( 'Raw: ' + errors[ x ].response );
 		}
 
 		return message;
