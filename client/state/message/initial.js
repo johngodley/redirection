@@ -7,5 +7,6 @@ export function getInitialMessage() {
 		errors: [],
 		notices: [],
 		inProgress: 0,
+		saving: [],
 	};
 }

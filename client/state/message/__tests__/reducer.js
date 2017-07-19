@@ -1,146 +1,107 @@
+/* eslint-disable no-console */
 /**
  * Internal dependencies
  */
 
-import reducer from 'state/group/reducer';
+global.console = { error: jest.fn() };
+
+import reducer from 'state/message/reducer';
+import { MESSAGE_CLEAR_ERRORS, MESSAGE_CLEAR_NOTICES } from 'state/message/type';
 import {
-	GROUP_LOADED,
-	GROUP_LOADING,
+	REDIRECT_FAILED,
+	REDIRECT_ITEM_SAVING,
+	REDIRECT_ITEM_FAILED,
+	REDIRECT_ITEM_SAVED,
+} from 'state/redirect/type';
+import {
 	GROUP_FAILED,
-	GROUP_SET_SELECTED,
-	GROUP_SET_ALL_SELECTED,
-	GROUP_ITEM_SAVING,
-	GROUP_ITEM_SAVED,
 	GROUP_ITEM_FAILED,
+	GROUP_ITEM_SAVED,
+	GROUP_ITEM_SAVING,
 } from 'state/group/type';
-import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
+import { LOG_FAILED } from 'state/log/type';
+import {
+	MODULE_FAILED,
+	MODULE_SAVING,
+	MODULE_SAVED,
+} from 'state/module/type';
+import {
+	SETTING_LOAD_FAILED,
+	SETTING_SAVE_FAILED,
+	SETTING_SAVED,
+	SETTING_SAVING,
+} from 'state/settings/type';
 
-const NEW_TABLE = {
-	orderBy: 'name',
-	direction: 'desc',
-	page: 0,
-	perPage: 25,
-	selected: [],
-	filterBy: '',
-	filter: '',
-	error: false,
-};
 const DEFAULT_STATE = {
-	rows: [],
-	status: 1,
-	total: 0,
-	error: false,
-	table: NEW_TABLE,
-	saving: false,
-};
-const DEFAULT_ROWS = [
-	{
-		id: 1,
-	},
-	{
-		id: 2,
-	},
-	{
-		id: 3,
-	}
-];
-const EXPECTED_ROWS = [
-	{
-		id: 1,
-	},
-	{
-		id: 2,
-		name: 'new',
-	},
-	{
-		id: 3,
-	}
-];
-global.Redirectioni10n = {
-	per_page: 25,
+	errors: [],
+	notices: [],
+	inProgress: 0,
+	saving: [],
 };
 
-jest.mock( 'lib/wordpress-url' );
+const DEFAULT_ERROR = {
+	action: 'action',
+	data: JSON.stringify( 'data' ),
+	error: 'fail',
+	response: 'response',
+};
+
+global.Redirectioni10n = {
+	failedAction: 'action',
+	failedData: 'data',
+	failedResponse: 'response',
+};
 
 describe( 'groups reducer', () => {
 	test( 'unknown action returns same state', () => {
 		expect( reducer( DEFAULT_STATE, { type: 'something' } ) ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'GROUP_LOADING with no table data leaves table unchanged', () => {
-		const state = reducer( DEFAULT_STATE, { type: GROUP_LOADING } );
+	test( 'Failure is added to list of errors, and inProgress counter is decremented', () => {
+		const actions = [ GROUP_FAILED, REDIRECT_ITEM_FAILED, GROUP_ITEM_FAILED, LOG_FAILED, MODULE_FAILED, SETTING_LOAD_FAILED, SETTING_SAVE_FAILED, REDIRECT_FAILED ];
 
-		expect( state.table ).toEqual( NEW_TABLE );
+		for ( let x = 0; x < actions.length; x++ ) {
+			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ], error: 'fail' } );
+
+			expect( state ).toEqual( { ... DEFAULT_STATE, errors: [ DEFAULT_ERROR ], inProgress: 1 } );
+			expect( console.error ).toBeCalled();
+		}
+
+		console.error.mockClear();
 	} );
 
-	test( 'GROUP_LOADING sets status and table', () => {
-		const state = reducer( DEFAULT_STATE, Object.assign( { type: GROUP_LOADING }, NEW_TABLE ) );
+	test( 'Saving action results in inProgress being incremented', () => {
+		const actions = [ REDIRECT_ITEM_SAVING, MODULE_SAVING, SETTING_SAVING, GROUP_ITEM_SAVING ];
 
-		expect( state.status ).toBe( STATUS_IN_PROGRESS );
-		expect( state.table ).toEqual( NEW_TABLE );
+		for ( let x = 0; x < actions.length; x++ ) {
+			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ] } );
+
+			expect( state ).toEqual( { ... DEFAULT_STATE, inProgress: 3 } );
+			expect( console.error ).not.toBeCalled();
+		}
 	} );
 
-	test( 'GROUP_FAILED sets status and error and ignores table', () => {
-		const state = reducer( DEFAULT_STATE, Object.assign( { type: GROUP_FAILED }, NEW_TABLE, { error: 'failed' } ) );
+	test( 'Saved action results in inProgress being decremented and a notice logged', () => {
+		const actions = [ REDIRECT_ITEM_SAVED, SETTING_SAVED, GROUP_ITEM_SAVED, MODULE_SAVED ];
+		const notices = [ 'Redirection saved', 'Settings saved', 'Group saved', 'Module saved' ];
 
-		expect( state.status ).toBe( STATUS_FAILED );
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.error ).toEqual( 'failed' );
+		for ( let x = 0; x < actions.length; x++ ) {
+			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ] } );
+
+			expect( state ).toEqual( { ... DEFAULT_STATE, inProgress: 1, notices: [ notices[ x ] ] } );
+			expect( console.error ).not.toBeCalled();
+		}
 	} );
 
-	test( 'GROUP_LOADED sets status and rows and ignores table', () => {
-		const state = reducer( DEFAULT_STATE, Object.assign( { type: GROUP_LOADED, rows: DEFAULT_ROWS, total: 3 }, NEW_TABLE ) );
+	test( 'MESSAGE_CLEAR_NOTICES clears all notices', () => {
+		const state = reducer( { ... DEFAULT_STATE, notices: [ 1, 2 ] }, { type: MESSAGE_CLEAR_NOTICES } );
 
-		expect( state.status ).toBe( STATUS_COMPLETE );
-		expect( state.total ).toEqual( 3 );
-		expect( state.rows ).toEqual( DEFAULT_ROWS );
-		expect( state.table ).toEqual( NEW_TABLE );
+		expect( state ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'GROUP_SET_SELECTED sets selected in table', () => {
-		const state = reducer( DEFAULT_STATE, Object.assign( { type: GROUP_SET_SELECTED, items: [ 1, 3 ] }, NEW_TABLE ) );
+	test( 'MESSAGE_CLEAR_ERRORS clears all notices', () => {
+		const state = reducer( { ... DEFAULT_STATE, errors: [ 1, 2 ] }, { type: MESSAGE_CLEAR_ERRORS } );
 
-		expect( state.table ).toEqual( Object.assign( {}, NEW_TABLE, { selected: [ 1, 3 ] } ) );
-		expect( state.status ).toBe( DEFAULT_STATE.status );
-	} );
-
-	test( 'GROUP_SET_ALL_SELECTED sets all selected in table', () => {
-		const state = reducer( Object.assign( {}, DEFAULT_STATE, { rows: DEFAULT_ROWS } ), Object.assign( { type: GROUP_SET_ALL_SELECTED, onoff: true }, NEW_TABLE ) );
-
-		expect( state.table ).toEqual( Object.assign( {}, NEW_TABLE, { selected: [ 1, 2, 3 ] } ) );
-		expect( state.status ).toBe( DEFAULT_STATE.status );
-	} );
-
-	test( 'GROUP_ITEM_SAVING sets table and rows', () => {
-		const state = reducer( Object.assign( {}, DEFAULT_STATE, { rows: DEFAULT_ROWS } ), Object.assign( { type: GROUP_ITEM_SAVING, group: { groupId: 2, name: 'new' }, NEW_TABLE } ) );
-
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.saving ).toBe( true );
-		expect( state.rows ).toEqual( EXPECTED_ROWS );
-	} );
-
-	test( 'GROUP_ITEM_SAVED sets rows and total for new items', () => {
-		const state = reducer( DEFAULT_STATE, { type: GROUP_ITEM_SAVED, total: 3, items: DEFAULT_ROWS } );
-
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.total ).toEqual( 3 );
-		expect( state.saving ).toBe( false );
-		expect( state.rows ).toEqual( DEFAULT_ROWS );
-	} );
-
-	test( 'GROUP_ITEM_SAVED sets rows and total for existing items', () => {
-		const state = reducer( Object.assign( {}, DEFAULT_STATE, { rows: DEFAULT_ROWS } ), { type: GROUP_ITEM_SAVED, total: 3, id: 2, name: 'new' } );
-
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.total ).toEqual( 3 );
-		expect( state.saving ).toBe( false );
-		expect( state.rows ).toEqual( EXPECTED_ROWS );
-	} );
-
-	test( 'GROUP_ITEM_FAILED sets status', () => {
-		const state = reducer( DEFAULT_STATE, { type: GROUP_ITEM_FAILED } );
-
-		expect( state.saving ).toBe( false );
-		expect( state.table ).toEqual( NEW_TABLE );
+		expect( state ).toEqual( DEFAULT_STATE );
 	} );
 } );

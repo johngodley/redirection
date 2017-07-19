@@ -45,7 +45,6 @@ const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ]
 const reduceProgress = state => Math.max( 0, state.inProgress - 1 );
 
 const NOTICES = {
-	REDIRECT_ITEM_SAVING: __( 'Saving redirection' ),
 	REDIRECT_ITEM_SAVED: __( 'Redirection saved' ),
 	SETTING_SAVED: __( 'Settings saved' ),
 	GROUP_ITEM_SAVED: __( 'Group saved' ),
