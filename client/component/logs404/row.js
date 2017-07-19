@@ -15,6 +15,8 @@ import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
 import EditRedirect from 'component/redirects/edit';
 import { getDefaultItem } from 'state/redirect/selector';
+import Spinner from 'component/wordpress/spinner';
+import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -35,7 +37,8 @@ class LogRow404 extends React.Component {
 		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
-	onDelete() {
+	onDelete( ev ) {
+		ev.preventDefault();
 		this.props.onDelete( this.props.item.id );
 	}
 
@@ -65,16 +68,20 @@ class LogRow404 extends React.Component {
 
 	render() {
 		const { created, ip, referrer, url, agent, id } = this.props.item;
-		const { selected, isLoading } = this.props;
+		const { selected, status } = this.props;
+		const isLoading = status === STATUS_IN_PROGRESS;
+		const isSaving = status === STATUS_SAVING;
+		const hideRow = isLoading || isSaving;
 
 		return (
-			<tr className={ isLoading ? 'item-loading' : '' }>
+			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					<input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } />
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td>
 					{ created }
-					<RowActions>
+					<RowActions disabled={ isSaving }>
 						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 						<a href="#" onClick={ this.handleAdd }>{ __( 'Add Redirect' ) }</a>
 					</RowActions>

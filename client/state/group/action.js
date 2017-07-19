@@ -13,11 +13,11 @@ import {
 } from './type';
 import { tableAction, saveAction, processRequest } from 'lib/store';
 
-const STATUS_GROUP_ITEM = { saving: GROUP_ITEM_SAVING, saved: GROUP_ITEM_SAVED, failed: GROUP_ITEM_FAILED };
-const STATUS_GROUP = { saving: GROUP_LOADING, saved: GROUP_LOADED, failed: GROUP_FAILED };
+const STATUS_GROUP_ITEM = { saving: GROUP_ITEM_SAVING, saved: GROUP_ITEM_SAVED, failed: GROUP_ITEM_FAILED, order: 'name' };
+const STATUS_GROUP = { saving: GROUP_LOADING, saved: GROUP_LOADED, failed: GROUP_FAILED, order: 'name' };
 
-export const saveGroup = item => saveAction( 'red_set_group', item, STATUS_GROUP_ITEM );
-export const performTableAction = ( action, ids ) => tableAction( 'red_group_action', action, ids, STATUS_GROUP_ITEM );
+export const saveGroup = item => saveAction( 'group', 'red_set_group', item, STATUS_GROUP_ITEM );
+export const performTableAction = ( action, ids ) => tableAction( 'group', 'red_group_action', action, ids, STATUS_GROUP_ITEM );
 export const getGroup = args => ( dispatch, getState ) => processRequest( 'red_get_group', dispatch, STATUS_GROUP, args, getState().group.table );
 export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
 export const setPage = page => getGroup( { page } );

@@ -13,11 +13,11 @@ import {
 } from './type';
 import { tableAction, saveAction, processRequest } from 'lib/store';
 
-const STATUS_REDIRECT_ITEM = { saving: REDIRECT_ITEM_SAVING, saved: REDIRECT_ITEM_SAVED, failed: REDIRECT_ITEM_FAILED };
-const STATUS_REDIRECT = { saving: REDIRECT_LOADING, saved: REDIRECT_LOADED, failed: REDIRECT_FAILED };
+const STATUS_REDIRECT_ITEM = { saving: REDIRECT_ITEM_SAVING, saved: REDIRECT_ITEM_SAVED, failed: REDIRECT_ITEM_FAILED, order: 'name' };
+const STATUS_REDIRECT = { saving: REDIRECT_LOADING, saved: REDIRECT_LOADED, failed: REDIRECT_FAILED, order: 'name' };
 
-export const saveRedirect = item => saveAction( 'red_set_redirect', item, STATUS_REDIRECT_ITEM );
-export const performTableAction = ( action, ids ) => tableAction( 'red_redirect_action', action, ids, STATUS_REDIRECT_ITEM );
+export const saveRedirect = item => saveAction( 'redirect', 'red_set_redirect', item, STATUS_REDIRECT_ITEM );
+export const performTableAction = ( action, ids ) => tableAction( 'redirect', 'red_redirect_action', action, ids, STATUS_REDIRECT_ITEM );
 export const getRedirect = args => ( dispatch, getState ) => processRequest( 'red_get_redirect', dispatch, STATUS_REDIRECT, args, getState().redirect.table );
 export const setOrderBy = ( orderBy, direction ) => getRedirect( { orderBy, direction } );
 export const setPage = page => getRedirect( { page } );

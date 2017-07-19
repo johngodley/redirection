@@ -6,8 +6,8 @@ import getApi from 'lib/api';
 import { mergeWithTable, removeDefaults } from 'lib/table';
 import { translate as __ } from 'lib/locale';
 
-export const tableAction = ( action, bulk, ids, status ) => ( dispatch, getState ) => {
-	const { table, total } = getState().group;
+export const tableAction = ( storeName, action, bulk, ids, status ) => ( dispatch, getState ) => {
+	const { table, total } = getState()[ storeName ];
 	const params = {
 		items: ids ? [ ids ] : table.selected,
 		bulk,
@@ -22,7 +22,7 @@ export const tableAction = ( action, bulk, ids, status ) => ( dispatch, getState
 	}
 
 	const tableData = mergeWithTable( table, params );
-	const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk } }, 'name' );
+	const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk } }, status.order );
 
 	getApi( action, data )
 		.then( json => {
@@ -35,8 +35,8 @@ export const tableAction = ( action, bulk, ids, status ) => ( dispatch, getState
 	return dispatch( { type: status.saving, table: tableData, saving: params.items } );
 };
 
-export const saveAction = ( action, item, status ) => ( dispatch, getState ) => {
-	const { table } = getState().group;
+export const saveAction = ( storeName, action, item, status ) => ( dispatch, getState ) => {
+	const { table } = getState()[ storeName ];
 
 	if ( item.id === 0 ) {
 		// Reset the table params so this goes to the top
@@ -57,10 +57,21 @@ export const saveAction = ( action, item, status ) => ( dispatch, getState ) => 
 
 	return dispatch( { type: status.saving, table, item, saving: [ item.id ] } );
 };
+const objectDiff = ( source, extra ) => {
+	const newObj = {};
+
+	for ( const name in extra ) {
+		if ( source[ name ] === undefined ) {
+			newObj[ name ] = extra[ name ];
+		}
+	}
+
+	return newObj;
+};
 
 export const processRequest = ( action, dispatch, status, params = {}, table = {} ) => {
 	const tableData = mergeWithTable( table, params );
-	const data = removeDefaults( { ... table, ... params }, 'name' );
+	const data = removeDefaults( { ... table, ... params }, status.order );
 
 	getApi( action, data )
 		.then( json => {
@@ -70,7 +81,7 @@ export const processRequest = ( action, dispatch, status, params = {}, table = {
 			dispatch( { type: status.failed, error } );
 		} );
 
-	return dispatch( { table: tableData, type: status.saving } );
+	return dispatch( { table: tableData, type: status.saving, ... objectDiff( tableData, params ) } );
 };
 
 const copyReplace = ( data, item, cb ) => {
