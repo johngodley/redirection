@@ -18,7 +18,7 @@ const STATUS_REDIRECT = { saving: REDIRECT_LOADING, saved: REDIRECT_LOADED, fail
 
 export const saveRedirect = item => saveAction( 'red_set_redirect', item, STATUS_REDIRECT_ITEM );
 export const performTableAction = ( action, ids ) => tableAction( 'red_redirect_action', action, ids, STATUS_REDIRECT_ITEM );
-export const getRedirect = args => ( dispatch, getState ) => processRequest( 'red_get_redirect', dispatch, STATUS_REDIRECT, args, getState().redirect );
+export const getRedirect = args => ( dispatch, getState ) => processRequest( 'red_get_redirect', dispatch, STATUS_REDIRECT, args, getState().redirect.table );
 export const setOrderBy = ( orderBy, direction ) => getRedirect( { orderBy, direction } );
 export const setPage = page => getRedirect( { page } );
 export const setSearch = filter => getRedirect( { filter, filterBy: '', page: 0 } );
