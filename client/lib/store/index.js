@@ -39,9 +39,12 @@ export const saveAction = ( action, item, status ) => ( dispatch, getState ) => 
 	const { table } = getState().group;
 
 	if ( item.id === 0 ) {
+		// Reset the table params so this goes to the top
 		table.page = 0;
 		table.orderBy = 'id';
 		table.direction = 'desc';
+		table.filterBy = '';
+		table.filter = '';
 	}
 
 	getApi( action, removeDefaults( { ... table, ... item } ) )
