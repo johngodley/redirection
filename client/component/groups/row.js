@@ -107,31 +107,33 @@ class GroupRow extends React.Component {
 
 	renderEdit() {
 		return (
-			<table className="edit">
-				<tbody>
-					<tr>
-						<th width="70">{ __( 'Name' ) }</th>
-						<td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange } /></td>
-					</tr>
-					<tr>
-						<th width="70">{ __( 'Module' ) }</th>
-						<td>
-							<select name="module_id" onChange={ this.handleSelect } value={ this.state.moduleId }>
-								{ this.props.module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<th width="70"></th>
-						<td>
-							<div className="table-actions">
-								<input className="button-primary" type="submit" name="save" value={ __( 'Save' ) } onClick={ this.handleSave } /> &nbsp;
-								<input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ this.handleEdit } />
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<form onSubmit={ this.handleSave } >
+				<table className="edit">
+					<tbody>
+						<tr>
+							<th width="70">{ __( 'Name' ) }</th>
+							<td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange } /></td>
+						</tr>
+						<tr>
+							<th width="70">{ __( 'Module' ) }</th>
+							<td>
+								<select name="module_id" onChange={ this.handleSelect } value={ this.state.moduleId }>
+									{ this.props.module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th width="70"></th>
+							<td>
+								<div className="table-actions">
+									<input className="button-primary" type="submit" name="save" value={ __( 'Save' ) } /> &nbsp;
+									<input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ this.handleEdit } />
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		);
 	}
 

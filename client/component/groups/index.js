@@ -94,7 +94,8 @@ class Groups extends React.Component {
 		this.setState( { moduleId: ev.target.value } );
 	}
 
-	onSubmit() {
+	onSubmit( ev ) {
+		ev.preventDefault();
 		this.props.onCreate( { id: 0, name: this.state.name, moduleId: this.state.moduleId } );
 		this.setState( { name: '' } );
 	}
@@ -116,23 +117,25 @@ class Groups extends React.Component {
 				<h2>{ __( 'Add Group' ) }</h2>
 				<p>{ __( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.' ) }</p>
 
-				<table className="form-table">
-					<tbody>
-						<tr>
-							<th style={ { width: '50px' } }>{ __( 'Name' ) }</th>
-							<td>
-								<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ isSaving || module.status !== STATUS_COMPLETE } />
+				<form onSubmit={ this.handleSubmit }>
+					<table className="form-table">
+						<tbody>
+							<tr>
+								<th style={ { width: '50px' } }>{ __( 'Name' ) }</th>
+								<td>
+									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ isSaving || module.status !== STATUS_COMPLETE } />
 
-								<select name="module_id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ isSaving || module.status !== STATUS_COMPLETE }>
-									{ module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
-								</select>
+									<select name="module_id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ isSaving || module.status !== STATUS_COMPLETE }>
+										{ module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
+									</select>
 
-								&nbsp;
-								<input className="button-primary" type="submit" name="add" value="Add" onClick={ this.handleSubmit } disabled={ isSaving || this.state.name === '' || module.status !== STATUS_COMPLETE } />
-							</td>
-						</tr>
-					</tbody>
-				</table>
+									&nbsp;
+									<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' || module.status !== STATUS_COMPLETE } />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
 			</div>
 		);
 	}
