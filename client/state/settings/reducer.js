@@ -15,7 +15,7 @@ import {
 	STATUS_FAILED,
 } from './type';
 
-export default function scene( state = {}, action ) {
+export default function settings( state = {}, action ) {
 	switch ( action.type ) {
 		case SETTING_LOAD_START:
 			return { ... state, loadStatus: STATUS_IN_PROGRESS };
