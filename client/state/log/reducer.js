@@ -12,7 +12,7 @@ import {
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { mergeWithTable, setTableSelected, setTableAllSelected } from 'lib/table';
 
-export default function scene( state = {}, action ) {
+export default function log( state = {}, action ) {
 	switch ( action.type ) {
 		case LOG_SET_ALL_SELECTED:
 			return { ... state, table: setTableAllSelected( state.table, state.rows, action.onoff ) };

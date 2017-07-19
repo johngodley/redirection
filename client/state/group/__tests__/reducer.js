@@ -77,7 +77,7 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'GROUP_SET_SELECTED', () => {
-		const action = { type: GROUP_SET_SELECTED, onoff: true };
+		const action = { type: GROUP_SET_SELECTED };
 
 		reducer( STATE, action );
 

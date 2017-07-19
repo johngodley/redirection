@@ -77,7 +77,7 @@ describe( 'redirects reducer', () => {
 	} );
 
 	test( 'REDIRECT_SET_SELECTED', () => {
-		const action = { type: REDIRECT_SET_SELECTED, onoff: true };
+		const action = { type: REDIRECT_SET_SELECTED };
 
 		reducer( STATE, action );
 
