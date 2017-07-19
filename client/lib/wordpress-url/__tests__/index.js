@@ -26,12 +26,12 @@ describe( 'WordPress URL', () => {
 	} );
 
 	test( 'getPluginPage returns redirect when valid page param provided', () => {
-		expect( getPluginPage( '&page=log' ) ).toEqual( 'log' );
-		expect( getPluginPage( '&page=groups' ) ).toEqual( 'groups' );
-		expect( getPluginPage( '&page=404s' ) ).toEqual( '404s' );
-		expect( getPluginPage( '&page=modules' ) ).toEqual( 'modules' );
-		expect( getPluginPage( '&page=options' ) ).toEqual( 'options' );
-		expect( getPluginPage( '&page=support' ) ).toEqual( 'support' );
+		expect( getPluginPage( '?thing=here&sub=log' ) ).toEqual( 'log' );
+		expect( getPluginPage( '?thing=here&sub=groups' ) ).toEqual( 'groups' );
+		expect( getPluginPage( '?thing=here&sub=404s' ) ).toEqual( '404s' );
+		expect( getPluginPage( '?thing=here&sub=modules' ) ).toEqual( 'modules' );
+		expect( getPluginPage( '?thing=here&sub=options' ) ).toEqual( 'options' );
+		expect( getPluginPage( '?thing=here&sub=support' ) ).toEqual( 'support' );
 	} );
 
 	test( 'getWordPressUrl returns existing URL with no params', () => {

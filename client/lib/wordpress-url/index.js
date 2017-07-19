@@ -36,8 +36,8 @@ export function getWordPressUrl( query, defaults, url ) {
 export function getPluginPage( url ) {
 	const params = getPageUrl( url );
 
-	if ( ALLOWED_PAGES.indexOf( params.page ) !== -1 ) {
-		return params.page;
+	if ( ALLOWED_PAGES.indexOf( params.sub ) !== -1 ) {
+		return params.sub;
 	}
 
 	return 'redirect';
