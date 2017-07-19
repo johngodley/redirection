@@ -21,7 +21,7 @@ class SearchBox extends React.Component {
 	}
 
 	getDefaultSearch( table, ignore ) {
-		if ( ignore && ignore.indexOf( table.filterBy ) !== '' ) {
+		if ( ignore && ignore.find( item => item === table.filterBy ) ) {
 			return '';
 		}
 
