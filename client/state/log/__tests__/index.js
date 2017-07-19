@@ -11,13 +11,15 @@ import {
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import reducer from 'state/log/reducer';
 import { getInitialLog } from 'state/log/initial';
-import { mergeWithTable, setTableSelected, setTableAllSelected } from 'lib/table';
+import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { setTable, setRows, setTotal } from 'lib/store';
 
 global.Redirectioni10n = {};
 
 const DEFAULT_STATE = getInitialLog();
 
 jest.mock( 'lib/table' );
+jest.mock( 'lib/store' );
 
 const isCalled = ( mocker, first, second ) => expect( mocker.mock.calls[ 0 ][ 0 ] ).toBe( first ) && expect( mocker.mock.calls[ 0 ][ 1 ] ).toBe( second );
 
@@ -26,27 +28,31 @@ describe( 'log reducer', () => {
 		expect( reducer( DEFAULT_STATE, { type: 'something' } ) ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'LOG_LOADING updates table, resets error, and sets logType and status', () => {
-		const action = { type: LOG_LOADING, logType: 'cat', page: 5, something: 'else' };
+	test( 'LOG_LOADING', () => {
+		const action = { type: LOG_LOADING };
 		const state = reducer( DEFAULT_STATE, action );
 
-		isCalled( mergeWithTable, DEFAULT_STATE.table, action );
-
-		expect( state.status ).toEqual( STATUS_IN_PROGRESS );
-		expect( state.error ).toEqual( false );
-		expect( state.logType ).toEqual( 'cat' );
+		isCalled( setTable, DEFAULT_STATE, action );
+		expect( state.status ).toBe( STATUS_IN_PROGRESS );
+		expect( state.saving ).toEqual( [] );
 	} );
 
-	test( 'LOG_LOADED sets rows, status, and total', () => {
-		const state = reducer( DEFAULT_STATE, { type: LOG_LOADED, rows: [ 1, 2 ], total: 5 } );
+	test( 'LOG_LOADED', () => {
+		const action = { type: LOG_LOADED };
+		const state = reducer( DEFAULT_STATE, action );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, status: STATUS_COMPLETE, total: 5, rows: [ 1, 2 ] } );
+		expect( state.status ).toBe( STATUS_COMPLETE );
+		isCalled( setRows, DEFAULT_STATE, action );
+		isCalled( setTotal, DEFAULT_STATE, action );
+		expect( clearSelected.mock.calls[ 0 ][ 0 ] ).toBe( DEFAULT_STATE.table );
 	} );
 
-	test( 'LOG_FAILED sets status and error', () => {
-		const state = reducer( DEFAULT_STATE, { type: LOG_FAILED, error: 'yes' } );
+	test( 'LOG_FAILED', () => {
+		const action = { type: LOG_FAILED };
+		const state = reducer( DEFAULT_STATE, action );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, status: STATUS_FAILED, error: 'yes' } );
+		expect( state.status ).toBe( STATUS_FAILED );
+		expect( state.saving ).toEqual( [] );
 	} );
 
 	test( 'LOG_SET_SELECTED', () => {
