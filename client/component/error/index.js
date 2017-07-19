@@ -45,6 +45,7 @@ class Error extends React.Component {
 				message.push( 'Params: ' + errors[ x ].data );
 			}
 
+			message.push( 'Code: ' + errors[ x ].code );
 			message.push( 'Error: ' + errors[ x ].error );
 			message.push( 'Raw: ' + errors[ x ].response );
 		}

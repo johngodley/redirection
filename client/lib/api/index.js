@@ -34,7 +34,10 @@ const getApiRequest = ( action, data ) => {
 };
 
 const getApi = ( action, params ) => getApiRequest( action, params )
-	.then( data => data.text() )
+	.then( data => {
+		Redirectioni10n.failedCode = data.status + ' ' + data.statusText;
+		return data.text();
+	} )
 	.then( text => {
 		try {
 			const json = JSON.parse( text );
