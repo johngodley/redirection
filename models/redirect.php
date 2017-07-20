@@ -479,7 +479,9 @@ class Red_Item_Sanitize {
 	protected function get_url( $url, $regex ) {
 		$url = self::sanitize_url( $url, $regex );
 
-		$parsed_url = parse_url( $url );
+		if ( $url === '' ) {
+			return new WP_Error( 'redirect', __( 'Invalid source URL', 'redirection' ) );
+		}
 
 		return $url;
 	}

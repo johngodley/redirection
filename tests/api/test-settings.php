@@ -39,6 +39,8 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		$after = json_decode( self::$redirection->ajax_save_settings( array() ) );
 
+		unset( $before->settings->token );
+		unset( $after->settings->token );
 		$this->assertEquals( $before, $after );
 	}
 

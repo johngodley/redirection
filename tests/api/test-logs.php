@@ -3,6 +3,11 @@
 class RedirectionApiLogTest extends WP_Ajax_UnitTestCase {
 	public static $redirection;
 
+	public function setUp() {
+		parent::setUp();
+		RE_Log::delete_all();
+	}
+
 	private function get_logs( $params = array() ) {
 		return json_decode( self::$redirection->ajax_get_logs( $params ) );
 	}

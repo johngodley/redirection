@@ -7,19 +7,19 @@ abstract class Red_FileIO {
 		$exporter = false;
 
 		if ( $type === 'rss' ) {
-			include dirname( dirname( __FILE__ ) ).'/fileio/rss.php';
+			include_once dirname( dirname( __FILE__ ) ).'/fileio/rss.php';
 			$exporter = new Red_Rss_File();
 		}
 		elseif ( $type === 'csv' ) {
-			include dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
+			include_once dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
 			$exporter = new Red_Csv_File();
 		}
 		elseif ( $type === 'apache' ) {
-			include dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
+			include_once dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
 			$exporter = new Red_Apache_File();
 		}
 		elseif ( $type === 'nginx' ) {
-			include dirname( dirname( __FILE__ ) ).'/fileio/nginx.php';
+			include_once dirname( dirname( __FILE__ ) ).'/fileio/nginx.php';
 			$exporter = new Red_Nginx_File();
 		}
 
@@ -31,11 +31,11 @@ abstract class Red_FileIO {
 			$parts = pathinfo( $file['name'] );
 
 			if ( isset( $parts['extension'] ) && $parts['extension'] === 'csv' ) {
-				include dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
+				include_once dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
 				$importer = new Red_Csv_File();
 				$data = '';
 			} else {
-				include dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
+				include_once dirname( dirname( __FILE__ ) ).'/fileio/apache.php';
 				$importer = new Red_Apache_File();
 				$data = @file_get_contents( $file['tmp_name'] );
 			}

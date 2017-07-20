@@ -1,15 +1,20 @@
 <?php
 
-class RedirectionApiLogActionTest extends WP_Ajax_UnitTestCase {
+class RedirectionApiDeleteAllTest extends WP_Ajax_UnitTestCase {
 	public static $redirection;
 	private $logs = array();
 
 	private function do_action( $params = array() ) {
-		return json_decode( self::$redirection->ajax_log_action( $params ) );
+		return json_decode( self::$redirection->ajax_delete_all( $params ) );
 	}
 
 	public static function setupBeforeClass() {
 		self::$redirection = Redirection_Admin::init();
+	}
+
+	public function setUp() {
+		parent::setUp();
+		RE_Log::delete_all();
 	}
 
 	private function createAB( $total = 2 ) {
@@ -38,7 +43,7 @@ class RedirectionApiLogActionTest extends WP_Ajax_UnitTestCase {
 		$this->assertTrue( isset( $result->error ) );
 	}
 
-	public function testLogNoParams() {
+	public function testNoParams() {
 		$this->createAB();
 		$result = $this->do_action();
 
@@ -46,38 +51,11 @@ class RedirectionApiLogActionTest extends WP_Ajax_UnitTestCase {
 		$this->assertEquals( 2, $result->total );
 	}
 
-	public function testLogNoIDs() {
+	public function testDelete() {
 		$this->createAB();
-		$result = $this->do_action( array( 'bulk' => 'delete', 'items' => '' ) );
+		$result = $this->do_action( array( 'logType' => 'log' ) );
 
-		$this->assertEquals( 2, $result->total );
-	}
-
-	public function testLogInvalidParams() {
-		$this->createAB();
-		$result = $this->do_action( array( 'bulk' => 'cats', 'items' => '' ) );
-
-		$this->assertEquals( 2, $result->total );
-	}
-
-	public function testLogBadID() {
-		$this->createAB();
-		$result = $this->do_action( array( 'bulk' => 'cats', 'items' => '4,5,6' ) );
-
-		$this->assertEquals( 2, $result->total );
-	}
-
-	public function testLogDeleteOne() {
-		$this->createAB();
-		$result = $this->do_action( array( 'bulk' => 'delete', 'items' => $this->logs[ 0 ] ) );
-
-		$this->assertEquals( 1, $result->total );
-	}
-
-	public function testLogDeleteMultiple() {
-		$this->createAB();
-		$result = $this->do_action( array( 'bulk' => 'delete', 'items' => implode( ',', $this->logs ) ) );
-
+		$this->assertTrue( is_array( $result->items ) );
 		$this->assertEquals( 0, $result->total );
 	}
 }

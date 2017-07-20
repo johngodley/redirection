@@ -408,7 +408,7 @@ class Redirection_Admin {
 			$group = Red_Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 );
 
 			if ( $group ) {
-				$result = $this->output_ajax_response( Red_Group::get_filtered( $params ) );
+				$result = Red_Group::get_filtered( $params );
 			}
 		}
 
@@ -552,15 +552,17 @@ class Redirection_Admin {
 			$params = $_POST;
 		}
 
+		$result = array( 'error' => 'Failed to save module' );
 		if ( isset( $params['module'] ) ) {
-			$module = $this->get_module( $params['module'] );
+			$module = Red_Module::get( $params[ 'module' ] );
 
 			if ( $module ) {
 				$module->update( $params );
+				return $this->ajax_get_module( $params );
 			}
 		}
 
-		return $this->ajax_get_module( $params );
+		return $this->output_ajax_response( $result );
 	}
 
 	private function get_module( $module_name ) {

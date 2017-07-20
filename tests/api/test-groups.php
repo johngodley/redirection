@@ -15,10 +15,6 @@ class RedirectionApiGroupTest extends WP_Ajax_UnitTestCase {
 		return json_decode( self::$redirection->ajax_group_action( $params ) );
 	}
 
-	private function create( $params = array() ) {
-		return json_decode( self::$redirection->ajax_create_group( $params ) );
-	}
-
 	public static function setupBeforeClass() {
 		self::$redirection = Redirection_Admin::init();
 	}
@@ -201,23 +197,23 @@ class RedirectionApiGroupTest extends WP_Ajax_UnitTestCase {
 	public function testUpdateBadModule() {
 		$this->createAB();
 
-		$result = $this->set_group( array( 'groupId' => 'cats' ) );
-		$this->assertTrue( isset( $result->errors ) );
+		$result = $this->set_group( array( 'id' => 'cats' ) );
+		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testUpdateBadName() {
 		$this->createAB();
 		$group = Red_Group::create( 'test', 1 );
 
-		$result = $this->set_group( array( 'groupId' => $group->get_id() ) );
-		$this->assertTrue( isset( $result->errors ) );
+		$result = $this->set_group( array( 'id' => $group->get_id() ) );
+		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testUpdate() {
 		$this->createAB();
 		$group = Red_Group::create( 'test', 1 );
 
-		$result = $this->set_group( array( 'groupId' => $group->get_id(), 'name' => 'cats', 'moduleId' => 2 ) );
+		$result = $this->set_group( array( 'id' => $group->get_id(), 'name' => 'cats', 'moduleId' => 2 ) );
 
 		$group = Red_Group::get( $group->get_id() );
 		$this->assertEquals( 2, $group->get_module_id() );
@@ -227,20 +223,20 @@ class RedirectionApiGroupTest extends WP_Ajax_UnitTestCase {
 	public function testCreateBadGroup() {
 		$this->createAB();
 
-		$result = $this->create();
-		$this->assertTrue( isset( $result->errors ) );
+		$result = $this->set_group();
+		$this->assertTrue( isset( $result->error ) );
 
-		$result = $this->create( array( 'moduleId' => 5, 'name' => 'yes' ) );
-		$this->assertTrue( isset( $result->errors ) );
+		$result = $this->set_group( array( 'moduleId' => 5, 'name' => 'yes' ) );
+		$this->assertTrue( isset( $result->error ) );
 
-		$result = $this->create( array( 'moduleId' => 2 ) );
-		$this->assertTrue( isset( $result->errors ) );
+		$result = $this->set_group( array( 'moduleId' => 2 ) );
+		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testCreateGroup() {
 		$this->createAB();
 
-		$result = $this->create( array( 'moduleId' => 2, 'name' => 'yes' ) );
+		$result = $this->set_group( array( 'moduleId' => 2, 'name' => 'yes', 'id' => 0 ) );
 		$this->assertEquals( 3, count( $result->items ) );
 	}
 }
