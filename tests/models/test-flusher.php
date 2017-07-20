@@ -60,6 +60,8 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testFlush() {
+		RE_Log::delete_all();
+
 		$this->addLog( 5 );
 		$this->addLog( 8 );
 		$this->assertEquals( 2, $this->getLogCount() );
@@ -72,6 +74,8 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testBigFlush() {
+		RE_Log::delete_all();
+
 		for ( $i = 0; $i < 1002; $i++ ) {
 			$this->addLog( 8 );   // Will get flushed
 		}

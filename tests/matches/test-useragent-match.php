@@ -8,14 +8,15 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 		$saved = array(
 			'url_from' => '/some/url',
 			'url_notfrom' => '/some/url',
-			'user_agent' => 'user agent',
+			'agent' => 'user agent',
+			'regex' => false,
 		);
 		$source = array(
-			'url_from' => "/some/url\nsomethingelse1",
-			'url_notfrom' => "/some/url\nsomethingelse2",
-			'user_agent' => "user agent\nhere",
+			'action_data_url_from' => "/some/url\nsomethingelse1",
+			'action_data_url_notfrom' => "/some/url\nsomethingelse2",
+			'action_data_agent' => "user agent\nhere",
 		);
 
-		$this->assertEquals( $match->save( $source ), $saved );
+		$this->assertEquals( $saved, $match->save( $source ) );
 	}
 }

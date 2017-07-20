@@ -101,12 +101,12 @@ class Red_Csv_File extends Red_FileIO {
 	public function csv_as_item( $csv, $group ) {
 		if ( $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' && count( $csv ) > 1 ) {
 			return array(
-				'source'      => trim( $csv[ self::CSV_SOURCE ] ),
-				'target'      => trim( $csv[ self::CSV_TARGET ] ),
+				'url'         => trim( $csv[ self ::CSV_SOURCE ] ),
+				'action_data' => trim( $csv[ self ::CSV_TARGET ] ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
-				'match'       => 'url',
-				'red_action'  => 'url',
+				'match_type'  => 'url',
+				'action_type' => 'url',
 				'action_code' => isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301,
 			);
 		}

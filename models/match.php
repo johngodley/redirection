@@ -28,7 +28,7 @@ abstract class Red_Match {
 		return false;
 	}
 
-	protected function sanitize_url( $url ) {
+	public function sanitize_url( $url ) {
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
 

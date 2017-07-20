@@ -17,11 +17,11 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 
 	private function createRedirect() {
 		Red_Item::create( array(
-			'source'     => '/from',
-			'target'     => '/to',
-			'group_id'   => 1,
-			'match'      => 'url',
-			'red_action' => 'url',
+			'url'         => '/from',
+			'action_data' => '/to',
+			'group_id'    => 1,
+			'match_type'  => 'url',
+			'action_type' => 'url',
 		) );
 	}
 

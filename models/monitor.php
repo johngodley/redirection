@@ -99,11 +99,11 @@ class Red_Monitor {
 
 			// Create a new redirect for this post
 			Red_Item::create( array(
-				'source'     => $before,
-				'target'     => $after,
-				'match'      => 'url',
-				'red_action' => 'url',
-				'group_id'   => $this->monitor_group_id,
+				'url'         => $before,
+				'action_data' => $after,
+				'match_type'  => 'url',
+				'action_type' => 'url',
+				'group_id'    => $this->monitor_group_id,
 			) );
 
 			return true;

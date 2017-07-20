@@ -5,25 +5,6 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->group = Red_Group::create( 'group', 1 );
 	}
 
-	public function testRemoveHttp() {
-		$this->assertEquals( Red_Item::sanitize_url( 'http://domain.com/some/url' ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( 'https://domain.com/some/url' ), '/some/url' );
-	}
-
-	public function testRemoveHash() {
-		$this->assertEquals( Red_Item::sanitize_url( '/some/url#thing' ), '/some/url' );
-	}
-
-	public function testRemoveNewline() {
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\nsomethingelse1" ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\rsomethingelse2" ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\r\nsomethingelse3" ), '/some/url' );
-	}
-
-	public function testAddLeadingSlash() {
-		$this->assertEquals( Red_Item::sanitize_url( 'some/url' ), '/some/url' );
-	}
-
 	public function testNoMatch() {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$this->assertFalse( $item->matches( '/source2' ) );
@@ -42,6 +23,7 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testMatch() {
 		global $wpdb;
 
+		RE_Log::delete_all();
 		$this->capturedRedirect();
 		$action = new MockAction();
 
@@ -74,12 +56,12 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testDisableWhereMatches() {
 		global $wpdb;
 
-		Red_Item::create( array(
-			'source'     => '/from',
-			'target'     => '/to',
-			'group_id'   => $this->group->get_id(),
-			'match'      => 'url',
-			'red_action' => 'url',
+		$item = Red_Item::create( array(
+			'url'         => '/from',
+			'action_data' => '/to',
+			'group_id'    => $this->group->get_id(),
+			'match_type'  => 'url',
+			'action_type' => 'url',
 		) );
 
 		$before = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );

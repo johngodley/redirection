@@ -159,6 +159,7 @@ class Red_Item {
 			return $data;
 		}
 
+		$data['status'] = 'enabled';
 		$data['position'] = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $data['group_id'] ) );
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
@@ -496,7 +497,7 @@ class Red_Item_Sanitize {
 		return $url;
 	}
 
-	protected function sanitize_url( $url, $regex = false ) {
+	public function sanitize_url( $url, $regex = false ) {
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );

@@ -81,11 +81,12 @@ class Red_Apache_File extends Red_FileIO {
 			if ( count( $items ) > 0 ) {
 				foreach ( $items as $item ) {
 					$item['group_id'] = $group;
-					$item['red_action'] = 'url';
-					$item['match'] = 'url';
+					$item['action_type'] = 'url';
+					$item['match_type'] = 'url';
 
-					if ( $item['code'] === 0 )
-						$item['red_action'] = 'pass';
+					if ( $item['code'] === 0 ) {
+						$item['action_type'] = 'pass';
+					}
 
 					Red_Item::create( $item );
 				}

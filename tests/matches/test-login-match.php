@@ -6,14 +6,14 @@ class LoginMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Login_Match();
 		$saved = array(
-			'url_loggedin' => '/some/url',
-			'url_loggedout' => '/some/url',
+			'logged_in' => '/some/url',
+			'logged_out' => '/some/url',
 		);
 		$source = array(
-			'url_loggedin' => "/some/url\nsomethingelse1",
-			'url_loggedout' => "/some/url\nsomethingelse2",
+			'action_data_logged_in' => "/some/url\nsomethingelse1",
+			'action_data_logged_out' => "/some/url\nsomethingelse2",
 		);
 
-		$this->assertEquals( $match->save( $source ), $saved );
+		$this->assertEquals( $saved, $match->save( $source ) );
 	}
 }
