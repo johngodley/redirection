@@ -35,9 +35,9 @@ class Redirection_Admin {
 
 		add_action( 'wp_ajax_red_get_logs', array( $this, 'ajax_get_logs' ) );
 		add_action( 'wp_ajax_red_log_action', array( $this, 'ajax_log_action' ) );
+		add_action( 'wp_ajax_red_delete_all', array( $this, 'ajax_delete_all' ) );
 
 		add_action( 'wp_ajax_red_delete_plugin', array( $this, 'ajax_delete_plugin' ) );
-		add_action( 'wp_ajax_red_delete_all', array( $this, 'ajax_delete_all' ) );
 
 		add_action( 'wp_ajax_red_get_module', array( $this, 'ajax_get_module' ) );
 		add_action( 'wp_ajax_red_set_module', array( $this, 'ajax_set_module' ) );
@@ -447,13 +447,13 @@ class Redirection_Admin {
 		if ( $redirectId === 0 ) {
 			$redirect = Red_Item::create( $params );
 
-			if ( !is_wp_error( $redirect ) ) {
-				return $this->output_ajax_response( Red_Item::get_filtered( $params ) );
+			if ( ! is_wp_error( $redirect ) ) {
+				$result = Red_Item::get_filtered( $params );
 			}
 		} else {
 			$redirect = Red_Item::get_by_id( $redirectId );
 
-			if ( $redirect && $redirect->update( $params ) ) {
+			if ( $redirect && ! is_wp_error( $redirect->update( $params ) ) ) {
 				$result = array( 'item' => $redirect->to_json() );
 			}
 		}

@@ -371,7 +371,7 @@ class Red_Item {
 		$rows = $wpdb->get_results( $sql );
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
 		$items = array();
-error_log($sql);
+
 		foreach ( $rows as $row ) {
 			$group = new Red_Item( $row );
 			$items[] = $group->to_json();
