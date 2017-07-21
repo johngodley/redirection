@@ -8,7 +8,7 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 	}
 
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init();
+		self::$redirection = Redirection_Admin::init()->api;
 	}
 
 	private function setNonce() {

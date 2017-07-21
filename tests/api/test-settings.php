@@ -4,23 +4,12 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 	public static $redirection;
 
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init();
+		self::$redirection = Redirection_Admin::init()->api;
 	}
 
 	private function setNonce() {
 		$this->_setRole( 'administrator' );
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-	}
-
-	public function testNonce() {
-		$result = json_decode( self::$redirection->ajax_load_settings() );
-		$this->assertTrue( isset( $result->error ) );
-	}
-
-	public function testPermissions() {
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-		$result = json_decode( self::$redirection->ajax_load_settings() );
-		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testLoadSettings() {

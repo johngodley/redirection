@@ -22,7 +22,7 @@ class RedirectionApiRedirectTest extends WP_Ajax_UnitTestCase {
 	}
 
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init();
+		self::$redirection = Redirection_Admin::init()->api;
 	}
 
 	private function createAB( $total = 2, $group = false, $clear = true ) {
@@ -57,17 +57,6 @@ class RedirectionApiRedirectTest extends WP_Ajax_UnitTestCase {
 	private function setNonce() {
 		$this->_setRole( 'administrator' );
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-	}
-
-	public function testNonce() {
-		$result = $this->get_redirect();
-		$this->assertTrue( isset( $result->error ) );
-	}
-
-	public function testPermissions() {
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-		$result = $this->get_redirect();
-		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testListNoParams() {
