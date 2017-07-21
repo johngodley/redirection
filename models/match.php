@@ -3,7 +3,7 @@
 abstract class Red_Match {
 	public $url;
 
-	function __construct( $values = '' ) {
+	public function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->url = $values;
 
@@ -19,14 +19,7 @@ abstract class Red_Match {
 
 	abstract public function save( array $details, $no_target_url = false );
 	abstract public function name();
-
-	function wants_it() {
-		return true;
-	}
-
-	function get_target( $url, $matched_url, $regex ) {
-		return false;
-	}
+	abstract public function get_target( $url, $matched_url, $regex );
 
 	public function sanitize_url( $url ) {
 		// No new lines

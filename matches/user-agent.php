@@ -29,17 +29,14 @@ class Agent_Match extends Red_Match {
 		$this->url = array( $url, '' );
 	}
 
-	function wants_it() {
-		// Match referrer
-		return true;
-	}
-
 	function get_target( $url, $matched_url, $regex ) {
 		// Check if referrer matches
-		if ( preg_match( '@'.str_replace( '@', '\\@', $this->user_agent ).'@i', $_SERVER['HTTP_USER_AGENT'], $matches ) > 0 )
+		if ( preg_match( '@'.str_replace( '@', '\\@', $this->user_agent ).'@i', $_SERVER['HTTP_USER_AGENT'], $matches ) > 0 ) {
 			return preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $this->url_from, $url );
-		elseif ( $this->url_notfrom !== '' )
+		} elseif ( $this->url_notfrom !== '' ) {
 			return $this->url_notfrom;
+		}
+
 		return false;
 	}
 }

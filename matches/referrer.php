@@ -30,11 +30,6 @@ class Referrer_Match extends Red_Match {
 		$this->url = array( $url, '' );
 	}
 
-	function wants_it() {
-		// Match referrer
-		return true;
-	}
-
 	function get_target( $url, $matched_url, $regex ) {
 		$target = false;
 
@@ -45,8 +40,7 @@ class Referrer_Match extends Red_Match {
 			if ( $regex ) {
 				$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
 			}
-		}
-		elseif ( $this->url_notfrom !== '' ) {
+		} elseif ( $this->url_notfrom !== '' ) {
 			$target = $this->url_notfrom;
 		}
 		return $target;

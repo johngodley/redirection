@@ -23,23 +23,16 @@ class Login_Match extends Red_Match {
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
-		if ( is_user_logged_in() === false )
+		if ( is_user_logged_in() === false ) {
 			$target = $this->url_loggedout;
-		else
+		} else {
 			$target = $this->url_loggedin;
+		}
 
-		if ( $regex )
+		if ( $regex ) {
 			$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
+		}
+
 		return $target;
-	}
-
-	function wants_it() {
-		if ( is_user_logged_in() && strlen( $this->url_loggedin ) > 0 )
-			return true;
-
-		if ( ! is_user_logged_in() && strlen( $this->url_loggedout ) > 0 )
-			return true;
-
-		return false;
 	}
 }
