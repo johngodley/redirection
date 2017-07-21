@@ -17,7 +17,7 @@ const STATUS_LOG_ITEM = { saving: LOG_ITEM_SAVING, saved: LOG_ITEM_SAVED, failed
 const STATUS_LOG = { saving: LOG_LOADING, saved: LOG_LOADED, failed: LOG_FAILED, order: 'date' };
 
 export const deleteAll = () => ( dispatch, getState ) => processRequest( 'red_delete_all', dispatch, STATUS_LOG, { logType: getState().log.logType }, getState().log.table );
-export const performTableAction = ( action, ids ) => tableAction( 'log', 'red_log_action', action, ids, STATUS_LOG_ITEM );
+export const performTableAction = ( action, ids, extra ) => tableAction( 'log', 'red_log_action', action, ids, STATUS_LOG_ITEM, extra );
 export const getLogs = args => ( dispatch, getState ) => {
 	const { log } = getState();
 
@@ -26,7 +26,7 @@ export const getLogs = args => ( dispatch, getState ) => {
 export const loadLogs = logType => getLogs( { logType } );
 export const setOrderBy = ( orderBy, direction ) => getLogs( { orderBy, direction } );
 export const setPage = page => getLogs( { page } );
-export const setSearch = filter => getLogs( { filter, filterBy: '', page: 0 } );
-export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter } );
+export const setSearch = filter => getLogs( { filter, filterBy: '', page: 0, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderBy: '' } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );

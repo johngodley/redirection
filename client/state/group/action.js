@@ -21,7 +21,7 @@ export const performTableAction = ( action, ids ) => tableAction( 'group', 'red_
 export const getGroup = args => ( dispatch, getState ) => processRequest( 'red_get_group', dispatch, STATUS_GROUP, args, getState().group.table );
 export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
 export const setPage = page => getGroup( { page } );
-export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0 } );
-export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter } );
+export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderBy: '' } );
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );

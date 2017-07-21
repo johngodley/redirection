@@ -116,7 +116,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setPage( page ) );
 		},
 		onTableAction: action => {
-			dispatch( performTableAction( action ) );
+			dispatch( performTableAction( action, null, { logType: '404' } ) );
 		},
 		onSetAllSelected: onoff => {
 			dispatch( setAllSelected( onoff ) );

@@ -117,7 +117,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setSelected( items ) );
 		},
 		onDelete: item => {
-			dispatch( performTableAction( 'delete', item ) );
+			dispatch( performTableAction( 'delete', item, { logType: '404' } ) );
 		},
 	};
 }

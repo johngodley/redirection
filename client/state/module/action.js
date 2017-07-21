@@ -26,7 +26,13 @@ export const getModule = ( moduleId, moduleType ) => {
 	};
 };
 
-export const downloadFile = url => document.location.href = url;
+export const downloadFile = url => {
+	document.location.href = url;
+
+	return {
+		type: 'NOTHING',
+	};
+};
 
 export const setModule = ( module, moduleData ) => {
 	return ( dispatch, getState ) => {

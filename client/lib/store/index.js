@@ -6,7 +6,7 @@ import getApi from 'lib/api';
 import { mergeWithTable, removeDefaults } from 'lib/table';
 import { translate as __ } from 'lib/locale';
 
-export const tableAction = ( storeName, action, bulk, ids, status ) => ( dispatch, getState ) => {
+export const tableAction = ( storeName, action, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
 	const { table, total } = getState()[ storeName ];
 	const params = {
 		items: ids ? [ ids ] : table.selected,
@@ -22,7 +22,7 @@ export const tableAction = ( storeName, action, bulk, ids, status ) => ( dispatc
 	}
 
 	const tableData = mergeWithTable( table, params );
-	const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk } }, status.order );
+	const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk }, ... extra }, status.order );
 
 	getApi( action, data )
 		.then( json => {

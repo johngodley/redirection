@@ -109,7 +109,7 @@ class Groups extends React.Component {
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
-					<TableFilter selected="0" options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
+					<TableFilter selected={ table.filter } options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
 				</TableNav>
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />

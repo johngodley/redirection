@@ -83,7 +83,7 @@ class LogModule extends React.Component {
 
 	handleDownload() {
 		this.setState( { showing: false } );
-		this.props.onDownloadFile( getUrl( this.props.item.name, this.state.modType ) );
+		this.props.onDownloadFile( getUrl( this.props.item.module_id, this.state.modType ) );
 	}
 
 	handleClick( moduleId, modType ) {
