@@ -39,7 +39,7 @@ class Apache_Module extends Red_Module {
 			return;
 		}
 
-		$items = Red_Item::get_by_module( $this->get_id() );
+		$items = Red_Item::get_all_for_module( $this->get_id() );
 
 		// Produce the .htaccess file
 		$htaccess = new Red_Htaccess();

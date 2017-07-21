@@ -65,14 +65,17 @@ class Red_Item {
 	static function get_all_for_module( $module ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.tracking FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE {$wpdb->prefix}redirection_items.status='enabled' ORDER BY {$wpdb->prefix}redirection_groups.position,{$wpdb->prefix}redirection_items.position", $module );
+		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items
+			INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id
+			AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d
+			WHERE {$wpdb->prefix}redirection_items.status='enabled'
+			ORDER BY {$wpdb->prefix}redirection_groups.position,{$wpdb->prefix}redirection_items.position", $module );
 
 		$rows  = $wpdb->get_results( $sql );
 		$items = array();
-		if ( count( $rows ) > 0 ) {
-			foreach ( $rows as $row ) {
-				$items[] = new Red_Item( $row );
-			}
+
+		foreach ( (array) $rows as $row ) {
+			$items[] = new Red_Item( $row );
 		}
 
 		return $items;
@@ -109,22 +112,6 @@ class Red_Item {
 
 	static function reduce_sorted_items( $item ) {
 		return $item['item'];
-	}
-
-	static function get_by_module( $module ) {
-		global $wpdb;
-
-		$sql = "SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id";
-		$sql .= $wpdb->prepare( " WHERE {$wpdb->prefix}redirection_groups.module_id=%d", $module );
-
-		$rows = $wpdb->get_results( $sql );
-		$items = array();
-
-		foreach ( (array) $rows as $row ) {
-			$items[] = new Red_Item( $row );
-		}
-
-		return $items;
 	}
 
 	static function get_by_id( $id ) {
@@ -172,7 +159,7 @@ class Red_Item {
 		return new WP_Error( 'redirect', __( 'Unable to add new redirect' ) );
 	}
 
-	function update( $details ) {
+	public function update( $details ) {
 		global $wpdb;
 
 		$sanitizer = new Red_Item_Sanitize();
@@ -199,16 +186,6 @@ class Red_Item {
 		}
 
 		return true;
-	}
-
-	static function save_order( $items, $start ) {
-		global $wpdb;
-
-		foreach ( $items as $pos => $id ) {
-			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'position' => $pos + $start ), array( 'id' => $id ) );
-		}
-
-		Red_Module::flush( $this->group_id );
 	}
 
 	function matches( $url ) {
@@ -258,12 +235,6 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'last_count' => 0, 'last_access' => $this->last_access ), array( 'id' => $this->id ) );
 
 		RE_Log::delete_for_id( $this->id );
-	}
-
-	function move_to( $group ) {
-		global $wpdb;
-
-		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'group_id' => $group ), array( 'id' => $this->id ) );
 	}
 
 	public function enable() {
