@@ -14,10 +14,6 @@ class Nginx_Module extends Red_Module {
 		return 'Nginx';
 	}
 
-	public function can_edit_config() {
-		return false;
-	}
-
 	protected function load( $data ) {
 		$mine = array( 'location', 'canonical' );
 
@@ -32,12 +28,5 @@ class Nginx_Module extends Red_Module {
 
 	public function update( array $data ) {
 		return false;
-	}
-
-	public function render_config() {
-	}
-
-	public function get_config() {
-		return array();
 	}
 }
