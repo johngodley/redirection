@@ -2,8 +2,6 @@
 
 class Red_Item {
 	private $id          = null;
-	private $created;
-	private $referrer;
 	private $url         = null;
 	private $regex       = false;
 	private $action_data = null;
@@ -13,7 +11,6 @@ class Red_Item {
 	private $title;
 	private $last_access = null;
 	private $last_count  = 0;
-	private $tracking    = true;
 	private $status;
 	private $position;
 	private $group_id;
@@ -27,10 +24,6 @@ class Red_Item {
 			} else {
 				$this->last_access = mysql2date( 'U', $this->last_access );
 			}
-		} else {
-			$this->url   = $values;
-			$this->type  = $type;
-			$this->match = $match;
 		}
 	}
 
@@ -58,8 +51,9 @@ class Red_Item {
 			$this->action = $action;
 			$this->match->action = $this->action;
 		}
-		else
+		else {
 			$this->action = Red_Action::create( 'nothing', 0 );
+		}
 	}
 
 	static function get_all_for_module( $module ) {
@@ -81,10 +75,14 @@ class Red_Item {
 		return $items;
 	}
 
-	static function get_for_url( $url, $type ) {
+	static function get_for_url( $url ) {
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.position AS group_pos FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1 OR {$wpdb->prefix}redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
+		$sql = $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.position AS group_pos
+			FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON
+			{$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled'
+			AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1
+			OR {$wpdb->prefix}redirection_items.url=%s)", WordPress_Module::MODULE_ID, $url );
 
 		$rows = $wpdb->get_results( $sql );
 		$items = array();
@@ -188,7 +186,7 @@ class Red_Item {
 		return true;
 	}
 
-	function matches( $url ) {
+	public function matches( $url ) {
 		$this->url = str_replace( ' ', '%20', $this->url );
 		$matches   = false;
 
@@ -207,18 +205,17 @@ class Red_Item {
 		return false;
 	}
 
-	function visit( $url, $target ) {
-		if ( $this->tracking && $this->id ) {
-			global $wpdb;
+	public function visit( $url, $target ) {
+		global $wpdb;
 
-			// Update the counters
-			$count = $this->last_count + 1;
-			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=%d, last_access=NOW() WHERE id=%d", $count, $this->id ) );
+		$options = red_get_options();
 
-			$options = red_get_options();
-			if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] >= 0 ) {
-				$log = RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
-			}
+		// Update the counters
+		$this->last_count++;
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
+
+		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] > 0 ) {
+			$log = RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
 		}
 	}
 
@@ -226,15 +223,13 @@ class Red_Item {
 		return $this->status === 'enabled';
 	}
 
-	function reset() {
+	public function reset() {
 		global $wpdb;
 
 		$this->last_count  = 0;
 		$this->last_access = '0000-00-00 00:00:00';
 
 		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'last_count' => 0, 'last_access' => $this->last_access ), array( 'id' => $this->id ) );
-
-		RE_Log::delete_for_id( $this->id );
 	}
 
 	public function enable() {
