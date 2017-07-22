@@ -136,12 +136,10 @@ class Redirection_Admin {
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries (100 max)', 'redirection' ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
 		}
 
-		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
-
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection-ui', 'http://localhost:3312/redirection-ui.js', array( 'redirection' ), $version );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection-ui.js', array(), $version );
 		} else {
-			wp_enqueue_script( 'redirection-ui', plugin_dir_url( REDIRECTION_FILE ).'redirection-ui.js', array( 'redirection' ), $version );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection-ui.js', array(), $version );
 		}
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
