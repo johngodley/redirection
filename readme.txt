@@ -31,37 +31,10 @@ Existing features include:
 * Apache .htaccess is not required - works entirely inside WordPress
 * Redirect index.php, index.html, and index.htm access
 * Redirection statistics telling you how many times a redirection has occurred, when it last happened, who tried to do it, and where they found your URL
-* Fully localized
-
-Redirection is available in:
-
-* English
-* French by Oncle Tom
-* Hebrew by Rami
-* Spanish by Juan
-* Simplified Chinese by Sha Miao
-* Catalan by Robert Bu
-* Japanese by Naoko McCracken
-* Hindi by Ashish
-* Russian by Grib
-* Bahasa Indonesia by Septian Fujianto
-* German by Fabian Schulz
-* Italian by Raffaello Tesi
-* Ukrainian by WordPress plugins Ukraine
-* Polish by Kuba Majerczyk
-* Arabic by Jerry John
-* Brazilian Portuguese by Pedro Padron
-* Dutch by Marlon Navas, Pieter Carette, and Bart Kummel
-* Hungarian by daSSad and Szépe Viktor
-* Turkish by Fatih Cevik
-* Romanian by InboxTranslations
-* Greek by Stefanos Kofopoulos
-* Belarusian by Alexander Ovsov
-* Czech by Martin Jurica
-* Danish by Rasmus Himmelstrup
-* Persian by Danial Hatami
+* Fully localized & available in many languages
 
 Please submit bugs and patches to https://github.com/johngodley/redirection
+Please submit translations to https://translate.wordpress.org/projects/wp-plugins/redirection
 
 == Installation ==
 
@@ -99,6 +72,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 2.6.6 =
 * Use React on redirects page
+* Use translate.wordpress.org for language files
 
 = 2.6.5 =
 * Use React on groups page

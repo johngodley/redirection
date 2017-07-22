@@ -1,14 +1,14 @@
-# Translation of Plugins - Redirection - Stable (latest release) in Catalan
+# Translation of Plugins - Redirection - Stable (latest release) in German
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-07-06 21:35:14+0000\n"
+"PO-Revision-Date: 2017-01-29 15:55:57+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/2.4.0-alpha\n"
-"Language: ca\n"
+"Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:141
@@ -255,7 +255,7 @@ msgstr ""
 
 #: view/item-edit.php:35
 msgid "Advanced Settings"
-msgstr "Ajustos avançats"
+msgstr "Erweiterte Einstellungen"
 
 #. Author URI of the plugin/theme
 msgid "http://urbangiraffe.com"
@@ -267,7 +267,7 @@ msgstr "John Godley"
 
 #. Description of the plugin/theme
 msgid "Manage all your 301 redirects and monitor 404 errors"
-msgstr ""
+msgstr "Verwalte alle 301-Umleitungen und 404-Fehler."
 
 #. Plugin URI of the plugin/theme
 msgid "http://urbangiraffe.com/plugins/redirection/"
@@ -279,11 +279,11 @@ msgstr ""
 
 #: view/support.php:3
 msgid "Redirection Support"
-msgstr "Suport Tècnic de Redirecció"
+msgstr "Unleitung Support"
 
 #: view/submenu.php:47
 msgid "Support"
-msgstr "Suport"
+msgstr "Support"
 
 #: view/submenu.php:34
 msgid "404s"
@@ -291,19 +291,19 @@ msgstr "404s"
 
 #: view/submenu.php:32
 msgid "404s from %s"
-msgstr "404s des de %s"
+msgstr "404s von %s"
 
 #: view/submenu.php:23
 msgid "Log"
-msgstr "Registres"
+msgstr "Log"
 
 #: redirection-strings.php:69
 msgid "Delete Redirection"
-msgstr "Eliminar Redirecció"
+msgstr "Umleitung löschen"
 
 #: redirection-strings.php:72
 msgid "Upload"
-msgstr "Pujar"
+msgstr "Hochladen"
 
 #: redirection-strings.php:73
 msgid "Here you can import redirections from an existing {{code}}.htaccess{{/code}} file, or a CSV file."
@@ -311,11 +311,11 @@ msgstr ""
 
 #: redirection-strings.php:74
 msgid "Import"
-msgstr "Importar"
+msgstr "Importieren"
 
 #: redirection-strings.php:76
 msgid "Update"
-msgstr "Actualitzar"
+msgstr "Aktualisieren"
 
 #: redirection-strings.php:77
 msgid "This will be used to auto-generate a URL if no URL is given. You can use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to have a unique ID inserted (either decimal or hex)"
@@ -323,39 +323,39 @@ msgstr ""
 
 #: redirection-strings.php:78
 msgid "Auto-generate URL"
-msgstr "Autogenerar URL"
+msgstr "Selbsterstellte URL"
 
 #: redirection-strings.php:79
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
-msgstr ""
+msgstr "Einzigartiges Token, das RSS-Klienten Zugang zum Umleitung-Log-Feed gewährt. (freilassen, um automatisch zu generieren)"
 
 #: redirection-strings.php:80
 msgid "RSS Token"
-msgstr "Token de RSS"
+msgstr "RSS Token"
 
 #: redirection-strings.php:90
 msgid "Don't monitor"
-msgstr "No fer el seguiment"
+msgstr "Nicht kontrollieren"
 
 #: redirection-strings.php:81
 msgid "Monitor changes to posts"
-msgstr ""
+msgstr "Änderungen an Beiträgen überwachen"
 
 #: redirection-strings.php:83
 msgid "404 Logs"
-msgstr "Registres 404"
+msgstr "404-Logs"
 
 #: redirection-strings.php:82 redirection-strings.php:84
 msgid "(time to keep logs for)"
-msgstr "(temps que es mantindran els registres)"
+msgstr "(Dauer, für die die Logs behalten werden)"
 
 #: redirection-strings.php:85
 msgid "Redirect Logs"
-msgstr "Registres de redireccions"
+msgstr "Umleitungs-Logs"
 
 #: redirection-strings.php:86
 msgid "I'm a nice person and I have helped support the author of this plugin"
-msgstr "Soc una bona persona i he ajudat a l'autor d'aquesta extensió"
+msgstr "Ich bin eine nette Person und ich helfe dem Autor des Plugins"
 
 #: redirection-strings.php:87
 msgid "Plugin support"
@@ -363,31 +363,31 @@ msgstr ""
 
 #: view/options.php:4 view/submenu.php:42
 msgid "Options"
-msgstr "Opcions"
+msgstr "Optionen"
 
 #: redirection-strings.php:92
 msgid "Two months"
-msgstr "Dos mesos"
+msgstr "zwei Monate"
 
 #: redirection-strings.php:93
 msgid "A month"
-msgstr "Un mes"
+msgstr "ein Monat"
 
 #: redirection-strings.php:94
 msgid "A week"
-msgstr "Uns setmana"
+msgstr "eine Woche"
 
 #: redirection-strings.php:95
 msgid "A day"
-msgstr "Un dia"
+msgstr "einen Tag"
 
 #: redirection-strings.php:96
 msgid "No logs"
-msgstr "Sense registres"
+msgstr "Keine Logs"
 
 #: view/module-list.php:3 view/submenu.php:16
 msgid "Modules"
-msgstr "Mòduls"
+msgstr "Module"
 
 #: redirection-strings.php:28
 msgid "Export to CSV"
@@ -395,115 +395,115 @@ msgstr ""
 
 #: redirection-strings.php:27
 msgid "Delete All"
-msgstr ""
+msgstr "Alle löschen"
 
 #: redirection-admin.php:322
 msgid "Redirection Log"
-msgstr "Registre de redireccions"
+msgstr "Umleitungs Log"
 
 #: view/item-edit.php:14
 msgid "optional"
-msgstr "opcional"
+msgstr "optional"
 
 #: view/item-edit.php:11
 msgid "Description"
-msgstr "Descripció"
+msgstr "Beschreibung"
 
 #: redirection-strings.php:5
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
-msgstr ""
+msgstr "Benutze Gruppen, um deine Umleitungen zu ordnen. Gruppen werden einem Modul zugeordnet, dies beeinflusst, wie die Umleitungen in der jeweiligen Gruppe funktionieren. Falls du unsicher bist, bleib beim WordPress-Modul."
 
 #: redirection-strings.php:6
 msgid "Add Group"
-msgstr "Afegir grup"
+msgstr "Gruppe hinzufügen"
 
 #: redirection-strings.php:132 view/item-list.php:10
 msgid "Search"
-msgstr "Cercar"
+msgstr "Suchen"
 
 #: view/group-list.php:3 view/submenu.php:11
 msgid "Groups"
-msgstr "Grups"
+msgstr "Gruppen"
 
 #: redirection-strings.php:15 redirection-strings.php:45 view/item-edit.php:32
 msgid "Save"
-msgstr "Desar"
+msgstr "Speichern"
 
 #: view/add.php:46
 msgid "Add Redirection"
-msgstr "Afegir Redirecció"
+msgstr "Umleitung hinzufügen"
 
 #: view/add.php:36 view/item-edit.php:18
 msgid "Group"
-msgstr "Grup"
+msgstr "Gruppe"
 
 #: view/add.php:28
 msgid "Regular expression"
-msgstr "Expresió regular"
+msgstr "Reguläre Äußerung"
 
 #: view/add.php:23
 msgid "Action"
-msgstr "Acció"
+msgstr "Aktion"
 
 #: view/add.php:17
 msgid "Match"
-msgstr "Coincidència"
+msgstr "Passend"
 
 #: view/add.php:7
 msgid "Your redirection has been added."
-msgstr "S'ha afegit la vostra redirecció"
+msgstr "Deine Umleitung wurde hinzugefügt."
 
 #: view/add.php:4
 msgid "Add new redirection"
-msgstr "Afegir una nova redirecció"
+msgstr "Eine neue Umleitung hinzufügen"
 
 #: redirection-strings.php:14 redirection-strings.php:44
 #: redirection-strings.php:54 view/item-edit.php:33
 msgid "Cancel"
-msgstr "Cancel·lar"
+msgstr "Abbrechen"
 
 #: redirection-strings.php:55
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: redirection-admin.php:407
 msgid "Sorry, but your redirection was not created"
-msgstr "Ho sento, però la vostra redirecció no ha estat creada"
+msgstr "Endschuldigung, aber deine Umleitung wurde nicht erstellt"
 
 #: redirection-admin.php:344 redirection-admin.php:365
 #: redirection-admin.php:387
 msgid "Unable to perform action"
-msgstr "No s'ha pogut realitzar l'acció"
+msgstr "Die Operation kann nicht ausgeführt werden."
 
 #: redirection-admin.php:311
 msgid "No items were imported"
-msgstr "No s'han importat elements"
+msgstr "Keine Elemente wurden importiert"
 
 #: redirection-admin.php:309
 msgid "%d redirection was successfully imported"
 msgid_plural "%d redirections were successfully imported"
-msgstr[0] "%d redirecció importada correctament"
-msgstr[1] "%d redireccions importades correctament"
+msgstr[0] "%d Umleitung wurde erfolgreich importiert."
+msgstr[1] "%d Umleitungen wurden erfolgreich importiert."
 
 #: redirection-strings.php:89
 msgid "Your options were updated"
-msgstr "Les vostres opcions han estat actualitzades"
+msgstr "Deine Optionen wurden aktualisiert"
 
 #. Plugin Name of the plugin/theme
 msgid "Redirection"
-msgstr "Redirecció"
+msgstr "Redirection"
 
 #: redirection-admin.php:165
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Einstellungen"
 
 #: redirection-strings.php:62
 msgid "WordPress-powered redirects. This requires no further configuration, and you can track hits."
-msgstr ""
+msgstr "Durch WordPress betriebene Umleitungen: Dies benötigt keine weitere Konfiguration, und Treffer werden aufgezeichnet."
 
 #: redirection-strings.php:60
 msgid "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module."
-msgstr ""
+msgstr "Für die Benutzung mit Nginx-Servern: Benötigt manuelle Konfiguration. Die Umleitung erfolgt, ohne WordPress zu laden, und ist viel schneller, die Treffer können jedoch nicht aufgezeichnet werden. Dies ist ein experimentelles Modul."
 
 #: redirection-strings.php:61
 msgid "Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits."
@@ -511,15 +511,15 @@ msgstr ""
 
 #: redirection-strings.php:46
 msgid "Automatically remove or add www to your site."
-msgstr ""
+msgstr "Bei deiner Seite das www automatisch entfernen oder hinzufügen."
 
 #: redirection-strings.php:49
 msgid "Default server"
-msgstr ""
+msgstr "Standard-Server"
 
 #: redirection-strings.php:50
 msgid "Canonical URL"
-msgstr "URL canònica"
+msgstr "Canonical URL"
 
 #: redirection-strings.php:51
 msgid "WordPress is installed in: {{code}}%s{{/code}}"
@@ -531,55 +531,55 @@ msgstr ""
 
 #: redirection-strings.php:53
 msgid ".htaccess Location"
-msgstr ""
+msgstr ".htaccess-Speicherort"
 
 #: models/redirect.php:382
 msgid "Do nothing"
-msgstr "No fer res"
+msgstr "Mache nichts"
 
 #: models/redirect.php:381
 msgid "Error (404)"
-msgstr "Error (404)"
+msgstr "Fehler (404)"
 
 #: models/redirect.php:380
 msgid "Pass-through"
-msgstr "Pasar directe"
+msgstr "Durchreichen"
 
 #: models/redirect.php:379
 msgid "Redirect to random post"
-msgstr "Redirigir a entrada aleatoria"
+msgstr "Umleitung zu zufälligen Beitrag"
 
 #: models/redirect.php:378
 msgid "Redirect to URL"
-msgstr "Redirigir a URL"
+msgstr "Umleitung zur URL"
 
 #: models/redirect.php:216
 msgid "Unable to add new redirect - delete Redirection from the options page and re-install"
-msgstr ""
+msgstr "Neue Umeitung kann nicht hinzugefügt werden. Entferne dieses Plugin und installiere es neu."
 
 #: models/redirect.php:178
 msgid "Invalid source URL when creating redirect for given match type"
-msgstr ""
+msgstr "Ungültige Quell-URL für die Erstellung einer Umleitung des gegebenen Übereinstimmungstyps."
 
 #: models/redirect.php:174
 msgid "Invalid group when creating redirect"
-msgstr ""
+msgstr "Ungültige Gruppe für die Erstellung der Umleitung"
 
 #: models/redirect.php:166
 msgid "You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>)."
-msgstr ""
+msgstr "Du kannst nur von einer relativen URL (<code>%s</code>) auf dieser Domain (<code>%s</code>) umleiten."
 
 #: models/redirect.php:160
 msgid "Source and target URL must be different"
-msgstr ""
+msgstr "Quell- und Ziel-URL müssen sich unterscheiden"
 
 #: redirection-strings.php:59
 msgid "Configure"
-msgstr ""
+msgstr "Einstellen"
 
 #: redirection-strings.php:34 redirection-strings.php:41
 msgid "Show only this IP"
-msgstr "Mostra només aquesta IP"
+msgstr "Nur diese IP-Adresse anzeigen"
 
 #: redirection-strings.php:30 redirection-strings.php:37
 msgid "IP"
@@ -588,78 +588,78 @@ msgstr "IP"
 #: redirection-strings.php:32 redirection-strings.php:39 view/add.php:13
 #: view/item-edit.php:4
 msgid "Source URL"
-msgstr "URL origen"
+msgstr "URL-Quelle"
 
 #: redirection-strings.php:33 redirection-strings.php:40
 msgid "Date"
-msgstr "Data"
+msgstr "Zeitpunkt"
 
 #: redirection-strings.php:42
 msgid "Add Redirect"
-msgstr "Afegeix redirecció"
+msgstr ""
 
 #: redirection-strings.php:7
 msgid "All modules"
-msgstr "Tots els mòduls"
+msgstr "Alle Module"
 
 #: redirection-strings.php:20
 msgid "View Redirects"
-msgstr ""
+msgstr "Weiterleitungen anschauen"
 
 #: redirection-strings.php:11 redirection-strings.php:16
 #: redirection-strings.php:58
 msgid "Module"
-msgstr "Mòdul"
+msgstr "Module"
 
 #: redirection-strings.php:12 redirection-strings.php:57 view/submenu.php:6
 msgid "Redirects"
-msgstr "Redireccions"
+msgstr "Umleitungen"
 
 #: redirection-strings.php:4 redirection-strings.php:13
 #: redirection-strings.php:17
 msgid "Name"
-msgstr "Nom"
+msgstr "Name"
 
 #: models/pager.php:164 redirection-strings.php:118
 msgid "Filter"
-msgstr "Filtre"
+msgstr "Filter"
 
 #: models/pager.php:151
 msgid "No group filter"
-msgstr "Sense filtre de grup"
+msgstr "Kein Gruppenfilter"
 
 #: models/pager.php:104
 msgid "Reset Hits"
-msgstr "Reiniciar Hits"
+msgstr "Treffer zurücksetzen"
 
 #: models/pager.php:61 models/pager.php:102 redirection-strings.php:9
 #: redirection-strings.php:18
 msgid "Enable"
-msgstr ""
+msgstr "Aktivieren"
 
 #: models/pager.php:59 models/pager.php:103 redirection-strings.php:8
 #: redirection-strings.php:19
 msgid "Disable"
-msgstr "Desactiva"
+msgstr "Deaktivieren"
 
 #: models/pager.php:54 models/pager.php:101 redirection-strings.php:10
 #: redirection-strings.php:21 redirection-strings.php:29
 #: redirection-strings.php:35 redirection-strings.php:36
 #: redirection-strings.php:43 redirection-strings.php:68
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Löschen"
 
 #: models/pager.php:53 redirection-strings.php:22
 msgid "Edit"
-msgstr "Edita"
+msgstr "Bearbeiten"
 
 #: models/pager.php:31
 msgid "Last Access"
-msgstr "Últim accés"
+msgstr "Letzter Zugriff"
 
 #: models/pager.php:30
 msgid "Hits"
-msgstr "Hits"
+msgstr "Treffer"
 
 #: models/pager.php:29
 msgid "URL"
@@ -667,23 +667,23 @@ msgstr "URL"
 
 #: models/pager.php:28
 msgid "Type"
-msgstr "Tipus"
+msgstr "Typ"
 
 #: models/database.php:121
 msgid "Modified Posts"
-msgstr "Entrades modificades"
+msgstr "Geänderte Beiträge"
 
 #: models/database.php:120 models/group.php:114 view/item-list.php:3
 msgid "Redirections"
-msgstr "Redireccions"
+msgstr "Umleitungen"
 
 #: matches/user-agent.php:51
 msgid "The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.\n"
-msgstr "El visitant serà redireccionat de l'URL origen si l'agente d'usuario conincideix. Podeu especificar una URL diferent si <em>coincideix</em> com la direcció a on enviar els visitants en cas de coincidència, i <em>no coincideix</em> en cas de que no ho fagi. Si deixceu la URL buida el visitant no serà redireccionat.\n"
+msgstr "Der Besucher wird von der URL-Quelle umgeleitet, falls der User Agent passend ist. Du kannst eine <em>passende</em> Ziel-URL als Adresse spezifizieren, die die Besucher schicken, falls sie passend sind, und <em>nicht passend</em>, wenn sie nicht übereinstimmen. <strong>Alle Anpassungen treten als reguläre Äußerungen auf</strong>.\n"
 
 #: matches/user-agent.php:25
 msgid "User Agent"
-msgstr "Agent d'usuari"
+msgstr "User Agent"
 
 #: matches/user-agent.php:20
 msgid "Nintendo Wii"
@@ -723,60 +723,60 @@ msgstr "FeedBurner"
 
 #: matches/user-agent.php:7
 msgid "URL and user agent"
-msgstr "URL i agent d'usuari"
+msgstr "URL und User-Agent"
 
 #: matches/url.php:12 view/add.php:32
 msgid "Target URL"
-msgstr "URL destí"
+msgstr "Ziel-URL"
 
 #: matches/url.php:5
 msgid "URL only"
-msgstr "Solament URL"
+msgstr "Nur URL"
 
 #: matches/referrer.php:56 matches/referrer.php:58 matches/user-agent.php:68
 #: matches/user-agent.php:70
 msgid "Not matched"
-msgstr "No coincideix"
+msgstr "Nicht passend"
 
 #: matches/referrer.php:46 matches/referrer.php:48 matches/user-agent.php:58
 #: matches/user-agent.php:60
 msgid "Matched"
-msgstr "Coincideix"
+msgstr "passend"
 
 #: matches/referrer.php:40
 msgid "The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected."
-msgstr "El visitant serà redireccionat de la URL origen si el referent coincideix. Podeu especificar una URL destí si <em>coincideix</em> com la direcció on enviar els visitants en cas de coincidència, i <em>no coincideix</em> en cas de que ho fagi. Si deixeu la URL buida el visitant no serà redireccionat."
+msgstr "Der Beuscher wird umgeleitet von der URL-Quelle, falls sich die Vermittler entsprechen. Du kannst eine <em>passende</em> Ziel-URL als Adresse spezifizieren, und <em>nicht passende</em>, wenn sie nicht übereinstimmen. Leerlassen einer URL ."
 
 #: matches/referrer.php:28 matches/referrer.php:38 matches/url.php:20
 #: matches/user-agent.php:38
 msgid "HTTP Code"
-msgstr "Codi HTTP"
+msgstr "HTTP-Code"
 
 #: matches/referrer.php:24 view/item-edit.php:7
 msgid "Regex"
-msgstr "Expresió regular"
+msgstr "Regex"
 
 #: matches/referrer.php:21 redirection-strings.php:31
 #: redirection-strings.php:38
 msgid "Referrer"
-msgstr "Referent"
+msgstr "Vermittler"
 
 #: matches/referrer.php:8
 msgid "URL and referrer"
-msgstr "URL i referent"
+msgstr "URL und Vermittler"
 
 #: matches/login.php:35 matches/login.php:37
 msgid "Logged Out"
-msgstr "Desconnectat"
+msgstr "Ausgeloggt"
 
 #: matches/login.php:23 matches/login.php:25
 msgid "Logged In"
-msgstr "Identificat"
+msgstr "Eingeloggt"
 
 #: matches/login.php:16
 msgid "The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected."
-msgstr "La URL destí serà triada entre les següents URL, depenent si l'usuari es troba validat o no. Si deixeu la URL buida l'usuari no serà redireccionat."
+msgstr "Die Zieladresse wird von eine der folgenden URLs ausgewählt, abhängig davon, ob der User ein- oder ausgeloggt ist. Eine URL leer lassen bedeutet, dass der User nicht umgeleitet ist."
 
 #: matches/login.php:7
 msgid "URL and login status"
-msgstr "Estat de l'URL i connexió"
+msgstr "URL- und Loginstatus"

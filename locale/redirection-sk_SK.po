@@ -1,14 +1,14 @@
-# Translation of Plugins - Redirection - Stable (latest release) in Catalan
+# Translation of Plugins - Redirection - Stable (latest release) in Slovak
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-07-06 21:35:14+0000\n"
+"PO-Revision-Date: 2016-06-15 09:49:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: GlotPress/2.4.0-alpha\n"
-"Language: ca\n"
+"Language: sk\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:141
@@ -104,6 +104,7 @@ msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: redirection-strings.php:119
 msgid "Select All"
@@ -255,7 +256,7 @@ msgstr ""
 
 #: view/item-edit.php:35
 msgid "Advanced Settings"
-msgstr "Ajustos avançats"
+msgstr "Rozšírené nastavenia"
 
 #. Author URI of the plugin/theme
 msgid "http://urbangiraffe.com"
@@ -267,7 +268,7 @@ msgstr "John Godley"
 
 #. Description of the plugin/theme
 msgid "Manage all your 301 redirects and monitor 404 errors"
-msgstr ""
+msgstr "Spravujte všetky vaše 301 presmerovania a monitorujte 404 chyby"
 
 #. Plugin URI of the plugin/theme
 msgid "http://urbangiraffe.com/plugins/redirection/"
@@ -279,31 +280,31 @@ msgstr ""
 
 #: view/support.php:3
 msgid "Redirection Support"
-msgstr "Suport Tècnic de Redirecció"
+msgstr ""
 
 #: view/submenu.php:47
 msgid "Support"
-msgstr "Suport"
+msgstr "Podpora"
 
 #: view/submenu.php:34
 msgid "404s"
-msgstr "404s"
+msgstr "404"
 
 #: view/submenu.php:32
 msgid "404s from %s"
-msgstr "404s des de %s"
+msgstr "404 z %s"
 
 #: view/submenu.php:23
 msgid "Log"
-msgstr "Registres"
+msgstr "Záznam"
 
 #: redirection-strings.php:69
 msgid "Delete Redirection"
-msgstr "Eliminar Redirecció"
+msgstr "Vymazať presmerovanie"
 
 #: redirection-strings.php:72
 msgid "Upload"
-msgstr "Pujar"
+msgstr "Nahrať"
 
 #: redirection-strings.php:73
 msgid "Here you can import redirections from an existing {{code}}.htaccess{{/code}} file, or a CSV file."
@@ -311,11 +312,11 @@ msgstr ""
 
 #: redirection-strings.php:74
 msgid "Import"
-msgstr "Importar"
+msgstr "Import"
 
 #: redirection-strings.php:76
 msgid "Update"
-msgstr "Actualitzar"
+msgstr "Aktualizovať"
 
 #: redirection-strings.php:77
 msgid "This will be used to auto-generate a URL if no URL is given. You can use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to have a unique ID inserted (either decimal or hex)"
@@ -323,7 +324,7 @@ msgstr ""
 
 #: redirection-strings.php:78
 msgid "Auto-generate URL"
-msgstr "Autogenerar URL"
+msgstr "Automatické generovanie URL"
 
 #: redirection-strings.php:79
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
@@ -331,31 +332,31 @@ msgstr ""
 
 #: redirection-strings.php:80
 msgid "RSS Token"
-msgstr "Token de RSS"
+msgstr "RSS Token"
 
 #: redirection-strings.php:90
 msgid "Don't monitor"
-msgstr "No fer el seguiment"
+msgstr "Nesledovať"
 
 #: redirection-strings.php:81
 msgid "Monitor changes to posts"
-msgstr ""
+msgstr "Sledovať zmeny v článkoch"
 
 #: redirection-strings.php:83
 msgid "404 Logs"
-msgstr "Registres 404"
+msgstr "Zaznamenávanie 404"
 
 #: redirection-strings.php:82 redirection-strings.php:84
 msgid "(time to keep logs for)"
-msgstr "(temps que es mantindran els registres)"
+msgstr "(ako dlho uchovávať záznamy)"
 
 #: redirection-strings.php:85
 msgid "Redirect Logs"
-msgstr "Registres de redireccions"
+msgstr "Zaznamenávanie presmerovaní"
 
 #: redirection-strings.php:86
 msgid "I'm a nice person and I have helped support the author of this plugin"
-msgstr "Soc una bona persona i he ajudat a l'autor d'aquesta extensió"
+msgstr "Som dobrý človek a podporil som autora tohto modulu"
 
 #: redirection-strings.php:87
 msgid "Plugin support"
@@ -363,31 +364,31 @@ msgstr ""
 
 #: view/options.php:4 view/submenu.php:42
 msgid "Options"
-msgstr "Opcions"
+msgstr "Možnosti"
 
 #: redirection-strings.php:92
 msgid "Two months"
-msgstr "Dos mesos"
+msgstr "Dva mesiace"
 
 #: redirection-strings.php:93
 msgid "A month"
-msgstr "Un mes"
+msgstr "Mesiac"
 
 #: redirection-strings.php:94
 msgid "A week"
-msgstr "Uns setmana"
+msgstr "Týždeň"
 
 #: redirection-strings.php:95
 msgid "A day"
-msgstr "Un dia"
+msgstr "Deň"
 
 #: redirection-strings.php:96
 msgid "No logs"
-msgstr "Sense registres"
+msgstr "Žiadne zaznamenávanie"
 
 #: view/module-list.php:3 view/submenu.php:16
 msgid "Modules"
-msgstr "Mòduls"
+msgstr "Moduly"
 
 #: redirection-strings.php:28
 msgid "Export to CSV"
@@ -395,115 +396,116 @@ msgstr ""
 
 #: redirection-strings.php:27
 msgid "Delete All"
-msgstr ""
+msgstr "Vymazať všetko"
 
 #: redirection-admin.php:322
 msgid "Redirection Log"
-msgstr "Registre de redireccions"
+msgstr "Záznamy presmerovaní"
 
 #: view/item-edit.php:14
 msgid "optional"
-msgstr "opcional"
+msgstr "voliteľné"
 
 #: view/item-edit.php:11
 msgid "Description"
-msgstr "Descripció"
+msgstr "Popis"
 
 #: redirection-strings.php:5
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
-msgstr ""
+msgstr "Používajte skupiny na organizovanie presmerovaní. Skupiny sú priradené k modulu, ktorý určuje, ako budú presmerovania v tejto skupine fungovať. Ak si nie ste istí, držte sa WordPress modulu."
 
 #: redirection-strings.php:6
 msgid "Add Group"
-msgstr "Afegir grup"
+msgstr "Pridať typ údaju"
 
 #: redirection-strings.php:132 view/item-list.php:10
 msgid "Search"
-msgstr "Cercar"
+msgstr "Hľadať"
 
 #: view/group-list.php:3 view/submenu.php:11
 msgid "Groups"
-msgstr "Grups"
+msgstr "Skupiny"
 
 #: redirection-strings.php:15 redirection-strings.php:45 view/item-edit.php:32
 msgid "Save"
-msgstr "Desar"
+msgstr "Uložiť"
 
 #: view/add.php:46
 msgid "Add Redirection"
-msgstr "Afegir Redirecció"
+msgstr "Pridať presmerovanie"
 
 #: view/add.php:36 view/item-edit.php:18
 msgid "Group"
-msgstr "Grup"
+msgstr "Skupina"
 
 #: view/add.php:28
 msgid "Regular expression"
-msgstr "Expresió regular"
+msgstr "Regulárny výraz"
 
 #: view/add.php:23
 msgid "Action"
-msgstr "Acció"
+msgstr "Akcia"
 
 #: view/add.php:17
 msgid "Match"
-msgstr "Coincidència"
+msgstr "Zhoda"
 
 #: view/add.php:7
 msgid "Your redirection has been added."
-msgstr "S'ha afegit la vostra redirecció"
+msgstr "Vaše presmerovanie bolo pridané."
 
 #: view/add.php:4
 msgid "Add new redirection"
-msgstr "Afegir una nova redirecció"
+msgstr "Pridať nové presmerovanie"
 
 #: redirection-strings.php:14 redirection-strings.php:44
 #: redirection-strings.php:54 view/item-edit.php:33
 msgid "Cancel"
-msgstr "Cancel·lar"
+msgstr "Zrušiť"
 
 #: redirection-strings.php:55
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #: redirection-admin.php:407
 msgid "Sorry, but your redirection was not created"
-msgstr "Ho sento, però la vostra redirecció no ha estat creada"
+msgstr "Prepáčte, presmerovanie nebolo vytvorené"
 
 #: redirection-admin.php:344 redirection-admin.php:365
 #: redirection-admin.php:387
 msgid "Unable to perform action"
-msgstr "No s'ha pogut realitzar l'acció"
+msgstr "Nie je možné vykonať akciu"
 
 #: redirection-admin.php:311
 msgid "No items were imported"
-msgstr "No s'han importat elements"
+msgstr "Žiadne položky neboli importované"
 
 #: redirection-admin.php:309
 msgid "%d redirection was successfully imported"
 msgid_plural "%d redirections were successfully imported"
-msgstr[0] "%d redirecció importada correctament"
-msgstr[1] "%d redireccions importades correctament"
+msgstr[0] "%d presmerovanie bolo úspešne importované"
+msgstr[1] "%d presmerovania boli úspešne importované"
+msgstr[2] "%d presmerovaní bolo úspešne importovaných"
 
 #: redirection-strings.php:89
 msgid "Your options were updated"
-msgstr "Les vostres opcions han estat actualitzades"
+msgstr "Vaše možnosti boli aktualizované"
 
 #. Plugin Name of the plugin/theme
 msgid "Redirection"
-msgstr "Redirecció"
+msgstr "Presmerovanie"
 
 #: redirection-admin.php:165
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Nastavenia"
 
 #: redirection-strings.php:62
 msgid "WordPress-powered redirects. This requires no further configuration, and you can track hits."
-msgstr ""
+msgstr "Presmerovania podporované WordPress-om. Nevyžaduje žiadnu ďalšiu konfiguráciu a viete sledovať aj štatistiky."
 
 #: redirection-strings.php:60
 msgid "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module."
-msgstr ""
+msgstr "Pre použitie s Nginx servermi vyžaduje manuálnu konfiguráciu. Presmerovania nastanú bez načítania WordPress-u. Nesleduje štatistiky. Toto je experimentálny modul."
 
 #: redirection-strings.php:61
 msgid "Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits."
@@ -511,7 +513,7 @@ msgstr ""
 
 #: redirection-strings.php:46
 msgid "Automatically remove or add www to your site."
-msgstr ""
+msgstr "Automaticky pridať alebo odstrániť www k vašej webovej stránke."
 
 #: redirection-strings.php:49
 msgid "Default server"
@@ -519,7 +521,7 @@ msgstr ""
 
 #: redirection-strings.php:50
 msgid "Canonical URL"
-msgstr "URL canònica"
+msgstr ""
 
 #: redirection-strings.php:51
 msgid "WordPress is installed in: {{code}}%s{{/code}}"
@@ -531,55 +533,55 @@ msgstr ""
 
 #: redirection-strings.php:53
 msgid ".htaccess Location"
-msgstr ""
+msgstr ".htaccess umiestnenie"
 
 #: models/redirect.php:382
 msgid "Do nothing"
-msgstr "No fer res"
+msgstr "Nerobiť nič"
 
 #: models/redirect.php:381
 msgid "Error (404)"
-msgstr "Error (404)"
+msgstr "Chyba (404)"
 
 #: models/redirect.php:380
 msgid "Pass-through"
-msgstr "Pasar directe"
+msgstr ""
 
 #: models/redirect.php:379
 msgid "Redirect to random post"
-msgstr "Redirigir a entrada aleatoria"
+msgstr "Presmerovať na náhodný článok"
 
 #: models/redirect.php:378
 msgid "Redirect to URL"
-msgstr "Redirigir a URL"
+msgstr "Presmerovať na URL"
 
 #: models/redirect.php:216
 msgid "Unable to add new redirect - delete Redirection from the options page and re-install"
-msgstr ""
+msgstr "Nemožno pridať nové presmerovanie - zmažte Presmerovanie zo stránky modulov a preinštalujte"
 
 #: models/redirect.php:178
 msgid "Invalid source URL when creating redirect for given match type"
-msgstr ""
+msgstr "Neplatná zdrojová URL adresa pri vytváraní presmerovania pre daný typ zhody"
 
 #: models/redirect.php:174
 msgid "Invalid group when creating redirect"
-msgstr ""
+msgstr "Neplatná skupina pri vytváraní presmerovania"
 
 #: models/redirect.php:166
 msgid "You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>)."
-msgstr ""
+msgstr "Môžete presmerovať len z relatívnych URL adries (<code>%s</code>) na tejto dómene (<code>%s</code>)."
 
 #: models/redirect.php:160
 msgid "Source and target URL must be different"
-msgstr ""
+msgstr "Zdrojová a cieľová URL musia byť odlišné"
 
 #: redirection-strings.php:59
 msgid "Configure"
-msgstr ""
+msgstr "Konfigurácia"
 
 #: redirection-strings.php:34 redirection-strings.php:41
 msgid "Show only this IP"
-msgstr "Mostra només aquesta IP"
+msgstr "Ukázať len túto IP adresu"
 
 #: redirection-strings.php:30 redirection-strings.php:37
 msgid "IP"
@@ -588,78 +590,78 @@ msgstr "IP"
 #: redirection-strings.php:32 redirection-strings.php:39 view/add.php:13
 #: view/item-edit.php:4
 msgid "Source URL"
-msgstr "URL origen"
+msgstr "Zdrojová URL"
 
 #: redirection-strings.php:33 redirection-strings.php:40
 msgid "Date"
-msgstr "Data"
+msgstr "Dátum"
 
 #: redirection-strings.php:42
 msgid "Add Redirect"
-msgstr "Afegeix redirecció"
+msgstr ""
 
 #: redirection-strings.php:7
 msgid "All modules"
-msgstr "Tots els mòduls"
+msgstr "Všetky moduly"
 
 #: redirection-strings.php:20
 msgid "View Redirects"
-msgstr ""
+msgstr "Zobraziť presmerovania"
 
 #: redirection-strings.php:11 redirection-strings.php:16
 #: redirection-strings.php:58
 msgid "Module"
-msgstr "Mòdul"
+msgstr "Modul"
 
 #: redirection-strings.php:12 redirection-strings.php:57 view/submenu.php:6
 msgid "Redirects"
-msgstr "Redireccions"
+msgstr "Presmerovania"
 
 #: redirection-strings.php:4 redirection-strings.php:13
 #: redirection-strings.php:17
 msgid "Name"
-msgstr "Nom"
+msgstr "Názov"
 
 #: models/pager.php:164 redirection-strings.php:118
 msgid "Filter"
-msgstr "Filtre"
+msgstr "Filtrovať"
 
 #: models/pager.php:151
 msgid "No group filter"
-msgstr "Sense filtre de grup"
+msgstr "Všetky skupiny"
 
 #: models/pager.php:104
 msgid "Reset Hits"
-msgstr "Reiniciar Hits"
+msgstr "Resetovať štatistiky"
 
 #: models/pager.php:61 models/pager.php:102 redirection-strings.php:9
 #: redirection-strings.php:18
 msgid "Enable"
-msgstr ""
+msgstr "Povoliť"
 
 #: models/pager.php:59 models/pager.php:103 redirection-strings.php:8
 #: redirection-strings.php:19
 msgid "Disable"
-msgstr "Desactiva"
+msgstr "Zakázať"
 
 #: models/pager.php:54 models/pager.php:101 redirection-strings.php:10
 #: redirection-strings.php:21 redirection-strings.php:29
 #: redirection-strings.php:35 redirection-strings.php:36
 #: redirection-strings.php:43 redirection-strings.php:68
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Vymazať"
 
 #: models/pager.php:53 redirection-strings.php:22
 msgid "Edit"
-msgstr "Edita"
+msgstr "Upraviť"
 
 #: models/pager.php:31
 msgid "Last Access"
-msgstr "Últim accés"
+msgstr "Posledný prístup"
 
 #: models/pager.php:30
 msgid "Hits"
-msgstr "Hits"
+msgstr "Štatistika"
 
 #: models/pager.php:29
 msgid "URL"
@@ -667,23 +669,25 @@ msgstr "URL"
 
 #: models/pager.php:28
 msgid "Type"
-msgstr "Tipus"
+msgstr "Typ"
 
 #: models/database.php:121
 msgid "Modified Posts"
-msgstr "Entrades modificades"
+msgstr "Upravené články"
 
 #: models/database.php:120 models/group.php:114 view/item-list.php:3
 msgid "Redirections"
-msgstr "Redireccions"
+msgstr "Presmerovania"
 
 #: matches/user-agent.php:51
 msgid "The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.\n"
-msgstr "El visitant serà redireccionat de l'URL origen si l'agente d'usuario conincideix. Podeu especificar una URL diferent si <em>coincideix</em> com la direcció a on enviar els visitants en cas de coincidència, i <em>no coincideix</em> en cas de que no ho fagi. Si deixceu la URL buida el visitant no serà redireccionat.\n"
+msgstr ""
+"Návštevník bude presmerovaný z URL ak sa zhoduje agent používateľa (user agent). Môžete špecifikovať <em>zhodujúcu sa</em> cieľovú URL ako adresu kam presmerovať návštevníka, ak sa agent používateľa zhoduje. A <em>nezhodujúce sa</em> ak sa nezhoduje. Ak necháte URL prázdne, návštevník nebude presmerovaný. <strong>Všetky zhody sú vyhodnocované ako regulárne výrazy</strong>.\n"
+"\n"
 
 #: matches/user-agent.php:25
 msgid "User Agent"
-msgstr "Agent d'usuari"
+msgstr "Agent používateľa (user agent)"
 
 #: matches/user-agent.php:20
 msgid "Nintendo Wii"
@@ -723,60 +727,60 @@ msgstr "FeedBurner"
 
 #: matches/user-agent.php:7
 msgid "URL and user agent"
-msgstr "URL i agent d'usuari"
+msgstr "URL a agent používateľa (user agent)"
 
 #: matches/url.php:12 view/add.php:32
 msgid "Target URL"
-msgstr "URL destí"
+msgstr "Cieľová URL"
 
 #: matches/url.php:5
 msgid "URL only"
-msgstr "Solament URL"
+msgstr "Len URL"
 
 #: matches/referrer.php:56 matches/referrer.php:58 matches/user-agent.php:68
 #: matches/user-agent.php:70
 msgid "Not matched"
-msgstr "No coincideix"
+msgstr "Nezhodná"
 
 #: matches/referrer.php:46 matches/referrer.php:48 matches/user-agent.php:58
 #: matches/user-agent.php:60
 msgid "Matched"
-msgstr "Coincideix"
+msgstr "Zhodná"
 
 #: matches/referrer.php:40
 msgid "The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected."
-msgstr "El visitant serà redireccionat de la URL origen si el referent coincideix. Podeu especificar una URL destí si <em>coincideix</em> com la direcció on enviar els visitants en cas de coincidència, i <em>no coincideix</em> en cas de que ho fagi. Si deixeu la URL buida el visitant no serà redireccionat."
+msgstr "Návštevník bude presmerovaný zo zdrojovej URL adresy ak sa referrer zhoduje. Môžete špecifikovať <em>zhodnú</em> cieľovú URL adresu ako adresu, kam posielate návštevníkov ak sa údaje zhodujú. Alebo <em>nezhodnú</em> ak sa nezhodujú. Ponechaním prázdneho poľa URL znamená, že návštevník nie je presmerovaný."
 
 #: matches/referrer.php:28 matches/referrer.php:38 matches/url.php:20
 #: matches/user-agent.php:38
 msgid "HTTP Code"
-msgstr "Codi HTTP"
+msgstr "HTTP kód"
 
 #: matches/referrer.php:24 view/item-edit.php:7
 msgid "Regex"
-msgstr "Expresió regular"
+msgstr "Regex"
 
 #: matches/referrer.php:21 redirection-strings.php:31
 #: redirection-strings.php:38
 msgid "Referrer"
-msgstr "Referent"
+msgstr "Referrer"
 
 #: matches/referrer.php:8
 msgid "URL and referrer"
-msgstr "URL i referent"
+msgstr "URL a referrer"
 
 #: matches/login.php:35 matches/login.php:37
 msgid "Logged Out"
-msgstr "Desconnectat"
+msgstr "Odhlásený"
 
 #: matches/login.php:23 matches/login.php:25
 msgid "Logged In"
-msgstr "Identificat"
+msgstr "Prihlásený"
 
 #: matches/login.php:16
 msgid "The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected."
-msgstr "La URL destí serà triada entre les següents URL, depenent si l'usuari es troba validat o no. Si deixeu la URL buida l'usuari no serà redireccionat."
+msgstr "Cieľová URL bude zvolená z nasledujúcich URL adries na základe toho, či používateľ je prihlásený alebo nie. Ak necháte URL prázdne, používateľ nebude presmerovaný."
 
 #: matches/login.php:7
 msgid "URL and login status"
-msgstr "Estat de l'URL i connexió"
+msgstr "URL a status prihlásenia"

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const gulp = require( 'gulp' );
 const i18n_calypso = require( 'i18n-calypso/cli' );
 const po2json = require( 'gulp-po2json' );
@@ -7,9 +8,13 @@ const path = require( 'path' );
 const globby = require( 'globby' );
 const fs = require( 'fs' );
 const zip = require( 'gulp-zip' );
+const request = require( 'request' );
 const config = require( './.config.json' ); // Local config
 const pkg = require( './package.json' );
 
+const LOCALE_PERCENT_COMPLETE = 50;
+const AVAILABLE_LANGUAGES_URL = 'https://translate.wordpress.org/api/projects/wp-plugins/redirection/stable';
+const LOCALE_URL = 'https://translate.wordpress.org/projects/wp-plugins/redirection/stable/$LOCALE/default/export-translations?format=';
 const SVN_SOURCE_FILES = [
 	'./**',
 	'!node_modules/**',
@@ -30,13 +35,50 @@ const SVN_SOURCE_FILES = [
 	'!package-lock.json',
 ];
 
-gulp.task( 'pot', [ 'pot:extract', 'pot:generate', 'pot:json' ] );
+function downloadLocale( locale, wpName, type ) {
+	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
+
+	request( url, ( error, response, body ) => {
+		if ( error || response.statusCode !== 200 ) {
+			console.error( 'Failed to download locale from ' + url, error );
+			return;
+		}
+
+		const target = path.join( 'locale', 'redirection-' + wpName + '.' + type );
+
+		fs.writeFileSync( target, body, 'utf8' );
+	} );
+}
+
+gulp.task( 'pot', [ 'pot:download', 'pot:extract', 'pot:generate', 'pot:json' ] );
 
 gulp.task( 'pot:json', done => {
 	gulp.src( [ 'locale/*.po' ] )
 		.pipe( po2json() )
 		.pipe( gulp.dest( 'locale/json/' ) )
 		.on( 'end', done );
+} );
+
+gulp.task( 'pot:download', () => {
+	request( AVAILABLE_LANGUAGES_URL, ( error, response, body ) => {
+		if ( error || response.statusCode !== 200 ) {
+			console.error( 'Failed to download available languages from ' + AVAILABLE_LANGUAGES_URL, error );
+			return;
+		}
+
+		const json = JSON.parse( body );
+
+		for ( let x = 0; x < json.translation_sets.length; x++ ) {
+			const locale = json.translation_sets[ x ];
+
+			if ( parseInt( locale.percent_translated, 10 ) > LOCALE_PERCENT_COMPLETE ) {
+				console.log( 'Downloading ' + locale.locale );
+
+				downloadLocale( locale.locale, locale.wp_locale, 'po' );
+				downloadLocale( locale.locale, locale.wp_locale, 'mo' );
+			}
+		}
+	} );
 } );
 
 gulp.task( 'pot:extract', () => {
