@@ -2,16 +2,20 @@
 
 class ApiTest extends WP_UnitTestCase {
 	private function expectDie( $action ) {
-		$this->expectException( 'WPDieException' );
-		$this->expectExceptionMessageRegExp( '/^\{"error":"Unable to perform action - bad nonce.*/' );
-		do_action( 'wp_ajax_red_'.$action );
+		if ( method_exists( $this, 'expectException' ) ) {
+			$this->expectException( 'WPDieException' );
+			$this->expectExceptionMessageRegExp( '/^\{"error":"Unable to perform action - bad nonce.*/' );
+			do_action( 'wp_ajax_red_'.$action );
+		}
 	}
 
 	private function expectPermission( $action ) {
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-		$this->expectException( 'WPDieException' );
-		$this->expectExceptionMessageRegExp( '/^\{"error":"No permissions to perform action.*/' );
-		do_action( 'wp_ajax_red_'.$action );
+		if ( method_exists( $this, 'expectException' ) ) {
+			$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
+			$this->expectException( 'WPDieException' );
+			$this->expectExceptionMessageRegExp( '/^\{"error":"No permissions to perform action.*/' );
+			do_action( 'wp_ajax_red_'.$action );
+		}
 	}
 
 	private function setNonce() {
