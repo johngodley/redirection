@@ -92,8 +92,39 @@
 		text-align: left;
 	}
 
+	.column-module, .column-total, .column-ip {
+		width: 100px;
+	}
+
+	.column-redirects {
+		width: 100px;
+		text-align: left;
+	}
+
+	.column-type {
+		width: 50px;
+		text-align: left;
+	}
+
 	.disabled {
 		opacity: 0.5;
+	}
+}
+
+table.items {
+	table.edit {
+		width: 100%;
+	}
+
+	table.edit td, table.edit th {
+		line-height: 1.2;
+		padding: 2px;
+		font-size: 12px;
+	}
+
+	table.edit th {
+		font-size: 13px;
+		font-weight: bold;
 	}
 }
 
@@ -275,4 +306,14 @@ table.edit-redirection {
 
 .subsubsub-container::after {
     clear:both;
+}
+
+
+.module-export {
+	border: 1px solid #ddd;
+	padding: 5px;
+	font-family: courier;
+	background-color: #eee;
+	margin-top: 15px;
+	width: 100%;
 }
