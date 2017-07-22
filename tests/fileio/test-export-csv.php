@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../fileio/csv.php';
+require_once dirname( __FILE__ ) . '/../../fileio/csv.php';
 
 class ExportCsvTest extends WP_UnitTestCase {
 	public function testNoRegex() {

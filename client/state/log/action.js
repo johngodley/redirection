@@ -5,68 +5,28 @@ import {
 	LOG_LOADING,
 	LOG_LOADED,
 	LOG_FAILED,
+	LOG_ITEM_SAVING,
+	LOG_ITEM_SAVED,
+	LOG_ITEM_FAILED,
 	LOG_SET_SELECTED,
 	LOG_SET_ALL_SELECTED,
 } from './type';
-import getApi from 'lib/api';
-import { mergeWithTable, mergeWithTableForApi } from 'lib/table';
+import { tableAction, processRequest } from 'lib/store';
 
-const logCollect = json => ( { rows: json.items, total: json.total } );
+const STATUS_LOG_ITEM = { saving: LOG_ITEM_SAVING, saved: LOG_ITEM_SAVED, failed: LOG_ITEM_FAILED, order: 'date' };
+const STATUS_LOG = { saving: LOG_LOADING, saved: LOG_LOADED, failed: LOG_FAILED, order: 'date' };
 
-const dispatchRequest = ( dispatch, action, params, table = false ) => {
-	const data = table ? mergeWithTableForApi( table, params ) : params;
-	const reducer = table ? Object.assign( {}, mergeWithTable( table, params ), params ) : params;
+export const deleteAll = () => ( dispatch, getState ) => processRequest( 'red_delete_all', dispatch, STATUS_LOG, { logType: getState().log.logType }, getState().log.table );
+export const performTableAction = ( action, ids, extra ) => tableAction( 'log', 'red_log_action', action, ids, STATUS_LOG_ITEM, extra );
+export const getLogs = args => ( dispatch, getState ) => {
+	const { log } = getState();
 
-	getApi( action, data )
-		.then( json => {
-			dispatch( { type: LOG_LOADED, ... logCollect( json ) } );
-		} )
-		.catch( error => {
-			dispatch( { type: LOG_FAILED, error } );
-		} );
-
-	return dispatch( { ... reducer, type: LOG_LOADING } );
+	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log.table );
 };
-
-const getLogs = args => {
-	return ( dispatch, getState ) => {
-		const { table, logType } = getState().log;
-
-		return dispatchRequest( dispatch, 'red_get_logs', { logType, ... args }, table );
-	};
-};
-
-export const deleteAll = () => {
-	return ( dispatch, getState ) => {
-		const { logType } = getState().log;
-
-		return dispatchRequest( dispatch, 'red_delete_all', { logType } );
-	};
-};
-
 export const loadLogs = logType => getLogs( { logType } );
-
 export const setOrderBy = ( orderBy, direction ) => getLogs( { orderBy, direction } );
 export const setPage = page => getLogs( { page } );
-export const setSearch = filter => getLogs( { filter, page: 0 } );
-export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter } );
-
-export const setSelected = items => ( { type: LOG_SET_SELECTED, items } );
+export const setSearch = filter => getLogs( { filter, filterBy: '', page: 0, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderBy: '' } );
+export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
-
-export const performTableAction = ( action, ids ) => {
-	return ( dispatch, getState ) => {
-		const { table, total, logType } = getState().log;
-		const params = {
-			items: ids ? ids : table.selected.join( ',' ),
-			bulk: action,
-			logType,
-		};
-
-		if ( action === 'delete' && params.page > 0 && params.perPage * params.page === total - 1 ) {
-			params.page -= 1;
-		}
-
-		return dispatchRequest( dispatch, 'red_log_action', params, table );
-	};
-};

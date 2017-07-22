@@ -13,33 +13,22 @@ import {
 	GROUP_ITEM_FAILED,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import { setTableParams, setTableSelected, setTableAllSelected } from 'lib/table';
+import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from 'lib/store';
 
-const setGroup = ( existing, newGroup ) => {
-	const dupe = existing.slice( 0 );
-
-	for ( let x = 0; x < existing.length; x++ ) {
-		if ( existing[ x ].id === newGroup.groupId ) {
-			dupe[ x ] = Object.assign( {}, existing[ x ], { name: newGroup.name, module_id: newGroup.module_id } );
-			break;
-		}
-	}
-
-	return dupe;
-};
-
-const getGroup = action => ( { groupId: action.id, name: action.name, enabled: action.enabled, module_id: action.module_id } );
-
-export default function groups( state = {}, action ) {
+export default function redirects( state = {}, action ) {
 	switch ( action.type ) {
+		case GROUP_LOADING:
+			return { ... state, table: setTable( state, action ), status: STATUS_IN_PROGRESS, saving: [] };
+
+		case GROUP_LOADED:
+			return { ... state, rows: setRows( state, action ), status: STATUS_COMPLETE, total: setTotal( state, action ), table: clearSelected( state.table ) };
+
 		case GROUP_ITEM_SAVING:
-			return { ... state, saving: true, rows: setGroup( state.rows, action.group ), table: setTableParams( state.table, action, 'name' ), error: false };
+			return { ... state, table: clearSelected( setTable( state, action ) ), saving: setSaving( state, action ), rows: setItem( state, action ) };
 
 		case GROUP_ITEM_SAVED:
-			return { ... state, saving: false, rows: action.items ? action.items : setGroup( state.rows, getGroup( action ) ), total: action.total ? action.total : state.total };
-
-		case GROUP_ITEM_FAILED:
-			return { ... state, saving: false, error: action.error };
+			return { ... state, rows: setRows( state, action ), total: setTotal( state, action ), saving: removeSaving( state, action ) };
 
 		case GROUP_SET_ALL_SELECTED:
 			return { ... state, table: setTableAllSelected( state.table, state.rows, action.onoff ) };
@@ -47,14 +36,11 @@ export default function groups( state = {}, action ) {
 		case GROUP_SET_SELECTED:
 			return { ... state, table: setTableSelected( state.table, action.items ) };
 
-		case GROUP_LOADING:
-			return { ... state, table: setTableParams( state.table, action, 'name' ), status: STATUS_IN_PROGRESS, error: false };
-
 		case GROUP_FAILED:
-			return { ... state, status: STATUS_FAILED, error: action.error };
+			return { ... state, status: STATUS_FAILED, saving: [] };
 
-		case GROUP_LOADED:
-			return { ... state, rows: action.rows, status: STATUS_COMPLETE, total: action.total };
+		case GROUP_ITEM_FAILED:
+			return { ... state, saving: removeSaving( state, action ), rows: restoreToOriginal( state, action ) };
 	}
 
 	return state;

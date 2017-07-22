@@ -22,6 +22,10 @@ const getApiRequest = ( action, data ) => {
 		addData( form, data, '' );
 	}
 
+	Redirectioni10n.failedAction = action;
+	Redirectioni10n.failedData = data;
+	Redirectioni10n.failedResponse = null;
+
 	return fetch( Redirectioni10n.WP_API_root, {
 		method: 'post',
 		body: form,
@@ -30,18 +34,25 @@ const getApiRequest = ( action, data ) => {
 };
 
 const getApi = ( action, params ) => getApiRequest( action, params )
-	.then( data => data.json() )
-	.then( json => {
-		Redirectioni10n.failedAction = action;
-		Redirectioni10n.failedData = params;
+	.then( data => {
+		Redirectioni10n.failedCode = data.status + ' ' + data.statusText;
+		return data.text();
+	} )
+	.then( text => {
+		try {
+			const json = JSON.parse( text );
 
-		if ( json === 0 ) {
-			throw 'Invalid data';
-		} else if ( json.error ) {
-			throw json.error;
+			if ( json === 0 ) {
+				throw 'Invalid data';
+			} else if ( json.error ) {
+				throw json.error;
+			}
+
+			return json;
+		} catch ( e ) {
+			Redirectioni10n.failedResponse = text;
+			throw e;
 		}
-
-		return json;
 	} );
 
 export default getApi;

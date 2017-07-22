@@ -10,15 +10,7 @@
 </div>
 
 <script>
-	var Redirection_Adder, Redirection_Logger;
-
 	addLoadEvent( function() {
-		Redirection_Logger = new Redirection_Logs( jQuery, '#add', '#added', '#old' );
-		Redirection_Adder = new Redirection_Add( jQuery, '#target', false );
-
-		Redirection_Adder.setup( 'select[name=red_action]', '#add' );
 		redirection.show( 'react-ui' );
 	} );
 </script>
-
-<?php $this->render( 'add', array( 'hidden' => true ) ); ?>

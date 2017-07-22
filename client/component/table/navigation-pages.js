@@ -79,11 +79,12 @@ class PaginationLinks extends React.Component {
 
 		return (
 			<span className="pagination-links">
-				<Nav title={ __( 'First page' ) } button="«" className="first-page" enabled={ page > 0 } onClick={ this.onFirst } /> <Nav title={ __( 'Prev page' ) } button="‹" className="prev-page" enabled={ page > 0 } onClick={ this.onPrev } />
+				<Nav title={ __( 'First page' ) } button="«" className="first-page" enabled={ page > 0 } onClick={ this.onFirst } />&nbsp;
+				<Nav title={ __( 'Prev page' ) } button="‹" className="prev-page" enabled={ page > 0 } onClick={ this.onPrev } />
 
 				<span className="paging-input">
 					<label htmlFor="current-page-selector" className="screen-reader-text">{ __( 'Current Page' ) }</label>&nbsp;
-					<input className="current-page" id="current-page-selector" type="number" min="1" max={ max } name="paged" value={ this.state.currentPage + 1 } size="2" aria-describedby="table-paging" onBlur={ this.onSetPage } onChange={ this.onChange } />
+					<input className="current-page" type="number" min="1" max={ max } name="paged" value={ this.state.currentPage + 1 } size="2" aria-describedby="table-paging" onBlur={ this.onSetPage } onChange={ this.onChange } />
 
 					<span className="tablenav-paging-text">
 						{ __( 'of %(page)s', {
@@ -97,7 +98,8 @@ class PaginationLinks extends React.Component {
 					</span>
 				</span>
 				&nbsp;
-				<Nav title={ __( 'Next page' ) } button="›" className="next-page" enabled={ page < max - 1 } onClick={ this.onNext } /> <Nav title={ __( 'Last page' ) } button="»" className="last-page" enabled={ page < max - 1 } onClick={ this.onLast } />
+				<Nav title={ __( 'Next page' ) } button="›" className="next-page" enabled={ page < max - 1 } onClick={ this.onNext } />&nbsp;
+				<Nav title={ __( 'Last page' ) } button="»" className="last-page" enabled={ page < max - 1 } onClick={ this.onLast } />
 			</span>
 		);
 	}
@@ -105,7 +107,7 @@ class PaginationLinks extends React.Component {
 
 class NavigationPages extends React.Component {
 	render() {
-		const { total, perPage, page, onChangePage } = this.props;
+		const { total, perPage, page, onChangePage, inProgress } = this.props;
 		const onePage = total <= perPage;
 		const classes = classnames( {
 			'tablenav-pages': true,
@@ -116,7 +118,7 @@ class NavigationPages extends React.Component {
 			<div className={ classes }>
 				<span className="displaying-num">{ __( '%s item', '%s items', { count: total, args: numberFormat( total ) } ) }</span>
 
-				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } perPage={ perPage } page={ page } /> }
+				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } perPage={ perPage } page={ page } inProgress={ inProgress } /> }
 			</div>
 		);
 	}
@@ -127,6 +129,7 @@ NavigationPages.propTypes = {
 	perPage: PropTypes.number.isRequired,
 	page: PropTypes.number.isRequired,
 	onChangePage: PropTypes.func.isRequired,
+	inProgress: PropTypes.bool.isRequired,
 };
 
 export default NavigationPages;

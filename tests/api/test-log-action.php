@@ -4,12 +4,17 @@ class RedirectionApiLogActionTest extends WP_Ajax_UnitTestCase {
 	public static $redirection;
 	private $logs = array();
 
+	public function setUp() {
+		parent::setUp();
+		RE_Log::delete_all();
+	}
+
 	private function do_action( $params = array() ) {
 		return json_decode( self::$redirection->ajax_log_action( $params ) );
 	}
 
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init();
+		self::$redirection = Redirection_Admin::init()->api;
 	}
 
 	private function createAB( $total = 2 ) {
@@ -25,17 +30,6 @@ class RedirectionApiLogActionTest extends WP_Ajax_UnitTestCase {
 	private function setNonce() {
 		$this->_setRole( 'administrator' );
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-	}
-
-	public function testNonce() {
-		$result = $this->do_action();
-		$this->assertTrue( isset( $result->error ) );
-	}
-
-	public function testPermissions() {
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-		$result = $this->do_action();
-		$this->assertTrue( isset( $result->error ) );
 	}
 
 	public function testLogNoParams() {

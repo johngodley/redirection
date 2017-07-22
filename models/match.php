@@ -1,9 +1,9 @@
 <?php
 
-class Red_Match {
+abstract class Red_Match {
 	public $url;
 
-	function __construct( $values = '' ) {
+	public function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->url = $values;
 
@@ -17,35 +17,11 @@ class Red_Match {
 		}
 	}
 
-	function data( $details ) {
-		$data = $this->save( $details );
-		if ( count( $data ) === 1 && ! is_array( current( $data ) ) )
-			$data = current( $data );
-		else
-			$data = serialize( $data );
-		return $data;
-	}
+	abstract public function save( array $details, $no_target_url = false );
+	abstract public function name();
+	abstract public function get_target( $url, $matched_url, $regex );
 
-	function save( $details ) {
-		return array();
-	}
-
-	function name() {
-		return '';
-	}
-
-	function show() {
-	}
-
-	function wants_it() {
-		return true;
-	}
-
-	function get_target( $url, $matched_url, $regex ) {
-		return false;
-	}
-
-	function sanitize_url( $url ) {
+	public function sanitize_url( $url ) {
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
@@ -87,9 +63,5 @@ class Red_Match {
 			'agent'    => 'user-agent.php',
 			'login'    => 'login.php',
 		 );
-	}
-
-	function match_name() {
-		return '';
 	}
 }

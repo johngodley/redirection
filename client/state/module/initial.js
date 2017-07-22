@@ -11,6 +11,5 @@ export function getInitialModule() {
 		status: STATUS_IN_PROGRESS,
 		total: 3,
 		table: getDefaultTable( [], [], '', [ 'module' ] ),
-		error: false,
 	};
 }

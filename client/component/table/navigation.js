@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 import NavigationPages from './navigation-pages';
+import { STATUS_IN_PROGRESS } from 'state/settings/type';
 
 class TableNav extends React.Component {
 	constructor( props ) {
@@ -54,7 +55,7 @@ class TableNav extends React.Component {
 	}
 
 	render() {
-		const { total, table, bulk } = this.props;
+		const { total, table, bulk, status } = this.props;
 
 		return (
 			<div className="tablenav top">
@@ -62,7 +63,7 @@ class TableNav extends React.Component {
 
 				{ this.props.children ? this.props.children : null }
 
-				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } /> }
+				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } inProgress= { status === STATUS_IN_PROGRESS } /> }
 			</div>
 		);
 	}
@@ -75,6 +76,7 @@ TableNav.propTypes = {
 	onAction: PropTypes.func.isRequired,
 	onChangePage: PropTypes.func.isRequired,
 	bulk: PropTypes.array,
+	status: PropTypes.string.isRequired,
 };
 
 export default TableNav;

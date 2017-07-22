@@ -17,7 +17,7 @@ import { LOGS_TYPE_REDIRECT } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import LogRow from './row';
-import AdminNotice from 'component/wordpress/admin-notice';
+import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 
 const headers = [
@@ -56,23 +56,27 @@ class Logs extends React.Component {
 		super( props );
 
 		props.onLoad( LOGS_TYPE_REDIRECT );
+
+		this.handleRender = this.renderRow.bind( this );
 	}
 
 	renderRow( row, key, status ) {
-		return <LogRow item={ row } key={ key } selected={ status.isSelected } isLoading={ status.isLoading } />;
+		const { saving } = this.props.log;
+		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
+		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
+
+		return <LogRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
 	}
 
 	render() {
-		const { status, total, table, rows, error } = this.props.log;
+		const { status, total, table, rows } = this.props.log;
 
 		return (
 			<div>
-				{ error && total > 0 && <AdminNotice message={ error } isError={ true } /> }
-
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.renderRow } table={ table } status={ status } error={ error } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
+				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } />
 
 				<br />
 				<DeleteAll onDelete={ this.props.onDeleteAll } />

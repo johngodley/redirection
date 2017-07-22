@@ -8,11 +8,9 @@ import { getDefaultTable } from 'lib/table';
 export function getInitialGroup() {
 	return {
 		rows: [],
+		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		saving: false,
-		error: false,
-
-		table: getDefaultTable( [ 'name' ], [ 'name' ], 'name', [ 'groups' ] )
+		table: getDefaultTable( [ 'name' ], [ 'name', 'module' ], 'name', [ 'groups' ] )
 	};
 }

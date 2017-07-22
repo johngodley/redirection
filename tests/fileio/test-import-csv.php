@@ -12,12 +12,12 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$exporter = new Red_Csv_File();
 		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
 		$target = array(
-			'source' => '/source',
-			'target' => '/target',
+			'url' => '/source',
+			'action_data' => '/target',
 			'regex' => false,
 			'group_id' => 1,
-			'match' => 'url',
-			'red_action' => 'url',
+			'match_type' => 'url',
+			'action_type' => 'url',
 			'action_code' => 301,
 		);
 

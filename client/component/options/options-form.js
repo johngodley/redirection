@@ -10,11 +10,9 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 import { saveSettings } from 'state/settings/action';
-import { STATUS_IN_PROGRESS, STATUS_COMPLETE, STATUS_FAILED } from 'state/settings/type';
+import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/wordpress/form-table';
 import Select from 'component/wordpress/select';
-import Spinner from 'component/wordpress/spinner';
-import AdminNotice from 'component/wordpress/admin-notice';
 
 const timeToKeep = [
 	{ value: -1, text: __( 'No logs' ) },
@@ -64,9 +62,6 @@ class OptionsForm extends React.Component {
 
 		return (
 			<form onSubmit={ this.onSubmit }>
-				{ saveStatus === STATUS_COMPLETE && <AdminNotice message={ __( 'Your options were updated' ) } /> }
-				{ saveStatus === STATUS_FAILED && <AdminNotice message={ __( 'Failed to save data' ) } isError={ true } /> }
-
 				<FormTable>
 					<TableRow title={ __( 'Plugin support' ) + ':' }>
 						<label>
@@ -105,8 +100,6 @@ class OptionsForm extends React.Component {
 				</FormTable>
 
 				<input className="button-primary" type="submit" name="update" value={ __( 'Update' ) } disabled={ saveStatus === STATUS_IN_PROGRESS } />
-
-				{ saveStatus === STATUS_IN_PROGRESS && <Spinner /> }
 			</form>
 		);
 	}

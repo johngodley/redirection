@@ -1,27 +1,215 @@
 <?php
 
+// get_filtered is handled by api/test-redirect.php
 class RedirectTest extends WP_UnitTestCase {
 	public function setUp() {
+		global $wpdb;
+
 		$this->group = Red_Group::create( 'group', 1 );
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_items" );
 	}
 
-	public function testRemoveHttp() {
-		$this->assertEquals( Red_Item::sanitize_url( 'http://domain.com/some/url' ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( 'https://domain.com/some/url' ), '/some/url' );
+	private function createRedirect( $params = array() ) {
+		return Red_Item::create( array_merge( array( 'url' => 'url', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $this->group->get_id() ), $params ) );
 	}
 
-	public function testRemoveHash() {
-		$this->assertEquals( Red_Item::sanitize_url( '/some/url#thing' ), '/some/url' );
+	public function testConstruct() {
+		$data = array(
+			'id' => 1,
+			'url' => 'url',
+			'regex' => 1,
+			'action_data' => 'data',
+			'action_code' => 301,
+			'action_type' => 'url',
+			'match_type' => 'url',
+			'title' => 'title',
+			'last_access' => '2017-01-02 01:02:03',
+			'last_count' => 5,
+			'tracking' => 1,
+			'status' => 'enabled',
+			'position' => 5,
+			'group_id' => 2,
+		);
+
+		$item = new Red_Item( (object)$data );
+
+		$this->assertEquals( 'url', $item->get_url() );
+		$this->assertEquals( 1, $item->get_id() );
+		$this->assertTrue( $item->is_regex() );
+		$this->assertEquals( 'data', $item->get_action_data() );
+		$this->assertEquals( 'url', $item->get_match_type() );
+		$this->assertEquals( 'url', $item->get_action_type() );
+		$this->assertEquals( 'title', $item->get_title() );
+		$this->assertEquals( 301, $item->get_action_code() );
+		$this->assertTrue( $item->is_enabled() );
+		$this->assertEquals( 2, $item->get_group_id() );
+		$this->assertEquals( 5, $item->get_hits() );
+		$this->assertEquals( 5, $item->get_position() );
+		$this->assertEquals( mysql2date( 'U', '2017-01-02 01:02:03' ), $item->get_last_hit() );
 	}
 
-	public function testRemoveNewline() {
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\nsomethingelse1" ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\rsomethingelse2" ), '/some/url' );
-		$this->assertEquals( Red_Item::sanitize_url( "/some/url\r\nsomethingelse3" ), '/some/url' );
+	public function testBadAllForModule() {
+		$items = Red_Item::get_all_for_module( 'cats' );
+		$this->assertEquals( array(), $items );
 	}
 
-	public function testAddLeadingSlash() {
-		$this->assertEquals( Red_Item::sanitize_url( 'some/url' ), '/some/url' );
+	public function testAllForModule() {
+		$disabledGroup = Red_Group::create( 'group', 1 );
+		$disabledGroup->disable();
+
+		$item1 = $this->createRedirect( array( 'url' => 'url1' ) );
+		$item2 = $this->createRedirect( array( 'url' => 'url2' ) );
+		$item3 = $this->createRedirect( array( 'url' => 'url3', 'group_id' => $disabledGroup->get_id() ) );
+
+		$items = Red_Item::get_all_for_module( 1 );
+
+		$this->assertEquals( 2, count( $items ) );
+		$this->assertEquals( 'url1', $items[ 0 ]->get_url() );
+		$this->assertEquals( 'url2', $items[ 1 ]->get_url() );
+	}
+
+	public function testGetForUrlNone() {
+		$items = Red_Item::get_for_url( '' );
+		$this->assertEmpty( $items );
+	}
+
+	public function testGetForUrl() {
+		$this->createRedirect( array( 'url' => '/cats' ) );
+		$this->createRedirect( array( 'url' => '/dogs' ) );
+
+		$items = Red_Item::get_for_url( '/cats' );
+
+		$this->assertEquals( 1, count( $items ) );
+		$this->assertEquals( '/cats', $items[ 0 ]->get_url() );
+	}
+
+	public function testGetForRegexOrder() {
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
+
+		$items = Red_Item::get_for_url( '/cats1' );
+
+		$this->assertEquals( 2, count( $items ) );
+	}
+
+	public function testBadGetId() {
+		$item = Red_Item::get_by_id( 'cat' );
+		$this->assertFalse( $item );
+	}
+
+	public function testGetId() {
+		$redirect = $this->createRedirect();
+		$item = Red_Item::get_by_id( $redirect->get_id() );
+		$this->assertEquals( $redirect, $item );
+	}
+
+	public function testNoDisableMatches() {
+		$item = $this->createRedirect( array( 'url' => 'cats' ) );
+		Red_Item::disable_where_matches( '/dogs' );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertTrue( $item->is_enabled() );
+	}
+
+	public function testDisableMatches() {
+		$item = $this->createRedirect( array( 'url' => 'cats' ) );
+		Red_Item::disable_where_matches( 'cats' );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertFalse( $item->is_enabled() );
+	}
+
+	public function testDelete() {
+		$item = $this->createRedirect( array( 'url' => 'cats' ) );
+		$item->delete();
+		$this->assertFalse( Red_Item::get_by_id( $item->get_id() ) );
+	}
+
+	// Good creates have already been tested with createRedirect and with test-redirect-sanitize.php
+	public function testBadCreate() {
+		$item = $this->createRedirect( array( 'group_id' => 'cats' ) );
+		$this->assertWPError( $item );
+	}
+
+	public function testBadUpdate() {
+		$item = $this->createRedirect( array() );
+		$result = $item->update( array( 'url' => '/dogs', 'group_id' => 'cat' ) );
+
+		$this->assertWPError( $result );
+	}
+
+	public function testGoodUpdate() {
+		$item = $this->createRedirect( array() );
+		$result = $item->update( array( 'url' => '/dogs', 'group_id' => $this->group->get_id(), 'match_type' => 'url', 'action_type' => 'url' ) );
+
+		$this->assertTrue( $result );
+		$this->assertEquals( '/dogs', $item->get_url() );
+	}
+
+	public function testVisitUnrecorded() {
+		global $wpdb;
+
+		$item = $this->createRedirect( array() );
+		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
+
+		$options = red_get_options();
+		$options['expire_redirect'] = 0;
+		update_option( 'redirection_options', $options );
+
+		$item->visit( '/blob', '/target' );
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
+
+		$this->assertEquals( 1, $item->get_hits() );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertEquals( 1, $item->get_hits() );
+		$this->assertEquals( $after, $before );
+	}
+
+	public function testVisit() {
+		global $wpdb;
+
+		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
+
+		$options = red_get_options();
+		$options['expire_redirect'] = 1;
+		update_option( 'redirection_options', $options );
+
+		$item = $this->createRedirect( array() );
+		$item->visit( '/blob', '/target' );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
+
+		$this->assertEquals( 1, $item->get_hits() );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertEquals( 1, $item->get_hits() );
+		$this->assertEquals( $after, $before + 1 );
+	}
+
+	public function testReset() {
+		$item = $this->createRedirect( array() );
+		$item->visit( '/blob', '/target' );
+		$item->reset();
+
+		$this->assertEquals( 0, $item->get_hits() );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertEquals( 0, $item->get_hits() );
+	}
+
+	public function testEnable() {
+		$item = $this->createRedirect();
+		$item->disable();
+		$item->enable();
+
+		$this->assertTrue( $item->is_enabled() );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertTrue( $item->is_enabled() );
+	}
+
+	public function testDisable() {
+		$item = $this->createRedirect( array() );
+		$item->disable();
+
+		$this->assertFalse( $item->is_enabled() );
+		$item = Red_Item::get_by_id( $item->get_id() );
+		$this->assertFalse( $item->is_enabled() );
 	}
 
 	public function testNoMatch() {
@@ -42,6 +230,7 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testMatch() {
 		global $wpdb;
 
+		RE_Log::delete_all();
 		$this->capturedRedirect();
 		$action = new MockAction();
 
@@ -74,12 +263,12 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testDisableWhereMatches() {
 		global $wpdb;
 
-		Red_Item::create( array(
-			'source'     => '/from',
-			'target'     => '/to',
-			'group_id'   => $this->group->get_id(),
-			'match'      => 'url',
-			'red_action' => 'url',
+		$item = Red_Item::create( array(
+			'url'         => '/from',
+			'action_data' => '/to',
+			'group_id'    => $this->group->get_id(),
+			'match_type'  => 'url',
+			'action_type' => 'url',
 		) );
 
 		$before = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );

@@ -19,7 +19,7 @@ class ApacheConfigure extends React.Component {
 	}
 
 	handleSave() {
-		this.props.onSave( 'apache', this.state );
+		this.props.onSave( 2, this.state );
 	}
 
 	handleChange( ev ) {

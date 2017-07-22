@@ -8,6 +8,7 @@ export function getInitialSettings() {
 	return {
 		loadStatus: STATUS_IN_PROGRESS,
 		saveStatus: false,
+		error: false,
 		settings: {},
 	};
 }

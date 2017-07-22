@@ -4,11 +4,13 @@
 
 import {
 	mergeWithTable,
-	setTableParams,
 	setTableSelected,
 	setTableAllSelected,
+	clearSelected,
+	removeDefaults,
+	getDefaultTable,
 } from 'lib/table';
-import { setPageUrl } from 'lib/wordpress-url';
+import { getPageUrl } from 'lib/wordpress-url';
 
 const NEW_TABLE = {
 	orderBy: 'name',
@@ -18,7 +20,6 @@ const NEW_TABLE = {
 	selected: [],
 	filterBy: '',
 	filter: '',
-	error: false,
 };
 const DEFAULT_ROWS = [
 	{
@@ -56,27 +57,10 @@ describe( 'tables', () => {
 		expect( state ).toEqual( NEW_TABLE );
 	} );
 
-	test( 'setTableParams with param changes just that param and updates URL', () => {
-		const state = setTableParams( NEW_TABLE, { perPage: 50 }, 'name' );
+	test( 'mergeWithTable with param changes just that param', () => {
+		const state = mergeWithTable( NEW_TABLE, { perPage: 50 }, 'name' );
 
 		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { perPage: 50 } ) );
-		expect( setPageUrl.mock.calls.length ).toBe( 1 );
-		expect( setPageUrl.mock.calls[ 0 ][ 0 ] ).toEqual( {
-			orderBy: 'name',
-			direction: 'desc',
-			offset: 0,
-			perPage: 50,
-			filterBy: '',
-			filter: '',
-		} );
-		expect( setPageUrl.mock.calls[ 0 ][ 1 ] ).toEqual( {
-			orderBy: 'name',
-			direction: 'desc',
-			offset: 0,
-			perPage: 25,
-			filter: '',
-			filterBy: '',
-		} );
 	} );
 
 	test( 'setTableSelected sets no items if passed nothing', () => {
@@ -101,5 +85,40 @@ describe( 'tables', () => {
 		const table = setTableAllSelected( Object.assign( {}, NEW_TABLE, { selected: [ 1, 2, 3 ] } ), false );
 
 		expect( table.selected ).toEqual( [] );
+	} );
+
+	test( 'clearSelected resets the selected items', () => {
+		const table = clearSelected( { dummy: true, selected: [ 1, 2, 3, 4 ] } );
+
+		expect( table.selected ).toEqual( [] );
+		expect( table.dummy ).toEqual( true );
+	} );
+
+	test( 'removeDefaults does nothing to an object with no matching properties', () => {
+		const table = removeDefaults( { dummy: true } );
+
+		expect( table ).toEqual( { dummy: true } );
+	} );
+
+	test( 'removeDefaults removes the default table properties', () => {
+		const table = removeDefaults( { direction: 'desc', page: 0, orderBy: 'test', perPage: 25, dummy: true }, 'test' );
+
+		expect( table ).toEqual( { dummy: true } );
+	} );
+
+	test( 'getDefaultTable doesnt allow overriding when not on query page', () => {
+		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderBy: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
+
+		const table = getDefaultTable( [], [], 'name', 'page' );
+
+		expect( table ).toEqual( NEW_TABLE );
+	} );
+
+	test( 'getDefaultTable returns default with query override when on page', () => {
+		getPageUrl.mockReturnValueOnce( { sub: 'page', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
+
+		const table = getDefaultTable( [ 'other' ], [ 'filter' ], 'name', [ 'page' ] );
+
+		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderBy: 'other', direction: 'asc', page: 5, filterBy: 'filter', filter: 'monkey' } ) );
 	} );
 } );

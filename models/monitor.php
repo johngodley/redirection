@@ -98,12 +98,12 @@ class Red_Monitor {
 			do_action( 'redirection_remove_existing', $after, $post_id );
 
 			// Create a new redirect for this post
-			$x = Red_Item::create( array(
-				'source'     => $before,
-				'target'     => $after,
-				'match'      => 'url',
-				'red_action' => 'url',
-				'group_id'   => $this->monitor_group_id,
+			Red_Item::create( array(
+				'url'         => $before,
+				'action_data' => $after,
+				'match_type'  => 'url',
+				'action_type' => 'url',
+				'group_id'    => $this->monitor_group_id,
 			) );
 
 			return true;

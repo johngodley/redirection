@@ -83,22 +83,22 @@ class LogModule extends React.Component {
 
 	handleDownload() {
 		this.setState( { showing: false } );
-		this.props.onDownloadFile( getUrl( this.props.item.name, this.state.modType ) );
+		this.props.onDownloadFile( getUrl( this.props.item.module_id, this.state.modType ) );
 	}
 
-	handleClick( modName, modType ) {
+	handleClick( moduleId, modType ) {
 		if ( modType !== 'config' && ( ! this.props.item.data || this.state.modType !== modType ) ) {
-			this.props.onGetData( modName, modType );
+			this.props.onGetData( moduleId, modType );
 		}
 
 		this.setState( {
-			showing: this.state.showing ? false : modName,
+			showing: this.state.showing ? false : moduleId,
 			modType: modType,
 		} );
 	}
 
-	handleSave( modName, params ) {
-		this.props.onSetData( modName, params );
+	handleSave( moduleId, params ) {
+		this.props.onSetData( moduleId, params );
 		this.setState( { showing: false } );
 	}
 
@@ -110,7 +110,7 @@ class LogModule extends React.Component {
 		}
 
 		if ( module_id === MODULE_APACHE && redirects === 0 ) {
-			return exporter( 'config', 'apache', 0, this.onClick );
+			return [ exporter( 'config', 'apache', 0, this.onClick ) ];
 		}
 
 		return null;
@@ -149,11 +149,11 @@ class LogModule extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onGetData: ( name, type ) => {
-			dispatch( getModule( name, type ) );
+		onGetData: ( moduleId, type ) => {
+			dispatch( getModule( moduleId, type ) );
 		},
-		onSetData: ( name, data ) => {
-			dispatch( setModule( name, data ) );
+		onSetData: ( moduleId, data ) => {
+			dispatch( setModule( moduleId, data ) );
 		},
 		onDownloadFile: url => {
 			dispatch( downloadFile( url ) );

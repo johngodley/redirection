@@ -5,46 +5,60 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 
-class ErrorNotice extends React.Component {
+/**
+ * Internal dependencies
+ */
+
+import { clearErrors } from 'state/message/action';
+
+class Error extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { visible: true };
 		this.onClick = this.dismiss.bind( this );
-		window.scrollTo( 0, 0 );
+	}
+
+	componentWillUpdate( nextProps ) {
+		if ( nextProps.errors.length > 0 && this.props.errors.length === 0 ) {
+			window.scrollTo( 0, 0 );
+		}
 	}
 
 	dismiss() {
-		this.setState( { visible: false } );
+		this.props.onClear();
 	}
 
-	getDebug( error ) {
+	getDebug( errors ) {
 		const message = [
 			'Versions: ' + Redirectioni10n.versions,
 			'Nonce: ' + Redirectioni10n.WP_API_nonce,
-			'Last Action: ' + Redirectioni10n.failedAction,
-			'Last Data: ' + JSON.stringify( Redirectioni10n.failedData ),
-			'Error: ' + error,
 		];
+
+		for ( let x = 0; x < errors.length; x++ ) {
+			message.push( '' );
+			message.push( 'Action: ' + errors[ x ].action );
+
+			if ( errors[ x ].data !== '""' ) {
+				message.push( 'Params: ' + errors[ x ].data );
+			}
+
+			message.push( 'Code: ' + errors[ x ].code );
+			message.push( 'Error: ' + errors[ x ].error );
+			message.push( 'Raw: ' + errors[ x ].response );
+		}
 
 		return message;
 	}
 
-	render() {
-		const { message } = this.props;
-		const debug = this.getDebug( message );
+	renderError( errors ) {
+		const debug = this.getDebug( errors );
 		const classes = classnames( {
 			notice: true,
 			'notice-error': true,
-			'is-dismiss': true,
 		} );
-
-		if ( ! this.state.visible ) {
-			return false;
-		}
 
 		return (
 			<div className={ classes }>
@@ -67,10 +81,35 @@ class ErrorNotice extends React.Component {
 			</div>
 		);
 	}
+
+	render() {
+		const { errors } = this.props;
+
+		if ( errors.length === 0 ) {
+			return null;
+		}
+
+		return this.renderError( errors );
+	}
 }
 
-ErrorNotice.propTypes = {
-	message: PropTypes.string.isRequired,
-};
+function mapStateToProps( state ) {
+	const { errors } = state.message;
 
-export default ErrorNotice;
+	return {
+		errors,
+	};
+}
+
+function mapDispatchToProps( dispatch ) {
+	return {
+		onClear: () => {
+			dispatch( clearErrors() );
+		},
+	};
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)( Error );

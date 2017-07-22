@@ -5,6 +5,7 @@
 import React from 'react';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
+import Select from 'component/wordpress/select';
 
 class TableFilter extends React.Component {
 	constructor( props ) {
@@ -13,6 +14,12 @@ class TableFilter extends React.Component {
 
 		this.handleChange = this.onChange.bind( this );
 		this.handleSubmit = this.onSubmit.bind( this );
+	}
+
+	componentWillUpdate( nextProps ) {
+		if ( nextProps.selected !== this.state.selected ) {
+			this.setState( { selected: nextProps.selected } );
+		}
 	}
 
 	onChange( ev ) {
@@ -28,9 +35,7 @@ class TableFilter extends React.Component {
 
 		return (
 			<div className="alignleft actions">
-				<select value={ this.state.selected } onChange={ this.handleChange } disabled={ ! isEnabled }>
-					{ options.map( item => <option key={ item.id } value={ item.id }>{ item.name }</option> ) }
-				</select>
+				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.handleChange } isEnabled={ this.props.isEnabled } />
 
 				<button className="button" onClick={ this.handleSubmit } disabled={ ! isEnabled }>{ __( 'Filter' ) }</button>
 			</div>

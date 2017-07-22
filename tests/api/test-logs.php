@@ -3,38 +3,22 @@
 class RedirectionApiLogTest extends WP_Ajax_UnitTestCase {
 	public static $redirection;
 
+	public function setUp() {
+		parent::setUp();
+		RE_Log::delete_all();
+	}
+
 	private function get_logs( $params = array() ) {
 		return json_decode( self::$redirection->ajax_get_logs( $params ) );
 	}
 
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init();
+		self::$redirection = Redirection_Admin::init()->api;
 	}
 
 	private function setNonce() {
 		$this->_setRole( 'administrator' );
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-	}
-
-	public function testNonce() {
-		$result = $this->get_logs();
-		$this->assertTrue( isset( $result->error ) );
-	}
-
-	public function testPermissions() {
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-		$result = $this->get_logs();
-		$this->assertTrue( isset( $result->error ) );
-	}
-
-	public function testLogNoParams() {
-		RE_Log::create( 'test', 'target', 'agent', '192.168.1.1', 'referrer' );
-
-		$this->setNonce();
-		$result = $this->get_logs();
-
-		$this->assertTrue( is_array( $result->items ) );
-		$this->assertEquals( 1, $result->total );
 	}
 
 	public function testLogNoData() {

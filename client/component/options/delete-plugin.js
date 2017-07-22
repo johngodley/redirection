@@ -27,6 +27,7 @@ class DeletePlugin extends React.Component {
 
 	handleDelete() {
 		this.props.onDelete();
+		this.closeModal();
 	}
 
 	render() {

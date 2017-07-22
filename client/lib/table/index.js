@@ -3,7 +3,7 @@
  * Internal dependencies
  */
 
-import { getPageUrl, setPageUrl } from 'lib/wordpress-url';
+import { getPageUrl } from 'lib/wordpress-url';
 
 const tableParams = [ 'orderBy', 'direction', 'page', 'perPage', 'filter', 'filterBy' ];
 
@@ -30,8 +30,9 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		filterBy: '',
 		filter: '',
 	};
+	const sub = query.sub === undefined ? '' : query.sub;
 
-	if ( query.sub && subParams.indexOf( query.sub ) === -1 ) {
+	if ( subParams.indexOf( sub ) === -1 ) {
 		return defaults;
 	}
 
@@ -41,21 +42,9 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		direction: query.direction && query.direction === 'asc' ? 'asc' : defaults.direction,
 		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : defaults.page,
 		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.perPage,
-		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) ? query.filterby : defaults.filterBy,
+		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) !== -1 ? query.filterby : defaults.filterBy,
 		filter: query.filter ? query.filter : defaults.filter,
 	};
-};
-
-export const mergeWithTableForApi = ( state, params ) => {
-	const newState = {};
-
-	for ( let x = 0; x < tableParams.length; x++ ) {
-		const value = tableParams[ x ];
-
-		newState[ value ] = state[ value ];
-	}
-
-	return Object.assign( {}, newState, params );
 };
 
 export const mergeWithTable = ( state, params ) => {
@@ -70,13 +59,28 @@ export const mergeWithTable = ( state, params ) => {
 	return newState;
 };
 
-export const setTableParams = ( state, params, defaultOrder = '' ) => {
-	const newState = mergeWithTable( state, params );
-	const { orderBy, direction, page, perPage, filter, filterBy } = newState;
+export const removeDefaults = ( table, defaultOrder ) => {
+	if ( table.direction === 'desc' ) {
+		delete table.direction;
+	}
 
-	setPageUrl( { orderBy, direction, offset: page, perPage, filter, filterBy }, { orderBy: defaultOrder, direction: 'desc', offset: 0, filter: '', filterBy: '', perPage: parseInt( Redirectioni10n.per_page, 10 ) } );
+	if ( table.orderBy === defaultOrder ) {
+		delete table.orderBy;
+	}
 
-	return newState;
+	if ( table.page === 0 ) {
+		delete table.page;
+	}
+
+	if ( table.perPage === parseInt( Redirectioni10n.per_page, 10 ) ) {
+		delete table.perPage;
+	}
+
+	return table;
+};
+
+export const clearSelected = state => {
+	return Object.assign( {}, state, { selected: [] } );
 };
 
 export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );
