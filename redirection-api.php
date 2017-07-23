@@ -206,15 +206,15 @@ class Redirection_Api {
 			$result[] = $moduleData;
 		}
 
-		return $this->output_ajax_response( $result );
+		return $this->output_ajax_response( count( $result ) === 1 ? array( 'item' => $result[ 0 ] ) : array( 'items' => $result ) );
 	}
 
 	public function ajax_set_module( $params ) {
 		$params = $this->get_params( $params );
 
 		$result = array( 'error' => 'Failed to save module' );
-		if ( isset( $params['module'] ) ) {
-			$module = Red_Module::get( $params[ 'module' ] );
+		if ( isset( $params['id'] ) ) {
+			$module = Red_Module::get( $params[ 'id' ] );
 
 			if ( $module ) {
 				$module->update( $params );
@@ -242,7 +242,7 @@ class Redirection_Api {
 	private function get_module_data( $module, $type ) {
 		$data = array(
 			'redirects' => $module->get_total_redirects(),
-			'module_id' => $module->get_id(),
+			'id' => $module->get_id(),
 			'displayName' => $module->get_name(),
 		);
 

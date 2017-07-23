@@ -29,8 +29,9 @@ import {
 } from 'state/log/type';
 import {
 	MODULE_FAILED,
-	MODULE_SAVING,
-	MODULE_SAVED,
+	MODULE_ITEM_SAVING,
+	MODULE_ITEM_SAVED,
+	MODULE_ITEM_FAILED,
 } from 'state/module/type';
 import {
 	SETTING_LOAD_FAILED,
@@ -55,7 +56,7 @@ const NOTICES = {
 	LOG_ITEM_SAVED: __( 'Log deleted' ),
 	SETTING_SAVED: __( 'Settings saved' ),
 	GROUP_ITEM_SAVED: __( 'Group saved' ),
-	MODULE_SAVED: __( 'Module saved' ),
+	MODULE_ITEM_SAVED: __( 'Module saved' ),
 };
 
 export default function messages( state = {}, action ) {
@@ -66,6 +67,7 @@ export default function messages( state = {}, action ) {
 		case LOG_FAILED:
 		case LOG_ITEM_FAILED:
 		case MODULE_FAILED:
+		case MODULE_ITEM_FAILED:
 		case SETTING_LOAD_FAILED:
 		case SETTING_SAVE_FAILED:
 		case REDIRECT_FAILED:
@@ -75,7 +77,7 @@ export default function messages( state = {}, action ) {
 
 		case LOG_ITEM_SAVING:
 		case REDIRECT_ITEM_SAVING:
-		case MODULE_SAVING:
+		case MODULE_ITEM_SAVING:
 		case SETTING_SAVING:
 		case GROUP_ITEM_SAVING:
 			return { ... state, inProgress: state.inProgress + 1 };
@@ -84,7 +86,7 @@ export default function messages( state = {}, action ) {
 		case REDIRECT_ITEM_SAVED:
 		case SETTING_SAVED:
 		case GROUP_ITEM_SAVED:
-		case MODULE_SAVED:
+		case MODULE_ITEM_SAVED:
 			return { ... state, notices: addNotice( state.notices, NOTICES[ action.type ] ), inProgress: reduceProgress( state ) };
 
 		case MESSAGE_CLEAR_NOTICES:

@@ -83,7 +83,7 @@ class Groups extends React.Component {
 				value: '',
 				text: __( 'All modules' ),
 			}
-		].concat( modules.map( item => ( { value: item.module_id, text: item.displayName } ) ) );
+		].concat( modules.map( item => ( { value: item.id, text: item.displayName } ) ) );
 	}
 
 	onChange( ev ) {
@@ -125,8 +125,8 @@ class Groups extends React.Component {
 								<td>
 									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ isSaving || module.status !== STATUS_COMPLETE } />
 
-									<select name="module_id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ isSaving || module.status !== STATUS_COMPLETE }>
-										{ module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
+									<select name="id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ isSaving || module.status !== STATUS_COMPLETE }>
+										{ module.rows.map( item => <option key={ item.id } value={ item.id }>{ item.displayName }</option> ) }
 									</select>
 
 									&nbsp;

@@ -6,6 +6,7 @@
 import React from 'react';
 import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
@@ -117,9 +118,9 @@ class LogModule extends React.Component {
 	}
 
 	render() {
-		const { redirects, module_id, displayName, data } = this.props.item;
+		const { redirects, id, displayName, data } = this.props.item;
 		const { isLoading } = this.props;
-		const menu = this.getMenu( module_id, redirects );
+		const menu = this.getMenu( id, redirects );
 		const total = redirects === null ? '-' : redirects;
 		let showItem;
 
@@ -135,7 +136,7 @@ class LogModule extends React.Component {
 			<tr>
 				<td className="module-contents">
 					<p><strong>{ displayName }</strong></p>
-					<p>{ description( module_id ) }</p>
+					<p>{ description( id ) }</p>
 
 					{ this.state.showing ? showItem : <RowActions>{ menu }</RowActions> }
 				</td>
@@ -147,10 +148,15 @@ class LogModule extends React.Component {
 	}
 }
 
+LogModule.propTypes = {
+	item: PropTypes.object.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+};
+
 function mapDispatchToProps( dispatch ) {
 	return {
-		onGetData: ( moduleId, type ) => {
-			dispatch( getModule( moduleId, type ) );
+		onGetData: ( moduleId, moduleType ) => {
+			dispatch( getModule( { moduleId, moduleType } ) );
 		},
 		onSetData: ( moduleId, data ) => {
 			dispatch( setModule( moduleId, data ) );

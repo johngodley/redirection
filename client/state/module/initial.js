@@ -8,6 +8,7 @@ import { getDefaultTable } from 'lib/table';
 export function getInitialModule() {
 	return {
 		rows: [],
+		saving: [],
 		status: STATUS_IN_PROGRESS,
 		total: 3,
 		table: getDefaultTable( [], [], '', [ 'module' ] ),
