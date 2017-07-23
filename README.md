@@ -1,6 +1,7 @@
 # Redirection
 
-[![Build Status](https://travis-ci.org/johngodley/redirection.svg?branch=master)](https://travis-ci.org/johngodley/redirection)
+PHP [![Build Status](https://travis-ci.org/johngodley/redirection.svg?branch=master)](https://travis-ci.org/johngodley/redirection)
+JavaScript [![CircleCI](https://circleci.com/gh/johngodley/redirection.svg?style=svg)](https://circleci.com/gh/johngodley/redirection)
 
 Redirection is a WordPress plugin to manage 301 redirections, keep track of 404 errors, and generally tidy up any loose ends your site may have. This is particularly useful if you are migrating pages from an old website, or are changing the directory of your WordPress installation.
 
