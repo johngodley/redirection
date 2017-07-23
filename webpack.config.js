@@ -15,7 +15,7 @@ const config = {
 	],
 	output: {
 		path: path.join( __dirname ),
-		filename: 'redirection-ui.js',
+		filename: 'redirection.js',
 		chunkFilename: 'redirection-[name]-[chunkhash].js',
 	},
 	module: {

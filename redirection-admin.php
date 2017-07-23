@@ -137,9 +137,9 @@ class Redirection_Admin {
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection-ui.js', array(), $version );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $version );
 		} else {
-			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection-ui.js', array(), $version );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $version );
 		}
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
