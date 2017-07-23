@@ -160,7 +160,7 @@ gulp.task( 'export', () => {
 	console.log( 'Exporting: ' + zipName );
 
 	return copyPlugin( config.export_target, () => {
-		return gulp.src( config.export_target + '/**' )
+		return gulp.src( config.export_target + '/**', { base: path.join( config.export_target, '..' ) } )
 			.pipe( zip( zipName ) )
 			.pipe( gulp.dest( zipTarget ) );
 	} );

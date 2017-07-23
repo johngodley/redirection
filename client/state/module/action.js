@@ -5,48 +5,22 @@ import {
 	MODULE_LOADING,
 	MODULE_LOADED,
 	MODULE_FAILED,
-	MODULE_SAVING,
-	MODULE_SAVED,
+	MODULE_ITEM_SAVING,
+	MODULE_ITEM_SAVED,
+	MODULE_ITEM_FAILED,
 } from './type';
-import getApi from 'lib/api';
+import { saveAction, processRequest } from 'lib/store';
 
-export const getModule = ( moduleId, moduleType ) => {
-	return ( dispatch ) => {
-		const params = { moduleId, moduleType };
+const STATUS_MODULE = { saving: MODULE_LOADING, saved: MODULE_LOADED, failed: MODULE_FAILED, order: 'name' };
+const STATUS_MODULE_ITEM = { saving: MODULE_ITEM_SAVING, saved: MODULE_ITEM_SAVED, failed: MODULE_ITEM_FAILED, order: 'name' };
 
-		getApi( 'red_get_module', params )
-			.then( json => {
-				dispatch( { type: MODULE_LOADED, rows: json } );
-			} )
-			.catch( error => {
-				dispatch( { type: MODULE_FAILED, error } );
-			} );
-
-		return dispatch( { ... params, type: MODULE_LOADING } );
-	};
-};
+export const getModule = args => ( dispatch, getState ) => processRequest( 'red_get_module', dispatch, STATUS_MODULE, args, getState().module );
+export const setModule = item => saveAction( 'module', 'red_set_module', item, STATUS_MODULE_ITEM );
 
 export const downloadFile = url => {
 	document.location.href = url;
 
 	return {
 		type: 'NOTHING',
-	};
-};
-
-export const setModule = ( module, moduleData ) => {
-	return ( dispatch, getState ) => {
-		const state = getState().module;
-		const params = { module, moduleData: Object.assign( {}, state.rows[ 2 ].data, moduleData ) };
-
-		getApi( 'red_set_module', params )
-			.then( json => {
-				dispatch( { type: MODULE_SAVED, rows: json } );
-			} )
-			.catch( error => {
-				dispatch( { type: MODULE_FAILED, error } );
-			} );
-
-		return dispatch( { ... params, type: MODULE_SAVING } );
 	};
 };

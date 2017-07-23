@@ -65,7 +65,7 @@ const LogRow = props => {
 			<td>
 				<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 				<RowActions>
-					{ [ sent_to.substring( 0, 100 ) ] }
+					{ [ sent_to ? sent_to.substring( 0, 100 ) : '' ] }
 				</RowActions>
 			</td>
 			<td>

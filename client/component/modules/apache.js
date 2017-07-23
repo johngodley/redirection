@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { translate as __ } from 'lib/locale';
+import PropTypes from 'prop-types';
 
 class ApacheConfigure extends React.Component {
 	constructor( props ) {
@@ -19,7 +20,7 @@ class ApacheConfigure extends React.Component {
 	}
 
 	handleSave() {
-		this.props.onSave( 2, this.state );
+		this.props.onSave( { id: 2, moduleData: this.state } );
 	}
 
 	handleChange( ev ) {
@@ -84,5 +85,11 @@ class ApacheConfigure extends React.Component {
 		);
 	}
 }
+
+ApacheConfigure.propTypes = {
+	data: PropTypes.object.isRequired,
+	onClose: PropTypes.func.isRequired,
+	onSave: PropTypes.func.isRequired,
+};
 
 export default ApacheConfigure;

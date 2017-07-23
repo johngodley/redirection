@@ -6,9 +6,13 @@ import reducer from 'state/module/reducer';
 import {
 	MODULE_LOADING,
 	MODULE_LOADED,
+	MODULE_ITEM_SAVING,
+	MODULE_ITEM_SAVED,
+	MODULE_ITEM_FAILED,
 	MODULE_FAILED,
 } from 'state/module/type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
+import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from 'lib/store';
 
 const NEW_TABLE = {
 	orderBy: 'name',
@@ -22,81 +26,74 @@ const NEW_TABLE = {
 };
 const DEFAULT_STATE = {
 	rows: [],
-	status: STATUS_IN_PROGRESS,
-	total: 3,
+	status: 0,
+	total: 0,
+	error: false,
 	table: NEW_TABLE,
+	saving: [],
 };
-const MODULE_DATA = [
-	{
-		module_id: 1,
-		name: 'wordpress',
-	},
-	{
-		module_id: 2,
-		name: 'apache',
-	},
-	{
-		module_id: 3,
-		name: 'nginx',
-	},
-];
-const NEW_MODULE = {
-	wordpress: {
-		module_id: 1,
-		name: 'wordpress',
-		data: 1,
-	}
-};
-const EXPECTED_MODULES = [
-	{
-		module_id: 1,
-		name: 'wordpress',
-	},
-	{
-		module_id: 2,
-		name: 'apache',
-	},
-	{
-		module_id: 3,
-		name: 'nginx',
-	},
-];
+
+jest.mock( 'lib/store' );
+
+const isCalled = ( mocker, first, second ) => expect( mocker.mock.calls[ 0 ][ 0 ] ).toBe( first ) && expect( mocker.mock.calls[ 0 ][ 1 ] ).toBe( second );
 
 describe( 'modules reducer', () => {
 	test( 'unknown action returns same state', () => {
 		expect( reducer( DEFAULT_STATE, { type: 'something' } ) ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'MODULE_LOADING sets status in progress', () => {
-		const state = reducer( DEFAULT_STATE, { type: MODULE_LOADING } );
+	test( 'MODULE_LOADING', () => {
+		const action = { type: MODULE_LOADING };
+		const state = reducer( DEFAULT_STATE, action );
 
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.status ).toEqual( STATUS_IN_PROGRESS );
+		isCalled( setTable, DEFAULT_STATE, action );
+		expect( state.status ).toBe( STATUS_IN_PROGRESS );
+		expect( state.saving ).toEqual( [] );
 	} );
 
-	test( 'MODULE_FAILED sets status to failed', () => {
-		const state = reducer( DEFAULT_STATE, { type: MODULE_FAILED, error: 'failed' } );
+	test( 'MODULE_FAILED', () => {
+		const action = { type: MODULE_FAILED };
+		const state = reducer( DEFAULT_STATE, action );
 
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.status ).toEqual( STATUS_FAILED );
+		expect( state.status ).toBe( STATUS_FAILED );
+		expect( state.saving ).toEqual( [] );
 	} );
 
-	test( 'MODULE_LOADED sets status complete and updates rows on first time', () => {
-		const state = reducer( DEFAULT_STATE, { type: MODULE_LOADED, rows: MODULE_DATA } );
+	test( 'MODULE_LOADED', () => {
+		const action = { type: MODULE_LOADED };
+		const state = reducer( DEFAULT_STATE, action );
 
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.status ).toEqual( STATUS_COMPLETE );
-		expect( state.rows ).toEqual( EXPECTED_MODULES );
+		expect( state.status ).toBe( STATUS_COMPLETE );
+		isCalled( setRows, DEFAULT_STATE, action );
+		isCalled( setTotal, DEFAULT_STATE, action );
 	} );
 
-	test( 'MODULE_LOADED updates existing rows', () => {
-		const state = reducer( Object.assign( {}, DEFAULT_STATE, { rows: EXPECTED_MODULES } ), { type: MODULE_LOADED, rows: NEW_MODULE } );
-		const expected = EXPECTED_MODULES;
+	test( 'MODULE_ITEM_SAVING', () => {
+		const action = { type: MODULE_ITEM_SAVING };
 
-		expected[ 1 ].data = 1;
+		reducer( DEFAULT_STATE, action );
 
-		expect( state.table ).toEqual( NEW_TABLE );
-		expect( state.status ).toEqual( STATUS_COMPLETE );
-		expect( state.rows ).toEqual( EXPECTED_MODULES );
+		isCalled( setTable, DEFAULT_STATE, action );
+		isCalled( setSaving, DEFAULT_STATE, action );
+		isCalled( setItem, DEFAULT_STATE, action );
+	} );
+
+	test( 'MODULE_ITEM_SAVED', () => {
+		const action = { type: MODULE_ITEM_SAVED };
+
+		reducer( DEFAULT_STATE, action );
+
+		isCalled( setRows, DEFAULT_STATE, action );
+		isCalled( setTotal, DEFAULT_STATE, action );
+		isCalled( removeSaving, DEFAULT_STATE, action );
+	} );
+
+	test( 'MODULE_ITEM_FAILED', () => {
+		const action = { type: MODULE_ITEM_FAILED };
+
+		reducer( DEFAULT_STATE, action );
+
+		isCalled( removeSaving, DEFAULT_STATE, action );
+		isCalled( restoreToOriginal, DEFAULT_STATE, action );
 	} );
 } );

@@ -1,160 +1,43 @@
-.red-added {
-	display: none;
-}
-
-table.edit.loading .table-loading .spinner {
-	float: left;
-	display: block;
-}
-
-table.items .red-disabled {
-	text-decoration: line-through;
-}
-
-.red-error {
-	display: none;
-	border-width: 1px;
-	border-style: solid;
-	padding: 1em 1em;
-	margin: 10px 0px;
-	background-color: #F55B7C;
-	border-color: red;
-	color: white;
-}
-
-.loaded .red-added {
-	display: block;
-	border-width: 1px;
-	border-style: solid;
-	padding: 0 0.6em;
-	margin: 5px 15px 2px;
-	background-color: #ffffe0;
-	border-color: #e6db55;
-}
-
-.loading .updated-red p {
-	margin: 0.5em 0;
-	line-height: 1;
-	padding: 2px;
-}
-
-.loaded-error .red-error {
-	display: block;
-}
-
-
-.advanced-toggle {
-	margin-left: 15px;
-	vertical-align: sub;
-}
-
-.advanced-toggle img {
-	width: 15px;
-	height: 15px;
-}
-
-.advanced-toggled {
-	color: #aaa !important;
-}
-
-.advanced-toggle:focus {
-	box-shadow: none;
-	-webkit-box-shadow: none;
-}
-
-.wp-list-table .column-moduletype {
-	width: 100px;
-}
-
-.wp-list-table .column-groups {
-	width: 50px;
-}
-
-.wp-list-table .column-created {
-	width: 150px;
-}
-
-.wp-list-table .column-ip {
-	width: 120px;
-}
-
-.wp-list-table .column-type {
-	width: 50px;
-	text-align: left;
-}
-
-.wp-list-table .column-redirects {
-	width: 100px;
-	text-align: left;
-}
-
-.wp-list-table .column-export {
-	width: 200px;
-}
-
-.wp-list-table .column-module, .wp-list-table .column-total {
-	width: 100px;
-}
-
-table.items table.edit {
-	width: 100%;
-}
-
-table.items table.edit td, table.items table.edit th {
-	line-height: 1.2;
-	padding: 2px;
-	font-size: 12px;
-}
-
-table.items table.edit th {
-	font-size: 13px;
-	font-weight: bold;
-}
-
-.donations {
-	padding: 10px 20px;
-}
-
-.donations li {
-	float: left;
+#react-ui h1 {
 	text-align: center;
-	padding-right: 20px;
+	color: #999;
+	margin-top: 150px;
 }
 
-.donations li strong {
-	font-weight: bold;
-	font-size: 14px;
-}
-
-.module-config {
-	padding-left: 40px;
-	padding-top: 10px;
-	font-style: italic;
-}
-
-.error-container {
-	margin-top: 20px;
-	padding: 20px;
-	background-color: red;
-	color: white;
-	font-weight: bold;
-	display: none;
-}
-
-.module-export {
-	border: 1px solid #ddd;
-	padding: 5px;
-	font-family: courier;
-	background-color: #eee;
-	margin-top: 15px;
+.react-loading {
+	position: absolute;
 	width: 100%;
+	height: 100%;
 }
 
-ul.translators {
-	list-style-type: disc;
-	margin-left: 30px;
+.react-loading-spinner {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	left: 50%;
+	margin-left: -65px;
+
+	background-color: #333;
+	border-radius: 100%;
+	-webkit-animation: sk-scaleout-loading 1.0s infinite ease-in-out;
+	animation: sk-scaleout-loading 1.0s infinite ease-in-out;
 }
 
-ul.translators li {
-	line-height: 1em;
+@-webkit-keyframes sk-scaleout-loading {
+  0% { -webkit-transform: scale(0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes sk-scaleout-loading {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    opacity: 0;
+  }
 }

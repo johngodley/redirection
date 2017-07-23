@@ -136,12 +136,10 @@ class Redirection_Admin {
 			add_screen_option( 'per_page', array( 'label' => __( 'Log entries (100 max)', 'redirection' ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
 		}
 
-		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array( 'jquery-form', 'jquery-ui-sortable' ), $version );
-
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection-ui', 'http://localhost:3312/redirection-ui.js', array( 'redirection' ), $version );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $version );
 		} else {
-			wp_enqueue_script( 'redirection-ui', plugin_dir_url( REDIRECTION_FILE ).'redirection-ui.js', array( 'redirection' ), $version );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $version );
 		}
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
@@ -201,30 +199,7 @@ class Redirection_Admin {
 	function admin_screen() {
 	  	Redirection_Admin::update();
 
-		if ( isset( $_GET['sub'] ) ) {
-			if ( $_GET['sub'] === 'log' )
-				return $this->admin_screen_log();
-			elseif ( $_GET['sub'] === '404s' )
-				return $this->admin_screen_404();
-			elseif ( $_GET['sub'] === 'options' )
-				return $this->admin_screen_options();
-			elseif ( $_GET['sub'] === 'process' )
-				return $this->admin_screen_process();
-			elseif ( $_GET['sub'] === 'groups' )
-				return $this->admin_groups( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
-			elseif ( $_GET['sub'] === 'modules' )
-				return $this->admin_screen_modules();
-			elseif ( $_GET['sub'] === 'support' )
-				return $this->render( 'support', array( 'options' => red_get_options() ) );
-		}
-
-		return $this->admin_redirects( isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0 );
-	}
-
-	function admin_screen_modules() {
-		$options = red_get_options();
-
-		$this->render( 'module-list', array( 'options' => $options ) );
+		$this->display();
 	}
 
 	private function user_has_access() {
@@ -261,39 +236,32 @@ class Redirection_Admin {
 		}
 	}
 
-	function admin_screen_options() {
-		if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
-			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
+	// 	if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
+	// 		$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
+	//
+	// 		if ( $count > 0 ) {
+	// 			$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
+	// 		} else {
+	// 			$this->render_message( __( 'No items were imported', 'redirection' ) );
+	// 		}
+	// 	}
 
-			if ( $count > 0 ) {
-				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
-			} else {
-				$this->render_message( __( 'No items were imported', 'redirection' ) );
-			}
-		}
+	public function display() {
+?>
+<div id="react-ui">
+	<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
+	<div class="react-loading">
+		<span class="react-loading-spinner" />
+	</div>
+	<noscript>Please enable JavaScript</noscript>
+</div>
 
-		$groups = Red_Group::get_for_select();
-		$this->render( 'options', array( 'options' => red_get_options(), 'groups' => $groups ) );
-	}
-
-	function admin_screen_log() {
-		$options = red_get_options();
-
-		$this->render( 'log', array( 'options' => $options, 'title' => __( 'Redirection Log', 'redirection' ) ) );
-	}
-
-	function admin_screen_404() {
-		$options = red_get_options();
-
-		$this->render( 'log', array( 'options' => $options, 'title' => __( 'Redirection 404', 'redirection' ) ) );
-	}
-
-	function admin_groups( $module ) {
-		$this->render( 'group-list', array( 'options' => red_get_options() ) );
-	}
-
-	function admin_redirects( $group_id ) {
-		$this->render( 'item-list', array( 'options' => red_get_options(), 'group' => $group_id ) );
+<script>
+	addLoadEvent( function() {
+		redirection.show( 'react-ui' );
+	} );
+</script>
+<?php
 	}
 }
 

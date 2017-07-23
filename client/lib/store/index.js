@@ -57,6 +57,7 @@ export const saveAction = ( storeName, action, item, status ) => ( dispatch, get
 
 	return dispatch( { type: status.saving, table, item, saving: [ item.id ] } );
 };
+
 const objectDiff = ( source, extra ) => {
 	const newObj = {};
 
@@ -69,9 +70,24 @@ const objectDiff = ( source, extra ) => {
 	return newObj;
 };
 
-export const processRequest = ( action, dispatch, status, params = {}, table = {} ) => {
+const deepCompare = ( first, second ) => {
+	for ( const name in first ) {
+		if ( first [ name ] !== second[ name ] ) {
+			return false;
+		}
+	}
+
+	return true;
+};
+
+export const processRequest = ( action, dispatch, status, params = {}, state = {} ) => {
+	const { table, rows } = state;
 	const tableData = mergeWithTable( table, params );
 	const data = removeDefaults( { ... table, ... params }, status.order );
+
+	if ( deepCompare( tableData, table ) && rows.length > 0 && deepCompare( params, {} ) ) {
+		return;
+	}
 
 	getApi( action, data )
 		.then( json => {

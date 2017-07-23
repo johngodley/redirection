@@ -16,12 +16,12 @@ import { tableAction, processRequest } from 'lib/store';
 const STATUS_LOG_ITEM = { saving: LOG_ITEM_SAVING, saved: LOG_ITEM_SAVED, failed: LOG_ITEM_FAILED, order: 'date' };
 const STATUS_LOG = { saving: LOG_LOADING, saved: LOG_LOADED, failed: LOG_FAILED, order: 'date' };
 
-export const deleteAll = () => ( dispatch, getState ) => processRequest( 'red_delete_all', dispatch, STATUS_LOG, { logType: getState().log.logType }, getState().log.table );
+export const deleteAll = () => ( dispatch, getState ) => processRequest( 'red_delete_all', dispatch, STATUS_LOG, { logType: getState().log.logType }, getState().log );
 export const performTableAction = ( action, ids, extra ) => tableAction( 'log', 'red_log_action', action, ids, STATUS_LOG_ITEM, extra );
 export const getLogs = args => ( dispatch, getState ) => {
 	const { log } = getState();
 
-	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log.table );
+	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log );
 };
 export const loadLogs = logType => getLogs( { logType } );
 export const setOrderBy = ( orderBy, direction ) => getLogs( { orderBy, direction } );

@@ -3,6 +3,8 @@
  */
 
 import React from 'react';
+import { translate as __ } from 'lib/locale';
+import { connect } from 'react-redux';
 
 /**
  * Internal dependencies
@@ -19,8 +21,37 @@ import Redirects from 'component/redirects';
 import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
+import Menu from 'component/menu';
+import { clearErrors } from 'state/message/action';
+
+const TITLES = {
+	redirect: __( 'Redirections' ),
+	groups: __( 'Groups' ),
+	modules: __( 'Modules' ),
+	log: __( 'Logs' ),
+	'404s': __( '404 errors' ),
+	options: __( 'Options' ),
+	support: __( 'Support' ),
+};
 
 class Home extends React.Component {
+	constructor( props ) {
+		super( props );
+
+		this.state = { page: getPluginPage() };
+		this.handlePageChange = this.onChangePage.bind( this );
+	}
+
+	onChangePage( page, url ) {
+		if ( page === '' ) {
+			page = 'redirect';
+		}
+
+		history.pushState( {}, null, url );
+		this.setState( { page } );
+		this.props.onClear();
+	}
+
 	getContent( page ) {
 		switch ( page ) {
 			case 'support':
@@ -46,13 +77,16 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const page = getPluginPage();
+		const title = TITLES[ this.state.page ];
 
 		return (
-			<div className="redirection">
+			<div className="wrap redirection">
+				<h2>{ title }</h2>
+
+				<Menu onChangePage={ this.handlePageChange } />
 				<Error />
 
-				{ this.getContent( page ) }
+				{ this.getContent( this.state.page ) }
 
 				<Progress />
 				<Notice />
@@ -61,4 +95,15 @@ class Home extends React.Component {
 	}
 }
 
-export default Home;
+function mapDispatchToProps( dispatch ) {
+	return {
+		onClear: () => {
+			dispatch( clearErrors() );
+		},
+	};
+}
+
+export default connect(
+	null,
+	mapDispatchToProps,
+)( Home );

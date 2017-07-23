@@ -94,7 +94,7 @@ class Redirects extends React.Component {
 	renderNew() {
 		return (
 			<div>
-				<h1>{ __( 'Add new redirection' ) }</h1>
+				<h2>{ __( 'Add new redirection' ) }</h2>
 				<div className="add-new edit">
 					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } />
 				</div>

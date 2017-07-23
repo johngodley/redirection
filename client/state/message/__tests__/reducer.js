@@ -22,8 +22,8 @@ import {
 import { LOG_FAILED } from 'state/log/type';
 import {
 	MODULE_FAILED,
-	MODULE_SAVING,
-	MODULE_SAVED,
+	MODULE_ITEM_SAVING,
+	MODULE_ITEM_SAVED,
 } from 'state/module/type';
 import {
 	SETTING_LOAD_FAILED,
@@ -71,7 +71,7 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'Saving action results in inProgress being incremented', () => {
-		const actions = [ REDIRECT_ITEM_SAVING, MODULE_SAVING, SETTING_SAVING, GROUP_ITEM_SAVING ];
+		const actions = [ REDIRECT_ITEM_SAVING, MODULE_ITEM_SAVING, SETTING_SAVING, GROUP_ITEM_SAVING ];
 
 		for ( let x = 0; x < actions.length; x++ ) {
 			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ] } );
@@ -82,7 +82,7 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'Saved action results in inProgress being decremented and a notice logged', () => {
-		const actions = [ REDIRECT_ITEM_SAVED, SETTING_SAVED, GROUP_ITEM_SAVED, MODULE_SAVED ];
+		const actions = [ REDIRECT_ITEM_SAVED, SETTING_SAVED, GROUP_ITEM_SAVED, MODULE_ITEM_SAVED ];
 		const notices = [ 'Redirection saved', 'Settings saved', 'Group saved', 'Module saved' ];
 
 		for ( let x = 0; x < actions.length; x++ ) {
