@@ -118,7 +118,7 @@ class GroupRow extends React.Component {
 							<th width="70">{ __( 'Module' ) }</th>
 							<td>
 								<select name="module_id" onChange={ this.handleSelect } value={ this.state.moduleId }>
-									{ this.props.module.rows.map( item => <option key={ item.module_id } value={ item.module_id }>{ item.displayName }</option> ) }
+									{ this.props.module.rows.map( item => <option key={ item.id } value={ item.module_id }>{ item.displayName }</option> ) }
 								</select>
 							</td>
 						</tr>

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { translate as __ } from 'lib/locale';
+import { connect } from 'react-redux';
 
 /**
  * Internal dependencies
@@ -21,6 +22,7 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
+import { clearErrors } from 'state/message/action';
 
 const TITLES = {
 	redirect: __( 'Redirections' ),
@@ -47,6 +49,7 @@ class Home extends React.Component {
 
 		history.pushState( {}, null, url );
 		this.setState( { page } );
+		this.props.onClear();
 	}
 
 	getContent( page ) {
@@ -92,4 +95,15 @@ class Home extends React.Component {
 	}
 }
 
-export default Home;
+function mapDispatchToProps( dispatch ) {
+	return {
+		onClear: () => {
+			dispatch( clearErrors() );
+		},
+	};
+}
+
+export default connect(
+	null,
+	mapDispatchToProps,
+)( Home );
