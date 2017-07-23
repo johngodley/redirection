@@ -35,27 +35,27 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	}
 
 	private function getWP( $result ) {
-		return isset( $result[ 0 ] ) ? $result[ 0 ] : false;
+		return isset( $result->items[ 0 ] ) ? $result->items[ 0 ] : false;
 	}
 
 	private function getApache( $result ) {
-		return isset( $result[ 1 ] ) ? $result[ 1 ] : false;
+		return isset( $result->items[ 1 ] ) ? $result->items[ 1 ] : false;
 	}
 
 	private function getNginx( $result ) {
-		return isset( $result[ 2 ] ) ? $result[ 2 ] : false;
+		return isset( $result->items[ 2 ] ) ? $result->items[ 2 ] : false;
 	}
 
 	private function hasWP( $result ) {
-		return $this->getWP( $result ) ? $this->getWP( $result )->module_id === 1 : false;
+		return $this->getWP( $result ) ? $this->getWP( $result )->id === 1 : false;
 	}
 
 	private function hasApache( $result ) {
-		return $this->getApache( $result ) ? $this->getApache( $result )->module_id === 2 : false;
+		return $this->getApache( $result ) ? $this->getApache( $result )->id === 2 : false;
 	}
 
 	private function hasNginx( $result ) {
-		return $this->getNginx( $result ) ? $this->getNginx( $result )->module_id === 3 : false;
+		return $this->getNginx( $result ) ? $this->getNginx( $result )->id === 3 : false;
 	}
 
 	private function setNonce() {
@@ -79,7 +79,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 
 	public function testBadModule() {
 		$this->setNonce();
-		$result = $this->get_module( array( 'moduleId' => 'purple' ) );
+		$result = $this->get_module( array( 'id' => 'purple' ) );
 
 		$this->assertTrue( $this->hasWP( $result ) );
 		$this->assertTrue( $this->hasApache( $result ) );
@@ -89,17 +89,17 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testValidModule() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->get_module( array( 'moduleId' => 1 ) );
+		$result = $this->get_module( array( 'id' => 1 ) );
 
 		$this->assertTrue( $this->hasWP( $result ) );
-		$this->assertFalse( $this->hasApache( $result ) );
-		$this->assertFalse( $this->hasNginx( $result ) );
+		$this->assertTrue( $this->hasApache( $result ) );
+		$this->assertTrue( $this->hasNginx( $result ) );
 	}
 
 	public function testBadExport() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->get_module( array( 'moduleId' => 1, 'moduleType' => 'purple' ) );
+		$result = $this->get_module( array( 'id' => 1, 'moduleType' => 'purple' ) );
 
 		$this->assertTrue( $this->hasWP( $result ) );
 		$this->assertEquals( 1, $this->getWP( $result )->redirects );
@@ -109,7 +109,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testGoodExport() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->get_module( array( 'moduleId' => 1, 'moduleType' => 'csv' ) );
+		$result = $this->get_module( array( 'id' => 1, 'moduleType' => 'csv' ) );
 
 		$this->assertTrue( $this->hasWP( $result ) );
 		$this->assertEquals( 1, $this->getWP( $result )->redirects );
@@ -119,7 +119,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetBadModule() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 'purple', 'moduleData_location' => 'test' ) );
+		$result = $this->set_module( array( 'id' => 'purple', 'moduleData_location' => 'test' ) );
 
 		$this->assertTrue( isset( $result->error ) );
 	}
@@ -127,7 +127,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetWPModule() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 1, 'moduleData_location' => 'test' ) );
+		$result = $this->set_module( array( 'id' => 1, 'moduleData_location' => 'test' ) );
 
 		$this->assertTrue( $this->hasWP( $result ) );
 		$this->assertFalse( isset( $this->getWP( $result )->data ) );
@@ -136,7 +136,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetNginxModule() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 3, 'moduleData_location' => 'test' ) );
+		$result = $this->set_module( array( 'id' => 3, 'moduleData_location' => 'test' ) );
 
 		$this->assertTrue( $this->hasNginx( $result ) );
 		$this->assertFalse( isset( $result->nginx->data ) );
@@ -145,7 +145,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetApacheModule() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 2, 'moduleData_location' => 'test', 'moduleData_canonical' => 'www' ) );
+		$result = $this->set_module( array( 'id' => 2, 'moduleData_location' => 'test', 'moduleData_canonical' => 'www' ) );
 
 		$this->assertTrue( $this->hasApache( $result ) );
 		$this->assertTrue( isset( $this->getApache( $result )->data ) );
@@ -156,7 +156,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetApacheModuleBadCanonical() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 2, 'moduleData_canonical' => 'xxx' ) );
+		$result = $this->set_module( array( 'id' => 2, 'moduleData_canonical' => 'xxx' ) );
 
 		$this->assertEquals( '', $this->getApache( $result )->data->canonical );
 	}
@@ -164,7 +164,7 @@ class RedirectionApiModuleTest extends WP_Ajax_UnitTestCase {
 	public function testSetApacheModuleBadLocation() {
 		$this->createRedirect();
 		$this->setNonce();
-		$result = $this->set_module( array( 'module' => 2, 'moduleData_location' => '/tmp' ) );
+		$result = $this->set_module( array( 'id' => 2, 'moduleData_location' => '/tmp' ) );
 
 		$this->assertEquals( '', $this->getApache( $result )->data->location );
 	}
