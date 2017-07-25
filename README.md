@@ -30,6 +30,8 @@ The following WordPress filters are available for customisation of logged data:
 - `redirection_404_data` - Data to be inserted into the 404 table
 - `redirection_log_data` - Data to be inserted into the redirect log table
 
+Note that returning `false` from the filter will bypass the log.
+
 ### Redirect source and target
 
 - `redirection_url_source` - The original URL used before matching a request. Return false to stop any redirection
