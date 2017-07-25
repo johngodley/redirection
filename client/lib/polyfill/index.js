@@ -5,6 +5,7 @@
  */
 
 import Plite from 'plite';
+import 'whatwg-fetch';
 
 ! window.Promise && ( window.Promise = Plite );
 
@@ -40,21 +41,4 @@ if ( typeof Object.assign !== 'function' ) {
 			return output;
 		};
 	} )();
-}
-
-function hotFetch( params ) {
-	if ( window.fetch && window.fetch !== hotFetch ) {
-		return window.fetch( params );
-	}
-
-	delete window.fetch;
-
-	// $FlowFixMe
-	return import( /* webpackChunkName: "compat" */ './compat' ).then( () => {
-		return fetch( params );
-	} );
-}
-
-if ( ! window.fetch ) {
-	window.fetch = hotFetch;
 }
