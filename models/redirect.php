@@ -102,8 +102,9 @@ class Red_Item {
 	}
 
 	static function sort_urls( $first, $second ) {
-		if ( $first['position'] === $second['position'] )
+		if ( $first['position'] === $second['position'] ) {
 			return 0;
+		}
 
 		return ($first['position'] < $second['position']) ? -1 : 1;
 	}
@@ -361,6 +362,7 @@ class Red_Item {
 			'hits' => $this->get_hits(),
 			'regex' => $this->is_regex(),
 			'group_id' => $this->get_group_id(),
+			'position' => $this->get_position(),
 			'last_access' => $this->get_last_hit() > 0 ? date_i18n( get_option( 'date_format' ), $this->get_last_hit() ) : '-',
 			'enabled' => $this->is_enabled(),
 		);
@@ -378,6 +380,7 @@ class Red_Item_Sanitize {
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
 		$data['url'] = $this->get_url( isset( $details['url'] ) ? $details['url'] : $this->auto_generate(), $data['regex'] );
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
+		$data['position'] = $this->get_position( $details );
 
 		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
 		if ( ! $matcher ) {
@@ -406,6 +409,14 @@ class Red_Item_Sanitize {
 		}
 
 		return apply_filters( 'redirection_validate_redirect', $data );
+	}
+
+	protected function get_position( $details ) {
+		if ( isset( $details['position'] ) ) {
+			return max( 0, intval( $details['position'], 10 ) );
+		}
+
+		return 0;
 	}
 
 	protected function is_url_type( $type ) {

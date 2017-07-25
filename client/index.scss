@@ -184,6 +184,12 @@ input.current-page {
 	input[type=text] {
 		width: 80%;
 	}
+
+	input[name=position] {
+		width: 60px;
+		margin-left: 10px;
+		padding-top: 4px;
+	}
 }
 
 .redirects {

@@ -120,4 +120,17 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login' ) ) );
 		$this->assertEquals( serialize( array( 'logged_in' => '', 'logged_out' => '' ) ), $result['action_data'] );
 	}
+
+	public function testBadPosition() {
+		$result = $this->sanitizer->get( $this->get_new( array( 'position' => 'cat' ) ) );
+		$this->assertEquals( 0, $result['position'] );
+
+		$result = $this->sanitizer->get( $this->get_new( array( 'position' => -1 ) ) );
+		$this->assertEquals( 0, $result['position'] );
+	}
+
+	public function testGoodPosition() {
+		$result = $this->sanitizer->get( $this->get_new( array( 'position' => 6 ) ) );
+		$this->assertEquals( 6, $result['position'] );
+	}
 }
