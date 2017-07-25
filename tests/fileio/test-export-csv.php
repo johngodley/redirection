@@ -58,4 +58,13 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( '"/source1","/target","0","url","301","url","0",""', $lines[1] );
 		$this->assertEquals( '"/source2","/target","0","url","301","url","0",""', $lines[2] );
 	}
+
+	public function testExportReferrer() {
+		$exporter = new Red_Csv_File();
+		$target = serialize( array( 'referrer' => 'ref', 'url_from' => 'url1', 'url_notfrom' => 'url2' ) );
+		$item = new Red_Item( (object) array( 'match_type' => 'referrer', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source1', 'action_data' => $target, 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"/source1","*","0","url","301","url","0",""', $csv );
+	}
 }
