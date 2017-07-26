@@ -304,7 +304,7 @@ class Red_Item {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'url', 'last_count', 'last_access' ), true ) ) {
+		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'url', 'last_count', 'last_access', 'position' ), true ) ) {
 			$orderby = $params['orderBy'];
 		}
 
