@@ -138,7 +138,7 @@ class RedirectRow extends React.Component {
 	}
 
 	render() {
-		const { id, url, hits, last_access, enabled, title } = this.props.item;
+		const { id, url, hits, last_access, enabled, title, position } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -156,6 +156,9 @@ class RedirectRow extends React.Component {
 
 				{ this.state.editing ? <td><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title, isSaving ) }
 
+				<td>
+					{ numberFormat( position ) }
+				</td>
 				<td>
 					{ numberFormat( hits ) }
 				</td>

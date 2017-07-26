@@ -120,7 +120,7 @@ class EditRedirect extends React.Component {
 		this.handleData = this.onSetData.bind( this );
 		this.handleAdvanced = this.onAdvanced.bind( this );
 
-		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code } = props.item;
+		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position } = props.item;
 		const { logged_in = '', logged_out = '' } = action_data;
 
 		this.state = {
@@ -132,6 +132,7 @@ class EditRedirect extends React.Component {
 			action_code,
 			action_data,
 			group_id,
+			position,
 
 			login: {
 				logged_in,
@@ -182,7 +183,7 @@ class EditRedirect extends React.Component {
 	}
 
 	onSave( ev ) {
-		const { url, title, regex, match_type, action_type, group_id, action_code } = this.state;
+		const { url, title, regex, match_type, action_type, group_id, action_code, position } = this.state;
 		const groups = this.props.group.rows;
 
 		const redirect = {
@@ -192,6 +193,7 @@ class EditRedirect extends React.Component {
 			regex,
 			match_type,
 			action_type,
+			position,
 			group_id: group_id > 0 ? group_id : groups[ 0 ].id,
 			action_code: this.getCode() ? parseInt( action_code, 10 ) : 0,
 			action_data: getActionData( this.state ),
@@ -348,13 +350,17 @@ class EditRedirect extends React.Component {
 
 	getGroup() {
 		const groups = this.props.group.rows;
-		const { group_id } = this.state;
+		const { group_id, position } = this.state;
+		const { advanced } = this.state;
 
 		return (
 			<tr>
 				<th>{ __( 'Group' ) }</th>
 				<td>
 					<Select name="group" value={ group_id } items={ nestedGroups( groups ) } onChange={ this.handleGroup } />
+					&nbsp;
+					{ advanced && <strong>{ __( 'Position' ) }</strong> }
+					{ advanced && <input type="number" value={ position } name="position" min="0" size="3" onChange={ this.handleChange } /> }
 				</td>
 			</tr>
 		);

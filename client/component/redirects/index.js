@@ -37,6 +37,10 @@ const headers = [
 		title: __( 'URL' ),
 	},
 	{
+		name: 'position',
+		title: __( 'Pos' ),
+	},
+	{
 		name: 'last_count',
 		title: __( 'Hits' ),
 	},

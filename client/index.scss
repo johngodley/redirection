@@ -101,6 +101,11 @@
 		text-align: left;
 	}
 
+	.column-position {
+		width: 60px;
+		text-align: left;
+	}
+
 	.column-type {
 		width: 50px;
 		text-align: left;
@@ -183,6 +188,12 @@ input.current-page {
 
 	input[type=text] {
 		width: 80%;
+	}
+
+	input[name=position] {
+		width: 60px;
+		margin-left: 10px;
+		padding-top: 4px;
 	}
 }
 
