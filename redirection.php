@@ -59,7 +59,30 @@ function red_get_options() {
 	return $options;
 }
 
-if ( is_admin() ) {
+function red_is_wpcli() {
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		return true;
+	}
+
+	return false;
+}
+
+function red_is_admin() {
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		return true;
+	}
+
+	if ( is_admin() ) {
+		return true;
+	}
+
+	return false;
+}
+
+if ( red_is_wpcli() ) {
+	include dirname( __FILE__ ).'/redirection-admin.php';
+    include dirname( __FILE__ ).'/redirection-cli.php';
+} elseif ( red_is_admin() ) {
 	include dirname( __FILE__ ).'/redirection-admin.php';
 } else {
 	include dirname( __FILE__ ).'/redirection-front.php';

@@ -26,6 +26,8 @@ class Red_Csv_File extends Red_FileIO {
 		foreach ( $items as $line ) {
 			fwrite( $handle, $this->item_as_csv( $line ).PHP_EOL );
 		}
+
+		return count( $items );
 	}
 
 	public function get( array $items ) {

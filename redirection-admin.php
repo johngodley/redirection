@@ -61,34 +61,6 @@ class Redirection_Admin {
 		Red_Flusher::schedule();
 	}
 
-	private function render( $template, $template_vars = array() ) {
-		foreach ( $template_vars as $key => $val ) {
-			$$key = $val;
-		}
-
-		if ( file_exists( dirname( REDIRECTION_FILE )."/view/$template.php" ) ) {
-			include dirname( REDIRECTION_FILE )."/view/$template.php";
-		}
-	}
-
-	private function capture( $ug_name, $ug_vars = array() ) {
-		ob_start();
-
-		$this->render( $ug_name, $ug_vars );
-		$output = ob_get_contents();
-
-		ob_end_clean();
-		return $output;
-	}
-
-	private function render_message( $message, $timeout = 0 ) {
-		?>
-<div class="updated" id="message" onclick="this.parentNode.removeChild(this)">
-	<p><?php echo $message ?></p>
-</div>
-	<?php
-	}
-
 	private static function update() {
 		$version = get_option( 'redirection_version' );
 
@@ -207,44 +179,56 @@ class Redirection_Admin {
 	}
 
 	function inject() {
+		// XXXX ???
 		if ( isset( $_POST['id'] ) && ! isset( $_POST['action'] ) ) {
 			wp_safe_redirect( add_query_arg( 'id', intval( $_POST['id'] ), $_SERVER['REQUEST_URI'] ) );
 			die();
 		}
 
 		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
-			if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
-				if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
-					RE_Log::export_to_csv();
-				} else {
-					RE_404::export_to_csv();
-				}
+			$this->tryExportLogs();
+			$this->tryImport();
+			$this->tryExportRedirects();
+		}
+	}
 
-				die();
+	private function tryExportLogs() {
+		if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) && $this->user_has_access() ) {
+			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
+				RE_Log::export_to_csv();
+			} else {
+				RE_404::export_to_csv();
 			}
 
-			if ( $this->user_has_access() && $_GET['sub'] === 'modules' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
-				$exporter = Red_FileIO::create( $_GET['exporter'] );
+			die();
+		}
+	}
 
-				if ( $exporter ) {
-					$items = Red_Item::get_all_for_module( intval( $_GET['export'] ) );
+	private function tryExportRedirects() {
+		if ( $this->user_has_access() && $_GET['sub'] === 'modules' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
+			$exporter = Red_FileIO::create( $_GET['exporter'] );
 
-					$exporter->export( $items );
-					die();
-				}
+			if ( $exporter ) {
+				$items = Red_Item::get_all_for_module( intval( $_GET['export'] ) );
+
+				$exporter->export( $items );
+				die();
 			}
 		}
 	}
 
-	// 	if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) ) {
-	// 		$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
-	//
-	// 		if ( $count > 0 ) {
-	// 			$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
-	// 		} else {
-	// 			$this->render_message( __( 'No items were imported', 'redirection' ) );
-	// 		}
-	// 	}
+// XXX move this to API
+	private function tryImport() {
+		if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) && $this->user_has_access() ) {
+			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
+
+			if ( $count > 0 ) {
+				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
+			} else {
+				$this->render_message( __( 'No items were imported', 'redirection' ) );
+			}
+		}
+	}
 
 	public function display() {
 ?>

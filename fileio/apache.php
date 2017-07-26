@@ -14,6 +14,12 @@ class Red_Apache_File extends Red_FileIO {
 		echo $this->get( $items );
 	}
 
+	function output_to_file( $handle, $items ) {
+		fwrite( $handle, $this->get( $items )."\n" );
+
+		return count( $items );
+	}
+
 	public function get( array $items ) {
 		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
 
