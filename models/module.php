@@ -46,6 +46,20 @@ abstract class Red_Module {
 		);
 	}
 
+	static function get_id_for_name( $name ) {
+		$names = array(
+			'wordpress' => WordPress_Module::MODULE_ID,
+			'apache'    => Apache_Module::MODULE_ID,
+			'nginx'     => Nginx_Module::MODULE_ID,
+		);
+
+		if ( isset( $names[ $name ] ) ) {
+			return $names[ $name ];
+		}
+
+		return false;
+	}
+
 	static function flush( $group_id ) {
 		$group = Red_Group::get( $group_id );
 

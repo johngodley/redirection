@@ -12,6 +12,12 @@ class Red_Nginx_File extends Red_FileIO {
 		echo $this->get( $items );
 	}
 
+	function output_to_file( $handle, $items ) {
+		fwrite( $handle, $this->get( $items )."\n" );
+
+		return count( $items );
+	}
+
 	public function get( array $items ) {
 		if ( count( $items ) === 0 )
 			return '';
