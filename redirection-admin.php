@@ -206,46 +206,14 @@ class Redirection_Admin {
 
 	private function tryExportRedirects() {
 		if ( $this->user_has_access() && $_GET['sub'] === 'modules' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
-			$exporter = Red_FileIO::create( $_GET['exporter'] );
+			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
 
-			if ( $exporter ) {
-				$items = Red_Item::get_all_for_module( intval( $_GET['export'] ) );
-
-				$exporter->export( $items );
+			if ( $export !== false ) {
+				$export['exporter']->force_download();
+				echo $export['data'];
 				die();
 			}
 		}
-	}
-
-// XXX move this to API
-	private function tryImport() {
-		if ( isset( $_POST['import'] ) && check_admin_referer( 'wp_rest' ) && $this->user_has_access() ) {
-			$count = Red_FileIO::import( $_POST['group'], $_FILES['upload'] );
-
-			if ( $count > 0 ) {
-				$this->render_message( sprintf( _n( '%d redirection was successfully imported','%d redirections were successfully imported', $count, 'redirection' ), $count ) );
-			} else {
-				$this->render_message( __( 'No items were imported', 'redirection' ) );
-			}
-		}
-	}
-
-	public function display() {
-?>
-<div id="react-ui">
-	<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
-	<div class="react-loading">
-		<span class="react-loading-spinner" />
-	</div>
-	<noscript>Please enable JavaScript</noscript>
-</div>
-
-<script>
-	addLoadEvent( function() {
-		redirection.show( 'react-ui' );
-	} );
-</script>
-<?php
 	}
 }
 

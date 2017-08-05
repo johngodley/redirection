@@ -17,6 +17,8 @@ class Redirection_Api {
 		'get_group',
 		'set_group',
 		'group_action',
+		'import_data',
+		'export_data',
 	);
 
 	public function __construct() {
@@ -42,6 +44,48 @@ class Redirection_Api {
 		}
 
 		return $params;
+	}
+
+	public function ajax_import_data( $params ) {
+		$params = $this->get_params( $params );
+		$upload = isset( $_FILES[ 'file' ] ) ? $_FILES[ 'file' ] : false;
+		$group_id = isset( $params['group'] ) ? intval( $params['group'], 10 ) : 0;
+
+		$result = array( 'error' => 'Invalid file ('.__LINE__.')' );
+		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
+			$result = array( 'error' => 'Invalid group ('.__LINE__.')' );
+
+			$count = Red_FileIO::import( $group_id, $upload );
+			if ( $count !== false ) {
+				$result = array(
+					'imported' => $count,
+				);
+			}
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_export_data( $params ) {
+		$params = $this->get_params( $params );
+		$moduleId = isset( $params['module'] ) ? intval( $params['module'], 10 ) : false;
+		$format = 'json';
+
+		if ( isset( $params['format'] ) && in_array( $params['format'], array( 'csv', 'apache', 'nginx', 'json' ) ) ) {
+			$format = $params['format'];
+		}
+
+		$result = array( 'error' => 'Invalid module ('.__LINE__.')' );
+
+		$export = Red_FileIO::export( $moduleId, $format );
+		if ( $export !== false ) {
+			$result = array(
+				'data' => $export['data'],
+				'total' => $export['total'],
+			);
+		}
+
+		return $this->output_ajax_response( $result );
 	}
 
 	public function ajax_group_action( $params ) {

@@ -1,26 +1,16 @@
 <?php
 
 class Red_Apache_File extends Red_FileIO {
-	public $htaccess;
+	public function force_download() {
+		parent::force_download();
 
-	function export( array $items ) {
 		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.htaccess';
 
 		header( 'Content-Type: application/octet-stream' );
-		header( 'Cache-Control: no-cache, must-revalidate' );
-		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
-
-		echo $this->get( $items );
 	}
 
-	function output_to_file( $handle, $items ) {
-		fwrite( $handle, $this->get( $items )."\n" );
-
-		return count( $items );
-	}
-
-	public function get( array $items ) {
+	public function get_data( array $items, array $groups ) {
 		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
 
 		$htaccess = new Red_Htaccess();
@@ -29,7 +19,7 @@ class Red_Apache_File extends Red_FileIO {
 			$htaccess->add( $item );
 		}
 
-		return $htaccess->get();
+		return $htaccess->get().PHP_EOL;
 	}
 
 	public function load( $group, $filename, $data ) {
@@ -41,6 +31,7 @@ class Red_Apache_File extends Red_FileIO {
 		// Split it into lines
 		$lines = array_filter( explode( "\r", $data ) );
 
+		$items = array();
 		if ( count( $lines ) > 0 ) {
 			foreach ( $lines as $line ) {
 				if ( preg_match( '@rewriterule\s+(.*?)\s+(.*?)\s+(\[.*\])*@i', $line, $matches ) > 0 ) {

@@ -101,6 +101,19 @@ class Red_Item {
 		return $items;
 	}
 
+	static function get_all() {
+		global $wpdb;
+
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
+		$items = array();
+
+		foreach ( (array) $rows as $row ) {
+			$items[] = new Red_Item( $row );
+		}
+
+		return $items;
+	}
+
 	static function sort_urls( $first, $second ) {
 		if ( $first['position'] === $second['position'] ) {
 			return 0;

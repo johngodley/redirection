@@ -7,37 +7,23 @@ class Red_Csv_File extends Red_FileIO {
 	const CSV_TYPE = 3;
 	const CSV_CODE = 4;
 
-	public function export( array $items ) {
+	public function force_download() {
+		parent::force_download();
+
 		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.csv';
 
 		header( 'Content-Type: text/csv' );
-		header( 'Cache-Control: no-cache, must-revalidate' );
-		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
-
-		$stdout = fopen( 'php://output', 'w' );
-
-		$this->output_to_file( $stdout, $items );
 	}
 
-	public function output_to_file( $handle, array $items ) {
-		fputcsv( $handle, array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
-
-		foreach ( $items as $line ) {
-			fwrite( $handle, $this->item_as_csv( $line ).PHP_EOL );
-		}
-
-		return count( $items );
-	}
-
-	public function get( array $items ) {
+	public function get_data( array $items, array $groups ) {
 		$lines[] = implode( ',', array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) );
 
 		foreach ( $items as $line ) {
 			$lines[] = $this->item_as_csv( $line );
 		}
 
-		return implode( PHP_EOL, $lines );
+		return implode( PHP_EOL, $lines ).PHP_EOL;
 	}
 
 	public function item_as_csv( $item ) {
