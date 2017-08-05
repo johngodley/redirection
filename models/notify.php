@@ -16,7 +16,7 @@ class Red_Notify {
 			}
 		}
 		
-		add_filter( 'cron_schedules', [ $this, 'custom_cron_schedules' ] );
+		add_filter( 'cron_schedules', array( $this, 'custom_cron_schedules' ) );
 	}
 	
 	public function custom_cron_schedules( $schedules ) {
@@ -85,6 +85,6 @@ class Red_Notify {
 			$end = time();
 		
 		$start = $end - $interval;
-		return [ date("Y-m-d H:i:s", $start), date("Y-m-d H:i:s", $end) ];
+		return array( date("Y-m-d H:i:s", $start), date("Y-m-d H:i:s", $end) );
 	}
 }

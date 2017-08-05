@@ -306,7 +306,7 @@ class Redirection_Api {
 		}
 		
 		if ( isset( $settings['notify_emails'] ) ) {
-			$options['notify_emails'] = $settings['notify_emails'];
+			$options['notify_emails'] = strip_tags($settings['notify_emails']);
 		}
 		
 		if ( isset( $settings['notify_schedule'] ) ) {

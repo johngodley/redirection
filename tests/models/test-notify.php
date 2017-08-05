@@ -34,7 +34,7 @@ class NotifyTest extends WP_UnitTestCase {
 	public function testGetDateRange() {
 		$interval = 7 * 24 * 60 * 60;	// One week in seconds
 		$end = strtotime('2017-08-05 00:00:00');
-		$expect = [ '2017-07-29 00:00:00', '2017-08-05 00:00:00' ];
+		$expect = array( '2017-07-29 00:00:00', '2017-08-05 00:00:00' );
 		$notifier = new Red_Notify();
 		
 		$this->assertEquals( $expect, $notifier->getDateRange($interval, $end) );
