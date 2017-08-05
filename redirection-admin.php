@@ -33,8 +33,6 @@ class Redirection_Admin {
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 		$this->api = new Redirection_Api();
-
-		$this->export_rss();
 	}
 
 	public static function plugin_activated() {
@@ -154,8 +152,40 @@ class Redirection_Admin {
 		add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 	}
 
-	function export_rss() {
-		if ( isset( $_GET['token'] ) && isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' && $_GET['sub'] === 'rss' ) {
+	function admin_screen() {
+	  	Redirection_Admin::update();
+
+?>
+<div id="react-ui">
+	<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
+	<div class="react-loading">
+		<span class="react-loading-spinner" />
+	</div>
+	<noscript>Please enable JavaScript</noscript>
+</div>
+
+<script>
+	addLoadEvent( function() {
+		redirection.show( 'react-ui' );
+	} );
+</script>
+<?php
+	}
+
+	private function user_has_access() {
+		return current_user_can( apply_filters( 'redirection_role', 'administrator' ) );
+	}
+
+	function inject() {
+		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
+			$this->tryExportLogs();
+			$this->tryExportRedirects();
+			$this->tryExportRSS();
+		}
+	}
+
+	function tryExportRSS() {
+		if ( isset( $_GET['token'] ) && $_GET['sub'] === 'rss' ) {
 			$options = red_get_options();
 
 			if ( $_GET['token'] === $options['token'] && !empty( $options['token'] ) ) {
@@ -168,32 +198,8 @@ class Redirection_Admin {
 		}
 	}
 
-	function admin_screen() {
-	  	Redirection_Admin::update();
-
-		$this->display();
-	}
-
-	private function user_has_access() {
-		return current_user_can( apply_filters( 'redirection_role', 'administrator' ) );
-	}
-
-	function inject() {
-		// XXXX ???
-		if ( isset( $_POST['id'] ) && ! isset( $_POST['action'] ) ) {
-			wp_safe_redirect( add_query_arg( 'id', intval( $_POST['id'] ), $_SERVER['REQUEST_URI'] ) );
-			die();
-		}
-
-		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
-			$this->tryExportLogs();
-			$this->tryImport();
-			$this->tryExportRedirects();
-		}
-	}
-
 	private function tryExportLogs() {
-		if ( isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) && $this->user_has_access() ) {
+		if ( $this->user_has_access() && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
 			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
 				RE_Log::export_to_csv();
 			} else {
