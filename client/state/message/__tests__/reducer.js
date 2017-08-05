@@ -24,7 +24,7 @@ import {
 	MODULE_FAILED,
 	MODULE_ITEM_SAVING,
 	MODULE_ITEM_SAVED,
-} from 'state/module/type';
+} from 'state/io/type';
 import {
 	SETTING_LOAD_FAILED,
 	SETTING_SAVE_FAILED,

@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import reducer from 'state/module/reducer';
+import reducer from 'state/io/reducer';
 import {
 	MODULE_LOADING,
 	MODULE_LOADED,
@@ -10,7 +10,7 @@ import {
 	MODULE_ITEM_SAVED,
 	MODULE_ITEM_FAILED,
 	MODULE_FAILED,
-} from 'state/module/type';
+} from 'state/io/type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from 'lib/store';
 
