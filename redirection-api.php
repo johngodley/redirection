@@ -304,6 +304,14 @@ class Redirection_Api {
 		if ( isset( $settings['expire_404'] ) ) {
 			$options['expire_404'] = max( -1, min( intval( $settings['expire_404'], 10 ), 60 ) );
 		}
+		
+		if ( isset( $settings['notify_emails'] ) ) {
+			$options['notify_emails'] = $settings['notify_emails'];
+		}
+		
+		if ( isset( $settings['notify_schedule'] ) ) {
+			$options['notify_schedule'] = $settings['notify_schedule'];
+		}
 
 		update_option( 'redirection_options', $options );
 		do_action( 'redirection_save_options', $options );

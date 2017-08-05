@@ -23,6 +23,13 @@ const timeToKeep = [
 	{ value: 0, text: __( 'Forever' ) },
 ];
 
+const notifySchedule = [
+	{ value: 'never', text: __( 'Never' ) },
+	{ value: 'daily', text: __( 'Each day' ) },
+	{ value: 'weekly', text: __( 'Once a week' ) },
+	{ value: 'monthly', text: __( 'Once a month' ) }
+];
+
 const dontMonitor = { value: 0, text: __( "Don't monitor" ) };
 
 class OptionsForm extends React.Component {
@@ -96,6 +103,13 @@ class OptionsForm extends React.Component {
 								}
 							} ) }
 						</span>
+					</TableRow>
+					<TableRow title={ __( 'Notify' ) + ':' }>
+						<input className="regular-text" type="text" value={ this.state.notify_emails } name="notify_emails" onChange={ this.onChange } /><br />
+						<span className="sub">{ __( 'Comma seperated list of email addresses to notify concerning 404s.' ) }</span>
+					</TableRow>
+					<TableRow title={ __( 'Notification Schedule' ) + ':' }>
+						<Select items={ notifySchedule } name="notify_schedule" value={ this.state.notify_schedule } onChange={ this.onChange } /> { __( '(How often to send email notifications about new 404s.)' ) }
 					</TableRow>
 				</FormTable>
 

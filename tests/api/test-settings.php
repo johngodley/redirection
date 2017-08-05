@@ -96,4 +96,20 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$result = json_decode( self::$redirection->ajax_save_settings( array( 'expire_redirect' => $data ) ) );
 		$this->assertEquals( 30, $result->settings->expire_redirect );
 	}
+	
+	public function testSaveNotifyEmails() {
+		$data = 'test@example.com, test2@example2.org';
+		$this->setNonce();
+		
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'notify_emails' => $data ) ) );
+		$this->assertEquals( $data, $result->settings->notify_emails );
+	}
+	
+	public function testSaveNotifySchedule() {
+		$data = 'monthly';
+		$this->setNonce();
+		
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'notify_schedule' => $data ) ) );
+		$this->assertEquals( $data, $result->settings->notify_schedule );
+	}
 }

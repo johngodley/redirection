@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # Check we don't commit the plugin debug mode
 git diff --cached --name-only | while read FILE; do

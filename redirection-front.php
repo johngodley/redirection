@@ -19,6 +19,7 @@ class Redirection {
 		$this->module->start();
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
+		add_action( Red_Notify::NOTIFY_HOOK, array( $this, 'send_notification' ) );
 		add_action( 'redirection_url_target', array( $this, 'replace_special_tags' ) );
 	}
 
@@ -26,7 +27,12 @@ class Redirection {
 		$flusher = new Red_Flusher();
 		$flusher->flush();
 	}
-
+	
+	public function send_notification() {
+		$notifier = new Red_Notify();
+		$notifier->send();
+	}
+ 
 	/**
 	 * From the distant Redirection past. Undecided whether to keep
 	 */

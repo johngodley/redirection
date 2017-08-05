@@ -32,6 +32,7 @@ include dirname( __FILE__ ).'/models/flusher.php';
 include dirname( __FILE__ ).'/models/match.php';
 include dirname( __FILE__ ).'/models/action.php';
 include dirname( __FILE__ ).'/models/request.php';
+include dirname( __FILE__ ).'/models/notify.php';
 
 function red_get_options() {
 	$options = get_option( 'redirection_options' );

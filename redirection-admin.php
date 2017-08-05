@@ -26,6 +26,7 @@ class Redirection_Admin {
 		add_action( 'load-tools_page_redirection', array( $this, 'redirection_head' ) );
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
 		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
+		add_action( 'redirection_save_options', array( $this, 'notify_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
 		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
@@ -59,6 +60,11 @@ class Redirection_Admin {
 
 	public function flush_schedule() {
 		Red_Flusher::schedule();
+	}
+	
+	public function notify_schedule() {
+		$notifier = new Red_Notify();
+		$notifier->schedule();
 	}
 
 	private static function update() {
