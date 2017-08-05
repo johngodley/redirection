@@ -1,11 +1,11 @@
-/* global document */
+/* global document, Redirectioni10n */
 /**
  * Internal dependencies
  */
 
 import * as qs from 'querystring';
 
-const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'modules', 'options', 'support' ];
+const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support' ];
 
 export function setPageUrl( query, defaults ) {
 	history.pushState( {}, null, getWordPressUrl( query, defaults ) );
@@ -41,4 +41,8 @@ export function getPluginPage( url ) {
 	}
 
 	return 'redirect';
+}
+
+export function getRssUrl() {
+	return Redirectioni10n.pluginRoot + '&sub=rss&module=1&token=' + Redirectioni10n.token
 }

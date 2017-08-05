@@ -15,7 +15,7 @@ import Options from 'component/options';
 import Support from 'component/support';
 import Logs from 'component/logs';
 import Logs404 from 'component/logs404';
-import Modules from 'component/modules';
+import ImportExport from 'component/io';
 import Grouper from 'component/groups';
 import Redirects from 'component/redirects';
 import Error from 'component/error';
@@ -27,7 +27,7 @@ import { clearErrors } from 'state/message/action';
 const TITLES = {
 	redirect: __( 'Redirections' ),
 	groups: __( 'Groups' ),
-	modules: __( 'Modules' ),
+	io: __( 'Import/Export' ),
 	log: __( 'Logs' ),
 	'404s': __( '404 errors' ),
 	options: __( 'Options' ),
@@ -70,8 +70,8 @@ class Home extends React.Component {
 			case 'log':
 				return <Logs />;
 
-			case 'modules':
-				return <Modules />;
+			case 'io':
+				return <ImportExport />;
 
 			case 'groups':
 				return <Grouper />;

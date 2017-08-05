@@ -22,16 +22,16 @@ const MENU = [
 		value: 'groups'
 	},
 	{
-		name: __( 'Modules' ),
-		value: 'modules',
-	},
-	{
 		name: __( 'Log' ),
 		value: 'log',
 	},
 	{
 		name: __( '404s' ),
 		value: '404s',
+	},
+	{
+		name: __( 'Import/Export' ),
+		value: 'io',
 	},
 	{
 		name: __( 'Options' ),
