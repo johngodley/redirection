@@ -20,15 +20,15 @@ class Red_Notify {
 	}
 	
 	public function custom_cron_schedules( $schedules ) {
-		$schedules['weekly'] = [
+		$schedules['weekly'] = array(
 			'interval'	=> 7 * 24 * 60 * 60,
 			'display'		=> 'Weekly'
-		];
+		);
 		
-		$schedules['monthly'] = [
+		$schedules['monthly'] = array(
 			'interval'		=> 30 * 24 * 60 * 60,
 			'display'		=> 'Every 30 Days'
-		];
+		);
 		
 		return $schedules;
 	}
