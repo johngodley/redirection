@@ -16,6 +16,7 @@ import SearchBox from 'component/table/search';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import Row404 from './row';
+import TableButtons from 'component/table/table-buttons';
 import { LOGS_TYPE_404 } from 'state/log/type';
 import { getGroup } from 'state/group/action';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
@@ -78,13 +79,13 @@ class Logs404 extends React.Component {
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } />
 
-				<br />
-				<DeleteAll onDelete={ this.props.onDeleteAll } />
-				<br />
-
-				<ExportCSV logType={ LOGS_TYPE_404 } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
+					<TableButtons enabled={ rows.length > 0 }>
+						<DeleteAll onDelete={ this.props.onDeleteAll } />
+						<ExportCSV logType={ LOGS_TYPE_404 } />
+					</TableButtons>
+				</TableNav>
 			</div>
 		);
 	}

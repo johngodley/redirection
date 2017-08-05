@@ -19,6 +19,8 @@ import ExportCSV from 'component/logs/export-csv';
 import LogRow from './row';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
+import TableButtons from 'component/table/table-buttons';
+import { getRssUrl } from 'lib/wordpress-url';
 
 const headers = [
 	{
@@ -58,6 +60,11 @@ class Logs extends React.Component {
 		props.onLoad( LOGS_TYPE_REDIRECT );
 
 		this.handleRender = this.renderRow.bind( this );
+		this.handleRSS = this.onRSS.bind( this );
+	}
+
+	onRSS() {
+		document.location = getRssUrl();
 	}
 
 	renderRow( row, key, status ) {
@@ -76,13 +83,13 @@ class Logs extends React.Component {
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } />
-
-				<br />
-				<DeleteAll onDelete={ this.props.onDeleteAll } />
-				<br />
-
-				<ExportCSV logType={ LOGS_TYPE_REDIRECT } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
+					<TableButtons enabled={ rows.length > 0 }>
+						<ExportCSV logType={ LOGS_TYPE_REDIRECT } />
+						<button className="button-secondary" onClick={ this.handleRSS }>RSS</button>
+						<DeleteAll onDelete={ this.props.onDeleteAll } />
+					</TableButtons>
+				</TableNav>
 			</div>
 		);
 	}
