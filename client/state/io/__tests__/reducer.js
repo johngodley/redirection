@@ -4,96 +4,65 @@
 
 import reducer from 'state/io/reducer';
 import {
-	MODULE_LOADING,
-	MODULE_LOADED,
-	MODULE_ITEM_SAVING,
-	MODULE_ITEM_SAVED,
-	MODULE_ITEM_FAILED,
-	MODULE_FAILED,
+	IO_EXPORTED,
+	IO_EXPORTING,
+	IO_IMPORTING,
+	IO_IMPORTED,
+	IO_FAILED,
+	IO_CLEAR,
+	IO_ADD_FILE,
 } from 'state/io/type';
+import { getInitialIO } from 'state/io/initial';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from 'lib/store';
 
-const NEW_TABLE = {
-	orderBy: 'name',
-	direction: 'desc',
-	page: 0,
-	perPage: 25,
-	selected: [],
-	filterBy: '',
-	filter: '',
-	error: false,
-};
-const DEFAULT_STATE = {
-	rows: [],
-	status: 0,
-	total: 0,
-	error: false,
-	table: NEW_TABLE,
-	saving: [],
-};
+const DEFAULT_STATE = getInitialIO();
 
 jest.mock( 'lib/store' );
 
-const isCalled = ( mocker, first, second ) => expect( mocker.mock.calls[ 0 ][ 0 ] ).toBe( first ) && expect( mocker.mock.calls[ 0 ][ 1 ] ).toBe( second );
-
-describe( 'modules reducer', () => {
+describe( 'io reducer', () => {
 	test( 'unknown action returns same state', () => {
 		expect( reducer( DEFAULT_STATE, { type: 'something' } ) ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'MODULE_LOADING', () => {
-		const action = { type: MODULE_LOADING };
-		const state = reducer( DEFAULT_STATE, action );
+	test( 'IO_EXPORTING sets export status', () => {
+		const state = reducer( DEFAULT_STATE, { type: IO_EXPORTING } );
 
-		isCalled( setTable, DEFAULT_STATE, action );
-		expect( state.status ).toBe( STATUS_IN_PROGRESS );
-		expect( state.saving ).toEqual( [] );
+		expect( state ).toEqual( { ... DEFAULT_STATE, exportStatus: STATUS_IN_PROGRESS } );
 	} );
 
-	test( 'MODULE_FAILED', () => {
-		const action = { type: MODULE_FAILED };
-		const state = reducer( DEFAULT_STATE, action );
+	test( 'IO_EXPORTED sets export status and data', () => {
+		const state = reducer( DEFAULT_STATE, { type: IO_EXPORTED, data: 'data' } );
 
-		expect( state.status ).toBe( STATUS_FAILED );
-		expect( state.saving ).toEqual( [] );
+		expect( state ).toEqual( { ... DEFAULT_STATE, exportStatus: STATUS_COMPLETE, exportData: 'data' } );
 	} );
 
-	test( 'MODULE_LOADED', () => {
-		const action = { type: MODULE_LOADED };
-		const state = reducer( DEFAULT_STATE, action );
+	test( 'IO_ADD_FILE sets file', () => {
+		const state = reducer( DEFAULT_STATE, { type: IO_ADD_FILE, file: 'file' } );
 
-		expect( state.status ).toBe( STATUS_COMPLETE );
-		isCalled( setRows, DEFAULT_STATE, action );
-		isCalled( setTotal, DEFAULT_STATE, action );
+		expect( state ).toEqual( { ... DEFAULT_STATE, file: 'file' } );
 	} );
 
-	test( 'MODULE_ITEM_SAVING', () => {
-		const action = { type: MODULE_ITEM_SAVING };
+	test( 'IO_CLEAR clears file, import, and export data', () => {
+		const state = reducer( { ... DEFAULT_STATE, file: 1, lastImport: 2, exportData: 3 }, { type: IO_CLEAR } );
 
-		reducer( DEFAULT_STATE, action );
-
-		isCalled( setTable, DEFAULT_STATE, action );
-		isCalled( setSaving, DEFAULT_STATE, action );
-		isCalled( setItem, DEFAULT_STATE, action );
+		expect( state ).toEqual( DEFAULT_STATE );
 	} );
 
-	test( 'MODULE_ITEM_SAVED', () => {
-		const action = { type: MODULE_ITEM_SAVED };
+	test( 'IO_FAILED clears file, import, and export data and sets fail status', () => {
+		const state = reducer( { ... DEFAULT_STATE, file: 1, lastImport: 2, exportData: 3 }, { type: IO_FAILED } );
 
-		reducer( DEFAULT_STATE, action );
-
-		isCalled( setRows, DEFAULT_STATE, action );
-		isCalled( setTotal, DEFAULT_STATE, action );
-		isCalled( removeSaving, DEFAULT_STATE, action );
+		expect( state ).toEqual( { ... DEFAULT_STATE, exportStatus: STATUS_FAILED, importingStatus: STATUS_FAILED } );
 	} );
 
-	test( 'MODULE_ITEM_FAILED', () => {
-		const action = { type: MODULE_ITEM_FAILED };
+	test( 'IO_IMPORTING sets status and file, and clears last import', () => {
+		const state = reducer( { ... DEFAULT_STATE, lastImport: 2 }, { type: IO_IMPORTING, file: 'file' } );
 
-		reducer( DEFAULT_STATE, action );
+		expect( state ).toEqual( { ... DEFAULT_STATE, importingStatus: STATUS_IN_PROGRESS, file: 'file' } );
+	} );
 
-		isCalled( removeSaving, DEFAULT_STATE, action );
-		isCalled( restoreToOriginal, DEFAULT_STATE, action );
+	test( 'IO_IMPORTED sets status and file and last import', () => {
+		const state = reducer( { ... DEFAULT_STATE, file: 'file' }, { type: IO_IMPORTED, total: 5 } );
+
+		expect( state ).toEqual( { ... DEFAULT_STATE, lastImport: 5, importingStatus: STATUS_COMPLETE, file: false } );
 	} );
 } );
