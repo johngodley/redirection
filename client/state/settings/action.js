@@ -20,7 +20,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 
 	getApi( 'red_load_settings' )
 		.then( json => {
-			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups } );
+			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, installed: json.installed } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );
@@ -32,7 +32,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 export const saveSettings = settings => dispatch => {
 	getApi( 'red_save_settings', settings )
 		.then( json => {
-			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups } );
+			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_SAVE_FAILED, error } );
