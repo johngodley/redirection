@@ -314,7 +314,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.1.24 =
 * Add Ukrainian translation
 * Add Polish translation
-* Database optimisation
+* Database optimization
 
 = 2.1.23 =
 * Add Bahasa Indonesian translation
@@ -365,7 +365,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Errors on some sites
 
 = 2.1.10 =
-* Missing localisations
+* Missing localizations
 
 = 2.1.9 =
 * Fix 'you do not permissions' error on some non-English sites
