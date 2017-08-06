@@ -99,7 +99,6 @@
     "react-dropzone": "^4.0.0",
     "react-hot-loader": "next",
     "react-redux": "^5.0.5",
-    "react-simple-range": "^1.5.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "whatwg-fetch": "^2.0.3"

@@ -391,7 +391,7 @@ class Red_Item_Sanitize {
 
 		$data['regex'] = isset( $details['regex'] ) && ( $details['regex'] === 'true' || $details['regex'] === '1' ) ? 1 : 0;
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
-		$data['url'] = $this->get_url( isset( $details['url'] ) ? $details['url'] : $this->auto_generate(), $data['regex'] );
+		$data['url'] = $this->get_url( empty( $details['url'] ) ? $this->auto_generate() : $details['url'], $data['regex'] );
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
 		$data['position'] = $this->get_position( $details );
 

@@ -37,7 +37,7 @@ class DeletePlugin extends React.Component {
 					<h2>{ __( 'Delete Redirection' ) }</h2>
 
 					<p>{ ( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.' ) }</p>
-					<input className="button-primary" type="submit" name="delete" value={ __( 'Delete' ) } />
+					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete' ) } />
 				</form>
 
 				<Modal show={ this.state.isModal } onClose={ this.onClose }>
@@ -46,7 +46,7 @@ class DeletePlugin extends React.Component {
 						<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.' ) }</p>
 						<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.' ) }</p>
 						<p>
-							<button className="button-primary" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
+							<button className="button-primary button-delete" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
 						</p>
 					</div>
 				</Modal>

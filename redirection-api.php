@@ -170,14 +170,22 @@ class Redirection_Api {
 		if ( $redirectId === 0 ) {
 			$redirect = Red_Item::create( $params );
 
-			if ( ! is_wp_error( $redirect ) ) {
+			if ( is_wp_error( $redirect ) ) {
+				$result = array( 'error' => $redirect->get_error_message() );
+			} else {
 				$result = Red_Item::get_filtered( $params );
 			}
 		} else {
 			$redirect = Red_Item::get_by_id( $redirectId );
 
-			if ( $redirect && ! is_wp_error( $redirect->update( $params ) ) ) {
-				$result = array( 'item' => $redirect->to_json() );
+			if ( $redirect ) {
+				$result = $redirect->update( $params );
+
+				if ( is_wp_error( $result ) ) {
+					$result = array( 'error' => $redirect->get_error_message() );
+				} else {
+					$result = array( 'item' => $redirect->to_json() );
+				}
 			}
 		}
 

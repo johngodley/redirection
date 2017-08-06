@@ -13,6 +13,7 @@ import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'component/options/delete-plugin';
 import Placeholder from 'component/wordpress/placeholder';
+import Donation from './donation';
 
 class Options extends React.Component {
 	constructor( props ) {
@@ -22,7 +23,7 @@ class Options extends React.Component {
 	}
 
 	render() {
-		const { loadStatus } = this.props;
+		const { loadStatus, values } = this.props;
 
 		if ( loadStatus === STATUS_IN_PROGRESS ) {
 			return <Placeholder />;
@@ -30,7 +31,10 @@ class Options extends React.Component {
 
 		return (
 			<div>
+				{ loadStatus === STATUS_COMPLETE && <Donation support={ values.support } /> }
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
+
+				<br /><br /><hr />
 				<DeletePlugin onDelete={ this.props.onDeletePlugin } />
 			</div>
 		);
@@ -49,10 +53,11 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { loadStatus } = state.settings;
+	const { loadStatus, values } = state.settings;
 
 	return {
 		loadStatus,
+		values,
 	};
 }
 
