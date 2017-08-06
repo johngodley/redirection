@@ -6,6 +6,7 @@ include dirname( __FILE__ ).'/models/file-io.php';
 include dirname( __FILE__ ).'/redirection-api.php';
 
 define( 'RED_DEFAULT_PER_PAGE', 25 );
+define( 'RED_MAX_PER_PAGE', 200 );
 
 class Redirection_Admin {
 	private static $instance = null;
@@ -81,7 +82,7 @@ class Redirection_Admin {
 
 	function set_per_page( $status, $option, $value ) {
 		if ( $option === 'redirection_log_per_page' ) {
-			return max( 1, min( intval( $value, 10 ), 100 ) );
+			return max( 1, min( intval( $value, 10 ), RED_MAX_PER_PAGE ) );
 		}
 
 		return $status;
@@ -103,7 +104,7 @@ class Redirection_Admin {
 		$this->inject();
 
 		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
-			add_screen_option( 'per_page', array( 'label' => __( 'Log entries (100 max)', 'redirection' ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
+			add_screen_option( 'per_page', array( 'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {

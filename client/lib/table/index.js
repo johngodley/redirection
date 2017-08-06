@@ -76,6 +76,10 @@ export const removeDefaults = ( table, defaultOrder ) => {
 		delete table.perPage;
 	}
 
+	if ( parseInt( Redirectioni10n.per_page, 10 ) !== 25 ) {
+		table.perPage = parseInt( Redirectioni10n.per_page, 10 );
+	}
+
 	return table;
 };
 
