@@ -276,7 +276,7 @@ class Redirection_Api {
 		update_option( 'redirection_options', $options );
 		do_action( 'redirection_save_options', $options );
 
-		return $this->output_ajax_response( array( 'settings' => $options, 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
+		return $this->ajax_load_settings();
 	}
 
 	public function ajax_get_logs( $params ) {
