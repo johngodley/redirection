@@ -45,8 +45,9 @@ class Apache_Module extends Red_Module {
 		$htaccess = new Red_Htaccess();
 		if ( is_array( $items ) && count( $items ) > 0 ) {
 			foreach ( $items as $item ) {
-				if ( $item->is_enabled() )
+				if ( $item->is_enabled() ) {
 					$htaccess->add( $item );
+				}
 			}
 		}
 

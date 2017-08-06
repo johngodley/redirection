@@ -192,7 +192,8 @@ class Redirection_Admin {
 				$items = Red_Item::get_all_for_module( intval( $_GET['module'] ) );
 
 				$exporter = Red_FileIO::create( 'rss' );
-				$exporter->export( $items );
+				$exporter->force_download();
+				echo $exporter->get_data( $items, array() );
 				die();
 			}
 		}

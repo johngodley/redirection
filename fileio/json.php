@@ -51,16 +51,18 @@ class Red_Json_File extends Red_FileIO {
 		}
 
 		// Import redirects
-		foreach ( $json->redirects as $redirect ) {
-			unset( $redirect->id );
+		if ( isset( $json->redirects ) ) {
+			foreach ( $json->redirects as $redirect ) {
+				unset( $redirect->id );
 
-			if ( ! isset( $group_map[ $redirect->group_id ] ) ) {
-				$group_map[ $redirect->group_id ] = Red_Group::create( 'Group', 1 );
+				if ( ! isset( $group_map[ $redirect->group_id ] ) ) {
+					$group_map[ $redirect->group_id ] = Red_Group::create( 'Group', 1 );
+				}
+
+				$redirect->group_id = $group_map[ $redirect->group_id ];
+				$redirect = Red_Item::create( (array)$redirect );
+				$count++;
 			}
-
-			$redirect->group_id = $group_map[ $redirect->group_id ];
-			$redirect = Red_Item::create( (array)$redirect );
-			$count++;
 		}
 
 		return $count;
