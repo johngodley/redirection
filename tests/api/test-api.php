@@ -48,12 +48,12 @@ class ApiTest extends WP_UnitTestCase {
 		$this->expectDie( 'delete_plugin' );
 	}
 
-	public function testNonceGetModule() {
-		$this->expectDie( 'get_module' );
+	public function testNonceImportData() {
+		$this->expectDie( 'import_data' );
 	}
 
-	public function testNonceSetModule() {
-		$this->expectDie( 'set_module' );
+	public function testNonceExportData() {
+		$this->expectDie( 'export_data' );
 	}
 
 	public function testNonceGetRedirect() {
@@ -104,12 +104,12 @@ class ApiTest extends WP_UnitTestCase {
 		$this->expectPermission( 'delete_plugin' );
 	}
 
-	public function testPermissionGetModule() {
-		$this->expectPermission( 'get_module' );
+	public function testPermissionImportData() {
+		$this->expectPermission( 'import_data' );
 	}
 
-	public function testPermissionSetModule() {
-		$this->expectPermission( 'set_module' );
+	public function testPermissionExportData() {
+		$this->expectPermission( 'export_data' );
 	}
 
 	public function testPermissionGetRedirect() {
