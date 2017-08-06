@@ -109,7 +109,7 @@ class RedirectionApiGroupTest extends WP_Ajax_UnitTestCase {
 		$this->createAB( 20 );
 
 		$result = $this->get_group( array( 'perPage' => 5 ) );
-		$this->assertEquals( 10, count( $result->items ) );
+		$this->assertEquals( 5, count( $result->items ) );
 	}
 
 	public function testListPerPageMax() {
