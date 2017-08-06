@@ -24,7 +24,7 @@ const faq = [
 	},
 	{
 		title: __( 'Can I redirect all 404 errors?' ),
-		text: __( "No, and it isnt advised that you try and do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it did once exist, and this could dilute your site" ),
+		text: __( "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site." ),
 	},
 ];
 

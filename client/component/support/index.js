@@ -30,6 +30,7 @@ class Support extends React.Component {
 				<h2>{ __( 'Need help?' ) }</h2>
 				<p>{ __( 'First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists.' ) }</p>
 				<p>{ __( 'You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue.' ) }</p>
+				<p>{ __( 'Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support.' ) }</p>
 				<p className="github">
 					<a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues">
 						<img src={ Redirectioni10n.pluginBaseUrl + '/images/GitHub-Mark-64px.png' } width="32" height="32" />

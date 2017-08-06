@@ -68,7 +68,7 @@ class OptionsForm extends React.Component {
 		return (
 			<form onSubmit={ this.onSubmit }>
 				<FormTable>
-					<TableRow title={ __( 'Plugin support' ) + ':' }>
+					<TableRow title="">
 						<label>
 							<input type="checkbox" checked={ this.state.support } name="support" onChange={ this.onChange } />
 							<span className="sub">{ __( "I'm a nice person and I have helped support the author of this plugin" ) }</span>

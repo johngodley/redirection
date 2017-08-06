@@ -6112,10 +6112,6 @@ react-redux@^5.0.5:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react-simple-range@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/react-simple-range/-/react-simple-range-1.5.2.tgz#3621255ca477b590ae9350655452c9b1828d38fb"
-
 "react@0.14.8 || ^15.1.0", "react@^0.14.3 || ^15.1.0":
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
