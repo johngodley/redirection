@@ -183,6 +183,8 @@ class EditRedirect extends React.Component {
 	}
 
 	onSave( ev ) {
+		ev.preventDefault();
+
 		const { url, title, regex, match_type, action_type, group_id, action_code, position } = this.state;
 		const groups = this.props.group.rows;
 
@@ -199,7 +201,6 @@ class EditRedirect extends React.Component {
 			action_data: getActionData( this.state ),
 		};
 
-		ev.preventDefault();
 		this.props.onSave( redirect );
 
 		if ( this.props.onCancel ) {
@@ -383,7 +384,7 @@ class EditRedirect extends React.Component {
 		const { saveButton = __( 'Save' ), onCancel } = this.props;
 
 		return (
-			<form onSubmit={ this.handleSave } >
+			<form onSubmit={ this.handleSave }>
 				<table className="edit edit-redirection">
 					<tbody>
 						<tr>

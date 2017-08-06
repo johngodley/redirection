@@ -4,13 +4,11 @@
 
 import React from 'react';
 import { translate as __ } from 'lib/locale';
-import Modal from 'react-modal';
+import Modal from 'component/modal';
 
 class DeleteAll extends React.Component {
 	constructor( props ) {
 		super( props );
-
-		Modal.setAppElement( 'body' );
 
 		this.state = { isModal: false };
 		this.onShow = this.showDelete.bind( this );
@@ -34,15 +32,17 @@ class DeleteAll extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<input className="button" type="submit" name="" value={ __( 'Delete All' ) } onClick={ this.onShow } /> &nbsp;
+			<div className="table-button-item">
+				<input className="button" type="submit" name="" value={ __( 'Delete All' ) } onClick={ this.onShow } />
 
-				<Modal isOpen={ this.state.isModal } onRequestClose={ this.onClose } contentLabel="Modal" overlayClassName="modal" className="modal-content">
-					<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
-					<p>{ __( 'Once deleted your current logs will no longer be available. You can set an delete schedule from the Redirection options if you want to do this automatically.' ) }</p>
-					<p>
-						<button className="button-primary" onClick={ this.onDelete }>{ __( 'Yes! Delete the logs' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the logs" ) }</button>
-					</p>
+				<Modal show={ this.state.isModal } onClose={ this.onClose }>
+					<div>
+						<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
+						<p>{ __( 'Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.' ) }</p>
+						<p>
+							<button className="button-primary" onClick={ this.onDelete }>{ __( 'Yes! Delete the logs' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the logs" ) }</button>
+						</p>
+					</div>
 				</Modal>
 			</div>
 		);

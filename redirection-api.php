@@ -9,14 +9,14 @@ class Redirection_Api {
 		'log_action',
 		'delete_all',
 		'delete_plugin',
-		'get_module',
-		'set_module',
 		'get_redirect',
 		'set_redirect',
 		'redirect_action',
 		'get_group',
 		'set_group',
 		'group_action',
+		'import_data',
+		'export_data',
 	);
 
 	public function __construct() {
@@ -42,6 +42,48 @@ class Redirection_Api {
 		}
 
 		return $params;
+	}
+
+	public function ajax_import_data( $params ) {
+		$params = $this->get_params( $params );
+		$upload = isset( $_FILES[ 'file' ] ) ? $_FILES[ 'file' ] : false;
+		$group_id = isset( $params['group'] ) ? intval( $params['group'], 10 ) : 0;
+
+		$result = array( 'error' => 'Invalid file ('.__LINE__.')' );
+		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
+			$result = array( 'error' => 'Invalid group ('.__LINE__.')' );
+
+			$count = Red_FileIO::import( $group_id, $upload );
+			if ( $count !== false ) {
+				$result = array(
+					'imported' => $count,
+				);
+			}
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_export_data( $params ) {
+		$params = $this->get_params( $params );
+		$moduleId = isset( $params['module'] ) ? intval( $params['module'], 10 ) : false;
+		$format = 'json';
+
+		if ( isset( $params['format'] ) && in_array( $params['format'], array( 'csv', 'apache', 'nginx', 'json' ) ) ) {
+			$format = $params['format'];
+		}
+
+		$result = array( 'error' => 'Invalid module ('.__LINE__.')' );
+
+		$export = Red_FileIO::export( $moduleId, $format );
+		if ( $export !== false ) {
+			$result = array(
+				'data' => $export['data'],
+				'total' => $export['total'],
+			);
+		}
+
+		return $this->output_ajax_response( $result );
 	}
 
 	public function ajax_group_action( $params ) {
@@ -173,87 +215,6 @@ class Redirection_Api {
 		return $this->output_ajax_response( Red_Item::get_filtered( $params ) );
 	}
 
-	public function ajax_get_module( $params ) {
-		$params = $this->get_params( $params );
-
-		$moduleType = false;
-
-		$modules = array( 1, 2, 3 );
-		if ( isset( $params['moduleId'] ) ) {
-			$moduleId = intval( $params['moduleId'], 10 );
-
-			if ( $moduleId > 0 && $moduleId <= 3 ) {
-				$modules = array( $moduleId );
-			}
-		}
-
-		if ( isset( $params['moduleType'] ) && in_array( $params['moduleType'], array( 'csv', 'apache', 'nginx' ) ) ) {
-			$moduleType = $params['moduleType'];
-		}
-
-		foreach ( $modules as $moduleId ) {
-			$module = Red_Module::get( $moduleId );
-			$moduleData = $this->get_module_data( $module, $moduleType );
-
-			if ( $module->get_id() === Apache_Module::MODULE_ID ) {
-				$moduleData['data'] = array(
-					'installed' => ABSPATH,
-					'location' => $module->get_location(),
-					'canonical' => $module->get_canonical(),
-				);
-			}
-
-			$result[] = $moduleData;
-		}
-
-		return $this->output_ajax_response( count( $result ) === 1 ? array( 'item' => $result[ 0 ] ) : array( 'items' => $result ) );
-	}
-
-	public function ajax_set_module( $params ) {
-		$params = $this->get_params( $params );
-
-		$result = array( 'error' => 'Failed to save module' );
-		if ( isset( $params['id'] ) ) {
-			$module = Red_Module::get( $params[ 'id' ] );
-
-			if ( $module ) {
-				$module->update( $params );
-				return $this->ajax_get_module( $params );
-			}
-		}
-
-		return $this->output_ajax_response( $result );
-	}
-
-	private function get_module( $module_name ) {
-		$module_id_name = array(
-			'apache' => Apache_Module::MODULE_ID,
-			'wordpress' => WordPress_Module::MODULE_ID,
-			'nginx' => Nginx_Module::MODULE_ID,
-		);
-
-		if ( isset( $module_id_name[ $module_name ] ) ) {
-			return Red_Module::get( $module_id_name[ $module_name ] );
-		}
-
-		return false;
-	}
-
-	private function get_module_data( $module, $type ) {
-		$data = array(
-			'redirects' => $module->get_total_redirects(),
-			'id' => $module->get_id(),
-			'displayName' => $module->get_name(),
-		);
-
-		if ( $type ) {
-			$exporter = Red_FileIO::create( $type );
-			$data['data'] = $exporter->get( Red_Item::get_all_for_module( $module->get_id() ) );
-		}
-
-		return $data;
-	}
-
 	public function ajax_delete_plugin() {
 		$plugin = Redirection_Admin::init();
 		$plugin->plugin_uninstall();
@@ -266,7 +227,11 @@ class Redirection_Api {
 	}
 
 	public function ajax_load_settings() {
-		return $this->output_ajax_response( array( 'settings' => red_get_options(), 'groups' => $this->groups_to_json( Red_Group::get_for_select() ) ) );
+		return $this->output_ajax_response( array(
+			'settings' => red_get_options(),
+			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
+			'installed' => get_home_path(),
+		) );
 	}
 
 	public function ajax_save_settings( $settings = array() ) {
@@ -304,6 +269,9 @@ class Redirection_Api {
 		if ( isset( $settings['expire_404'] ) ) {
 			$options['expire_404'] = max( -1, min( intval( $settings['expire_404'], 10 ), 60 ) );
 		}
+
+		$module = Red_Module::get( 2 );
+		$options['modules'][2] = $module->update( $settings );
 
 		update_option( 'redirection_options', $options );
 		do_action( 'redirection_save_options', $options );

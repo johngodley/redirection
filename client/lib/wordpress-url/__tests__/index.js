@@ -29,7 +29,7 @@ describe( 'WordPress URL', () => {
 		expect( getPluginPage( '?thing=here&sub=log' ) ).toEqual( 'log' );
 		expect( getPluginPage( '?thing=here&sub=groups' ) ).toEqual( 'groups' );
 		expect( getPluginPage( '?thing=here&sub=404s' ) ).toEqual( '404s' );
-		expect( getPluginPage( '?thing=here&sub=modules' ) ).toEqual( 'modules' );
+		expect( getPluginPage( '?thing=here&sub=io' ) ).toEqual( 'io' );
 		expect( getPluginPage( '?thing=here&sub=options' ) ).toEqual( 'options' );
 		expect( getPluginPage( '?thing=here&sub=support' ) ).toEqual( 'support' );
 	} );

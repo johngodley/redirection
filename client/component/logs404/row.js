@@ -5,7 +5,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
-import Modal from 'react-modal';
 
 /**
  * Internal dependencies
@@ -17,12 +16,11 @@ import EditRedirect from 'component/redirects/edit';
 import { getDefaultItem } from 'state/redirect/selector';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import Modal from 'component/modal';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
 		super( props );
-
-		Modal.setAppElement( 'body' );
 
 		this.handleSelected = this.onSelect.bind( this );
 		this.handleDelete = this.onDelete.bind( this );
@@ -58,7 +56,7 @@ class LogRow404 extends React.Component {
 
 	renderEdit() {
 		return (
-			<Modal isOpen={ this.state.editing } onRequestClose={ this.handleClose } contentLabel="Modal" overlayClassName="modal" className="modal-table">
+			<Modal show={ this.state.editing } onClose={ this.handleClose } width="700">
 				<div className="add-new">
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } />
 				</div>

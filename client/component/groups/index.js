@@ -15,9 +15,10 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import GroupRow from './row';
-import { getModule } from 'state/module/action';
 import { getGroup, saveGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import { getModules } from 'state/io/selector';
+import Select from 'component/wordpress/select';
 
 const headers = [
 	{
@@ -60,7 +61,6 @@ class Groups extends React.Component {
 		super( props );
 
 		this.props.onLoadGroups();
-		this.props.onLoadModules();
 
 		this.state = { name: '', moduleId: 1 };
 		this.handleName = this.onChange.bind( this );
@@ -77,15 +77,6 @@ class Groups extends React.Component {
 		return <GroupRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
 	}
 
-	getModules( modules ) {
-		return [
-			{
-				value: '',
-				text: __( 'All modules' ),
-			}
-		].concat( modules.map( item => ( { value: item.id, text: item.displayName } ) ) );
-	}
-
 	onChange( ev ) {
 		this.setState( { name: ev.target.value } );
 	}
@@ -100,16 +91,24 @@ class Groups extends React.Component {
 		this.setState( { name: '' } );
 	}
 
+	getModules() {
+		return [
+			{
+				value: '',
+				text: __( 'All modules' ),
+			},
+		].concat( getModules() );
+	}
+
 	render() {
 		const { status, total, table, rows, saving } = this.props.group;
-		const { module } = this.props;
 		const isSaving = saving.indexOf( 0 ) !== -1;
 
 		return (
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
-					<TableFilter selected={ table.filter } options={ this.getModules( module.rows ) } isEnabled={ module.status === STATUS_COMPLETE } onFilter={ this.props.onFilter } />
+					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } />
 				</TableNav>
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
@@ -123,14 +122,12 @@ class Groups extends React.Component {
 							<tr>
 								<th style={ { width: '50px' } }>{ __( 'Name' ) }</th>
 								<td>
-									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ isSaving || module.status !== STATUS_COMPLETE } />
+									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.handleName } disabled={ isSaving } />
 
-									<select name="id" value={ this.state.moduleId } onChange={ this.handleModule } disabled={ isSaving || module.status !== STATUS_COMPLETE }>
-										{ module.rows.map( item => <option key={ item.id } value={ item.id }>{ item.displayName }</option> ) }
-									</select>
+									<Select name="id" value={ this.state.moduleId } onChange={ this.handleModule } items={ getModules() } disabled={ isSaving } />
 
 									&nbsp;
-									<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' || module.status !== STATUS_COMPLETE } />
+									<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' } />
 								</td>
 							</tr>
 						</tbody>
@@ -142,11 +139,10 @@ class Groups extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { group, module } = state;
+	const { group } = state;
 
 	return {
 		group,
-		module,
 	};
 }
 
@@ -154,9 +150,6 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onLoadGroups: () => {
 			dispatch( getGroup() );
-		},
-		onLoadModules: () => {
-			dispatch( getModule() );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );

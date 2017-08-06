@@ -51,8 +51,9 @@ function red_get_options() {
 	) );
 
 	foreach ( $defaults as $key => $value ) {
-		if ( ! isset( $options[ $key ] ) )
+		if ( ! isset( $options[ $key ] ) ) {
 			$options[ $key ] = $value;
+		}
 	}
 
 	$options['lookup'] = apply_filters( 'red_lookup_ip', 'http://urbangiraffe.com/map/?ip=' );

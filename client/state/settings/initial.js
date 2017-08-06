@@ -9,6 +9,7 @@ export function getInitialSettings() {
 		loadStatus: STATUS_IN_PROGRESS,
 		saveStatus: false,
 		error: false,
+		installed: '',
 		settings: {},
 	};
 }

@@ -34,9 +34,9 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'SETTING_LOAD_SUCCESS sets load progress, values, and groups', () => {
-		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2 } );
+		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2, installed: 'install' } );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2 } );
+		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2, installed: 'install' } );
 	} );
 
 	test( 'SETTING_LOAD_FAILED sets failed', () => {
@@ -52,9 +52,9 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'SETTING_SAVED sets save progress, values, and groups', () => {
-		const state = reducer( DEFAULT_STATE, { type: SETTING_SAVED, values: 1, groups: 2 } );
+		const state = reducer( DEFAULT_STATE, { type: SETTING_SAVED, values: 1, groups: 2, installed: 'install' } );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, saveStatus: STATUS_COMPLETE, values: 1, groups: 2 } );
+		expect( state ).toEqual( { ... DEFAULT_STATE, saveStatus: STATUS_COMPLETE, values: 1, groups: 2, installed: 'install' } );
 	} );
 
 	test( 'SETTING_SAVE_FAILED sets failed', () => {

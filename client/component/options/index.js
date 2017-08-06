@@ -12,7 +12,6 @@ import { loadSettings, deletePlugin } from 'state/settings/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'component/options/delete-plugin';
-import Importer from 'component/options/importer';
 import Placeholder from 'component/wordpress/placeholder';
 
 class Options extends React.Component {
@@ -32,7 +31,6 @@ class Options extends React.Component {
 		return (
 			<div>
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
-				{ loadStatus === STATUS_COMPLETE && <Importer /> }
 				<DeletePlugin onDelete={ this.props.onDeletePlugin } />
 			</div>
 		);

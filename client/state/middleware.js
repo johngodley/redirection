@@ -5,7 +5,6 @@
 
 import { REDIRECT_LOADING, REDIRECT_ITEM_SAVING } from 'state/redirect/type';
 import { GROUP_LOADING, GROUP_ITEM_SAVING } from 'state/group/type';
-import { MODULE_LOADING } from 'state/module/type';
 import { LOG_LOADING } from 'state/log/type';
 import { getPluginPage, setPageUrl } from 'lib/wordpress-url';
 
@@ -43,7 +42,6 @@ export const urlMiddleware = () => next => action => {
 		case GROUP_ITEM_SAVING:
 		case REDIRECT_LOADING:
 		case GROUP_LOADING:
-		case MODULE_LOADING:
 		case LOG_LOADING:
 			setUrlForPage( action.type, action.table ? action.table : action );
 			break;

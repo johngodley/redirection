@@ -15,8 +15,9 @@ import PropTypes from 'prop-types';
 import RowActions from 'component/table/row-action';
 import { setSelected, saveGroup, performTableAction } from 'state/group/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
-import { getModuleName } from 'state/module/selector';
+import { getModuleName, getModules } from 'state/io/selector';
 import Spinner from 'component/wordpress/spinner';
+import Select from 'component/wordpress/select';
 
 class GroupRow extends React.Component {
 	constructor( props ) {
@@ -117,9 +118,7 @@ class GroupRow extends React.Component {
 						<tr>
 							<th width="70">{ __( 'Module' ) }</th>
 							<td>
-								<select name="module_id" onChange={ this.handleSelect } value={ this.state.moduleId }>
-									{ this.props.module.rows.map( item => <option key={ item.id } value={ item.module_id }>{ item.displayName }</option> ) }
-								</select>
+								<Select name="module_id" value={ this.state.moduleId } onChange={ this.handleSelect } items={ getModules() } />
 							</td>
 						</tr>
 						<tr>
@@ -147,7 +146,7 @@ class GroupRow extends React.Component {
 
 	render() {
 		const { name, redirects, id, module_id, enabled } = this.props.item;
-		const { selected, module, status } = this.props;
+		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = ! enabled || isLoading || isSaving;
@@ -166,7 +165,7 @@ class GroupRow extends React.Component {
 					{ redirects }
 				</td>
 				<td>
-					{ module.status !== STATUS_IN_PROGRESS ? getModuleName( module, module_id ) : this.renderLoader() }
+					{ getModuleName( module_id ) }
 				</td>
 			</tr>
 		);
@@ -178,14 +177,6 @@ GroupRow.propTypes = {
 	selected: PropTypes.bool.isRequired,
 	status: PropTypes.string.isRequired,
 };
-
-function mapStateToProps( state ) {
-	const { module } = state;
-
-	return {
-		module,
-	};
-}
 
 function mapDispatchToProps( dispatch ) {
 	return {
@@ -202,6 +193,6 @@ function mapDispatchToProps( dispatch ) {
 }
 
 export default connect(
-	mapStateToProps,
+	null,
 	mapDispatchToProps,
 )( GroupRow );
