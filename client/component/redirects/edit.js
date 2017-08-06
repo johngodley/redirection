@@ -106,7 +106,7 @@ const HTTP_ERROR = [
 	},
 	{
 		value: 410,
-		name: __( '410 - Found' ),
+		name: __( '410 - Gone' ),
 	},
 ];
 
