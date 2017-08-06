@@ -56,7 +56,6 @@ function red_get_options() {
 		}
 	}
 
-	$options['lookup'] = apply_filters( 'red_lookup_ip', 'http://urbangiraffe.com/map/?ip=' );
 	return $options;
 }
 
