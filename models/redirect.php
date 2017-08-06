@@ -389,7 +389,7 @@ class Red_Item_Sanitize {
 		$details = array_map( 'trim', $details );
 		$details = array_map( 'stripslashes', $details );
 
-		$data['regex'] = isset( $details['regex'] ) && $details['regex'] === 'true' ? 1 : 0;
+		$data['regex'] = isset( $details['regex'] ) && ( $details['regex'] === 'true' || $details['regex'] === '1' ) ? 1 : 0;
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
 		$data['url'] = $this->get_url( isset( $details['url'] ) ? $details['url'] : $this->auto_generate(), $data['regex'] );
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
