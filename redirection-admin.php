@@ -124,6 +124,7 @@ class Redirection_Admin {
 			'locale' => $this->get_i18n_data(),
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
+			'autoGenerate' => $options['auto_target'],
 			'versions' => implode( ', ', array( 'Plugin '.$version, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
 		) );
 	}

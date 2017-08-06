@@ -1,3 +1,4 @@
+/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -368,6 +369,10 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
+		if ( Redirectioni10n.autoGenerate === '' && this.state.url === '' ) {
+			return false;
+		}
+
 		if ( hasUrlTarget( this.state.action_type ) && this.state.target === '' ) {
 			return false;
 		}
