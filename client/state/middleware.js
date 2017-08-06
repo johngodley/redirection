@@ -13,7 +13,7 @@ const setUrlForPage = ( action, table ) => {
 	const currentPage = {
 		redirect: [
 			[ REDIRECT_LOADING, REDIRECT_ITEM_SAVING ],
-			'name',
+			'id',
 		],
 		groups: [
 			[ GROUP_LOADING, GROUP_ITEM_SAVING ],

@@ -44,5 +44,5 @@ export function getPluginPage( url ) {
 }
 
 export function getRssUrl() {
-	return Redirectioni10n.pluginRoot + '&sub=rss&module=1&token=' + Redirectioni10n.token
+	return Redirectioni10n.pluginRoot + '&sub=rss&module=1&token=' + Redirectioni10n.token;
 }
