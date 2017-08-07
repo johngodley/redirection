@@ -75,25 +75,23 @@ class RE_Log {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $id ) );
 	}
 
-	static function delete_all( $type = 'all', $id = 0 ) {
+	static function delete_all( $filterBy, $filter ) {
 		global $wpdb;
 
 		$where = array();
-		if ( $type === 'module' )
-			$where[] = $wpdb->prepare( 'module_id=%d', $id );
-		elseif ( $type === 'group' )
-			$where[] = $wpdb->prepare( 'group_id=%d AND redirection_id IS NOT NULL', $id );
-		elseif ( $type === 'redirect' )
-			$where[] = $wpdb->prepare( 'redirection_id=%d', $id );
 
-		// if ( isset( $_REQUEST['s'] ) )
-		// 	$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+		if ( $filterBy === 'url' && $filter ) {
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $filter ).'%' );
+		} else if ( $filterBy === 'ip' ) {
+			$where[] = $wpdb->prepare( 'ip=%s', $filter );
+		}
 
 		$where_cond = '';
-		if ( count( $where ) > 0 )
+		if ( count( $where ) > 0 ) {
 			$where_cond = ' WHERE '.implode( ' AND ', $where );
+		}
 
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_logs ".$where_cond );
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_logs".$where_cond );
 	}
 
 	static function export_to_csv() {
@@ -112,8 +110,6 @@ class RE_Log {
 
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
-		// if ( isset( $_REQUEST['s'] ) )
-		// 	$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
@@ -204,18 +200,25 @@ class RE_404 {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
 	}
 
-	static function delete_all() {
+	static function delete_all( $filterBy = '', $filter = '' ) {
 		global $wpdb;
 
 		$where = array();
-		// if ( isset( $_REQUEST['s'] ) )
-		// 	$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
+
+		if ( $filterBy === 'url-exact' ) {
+			$where[] = $wpdb->prepare( 'url=%s', $filter );
+		} if ( $filterBy === 'url' && $filter ) {
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $filter ).'%' );
+		} else if ( $filterBy === 'ip' ) {
+			$where[] = $wpdb->prepare( 'ip=INET_ATON(%s)', $filter );
+		}
 
 		$where_cond = '';
-		if ( count( $where ) > 0 )
+		if ( count( $where ) > 0 ) {
 			$where_cond = ' WHERE '.implode( ' AND ', $where );
+		}
 
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_404 ".$where_cond );
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_404".$where_cond );
 	}
 
 	static function export_to_csv() {

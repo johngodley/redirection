@@ -347,12 +347,23 @@ class Redirection_Api {
 
 	public function ajax_delete_all( $params ) {
 		$params = $this->get_params( $params );
+		$filter = '';
+		$filterBy = '';
+		if ( isset( $params['filter'] ) ) {
+			$filter = $params['filter'];
+		}
+
+		if ( isset( $params['filterBy'] ) && in_array( $params['filterBy'], array( 'url', 'ip', 'url-exact' ), true ) ) {
+			$filterBy = $params['filterBy'];
+			unset( $params['filter'] );
+			unset( $params['filterBy'] );
+		}
 
 		if ( isset( $params['logType'] ) ) {
 			if ( $params['logType'] === 'log' ) {
-				RE_Log::delete_all();
+				RE_Log::delete_all( $filterBy, $filter );
 			} else {
-				RE_404::delete_all();
+				RE_404::delete_all( $filterBy, $filter );
 			}
 		}
 

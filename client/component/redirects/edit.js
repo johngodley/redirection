@@ -238,6 +238,10 @@ class EditRedirect extends React.Component {
 		} else {
 			this.reset();
 		}
+
+		if ( this.props.childSave ) {
+			this.props.childSave();
+		}
 	}
 
 	onAdvanced( ev ) {
@@ -453,6 +457,8 @@ class EditRedirect extends React.Component {
 						{ this.getTarget() }
 						{ this.getGroup() }
 
+						{ this.props.children && this.props.children }
+
 						<tr>
 							<th></th>
 							<td>
@@ -476,6 +482,7 @@ EditRedirect.propTypes = {
 	item: PropTypes.object.isRequired,
 	onCancel: PropTypes.func,
 	saveButton: PropTypes.string,
+	childSave: PropTypes.func,
 	advanced: PropTypes.bool,
 };
 
