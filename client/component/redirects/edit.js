@@ -436,7 +436,7 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.handleChange } /> &nbsp;
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ ! this.props.advanced } /> &nbsp;
 								<label>
 									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
 									&nbsp;
