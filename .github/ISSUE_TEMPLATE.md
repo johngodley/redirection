@@ -1,5 +1,7 @@
 To help track problems please follow this template. If you can provide screenshots then that will help.
 
+*Please replace this template with your own details!*
+
 ### Summary
 
 Explain what you are trying to do. If you want to suggest a new feature then explain what you want it to do

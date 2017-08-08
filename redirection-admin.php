@@ -157,20 +157,58 @@ class Redirection_Admin {
 	function admin_screen() {
 	  	Redirection_Admin::update();
 
+		$version = get_plugin_data( REDIRECTION_FILE );
+		$version = $version['Version'];
 ?>
 <div id="react-ui">
-	<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
 	<div class="react-loading">
+		<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
+
 		<span class="react-loading-spinner" />
+	</div>
+
+	<div class="react-error" style="display: none">
+		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
+		<pre></pre>
+		<p><?php _e( "This error may be unrelated to Redirection. You may want to look in your browser's error console for more details.", 'redirection' ); ?></p>
+		<p><?php _e( "If you think Redirection is at fault then create a bug report.", 'redirection' ); ?></p>
+		<p>
+			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
+				<?php _e( 'Create bug report', 'redirection' ); ?>
+			</a>
+		</p>
 	</div>
 	<noscript>Please enable JavaScript</noscript>
 </div>
 
 <script>
+	var prevError = window.onerror;
+	var errors = [];
+	var timer = setTimeout( function() {
+		var node = document.createTextNode( errors.join( "\n\n" ) );
+
+		document.querySelector( '.react-loading' ).style.display = 'none';
+		document.querySelector( '.react-error' ).style.display = 'block';
+		document.querySelector( '.react-error pre' ).appendChild( node );
+		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" );
+		resetAll();
+	}, 10000 );
+
+	function resetAll() {
+		clearTimeout( timer );
+		window.onerror = prevError;
+	}
+
+	window.onerror = function( error, url, line ) {
+		errors.push( error + "\n\n" + url + ' ' + line );
+	};
+
 	addLoadEvent( function() {
+		resetAll();
 		redirection.show( 'react-ui' );
 	} );
 </script>
+
 <?php
 	}
 
