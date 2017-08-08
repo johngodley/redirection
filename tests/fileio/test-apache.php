@@ -74,4 +74,13 @@ class ApacheTest extends WP_UnitTestCase {
 		$this->assertEquals( '/other/thing#1', $item['target'] );
 		$this->assertEquals( '301', $item['code'] );
 	}
+
+	public function testRewriteNoCode() {
+		$apache = new Red_Apache_File();
+		$item = $apache->get_as_item( 'RewriteRule ^products/reporting /products/ [R,L]' );
+
+		$this->assertEquals( '/products/reporting', $item['source'] );
+		$this->assertEquals( '/products/', $item['target'] );
+		$this->assertEquals( '302', $item['code'] );
+	}
 }

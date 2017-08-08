@@ -159,6 +159,6 @@ class Red_Apache_File extends Red_FileIO {
 			return 410;
 		}
 
-		return 0;
+		return 302;
 	}
 }
