@@ -75,7 +75,7 @@ class RE_Log {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $id ) );
 	}
 
-	static function delete_all( $filterBy, $filter ) {
+	static function delete_all( $filterBy = '', $filter = '' ) {
 		global $wpdb;
 
 		$where = array();
