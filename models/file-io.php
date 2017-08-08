@@ -58,6 +58,8 @@ abstract class Red_FileIO {
 	}
 
 	public static function export( $module_name_or_id, $format ) {
+		$groups = $items = false;
+
 		if ( $module_name_or_id === 'all' || $module_name_or_id === 0 ) {
 			$groups = Red_Group::get_all();
 			$items = Red_Item::get_all();
@@ -72,7 +74,7 @@ abstract class Red_FileIO {
 		}
 
 		$exporter = self::create( $format );
-		if ( $exporter && $items && $groups ) {
+		if ( $exporter && $items !== false && $groups !== false ) {
 			return array(
 				'data' => $exporter->get_data( $items, $groups ),
 				'total' => count( $items ),
