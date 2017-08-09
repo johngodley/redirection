@@ -89,7 +89,7 @@ class OptionsForm extends React.Component {
 				&nbsp;
 				{ __( 'Save changes to this group' ) }
 
-				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder="/amp/" value={ this.state.associated_redirect } /> { __( 'Create associated redirect' ) }</p>
+				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder={ __( 'For example "/amp"' ) } value={ this.state.associated_redirect } /> { __( 'Create associated redirect' ) }</p>
 			</TableRow>
 		);
 	}
