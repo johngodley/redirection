@@ -245,9 +245,32 @@ class Redirection_Api {
 	public function ajax_save_settings( $settings = array() ) {
 		$settings = $this->get_params( $settings );
 		$options = red_get_options();
+		$monitor_types = array();
+
+		if ( isset( $settings['monitor_type_post'] ) && $settings['monitor_type_post'] === 'true' ) {
+			$monitor_types[] = 'post';
+		}
+
+		if ( isset( $settings['monitor_type_page'] ) && $settings['monitor_type_page'] === 'true' ) {
+			$monitor_types[] = 'page';
+		}
+
+		if ( isset( $settings['monitor_type_trash'] ) && $settings['monitor_type_trash'] === 'true' ) {
+			$monitor_types[] = 'trash';
+		}
 
 		if ( isset( $settings['monitor_post'] ) ) {
 			$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
+		}
+
+		if ( isset( $settings['associated_redirect'] ) ) {
+			$sanitizer = new Red_Item_Sanitize();
+			$options['associated_redirect'] = rtrim( $sanitizer->sanitize_url( $settings['associated_redirect'] ), '/' );
+		}
+
+		if ( count( $monitor_types ) === 0 ) {
+			$options['monitor_post'] = 0;
+			$options['associated_redirect'] = '';
 		}
 
 		if ( isset( $settings['auto_target'] ) ) {
@@ -280,6 +303,7 @@ class Redirection_Api {
 
 		$module = Red_Module::get( 2 );
 		$options['modules'][2] = $module->update( $settings );
+		$options['monitor_types'] = $monitor_types;
 
 		update_option( 'redirection_options', $options );
 		do_action( 'redirection_save_options', $options );

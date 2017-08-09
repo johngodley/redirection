@@ -22,8 +22,7 @@ const timeToKeep = [
 	{ value: 60, text: __( 'Two months' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
-
-const dontMonitor = { value: 0, text: __( "Don't monitor" ) };
+const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -34,6 +33,21 @@ class OptionsForm extends React.Component {
 		this.state = props.values;
 		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '',
 		this.state.canonical = modules[ 2 ] ? modules[ 2 ].canonical : '',
+		this.state.monitor_type_post = false;
+		this.state.monitor_type_page = false;
+		this.state.monitor_type_trash = false;
+
+		if ( this.state.monitor_types.find( item => item === 'post' ) ) {
+			this.state.monitor_type_post = true;
+		}
+
+		if ( this.state.monitor_types.find( item => item === 'page' ) ) {
+			this.state.monitor_type_page = true;
+		}
+
+		if ( this.state.monitor_types.find( item => item === 'trash' ) ) {
+			this.state.monitor_type_trash = true;
+		}
 
 		this.onChange = this.handleInput.bind( this );
 		this.onSubmit = this.handleSubmit.bind( this );
@@ -43,7 +57,14 @@ class OptionsForm extends React.Component {
 		const { target } = event;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 
-		this.setState( { [ target.name ]: value } );
+		this.setState( { [ target.name ]: value }, () => {
+			if ( ! isMonitor( this.state ) ) {
+				this.setState( {
+					monitor_post: 0,
+					associated_redirect: '',
+				} );
+			}
+		} );
 	}
 
 	handleSubmit( event ) {
@@ -61,9 +82,21 @@ class OptionsForm extends React.Component {
 		}
 	}
 
+	renderMonitor( groups ) {
+		return (
+			<TableRow title={ __( 'URL Monitor Changes' ) + ':' }>
+				<Select items={ groups } name="monitor_post" value={ parseInt( this.state.monitor_post, 10 ) } onChange={ this.onChange } />
+				&nbsp;
+				{ __( 'Save changes to this group' ) }
+
+				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder="/amp/" value={ this.state.associated_redirect } /> { __( 'Create associated redirect' ) }</p>
+			</TableRow>
+		);
+	}
+
 	render() {
 		const { groups, saveStatus, installed } = this.props;
-		const monitor = [ dontMonitor ].concat( groups );
+		const canMonitor = isMonitor( this.state );
 
 		return (
 			<form onSubmit={ this.onSubmit }>
@@ -83,9 +116,13 @@ class OptionsForm extends React.Component {
 						<Select items={ timeToKeep } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
-					<TableRow title={ __( 'Monitor changes to posts' ) + ':' }>
-						<Select items={ monitor } name="monitor_post" value={ parseInt( this.state.monitor_post, 10 ) } onChange={ this.onChange } />
+					<TableRow title={ __( 'URL Monitor' ) + ':' }>
+						<p><label><input type="checkbox" name="monitor_type_post" onChange={ this.onChange } checked={ this.state.monitor_type_post } /> { __( 'Monitor changes to posts' ) }</label></p>
+						<p><label><input type="checkbox" name="monitor_type_page" onChange={ this.onChange } checked={ this.state.monitor_type_page } /> { __( 'Monitor changes to pages' ) }</label></p>
+						<p><label><input type="checkbox" name="monitor_type_trash" onChange={ this.onChange } checked={ this.state.monitor_type_trash } /> { __( 'Monitor trashed items (will create disabled redirects)' ) }</label></p>
 					</TableRow>
+
+					{ canMonitor && this.renderMonitor( groups ) }
 
 					<TableRow title={ __( 'RSS Token' ) + ':' }>
 						<input className="regular-text" type="text" value={ this.state.token } name="token" onChange={ this.onChange } /><br />
