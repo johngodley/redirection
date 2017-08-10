@@ -23,13 +23,9 @@ const faq = [
 		} )
 	},
 	{
-		title: __( "Something isn't working!" ),
-		text: __( 'Please disable all other plugins and check if the problem persists. If it does please report it {{a}}here{{/a}} with full details about the problem and a way to reproduce it.', {
-			components: {
-				a: <a href="https://github.com/johngodley/redirection/issues" />
-			}
-		} )
-	}
+		title: __( 'Can I redirect all 404 errors?' ),
+		text: __( "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site." ),
+	},
 ];
 
 const FaqEntry = props => {
@@ -47,8 +43,6 @@ const Faq = () => {
 	return (
 		<div>
 			<h3>{ __( 'Frequently Asked Questions' )}</h3>
-
-			<p>{ __( 'Need some help? Maybe one of these questions will provide an answer' ) }</p>
 
 			<ul className="faq">
 				{ faq.map( ( item, pos ) => <FaqEntry title={ item.title } text={ item.text } key={ pos } /> ) }

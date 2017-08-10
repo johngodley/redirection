@@ -76,7 +76,6 @@ class DatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testRemove() {
-		add_option( 'redirection_lookup', 'test' );
 		add_option( 'redirection_post', 'test' );
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
@@ -91,7 +90,6 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( $this->checkTableExists( 'redirection_logs' ) );
 		$this->assertFalse( $this->checkTableExists( 'redirection_404' ) );
 
-		$this->assertFalse( get_option( 'redirection_lookup' ) );
 		$this->assertFalse( get_option( 'redirection_post' ) );
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );

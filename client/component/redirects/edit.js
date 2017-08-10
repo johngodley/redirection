@@ -1,3 +1,4 @@
+/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -106,7 +107,7 @@ const HTTP_ERROR = [
 	},
 	{
 		value: 410,
-		name: __( '410 - Found' ),
+		name: __( '410 - Gone' ),
 	},
 ];
 
@@ -183,6 +184,8 @@ class EditRedirect extends React.Component {
 	}
 
 	onSave( ev ) {
+		ev.preventDefault();
+
 		const { url, title, regex, match_type, action_type, group_id, action_code, position } = this.state;
 		const groups = this.props.group.rows;
 
@@ -199,7 +202,6 @@ class EditRedirect extends React.Component {
 			action_data: getActionData( this.state ),
 		};
 
-		ev.preventDefault();
 		this.props.onSave( redirect );
 
 		if ( this.props.onCancel ) {
@@ -367,7 +369,7 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
-		if ( this.state.url === '' ) {
+		if ( Redirectioni10n.autoGenerate === '' && this.state.url === '' ) {
 			return false;
 		}
 
@@ -383,7 +385,7 @@ class EditRedirect extends React.Component {
 		const { saveButton = __( 'Save' ), onCancel } = this.props;
 
 		return (
-			<form onSubmit={ this.handleSave } >
+			<form onSubmit={ this.handleSave }>
 				<table className="edit edit-redirection">
 					<tbody>
 						<tr>

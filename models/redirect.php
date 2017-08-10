@@ -101,6 +101,19 @@ class Red_Item {
 		return $items;
 	}
 
+	static function get_all() {
+		global $wpdb;
+
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
+		$items = array();
+
+		foreach ( (array) $rows as $row ) {
+			$items[] = new Red_Item( $row );
+		}
+
+		return $items;
+	}
+
 	static function sort_urls( $first, $second ) {
 		if ( $first['position'] === $second['position'] ) {
 			return 0;
@@ -323,7 +336,7 @@ class Red_Item {
 		if ( isset( $params['perPage'] ) ) {
 			$limit = intval( $params['perPage'], 10 );
 			$limit = min( 100, $limit );
-			$limit = max( 10, $limit );
+			$limit = max( 5, $limit );
 		}
 
 		if ( isset( $params['page'] ) ) {
@@ -376,9 +389,9 @@ class Red_Item_Sanitize {
 		$details = array_map( 'trim', $details );
 		$details = array_map( 'stripslashes', $details );
 
-		$data['regex'] = isset( $details['regex'] ) && $details['regex'] === 'true' ? 1 : 0;
+		$data['regex'] = isset( $details['regex'] ) && ( $details['regex'] === 'true' || $details['regex'] === '1' ) ? 1 : 0;
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
-		$data['url'] = $this->get_url( isset( $details['url'] ) ? $details['url'] : $this->auto_generate(), $data['regex'] );
+		$data['url'] = $this->get_url( empty( $details['url'] ) ? $this->auto_generate() : $details['url'], $data['regex'] );
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
 		$data['position'] = $this->get_position( $details );
 

@@ -1,0 +1,9 @@
+# Created by Redirection
+# Thu, 10 Aug 2017 21:34:11 +0000
+# Redirection 2.7 - http://urbangiraffe.com/plugins/redirection/
+
+<IfModule mod_rewrite.c>
+RewriteRule ^1$ / [R=0,L]
+</IfModule>
+
+# End of Redirection

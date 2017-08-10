@@ -18,6 +18,7 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		$this->assertTrue( is_object( $result->settings ) );
 		$this->assertTrue( is_array( $result->groups ) );
+		$this->assertTrue( ! empty( $result->installed ) );
 	}
 
 	public function testSaveEmptySettingsChangesNothing() {
@@ -30,6 +31,11 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		unset( $before->settings->token );
 		unset( $after->settings->token );
+		unset( $before->settings->modules );
+		unset( $after->settings->modules );
+		unset( $before->installed );
+		unset( $after->installed );
+
 		$this->assertEquals( $before, $after );
 	}
 
@@ -111,5 +117,15 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		
 		$result = json_decode( self::$redirection->ajax_save_settings( array( 'notify_schedule' => $data ) ) );
 		$this->assertEquals( $data, $result->settings->notify_schedule );
+	}
+
+	public function testSaveApacheConfig() {
+		$data = '30';
+		$this->setNonce();
+
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'location' => 'location', 'canonical' => 'www' ) ) );
+
+		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
+		$this->assertEquals( 'www', $result->settings->modules->{ '2' }->canonical );
 	}
 }

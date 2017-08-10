@@ -1,16 +1,18 @@
 <?php
 
+include_once dirname( __FILE__ ) . '/../../fileio/csv.php';
+
 class ImportCsvTest extends WP_UnitTestCase {
 	public function testHeader() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( 'source', 'target' ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( 'source', 'target' ), 1 );
 
 		$this->assertFalse( $csv );
 	}
 
 	public function testSourceTarget() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
 		$target = array(
 			'url' => '/source',
 			'action_data' => '/target',
@@ -25,29 +27,29 @@ class ImportCsvTest extends WP_UnitTestCase {
 	}
 
 	public function testSourceTargetRegex() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source.*', '/target' ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '/source.*', '/target' ), 1 );
 
 		$this->assertTrue( $csv['regex'] );
 	}
 
 	public function testSourceTargetRegexOverride() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target', 1 ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '/source', '/target', 1 ), 1 );
 
 		$this->assertTrue( $csv['regex'] );
 	}
 
 	public function testRedirectCode() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', 308 ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', 308 ), 1 );
 
 		$this->assertEquals( 308, $csv['action_code'] );
 	}
 
 	public function testInvalidRedirectCode() {
-		$exporter = new Red_Csv_File();
-		$csv = $exporter->csv_as_item( array( '/source', '/target', 0, 'url', 666 ), 1 );
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', 666 ), 1 );
 
 		$this->assertEquals( 301, $csv['action_code'] );
 	}
@@ -61,8 +63,8 @@ class ImportCsvTest extends WP_UnitTestCase {
 		fwrite( $file, '"/old","/new","0","url","301","url","2",""' );
 		rewind( $file );
 
-		$exporter = new Red_Csv_File();
-		$count = $exporter->load_from_file( $group->get_id(), $file );
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
 		$this->assertEquals( 1, $count );
@@ -85,8 +87,8 @@ class ImportCsvTest extends WP_UnitTestCase {
 		fwrite( $file, $multi );
 		rewind( $file );
 
-		$exporter = new Red_Csv_File();
-		$count = $exporter->load_from_file( $group->get_id(), $file );
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
 		$this->assertEquals( 3, $count );

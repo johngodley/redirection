@@ -21,7 +21,7 @@ export default function settings( state = {}, action ) {
 			return { ... state, loadStatus: STATUS_IN_PROGRESS };
 
 		case SETTING_LOAD_SUCCESS:
-			return { ... state, loadStatus: STATUS_COMPLETE, values: action.values, groups: action.groups };
+			return { ... state, loadStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed };
 
 		case SETTING_LOAD_FAILED:
 			return { ... state, loadStatus: STATUS_FAILED, error: action.error };
@@ -30,7 +30,7 @@ export default function settings( state = {}, action ) {
 			return { ... state, saveStatus: STATUS_IN_PROGRESS };
 
 		case SETTING_SAVED:
-			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups };
+			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed };
 
 		case SETTING_SAVE_FAILED:
 			return { ... state, saveStatus: STATUS_FAILED, error: action.error };

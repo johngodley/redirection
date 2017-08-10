@@ -40,6 +40,38 @@ class Red_Group {
 		return false;
 	}
 
+	static function get_all() {
+		global $wpdb;
+
+		$data = array();
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
+
+		if ( $rows ) {
+			foreach ( $rows as $row ) {
+				$group = new Red_Group( $row );
+				$data[] = $group->to_json();
+			}
+		}
+
+		return $data;
+	}
+
+	static function get_all_for_module( $module_id ) {
+		global $wpdb;
+
+		$data = array();
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_groups WHERE module_id=%d", $module_id ) );
+
+		if ( $rows ) {
+			foreach ( $rows as $row ) {
+				$group = new Red_Group( $row );
+				$data[] = $group->to_json();
+			}
+		}
+
+		return $data;
+	}
+
 	static function get_for_select() {
 		global $wpdb;
 
@@ -50,7 +82,7 @@ class Red_Group {
 			foreach ( $rows as $row ) {
 				$module = Red_Module::get( $row->module_id );
 				if ( $module ) {
-					$data[ $module->get_name() ][ $row->id ] = $row->name;
+					$data[ $module->get_name() ][ intval( $row->id, 10 ) ] = $row->name;
 				}
 			}
 		}
@@ -172,7 +204,7 @@ class Red_Group {
 		if ( isset( $params['perPage'] ) ) {
 			$limit = intval( $params['perPage'], 10 );
 			$limit = min( 100, $limit );
-			$limit = max( 10, $limit );
+			$limit = max( 5, $limit );
 		}
 
 		if ( isset( $params['page'] ) ) {

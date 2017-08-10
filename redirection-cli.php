@@ -22,7 +22,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	}
 
 	/**
-	 * Import redirections from a CSV or .htaccess file
+	 * Import redirections from a JSON, CSV, or .htaccess file
 	 *
 	 * ## OPTIONS
 	 *
@@ -30,17 +30,18 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * : The name of the file to import.
 	 *
 	 * [--group=<groupid>]
-	 * : The group ID to import into. Defaults to the first available group
+	 * : The group ID to import into. Defaults to the first available group. JSON
+	 *   contains it's own group
 	 *
 	 * [--format=<importformat>]
-	 * : The import format - csv or htaccess. Defaults to csv
+	 * : The import format - csv, htaccess, or json. Defaults to json
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp redirection import .htaccess --format=htaccess
 	 */
 	public function import( $args, $extra ) {
-		$format = isset( $extra['format'] ) ? $extra['format'] : 'csv';
+		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
 		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
 
 		if ( ! $group ) {
@@ -51,7 +52,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$importer = Red_FileIO::create( $format );
 
 		if ( ! $importer ) {
-			WP_CLI::error( 'Invalid import format - csv or htaccess supported' );
+			WP_CLI::error( 'Invalid import format - csv, json, or htaccess supported' );
 			return;
 		}
 
@@ -60,7 +61,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			if ( $file ) {
 				$count = $importer->load( $group, $file, '' );
-				WP_CLI::success( 'Imported ' . $count .' to group '.$group );
+				WP_CLI::success( 'Imported ' . $count . ' as '.$format );
 			} else {
 				WP_CLI::error( 'Invalid import file' );
 			}
@@ -68,49 +69,51 @@ class Redirection_Cli extends WP_CLI_Command {
 			$data = @file_get_contents( $args[ 0 ] );
 			if ( $data ) {
 				$count = $importer->load( $group, $args[ 0 ], $data );
-				WP_CLI::success( 'Imported ' . $count .' to group '.$group );
+				WP_CLI::success( 'Imported ' . $count . ' as '.$format );
 			}
 		}
 	}
 
 	/**
-	 * Export redirections to a CSV, .htaccess, or rewrite.rules file
+	 * Export redirections to a CSV, JSON, .htaccess, or rewrite.rules file
 	 *
 	 * ## OPTIONS
 	 *
 	 * <module>
-	 * : The module to export (wordpress, apache, nginx)
+	 * : The module to export - wordpress, apache, nginx, or all
+	 *
 	 * <filename>
 	 * : The file to export to, or - for stdout
 	 *
 	 * [--format=<exportformat>]
-	 * : The export format. One of csv, htaccess, or nginx. Defaults to csv
+	 * : The export format. One of json, csv, apache, or nginx. Defaults to json
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp redirection export wordpress .htaccess --format=htaccess
+	 *     wp redirection export wordpress --format=apache
 	 */
 	public function export( $args, $extra ) {
-		$format = isset( $extra['format'] ) ? $extra['format'] : 'csv';
+		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
 		$exporter = Red_FileIO::create( $format );
 
 		if ( ! $exporter ) {
-			WP_CLI::error( 'Invalid export format - csv, htaccess, or nginx supported' );
-			return;
-		}
-
-		$module = Red_Module::get_id_for_name( $args[ 0 ] );
-		if ( ! $module ) {
-			WP_CLI::error( 'Invalid module - must be wordpress, apache, or nginx' );
+			WP_CLI::error( 'Invalid export format - json, csv, htaccess, or nginx supported' );
 			return;
 		}
 
 		$file = fopen( $args[ 1 ] === '-' ? 'php://stdout' : $args[ 1 ], 'w' );
 		if ( $file ) {
-			$items = Red_Item::get_all_for_module( $module );
+			$export = Red_FileIO::export( $args[ 0 ], $format );
 
-			$count = $exporter->output_to_file( $file, $items );
-			WP_CLI::success( 'Exported ' . $count .' to '.$format );
+			if ( $export === false ) {
+				WP_CLI::error( 'Invalid module - must be wordpress, apache, nginx, or all' );
+				return;
+			}
+
+			fwrite( $file, $export['data'] );
+			fclose( $file );
+
+			WP_CLI::success( 'Exported ' . $export['total'] .' to '.$format );
 		} else {
 			WP_CLI::error( 'Invalid output file' );
 		}

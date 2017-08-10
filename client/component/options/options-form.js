@@ -36,7 +36,12 @@ class OptionsForm extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const modules = props.values.modules;
+
 		this.state = props.values;
+		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '',
+		this.state.canonical = modules[ 2 ] ? modules[ 2 ].canonical : '',
+
 		this.onChange = this.handleInput.bind( this );
 		this.onSubmit = this.handleSubmit.bind( this );
 	}
@@ -64,13 +69,13 @@ class OptionsForm extends React.Component {
 	}
 
 	render() {
-		const { groups, saveStatus } = this.props;
+		const { groups, saveStatus, installed } = this.props;
 		const monitor = [ dontMonitor ].concat( groups );
 
 		return (
 			<form onSubmit={ this.onSubmit }>
 				<FormTable>
-					<TableRow title={ __( 'Plugin support' ) + ':' }>
+					<TableRow title="">
 						<label>
 							<input type="checkbox" checked={ this.state.support } name="support" onChange={ this.onChange } />
 							<span className="sub">{ __( "I'm a nice person and I have helped support the author of this plugin" ) }</span>
@@ -97,12 +102,37 @@ class OptionsForm extends React.Component {
 					<TableRow title={ __( 'Auto-generate URL' ) + ':' }>
 						<input className="regular-text" type="text" value={ this.state.auto_target } name="auto_target" onChange={ this.onChange } /><br />
 						<span className="sub">
-							{ __( 'This will be used to auto-generate a URL if no URL is given. You can use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to have a unique ID inserted (either decimal or hex)', {
+							{ __( 'Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted', {
 								components: {
 									code: <code />
 								}
 							} ) }
 						</span>
+					</TableRow>
+					<TableRow title={ __( 'Apache Module' ) }>
+						<label>
+							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } placeholder={ installed } /></p>
+
+							<p className="sub">
+								{ __( 'Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.', {
+									components: {
+										code: <code />,
+									}
+								} ) }
+							</p>
+
+							<p>
+								<label>
+									<select name="canonical" value={ this.state.canonical } onChange={ this.onChange }>
+										<option value="">{ __( 'Default server' ) }</option>
+										<option value="nowww">{ __( 'Remove WWW' ) }</option>
+										<option value="www">{ __( 'Add WWW' ) }</option>
+									</select>
+									&nbsp;
+									{ __( 'Automatically remove or add www to your site.' ) }
+								</label>
+							</p>
+						</label>
 					</TableRow>
 					<TableRow title={ __( 'Notify' ) + ':' }>
 						<input className="regular-text" type="text" value={ this.state.notify_emails } name="notify_emails" onChange={ this.onChange } /><br />
@@ -128,12 +158,13 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { groups, values, saveStatus } = state.settings;
+	const { groups, values, saveStatus, installed } = state.settings;
 
 	return {
 		groups,
 		values,
 		saveStatus,
+		installed,
 	};
 }
 

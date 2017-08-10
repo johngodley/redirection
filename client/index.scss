@@ -38,10 +38,30 @@
 			margin-top: 4px;
 			vertical-align: bottom;
 		}
+
+		img {
+			width: 24px !important;
+			margin-bottom: -5px !important
+		}
+	}
+
+	.donation-amount:after {
+		content: '';
+		display: block;
+		clear: both;
 	}
 
 	input[type=number] {
 		width: 60px;
+		margin-left: 10px;
+	}
+
+	td, th {
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+	}
+
+	input[type=submit] {
 		margin-left: 10px;
 	}
 }
@@ -324,7 +344,82 @@ table.edit-redirection {
 	border: 1px solid #ddd;
 	padding: 5px;
 	font-family: courier;
-	background-color: #eee;
 	margin-top: 15px;
 	width: 100%;
+	background-color: white !important;
+}
+
+.dropzone {
+	border: 3px dashed #bbb;
+	text-align: center;
+	padding: 10px;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	color: #666;
+
+	h3 {
+		color: #666;
+	}
+
+	p {
+		font-size: 14px;
+	}
+
+	.groups {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+
+	.is-placeholder {
+		width: 50%;
+		height: 90px;
+		position: relative;
+		margin: 0 auto;
+	}
+}
+
+.dropzone-hover, .dropzone-hover {
+	border-color: rgb(134, 191, 212);
+}
+
+.dropzone-importing {
+	border-color: transparent;
+}
+
+.table-buttons {
+	float: left;
+	padding-top: 2px;
+
+	> button, > form, > div.table-button-item {
+		margin-right: 5px !important;
+		display: inline;
+	}
+
+	.modal-wrapper {
+		display: inline;
+	}
+}
+
+.github {
+	img {
+		padding-right: 10px;
+		margin-bottom: -10px;
+	}
+}
+
+.wp-core-ui .button-delete {
+	box-shadow: none;
+	text-shadow: none;
+
+	background-color: #ff3860;
+	border-color: transparent;
+	color: #fff;
+}
+
+.wp-core-ui .button-delete:hover {
+	background-color: #ff3860;
+	border-color: transparent;
+	box-shadow: none;
+	text-shadow: none;
 }

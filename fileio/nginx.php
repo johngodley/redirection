@@ -1,27 +1,16 @@
 <?php
 
 class Red_Nginx_File extends Red_FileIO {
-	function export( array $items ) {
+	public function force_download() {
+		parent::force_download();
+
 		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.nginx';
 
 		header( 'Content-Type: application/octet-stream' );
-		header( 'Cache-Control: no-cache, must-revalidate' );
-		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
-
-		echo $this->get( $items );
 	}
 
-	function output_to_file( $handle, $items ) {
-		fwrite( $handle, $this->get( $items )."\n" );
-
-		return count( $items );
-	}
-
-	public function get( array $items ) {
-		if ( count( $items ) === 0 )
-			return '';
-
+	public function get_data( array $items, array $groups ) {
 		$lines   = array();
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
@@ -39,7 +28,7 @@ class Red_Nginx_File extends Red_FileIO {
 		$lines[] = '';
 		$lines[] = '# End of Redirection';
 
-		return implode( "\n", $lines );
+		return implode( PHP_EOL, $lines ).PHP_EOL;
 	}
 
 	private function get_redirect_code( Red_Item $item ) {

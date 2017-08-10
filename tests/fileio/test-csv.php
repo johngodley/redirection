@@ -45,11 +45,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item1 = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source1', 'action_data' => '/target', 'action_code' => 301 ) );
 		$item2 = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source2', 'action_data' => '/target', 'action_code' => 301 ) );
 
-		$temp = fopen( 'php://memory', 'w+' );
-
-		$exporter->output_to_file( $temp, array( $item1, $item2 ) );
-		rewind($temp);
-		$result = stream_get_contents( $temp );
+		$result = $exporter->get_data( array( $item1, $item2 ), array() );
 
 		$lines = array_filter( explode( PHP_EOL, $result ) );
 

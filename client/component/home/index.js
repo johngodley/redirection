@@ -15,7 +15,7 @@ import Options from 'component/options';
 import Support from 'component/support';
 import Logs from 'component/logs';
 import Logs404 from 'component/logs404';
-import Modules from 'component/modules';
+import ImportExport from 'component/io';
 import Grouper from 'component/groups';
 import Redirects from 'component/redirects';
 import Error from 'component/error';
@@ -27,7 +27,7 @@ import { clearErrors } from 'state/message/action';
 const TITLES = {
 	redirect: __( 'Redirections' ),
 	groups: __( 'Groups' ),
-	modules: __( 'Modules' ),
+	io: __( 'Import/Export' ),
 	log: __( 'Logs' ),
 	'404s': __( '404 errors' ),
 	options: __( 'Options' ),
@@ -38,8 +38,15 @@ class Home extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { page: getPluginPage() };
+		this.state = {
+			page: getPluginPage(),
+			error: false,
+		};
 		this.handlePageChange = this.onChangePage.bind( this );
+	}
+
+	componentDidCatch() {
+		this.setState( { error: true } );
 	}
 
 	onChangePage( page, url ) {
@@ -63,8 +70,8 @@ class Home extends React.Component {
 			case 'log':
 				return <Logs />;
 
-			case 'modules':
-				return <Modules />;
+			case 'io':
+				return <ImportExport />;
 
 			case 'groups':
 				return <Grouper />;
@@ -76,8 +83,36 @@ class Home extends React.Component {
 		return <Redirects />;
 	}
 
+	renderError() {
+		return (
+			<div className="notice notice-error">
+				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
+
+				<p>
+					{ __( 'Redirection crashed and needs fixing. Please open your browsers error console and create a {{link}}new issue{{/link}} with the details.', {
+						components: {
+							link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />
+						}
+					} ) }
+				</p>
+				<p>
+					{ __( 'Please mention {{code}}%s{{/code}}, and explain what you were doing at the time', {
+						components: {
+							code: <code />
+						},
+						args: this.state.page,
+					} ) }
+				</p>
+			</div>
+		);
+	}
+
 	render() {
 		const title = TITLES[ this.state.page ];
+
+		if ( this.state.error ) {
+			return this.renderError();
+		}
 
 		return (
 			<div className="wrap redirection">

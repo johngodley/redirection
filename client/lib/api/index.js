@@ -2,8 +2,8 @@
 
 const addData = ( form, data, preName ) => {
 	for ( const variable in data ) {
-		if ( data[ variable ] !== '' && data[ variable ] !== undefined ) {
-			if ( typeof data[ variable ] === 'object' ) {
+		if ( data[ variable ] !== undefined ) {
+			if ( typeof data[ variable ] === 'object' && data.lastModified !== undefined ) {
 				addData( form, data[ variable ], variable + '_' );
 			} else {
 				form.append( preName + variable, data[ variable ] );
