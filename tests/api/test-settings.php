@@ -59,8 +59,28 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$data = "5";
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => $data ) ) );
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => $data, 'monitor_type_post' => 'true' ) ) );
 		$this->assertEquals( 5, $result->settings->monitor_post );
+		$this->assertEquals( array( 'post' ), $result->settings->monitor_types );
+	}
+
+	public function testNoMonitorTypes() {
+		$this->setNonce();
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'associated_redirect' => '/test' ) ) );
+		$this->assertEquals( 0, $result->settings->monitor_post );
+		$this->assertEquals( '', $result->settings->associated_redirect );
+	}
+
+	public function testMonitorTypes() {
+		$this->setNonce();
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'monitor_type_post' => 'true', 'monitor_type_page' => 'true', 'monitor_type_trash' => 'true' ) ) );
+		$this->assertEquals( array( 'post', 'page', 'trash' ), $result->settings->monitor_types );
+	}
+
+	public function testAssociatedRedirect() {
+		$this->setNonce();
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'monitor_type_post' => 'true', 'associated_redirect' => '/amp/' ) ) );
+		$this->assertEquals( '/amp', $result->settings->associated_redirect );
 	}
 
 	public function testSaveSupport() {
@@ -112,4 +132,8 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
 		$this->assertEquals( 'www', $result->settings->modules->{ '2' }->canonical );
 	}
+
+
+		// XXX add new settings to API
+
 }

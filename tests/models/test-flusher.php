@@ -76,11 +76,11 @@ class FlusherTest extends WP_UnitTestCase {
 	public function testBigFlush() {
 		RE_Log::delete_all();
 
-		for ( $i = 0; $i < 1002; $i++ ) {
+		for ( $i = 0; $i < Red_Flusher::DELETE_MAX + 2; $i++ ) {
 			$this->addLog( 8 );   // Will get flushed
 		}
 
-		$this->assertEquals( 1002, $this->getLogCount() );
+		$this->assertEquals( Red_Flusher::DELETE_MAX + 2, $this->getLogCount() );
 
 		wp_schedule_event( time() + ( 60 * 30 ), Red_Flusher::DELETE_FREQ, Red_Flusher::DELETE_HOOK );
 

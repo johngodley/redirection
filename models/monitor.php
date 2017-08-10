@@ -4,11 +4,11 @@ class Red_Monitor {
 	private $monitor_group_id;
 
 	function __construct( $options ) {
-		$this->monitor_types = apply_filters( 'redirection_monitor_types', $options['monitor_types'] );
+		$this->monitor_types = apply_filters( 'redirection_monitor_types', isset( $options['monitor_types'] ) ? $options['monitor_types'] : array() );
 
 		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
-			$this->associated = $options['associated_redirect'];
+			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
@@ -55,7 +55,6 @@ class Red_Monitor {
 		}
 
 		if ( ! in_array( $type, $this->monitor_types ) ) {
-			error_log('return here');
 			return false;
 		}
 
