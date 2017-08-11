@@ -219,7 +219,7 @@ msgstr "すべて選択"
 
 #: redirection-strings.php:193
 msgid "Sorry, something went wrong loading the data - please try again"
-msgstr ""
+msgstr "データのロード中に問題が発生しました - もう一度お試しください"
 
 #: redirection-strings.php:192
 msgid "No results"
