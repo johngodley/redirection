@@ -15,8 +15,13 @@ and a line at the end';
 	public function testEmpty() {
 		$htaccess = new Red_Htaccess();
 		$file = $htaccess->get();
+		$lines = explode( "\n", $file );
 
-		$this->assertEmpty( $file );
+		$this->assertEquals( count( $lines ), 8 );
+		$this->assertEquals( '# Created by Redirection', trim( $lines[0] ) );
+		$this->assertEquals( '<IfModule mod_rewrite.c>', trim( $lines[4] ) );
+		$this->assertEquals( '</IfModule>', trim( $lines[5] ) );
+		$this->assertEquals( '# End of Redirection', trim( $lines[count( $lines ) - 1] ) );
 	}
 
 	public function testNew() {
@@ -59,13 +64,13 @@ and a line at the end';
 	}
 
 	public function testRemoveExisting() {
-		$existing_without_redirection = 'this is a line
-
-and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$file = $htaccess->get( $this->getExisting() );
+		$lines = explode( "\n", $file );
 
-		$this->assertEquals( $existing_without_redirection, $file );
+		$this->assertEquals( 'this is a line', $lines[ 0 ] );
+		$this->assertEquals( '# Created by Redirection', trim( $lines[ 2 ] ) );
+		$this->assertEquals( 'and a line at the end', $lines[ count( $lines ) - 1 ] );
 	}
 
 	public function testRedirectUrl() {

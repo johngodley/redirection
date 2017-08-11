@@ -153,9 +153,6 @@ class Red_Htaccess {
 	}
 
 	private function generate() {
-		if ( count( $this->items ) === 0 )
-			return '';
-
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
 		$text[] = '# Created by Redirection';

@@ -23,6 +23,19 @@
 	animation: sk-scaleout-loading 1.0s infinite ease-in-out;
 }
 
+.react-error p {
+	text-align: center;
+	line-height: 1;
+}
+
+.react-error pre {
+	border: 1px solid #aaa;
+	background-color: white;
+	padding: 10px;
+	margin: 0 auto;
+	width: 600px;
+}
+
 @-webkit-keyframes sk-scaleout-loading {
   0% { -webkit-transform: scale(0) }
   100% {
