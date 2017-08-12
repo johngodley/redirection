@@ -113,7 +113,7 @@ class Redirection_Admin {
 			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $version );
 		}
 
-		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'admin.css', $version );
+		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', $version );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => admin_url( 'admin-ajax.php' ),
