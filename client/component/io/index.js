@@ -20,8 +20,6 @@ import { importFile, clearFile, addFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import { exportFile, downloadFile } from 'state/io/action';
 
-const MIME_TYPES = 'text/plain,text/csv,application/json,';
-
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=modules&export=' + moduleId + '&exporter=' + modType;
 
 class ImportExport extends React.Component {
@@ -225,7 +223,7 @@ class ImportExport extends React.Component {
 			<div>
 				<h2>{ __( 'Import' ) }</h2>
 
-				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } accept={ MIME_TYPES } className={ classes } disableClick disablePreview multiple={ false }>
+				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } className={ classes } disableClick disablePreview multiple={ false }>
 					{ this.renderDropzoneContent() }
 				</Dropzone>
 
