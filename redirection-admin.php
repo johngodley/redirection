@@ -171,10 +171,10 @@ class Redirection_Admin {
 		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
 		<pre></pre>
 		<p><?php _e( "This error may be unrelated to Redirection. You may want to look in your browser's error console for more details.", 'redirection' ); ?></p>
-		<p><?php _e( "If you think Redirection is at fault then create a bug report.", 'redirection' ); ?></p>
+		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
-				<?php _e( 'Create bug report', 'redirection' ); ?>
+				<?php _e( 'Create Issue', 'redirection' ); ?>
 			</a>
 		</p>
 	</div>
@@ -185,14 +185,18 @@ class Redirection_Admin {
 	var prevError = window.onerror;
 	var errors = [];
 	var timer = setTimeout( function() {
+		showError();
+		resetAll();
+	}, 10000 );
+
+	function showError() {
 		var node = document.createTextNode( errors.join( "\n\n" ) );
 
 		document.querySelector( '.react-loading' ).style.display = 'none';
 		document.querySelector( '.react-error' ).style.display = 'block';
 		document.querySelector( '.react-error pre' ).appendChild( node );
 		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" );
-		resetAll();
-	}, 10000 );
+	}
 
 	function resetAll() {
 		clearTimeout( timer );
@@ -205,7 +209,13 @@ class Redirection_Admin {
 
 	addLoadEvent( function() {
 		resetAll();
-		redirection.show( 'react-ui' );
+
+		if ( typeof redirection !== 'undefined' ) {
+			redirection.show( 'react-ui' );
+		} else {
+			errors = [ 'Unable to load the Redirection JavaScript file' ];
+			showError();
+		}
 	} );
 </script>
 
