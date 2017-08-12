@@ -65,7 +65,7 @@ class Redirection_Admin {
 
 		Red_Flusher::schedule();
 
-		if ( $version !== REDIRECTION_VERSION ) {
+		if ( $version !== REDIRECTION_DB_VERSION ) {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 			$database = new RE_Database();
@@ -74,7 +74,7 @@ class Redirection_Admin {
 				$database->install();
 			}
 
-			return $database->upgrade( $version, REDIRECTION_VERSION );
+			return $database->upgrade( $version, REDIRECTION_DB_VERSION );
 		}
 
 		return true;
@@ -97,9 +97,8 @@ class Redirection_Admin {
 	function redirection_head() {
 		global $wp_version;
 
+		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
 		$options = red_get_options();
-		$version = get_plugin_data( REDIRECTION_FILE );
-		$version = $version['Version'];
 
 		$this->inject();
 
@@ -108,12 +107,12 @@ class Redirection_Admin {
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $version );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $build );
 		} else {
-			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $version );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $build );
 		}
 
-		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', $version );
+		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => admin_url( 'admin-ajax.php' ),
@@ -125,7 +124,8 @@ class Redirection_Admin {
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
 			'autoGenerate' => $options['auto_target'],
-			'versions' => implode( ', ', array( 'Plugin '.$version, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
+			'versions' => implode( ', ', array( 'Plugin '.REDIRECTION_VERSION, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
+			'version' => REDIRECTION_VERSION,
 		) );
 	}
 

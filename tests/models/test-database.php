@@ -120,21 +120,21 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testVersion() {
 		$database = new RE_Database();
 		$database->install();
-		$this->assertEquals( REDIRECTION_VERSION, get_option( 'redirection_version' ) );
+		$this->assertEquals( REDIRECTION_DB_VERSION, get_option( 'redirection_version' ) );
 	}
 
 	public function testUpgradeSameVersion() {
 		$database = new RE_Database();
 		$database->install();
-		$database->upgrade( REDIRECTION_VERSION, REDIRECTION_VERSION );
+		$database->upgrade( REDIRECTION_DB_VERSION, REDIRECTION_DB_VERSION );
 
-		$this->assertEquals( REDIRECTION_VERSION, get_option( 'redirection_version' ) );
+		$this->assertEquals( REDIRECTION_DB_VERSION, get_option( 'redirection_version' ) );
 	}
 
 	public function testUpgradeVersion() {
 		$database = new RE_Database();
 		$database->install();
-		$database->upgrade( REDIRECTION_VERSION, 10.1 );
+		$database->upgrade( REDIRECTION_DB_VERSION, 10.1 );
 
 		$this->assertEquals( '10.1', get_option( 'redirection_version' ) );
 	}
@@ -209,10 +209,10 @@ class DatabaseTest extends WP_UnitTestCase {
 		// Perform upgrade to latest
 		$database = new RE_Database();
 		$database->install();
-		$database->upgrade( REDIRECTION_VERSION, REDIRECTION_VERSION );
+		$database->upgrade( REDIRECTION_DB_VERSION, REDIRECTION_DB_VERSION );
 
 		// Check tables match latest
-		$this->checkAgainstLatest( REDIRECTION_VERSION );
+		$this->checkAgainstLatest( REDIRECTION_DB_VERSION );
 	}
 
 	public function testUpgradeFromOlder() {
@@ -231,7 +231,7 @@ class DatabaseTest extends WP_UnitTestCase {
 
 			// Perform upgrade to latest
 			$database = new RE_Database();
-			$database->upgrade( $ver, REDIRECTION_VERSION );
+			$database->upgrade( $ver, REDIRECTION_DB_VERSION );
 
 			// Check tables match latest
 			$this->checkAgainstLatest( $ver );
