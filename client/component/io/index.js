@@ -228,11 +228,15 @@ class ImportExport extends React.Component {
 				</Dropzone>
 
 				<p>{ __( 'All imports will be appended to the current database.' ) }</p>
-				<p>{ __( 'CSV files must contain these columns - {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex (0 for no, 1 for yes), http code{{/code}}.', {
-					components: {
-						code: <code />
-					}
-				} ) }</p>
+				<div className="inline-notice notice-warning">
+					<p>
+						{ __( 'CSV file format: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} (regex - 0 for no, 1 for yes).', {
+							components: {
+								code: <code />
+							}
+						} ) }
+					</p>
+				</div>
 
 				<h2>{ __( 'Export' ) }</h2>
 				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).' ) }</p>
