@@ -65,7 +65,7 @@ class Redirection_Admin {
 
 		Red_Flusher::schedule();
 
-		if ( $version !== REDIRECTION_VERSION ) {
+		if ( $version !== REDIRECTION_DB_VERSION ) {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 			$database = new RE_Database();
@@ -74,7 +74,7 @@ class Redirection_Admin {
 				$database->install();
 			}
 
-			return $database->upgrade( $version, REDIRECTION_VERSION );
+			return $database->upgrade( $version, REDIRECTION_DB_VERSION );
 		}
 
 		return true;
@@ -97,9 +97,8 @@ class Redirection_Admin {
 	function redirection_head() {
 		global $wp_version;
 
+		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
 		$options = red_get_options();
-		$version = get_plugin_data( REDIRECTION_FILE );
-		$version = $version['Version'];
 
 		$this->inject();
 
@@ -108,12 +107,12 @@ class Redirection_Admin {
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $version );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $build );
 		} else {
-			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $version );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $build );
 		}
 
-		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', $version );
+		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => admin_url( 'admin-ajax.php' ),
@@ -125,7 +124,8 @@ class Redirection_Admin {
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
 			'autoGenerate' => $options['auto_target'],
-			'versions' => implode( ', ', array( 'Plugin '.$version, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
+			'versions' => implode( ', ', array( 'Plugin '.REDIRECTION_VERSION, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
+			'version' => REDIRECTION_VERSION,
 		) );
 	}
 
@@ -171,10 +171,10 @@ class Redirection_Admin {
 		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
 		<pre></pre>
 		<p><?php _e( "This error may be unrelated to Redirection. You may want to look in your browser's error console for more details.", 'redirection' ); ?></p>
-		<p><?php _e( "If you think Redirection is at fault then create a bug report.", 'redirection' ); ?></p>
+		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
-				<?php _e( 'Create bug report', 'redirection' ); ?>
+				<?php _e( 'Create Issue', 'redirection' ); ?>
 			</a>
 		</p>
 	</div>
@@ -185,14 +185,18 @@ class Redirection_Admin {
 	var prevError = window.onerror;
 	var errors = [];
 	var timer = setTimeout( function() {
+		showError();
+		resetAll();
+	}, 10000 );
+
+	function showError() {
 		var node = document.createTextNode( errors.join( "\n\n" ) );
 
 		document.querySelector( '.react-loading' ).style.display = 'none';
 		document.querySelector( '.react-error' ).style.display = 'block';
 		document.querySelector( '.react-error pre' ).appendChild( node );
 		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" );
-		resetAll();
-	}, 10000 );
+	}
 
 	function resetAll() {
 		clearTimeout( timer );
@@ -205,7 +209,13 @@ class Redirection_Admin {
 
 	addLoadEvent( function() {
 		resetAll();
-		redirection.show( 'react-ui' );
+
+		if ( typeof redirection !== 'undefined' ) {
+			redirection.show( 'react-ui' );
+		} else {
+			errors = [ 'Unable to load the Redirection JavaScript file' ];
+			showError();
+		}
 	} );
 </script>
 

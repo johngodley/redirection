@@ -10,6 +10,7 @@ const fs = require( 'fs' );
 const zip = require( 'gulp-zip' );
 const request = require( 'request' );
 const config = require( './.config.json' ); // Local config
+const crypto = require( 'crypto' );
 const pkg = require( './package.json' );
 
 const LOCALE_PERCENT_COMPLETE = 50;
@@ -165,5 +166,20 @@ gulp.task( 'export', () => {
 		return gulp.src( config.export_target + '/**', { base: path.join( config.export_target, '..' ) } )
 			.pipe( zip( zipName ) )
 			.pipe( gulp.dest( zipTarget ) );
+	} );
+} );
+
+gulp.task( 'version', () => {
+	fs.readFile( 'redirection.js', ( error, data ) => {
+		const md5 = crypto
+			.createHash( 'md5' )
+			.update( data, 'utf8' )
+			.digest( 'hex' );
+
+		fs.writeFile( 'redirection-version.php', `<?php
+
+define( 'REDIRECTION_VERSION', '${ pkg.version }' );
+define( 'REDIRECTION_BUILD', '${ md5 }' );
+` );
 	} );
 } );

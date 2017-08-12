@@ -107,7 +107,7 @@ class RE_Database {
 	public function createDefaults() {
 		$this->createDefaultGroups();
 
-		update_option( 'redirection_version', REDIRECTION_VERSION );
+		update_option( 'redirection_version', REDIRECTION_DB_VERSION );
 	}
 
 	private function createDefaultGroups() {

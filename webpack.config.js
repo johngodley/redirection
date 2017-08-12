@@ -8,6 +8,7 @@ const postcssReporter = require( 'postcss-reporter' );
 
 const isProduction = () => process.env.NODE_ENV === 'production';
 const getDevUrl = 'http://localhost:3312/';
+const pkg = require( './package.json' );
 
 const config = {
 	entry: [
@@ -52,7 +53,10 @@ const config = {
 		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
 	},
 	plugins: [
-		new webpack.DefinePlugin( { 'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) } } ),
+		new webpack.DefinePlugin( {
+			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
+			REDIRECTION_VERSION: pkg.version,
+		} ),
 		new webpack.LoaderOptionsPlugin( {
 			options: {
 				postcss: [

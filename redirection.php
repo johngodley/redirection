@@ -21,10 +21,11 @@ For full license details see license.txt
 ============================================================================================================
 */
 
-define( 'REDIRECTION_VERSION', '2.3.3' );     // DB schema version. Only change if DB needs changing
+define( 'REDIRECTION_DB_VERSION', '2.3.3' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
 define( 'REDIRECTION_DEV_MODE', false );
 
+include dirname( __FILE__ ).'/redirection-version.php';
 include dirname( __FILE__ ).'/models/redirect.php';
 include dirname( __FILE__ ).'/models/module.php';
 include dirname( __FILE__ ).'/models/log.php';
