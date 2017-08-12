@@ -230,9 +230,10 @@ class ImportExport extends React.Component {
 				<p>{ __( 'All imports will be appended to the current database.' ) }</p>
 				<div className="inline-notice notice-warning">
 					<p>
-						{ __( 'CSV file format: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} (regex - 0 for no, 1 for yes).', {
+						{ __( '{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).', {
 							components: {
-								code: <code />
+								code: <code />,
+								strong: <strong />,
 							}
 						} ) }
 					</p>
