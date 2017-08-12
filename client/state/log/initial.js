@@ -14,6 +14,6 @@ export function getInitialLog() {
 		total: 0,
 		status: STATUS_IN_PROGRESS,
 
-		table: getDefaultTable( [ 'ip', 'url' ], [ 'ip' ], 'date', [ 'log', '404' ] )
+		table: getDefaultTable( [ 'ip', 'url' ], [ 'ip' ], 'date', [ 'log', '404s' ] )
 	};
 }
