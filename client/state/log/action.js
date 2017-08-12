@@ -23,10 +23,10 @@ export const getLogs = args => ( dispatch, getState ) => {
 
 	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log );
 };
-export const loadLogs = logType => getLogs( { logType } );
+export const loadLogs = logType => getLogs( { logType, filter: '', filterBy: '', page: 0, orderBy: '' } );
 export const setOrderBy = ( orderBy, direction ) => getLogs( { orderBy, direction } );
 export const setPage = page => getLogs( { page } );
 export const setSearch = filter => getLogs( { filter, filterBy: '', page: 0, orderBy: '' } );
-export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderBy: '', page: 0 } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );

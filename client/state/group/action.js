@@ -22,6 +22,6 @@ export const getGroup = args => ( dispatch, getState ) => processRequest( 'red_g
 export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
 export const setPage = page => getGroup( { page } );
 export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, orderBy: '' } );
-export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderBy: '', page: 0 } );
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );

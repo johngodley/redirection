@@ -40,6 +40,7 @@ class Home extends React.Component {
 
 		this.state = {
 			page: getPluginPage(),
+			clicked: 0,
 			error: false,
 		};
 		this.handlePageChange = this.onChangePage.bind( this );
@@ -55,32 +56,38 @@ class Home extends React.Component {
 		}
 
 		history.pushState( {}, null, url );
-		this.setState( { page } );
+		this.setState( {
+			page,
+			clicked: this.state.clicked + 1
+		} );
+
 		this.props.onClear();
 	}
 
 	getContent( page ) {
+		const { clicked } = this.state;
+
 		switch ( page ) {
 			case 'support':
 				return <Support />;
 
 			case '404s':
-				return <Logs404 />;
+				return <Logs404 clicked={ clicked } />;
 
 			case 'log':
-				return <Logs />;
+				return <Logs clicked={ clicked } />;
 
 			case 'io':
 				return <ImportExport />;
 
 			case 'groups':
-				return <Grouper />;
+				return <Grouper clicked={ clicked } />;
 
 			case 'options':
 				return <Options />;
 		}
 
-		return <Redirects />;
+		return <Redirects clicked={ clicked } />;
 	}
 
 	renderError() {

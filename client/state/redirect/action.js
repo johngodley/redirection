@@ -22,6 +22,6 @@ export const getRedirect = args => ( dispatch, getState ) => processRequest( 're
 export const setOrderBy = ( orderBy, direction ) => getRedirect( { orderBy, direction } );
 export const setPage = page => getRedirect( { page } );
 export const setSearch = filter => getRedirect( { filter, filterBy: '', page: 0, orderBy: '' } );
-export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter, orderBy: '' } );
+export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter, orderBy: '', page: 0 } );
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: REDIRECT_SET_ALL_SELECTED, onoff } );

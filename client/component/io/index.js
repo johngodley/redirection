@@ -20,8 +20,6 @@ import { importFile, clearFile, addFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import { exportFile, downloadFile } from 'state/io/action';
 
-const MIME_TYPES = 'text/plain,text/csv,application/json,';
-
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=modules&export=' + moduleId + '&exporter=' + modType;
 
 class ImportExport extends React.Component {
@@ -225,16 +223,20 @@ class ImportExport extends React.Component {
 			<div>
 				<h2>{ __( 'Import' ) }</h2>
 
-				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } accept={ MIME_TYPES } className={ classes } disableClick disablePreview multiple={ false }>
+				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } className={ classes } disableClick disablePreview multiple={ false }>
 					{ this.renderDropzoneContent() }
 				</Dropzone>
 
 				<p>{ __( 'All imports will be appended to the current database.' ) }</p>
-				<p>{ __( 'CSV files must contain these columns - {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex (0 for no, 1 for yes), http code{{/code}}.', {
-					components: {
-						code: <code />
-					}
-				} ) }</p>
+				<div className="inline-notice notice-warning">
+					<p>
+						{ __( 'CSV file format: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} (regex - 0 for no, 1 for yes).', {
+							components: {
+								code: <code />
+							}
+						} ) }
+					</p>
+				</div>
 
 				<h2>{ __( 'Export' ) }</h2>
 				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).' ) }</p>

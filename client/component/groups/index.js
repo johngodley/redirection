@@ -69,6 +69,12 @@ class Groups extends React.Component {
 		this.handleRender = this.renderRow.bind( this );
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		if ( nextProps.clicked !== this.props.clicked ) {
+			nextProps.onLoadGroups();
+		}
+	}
+
 	renderRow( row, key, status ) {
 		const { saving } = this.props.group;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
@@ -149,7 +155,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onLoadGroups: () => {
-			dispatch( getGroup() );
+			dispatch( getGroup( { page: 0, filter: '', filterBy: '', orderBy: '' } ) );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );
