@@ -42,7 +42,7 @@ class Home extends React.Component {
 		this.state = {
 			page: getPluginPage(),
 			clicked: 0,
-			error: parseFloat( REDIRECTION_VERSION, 10 ) !== parseFloat( Redirectioni10n.version, 10 ),
+			error: REDIRECTION_VERSION !== Redirectioni10n.version,
 		};
 
 		this.handlePageChange = this.onChangePage.bind( this );

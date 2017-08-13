@@ -170,7 +170,7 @@ class Redirection_Admin {
 	<div class="react-error" style="display: none">
 		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
 		<pre></pre>
-		<p><?php _e( "This error may be unrelated to Redirection. You may want to look in your browser's error console for more details.", 'redirection' ); ?></p>
+		<p><?php _e( "This error may be unrelated to Redirection. Look at your browser's error console for more details.", 'redirection' ); ?></p>
 		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
