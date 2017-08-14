@@ -29,6 +29,10 @@ class Redirection_Admin {
 		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
+		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
+			add_filter( 'script_loader_src', array( $this, 'flying_solo' ), 10, 2 );
+		}
+
 		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
@@ -54,6 +58,19 @@ class Redirection_Admin {
 		$db->remove( REDIRECTION_FILE );
 
 		delete_option( 'redirection_options' );
+	}
+
+	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
+	// then this can prevent Redirection running, it's a little sensitive about that. We use the nuclear option here to disable
+	// all other JS while viewing Redirection
+	public function flying_solo( $src, $handle ) {
+		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'page=redirection.php' ) !== false ) {
+			if ( substr( $src, 0, 4 ) === 'http' && $handle !== 'redirection' && strpos( $src, 'plugins' ) !== false ) {
+				return false;
+			}
+		}
+
+		return $src;
 	}
 
 	public function flush_schedule() {
