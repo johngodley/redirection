@@ -402,6 +402,12 @@ table.edit-redirection {
 }
 
 .github {
+	margin-top: 8px;
+
+	a {
+		text-decoration: none;
+	}
+
 	img {
 		padding-right: 10px;
 		margin-bottom: -10px;
@@ -432,4 +438,8 @@ table.edit-redirection {
 	padding: 1px 12px;
     margin: 5px 0 15px;
     border-left-color: #ffb900;
+
+	&.inline-general {
+		border-left-color: #46b450;
+	}
 }
