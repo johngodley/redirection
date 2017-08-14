@@ -38,6 +38,4 @@ const show = dom => {
 	render( App, dom );
 };
 
-window.redirection = {
-	show,
-};
+show( 'react-ui' );

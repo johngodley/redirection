@@ -107,9 +107,9 @@ class Redirection_Admin {
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $build );
+			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $build, true );
 		} else {
-			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $build );
+			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.js', array(), $build, true );
 		}
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
@@ -166,58 +166,8 @@ class Redirection_Admin {
 
 		<span class="react-loading-spinner" />
 	</div>
-
-	<div class="react-error" style="display: none">
-		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
-		<pre></pre>
-		<p><?php _e( "This error may be unrelated to Redirection. Look at your browser's error console for more details.", 'redirection' ); ?></p>
-		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
-		<p>
-			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
-				<?php _e( 'Create Issue', 'redirection' ); ?>
-			</a>
-		</p>
-	</div>
 	<noscript>Please enable JavaScript</noscript>
 </div>
-
-<script>
-	var prevError = window.onerror;
-	var errors = [];
-	var timer = setTimeout( function() {
-		showError();
-		resetAll();
-	}, 10000 );
-
-	function showError() {
-		var node = document.createTextNode( errors.join( "\n\n" ) );
-
-		document.querySelector( '.react-loading' ).style.display = 'none';
-		document.querySelector( '.react-error' ).style.display = 'block';
-		document.querySelector( '.react-error pre' ).appendChild( node );
-		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" );
-	}
-
-	function resetAll() {
-		clearTimeout( timer );
-		window.onerror = prevError;
-	}
-
-	window.onerror = function( error, url, line ) {
-		errors.push( error + "\n\n" + url + ' ' + line );
-	};
-
-	addLoadEvent( function() {
-		resetAll();
-
-		if ( typeof redirection !== 'undefined' ) {
-			redirection.show( 'react-ui' );
-		} else {
-			errors = [ 'Unable to load the Redirection JavaScript file' ];
-			showError();
-		}
-	} );
-</script>
 
 <?php
 	}
