@@ -373,8 +373,22 @@ class EditRedirect extends React.Component {
 			return false;
 		}
 
-		if ( hasUrlTarget( this.state.action_type ) && this.state.target === '' ) {
-			return false;
+		if ( hasUrlTarget( this.state.action_type ) ) {
+			if ( this.state.match_type === 'url' && this.state.target === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_REFERRER && this.state.referrer.url_from === '' && this.state.referrer.url_notfrom === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_LOGIN && this.state.login.logged_in === '' && this.state.login.logged_out === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_AGENT && this.state.agent.url_from === '' && this.state.agent.url_notfrom === '' ) {
+				return false;
+			}
 		}
 
 		return true;
