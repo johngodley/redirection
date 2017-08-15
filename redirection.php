@@ -24,6 +24,7 @@ For full license details see license.txt
 define( 'REDIRECTION_DB_VERSION', '2.3.3' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
 define( 'REDIRECTION_DEV_MODE', false );
+define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
 
 include dirname( __FILE__ ).'/redirection-version.php';
 include dirname( __FILE__ ).'/models/redirect.php';

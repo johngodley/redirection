@@ -39,3 +39,5 @@ const show = dom => {
 };
 
 show( 'react-ui' );
+
+window.redirection = Redirectioni10n.version;
