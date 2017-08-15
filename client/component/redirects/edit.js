@@ -147,6 +147,35 @@ class EditRedirect extends React.Component {
 		this.state.advanced = ! this.canShowAdvanced();
 	}
 
+	reset() {
+		this.setState( {
+			url: '',
+			regex: false,
+			match_type: MATCH_URL,
+			action_type: ACTION_URL,
+			action_data: '',
+			title: '',
+			action_code: 301,
+			login: {
+				logged_in: '',
+				logged_out: '',
+			},
+			target: '',
+			agent: {
+				url_from: '',
+				agent: '',
+				regex: false,
+				url_notfrom: '',
+			},
+			referrer: {
+				referrer: '',
+				regex: false,
+				url_from: '',
+				url_notfrom: '',
+			},
+		} );
+	}
+
 	canShowAdvanced() {
 		const { match_type, action_type } = this.state;
 
@@ -206,6 +235,8 @@ class EditRedirect extends React.Component {
 
 		if ( this.props.onCancel ) {
 			this.props.onCancel();
+		} else {
+			this.reset();
 		}
 	}
 
