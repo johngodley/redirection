@@ -35,14 +35,7 @@ import {
 } from 'state/settings/type';
 import { IO_FAILED } from 'state/io/type';
 
-const parseError = error => ( {
-	action: Redirectioni10n.failedAction,
-	data: JSON.stringify( Redirectioni10n.failedData ? Redirectioni10n.failedData : '' ),
-	error: error.message ? error.message : error,
-	code: Redirectioni10n.failedCode,
-	response: Redirectioni10n.failedResponse,
-} );
-const addError = ( existing, error ) => existing.slice( 0 ).concat( [ parseError( error ) ] );
+const addErrors = ( existing ) => existing.slice( 0 ).concat( Redirectioni10n.errors );
 const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ] );
 const reduceProgress = state => Math.max( 0, state.inProgress - 1 );
 
@@ -65,8 +58,13 @@ export default function messages( state = {}, action ) {
 		case SETTING_SAVE_FAILED:
 		case REDIRECT_FAILED:
 			/* eslint-disable */
+			const errors = addErrors( state.errors);
 			console.error( action.error );
-			return { ... state, errors: addError( state.errors, action.error ), inProgress: reduceProgress( state ) };
+			/* eslint-disable */
+
+			Redirectioni10n.errors = [];
+
+			return { ... state, errors, inProgress: reduceProgress( state ) };
 
 		case LOG_ITEM_SAVING:
 		case REDIRECT_ITEM_SAVING:

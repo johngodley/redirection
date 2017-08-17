@@ -157,6 +157,7 @@ class Redirection_Admin {
 			'autoGenerate' => $options['auto_target'],
 			'versions' => implode( ', ', array( 'Plugin '.REDIRECTION_VERSION, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
 			'version' => REDIRECTION_VERSION,
+			'errors' => array(),
 		) );
 	}
 

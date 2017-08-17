@@ -41,16 +41,64 @@ class Error extends React.Component {
 			message.push( '' );
 			message.push( 'Action: ' + errors[ x ].action );
 
-			if ( errors[ x ].data !== '""' ) {
-				message.push( 'Params: ' + errors[ x ].data );
+			if ( errors[ x ].params ) {
+				message.push( 'Params: ' + JSON.stringify( errors[ x ].params ) );
 			}
 
-			message.push( 'Code: ' + errors[ x ].code );
-			message.push( 'Error: ' + errors[ x ].error );
-			message.push( 'Raw: ' + errors[ x ].response );
+			message.push( 'Code: ' + errors[ x ].status + ' ' + errors[ x ].statusText );
+			message.push( 'Error: ' + this.getErrorDetails( errors[ x ].error ) );
+			message.push( 'Raw: ' + ( errors[ x ].raw ? errors[ x ].raw : '-no data-' ) );
 		}
 
 		return message;
+	}
+
+	getErrorDetailsTitle( error ) {
+		if ( error.code === 0 ) {
+			return error.message;
+		}
+
+		if ( error.wpdb ) {
+			return <span>{ `${ error.message } (${ error.code })` }: <code>{ error.wpdb }</code></span>;
+		}
+
+		return `${ error.message } (${ error.code })`;
+	}
+
+	getErrorDetails( error ) {
+		if ( error.code === 0 ) {
+			return error.message;
+		}
+
+		if ( error.wpdb ) {
+			return `${ error.message } (${ error.code }): ${ error.wpdb }`;
+		}
+
+		return `${ error.message } (${ error.code })`;
+	}
+
+	getErrorMessage( errors ) {
+		const messages = errors.map( item => {
+			if ( item.error.action && item.error.action === 'reload' ) {
+				return __( 'The data on this page has expired, please reload.' );
+			}
+
+			if ( item.error.code === 0 ) {
+				return __( 'WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.' );
+			}
+
+			if ( item.status === 403 ) {
+				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?' );
+			}
+
+			if ( item.error ) {
+				return this.getErrorDetailsTitle( item.error );
+			}
+
+			return __( 'I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!' );
+		} );
+
+		return <p>{ Object.keys( [ {} ].concat( messages ).reduce( ( l, r ) => l[ r ] = l ) ) }</p>;
 	}
 
 	renderError( errors ) {
@@ -66,7 +114,7 @@ class Error extends React.Component {
 			<div className={ classes }>
 				<div className="closer" onClick={ this.onClick }>&#10006;</div>
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
-				<p>{ __( 'I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!' ) }</p>
+				{ this.getErrorMessage( errors ) }
 
 				<h3>{ __( "It didn't work when I tried again" ) }</h3>
 				<p>{ __( 'See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.', {
