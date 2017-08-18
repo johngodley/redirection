@@ -17,6 +17,7 @@ class Redirection_Api {
 		'group_action',
 		'import_data',
 		'export_data',
+		'ping',
 	);
 
 	public function __construct() {
@@ -67,6 +68,10 @@ class Redirection_Api {
 		}
 
 		return $params;
+	}
+
+	public function ajax_ping() {
+		return $this->output_ajax_response( array( 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
 	}
 
 	public function ajax_import_data( $params ) {
