@@ -95,7 +95,7 @@ class Redirects extends React.Component {
 	getGroups( groups ) {
 		return [
 			{
-				value: '',
+				value: 0,
 				text: __( 'All groups' ),
 			}
 		].concat( nestedGroups( groups ) );
@@ -112,6 +112,18 @@ class Redirects extends React.Component {
 		);
 	}
 
+	canFilter( group, status ) {
+		if ( group.status !== STATUS_COMPLETE ) {
+			return false;
+		}
+
+		if ( status === STATUS_IN_PROGRESS ) {
+			return false;
+		}
+
+		return true;
+	}
+
 	render() {
 		const { status, total, table, rows } = this.props.redirect;
 		const { group } = this.props;
@@ -120,7 +132,7 @@ class Redirects extends React.Component {
 			<div className="redirects">
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'group' ] } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk } status={ status } >
-					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ group.status === STATUS_COMPLETE && status !== STATUS_IN_PROGRESS } onFilter={ this.props.onFilter } />
+					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ this.canFilter( group, status ) } onFilter={ this.props.onFilter } />
 				</TableNav>
 				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
