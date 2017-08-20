@@ -2,7 +2,7 @@
 const addData = ( form, data, preName ) => {
 	for ( const variable in data ) {
 		if ( data[ variable ] !== undefined ) {
-			if ( typeof data[ variable ] === 'object' && data.lastModified !== undefined ) {
+			if ( typeof data[ variable ] === 'object' ) {
 				addData( form, data[ variable ], variable + '_' );
 			} else {
 				form.append( preName + variable, data[ variable ] );
@@ -54,9 +54,7 @@ const getApi = ( action, params ) => {
 
 				return json;
 			} catch ( error ) {
-				request.error = error;
-				Redirectioni10n.errors.push( request );
-
+				error.request = request;
 				throw error;
 			}
 		} );

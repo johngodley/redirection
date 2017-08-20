@@ -38,16 +38,21 @@ class Error extends React.Component {
 		];
 
 		for ( let x = 0; x < errors.length; x++ ) {
+			const { request = false } = errors[ x ];
+
 			message.push( '' );
-			message.push( 'Action: ' + errors[ x ].action );
+			message.push( 'Error: ' + this.getErrorDetails( errors[ x ] ) );
 
-			if ( errors[ x ].params ) {
-				message.push( 'Params: ' + JSON.stringify( errors[ x ].params ) );
+			if ( request ) {
+				message.push( 'Action: ' + request.action );
+
+				if ( request.params ) {
+					message.push( 'Params: ' + JSON.stringify( request.params ) );
+				}
+
+				message.push( 'Code: ' + request.status + ' ' + request.statusText );
+				message.push( 'Raw: ' + ( request.raw ? request.raw : '-no data-' ) );
 			}
-
-			message.push( 'Code: ' + errors[ x ].status + ' ' + errors[ x ].statusText );
-			message.push( 'Error: ' + this.getErrorDetails( errors[ x ].error ) );
-			message.push( 'Raw: ' + ( errors[ x ].raw ? errors[ x ].raw : '-no data-' ) );
 		}
 
 		return message;
@@ -79,20 +84,20 @@ class Error extends React.Component {
 
 	getErrorMessage( errors ) {
 		const messages = errors.map( item => {
-			if ( item.error.action && item.error.action === 'reload' ) {
+			if ( item.action && item.action === 'reload' ) {
 				return __( 'The data on this page has expired, please reload.' );
 			}
 
-			if ( item.error.code === 0 ) {
+			if ( item.code === 0 ) {
 				return __( 'WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.' );
 			}
 
-			if ( item.status === 403 ) {
+			if ( item.request.status === 403 ) {
 				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?' );
 			}
 
-			if ( item.error ) {
-				return this.getErrorDetailsTitle( item.error );
+			if ( item.message ) {
+				return this.getErrorDetailsTitle( item );
 			}
 
 			return __( 'I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!' );
@@ -133,7 +138,11 @@ class Error extends React.Component {
 				<p><a href={ github } className="button-primary">{ __( 'Create Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
 
 				<h3>{ __( 'Important details' ) }</h3>
-				<p>{ __( 'Include these details in your report' ) }:</p>
+				<p>{ __( 'Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.', {
+					components: {
+						strong: <strong />,
+					}
+				} ) }:</p>
 				<p><textarea readOnly={ true } rows={ debug.length + 2 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);

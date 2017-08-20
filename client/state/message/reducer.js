@@ -35,7 +35,7 @@ import {
 } from 'state/settings/type';
 import { IO_FAILED } from 'state/io/type';
 
-const addErrors = ( existing ) => existing.slice( 0 ).concat( Redirectioni10n.errors );
+const addErrors = ( existing, error ) => existing.slice( 0 ).concat( [ error ] );
 const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ] );
 const reduceProgress = state => Math.max( 0, state.inProgress - 1 );
 
@@ -58,11 +58,9 @@ export default function messages( state = {}, action ) {
 		case SETTING_SAVE_FAILED:
 		case REDIRECT_FAILED:
 			/* eslint-disable */
-			const errors = addErrors( state.errors);
-			console.error( action.error );
+			const errors = addErrors( state.errors, action.error );
+			console.error( action.error.message );
 			/* eslint-disable */
-
-			Redirectioni10n.errors = [];
 
 			return { ... state, errors, inProgress: reduceProgress( state ) };
 
