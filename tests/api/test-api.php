@@ -31,6 +31,10 @@ class ApiTest extends WP_UnitTestCase {
 		$this->expectDie( 'get_logs' );
 	}
 
+	public function testNoncePing() {
+		$this->expectDie( 'ping' );
+	}
+
 	public function testNonceLogAction() {
 		$this->expectDie( 'log_action' );
 	}
@@ -129,5 +133,9 @@ class ApiTest extends WP_UnitTestCase {
 
 	public function testPermissionGroupAction() {
 		$this->expectPermission( 'group_action' );
+	}
+
+	public function testPermissionPing() {
+		$this->expectPermission( 'ping' );
 	}
 }
