@@ -494,9 +494,6 @@ class Red_Item_Sanitize {
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
 
-		// No hash
-		$url = preg_replace( '/#.*$/', '', $url );
-
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
