@@ -17,4 +17,14 @@ class UrlMatchTest extends WP_UnitTestCase {
 
 		$this->assertEquals( $match->save( array() ), '/' );
 	}
+
+	public function testTarget() {
+		$match = new URL_Match( array( 'url' => '/something' ) );
+		$this->assertEquals( '/something', $match->get_target( '/a', '/b', false ) );
+	}
+
+	public function testRegexTarget() {
+		$match = new URL_Match( array( 'url' => '/other/$1' ) );
+		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+	}
 }

@@ -31,6 +31,10 @@ abstract class Red_Match {
 		return $url;
 	}
 
+	protected function get_target_regex_url( $matched_url, $target, $url ) {
+		return preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
+	}
+
 	static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
