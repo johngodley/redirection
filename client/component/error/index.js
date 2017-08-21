@@ -59,12 +59,14 @@ class Error extends React.Component {
 			notice: true,
 			'notice-error': true,
 		} );
+		const email = 'mailto:john@urbangiraffe.com?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
+		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
 
 		return (
 			<div className={ classes }>
 				<div className="closer" onClick={ this.onClick }>&#10006;</div>
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
-				<p>{ __( 'I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it could work - great!' ) }</p>
+				<p>{ __( 'I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!' ) }</p>
 
 				<h3>{ __( "It didn't work when I tried again" ) }</h3>
 				<p>{ __( 'See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.', {
@@ -73,11 +75,18 @@ class Error extends React.Component {
 					}
 				} ) }</p>
 				<p>{ __( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot." ) }</p>
-				<p>{ __( 'If this is a new problem then please either create a new issue, or send it directly to john@urbangiraffe.com. Include a description of what you were trying to do and the important details listed below. If you can include a screenshot then even better.' ) }</p>
+				<p>
+					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
+						components: {
+							strong: <strong />,
+						}
+					} ) }</p>
 
-				<h3>{ __( 'Important details for the thing you just did' ) }</h3>
-				<p>{ __( 'Please include these details in your report' ) }:</p>
-				<p><textarea readOnly={ true } rows={ debug.length } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+				<p><a href={ github } className="button-primary">{ __( 'Create Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
+
+				<h3>{ __( 'Important details' ) }</h3>
+				<p>{ __( 'Include these details in your report' ) }:</p>
+				<p><textarea readOnly={ true } rows={ debug.length + 2 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
 	}

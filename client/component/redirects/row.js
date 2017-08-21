@@ -122,8 +122,22 @@ class RedirectRow extends React.Component {
 		return <strike>{ url }</strike>;
 	}
 
+	getName( url, title ) {
+		const { regex } = this.props.item;
+
+		if ( title ) {
+			return title;
+		}
+
+		if ( regex ) {
+			return url;
+		}
+
+		return <a href={ url } target="_blank" rel="noopener noreferrer">{ this.getUrl( url ) }</a>;
+	}
+
 	renderSource( url, title, saving ) {
-		const name = title ? title : <a href={ url } target="_blank" rel="noopener noreferrer">{ this.getUrl( url ) }</a>;
+		const name = this.getName( url, title );
 
 		return (
 			<td>

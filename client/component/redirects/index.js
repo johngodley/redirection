@@ -78,6 +78,12 @@ class Redirects extends React.Component {
 		this.props.onLoadGroups();
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		if ( nextProps.clicked !== this.props.clicked ) {
+			nextProps.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderBy: '' } );
+		}
+	}
+
 	renderRow( row, key, status ) {
 		const { saving } = this.props.redirect;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
@@ -139,8 +145,8 @@ function mapDispatchToProps( dispatch ) {
 		onLoadGroups: () => {
 			dispatch( getGroup() );
 		},
-		onLoadRedirects: () => {
-			dispatch( getRedirect() );
+		onLoadRedirects: args => {
+			dispatch( getRedirect( args ) );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );

@@ -1,3 +1,4 @@
+/* global REDIRECTION_VERSION, Redirectioni10n */
 /**
  * External dependencies
  */
@@ -40,8 +41,10 @@ class Home extends React.Component {
 
 		this.state = {
 			page: getPluginPage(),
-			error: false,
+			clicked: 0,
+			error: REDIRECTION_VERSION !== Redirectioni10n.version,
 		};
+
 		this.handlePageChange = this.onChangePage.bind( this );
 	}
 
@@ -55,32 +58,38 @@ class Home extends React.Component {
 		}
 
 		history.pushState( {}, null, url );
-		this.setState( { page } );
+		this.setState( {
+			page,
+			clicked: this.state.clicked + 1
+		} );
+
 		this.props.onClear();
 	}
 
 	getContent( page ) {
+		const { clicked } = this.state;
+
 		switch ( page ) {
 			case 'support':
 				return <Support />;
 
 			case '404s':
-				return <Logs404 />;
+				return <Logs404 clicked={ clicked } />;
 
 			case 'log':
-				return <Logs />;
+				return <Logs clicked={ clicked } />;
 
 			case 'io':
 				return <ImportExport />;
 
 			case 'groups':
-				return <Grouper />;
+				return <Grouper clicked={ clicked } />;
 
 			case 'options':
 				return <Options />;
 		}
 
-		return <Redirects />;
+		return <Redirects clicked={ clicked } />;
 	}
 
 	renderError() {
@@ -89,7 +98,11 @@ class Home extends React.Component {
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
 
 				<p>
-					{ __( 'Redirection crashed and needs fixing. Please open your browsers error console and create a {{link}}new issue{{/link}} with the details.', {
+					{ __( 'Redirection is not working. Try clearing your browser cache and reloading this page.' ) }
+				</p>
+
+				<p>
+					{ __( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", {
 						components: {
 							link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />
 						}

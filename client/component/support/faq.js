@@ -16,7 +16,7 @@ const faq = [
 	},
 	{
 		title: __( 'Can I open a redirect in a new tab?' ),
-		text: __( "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"blank\"{{/code}} to your link.", {
+		text: __( "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link.", {
 			components: {
 				code: <code />,
 			}

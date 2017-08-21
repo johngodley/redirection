@@ -63,6 +63,12 @@ class Logs extends React.Component {
 		this.handleRSS = this.onRSS.bind( this );
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		if ( nextProps.clicked !== this.props.clicked ) {
+			nextProps.onLoad( LOGS_TYPE_REDIRECT );
+		}
+	}
+
 	onRSS() {
 		document.location = getRssUrl();
 	}
