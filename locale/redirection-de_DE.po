@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-01-29 15:55:57+0000\n"
+"PO-Revision-Date: 2017-08-18 06:59:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,251 +11,493 @@ msgstr ""
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
-#: redirection-strings.php:141
-msgid "Something went wrong 🙁"
+#: redirection-strings.php:57
+msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
 msgstr ""
 
-#: redirection-strings.php:140
-msgid "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it could work - great!"
+#: redirection-strings.php:35
+msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
 msgstr ""
 
-#: redirection-strings.php:139
-msgid "It didn't work when I tried again"
+#: redirection-strings.php:34
+msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
 msgstr ""
 
-#: redirection-strings.php:138
-msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
+#: redirection-strings.php:8
+msgid "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot."
 msgstr ""
 
-#: redirection-strings.php:137
-msgid "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot."
+#: redirection-strings.php:7
+msgid "Create Issue"
 msgstr ""
 
-#: redirection-strings.php:136
-msgid "If this is a new problem then please either create a new issue, or send it directly to john@urbangiraffe.com. Include a description of what you were trying to do and the important details listed below. If you can include a screenshot then even better."
+#: redirection-strings.php:6
+msgid "Email"
+msgstr "E-Mail"
+
+#: redirection-strings.php:5
+msgid "Important details"
 msgstr ""
 
-#: redirection-strings.php:135
-msgid "Important details for the thing you just did"
+#: redirection-strings.php:4
+msgid "Include these details in your report"
 msgstr ""
 
-#: redirection-strings.php:134
-msgid "Please include these details in your report"
+#: redirection-strings.php:208
+msgid "Need help?"
+msgstr "Hilfe benötigt?"
+
+#: redirection-strings.php:207
+msgid "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists."
 msgstr ""
 
-#: redirection-admin.php:180
-msgid "Log entries (100 max)"
+#: redirection-strings.php:206
+msgid "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue."
 msgstr ""
 
-#: redirection-strings.php:56
-msgid "Failed to load"
+#: redirection-strings.php:205
+msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
 msgstr ""
 
-#: redirection-strings.php:48
-msgid "Remove WWW"
+#: redirection-strings.php:204
+msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}."
 msgstr ""
 
-#: redirection-strings.php:47
-msgid "Add WWW"
+#: redirection-strings.php:199
+msgid "Can I redirect all 404 errors?"
 msgstr ""
 
-#: redirection-strings.php:133
-msgid "Search by IP"
+#: redirection-strings.php:198
+msgid "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site."
 msgstr ""
 
-#: redirection-strings.php:129
-msgid "Select bulk action"
+#: redirection-strings.php:185
+msgid "Pos"
 msgstr ""
 
-#: redirection-strings.php:128
-msgid "Bulk Actions"
+#: redirection-strings.php:160
+msgid "410 - Gone"
 msgstr ""
 
-#: redirection-strings.php:127
-msgid "Apply"
-msgstr ""
-
-#: redirection-strings.php:126
-msgid "First page"
-msgstr ""
-
-#: redirection-strings.php:125
-msgid "Prev page"
-msgstr ""
-
-#: redirection-strings.php:124
-msgid "Current Page"
-msgstr ""
+#: redirection-strings.php:154
+msgid "Position"
+msgstr "Position"
 
 #: redirection-strings.php:123
-msgid "of %(page)s"
+msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted"
 msgstr ""
 
 #: redirection-strings.php:122
-msgid "Next page"
-msgstr ""
+msgid "Apache Module"
+msgstr "Apache Modul"
 
 #: redirection-strings.php:121
-msgid "Last page"
+msgid "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}."
 msgstr ""
 
-#: redirection-strings.php:120
-msgid "%s item"
-msgid_plural "%s items"
-msgstr[0] ""
-msgstr[1] ""
-
-#: redirection-strings.php:119
-msgid "Select All"
-msgstr ""
-
-#: redirection-strings.php:131
-msgid "Sorry but something went wrong loading the data - please try again"
-msgstr ""
-
-#: redirection-strings.php:130
-msgid "No results"
-msgstr ""
-
-#: redirection-strings.php:26
-msgid "Delete the logs - are you sure?"
-msgstr ""
-
-#: redirection-strings.php:25
-msgid "Once deleted your current logs will no longer be available. You can set an delete schedule from the Redirection options if you want to do this automatically."
-msgstr ""
-
-#: redirection-strings.php:24
-msgid "Yes! Delete the logs"
-msgstr ""
-
-#: redirection-strings.php:23
-msgid "No! Don't delete the logs"
-msgstr ""
-
-#: redirection-admin.php:328
-msgid "Redirection 404"
-msgstr ""
-
-#: redirection-strings.php:116
-msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
-msgstr ""
-
-#: redirection-strings.php:115 redirection-strings.php:117
-msgid "Newsletter"
-msgstr ""
-
-#: redirection-strings.php:114
-msgid "Want to keep up to date with changes to Redirection?"
-msgstr ""
-
-#: redirection-strings.php:113
-msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release."
-msgstr ""
-
-#: redirection-strings.php:112
-msgid "Your email address:"
-msgstr ""
-
-#: redirection-strings.php:111
-msgid "I deleted a redirection, why is it still redirecting?"
-msgstr ""
-
-#: redirection-strings.php:110
-msgid "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}."
-msgstr ""
-
-#: redirection-strings.php:109
-msgid "Can I open a redirect in a new tab?"
-msgstr ""
-
-#: redirection-strings.php:108
-msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"blank\"{{/code}} to your link."
-msgstr ""
-
-#: redirection-strings.php:107
-msgid "Something isn't working!"
-msgstr ""
-
-#: redirection-strings.php:106
-msgid "Please disable all other plugins and check if the problem persists. If it does please report it {{a}}here{{/a}} with full details about the problem and a way to reproduce it."
-msgstr ""
-
-#: redirection-strings.php:105
-msgid "Frequently Asked Questions"
-msgstr ""
-
-#: redirection-strings.php:104
-msgid "Need some help? Maybe one of these questions will provide an answer"
-msgstr ""
-
-#: redirection-strings.php:103
-msgid "You've already supported this plugin - thank you!"
-msgstr ""
-
-#: redirection-strings.php:102
-msgid "I'd like to donate some more"
-msgstr ""
-
-#: redirection-strings.php:100
-msgid "You get some useful software and I get to carry on making it better."
-msgstr ""
-
-#: redirection-strings.php:99
-msgid "Please note I do not provide support and this is just a donation."
-msgstr ""
-
-#: redirection-strings.php:98
-msgid "Yes I'd like to donate"
-msgstr ""
-
-#: redirection-strings.php:97
-msgid "Thank you for making a donation!"
-msgstr ""
-
-#: redirection-strings.php:91
-msgid "Forever"
-msgstr ""
-
-#: redirection-strings.php:88
-msgid "Failed to save data"
-msgstr ""
-
-#: redirection-strings.php:75
-msgid "Failed to load data"
+#: redirection-strings.php:72
+msgid "Import to group"
 msgstr ""
 
 #: redirection-strings.php:71
-msgid "CSV Format"
+msgid "Import a CSV, .htaccess, or JSON file."
 msgstr ""
 
 #: redirection-strings.php:70
-msgid "Source URL, Target URL, [Regex 0=false, 1=true], [HTTP Code]"
+msgid "Click 'Add File' or drag and drop here."
 msgstr ""
 
-#: redirection-strings.php:67
-msgid "Delete the plugin - are you sure?"
+#: redirection-strings.php:69
+msgid "Add File"
 msgstr ""
 
-#: redirection-strings.php:66
-msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
+#: redirection-strings.php:68
+msgid "File selected"
 msgstr ""
 
 #: redirection-strings.php:65
-msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
+msgid "Importing"
 msgstr ""
 
 #: redirection-strings.php:64
-msgid "Yes! Delete the plugin"
+msgid "Finished importing"
 msgstr ""
 
 #: redirection-strings.php:63
-msgid "No! Don't delete the plugin"
+msgid "Total redirects imported:"
 msgstr ""
 
-#: view/item-edit.php:35
-msgid "Advanced Settings"
-msgstr "Erweiterte Einstellungen"
+#: redirection-strings.php:62
+msgid "Double-check the file is the correct format!"
+msgstr ""
+
+#: redirection-strings.php:61
+msgid "OK"
+msgstr "OK"
+
+#: redirection-strings.php:60
+msgid "Close"
+msgstr "Schließen"
+
+#: redirection-strings.php:58
+msgid "All imports will be appended to the current database."
+msgstr ""
+
+#: redirection-strings.php:56 redirection-strings.php:78
+msgid "Export"
+msgstr "Exportieren"
+
+#: redirection-strings.php:55
+msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups)."
+msgstr ""
+
+#: redirection-strings.php:54
+msgid "Everything"
+msgstr "Alles"
+
+#: redirection-strings.php:53
+msgid "WordPress redirects"
+msgstr "WordPress Weiterleitungen"
+
+#: redirection-strings.php:52
+msgid "Apache redirects"
+msgstr "Apache Weiterleitungen"
+
+#: redirection-strings.php:51
+msgid "Nginx redirects"
+msgstr "Nginx Weiterleitungen"
+
+#: redirection-strings.php:50
+msgid "CSV"
+msgstr "CSV"
+
+#: redirection-strings.php:49
+msgid "Apache .htaccess"
+msgstr "Apache .htaccess"
+
+#: redirection-strings.php:48
+msgid "Nginx rewrite rules"
+msgstr ""
+
+#: redirection-strings.php:47
+msgid "Redirection JSON"
+msgstr ""
+
+#: redirection-strings.php:46
+msgid "View"
+msgstr ""
+
+#: redirection-strings.php:44
+msgid "Log files can be exported from the log pages."
+msgstr ""
+
+#: redirection-strings.php:41 redirection-strings.php:97
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#: redirection-strings.php:40
+msgid "Logs"
+msgstr ""
+
+#: redirection-strings.php:39
+msgid "404 errors"
+msgstr "404 Fehler"
+
+#: redirection-strings.php:33
+msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
+msgstr ""
+
+#: redirection-admin.php:182
+msgid "Loading the bits, please wait..."
+msgstr ""
+
+#: redirection-strings.php:114
+msgid "I'd like to support some more."
+msgstr ""
+
+#: redirection-strings.php:111
+msgid "Support 💰"
+msgstr "Unterstützen 💰"
+
+#: redirection-strings.php:235
+msgid "Redirection saved"
+msgstr "Umleitung gespeichert"
+
+#: redirection-strings.php:234
+msgid "Log deleted"
+msgstr "Log gelöscht"
+
+#: redirection-strings.php:233
+msgid "Settings saved"
+msgstr "Einstellungen gespeichert"
+
+#: redirection-strings.php:232
+msgid "Group saved"
+msgstr "Gruppe gespeichert"
+
+#: redirection-strings.php:231
+msgid "Are you sure you want to delete this item?"
+msgid_plural "Are you sure you want to delete these items?"
+msgstr[0] "Bist du sicher, dass du diesen Eintrag löschen möchtest?"
+msgstr[1] "Bist du sicher, dass du diese Einträge löschen möchtest?"
+
+#: redirection-strings.php:192
+msgid "pass"
+msgstr ""
+
+#: redirection-strings.php:178
+msgid "All groups"
+msgstr "Alle Gruppen"
+
+#: redirection-strings.php:166
+msgid "301 - Moved Permanently"
+msgstr "301- Dauerhaft verschoben"
+
+#: redirection-strings.php:165
+msgid "302 - Found"
+msgstr "302 - Gefunden"
+
+#: redirection-strings.php:164
+msgid "307 - Temporary Redirect"
+msgstr "307 - Zeitweise Umleitung"
+
+#: redirection-strings.php:163
+msgid "308 - Permanent Redirect"
+msgstr "308 - Dauerhafte Umleitung"
+
+#: redirection-strings.php:162
+msgid "401 - Unauthorized"
+msgstr "401 - Unautorisiert"
+
+#: redirection-strings.php:161
+msgid "404 - Not Found"
+msgstr "404 - Nicht gefunden"
+
+#: redirection-strings.php:159
+msgid "Title"
+msgstr "Titel"
+
+#: redirection-strings.php:157
+msgid "When matched"
+msgstr ""
+
+#: redirection-strings.php:156
+msgid "with HTTP code"
+msgstr "mit HTTP Code"
+
+#: redirection-strings.php:149
+msgid "Show advanced options"
+msgstr "Zeige erweiterte Optionen"
+
+#: redirection-strings.php:143 redirection-strings.php:147
+msgid "Matched Target"
+msgstr ""
+
+#: redirection-strings.php:142 redirection-strings.php:146
+msgid "Unmatched Target"
+msgstr ""
+
+#: redirection-strings.php:140 redirection-strings.php:141
+msgid "Saving..."
+msgstr "Speichern..."
+
+#: redirection-strings.php:102
+msgid "View notice"
+msgstr "Hinweis anzeigen"
+
+#: models/redirect.php:473
+msgid "Invalid source URL"
+msgstr "Ungültige Quell URL"
+
+#: models/redirect.php:406
+msgid "Invalid redirect action"
+msgstr ""
+
+#: models/redirect.php:400
+msgid "Invalid redirect matcher"
+msgstr ""
+
+#: models/redirect.php:171
+msgid "Unable to add new redirect"
+msgstr ""
+
+#: redirection-strings.php:13 redirection-strings.php:36
+msgid "Something went wrong 🙁"
+msgstr "Etwas ist schiefgelaufen 🙁"
+
+#: redirection-strings.php:12
+msgid "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!"
+msgstr ""
+
+#: redirection-strings.php:11
+msgid "It didn't work when I tried again"
+msgstr ""
+
+#: redirection-strings.php:10
+msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
+msgstr ""
+
+#: redirection-strings.php:9
+msgid "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot."
+msgstr ""
+
+#: redirection-admin.php:123
+msgid "Log entries (%d max)"
+msgstr "Log Einträge (%d max)"
+
+#: redirection-strings.php:119
+msgid "Remove WWW"
+msgstr "Entferne WWW"
+
+#: redirection-strings.php:118
+msgid "Add WWW"
+msgstr "WWW hinzufügen"
+
+#: redirection-strings.php:230
+msgid "Search by IP"
+msgstr "Suche nach IP"
+
+#: redirection-strings.php:226
+msgid "Select bulk action"
+msgstr ""
+
+#: redirection-strings.php:225
+msgid "Bulk Actions"
+msgstr ""
+
+#: redirection-strings.php:224
+msgid "Apply"
+msgstr "Anwenden"
+
+#: redirection-strings.php:223
+msgid "First page"
+msgstr "Erste Seite"
+
+#: redirection-strings.php:222
+msgid "Prev page"
+msgstr "Vorige Seite"
+
+#: redirection-strings.php:221
+msgid "Current Page"
+msgstr "Aktuelle Seite"
+
+#: redirection-strings.php:220
+msgid "of %(page)s"
+msgstr ""
+
+#: redirection-strings.php:219
+msgid "Next page"
+msgstr "Nächste Seite"
+
+#: redirection-strings.php:218
+msgid "Last page"
+msgstr "Letzte Seite"
+
+#: redirection-strings.php:217
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s Eintrag"
+msgstr[1] "%s Einträge"
+
+#: redirection-strings.php:216
+msgid "Select All"
+msgstr "Alle auswählen"
+
+#: redirection-strings.php:228
+msgid "Sorry, something went wrong loading the data - please try again"
+msgstr "Entschuldigung, etwas ist beim Laden der Daten schief gelaufen - bitte versuche es erneut"
+
+#: redirection-strings.php:227
+msgid "No results"
+msgstr "Keine Ergebnisse"
+
+#: redirection-strings.php:76
+msgid "Delete the logs - are you sure?"
+msgstr "Logs löschen - bist du sicher?"
+
+#: redirection-strings.php:75
+msgid "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically."
+msgstr "Einmal gelöscht, sind deine aktuellen Logs nicht mehr verfügbar. Du kannst einen Zeitplan zur Löschung in den Redirection Einstellungen setzen, wenn du dies automatisch machen möchtest."
+
+#: redirection-strings.php:74
+msgid "Yes! Delete the logs"
+msgstr "Ja! Lösche die Logs"
+
+#: redirection-strings.php:73
+msgid "No! Don't delete the logs"
+msgstr "Nein! Lösche die Logs nicht"
+
+#: redirection-strings.php:213
+msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
+msgstr ""
+
+#: redirection-strings.php:212 redirection-strings.php:214
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: redirection-strings.php:211
+msgid "Want to keep up to date with changes to Redirection?"
+msgstr ""
+
+#: redirection-strings.php:210
+msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release."
+msgstr "Melde dich für den kleinen Redirection Newsletter an - ein gelegentlicher Newsletter über neue Features und Änderungen am Plugin. Ideal, wenn du Beta Änderungen testen möchtest, bevor diese erscheinen."
+
+#: redirection-strings.php:209
+msgid "Your email address:"
+msgstr "Deine E-Mail Adresse:"
+
+#: redirection-strings.php:203
+msgid "I deleted a redirection, why is it still redirecting?"
+msgstr ""
+
+#: redirection-strings.php:202
+msgid "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}."
+msgstr "Dein Browser wird Umleitungen cachen. Wenn du eine Umleitung gelöscht hast, und dein Browser diese dennoch ausführt, {{a}}leere deinen Browser Cache{{/a}}."
+
+#: redirection-strings.php:201
+msgid "Can I open a redirect in a new tab?"
+msgstr "Kann ich eine Weiterleitung in einem neuen Tab öffnen?"
+
+#: redirection-strings.php:200
+msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link."
+msgstr ""
+
+#: redirection-strings.php:197
+msgid "Frequently Asked Questions"
+msgstr "Häufig gestellte Fragen"
+
+#: redirection-strings.php:115
+msgid "You've supported this plugin - thank you!"
+msgstr "Du hast dieses Plugin bereits unterstützt - vielen Dank!"
+
+#: redirection-strings.php:112
+msgid "You get useful software and I get to carry on making it better."
+msgstr ""
+
+#: redirection-strings.php:134
+msgid "Forever"
+msgstr "Dauerhaft"
+
+#: redirection-strings.php:107
+msgid "Delete the plugin - are you sure?"
+msgstr "Plugin löschen - bist du sicher?"
+
+#: redirection-strings.php:106
+msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
+msgstr "Löschen des Plugins entfernt alle deine Weiterleitungen, Logs und Einstellungen. Tu dies, falls du das Plugin dauerhaft entfernen möchtest oder um das Plugin zurückzusetzen."
+
+#: redirection-strings.php:105
+msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
+msgstr "Einmal gelöscht, werden deine Weiterleitungen nicht mehr funktionieren. Falls sie es dennoch tun sollten, leere bitte deinen Browser Cache."
+
+#: redirection-strings.php:104
+msgid "Yes! Delete the plugin"
+msgstr "Ja! Lösche das Plugin"
+
+#: redirection-strings.php:103
+msgid "No! Don't delete the plugin"
+msgstr "Nein! Lösche das Plugin nicht"
 
 #. Author URI of the plugin/theme
 msgid "http://urbangiraffe.com"
@@ -273,399 +515,277 @@ msgstr "Verwalte alle 301-Umleitungen und 404-Fehler."
 msgid "http://urbangiraffe.com/plugins/redirection/"
 msgstr "http://urbangiraffe.com/plugins/redirection/"
 
-#: redirection-strings.php:101
+#: redirection-strings.php:113
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
-msgstr ""
+msgstr "Redirection ist kostenlos – das Leben ist wundervoll und schön! Aber: Sehr viel Zeit und Arbeit sind in seine Entwicklung geflossen und falls es sich als nützlich erwiesen hat, kannst du die Entwicklung {{strong}}mit einer kleinen Spende unterstützen{{/strong}}."
 
-#: view/support.php:3
-msgid "Redirection Support"
-msgstr "Unleitung Support"
-
-#: view/submenu.php:47
+#: redirection-strings.php:37 redirection-strings.php:95
 msgid "Support"
 msgstr "Support"
 
-#: view/submenu.php:34
+#: redirection-strings.php:98
 msgid "404s"
 msgstr "404s"
 
-#: view/submenu.php:32
-msgid "404s from %s"
-msgstr "404s von %s"
-
-#: view/submenu.php:23
+#: redirection-strings.php:99
 msgid "Log"
 msgstr "Log"
 
-#: redirection-strings.php:69
+#: redirection-strings.php:109
 msgid "Delete Redirection"
 msgstr "Umleitung löschen"
 
-#: redirection-strings.php:72
+#: redirection-strings.php:67
 msgid "Upload"
 msgstr "Hochladen"
 
-#: redirection-strings.php:73
-msgid "Here you can import redirections from an existing {{code}}.htaccess{{/code}} file, or a CSV file."
-msgstr ""
-
-#: redirection-strings.php:74
+#: redirection-strings.php:59
 msgid "Import"
 msgstr "Importieren"
 
-#: redirection-strings.php:76
+#: redirection-strings.php:116
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: redirection-strings.php:77
-msgid "This will be used to auto-generate a URL if no URL is given. You can use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to have a unique ID inserted (either decimal or hex)"
-msgstr ""
-
-#: redirection-strings.php:78
+#: redirection-strings.php:124
 msgid "Auto-generate URL"
 msgstr "Selbsterstellte URL"
 
-#: redirection-strings.php:79
+#: redirection-strings.php:125
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
 msgstr "Einzigartiges Token, das RSS-Klienten Zugang zum Umleitung-Log-Feed gewährt. (freilassen, um automatisch zu generieren)"
 
-#: redirection-strings.php:80
+#: redirection-strings.php:126
 msgid "RSS Token"
 msgstr "RSS Token"
 
-#: redirection-strings.php:90
+#: redirection-strings.php:133
 msgid "Don't monitor"
 msgstr "Nicht kontrollieren"
 
-#: redirection-strings.php:81
+#: redirection-strings.php:127
 msgid "Monitor changes to posts"
 msgstr "Änderungen an Beiträgen überwachen"
 
-#: redirection-strings.php:83
+#: redirection-strings.php:129
 msgid "404 Logs"
 msgstr "404-Logs"
 
-#: redirection-strings.php:82 redirection-strings.php:84
+#: redirection-strings.php:128 redirection-strings.php:130
 msgid "(time to keep logs for)"
 msgstr "(Dauer, für die die Logs behalten werden)"
 
-#: redirection-strings.php:85
+#: redirection-strings.php:131
 msgid "Redirect Logs"
 msgstr "Umleitungs-Logs"
 
-#: redirection-strings.php:86
+#: redirection-strings.php:132
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Ich bin eine nette Person und ich helfe dem Autor des Plugins"
 
-#: redirection-strings.php:87
-msgid "Plugin support"
-msgstr ""
+#: redirection-strings.php:110
+msgid "Plugin Support"
+msgstr "Plugin Support"
 
-#: view/options.php:4 view/submenu.php:42
+#: redirection-strings.php:38 redirection-strings.php:96
 msgid "Options"
 msgstr "Optionen"
 
-#: redirection-strings.php:92
+#: redirection-strings.php:135
 msgid "Two months"
 msgstr "zwei Monate"
 
-#: redirection-strings.php:93
+#: redirection-strings.php:136
 msgid "A month"
 msgstr "ein Monat"
 
-#: redirection-strings.php:94
+#: redirection-strings.php:137
 msgid "A week"
 msgstr "eine Woche"
 
-#: redirection-strings.php:95
+#: redirection-strings.php:138
 msgid "A day"
 msgstr "einen Tag"
 
-#: redirection-strings.php:96
+#: redirection-strings.php:139
 msgid "No logs"
 msgstr "Keine Logs"
 
-#: view/module-list.php:3 view/submenu.php:16
-msgid "Modules"
-msgstr "Module"
-
-#: redirection-strings.php:28
-msgid "Export to CSV"
-msgstr ""
-
-#: redirection-strings.php:27
+#: redirection-strings.php:77
 msgid "Delete All"
 msgstr "Alle löschen"
 
-#: redirection-admin.php:322
-msgid "Redirection Log"
-msgstr "Umleitungs Log"
-
-#: view/item-edit.php:14
-msgid "optional"
-msgstr "optional"
-
-#: view/item-edit.php:11
-msgid "Description"
-msgstr "Beschreibung"
-
-#: redirection-strings.php:5
+#: redirection-strings.php:15
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
 msgstr "Benutze Gruppen, um deine Umleitungen zu ordnen. Gruppen werden einem Modul zugeordnet, dies beeinflusst, wie die Umleitungen in der jeweiligen Gruppe funktionieren. Falls du unsicher bist, bleib beim WordPress-Modul."
 
-#: redirection-strings.php:6
+#: redirection-strings.php:16
 msgid "Add Group"
 msgstr "Gruppe hinzufügen"
 
-#: redirection-strings.php:132 view/item-list.php:10
+#: redirection-strings.php:229
 msgid "Search"
 msgstr "Suchen"
 
-#: view/group-list.php:3 view/submenu.php:11
+#: redirection-strings.php:42 redirection-strings.php:100
 msgid "Groups"
 msgstr "Gruppen"
 
-#: redirection-strings.php:15 redirection-strings.php:45 view/item-edit.php:32
+#: redirection-strings.php:25 redirection-strings.php:153
 msgid "Save"
 msgstr "Speichern"
 
-#: view/add.php:46
-msgid "Add Redirection"
-msgstr "Umleitung hinzufügen"
-
-#: view/add.php:36 view/item-edit.php:18
+#: redirection-strings.php:155
 msgid "Group"
 msgstr "Gruppe"
 
-#: view/add.php:28
-msgid "Regular expression"
-msgstr "Reguläre Äußerung"
-
-#: view/add.php:23
-msgid "Action"
-msgstr "Aktion"
-
-#: view/add.php:17
+#: redirection-strings.php:158
 msgid "Match"
 msgstr "Passend"
 
-#: view/add.php:7
-msgid "Your redirection has been added."
-msgstr "Deine Umleitung wurde hinzugefügt."
-
-#: view/add.php:4
+#: redirection-strings.php:177
 msgid "Add new redirection"
-msgstr "Eine neue Umleitung hinzufügen"
+msgstr "Eine neue Weiterleitung hinzufügen"
 
-#: redirection-strings.php:14 redirection-strings.php:44
-#: redirection-strings.php:54 view/item-edit.php:33
+#: redirection-strings.php:24 redirection-strings.php:66
+#: redirection-strings.php:150
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: redirection-strings.php:55
+#: redirection-strings.php:45
 msgid "Download"
 msgstr "Download"
 
-#: redirection-admin.php:407
-msgid "Sorry, but your redirection was not created"
-msgstr "Endschuldigung, aber deine Umleitung wurde nicht erstellt"
-
-#: redirection-admin.php:344 redirection-admin.php:365
-#: redirection-admin.php:387
+#: redirection-api.php:31
 msgid "Unable to perform action"
 msgstr "Die Operation kann nicht ausgeführt werden."
-
-#: redirection-admin.php:311
-msgid "No items were imported"
-msgstr "Keine Elemente wurden importiert"
-
-#: redirection-admin.php:309
-msgid "%d redirection was successfully imported"
-msgid_plural "%d redirections were successfully imported"
-msgstr[0] "%d Umleitung wurde erfolgreich importiert."
-msgstr[1] "%d Umleitungen wurden erfolgreich importiert."
-
-#: redirection-strings.php:89
-msgid "Your options were updated"
-msgstr "Deine Optionen wurden aktualisiert"
 
 #. Plugin Name of the plugin/theme
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:165
+#: redirection-admin.php:109
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: redirection-strings.php:62
-msgid "WordPress-powered redirects. This requires no further configuration, and you can track hits."
-msgstr "Durch WordPress betriebene Umleitungen: Dies benötigt keine weitere Konfiguration, und Treffer werden aufgezeichnet."
-
-#: redirection-strings.php:60
-msgid "For use with Nginx server. Requires manual configuration. The redirect happens without loading WordPress. No tracking of hits. This is an experimental module."
-msgstr "Für die Benutzung mit Nginx-Servern: Benötigt manuelle Konfiguration. Die Umleitung erfolgt, ohne WordPress zu laden, und ist viel schneller, die Treffer können jedoch nicht aufgezeichnet werden. Dies ist ein experimentelles Modul."
-
-#: redirection-strings.php:61
-msgid "Uses Apache {{code}}.htaccess{{/code}} files. Requires further configuration. The redirect happens without loading WordPress. No tracking of hits."
-msgstr ""
-
-#: redirection-strings.php:46
+#: redirection-strings.php:117
 msgid "Automatically remove or add www to your site."
 msgstr "Bei deiner Seite das www automatisch entfernen oder hinzufügen."
 
-#: redirection-strings.php:49
+#: redirection-strings.php:120
 msgid "Default server"
 msgstr "Standard-Server"
 
-#: redirection-strings.php:50
-msgid "Canonical URL"
-msgstr "Canonical URL"
-
-#: redirection-strings.php:51
-msgid "WordPress is installed in: {{code}}%s{{/code}}"
-msgstr ""
-
-#: redirection-strings.php:52
-msgid "If you want Redirection to automatically update your {{code}}.htaccess{{/code}} file then enter the full path and filename here. You can also download the file and update it manually."
-msgstr ""
-
-#: redirection-strings.php:53
-msgid ".htaccess Location"
-msgstr ".htaccess-Speicherort"
-
-#: models/redirect.php:382
+#: redirection-strings.php:167
 msgid "Do nothing"
 msgstr "Mache nichts"
 
-#: models/redirect.php:381
+#: redirection-strings.php:168
 msgid "Error (404)"
 msgstr "Fehler (404)"
 
-#: models/redirect.php:380
+#: redirection-strings.php:169
 msgid "Pass-through"
 msgstr "Durchreichen"
 
-#: models/redirect.php:379
+#: redirection-strings.php:170
 msgid "Redirect to random post"
 msgstr "Umleitung zu zufälligen Beitrag"
 
-#: models/redirect.php:378
+#: redirection-strings.php:171
 msgid "Redirect to URL"
 msgstr "Umleitung zur URL"
 
-#: models/redirect.php:216
-msgid "Unable to add new redirect - delete Redirection from the options page and re-install"
-msgstr "Neue Umeitung kann nicht hinzugefügt werden. Entferne dieses Plugin und installiere es neu."
-
-#: models/redirect.php:178
-msgid "Invalid source URL when creating redirect for given match type"
-msgstr "Ungültige Quell-URL für die Erstellung einer Umleitung des gegebenen Übereinstimmungstyps."
-
-#: models/redirect.php:174
+#: models/redirect.php:463
 msgid "Invalid group when creating redirect"
 msgstr "Ungültige Gruppe für die Erstellung der Umleitung"
 
-#: models/redirect.php:166
-msgid "You can only redirect from a relative URL (<code>%s</code>) on this domain (<code>%s</code>)."
-msgstr "Du kannst nur von einer relativen URL (<code>%s</code>) auf dieser Domain (<code>%s</code>) umleiten."
-
-#: models/redirect.php:160
-msgid "Source and target URL must be different"
-msgstr "Quell- und Ziel-URL müssen sich unterscheiden"
-
-#: redirection-strings.php:59
-msgid "Configure"
-msgstr "Einstellen"
-
-#: redirection-strings.php:34 redirection-strings.php:41
+#: redirection-strings.php:84 redirection-strings.php:91
 msgid "Show only this IP"
 msgstr "Nur diese IP-Adresse anzeigen"
 
-#: redirection-strings.php:30 redirection-strings.php:37
+#: redirection-strings.php:80 redirection-strings.php:87
 msgid "IP"
 msgstr "IP"
 
-#: redirection-strings.php:32 redirection-strings.php:39 view/add.php:13
-#: view/item-edit.php:4
+#: redirection-strings.php:82 redirection-strings.php:89
+#: redirection-strings.php:152
 msgid "Source URL"
 msgstr "URL-Quelle"
 
-#: redirection-strings.php:33 redirection-strings.php:40
+#: redirection-strings.php:83 redirection-strings.php:90
 msgid "Date"
 msgstr "Zeitpunkt"
 
-#: redirection-strings.php:42
+#: redirection-strings.php:92 redirection-strings.php:94
+#: redirection-strings.php:176
 msgid "Add Redirect"
-msgstr ""
+msgstr "Umleitung hinzufügen"
 
-#: redirection-strings.php:7
+#: redirection-strings.php:17
 msgid "All modules"
 msgstr "Alle Module"
 
-#: redirection-strings.php:20
+#: redirection-strings.php:30
 msgid "View Redirects"
 msgstr "Weiterleitungen anschauen"
 
-#: redirection-strings.php:11 redirection-strings.php:16
-#: redirection-strings.php:58
+#: redirection-strings.php:21 redirection-strings.php:26
 msgid "Module"
 msgstr "Module"
 
-#: redirection-strings.php:12 redirection-strings.php:57 view/submenu.php:6
+#: redirection-strings.php:22 redirection-strings.php:101
 msgid "Redirects"
 msgstr "Umleitungen"
 
-#: redirection-strings.php:4 redirection-strings.php:13
-#: redirection-strings.php:17
+#: redirection-strings.php:14 redirection-strings.php:23
+#: redirection-strings.php:27
 msgid "Name"
 msgstr "Name"
 
-#: models/pager.php:164 redirection-strings.php:118
+#: redirection-strings.php:215
 msgid "Filter"
 msgstr "Filter"
 
-#: models/pager.php:151
-msgid "No group filter"
-msgstr "Kein Gruppenfilter"
-
-#: models/pager.php:104
-msgid "Reset Hits"
+#: redirection-strings.php:179
+msgid "Reset hits"
 msgstr "Treffer zurücksetzen"
 
-#: models/pager.php:61 models/pager.php:102 redirection-strings.php:9
-#: redirection-strings.php:18
+#: redirection-strings.php:19 redirection-strings.php:28
+#: redirection-strings.php:181 redirection-strings.php:193
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: models/pager.php:59 models/pager.php:103 redirection-strings.php:8
-#: redirection-strings.php:19
+#: redirection-strings.php:18 redirection-strings.php:29
+#: redirection-strings.php:180 redirection-strings.php:194
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: models/pager.php:54 models/pager.php:101 redirection-strings.php:10
-#: redirection-strings.php:21 redirection-strings.php:29
-#: redirection-strings.php:35 redirection-strings.php:36
-#: redirection-strings.php:43 redirection-strings.php:68
+#: redirection-strings.php:20 redirection-strings.php:31
+#: redirection-strings.php:79 redirection-strings.php:85
+#: redirection-strings.php:86 redirection-strings.php:93
+#: redirection-strings.php:108 redirection-strings.php:182
+#: redirection-strings.php:195
 msgid "Delete"
 msgstr "Löschen"
 
-#: models/pager.php:53 redirection-strings.php:22
+#: redirection-strings.php:32 redirection-strings.php:196
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: models/pager.php:31
+#: redirection-strings.php:183
 msgid "Last Access"
 msgstr "Letzter Zugriff"
 
-#: models/pager.php:30
+#: redirection-strings.php:184
 msgid "Hits"
 msgstr "Treffer"
 
-#: models/pager.php:29
+#: redirection-strings.php:186
 msgid "URL"
 msgstr "URL"
 
-#: models/pager.php:28
+#: redirection-strings.php:187
 msgid "Type"
 msgstr "Typ"
 
@@ -673,110 +793,48 @@ msgstr "Typ"
 msgid "Modified Posts"
 msgstr "Geänderte Beiträge"
 
-#: models/database.php:120 models/group.php:114 view/item-list.php:3
+#: models/database.php:120 models/group.php:148 redirection-strings.php:43
 msgid "Redirections"
 msgstr "Umleitungen"
 
-#: matches/user-agent.php:51
-msgid "The visitor will be redirected from the source URL if the user agent matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected. <strong>All matches are performed as regular expressions</strong>.\n"
-msgstr "Der Besucher wird von der URL-Quelle umgeleitet, falls der User Agent passend ist. Du kannst eine <em>passende</em> Ziel-URL als Adresse spezifizieren, die die Besucher schicken, falls sie passend sind, und <em>nicht passend</em>, wenn sie nicht übereinstimmen. <strong>Alle Anpassungen treten als reguläre Äußerungen auf</strong>.\n"
-
-#: matches/user-agent.php:25
+#: redirection-strings.php:189
 msgid "User Agent"
 msgstr "User Agent"
 
-#: matches/user-agent.php:20
-msgid "Nintendo Wii"
-msgstr "Nintendo Wii"
-
-#: matches/user-agent.php:19
-msgid "Android"
-msgstr "Android"
-
-#: matches/user-agent.php:18
-msgid "iPad"
-msgstr "iPad"
-
-#: matches/user-agent.php:17
-msgid "iPhone"
-msgstr "iPhone"
-
-#: matches/user-agent.php:16
-msgid "Safari"
-msgstr "Safari"
-
-#: matches/user-agent.php:15
-msgid "Opera"
-msgstr "Opera"
-
-#: matches/user-agent.php:14
-msgid "FireFox"
-msgstr "FireFox"
-
-#: matches/user-agent.php:13
-msgid "Internet Explorer"
-msgstr "Internet Explorer"
-
-#: matches/user-agent.php:12
-msgid "FeedBurner"
-msgstr "FeedBurner"
-
-#: matches/user-agent.php:7
+#: matches/user-agent.php:7 redirection-strings.php:172
 msgid "URL and user agent"
 msgstr "URL und User-Agent"
 
-#: matches/url.php:12 view/add.php:32
+#: redirection-strings.php:148
 msgid "Target URL"
 msgstr "Ziel-URL"
 
-#: matches/url.php:5
+#: matches/url.php:5 redirection-strings.php:175
 msgid "URL only"
 msgstr "Nur URL"
 
-#: matches/referrer.php:56 matches/referrer.php:58 matches/user-agent.php:68
-#: matches/user-agent.php:70
-msgid "Not matched"
-msgstr "Nicht passend"
-
-#: matches/referrer.php:46 matches/referrer.php:48 matches/user-agent.php:58
-#: matches/user-agent.php:60
-msgid "Matched"
-msgstr "passend"
-
-#: matches/referrer.php:40
-msgid "The visitor will be redirected from the source URL if the referrer matches.  You can specify a <em>matched</em> target URL as the address to send visitors if they do match, and <em>not matched</em> if they don't match.  Leaving a URL blank means that the visitor is not redirected."
-msgstr "Der Beuscher wird umgeleitet von der URL-Quelle, falls sich die Vermittler entsprechen. Du kannst eine <em>passende</em> Ziel-URL als Adresse spezifizieren, und <em>nicht passende</em>, wenn sie nicht übereinstimmen. Leerlassen einer URL ."
-
-#: matches/referrer.php:28 matches/referrer.php:38 matches/url.php:20
-#: matches/user-agent.php:38
-msgid "HTTP Code"
-msgstr "HTTP-Code"
-
-#: matches/referrer.php:24 view/item-edit.php:7
+#: redirection-strings.php:151 redirection-strings.php:188
+#: redirection-strings.php:190
 msgid "Regex"
 msgstr "Regex"
 
-#: matches/referrer.php:21 redirection-strings.php:31
-#: redirection-strings.php:38
+#: redirection-strings.php:81 redirection-strings.php:88
+#: redirection-strings.php:191
 msgid "Referrer"
 msgstr "Vermittler"
 
-#: matches/referrer.php:8
+#: matches/referrer.php:8 redirection-strings.php:173
 msgid "URL and referrer"
 msgstr "URL und Vermittler"
 
-#: matches/login.php:35 matches/login.php:37
+#: redirection-strings.php:144
 msgid "Logged Out"
 msgstr "Ausgeloggt"
 
-#: matches/login.php:23 matches/login.php:25
+#: redirection-strings.php:145
 msgid "Logged In"
 msgstr "Eingeloggt"
 
-#: matches/login.php:16
-msgid "The target URL will be chosen from one of the following URLs, depending if the user is logged in or out.  Leaving a URL blank means that the user is not redirected."
-msgstr "Die Zieladresse wird von eine der folgenden URLs ausgewählt, abhängig davon, ob der User ein- oder ausgeloggt ist. Eine URL leer lassen bedeutet, dass der User nicht umgeleitet ist."
-
-#: matches/login.php:7
+#: matches/login.php:7 redirection-strings.php:174
 msgid "URL and login status"
 msgstr "URL- und Loginstatus"

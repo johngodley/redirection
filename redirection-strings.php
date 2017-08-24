@@ -1,16 +1,20 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "Include these details in your report", "redirection" ), // client/component/error/index.js:88
-__( "Important details", "redirection" ), // client/component/error/index.js:87
-__( "Email", "redirection" ), // client/component/error/index.js:85
-__( "Create Issue", "redirection" ), // client/component/error/index.js:85
-__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:79
-__( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot.", "redirection" ), // client/component/error/index.js:77
-__( "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.", "redirection" ), // client/component/error/index.js:72
-__( "It didn't work when I tried again", "redirection" ), // client/component/error/index.js:71
-__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:69
-__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:68
+__( "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.", "redirection" ), // client/component/error/index.js:146
+__( "Important details", "redirection" ), // client/component/error/index.js:145
+__( "Email", "redirection" ), // client/component/error/index.js:143
+__( "Create Issue", "redirection" ), // client/component/error/index.js:143
+__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:137
+__( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts.", "redirection" ), // client/component/error/index.js:135
+__( "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.", "redirection" ), // client/component/error/index.js:130
+__( "It didn't work when I tried again", "redirection" ), // client/component/error/index.js:129
+__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:126
+__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:108
+__( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again.", "redirection" ), // client/component/error/index.js:101
+__( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:97
+__( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:93
+__( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:89
 __( "Name", "redirection" ), // client/component/groups/index.js:129
 __( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/component/groups/index.js:123
 __( "Add Group", "redirection" ), // client/component/groups/index.js:122
@@ -30,10 +34,12 @@ __( "Disable", "redirection" ), // client/component/groups/row.js:103
 __( "View Redirects", "redirection" ), // client/component/groups/row.js:102
 __( "Delete", "redirection" ), // client/component/groups/row.js:101
 __( "Edit", "redirection" ), // client/component/groups/row.js:100
-__( "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time", "redirection" ), // client/component/home/index.js:112
-__( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", "redirection" ), // client/component/home/index.js:105
-__( "Redirection is not working. Try clearing your browser cache and reloading this page.", "redirection" ), // client/component/home/index.js:101
-__( "Something went wrong 🙁", "redirection" ), // client/component/home/index.js:98
+__( "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time", "redirection" ), // client/component/home/index.js:125
+__( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", "redirection" ), // client/component/home/index.js:118
+__( "Redirection is not working. Try clearing your browser cache and reloading this page.", "redirection" ), // client/component/home/index.js:114
+__( "Something went wrong 🙁", "redirection" ), // client/component/home/index.js:111
+__( "Please clear your browser cache and reload this page", "redirection" ), // client/component/home/index.js:104
+__( "Cached Redirection detected", "redirection" ), // client/component/home/index.js:103
 __( "Support", "redirection" ), // client/component/home/index.js:35
 __( "Options", "redirection" ), // client/component/home/index.js:34
 __( "404 errors", "redirection" ), // client/component/home/index.js:33
@@ -146,17 +152,17 @@ __( "Logged In", "redirection" ), // client/component/redirects/action/login.js:
 __( "Unmatched Target", "redirection" ), // client/component/redirects/action/referrer.js:42
 __( "Matched Target", "redirection" ), // client/component/redirects/action/referrer.js:36
 __( "Target URL", "redirection" ), // client/component/redirects/action/url.js:24
-__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:419
-__( "Cancel", "redirection" ), // client/component/redirects/edit.js:416
-__( "Regex", "redirection" ), // client/component/redirects/edit.js:396
-__( "Source URL", "redirection" ), // client/component/redirects/edit.js:392
-__( "Save", "redirection" ), // client/component/redirects/edit.js:385
-__( "Position", "redirection" ), // client/component/redirects/edit.js:364
-__( "Group", "redirection" ), // client/component/redirects/edit.js:360
-__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:347
-__( "When matched", "redirection" ), // client/component/redirects/edit.js:341
-__( "Match", "redirection" ), // client/component/redirects/edit.js:317
-__( "Title", "redirection" ), // client/component/redirects/edit.js:304
+__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:464
+__( "Cancel", "redirection" ), // client/component/redirects/edit.js:461
+__( "Regex", "redirection" ), // client/component/redirects/edit.js:441
+__( "Source URL", "redirection" ), // client/component/redirects/edit.js:437
+__( "Save", "redirection" ), // client/component/redirects/edit.js:430
+__( "Position", "redirection" ), // client/component/redirects/edit.js:395
+__( "Group", "redirection" ), // client/component/redirects/edit.js:391
+__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:378
+__( "When matched", "redirection" ), // client/component/redirects/edit.js:372
+__( "Match", "redirection" ), // client/component/redirects/edit.js:348
+__( "Title", "redirection" ), // client/component/redirects/edit.js:335
 __( "410 - Gone", "redirection" ), // client/component/redirects/edit.js:110
 __( "404 - Not Found", "redirection" ), // client/component/redirects/edit.js:106
 __( "401 - Unauthorized", "redirection" ), // client/component/redirects/edit.js:102
@@ -229,9 +235,9 @@ __( "Sorry, something went wrong loading the data - please try again", "redirect
 __( "Search", "redirection" ), // client/component/table/search.js:49
 __( "Search by IP", "redirection" ), // client/component/table/search.js:49
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:53
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:52
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:51
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:50
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:46
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:45
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:44
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:43
 );
 /* THIS IS THE END OF THE GENERATED FILE */
