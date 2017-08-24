@@ -1,4 +1,6 @@
 /* global document, Redirectioni10n */
+import 'lib/polyfill';
+
 /**
  * External dependencies
  */
