@@ -36,6 +36,18 @@
 	width: 600px;
 }
 
+p.versions {
+	text-align: left;
+	width: 600px;
+	margin: 0 auto;
+	line-height: 1.6;
+	color: #666;
+	font-size: 12px;
+	background-color: white;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
 @-webkit-keyframes sk-scaleout-loading {
   0% { -webkit-transform: scale(0) }
   100% {
