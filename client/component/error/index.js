@@ -33,8 +33,9 @@ class Error extends React.Component {
 
 	getDebug( errors ) {
 		const message = [
-			'Versions: ' + Redirectioni10n.versions,
+			Redirectioni10n.versions,
 			'Nonce: ' + Redirectioni10n.WP_API_nonce,
+			'URL: ' + Redirectioni10n.WP_API_root.replace( /\/\/.*?\//, '//<site>/' ),
 		];
 
 		for ( let x = 0; x < errors.length; x++ ) {
@@ -96,6 +97,10 @@ class Error extends React.Component {
 				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?' );
 			}
 
+			if ( item.message.indexOf( 'Unexpected token' ) !== -1 ) {
+				return __( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again." );
+			}
+
 			if ( item.message ) {
 				return this.getErrorDetailsTitle( item );
 			}
@@ -127,7 +132,7 @@ class Error extends React.Component {
 						link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />
 					}
 				} ) }</p>
-				<p>{ __( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts, and knowing this in advance will help a lot." ) }</p>
+				<p>{ __( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts." ) }</p>
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
 						components: {
@@ -142,7 +147,7 @@ class Error extends React.Component {
 					components: {
 						strong: <strong />,
 					}
-				} ) }:</p>
+				} ) }</p>
 				<p><textarea readOnly={ true } rows={ debug.length + 2 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
