@@ -1,4 +1,4 @@
 <?php
 
-define( 'REDIRECTION_VERSION', '2.7.1' );
-define( 'REDIRECTION_BUILD', '391a96fde65d52d6155386b23988cf60' );
+define( 'REDIRECTION_VERSION', '2.7.2' );
+define( 'REDIRECTION_BUILD', '71ffb43efe4d7e179530595e437485b3' );
