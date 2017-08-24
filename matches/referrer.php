@@ -10,8 +10,8 @@ class Referrer_Match extends Red_Match {
 
 	public function save( array $details, $no_target_url = false ) {
 		$data = array(
-			'regex'       => isset( $details['action_data_regex'] ) && $details['action_data_regex'] === 'true' ? true : false,
-			'referrer'    => isset( $details['action_data_referrer'] ) ? $this->sanitize_referrer( $details['action_data_referrer'] ) : '',
+			'regex'    => isset( $details['action_data_regex'] ) && $details['action_data_regex'] === 'true' ? true : false,
+			'referrer' => isset( $details['action_data_referrer'] ) ? $this->sanitize_referrer( $details['action_data_referrer'] ) : '',
 		);
 
 		if ( $no_target_url === false ) {
@@ -26,23 +26,25 @@ class Referrer_Match extends Red_Match {
 		return $this->sanitize_url( $agent );
 	}
 
-	function initialize( $url ) {
-		$this->url = array( $url, '' );
-	}
-
 	function get_target( $url, $matched_url, $regex ) {
 		$target = false;
+		$matched = Redirection_Request::get_referrer() === $this->referrer;
+
+		if ( $this->regex ) {
+			$matched = preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', Redirection_Request::get_referrer(), $matches ) > 0;
+		}
 
 		// Check if referrer matches
-		if ( ( $this->regex === false && Redirection_Request::get_referrer() === $this->referrer ) || ( $this->regex === true && preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', Redirection_Request::get_referrer(), $matches ) ) ) {
+		if ( $matched && $this->url_from !== '' ) {
 			$target = $this->url_from;
-
-			if ( $regex ) {
-				$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
-			}
-		} elseif ( $this->url_notfrom !== '' ) {
+		} elseif ( ! $matched && $this->url_notfrom !== '' ) {
 			$target = $this->url_notfrom;
 		}
+
+		if ( $regex && $target ) {
+			$target = $this->get_target_regex_url( $matched_url, $target, $url );
+		}
+
 		return $target;
 	}
 }

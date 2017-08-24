@@ -4,7 +4,7 @@ class ApiTest extends WP_UnitTestCase {
 	private function expectDie( $action ) {
 		if ( method_exists( $this, 'expectException' ) ) {
 			$this->expectException( 'WPDieException' );
-			$this->expectExceptionMessageRegExp( '/^\{"error":"Unable to perform action - bad nonce.*/' );
+			$this->expectExceptionMessageRegExp( '/^\{"error":{"message":"Unable to perform action - bad nonce.*/' );
 			do_action( 'wp_ajax_red_'.$action );
 		}
 	}
@@ -13,14 +13,9 @@ class ApiTest extends WP_UnitTestCase {
 		if ( method_exists( $this, 'expectException' ) ) {
 			$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
 			$this->expectException( 'WPDieException' );
-			$this->expectExceptionMessageRegExp( '/^\{"error":"No permissions to perform action.*/' );
+			$this->expectExceptionMessageRegExp( '/^\{"error":{"message":"No permissions to perform action.*/' );
 			do_action( 'wp_ajax_red_'.$action );
 		}
-	}
-
-	private function setNonce() {
-		$this->_setRole( 'administrator' );
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
 	}
 
 	// Sadly these only work in individual tests - in a loop it checks one and then finishes that test
@@ -34,6 +29,10 @@ class ApiTest extends WP_UnitTestCase {
 
 	public function testNonceGetLog() {
 		$this->expectDie( 'get_logs' );
+	}
+
+	public function testNoncePing() {
+		$this->expectDie( 'ping' );
 	}
 
 	public function testNonceLogAction() {
@@ -134,5 +133,9 @@ class ApiTest extends WP_UnitTestCase {
 
 	public function testPermissionGroupAction() {
 		$this->expectPermission( 'group_action' );
+	}
+
+	public function testPermissionPing() {
+		$this->expectPermission( 'ping' );
 	}
 }

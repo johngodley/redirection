@@ -325,7 +325,7 @@ class Red_Item {
 			$direction = strtoupper( $params['direction'] );
 		}
 
-		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 ) {
+		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 && $params['filter'] !== '0' ) {
 			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'group' ) {
 				$where = $wpdb->prepare( "WHERE group_id=%d", intval( $params['filter'], 10 ) );
 			} else {
@@ -493,9 +493,6 @@ class Red_Item_Sanitize {
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
-
-		// No hash
-		$url = preg_replace( '/#.*$/', '', $url );
 
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );

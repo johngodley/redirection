@@ -66,11 +66,25 @@ class Redirection_Admin {
 	public function flying_solo( $src, $handle ) {
 		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'page=redirection.php' ) !== false ) {
 			if ( substr( $src, 0, 4 ) === 'http' && $handle !== 'redirection' && strpos( $src, 'plugins' ) !== false ) {
-				return false;
+				if ( $this->ignore_this_plugin( $src ) ) {
+					return false;
+				}
 			}
 		}
 
 		return $src;
+	}
+
+	private function ignore_this_plugin( $src ) {
+		if ( strpos( $src, 'mootools' ) !== false ) {
+			return true;
+		}
+
+		if ( strpos( $src, 'wp-seo-' ) !== false ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function flush_schedule() {
@@ -116,6 +130,12 @@ class Redirection_Admin {
 
 		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
 		$options = red_get_options();
+		$versions = array(
+			'Plugin: '.REDIRECTION_VERSION,
+			'WordPress: '.$wp_version,
+			'PHP: '.phpversion(),
+			'Browser: '.Redirection_Request::get_user_agent(),
+		);
 
 		$this->inject();
 
@@ -141,7 +161,7 @@ class Redirection_Admin {
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
 			'autoGenerate' => $options['auto_target'],
-			'versions' => implode( ', ', array( 'Plugin '.REDIRECTION_VERSION, 'WordPress '.$wp_version, 'PHP '.phpversion() ) ),
+			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
 		) );
 	}
@@ -179,13 +199,59 @@ class Redirection_Admin {
 ?>
 <div id="react-ui">
 	<div class="react-loading">
-		<h1><?php _e( 'Loading the bits, please wait...', 'redirection' ); ?></h1>
+		<h1><?php _e( 'Loading, please wait...', 'redirection' ); ?></h1>
 
-		<span class="react-loading-spinner" />
+		<span class="react-loading-spinner"></span>
 	</div>
 	<noscript>Please enable JavaScript</noscript>
+
+	<div class="react-error" style="display: none">
+		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?></h1>
+		<p><?php _e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
+		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
+		<p class="versions"></p>
+		<p>
+			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
+				<?php _e( 'Create Issue', 'redirection' ); ?>
+			</a>
+		</p>
+	</div>
 </div>
 
+<script>
+	var prevError = window.onerror;
+	var errors = [];
+	var timeout = 0;
+	var timer = setInterval( function() {
+		if ( isRedirectionLoaded() ) {
+			resetAll();
+		} else if ( errors.length > 0 || timeout++ === 5 ) {
+			showError();
+			resetAll();
+		}
+	}, 5000 );
+
+	function isRedirectionLoaded() {
+		return typeof redirection !== 'undefined';
+	}
+
+	function showError() {
+		document.querySelector( '.react-loading' ).style.display = 'none';
+		document.querySelector( '.react-error' ).style.display = 'block';
+		document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
+		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" ) + encodeURIComponent( Redirectioni10n.versions );
+	}
+
+	function resetAll() {
+		clearInterval( timer );
+		window.onerror = prevError;
+	}
+
+	window.onerror = function( error, url, line ) {
+		console.error( error );
+		errors.push( error + ' ' + url + ' ' + line );
+	};
+</script>
 <?php
 	}
 

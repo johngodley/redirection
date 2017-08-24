@@ -80,6 +80,8 @@ export const removeDefaults = ( table, defaultOrder ) => {
 		table.perPage = parseInt( Redirectioni10n.per_page, 10 );
 	}
 
+	delete table.selected;
+
 	return table;
 };
 

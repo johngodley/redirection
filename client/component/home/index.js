@@ -23,7 +23,7 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
-import { clearErrors } from 'state/message/action';
+import { clearErrors, ping } from 'state/message/action';
 
 const TITLES = {
 	redirect: __( 'Redirections' ),
@@ -34,6 +34,8 @@ const TITLES = {
 	options: __( 'Options' ),
 	support: __( 'Support' ),
 };
+
+const PING_TIMER = 60 * 60 * 1000;
 
 class Home extends React.Component {
 	constructor( props ) {
@@ -46,6 +48,8 @@ class Home extends React.Component {
 		};
 
 		this.handlePageChange = this.onChangePage.bind( this );
+
+		setInterval( props.onPing, PING_TIMER );
 	}
 
 	componentDidCatch() {
@@ -93,6 +97,15 @@ class Home extends React.Component {
 	}
 
 	renderError() {
+		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
+			return (
+				<div className="notice notice-error">
+					<h2>{ __( 'Cached Redirection detected' ) }</h2>
+					<p>{ __( 'Please clear your browser cache and reload this page' ) }</p>
+				</div>
+			);
+		}
+
 		return (
 			<div className="notice notice-error">
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
@@ -147,6 +160,9 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onClear: () => {
 			dispatch( clearErrors() );
+		},
+		onPing: () => {
+			dispatch( ping() );
 		},
 	};
 }
