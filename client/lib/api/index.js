@@ -11,6 +11,14 @@ const addData = ( form, data, preName ) => {
 	}
 };
 
+const addFileData = ( form, data, preName ) => {
+	for ( const variable in data ) {
+		if ( data[ variable ] !== undefined ) {
+			form.append( preName + variable, data[ variable ] );
+		}
+	}
+};
+
 const getApiRequest = ( action, data ) => {
 	const form = new FormData();
 
@@ -18,7 +26,11 @@ const getApiRequest = ( action, data ) => {
 	form.append( '_wpnonce', Redirectioni10n.WP_API_nonce );
 
 	if ( data ) {
-		addData( form, data, '' );
+		if ( action === 'red_import_data' ) {
+			addFileData( form, data, '' );
+		} else {
+			addData( form, data, '' );
+		}
 	}
 
 	return fetch( Redirectioni10n.WP_API_root, {
