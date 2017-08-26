@@ -295,7 +295,7 @@ class Redirection_Admin {
 	}
 
 	private function tryExportRedirects() {
-		if ( $this->user_has_access() && $_GET['sub'] === 'modules' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
+		if ( $this->user_has_access() && $_GET['sub'] === 'io' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
 			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
 
 			if ( $export !== false ) {

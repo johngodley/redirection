@@ -20,7 +20,7 @@ import { importFile, clearFile, addFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import { exportFile, downloadFile } from 'state/io/action';
 
-const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=modules&export=' + moduleId + '&exporter=' + modType;
+const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
 
 class ImportExport extends React.Component {
 	constructor( props ) {
@@ -42,7 +42,7 @@ class ImportExport extends React.Component {
 		this.state = {
 			group: 0,
 			hover: false,
-			module: 'everything',
+			module: 'all',
 			format: 'json',
 		};
 	}
