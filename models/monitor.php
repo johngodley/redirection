@@ -4,8 +4,11 @@ class Red_Monitor {
 	private $monitor_group_id;
 
 	function __construct( $options ) {
-		if ( isset( $options['monitor_post'] ) && $options['monitor_post'] > 0 ) {
+		$this->monitor_types = apply_filters( 'redirection_monitor_types', isset( $options['monitor_types'] ) ? $options['monitor_types'] : array() );
+
+		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
+			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
@@ -14,6 +17,10 @@ class Red_Monitor {
 				add_action( 'edit_page_form',     array( $this, 'insert_old_post' ) );
 				add_filter( 'redirection_remove_existing', array( $this, 'remove_existing_redirect' ) );
 				add_filter( 'redirection_permalink_changed', array( $this, 'has_permalink_changed' ), 10, 3 );
+
+				if ( in_array( 'trash', $this->monitor_types ) ) {
+					add_action( 'wp_trash_post', array( $this, 'post_trashed' ) );
+				}
 			}
 		}
 	}
@@ -42,7 +49,12 @@ class Red_Monitor {
 		}
 
 		// Hierarchical post? Do nothing
-		if ( is_post_type_hierarchical( $post->post_type ) ) {
+		$type = get_post_type( $post->ID );
+		if ( is_post_type_hierarchical( $post->post_type ) && $type !== 'page' ) {
+			return false;
+		}
+
+		if ( ! in_array( $type, $this->monitor_types ) ) {
 			return false;
 		}
 
@@ -61,6 +73,20 @@ class Red_Monitor {
 		if ( $this->can_monitor_post( $post, $post_before, $_POST ) ) {
 			$this->check_for_modified_slug( $post_id, $_POST['redirection_slug'] );
 		}
+	}
+
+	public function post_trashed( $post_id ) {
+		$data = array(
+			'url'         => parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
+			'action_data' => '/',
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'group_id'    => $this->monitor_group_id,
+			'status'      => 'disabled',
+		);
+
+		// Create a new redirect for this post
+		Red_Item::create( $data );
 	}
 
 	/**
@@ -97,14 +123,23 @@ class Red_Monitor {
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
 
-			// Create a new redirect for this post
-			Red_Item::create( array(
+			$data = array(
 				'url'         => $before,
 				'action_data' => $after,
 				'match_type'  => 'url',
 				'action_type' => 'url',
 				'group_id'    => $this->monitor_group_id,
-			) );
+			);
+
+			// Create a new redirect for this post
+			Red_Item::create( $data );
+
+			if ( !empty( $this->associated ) ) {
+				// Create an associated redirect for this post
+				$data['url'] = $this->associated . $data['url'];
+				$data['action_data'] = $this->associated . $data['action_data'];
+				Red_Item::create( $data );
+			}
 
 			return true;
 		}

@@ -158,7 +158,7 @@ class Red_Item {
 			return $data;
 		}
 
-		$data['status'] = 'enabled';
+		$data['status'] = isset( $details['status'] ) && $details['status'] === 'disabled' ? 'disabled' : 'enabled';
 		$data['position'] = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $data['group_id'] ) );
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
