@@ -88,8 +88,8 @@ class Logs404 extends React.Component {
 
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
-						<DeleteAll onDelete={ this.props.onDeleteAll } />
 						<ExportCSV logType={ LOGS_TYPE_404 } />
+						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 					</TableButtons>
 				</TableNav>
 			</div>
@@ -113,8 +113,8 @@ function mapDispatchToProps( dispatch ) {
 		onLoadGroups: () => {
 			dispatch( getGroup() );
 		},
-		onDeleteAll: () => {
-			dispatch( deleteAll() );
+		onDeleteAll: ( filterBy, filter ) => {
+			dispatch( deleteAll( filterBy, filter ) );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );

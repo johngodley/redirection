@@ -238,6 +238,10 @@ class EditRedirect extends React.Component {
 		} else {
 			this.reset();
 		}
+
+		if ( this.props.childSave ) {
+			this.props.childSave();
+		}
 	}
 
 	onAdvanced( ev ) {
@@ -436,7 +440,7 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.handleChange } /> &nbsp;
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ ! this.props.advanced } /> &nbsp;
 								<label>
 									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
 									&nbsp;
@@ -452,6 +456,8 @@ class EditRedirect extends React.Component {
 
 						{ this.getTarget() }
 						{ this.getGroup() }
+
+						{ this.props.children && this.props.children }
 
 						<tr>
 							<th></th>
@@ -476,6 +482,7 @@ EditRedirect.propTypes = {
 	item: PropTypes.object.isRequired,
 	onCancel: PropTypes.func,
 	saveButton: PropTypes.string,
+	childSave: PropTypes.func,
 	advanced: PropTypes.bool,
 };
 

@@ -80,9 +80,9 @@ const deepCompare = ( first, second ) => {
 	return true;
 };
 
-export const processRequest = ( action, dispatch, status, params = {}, state = {} ) => {
+export const processRequest = ( action, dispatch, status, params = {}, state = {}, reduxer = s => s ) => {
 	const { table, rows } = state;
-	const tableData = mergeWithTable( table, params );
+	const tableData = reduxer( mergeWithTable( table, params ) );
 	const data = removeDefaults( { ... table, ... params }, status.order );
 
 	if ( deepCompare( tableData, table ) && rows.length > 0 && deepCompare( params, {} ) ) {
@@ -98,6 +98,19 @@ export const processRequest = ( action, dispatch, status, params = {}, state = {
 		} );
 
 	return dispatch( { table: tableData, type: status.saving, ... objectDiff( tableData, params ) } );
+};
+
+export const directApi = ( action, dispatch, status, params, state ) => {
+	const { table } = state;
+	const data = removeDefaults( { ... table, ... params }, status.order );
+
+	getApi( action, data )
+		.then( json => {
+			dispatch( { type: status.saved, ... json } );
+		} )
+		.catch( error => {
+			dispatch( { type: status.failed, error } );
+		} );
 };
 
 const copyReplace = ( data, item, cb ) => {

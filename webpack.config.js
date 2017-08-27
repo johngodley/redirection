@@ -53,6 +53,7 @@ const config = {
 		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
 	},
 	plugins: [
+		new webpack.BannerPlugin( 'Redirection v' + pkg.version ),
 		new webpack.DefinePlugin( {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
