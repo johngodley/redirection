@@ -107,8 +107,12 @@
 	}
 
 	.column-last_count {
-		width: 70px;
+		width: 80px;
 		text-align: left;
+	}
+
+	.column-date {
+		width: 180px;
 	}
 
 	.column-last_access {
@@ -126,7 +130,7 @@
 	}
 
 	.column-position {
-		width: 60px;
+		width: 80px;
 		text-align: left;
 	}
 
@@ -203,10 +207,6 @@ table.items {
 
 input.current-page {
 	width: 60px;
-}
-
-.fixed .column-date {
-	width: 165px !important;
 }
 
 .loader-wrapper {
