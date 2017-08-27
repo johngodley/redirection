@@ -59,7 +59,7 @@ const getApi = ( action, params ) => {
 				const json = JSON.parse( text );
 
 				if ( json === 0 ) {
-					throw { message: 'No response returned', code: 0 };
+					throw { message: 'No response returned - WordPress did not understand AJAX request', code: 0 };
 				} else if ( json.error ) {
 					throw json.error;
 				}

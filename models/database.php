@@ -256,4 +256,22 @@ class RE_Database {
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_version' );
 	}
+
+	public function get_status() {
+		global $wpdb;
+
+		$missing = array();
+
+		foreach ( $this->get_all_tables() as $table => $sql ) {
+			$result = $wpdb->query( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
+			if ( intval( $result, 10 ) !== 2 ) {
+				$missing[] = $table;
+			}
+		}
+
+		return array(
+			'status' => count( $missing ) === 0 ? 'good' : 'error',
+			'message' => count( $missing ) === 0 ? __( 'All tables present', 'redirection' ) : __( 'The following tables are missing:', 'redirection' ).' '.join( ',', $missing ),
+		);
+	}
 }

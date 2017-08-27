@@ -176,6 +176,19 @@ table.items {
 	animation: loading-fade 1.6s ease-in-out infinite;
 }
 
+.placeholder-inline {
+	width: 100%;
+	height: 50px;
+	position: relative;
+
+	.placeholder-loading {
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+	}
+}
+
 .loading-small {
 	width: 25px;
 	height: 25px;
@@ -445,5 +458,31 @@ table.edit-redirection {
 
 	&.inline-general {
 		border-left-color: #46b450;
+	}
+}
+
+.plugin-status {
+	th {
+		text-align: left;
+		padding: 5px;
+	}
+
+	td, span {
+		padding: 5px;
+	}
+
+	.plugin-status-good {
+		background-color: #46b450;
+		color: white;
+	}
+
+	.plugin-status-problem {
+		background-color: orange;
+		color: white;
+	}
+
+	.plugin-status-error {
+		background-color: #ff3860;
+		color: white;
 	}
 }
