@@ -232,6 +232,15 @@ input.current-page {
 		margin-left: 10px;
 		padding-top: 4px;
 	}
+
+	input[type=text].medium {
+		width: 67%;
+	}
+
+	select.medium {
+		height: 26px;
+		margin-top: -2px;
+	}
 }
 
 .redirects {
