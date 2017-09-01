@@ -50,6 +50,7 @@ class Redirection_Admin {
 
 	public static function plugin_deactivated() {
 		Red_Flusher::clear();
+		Red_Notify::clear();
 	}
 
 	public static function plugin_uninstall() {

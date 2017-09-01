@@ -87,4 +87,8 @@ class Red_Notify {
 		$start = $end - $interval;
 		return array( date("Y-m-d H:i:s", $start), date("Y-m-d H:i:s", $end) );
 	}
+	
+	public static function clear() {
+		wp_clear_scheduled_hook( self::NOTIFY_HOOK );
+	}
 }
