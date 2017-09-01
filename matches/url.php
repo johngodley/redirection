@@ -20,7 +20,7 @@ class URL_Match extends Red_Match {
 	function get_target( $url, $matched_url, $regex ) {
 		$target = $this->url;
 		if ( $regex ) {
-			$target = preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $this->url, $url );
+			$target = $this->get_target_regex_url( $matched_url, $this->url, $url );
 		}
 
 		if ( $target === '' ) {

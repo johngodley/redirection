@@ -93,7 +93,7 @@ class Logs extends React.Component {
 					<TableButtons enabled={ rows.length > 0 }>
 						<ExportCSV logType={ LOGS_TYPE_REDIRECT } />
 						<button className="button-secondary" onClick={ this.handleRSS }>RSS</button>
-						<DeleteAll onDelete={ this.props.onDeleteAll } />
+						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 					</TableButtons>
 				</TableNav>
 			</div>
@@ -114,8 +114,8 @@ function mapDispatchToProps( dispatch ) {
 		onLoad: logType => {
 			dispatch( loadLogs( logType ) );
 		},
-		onDeleteAll: () => {
-			dispatch( deleteAll() );
+		onDeleteAll: ( filterBy, filter ) => {
+			dispatch( deleteAll( filterBy, filter ) );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );

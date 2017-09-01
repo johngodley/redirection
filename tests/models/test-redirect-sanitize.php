@@ -15,10 +15,6 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( '/some/url', $this->sanitizer->sanitize_url( 'https://domain.com/some/url' ) );
 	}
 
-	public function testRemoveHash() {
-		$this->assertEquals( '/some/url', $this->sanitizer->sanitize_url( '/some/url#thing' ) );
-	}
-
 	public function testRemoveNewline() {
 		$this->assertEquals( '/some/url', $this->sanitizer->sanitize_url( "/some/url\nsomethingelse1" ) );
 		$this->assertEquals( '/some/url', $this->sanitizer->sanitize_url( "/some/url\rsomethingelse2" ) );

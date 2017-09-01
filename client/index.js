@@ -1,4 +1,6 @@
 /* global document, Redirectioni10n */
+import 'lib/polyfill';
+
 /**
  * External dependencies
  */
@@ -39,3 +41,5 @@ const show = dom => {
 };
 
 show( 'react-ui' );
+
+window.redirection = Redirectioni10n.version;

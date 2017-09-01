@@ -56,7 +56,7 @@ describe( 'groups reducer', () => {
 		const actions = [ GROUP_FAILED, REDIRECT_ITEM_FAILED, GROUP_ITEM_FAILED, LOG_FAILED, SETTING_LOAD_FAILED, SETTING_SAVE_FAILED, REDIRECT_FAILED ];
 
 		for ( let x = 0; x < actions.length; x++ ) {
-			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ], error: 'fail' } );
+			const state = reducer( { ... DEFAULT_STATE, inProgress: 2 }, { type: actions[ x ], error: DEFAULT_ERROR } );
 
 			expect( state ).toEqual( { ... DEFAULT_STATE, errors: [ DEFAULT_ERROR ], inProgress: 1 } );
 			expect( console.error ).toBeCalled();

@@ -9,6 +9,7 @@ import {
 	SETTING_SAVING,
 	SETTING_SAVED,
 	SETTING_SAVE_FAILED,
+	SETTING_LOAD_STATUS,
 
 	STATUS_IN_PROGRESS,
 	STATUS_COMPLETE,
@@ -34,6 +35,9 @@ export default function settings( state = {}, action ) {
 
 		case SETTING_SAVE_FAILED:
 			return { ... state, saveStatus: STATUS_FAILED, error: action.error };
+
+		case SETTING_LOAD_STATUS:
+			return { ... state, pluginStatus: action.pluginStatus };
 	}
 
 	return state;

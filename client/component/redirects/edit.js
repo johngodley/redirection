@@ -147,6 +147,35 @@ class EditRedirect extends React.Component {
 		this.state.advanced = ! this.canShowAdvanced();
 	}
 
+	reset() {
+		this.setState( {
+			url: '',
+			regex: false,
+			match_type: MATCH_URL,
+			action_type: ACTION_URL,
+			action_data: '',
+			title: '',
+			action_code: 301,
+			login: {
+				logged_in: '',
+				logged_out: '',
+			},
+			target: '',
+			agent: {
+				url_from: '',
+				agent: '',
+				regex: false,
+				url_notfrom: '',
+			},
+			referrer: {
+				referrer: '',
+				regex: false,
+				url_from: '',
+				url_notfrom: '',
+			},
+		} );
+	}
+
 	canShowAdvanced() {
 		const { match_type, action_type } = this.state;
 
@@ -206,6 +235,12 @@ class EditRedirect extends React.Component {
 
 		if ( this.props.onCancel ) {
 			this.props.onCancel();
+		} else {
+			this.reset();
+		}
+
+		if ( this.props.childSave ) {
+			this.props.childSave();
 		}
 	}
 
@@ -373,8 +408,22 @@ class EditRedirect extends React.Component {
 			return false;
 		}
 
-		if ( hasUrlTarget( this.state.action_type ) && this.state.target === '' ) {
-			return false;
+		if ( hasUrlTarget( this.state.action_type ) ) {
+			if ( this.state.match_type === 'url' && this.state.target === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_REFERRER && this.state.referrer.url_from === '' && this.state.referrer.url_notfrom === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_LOGIN && this.state.login.logged_in === '' && this.state.login.logged_out === '' ) {
+				return false;
+			}
+
+			if ( this.state.match_type === MATCH_AGENT && this.state.agent.url_from === '' && this.state.agent.url_notfrom === '' ) {
+				return false;
+			}
 		}
 
 		return true;
@@ -391,7 +440,7 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.handleChange } /> &nbsp;
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ ! this.props.advanced } /> &nbsp;
 								<label>
 									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
 									&nbsp;
@@ -407,6 +456,8 @@ class EditRedirect extends React.Component {
 
 						{ this.getTarget() }
 						{ this.getGroup() }
+
+						{ this.props.children && this.props.children }
 
 						<tr>
 							<th></th>
@@ -431,6 +482,7 @@ EditRedirect.propTypes = {
 	item: PropTypes.object.isRequired,
 	onCancel: PropTypes.func,
 	saveButton: PropTypes.string,
+	childSave: PropTypes.func,
 	advanced: PropTypes.bool,
 };
 

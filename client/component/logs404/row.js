@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import { setFilter, setSelected, performTableAction } from 'state/log/action';
+import { setFilter, setSelected, performTableAction, deleteExact } from 'state/log/action';
 import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
 import EditRedirect from 'component/redirects/edit';
@@ -27,8 +27,13 @@ class LogRow404 extends React.Component {
 		this.handleAdd = this.onAdd.bind( this );
 		this.handleShow = this.onShow.bind( this );
 		this.handleClose = this.onClose.bind( this );
+		this.handleSave = this.onSave.bind( this );
+		this.handleDeleteLog = this.onDeleteLog.bind( this );
 
-		this.state = { editing: false };
+		this.state = {
+			editing: false,
+			delete_log: false,
+		};
 	}
 
 	onSelect() {
@@ -54,11 +59,32 @@ class LogRow404 extends React.Component {
 		this.setState( { editing: false } );
 	}
 
+	onDeleteLog( ev ) {
+		this.setState( { delete_log: ev.target.checked } );
+	}
+
+	onSave() {
+		if ( this.state.delete_log ) {
+			this.props.onDeleteFilter( this.props.item.url );
+		}
+	}
+
 	renderEdit() {
 		return (
 			<Modal show={ this.state.editing } onClose={ this.handleClose } width="700">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } />
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave }>
+						<tr>
+							<th>{ __( 'Delete 404s' ) }</th>
+							<td>
+								<label>
+									<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.handleDeleteLog } />
+
+									{ __( 'Delete all logs for this 404' ) }
+								</label>
+							</td>
+						</tr>
+					</EditRedirect>
 				</div>
 			</Modal>
 		);
@@ -116,6 +142,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onDelete: item => {
 			dispatch( performTableAction( 'delete', item, { logType: '404' } ) );
+		},
+		onDeleteFilter: filter => {
+			dispatch( deleteExact( 'url-exact', filter ) );
 		},
 	};
 }

@@ -3,8 +3,8 @@
 class Red_Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
-	const DELETE_MAX = 1000;
-	const DELETE_KEEP_ON = 15;  // 15 minutes
+	const DELETE_MAX = 3000;
+	const DELETE_KEEP_ON = 10;  // 10 minutes
 
 	public function flush() {
 		$options = red_get_options();

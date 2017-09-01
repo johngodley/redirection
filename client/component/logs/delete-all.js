@@ -5,8 +5,13 @@
 import React from 'react';
 import { translate as __ } from 'lib/locale';
 import Modal from 'component/modal';
+import PropTypes from 'prop-types';
 
 class DeleteAll extends React.Component {
+	static propTypes = {
+		table: PropTypes.object.isRequired,
+	};
+
 	constructor( props ) {
 		super( props );
 
@@ -26,14 +31,47 @@ class DeleteAll extends React.Component {
 	}
 
 	handleDelete() {
+		const { table } = this.props;
+
 		this.setState( { isModal: false } );
-		this.props.onDelete();
+		this.props.onDelete( this.getFilterBy( table.filterBy, table.filter ), table.filter );
+	}
+
+	getFilterBy( filterBy, filter ) {
+		if ( filter ) {
+			if ( filterBy ) {
+				return filterBy;
+			}
+
+			return 'url';
+		}
+
+		return '';
+	}
+
+	getTitle( filterBy, filter ) {
+		if ( filterBy === 'ip' ) {
+			return __( 'Delete all from IP %s', {
+				args: filter,
+			} );
+		}
+
+		if ( filter ) {
+			return __( 'Delete all matching "%s"', {
+				args: filter.substring( 0, 15 ),
+			} );
+		}
+
+		return __( 'Delete All' );
 	}
 
 	render() {
+		const { table } = this.props;
+		const title = this.getTitle( table.filterBy, table.filter );
+
 		return (
 			<div className="table-button-item">
-				<input className="button" type="submit" name="" value={ __( 'Delete All' ) } onClick={ this.onShow } />
+				<input className="button" type="submit" name="" value={ title } onClick={ this.onShow } />
 
 				<Modal show={ this.state.isModal } onClose={ this.onClose }>
 					<div>

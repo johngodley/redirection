@@ -35,8 +35,11 @@ class Red_Apache_File extends Red_FileIO {
 
 			if ( $item ) {
 				$item['group_id'] = $group;
-				Red_Item::create( $item );
-				$count++;
+				$redirect = Red_Item::create( $item );
+
+				if ( !is_wp_error( $redirect ) ) {
+					$count++;
+				}
 			}
 		}
 
@@ -48,35 +51,45 @@ class Red_Apache_File extends Red_FileIO {
 
 		if ( preg_match( '@rewriterule\s+(.*?)\s+(.*?)\s+(\[.*\])*@i', $line, $matches ) > 0 ) {
 			$item = array(
-				'source' => $this->regex_url( $matches[1] ),
-				'target' => $this->decode_url( $matches[2] ),
-				'code' => $this->get_code( $matches[3] ),
+				'url' => $this->regex_url( $matches[1] ),
+				'match_type' => 'url',
+				'action_type' => 'url',
+				'action_data' => $this->decode_url( $matches[2] ),
+				'action_code' => $this->get_code( $matches[3] ),
 				'regex' => $this->is_regex( $matches[1] ),
 			);
 		} elseif ( preg_match( '@Redirect\s+(.*?)\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
 			$item = array(
-				'source' => $this->decode_url( $matches[2] ),
-				'target' => $this->decode_url( $matches[3] ),
-				'code' => $this->get_code( $matches[1] ),
+				'url' => $this->decode_url( $matches[2] ),
+				'match_type' => 'url',
+				'action_type' => 'url',
+				'action_data' => $this->decode_url( $matches[3] ),
+				'action_code' => $this->get_code( $matches[1] ),
 			);
 		} elseif ( preg_match( '@Redirect\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
 			$item = array(
-				'source' => $this->decode_url( $matches[1] ),
-				'target' => $this->decode_url( $matches[2] ),
-				'code' => 302,
+				'url' => $this->decode_url( $matches[1] ),
+				'match_type' => 'url',
+				'action_type' => 'url',
+				'action_data' => $this->decode_url( $matches[2] ),
+				'action_code' => 302,
 			);
 		} elseif ( preg_match( '@Redirectmatch\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
 			$item = array(
-				'source' => $this->decode_url( $matches[2] ),
-				'target' => $this->decode_url( $matches[3] ),
-				'code' => $this->get_code( $matches[1] ),
+				'url' => $this->decode_url( $matches[2] ),
+				'match_type' => 'url',
+				'action_type' => 'url',
+				'action_data' => $this->decode_url( $matches[3] ),
+				'action_code' => $this->get_code( $matches[1] ),
 				'regex' => true,
 			);
 		} elseif ( preg_match( '@Redirectmatch\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
 			$item = array(
-				'source' => $this->decode_url( $matches[1] ),
-				'target' => $this->decode_url( $matches[2] ),
-				'code' => 302,
+				'url' => $this->decode_url( $matches[1] ),
+				'match_type' => 'url',
+				'action_type' => 'url',
+				'action_data' => $this->decode_url( $matches[2] ),
+				'action_code' => 302,
 				'regex' => true,
 			);
 		}
@@ -85,7 +98,7 @@ class Red_Apache_File extends Red_FileIO {
 			$item['action_type'] = 'url';
 			$item['match_type'] = 'url';
 
-			if ( $item['code'] === 0 ) {
+			if ( $item['action_code'] === 0 ) {
 				$item['action_type'] = 'pass';
 			}
 

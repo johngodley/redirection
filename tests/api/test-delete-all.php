@@ -47,4 +47,20 @@ class RedirectionApiDeleteAllTest extends WP_Ajax_UnitTestCase {
 		$this->assertTrue( is_array( $result->items ) );
 		$this->assertEquals( 0, $result->total );
 	}
+
+	public function testDeleteFilter() {
+		$this->createAB( 4 );
+		$result = $this->do_action( array( 'logType' => 'log', 'filter' => 'test1', 'filterBy' => 'url' ) );
+
+		$this->assertTrue( is_array( $result->items ) );
+		$this->assertEquals( 3, $result->total );
+	}
+
+	public function testDeleteFilterIP() {
+		$this->createAB( 4 );
+		$result = $this->do_action( array( 'logType' => 'log', 'filter' => '192.168.1.2', 'filterBy' => 'ip' ) );
+
+		$this->assertTrue( is_array( $result->items ) );
+		$this->assertEquals( 3, $result->total );
+	}
 }

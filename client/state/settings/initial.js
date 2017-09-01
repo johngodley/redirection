@@ -11,5 +11,6 @@ export function getInitialSettings() {
 		error: false,
 		installed: '',
 		settings: {},
+		pluginStatus: [],
 	};
 }

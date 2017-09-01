@@ -10,6 +10,7 @@ import {
 	SETTING_SAVED,
 	SETTING_SAVE_FAILED,
 	STATUS_COMPLETE,
+	SETTING_LOAD_STATUS,
 } from './type';
 import getApi from 'lib/api';
 
@@ -51,4 +52,16 @@ export const deletePlugin = () => dispatch => {
 		} );
 
 	return dispatch( { type: SETTING_SAVING } );
+};
+
+export const loadStatus = () => dispatch => {
+	getApi( 'red_plugin_status' )
+		.then( json => {
+			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
+		} )
+		.catch( error => {
+			dispatch( { type: SETTING_LOAD_FAILED, error } );
+		} );
+
+	return dispatch( { type: SETTING_LOAD_START } );
 };

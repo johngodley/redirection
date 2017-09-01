@@ -19,4 +19,53 @@ class ReferrerMatchTest extends WP_UnitTestCase {
 
 		$this->assertEquals( $saved, $match->save( $source ) );
 	}
+
+	public function testNoTargetNoUrl() {
+		$_SERVER['HTTP_REFERER'] = 'nothing';
+
+		$match = new Referrer_Match( array( 'referrer' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+	}
+
+	public function testRegexNoTargetNoUrl() {
+		$_SERVER['HTTP_REFERER'] = 'nothing';
+
+		$match = new Referrer_Match( array( 'referrer' => 'other', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+	}
+
+	public function testNoTargetUrl() {
+		$_SERVER['HTTP_REFERER'] = 'nothing';
+
+		$match = new Referrer_Match( array( 'referrer' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+	}
+
+	public function testNoTargetNotFrom() {
+		$_SERVER['HTTP_REFERER'] = 'nothing';
+
+		$match = new Referrer_Match( array( 'referrer' => 'other', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) );
+		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
+	}
+
+	public function testNoTargetFrom() {
+		$_SERVER['HTTP_REFERER'] = 'nothing';
+
+		$match = new Referrer_Match( array( 'referrer' => 'nothing', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+	}
+
+	public function testRegexTarget() {
+		$_SERVER['HTTP_REFERER'] = 'nothing|other|cat';
+
+		$match = new Referrer_Match( array( 'referrer' => 'cat', 'regex' => true, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+	}
+
+	public function testRegexUrl() {
+		$_SERVER['HTTP_REFERER'] = 'cat';
+
+		$match = new Referrer_Match( array( 'referrer' => 'cat', 'regex' => false, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) );
+		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+	}
 }

@@ -1,8 +1,6 @@
 <?php
 
 class Agent_Match extends Red_Match {
-	public $user_agent;
-
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
 	}
@@ -25,18 +23,24 @@ class Agent_Match extends Red_Match {
 		return $this->sanitize_url( $agent );
 	}
 
-	function initialize( $url ) {
-		$this->url = array( $url, '' );
-	}
-
 	function get_target( $url, $matched_url, $regex ) {
 		// Check if referrer matches
-		if ( preg_match( '@'.str_replace( '@', '\\@', $this->user_agent ).'@i', $_SERVER['HTTP_USER_AGENT'], $matches ) > 0 ) {
-			return preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $this->url_from, $url );
-		} elseif ( $this->url_notfrom !== '' ) {
-			return $this->url_notfrom;
+		$matched = $this->agent === Redirection_Request::get_user_agent();
+		if ( $this->regex ) {
+			$matched = preg_match( '@'.str_replace( '@', '\\@', $this->agent ).'@i', Redirection_Request::get_user_agent() ) > 0;
 		}
 
-		return false;
+		$target = false;
+		if ( $this->url_from !== '' && $matched ) {
+			$target = $this->url_from;
+		} elseif ( $this->url_notfrom !== '' && ! $matched ) {
+			$target = $this->url_notfrom;
+		}
+
+		if ( $regex && $target ) {
+			$target = $this->get_target_regex_url( $matched_url, $target, $url );
+		}
+
+		return $target;
 	}
 }

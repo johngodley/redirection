@@ -17,22 +17,49 @@ class Redirection_Api {
 		'group_action',
 		'import_data',
 		'export_data',
+		'ping',
+		'plugin_status',
 	);
 
 	public function __construct() {
+		global $wpdb;
+
+		$wpdb->hide_errors();
+
 		foreach ( $this->endpoints as $point ) {
 			add_action( 'wp_ajax_red_'.$point, array( $this, 'check_auth' ), 9 );
 			add_action( 'wp_ajax_red_'.$point, array( $this, 'ajax_'.$point ), 10 );
 		}
 	}
 
+	private function addDatabaseError( $response ) {
+		global $wpdb;
+
+		if ( isset( $response['error'] ) && isset( $wpdb->last_error ) && $wpdb->last_error ) {
+			$response['error']['wpdb'] = $wpdb->last_error;
+		}
+
+		return $response;
+	}
+
+	private function getError( $message, $line ) {
+		return array(
+			'error' => array(
+				'message' => $message,
+				'code' => $line,
+			)
+		);
+	}
+
 	public function check_auth( $params ) {
 		if ( check_ajax_referer( 'wp_rest', false, false ) === false ) {
-			wp_die( $this->output_ajax_response( array( 'error' => __( 'Unable to perform action' ).' - bad nonce "wp_rest" ('.__LINE__.')' ) ) );
+			$error = $this->getError( 'Unable to perform action - bad nonce "wp_rest"', __LINE__ );
+			$error['error']['action'] = 'reload';
+			wp_die( $this->output_ajax_response( $error ) );
 		}
 
 		if ( $this->user_has_access() === false ) {
-			wp_die( $this->output_ajax_response( array( 'error' => __( 'No permissions to perform action ('.__LINE__.')' ) ) ) );
+			wp_die( $this->output_ajax_response( $this->getError( 'No permissions to perform action', __LINE__ ) ) );
 		}
 	}
 
@@ -44,14 +71,18 @@ class Redirection_Api {
 		return $params;
 	}
 
+	public function ajax_ping() {
+		return $this->output_ajax_response( array( 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
+	}
+
 	public function ajax_import_data( $params ) {
 		$params = $this->get_params( $params );
 		$upload = isset( $_FILES[ 'file' ] ) ? $_FILES[ 'file' ] : false;
 		$group_id = isset( $params['group'] ) ? intval( $params['group'], 10 ) : 0;
 
-		$result = array( 'error' => 'Invalid file ('.__LINE__.')' );
+		$result = $this->getError( 'Invalid file', __LINE__ );
 		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
-			$result = array( 'error' => 'Invalid group ('.__LINE__.')' );
+			$result = $this->getError( 'Invalid group', __LINE__ );
 
 			$count = Red_FileIO::import( $group_id, $upload );
 			if ( $count !== false ) {
@@ -73,7 +104,7 @@ class Redirection_Api {
 			$format = $params['format'];
 		}
 
-		$result = array( 'error' => 'Invalid module ('.__LINE__.')' );
+		$result = $this->getError( 'Invalid module', __LINE__ );
 
 		$export = Red_FileIO::export( $moduleId, $format );
 		if ( $export !== false ) {
@@ -132,7 +163,7 @@ class Redirection_Api {
 			$groupId = intval( $params['id'], 10 );
 		}
 
-		$result = array( 'error' => 'Invalid group or parameters ('.__LINE__.')' );
+		$result = $this->getError( 'Invalid group or parameters', __LINE__ );
 		if ( $groupId > 0 ) {
 			$group = Red_Group::get( $groupId );
 
@@ -166,12 +197,12 @@ class Redirection_Api {
 			$redirectId = intval( $params['id'], 10 );
 		}
 
-		$result = array( 'error' => 'Invalid redirect details ('.__LINE__.')' );
+		$result = $this->getError( 'Invalid redirect details', __LINE__ );
 		if ( $redirectId === 0 ) {
 			$redirect = Red_Item::create( $params );
 
 			if ( is_wp_error( $redirect ) ) {
-				$result = array( 'error' => $redirect->get_error_message() );
+				$result = $this->getError( $redirect->get_error_message(), __LINE__ );
 			} else {
 				$result = Red_Item::get_filtered( $params );
 			}
@@ -182,7 +213,7 @@ class Redirection_Api {
 				$result = $redirect->update( $params );
 
 				if ( is_wp_error( $result ) ) {
-					$result = array( 'error' => $redirect->get_error_message() );
+					$result = $this->getError( $redirect->get_error_message(), __LINE__ );
 				} else {
 					$result = array( 'item' => $redirect->to_json() );
 				}
@@ -197,9 +228,11 @@ class Redirection_Api {
 
 		$action = false;
 		$items = array();
+
 		if ( isset( $params['items'] ) ) {
 			$items = array_map( 'intval', explode( ',', $params['items'] ) );
 		}
+
 		if ( isset( $params['bulk'] ) && in_array( $params['bulk'], array( 'delete', 'enable', 'disable', 'reset' ) ) ) {
 			$action = $params['bulk'];
 
@@ -245,9 +278,32 @@ class Redirection_Api {
 	public function ajax_save_settings( $settings = array() ) {
 		$settings = $this->get_params( $settings );
 		$options = red_get_options();
+		$monitor_types = array();
+
+		if ( isset( $settings['monitor_type_post'] ) && $settings['monitor_type_post'] === 'true' ) {
+			$monitor_types[] = 'post';
+		}
+
+		if ( isset( $settings['monitor_type_page'] ) && $settings['monitor_type_page'] === 'true' ) {
+			$monitor_types[] = 'page';
+		}
+
+		if ( isset( $settings['monitor_type_trash'] ) && $settings['monitor_type_trash'] === 'true' ) {
+			$monitor_types[] = 'trash';
+		}
 
 		if ( isset( $settings['monitor_post'] ) ) {
 			$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
+		}
+
+		if ( isset( $settings['associated_redirect'] ) ) {
+			$sanitizer = new Red_Item_Sanitize();
+			$options['associated_redirect'] = rtrim( $sanitizer->sanitize_url( $settings['associated_redirect'] ), '/' );
+		}
+
+		if ( count( $monitor_types ) === 0 ) {
+			$options['monitor_post'] = 0;
+			$options['associated_redirect'] = '';
 		}
 
 		if ( isset( $settings['auto_target'] ) ) {
@@ -288,6 +344,7 @@ class Redirection_Api {
 
 		$module = Red_Module::get( 2 );
 		$options['modules'][2] = $module->update( $settings );
+		$options['monitor_types'] = $monitor_types;
 
 		update_option( 'redirection_options', $options );
 		do_action( 'redirection_save_options', $options );
@@ -323,16 +380,47 @@ class Redirection_Api {
 
 	public function ajax_delete_all( $params ) {
 		$params = $this->get_params( $params );
+		$filter = '';
+		$filterBy = '';
+		if ( isset( $params['filter'] ) ) {
+			$filter = $params['filter'];
+		}
+
+		if ( isset( $params['filterBy'] ) && in_array( $params['filterBy'], array( 'url', 'ip', 'url-exact' ), true ) ) {
+			$filterBy = $params['filterBy'];
+			unset( $params['filter'] );
+			unset( $params['filterBy'] );
+		}
 
 		if ( isset( $params['logType'] ) ) {
 			if ( $params['logType'] === 'log' ) {
-				RE_Log::delete_all();
+				RE_Log::delete_all( $filterBy, $filter );
 			} else {
-				RE_404::delete_all();
+				RE_404::delete_all( $filterBy, $filter );
 			}
 		}
 
 		$result = $this->get_logs( $params );
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_plugin_status( $params ) {
+		global $wpdb;
+
+		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+
+		$db = new RE_Database();
+		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
+
+		$result = array(
+			array_merge( array( 'name' => __( 'Database tables', 'redirection' ) ), $db->get_status() ),
+			array(
+				'name' => __( 'Valid groups', 'redirection' ),
+				'message' => $groups === 0 ? __( 'No valid groups', 'redirection' ) : __( 'Valid groups detected', 'redirection' ),
+				'status' => $groups === 0 ? 'problem' : 'good',
+			),
+		);
 
 		return $this->output_ajax_response( $result );
 	}
@@ -378,6 +466,7 @@ class Redirection_Api {
 	}
 
 	private function output_ajax_response( $data ) {
+		$data = $this->addDatabaseError( $data );
 		$result = wp_json_encode( $data );
 
 		if ( defined( 'DOING_AJAX' ) ) {

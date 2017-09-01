@@ -1,13 +1,20 @@
 /* global fetch, Redirectioni10n */
-
 const addData = ( form, data, preName ) => {
 	for ( const variable in data ) {
 		if ( data[ variable ] !== undefined ) {
-			if ( typeof data[ variable ] === 'object' && data.lastModified !== undefined ) {
+			if ( typeof data[ variable ] === 'object' ) {
 				addData( form, data[ variable ], variable + '_' );
 			} else {
 				form.append( preName + variable, data[ variable ] );
 			}
+		}
+	}
+};
+
+const addFileData = ( form, data, preName ) => {
+	for ( const variable in data ) {
+		if ( data[ variable ] !== undefined ) {
+			form.append( preName + variable, data[ variable ] );
 		}
 	}
 };
@@ -19,12 +26,12 @@ const getApiRequest = ( action, data ) => {
 	form.append( '_wpnonce', Redirectioni10n.WP_API_nonce );
 
 	if ( data ) {
-		addData( form, data, '' );
+		if ( action === 'red_import_data' ) {
+			addFileData( form, data, '' );
+		} else {
+			addData( form, data, '' );
+		}
 	}
-
-	Redirectioni10n.failedAction = action;
-	Redirectioni10n.failedData = data;
-	Redirectioni10n.failedResponse = null;
 
 	return fetch( Redirectioni10n.WP_API_root, {
 		method: 'post',
@@ -33,26 +40,36 @@ const getApiRequest = ( action, data ) => {
 	} );
 };
 
-const getApi = ( action, params ) => getApiRequest( action, params )
-	.then( data => {
-		Redirectioni10n.failedCode = data.status + ' ' + data.statusText;
-		return data.text();
-	} )
-	.then( text => {
-		try {
-			const json = JSON.parse( text );
+const getApi = ( action, params ) => {
+	const request = {
+		action,
+		params,
+	};
 
-			if ( json === 0 ) {
-				throw 'Invalid data';
-			} else if ( json.error ) {
-				throw json.error;
+	return getApiRequest( action, params )
+		.then( data => {
+			request.status = data.status;
+			request.statusText = data.statusText;
+			return data.text();
+		} )
+		.then( text => {
+			request.raw = text;
+
+			try {
+				const json = JSON.parse( text );
+
+				if ( json === 0 ) {
+					throw { message: 'No response returned - WordPress did not understand AJAX request', code: 0 };
+				} else if ( json.error ) {
+					throw json.error;
+				}
+
+				return json;
+			} catch ( error ) {
+				error.request = request;
+				throw error;
 			}
-
-			return json;
-		} catch ( e ) {
-			Redirectioni10n.failedResponse = text;
-			throw e;
-		}
-	} );
+		} );
+};
 
 export default getApi;
