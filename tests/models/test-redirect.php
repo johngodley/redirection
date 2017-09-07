@@ -260,6 +260,19 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->resetCaptured();
 	}
 
+	public function testLongTitle() {
+		$item = Red_Item::create( array(
+			'url'         => '/from',
+			'action_data' => '/to',
+			'group_id'    => $this->group->get_id(),
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'title'       => str_repeat( 'a', 51 ),
+		) );
+
+		$this->assertFalse( is_wp_error( $item ) );
+	}
+
 	public function testDisableWhereMatches() {
 		global $wpdb;
 
