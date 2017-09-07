@@ -86,6 +86,11 @@ class Error extends React.Component {
 	getErrorMessage( errors ) {
 		const messages = errors.map( item => {
 			if ( item.action && item.action === 'reload' ) {
+				if ( document.location.search.indexOf( 'retry=' ) === -1 ) {
+					document.location.href += '&retry=1';
+					return;
+				}
+
 				return __( 'The data on this page has expired, please reload.' );
 			}
 
