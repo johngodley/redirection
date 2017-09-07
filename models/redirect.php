@@ -395,6 +395,10 @@ class Red_Item_Sanitize {
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
 		$data['position'] = $this->get_position( $details );
 
+		if ( $data['title'] ) {
+			$data['title'] = substr( $data['title'], 0, 50 );
+		}
+
 		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
 		if ( ! $matcher ) {
 			return new WP_Error( 'redirect', __( 'Invalid redirect matcher', 'redirection' ) );
