@@ -264,7 +264,8 @@ class RE_Database {
 
 		foreach ( $this->get_all_tables() as $table => $sql ) {
 			$result = $wpdb->query( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
-			if ( intval( $result, 10 ) !== 2 ) {
+
+			if ( intval( $result, 10 ) !== 1 ) {
 				$missing[] = $table;
 			}
 		}
