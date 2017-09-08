@@ -1,23 +1,6 @@
 <?php
 
 class Random_Action extends Red_Action {
-	function can_change_code() {
-		return true;
-	}
-
-	function can_perform_action() {
-		return false;
-	}
-
-	function action_codes() {
-		return array(
-			301 => get_status_header_desc( 301 ),
-			302 => get_status_header_desc( 302 ),
-			307 => get_status_header_desc( 307 ),
-            308 => get_status_header_desc( 308 ),
-		);
-	}
-
 	function process_before( $code, $target ) {
 		// Pick a random WordPress page
 		global $wpdb;

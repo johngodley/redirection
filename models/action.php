@@ -9,13 +9,6 @@ class Red_Action {
 		}
 	}
 
-	function can_change_code() {
-		return false;
-	}
-
-	function config() {
-	}
-
 	static function create( $name, $code ) {
 		$avail = self::available();
 
@@ -52,19 +45,5 @@ class Red_Action {
 
 	function process_after( $code, $target ) {
 		return true;
-	}
-
-	function can_perform_action () {
-		return true;
-	}
-
-	function action_codes () {
-		return array();
-	}
-
-	function display_actions() {
-		foreach ( $this->action_codes() as $key => $code ) {
-			echo '<option value="'.$key.'"'.( ( $key === intval( $this->action_code ) ) ? ' selected="selected"' : '' ).'>'.sprintf( '%s - %s', $key, $code ).'</option>';
-		}
 	}
 }
