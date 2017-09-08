@@ -398,21 +398,21 @@ class Redirection_Api {
 	}
 
 	public function ajax_plugin_status( $params ) {
-		global $wpdb;
+		$params = $this->get_params( $params );
 
-		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+		$fixit = false;
+		if ( isset( $params['fixIt'] ) && $params['fixIt'] === 'true' ) {
+			$fixit = true;
+		}
 
-		$db = new RE_Database();
-		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
+		include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
 
-		$result = array(
-			array_merge( array( 'name' => __( 'Database tables', 'redirection' ) ), $db->get_status() ),
-			array(
-				'name' => __( 'Valid groups', 'redirection' ),
-				'message' => $groups === 0 ? __( 'No valid groups', 'redirection' ) : __( 'Valid groups detected', 'redirection' ),
-				'status' => $groups === 0 ? 'problem' : 'good',
-			),
-		);
+		$fixer = new Red_Fixer();
+		$result = $fixer->get_status();
+
+		if ( $fixit ) {
+			$result = $fixer->fix( $result );
+		}
 
 		return $this->output_ajax_response( $result );
 	}
