@@ -12,6 +12,20 @@ import { translate as __ } from 'lib/locale';
 
 import { loadStatus } from 'state/settings/action';
 
+const Fixit = connect( null, mapDispatchToProps )( props => {
+	const { onLoadStatus } = props;
+	const clicker = () => {
+		onLoadStatus( true );
+	};
+
+	return (
+		<div>
+			<p>{ __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below." ) }</p>
+			<p><button className="button-primary" onClick={ clicker }>{ __( '⚡️ Magic fix ⚡️' ) }</button></p>
+		</div>
+	);
+} );
+
 const PluginStatusItem = ( props ) => {
 	const { item } = props;
 
@@ -25,13 +39,18 @@ const PluginStatusItem = ( props ) => {
 
 const PluginStatus = ( props ) => {
 	const { status } = props;
+	const hasProblem = status.filter( item => item.status !== 'good' );
 
 	return (
-		<table className="plugin-status">
-			<tbody>
-				{ status.map( ( item, pos ) => <PluginStatusItem item={ item } key={ pos } /> ) }
-			</tbody>
-		</table>
+		<div>
+			<table className="plugin-status">
+				<tbody>
+					{ status.map( ( item, pos ) => <PluginStatusItem item={ item } key={ pos } /> ) }
+				</tbody>
+			</table>
+
+			{ hasProblem.length > 0 && <Fixit /> }
+		</div>
 	);
 };
 
@@ -58,9 +77,9 @@ class Status extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoadStatus: () => {
-			dispatch( loadStatus() );
-		}
+		onLoadStatus: fixit => {
+			dispatch( loadStatus( fixit ) );
+		},
 	};
 }
 
