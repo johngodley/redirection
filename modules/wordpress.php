@@ -15,11 +15,12 @@ class WordPress_Module extends Red_Module {
 
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
-		add_action( 'init',                    array( &$this, 'init' ) );
-		add_action( 'send_headers',            array( &$this, 'send_headers' ) );
-		add_filter( 'permalink_redirect_skip', array( &$this, 'permalink_redirect_skip' ) );
-		add_filter( 'wp_redirect',             array( &$this, 'wp_redirect' ), 1, 2 );
-		add_action( 'template_redirect', array( &$this, 'template_redirect' ) );
+		add_action( 'init',                    array( $this, 'init' ) );
+		add_action( 'send_headers',            array( $this, 'send_headers' ) );
+		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
+		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
+		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
+		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
