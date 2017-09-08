@@ -234,7 +234,7 @@ class ImportExport extends React.Component {
 							components: {
 								code: <code />,
 								strong: <strong />,
-							}
+							},
 						} ) }
 					</p>
 				</div>
@@ -261,7 +261,7 @@ class ImportExport extends React.Component {
 				<button className="button-secondary" onClick={ this.handleDownload }>{ __( 'Download' ) }</button>
 
 				{ exportStatus === STATUS_IN_PROGRESS && this.renderExporting() }
-				{ exportData && this.renderExport( exportData ) }
+				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }
 
 				<p>{ __( 'Log files can be exported from the log pages.' ) }</p>
 			</div>

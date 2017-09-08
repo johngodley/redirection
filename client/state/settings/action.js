@@ -54,8 +54,8 @@ export const deletePlugin = () => dispatch => {
 	return dispatch( { type: SETTING_SAVING } );
 };
 
-export const loadStatus = () => dispatch => {
-	getApi( 'red_plugin_status' )
+export const loadStatus = ( fixIt = false ) => dispatch => {
+	getApi( 'red_plugin_status', { fixIt } )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
 		} )

@@ -104,6 +104,17 @@ class RE_Database {
 		);
 	}
 
+	public function create_tables() {
+		global $wpdb;
+
+		foreach ( $this->get_all_tables() as $sql ) {
+			if ( $wpdb->query( $sql ) === false ) {
+				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues - '.$sql.' = '.$wpdb->print_error() );
+				return false;
+			}
+		}
+	}
+
 	public function createDefaults() {
 		$this->createDefaultGroups();
 
@@ -126,14 +137,7 @@ class RE_Database {
 		global $wpdb;
 
 		$wpdb->show_errors();
-
-		foreach ( $this->get_all_tables() as $sql ) {
-			if ( $wpdb->query( $sql ) === false ) {
-				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues - '.$sql.' = '.$wpdb->print_error() );
-				return false;
-			}
-		}
-
+		$this->create_tables();
 		$this->createDefaults();
 		$wpdb->hide_errors();
 
@@ -264,7 +268,8 @@ class RE_Database {
 
 		foreach ( $this->get_all_tables() as $table => $sql ) {
 			$result = $wpdb->query( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
-			if ( intval( $result, 10 ) !== 2 ) {
+
+			if ( intval( $result, 10 ) !== 1 ) {
 				$missing[] = $table;
 			}
 		}
