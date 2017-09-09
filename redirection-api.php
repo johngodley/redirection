@@ -213,7 +213,7 @@ class Redirection_Api {
 				$result = $redirect->update( $params );
 
 				if ( is_wp_error( $result ) ) {
-					$result = $this->getError( $redirect->get_error_message(), __LINE__ );
+					$result = $this->getError( $result->get_error_message(), __LINE__ );
 				} else {
 					$result = array( 'item' => $redirect->to_json() );
 				}
