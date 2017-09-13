@@ -22,6 +22,10 @@ function red_set_options( array $settings = array() ) {
 		$have_monitor = true;
 	}
 
+	if ( isset( $settings['monitor_regex'] ) ) {
+		$options['monitor_regex'] = $settings['monitor_regex'] === 'true' ? true : false;
+	}
+
 	if ( isset( $settings['associated_redirect'] ) ) {
 		$options['associated_redirect'] = '';
 
@@ -104,6 +108,7 @@ function red_get_options() {
 		'support'             => false,
 		'token'               => md5( uniqid() ),
 		'monitor_post'        => 0,   // Dont monitor posts by default
+		'monitor_regex'       => false,
 		'monitor_types'       => array(),
 		'associated_redirect' => '',
 		'auto_target'         => '',

@@ -96,6 +96,8 @@ class OptionsForm extends React.Component {
 				{ __( 'Save changes to this group' ) }
 
 				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder={ __( 'For example "/amp"' ) } value={ this.state.associated_redirect } /> { __( 'Create associated redirect (added to end of URL)' ) }</p>
+
+				<p><label><input type="checkbox" name="monitor_regex" onChange={ this.onChange } checked={ this.state.monitor_regex } /> { __( 'Create redirects with regex to automatically match all query parameters' ) }</label></p>
 			</TableRow>
 		);
 	}

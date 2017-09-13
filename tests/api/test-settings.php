@@ -83,6 +83,14 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$this->assertEquals( '/amp/', $result->settings->associated_redirect );
 	}
 
+	public function testSaveMonitorRegex() {
+		$data = 'true';
+		$this->setNonce();
+
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_regex' => $data ) ) );
+		$this->assertEquals( true, $result->settings->monitor_regex );
+	}
+
 	public function testSaveSupport() {
 		$data = true;
 		$this->setNonce();

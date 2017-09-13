@@ -9,6 +9,7 @@ class Red_Monitor {
 		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
 			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
+			$this->use_regex = isset( $options['monitor_regex'] ) ? $options['monitor_regex'] : '';
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) ) {
@@ -120,6 +121,12 @@ class Red_Monitor {
 	public function check_for_modified_slug( $post_id, $before ) {
 		$after  = parse_url( get_permalink( $post_id ), PHP_URL_PATH );
 		$before = esc_url( $before );
+		$regex_control = false;
+
+		if ( isset( $this->use_regex ) && $this->use_regex == true ) {
+			$before = rtrim( $before, '/' ).".*";
+			$regex_control = true;
+		}
 
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
@@ -131,6 +138,7 @@ class Red_Monitor {
 				'action_type' => 'url',
 				'action_code' => 301,
 				'group_id'    => $this->monitor_group_id,
+				'regex' => $regex_control,
 			);
 
 			// Create a new redirect for this post
