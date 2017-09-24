@@ -14,7 +14,7 @@ class Red_Action {
 
 		if ( isset( $avail[ $name ] ) ) {
 			if ( ! class_exists( strtolower( $avail[ $name ][1] ) ) ) {
-				include dirname( __FILE__ ).'/../actions/'.$avail[ $name ][0];
+				include_once dirname( __FILE__ ).'/../actions/'.$avail[ $name ][0];
 			}
 
 			$obj = new $avail[ $name ][1]( array( 'action_code' => $code ) );
@@ -35,15 +35,11 @@ class Red_Action {
 		);
 	}
 
-	function type() {
-		return $this->type;
+	public function process_before( $code, $target ) {
+		return $target;
 	}
 
-	function process_before( $code, $target ) {
-		return true;
-	}
-
-	function process_after( $code, $target ) {
+	public function process_after( $code, $target ) {
 		return true;
 	}
 }

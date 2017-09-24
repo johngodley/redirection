@@ -1,7 +1,7 @@
 <?php
 
 class Nothing_Action extends Red_Action {
-	function can_perform_action () {
+	public function process_before( $code, $target ) {
 		return false;
 	}
 }
