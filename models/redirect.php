@@ -163,7 +163,7 @@ class Red_Item {
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
 		// Create
-		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) ) {
+		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) !== false ) {
 			Red_Module::flush( $data['group_id'] );
 			return self::get_by_id( $wpdb->insert_id );
 		}
