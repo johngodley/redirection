@@ -131,9 +131,7 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
 		$this->assertEquals( 'www', $result->settings->modules->{ '2' }->canonical );
+
+		unlink( 'location' );
 	}
-
-
-		// XXX add new settings to API
-
 }
