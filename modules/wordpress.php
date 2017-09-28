@@ -27,6 +27,10 @@ class WordPress_Module extends Red_Module {
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
 	}
 
+	public function redirection_visit( $redirect, $url, $target ) {
+		$redirect->visit( $url, $target );
+	}
+
 	public function init() {
 		$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
 
