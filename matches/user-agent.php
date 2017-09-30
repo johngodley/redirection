@@ -24,6 +24,10 @@ class Agent_Match extends Red_Match {
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
+		if ( ! $this->agent ) {
+			$this->agent = '';
+		}
+
 		// Check if referrer matches
 		$matched = $this->agent === Redirection_Request::get_user_agent();
 		if ( $this->regex ) {
