@@ -60,7 +60,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			$file = fopen( $args[ 0 ], 'r' );
 
 			if ( $file ) {
-				$count = $importer->load( $group, $file, '' );
+				$count = $importer->load( $group, $args[ 0 ], '' );
 				WP_CLI::success( 'Imported ' . $count . ' as '.$format );
 			} else {
 				WP_CLI::error( 'Invalid import file' );
