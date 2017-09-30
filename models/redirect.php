@@ -342,7 +342,7 @@ class Red_Item {
 
 		if ( isset( $params['perPage'] ) ) {
 			$limit = intval( $params['perPage'], 10 );
-			$limit = min( 100, $limit );
+			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
 
