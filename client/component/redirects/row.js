@@ -46,7 +46,8 @@ class RedirectRow extends React.Component {
 		this.setState( { editing: true } );
 	}
 
-	onCancel() {
+	onCancel( ev ) {
+		ev.preventDefault();
 		this.setState( { editing: false } );
 	}
 
