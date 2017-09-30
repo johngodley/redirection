@@ -294,6 +294,11 @@ class Redirection_Api {
 
 		if ( isset( $settings['monitor_post'] ) ) {
 			$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
+
+			if ( ! Red_Group::get( $options['monitor_post'] ) ) {
+				$groups = Red_Group::get_all();
+				$options['monitor_post'] = $groups[ 0 ]['id'];
+			}
 		}
 
 		if ( isset( $settings['associated_redirect'] ) ) {
