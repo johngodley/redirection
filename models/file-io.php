@@ -27,6 +27,7 @@ abstract class Red_FileIO {
 	public static function import( $group_id, $file ) {
 		$parts = pathinfo( $file['name'] );
 		$extension = isset( $parts['extension'] ) ? $parts['extension'] : '';
+		$extension = strtolower( $extension );
 
 		if ( $extension === 'csv' ) {
 			include_once dirname( dirname( __FILE__ ) ).'/fileio/csv.php';
