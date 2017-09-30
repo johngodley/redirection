@@ -15,15 +15,20 @@ class WordPress_Module extends Red_Module {
 
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
-		add_action( 'init',                    array( &$this, 'init' ) );
-		add_action( 'send_headers',            array( &$this, 'send_headers' ) );
-		add_filter( 'permalink_redirect_skip', array( &$this, 'permalink_redirect_skip' ) );
-		add_filter( 'wp_redirect',             array( &$this, 'wp_redirect' ), 1, 2 );
-		add_action( 'template_redirect', array( &$this, 'template_redirect' ) );
+		add_action( 'init',                    array( $this, 'init' ) );
+		add_action( 'send_headers',            array( $this, 'send_headers' ) );
+		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
+		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
+		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
+		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
+	}
+
+	public function redirection_visit( $redirect, $url, $target ) {
+		$redirect->visit( $url, $target );
 	}
 
 	public function init() {
@@ -62,8 +67,10 @@ class WordPress_Module extends Red_Module {
 
 	public function status_header( $status ) {
 		// Fix for incorrect headers sent when using FastCGI/IIS
-		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' )
+		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' ) {
 			return str_replace( 'HTTP/1.1', 'Status:', $status );
+		}
+
 		return $status;
 	}
 
@@ -83,8 +90,7 @@ class WordPress_Module extends Red_Module {
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );
 			return $url;
-		}
-		elseif ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
+		} elseif ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = array( 'lighttpd', 'nginx' );
 
 			foreach ( $servers_to_check as $name ) {
@@ -94,13 +100,13 @@ class WordPress_Module extends Red_Module {
 					exit( 0 );
 				}
 			}
-		}
-		elseif ( $status == 307) {
+		} elseif ( $status == 307 ) {
 			status_header( $status );
 			header( "Cache-Control: no-cache, must-revalidate, max-age=0" );
 			header( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" );
 			return $url;
 		}
+
 		status_header( $status );
 		return $url;
 	}
@@ -117,8 +123,10 @@ class WordPress_Module extends Red_Module {
 
 	public function permalink_redirect_skip( $skip ) {
 		// only want this if we've matched using redirection
-		if ( $this->matched )
+		if ( $this->matched ) {
 			$skip[] = $_SERVER['REQUEST_URI'];
+		}
+
 		return $skip;
 	}
 }

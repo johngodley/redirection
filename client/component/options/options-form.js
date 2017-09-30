@@ -134,8 +134,8 @@ class OptionsForm extends React.Component {
 						<span className="sub">
 							{ __( 'Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted', {
 								components: {
-									code: <code />
-								}
+									code: <code />,
+								},
 							} ) }
 						</span>
 					</TableRow>
@@ -148,7 +148,7 @@ class OptionsForm extends React.Component {
 								{ __( 'Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.', {
 									components: {
 										code: <code />,
-									}
+									},
 								} ) }
 							</p>
 
@@ -177,7 +177,7 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onSaveSettings: settings => {
 			dispatch( saveSettings( settings ) );
-		}
+		},
 	};
 }
 

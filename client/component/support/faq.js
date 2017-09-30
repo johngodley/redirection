@@ -10,17 +10,17 @@ const faq = [
 		title: __( 'I deleted a redirection, why is it still redirecting?' ),
 		text: __( 'Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}.', {
 			components: {
-				a: <a href="http://www.refreshyourcache.com/en/home/" />
-			}
-		} )
+				a: <a href="http://www.refreshyourcache.com/en/home/" />,
+			},
+		} ),
 	},
 	{
 		title: __( 'Can I open a redirect in a new tab?' ),
 		text: __( "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link.", {
 			components: {
 				code: <code />,
-			}
-		} )
+			},
+		} ),
 	},
 	{
 		title: __( 'Can I redirect all 404 errors?' ),

@@ -1,32 +1,17 @@
 <?php
 
-class Random_Action extends Red_Action {
-	function can_change_code() {
-		return true;
-	}
+include_once dirname( __FILE__).'/url.php';
 
-	function can_perform_action() {
-		return false;
-	}
-
-	function action_codes() {
-		return array(
-			301 => get_status_header_desc( 301 ),
-			302 => get_status_header_desc( 302 ),
-			307 => get_status_header_desc( 307 ),
-            308 => get_status_header_desc( 308 ),
-		);
-	}
-
-	function process_before( $code, $target ) {
+class Random_Action extends Url_Action {
+	public function process_before( $code, $target ) {
 		// Pick a random WordPress page
 		global $wpdb;
 
 		$id = $wpdb->get_var( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_status='publish' AND post_password='' AND post_type='post' ORDER BY RAND() LIMIT 0,1" );
+		return str_replace( get_bloginfo( 'url' ), '', get_permalink( $id ) );
+	}
 
-		$target = str_replace( get_bloginfo( 'url' ), '', get_permalink( $id ) );
-
-		wp_redirect( $target, $code );
-		exit();
+	public function process_after( $code, $target ) {
+		$this->redirect_to( $code, $target );
 	}
 }

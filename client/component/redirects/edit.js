@@ -132,7 +132,7 @@ class EditRedirect extends React.Component {
 			action_type,
 			action_code,
 			action_data,
-			group_id,
+			group_id: this.getValidGroup( group_id ),
 			position,
 
 			login: {
@@ -145,6 +145,16 @@ class EditRedirect extends React.Component {
 		};
 
 		this.state.advanced = ! this.canShowAdvanced();
+	}
+
+	getValidGroup( group_id ) {
+		const groups = this.props.group.rows;
+
+		if ( groups.find( item => item.id === group_id ) ) {
+			return group_id;
+		}
+
+		return groups[ 0 ].id;
 	}
 
 	reset() {

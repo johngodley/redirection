@@ -128,6 +128,7 @@ class Red_Monitor {
 				'action_data' => $after,
 				'match_type'  => 'url',
 				'action_type' => 'url',
+				'action_code' => 301,
 				'group_id'    => $this->monitor_group_id,
 			);
 

@@ -136,10 +136,10 @@ class RedirectionApiLogTest extends WP_Ajax_UnitTestCase {
 	}
 
 	public function testPerPageMax() {
-		$this->createAB( 102 );
+		$this->createAB( 202 );
 
-		$result = $this->get_logs( array( 'perPage' => '101' ) );
-		$this->assertEquals( 100, count( $result->items ) );
+		$result = $this->get_logs( array( 'perPage' => '201' ) );
+		$this->assertEquals( 200, count( $result->items ) );
 	}
 
 	public function testPerPage() {

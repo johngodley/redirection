@@ -99,8 +99,6 @@ class Home extends React.Component {
 	renderError() {
 		const debug = [
 			Redirectioni10n.versions,
-			'Nonce: ' + Redirectioni10n.WP_API_nonce,
-			'URL: ' + Redirectioni10n.WP_API_root.replace( /\/\/.*?\//, '//<site>/' ),
 			'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
 		];
 

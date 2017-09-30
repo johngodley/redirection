@@ -56,11 +56,11 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 	}
 
 	public function testSaveValidMonitorPost() {
-		$data = "5";
+		$data = "1";
 		$this->setNonce();
 
 		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => $data, 'monitor_type_post' => 'true' ) ) );
-		$this->assertEquals( 5, $result->settings->monitor_post );
+		$this->assertEquals( 1, $result->settings->monitor_post );
 		$this->assertEquals( array( 'post' ), $result->settings->monitor_types );
 	}
 
@@ -131,9 +131,7 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
 		$this->assertEquals( 'www', $result->settings->modules->{ '2' }->canonical );
+
+		unlink( 'location' );
 	}
-
-
-		// XXX add new settings to API
-
 }
