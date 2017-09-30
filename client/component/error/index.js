@@ -34,8 +34,6 @@ class Error extends React.Component {
 	getDebug( errors ) {
 		const message = [
 			Redirectioni10n.versions,
-			'Nonce: ' + Redirectioni10n.WP_API_nonce,
-			'URL: ' + Redirectioni10n.WP_API_root.replace( /\/\/.*?\//, '//<site>/' ),
 		];
 
 		for ( let x = 0; x < errors.length; x++ ) {
@@ -138,15 +136,15 @@ class Error extends React.Component {
 				<h3>{ __( "It didn't work when I tried again" ) }</h3>
 				<p>{ __( 'See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.', {
 					components: {
-						link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />
-					}
+						link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />,
+					},
 				} ) }</p>
 				<p>{ __( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts." ) }</p>
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
 						components: {
 							strong: <strong />,
-						}
+						},
 					} ) }</p>
 
 				<p><a href={ github } className="button-primary">{ __( 'Create Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
@@ -155,7 +153,7 @@ class Error extends React.Component {
 				<p>{ __( 'Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.', {
 					components: {
 						strong: <strong />,
-					}
+					},
 				} ) }</p>
 				<p><textarea readOnly={ true } rows={ debug.length + 2 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
