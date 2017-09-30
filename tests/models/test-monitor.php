@@ -225,6 +225,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		$this->assertEquals( $before, $redirect->url );
 		$this->assertEquals( $after, $redirect->action_data );
+		$this->assertEquals( 301, $redirect->action_code );
 
 		$this->assertEquals( 1, $action->get_call_count() );
 		$this->assertEquals( $after, $data[0][0] );
