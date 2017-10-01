@@ -5,7 +5,7 @@ class Url_Action extends Red_Action {
 		$redirect = wp_redirect( $target, $code );
 
 		if ( $redirect ) {
-			header( 'x-redirect-agent: redirection' );
+			header( 'X-Redirect-Agent: redirection' );
 			die();
 		}
 	}
