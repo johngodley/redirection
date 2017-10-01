@@ -69,6 +69,20 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 2.8 - 1st October 2017 =
+* Add a fixer to the support page
+* Ignore case for imported files
+* Fixes for Safari
+* Fix WP CLI importing CSV
+* Fix monitor not setting HTTP code
+* Improve error, random, and pass-through actions
+* Fix bug when saving long title
+* Add user agent dropdown to user agent match
+* Add pages and trashed posts to monitoring
+* Add 'associated redirect' option to monitoring, for AMP
+* Remove 404 after adding
+* Allow search term to apply to deleting logs and 404s
+
 = 2.7.3 - 26th August 2017 =
 * Fix an import regression bug
 
