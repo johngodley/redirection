@@ -98,6 +98,13 @@ class OptionsForm extends React.Component {
 				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder={ __( 'For example "/amp"' ) } value={ this.state.associated_redirect } /> { __( 'Create associated redirect (added to end of URL)' ) }</p>
 
 				<p><label><input type="checkbox" name="monitor_regex" onChange={ this.onChange } checked={ this.state.monitor_regex } /> { __( 'Create redirects with regex to automatically match all query parameters' ) }</label></p>
+				<span className="sub">
+					{ __( 'This will cause conflicts when multiple URLs begin with the same pattern. Example: rename {{code}}/product-update{{/code}} to {{code}}/product-update-november{{/code}} and later add {{code}}/product-update-december{{/code}}', {
+						components: {
+							code: <code />,
+						},
+					} ) }
+				</span>
 			</TableRow>
 		);
 	}
