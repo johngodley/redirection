@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-10-01 17:13:01+0000\n"
+"PO-Revision-Date: 2017-10-06 12:47:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,11 +69,11 @@ msgstr "L’extension Redirection ne fonctionne pas. Essayez de nettoyer votre c
 
 #: redirection-strings.php:38
 msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
-msgstr ""
+msgstr "Si cela n’aide pas, ouvrez la console de votre navigateur et ouvrez un {{link}}nouveau ticket{{/link}} avec les détails."
 
 #: redirection-strings.php:8
 msgid "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot."
-msgstr ""
+msgstr "Si cela est un nouveau problème veuillez soit {{strong}}créer un nouveau ticket{{/strong}}, soit l’envoyer par {{strong}}e-mail{{/strong}}. Mettez-y une description de ce que vous essayiez de faire et les détails importants listés ci-dessous. Veuillez inclure une capture d’écran."
 
 #: redirection-admin.php:215 redirection-strings.php:7
 msgid "Create Issue"
@@ -93,19 +93,19 @@ msgstr "Besoin d’aide ?"
 
 #: redirection-strings.php:213
 msgid "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists."
-msgstr ""
+msgstr "Veuillez d’abord consulter la FAQ ci-dessous. Si votre problème persiste, veuillez désactiver toutes les autres extensions et vérifier si c’est toujours le cas."
 
 #: redirection-strings.php:212
 msgid "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue."
-msgstr ""
+msgstr "Vous pouvez rapporter les bugs et nouvelles suggestions dans le dépôt Github. Veuillez fournir autant d’informations que possible, avec des captures d’écrans pour aider à expliquer votre problème."
 
 #: redirection-strings.php:211
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
-msgstr ""
+msgstr "Veuillez noter que tout support est fourni sur la base de mon temps libre et que cela n’est pas garanti. Je ne propose pas de support payant."
 
 #: redirection-strings.php:210
 msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}."
-msgstr ""
+msgstr "Si vous voulez fournir des informations que vous ne voulez pas voir apparaître sur un dépôt public, alors envoyez-les directement par {{email}}e-mail{{/email}}."
 
 #: redirection-strings.php:205
 msgid "Can I redirect all 404 errors?"
@@ -113,7 +113,7 @@ msgstr "Puis-je rediriger les erreurs 404 ?"
 
 #: redirection-strings.php:204
 msgid "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site."
-msgstr ""
+msgstr "Non, et il n’est pas conseillé de le faire. Une erreur 404 est une réponse correcte à renvoyer lorsqu’une page n’existe pas. Si vous la redirigez, vous indiquez que cela a existé un jour et cela peut diluer les liens de votre site."
 
 #: redirection-strings.php:191
 msgid "Pos"
@@ -129,27 +129,27 @@ msgstr "Position"
 
 #: redirection-strings.php:129
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted"
-msgstr ""
+msgstr "Utilisé pour générer une URL si aucune URL n’est donnée. Utilisez les étiquettes spéciales {{code}}$dec${{/code}} ou {{code}}$hex${{/code}} pour insérer un identifiant unique déjà utilisé."
 
 #: redirection-strings.php:128
 msgid "Apache Module"
-msgstr ""
+msgstr "Module Apache"
 
 #: redirection-strings.php:127
 msgid "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}."
-msgstr ""
+msgstr "Saisissez le chemin complet et le nom de fichier si vous souhaitez que Redirection mette à jour automatiquement votre {{code}}.htaccess{{/code}}."
 
 #: redirection-strings.php:78
 msgid "Import to group"
-msgstr ""
+msgstr "Importer dans le groupe"
 
 #: redirection-strings.php:77
 msgid "Import a CSV, .htaccess, or JSON file."
-msgstr ""
+msgstr "Importer un fichier CSV, .htaccess ou JSON."
 
 #: redirection-strings.php:76
 msgid "Click 'Add File' or drag and drop here."
-msgstr ""
+msgstr "Cliquer sur « ajouter un fichier » ou glisser-déposer ici."
 
 #: redirection-strings.php:75
 msgid "Add File"
@@ -157,23 +157,23 @@ msgstr "Ajouter un fichier"
 
 #: redirection-strings.php:74
 msgid "File selected"
-msgstr ""
+msgstr "Fichier sélectionné"
 
 #: redirection-strings.php:71
 msgid "Importing"
-msgstr ""
+msgstr "Import"
 
 #: redirection-strings.php:70
 msgid "Finished importing"
-msgstr ""
+msgstr "Import terminé"
 
 #: redirection-strings.php:69
 msgid "Total redirects imported:"
-msgstr ""
+msgstr "Total des redirections importées :"
 
 #: redirection-strings.php:68
 msgid "Double-check the file is the correct format!"
-msgstr ""
+msgstr "Vérifiez à deux fois si le fichier et dans le bon format !"
 
 #: redirection-strings.php:67
 msgid "OK"
@@ -181,23 +181,23 @@ msgstr "OK"
 
 #: redirection-strings.php:66
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
 #: redirection-strings.php:64
 msgid "All imports will be appended to the current database."
-msgstr ""
+msgstr "Tous les imports seront ajoutés à la base de données actuelle."
 
 #: redirection-strings.php:62 redirection-strings.php:84
 msgid "Export"
-msgstr ""
+msgstr "Exporter"
 
 #: redirection-strings.php:61
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups)."
-msgstr ""
+msgstr "Exporter en CSV, Apache .htaccess, Nginx, ou en fichier de redirection JSON (qui contiendra toutes les redirections et les groupes)."
 
 #: redirection-strings.php:60
 msgid "Everything"
-msgstr ""
+msgstr "Tout"
 
 #: redirection-strings.php:59
 msgid "WordPress redirects"
@@ -213,11 +213,11 @@ msgstr "Redirections Nginx"
 
 #: redirection-strings.php:56
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: redirection-strings.php:55
 msgid "Apache .htaccess"
-msgstr ""
+msgstr ".htaccess Apache"
 
 #: redirection-strings.php:54
 msgid "Nginx rewrite rules"
@@ -283,7 +283,7 @@ msgstr[1] "Êtes-vous sûr•e de vouloir supprimer ces éléments ?"
 
 #: redirection-strings.php:198
 msgid "pass"
-msgstr ""
+msgstr "Passer"
 
 #: redirection-strings.php:184
 msgid "All groups"
@@ -343,19 +343,19 @@ msgstr "Sauvegarde…"
 
 #: redirection-strings.php:108
 msgid "View notice"
-msgstr ""
+msgstr "Voir la notification"
 
 #: models/redirect.php:473
 msgid "Invalid source URL"
-msgstr ""
+msgstr "URL source non-valide"
 
 #: models/redirect.php:406
 msgid "Invalid redirect action"
-msgstr ""
+msgstr "Action de redirection non-valide"
 
 #: models/redirect.php:400
 msgid "Invalid redirect matcher"
-msgstr ""
+msgstr "Correspondance de redirection non-valide"
 
 #: models/redirect.php:171
 msgid "Unable to add new redirect"
@@ -367,7 +367,7 @@ msgstr "Quelque chose s’est mal passé 🙁"
 
 #: redirection-strings.php:13
 msgid "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!"
-msgstr ""
+msgstr "J’essayais de faire une chose et ça a mal tourné. C’est peut-être un problème temporaire et si vous essayez à nouveau, cela pourrait fonctionner, c’est génial !"
 
 #: redirection-strings.php:11
 msgid "It didn't work when I tried again"
@@ -379,7 +379,7 @@ msgstr "Voyez si votre problème est décrit dans la liste des {{link}}problème
 
 #: redirection-admin.php:143
 msgid "Log entries (%d max)"
-msgstr ""
+msgstr "Entrées du journal (100 max.)"
 
 #: redirection-strings.php:125
 msgid "Remove WWW"
@@ -441,7 +441,7 @@ msgstr "Tout sélectionner"
 
 #: redirection-strings.php:234
 msgid "Sorry, something went wrong loading the data - please try again"
-msgstr ""
+msgstr "Désolé, quelque chose a échoué au chargement des données. Veuillez réessayer."
 
 #: redirection-strings.php:233
 msgid "No results"
@@ -453,7 +453,7 @@ msgstr "Confirmez-vous la suppression des journaux ?"
 
 #: redirection-strings.php:81
 msgid "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically."
-msgstr ""
+msgstr "Une fois supprimés, vos journaux actuels ne seront plus disponibles. Vous pouvez définir une règle de suppression dans les options de l’extension Redirection si vous désirez procéder automatiquement."
 
 #: redirection-strings.php:80
 msgid "Yes! Delete the logs"
@@ -497,7 +497,7 @@ msgstr "Puis-je ouvrir une redirection dans un nouvel onglet ?"
 
 #: redirection-strings.php:206
 msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link."
-msgstr ""
+msgstr "Impossible de faire cela sur le serveur. À la place, vous allez devoir ajouter {{code}}target=\"blank\"{{/code}} à votre lien."
 
 #: redirection-strings.php:203
 msgid "Frequently Asked Questions"
@@ -505,11 +505,11 @@ msgstr "Foire aux questions"
 
 #: redirection-strings.php:121
 msgid "You've supported this plugin - thank you!"
-msgstr ""
+msgstr "Vous avez apporté votre soutien à l’extension. Merci !"
 
 #: redirection-strings.php:118
 msgid "You get useful software and I get to carry on making it better."
-msgstr ""
+msgstr "Vous avez une extension utile, et je peux continuer à l’améliorer."
 
 #: redirection-strings.php:140
 msgid "Forever"
@@ -621,7 +621,7 @@ msgstr "Je suis un type bien et j&rsquo;ai aidé l&rsquo;auteur de cette extensi
 
 #: redirection-strings.php:116
 msgid "Plugin Support"
-msgstr ""
+msgstr "Support de l’extension "
 
 #: redirection-strings.php:44 redirection-strings.php:102
 msgid "Options"
@@ -781,7 +781,7 @@ msgstr "Filtre"
 
 #: redirection-strings.php:185
 msgid "Reset hits"
-msgstr ""
+msgstr "Réinitialiser les vues"
 
 #: redirection-strings.php:23 redirection-strings.php:32
 #: redirection-strings.php:187 redirection-strings.php:199

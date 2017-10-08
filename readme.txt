@@ -82,6 +82,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add 'associated redirect' option to monitoring, for AMP
 * Remove 404 after adding
 * Allow search term to apply to deleting logs and 404s
+* Deprecate file pass-through, needs to be enabled with REDIRECTION_SUPPORT_PASS_FILE and will be replaced with WP actions
 
 = 2.7.3 - 26th August 2017 =
 * Fix an import regression bug
