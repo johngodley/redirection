@@ -25,7 +25,7 @@ class Pass_Action extends Red_Action {
 			}
 		}
 
-		include $parts[0];
+		@include $parts[0];
 	}
 
 	public function process_internal( $target ) {
@@ -57,8 +57,12 @@ class Pass_Action extends Red_Action {
 
 		// file:// targetw
 		if ( $this->is_file( $target ) ) {
-			$this->process_file( $target );
-			exit();
+			if ( defined( 'REDIRECTION_SUPPORT_PASS_FILE' ) && REDIRECTION_SUPPORT_PASS_FILE ) {
+				$this->process_file( $target );
+				exit();
+			}
+
+			return;
 		}
 
 		return $this->process_internal( $target );
