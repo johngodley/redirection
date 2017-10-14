@@ -376,7 +376,7 @@ class Red_Item {
 			'url' => $this->get_url(),
 			'action_code' => $this->get_action_code(),
 			'action_type' => $this->get_action_type(),
-			'action_data' => maybe_unserialize( $this->get_action_data() ),
+			'action_data' => $this->match->get_data(),
 			'match_type' => $this->get_match_type(),
 			'title' => $this->get_title(),
 			'hits' => $this->get_hits(),

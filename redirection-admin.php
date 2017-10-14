@@ -206,9 +206,11 @@ class Redirection_Admin {
 	<noscript>Please enable JavaScript</noscript>
 
 	<div class="react-error" style="display: none">
-		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
 		<p><?php _e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
 		<p><?php _e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
+		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
+		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ).'redirection.js?ver='.urlencode( REDIRECTION_VERSION ).'-'.urlencode( REDIRECTION_BUILD ) ); ?></code></p>
 		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
 		<p class="versions"></p>
 		<p>

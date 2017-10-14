@@ -28,7 +28,7 @@ const config = {
 			},
 			{
 				test: /\.json$/,
-				loader: 'json-loader'
+				loader: 'json-loader',
 			},
 			{
 				test: /\.scss$/,
@@ -38,15 +38,15 @@ const config = {
 					'css-loader',
 					'postcss-loader',
 					'sass-loader',
-				]
+				],
 			},
 			{
 				test: [
 					path.resolve( __dirname, 'node_modules/redbox-react' ),
 				],
-				use: 'null-loader'
-			}
-		]
+				use: 'null-loader',
+			},
+		],
 	},
 	resolve: {
 		extensions: [ '.js', '.jsx', '.json', '.scss', '.css' ],
@@ -66,10 +66,10 @@ const config = {
 						browsers: [ 'last 2 versions', 'IE > 10' ],
 					} ),
 					postcssReporter( {
-						clearMessages: true
+						clearMessages: true,
 					} ),
-				]
-			}
+				],
+			},
 		} ),
 	],
 	watchOptions: {
