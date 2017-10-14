@@ -19,12 +19,12 @@ class UrlMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testTarget() {
-		$match = new URL_Match( array( 'url' => '/something' ) );
+		$match = new URL_Match( '/something' );
 		$this->assertEquals( '/something', $match->get_target( '/a', '/b', false ) );
 	}
 
 	public function testRegexTarget() {
-		$match = new URL_Match( array( 'url' => '/other/$1' ) );
+		$match = new URL_Match( '/other/$1' );
 		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
 	}
 }
