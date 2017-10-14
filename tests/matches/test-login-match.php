@@ -17,6 +17,21 @@ class LoginMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $saved, $match->save( $source ) );
 	}
 
+	public function testBadData() {
+		$match = new Login_Match();
+		$saved = array(
+			'logged_in' => '',
+			'logged_out' => '',
+		);
+		$this->assertEquals( $saved, $match->save( array( 'bad' => 'thing' ) ) );
+	}
+
+	public function testLoadBad() {
+		$match = new Login_Match();
+		$match->load( serialize( array( 'logged_in' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'logged_out' => 'yes' ) ) );
+		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->logged_in );
+	}
+
 	public function testNoTargetNoUrl() {
 		wp_set_current_user( 1 );
 

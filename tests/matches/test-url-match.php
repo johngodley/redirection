@@ -12,6 +12,18 @@ class UrlMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $match->save( array( 'action_data' => "/some/url\r\nsomethingelse3" ) ), $saved );
 	}
 
+	public function testBadData() {
+		$match = new URL_Match();
+		$saved = 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}';
+		$this->assertEquals( $saved, $match->save( array( 'action_data' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}' ) ) );
+	}
+
+	public function testLoadBad() {
+		$match = new URL_Match();
+		$match->load( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}' );
+		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url );
+	}
+
 	public function testDefaultSlash() {
 		$match = new URL_Match();
 

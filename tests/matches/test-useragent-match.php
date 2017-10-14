@@ -20,6 +20,23 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $saved, $match->save( $source ) );
 	}
 
+	public function testBadData() {
+		$match = new Agent_Match();
+		$saved = array(
+			'url_from' => '',
+			'url_notfrom' => '',
+			'regex' => false,
+			'agent' => '',
+		);
+		$this->assertEquals( $saved, $match->save( array( 'bad' => 'thing' ) ) );
+	}
+
+	public function testLoadBad() {
+		$match = new Agent_Match();
+		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes', 'regex' => true, 'agent' => '' ) ) );
+		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
+	}
+
 	public function testNoTargetNoUrl() {
 		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
 
