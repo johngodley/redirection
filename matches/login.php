@@ -31,4 +31,17 @@ class Login_Match extends Red_Match {
 
 		return $target;
 	}
+
+	public function get_data() {
+		return array(
+			'logged_in' => $this->logged_in,
+			'logged_out' => $this->logged_out,
+		);
+	}
+
+	public function load( $values ) {
+		$values = unserialize( $values );
+		$this->logged_in = $values['logged_in'];
+		$this->logged_out = $values['logged_out'];
+	}
 }

@@ -27,8 +27,8 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function item_as_csv( $item ) {
-		$data = $item->get_action_data();
-		if ( is_array( maybe_unserialize( $data ) ) ) {
+		$data = $item->match->get_data();
+		if ( is_array( $data ) ) {
 			$data = '*';
 		}
 

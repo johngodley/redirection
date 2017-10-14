@@ -29,4 +29,12 @@ class URL_Match extends Red_Match {
 
 		return $target;
 	}
+
+	public function get_data() {
+		return $this->url;
+	}
+
+	public function load( $values ) {
+		$this->url = $values;
+	}
 }
