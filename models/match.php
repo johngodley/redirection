@@ -1,8 +1,6 @@
 <?php
 
 abstract class Red_Match {
-	public $url;
-
 	public function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->load( $values );

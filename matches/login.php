@@ -1,6 +1,9 @@
 <?php
 
 class Login_Match extends Red_Match {
+	public $logged_in;
+	public $logged_out;
+
 	function name() {
 		return __( 'URL and login status', 'redirection' );
 	}

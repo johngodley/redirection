@@ -1,6 +1,11 @@
 <?php
 
 class Agent_Match extends Red_Match {
+	public $agent;
+	public $regex;
+	public $url_from;
+	public $url_notfrom;
+
 	function name() {
 		return __( 'URL and user agent', 'redirection' );
 	}
@@ -24,10 +29,6 @@ class Agent_Match extends Red_Match {
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
-		if ( ! $this->agent ) {
-			$this->agent = '';
-		}
-
 		// Check if referrer matches
 		$matched = $this->agent === Redirection_Request::get_user_agent();
 		if ( $this->regex ) {

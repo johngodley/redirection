@@ -1,6 +1,8 @@
 <?php
 
 class URL_Match extends Red_Match {
+	public $url;
+
 	function name () {
 		return __( 'URL only', 'redirection' );
 	}

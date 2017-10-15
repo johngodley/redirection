@@ -3,6 +3,8 @@
 class Referrer_Match extends Red_Match {
 	public $referrer;
 	public $regex;
+	public $url_from;
+	public $url_notfrom;
 
 	function name() {
 		return __( 'URL and referrer', 'redirection' );
