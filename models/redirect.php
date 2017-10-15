@@ -235,7 +235,7 @@ class Red_Item {
 		$this->last_count++;
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 
-		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] > 0 && $target ) {
+		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 && $target ) {
 			RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
 		}
 	}

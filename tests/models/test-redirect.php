@@ -151,7 +151,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
 		$options = red_get_options();
-		$options['expire_redirect'] = 0;
+		$options['expire_redirect'] = -1;
 		update_option( 'redirection_options', $options );
 
 		$item->visit( '/blob', '/target' );
@@ -169,7 +169,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
 		$options = red_get_options();
-		$options['expire_redirect'] = 1;
+		$options['expire_redirect'] = 0;
 		update_option( 'redirection_options', $options );
 
 		$item = $this->createRedirect( array() );
