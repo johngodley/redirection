@@ -27,7 +27,7 @@ msgid "Loading, please wait..."
 msgstr ""
 
 #: redirection-admin.php:209
-msgid "An error occurred loading Redirection"
+msgid "Unable to load Redirection"
 msgstr ""
 
 #: redirection-admin.php:210
@@ -39,10 +39,14 @@ msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) 
 msgstr ""
 
 #: redirection-admin.php:212
+msgid "Also check if your browser is able to load <code>redirection.js</code>:"
+msgstr ""
+
+#: redirection-admin.php:214
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:216, redirection-strings.php:7
+#: redirection-admin.php:218, redirection-strings.php:7
 msgid "Create Issue"
 msgstr ""
 

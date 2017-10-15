@@ -37,7 +37,7 @@ msgstr "WordPress svarade med ett oväntat meddelande. Detta indikerar vanligtvi
 
 #: redirection-strings.php:9
 msgid "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts."
-msgstr "Om problemet är okänt försök avaktivera andra tillägg - det är lätt att göra, och du kan snabbt aktivera dem igen. Andra tillägg kan orsaka konflikter ibland."
+msgstr "Om problemet är okänt försök avaktivera andra tillägg - det är lätt att göra, och du kan snabbt aktivera dem igen. Andra tillägg kan ibland orsaka konflikter."
 
 #: redirection-strings.php:4
 msgid "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}."
