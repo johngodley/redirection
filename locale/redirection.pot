@@ -658,19 +658,19 @@ msgstr ""
 msgid "Redirect to URL"
 msgstr ""
 
-#: redirection-strings.php:190, matches/user-agent.php:5
+#: redirection-strings.php:190, matches/user-agent.php:10
 msgid "URL and user agent"
 msgstr ""
 
-#: redirection-strings.php:191, matches/referrer.php:8
+#: redirection-strings.php:191, matches/referrer.php:10
 msgid "URL and referrer"
 msgstr ""
 
-#: redirection-strings.php:192, matches/login.php:5
+#: redirection-strings.php:192, matches/login.php:8
 msgid "URL and login status"
 msgstr ""
 
-#: redirection-strings.php:193, matches/url.php:5
+#: redirection-strings.php:193, matches/url.php:7
 msgid "URL only"
 msgstr ""
 
