@@ -122,7 +122,7 @@ class EditRedirect extends React.Component {
 		this.handleAdvanced = this.onAdvanced.bind( this );
 
 		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position } = props.item;
-		const { logged_in = '', logged_out = '' } = action_data;
+		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
 
 		this.state = {
 			url,
@@ -193,7 +193,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getAgentState( action_data ) {
-		const { agent = '', regex = false, url_from = '', url_notfrom = '' } = action_data;
+		const { agent = '', regex = false, url_from = '', url_notfrom = '' } = action_data ? action_data : {};
 
 		return {
 			agent,
@@ -204,7 +204,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getReferrerState( action_data ) {
-		const { referrer = '', regex = false, url_from = '', url_notfrom = '' } = action_data;
+		const { referrer = '', regex = false, url_from = '', url_notfrom = '' } = action_data ? action_data : {};
 
 		return {
 			referrer,
