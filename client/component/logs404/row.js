@@ -73,7 +73,7 @@ class LogRow404 extends React.Component {
 		return (
 			<Modal show={ this.state.editing } onClose={ this.handleClose } width="700">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave }>
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave } autoFocus>
 						<tr>
 							<th>{ __( 'Delete 404s' ) }</th>
 							<td>
