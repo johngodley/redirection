@@ -244,7 +244,7 @@ class EditRedirect extends React.Component {
 		this.props.onSave( redirect );
 
 		if ( this.props.onCancel ) {
-			this.props.onCancel();
+			this.props.onCancel( ev );
 		} else {
 			this.reset();
 		}
