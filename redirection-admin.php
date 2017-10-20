@@ -212,7 +212,7 @@ class Redirection_Admin {
 		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
 		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ).'redirection.js?ver='.urlencode( REDIRECTION_VERSION ).'-'.urlencode( REDIRECTION_BUILD ) ); ?></code></p>
 		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
-		<p class="versions"></p>
+		<p class="versions"><?php _e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
 				<?php _e( 'Create Issue', 'redirection' ); ?>
@@ -230,7 +230,6 @@ class Redirection_Admin {
 			resetAll();
 		} else if ( errors.length > 0 || timeout++ === 5 ) {
 			showError();
-			resetAll();
 		}
 	}, 5000 );
 
@@ -239,10 +238,14 @@ class Redirection_Admin {
 	}
 
 	function showError() {
+		resetAll();
 		document.querySelector( '.react-loading' ).style.display = 'none';
 		document.querySelector( '.react-error' ).style.display = 'block';
-		document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
-		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" ) + encodeURIComponent( Redirectioni10n.versions );
+
+		if ( typeof Redirectioni10n !== 'undefined' ) {
+			document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
+			document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" ) + encodeURIComponent( Redirectioni10n.versions );
+		}
 	}
 
 	function resetAll() {
