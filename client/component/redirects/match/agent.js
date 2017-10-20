@@ -37,10 +37,13 @@ class MatchAgent extends React.Component {
 			lib: 'cURL|Java|libwww-perl|PHP|urllib',
 		};
 
-		this.props.onChange( 'agent', 'agent', regex[ ev.target.value ] );
+		if ( ev.target.value !== '' ) {
+			this.props.onChange( 'agent', 'agent', regex[ ev.target.value ] );
+			this.props.onChange( 'agent', 'regex', true );
+		}
 
 		this.setState( {
-			dropdown: ev.target.value
+			dropdown: ev.target.value,
 		} );
 	};
 
@@ -52,7 +55,7 @@ class MatchAgent extends React.Component {
 					<input type="text" name="agent" value={ this.props.agent } onChange={ this.handleChangeAgent } className="medium" /> &nbsp;
 
 					<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
-						<option value="" disabled>{ __( 'Custom' ) }</option>
+						<option value="">{ __( 'Custom' ) }</option>
 						<option value="mobile">{ __( 'Mobile' ) }</option>
 						<option value="feed">{ __( 'Feed Readers' ) } </option>
 						<option value="lib">{ __( 'Libraries' ) }</option>
