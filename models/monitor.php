@@ -123,13 +123,13 @@ class Red_Monitor {
 		$before = esc_url( $before );
 		$regex_control = false;
 
-		if ( isset( $this->use_regex ) && $this->use_regex == true ) {
-			$before = rtrim( $before, '/' ).".*";
-			$regex_control = true;
-		}
-
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
+
+			if ( isset( $this->use_regex ) && $this->use_regex == true ) {
+				$before = rtrim( $before, '/' ).".*";
+				$regex_control = true;
+			}
 
 			$data = array(
 				'url'         => $before,
