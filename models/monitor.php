@@ -138,8 +138,8 @@ class Red_Monitor {
 
 			if ( !empty( $this->associated ) ) {
 				// Create an associated redirect for this post
-				$data['url'] = $this->associated . $data['url'];
-				$data['action_data'] = $this->associated . $data['action_data'];
+				$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
+				$data['action_data'] = trailingslashit( $data['action_data'] ) . ltrim( $this->associated, '/' );
 				Red_Item::create( $data );
 			}
 

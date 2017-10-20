@@ -303,7 +303,7 @@ class Redirection_Api {
 
 		if ( isset( $settings['associated_redirect'] ) ) {
 			$sanitizer = new Red_Item_Sanitize();
-			$options['associated_redirect'] = rtrim( $sanitizer->sanitize_url( $settings['associated_redirect'] ), '/' );
+			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
 		}
 
 		if ( count( $monitor_types ) === 0 ) {
