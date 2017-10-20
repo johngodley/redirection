@@ -80,7 +80,7 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 	public function testAssociatedRedirect() {
 		$this->setNonce();
 		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'monitor_type_post' => 'true', 'associated_redirect' => '/amp/' ) ) );
-		$this->assertEquals( '/amp', $result->settings->associated_redirect );
+		$this->assertEquals( '/amp/', $result->settings->associated_redirect );
 	}
 
 	public function testSaveSupport() {
