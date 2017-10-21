@@ -127,10 +127,9 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$data = '30';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'location' => 'location', 'canonical' => 'www' ) ) );
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'location' => 'location' ) ) );
 
 		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
-		$this->assertEquals( 'www', $result->settings->modules->{ '2' }->canonical );
 
 		unlink( 'location' );
 	}

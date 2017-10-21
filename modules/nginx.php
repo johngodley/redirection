@@ -4,7 +4,6 @@ class Nginx_Module extends Red_Module {
 	const MODULE_ID = 3;
 
 	private $location  = '';
-	private $canonical = '';
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -15,7 +14,7 @@ class Nginx_Module extends Red_Module {
 	}
 
 	protected function load( $data ) {
-		$mine = array( 'location', 'canonical' );
+		$mine = array( 'location' );
 
 		foreach ( $mine as $key ) {
 			if ( isset( $data[ $key ] ) )

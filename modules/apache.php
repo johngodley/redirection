@@ -4,7 +4,6 @@ class Apache_Module extends Red_Module {
 	const MODULE_ID = 2;
 
 	private $location  = '';
-	private $canonical = '';
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -18,12 +17,8 @@ class Apache_Module extends Red_Module {
 		return $this->location;
 	}
 
-	public function get_canonical() {
-		return $this->canonical;
-	}
-
 	protected function load( $data ) {
-		$mine = array( 'location', 'canonical' );
+		$mine = array( 'location' );
 
 		foreach ( $mine as $key ) {
 			if ( isset( $data[ $key ] ) ) {
@@ -59,12 +54,7 @@ class Apache_Module extends Red_Module {
 
 		$save = array(
 			'location'  => isset( $data['location'] ) ? trim( $data['location'] ) : '',
-			'canonical' => isset( $data['canonical'] ) ? trim( $data['canonical'] ) : '',
 		);
-
-		if ( ! in_array( $save['canonical'], array( 'www', 'nowww' ), true ) ) {
-			$save['canonical'] = '';
-		}
 
 		if ( ! empty( $this->location ) && $save['location'] !== $this->location ) {
 			// Location has moved. Remove from old location

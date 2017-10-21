@@ -32,7 +32,6 @@ class OptionsForm extends React.Component {
 
 		this.state = props.values;
 		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '',
-		this.state.canonical = modules[ 2 ] ? modules[ 2 ].canonical : '',
 		this.state.monitor_type_post = false;
 		this.state.monitor_type_page = false;
 		this.state.monitor_type_trash = false;
@@ -150,18 +149,6 @@ class OptionsForm extends React.Component {
 										code: <code />,
 									},
 								} ) }
-							</p>
-
-							<p>
-								<label>
-									<select name="canonical" value={ this.state.canonical } onChange={ this.onChange }>
-										<option value="">{ __( 'Default server' ) }</option>
-										<option value="nowww">{ __( 'Remove WWW' ) }</option>
-										<option value="www">{ __( 'Add WWW' ) }</option>
-									</select>
-									&nbsp;
-									{ __( 'Automatically remove or add www to your site.' ) }
-								</label>
 							</p>
 						</label>
 					</TableRow>
