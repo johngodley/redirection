@@ -191,23 +191,55 @@ class Redirection_Admin {
 		add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 	}
 
-	function admin_screen() {
+	private function check_minimum_wp() {
 		$wp_version = get_bloginfo( 'version' );
-		$version = get_plugin_data( REDIRECTION_FILE );
-		$version = $version['Version'];
 
 		if ( version_compare( $wp_version, REDIRECTION_MIN_WP, '<' ) ) {
 ?>
 	<div class="react-error">
-		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
 		<p style="text-align: left"><?php printf( __( 'Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version ); ?></p>
 	</div>
 <?php
-			return;
+			return false;
 		}
+
+		return true;
+	}
+
+	private function check_tables_exist() {
+		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+
+		$database = new RE_Database();
+		$status = $database->get_status();
+
+		if ( $status['status'] !== 'good' ) {
+			?>
+				<div class="react-error">
+					<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+					<p style="text-align: left"><?php printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' ); ?></p>
+				</div>
+			<?php
+
+			return false;
+		}
+
+		return true;
+	}
+
+	function admin_screen() {
+		$version = get_plugin_data( REDIRECTION_FILE );
+		$version = $version['Version'];
 
 	  	Redirection_Admin::update();
 
+		if ( $this->check_minimum_wp() === false ) {
+			return;
+		}
+
+		if ( $this->check_tables_exist() === false ) {
+			return;
+		}
 ?>
 <div id="react-ui">
 	<div class="react-loading">
