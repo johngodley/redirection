@@ -45,6 +45,10 @@ class Redirection {
 
 		return $url;
 	}
+
+	public function get_module() {
+		return $this->module;
+	}
 }
 
 add_action( 'plugins_loaded', array( 'Redirection', 'init' ) );

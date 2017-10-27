@@ -31,6 +31,7 @@ class WordPress_Module extends Red_Module {
 
 	public function redirection_do_nothing() {
 		$this->can_log = false;
+		return false;
 	}
 
 	public function redirection_visit( $redirect, $url, $target ) {
@@ -134,5 +135,9 @@ class WordPress_Module extends Red_Module {
 		}
 
 		return $skip;
+	}
+
+	public function reset() {
+		$this->can_log = true;
 	}
 }
