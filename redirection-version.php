@@ -2,3 +2,4 @@
 
 define( 'REDIRECTION_VERSION', '2.8.1' );
 define( 'REDIRECTION_BUILD', '3dc203e92856046ebe5e0f24d6619579' );
+define( 'REDIRECTION_MIN_WP', '4.4' );

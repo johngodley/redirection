@@ -180,6 +180,7 @@ gulp.task( 'version', () => {
 
 define( 'REDIRECTION_VERSION', '${ pkg.version }' );
 define( 'REDIRECTION_BUILD', '${ md5 }' );
+define( 'REDIRECTION_MIN_WP', '${ pkg.engines.wordpress }' );
 ` );
 	} );
 } );

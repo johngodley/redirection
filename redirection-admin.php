@@ -192,10 +192,22 @@ class Redirection_Admin {
 	}
 
 	function admin_screen() {
-	  	Redirection_Admin::update();
-
+		$wp_version = get_bloginfo( 'version' );
 		$version = get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
+
+		if ( version_compare( $wp_version, REDIRECTION_MIN_WP, '<' ) ) {
+?>
+	<div class="react-error">
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+		<p style="text-align: left"><?php printf( __( 'Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version ); ?></p>
+	</div>
+<?php
+			return;
+		}
+
+	  	Redirection_Admin::update();
+
 ?>
 <div id="react-ui">
 	<div class="react-loading">
