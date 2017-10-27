@@ -4,6 +4,7 @@ class WordPress_Module extends Red_Module {
 	const MODULE_ID = 1;
 
 	private $matched = false;
+	private $can_log = true;
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -21,10 +22,15 @@ class WordPress_Module extends Red_Module {
 		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
 		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
 		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
+		add_action( 'redirection_do_nothing',  array( $this, 'redirection_do_nothing' ) );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
+	}
+
+	public function redirection_do_nothing() {
+		$this->can_log = false;
 	}
 
 	public function redirection_visit( $redirect, $url, $target ) {
@@ -59,7 +65,7 @@ class WordPress_Module extends Red_Module {
 		if ( is_404() )	{
 			$options = red_get_options();
 
-			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 ) {
+			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
 				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
 			}
 		}
