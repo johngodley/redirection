@@ -216,7 +216,7 @@ class Redirection_Admin {
 		if ( $status['status'] !== 'good' ) {
 			?>
 				<div class="react-error">
-					<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+					<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
 					<p style="text-align: left"><?php printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' ); ?></p>
 				</div>
 			<?php
