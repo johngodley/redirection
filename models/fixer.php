@@ -91,10 +91,7 @@ class Red_Fixer {
 	}
 
 	private function fix_monitor() {
-		$options = red_get_options();
-		$options['monitor_post'] = $this->get_valid_group();
-
-		update_option( 'redirection_options', $options );
+		red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
 	}
 
 	private function get_valid_group() {
