@@ -133,4 +133,18 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 
 		unlink( 'location' );
 	}
+
+	public function testBadCacheClear() {
+		$this->setNonce();
+
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'redirect_cache' => -10 ) ) );
+		$this->assertEquals( 1, $result->settings->redirect_cache );
+	}
+
+	public function testGoodCacheClear() {
+		$this->setNonce();
+
+		$result = json_decode( self::$redirection->ajax_save_settings( array( 'redirect_cache' => 24 ) ) );
+		$this->assertEquals( 24, $result->settings->redirect_cache );
+	}
 }

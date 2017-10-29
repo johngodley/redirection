@@ -68,7 +68,7 @@ function red_set_options( array $settings = array() ) {
 	if ( isset( $settings['redirect_cache'] ) ) {
 		$options['redirect_cache'] = intval( $settings['redirect_cache'], 10 );
 
-		if ( ! in_array( $settings['redirect_cache'], array( -1, 0, 1, 24, 24 * 7 ), true ) ) {
+		if ( ! in_array( $options['redirect_cache'], array( -1, 0, 1, 24, 24 * 7 ), true ) ) {
 			$options['redirect_cache'] = 1;
 		}
 	}
