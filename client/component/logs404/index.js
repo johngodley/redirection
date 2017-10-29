@@ -116,8 +116,8 @@ function mapDispatchToProps( dispatch ) {
 		onDeleteAll: ( filterBy, filter ) => {
 			dispatch( deleteAll( filterBy, filter ) );
 		},
-		onSearch: search => {
-			dispatch( setSearch( search ) );
+		onSearch: ( search, filterBy ) => {
+			dispatch( setSearch( search, filterBy ) );
 		},
 		onChangePage: page => {
 			dispatch( setPage( page ) );
