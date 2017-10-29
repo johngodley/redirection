@@ -24,6 +24,10 @@ export const performTableAction = ( action, ids, extra ) => tableAction( 'log', 
 export const getLogs = args => ( dispatch, getState ) => {
 	const { log } = getState();
 
+	if ( log.requestCount === 0 ) {
+		args = {};
+	}
+
 	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log );
 };
 export const loadLogs = logType => getLogs( { logType, filter: '', filterBy: '', page: 0, orderBy: '' } );
