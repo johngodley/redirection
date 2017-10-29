@@ -21,6 +21,7 @@ class WordPress_Module extends Red_Module {
 		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
 		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
 		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
+		//add_filter( 'status_header',           array( $this, 'status_header_404' ), 10, 4 );
 		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
 		add_action( 'redirection_do_nothing',  array( $this, 'redirection_do_nothing' ) );
 
@@ -29,6 +30,7 @@ class WordPress_Module extends Red_Module {
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
 	}
 
+	// Replacement for template_redirect to catch all 404 situations, not just template_redirect
 	public function status_header_404( $status_header, $code, $description, $protocol ) {
 		if ( $code === 404 ) {
 			$options = red_get_options();
