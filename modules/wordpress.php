@@ -29,6 +29,18 @@ class WordPress_Module extends Red_Module {
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
 	}
 
+	public function status_header_404( $status_header, $code, $description, $protocol ) {
+		if ( $code === 404 ) {
+			$options = red_get_options();
+
+			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
+				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
+			}
+		}
+
+		return $status_header;
+	}
+
 	public function redirection_do_nothing() {
 		$this->can_log = false;
 		return false;
@@ -83,7 +95,7 @@ class WordPress_Module extends Red_Module {
 
 	public function send_headers( $obj ) {
 		if ( ! empty( $this->matched ) && $this->matched->match->action_code === '410' ) {
-			add_filter( 'status_header', array( &$this, 'set_header_410' ) );
+			add_filter( 'status_header', array( $this, 'set_header_410' ) );
 		}
 	}
 
@@ -97,7 +109,9 @@ class WordPress_Module extends Red_Module {
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );
 			return $url;
-		} elseif ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
+		}
+
+		if ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = array( 'lighttpd', 'nginx' );
 
 			foreach ( $servers_to_check as $name ) {
@@ -107,11 +121,26 @@ class WordPress_Module extends Red_Module {
 					exit( 0 );
 				}
 			}
-		} elseif ( $status == 307 ) {
+		}
+
+		if ( $status == 307 ) {
 			status_header( $status );
-			header( "Cache-Control: no-cache, must-revalidate, max-age=0" );
-			header( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" );
+			nocache_headers();
 			return $url;
+		}
+
+		$options = red_get_options();
+
+		// Do we need to set the cache header?
+		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 ) {
+			if ( $options['redirect_cache'] === -1 ) {
+				// No cache - just use WP function
+				nocache_headers();
+			} else {
+				// Custom cache
+				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s T', time() + $options['redirect_cache'] * 60 * 60 ) );
+				header( 'Cache-Control: max-age=' . $options['redirect_cache'] * 60 * 60 );
+			}
 		}
 
 		status_header( $status );
