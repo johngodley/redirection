@@ -30,6 +30,7 @@ if ( !defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 }
 
 include dirname( __FILE__ ).'/redirection-version.php';
+include dirname( __FILE__ ).'/redirection-settings.php';
 include dirname( __FILE__ ).'/models/redirect.php';
 include dirname( __FILE__ ).'/models/module.php';
 include dirname( __FILE__ ).'/models/log.php';
@@ -37,39 +38,6 @@ include dirname( __FILE__ ).'/models/flusher.php';
 include dirname( __FILE__ ).'/models/match.php';
 include dirname( __FILE__ ).'/models/action.php';
 include dirname( __FILE__ ).'/models/request.php';
-
-function red_get_options() {
-	$options = get_option( 'redirection_options' );
-	if ( $options === false ) {
-		$options = array();
-	}
-
-	$defaults = apply_filters( 'red_default_options', array(
-		'support'             => false,
-		'token'               => md5( uniqid() ),
-		'monitor_post'        => 0,
-		'monitor_types'       => array(),
-		'associated_redirect' => '',
-		'auto_target'         => '',
-		'expire_redirect'     => 7,
-		'expire_404'          => 7,
-		'modules'             => array(),
-		'newsletter'          => false,
-	) );
-
-	foreach ( $defaults as $key => $value ) {
-		if ( ! isset( $options[ $key ] ) ) {
-			$options[ $key ] = $value;
-		}
-	}
-
-	// Back-compat. If monitor_post is set without types then it's from an older Redirection
-	if ( $options['monitor_post'] > 0 && count( $options['monitor_types'] ) === 0 ) {
-		$options['monitor_types'] = array( 'post' );
-	}
-
-	return $options;
-}
 
 function red_is_wpcli() {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
