@@ -40,7 +40,9 @@ export const getActionData = state => {
 	}
 
 	if ( match_type === MATCH_URL && hasUrlTarget( action_type ) ) {
-		return target;
+		return {
+			url: target.url,
+		};
 	}
 
 	return '';

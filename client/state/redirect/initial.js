@@ -11,6 +11,6 @@ export function getInitialRedirect() {
 		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'url', 'position', 'last_count', 'id', 'last_access' ], [ 'group' ], 'id', [ '' ] )
+		table: getDefaultTable( [ 'url', 'position', 'last_count', 'id', 'last_access' ], [ 'group' ], 'id', [ '' ] ),
 	};
 }

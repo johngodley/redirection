@@ -8,15 +8,17 @@ class URL_Match extends Red_Match {
 	}
 
 	public function save( array $details, $no_target_url = false ) {
-		if ( ! isset( $details['action_data'] ) || strlen( $details['action_data'] ) === 0 ) {
-			$details['action_data'] = '/';
+		$data = isset( $details['url'] ) ? $details['url'] : '';
+
+		if ( strlen( $data ) === 0 ) {
+			$data = '/';
 		}
 
 		if ( $no_target_url ) {
 			return null;
 		}
 
-		return $this->sanitize_url( $details['action_data'] );
+		return $this->sanitize_url( $data );
 	}
 
 	function get_target( $url, $matched_url, $regex ) {
@@ -33,7 +35,9 @@ class URL_Match extends Red_Match {
 	}
 
 	public function get_data() {
-		return $this->url;
+		return array(
+			'url' => $this->url,
+		);
 	}
 
 	public function load( $values ) {

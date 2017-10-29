@@ -63,9 +63,9 @@ class Redirection_Api {
 		}
 	}
 
-	private function get_params( $params ) {
-		if ( empty( $params ) ) {
-			$params = $_POST;
+	private function get_params( $params = array() ) {
+		if ( empty( $params ) && isset( $_POST['data'] ) ) {
+			$params = json_decode( wp_unslash( $_POST['data'] ), true );
 		}
 
 		return $params;
@@ -338,7 +338,7 @@ class Redirection_Api {
 		$params = $this->get_params( $params );
 
 		$fixit = false;
-		if ( isset( $params['fixIt'] ) && $params['fixIt'] === 'true' ) {
+		if ( isset( $params['fixIt'] ) && $params['fixIt'] ) {
 			$fixit = true;
 		}
 

@@ -42,7 +42,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGoodRegex() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'regex' => 'true' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'regex' => true ) ) );
 		$this->assertEquals( 1, $result['regex'] );
 	}
 

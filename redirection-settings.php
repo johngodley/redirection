@@ -5,17 +5,21 @@ const REDIRECTION_OPTION = 'redirection_options';
 function red_set_options( array $settings = array() ) {
 	$options = red_get_options();
 	$monitor_types = array();
+	$have_monitor = false;
 
-	if ( isset( $settings['monitor_type_post'] ) && $settings['monitor_type_post'] === 'true' ) {
-		$monitor_types[] = 'post';
+	if ( isset( $settings['monitor_type_post'] ) ) {
+		$monitor_types[] = $settings['monitor_type_post'] ? 'post' : false;
+		$have_monitor = true;
 	}
 
-	if ( isset( $settings['monitor_type_page'] ) && $settings['monitor_type_page'] === 'true' ) {
-		$monitor_types[] = 'page';
+	if ( isset( $settings['monitor_type_page'] ) ) {
+		$monitor_types[] = $settings['monitor_type_page'] ? 'page' : false;
+		$have_monitor = true;
 	}
 
-	if ( isset( $settings['monitor_type_trash'] ) && $settings['monitor_type_trash'] === 'true' ) {
-		$monitor_types[] = 'trash';
+	if ( isset( $settings['monitor_type_trash'] ) ) {
+		$monitor_types[] = $settings['monitor_type_trash'] ? 'trash' : false;
+		$have_monitor = true;
 	}
 
 	if ( isset( $settings['monitor_post'] ) ) {
@@ -28,11 +32,16 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['associated_redirect'] ) ) {
-		$sanitizer = new Red_Item_Sanitize();
-		$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
+		$options['associated_redirect'] = '';
+
+		if ( strlen( $settings['associated_redirect'] ) > 0 ) {
+			$sanitizer = new Red_Item_Sanitize();
+			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
+		}
 	}
 
-	if ( count( $monitor_types ) === 0 ) {
+	$monitor_types = array_values( array_filter( $monitor_types ) );
+	if ( count( $monitor_types ) === 0 && $have_monitor ) {
 		$options['monitor_post'] = 0;
 		$options['associated_redirect'] = '';
 	}
@@ -42,7 +51,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['support'] ) ) {
-		$options['support'] = $settings['support'] === 'true' ? true : false;
+		$options['support'] = $settings['support'] ? true : false;
 	}
 
 	if ( isset( $settings['token'] ) ) {
@@ -54,7 +63,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['newsletter'] ) ) {
-		$options['newsletter'] = $settings['newsletter'] === 'true' ? true : false;
+		$options['newsletter'] = $settings['newsletter'] ? true : false;
 	}
 
 	if ( isset( $settings['expire_redirect'] ) ) {
@@ -73,12 +82,16 @@ function red_set_options( array $settings = array() ) {
 		}
 	}
 
-	$module = Red_Module::get( 2 );
-	$options['modules'][2] = $module->update( $settings );
-	$options['monitor_types'] = $monitor_types;
+	if ( isset( $settings['location'] ) ) {
+		$module = Red_Module::get( 2 );
+		$options['modules'][2] = $module->update( $settings );
+	}
+
+	if ( $have_monitor ) {
+		$options['monitor_types'] = $monitor_types;
+	}
 
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );
-
 	return $options;
 }
 

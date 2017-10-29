@@ -84,8 +84,8 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testGetForRegexOrder() {
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
 
 		$items = Red_Item::get_for_url( '/cats1' );
 

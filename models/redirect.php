@@ -390,13 +390,25 @@ class Red_Item {
 }
 
 class Red_Item_Sanitize {
+	private function clean_array( $array ) {
+		foreach ( $array as $name => $value ) {
+			if ( is_array( $value ) ) {
+				$array[ $name ] = $this->clean_array( $value );
+			} else {
+				$value = stripslashes( $value );
+				$value = trim( $value );
+				$array[ $name ] = $value;
+			}
+		};
+
+		return $array;
+	}
+
 	public function get( array $details ) {
 		$data = array();
+		$details = $this->clean_array( $details );
 
-		$details = array_map( 'trim', $details );
-		$details = array_map( 'stripslashes', $details );
-
-		$data['regex'] = isset( $details['regex'] ) && ( $details['regex'] === 'true' || $details['regex'] === '1' ) ? 1 : 0;
+		$data['regex'] = isset( $details['regex'] ) && $details['regex'] ? 1 : 0;
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
 		$data['url'] = $this->get_url( empty( $details['url'] ) ? $this->auto_generate() : $details['url'], $data['regex'] );
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
@@ -421,7 +433,7 @@ class Red_Item_Sanitize {
 		$data['action_code'] = $this->get_code( $details['action_type'], $action_code );
 		$data['match_type'] = $details['match_type'];
 
-		$match_data = $matcher->save( $details, ! $this->is_url_type( $data['action_type'] ) );
+		$match_data = $matcher->save( $details['action_data'], ! $this->is_url_type( $data['action_type'] ) );
 
 		$data['action_data'] = is_array( $match_data ) ? serialize( $match_data ) : $match_data;
 

@@ -139,7 +139,7 @@ class EditRedirect extends React.Component {
 				logged_in,
 				logged_out,
 			},
-			target: typeof action_data === 'string' ? action_data : '',
+			target: action_data ? action_data : {},
 			agent: this.getAgentState( action_data ),
 			referrer: this.getReferrerState( action_data ),
 		};
@@ -166,11 +166,19 @@ class EditRedirect extends React.Component {
 			action_data: '',
 			title: '',
 			action_code: 301,
+			... this.resetActionData(),
+		} );
+	}
+
+	resetActionData() {
+		return {
 			login: {
 				logged_in: '',
 				logged_out: '',
 			},
-			target: '',
+			target: {
+				url: '',
+			},
 			agent: {
 				url_from: '',
 				agent: '',
@@ -183,7 +191,7 @@ class EditRedirect extends React.Component {
 				url_from: '',
 				url_notfrom: '',
 			},
-		} );
+		};
 	}
 
 	canShowAdvanced() {
@@ -278,8 +286,14 @@ class EditRedirect extends React.Component {
 			this.setState( { action_code: 404 } );
 		}
 
-		if ( target.name === 'match_type' && target.value === MATCH_LOGIN ) {
-			this.setState( { action_type: ACTION_URL } );
+		if ( target.name === 'match_type' ) {
+			const newState = { ... this.resetActionData() };
+
+			if ( target.value === MATCH_LOGIN ) {
+				this.setState( { ... newState, action_type: ACTION_URL } );
+			} else {
+				this.setState( newState );
+			}
 		}
 	}
 
