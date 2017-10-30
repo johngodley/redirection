@@ -109,7 +109,7 @@ class RedirectRow extends React.Component {
 		const { match_type, action_data } = this.props.item;
 
 		if ( match_type === MATCH_URL ) {
-			return action_data;
+			return action_data.url;
 		}
 
 		return null;

@@ -38,12 +38,7 @@ export const downloadFile = url => {
 };
 
 export const importFile = ( file, group ) => dispatch => {
-	const data = {
-		file,
-		group,
-	};
-
-	getApi( 'red_import_data', data )
+	getApi( 'red_import_data', { group }, file )
 		.then( resp => {
 			dispatch( { type: IO_IMPORTED, total: resp.imported } );
 		} )

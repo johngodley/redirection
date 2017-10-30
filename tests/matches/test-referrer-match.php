@@ -12,9 +12,9 @@ class ReferrerMatchTest extends WP_UnitTestCase {
 			'referrer' => "some",
 		);
 		$source = array(
-			'action_data_url_from' => "/some/url\nsomethingelse1",
-			'action_data_url_notfrom' => "/some/url\nsomethingelse2",
-			'action_data_referrer' => "some\nreferrer",
+			'url_from' => "/some/url\nsomethingelse1",
+			'url_notfrom' => "/some/url\nsomethingelse2",
+			'referrer' => "some\nreferrer",
 		);
 
 		$this->assertEquals( $saved, $match->save( $source ) );

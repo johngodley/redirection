@@ -12,13 +12,13 @@ class Agent_Match extends Red_Match {
 
 	public function save( array $details, $no_target_url = false ) {
 		$data = array(
-			'regex' => isset( $details['action_data_regex'] ) && $details['action_data_regex'] === 'true' ? true : false,
-			'agent' => isset( $details['action_data_agent'] ) ? $this->sanitize_agent( $details['action_data_agent'] ) : '',
+			'regex' => isset( $details['regex'] ) && $details['regex'] ? true : false,
+			'agent' => isset( $details['agent'] ) ? $this->sanitize_agent( $details['agent'] ) : '',
 		);
 
 		if ( $no_target_url === false ) {
-			$data['url_from'] = isset( $details['action_data_url_from'] ) ? $this->sanitize_url( $details['action_data_url_from'] ) : '';
-			$data['url_notfrom'] = isset( $details['action_data_url_notfrom'] ) ? $this->sanitize_url( $details['action_data_url_notfrom'] ) : '';
+			$data['url_from'] = isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : '';
+			$data['url_notfrom'] = isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : '';
 		}
 
 		return $data;

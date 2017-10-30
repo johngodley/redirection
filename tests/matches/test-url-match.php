@@ -7,15 +7,15 @@ class UrlMatchTest extends WP_UnitTestCase {
 		$match = new URL_Match();
 		$saved = '/some/url';
 
-		$this->assertEquals( $match->save( array( 'action_data' => "/some/url\nsomethingelse1" ) ), $saved );
-		$this->assertEquals( $match->save( array( 'action_data' => "/some/url\rsomethingelse2" ) ), $saved );
-		$this->assertEquals( $match->save( array( 'action_data' => "/some/url\r\nsomethingelse3" ) ), $saved );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\nsomethingelse1" ) ), $saved );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\rsomethingelse2" ) ), $saved );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\r\nsomethingelse3" ) ), $saved );
 	}
 
 	public function testBadData() {
 		$match = new URL_Match();
 		$saved = 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}';
-		$this->assertEquals( $saved, $match->save( array( 'action_data' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}' ) ) );
+		$this->assertEquals( $saved, $match->save( array( 'url' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}' ) ) );
 	}
 
 	public function testLoadBad() {

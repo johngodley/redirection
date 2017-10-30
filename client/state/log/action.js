@@ -24,12 +24,16 @@ export const performTableAction = ( action, ids, extra ) => tableAction( 'log', 
 export const getLogs = args => ( dispatch, getState ) => {
 	const { log } = getState();
 
+	if ( log.requestCount === 0 ) {
+		args = {};
+	}
+
 	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log );
 };
 export const loadLogs = logType => getLogs( { logType, filter: '', filterBy: '', page: 0, orderBy: '' } );
 export const setOrderBy = ( orderBy, direction ) => getLogs( { orderBy, direction } );
 export const setPage = page => getLogs( { page } );
-export const setSearch = filter => getLogs( { filter, filterBy: '', page: 0, orderBy: '' } );
+export const setSearch = ( filter, filterBy = '' ) => getLogs( { filter, filterBy: filter === '' ? '' : filterBy, page: 0, orderBy: '' } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderBy: '', page: 0 } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );

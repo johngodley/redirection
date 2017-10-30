@@ -22,6 +22,13 @@ const timeToKeep = [
 	{ value: 60, text: __( 'Two months' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
+const expireTimes = [
+	{ value: -1, text: __( 'Never cache' ) },
+	{ value: 1, text: __( 'An hour' ) },
+	{ value: 24, text: __( 'A day' ) },
+	{ value: 24 * 7, text: __( 'A week' ) },
+	{ value: 0, text: __( 'Forever' ) },
+];
 const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
@@ -151,6 +158,11 @@ class OptionsForm extends React.Component {
 								} ) }
 							</p>
 						</label>
+					</TableRow>
+
+					<TableRow title={ __( 'Redirect Cache' ) }>
+						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<span className="sub">{ __( 'How long to cache redirected URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
 				</FormTable>
 

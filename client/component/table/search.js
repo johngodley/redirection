@@ -40,7 +40,7 @@ class SearchBox extends React.Component {
 
 	onSubmit( ev ) {
 		ev.preventDefault();
-		this.props.onSearch( this.state.search );
+		this.props.onSearch( this.state.search, this.props.table.filterBy );
 	}
 
 	render() {

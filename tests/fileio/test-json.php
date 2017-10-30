@@ -46,6 +46,7 @@ class JsonTest extends WP_UnitTestCase {
 					'group_id' => 5,
 					'match_type' => 'url',
 					'action_type' => 'url',
+					'action_data' => array( 'url' => '/test' ),
 				)
 			)
 		);

@@ -54,7 +54,7 @@ class Red_Apache_File extends Red_FileIO {
 				'url' => $this->regex_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => $this->decode_url( $matches[2] ),
+				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
 				'action_code' => $this->get_code( $matches[3] ),
 				'regex' => $this->is_regex( $matches[1] ),
 			);
@@ -63,7 +63,7 @@ class Red_Apache_File extends Red_FileIO {
 				'url' => $this->decode_url( $matches[2] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => $this->decode_url( $matches[3] ),
+				'action_data' => array( 'url' => $this->decode_url( $matches[3] ) ),
 				'action_code' => $this->get_code( $matches[1] ),
 			);
 		} elseif ( preg_match( '@Redirect\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
@@ -71,7 +71,7 @@ class Red_Apache_File extends Red_FileIO {
 				'url' => $this->decode_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => $this->decode_url( $matches[2] ),
+				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
 				'action_code' => 302,
 			);
 		} elseif ( preg_match( '@Redirectmatch\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
@@ -79,7 +79,7 @@ class Red_Apache_File extends Red_FileIO {
 				'url' => $this->decode_url( $matches[2] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => $this->decode_url( $matches[3] ),
+				'action_data' => array( 'url' => $this->decode_url( $matches[3] ) ),
 				'action_code' => $this->get_code( $matches[1] ),
 				'regex' => true,
 			);
@@ -88,7 +88,7 @@ class Red_Apache_File extends Red_FileIO {
 				'url' => $this->decode_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => $this->decode_url( $matches[2] ),
+				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
 				'action_code' => 302,
 				'regex' => true,
 			);

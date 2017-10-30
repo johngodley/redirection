@@ -54,7 +54,7 @@ Newsletter.propTypes = {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onSubscribe: () => {
-			dispatch( saveSettings( { newsletter: 'true' } ) );
+			dispatch( saveSettings( { newsletter: true } ) );
 		}
 	};
 }

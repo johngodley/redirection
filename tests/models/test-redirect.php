@@ -84,8 +84,8 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testGetForRegexOrder() {
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
 
 		$items = Red_Item::get_for_url( '/cats1' );
 
@@ -263,7 +263,7 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testLongTitle() {
 		$item = Red_Item::create( array(
 			'url'         => '/from',
-			'action_data' => '/to',
+			'action_data' => array( 'url' => '/to' ),
 			'group_id'    => $this->group->get_id(),
 			'match_type'  => 'url',
 			'action_type' => 'url',
@@ -278,7 +278,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$item = Red_Item::create( array(
 			'url'         => '/from',
-			'action_data' => '/to',
+			'action_data' => array( 'url' => '/to' ),
 			'group_id'    => $this->group->get_id(),
 			'match_type'  => 'url',
 			'action_type' => 'url',

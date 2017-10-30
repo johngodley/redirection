@@ -26,7 +26,7 @@ class Redirection_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'load-tools_page_redirection', array( $this, 'redirection_head' ) );
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
-		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
+		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
@@ -43,8 +43,7 @@ class Redirection_Admin {
 	public static function plugin_activated() {
 		Redirection_Admin::update();
 		Red_Flusher::schedule();
-
-		update_option( 'redirection_options', red_get_options() );
+		red_set_options();
 	}
 
 	public static function plugin_deactivated() {
@@ -87,8 +86,9 @@ class Redirection_Admin {
 		return false;
 	}
 
-	public function flush_schedule() {
+	public function flush_schedule( $options ) {
 		Red_Flusher::schedule();
+		return $options;
 	}
 
 	private static function update() {

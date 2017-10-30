@@ -40,7 +40,9 @@ export const getActionData = state => {
 	}
 
 	if ( match_type === MATCH_URL && hasUrlTarget( action_type ) ) {
-		return target;
+		return {
+			url: target.url,
+		};
 	}
 
 	return '';
@@ -52,7 +54,9 @@ export const getDefaultItem = ( url, group_id ) => ( {
 	regex: false,
 	match_type: 'url',
 	action_type: 'url',
-	action_data: '',
+	action_data: {
+		url: '',
+	},
 	group_id,
 	title: '',
 	action_code: 301,
