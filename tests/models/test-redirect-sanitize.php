@@ -114,12 +114,12 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testUnserializeData() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'action_data' => '/a' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'action_data' => array( 'url' => '/a' ) ) ) );
 		$this->assertEquals( '/a', $result['action_data'] );
 	}
 
 	public function testStripSlasheserializeData() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login', 'action_data' => array( 'logged_in' => '', 'logged_out' => '' ) ) ) );
 		$this->assertEquals( serialize( array( 'logged_in' => '', 'logged_out' => '' ) ), $result['action_data'] );
 	}
 

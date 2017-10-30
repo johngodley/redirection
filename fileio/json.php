@@ -28,8 +28,10 @@ class Red_Json_File extends Red_FileIO {
 	}
 
 	public function load( $group, $filename, $data ) {
+		global $wpdb;
+
 		$count = 0;
-		$json = @json_decode( $data );
+		$json = @json_decode( $data, true );
 		if ( $json === false ) {
 			return 0;
 		}
@@ -38,30 +40,41 @@ class Red_Json_File extends Red_FileIO {
 		$groups = array();
 		$group_map = array();
 
-		if ( isset( $json->groups ) ) {
-			foreach ( $json->groups as $group ) {
-				$old_group_id = $group->id;
-				unset( $group->id );
+		if ( isset( $json['groups'] ) ) {
+			foreach ( $json['groups'] as $group ) {
+				$old_group_id = $group['id'];
+				unset( $group['id'] );
 
-				$group = Red_Group::create( $group->name, $group->module_id );
+				$group = Red_Group::create( $group['name'], $group['module_id'] );
 				if ( $group ) {
 					$group_map[ $old_group_id ] = $group->get_id();
 				}
 			}
 		}
 
-		// Import redirects
-		if ( isset( $json->redirects ) ) {
-			foreach ( $json->redirects as $redirect ) {
-				unset( $redirect->id );
+		unset( $json['groups'] );
 
-				if ( ! isset( $group_map[ $redirect->group_id ] ) ) {
-					$group_map[ $redirect->group_id ] = Red_Group::create( 'Group', 1 );
+		// Import redirects
+		if ( isset( $json['redirects'] ) ) {
+			foreach ( $json['redirects'] as $pos => $redirect ) {
+				unset( $redirect['id'] );
+
+				if ( ! isset( $group_map[ $redirect['group_id'] ] ) ) {
+					$group_map[ $redirect['group_id'] ] = Red_Group::create( 'Group', 1 );
 				}
 
-				$redirect->group_id = $group_map[ $redirect->group_id ];
-				$redirect = Red_Item::create( (array)$redirect );
+				if ( $redirect['match_type'] === 'url' && isset( $redirect['action_data'] ) && ! is_array( $redirect['action_data'] ) ) {
+					$redirect['action_data'] = array( 'url' => $redirect['action_data'] );
+				}
+
+				$redirect['group_id'] = $group_map[ $redirect['group_id'] ];
+				Red_Item::create( $redirect );
 				$count++;
+
+				// Helps reduce memory usage
+				unset( $json['redirects'][$pos] );
+				$wpdb->queries = array();
+				$wpdb->num_queries = 0;
 			}
 		}
 

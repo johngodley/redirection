@@ -15,7 +15,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
 		$target = array(
 			'url' => '/source',
-			'action_data' => '/target',
+			'action_data' => array( 'url' => '/target' ),
 			'regex' => false,
 			'group_id' => 1,
 			'match_type' => 'url',

@@ -10,8 +10,8 @@ class LoginMatchTest extends WP_UnitTestCase {
 			'logged_out' => '/some/url',
 		);
 		$source = array(
-			'action_data_logged_in' => "/some/url\nsomethingelse1",
-			'action_data_logged_out' => "/some/url\nsomethingelse2",
+			'logged_in' => "/some/url\nsomethingelse1",
+			'logged_out' => "/some/url\nsomethingelse2",
 		);
 
 		$this->assertEquals( $saved, $match->save( $source ) );

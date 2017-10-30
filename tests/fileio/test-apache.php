@@ -15,7 +15,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'RewriteRule /thing /newthing [301,L]' );
 
 		$this->assertEquals( '/thing', $item['url'] );
-		$this->assertEquals( '/newthing', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/newthing' ), $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 	}
 
@@ -24,7 +24,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'Redirect permanent /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
-		$this->assertEquals( '/newthing', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/newthing' ), $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 	}
 
@@ -33,7 +33,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'Redirect permanent "/products/space thing/again thing.html" /products/again-thing/' );
 
 		$this->assertEquals( '/products/space thing/again thing.html', $item['url'] );
-		$this->assertEquals( '/products/again-thing/', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/products/again-thing/' ), $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 	}
 
@@ -42,7 +42,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'Redirect /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
-		$this->assertEquals( '/newthing', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/newthing' ), $item['action_data'] );
 		$this->assertEquals( '302', $item['action_code'] );
 	}
 
@@ -51,7 +51,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'RedirectMatch permanent /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
-		$this->assertEquals( '/newthing', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/newthing' ), $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 		$this->assertTrue( $item['regex'] );
 	}
@@ -61,7 +61,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'RedirectMatch /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
-		$this->assertEquals( '/newthing', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/newthing' ), $item['action_data'] );
 		$this->assertEquals( '302', $item['action_code'] );
 		$this->assertTrue( $item['regex'] );
 	}
@@ -71,7 +71,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'Redirect permanent /thing/other /other/thing#1' );
 
 		$this->assertEquals( '/thing/other', $item['url'] );
-		$this->assertEquals( '/other/thing#1', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/other/thing#1' ), $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 	}
 
@@ -80,7 +80,7 @@ class ApacheTest extends WP_UnitTestCase {
 		$item = $apache->get_as_item( 'RewriteRule ^products/reporting /products/ [R,L]' );
 
 		$this->assertEquals( '/products/reporting', $item['url'] );
-		$this->assertEquals( '/products/', $item['action_data'] );
+		$this->assertEquals( array( 'url' => '/products/' ), $item['action_data'] );
 		$this->assertEquals( '302', $item['action_code'] );
 	}
 }

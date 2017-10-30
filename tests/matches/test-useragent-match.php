@@ -12,9 +12,9 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 			'regex' => false,
 		);
 		$source = array(
-			'action_data_url_from' => "/some/url\nsomethingelse1",
-			'action_data_url_notfrom' => "/some/url\nsomethingelse2",
-			'action_data_agent' => "user agent\nhere",
+			'url_from' => "/some/url\nsomethingelse1",
+			'url_notfrom' => "/some/url\nsomethingelse2",
+			'agent' => "user agent\nhere",
 		);
 
 		$this->assertEquals( $saved, $match->save( $source ) );

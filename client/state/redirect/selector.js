@@ -54,7 +54,9 @@ export const getDefaultItem = ( url, group_id ) => ( {
 	regex: false,
 	match_type: 'url',
 	action_type: 'url',
-	action_data: '',
+	action_data: {
+		url: '',
+	},
 	group_id,
 	title: '',
 	action_code: 301,
