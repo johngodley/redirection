@@ -19,6 +19,7 @@ class Redirection_Api {
 		'export_data',
 		'ping',
 		'plugin_status',
+		'get_importers',
 	);
 
 	public function __construct() {
@@ -349,6 +350,21 @@ class Redirection_Api {
 
 		if ( $fixit ) {
 			$result = $fixer->fix( $result );
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_get_importers( $params ) {
+		include_once dirname( __FILE__ ).'/models/importer.php';
+
+		$params = $this->get_params( $params );
+
+		if ( isset( $params['plugin'] ) ) {
+			$groups = Red_Group::get_all();
+			$result = array( 'imported' => Red_Plugin_Importer::import( $params['plugin'], $groups[ 0 ]['id'] ) );
+		} else {
+			$result = array( 'importers' => Red_Plugin_Importer::get_plugins() );
 		}
 
 		return $this->output_ajax_response( $result );

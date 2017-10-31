@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
 Tags: post, admin, seo, 301, 404, redirect, permalink, apache, nginx, htaccess
 Requires at least: 4.4
-Tested up to: 4.8.2
+Tested up to: 4.9
 Stable tag: 2.8.1
 Requires PHP: 5.3
 License: GPLv3
@@ -14,6 +14,8 @@ Manage 301 redirections, keep track of 404 errors, and improve your site, with n
 
 Redirection is the oldest and most popular redirect manager for WordPress. With it you can easily manage 301 redirections, with full logging, as well as
 keep track of 404 errors, and generally tidy up any loose ends your site may have. This can help reduce errors and improve your site's ranking.
+
+Redirection is designed to be used for sites with a few redirects to sites with thousands of redirects.
 
 It has been a WordPress plugin for over 10 years and has been recommended countless times. Best of all, it free!
 
@@ -60,9 +62,16 @@ The plugin has a fully-featured import and export system and you can:
 - Import and export to CSV for viewing in a spreadsheet
 - Use WP CLI to automate import and export
 
+You can also import from the following plugins:
+
+- Simple 301 Redirects
+- SEO Redirection
+- Safe Redirect Manager
+- WordPress old slug redirects
+
 = Wait, it's free? =
 
-Yes, it's really free. There's no premium version and there's no need to pay any money to get access to other features. This is a dedicated redirect management plugin.
+Yes, it's really free. There's no premium version and no need to pay money to get access to other features. This is a dedicated redirect management plugin.
 
 == Support ==
 
@@ -113,6 +122,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add a check for unsupported versions of WordPress
 * Add check for database tables before starting the plugin
 * Improve JSON import memory usage
+* Add importers for: Simple 301 Redirects, SEO Redirection, Safe Redirect Manager, and WordPress old post slugs
 
 = 2.8.1 - 22nd October 2017 =
 * Fix redirect edit not closing after save
