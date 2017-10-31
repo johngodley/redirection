@@ -16,9 +16,10 @@ import classnames from 'classnames';
 
 import { getGroup } from 'state/group/action';
 import { nestedGroups } from 'state/group/selector';
-import { importFile, clearFile, addFile } from 'state/io/action';
+import { importFile, clearFile, addFile, loadImporters, pluginImport } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import { exportFile, downloadFile } from 'state/io/action';
+import Importer from './importer';
 
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
 
@@ -27,6 +28,7 @@ class ImportExport extends React.Component {
 		super( props );
 
 		this.props.onLoadGroups();
+		this.props.onLoadImport();
 
 		this.setDropzone = this.onSetZone.bind( this );
 		this.handleDrop = this.onDrop.bind( this );
@@ -209,9 +211,27 @@ class ImportExport extends React.Component {
 		);
 	}
 
+	doImport = plugin => {
+		if ( confirm( __( 'Are you sure you want to import from %s?', { args: plugin.name } ) ) ) {
+			this.props.pluginImport( plugin.id );
+		}
+	}
+
+	renderImporters( importers ) {
+		return (
+			<div>
+				<h3>{ __( 'Plugin Importers' ) }</h3>
+
+				<p>{ __( 'The following redirect plugins were detected on your site and can be imported from.' ) }</p>
+
+				{ importers.map( ( item, pos ) => <Importer plugin={ item } key={ pos } doImport={ this.doImport } /> ) }
+			</div>
+		);
+	}
+
 	render() {
 		const { hover } = this.state;
-		const { importingStatus, file, exportData, exportStatus } = this.props.io;
+		const { importingStatus, file, exportData, exportStatus, importers } = this.props.io;
 		const classes = classnames( {
 			dropzone: true,
 			'dropzone-dropped': file !== false,
@@ -264,6 +284,8 @@ class ImportExport extends React.Component {
 				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }
 
 				<p>{ __( 'Log files can be exported from the log pages.' ) }</p>
+
+				{ importers.length > 0 && this.renderImporters( importers ) }
 			</div>
 		);
 	}
@@ -297,6 +319,12 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onDownloadFile: url => {
 			dispatch( downloadFile( url ) );
+		},
+		onLoadImport: () => {
+			dispatch( loadImporters() );
+		},
+		pluginImport: id => {
+			dispatch( pluginImport( id ) );
 		},
 	};
 }
