@@ -1,6 +1,6 @@
 {
   "name": "redirection",
-  "version": "2.8.1",
+  "version": "2.9",
   "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
   "main": "redirection.php",
   "engines": {
@@ -51,7 +51,7 @@
     "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "eslint": "^4.10.0",
-    "eslint-config-wpcalypso": "^1.1.0",
+    "eslint-config-wpcalypso": "^1.1.1",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-react": "^7.4.0",
@@ -65,7 +65,7 @@
     "gulp-wp-pot": "^2.0.6",
     "gulp-zip": "^4.0.0",
     "html-webpack-plugin": "^2.30.1",
-    "i18n-calypso": "^1.8.1",
+    "i18n-calypso": "^1.8.3",
     "imports-loader": "^0.7.1",
     "jest": "^21.2.1",
     "json-loader": "^0.5.7",
@@ -85,7 +85,7 @@
     "underscore": "^1.8.3",
     "webpack": "^3.8.1",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.3",
+    "webpack-dev-server": "^2.9.4",
     "webpack-remove-debug": "^0.1.0"
   },
   "dependencies": {
@@ -100,7 +100,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-dropzone": "^4.2.1",
-    "react-hot-loader": "^3.0.0",
+    "react-hot-loader": "^3.1.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",

@@ -16,15 +16,15 @@ __( "Your server has rejected the request for being too big. You will need to ch
 __( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:100
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:96
 __( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:92
-__( "Name", "redirection" ), // client/component/groups/index.js:129
-__( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/component/groups/index.js:123
-__( "Add Group", "redirection" ), // client/component/groups/index.js:122
-__( "All modules", "redirection" ), // client/component/groups/index.js:104
-__( "Disable", "redirection" ), // client/component/groups/index.js:55
-__( "Enable", "redirection" ), // client/component/groups/index.js:51
-__( "Delete", "redirection" ), // client/component/groups/index.js:47
-__( "Module", "redirection" ), // client/component/groups/index.js:39
-__( "Redirects", "redirection" ), // client/component/groups/index.js:34
+__( "Name", "redirection" ), // client/component/groups/index.js:130
+__( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/component/groups/index.js:124
+__( "Add Group", "redirection" ), // client/component/groups/index.js:123
+__( "All modules", "redirection" ), // client/component/groups/index.js:105
+__( "Disable", "redirection" ), // client/component/groups/index.js:56
+__( "Enable", "redirection" ), // client/component/groups/index.js:52
+__( "Delete", "redirection" ), // client/component/groups/index.js:48
+__( "Module", "redirection" ), // client/component/groups/index.js:40
+__( "Redirects", "redirection" ), // client/component/groups/index.js:35
 __( "Name", "redirection" ), // client/component/groups/index.js:30
 __( "Cancel", "redirection" ), // client/component/groups/row.js:129
 __( "Save", "redirection" ), // client/component/groups/row.js:128
@@ -49,35 +49,40 @@ __( "Logs", "redirection" ), // client/component/home/index.js:32
 __( "Import/Export", "redirection" ), // client/component/home/index.js:31
 __( "Groups", "redirection" ), // client/component/home/index.js:30
 __( "Redirections", "redirection" ), // client/component/home/index.js:29
-__( "Log files can be exported from the log pages.", "redirection" ), // client/component/io/index.js:266
-__( "Download", "redirection" ), // client/component/io/index.js:261
-__( "View", "redirection" ), // client/component/io/index.js:259
-__( "Redirection JSON", "redirection" ), // client/component/io/index.js:256
-__( "Nginx rewrite rules", "redirection" ), // client/component/io/index.js:255
-__( "Apache .htaccess", "redirection" ), // client/component/io/index.js:254
-__( "CSV", "redirection" ), // client/component/io/index.js:253
-__( "Nginx redirects", "redirection" ), // client/component/io/index.js:249
-__( "Apache redirects", "redirection" ), // client/component/io/index.js:248
-__( "WordPress redirects", "redirection" ), // client/component/io/index.js:247
-__( "Everything", "redirection" ), // client/component/io/index.js:246
-__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/component/io/index.js:243
-__( "Export", "redirection" ), // client/component/io/index.js:242
-__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/component/io/index.js:233
-__( "All imports will be appended to the current database.", "redirection" ), // client/component/io/index.js:230
-__( "Import", "redirection" ), // client/component/io/index.js:224
-__( "Close", "redirection" ), // client/component/io/index.js:199
-__( "OK", "redirection" ), // client/component/io/index.js:172
-__( "Double-check the file is the correct format!", "redirection" ), // client/component/io/index.js:170
-__( "Total redirects imported:", "redirection" ), // client/component/io/index.js:169
-__( "Finished importing", "redirection" ), // client/component/io/index.js:167
-__( "Importing", "redirection" ), // client/component/io/index.js:151
-__( "Cancel", "redirection" ), // client/component/io/index.js:141
-__( "Upload", "redirection" ), // client/component/io/index.js:140
-__( "File selected", "redirection" ), // client/component/io/index.js:134
-__( "Add File", "redirection" ), // client/component/io/index.js:123
-__( "Click 'Add File' or drag and drop here.", "redirection" ), // client/component/io/index.js:121
-__( "Import a CSV, .htaccess, or JSON file.", "redirection" ), // client/component/io/index.js:120
-__( "Import to group", "redirection" ), // client/component/io/index.js:112
+__( "Import from %s", "redirection" ), // client/component/io/importer.js:20
+__( "total = ", "redirection" ), // client/component/io/importer.js:17
+__( "Log files can be exported from the log pages.", "redirection" ), // client/component/io/index.js:286
+__( "Download", "redirection" ), // client/component/io/index.js:281
+__( "View", "redirection" ), // client/component/io/index.js:279
+__( "Redirection JSON", "redirection" ), // client/component/io/index.js:276
+__( "Nginx rewrite rules", "redirection" ), // client/component/io/index.js:275
+__( "Apache .htaccess", "redirection" ), // client/component/io/index.js:274
+__( "CSV", "redirection" ), // client/component/io/index.js:273
+__( "Nginx redirects", "redirection" ), // client/component/io/index.js:269
+__( "Apache redirects", "redirection" ), // client/component/io/index.js:268
+__( "WordPress redirects", "redirection" ), // client/component/io/index.js:267
+__( "Everything", "redirection" ), // client/component/io/index.js:266
+__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/component/io/index.js:263
+__( "Export", "redirection" ), // client/component/io/index.js:262
+__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/component/io/index.js:253
+__( "All imports will be appended to the current database.", "redirection" ), // client/component/io/index.js:250
+__( "Import", "redirection" ), // client/component/io/index.js:244
+__( "The following redirect plugins were detected on your site and can be imported from.", "redirection" ), // client/component/io/index.js:225
+__( "Plugin Importers", "redirection" ), // client/component/io/index.js:223
+__( "Are you sure you want to import from %s?", "redirection" ), // client/component/io/index.js:215
+__( "Close", "redirection" ), // client/component/io/index.js:201
+__( "OK", "redirection" ), // client/component/io/index.js:174
+__( "Double-check the file is the correct format!", "redirection" ), // client/component/io/index.js:172
+__( "Total redirects imported:", "redirection" ), // client/component/io/index.js:171
+__( "Finished importing", "redirection" ), // client/component/io/index.js:169
+__( "Importing", "redirection" ), // client/component/io/index.js:153
+__( "Cancel", "redirection" ), // client/component/io/index.js:143
+__( "Upload", "redirection" ), // client/component/io/index.js:142
+__( "File selected", "redirection" ), // client/component/io/index.js:136
+__( "Add File", "redirection" ), // client/component/io/index.js:125
+__( "Click 'Add File' or drag and drop here.", "redirection" ), // client/component/io/index.js:123
+__( "Import a CSV, .htaccess, or JSON file.", "redirection" ), // client/component/io/index.js:122
+__( "Import to group", "redirection" ), // client/component/io/index.js:114
 __( "No! Don't delete the logs", "redirection" ), // client/component/logs/delete-all.js:81
 __( "Yes! Delete the logs", "redirection" ), // client/component/logs/delete-all.js:81
 __( "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/component/logs/delete-all.js:79
@@ -86,16 +91,16 @@ __( "Delete All", "redirection" ), // client/component/logs/delete-all.js:65
 __( "Delete all matching \"%s\"", "redirection" ), // client/component/logs/delete-all.js:60
 __( "Delete all from IP %s", "redirection" ), // client/component/logs/delete-all.js:54
 __( "Export", "redirection" ), // client/component/logs/export-csv.js:16
-__( "Delete", "redirection" ), // client/component/logs/index.js:52
-__( "IP", "redirection" ), // client/component/logs/index.js:44
-__( "Referrer", "redirection" ), // client/component/logs/index.js:40
+__( "Delete", "redirection" ), // client/component/logs/index.js:53
+__( "IP", "redirection" ), // client/component/logs/index.js:45
+__( "Referrer", "redirection" ), // client/component/logs/index.js:41
 __( "Source URL", "redirection" ), // client/component/logs/index.js:36
 __( "Date", "redirection" ), // client/component/logs/index.js:32
 __( "Show only this IP", "redirection" ), // client/component/logs/row.js:80
 __( "Delete", "redirection" ), // client/component/logs/row.js:62
-__( "Delete", "redirection" ), // client/component/logs404/index.js:52
-__( "IP", "redirection" ), // client/component/logs404/index.js:44
-__( "Referrer", "redirection" ), // client/component/logs404/index.js:40
+__( "Delete", "redirection" ), // client/component/logs404/index.js:53
+__( "IP", "redirection" ), // client/component/logs404/index.js:45
+__( "Referrer", "redirection" ), // client/component/logs404/index.js:41
 __( "Source URL", "redirection" ), // client/component/logs404/index.js:36
 __( "Date", "redirection" ), // client/component/logs404/index.js:32
 __( "Show only this IP", "redirection" ), // client/component/logs404/row.js:127
@@ -125,26 +130,33 @@ __( "You get useful software and I get to carry on making it better.", "redirect
 __( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/component/options/donation.js:99
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
-__( "Update", "redirection" ), // client/component/options/options-form.js:157
-__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:147
-__( "Apache Module", "redirection" ), // client/component/options/options-form.js:142
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:134
-__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:131
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:128
-__( "RSS Token", "redirection" ), // client/component/options/options-form.js:126
-__( "Monitor trashed items (will create disabled redirects)", "redirection" ), // client/component/options/options-form.js:121
-__( "Monitor changes to pages", "redirection" ), // client/component/options/options-form.js:120
-__( "Monitor changes to posts", "redirection" ), // client/component/options/options-form.js:119
-__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:118
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:115
-__( "404 Logs", "redirection" ), // client/component/options/options-form.js:114
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:111
-__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:110
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:106
-__( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:91
-__( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:91
-__( "Save changes to this group", "redirection" ), // client/component/options/options-form.js:89
-__( "URL Monitor Changes", "redirection" ), // client/component/options/options-form.js:86
+__( "Update", "redirection" ), // client/component/options/options-form.js:169
+__( "How long to cache redirected URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:165
+__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:163
+__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:154
+__( "Apache Module", "redirection" ), // client/component/options/options-form.js:149
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:141
+__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:138
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:135
+__( "RSS Token", "redirection" ), // client/component/options/options-form.js:133
+__( "Monitor trashed items (will create disabled redirects)", "redirection" ), // client/component/options/options-form.js:128
+__( "Monitor changes to pages", "redirection" ), // client/component/options/options-form.js:127
+__( "Monitor changes to posts", "redirection" ), // client/component/options/options-form.js:126
+__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:125
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:122
+__( "404 Logs", "redirection" ), // client/component/options/options-form.js:121
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:118
+__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:117
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:113
+__( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:98
+__( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:98
+__( "Save changes to this group", "redirection" ), // client/component/options/options-form.js:96
+__( "URL Monitor Changes", "redirection" ), // client/component/options/options-form.js:93
+__( "Forever", "redirection" ), // client/component/options/options-form.js:30
+__( "A week", "redirection" ), // client/component/options/options-form.js:29
+__( "A day", "redirection" ), // client/component/options/options-form.js:28
+__( "An hour", "redirection" ), // client/component/options/options-form.js:27
+__( "Never cache", "redirection" ), // client/component/options/options-form.js:26
 __( "Forever", "redirection" ), // client/component/options/options-form.js:23
 __( "Two months", "redirection" ), // client/component/options/options-form.js:22
 __( "A month", "redirection" ), // client/component/options/options-form.js:21
@@ -160,17 +172,17 @@ __( "Logged In", "redirection" ), // client/component/redirects/action/login.js:
 __( "Unmatched Target", "redirection" ), // client/component/redirects/action/referrer.js:42
 __( "Matched Target", "redirection" ), // client/component/redirects/action/referrer.js:36
 __( "Target URL", "redirection" ), // client/component/redirects/action/url.js:24
-__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:480
-__( "Cancel", "redirection" ), // client/component/redirects/edit.js:477
-__( "Regex", "redirection" ), // client/component/redirects/edit.js:455
-__( "Source URL", "redirection" ), // client/component/redirects/edit.js:451
-__( "Save", "redirection" ), // client/component/redirects/edit.js:444
-__( "Position", "redirection" ), // client/component/redirects/edit.js:409
-__( "Group", "redirection" ), // client/component/redirects/edit.js:405
-__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:392
-__( "When matched", "redirection" ), // client/component/redirects/edit.js:386
-__( "Match", "redirection" ), // client/component/redirects/edit.js:362
-__( "Title", "redirection" ), // client/component/redirects/edit.js:349
+__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:494
+__( "Cancel", "redirection" ), // client/component/redirects/edit.js:491
+__( "Regex", "redirection" ), // client/component/redirects/edit.js:469
+__( "Source URL", "redirection" ), // client/component/redirects/edit.js:465
+__( "Save", "redirection" ), // client/component/redirects/edit.js:458
+__( "Position", "redirection" ), // client/component/redirects/edit.js:423
+__( "Group", "redirection" ), // client/component/redirects/edit.js:419
+__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:406
+__( "When matched", "redirection" ), // client/component/redirects/edit.js:400
+__( "Match", "redirection" ), // client/component/redirects/edit.js:376
+__( "Title", "redirection" ), // client/component/redirects/edit.js:363
 __( "410 - Gone", "redirection" ), // client/component/redirects/edit.js:110
 __( "404 - Not Found", "redirection" ), // client/component/redirects/edit.js:106
 __( "401 - Unauthorized", "redirection" ), // client/component/redirects/edit.js:102
@@ -187,16 +199,16 @@ __( "URL and user agent", "redirection" ), // client/component/redirects/edit.js
 __( "URL and referrer", "redirection" ), // client/component/redirects/edit.js:49
 __( "URL and login status", "redirection" ), // client/component/redirects/edit.js:45
 __( "URL only", "redirection" ), // client/component/redirects/edit.js:41
-__( "Add Redirect", "redirection" ), // client/component/redirects/index.js:109
-__( "Add new redirection", "redirection" ), // client/component/redirects/index.js:107
-__( "All groups", "redirection" ), // client/component/redirects/index.js:99
-__( "Reset hits", "redirection" ), // client/component/redirects/index.js:68
-__( "Disable", "redirection" ), // client/component/redirects/index.js:64
-__( "Enable", "redirection" ), // client/component/redirects/index.js:60
-__( "Delete", "redirection" ), // client/component/redirects/index.js:56
-__( "Last Access", "redirection" ), // client/component/redirects/index.js:49
-__( "Hits", "redirection" ), // client/component/redirects/index.js:45
-__( "Pos", "redirection" ), // client/component/redirects/index.js:41
+__( "Add Redirect", "redirection" ), // client/component/redirects/index.js:110
+__( "Add new redirection", "redirection" ), // client/component/redirects/index.js:108
+__( "All groups", "redirection" ), // client/component/redirects/index.js:100
+__( "Reset hits", "redirection" ), // client/component/redirects/index.js:69
+__( "Disable", "redirection" ), // client/component/redirects/index.js:65
+__( "Enable", "redirection" ), // client/component/redirects/index.js:61
+__( "Delete", "redirection" ), // client/component/redirects/index.js:57
+__( "Last Access", "redirection" ), // client/component/redirects/index.js:50
+__( "Hits", "redirection" ), // client/component/redirects/index.js:46
+__( "Pos", "redirection" ), // client/component/redirects/index.js:42
 __( "URL", "redirection" ), // client/component/redirects/index.js:37
 __( "Type", "redirection" ), // client/component/redirects/index.js:32
 __( "Regex", "redirection" ), // client/component/redirects/match/agent.js:65
@@ -207,11 +219,11 @@ __( "Custom", "redirection" ), // client/component/redirects/match/agent.js:58
 __( "User Agent", "redirection" ), // client/component/redirects/match/agent.js:53
 __( "Regex", "redirection" ), // client/component/redirects/match/referrer.js:36
 __( "Referrer", "redirection" ), // client/component/redirects/match/referrer.js:32
-__( "pass", "redirection" ), // client/component/redirects/row.js:98
-__( "Enable", "redirection" ), // client/component/redirects/row.js:86
-__( "Disable", "redirection" ), // client/component/redirects/row.js:84
-__( "Delete", "redirection" ), // client/component/redirects/row.js:81
-__( "Edit", "redirection" ), // client/component/redirects/row.js:78
+__( "pass", "redirection" ), // client/component/redirects/row.js:99
+__( "Enable", "redirection" ), // client/component/redirects/row.js:87
+__( "Disable", "redirection" ), // client/component/redirects/row.js:85
+__( "Delete", "redirection" ), // client/component/redirects/row.js:82
+__( "Edit", "redirection" ), // client/component/redirects/row.js:79
 __( "Frequently Asked Questions", "redirection" ), // client/component/support/faq.js:45
 __( "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site.", "redirection" ), // client/component/support/faq.js:27
 __( "Can I redirect all 404 errors?", "redirection" ), // client/component/support/faq.js:26

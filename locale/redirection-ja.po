@@ -11,59 +11,63 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
-#: redirection-strings.php:239
+#: redirection-strings.php:144
+msgid "Create associated redirect (added to end of URL)"
+msgstr ""
+
+#: redirection-admin.php:215
+msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
+msgstr ""
+
+#: redirection-strings.php:235
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
 msgstr ""
 
-#: redirection-strings.php:238
+#: redirection-strings.php:234
 msgid "⚡️ Magic fix ⚡️"
 msgstr ""
 
-#: redirection-strings.php:237
+#: redirection-strings.php:233
 msgid "Plugin Status"
 msgstr ""
 
-#: redirection-strings.php:210
+#: redirection-strings.php:206
 msgid "Custom"
 msgstr ""
 
-#: redirection-strings.php:209
+#: redirection-strings.php:205
 msgid "Mobile"
 msgstr ""
 
-#: redirection-strings.php:208
+#: redirection-strings.php:204
 msgid "Feed Readers"
 msgstr ""
 
-#: redirection-strings.php:207
+#: redirection-strings.php:203
 msgid "Libraries"
 msgstr ""
 
-#: redirection-strings.php:151
+#: redirection-strings.php:147
 msgid "URL Monitor Changes"
 msgstr ""
 
-#: redirection-strings.php:150
+#: redirection-strings.php:146
 msgid "Save changes to this group"
 msgstr ""
 
-#: redirection-strings.php:149
+#: redirection-strings.php:145
 msgid "For example \"/amp\""
 msgstr ""
 
-#: redirection-strings.php:148
-msgid "Create associated redirect"
-msgstr ""
-
-#: redirection-strings.php:142
+#: redirection-strings.php:138
 msgid "URL Monitor"
 msgstr ""
 
-#: redirection-strings.php:140
+#: redirection-strings.php:136
 msgid "Monitor changes to pages"
 msgstr ""
 
-#: redirection-strings.php:139
+#: redirection-strings.php:135
 msgid "Monitor trashed items (will create disabled redirects)"
 msgstr ""
 
@@ -229,55 +233,55 @@ msgstr "メール"
 msgid "Important details"
 msgstr "重要な詳細"
 
-#: redirection-strings.php:230
+#: redirection-strings.php:226
 msgid "Need help?"
 msgstr "ヘルプが必要ですか?"
 
-#: redirection-strings.php:229
+#: redirection-strings.php:225
 msgid "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists."
 msgstr "まずは下記の FAQ のチェックしてください。それでも問題が発生するようなら他のすべてのプラグインを無効化し問題がまだ発生しているかを確認してください。"
 
-#: redirection-strings.php:228
+#: redirection-strings.php:224
 msgid "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue."
 msgstr "バグの報告や新たな提案は GitHub レポジトリ上で行うことが出来ます。問題を特定するためにできるだけ多くの情報をスクリーンショット等とともに提供してください。"
 
-#: redirection-strings.php:227
+#: redirection-strings.php:223
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
 msgstr "サポートはあくまで時間があるときにのみ提供されることになり、必ず提供されると保証することは出来ないことに注意してください。また有料サポートは受け付けていません。"
 
-#: redirection-strings.php:226
+#: redirection-strings.php:222
 msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}."
 msgstr "共有レポジトリに置きたくない情報を送信したい場合、{{email}}メール{{/email}} で直接送信してください。"
 
-#: redirection-strings.php:221
+#: redirection-strings.php:217
 msgid "Can I redirect all 404 errors?"
 msgstr "すべての 404 エラーをリダイレクトさせることは出来ますか?"
 
-#: redirection-strings.php:220
+#: redirection-strings.php:216
 msgid "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site."
 msgstr "いいえ、そうすることは推奨されません。404エラーにはページが存在しないという正しいレスポンスを返す役割があります。もしそれをリダイレクトしてしまうとかつて存在していたことを示してしまい、あなたのサイトのコンテンツ薄くなる可能性があります。"
 
-#: redirection-strings.php:203
+#: redirection-strings.php:199
 msgid "Pos"
 msgstr "Pos"
 
-#: redirection-strings.php:178
+#: redirection-strings.php:174
 msgid "410 - Gone"
 msgstr "410 - 消滅"
 
-#: redirection-strings.php:172
+#: redirection-strings.php:168
 msgid "Position"
 msgstr "配置"
 
-#: redirection-strings.php:135
+#: redirection-strings.php:131
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted"
 msgstr "URL が指定されていない場合に URL を自動生成するために使用されます。{{code}}$dec${{/code}} もしくは {{code}}$hex${{/code}} のような特別なタグが一意の ID を作るために挿入されます。"
 
-#: redirection-strings.php:134
+#: redirection-strings.php:130
 msgid "Apache Module"
 msgstr "Apache モジュール"
 
-#: redirection-strings.php:133
+#: redirection-strings.php:129
 msgid "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}."
 msgstr "{{code}}.htaccess{{/code} を自動的にアップデートさせたい場合、完全なパスとファイルネームを入力してください。"
 
@@ -401,84 +405,84 @@ msgstr "もっとサポートがしたいです。"
 msgid "Support 💰"
 msgstr "サポート💰"
 
-#: redirection-strings.php:260
+#: redirection-strings.php:256
 msgid "Redirection saved"
 msgstr "リダイレクトが保存されました"
 
-#: redirection-strings.php:259
+#: redirection-strings.php:255
 msgid "Log deleted"
 msgstr "ログが削除されました"
 
-#: redirection-strings.php:258
+#: redirection-strings.php:254
 msgid "Settings saved"
 msgstr "設定が保存されました"
 
-#: redirection-strings.php:257
+#: redirection-strings.php:253
 msgid "Group saved"
 msgstr "グループが保存されました"
 
-#: redirection-strings.php:256
+#: redirection-strings.php:252
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete these items?"
 msgstr[0] "本当に削除してもよろしいですか?"
 
-#: redirection-strings.php:214
+#: redirection-strings.php:210
 msgid "pass"
 msgstr "パス"
 
-#: redirection-strings.php:196
+#: redirection-strings.php:192
 msgid "All groups"
 msgstr "すべてのグループ"
 
-#: redirection-strings.php:184
+#: redirection-strings.php:180
 msgid "301 - Moved Permanently"
 msgstr "301 - 恒久的に移動"
 
-#: redirection-strings.php:183
+#: redirection-strings.php:179
 msgid "302 - Found"
 msgstr "302 - 発見"
 
-#: redirection-strings.php:182
+#: redirection-strings.php:178
 msgid "307 - Temporary Redirect"
 msgstr "307 - 一時リダイレクト"
 
-#: redirection-strings.php:181
+#: redirection-strings.php:177
 msgid "308 - Permanent Redirect"
 msgstr "308 - 恒久リダイレクト"
 
-#: redirection-strings.php:180
+#: redirection-strings.php:176
 msgid "401 - Unauthorized"
 msgstr "401 - 認証が必要"
 
-#: redirection-strings.php:179
+#: redirection-strings.php:175
 msgid "404 - Not Found"
 msgstr "404 - 未検出"
 
-#: redirection-strings.php:177
+#: redirection-strings.php:173
 msgid "Title"
 msgstr "タイトル"
 
-#: redirection-strings.php:175
+#: redirection-strings.php:171
 msgid "When matched"
 msgstr "マッチした時"
 
-#: redirection-strings.php:174
+#: redirection-strings.php:170
 msgid "with HTTP code"
 msgstr "次の HTTP コードと共に"
 
-#: redirection-strings.php:167
+#: redirection-strings.php:163
 msgid "Show advanced options"
 msgstr "高度な設定を表示"
 
-#: redirection-strings.php:161 redirection-strings.php:165
+#: redirection-strings.php:157 redirection-strings.php:161
 msgid "Matched Target"
 msgstr "見つかったターゲット"
 
-#: redirection-strings.php:160 redirection-strings.php:164
+#: redirection-strings.php:156 redirection-strings.php:160
 msgid "Unmatched Target"
 msgstr "ターゲットが見つかりません"
 
-#: redirection-strings.php:158 redirection-strings.php:159
+#: redirection-strings.php:154 redirection-strings.php:155
 msgid "Saving..."
 msgstr "保存中…"
 
@@ -522,68 +526,60 @@ msgstr "もしその問題と同じ問題が {{link}}Redirection issues{{/link}}
 msgid "Log entries (%d max)"
 msgstr "ログ (最大 %d)"
 
-#: redirection-strings.php:131
-msgid "Remove WWW"
-msgstr "WWW を削除"
-
-#: redirection-strings.php:130
-msgid "Add WWW"
-msgstr "WWW を追加"
-
-#: redirection-strings.php:255
+#: redirection-strings.php:251
 msgid "Search by IP"
 msgstr "IP による検索"
 
-#: redirection-strings.php:251
+#: redirection-strings.php:247
 msgid "Select bulk action"
 msgstr "一括操作を選択"
 
-#: redirection-strings.php:250
+#: redirection-strings.php:246
 msgid "Bulk Actions"
 msgstr "一括操作"
 
-#: redirection-strings.php:249
+#: redirection-strings.php:245
 msgid "Apply"
 msgstr "適応"
 
-#: redirection-strings.php:248
+#: redirection-strings.php:244
 msgid "First page"
 msgstr "最初のページ"
 
-#: redirection-strings.php:247
+#: redirection-strings.php:243
 msgid "Prev page"
 msgstr "前のページ"
 
-#: redirection-strings.php:246
+#: redirection-strings.php:242
 msgid "Current Page"
 msgstr "現在のページ"
 
-#: redirection-strings.php:245
+#: redirection-strings.php:241
 msgid "of %(page)s"
 msgstr "%(page)s"
 
-#: redirection-strings.php:244
+#: redirection-strings.php:240
 msgid "Next page"
 msgstr "次のページ"
 
-#: redirection-strings.php:243
+#: redirection-strings.php:239
 msgid "Last page"
 msgstr "最後のページ"
 
-#: redirection-strings.php:242
+#: redirection-strings.php:238
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] "%s 個のアイテム"
 
-#: redirection-strings.php:241
+#: redirection-strings.php:237
 msgid "Select All"
 msgstr "すべて選択"
 
-#: redirection-strings.php:253
+#: redirection-strings.php:249
 msgid "Sorry, something went wrong loading the data - please try again"
 msgstr "データのロード中に問題が発生しました - もう一度お試しください"
 
-#: redirection-strings.php:252
+#: redirection-strings.php:248
 msgid "No results"
 msgstr "結果なし"
 
@@ -603,43 +599,43 @@ msgstr "ログを消去する"
 msgid "No! Don't delete the logs"
 msgstr "ログを消去しない"
 
-#: redirection-strings.php:235
+#: redirection-strings.php:231
 msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
 msgstr "登録ありがとうございます ! 登録へ戻る場合は {{a}}こちら{{/a}} をクリックしてください。"
 
-#: redirection-strings.php:234 redirection-strings.php:236
+#: redirection-strings.php:230 redirection-strings.php:232
 msgid "Newsletter"
 msgstr "ニュースレター"
 
-#: redirection-strings.php:233
+#: redirection-strings.php:229
 msgid "Want to keep up to date with changes to Redirection?"
 msgstr "リダイレクトの変更を最新の状態に保ちたいですか ?"
 
-#: redirection-strings.php:232
+#: redirection-strings.php:228
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release."
 msgstr "Redirection ニュースレターにサインアップ - このプラグインの新機能や変更点などについての小規模のニュースレターです。リリース前のベータ版をテストするのに理想的です。"
 
-#: redirection-strings.php:231
+#: redirection-strings.php:227
 msgid "Your email address:"
 msgstr "メールアドレス: "
 
-#: redirection-strings.php:225
+#: redirection-strings.php:221
 msgid "I deleted a redirection, why is it still redirecting?"
 msgstr "なぜリダイレクト設定を削除したのにまだリダイレクトが機能しているのですか ?"
 
-#: redirection-strings.php:224
+#: redirection-strings.php:220
 msgid "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}."
 msgstr "ブラウザーはリダイレクト設定をキャッシュします。もしリダイレクト設定を削除後にもまだ機能しているのであれば、{{a}}ブラウザーのキャッシュをクリア{{/a}} してください。"
 
-#: redirection-strings.php:223
+#: redirection-strings.php:219
 msgid "Can I open a redirect in a new tab?"
 msgstr "リダイレクトを新しいタブで開くことが出来ますか ?"
 
-#: redirection-strings.php:222
+#: redirection-strings.php:218
 msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link."
 msgstr "このサーバーではこれを実行することが出来ません。代わりに {{code}} target = \"_ blank\" {{/ code}} をリンクに追加する必要があります。"
 
-#: redirection-strings.php:219
+#: redirection-strings.php:215
 msgid "Frequently Asked Questions"
 msgstr "よくある質問"
 
@@ -651,7 +647,7 @@ msgstr "あなたは既にこのプラグインをサポート済みです - あ
 msgid "You get useful software and I get to carry on making it better."
 msgstr "あなたはいくつかの便利なソフトウェアを手に入れ、私はそれをより良くするために続けます。"
 
-#: redirection-strings.php:152
+#: redirection-strings.php:148
 msgid "Forever"
 msgstr "永久に"
 
@@ -723,35 +719,35 @@ msgstr "インポート"
 msgid "Update"
 msgstr "更新"
 
-#: redirection-strings.php:136
+#: redirection-strings.php:132
 msgid "Auto-generate URL"
 msgstr "URL を自動生成 "
 
-#: redirection-strings.php:137
+#: redirection-strings.php:133
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
 msgstr "リディレクションログ RSS にフィードリーダーからアクセスするための固有トークン (空白にしておけば自動生成します)"
 
-#: redirection-strings.php:138
+#: redirection-strings.php:134
 msgid "RSS Token"
 msgstr "RSS トークン"
 
-#: redirection-strings.php:141
+#: redirection-strings.php:137
 msgid "Monitor changes to posts"
 msgstr "投稿の変更をモニター"
 
-#: redirection-strings.php:144
+#: redirection-strings.php:140
 msgid "404 Logs"
 msgstr "404 ログ"
 
-#: redirection-strings.php:143 redirection-strings.php:145
+#: redirection-strings.php:139 redirection-strings.php:141
 msgid "(time to keep logs for)"
 msgstr "(ログの保存期間)"
 
-#: redirection-strings.php:146
+#: redirection-strings.php:142
 msgid "Redirect Logs"
 msgstr "転送ログ"
 
-#: redirection-strings.php:147
+#: redirection-strings.php:143
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "このプラグインの作者に対する援助を行いました"
 
@@ -763,23 +759,23 @@ msgstr "プラグインサポート"
 msgid "Options"
 msgstr "設定"
 
-#: redirection-strings.php:153
+#: redirection-strings.php:149
 msgid "Two months"
 msgstr "2ヶ月"
 
-#: redirection-strings.php:154
+#: redirection-strings.php:150
 msgid "A month"
 msgstr "1ヶ月"
 
-#: redirection-strings.php:155
+#: redirection-strings.php:151
 msgid "A week"
 msgstr "1週間"
 
-#: redirection-strings.php:156
+#: redirection-strings.php:152
 msgid "A day"
 msgstr "1日"
 
-#: redirection-strings.php:157
+#: redirection-strings.php:153
 msgid "No logs"
 msgstr "ログなし"
 
@@ -795,7 +791,7 @@ msgstr "グループを使って転送をグループ化しましょう。グル
 msgid "Add Group"
 msgstr "グループを追加"
 
-#: redirection-strings.php:254
+#: redirection-strings.php:250
 msgid "Search"
 msgstr "検索"
 
@@ -803,24 +799,24 @@ msgstr "検索"
 msgid "Groups"
 msgstr "グループ"
 
-#: redirection-strings.php:30 redirection-strings.php:171
+#: redirection-strings.php:30 redirection-strings.php:167
 msgid "Save"
 msgstr "保存"
 
-#: redirection-strings.php:173
+#: redirection-strings.php:169
 msgid "Group"
 msgstr "グループ"
 
-#: redirection-strings.php:176
+#: redirection-strings.php:172
 msgid "Match"
 msgstr "一致条件"
 
-#: redirection-strings.php:195
+#: redirection-strings.php:191
 msgid "Add new redirection"
 msgstr "新しい転送ルールを追加"
 
 #: redirection-strings.php:29 redirection-strings.php:74
-#: redirection-strings.php:168
+#: redirection-strings.php:164
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -836,31 +832,23 @@ msgstr "Redirection"
 msgid "Settings"
 msgstr "設定"
 
-#: redirection-strings.php:129
-msgid "Automatically remove or add www to your site."
-msgstr "自動的にサイト URL の www を除去または追加。"
-
-#: redirection-strings.php:132
-msgid "Default server"
-msgstr "デフォルトサーバー"
-
-#: redirection-strings.php:185
+#: redirection-strings.php:181
 msgid "Do nothing"
 msgstr "何もしない"
 
-#: redirection-strings.php:186
+#: redirection-strings.php:182
 msgid "Error (404)"
 msgstr "エラー (404)"
 
-#: redirection-strings.php:187
+#: redirection-strings.php:183
 msgid "Pass-through"
 msgstr "通過"
 
-#: redirection-strings.php:188
+#: redirection-strings.php:184
 msgid "Redirect to random post"
 msgstr "ランダムな記事へ転送"
 
-#: redirection-strings.php:189
+#: redirection-strings.php:185
 msgid "Redirect to URL"
 msgstr "URL へ転送"
 
@@ -877,7 +865,7 @@ msgid "IP"
 msgstr "IP"
 
 #: redirection-strings.php:92 redirection-strings.php:99
-#: redirection-strings.php:170
+#: redirection-strings.php:166
 msgid "Source URL"
 msgstr "ソース URL"
 
@@ -886,7 +874,7 @@ msgid "Date"
 msgstr "日付"
 
 #: redirection-strings.php:102 redirection-strings.php:106
-#: redirection-strings.php:194
+#: redirection-strings.php:190
 msgid "Add Redirect"
 msgstr "転送ルールを追加"
 
@@ -911,49 +899,49 @@ msgstr "転送ルール"
 msgid "Name"
 msgstr "名称"
 
-#: redirection-strings.php:240
+#: redirection-strings.php:236
 msgid "Filter"
 msgstr "フィルター"
 
-#: redirection-strings.php:197
+#: redirection-strings.php:193
 msgid "Reset hits"
 msgstr "訪問数をリセット"
 
 #: redirection-strings.php:24 redirection-strings.php:33
-#: redirection-strings.php:199 redirection-strings.php:215
+#: redirection-strings.php:195 redirection-strings.php:211
 msgid "Enable"
 msgstr "有効化"
 
 #: redirection-strings.php:23 redirection-strings.php:34
-#: redirection-strings.php:198 redirection-strings.php:216
+#: redirection-strings.php:194 redirection-strings.php:212
 msgid "Disable"
 msgstr "無効化"
 
 #: redirection-strings.php:25 redirection-strings.php:36
 #: redirection-strings.php:89 redirection-strings.php:95
 #: redirection-strings.php:96 redirection-strings.php:103
-#: redirection-strings.php:120 redirection-strings.php:200
-#: redirection-strings.php:217
+#: redirection-strings.php:120 redirection-strings.php:196
+#: redirection-strings.php:213
 msgid "Delete"
 msgstr "削除"
 
-#: redirection-strings.php:37 redirection-strings.php:218
+#: redirection-strings.php:37 redirection-strings.php:214
 msgid "Edit"
 msgstr "編集"
 
-#: redirection-strings.php:201
+#: redirection-strings.php:197
 msgid "Last Access"
 msgstr "前回のアクセス"
 
-#: redirection-strings.php:202
+#: redirection-strings.php:198
 msgid "Hits"
 msgstr "ヒット数"
 
-#: redirection-strings.php:204
+#: redirection-strings.php:200
 msgid "URL"
 msgstr "URL"
 
-#: redirection-strings.php:205
+#: redirection-strings.php:201
 msgid "Type"
 msgstr "タイプ"
 
@@ -965,44 +953,44 @@ msgstr "編集済みの投稿"
 msgid "Redirections"
 msgstr "転送ルール"
 
-#: redirection-strings.php:211
+#: redirection-strings.php:207
 msgid "User Agent"
 msgstr "ユーザーエージェント"
 
-#: matches/user-agent.php:10 redirection-strings.php:190
+#: matches/user-agent.php:10 redirection-strings.php:186
 msgid "URL and user agent"
 msgstr "URL およびユーザーエージェント"
 
-#: redirection-strings.php:166
+#: redirection-strings.php:162
 msgid "Target URL"
 msgstr "ターゲット URL"
 
-#: matches/url.php:7 redirection-strings.php:193
+#: matches/url.php:7 redirection-strings.php:189
 msgid "URL only"
 msgstr "URL のみ"
 
-#: redirection-strings.php:169 redirection-strings.php:206
-#: redirection-strings.php:212
+#: redirection-strings.php:165 redirection-strings.php:202
+#: redirection-strings.php:208
 msgid "Regex"
 msgstr "正規表現"
 
 #: redirection-strings.php:91 redirection-strings.php:98
-#: redirection-strings.php:213
+#: redirection-strings.php:209
 msgid "Referrer"
 msgstr "リファラー"
 
-#: matches/referrer.php:10 redirection-strings.php:191
+#: matches/referrer.php:10 redirection-strings.php:187
 msgid "URL and referrer"
 msgstr "URL およびリファラー"
 
-#: redirection-strings.php:162
+#: redirection-strings.php:158
 msgid "Logged Out"
 msgstr "ログアウト中"
 
-#: redirection-strings.php:163
+#: redirection-strings.php:159
 msgid "Logged In"
 msgstr "ログイン中"
 
-#: matches/login.php:8 redirection-strings.php:192
+#: matches/login.php:8 redirection-strings.php:188
 msgid "URL and login status"
 msgstr "URL およびログイン状態"
