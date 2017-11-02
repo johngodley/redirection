@@ -34,6 +34,7 @@ const headers = [
 	{
 		name: 'url',
 		title: __( 'Source URL' ),
+		primary: true,
 	},
 	{
 		name: 'referrer',

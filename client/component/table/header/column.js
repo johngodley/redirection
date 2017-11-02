@@ -6,9 +6,10 @@ import React from 'react';
 import classnames from 'classnames';
 
 const Column = props => {
-	const { name, text } = props;
+	const { name, text, primary } = props;
 	const classes = classnames( {
 		'manage-column': true,
+		'column-primary': primary,
 		[ 'column-' + name ]: true,
 	} );
 

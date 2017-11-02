@@ -103,7 +103,7 @@ class LogRow404 extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td>
+				<td className="column-date">
 					{ created }
 					<RowActions disabled={ isSaving }>
 						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
@@ -112,14 +112,14 @@ class LogRow404 extends React.Component {
 
 					{ this.state.editing && this.renderEdit() }
 				</td>
-				<td>
+				<td className="column-url column-primary">
 					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 				</td>
-				<td>
+				<td className="column-referrer">
 					<Referrer url={ referrer } />
 					{ agent && <RowActions>{ [ agent ] }</RowActions> }
 				</td>
-				<td>
+				<td className="column-ip">
 					<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">
 						{ ip }
 					</a>

@@ -21,15 +21,17 @@ const TableHeader = props => {
 	return (
 		<tr>
 			{ headers.map( item => {
-				if ( item.check === true ) {
+				const { primary = false, check = false, sortable = false } = item;
+
+				if ( check === true ) {
 					return <CheckColumn onSetAllSelected={ setSelected } isDisabled={ isDisabled } isSelected={ isSelected } key={ item.name } />;
 				}
 
-				if ( item.sortable === false ) {
-					return <Column name={ item.name } text={ item.title } key={ item.name } />;
+				if ( sortable === false ) {
+					return <Column name={ item.name } text={ item.title } key={ item.name } primary={ primary } />;
 				}
 
-				return <SortableColumn table={ table } name={ item.name } text={ item.title } key={ item.name } onSetOrderBy={ onSetOrderBy } />;
+				return <SortableColumn table={ table } name={ item.name } text={ item.title } key={ item.name } onSetOrderBy={ onSetOrderBy } primary={ primary } />;
 			} ) }
 		</tr>
 	);

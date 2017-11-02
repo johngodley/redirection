@@ -28,13 +28,14 @@ const headers = [
 		check: true,
 	},
 	{
-		name: 'type',
+		name: 'code',
 		title: __( 'Type' ),
 		sortable: false,
 	},
 	{
 		name: 'url',
 		title: __( 'URL' ),
+		primary: true,
 	},
 	{
 		name: 'position',
@@ -97,7 +98,7 @@ class Redirects extends React.Component {
 			{
 				value: 0,
 				text: __( 'All groups' ),
-			}
+			},
 		].concat( nestedGroups( groups ) );
 	}
 
