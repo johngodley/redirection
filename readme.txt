@@ -123,6 +123,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add check for database tables before starting the plugin
 * Improve JSON import memory usage
 * Add importers for: Simple 301 Redirects, SEO Redirection, Safe Redirect Manager, and WordPress old post slugs
+* Add responsive admin UI
 
 = 2.8.1 - 22nd October 2017 =
 * Fix redirect edit not closing after save

@@ -1,6 +1,7 @@
 @import 'globals';
 @import 'spinner';
 @import 'modal';
+@import 'table';
 
 .notice-error {
 	margin-top: 3em;
@@ -90,77 +91,6 @@
 	100% { opacity: .5; }
 }
 
-.wp-list-table {
-	.is-placeholder {
-		td {
-			position: relative;
-			height: 50px;
-		}
-	}
-
-	.item-loading {
-		opacity: 0.3;
-	}
-
-	strike {
-		opacity: 0.6;
-	}
-
-	.column-last_count {
-		width: 80px;
-		text-align: left;
-	}
-
-	.column-date {
-		width: 180px;
-	}
-
-	.column-last_access {
-		width: 120px;
-		text-align: left;
-	}
-
-	.column-module, .column-total, .column-ip {
-		width: 100px;
-	}
-
-	.column-redirects {
-		width: 100px;
-		text-align: left;
-	}
-
-	.column-position {
-		width: 80px;
-		text-align: left;
-	}
-
-	.column-type {
-		width: 50px;
-		text-align: left;
-	}
-
-	.disabled {
-		opacity: 0.5;
-	}
-}
-
-table.items {
-	table.edit {
-		width: 100%;
-	}
-
-	table.edit td, table.edit th {
-		line-height: 1.2;
-		padding: 2px;
-		font-size: 12px;
-	}
-
-	table.edit th {
-		font-size: 13px;
-		font-weight: bold;
-	}
-}
-
 .placeholder-container {
 	width: 100%;
 	height: 100px;
@@ -198,13 +128,6 @@ table.items {
 	height: 25px;
 }
 
-.widefat thead tr td.column-check, .widefat tfoot tr td.column-check {
-    width: 2.2em;
-	padding-top: 9px;
-	padding-left: 3px;
-	vertical-align: middle;
-}
-
 input.current-page {
 	width: 60px;
 }
@@ -217,32 +140,6 @@ input.current-page {
 	height: 100px;
 }
 
-.edit {
-	th {
-		vertical-align: top;
-		padding-top: 5px !important;
-	}
-
-	input[type=text] {
-		width: 80%;
-	}
-
-	input[name=position] {
-		width: 60px;
-		margin-left: 10px;
-		padding-top: 4px;
-	}
-
-	input[type=text].medium {
-		width: 67%;
-	}
-
-	select.medium {
-		height: 26px;
-		margin-top: -2px;
-	}
-}
-
 .redirects {
 	.target {
 		color: #999;
@@ -253,55 +150,6 @@ a.advanced {
 	font-size: 16px;
 }
 
-.add-new {
-	width: 100%;
-
-	table {
-		width: 80%;
-
-		th {
-			text-align: left;
-		}
-
-		td {
-			text-align: left;
-		}
-	}
-}
-
-table.edit-redirection {
-	th {
-		width: 130px;
-	}
-
-	table {
-		border-spacing: 0;
-		width: 100%;
-
-		th {
-			padding: 0;
-		}
-
-		td {
-			padding: 3px 6px;
-		}
-
-		input[type=text] {
-			width: 80%;
-		}
-	}
-
-	tr.redirect-group {
-		td, th {
-			padding-top: 15px !important;
-		}
-	}
-
-	.no-margin td {
-		padding: 0px;
-		padding-left: 4px;
-	}
-}
 
 .redirection-notice {
 	position: fixed;
@@ -365,7 +213,6 @@ table.edit-redirection {
     clear:both;
 }
 
-
 .module-export {
 	border: 1px solid #ddd;
 	padding: 5px;
@@ -411,20 +258,6 @@ table.edit-redirection {
 
 .dropzone-importing {
 	border-color: transparent;
-}
-
-.table-buttons {
-	float: left;
-	padding-top: 2px;
-
-	> button, > form, > div.table-button-item {
-		margin-right: 5px !important;
-		display: inline;
-	}
-
-	.modal-wrapper {
-		display: inline;
-	}
 }
 
 .github {
