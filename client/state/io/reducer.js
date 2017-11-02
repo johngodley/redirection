@@ -11,6 +11,7 @@ import {
 	IO_EXPORTED,
 	IO_IMPORTING,
 	IO_IMPORTED,
+	IO_IMPORTERS,
 	IO_FAILED,
 	IO_CLEAR,
 	IO_ADD_FILE,
@@ -35,10 +36,13 @@ export default function modules( state = {}, action ) {
 			return { ... state, importingStatus: STATUS_FAILED, exportStatus: STATUS_FAILED, lastImport: false, file: false, exportData: false };
 
 		case IO_IMPORTING:
-			return { ... state, importingStatus: STATUS_IN_PROGRESS, lastImport: false, file: action.file };
+			return { ... state, importingStatus: STATUS_IN_PROGRESS, lastImport: false, file: action.file ? action.file : false };
 
 		case IO_IMPORTED:
 			return { ... state, lastImport: action.total, importingStatus: STATUS_COMPLETE, file: false };
+
+		case IO_IMPORTERS:
+			return { ... state, importers: action.importers };
 	}
 
 	return state;

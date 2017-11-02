@@ -5,6 +5,7 @@
 import React from 'react';
 import { translate as __, numberFormat } from 'lib/locale';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 /**
@@ -141,7 +142,7 @@ class RedirectRow extends React.Component {
 		const name = this.getName( url, title );
 
 		return (
-			<td>
+			<td className="column-primary column-url has-row-actions">
 				{ name }<br />
 				<span className="target">{ this.getTarget() }</span>
 
@@ -158,26 +159,29 @@ class RedirectRow extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = ! enabled || isLoading || isSaving;
+		const classes = classnames( {
+			disabled: hideRow,
+		} );
 
 		return (
-			<tr className={ hideRow ? 'disabled' : '' }>
+			<tr className={ classes }>
 				<th scope="row" className="check-column">
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td>
+				<td className="column-code">
 					{ this.getCode() }
 				</td>
 
-				{ this.state.editing ? <td><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title, isSaving ) }
+				{ this.state.editing ? <td className="column-primary column-url"><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title, isSaving ) }
 
-				<td>
+				<td className="column-position">
 					{ numberFormat( position ) }
 				</td>
-				<td>
+				<td className="column-last_count">
 					{ numberFormat( hits ) }
 				</td>
-				<td>
+				<td className="column_last_access">
 					{ last_access }
 				</td>
 			</tr>

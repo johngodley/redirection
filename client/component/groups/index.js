@@ -28,6 +28,7 @@ const headers = [
 	{
 		name: 'name',
 		title: __( 'Name' ),
+		primary: true,
 	},
 	{
 		name: 'redirects',

@@ -157,14 +157,14 @@ class GroupRow extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td>
+				<td className="column-primary column-name">
 					{ ! this.state.editing && this.getName( name, enabled ) }
 					{ this.state.editing ? this.renderEdit() : this.renderActions( isSaving ) }
 				</td>
-				<td>
+				<td className="column-redirects">
 					{ redirects }
 				</td>
-				<td>
+				<td className="column-module">
 					{ getModuleName( module_id ) }
 				</td>
 			</tr>

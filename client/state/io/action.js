@@ -9,6 +9,7 @@ import {
 	IO_FAILED,
 	IO_CLEAR,
 	IO_ADD_FILE,
+	IO_IMPORTERS,
 } from './type';
 import getApi from 'lib/api';
 
@@ -51,3 +52,24 @@ export const importFile = ( file, group ) => dispatch => {
 
 export const clearFile = () => ( { type: IO_CLEAR } );
 export const addFile = file => ( { type: IO_ADD_FILE, file } );
+export const loadImporters = () => dispatch => {
+	getApi( 'red_get_importers' )
+		.then( resp => {
+			dispatch( { type: IO_IMPORTERS, importers: resp.importers } );
+		} )
+		.catch( error => {
+			dispatch( { type: IO_FAILED, error } );
+		} );
+};
+
+export const pluginImport = plugin => dispatch => {
+	getApi( 'red_get_importers', { plugin } )
+		.then( resp => {
+			dispatch( { type: IO_IMPORTED, total: resp.imported } );
+		} )
+		.catch( error => {
+			dispatch( { type: IO_FAILED, error } );
+		} );
+
+	return dispatch( { type: IO_IMPORTING } );
+};

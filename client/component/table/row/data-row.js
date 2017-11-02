@@ -13,7 +13,7 @@ const isSelected = ( selected, id ) => selected.indexOf( id ) !== -1;
 
 const getRowStatus = ( status, selected, item ) => ( {
 	isLoading: status === STATUS_IN_PROGRESS,
-	isSelected: isSelected( selected, item.id )
+	isSelected: isSelected( selected, item.id ),
 } );
 
 const TableContent = props => {

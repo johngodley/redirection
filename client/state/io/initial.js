@@ -12,5 +12,6 @@ export function getInitialIO() {
 		exportData: false,
 		importingStatus: false,
 		exportStatus: false,
+		importers: [],
 	};
 }
