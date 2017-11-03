@@ -215,8 +215,8 @@ class Redirection_Admin {
 
 		if ( $status['status'] !== 'good' ) {
 			?>
-				<div class="react-error">
-					<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+				<div class="error">
+					<h3><?php _e( 'Redirection not installed properly', 'redirection' ); ?></h3>
 					<p style="text-align: left"><?php printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' ); ?></p>
 				</div>
 			<?php
@@ -237,8 +237,8 @@ class Redirection_Admin {
 			return;
 		}
 
-		if ( $this->check_tables_exist() === false ) {
-			return;
+		if ( $this->check_tables_exist() === false && ( ! isset( $_GET['sub'] ) || $_GET['sub'] !== 'support' ) ) {
+			return false;
 		}
 ?>
 <div id="react-ui">
@@ -282,13 +282,19 @@ class Redirection_Admin {
 	}
 
 	function showError() {
+		var errorText = "";
+
+		if ( errors.length > 0 ) {
+			errorText = "```\n" + errors.join( ',' ) + "\n```\n\n";
+		}
+
 		resetAll();
 		document.querySelector( '.react-loading' ).style.display = 'none';
 		document.querySelector( '.react-error' ).style.display = 'block';
 
 		if ( typeof Redirectioni10n !== 'undefined' ) {
 			document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
-			document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" ) + encodeURIComponent( Redirectioni10n.versions );
+			document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( errorText ) + encodeURIComponent( Redirectioni10n.versions );
 		}
 	}
 
