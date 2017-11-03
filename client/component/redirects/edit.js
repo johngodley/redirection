@@ -154,7 +154,11 @@ class EditRedirect extends React.Component {
 			return group_id;
 		}
 
-		return groups[ 0 ].id;
+		if ( groups.length > 0 ) {
+			return groups[ 0 ].id;
+		}
+
+		return 0;
 	}
 
 	reset() {
