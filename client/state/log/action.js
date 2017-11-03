@@ -25,7 +25,7 @@ export const getLogs = args => ( dispatch, getState ) => {
 	const { log } = getState();
 
 	if ( log.requestCount === 0 ) {
-		args = {};
+		args = { logType: args.logType ? args.logType : log.logType };
 	}
 
 	return processRequest( 'red_get_logs', dispatch, STATUS_LOG, { ... args, logType: args.logType ? args.logType : log.logType }, log );
