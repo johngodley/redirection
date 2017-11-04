@@ -32,7 +32,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testStripSlashes() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '/spaces\\\'' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '/spaces\'' ) ) );
 		$this->assertEquals( "/spaces'", $result['url'] );
 	}
 
