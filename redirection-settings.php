@@ -1,6 +1,6 @@
 <?php
 
-const REDIRECTION_OPTION = 'redirection_options';
+define( 'REDIRECTION_OPTION', 'redirection_options' );
 
 function red_set_options( array $settings = array() ) {
 	$options = red_get_options();

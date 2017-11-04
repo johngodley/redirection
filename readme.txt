@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: johnny5
 Donate link: http://urbangiraffe.com/about/
-Tags: post, admin, seo, 301, 404, redirect, permalink, apache, nginx, htaccess
+Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
 Tested up to: 4.9
 Stable tag: 2.9
@@ -12,10 +12,9 @@ Manage 301 redirections, keep track of 404 errors, and improve your site, with n
 
 == Description ==
 
-Redirection is the oldest and most popular redirect manager for WordPress. With it you can easily manage 301 redirections, with full logging, as well as
-keep track of 404 errors, and generally tidy up any loose ends your site may have. This can help reduce errors and improve your site's ranking.
+Redirection is the oldest and most popular redirect manager for WordPress. With it you can easily manage 301 redirections, with full logging, as well as keep track of 404 errors, and generally tidy up any loose ends your site may have. This can help reduce errors and improve your site ranking.
 
-Redirection is designed to be used for sites with a few redirects to sites with thousands of redirects.
+Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.
 
 It has been a WordPress plugin for over 10 years and has been recommended countless times. Best of all, it free!
 
@@ -37,8 +36,7 @@ In addition to straightforward URL matching you can redirect based on other cond
 
 = Full logging =
 
-A configurable logging option allows to view all redirects occurring on your site, including information about the visitor, the browser used, and the referrer. A 'hit' count is maintained for
-each redirect so you can see if a URL is being used.
+A configurable logging option allows to view all redirects occurring on your site, including information about the visitor, the browser used, and the referrer. A 'hit' count is maintained for each redirect so you can see if a URL is being used.
 
 Logs can be exported for external viewing, and can be searched and filtered for more detailed investigation.
 
@@ -117,7 +115,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 2.9 - 2017 =
+= 2.9.1 - 4th November 2017 =
+* Fix const issues with PHP 5
+
+= 2.9 - 4th November 2017 =
 * Add option to set redirect cache expiry, default 1 hour
 * Add a check for unsupported versions of WordPress
 * Add check for database tables before starting the plugin
