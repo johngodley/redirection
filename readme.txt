@@ -4,7 +4,7 @@ Donate link: http://urbangiraffe.com/about/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
 Tested up to: 4.9
-Stable tag: 2.9
+Stable tag: 2.9.1
 Requires PHP: 5.3
 License: GPLv3
 
