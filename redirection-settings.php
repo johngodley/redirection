@@ -46,7 +46,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['auto_target'] ) ) {
-		$options['auto_target'] = stripslashes( $settings['auto_target'] );
+		$options['auto_target'] = $settings['auto_target'];
 	}
 
 	if ( isset( $settings['support'] ) ) {
@@ -54,7 +54,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['token'] ) ) {
-		$options['token'] = stripslashes( $settings['token'] );
+		$options['token'] = $settings['token'];
 	}
 
 	if ( !isset( $settings['token'] ) || trim( $options['token'] ) === '' ) {

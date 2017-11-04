@@ -395,7 +395,6 @@ class Red_Item_Sanitize {
 			if ( is_array( $value ) ) {
 				$array[ $name ] = $this->clean_array( $value );
 			} else {
-				$value = stripslashes( $value );
 				$value = trim( $value );
 				$array[ $name ] = $value;
 			}
