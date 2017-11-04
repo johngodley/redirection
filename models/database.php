@@ -115,7 +115,7 @@ class RE_Database {
 		}
 	}
 
-	public function createDefaults() {
+	public function create_defaults() {
 		$this->createDefaultGroups();
 
 		update_option( 'redirection_version', REDIRECTION_DB_VERSION );
@@ -138,7 +138,7 @@ class RE_Database {
 
 		$wpdb->show_errors();
 		$this->create_tables();
-		$this->createDefaults();
+		$this->create_defaults();
 		$wpdb->hide_errors();
 
 		return true;
@@ -258,6 +258,7 @@ class RE_Database {
 		delete_option( 'redirection_post' );
 		delete_option( 'redirection_root' );
 		delete_option( 'redirection_index' );
+		delete_option( 'redirection_options' );
 		delete_option( 'redirection_version' );
 	}
 

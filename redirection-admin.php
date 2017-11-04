@@ -40,23 +40,75 @@ class Redirection_Admin {
 		$this->api = new Redirection_Api();
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_activated() {
-		Redirection_Admin::update();
-		Red_Flusher::schedule();
-		red_set_options();
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
+
+				Redirection_Admin::update();
+				Red_Flusher::schedule();
+				red_set_options();
+
+				restore_current_blog();
+			}
+		} else {
+			Redirection_Admin::update();
+			Red_Flusher::schedule();
+			red_set_options();
+		}
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_deactivated() {
-		Red_Flusher::clear();
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
+
+				Red_Flusher::clear();
+
+				restore_current_blog();
+			}
+		} else {
+			Red_Flusher::clear();
+		}
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_uninstall() {
 		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 		$db = new RE_Database();
-		$db->remove( REDIRECTION_FILE );
 
-		delete_option( 'redirection_options' );
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
+
+				$db->remove( REDIRECTION_FILE );
+
+				restore_current_blog();
+			}
+		} else {
+			$db->remove( REDIRECTION_FILE );
+		}
+	}
+
+	private static function update() {
+		$version = get_option( 'redirection_version' );
+
+		Red_Flusher::schedule();
+
+		if ( $version !== REDIRECTION_DB_VERSION ) {
+			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+
+			$database = new RE_Database();
+
+			if ( $version === false ) {
+				$database->install();
+			}
+
+			$database->upgrade( $version, REDIRECTION_DB_VERSION );
+		}
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
@@ -89,26 +141,6 @@ class Redirection_Admin {
 	public function flush_schedule( $options ) {
 		Red_Flusher::schedule();
 		return $options;
-	}
-
-	private static function update() {
-		$version = get_option( 'redirection_version' );
-
-		Red_Flusher::schedule();
-
-		if ( $version !== REDIRECTION_DB_VERSION ) {
-			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
-
-			$database = new RE_Database();
-
-			if ( $version === false ) {
-				$database->install();
-			}
-
-			return $database->upgrade( $version, REDIRECTION_DB_VERSION );
-		}
-
-		return true;
 	}
 
 	function set_per_page( $status, $option, $value ) {
