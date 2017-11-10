@@ -433,7 +433,7 @@ class Red_Item_Sanitize {
 		$data['match_type'] = $details['match_type'];
 
 		if ( isset( $details['action_data'] ) ) {
-			$match_data = $matcher->save( $details['action_data'], ! $this->is_url_type( $data['action_type'] ) );
+			$match_data = $matcher->save( $details['action_data'] ? $details['action_data'] : array(), ! $this->is_url_type( $data['action_type'] ) );
 			$data['action_data'] = is_array( $match_data ) ? serialize( $match_data ) : $match_data;
 		}
 

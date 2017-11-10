@@ -2,7 +2,7 @@
 
 class Red_Htaccess {
 	private $items = array();
-	const INSERT_REGEX = '@\n?# Created by Redirection(.*?)# End of Redirection\n?@sm';
+	const INSERT_REGEX = '@\n?# Created by Redirection(?:.*?)# End of Redirection\n?@sm';
 
 	private function encode_from( $url ) {
 		$url = $this->encode( $url );
@@ -58,8 +58,9 @@ class Red_Htaccess {
 
 	private function add_referrer( $item, $match ) {
 		$from = $this->encode_from( ltrim( $item->get_url(), '/' ) );
-		if ( $item->is_regex() )
+		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
+		}
 
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->referrer ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_REFERER} %s [NC]', ( $match->regex ? $this->encode_regex( $match->referrer ) : $this->encode_from( $match->referrer ) ) );
@@ -112,8 +113,9 @@ class Red_Htaccess {
 			$from = $this->encode_regex( $item->get_url() );
 		}
 
-		if ( $to )
+		if ( $to ) {
 			$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
+		}
 	}
 
 	private function action_random( $data, $code, $regex ) {
@@ -127,33 +129,41 @@ class Red_Htaccess {
 	}
 
 	private function action_pass( $data, $code, $regex ) {
-		if ( $regex )
+		if ( $regex ) {
 			return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
+		}
 		return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
 	}
 
 	private function action_error( $data, $code, $regex ) {
-		if ( $code === 410 )
+		if ( $code === 410 ) {
 			return '/ [G]';
+		}
 		return '/ [F]';
 	}
 
 	private function action_url( $data, $code, $regex ) {
-		if ( $regex )
+		if ( $regex ) {
 			return sprintf( '%s [R=%d,L]', $this->encode2nd( $data ), $code );
+		}
 		return sprintf( '%s [R=%d,L]', $this->encode2nd( $data ), $code );
 	}
 
 	private function target( $action, $data, $code, $regex ) {
 		$target = 'action_'.$action;
 
-		if ( method_exists( $this, $target ) )
+		if ( method_exists( $this, $target ) ) {
 			return $this->$target( $data, $code, $regex );
+		}
 		return '';
 	}
 
 	private function generate() {
 		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
+
+		if ( count( $this->items ) === 0 ) {
+			return '';
+		}
 
 		$text[] = '# Created by Redirection';
 		$text[] = '# '.date( 'r' );
@@ -188,10 +198,11 @@ class Red_Htaccess {
 		$text = $this->generate();
 
 		if ( $existing ) {
-			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 )
+			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 ) {
 				$text = preg_replace( self::INSERT_REGEX, $text, $existing );
-			else
+			} else {
 				$text = trim( $existing )."\n".$text;
+			}
 		}
 
 		return trim( $text );
