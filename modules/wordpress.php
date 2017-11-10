@@ -125,7 +125,7 @@ class WordPress_Module extends Red_Module {
 			}
 		}
 
-		if ( $status == 307 ) {
+		if ( intval( $status, 10 ) === 307 ) {
 			status_header( $status );
 			nocache_headers();
 			return $url;
@@ -134,7 +134,7 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		// Do we need to set the cache header?
-		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 ) {
+		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 && intval( $status, 10 ) === 301 ) {
 			if ( $options['redirect_cache'] === -1 ) {
 				// No cache - just use WP function
 				nocache_headers();

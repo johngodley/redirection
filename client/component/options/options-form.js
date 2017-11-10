@@ -162,7 +162,7 @@ class OptionsForm extends React.Component {
 
 					<TableRow title={ __( 'Redirect Cache' ) }>
 						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
-						<span className="sub">{ __( 'How long to cache redirected URLs (via "Expires" HTTP header)' ) }</span>
+						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
 				</FormTable>
 
