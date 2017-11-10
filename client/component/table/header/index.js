@@ -21,7 +21,7 @@ const TableHeader = props => {
 	return (
 		<tr>
 			{ headers.map( item => {
-				const { primary = false, check = false, sortable = false } = item;
+				const { primary = false, check = false, sortable = true } = item;
 
 				if ( check === true ) {
 					return <CheckColumn onSetAllSelected={ setSelected } isDisabled={ isDisabled } isSelected={ isSelected } key={ item.name } />;
