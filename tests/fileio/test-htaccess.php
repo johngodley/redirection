@@ -17,11 +17,7 @@ and a line at the end';
 		$file = $htaccess->get();
 		$lines = explode( "\n", $file );
 
-		$this->assertEquals( count( $lines ), 8 );
-		$this->assertEquals( '# Created by Redirection', trim( $lines[0] ) );
-		$this->assertEquals( '<IfModule mod_rewrite.c>', trim( $lines[4] ) );
-		$this->assertEquals( '</IfModule>', trim( $lines[5] ) );
-		$this->assertEquals( '# End of Redirection', trim( $lines[count( $lines ) - 1] ) );
+		$this->assertEquals( count( $lines ), 1 );
 	}
 
 	public function testNew() {
@@ -69,7 +65,6 @@ and a line at the end';
 		$lines = explode( "\n", $file );
 
 		$this->assertEquals( 'this is a line', $lines[ 0 ] );
-		$this->assertEquals( '# Created by Redirection', trim( $lines[ 2 ] ) );
 		$this->assertEquals( 'and a line at the end', $lines[ count( $lines ) - 1 ] );
 	}
 
@@ -145,5 +140,17 @@ and a line at the end';
 
 		$this->assertEquals( count( $lines ), 9 );
 		$this->assertEquals( 'RewriteRule something something%0Awith%20newline [R=301,L]', trim( $lines[5] ) );
+	}
+
+	public function testRegexInData() {
+		$regex = "/$1";
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '/blog/(.*)', 'action_data' => $regex, 'action_code' => 301 ) ) );
+
+		$file = $htaccess->get( $this->getExisting() );
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( count( $lines ), 13 );
+		$this->assertEquals( 'RewriteRule blog/(.*) / [R=301,L]', trim( $lines[7] ) );
 	}
 }
