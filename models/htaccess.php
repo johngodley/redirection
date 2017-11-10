@@ -2,7 +2,7 @@
 
 class Red_Htaccess {
 	private $items = array();
-	const INSERT_REGEX = '@\n?# Created by Redirection(.*?)# End of Redirection\n?@sm';
+	const INSERT_REGEX = '@\n?# Created by Redirection(?:.*?)# End of Redirection\n?@sm';
 
 	private function encode_from( $url ) {
 		$url = $this->encode( $url );
