@@ -115,6 +115,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 2.9.2 - 11th November 2017 =
+* Fix regex breaking .htaccess export
+* Fix error when saving Error or No action
+* Restore sortable table headers
+
 = 2.9.1 - 4th November 2017 =
 * Fix const issues with PHP 5
 
