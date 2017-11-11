@@ -131,7 +131,7 @@ __( "Redirection is free to use - life is wonderful and lovely! It has required 
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
 __( "Update", "redirection" ), // client/component/options/options-form.js:169
-__( "How long to cache redirected URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:165
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:165
 __( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:163
 __( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:154
 __( "Apache Module", "redirection" ), // client/component/options/options-form.js:149
@@ -172,17 +172,17 @@ __( "Logged In", "redirection" ), // client/component/redirects/action/login.js:
 __( "Unmatched Target", "redirection" ), // client/component/redirects/action/referrer.js:42
 __( "Matched Target", "redirection" ), // client/component/redirects/action/referrer.js:36
 __( "Target URL", "redirection" ), // client/component/redirects/action/url.js:24
-__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:494
-__( "Cancel", "redirection" ), // client/component/redirects/edit.js:491
-__( "Regex", "redirection" ), // client/component/redirects/edit.js:469
-__( "Source URL", "redirection" ), // client/component/redirects/edit.js:465
-__( "Save", "redirection" ), // client/component/redirects/edit.js:458
-__( "Position", "redirection" ), // client/component/redirects/edit.js:423
-__( "Group", "redirection" ), // client/component/redirects/edit.js:419
-__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:406
-__( "When matched", "redirection" ), // client/component/redirects/edit.js:400
-__( "Match", "redirection" ), // client/component/redirects/edit.js:376
-__( "Title", "redirection" ), // client/component/redirects/edit.js:363
+__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:498
+__( "Cancel", "redirection" ), // client/component/redirects/edit.js:495
+__( "Regex", "redirection" ), // client/component/redirects/edit.js:473
+__( "Source URL", "redirection" ), // client/component/redirects/edit.js:469
+__( "Save", "redirection" ), // client/component/redirects/edit.js:462
+__( "Position", "redirection" ), // client/component/redirects/edit.js:427
+__( "Group", "redirection" ), // client/component/redirects/edit.js:423
+__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:410
+__( "When matched", "redirection" ), // client/component/redirects/edit.js:404
+__( "Match", "redirection" ), // client/component/redirects/edit.js:380
+__( "Title", "redirection" ), // client/component/redirects/edit.js:367
 __( "410 - Gone", "redirection" ), // client/component/redirects/edit.js:110
 __( "404 - Not Found", "redirection" ), // client/component/redirects/edit.js:106
 __( "401 - Unauthorized", "redirection" ), // client/component/redirects/edit.js:102

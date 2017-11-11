@@ -22,12 +22,16 @@ msgstr ""
 msgid "Log entries (%d max)"
 msgstr ""
 
-#: redirection-admin.php:200, redirection-admin.php:219, redirection-admin.php:253
+#: redirection-admin.php:200, redirection-admin.php:253
 msgid "Unable to load Redirection"
 msgstr ""
 
 #: redirection-admin.php:201
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
+msgstr ""
+
+#: redirection-admin.php:219
+msgid "Redirection not installed properly"
 msgstr ""
 
 #: redirection-admin.php:220
@@ -475,7 +479,7 @@ msgid "Update"
 msgstr ""
 
 #: redirection-strings.php:134
-msgid "How long to cache redirected URLs (via \"Expires\" HTTP header)"
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 msgstr ""
 
 #: redirection-strings.php:135
@@ -990,18 +994,18 @@ msgstr ""
 msgid "Default WordPress \"old slugs\""
 msgstr ""
 
-#: models/redirect.php:423
+#: models/redirect.php:422
 msgid "Invalid redirect matcher"
 msgstr ""
 
-#: models/redirect.php:429
+#: models/redirect.php:428
 msgid "Invalid redirect action"
 msgstr ""
 
-#: models/redirect.php:487
+#: models/redirect.php:486
 msgid "Invalid group when creating redirect"
 msgstr ""
 
-#: models/redirect.php:497
+#: models/redirect.php:496
 msgid "Invalid source URL"
 msgstr ""
