@@ -16,7 +16,7 @@ class Red_Nginx_File extends Red_FileIO {
 
 		$lines[] = '# Created by Redirection';
 		$lines[] = '# '.date( 'r' );
-		$lines[] = '# Redirection '.trim( $version['Version'] ).' - http://urbangiraffe.com/plugins/redirection/';
+		$lines[] = '# Redirection '.trim( $version['Version'] ).' - https://redirection.me';
 		$lines[] = '';
 		$lines[] = 'server {';
 

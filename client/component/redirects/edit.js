@@ -470,7 +470,7 @@ class EditRedirect extends React.Component {
 							<td>
 								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ autoFocus } /> &nbsp;
 								<label>
-									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
+									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 									&nbsp;
 									<input type="checkbox" name="regex" checked={ regex } onChange={ this.handleChange } />
 								</label>

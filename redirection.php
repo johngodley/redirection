@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Redirection
-Plugin URI: http://urbangiraffe.com/plugins/redirection/
+Plugin URI: https://redirection.me/
 Description: Manage all your 301 redirects and monitor 404 errors
 Version: 2.9.2
 Author: John Godley

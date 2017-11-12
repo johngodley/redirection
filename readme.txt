@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: johnny5
-Donate link: http://urbangiraffe.com/about/
+Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
 Tested up to: 4.9
@@ -91,9 +91,9 @@ The plugin is simple to install:
 1. Go to the plugin management page and enable the plugin
 1. Configure the options from the `Manage/Redirection` page
 
-You can find full details of installing a plugin on the [plugin installation page](http://urbangiraffe.com/articles/how-to-install-a-wordpress-plugin/).
+You can find full details of installing a plugin on the [plugin installation page](https://redirection.me/support/installation/).
 
-Full documentation can be found on the [Redirection](http://urbangiraffe.com/plugins/redirection/) page.
+Full documentation can be found on the [Redirection](https://redirection.me/support/) page.
 
 == Frequently Asked Questions ==
 

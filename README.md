@@ -90,7 +90,7 @@ Finally, to produce a release copy:
 
 Please raise any bug reports or enhancement requests here. Pull requests are always welcome.
 
-You can find a more detailed description of the plugin on the [Redirection home page](http://urbangiraffe.com/plugins/redirection/)
+You can find a more detailed description of the plugin on the [Redirection home page](https://redirection.me)
 
 Translations can be added here:
 

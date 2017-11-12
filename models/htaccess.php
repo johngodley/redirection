@@ -167,7 +167,7 @@ class Red_Htaccess {
 
 		$text[] = '# Created by Redirection';
 		$text[] = '# '.date( 'r' );
-		$text[] = '# Redirection '.trim( $version['Version'] ).' - http://urbangiraffe.com/plugins/redirection/';
+		$text[] = '# Redirection '.trim( $version['Version'] ).' - https://redirection.me';
 		$text[] = '';
 
 		// mod_rewrite section
