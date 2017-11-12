@@ -95,6 +95,15 @@ You can find full details of installing a plugin on the [plugin installation pag
 
 Full documentation can be found on the [Redirection](https://redirection.me/support/) page.
 
+== Screenshots ==
+
+1. Redirection management interface
+2. Adding a redirection
+3. Redirect logs
+4. Import/Export
+5. Options
+6. Support
+
 == Frequently Asked Questions ==
 
 = Why would I want to use this instead of .htaccess? =
