@@ -199,7 +199,7 @@ class Red_Htaccess {
 
 		if ( $existing ) {
 			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 ) {
-				$text = preg_replace( self::INSERT_REGEX, $text, $existing );
+				$text = preg_replace( self::INSERT_REGEX, str_replace( '$', '\\$', $text ), $existing );
 			} else {
 				$text = trim( $existing )."\n".$text;
 			}
