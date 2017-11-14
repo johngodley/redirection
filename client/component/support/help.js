@@ -23,7 +23,7 @@ const Help = () => {
 			<p>{ __( 'Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support.' ) }</p>
 			<p>{ __( "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}.", {
 				components: {
-					email: <a href={ 'mailto:john@urbangiraffe.com?subject=Redirection%20Issue&body=' + encodeURIComponent( 'Redirection: ' + Redirectioni10n.versions ) } />
+					email: <a href={ 'mailto:john@redirection.me?subject=Redirection%20Issue&body=' + encodeURIComponent( 'Redirection: ' + Redirectioni10n.versions ) } />
 				}
 			} ) }
 			</p>

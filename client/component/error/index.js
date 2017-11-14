@@ -124,7 +124,7 @@ class Error extends React.Component {
 			notice: true,
 			'notice-error': true,
 		} );
-		const email = 'mailto:john@urbangiraffe.com?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
+		const email = 'mailto:john@redirection.me?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
 		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
 
 		return (

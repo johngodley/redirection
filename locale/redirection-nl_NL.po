@@ -142,7 +142,7 @@ msgid "If the issue isn't known then try disabling other plugins - it's easy to 
 msgstr ""
 
 #: redirection-strings.php:6
-msgid "If this is a new problem then please either create a new issue, or send it directly to john@urbangiraffe.com. Include a description of what you were trying to do and the important details listed below. If you can include a screenshot then even better."
+msgid "If this is a new problem then please either create a new issue, or send it directly to john@redirection.me. Include a description of what you were trying to do and the important details listed below. If you can include a screenshot then even better."
 msgstr ""
 
 #: redirection-strings.php:5
