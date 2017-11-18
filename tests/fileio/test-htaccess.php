@@ -151,6 +151,6 @@ and a line at the end';
 		$lines = explode( "\n", $file );
 
 		$this->assertEquals( count( $lines ), 13 );
-		$this->assertEquals( 'RewriteRule blog/(.*) / [R=301,L]', trim( $lines[7] ) );
+		$this->assertEquals( 'RewriteRule blog/(.*) /$1 [R=301,L]', trim( $lines[7] ) );
 	}
 }
