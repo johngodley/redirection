@@ -38,12 +38,11 @@ class MatchAgent extends React.Component {
 		};
 
 		if ( ev.target.value !== '' ) {
-			this.props.onChange( 'agent', 'agent', regex[ ev.target.value ] );
-			this.props.onChange( 'agent', 'regex', true );
+			this.props.onCustomAgent( regex[ ev.target.value ] );
 		}
 
 		this.setState( {
-			dropdown: ev.target.value,
+			dropdown: '',
 		} );
 	};
 

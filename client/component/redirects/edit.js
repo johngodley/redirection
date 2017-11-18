@@ -234,6 +234,15 @@ class EditRedirect extends React.Component {
 		}
 	}
 
+	onCustomAgent = newAgent => {
+		const { agent } = this.state;
+
+		agent.agent = newAgent;
+		agent.regex = true;
+
+		this.setState( { agent } );
+	}
+
 	onSave( ev ) {
 		ev.preventDefault();
 
@@ -326,7 +335,7 @@ class EditRedirect extends React.Component {
 
 		switch ( match_type ) {
 			case MATCH_AGENT:
-				return <MatchAgent agent={ this.state.agent.agent } regex={ this.state.agent.regex } onChange={ this.handleData } />;
+				return <MatchAgent agent={ this.state.agent.agent } regex={ this.state.agent.regex } onChange={ this.handleData } onCustomAgent={ this.onCustomAgent } />;
 
 			case MATCH_REFERRER:
 				return <MatchReferrer referrer={ this.state.referrer.referrer } regex={ this.state.referrer.regex } onChange={ this.handleData } />;
