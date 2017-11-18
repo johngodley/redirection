@@ -29,8 +29,11 @@ const getApi = ( action, params, file ) => {
 
 	return getApiRequest( action, params, file )
 		.then( data => {
-			request.status = data.status;
-			request.statusText = data.statusText;
+			if ( request.status && request.statusText ) {
+				request.status = data.status;
+				request.statusText = data.statusText;
+			}
+
 			return data.text();
 		} )
 		.then( text => {
