@@ -128,6 +128,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add support for WordPress multisite
 * Add new Redirection documentation
 * Add extra actions when creating redirects
+* Fix user agent dropdown not setting agent
 
 = 2.9.2 - 11th November 2017 =
 * Fix regex breaking .htaccess export
