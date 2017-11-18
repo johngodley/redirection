@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
 Tested up to: 4.9
-Stable tag: 2.9.2
+Stable tag: 2.10
 Requires PHP: 5.4
 License: GPLv3
 
@@ -123,6 +123,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Another database change. Please backup your data
 
 == Changelog ==
+
+= 2.10 - 18th November 2017 =
+* Add support for WordPress multisite
+* Add new Redirection documentation
+* Add extra actions when creating redirects
 
 = 2.9.2 - 11th November 2017 =
 * Fix regex breaking .htaccess export
