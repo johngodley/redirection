@@ -145,6 +145,7 @@ class Red_Item {
 		global $wpdb;
 
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $this->id ) );
+		do_action( 'redirection_redirect_deleted', $this );
 
 		Red_Module::flush( $this->group_id );
 	}
@@ -165,7 +166,11 @@ class Red_Item {
 		// Create
 		if ( $wpdb->insert( $wpdb->prefix.'redirection_items', $data ) !== false ) {
 			Red_Module::flush( $data['group_id'] );
-			return self::get_by_id( $wpdb->insert_id );
+
+			$redirect = self::get_by_id( $wpdb->insert_id );
+			do_action( 'redirection_redirect_updated', $wpdb->insert_id, $redirect );
+
+			return $redirect;
 		}
 
 		return new WP_Error( 'redirect', __( 'Unable to add new redirect' ) );
@@ -187,7 +192,10 @@ class Red_Item {
 		}
 
 		// Save this
+		$data = apply_filters( 'redirection_update_redirect', $data );
+
 		$wpdb->update( $wpdb->prefix.'redirection_items', $data, array( 'id' => $this->id ) );
+		do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id) );
 
 		$this->load_from_data( (object) $data );
 
