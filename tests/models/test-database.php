@@ -111,7 +111,7 @@ class DatabaseTest extends WP_UnitTestCase {
 
 		$database = new RE_Database();
 		$database->install();
-		$database->createDefaults();
+		$database->create_defaults();
 
 		$groups = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
 		$this->assertEquals( count( $groups ), 2 );

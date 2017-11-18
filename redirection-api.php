@@ -258,6 +258,10 @@ class Redirection_Api {
 	}
 
 	public function ajax_delete_plugin() {
+		if ( is_multisite() ) {
+			return $this->output_ajax_response( $this->getError( 'Multisite installations must delete the plugin from the network admin', __LINE__ ) );
+		}
+
 		$plugin = Redirection_Admin::init();
 		$plugin->plugin_uninstall();
 
@@ -273,6 +277,7 @@ class Redirection_Api {
 			'settings' => red_get_options(),
 			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
 			'installed' => get_home_path(),
+			'canDelete' => ! is_multisite(),
 		) );
 	}
 

@@ -23,7 +23,7 @@ class Options extends React.Component {
 	}
 
 	render() {
-		const { loadStatus, values } = this.props;
+		const { loadStatus, values, canDelete = false } = this.props;
 
 		if ( loadStatus === STATUS_IN_PROGRESS ) {
 			return <Placeholder />;
@@ -35,7 +35,7 @@ class Options extends React.Component {
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
 
 				<br /><br /><hr />
-				<DeletePlugin onDelete={ this.props.onDeletePlugin } />
+				{ canDelete && <DeletePlugin onDelete={ this.props.onDeletePlugin } /> }
 			</div>
 		);
 	}
@@ -48,16 +48,17 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onDeletePlugin: () => {
 			dispatch( deletePlugin() );
-		}
+		},
 	};
 }
 
 function mapStateToProps( state ) {
-	const { loadStatus, values } = state.settings;
+	const { loadStatus, values, canDelete } = state.settings;
 
 	return {
 		loadStatus,
 		values,
+		canDelete,
 	};
 }
 
