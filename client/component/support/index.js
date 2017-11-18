@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import Faq from './faq';
 import Newsletter from './newsletter';
 import Help from './help';
 import Status from './status';
@@ -29,7 +28,6 @@ class Support extends React.Component {
 			<div>
 				<Status />
 				<Help />
-				<Faq />
 				<Newsletter newsletter={ newsletter } />
 			</div>
 		);
