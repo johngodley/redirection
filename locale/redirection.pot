@@ -767,170 +767,142 @@ msgid "pass"
 msgstr ""
 
 #: redirection-strings.php:227
-msgid "Frequently Asked Questions"
+msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
 msgstr ""
 
 #: redirection-strings.php:228
-msgid "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site."
-msgstr ""
-
-#: redirection-strings.php:229
-msgid "Can I redirect all 404 errors?"
-msgstr ""
-
-#: redirection-strings.php:230
-msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link."
-msgstr ""
-
-#: redirection-strings.php:231
-msgid "Can I open a redirect in a new tab?"
-msgstr ""
-
-#: redirection-strings.php:232
-msgid "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}."
-msgstr ""
-
-#: redirection-strings.php:233
-msgid "I deleted a redirection, why is it still redirecting?"
-msgstr ""
-
-#: redirection-strings.php:234
-msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}."
-msgstr ""
-
-#: redirection-strings.php:235
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
 msgstr ""
 
-#: redirection-strings.php:236
-msgid "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue."
+#: redirection-strings.php:229
+msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
 msgstr ""
 
-#: redirection-strings.php:237
-msgid "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists."
+#: redirection-strings.php:230
+msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
 msgstr ""
 
-#: redirection-strings.php:238
+#: redirection-strings.php:231
 msgid "Need help?"
 msgstr ""
 
-#: redirection-strings.php:239
+#: redirection-strings.php:232
 msgid "Your email address:"
 msgstr ""
 
-#: redirection-strings.php:240
+#: redirection-strings.php:233
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release."
 msgstr ""
 
-#: redirection-strings.php:241
+#: redirection-strings.php:234
 msgid "Want to keep up to date with changes to Redirection?"
 msgstr ""
 
-#: redirection-strings.php:242, redirection-strings.php:244
+#: redirection-strings.php:235, redirection-strings.php:237
 msgid "Newsletter"
 msgstr ""
 
-#: redirection-strings.php:243
+#: redirection-strings.php:236
 msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
 msgstr ""
 
-#: redirection-strings.php:245
+#: redirection-strings.php:238
 msgid "Plugin Status"
 msgstr ""
 
-#: redirection-strings.php:246
+#: redirection-strings.php:239
 msgid "⚡️ Magic fix ⚡️"
 msgstr ""
 
-#: redirection-strings.php:247
+#: redirection-strings.php:240
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
 msgstr ""
 
-#: redirection-strings.php:248
+#: redirection-strings.php:241
 msgid "Filter"
 msgstr ""
 
-#: redirection-strings.php:249
+#: redirection-strings.php:242
 msgid "Select All"
 msgstr ""
 
-#: redirection-strings.php:250
+#: redirection-strings.php:243
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redirection-strings.php:251
+#: redirection-strings.php:244
 msgid "Last page"
 msgstr ""
 
-#: redirection-strings.php:252
+#: redirection-strings.php:245
 msgid "Next page"
 msgstr ""
 
-#: redirection-strings.php:253
+#: redirection-strings.php:246
 msgid "of %(page)s"
 msgstr ""
 
-#: redirection-strings.php:254
+#: redirection-strings.php:247
 msgid "Current Page"
 msgstr ""
 
-#: redirection-strings.php:255
+#: redirection-strings.php:248
 msgid "Prev page"
 msgstr ""
 
-#: redirection-strings.php:256
+#: redirection-strings.php:249
 msgid "First page"
 msgstr ""
 
-#: redirection-strings.php:257
+#: redirection-strings.php:250
 msgid "Apply"
 msgstr ""
 
-#: redirection-strings.php:258
+#: redirection-strings.php:251
 msgid "Bulk Actions"
 msgstr ""
 
-#: redirection-strings.php:259
+#: redirection-strings.php:252
 msgid "Select bulk action"
 msgstr ""
 
-#: redirection-strings.php:260
+#: redirection-strings.php:253
 msgid "No results"
 msgstr ""
 
-#: redirection-strings.php:261
+#: redirection-strings.php:254
 msgid "Sorry, something went wrong loading the data - please try again"
 msgstr ""
 
-#: redirection-strings.php:262
+#: redirection-strings.php:255
 msgid "Search"
 msgstr ""
 
-#: redirection-strings.php:263
+#: redirection-strings.php:256
 msgid "Search by IP"
 msgstr ""
 
-#: redirection-strings.php:264
+#: redirection-strings.php:257
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete these items?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redirection-strings.php:265
+#: redirection-strings.php:258
 msgid "Group saved"
 msgstr ""
 
-#: redirection-strings.php:266
+#: redirection-strings.php:259
 msgid "Settings saved"
 msgstr ""
 
-#: redirection-strings.php:267
+#: redirection-strings.php:260
 msgid "Log deleted"
 msgstr ""
 
-#: redirection-strings.php:268
+#: redirection-strings.php:261
 msgid "Redirection saved"
 msgstr ""
 

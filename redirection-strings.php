@@ -172,17 +172,17 @@ __( "Logged In", "redirection" ), // client/component/redirects/action/login.js:
 __( "Unmatched Target", "redirection" ), // client/component/redirects/action/referrer.js:42
 __( "Matched Target", "redirection" ), // client/component/redirects/action/referrer.js:36
 __( "Target URL", "redirection" ), // client/component/redirects/action/url.js:24
-__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:498
-__( "Cancel", "redirection" ), // client/component/redirects/edit.js:495
-__( "Regex", "redirection" ), // client/component/redirects/edit.js:473
-__( "Source URL", "redirection" ), // client/component/redirects/edit.js:469
-__( "Save", "redirection" ), // client/component/redirects/edit.js:462
-__( "Position", "redirection" ), // client/component/redirects/edit.js:427
-__( "Group", "redirection" ), // client/component/redirects/edit.js:423
-__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:410
-__( "When matched", "redirection" ), // client/component/redirects/edit.js:404
-__( "Match", "redirection" ), // client/component/redirects/edit.js:380
-__( "Title", "redirection" ), // client/component/redirects/edit.js:367
+__( "Show advanced options", "redirection" ), // client/component/redirects/edit.js:507
+__( "Cancel", "redirection" ), // client/component/redirects/edit.js:504
+__( "Regex", "redirection" ), // client/component/redirects/edit.js:482
+__( "Source URL", "redirection" ), // client/component/redirects/edit.js:478
+__( "Save", "redirection" ), // client/component/redirects/edit.js:471
+__( "Position", "redirection" ), // client/component/redirects/edit.js:436
+__( "Group", "redirection" ), // client/component/redirects/edit.js:432
+__( "with HTTP code", "redirection" ), // client/component/redirects/edit.js:419
+__( "When matched", "redirection" ), // client/component/redirects/edit.js:413
+__( "Match", "redirection" ), // client/component/redirects/edit.js:389
+__( "Title", "redirection" ), // client/component/redirects/edit.js:376
 __( "410 - Gone", "redirection" ), // client/component/redirects/edit.js:110
 __( "404 - Not Found", "redirection" ), // client/component/redirects/edit.js:106
 __( "401 - Unauthorized", "redirection" ), // client/component/redirects/edit.js:102
@@ -211,12 +211,12 @@ __( "Hits", "redirection" ), // client/component/redirects/index.js:46
 __( "Pos", "redirection" ), // client/component/redirects/index.js:42
 __( "URL", "redirection" ), // client/component/redirects/index.js:37
 __( "Type", "redirection" ), // client/component/redirects/index.js:32
-__( "Regex", "redirection" ), // client/component/redirects/match/agent.js:65
-__( "Libraries", "redirection" ), // client/component/redirects/match/agent.js:61
-__( "Feed Readers", "redirection" ), // client/component/redirects/match/agent.js:60
-__( "Mobile", "redirection" ), // client/component/redirects/match/agent.js:59
-__( "Custom", "redirection" ), // client/component/redirects/match/agent.js:58
-__( "User Agent", "redirection" ), // client/component/redirects/match/agent.js:53
+__( "Regex", "redirection" ), // client/component/redirects/match/agent.js:64
+__( "Libraries", "redirection" ), // client/component/redirects/match/agent.js:60
+__( "Feed Readers", "redirection" ), // client/component/redirects/match/agent.js:59
+__( "Mobile", "redirection" ), // client/component/redirects/match/agent.js:58
+__( "Custom", "redirection" ), // client/component/redirects/match/agent.js:57
+__( "User Agent", "redirection" ), // client/component/redirects/match/agent.js:52
 __( "Regex", "redirection" ), // client/component/redirects/match/referrer.js:36
 __( "Referrer", "redirection" ), // client/component/redirects/match/referrer.js:32
 __( "pass", "redirection" ), // client/component/redirects/row.js:99
@@ -224,17 +224,10 @@ __( "Enable", "redirection" ), // client/component/redirects/row.js:87
 __( "Disable", "redirection" ), // client/component/redirects/row.js:85
 __( "Delete", "redirection" ), // client/component/redirects/row.js:82
 __( "Edit", "redirection" ), // client/component/redirects/row.js:79
-__( "Frequently Asked Questions", "redirection" ), // client/component/support/faq.js:45
-__( "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site.", "redirection" ), // client/component/support/faq.js:27
-__( "Can I redirect all 404 errors?", "redirection" ), // client/component/support/faq.js:26
-__( "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link.", "redirection" ), // client/component/support/faq.js:19
-__( "Can I open a redirect in a new tab?", "redirection" ), // client/component/support/faq.js:18
-__( "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}.", "redirection" ), // client/component/support/faq.js:11
-__( "I deleted a redirection, why is it still redirecting?", "redirection" ), // client/component/support/faq.js:10
-__( "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}.", "redirection" ), // client/component/support/help.js:24
-__( "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support.", "redirection" ), // client/component/support/help.js:23
-__( "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue.", "redirection" ), // client/component/support/help.js:14
-__( "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists.", "redirection" ), // client/component/support/help.js:13
+__( "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!", "redirection" ), // client/component/support/help.js:37
+__( "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support.", "redirection" ), // client/component/support/help.js:36
+__( "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide.", "redirection" ), // client/component/support/help.js:21
+__( "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first.", "redirection" ), // client/component/support/help.js:14
 __( "Need help?", "redirection" ), // client/component/support/help.js:12
 __( "Your email address:", "redirection" ), // client/component/support/newsletter.js:42
 __( "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release.", "redirection" ), // client/component/support/newsletter.js:38
