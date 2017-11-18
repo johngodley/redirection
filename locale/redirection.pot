@@ -14,55 +14,55 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: redirection-admin.php:123
+#: redirection-admin.php:155
 msgid "Settings"
 msgstr ""
 
-#: redirection-admin.php:143
+#: redirection-admin.php:175
 msgid "Log entries (%d max)"
 msgstr ""
 
-#: redirection-admin.php:200, redirection-admin.php:253
+#: redirection-admin.php:232, redirection-admin.php:285
 msgid "Unable to load Redirection"
 msgstr ""
 
-#: redirection-admin.php:201
+#: redirection-admin.php:233
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
 msgstr ""
 
-#: redirection-admin.php:219
+#: redirection-admin.php:251
 msgid "Redirection not installed properly"
 msgstr ""
 
-#: redirection-admin.php:220
+#: redirection-admin.php:252
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
 msgstr ""
 
-#: redirection-admin.php:246
+#: redirection-admin.php:278
 msgid "Loading, please wait..."
 msgstr ""
 
-#: redirection-admin.php:254
+#: redirection-admin.php:286
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr ""
 
-#: redirection-admin.php:255, redirection-strings.php:40
+#: redirection-admin.php:287, redirection-strings.php:40
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr ""
 
-#: redirection-admin.php:256
+#: redirection-admin.php:288
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr ""
 
-#: redirection-admin.php:258
+#: redirection-admin.php:290
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:259
+#: redirection-admin.php:291
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr ""
 
-#: redirection-admin.php:262, redirection-strings.php:7
+#: redirection-admin.php:294, redirection-strings.php:7
 msgid "Create Issue"
 msgstr ""
 
@@ -938,11 +938,11 @@ msgstr ""
 msgid "Modified Posts"
 msgstr ""
 
-#: models/database.php:279
+#: models/database.php:280
 msgid "All tables present"
 msgstr ""
 
-#: models/database.php:279
+#: models/database.php:280
 msgid "The following tables are missing:"
 msgstr ""
 
@@ -994,18 +994,18 @@ msgstr ""
 msgid "Default WordPress \"old slugs\""
 msgstr ""
 
-#: models/redirect.php:422
+#: models/redirect.php:430
 msgid "Invalid redirect matcher"
 msgstr ""
 
-#: models/redirect.php:428
+#: models/redirect.php:436
 msgid "Invalid redirect action"
 msgstr ""
 
-#: models/redirect.php:486
+#: models/redirect.php:494
 msgid "Invalid group when creating redirect"
 msgstr ""
 
-#: models/redirect.php:496
+#: models/redirect.php:504
 msgid "Invalid source URL"
 msgstr ""

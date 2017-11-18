@@ -13,63 +13,63 @@ msgstr ""
 
 #: redirection-strings.php:159
 msgid "Never cache"
-msgstr ""
+msgstr "Never cache"
 
 #: redirection-strings.php:158
 msgid "An hour"
-msgstr ""
+msgstr "An hour"
 
 #: redirection-strings.php:135
 msgid "Redirect Cache"
-msgstr ""
+msgstr "Redirect Cache"
 
 #: redirection-strings.php:134
-msgid "How long to cache redirected URLs (via \"Expires\" HTTP header)"
-msgstr ""
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
+msgstr "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 
 #: redirection-strings.php:72
 msgid "Are you sure you want to import from %s?"
-msgstr ""
+msgstr "Are you sure you want to import from %s?"
 
 #: redirection-strings.php:71
 msgid "Plugin Importers"
-msgstr ""
+msgstr "Plugin Importers"
 
 #: redirection-strings.php:70
 msgid "The following redirect plugins were detected on your site and can be imported from."
-msgstr ""
+msgstr "The following redirect plugins were detected on your site and can be imported from."
 
 #: redirection-strings.php:53
 msgid "total = "
-msgstr ""
+msgstr "total = "
 
 #: redirection-strings.php:52
 msgid "Import from %s"
-msgstr ""
+msgstr "Import from %s"
 
 #: redirection-admin.php:220
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
-msgstr ""
+msgstr "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
 
 #: redirection-admin.php:219
 msgid "Redirection not installed properly"
-msgstr ""
+msgstr "Redirection not installed properly"
 
 #: redirection-admin.php:201
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
-msgstr ""
+msgstr "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
 
 #: models/importer.php:149
 msgid "Default WordPress \"old slugs\""
-msgstr ""
+msgstr "Default WordPress \"old slugs\""
 
 #: redirection-strings.php:151
 msgid "Create associated redirect (added to end of URL)"
-msgstr ""
+msgstr "Create associated redirect (added to end of URL)"
 
 #: redirection-admin.php:259
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
-msgstr ""
+msgstr "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 
 #: redirection-strings.php:247
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
@@ -145,7 +145,7 @@ msgstr "Your server has rejected the request for being too big. You will need to
 
 #: redirection-admin.php:256
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
-msgstr ""
+msgstr "Also check if your browser is able to load <code>redirection.js</code>:"
 
 #: redirection-admin.php:255 redirection-strings.php:40
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
@@ -153,7 +153,7 @@ msgstr "If you are using a page caching plugin or service (CloudFlare, OVH, etc)
 
 #: redirection-admin.php:200 redirection-admin.php:253
 msgid "Unable to load Redirection"
-msgstr ""
+msgstr "Unable to load Redirection"
 
 #: models/fixer.php:77
 msgid "Unable to create group"
@@ -541,15 +541,15 @@ msgstr "Saving..."
 msgid "View notice"
 msgstr "View notice"
 
-#: models/redirect.php:497
+#: models/redirect.php:496
 msgid "Invalid source URL"
 msgstr "Invalid source URL"
 
-#: models/redirect.php:429
+#: models/redirect.php:428
 msgid "Invalid redirect action"
 msgstr "Invalid redirect action"
 
-#: models/redirect.php:423
+#: models/redirect.php:422
 msgid "Invalid redirect matcher"
 msgstr "Invalid redirect matcher"
 
@@ -904,7 +904,7 @@ msgstr "Redirect to random post"
 msgid "Redirect to URL"
 msgstr "Redirect to URL"
 
-#: models/redirect.php:487
+#: models/redirect.php:486
 msgid "Invalid group when creating redirect"
 msgstr "Invalid group when creating redirect"
 

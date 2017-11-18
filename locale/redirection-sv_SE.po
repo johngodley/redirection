@@ -24,7 +24,7 @@ msgid "Redirect Cache"
 msgstr ""
 
 #: redirection-strings.php:134
-msgid "How long to cache redirected URLs (via \"Expires\" HTTP header)"
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 msgstr ""
 
 #: redirection-strings.php:72
@@ -541,15 +541,15 @@ msgstr "Sparar..."
 msgid "View notice"
 msgstr "Visa meddelande"
 
-#: models/redirect.php:497
+#: models/redirect.php:496
 msgid "Invalid source URL"
 msgstr "Ogiltig URL-källa"
 
-#: models/redirect.php:429
+#: models/redirect.php:428
 msgid "Invalid redirect action"
 msgstr "Ogiltig omdirigeringsåtgärd"
 
-#: models/redirect.php:423
+#: models/redirect.php:422
 msgid "Invalid redirect matcher"
 msgstr "Ogiltig omdirigeringsmatchning"
 
@@ -904,7 +904,7 @@ msgstr "Omdirigering till slumpmässigt inlägg"
 msgid "Redirect to URL"
 msgstr "Omdirigera till URL"
 
-#: models/redirect.php:487
+#: models/redirect.php:486
 msgid "Invalid group when creating redirect"
 msgstr "Gruppen är ogiltig när omdirigering skapas"
 

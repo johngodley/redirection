@@ -24,8 +24,8 @@ msgid "Redirect Cache"
 msgstr "Redireccionar caché"
 
 #: redirection-strings.php:134
-msgid "How long to cache redirected URLs (via \"Expires\" HTTP header)"
-msgstr "Cuánto tiempo redireccionar URLs en la caché (mediante la cabecera HTTP \"Expires\")"
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
+msgstr "Cuánto tiempo cachear URLs con redirección 301 (mediante la cabecera HTTP \"Expires\")"
 
 #: redirection-strings.php:72
 msgid "Are you sure you want to import from %s?"
@@ -541,15 +541,15 @@ msgstr "Guardando…"
 msgid "View notice"
 msgstr "Ver aviso"
 
-#: models/redirect.php:497
+#: models/redirect.php:496
 msgid "Invalid source URL"
 msgstr "URL de origen no válida"
 
-#: models/redirect.php:429
+#: models/redirect.php:428
 msgid "Invalid redirect action"
 msgstr "Acción de redirección no válida"
 
-#: models/redirect.php:423
+#: models/redirect.php:422
 msgid "Invalid redirect matcher"
 msgstr "Coincidencia de redirección no válida"
 
@@ -904,7 +904,7 @@ msgstr "Redirigir a entrada aleatoria"
 msgid "Redirect to URL"
 msgstr "Redirigir a URL"
 
-#: models/redirect.php:487
+#: models/redirect.php:486
 msgid "Invalid group when creating redirect"
 msgstr "Grupo no válido a la hora de crear la redirección"
 

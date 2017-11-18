@@ -24,7 +24,7 @@ msgid "Redirect Cache"
 msgstr ""
 
 #: redirection-strings.php:134
-msgid "How long to cache redirected URLs (via \"Expires\" HTTP header)"
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 msgstr ""
 
 #: redirection-strings.php:72
@@ -542,15 +542,15 @@ msgstr "保存中…"
 msgid "View notice"
 msgstr "通知を見る"
 
-#: models/redirect.php:497
+#: models/redirect.php:496
 msgid "Invalid source URL"
 msgstr "不正な元 URL"
 
-#: models/redirect.php:429
+#: models/redirect.php:428
 msgid "Invalid redirect action"
 msgstr "不正なリダイレクトアクション"
 
-#: models/redirect.php:423
+#: models/redirect.php:422
 msgid "Invalid redirect matcher"
 msgstr "不正なリダイレクトマッチャー"
 
@@ -904,7 +904,7 @@ msgstr "ランダムな記事へ転送"
 msgid "Redirect to URL"
 msgstr "URL へ転送"
 
-#: models/redirect.php:487
+#: models/redirect.php:486
 msgid "Invalid group when creating redirect"
 msgstr "転送ルールを作成する際に無効なグループが指定されました"
 
