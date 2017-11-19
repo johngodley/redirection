@@ -28,7 +28,7 @@ const render = ( Component, dom ) => {
 
 const show = dom => {
 	i18n.setLocale( {
-		'': { localeSlug: Redirectioni10n.localeSlug }
+		'': { localeSlug: Redirectioni10n.localeSlug },
 	} );
 
 	if ( module.hot ) {
@@ -40,6 +40,8 @@ const show = dom => {
 	render( App, dom );
 };
 
-show( 'react-ui' );
+if ( document.querySelector( '#react-ui' ) ) {
+	show( 'react-ui' );
+}
 
 window.redirection = Redirectioni10n.version;

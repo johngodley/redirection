@@ -1,0 +1,876 @@
+# Translation of Plugins - Redirection - Stable (latest release) in Croatian
+# This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-09-03 16:16:13+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: hr\n"
+"Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection-strings.php:42
+msgid "Cached Redirection detected"
+msgstr "Otkrivena je keširana redirekcija"
+
+#: redirection-strings.php:41
+msgid "Please clear your browser cache and reload this page"
+msgstr ""
+
+#: redirection-strings.php:17
+msgid "The data on this page has expired, please reload."
+msgstr "Podaci o ovoj stranici su zastarjeli, molim učitajte ponovo."
+
+#: redirection-strings.php:16
+msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
+msgstr "WordPress nije odgovorio. Moguće je da je došlo do pogreške ili je zahtjev blokiran. Provjerite error_log vašeg poslužitelja."
+
+#: redirection-strings.php:15
+msgid "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?"
+msgstr "Poslužitelj je odgovorio da je došlo do pogreške \"403 Forbidden\", što može značiti da je zahtjev blokiran. Da li koristite vatrozid ili sigurosni dodatak (plugin)?"
+
+#: redirection-strings.php:14
+msgid "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again."
+msgstr "WordPress je odgovorio neočekivanom porukom. Do obično ukazuje da dodatak (plugin) ili tema generiraju izlaz kada ne bi trebali. Pokušajte deaktivirati ostale dodatke, pa pokušajte ponovo."
+
+#: redirection-strings.php:9
+msgid "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts."
+msgstr "Ako ništa ne pomaže, pokušajte deaktivirati ostale dodatke - to jednostavno za napraviti, a možete ih brzo ponovo aktivirati. Ostali dodaci ponekad uzrokuju konflikte. "
+
+#: redirection-strings.php:4
+msgid "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}."
+msgstr "U svom izvještaju navedite ove pojedinosti {{strong}}i opišite što ste točno radili{{/strong}}."
+
+#: redirection-admin.php:211
+msgid "If you think Redirection is at fault then create an issue."
+msgstr ""
+
+#: redirection-admin.php:210
+msgid "This may be caused by another plugin - look at your browser's error console for more details."
+msgstr "Uzrok ovome bi mogao biti drugi dodatak - detalje potražite u konzoli za pogreške (error cosole) vašeg peglednika."
+
+#: redirection-admin.php:209
+msgid "An error occurred loading Redirection"
+msgstr "Došlo je do pogreške prilikom učitavanja Redirectiona."
+
+#: redirection-admin.php:202
+msgid "Loading, please wait..."
+msgstr "Učitavanje, stripte se molim..."
+
+#: redirection-strings.php:63
+msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
+msgstr "{{strong}}Fromat CSV datoteke{{/strong}}: {{code}}izvorni URL, odredišni URL{{/code}} - i može biti popraćeno sa {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 za ne, 1 za da)."
+
+#: redirection-strings.php:39
+msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
+msgstr "Redirection ne radi. Pokušajte očistiti privremenu memoriju (cache) preglednika i ponovo učitati ovu stranicu."
+
+#: redirection-strings.php:38
+msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
+msgstr "Ako to ne pomogne, otvorite konzolu za pogreške (error console) vašeg preglednika i  prijavite {{link}}novi problem{{/link}} s detaljnim opisom."
+
+#: redirection-strings.php:8
+msgid "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot."
+msgstr ""
+
+#: redirection-admin.php:215 redirection-strings.php:7
+msgid "Create Issue"
+msgstr ""
+
+#: redirection-strings.php:6
+msgid "Email"
+msgstr "Email"
+
+#: redirection-strings.php:5
+msgid "Important details"
+msgstr "Važne pojedinosti"
+
+#: redirection-strings.php:214
+msgid "Need help?"
+msgstr "Trebate li pomoć?"
+
+#: redirection-strings.php:213
+msgid "First check the FAQ below. If you continue to have a problem then please disable all other plugins and check if the problem persists."
+msgstr "Prvo provjerite niže navedana često postavljana pitanja (FAQ). Ako se ne riješite problema, deaktivirajte ostale dodatke i provjerite da li je problem i dalje prisutan. "
+
+#: redirection-strings.php:212
+msgid "You can report bugs and new suggestions in the Github repository. Please provide as much information as possible, with screenshots, to help explain your issue."
+msgstr "Prijave nedostataka i nove prijedloge možete unijeti putem Github repozitorija. Opišite ih sa što je moguće više pojedinosti i upotpunite sa snimkama zaslona."
+
+#: redirection-strings.php:211
+msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
+msgstr "Napominjem da podršku pružam koliko mi to dopušta raspoloživo vrijeme. Ne osiguravam plaćenu podršku."
+
+#: redirection-strings.php:210
+msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}}."
+msgstr "Želite li poslati informacije, ali ne putem javno dostupnog repozitorija, pošaljite ih izravno na {{email}}email{{/email}}."
+
+#: redirection-strings.php:205
+msgid "Can I redirect all 404 errors?"
+msgstr "Mogu li preusmjeriti sve 404 pogreške."
+
+#: redirection-strings.php:204
+msgid "No, and it isnt advised that you do so. A 404 error is the correct response to return for a page that doesn't exist. If you redirect it you are indicating that it once existed, and this could dilute your site."
+msgstr "Ne, niti je to preporučljivo. Greška 404 je ispravan odgovor na zahtjev da se prikaže nepostojeća stranica. Preusmjeravanjem takvog zahtjeva poručujete da je tražena stranica nekada postojala."
+
+#: redirection-strings.php:191
+msgid "Pos"
+msgstr ""
+
+#: redirection-strings.php:166
+msgid "410 - Gone"
+msgstr "410 - Gone"
+
+#: redirection-strings.php:160
+msgid "Position"
+msgstr "Pozicija"
+
+#: redirection-strings.php:129
+msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted"
+msgstr ""
+
+#: redirection-strings.php:128
+msgid "Apache Module"
+msgstr "Apache modul"
+
+#: redirection-strings.php:127
+msgid "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}."
+msgstr ""
+"Unesite potunu putanju i naziv datoteke ako želite da Redirection automatski\n"
+"ažurira {{code}}.htaccess{{/code}}."
+
+#: redirection-strings.php:78
+msgid "Import to group"
+msgstr "Importirajte u grupu"
+
+#: redirection-strings.php:77
+msgid "Import a CSV, .htaccess, or JSON file."
+msgstr "Importirajte a CSV, .htaccess, ili JSON datoteku."
+
+#: redirection-strings.php:76
+msgid "Click 'Add File' or drag and drop here."
+msgstr "Kliknite 'Dodaj datoteku' ili je dovucite i ispustite ovdje."
+
+#: redirection-strings.php:75
+msgid "Add File"
+msgstr "Dodaj datoteku"
+
+#: redirection-strings.php:74
+msgid "File selected"
+msgstr "Odabrana datoteka"
+
+#: redirection-strings.php:71
+msgid "Importing"
+msgstr "Importiranje"
+
+#: redirection-strings.php:70
+msgid "Finished importing"
+msgstr "Importiranje dovršeno"
+
+#: redirection-strings.php:69
+msgid "Total redirects imported:"
+msgstr "Ukupan broj importiranih redirekcija:"
+
+#: redirection-strings.php:68
+msgid "Double-check the file is the correct format!"
+msgstr "Provjerite još jednom da li je format datoteke ispravan!"
+
+#: redirection-strings.php:67
+msgid "OK"
+msgstr "OK"
+
+#: redirection-strings.php:66
+msgid "Close"
+msgstr "Zatvori"
+
+#: redirection-strings.php:64
+msgid "All imports will be appended to the current database."
+msgstr "Sve importirano biti će dodano postojećoj bazi. "
+
+#: redirection-strings.php:62 redirection-strings.php:84
+msgid "Export"
+msgstr "Eksport"
+
+#: redirection-strings.php:61
+msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups)."
+msgstr "Eksport u CSV, Apache .htaccess, Nginx, ili Redirection JSON (koji sadrži sva preusmjeravanja i grupe)."
+
+#: redirection-strings.php:60
+msgid "Everything"
+msgstr "Sve"
+
+#: redirection-strings.php:59
+msgid "WordPress redirects"
+msgstr "WordPressova preusmjeravanja"
+
+#: redirection-strings.php:58
+msgid "Apache redirects"
+msgstr "Apache preusmjeravanja"
+
+#: redirection-strings.php:57
+msgid "Nginx redirects"
+msgstr "Nginx preusmjeravaja"
+
+#: redirection-strings.php:56
+msgid "CSV"
+msgstr "CSV"
+
+#: redirection-strings.php:55
+msgid "Apache .htaccess"
+msgstr "Apache .htaccess"
+
+#: redirection-strings.php:54
+msgid "Nginx rewrite rules"
+msgstr "Nginx rewrite rules"
+
+#: redirection-strings.php:53
+msgid "Redirection JSON"
+msgstr "Redirection JSON"
+
+#: redirection-strings.php:52
+msgid "View"
+msgstr "Pogled"
+
+#: redirection-strings.php:50
+msgid "Log files can be exported from the log pages."
+msgstr "Log datoteke mogu biti eksportirane sa log stranica."
+
+#: redirection-strings.php:47 redirection-strings.php:103
+msgid "Import/Export"
+msgstr "Import/Eksport"
+
+#: redirection-strings.php:46
+msgid "Logs"
+msgstr "Logovi"
+
+#: redirection-strings.php:45
+msgid "404 errors"
+msgstr "404 pogreške"
+
+#: redirection-strings.php:37
+msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
+msgstr "Navedite {{code}}%s{{/code}}, i pojasnite što ste točno radili"
+
+#: redirection-strings.php:120
+msgid "I'd like to support some more."
+msgstr "Želim dodatno podržati."
+
+#: redirection-strings.php:117
+msgid "Support 💰"
+msgstr "Podrška 💰"
+
+#: redirection-strings.php:241
+msgid "Redirection saved"
+msgstr "Redirekcija spremljena"
+
+#: redirection-strings.php:240
+msgid "Log deleted"
+msgstr "Log obrisan"
+
+#: redirection-strings.php:239
+msgid "Settings saved"
+msgstr "Postavke spremljene"
+
+#: redirection-strings.php:238
+msgid "Group saved"
+msgstr "Grupa spremljena"
+
+#: redirection-strings.php:237
+msgid "Are you sure you want to delete this item?"
+msgid_plural "Are you sure you want to delete these items?"
+msgstr[0] "Jeste li sigurni da želite obrisati ovu stavku?"
+msgstr[1] "Jeste li sigurni da želite obrisati ove stavke?"
+msgstr[2] "Jeste li sigurni da želite obrisati ove stavke?"
+
+#: redirection-strings.php:198
+msgid "pass"
+msgstr "pass"
+
+#: redirection-strings.php:184
+msgid "All groups"
+msgstr "Sve grupe"
+
+#: redirection-strings.php:172
+msgid "301 - Moved Permanently"
+msgstr "301 - Trajno premješteno"
+
+#: redirection-strings.php:171
+msgid "302 - Found"
+msgstr "302 - Pronađeno"
+
+#: redirection-strings.php:170
+msgid "307 - Temporary Redirect"
+msgstr "307 - Privremena redirekcija"
+
+#: redirection-strings.php:169
+msgid "308 - Permanent Redirect"
+msgstr "308 - Trajna redirekcija"
+
+#: redirection-strings.php:168
+msgid "401 - Unauthorized"
+msgstr "401 - Neovlašteno"
+
+#: redirection-strings.php:167
+msgid "404 - Not Found"
+msgstr "404 - Nije pronađeno"
+
+#: redirection-strings.php:165
+msgid "Title"
+msgstr "Naslov"
+
+#: redirection-strings.php:163
+msgid "When matched"
+msgstr ""
+
+#: redirection-strings.php:162
+msgid "with HTTP code"
+msgstr "sa HTTP kodom"
+
+#: redirection-strings.php:155
+msgid "Show advanced options"
+msgstr "Prikaži napredne opcije"
+
+#: redirection-strings.php:149 redirection-strings.php:153
+msgid "Matched Target"
+msgstr ""
+
+#: redirection-strings.php:148 redirection-strings.php:152
+msgid "Unmatched Target"
+msgstr ""
+
+#: redirection-strings.php:146 redirection-strings.php:147
+msgid "Saving..."
+msgstr "Spremam..."
+
+#: redirection-strings.php:108
+msgid "View notice"
+msgstr "Pogledaj obavijest"
+
+#: models/redirect.php:473
+msgid "Invalid source URL"
+msgstr "Neispravan izvorni URL"
+
+#: models/redirect.php:406
+msgid "Invalid redirect action"
+msgstr "Nesipravna akcija preusmjeravanja"
+
+#: models/redirect.php:400
+msgid "Invalid redirect matcher"
+msgstr ""
+
+#: models/redirect.php:171
+msgid "Unable to add new redirect"
+msgstr "Ne mogu dodati novu redirekciju"
+
+#: redirection-strings.php:12 redirection-strings.php:40
+msgid "Something went wrong 🙁"
+msgstr "Nešto je pošlo po zlu 🙁"
+
+#: redirection-strings.php:13
+msgid "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!"
+msgstr "Nešto sam pokušao i nije uspjelo. Moguće je da je uzrok privremen. Ako pokušaš ponovo moglo bi uspjeti - ne bi li to bilo sjajno?"
+
+#: redirection-strings.php:11
+msgid "It didn't work when I tried again"
+msgstr "Nije uspjelo kada sam pokušao ponovo"
+
+#: redirection-strings.php:10
+msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
+msgstr ""
+
+#: redirection-admin.php:143
+msgid "Log entries (%d max)"
+msgstr "Log zapisi (maksimalno %d)"
+
+#: redirection-strings.php:125
+msgid "Remove WWW"
+msgstr "Ukloni WWW"
+
+#: redirection-strings.php:124
+msgid "Add WWW"
+msgstr "Dodaj WWW"
+
+#: redirection-strings.php:236
+msgid "Search by IP"
+msgstr "Pretraga po IP"
+
+#: redirection-strings.php:232
+msgid "Select bulk action"
+msgstr "Odaberi grupnu radnju"
+
+#: redirection-strings.php:231
+msgid "Bulk Actions"
+msgstr "Grupne radnje"
+
+#: redirection-strings.php:230
+msgid "Apply"
+msgstr "Primijeni"
+
+#: redirection-strings.php:229
+msgid "First page"
+msgstr "Prva stranica"
+
+#: redirection-strings.php:228
+msgid "Prev page"
+msgstr "Prethodna stranica"
+
+#: redirection-strings.php:227
+msgid "Current Page"
+msgstr "Tekuća stranica"
+
+#: redirection-strings.php:226
+msgid "of %(page)s"
+msgstr ""
+
+#: redirection-strings.php:225
+msgid "Next page"
+msgstr "Sljedeća stranica"
+
+#: redirection-strings.php:224
+msgid "Last page"
+msgstr "Zadnja stranica"
+
+#: redirection-strings.php:223
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s stavka"
+msgstr[1] "%s stavke"
+msgstr[2] "%s stavki"
+
+#: redirection-strings.php:222
+msgid "Select All"
+msgstr "Odaberi sve"
+
+#: redirection-strings.php:234
+msgid "Sorry, something went wrong loading the data - please try again"
+msgstr "Oprostite, nešto je pošlo po zlu tokom učitavaja podataka - pokušajte ponovo"
+
+#: redirection-strings.php:233
+msgid "No results"
+msgstr "Bez rezultata"
+
+#: redirection-strings.php:82
+msgid "Delete the logs - are you sure?"
+msgstr "Brisanje logova - jeste li sigurni?"
+
+#: redirection-strings.php:81
+msgid "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically."
+msgstr "Postojeći logovi će nestati nakon brisanja. Želite li brisanje automatizirati, u opcijama možete postaviti raspored automatskog brisanja."
+
+#: redirection-strings.php:80
+msgid "Yes! Delete the logs"
+msgstr "Da! Obriši logove"
+
+#: redirection-strings.php:79
+msgid "No! Don't delete the logs"
+msgstr "Ne! Ne briši logove"
+
+#: redirection-strings.php:219
+msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
+msgstr ""
+
+#: redirection-strings.php:218 redirection-strings.php:220
+msgid "Newsletter"
+msgstr ""
+
+#: redirection-strings.php:217
+msgid "Want to keep up to date with changes to Redirection?"
+msgstr ""
+
+#: redirection-strings.php:216
+msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release."
+msgstr ""
+
+#: redirection-strings.php:215
+msgid "Your email address:"
+msgstr ""
+
+#: redirection-strings.php:209
+msgid "I deleted a redirection, why is it still redirecting?"
+msgstr ""
+
+#: redirection-strings.php:208
+msgid "Your browser will cache redirections. If you have deleted a redirection and your browser is still performing the redirection then {{a}}clear your browser cache{{/a}}."
+msgstr ""
+
+#: redirection-strings.php:207
+msgid "Can I open a redirect in a new tab?"
+msgstr ""
+
+#: redirection-strings.php:206
+msgid "It's not possible to do this on the server. Instead you will need to add {{code}}target=\"_blank\"{{/code}} to your link."
+msgstr ""
+
+#: redirection-strings.php:203
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: redirection-strings.php:121
+msgid "You've supported this plugin - thank you!"
+msgstr ""
+
+#: redirection-strings.php:118
+msgid "You get useful software and I get to carry on making it better."
+msgstr ""
+
+#: redirection-strings.php:140
+msgid "Forever"
+msgstr ""
+
+#: redirection-strings.php:113
+msgid "Delete the plugin - are you sure?"
+msgstr ""
+
+#: redirection-strings.php:112
+msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
+msgstr ""
+
+#: redirection-strings.php:111
+msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
+msgstr ""
+
+#: redirection-strings.php:110
+msgid "Yes! Delete the plugin"
+msgstr ""
+
+#: redirection-strings.php:109
+msgid "No! Don't delete the plugin"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://urbangiraffe.com"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "John Godley"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Manage all your 301 redirects and monitor 404 errors"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://urbangiraffe.com/plugins/redirection/"
+msgstr ""
+
+#: redirection-strings.php:119
+msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
+msgstr ""
+
+#: redirection-strings.php:43 redirection-strings.php:101
+msgid "Support"
+msgstr "Podrška"
+
+#: redirection-strings.php:104
+msgid "404s"
+msgstr ""
+
+#: redirection-strings.php:105
+msgid "Log"
+msgstr ""
+
+#: redirection-strings.php:115
+msgid "Delete Redirection"
+msgstr ""
+
+#: redirection-strings.php:73
+msgid "Upload"
+msgstr "Prijenos"
+
+#: redirection-strings.php:65
+msgid "Import"
+msgstr "Uvezi"
+
+#: redirection-strings.php:122
+msgid "Update"
+msgstr "Ažuriraj"
+
+#: redirection-strings.php:130
+msgid "Auto-generate URL"
+msgstr ""
+
+#: redirection-strings.php:131
+msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
+msgstr ""
+
+#: redirection-strings.php:132
+msgid "RSS Token"
+msgstr ""
+
+#: redirection-strings.php:139
+msgid "Don't monitor"
+msgstr ""
+
+#: redirection-strings.php:133
+msgid "Monitor changes to posts"
+msgstr ""
+
+#: redirection-strings.php:135
+msgid "404 Logs"
+msgstr ""
+
+#: redirection-strings.php:134 redirection-strings.php:136
+msgid "(time to keep logs for)"
+msgstr ""
+
+#: redirection-strings.php:137
+msgid "Redirect Logs"
+msgstr ""
+
+#: redirection-strings.php:138
+msgid "I'm a nice person and I have helped support the author of this plugin"
+msgstr ""
+
+#: redirection-strings.php:116
+msgid "Plugin Support"
+msgstr ""
+
+#: redirection-strings.php:44 redirection-strings.php:102
+msgid "Options"
+msgstr "Opcije"
+
+#: redirection-strings.php:141
+msgid "Two months"
+msgstr ""
+
+#: redirection-strings.php:142
+msgid "A month"
+msgstr ""
+
+#: redirection-strings.php:143
+msgid "A week"
+msgstr ""
+
+#: redirection-strings.php:144
+msgid "A day"
+msgstr ""
+
+#: redirection-strings.php:145
+msgid "No logs"
+msgstr ""
+
+#: redirection-strings.php:83
+msgid "Delete All"
+msgstr ""
+
+#: redirection-strings.php:19
+msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
+msgstr ""
+
+#: redirection-strings.php:20
+msgid "Add Group"
+msgstr ""
+
+#: redirection-strings.php:235
+msgid "Search"
+msgstr "Traži"
+
+#: redirection-strings.php:48 redirection-strings.php:106
+msgid "Groups"
+msgstr ""
+
+#: redirection-strings.php:29 redirection-strings.php:159
+msgid "Save"
+msgstr "Spremi"
+
+#: redirection-strings.php:161
+msgid "Group"
+msgstr ""
+
+#: redirection-strings.php:164
+msgid "Match"
+msgstr ""
+
+#: redirection-strings.php:183
+msgid "Add new redirection"
+msgstr ""
+
+#: redirection-strings.php:28 redirection-strings.php:72
+#: redirection-strings.php:156
+msgid "Cancel"
+msgstr "Prekini"
+
+#: redirection-strings.php:51
+msgid "Download"
+msgstr "Preuzimanje"
+
+#. Plugin Name of the plugin/theme
+msgid "Redirection"
+msgstr ""
+
+#: redirection-admin.php:123
+msgid "Settings"
+msgstr "Postavke izbornika"
+
+#: redirection-strings.php:123
+msgid "Automatically remove or add www to your site."
+msgstr ""
+
+#: redirection-strings.php:126
+msgid "Default server"
+msgstr ""
+
+#: redirection-strings.php:173
+msgid "Do nothing"
+msgstr ""
+
+#: redirection-strings.php:174
+msgid "Error (404)"
+msgstr ""
+
+#: redirection-strings.php:175
+msgid "Pass-through"
+msgstr ""
+
+#: redirection-strings.php:176
+msgid "Redirect to random post"
+msgstr ""
+
+#: redirection-strings.php:177
+msgid "Redirect to URL"
+msgstr ""
+
+#: models/redirect.php:463
+msgid "Invalid group when creating redirect"
+msgstr ""
+
+#: redirection-strings.php:90 redirection-strings.php:97
+msgid "Show only this IP"
+msgstr ""
+
+#: redirection-strings.php:86 redirection-strings.php:93
+msgid "IP"
+msgstr ""
+
+#: redirection-strings.php:88 redirection-strings.php:95
+#: redirection-strings.php:158
+msgid "Source URL"
+msgstr ""
+
+#: redirection-strings.php:89 redirection-strings.php:96
+msgid "Date"
+msgstr "Datum"
+
+#: redirection-strings.php:98 redirection-strings.php:100
+#: redirection-strings.php:182
+msgid "Add Redirect"
+msgstr ""
+
+#: redirection-strings.php:21
+msgid "All modules"
+msgstr ""
+
+#: redirection-strings.php:34
+msgid "View Redirects"
+msgstr ""
+
+#: redirection-strings.php:25 redirection-strings.php:30
+msgid "Module"
+msgstr "Modul"
+
+#: redirection-strings.php:26 redirection-strings.php:107
+msgid "Redirects"
+msgstr ""
+
+#: redirection-strings.php:18 redirection-strings.php:27
+#: redirection-strings.php:31
+msgid "Name"
+msgstr ""
+
+#: redirection-strings.php:221
+msgid "Filter"
+msgstr ""
+
+#: redirection-strings.php:185
+msgid "Reset hits"
+msgstr ""
+
+#: redirection-strings.php:23 redirection-strings.php:32
+#: redirection-strings.php:187 redirection-strings.php:199
+msgid "Enable"
+msgstr "Uključi"
+
+#: redirection-strings.php:22 redirection-strings.php:33
+#: redirection-strings.php:186 redirection-strings.php:200
+msgid "Disable"
+msgstr ""
+
+#: redirection-strings.php:24 redirection-strings.php:35
+#: redirection-strings.php:85 redirection-strings.php:91
+#: redirection-strings.php:92 redirection-strings.php:99
+#: redirection-strings.php:114 redirection-strings.php:188
+#: redirection-strings.php:201
+msgid "Delete"
+msgstr "Izbriši"
+
+#: redirection-strings.php:36 redirection-strings.php:202
+msgid "Edit"
+msgstr "Uredi"
+
+#: redirection-strings.php:189
+msgid "Last Access"
+msgstr ""
+
+#: redirection-strings.php:190
+msgid "Hits"
+msgstr ""
+
+#: redirection-strings.php:192
+msgid "URL"
+msgstr ""
+
+#: redirection-strings.php:193
+msgid "Type"
+msgstr "Tip"
+
+#: models/database.php:121
+msgid "Modified Posts"
+msgstr ""
+
+#: models/database.php:120 models/group.php:148 redirection-strings.php:49
+msgid "Redirections"
+msgstr ""
+
+#: redirection-strings.php:195
+msgid "User Agent"
+msgstr "Korisnički agent"
+
+#: matches/user-agent.php:5 redirection-strings.php:178
+msgid "URL and user agent"
+msgstr ""
+
+#: redirection-strings.php:154
+msgid "Target URL"
+msgstr ""
+
+#: matches/url.php:5 redirection-strings.php:181
+msgid "URL only"
+msgstr ""
+
+#: redirection-strings.php:157 redirection-strings.php:194
+#: redirection-strings.php:196
+msgid "Regex"
+msgstr ""
+
+#: redirection-strings.php:87 redirection-strings.php:94
+#: redirection-strings.php:197
+msgid "Referrer"
+msgstr ""
+
+#: matches/referrer.php:8 redirection-strings.php:179
+msgid "URL and referrer"
+msgstr ""
+
+#: redirection-strings.php:150
+msgid "Logged Out"
+msgstr "Odjavljen"
+
+#: redirection-strings.php:151
+msgid "Logged In"
+msgstr ""
+
+#: matches/login.php:5 redirection-strings.php:180
+msgid "URL and login status"
+msgstr ""

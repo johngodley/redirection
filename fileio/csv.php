@@ -27,10 +27,8 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function item_as_csv( $item ) {
-		$data = $item->get_action_data();
-		if ( is_array( maybe_unserialize( $data ) ) ) {
-			$data = '*';
-		}
+		$data = $item->match->get_data();
+		$data = isset( $data['url'] ) ? $data = $data['url'] : '*';
 
 		$csv = array(
 			$item->get_url(),
@@ -95,7 +93,7 @@ class Red_Csv_File extends Red_FileIO {
 		if ( $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' && count( $csv ) > 1 ) {
 			return array(
 				'url'         => trim( $csv[ self ::CSV_SOURCE ] ),
-				'action_data' => trim( $csv[ self ::CSV_TARGET ] ),
+				'action_data' => array( 'url' => trim( $csv[ self ::CSV_TARGET ] ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',

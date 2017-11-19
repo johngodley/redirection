@@ -78,9 +78,10 @@ class Red_Monitor {
 	public function post_trashed( $post_id ) {
 		$data = array(
 			'url'         => parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
-			'action_data' => '/',
+			'action_data' => array( 'url' => '/' ),
 			'match_type'  => 'url',
 			'action_type' => 'url',
+			'action_code' => 301,
 			'group_id'    => $this->monitor_group_id,
 			'status'      => 'disabled',
 		);
@@ -125,9 +126,10 @@ class Red_Monitor {
 
 			$data = array(
 				'url'         => $before,
-				'action_data' => $after,
+				'action_data' => array( 'url' => $after ),
 				'match_type'  => 'url',
 				'action_type' => 'url',
+				'action_code' => 301,
 				'group_id'    => $this->monitor_group_id,
 			);
 
@@ -136,8 +138,8 @@ class Red_Monitor {
 
 			if ( !empty( $this->associated ) ) {
 				// Create an associated redirect for this post
-				$data['url'] = $this->associated . $data['url'];
-				$data['action_data'] = $this->associated . $data['action_data'];
+				$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
+				$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
 				Red_Item::create( $data );
 			}
 

@@ -9,19 +9,12 @@ class Red_Action {
 		}
 	}
 
-	function can_change_code() {
-		return false;
-	}
-
-	function config() {
-	}
-
 	static function create( $name, $code ) {
 		$avail = self::available();
 
 		if ( isset( $avail[ $name ] ) ) {
 			if ( ! class_exists( strtolower( $avail[ $name ][1] ) ) ) {
-				include dirname( __FILE__ ).'/../actions/'.$avail[ $name ][0];
+				include_once dirname( __FILE__ ).'/../actions/'.$avail[ $name ][0];
 			}
 
 			$obj = new $avail[ $name ][1]( array( 'action_code' => $code ) );
@@ -42,29 +35,11 @@ class Red_Action {
 		);
 	}
 
-	function type() {
-		return $this->type;
+	public function process_before( $code, $target ) {
+		return $target;
 	}
 
-	function process_before( $code, $target ) {
+	public function process_after( $code, $target ) {
 		return true;
-	}
-
-	function process_after( $code, $target ) {
-		return true;
-	}
-
-	function can_perform_action () {
-		return true;
-	}
-
-	function action_codes () {
-		return array();
-	}
-
-	function display_actions() {
-		foreach ( $this->action_codes() as $key => $code ) {
-			echo '<option value="'.$key.'"'.( ( $key === intval( $this->action_code ) ) ? ' selected="selected"' : '' ).'>'.sprintf( '%s - %s', $key, $code ).'</option>';
-		}
 	}
 }

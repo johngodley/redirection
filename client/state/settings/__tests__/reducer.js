@@ -34,9 +34,9 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'SETTING_LOAD_SUCCESS sets load progress, values, and groups', () => {
-		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2, installed: 'install' } );
+		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2, installed: 'install', canDelete: false } );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2, installed: 'install' } );
+		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2, installed: 'install', canDelete: false } );
 	} );
 
 	test( 'SETTING_LOAD_FAILED sets failed', () => {

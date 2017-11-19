@@ -4,6 +4,7 @@ class WordPress_Module extends Red_Module {
 	const MODULE_ID = 1;
 
 	private $matched = false;
+	private $can_log = true;
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -15,15 +16,40 @@ class WordPress_Module extends Red_Module {
 
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
-		add_action( 'init',                    array( &$this, 'init' ) );
-		add_action( 'send_headers',            array( &$this, 'send_headers' ) );
-		add_filter( 'permalink_redirect_skip', array( &$this, 'permalink_redirect_skip' ) );
-		add_filter( 'wp_redirect',             array( &$this, 'wp_redirect' ), 1, 2 );
-		add_action( 'template_redirect', array( &$this, 'template_redirect' ) );
+		add_action( 'init',                    array( $this, 'init' ) );
+		add_action( 'send_headers',            array( $this, 'send_headers' ) );
+		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
+		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
+		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
+		//add_filter( 'status_header',           array( $this, 'status_header_404' ), 10, 4 );
+		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
+		add_action( 'redirection_do_nothing',  array( $this, 'redirection_do_nothing' ) );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
+	}
+
+	// Replacement for template_redirect to catch all 404 situations, not just template_redirect
+	public function status_header_404( $status_header, $code, $description, $protocol ) {
+		if ( $code === 404 ) {
+			$options = red_get_options();
+
+			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
+				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
+			}
+		}
+
+		return $status_header;
+	}
+
+	public function redirection_do_nothing() {
+		$this->can_log = false;
+		return false;
+	}
+
+	public function redirection_visit( $redirect, $url, $target ) {
+		$redirect->visit( $url, $target );
 	}
 
 	public function init() {
@@ -54,7 +80,7 @@ class WordPress_Module extends Red_Module {
 		if ( is_404() )	{
 			$options = red_get_options();
 
-			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 ) {
+			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
 				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
 			}
 		}
@@ -62,14 +88,16 @@ class WordPress_Module extends Red_Module {
 
 	public function status_header( $status ) {
 		// Fix for incorrect headers sent when using FastCGI/IIS
-		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' )
+		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' ) {
 			return str_replace( 'HTTP/1.1', 'Status:', $status );
+		}
+
 		return $status;
 	}
 
 	public function send_headers( $obj ) {
 		if ( ! empty( $this->matched ) && $this->matched->match->action_code === '410' ) {
-			add_filter( 'status_header', array( &$this, 'set_header_410' ) );
+			add_filter( 'status_header', array( $this, 'set_header_410' ) );
 		}
 	}
 
@@ -84,7 +112,8 @@ class WordPress_Module extends Red_Module {
 			header( "Refresh: 0;url=$url" );
 			return $url;
 		}
-		elseif ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
+
+		if ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = array( 'lighttpd', 'nginx' );
 
 			foreach ( $servers_to_check as $name ) {
@@ -95,12 +124,27 @@ class WordPress_Module extends Red_Module {
 				}
 			}
 		}
-		elseif ( $status == 307) {
+
+		if ( intval( $status, 10 ) === 307 ) {
 			status_header( $status );
-			header( "Cache-Control: no-cache, must-revalidate, max-age=0" );
-			header( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" );
+			nocache_headers();
 			return $url;
 		}
+
+		$options = red_get_options();
+
+		// Do we need to set the cache header?
+		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 && intval( $status, 10 ) === 301 ) {
+			if ( $options['redirect_cache'] === -1 ) {
+				// No cache - just use WP function
+				nocache_headers();
+			} else {
+				// Custom cache
+				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s T', time() + $options['redirect_cache'] * 60 * 60 ) );
+				header( 'Cache-Control: max-age=' . $options['redirect_cache'] * 60 * 60 );
+			}
+		}
+
 		status_header( $status );
 		return $url;
 	}
@@ -117,8 +161,14 @@ class WordPress_Module extends Red_Module {
 
 	public function permalink_redirect_skip( $skip ) {
 		// only want this if we've matched using redirection
-		if ( $this->matched )
+		if ( $this->matched ) {
 			$skip[] = $_SERVER['REQUEST_URI'];
+		}
+
 		return $skip;
+	}
+
+	public function reset() {
+		$this->can_log = true;
 	}
 }

@@ -19,7 +19,7 @@ const MENU = [
 	},
 	{
 		name: __( 'Groups' ),
-		value: 'groups'
+		value: 'groups',
 	},
 	{
 		name: __( 'Log' ),

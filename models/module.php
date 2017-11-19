@@ -67,16 +67,18 @@ abstract class Red_Module {
 		if ( $group ) {
 			$module = Red_Module::get( $group->get_module_id() );
 
-			if ( $module )
+			if ( $module ) {
 				$module->flush_module();
+			}
 		}
 	}
 
 	static function flush_by_module( $module_id ) {
 		$module = Red_Module::get( $module_id );
 
-		if ( $module )
+		if ( $module ) {
 			$module->flush_module();
+		}
 	}
 
 	abstract public function get_id();

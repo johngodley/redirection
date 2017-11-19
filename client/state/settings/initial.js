@@ -12,5 +12,6 @@ export function getInitialSettings() {
 		installed: '',
 		settings: {},
 		pluginStatus: [],
+		canDelete: false,
 	};
 }

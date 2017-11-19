@@ -30,6 +30,14 @@ const notifySchedule = [
 	{ value: 'monthly', text: __( 'Once a month' ) }
 ];
 
+const expireTimes = [
+	{ value: -1, text: __( 'Never cache' ) },
+	{ value: 1, text: __( 'An hour' ) },
+	{ value: 24, text: __( 'A day' ) },
+	{ value: 24 * 7, text: __( 'A week' ) },
+	{ value: 0, text: __( 'Forever' ) },
+];
+
 const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
@@ -40,7 +48,6 @@ class OptionsForm extends React.Component {
 
 		this.state = props.values;
 		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '',
-		this.state.canonical = modules[ 2 ] ? modules[ 2 ].canonical : '',
 		this.state.monitor_type_post = false;
 		this.state.monitor_type_page = false;
 		this.state.monitor_type_trash = false;
@@ -97,7 +104,7 @@ class OptionsForm extends React.Component {
 				&nbsp;
 				{ __( 'Save changes to this group' ) }
 
-				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder={ __( 'For example "/amp"' ) } value={ this.state.associated_redirect } /> { __( 'Create associated redirect' ) }</p>
+				<p><input type="text" className="regular-text" name="associated_redirect" onChange={ this.onChange } placeholder={ __( 'For example "/amp"' ) } value={ this.state.associated_redirect } /> { __( 'Create associated redirect (added to end of URL)' ) }</p>
 			</TableRow>
 		);
 	}
@@ -142,8 +149,8 @@ class OptionsForm extends React.Component {
 						<span className="sub">
 							{ __( 'Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted', {
 								components: {
-									code: <code />
-								}
+									code: <code />,
+								},
 							} ) }
 						</span>
 					</TableRow>
@@ -155,20 +162,8 @@ class OptionsForm extends React.Component {
 								{ __( 'Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.', {
 									components: {
 										code: <code />,
-									}
+									},
 								} ) }
-							</p>
-
-							<p>
-								<label>
-									<select name="canonical" value={ this.state.canonical } onChange={ this.onChange }>
-										<option value="">{ __( 'Default server' ) }</option>
-										<option value="nowww">{ __( 'Remove WWW' ) }</option>
-										<option value="www">{ __( 'Add WWW' ) }</option>
-									</select>
-									&nbsp;
-									{ __( 'Automatically remove or add www to your site.' ) }
-								</label>
 							</p>
 						</label>
 					</TableRow>
@@ -178,6 +173,10 @@ class OptionsForm extends React.Component {
 					</TableRow>
 					<TableRow title={ __( 'Notification Schedule' ) + ':' }>
 						<Select items={ notifySchedule } name="notify_schedule" value={ this.state.notify_schedule } onChange={ this.onChange } /> { __( '(How often to send email notifications about new 404s.)' ) }
+					</TableRow>
+					<TableRow title={ __( 'Redirect Cache' ) }>
+						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
 				</FormTable>
 
@@ -191,7 +190,7 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onSaveSettings: settings => {
 			dispatch( saveSettings( settings ) );
-		}
+		},
 	};
 }
 

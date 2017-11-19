@@ -57,7 +57,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 
 	public function testExportReferrer() {
 		$exporter = new Red_Csv_File();
-		$target = serialize( array( 'referrer' => 'ref', 'url_from' => 'url1', 'url_notfrom' => 'url2' ) );
+		$target = serialize( array( 'referrer' => 'ref', 'url_from' => 'url1', 'url_notfrom' => 'url2', 'regex' => false ) );
 		$item = new Red_Item( (object) array( 'match_type' => 'referrer', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source1', 'action_data' => $target, 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 

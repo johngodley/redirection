@@ -19,6 +19,7 @@ class Redirection_Api {
 		'export_data',
 		'ping',
 		'plugin_status',
+		'get_importers',
 	);
 
 	public function __construct() {
@@ -63,9 +64,9 @@ class Redirection_Api {
 		}
 	}
 
-	private function get_params( $params ) {
-		if ( empty( $params ) ) {
-			$params = $_POST;
+	private function get_params( $params = array() ) {
+		if ( empty( $params ) && isset( $_POST['data'] ) ) {
+			$params = json_decode( wp_unslash( $_POST['data'] ), true );
 		}
 
 		return $params;
@@ -213,7 +214,7 @@ class Redirection_Api {
 				$result = $redirect->update( $params );
 
 				if ( is_wp_error( $result ) ) {
-					$result = $this->getError( $redirect->get_error_message(), __LINE__ );
+					$result = $this->getError( $result->get_error_message(), __LINE__ );
 				} else {
 					$result = array( 'item' => $redirect->to_json() );
 				}
@@ -257,6 +258,10 @@ class Redirection_Api {
 	}
 
 	public function ajax_delete_plugin() {
+		if ( is_multisite() ) {
+			return $this->output_ajax_response( $this->getError( 'Multisite installations must delete the plugin from the network admin', __LINE__ ) );
+		}
+
 		$plugin = Redirection_Admin::init();
 		$plugin->plugin_uninstall();
 
@@ -272,82 +277,12 @@ class Redirection_Api {
 			'settings' => red_get_options(),
 			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
 			'installed' => get_home_path(),
+			'canDelete' => ! is_multisite(),
 		) );
 	}
 
 	public function ajax_save_settings( $settings = array() ) {
-		$settings = $this->get_params( $settings );
-		$options = red_get_options();
-		$monitor_types = array();
-
-		if ( isset( $settings['monitor_type_post'] ) && $settings['monitor_type_post'] === 'true' ) {
-			$monitor_types[] = 'post';
-		}
-
-		if ( isset( $settings['monitor_type_page'] ) && $settings['monitor_type_page'] === 'true' ) {
-			$monitor_types[] = 'page';
-		}
-
-		if ( isset( $settings['monitor_type_trash'] ) && $settings['monitor_type_trash'] === 'true' ) {
-			$monitor_types[] = 'trash';
-		}
-
-		if ( isset( $settings['monitor_post'] ) ) {
-			$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
-		}
-
-		if ( isset( $settings['associated_redirect'] ) ) {
-			$sanitizer = new Red_Item_Sanitize();
-			$options['associated_redirect'] = rtrim( $sanitizer->sanitize_url( $settings['associated_redirect'] ), '/' );
-		}
-
-		if ( count( $monitor_types ) === 0 ) {
-			$options['monitor_post'] = 0;
-			$options['associated_redirect'] = '';
-		}
-
-		if ( isset( $settings['auto_target'] ) ) {
-			$options['auto_target'] = stripslashes( $settings['auto_target'] );
-		}
-
-		if ( isset( $settings['support'] ) ) {
-			$options['support'] = $settings['support'] === 'true' ? true : false;
-		}
-
-		if ( isset( $settings['token'] ) ) {
-			$options['token'] = stripslashes( $settings['token'] );
-		}
-
-		if ( !isset( $settings['token'] ) || trim( $options['token'] ) === '' ) {
-			$options['token'] = md5( uniqid() );
-		}
-
-		if ( isset( $settings['newsletter'] ) ) {
-			$options['newsletter'] = $settings['newsletter'] === 'true' ? true : false;
-		}
-
-		if ( isset( $settings['expire_redirect'] ) ) {
-			$options['expire_redirect'] = max( -1, min( intval( $settings['expire_redirect'], 10 ), 60 ) );
-		}
-
-		if ( isset( $settings['expire_404'] ) ) {
-			$options['expire_404'] = max( -1, min( intval( $settings['expire_404'], 10 ), 60 ) );
-		}
-		
-		if ( isset( $settings['notify_emails'] ) ) {
-			$options['notify_emails'] = strip_tags($settings['notify_emails']);
-		}
-		
-		if ( isset( $settings['notify_schedule'] ) ) {
-			$options['notify_schedule'] = $settings['notify_schedule'];
-		}
-
-		$module = Red_Module::get( 2 );
-		$options['modules'][2] = $module->update( $settings );
-		$options['monitor_types'] = $monitor_types;
-
-		update_option( 'redirection_options', $options );
-		do_action( 'redirection_save_options', $options );
+		red_set_options( $this->get_params( $settings ) );
 
 		return $this->ajax_load_settings();
 	}
@@ -406,21 +341,36 @@ class Redirection_Api {
 	}
 
 	public function ajax_plugin_status( $params ) {
-		global $wpdb;
+		$params = $this->get_params( $params );
 
-		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+		$fixit = false;
+		if ( isset( $params['fixIt'] ) && $params['fixIt'] ) {
+			$fixit = true;
+		}
 
-		$db = new RE_Database();
-		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
+		include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
 
-		$result = array(
-			array_merge( array( 'name' => __( 'Database tables', 'redirection' ) ), $db->get_status() ),
-			array(
-				'name' => __( 'Valid groups', 'redirection' ),
-				'message' => $groups === 0 ? __( 'No valid groups', 'redirection' ) : __( 'Valid groups detected', 'redirection' ),
-				'status' => $groups === 0 ? 'problem' : 'good',
-			),
-		);
+		$fixer = new Red_Fixer();
+		$result = $fixer->get_status();
+
+		if ( $fixit ) {
+			$result = $fixer->fix( $result );
+		}
+
+		return $this->output_ajax_response( $result );
+	}
+
+	public function ajax_get_importers( $params ) {
+		include_once dirname( __FILE__ ).'/models/importer.php';
+
+		$params = $this->get_params( $params );
+
+		if ( isset( $params['plugin'] ) ) {
+			$groups = Red_Group::get_all();
+			$result = array( 'imported' => Red_Plugin_Importer::import( $params['plugin'], $groups[ 0 ]['id'] ) );
+		} else {
+			$result = array( 'importers' => Red_Plugin_Importer::get_plugins() );
+		}
 
 		return $this->output_ajax_response( $result );
 	}

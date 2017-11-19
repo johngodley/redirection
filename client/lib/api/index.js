@@ -1,36 +1,17 @@
 /* global fetch, Redirectioni10n */
-const addData = ( form, data, preName ) => {
-	for ( const variable in data ) {
-		if ( data[ variable ] !== undefined ) {
-			if ( typeof data[ variable ] === 'object' ) {
-				addData( form, data[ variable ], variable + '_' );
-			} else {
-				form.append( preName + variable, data[ variable ] );
-			}
-		}
-	}
-};
 
-const addFileData = ( form, data, preName ) => {
-	for ( const variable in data ) {
-		if ( data[ variable ] !== undefined ) {
-			form.append( preName + variable, data[ variable ] );
-		}
-	}
-};
-
-const getApiRequest = ( action, data ) => {
+const getApiRequest = ( action, data, file ) => {
 	const form = new FormData();
 
 	form.append( 'action', action );
 	form.append( '_wpnonce', Redirectioni10n.WP_API_nonce );
 
 	if ( data ) {
-		if ( action === 'red_import_data' ) {
-			addFileData( form, data, '' );
-		} else {
-			addData( form, data, '' );
-		}
+		form.append( 'data', JSON.stringify( data ) );
+	}
+
+	if ( file ) {
+		form.append( 'file', file );
 	}
 
 	return fetch( Redirectioni10n.WP_API_root, {
@@ -40,16 +21,19 @@ const getApiRequest = ( action, data ) => {
 	} );
 };
 
-const getApi = ( action, params ) => {
+const getApi = ( action, params, file ) => {
 	const request = {
 		action,
 		params,
 	};
 
-	return getApiRequest( action, params )
+	return getApiRequest( action, params, file )
 		.then( data => {
-			request.status = data.status;
-			request.statusText = data.statusText;
+			if ( request.status && request.statusText ) {
+				request.status = data.status;
+				request.statusText = data.statusText;
+			}
+
 			return data.text();
 		} )
 		.then( text => {
@@ -59,7 +43,7 @@ const getApi = ( action, params ) => {
 				const json = JSON.parse( text );
 
 				if ( json === 0 ) {
-					throw { message: 'No response returned - WordPress did not understand AJAX request', code: 0 };
+					throw { message: 'No response returned - WordPress did not understand the AJAX request', code: 0 };
 				} else if ( json.error ) {
 					throw json.error;
 				}

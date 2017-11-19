@@ -22,6 +22,11 @@ class RedirectionApiDeletePluginTest extends WP_Ajax_UnitTestCase {
 	public function testDelete() {
 		global $wpdb;
 
+		if ( is_multisite() ) {
+			// This doesnt do anything on multisite
+			return;
+		}
+
 		$before = $wpdb->get_results( "SHOW TABLES LIKE '%{$wpdb->prefix}redirection_%'" );
 		$this->assertNotEquals( array(), $before );
 

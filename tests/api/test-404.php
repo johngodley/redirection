@@ -9,6 +9,10 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 
 	public static function setupBeforeClass() {
 		self::$redirection = Redirection_Admin::init()->api;
+
+		global $wpdb;
+
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
 	}
 
 	private function setNonce() {

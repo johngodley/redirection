@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 
 const ActionUrl = props => {
 	const changer = ev => {
-		props.onChange( 'target', ev.target.value );
+		props.onChange( 'target', 'url', ev.target.value );
 	};
 
 	return (
@@ -23,7 +23,7 @@ const ActionUrl = props => {
 						<tr>
 							<th>{ __( 'Target URL' ) }</th>
 							<td>
-								<input type="text" name="action_data" value={ props.target } onChange={ changer } />
+								<input type="text" name="url" value={ props.target.url } onChange={ changer } />
 							</td>
 						</tr>
 					</tbody>
@@ -34,7 +34,7 @@ const ActionUrl = props => {
 };
 
 ActionUrl.propTypes = {
-	target: PropTypes.string.isRequired,
+	target: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
 

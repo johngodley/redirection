@@ -56,25 +56,25 @@ const LogRow = props => {
 				{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ handleSelected } /> }
 				{ isSaving && <Spinner size="small" /> }
 			</th>
-			<td>
+			<td className="column-date">
 				{ created }
 				<RowActions disabled={ isSaving }>
 					<a href="#" onClick={ handleDelete }>{ __( 'Delete' ) }</a>
 				</RowActions>
 			</td>
-			<td>
+			<td className="column-primary column-url">
 				<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 				<RowActions>
 					{ [ sent_to ? sent_to.substring( 0, 100 ) : '' ] }
 				</RowActions>
 			</td>
-			<td>
+			<td className="column-referrer">
 				<Referrer url={ referrer } />
 				<RowActions>
 					{ [ agent ] }
 				</RowActions>
 			</td>
-			<td>
+			<td className="column-ip">
 				<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">{ ip }</a>
 				<RowActions>
 					<a href="#" onClick={ handleShow }>{ __( 'Show only this IP' ) }</a>

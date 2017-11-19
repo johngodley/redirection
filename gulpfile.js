@@ -94,12 +94,13 @@ gulp.task( 'pot:extract', () => {
 				phpArrayName: 'redirection_strings',
 				format: 'PHP',
 				textdomain: 'redirection',
-				keywords: [ 'translate', '__' ]
+				keywords: [ 'translate', '__' ],
 			} );
 
 			// There's a bug where it doesnt escape $ correctly - do it here
 			result = result.replace( /\$(.*?)\$/g, '%%$1%%' );
 			result = result.replace( /%%/g, '\\$' );
+			result = result.replace( /\\\\/g, '\\' );
 
 			fs.writeFileSync( 'redirection-strings.php', result, 'utf8' );
 		} );
@@ -180,6 +181,7 @@ gulp.task( 'version', () => {
 
 define( 'REDIRECTION_VERSION', '${ pkg.version }' );
 define( 'REDIRECTION_BUILD', '${ md5 }' );
+define( 'REDIRECTION_MIN_WP', '${ pkg.engines.wordpress }' );
 ` );
 	} );
 } );

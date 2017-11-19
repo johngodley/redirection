@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const SortableColumn = props => {
-	const { name, text, table } = props;
+	const { name, text, table, primary } = props;
 	const { direction, orderBy } = table;
 	const click = ev => {
 		ev.preventDefault();
@@ -18,7 +18,7 @@ const SortableColumn = props => {
 		sortable: true,
 		asc: orderBy === name && direction === 'asc',
 		desc: orderBy === name && direction === 'desc' || orderBy !== name,
-		'column-primary': orderBy === name,
+		'column-primary': primary,
 		[ 'column-' + name ]: true,
 	} );
 

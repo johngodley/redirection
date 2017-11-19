@@ -32,7 +32,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testStripSlashes() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '/spaces\\\'' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '/spaces\'' ) ) );
 		$this->assertEquals( "/spaces'", $result['url'] );
 	}
 
@@ -42,7 +42,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGoodRegex() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'regex' => 'true' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'regex' => true ) ) );
 		$this->assertEquals( 1, $result['regex'] );
 	}
 
@@ -54,6 +54,12 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	public function testTitle() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'title' => 'title' ) ) );
 		$this->assertEquals( 'title', $result['title'] );
+	}
+
+	public function testLongTitle() {
+		$title = str_repeat( 'a', 51 );
+		$result = $this->sanitizer->get( $this->get_new( array( 'title' => $title ) ) );
+		$this->assertEquals( substr( $title, 0, 50 ), $result['title'] );
 	}
 
 	public function testBadUrl() {
@@ -108,12 +114,12 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testUnserializeData() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'action_data' => '/a' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'action_data' => array( 'url' => '/a' ) ) ) );
 		$this->assertEquals( '/a', $result['action_data'] );
 	}
 
 	public function testStripSlasheserializeData() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login' ) ) );
+		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login', 'action_data' => array( 'logged_in' => '', 'logged_out' => '' ) ) ) );
 		$this->assertEquals( serialize( array( 'logged_in' => '', 'logged_out' => '' ) ), $result['action_data'] );
 	}
 

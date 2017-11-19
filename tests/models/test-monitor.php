@@ -120,7 +120,7 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testAssociated() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'post', '/amp' ) );
+		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'post', '/amp/' ) );
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 		$post = $this->factory->post->create();
 		$before = parse_url( get_permalink( $post ), PHP_URL_PATH );
@@ -133,7 +133,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		// Should not trigger another
 		$this->assertEquals( $total + 2, $after );
-		$this->assertEquals( '/amp'.$before, $redirect->url );
+		$this->assertEquals( $before.'amp/', $redirect->url );
 	}
 
 	public function testTrashUpdated() {
@@ -225,6 +225,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		$this->assertEquals( $before, $redirect->url );
 		$this->assertEquals( $after, $redirect->action_data );
+		$this->assertEquals( 301, $redirect->action_code );
 
 		$this->assertEquals( 1, $action->get_call_count() );
 		$this->assertEquals( $after, $data[0][0] );

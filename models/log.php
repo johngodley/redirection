@@ -22,8 +22,10 @@ class RE_Log {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_logs WHERE id=%d", $id ) );
-		if ( $row )
+		if ( $row ) {
 			return new RE_Log( $row );
+		}
+
 		return false;
 	}
 
@@ -36,11 +38,13 @@ class RE_Log {
 			'ip'      => $ip,
 		);
 
-		if ( ! empty( $agent ) )
+		if ( ! empty( $agent ) ) {
 			$insert['agent'] = $agent;
+		}
 
-		if ( ! empty( $referrer ) )
+		if ( ! empty( $referrer ) ) {
 			$insert['referrer'] = $referrer;
+		}
 
 		$insert['sent_to']        = $target;
 		$insert['redirection_id'] = isset( $extra['redirect_id'] ) ? $extra['redirect_id'] : 0;
@@ -175,23 +179,29 @@ class RE_404 {
 		global $wpdb, $redirection;
 
 		$insert = array(
-			'url'     => urldecode( $url ),
+			'url'     => substr( urldecode( $url ), 0, 255 ),
 			'created' => current_time( 'mysql' ),
 			'ip'      => ip2long( $ip ),
 		);
 
 		if ( ! empty( $agent ) ) {
-			$insert['agent'] = $agent;
+			$insert['agent'] = substr( $agent, 0, 255 );
 		}
 
 		if ( ! empty( $referrer ) ) {
-			$insert['referrer'] = $referrer;
+			$insert['referrer'] = substr( $referrer, 0, 255 );
 		}
 
 		$insert = apply_filters( 'redirection_404_data', $insert );
 		if ( $insert ) {
 			$wpdb->insert( $wpdb->prefix.'redirection_404', $insert );
+
+			if ( $wpdb->insert_id ) {
+				return $wpdb->insert_id;
+			}
 		}
+
+		return false;
 	}
 
 	static function delete( $id ) {
@@ -298,7 +308,7 @@ class RE_Filter_Log {
 
 		if ( isset( $params['perPage'] ) ) {
 			$limit = intval( $params['perPage'], 10 );
-			$limit = min( 100, $limit );
+			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
 

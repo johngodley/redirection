@@ -1,6 +1,9 @@
 <?php
 
 class Login_Match extends Red_Match {
+	public $logged_in;
+	public $logged_out;
+
 	function name() {
 		return __( 'URL and login status', 'redirection' );
 	}
@@ -11,8 +14,8 @@ class Login_Match extends Red_Match {
 		}
 
 		return array(
-			'logged_in' => isset( $details['action_data_logged_in'] ) ? $this->sanitize_url( $details['action_data_logged_in'] ) : '',
-			'logged_out' => isset( $details['action_data_logged_out'] ) ? $this->sanitize_url( $details['action_data_logged_out'] ) : '',
+			'logged_in' => isset( $details['logged_in'] ) ? $this->sanitize_url( $details['logged_in'] ) : '',
+			'logged_out' => isset( $details['logged_out'] ) ? $this->sanitize_url( $details['logged_out'] ) : '',
 		);
 	}
 
@@ -30,5 +33,18 @@ class Login_Match extends Red_Match {
 		}
 
 		return $target;
+	}
+
+	public function get_data() {
+		return array(
+			'logged_in' => $this->logged_in,
+			'logged_out' => $this->logged_out,
+		);
+	}
+
+	public function load( $values ) {
+		$values = unserialize( $values );
+		$this->logged_in = $values['logged_in'];
+		$this->logged_out = $values['logged_out'];
 	}
 }

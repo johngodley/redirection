@@ -44,6 +44,7 @@ class Home extends React.Component {
 		this.state = {
 			page: getPluginPage(),
 			clicked: 0,
+			stack: false,
 			error: REDIRECTION_VERSION !== Redirectioni10n.version,
 		};
 
@@ -52,8 +53,8 @@ class Home extends React.Component {
 		setInterval( props.onPing, PING_TIMER );
 	}
 
-	componentDidCatch() {
-		this.setState( { error: true } );
+	componentDidCatch( error ) {
+		this.setState( { error: true, stack: error } );
 	}
 
 	onChangePage( page, url ) {
@@ -64,7 +65,7 @@ class Home extends React.Component {
 		history.pushState( {}, null, url );
 		this.setState( {
 			page,
-			clicked: this.state.clicked + 1
+			clicked: this.state.clicked + 1,
 		} );
 
 		this.props.onClear();
@@ -99,9 +100,8 @@ class Home extends React.Component {
 	renderError() {
 		const debug = [
 			Redirectioni10n.versions,
-			'Nonce: ' + Redirectioni10n.WP_API_nonce,
-			'URL: ' + Redirectioni10n.WP_API_root.replace( /\/\/.*?\//, '//<site>/' ),
 			'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
+			this.state.stack,
 		];
 
 		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
@@ -126,14 +126,14 @@ class Home extends React.Component {
 				<p>
 					{ __( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", {
 						components: {
-							link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />
-						}
+							link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />,
+						},
 					} ) }
 				</p>
 				<p>
 					{ __( 'Please mention {{code}}%s{{/code}}, and explain what you were doing at the time', {
 						components: {
-							code: <code />
+							code: <code />,
 						},
 						args: this.state.page,
 					} ) }

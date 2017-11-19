@@ -21,7 +21,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 
 	getApi( 'red_load_settings' )
 		.then( json => {
-			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, installed: json.installed } );
+			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, installed: json.installed, canDelete: json.canDelete } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );
@@ -54,8 +54,8 @@ export const deletePlugin = () => dispatch => {
 	return dispatch( { type: SETTING_SAVING } );
 };
 
-export const loadStatus = () => dispatch => {
-	getApi( 'red_plugin_status' )
+export const loadStatus = ( fixIt = false ) => dispatch => {
+	getApi( 'red_plugin_status', { fixIt } )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
 		} )

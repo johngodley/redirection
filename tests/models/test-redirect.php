@@ -84,8 +84,8 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testGetForRegexOrder() {
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
-		$this->createRedirect( array( 'url' => '/cats*', 'regex' => 'true' ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
+		$this->createRedirect( array( 'url' => '/cats*', 'regex' => true ) );
 
 		$items = Red_Item::get_for_url( '/cats1' );
 
@@ -151,7 +151,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
 		$options = red_get_options();
-		$options['expire_redirect'] = 0;
+		$options['expire_redirect'] = -1;
 		update_option( 'redirection_options', $options );
 
 		$item->visit( '/blob', '/target' );
@@ -169,7 +169,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
 		$options = red_get_options();
-		$options['expire_redirect'] = 1;
+		$options['expire_redirect'] = 0;
 		update_option( 'redirection_options', $options );
 
 		$item = $this->createRedirect( array() );
@@ -260,12 +260,25 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->resetCaptured();
 	}
 
+	public function testLongTitle() {
+		$item = Red_Item::create( array(
+			'url'         => '/from',
+			'action_data' => array( 'url' => '/to' ),
+			'group_id'    => $this->group->get_id(),
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'title'       => str_repeat( 'a', 51 ),
+		) );
+
+		$this->assertFalse( is_wp_error( $item ) );
+	}
+
 	public function testDisableWhereMatches() {
 		global $wpdb;
 
 		$item = Red_Item::create( array(
 			'url'         => '/from',
-			'action_data' => '/to',
+			'action_data' => array( 'url' => '/to' ),
 			'group_id'    => $this->group->get_id(),
 			'match_type'  => 'url',
 			'action_type' => 'url',

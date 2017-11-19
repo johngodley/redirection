@@ -122,7 +122,7 @@ class EditRedirect extends React.Component {
 		this.handleAdvanced = this.onAdvanced.bind( this );
 
 		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position } = props.item;
-		const { logged_in = '', logged_out = '' } = action_data;
+		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
 
 		this.state = {
 			url,
@@ -132,19 +132,33 @@ class EditRedirect extends React.Component {
 			action_type,
 			action_code,
 			action_data,
-			group_id,
+			group_id: this.getValidGroup( group_id ),
 			position,
 
 			login: {
 				logged_in,
 				logged_out,
 			},
-			target: typeof action_data === 'string' ? action_data : '',
+			target: action_data ? action_data : {},
 			agent: this.getAgentState( action_data ),
 			referrer: this.getReferrerState( action_data ),
 		};
 
 		this.state.advanced = ! this.canShowAdvanced();
+	}
+
+	getValidGroup( group_id ) {
+		const groups = this.props.group.rows;
+
+		if ( groups.find( item => item.id === group_id ) ) {
+			return group_id;
+		}
+
+		if ( groups.length > 0 ) {
+			return groups[ 0 ].id;
+		}
+
+		return 0;
 	}
 
 	reset() {
@@ -156,11 +170,19 @@ class EditRedirect extends React.Component {
 			action_data: '',
 			title: '',
 			action_code: 301,
+			... this.resetActionData(),
+		} );
+	}
+
+	resetActionData() {
+		return {
 			login: {
 				logged_in: '',
 				logged_out: '',
 			},
-			target: '',
+			target: {
+				url: '',
+			},
 			agent: {
 				url_from: '',
 				agent: '',
@@ -173,7 +195,7 @@ class EditRedirect extends React.Component {
 				url_from: '',
 				url_notfrom: '',
 			},
-		} );
+		};
 	}
 
 	canShowAdvanced() {
@@ -183,7 +205,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getAgentState( action_data ) {
-		const { agent = '', regex = false, url_from = '', url_notfrom = '' } = action_data;
+		const { agent = '', regex = false, url_from = '', url_notfrom = '' } = action_data ? action_data : {};
 
 		return {
 			agent,
@@ -194,7 +216,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getReferrerState( action_data ) {
-		const { referrer = '', regex = false, url_from = '', url_notfrom = '' } = action_data;
+		const { referrer = '', regex = false, url_from = '', url_notfrom = '' } = action_data ? action_data : {};
 
 		return {
 			referrer,
@@ -210,6 +232,15 @@ class EditRedirect extends React.Component {
 		} else {
 			this.setState( { [ name ]: subname } );
 		}
+	}
+
+	onCustomAgent = newAgent => {
+		const { agent } = this.state;
+
+		agent.agent = newAgent;
+		agent.regex = true;
+
+		this.setState( { agent } );
 	}
 
 	onSave( ev ) {
@@ -234,7 +265,7 @@ class EditRedirect extends React.Component {
 		this.props.onSave( redirect );
 
 		if ( this.props.onCancel ) {
-			this.props.onCancel();
+			this.props.onCancel( ev );
 		} else {
 			this.reset();
 		}
@@ -268,8 +299,14 @@ class EditRedirect extends React.Component {
 			this.setState( { action_code: 404 } );
 		}
 
-		if ( target.name === 'match_type' && target.value === MATCH_LOGIN ) {
-			this.setState( { action_type: ACTION_URL } );
+		if ( target.name === 'match_type' ) {
+			const newState = { ... this.resetActionData() };
+
+			if ( target.value === MATCH_LOGIN ) {
+				this.setState( { ... newState, action_type: ACTION_URL } );
+			} else {
+				this.setState( newState );
+			}
 		}
 	}
 
@@ -298,7 +335,7 @@ class EditRedirect extends React.Component {
 
 		switch ( match_type ) {
 			case MATCH_AGENT:
-				return <MatchAgent agent={ this.state.agent.agent } regex={ this.state.agent.regex } onChange={ this.handleData } />;
+				return <MatchAgent agent={ this.state.agent.agent } regex={ this.state.agent.regex } onChange={ this.handleData } onCustomAgent={ this.onCustomAgent } />;
 
 			case MATCH_REFERRER:
 				return <MatchReferrer referrer={ this.state.referrer.referrer } regex={ this.state.referrer.regex } onChange={ this.handleData } />;
@@ -431,7 +468,7 @@ class EditRedirect extends React.Component {
 
 	render() {
 		const { url, regex, advanced } = this.state;
-		const { saveButton = __( 'Save' ), onCancel } = this.props;
+		const { saveButton = __( 'Save' ), onCancel, autoFocus = false } = this.props;
 
 		return (
 			<form onSubmit={ this.handleSave }>
@@ -440,9 +477,9 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ ! this.props.advanced } /> &nbsp;
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ autoFocus } /> &nbsp;
 								<label>
-									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://urbangiraffe.com/plugins/redirection/regex/">?</a></sup>
+									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 									&nbsp;
 									<input type="checkbox" name="regex" checked={ regex } onChange={ this.handleChange } />
 								</label>

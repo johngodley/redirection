@@ -29,6 +29,7 @@ The following WordPress filters are available for customisation of logged data:
 
 - `redirection_404_data` - Data to be inserted into the 404 table
 - `redirection_log_data` - Data to be inserted into the redirect log table
+- `redirection_log_404` - Return true if the current 404 page should be logged, false otherwise
 
 Note that returning `false` from the filter will bypass the log.
 
@@ -75,7 +76,7 @@ Some parts of the UI are React and can be built with:
 
 To use in development mode then set `REDIRECTION_DEV_MODE` to true in PHP, and run:
 
-`yarn run start`
+`yarn start`
 
 This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
 
@@ -89,7 +90,7 @@ Finally, to produce a release copy:
 
 Please raise any bug reports or enhancement requests here. Pull requests are always welcome.
 
-You can find a more detailed description of the plugin on the [Redirection home page](http://urbangiraffe.com/plugins/redirection/)
+You can find a more detailed description of the plugin on the [Redirection home page](https://redirection.me)
 
 Translations can be added here:
 

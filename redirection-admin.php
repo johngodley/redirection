@@ -26,8 +26,8 @@ class Redirection_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'load-tools_page_redirection', array( $this, 'redirection_head' ) );
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
-		add_action( 'redirection_save_options', array( $this, 'flush_schedule' ) );
-		add_action( 'redirection_save_options', array( $this, 'notify_schedule' ) );
+		//add_filter( 'redirection_save_options', array( $this, 'notify_schedule' ) );
+		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
@@ -41,25 +41,77 @@ class Redirection_Admin {
 		$this->api = new Redirection_Api();
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_activated() {
-		Redirection_Admin::update();
-		Red_Flusher::schedule();
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
 
-		update_option( 'redirection_options', red_get_options() );
+				Redirection_Admin::update();
+				Red_Flusher::schedule();
+				red_set_options();
+
+				restore_current_blog();
+			}
+		} else {
+			Redirection_Admin::update();
+			Red_Flusher::schedule();
+			red_set_options();
+		}
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_deactivated() {
-		Red_Flusher::clear();
-		Red_Notify::clear();
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
+
+				Red_Flusher::clear();
+				Red_Notify::clear();
+				
+				restore_current_blog();
+			}
+		} else {
+			Red_Flusher::clear();
+			Red_Notify::clear();
+		}
 	}
 
+	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_uninstall() {
 		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 		$db = new RE_Database();
-		$db->remove( REDIRECTION_FILE );
 
-		delete_option( 'redirection_options' );
+		if ( is_network_admin() ) {
+			foreach ( get_sites() as $site ) {
+				switch_to_blog( $site->blog_id );
+
+				$db->remove( REDIRECTION_FILE );
+
+				restore_current_blog();
+			}
+		} else {
+			$db->remove( REDIRECTION_FILE );
+		}
+	}
+
+	private static function update() {
+		$version = get_option( 'redirection_version' );
+
+		Red_Flusher::schedule();
+
+		if ( $version !== REDIRECTION_DB_VERSION ) {
+			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+
+			$database = new RE_Database();
+
+			if ( $version === false ) {
+				$database->install();
+			}
+
+			$database->upgrade( $version, REDIRECTION_DB_VERSION );
+		}
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
@@ -89,33 +141,15 @@ class Redirection_Admin {
 		return false;
 	}
 
-	public function flush_schedule() {
+	public function flush_schedule( $options ) {
 		Red_Flusher::schedule();
+		return $options;
 	}
 	
-	public function notify_schedule() {
+	public function notify_schedule( $options ) {
 		$notifier = new Red_Notify();
 		$notifier->schedule();
-	}
-
-	private static function update() {
-		$version = get_option( 'redirection_version' );
-
-		Red_Flusher::schedule();
-
-		if ( $version !== REDIRECTION_DB_VERSION ) {
-			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
-
-			$database = new RE_Database();
-
-			if ( $version === false ) {
-				$database->install();
-			}
-
-			return $database->upgrade( $version, REDIRECTION_DB_VERSION );
-		}
-
-		return true;
+		return $options;
 	}
 
 	function set_per_page( $status, $option, $value ) {
@@ -198,11 +232,55 @@ class Redirection_Admin {
 		add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 	}
 
-	function admin_screen() {
-	  	Redirection_Admin::update();
+	private function check_minimum_wp() {
+		$wp_version = get_bloginfo( 'version' );
 
+		if ( version_compare( $wp_version, REDIRECTION_MIN_WP, '<' ) ) {
+?>
+	<div class="react-error">
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+		<p style="text-align: left"><?php printf( __( 'Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version ); ?></p>
+	</div>
+<?php
+			return false;
+		}
+
+		return true;
+	}
+
+	private function check_tables_exist() {
+		include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+
+		$database = new RE_Database();
+		$status = $database->get_status();
+
+		if ( $status['status'] !== 'good' ) {
+			?>
+				<div class="error">
+					<h3><?php _e( 'Redirection not installed properly', 'redirection' ); ?></h3>
+					<p style="text-align: left"><?php printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' ); ?></p>
+				</div>
+			<?php
+
+			return false;
+		}
+
+		return true;
+	}
+
+	function admin_screen() {
 		$version = get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
+
+	  	Redirection_Admin::update();
+
+		if ( $this->check_minimum_wp() === false ) {
+			return;
+		}
+
+		if ( $this->check_tables_exist() === false && ( ! isset( $_GET['sub'] ) || $_GET['sub'] !== 'support' ) ) {
+			return false;
+		}
 ?>
 <div id="react-ui">
 	<div class="react-loading">
@@ -213,11 +291,13 @@ class Redirection_Admin {
 	<noscript>Please enable JavaScript</noscript>
 
 	<div class="react-error" style="display: none">
-		<h1><?php _e( 'An error occurred loading Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
 		<p><?php _e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
 		<p><?php _e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
+		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
+		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ).'redirection.js?ver='.urlencode( REDIRECTION_VERSION ).'-'.urlencode( REDIRECTION_BUILD ) ); ?></code></p>
 		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
-		<p class="versions"></p>
+		<p class="versions"><?php _e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ) ?>">
 				<?php _e( 'Create Issue', 'redirection' ); ?>
@@ -235,7 +315,6 @@ class Redirection_Admin {
 			resetAll();
 		} else if ( errors.length > 0 || timeout++ === 5 ) {
 			showError();
-			resetAll();
 		}
 	}, 5000 );
 
@@ -244,10 +323,20 @@ class Redirection_Admin {
 	}
 
 	function showError() {
+		var errorText = "";
+
+		if ( errors.length > 0 ) {
+			errorText = "```\n" + errors.join( ',' ) + "\n```\n\n";
+		}
+
+		resetAll();
 		document.querySelector( '.react-loading' ).style.display = 'none';
 		document.querySelector( '.react-error' ).style.display = 'block';
-		document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
-		document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( "```\n" + errors.join( ',' ) + "\n```\n\n" ) + encodeURIComponent( Redirectioni10n.versions );
+
+		if ( typeof Redirectioni10n !== 'undefined' ) {
+			document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
+			document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( errorText ) + encodeURIComponent( Redirectioni10n.versions );
+		}
 	}
 
 	function resetAll() {
