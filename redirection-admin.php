@@ -24,7 +24,6 @@ class Redirection_Admin {
 
 	function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'load-tools_page_redirection', array( $this, 'redirection_head' ) );
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
 		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
@@ -220,7 +219,8 @@ class Redirection_Admin {
 	}
 
 	function admin_menu() {
-		add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
+		$hook = add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
+		add_action( 'load-'.$hook, array( $this, 'redirection_head' ) );
 	}
 
 	private function check_minimum_wp() {
