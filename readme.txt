@@ -18,6 +18,8 @@ Redirection is designed to be used on sites with a few redirects to sites with t
 
 It has been a WordPress plugin for over 10 years and has been recommended countless times. And it's free!
 
+Full documentation can be found at [https://redirection.me](https://redirection.me)
+
 = Redirect manager =
 
 Create and manage redirects quickly and easily without needing Apache or Nginx knowledge. If your WordPress supports permalinks then you can use Redirection to redirect any URL.
