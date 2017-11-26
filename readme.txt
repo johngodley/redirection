@@ -126,6 +126,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 2.10.1 - 26th November 2017 =
+* Fix incorrect HTTP code reported in errors
+* Improve management page hook usage
+
 = 2.10 - 18th November 2017 =
 * Add support for WordPress multisite
 * Add new Redirection documentation
