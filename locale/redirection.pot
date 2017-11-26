@@ -14,11 +14,11 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr ""
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr ""
 
