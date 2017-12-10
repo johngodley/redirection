@@ -49,6 +49,15 @@ const LogRow = props => {
 		ev.preventDefault();
 		props.onDelete( id );
 	};
+	const renderIp = ipStr => {
+		if ( ipStr ) {
+			return (
+				<a href={ 'http://urbangiraffe.com/map/?ip=' + ipStr } rel="noreferrer noopener" target="_blank">{ ipStr }</a>
+			);
+		}
+
+		return '-';
+	};
 
 	return (
 		<tr className={ hideRow ? 'disabled' : '' }>
@@ -75,9 +84,10 @@ const LogRow = props => {
 				</RowActions>
 			</td>
 			<td className="column-ip">
-				<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">{ ip }</a>
+				{ renderIp( ip ) }
+
 				<RowActions>
-					<a href="#" onClick={ handleShow }>{ __( 'Show only this IP' ) }</a>
+					{ ip && <a href="#" onClick={ handleShow }>{ __( 'Show only this IP' ) }</a> }
 				</RowActions>
 			</td>
 		</tr>

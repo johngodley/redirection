@@ -90,6 +90,18 @@ class LogRow404 extends React.Component {
 		);
 	}
 
+	renderIp( ip ) {
+		if ( ip ) {
+			return (
+				<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">
+					{ ip }
+				</a>
+			);
+		}
+
+		return '-';
+	}
+
 	render() {
 		const { created, ip, referrer, url, agent, id } = this.props.item;
 		const { selected, status } = this.props;
@@ -120,11 +132,10 @@ class LogRow404 extends React.Component {
 					{ agent && <RowActions>{ [ agent ] }</RowActions> }
 				</td>
 				<td className="column-ip">
-					<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">
-						{ ip }
-					</a>
+					{ this.renderIp( ip ) }
+
 					<RowActions>
-						<a href="#" onClick={ this.handleShow }>{ __( 'Show only this IP' ) }</a>
+						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Show only this IP' ) }</a> }
 					</RowActions>
 				</td>
 			</tr>
