@@ -29,6 +29,10 @@ const getApi = ( action, params, file ) => {
 
 	return getApiRequest( action, params, file )
 		.then( data => {
+			if ( ! data || ! data.status ) {
+				throw { message: 'No data or status object returned in request', code: 0 };
+			}
+
 			if ( data.status && data.statusText ) {
 				request.status = data.status;
 				request.statusText = data.statusText;
