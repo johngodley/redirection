@@ -29,6 +29,12 @@ const expireTimes = [
 	{ value: 24 * 7, text: __( 'A week' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
+const ipLogging = [
+	{ value: 0, text: __( 'No IP logging' ) },
+	{ value: 1, text: __( 'Full IP logging' ) },
+	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
+];
+const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -138,6 +144,10 @@ class OptionsForm extends React.Component {
 
 					<TableRow title={ __( '404 Logs' ) + ':' }>
 						<Select items={ timeToKeep } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
+					</TableRow>
+
+					<TableRow title={ __( 'IP Logging' ) + ':' }>
+						<Select items={ ipLogging } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
 					</TableRow>
 
 					<TableRow title={ __( 'URL Monitor' ) + ':' }>

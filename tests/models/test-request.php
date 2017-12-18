@@ -225,4 +225,40 @@ class RequestTest extends WP_UnitTestCase {
 
 		$this->removeMonitorRequestIP();
 	}
+
+	public function testNoIPLogging() {
+		add_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );;
+		red_set_options( array( 'ip_logging' => 0 ) );
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+
+		$result = Redirection_Request::get_ip();
+		$this->assertEquals( '', $result );
+	}
+
+	public function testMaskIP4() {
+		add_filter( 'redirection_request_ip', array( Redirection::init(), 'mask_ip' ) );;
+		red_set_options( array( 'ip_logging' => 2 ) );
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+
+		$result = Redirection_Request::get_ip();
+		$this->assertEquals( '192.168.1.0', $result );
+	}
+
+	public function testMaskIP6() {
+		add_filter( 'redirection_request_ip', array( Redirection::init(), 'mask_ip' ) );;
+		red_set_options( array( 'ip_logging' => 2 ) );
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
+
+		$result = Redirection_Request::get_ip();
+		$this->assertEquals( '2000:420:22:0:10:226:260:3224', $result );
+	}
 }

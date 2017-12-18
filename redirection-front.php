@@ -20,6 +20,30 @@ class Redirection {
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
 		add_action( 'redirection_url_target', array( $this, 'replace_special_tags' ) );
+
+		$options = red_get_options();
+		if ( $options['ip_logging'] === 0 ) {
+			add_filter( 'redirection_request_ip', array( $this, 'no_ip_logging' ) );
+		} else if ( $options['ip_logging'] === 2 ) {
+			add_filter( 'redirection_request_ip', array( $this, 'mask_ip' ) );
+		}
+	}
+
+	public function no_ip_logging( $ip ) {
+		return '';
+	}
+
+	public function mask_ip( $ip ) {
+		if ( strpos( $ip, ':' ) !== false ) {
+			$ip = @inet_pton( trim( $ip ) );
+
+			return @inet_ntop( $ip & pack( 'a16', 'ffff:ffff:ffff:ffff::ff00::0000::0000::0000' ) );
+		}
+
+		$parts = explode( '.', $ip );
+		$parts[ count( $parts ) - 1 ] = 0;
+
+		return implode( '.', $parts );
 	}
 
 	public function clean_redirection_logs() {

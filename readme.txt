@@ -131,6 +131,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 2.11 - Sometime =
 * Add support for IPv6
+* Add support for disabling or anonymising IP collection
 * Default to last group used when editing
 
 = 2.10.1 - 26th November 2017 =
