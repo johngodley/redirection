@@ -180,4 +180,49 @@ class RequestTest extends WP_UnitTestCase {
 
 		$this->removeMonitorRequestIP();
 	}
+
+	public function testBadIP4() {
+		$this->monitorRequestIP();
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		$_SERVER['HTTP_CF_CONNECTING_IP'] = 'cat';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '', $result );
+		$this->assertEquals( '', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
+
+	public function testIP6() {
+		$this->monitorRequestIP();
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['HTTP_CF_CONNECTING_IP'] );
+		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', $result );
+		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
+
+	public function testBadIP6() {
+		$this->monitorRequestIP();
+
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['HTTP_CF_CONNECTING_IP'] );
+		$_SERVER['REMOTE_ADDR'] = '2001gfdgdfcat:db8:85a3:10:10:8a2e:370:7334';
+
+		$result = Redirection_Request::get_ip();
+
+		$this->assertEquals( '', $result );
+		$this->assertEquals( '', $this->ip );
+
+		$this->removeMonitorRequestIP();
+	}
 }

@@ -44,9 +44,9 @@ class Redirection_Request {
 		}
 
 		// Convert to binary
-		$ip = inet_pton( trim( $ip ) );
+		$ip = @inet_pton( trim( $ip ) );
 		if ( $ip !== false ) {
-			$ip = inet_ntop( $ip );  // Convert back to string
+			$ip = @inet_ntop( $ip );  // Convert back to string
 		}
 
 		return apply_filters( 'redirection_request_ip', $ip ? $ip : '' );

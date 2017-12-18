@@ -86,8 +86,8 @@ class RE_Database {
 		  PRIMARY KEY (`id`),
 		  KEY `created` (`created`),
 		  KEY `url` (`url`(191)),
-		  KEY `ip` (`ip`),
-		  KEY `referrer` (`referrer`(191))
+		  KEY `referrer` (`referrer`(191)),
+		  KEY `ip` (`ip`)
 	  	) $charset_collate";
 	}
 
