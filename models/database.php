@@ -116,12 +116,19 @@ class RE_Database {
 	}
 
 	public function create_defaults() {
-		$this->createDefaultGroups();
+		global $wpdb;
+
+		$this->create_default_groups();
 
 		update_option( 'redirection_version', REDIRECTION_DB_VERSION );
+
+		$group = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_groups LIMIT 1" );
+		if ( $group ) {
+			red_set_options( array( 'last_group_id' => $group->id ) );
+		}
 	}
 
-	private function createDefaultGroups() {
+	private function create_default_groups() {
 		global $wpdb;
 
 		$existing_groups = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" );
@@ -180,7 +187,7 @@ class RE_Database {
 		global $wpdb;
 
 		$wpdb->query( "UPDATE {$wpdb->prefix}redirection_groups SET module_id=1 WHERE module_id > 2" );
-		$this->createDefaultGroups();
+		$this->create_default_groups();
 	}
 
 	/**

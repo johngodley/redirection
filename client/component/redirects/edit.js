@@ -155,6 +155,12 @@ class EditRedirect extends React.Component {
 		}
 
 		if ( groups.length > 0 ) {
+			const def = groups.find( item => item.default );
+
+			if ( def ) {
+				return def.id;
+			}
+
 			return groups[ 0 ].id;
 		}
 
