@@ -222,9 +222,17 @@ class Red_Group {
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
 		$items = array();
 
+		$options = red_get_options();
+
 		foreach ( $rows as $row ) {
 			$group = new Red_Group( $row );
-			$items[] = $group->to_json();
+			$group_json = $group->to_json();
+
+			if ( $group->get_id() === $options['last_group_id'] ) {
+				$group_json['default'] = true;
+			}
+
+			$items[] = $group_json;
 		}
 
 		return array(

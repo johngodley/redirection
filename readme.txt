@@ -126,6 +126,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 2.11 =
+* Default to last group used when editing
+
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors
 * Improve management page hook usage

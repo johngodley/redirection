@@ -27,6 +27,7 @@ class Redirection_Admin {
 		add_action( 'plugin_action_links_'.basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
 		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
+		add_action( 'redirection_redirect_updated', array( $this, 'set_default_group' ), 10, 2 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', array( $this, 'flying_solo' ), 10, 2 );
@@ -257,6 +258,10 @@ class Redirection_Admin {
 		}
 
 		return true;
+	}
+
+	public function set_default_group( $id, $redirect ) {
+		red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
 	}
 
 	function admin_screen() {

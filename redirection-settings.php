@@ -63,6 +63,15 @@ function red_set_options( array $settings = array() ) {
 		$options['auto_target'] = $settings['auto_target'];
 	}
 
+	if ( isset( $settings['last_group_id'] ) ) {
+		$options['last_group_id'] = max( 0, intval( $settings['last_group_id'], 10 ) );
+
+		if ( ! Red_Group::get( $options['last_group_id'] ) ) {
+			$groups = Red_Group::get_all();
+			$options['last_group_id'] = $groups[ 0 ]['id'];
+		}
+	}
+
 	if ( isset( $settings['support'] ) ) {
 		$options['support'] = $settings['support'] ? true : false;
 	}
@@ -121,7 +130,8 @@ function red_get_options() {
 		'expire_404'          => 7,   // Expire in 7 days
 		'modules'             => array(),
 		'newsletter'          => false,
-		'redirect_cache'      => 1,   // 1 hour
+		'redirect_cache'      => 1,   // 1 hour,
+		'last_group_id'       => 0,
 	) );
 
 	foreach ( $defaults as $key => $value ) {
