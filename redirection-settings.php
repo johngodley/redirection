@@ -2,24 +2,40 @@
 
 define( 'REDIRECTION_OPTION', 'redirection_options' );
 
+function red_get_post_types( $full = true ) {
+	$types = get_post_types( array( 'public' => true ), 'objects' );
+	$types[] = (object)array( 'name' => 'trash', 'label' => __( 'Trash' ) );
+
+	$post_types = array();
+	foreach ( $types as $type ) {
+		if ( $type->name === 'attachment' ) {
+			continue;
+		}
+
+		if ( $full ) {
+			$post_types[ $type->name ] = $type->label;
+		} else {
+			$post_types[] = $type->name;
+		}
+	}
+
+	return apply_filters( 'redirection_post_types', $post_types );
+}
+
 function red_set_options( array $settings = array() ) {
 	$options = red_get_options();
 	$monitor_types = array();
-	$have_monitor = false;
 
-	if ( isset( $settings['monitor_type_post'] ) ) {
-		$monitor_types[] = $settings['monitor_type_post'] ? 'post' : false;
-		$have_monitor = true;
-	}
+	if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
+		$allowed = red_get_post_types( false );
 
-	if ( isset( $settings['monitor_type_page'] ) ) {
-		$monitor_types[] = $settings['monitor_type_page'] ? 'page' : false;
-		$have_monitor = true;
-	}
+		foreach ( $settings['monitor_types'] as $type ) {
+			if ( in_array( $type, $allowed ) ) {
+				$monitor_types[] = $type;
+			}
+		}
 
-	if ( isset( $settings['monitor_type_trash'] ) ) {
-		$monitor_types[] = $settings['monitor_type_trash'] ? 'trash' : false;
-		$have_monitor = true;
+		$options['monitor_types'] = $monitor_types;
 	}
 
 	if ( isset( $settings['associated_redirect'] ) ) {
@@ -30,8 +46,6 @@ function red_set_options( array $settings = array() ) {
 			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
 		}
 	}
-
-	$monitor_types = array_values( array_filter( $monitor_types ) );
 
 	if ( count( $monitor_types ) === 0 ) {
 		$options['monitor_post'] = 0;
@@ -84,10 +98,6 @@ function red_set_options( array $settings = array() ) {
 	if ( isset( $settings['location'] ) ) {
 		$module = Red_Module::get( 2 );
 		$options['modules'][2] = $module->update( $settings );
-	}
-
-	if ( $have_monitor ) {
-		$options['monitor_types'] = $monitor_types;
 	}
 
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );

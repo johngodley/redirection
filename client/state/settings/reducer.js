@@ -22,7 +22,7 @@ export default function settings( state = {}, action ) {
 			return { ... state, loadStatus: STATUS_IN_PROGRESS };
 
 		case SETTING_LOAD_SUCCESS:
-			return { ... state, loadStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed, canDelete: action.canDelete };
+			return { ... state, loadStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, postTypes: action.postTypes, installed: action.installed, canDelete: action.canDelete };
 
 		case SETTING_LOAD_FAILED:
 			return { ... state, loadStatus: STATUS_FAILED, error: action.error };
