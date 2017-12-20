@@ -29,7 +29,6 @@ const expireTimes = [
 	{ value: 24 * 7, text: __( 'A week' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
-const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -38,44 +37,35 @@ class OptionsForm extends React.Component {
 		const modules = props.values.modules;
 
 		this.state = props.values;
-		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '',
-		this.state.monitor_type_post = false;
-		this.state.monitor_type_page = false;
-		this.state.monitor_type_trash = false;
-
-		if ( this.state.monitor_types.find( item => item === 'post' ) ) {
-			this.state.monitor_type_post = true;
-		}
-
-		if ( this.state.monitor_types.find( item => item === 'page' ) ) {
-			this.state.monitor_type_page = true;
-		}
-
-		if ( this.state.monitor_types.find( item => item === 'trash' ) ) {
-			this.state.monitor_type_trash = true;
-		}
-
-		this.onChange = this.handleInput.bind( this );
-		this.onSubmit = this.handleSubmit.bind( this );
+		this.state.location = modules[ 2 ] ? modules[ 2 ].location : '';
 	}
 
-	handleInput( event ) {
-		const { target } = event;
+	onChange = ev => {
+		const { target } = ev;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 
-		this.setState( { [ target.name ]: value }, () => {
-			if ( ! isMonitor( this.state ) ) {
-				this.setState( {
-					monitor_post: 0,
-					associated_redirect: '',
-				} );
-			}
-		} );
+		this.setState( { [ target.name ]: value } );
 	}
 
-	handleSubmit( event ) {
-		event.preventDefault();
+	onSubmit = ev => {
+		ev.preventDefault();
 		this.props.onSaveSettings( this.state );
+	}
+
+	onMonitor = ev => {
+		const type = ev.target.name.replace( 'monitor_type_', '' );
+		const { monitor_post, associated_redirect } = this.state;
+		const monitor_types = this.state.monitor_types.filter( item => item !== type );
+
+		if ( ev.target.checked ) {
+			monitor_types.push( type );
+		}
+
+		this.setState( {
+			monitor_types,
+			monitor_post: monitor_types.length > 0 ? monitor_post : 0,
+			associated_redirect: monitor_types.length > 0 ? associated_redirect : '',
+		} );
 	}
 
 	componentWillUpdate( nextProps ) {
@@ -100,9 +90,37 @@ class OptionsForm extends React.Component {
 		);
 	}
 
+	renderPostTypes() {
+		const { postTypes } = this.props;
+		const { monitor_types } = this.state;
+		const types = [];
+
+		for ( const key in postTypes ) {
+			const label = postTypes[ key ];
+			const existing = monitor_types.find( item => item === key );
+			const value = existing ? true : false;
+
+			types.push(
+				<p key={ key }>
+					<label>
+						<input type="checkbox" name={ 'monitor_type_' + key } onChange={ this.onMonitor } checked={ value } />
+
+						{ __( 'Monitor changes to %(type)s', {
+							args: {
+								type: label.toLowerCase(),
+							},
+						} ) }
+					</label>
+				</p>
+			);
+		}
+
+		return types;
+	}
+
 	render() {
 		const { groups, saveStatus, installed } = this.props;
-		const canMonitor = isMonitor( this.state );
+		const canMonitor = this.state.monitor_types.length > 0;
 
 		return (
 			<form onSubmit={ this.onSubmit }>
@@ -123,9 +141,7 @@ class OptionsForm extends React.Component {
 					</TableRow>
 
 					<TableRow title={ __( 'URL Monitor' ) + ':' }>
-						<p><label><input type="checkbox" name="monitor_type_post" onChange={ this.onChange } checked={ this.state.monitor_type_post } /> { __( 'Monitor changes to posts' ) }</label></p>
-						<p><label><input type="checkbox" name="monitor_type_page" onChange={ this.onChange } checked={ this.state.monitor_type_page } /> { __( 'Monitor changes to pages' ) }</label></p>
-						<p><label><input type="checkbox" name="monitor_type_trash" onChange={ this.onChange } checked={ this.state.monitor_type_trash } /> { __( 'Monitor trashed items (will create disabled redirects)' ) }</label></p>
+						{ this.renderPostTypes() }
 					</TableRow>
 
 					{ canMonitor && this.renderMonitor( groups ) }
@@ -181,13 +197,14 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { groups, values, saveStatus, installed } = state.settings;
+	const { groups, values, saveStatus, installed, postTypes } = state.settings;
 
 	return {
 		groups,
 		values,
 		saveStatus,
 		installed,
+		postTypes,
 	};
 }
 

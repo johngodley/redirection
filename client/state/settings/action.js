@@ -21,7 +21,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 
 	getApi( 'red_load_settings' )
 		.then( json => {
-			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, installed: json.installed, canDelete: json.canDelete } );
+			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, postTypes: json.post_types, installed: json.installed, canDelete: json.canDelete } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );

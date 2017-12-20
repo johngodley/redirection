@@ -278,6 +278,7 @@ class Redirection_Api {
 			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
+			'post_types' => red_get_post_types(),
 		) );
 	}
 

@@ -42,10 +42,6 @@ class Red_Monitor {
 
 		// Hierarchical post? Do nothing
 		$type = get_post_type( $post->ID );
-		if ( is_post_type_hierarchical( $post->post_type ) && $type !== 'page' ) {
-			return false;
-		}
-
 		if ( ! in_array( $type, $this->monitor_types ) ) {
 			return false;
 		}

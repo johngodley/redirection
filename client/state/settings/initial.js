@@ -11,6 +11,7 @@ export function getInitialSettings() {
 		error: false,
 		installed: '',
 		settings: {},
+		postTypes: [],
 		pluginStatus: [],
 		canDelete: false,
 	};
