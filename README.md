@@ -50,6 +50,7 @@ The following special words can be inserted into a target URL:
 
 - `redirection_permalink_changed` - return boolean if a post's permalink has changed
 - `redirection_remove_existing` - fired when a post changes permalink and we need to clear existing redirects that might affect it
+- `redirection_monitor_created` - fired when a redirect is created for a monitor post type. Supplied with the new redirect, old post, and post ID
 
 Additionally, if the target URL is a number without any slashes then Redirection will treat it as a post ID and redirect to the full URL for that post.
 

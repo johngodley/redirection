@@ -124,13 +124,17 @@ class Red_Monitor {
 			);
 
 			// Create a new redirect for this post
-			Red_Item::create( $data );
+			$new_item = Red_Item::create( $data );
 
-			if ( !empty( $this->associated ) ) {
-				// Create an associated redirect for this post
-				$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
-				$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
-				Red_Item::create( $data );
+			if ( ! is_wp_error( $new_item ) ) {
+				do_action( 'redirection_monitor_created', $new_item, $before, $post_id );
+
+				if ( !empty( $this->associated ) ) {
+					// Create an associated redirect for this post
+					$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
+					$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
+					Red_Item::create( $data );
+				}
 			}
 
 			return true;
