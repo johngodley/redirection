@@ -31,7 +31,6 @@ class Redirection_Request {
 		return apply_filters( 'redirection_request_referrer', $referrer );
 	}
 
-	// Note this currently only supports IP4
 	public static function get_ip() {
 		$ip = '';
 
@@ -44,9 +43,12 @@ class Redirection_Request {
 			$ip = $_SERVER['REMOTE_ADDR'];
 		}
 
-		$ip = trim( $ip );
-		$ip = filter_var( $ip, FILTER_VALIDATE_IP ) ? $ip : '';
+		// Convert to binary
+		$ip = @inet_pton( trim( $ip ) );
+		if ( $ip !== false ) {
+			$ip = @inet_ntop( $ip );  // Convert back to string
+		}
 
-		return apply_filters( 'redirection_request_ip', $ip );
+		return apply_filters( 'redirection_request_ip', $ip ? $ip : '' );
 	}
 }

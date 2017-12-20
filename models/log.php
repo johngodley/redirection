@@ -35,7 +35,7 @@ class RE_Log {
 		$insert = array(
 			'url'     => urldecode( $url ),
 			'created' => current_time( 'mysql' ),
-			'ip'      => $ip,
+			'ip'      => substr( $ip, 0, 45 ),
 		);
 
 		if ( ! empty( $agent ) ) {
@@ -181,7 +181,7 @@ class RE_404 {
 		$insert = array(
 			'url'     => substr( urldecode( $url ), 0, 255 ),
 			'created' => current_time( 'mysql' ),
-			'ip'      => ip2long( $ip ),
+			'ip'      => substr( $ip, 0, 45 ),
 		);
 
 		if ( ! empty( $agent ) ) {
@@ -220,7 +220,7 @@ class RE_404 {
 		} if ( $filterBy === 'url' && $filter ) {
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%'.$wpdb->esc_like( $filter ).'%' );
 		} else if ( $filterBy === 'ip' ) {
-			$where[] = $wpdb->prepare( 'ip=INET_ATON(%s)', $filter );
+			$where[] = $wpdb->prepare( 'ip=%s', $filter );
 		}
 
 		$where_cond = '';
@@ -261,7 +261,7 @@ class RE_404 {
 				$csv = array(
 					$row->created,
 					$row->url,
-					long2ip( $row->ip ),
+					$row->ip,
 					$row->referrer,
 				);
 
@@ -275,7 +275,7 @@ class RE_404 {
 
 	public function to_json() {
 		return array(
-			'ip' => long2ip( $this->ip ),
+			'ip' => $this->ip,
 		);
 	}
 }

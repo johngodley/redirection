@@ -21,7 +21,7 @@ For full license details see license.txt
 ============================================================================================================
 */
 
-define( 'REDIRECTION_DB_VERSION', '2.3.3' );     // DB schema version. Only change if DB needs changing
+define( 'REDIRECTION_DB_VERSION', '2.4' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
 define( 'REDIRECTION_DEV_MODE', false );
 

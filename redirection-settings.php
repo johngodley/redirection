@@ -96,6 +96,10 @@ function red_set_options( array $settings = array() ) {
 		$options['expire_404'] = max( -1, min( intval( $settings['expire_404'], 10 ), 60 ) );
 	}
 
+	if ( isset( $settings['ip_logging'] ) ) {
+		$options['ip_logging'] = max( 0, min( 2, intval( $settings['ip_logging'], 10 ) ) );
+	}
+
 	if ( isset( $settings['redirect_cache'] ) ) {
 		$options['redirect_cache'] = intval( $settings['redirect_cache'], 10 );
 
@@ -130,7 +134,8 @@ function red_get_options() {
 		'expire_404'          => 7,   // Expire in 7 days
 		'modules'             => array(),
 		'newsletter'          => false,
-		'redirect_cache'      => 1,   // 1 hour,
+		'redirect_cache'      => 1,   // 1 hour
+		'ip_logging'          => 1,   // Full IP logging
 		'last_group_id'       => 0,
 	) );
 

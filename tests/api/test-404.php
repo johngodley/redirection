@@ -59,6 +59,6 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 
 		$result = $this->get_logs( array( 'filter' => 'cats', 'filterBy' => 'ip' ) );
 
-		$this->assertEquals( 2, count( $result->items ) );
+		$this->assertEquals( 0, count( $result->items ) );
 	}
 }

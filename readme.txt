@@ -124,9 +124,16 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.4 =
 * Another database change. Please backup your data
 
+= 2.11 =
+* Upgrade database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
+
 == Changelog ==
 
-= 2.11 =
+= 2.11 - Sometime =
+* Add support for IPv6
+* Add support for disabling or anonymising IP collection
+* Add support for monitoring custom post types
+* Add support for monitoring from quick edit mode
 * Default to last group used when editing
 
 = 2.10.1 - 26th November 2017 =

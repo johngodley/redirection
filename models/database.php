@@ -63,7 +63,7 @@ class RE_Database {
 		  `agent` mediumtext NOT NULL,
 		  `referrer` mediumtext,
 		  `redirection_id` int(11) unsigned DEFAULT NULL,
-		  `ip` varchar(17) NOT NULL DEFAULT '',
+  		  `ip` varchar(45) DEFAULT NULL,
 		  `module_id` int(11) unsigned NOT NULL,
 		  `group_id` int(11) unsigned DEFAULT NULL,
 		  PRIMARY KEY (`id`),
@@ -82,12 +82,12 @@ class RE_Database {
 		  `url` varchar(255) NOT NULL DEFAULT '',
 		  `agent` varchar(255) DEFAULT NULL,
 		  `referrer` varchar(255) DEFAULT NULL,
-		  `ip` int(10) unsigned NOT NULL,
+		  `ip` varchar(45) DEFAULT NULL,
 		  PRIMARY KEY (`id`),
 		  KEY `created` (`created`),
 		  KEY `url` (`url`(191)),
-		  KEY `ip` (`ip`),
-		  KEY `referrer` (`referrer`(191))
+		  KEY `referrer` (`referrer`(191)),
+		  KEY `ip` (`ip`)
 	  	) $charset_collate";
 	}
 
@@ -164,6 +164,7 @@ class RE_Database {
 				'2.3.1'  => 'upgrade_to_231',
 				'2.3.2'  => 'upgrade_to_232',
 				'2.3.3'  => 'upgrade_to_233',
+				'2.4'    => 'upgrade_to_24',
 			);
 
 			foreach ( $versions AS $vers => $upgrade ) {
@@ -176,6 +177,32 @@ class RE_Database {
 		}
 
 		$wpdb->hide_errors();
+	}
+
+	/**
+	 * Convert IP columns to VARCHAR(45)
+	 */
+
+	private function upgrade_to_24() {
+		global $wpdb;
+
+		// Expand logs to VARCHAR(45)
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_logs` CHANGE `ip` `ip` VARCHAR(45) DEFAULT NULL" );
+
+		// 404 log is an INT - add a new column with VARCHAR(45) and we'll delete the INT later
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `ipaddress` VARCHAR(45) DEFAULT NULL AFTER `ip`" );
+
+		// Convert all INT ips to VARCHAR ips
+		$wpdb->query( "UPDATE {$wpdb->prefix}redirection_404 SET ipaddress=INET_NTOA(ip)" );
+
+		// Now remove the old column
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_404` DROP `ip`" );
+
+		// And rename the new column
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_404` CHANGE `ipaddress` `ip` VARCHAR(45) DEFAULT NULL" );
+
+		// This was missed in a previous upgrade script
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD INDEX `ip` (`ip`)" );
 	}
 
 	/**
