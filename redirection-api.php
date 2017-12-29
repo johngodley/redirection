@@ -13,6 +13,8 @@ if ( ! function_exists( 'get_home_path' ) ) {
 	include ABSPATH . '/wp-admin/includes/file.php';
 }
 
+define( 'REDIRECTION_API_NAMESPACE', 'redirection/v1' );
+
 class Redirection_Api_Route {
 	protected function add_error_details( WP_Error $error, $line, $code = 400 ) {
 		global $wpdb;
@@ -101,8 +103,6 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 }
 
 class Redirection_Api {
-	const NAMESPACE = 'redirection/v1';
-
 	private static $instance = null;
 	private $routes = array();
 
@@ -121,13 +121,13 @@ class Redirection_Api {
 
 		$wpdb->hide_errors();
 
-		$this->routes[] = new Redirection_Api_Redirect( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Group( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Log( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_404( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Settings( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Plugin( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Import( self::NAMESPACE );
-		$this->routes[] = new Redirection_Api_Export( self::NAMESPACE );
+		$this->routes[] = new Redirection_Api_Redirect( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Group( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Log( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_404( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Settings( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Plugin( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Import( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Export( REDIRECTION_API_NAMESPACE );
 	}
 }
