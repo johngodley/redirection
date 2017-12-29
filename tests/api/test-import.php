@@ -4,8 +4,8 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'import/file', array(), 'POST' );
-		$this->assertEquals( 403, $result->status );
+		$result = $this->callApi( 'import/file/cat', array(), 'POST' );
+		$this->assertEquals( 404, $result->status );
 
 		$result = $this->callApi( 'import/plugin' );
 		$this->assertEquals( 403, $result->status );
