@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-11-16 20:11:52+0000\n"
+"PO-Revision-Date: 2017-11-20 12:09:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -569,7 +569,7 @@ msgstr "It didn't work when I tried again"
 msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 msgstr "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr "Log entries (%d max)"
 
@@ -852,7 +852,7 @@ msgstr "Download"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr "Settings"
 

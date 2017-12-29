@@ -568,7 +568,7 @@ msgstr ""
 msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 msgstr ""
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr ""
 
@@ -850,7 +850,7 @@ msgstr "下載"
 msgid "Redirection"
 msgstr "重新導向"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr "設定"
 

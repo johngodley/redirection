@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-10-06 12:47:45+0000\n"
+"PO-Revision-Date: 2017-12-01 09:40:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "https://redirection.me/"
-msgstr ""
+msgstr "https://redirection.me/"
 
 #: redirection-strings.php:230
 msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
@@ -29,15 +29,15 @@ msgstr ""
 
 #: redirection-strings.php:159
 msgid "Never cache"
-msgstr ""
+msgstr "Jamais de cache"
 
 #: redirection-strings.php:158
 msgid "An hour"
-msgstr ""
+msgstr "Une heure"
 
 #: redirection-strings.php:135
 msgid "Redirect Cache"
-msgstr ""
+msgstr "Cache de redirection"
 
 #: redirection-strings.php:134
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: redirection-strings.php:72
 msgid "Are you sure you want to import from %s?"
-msgstr ""
+msgstr "Confirmez-vous l’importation depuis %s ?"
 
 #: redirection-strings.php:71
 msgid "Plugin Importers"
@@ -53,27 +53,27 @@ msgstr ""
 
 #: redirection-strings.php:70
 msgid "The following redirect plugins were detected on your site and can be imported from."
-msgstr ""
+msgstr "Les extensions de redirection suivantes ont été détectées sur votre site et peuvent être importées."
 
 #: redirection-strings.php:53
 msgid "total = "
-msgstr ""
+msgstr "total = "
 
 #: redirection-strings.php:52
 msgid "Import from %s"
-msgstr ""
+msgstr "Importer depuis %s"
 
 #: redirection-admin.php:252
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
-msgstr ""
+msgstr "Des problèmes ont été détectés avec les tables de votre base de données. Veuillez visiter la <a href=\"%s\">page de support</a> pour plus de détails."
 
 #: redirection-admin.php:251
 msgid "Redirection not installed properly"
-msgstr ""
+msgstr "Redirection n’est pas correctement installé"
 
 #: redirection-admin.php:233
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
-msgstr ""
+msgstr "Redirection nécessite WordPress v%1s, vous utilisez v%2s. Veuillez mettre à jour votre installation WordPress."
 
 #: models/importer.php:149
 msgid "Default WordPress \"old slugs\""
@@ -81,39 +81,39 @@ msgstr ""
 
 #: redirection-strings.php:151
 msgid "Create associated redirect (added to end of URL)"
-msgstr ""
+msgstr "Créer une redirection associée (ajoutée à la fin de l’URL)"
 
 #: redirection-admin.php:291
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
-msgstr ""
+msgstr "<code>Redirectioni10n</code> n’est pas défini. Cela signifie généralement qu’une autre extension bloque le chargement de Redirection. Veuillez désactiver toutes les extensions et réessayer."
 
 #: redirection-strings.php:240
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
-msgstr ""
+msgstr "Si le bouton magique ne fonctionne pas, veuillez lire l’erreur et voir si vous pouvez le réparer manuellement, sinon suivez la section « Besoin d’aide » ci-dessous."
 
 #: redirection-strings.php:239
 msgid "⚡️ Magic fix ⚡️"
-msgstr ""
+msgstr "⚡️ Correction magique ⚡️"
 
 #: redirection-strings.php:238
 msgid "Plugin Status"
-msgstr ""
+msgstr "Statut de l’extension"
 
 #: redirection-strings.php:218
 msgid "Custom"
-msgstr ""
+msgstr "Personnalisé"
 
 #: redirection-strings.php:217
 msgid "Mobile"
-msgstr ""
+msgstr "Mobile"
 
 #: redirection-strings.php:216
 msgid "Feed Readers"
-msgstr ""
+msgstr "Lecteurs de flux"
 
 #: redirection-strings.php:215
 msgid "Libraries"
-msgstr ""
+msgstr "Librairies"
 
 #: redirection-strings.php:154
 msgid "URL Monitor Changes"
@@ -121,39 +121,39 @@ msgstr ""
 
 #: redirection-strings.php:153
 msgid "Save changes to this group"
-msgstr ""
+msgstr "Enregistrer les modifications apportées à ce groupe"
 
 #: redirection-strings.php:152
 msgid "For example \"/amp\""
-msgstr ""
+msgstr "Par exemple « /amp »"
 
 #: redirection-strings.php:145
 msgid "URL Monitor"
-msgstr ""
+msgstr "URL à surveiller"
 
 #: redirection-strings.php:143
 msgid "Monitor changes to pages"
-msgstr ""
+msgstr "Surveiller les modifications apportées aux pages"
 
 #: redirection-strings.php:142
 msgid "Monitor trashed items (will create disabled redirects)"
-msgstr ""
+msgstr "Surveiller les éléments supprimés (crée des redirections désactivées)"
 
 #: redirection-strings.php:110
 msgid "Delete 404s"
-msgstr ""
+msgstr "Supprimer les pages 404"
 
 #: redirection-strings.php:109
 msgid "Delete all logs for this 404"
-msgstr ""
+msgstr "Supprimer tous les journaux pour cette page 404"
 
 #: redirection-strings.php:92
 msgid "Delete all from IP %s"
-msgstr ""
+msgstr "Tout supprimer depuis l’IP %s"
 
 #: redirection-strings.php:91
 msgid "Delete all matching \"%s\""
-msgstr ""
+msgstr "Supprimer toutes les correspondances « %s »"
 
 #: redirection-strings.php:15
 msgid "Your server has rejected the request for being too big. You will need to change it to continue."
@@ -161,23 +161,23 @@ msgstr ""
 
 #: redirection-admin.php:288
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
-msgstr ""
+msgstr "Vérifiez également si votre navigateur est capable de charger <code>redirection.js</code> :"
 
 #: redirection-admin.php:287 redirection-strings.php:40
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
-msgstr ""
+msgstr "Si vous utilisez une extension ou un service de mise en cache de pages (CloudFlare, OVH, etc.), vous pouvez également essayer de vider ce cache."
 
 #: redirection-admin.php:232 redirection-admin.php:285
 msgid "Unable to load Redirection"
-msgstr ""
+msgstr "Impossible de charger Redirection"
 
 #: models/fixer.php:77
 msgid "Unable to create group"
-msgstr ""
+msgstr "Impossible de créer un groupe"
 
 #: models/fixer.php:69
 msgid "Failed to fix database tables"
-msgstr ""
+msgstr "La réparation des tables de la base de données a échoué."
 
 #: models/fixer.php:34
 msgid "Post monitor group is valid"
@@ -193,39 +193,39 @@ msgstr ""
 
 #: models/fixer.php:28
 msgid "All redirects have a valid group"
-msgstr ""
+msgstr "Toutes les redirections ont un groupe valide"
 
 #: models/fixer.php:28
 msgid "Redirects with invalid groups detected"
-msgstr ""
+msgstr "Redirections avec des groupes non valides détectées"
 
 #: models/fixer.php:26
 msgid "Valid redirect group"
-msgstr ""
+msgstr "Groupe de redirection valide"
 
 #: models/fixer.php:22
 msgid "Valid groups detected"
-msgstr ""
+msgstr "Groupes valides détectés"
 
 #: models/fixer.php:22
 msgid "No valid groups, so you will not be able to create any redirects"
-msgstr ""
+msgstr "Aucun groupe valide, vous ne pourrez pas créer de redirections."
 
 #: models/fixer.php:20
 msgid "Valid groups"
-msgstr ""
+msgstr "Groupes valides"
 
 #: models/fixer.php:18
 msgid "Database tables"
-msgstr ""
+msgstr "Tables de la base de données"
 
 #: models/database.php:280
 msgid "The following tables are missing:"
-msgstr ""
+msgstr "Les tables suivantes sont manquantes :"
 
 #: models/database.php:280
 msgid "All tables present"
-msgstr ""
+msgstr "Toutes les tables présentes"
 
 #: redirection-strings.php:44
 msgid "Cached Redirection detected"
@@ -233,7 +233,7 @@ msgstr "Redirection en cache détectée"
 
 #: redirection-strings.php:43
 msgid "Please clear your browser cache and reload this page."
-msgstr ""
+msgstr "Veuillez vider le cache de votre navigateur et recharger cette page."
 
 #: redirection-strings.php:18
 msgid "The data on this page has expired, please reload."
@@ -569,7 +569,7 @@ msgstr "Cela n’a pas fonctionné quand j’ai réessayé."
 msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 msgstr "Voyez si votre problème est décrit dans la liste des {{link}}problèmes de redirection{{/ link}} exceptionnels. Veuillez ajouter plus de détails si vous rencontrez le même problème."
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr "Entrées du journal (100 max.)"
 
@@ -852,7 +852,7 @@ msgstr "Télécharger"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr "Réglages"
 

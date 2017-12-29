@@ -569,7 +569,7 @@ msgstr "No funcionó al intentarlo de nuevo"
 msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 msgstr "Revisa si tu problema está descrito en la lista de habituales {{link}}problemas con Redirection{{/link}}. Por favor, añade más detalles si encuentras el mismo problema."
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr "Entradas del registro (máximo %d)"
 
@@ -852,7 +852,7 @@ msgstr "Descargar"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr "Ajustes"
 

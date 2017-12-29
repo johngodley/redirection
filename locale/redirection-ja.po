@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-11-19 07:48:04+0000\n"
+"PO-Revision-Date: 2017-12-16 11:56:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "https://redirection.me/"
-msgstr ""
+msgstr "https://redirection.me/"
 
 #: redirection-strings.php:230
 msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
@@ -29,7 +29,7 @@ msgstr ""
 
 #: redirection-strings.php:159
 msgid "Never cache"
-msgstr ""
+msgstr "キャッシュしない"
 
 #: redirection-strings.php:158
 msgid "An hour"
@@ -45,11 +45,11 @@ msgstr ""
 
 #: redirection-strings.php:72
 msgid "Are you sure you want to import from %s?"
-msgstr ""
+msgstr "本当に %s からインポートしますか ?"
 
 #: redirection-strings.php:71
 msgid "Plugin Importers"
-msgstr ""
+msgstr "インポートプラグイン"
 
 #: redirection-strings.php:70
 msgid "The following redirect plugins were detected on your site and can be imported from."
@@ -57,11 +57,11 @@ msgstr ""
 
 #: redirection-strings.php:53
 msgid "total = "
-msgstr ""
+msgstr "全数 ="
 
 #: redirection-strings.php:52
 msgid "Import from %s"
-msgstr ""
+msgstr "%s からインポート"
 
 #: redirection-admin.php:252
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
@@ -570,7 +570,7 @@ msgstr "もう一度試しましたが動きませんでした"
 msgid "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem."
 msgstr "もしその問題と同じ問題が {{link}}Redirection issues{{/link}} 内で説明されているものの、まだ未解決であったなら、追加の詳細情報を提供してください。"
 
-#: redirection-admin.php:175
+#: redirection-admin.php:174
 msgid "Log entries (%d max)"
 msgstr "ログ (最大 %d)"
 
@@ -852,7 +852,7 @@ msgstr "ダウンロード"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:155
+#: redirection-admin.php:154
 msgid "Settings"
 msgstr "設定"
 
