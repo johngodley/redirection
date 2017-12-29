@@ -332,8 +332,8 @@ class Red_Item {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'url', 'last_count', 'last_access', 'position' ), true ) ) {
-			$orderby = $params['orderBy'];
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'url', 'last_count', 'last_access', 'position' ), true ) ) {
+			$orderby = $params['orderby'];
 		}
 
 		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
@@ -348,8 +348,8 @@ class Red_Item {
 			}
 		}
 
-		if ( isset( $params['perPage'] ) ) {
-			$limit = intval( $params['perPage'], 10 );
+		if ( isset( $params['per_page'] ) ) {
+			$limit = intval( $params['per_page'], 10 );
 			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}

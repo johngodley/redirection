@@ -39,6 +39,7 @@ const headers = [
 	{
 		name: 'referrer',
 		title: __( 'Referrer' ),
+		sortable: false,
 	},
 	{
 		name: 'ip',

@@ -62,11 +62,15 @@ class Error extends React.Component {
 			return error.message;
 		}
 
-		if ( error.wpdb ) {
-			return <span>{ `${ error.message } (${ error.code })` }: <code>{ error.wpdb }</code></span>;
+		if ( error.data && error.data.wpdb ) {
+			return <span>{ `${ error.message } (${ error.code })` }: <code>{ error.data.wpdb }</code></span>;
 		}
 
-		return `${ error.message } (${ error.code })`;
+		if ( error.code ) {
+			return `${ error.message } (${ error.code })`;
+		}
+
+		return error.message;
 	}
 
 	getErrorDetails( error ) {
@@ -74,11 +78,15 @@ class Error extends React.Component {
 			return error.message;
 		}
 
-		if ( error.wpdb ) {
-			return `${ error.message } (${ error.code }): ${ error.wpdb }`;
+		if ( error.data && error.data.wpdb ) {
+			return `${ error.message } (${ error.code }): ${ error.data.wpdb }`;
 		}
 
-		return `${ error.message } (${ error.code })`;
+		if ( error.code ) {
+			return `${ error.message } (${ error.code })`;
+		}
+
+		return error.message;
 	}
 
 	getErrorMessage( errors ) {
@@ -155,7 +163,7 @@ class Error extends React.Component {
 						strong: <strong />,
 					},
 				} ) }</p>
-				<p><textarea readOnly={ true } rows={ debug.length + 2 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+				<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
 	}

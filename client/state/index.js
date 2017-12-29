@@ -16,7 +16,7 @@ import { urlMiddleware } from 'state/middleware';
  */
 
 const composeEnhancers = composeWithDevTools( {
-	name: 'Redirection'
+	name: 'Redirection',
 } );
 
 const middlewares = [

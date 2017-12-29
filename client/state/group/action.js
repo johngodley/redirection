@@ -11,17 +11,31 @@ import {
 	GROUP_SET_SELECTED,
 	GROUP_SET_ALL_SELECTED,
 } from './type';
-import { tableAction, saveAction, processRequest } from 'lib/store';
+import { tableAction, createAction, updateAction, processRequest } from 'lib/store';
+import { RedirectionApi } from 'lib/api';
 
-const STATUS_GROUP_ITEM = { saving: GROUP_ITEM_SAVING, saved: GROUP_ITEM_SAVED, failed: GROUP_ITEM_FAILED, order: 'name' };
-const STATUS_GROUP = { saving: GROUP_LOADING, saved: GROUP_LOADED, failed: GROUP_FAILED, order: 'name' };
+const STATUS_GROUP_ITEM = {
+	store: 'group',
+	saving: GROUP_ITEM_SAVING,
+	saved: GROUP_ITEM_SAVED,
+	failed: GROUP_ITEM_FAILED,
+	order: 'name',
+};
+const STATUS_GROUP = {
+	store: 'group',
+	saving: GROUP_LOADING,
+	saved: GROUP_LOADED,
+	failed: GROUP_FAILED,
+	order: 'name',
+};
 
-export const saveGroup = item => saveAction( 'group', 'red_set_group', item, STATUS_GROUP_ITEM );
-export const performTableAction = ( action, ids ) => tableAction( 'group', 'red_group_action', action, ids, STATUS_GROUP_ITEM );
-export const getGroup = args => ( dispatch, getState ) => processRequest( 'red_get_group', dispatch, STATUS_GROUP, args, getState().group );
-export const setOrderBy = ( orderBy, direction ) => getGroup( { orderBy, direction } );
+export const createGroup = item => createAction( RedirectionApi.group.create, item, STATUS_GROUP_ITEM );
+export const updateGroup = ( id, item ) => updateAction( RedirectionApi.group.update, id, item, STATUS_GROUP_ITEM );
+export const performTableAction = ( action, ids ) => tableAction( RedirectionApi.bulk.group, action, ids, STATUS_GROUP_ITEM );
+export const getGroup = args => ( dispatch, getState ) => processRequest( RedirectionApi.group.list, dispatch, STATUS_GROUP, args, getState().group );
+export const setOrderBy = ( orderby, direction ) => getGroup( { orderby, direction } );
 export const setPage = page => getGroup( { page } );
-export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, orderBy: '' } );
-export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderBy: '', page: 0 } );
+export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, orderby: '' } );
+export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );

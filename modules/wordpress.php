@@ -27,7 +27,6 @@ class WordPress_Module extends Red_Module {
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
-		remove_action( 'edit_form_advanced', 'wp_remember_old_slug' );
 	}
 
 	// Replacement for template_redirect to catch all 404 situations, not just template_redirect

@@ -48,10 +48,6 @@ function red_is_wpcli() {
 }
 
 function red_is_admin() {
-	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-		return true;
-	}
-
 	if ( is_admin() ) {
 		return true;
 	}
@@ -59,11 +55,23 @@ function red_is_admin() {
 	return false;
 }
 
-if ( red_is_wpcli() ) {
-	include dirname( __FILE__ ).'/redirection-admin.php';
-    include dirname( __FILE__ ).'/redirection-cli.php';
-} elseif ( red_is_admin() ) {
+function red_start_rest() {
+	include_once dirname( __FILE__ ).'/redirection-admin.php';
+	include_once dirname( __FILE__ ).'/redirection-api.php';
+
+	Redirection_Api::init();
+
+	remove_action( 'rest_api_init', 'red_start_rest' );
+}
+
+if ( red_is_admin() || red_is_wpcli() ) {
 	include dirname( __FILE__ ).'/redirection-admin.php';
 } else {
 	include dirname( __FILE__ ).'/redirection-front.php';
 }
+
+if ( red_is_wpcli() ) {
+	include dirname( __FILE__ ).'/redirection-cli.php';
+}
+
+add_action( 'rest_api_init', 'red_start_rest' );

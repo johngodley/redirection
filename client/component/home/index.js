@@ -23,7 +23,7 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
-import { clearErrors, ping } from 'state/message/action';
+import { clearErrors } from 'state/message/action';
 
 const TITLES = {
 	redirect: __( 'Redirections' ),
@@ -34,8 +34,6 @@ const TITLES = {
 	options: __( 'Options' ),
 	support: __( 'Support' ),
 };
-
-const PING_TIMER = 60 * 60 * 1000;
 
 class Home extends React.Component {
 	constructor( props ) {
@@ -49,8 +47,6 @@ class Home extends React.Component {
 		};
 
 		this.handlePageChange = this.onChangePage.bind( this );
-
-		setInterval( props.onPing, PING_TIMER );
 	}
 
 	componentDidCatch( error ) {
@@ -170,9 +166,6 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onClear: () => {
 			dispatch( clearErrors() );
-		},
-		onPing: () => {
-			dispatch( ping() );
 		},
 	};
 }
