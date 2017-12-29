@@ -68,9 +68,9 @@ class PaginationLinks extends React.Component {
 	}
 
 	getTotalPages( props ) {
-		const { total, perPage } = props;
+		const { total, per_page } = props;
 
-		return Math.ceil( total / perPage );
+		return Math.ceil( total / per_page );
 	}
 
 	render() {
@@ -107,8 +107,8 @@ class PaginationLinks extends React.Component {
 
 class NavigationPages extends React.Component {
 	render() {
-		const { total, perPage, page, onChangePage, inProgress } = this.props;
-		const onePage = total <= perPage;
+		const { total, per_page, page, onChangePage, inProgress } = this.props;
+		const onePage = total <= per_page;
 		const classes = classnames( {
 			'tablenav-pages': true,
 			'one-page': onePage,
@@ -118,7 +118,7 @@ class NavigationPages extends React.Component {
 			<div className={ classes }>
 				<span className="displaying-num">{ __( '%s item', '%s items', { count: total, args: numberFormat( total ) } ) }</span>
 
-				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } perPage={ perPage } page={ page } inProgress={ inProgress } /> }
+				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } per_page={ per_page } page={ page } inProgress={ inProgress } /> }
 			</div>
 		);
 	}
@@ -126,7 +126,7 @@ class NavigationPages extends React.Component {
 
 NavigationPages.propTypes = {
 	total: PropTypes.number.isRequired,
-	perPage: PropTypes.number.isRequired,
+	per_page: PropTypes.number.isRequired,
 	page: PropTypes.number.isRequired,
 	onChangePage: PropTypes.func.isRequired,
 	inProgress: PropTypes.bool.isRequired,
