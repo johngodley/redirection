@@ -1,40 +1,41 @@
 <?php
 
-class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
-	public static $redirection;
+class RedirectionApiSettingsTest extends Redirection_Api_Test {
+	public function testNoPermission() {
+		$this->setUnauthorised();
 
-	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init()->api;
-	}
+		$result = $this->callApi( 'setting' );
+		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
 
-	private function setNonce() {
-		$this->_setRole( 'administrator' );
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
+		$result = $this->callApi( 'setting', array( 'thing' => true ), 'POST' );
+		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
 	}
 
 	public function testLoadSettings() {
 		$this->setNonce();
-		$result = json_decode( self::$redirection->ajax_load_settings() );
+		$result = $this->callApi( 'setting' );
 
-		$this->assertTrue( is_object( $result->settings ) );
-		$this->assertTrue( is_array( $result->groups ) );
-		$this->assertTrue( ! empty( $result->installed ) );
+		$this->assertTrue( is_array( $result->data['settings'] ) );
+		$this->assertTrue( is_array( $result->data['groups'] ) );
+		$this->assertTrue( ! empty( $result->data['installed'] ) );
 	}
 
 	public function testSaveEmptySettingsChangesNothing() {
 		$this->setNonce();
 
-		$before = json_decode( self::$redirection->ajax_load_settings() );
-		update_option( 'redirection_options', (array)$before->settings );
+		$before = $this->callApi( 'setting' );
+		update_option( 'redirection_options', (array)$before->data['settings'] );
+		$before = $before->data['settings'];
 
-		$after = json_decode( self::$redirection->ajax_save_settings( array() ) );
+		$after = $this->callApi( 'setting', array(), 'POST' );
+		$after = $after->data['settings'];
 
-		unset( $before->settings->token );
-		unset( $after->settings->token );
-		unset( $before->settings->modules );
-		unset( $after->settings->modules );
-		unset( $before->installed );
-		unset( $after->installed );
+		unset( $before['token'] );
+		unset( $after['token'] );
+		unset( $before['modules'] );
+		unset( $after['modules'] );
+		unset( $before['installed'] );
+		unset( $after['installed'] );
 
 		$this->assertEquals( $before, $after );
 	}
@@ -43,93 +44,92 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 		$quoted = "this's";
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'auto_target' => $quoted ) ) );
-		$this->assertEquals( $quoted, $result->settings->auto_target );
+		$result = $this->callApi( 'setting', array( 'auto_target' => $quoted ), 'POST' );
+		$this->assertEquals( $quoted, $result->data['settings']['auto_target'] );
 	}
 
 	public function testSaveInvalidMonitorPost() {
 		$data = "monkey";
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => $data ) ) );
-		$this->assertEquals( 0, $result->settings->monitor_post );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => $data ), 'POST' );
+		$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
 	}
 
 	public function testSaveValidMonitorPost() {
 		$data = "1";
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => $data, 'monitor_types' => array( 'post' ) ) ) );
-		$this->assertEquals( 1, $result->settings->monitor_post );
-		$this->assertEquals( array( 'post' ), $result->settings->monitor_types );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => $data, 'monitor_types' => array( 'post' ) ), 'POST' );
+		$this->assertEquals( 1, $result->data['settings']['monitor_post'] );
+		$this->assertEquals( array( 'post' ), $result->data['settings']['monitor_types'] );
 	}
 
 	public function testNoMonitorTypes() {
 		$this->setNonce();
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'associated_redirect' => '/test' ) ) );
-		$this->assertEquals( 0, $result->settings->monitor_post );
-		$this->assertEquals( '', $result->settings->associated_redirect );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'associated_redirect' => '/test' ), 'POST' );
+		$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+		$this->assertEquals( '', $result->data['settings']['associated_redirect'] );
 	}
 
 	public function testMonitorTypes() {
 		$this->setNonce();
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'monitor_types' => array( 'post', 'page', 'trash' ) ) ) );
-		$this->assertEquals( array( 'post', 'page', 'trash' ), $result->settings->monitor_types );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post', 'page', 'trash' ) ), 'POST' );
+		$this->assertEquals( array( 'post', 'page', 'trash' ), $result->data['settings']['monitor_types'] );
 	}
 
 	public function testAssociatedRedirect() {
 		$this->setNonce();
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ), 'associated_redirect' => '/amp/' ) ) );
-		$this->assertEquals( '/amp/', $result->settings->associated_redirect );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ), 'associated_redirect' => '/amp/' ), 'POST' );
+		$this->assertEquals( '/amp/', $result->data['settings']['associated_redirect'] );
 	}
 
 	public function testSaveSupport() {
 		$data = true;
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'support' => $data ) ) );
-		$this->assertEquals( true, $result->settings->support );
+		$result = $this->callApi( 'setting', array( 'support' => $data ), 'POST' );
+		$this->assertEquals( true, $result->data['settings']['support'] );
 	}
 
 	public function testSaveToken() {
 		$data = '1234X';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'token' => $data ) ) );
-		$this->assertEquals( $data, $result->settings->token );
+		$result = $this->callApi( 'setting', array( 'token' => $data ), 'POST' );
+		$this->assertEquals( $data, $result->data['settings']['token'] );
 	}
 
 	public function testSaveRandomToken() {
 		$data = '';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'token' => $data ) ) );
-		$this->assertNotEquals( '', $result->settings->token );
+		$result = $this->callApi( 'setting', array( 'token' => $data ), 'POST' );
+		$this->assertNotEquals( '', $result->data['settings']['token'] );
 	}
 
 	public function testSaveBadExpiry() {
 		$data = 'monkey';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'expire_redirect' => $data ) ) );
-		$this->assertEquals( 0, $result->settings->expire_redirect );
+		$result = $this->callApi( 'setting', array( 'expire_redirect' => $data ), 'POST' );
+		$this->assertEquals( 0, $result->data['settings']['expire_redirect'] );
 	}
 
 	public function testSaveExpiry() {
 		$data = '30';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'expire_redirect' => $data ) ) );
-		$this->assertEquals( 30, $result->settings->expire_redirect );
+		$result = $this->callApi( 'setting', array( 'expire_redirect' => $data ), 'POST' );
+		$this->assertEquals( 30, $result->data['settings']['expire_redirect'] );
 	}
 
 	public function testSaveApacheConfig() {
 		$data = '30';
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'location' => 'location' ) ) );
-
-		$this->assertEquals( 'location', $result->settings->modules->{ '2' }->location );
+		$result = $this->callApi( 'setting', array( 'location' => 'location' ), 'POST' );
+		$this->assertEquals( 'location', $result->data['settings']['modules']['2']['location'] );
 
 		unlink( 'location' );
 	}
@@ -137,14 +137,14 @@ class RedirectionApiSettingsTest extends WP_Ajax_UnitTestCase {
 	public function testBadCacheClear() {
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'redirect_cache' => -10 ) ) );
-		$this->assertEquals( 1, $result->settings->redirect_cache );
+		$result = $this->callApi( 'setting', array( 'redirect_cache' => -10 ), 'POST' );
+		$this->assertEquals( 1, $result->data['settings']['redirect_cache'] );
 	}
 
 	public function testGoodCacheClear() {
 		$this->setNonce();
 
-		$result = json_decode( self::$redirection->ajax_save_settings( array( 'redirect_cache' => 24 ) ) );
-		$this->assertEquals( 24, $result->settings->redirect_cache );
+		$result = $this->callApi( 'setting', array( 'redirect_cache' => 24 ), 'POST' );
+		$this->assertEquals( 24, $result->data['settings']['redirect_cache'] );
 	}
 }

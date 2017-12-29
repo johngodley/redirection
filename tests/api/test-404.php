@@ -1,33 +1,20 @@
 <?php
 
-class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
-	public static $redirection;
-
-	private function get_logs( $params = array() ) {
-		return json_decode( self::$redirection->ajax_get_logs( array_merge( array( 'logType' => '404'), $params ) ) );
-	}
-
+class RedirectionApi404Test extends Redirection_Api_Test {
 	public static function setupBeforeClass() {
-		self::$redirection = Redirection_Admin::init()->api;
-
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
 	}
 
-	private function setNonce() {
-		$this->_setRole( 'administrator' );
-		$_REQUEST['_wpnonce'] = wp_create_nonce( 'wp_rest' );
-	}
-
 	private function isAthenB( $result ) {
-		$this->assertEquals( 'test1', $result->items[ 0 ]->url );
-		$this->assertEquals( 'test2', $result->items[ 1 ]->url );
+		$this->assertEquals( 'test1', $result['items'][ 0 ]['url'] );
+		$this->assertEquals( 'test2', $result['items'][ 1 ]['url'] );
 	}
 
 	private function isBthenA( $result ) {
-		$this->assertEquals( 'test2', $result->items[ 0 ]->url );
-		$this->assertEquals( 'test1', $result->items[ 1 ]->url );
+		$this->assertEquals( 'test2', $result['items'][ 0 ]['url'] );
+		$this->assertEquals( 'test1', $result['items'][ 1 ]['url'] );
 	}
 
 	private function createAB( $total = 2 ) {
@@ -38,27 +25,114 @@ class RedirectionApi404Test extends WP_Ajax_UnitTestCase {
 		$this->setNonce();
 	}
 
+	public function testNoPermission() {
+		$this->setUnauthorised();
+		$result = $this->callApi( '404' );
+
+		$this->assertEquals( 403, $result->status );
+		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+	}
+
+	public function testListBadOrderBy() {
+		$this->createAB();
+
+		$result = $this->callApi( '404', array( 'orderby' => 'cats' ) );
+
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testListBadDirection() {
+		$this->createAB();
+		$result = $this->callApi( '404', array( 'direction' => 'cats' ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
 	public function testGet404() {
 		$this->createAB();
 
-		$result = $this->get_logs();
+		$result = $this->callApi( '404' );
 
-		$this->isBthenA( $result );
+		$this->isBthenA( $result->data );
+	}
+
+	public function testListBadPerPage() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'per_page' => 'cats' ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testListPerPageMin() {
+		$this->createAB( 20 );
+
+		$result = $this->callApi( '404', array( 'per_page' => 5 ) );
+		$this->assertEquals( 5, count( $result->data['items'] ) );
+	}
+
+	public function testListPerPageMax() {
+		$this->createAB( 201 );
+
+		$result = $this->callApi( '404', array( 'per_page' => 201 ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testListBadPage() {
+		$this->createAB( 20 );
+
+		$result = $this->callApi( '404', array( 'per_page' => 10, 'page' => 'cats' ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testIPFilter() {
 		$this->createAB( 5 );
 
-		$result = $this->get_logs( array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ) );
+		$result = $this->callApi( '404', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ) );
 
-		$this->assertEquals( 1, count( $result->items ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
 
 	public function testBadIPFilter() {
 		$this->createAB();
 
-		$result = $this->get_logs( array( 'filter' => 'cats', 'filterBy' => 'ip' ) );
+		$result = $this->callApi( '404', array( 'filter' => 'cats', 'filterBy' => 'cats' ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
 
-		$this->assertEquals( 0, count( $result->items ) );
+	public function testDeleteAll() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filter' => 'cat' ), 'DELETE' );
+		$result = $this->callApi( '404' );
+
+		$this->assertEquals( 0, count( $result->data['items'] ) );
+	}
+
+	public function testDeleteFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ), 'DELETE' );
+		$result = $this->callApi( '404' );
+
+		$this->assertEquals( 4, count( $result->data['items'] ) );
+	}
+
+	public function testBadBulk() {
+		$this->createAB();
+		$group = Red_Group::create( 'test', 1 );
+
+		$result = $this->callApi( 'bulk/404/cats', array( 'items' => '1' ), 'POST' );
+		$this->assertEquals( 'rest_no_route', $result->data['code'] );
+
+		$result = $this->callApi( 'bulk/404/delete', array( 'items' => 'x' ), 'POST' );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testDeleteBulk() {
+		$this->setNonce();
+		RE_404::create( 'test1', 'agent', '192.168.1.1', 'referrer' );
+		$last = RE_404::create( 'test2', 'agent', '192.168.1.2', 'referrer' );
+
+		$result = $this->callApi( 'bulk/404/delete', array( 'items' => $last ), 'POST' );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
 }

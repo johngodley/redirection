@@ -18,10 +18,10 @@ import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreT
 import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
 
 const NEW_TABLE = {
-	orderBy: 'name',
+	orderby: 'name',
 	direction: 'desc',
 	page: 0,
-	perPage: 25,
+	per_page: 25,
 	selected: [],
 	filterBy: '',
 	filter: '',

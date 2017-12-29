@@ -13,10 +13,10 @@ import {
 import { getPageUrl } from 'lib/wordpress-url';
 
 const NEW_TABLE = {
-	orderBy: 'name',
+	orderby: 'name',
 	direction: 'desc',
 	page: 0,
-	perPage: 25,
+	per_page: 25,
 	selected: [],
 	filterBy: '',
 	filter: '',
@@ -46,9 +46,9 @@ describe( 'tables', () => {
 	} );
 
 	test( 'mergeWithTable with param changes just that param', () => {
-		const state = mergeWithTable( NEW_TABLE, { perPage: 50 } );
+		const state = mergeWithTable( NEW_TABLE, { per_page: 50 } );
 
-		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { perPage: 50 } ) );
+		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { per_page: 50 } ) );
 	} );
 
 	test( 'mergeWithTable with invalid param leaves state unchanged', () => {
@@ -58,9 +58,9 @@ describe( 'tables', () => {
 	} );
 
 	test( 'mergeWithTable with param changes just that param', () => {
-		const state = mergeWithTable( NEW_TABLE, { perPage: 50 }, 'name' );
+		const state = mergeWithTable( NEW_TABLE, { per_page: 50 }, 'name' );
 
-		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { perPage: 50 } ) );
+		expect( state ).toEqual( Object.assign( {}, NEW_TABLE, { per_page: 50 } ) );
 	} );
 
 	test( 'setTableSelected sets no items if passed nothing', () => {
@@ -101,13 +101,13 @@ describe( 'tables', () => {
 	} );
 
 	test( 'removeDefaults removes the default table properties', () => {
-		const table = removeDefaults( { direction: 'desc', page: 0, orderBy: 'test', perPage: 25, dummy: true }, 'test' );
+		const table = removeDefaults( { direction: 'desc', page: 0, orderby: 'test', per_page: 25, dummy: true }, 'test' );
 
 		expect( table ).toEqual( { dummy: true } );
 	} );
 
 	test( 'getDefaultTable doesnt allow overriding when not on query page', () => {
-		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderBy: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
+		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
 
 		const table = getDefaultTable( [], [], 'name', 'page' );
 
@@ -119,6 +119,6 @@ describe( 'tables', () => {
 
 		const table = getDefaultTable( [ 'other' ], [ 'filter' ], 'name', [ 'page' ] );
 
-		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderBy: 'other', direction: 'asc', page: 5, filterBy: 'filter', filter: 'monkey' } ) );
+		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, filterBy: 'filter', filter: 'monkey' } ) );
 	} );
 } );
