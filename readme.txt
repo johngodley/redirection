@@ -61,6 +61,7 @@ The plugin has a fully-featured import and export system and you can:
 - Copy redirects between sites using JSON
 - Import and export to CSV for viewing in a spreadsheet
 - Use WP CLI to automate import and export
+- Powered by WordPress REST API
 
 You can also import from the following plugins:
 
@@ -126,15 +127,18 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 2.11 =
 * Upgrade database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
+* Permissions changed from 'administrator' role to 'manage_options' capability
 
 == Changelog ==
 
-= 2.11 - Sometime =
+= 3.0 - Sometime =
 * Add support for IPv6
 * Add support for disabling or anonymising IP collection
 * Add support for monitoring custom post types
 * Add support for monitoring from quick edit mode
 * Default to last group used when editing
+* Permissions changed from 'administrator' role to 'manage_options' capability
+* Swap to WP REST API
 
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors
