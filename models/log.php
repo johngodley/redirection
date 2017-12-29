@@ -290,8 +290,8 @@ class RE_Filter_Log {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'ip', 'url' ), true ) ) {
-			$orderby = $params['orderBy'];
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'ip', 'url' ), true ) ) {
+			$orderby = $params['orderby'];
 		}
 
 		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
@@ -306,8 +306,8 @@ class RE_Filter_Log {
 			}
 		}
 
-		if ( isset( $params['perPage'] ) ) {
-			$limit = intval( $params['perPage'], 10 );
+		if ( isset( $params['per_page'] ) ) {
+			$limit = intval( $params['per_page'], 10 );
 			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}

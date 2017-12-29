@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import { setFilter, setSelected, performTableAction, deleteExact } from 'state/log/action';
+import { setFilter, setSelected, performTableAction, deleteExact } from 'state/error/action';
 import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
 import EditRedirect from 'component/redirects/edit';
@@ -152,7 +152,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setSelected( items ) );
 		},
 		onDelete: item => {
-			dispatch( performTableAction( 'delete', item, { logType: '404' } ) );
+			dispatch( performTableAction( 'delete', item ) );
 		},
 		onDeleteFilter: filter => {
 			dispatch( deleteExact( 'url-exact', filter ) );

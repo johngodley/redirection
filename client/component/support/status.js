@@ -10,12 +10,12 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import { loadStatus } from 'state/settings/action';
+import { loadStatus, fixStatus } from 'state/settings/action';
 
 const Fixit = connect( null, mapDispatchToProps )( props => {
-	const { onLoadStatus } = props;
+	const { onFix } = props;
 	const clicker = () => {
-		onLoadStatus( true );
+		onFix();
 	};
 
 	return (
@@ -77,8 +77,11 @@ class Status extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoadStatus: fixit => {
-			dispatch( loadStatus( fixit ) );
+		onLoadStatus: () => {
+			dispatch( loadStatus() );
+		},
+		onFix: () => {
+			dispatch( fixStatus() );
 		},
 	};
 }

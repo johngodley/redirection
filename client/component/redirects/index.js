@@ -81,7 +81,7 @@ class Redirects extends React.Component {
 
 	componentWillReceiveProps( nextProps ) {
 		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderBy: '' } );
+			nextProps.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderby: '' } );
 		}
 	}
 

@@ -12,14 +12,14 @@ import {
 	STATUS_COMPLETE,
 	SETTING_LOAD_STATUS,
 } from './type';
-import getApi from 'lib/api';
+import { getApi, RedirectionApi } from 'lib/api';
 
 export const loadSettings = () => ( dispatch, getState ) => {
 	if ( getState().settings.loadStatus === STATUS_COMPLETE ) {
 		return null;
 	}
 
-	getApi( 'red_load_settings' )
+	getApi( RedirectionApi.setting.get() )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, postTypes: json.post_types, installed: json.installed, canDelete: json.canDelete } );
 		} )
@@ -31,7 +31,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 };
 
 export const saveSettings = settings => dispatch => {
-	getApi( 'red_save_settings', settings )
+	getApi( RedirectionApi.setting.update( settings ) )
 		.then( json => {
 			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed } );
 		} )
@@ -43,7 +43,7 @@ export const saveSettings = settings => dispatch => {
 };
 
 export const deletePlugin = () => dispatch => {
-	getApi( 'red_delete_plugin' )
+	getApi( RedirectionApi.plugin.delete() )
 		.then( json => {
 			document.location.href = json.location;
 		} )
@@ -54,8 +54,20 @@ export const deletePlugin = () => dispatch => {
 	return dispatch( { type: SETTING_SAVING } );
 };
 
-export const loadStatus = ( fixIt = false ) => dispatch => {
-	getApi( 'red_plugin_status', { fixIt } )
+export const loadStatus = () => dispatch => {
+	getApi( RedirectionApi.plugin.status() )
+		.then( json => {
+			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
+		} )
+		.catch( error => {
+			dispatch( { type: SETTING_LOAD_FAILED, error } );
+		} );
+
+	return dispatch( { type: SETTING_LOAD_START } );
+};
+
+export const fixStatus = () => dispatch => {
+	getApi( RedirectionApi.plugin.fix() )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
 		} )

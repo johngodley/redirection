@@ -16,9 +16,8 @@ import classnames from 'classnames';
 
 import { getGroup } from 'state/group/action';
 import { nestedGroups } from 'state/group/selector';
-import { importFile, clearFile, addFile, loadImporters, pluginImport } from 'state/io/action';
+import { importFile, clearFile, addFile, loadImporters, pluginImport, exportFile, downloadFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
-import { exportFile, downloadFile } from 'state/io/action';
 import Importer from './importer';
 
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;

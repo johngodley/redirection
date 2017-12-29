@@ -20,7 +20,7 @@ import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import Select from 'component/wordpress/select';
 import { nestedGroups } from 'state/group/selector';
-import { saveRedirect } from 'state/redirect/action';
+import { updateRedirect, createRedirect } from 'state/redirect/action';
 import {
 	ACTION_URL,
 	ACTION_PASS,
@@ -268,7 +268,11 @@ class EditRedirect extends React.Component {
 			action_data: getActionData( this.state ),
 		};
 
-		this.props.onSave( redirect );
+		if ( redirect.id ) {
+			this.props.onSave( redirect.id, redirect );
+		} else {
+			this.props.onCreate( redirect );
+		}
 
 		if ( this.props.onCancel ) {
 			this.props.onCancel( ev );
@@ -539,8 +543,11 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onSave: redirect => {
-			dispatch( saveRedirect( redirect ) );
+		onSave: ( id, redirect ) => {
+			dispatch( updateRedirect( id, redirect ) );
+		},
+		onCreate: redirect => {
+			dispatch( createRedirect( redirect ) );
 		},
 	};
 }

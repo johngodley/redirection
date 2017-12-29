@@ -3,7 +3,6 @@
 include dirname( __FILE__ ).'/models/group.php';
 include dirname( __FILE__ ).'/models/monitor.php';
 include dirname( __FILE__ ).'/models/file-io.php';
-include dirname( __FILE__ ).'/redirection-api.php';
 
 define( 'RED_DEFAULT_PER_PAGE', 25 );
 define( 'RED_MAX_PER_PAGE', 200 );
@@ -37,7 +36,6 @@ class Redirection_Admin {
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
-		$this->api = new Redirection_Api();
 	}
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
@@ -184,7 +182,7 @@ class Redirection_Admin {
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'WP_API_root' => admin_url( 'admin-ajax.php' ),
+			'WP_API_root' => esc_url_raw( get_rest_url() ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
 			'pluginRoot' => admin_url( 'tools.php?page=redirection.php' ),

@@ -28,6 +28,12 @@ import {
 	LOG_ITEM_FAILED,
 } from 'state/log/type';
 import {
+	ERROR_FAILED,
+	ERROR_ITEM_SAVING,
+	ERROR_ITEM_SAVED,
+	ERROR_ITEM_FAILED,
+} from 'state/error/type';
+import {
 	SETTING_LOAD_FAILED,
 	SETTING_SAVE_FAILED,
 	SETTING_SAVED,
@@ -56,6 +62,8 @@ export default function messages( state = {}, action ) {
 		case LOG_ITEM_FAILED:
 		case SETTING_LOAD_FAILED:
 		case SETTING_SAVE_FAILED:
+		case ERROR_ITEM_FAILED:
+		case ERROR_FAILED:
 		case REDIRECT_FAILED:
 			/* eslint-disable */
 			const errors = addErrors( state.errors, action.error );
@@ -67,6 +75,7 @@ export default function messages( state = {}, action ) {
 		case LOG_ITEM_SAVING:
 		case REDIRECT_ITEM_SAVING:
 		case SETTING_SAVING:
+		case ERROR_ITEM_SAVING:
 		case GROUP_ITEM_SAVING:
 			return { ... state, inProgress: state.inProgress + 1 };
 
@@ -74,6 +83,7 @@ export default function messages( state = {}, action ) {
 		case REDIRECT_ITEM_SAVED:
 		case SETTING_SAVED:
 		case GROUP_ITEM_SAVED:
+		case ERROR_ITEM_SAVED:
 			return { ... state, notices: addNotice( state.notices, NOTICES[ action.type ] ), inProgress: reduceProgress( state ) };
 
 		case MESSAGE_CLEAR_NOTICES:
