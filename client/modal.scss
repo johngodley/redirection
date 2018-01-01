@@ -24,6 +24,7 @@
 		border: none;
 		background-color: white;
 		cursor: pointer;
+		z-index: 10001;
 	}
 
 	.modal-content, .modal-table {
@@ -34,7 +35,6 @@
 		left: 0;
 		z-index: 10000;
 		margin: auto;
-		padding: 20px;
 		border-radius: 5px;
 		background: white;
 		opacity: 1;
@@ -44,11 +44,24 @@
 
 	.modal-content {
 		width: 500px;
-		height: 500px;
+		height: 200px;
 
 		h1 {
 			margin: 0 !important;
 			color: #333 !important;
 		}
+	}
+
+	.modal-content .spinner-container {
+		border: 1px solid red;
+		position: absolute;
+		left: 49%;
+		top: 120px;
+	}
+}
+
+.modal-wrapper.modal-wrapper-padless {
+	.modal-content {
+		padding: 20px;
 	}
 }

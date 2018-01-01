@@ -87,7 +87,7 @@ table.edit-redirection {
 	}
 
 	.column-date {
-		width: 180px;
+		width: 200px;
 	}
 
 	.column-last_access {
@@ -116,6 +116,10 @@ table.edit-redirection {
 
 	.disabled {
 		opacity: 0.5;
+	}
+
+	.column-referrer {
+		color: #999;
 	}
 }
 

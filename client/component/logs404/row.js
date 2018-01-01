@@ -17,6 +17,7 @@ import { getDefaultItem } from 'state/redirect/selector';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
+import GeoMap from 'component/geo-map';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -33,6 +34,7 @@ class LogRow404 extends React.Component {
 		this.state = {
 			editing: false,
 			delete_log: false,
+			showMap: false,
 		};
 	}
 
@@ -90,10 +92,27 @@ class LogRow404 extends React.Component {
 		);
 	}
 
+	renderMap() {
+		return (
+			<Modal show={ this.state.showMap } onClose={ this.closeMap } width="800" padding={ false }>
+				<GeoMap ip={ this.props.item.ip } />
+			</Modal>
+		);
+	}
+
+	showMap = ev => {
+		ev.preventDefault();
+		this.setState( { showMap: true } );
+	}
+
+	closeMap = () => {
+		this.setState( { showMap: false } );
+	}
+
 	renderIp( ip ) {
 		if ( ip ) {
 			return (
-				<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">
+				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>
 					{ ip }
 				</a>
 			);
@@ -117,25 +136,28 @@ class LogRow404 extends React.Component {
 				</th>
 				<td className="column-date">
 					{ created }
+				</td>
+				<td className="column-url column-primary">
+					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 					<RowActions disabled={ isSaving }>
+						{ ip && <a href="#" onClick={ this.showMap }>{ __( 'Show Geo Info' ) }</a> }
+						{ ip && <span> | </span> }
 						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 						<a href="#" onClick={ this.handleAdd }>{ __( 'Add Redirect' ) }</a>
 					</RowActions>
 
 					{ this.state.editing && this.renderEdit() }
-				</td>
-				<td className="column-url column-primary">
-					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
+					{ this.state.showMap && this.renderMap() }
 				</td>
 				<td className="column-referrer">
-					<Referrer url={ referrer } />
-					{ agent && <RowActions>{ [ agent ] }</RowActions> }
+					<Referrer url={ referrer } /><br />
+					<span>{ agent }</span>
 				</td>
 				<td className="column-ip">
 					{ this.renderIp( ip ) }
 
 					<RowActions>
-						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Show only this IP' ) }</a> }
+						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
 				</td>
 			</tr>
@@ -160,7 +182,15 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
+function mapStateToProps( state ) {
+	const { status: mapStatus } = state.map;
+
+	return {
+		mapStatus,
+	};
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )( LogRow404 );

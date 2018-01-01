@@ -38,7 +38,7 @@ const headers = [
 	},
 	{
 		name: 'referrer',
-		title: __( 'Referrer' ),
+		title: __( 'Referrer / User Agent' ),
 		sortable: false,
 	},
 	{
