@@ -99,6 +99,15 @@ export const RedirectionApi = {
 	},
 };
 
+export const RedirectLiApi = {
+	ip: {
+		getGeo: ip => ( {
+			url: 'https://api.redirect.li/v1/ip/' + ip + '?ref=redirection&locale=' + Redirectioni10n.localeSlug.substr( 0, 2 ),
+			method: 'get',
+		} ),
+	},
+};
+
 export const getApi = request => {
 	return fetch( request.url, request )
 		.then( data => {
@@ -106,7 +115,7 @@ export const getApi = request => {
 				throw { message: 'No data or status object returned in request', code: 0 };
 			}
 
-			if ( data.status && data.statusText ) {
+			if ( data.status && data.statusText !== undefined ) {
 				request.status = data.status;
 				request.statusText = data.statusText;
 				request.action = data.url.replace( Redirectioni10n.WP_API_root, '' ) + ' ' + request.method.toUpperCase();

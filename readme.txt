@@ -125,8 +125,8 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.4 =
 * Another database change. Please backup your data
 
-= 2.11 =
-* Upgrade database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
+= 3.0 =
+* Upgrades the database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
 * Permissions changed from 'administrator' role to 'manage_options' capability
 
 == Changelog ==
@@ -139,6 +139,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Default to last group used when editing
 * Permissions changed from 'administrator' role to 'manage_options' capability
 * Swap to WP REST API
+* Swap IP map service
 
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors
