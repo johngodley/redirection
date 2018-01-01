@@ -27,9 +27,8 @@ const render = ( Component, dom ) => {
 };
 
 const show = dom => {
-	i18n.setLocale( {
-		'': { localeSlug: Redirectioni10n.localeSlug },
-	} );
+	i18n.setLocale( { '': { localeSlug: Redirectioni10n.localeSlug } } );
+	i18n.addTranslations( Redirectioni10n.locale );
 
 	if ( module.hot ) {
 		module.hot.accept( './app', () => {

@@ -203,18 +203,18 @@ class Redirection_Admin {
 	}
 
 	private function get_i18n_data() {
-		$i18n_json = REDIRECTION_FILE . 'locale/json/redirection-' . get_locale() . '.json';
+		$i18n_json = dirname( REDIRECTION_FILE ) . '/locale/json/redirection-' . get_locale() . '.json';
 
 		if ( is_file( $i18n_json ) && is_readable( $i18n_json ) ) {
 			$locale_data = @file_get_contents( $i18n_json );
 
 			if ( $locale_data ) {
-				return $locale_data;
+				return json_decode( $locale_data );
 			}
 		}
 
 		// Return empty if we have nothing to return so it doesn't fail when parsed in JS
-		return '{}';
+		return array();
 	}
 
 	function admin_menu() {
