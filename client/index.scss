@@ -328,3 +328,70 @@ a.advanced {
 		color: white;
 	}
 }
+
+.geo-map {
+	text-align: left;
+	height: 600px;
+	position: relative;
+
+	.geo-full {
+		height: 600px;
+	}
+
+	&.geo-map-loading {
+		height: 200px;
+	}
+
+	&.geo-map-small {
+		height: 150px;
+		padding: 15px;
+	}
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 480px;
+		background-color: #ddd;
+	}
+
+	table {
+		position: absolute;
+		background-color: white;
+		bottom: 0;
+		padding-left: 10px;
+		left: 0;
+		z-index: 1;
+		height: 100px;
+	}
+
+	table th, table td {
+		padding: 0;
+	}
+
+	table th {
+		font-weight: bold;
+		padding-right: 10px;
+	}
+
+	table td {
+		text-align: left;
+	}
+
+	h2 {
+		line-height: 1;
+		margin: 0;
+		padding-bottom: 10px;
+	}
+
+	.external {
+		position: absolute;
+		right: 15px;
+		bottom: 0px;
+	}
+
+	&.geo-map-small .external {
+		bottom: 15px;
+	}
+}

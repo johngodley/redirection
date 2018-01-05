@@ -16,6 +16,8 @@ import RowActions from 'component/table/row-action';
 import { setFilter, setSelected, performTableAction } from 'state/log/action';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import Modal from 'component/modal';
+import GeoMap from 'component/geo-map';
 
 const Referrer = props => {
 	const { url } = props;
@@ -31,73 +33,104 @@ const Referrer = props => {
 	return null;
 };
 
-const LogRow = props => {
-	const { created, ip, referrer, url, agent, sent_to, id } = props.item;
-	const { selected, status } = props;
-	const isLoading = status === STATUS_IN_PROGRESS;
-	const isSaving = status === STATUS_SAVING;
-	const hideRow = isLoading || isSaving;
+class LogRow extends React.Component {
+	static propTypes = {
+		item: PropTypes.object.isRequired,
+		selected: PropTypes.bool.isRequired,
+		status: PropTypes.string.isRequired,
+	};
 
-	const handleShow = ev => {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			showMap: false,
+		};
+	}
+
+	handleShow = ev => {
 		ev.preventDefault();
 		props.onShowIP( ip );
-	};
-	const handleSelected = () => {
+	}
+
+	handleSelected = () => {
 		props.onSetSelected( [ id ] );
-	};
-	const handleDelete = ev => {
+	}
+
+	handleDelete = ev => {
 		ev.preventDefault();
 		props.onDelete( id );
-	};
-	const renderIp = ipStr => {
+	}
+
+	renderIp = ipStr => {
 		if ( ipStr ) {
 			return (
-				<a href={ 'http://urbangiraffe.com/map/?ip=' + ipStr } rel="noreferrer noopener" target="_blank">{ ipStr }</a>
+				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ipStr ) } onClick={ this.showMap }>{ ipStr }</a>
 			);
 		}
 
 		return '-';
-	};
+	}
 
-	return (
-		<tr className={ hideRow ? 'disabled' : '' }>
-			<th scope="row" className="check-column">
-				{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ handleSelected } /> }
-				{ isSaving && <Spinner size="small" /> }
-			</th>
-			<td className="column-date">
-				{ created }
-				<RowActions disabled={ isSaving }>
-					<a href="#" onClick={ handleDelete }>{ __( 'Delete' ) }</a>
-				</RowActions>
-			</td>
-			<td className="column-primary column-url">
-				<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
-				<RowActions>
-					{ [ sent_to ? sent_to.substring( 0, 100 ) : '' ] }
-				</RowActions>
-			</td>
-			<td className="column-referrer">
-				<Referrer url={ referrer } />
-				<RowActions>
-					{ [ agent ] }
-				</RowActions>
-			</td>
-			<td className="column-ip">
-				{ renderIp( ip ) }
+	renderMap() {
+		return (
+			<Modal show={ this.state.showMap } onClose={ this.closeMap } width="800" padding={ false }>
+				<GeoMap ip={ this.props.item.ip } />
+			</Modal>
+		);
+	}
 
-				<RowActions>
-					{ ip && <a href="#" onClick={ handleShow }>{ __( 'Show only this IP' ) }</a> }
-				</RowActions>
-			</td>
-		</tr>
-	);
-};
+	showMap = ev => {
+		ev.preventDefault();
+		this.setState( { showMap: true } );
+	}
 
-LogRow.propTypes = {
-	item: PropTypes.object.isRequired,
-	selected: PropTypes.bool.isRequired,
-	status: PropTypes.string.isRequired,
+	closeMap = () => {
+		this.setState( { showMap: false } );
+	}
+
+	render() {
+		const { created, ip, referrer, url, agent, sent_to, id } = this.props.item;
+		const { selected, status } = this.props;
+		const isLoading = status === STATUS_IN_PROGRESS;
+		const isSaving = status === STATUS_SAVING;
+		const hideRow = isLoading || isSaving;
+
+		return (
+			<tr className={ hideRow ? 'disabled' : '' }>
+				<th scope="row" className="check-column">
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ isSaving && <Spinner size="small" /> }
+				</th>
+				<td className="column-date">
+					{ created }
+				</td>
+				<td className="column-primary column-url">
+					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a><br />
+					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
+
+					<RowActions disabled={ isSaving }>
+						{ ip && <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>{ __( 'Show Geo IP' ) }</a> }
+						{ ip && <span> | </span> }
+						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a>
+					</RowActions>
+
+					{ this.state.showMap && this.renderMap() }
+				</td>
+				<td className="column-referrer">
+					<Referrer url={ referrer } /><br />
+					{ agent }
+				</td>
+				<td className="column-ip">
+					{ this.renderIp( ip ) }
+
+					<RowActions>
+						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Filter by IP' ) }</a> }
+					</RowActions>
+				</td>
+			</tr>
+		);
+	}
 };
 
 function mapDispatchToProps( dispatch ) {

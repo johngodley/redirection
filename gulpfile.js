@@ -11,6 +11,7 @@ const zip = require( 'gulp-zip' );
 const request = require( 'request' );
 const config = require( './.config.json' ); // Local config
 const crypto = require( 'crypto' );
+const through = require( 'through2' );
 const pkg = require( './package.json' );
 
 const LOCALE_PERCENT_COMPLETE = 50;
@@ -58,8 +59,28 @@ gulp.task( 'pot', [ 'pot:download', 'pot:extract', 'pot:generate', 'pot:json' ] 
 gulp.task( 'pot:json', done => {
 	gulp.src( [ 'locale/*.po' ] )
 		.pipe( po2json() )
+		.pipe( through.obj( ( file, enc, cb ) => {
+			const json = JSON.parse( String( file.contents ) )
+			const keys = Object.keys( json );
+
+			for ( let x = 0; x < keys.length; x++ ) {
+				const key = keys[ x ];
+				const newObj = [];
+
+				for ( let z = 1; z < json[ key ].length; z ++ ) {
+					newObj.push( json[ key ][ z ] );
+				}
+
+				json[ key ] = newObj;
+			}
+
+			file.contents = new Buffer( JSON.stringify( json ) );
+			cb( null, file );
+		} ) )
 		.pipe( gulp.dest( 'locale/json/' ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			done();
+		} );
 } );
 
 gulp.task( 'pot:download', () => {
@@ -182,6 +203,8 @@ gulp.task( 'version', () => {
 define( 'REDIRECTION_VERSION', '${ pkg.version }' );
 define( 'REDIRECTION_BUILD', '${ md5 }' );
 define( 'REDIRECTION_MIN_WP', '${ pkg.engines.wordpress }' );
-` );
+`, function() {
+
+} );
 	} );
 } );

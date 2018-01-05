@@ -16,6 +16,9 @@ __( "Your server has rejected the request for being too big. You will need to ch
 __( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:108
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:104
 __( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:100
+__( "Powered by {{link}}redirect.li{{/link}}", "redirection" ), // client/component/geo-map/index.js:128
+__( "No details are known for this address.", "redirection" ), // client/component/geo-map/index.js:57
+__( "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed.", "redirection" ), // client/component/geo-map/index.js:43
 __( "Name", "redirection" ), // client/component/groups/index.js:130
 __( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/component/groups/index.js:124
 __( "Add Group", "redirection" ), // client/component/groups/index.js:123
@@ -93,22 +96,24 @@ __( "Delete all from IP %s", "redirection" ), // client/component/logs/delete-al
 __( "Export", "redirection" ), // client/component/logs/export-csv.js:16
 __( "Delete", "redirection" ), // client/component/logs/index.js:54
 __( "IP", "redirection" ), // client/component/logs/index.js:46
-__( "Referrer", "redirection" ), // client/component/logs/index.js:41
+__( "Referrer / User Agent", "redirection" ), // client/component/logs/index.js:41
 __( "Source URL", "redirection" ), // client/component/logs/index.js:36
 __( "Date", "redirection" ), // client/component/logs/index.js:32
-__( "Show only this IP", "redirection" ), // client/component/logs/row.js:90
-__( "Delete", "redirection" ), // client/component/logs/row.js:71
+__( "Filter by IP", "redirection" ), // client/component/logs/row.js:128
+__( "Delete", "redirection" ), // client/component/logs/row.js:115
+__( "Show Geo IP", "redirection" ), // client/component/logs/row.js:113
 __( "Delete", "redirection" ), // client/component/logs404/index.js:54
 __( "IP", "redirection" ), // client/component/logs404/index.js:46
-__( "Referrer", "redirection" ), // client/component/logs404/index.js:41
+__( "Referrer / User Agent", "redirection" ), // client/component/logs404/index.js:41
 __( "Source URL", "redirection" ), // client/component/logs404/index.js:36
 __( "Date", "redirection" ), // client/component/logs404/index.js:32
-__( "Show only this IP", "redirection" ), // client/component/logs404/row.js:138
-__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:122
-__( "Delete", "redirection" ), // client/component/logs404/row.js:121
-__( "Delete all logs for this 404", "redirection" ), // client/component/logs404/row.js:83
-__( "Delete 404s", "redirection" ), // client/component/logs404/row.js:78
-__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:76
+__( "Filter by IP", "redirection" ), // client/component/logs404/row.js:160
+__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:146
+__( "Delete", "redirection" ), // client/component/logs404/row.js:145
+__( "Show Geo Info", "redirection" ), // client/component/logs404/row.js:143
+__( "Delete all logs for this 404", "redirection" ), // client/component/logs404/row.js:85
+__( "Delete 404s", "redirection" ), // client/component/logs404/row.js:80
+__( "Add Redirect", "redirection" ), // client/component/logs404/row.js:78
 __( "Support", "redirection" ), // client/component/menu/index.js:41
 __( "Options", "redirection" ), // client/component/menu/index.js:37
 __( "Import/Export", "redirection" ), // client/component/menu/index.js:33
@@ -130,23 +135,24 @@ __( "You get useful software and I get to carry on making it better.", "redirect
 __( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/component/options/donation.js:99
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
-__( "Update", "redirection" ), // client/component/options/options-form.js:195
-__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:191
-__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:189
-__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:180
-__( "Apache Module", "redirection" ), // client/component/options/options-form.js:175
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:167
-__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:164
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:161
-__( "RSS Token", "redirection" ), // client/component/options/options-form.js:159
-__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:153
-__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:150
-__( "IP Logging", "redirection" ), // client/component/options/options-form.js:149
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:146
-__( "404 Logs", "redirection" ), // client/component/options/options-form.js:145
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:142
-__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:141
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:137
+__( "Update", "redirection" ), // client/component/options/options-form.js:196
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:192
+__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:190
+__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:181
+__( "Apache Module", "redirection" ), // client/component/options/options-form.js:176
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:168
+__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:165
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:162
+__( "RSS Token", "redirection" ), // client/component/options/options-form.js:160
+__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:154
+__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:151
+__( "IP Logging", "redirection" ), // client/component/options/options-form.js:150
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:147
+__( "404 Logs", "redirection" ), // client/component/options/options-form.js:146
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:143
+__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:142
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:138
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:131
 __( "Monitor changes to %(type)s", "redirection" ), // client/component/options/options-form.js:114
 __( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:94
 __( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:94

@@ -1,6 +1,6 @@
 {
   "name": "redirection",
-  "version": "2.10.1",
+  "version": "3.0",
   "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
   "main": "redirection.php",
   "engines": {
@@ -82,6 +82,7 @@
     "shared-git-hooks": "^1.2.1",
     "style-loader": "^0.19.1",
     "through": "^2.3.8",
+    "through2": "^2.0.3",
     "underscore": "^1.8.3",
     "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.1",

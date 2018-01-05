@@ -4,17 +4,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class Modal extends React.Component {
+	static defaultProps = {
+		padding: true,
+	};
+
 	constructor( props ) {
 		super( props );
 
 		this.handleClick = this.onBackground.bind( this );
 		this.ref = null;
-		this.height = false;
+		this.height = 0;
 	}
 
 	componentDidMount() {
+		this.resize();
+	}
+
+	componentWillReceiveProps() {
 		this.resize();
 	}
 
@@ -23,7 +32,7 @@ class Modal extends React.Component {
 	}
 
 	resize() {
-		if ( this.props.show && this.height === false ) {
+		if ( this.props.show ) {
 			let height = 5;
 
 			for ( let x = 0; x < this.ref.children.length; x++ ) {
@@ -31,7 +40,7 @@ class Modal extends React.Component {
 			}
 
 			this.ref.style.height = height + 'px';
-			this.height = height;
+			this.height = height - this.height;
 		}
 	}
 
@@ -47,6 +56,10 @@ class Modal extends React.Component {
 
 	render() {
 		const { show, onClose, width } = this.props;
+		const classes = classnames( {
+			'modal-wrapper' : true,
+			'modal-wrapper-padding': this.props.padding,
+		} );
 
 		if ( ! show ) {
 			return null;
@@ -59,7 +72,7 @@ class Modal extends React.Component {
 		}
 
 		return (
-			<div className="modal-wrapper" onClick={ this.handleClick }>
+			<div className={ classes } onClick={ this.handleClick }>
 				<div className="modal-backdrop"></div>
 				<div className="modal">
 					<div className="modal-content" ref={ this.nodeRef } style={ style }>
