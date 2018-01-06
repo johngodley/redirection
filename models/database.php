@@ -30,7 +30,7 @@ class RE_Database {
 			`action_code` int(11) unsigned NOT NULL,
 			`action_data` mediumtext,
 			`match_type` varchar(20) NOT NULL,
-			`title` varchar(50) DEFAULT NULL,
+			`title` text,
 			PRIMARY KEY (`id`),
 			KEY `url` (`url`(191)),
 			KEY `status` (`status`),
@@ -203,6 +203,9 @@ class RE_Database {
 
 		// This was missed in a previous upgrade script
 		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD INDEX `ip` (`ip`)" );
+
+		// Convert 'title' to a TEXT column
+		$wpdb->query( "ALTER TABLE `{$wpdb->prefix}redirection_items` CHANGE `title` `title` text" );
 	}
 
 	/**
