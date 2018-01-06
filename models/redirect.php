@@ -422,7 +422,7 @@ class Red_Item_Sanitize {
 		$data['position'] = $this->get_position( $details );
 
 		if ( $data['title'] ) {
-			$data['title'] = substr( $data['title'], 0, 50 );
+			$data['title'] = substr( $data['title'], 0, 500 );
 		}
 
 		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );

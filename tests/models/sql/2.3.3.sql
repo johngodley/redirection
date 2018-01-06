@@ -11,7 +11,7 @@ CREATE TABLE `{$prefix}redirection_items` (
 	`action_code` int(11) unsigned NOT NULL,
 	`action_data` mediumtext,
 	`match_type` varchar(20) NOT NULL,
-	`title` varchar(50) DEFAULT NULL,
+	`title` text,
 	PRIMARY KEY (`id`),
 	KEY `url` (`url`(191)),
 	KEY `status` (`status`),
