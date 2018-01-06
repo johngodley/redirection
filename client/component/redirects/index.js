@@ -67,7 +67,7 @@ const bulk = [
 	{
 		id: 'reset',
 		name: __( 'Reset hits' ),
-	}
+	},
 ];
 
 class Redirects extends React.Component {
