@@ -42,14 +42,14 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testRedirectCode() {
 		$importer = new Red_Csv_File();
-		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', 308 ), 1 );
+		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 308 ), 1 );
 
 		$this->assertEquals( 308, $csv['action_code'] );
 	}
 
 	public function testInvalidRedirectCode() {
 		$importer = new Red_Csv_File();
-		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', 666 ), 1 );
+		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 666 ), 1 );
 
 		$this->assertEquals( 301, $csv['action_code'] );
 	}
@@ -60,7 +60,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$group = Red_Group::create( 'group', 1 );
 
 		$file = fopen( 'php://memory', 'w+' );
-		fwrite( $file, '"/old","/new","0","url","301","url","2",""' );
+		fwrite( $file, '"/old","/new","0","301","url","2",""' );
 		rewind( $file );
 
 		$importer = new Red_Csv_File();
