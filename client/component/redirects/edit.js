@@ -176,6 +176,7 @@ class EditRedirect extends React.Component {
 			action_data: '',
 			title: '',
 			action_code: 301,
+			position: 0,
 			... this.resetActionData(),
 		} );
 	}
