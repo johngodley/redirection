@@ -59,7 +59,7 @@ class Logs extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		props.onLoad( LOGS_TYPE_REDIRECT );
+		props.onLoad( props.log.table );
 
 		this.handleRender = this.renderRow.bind( this );
 		this.handleRSS = this.onRSS.bind( this );
@@ -67,7 +67,7 @@ class Logs extends React.Component {
 
 	componentWillReceiveProps( nextProps ) {
 		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoad( LOGS_TYPE_REDIRECT );
+			nextProps.onLoad();
 		}
 	}
 
@@ -113,8 +113,8 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: logType => {
-			dispatch( loadLogs( logType ) );
+		onLoad: params => {
+			dispatch( loadLogs( params ) );
 		},
 		onDeleteAll: ( filterBy, filter ) => {
 			dispatch( deleteAll( filterBy, filter ) );

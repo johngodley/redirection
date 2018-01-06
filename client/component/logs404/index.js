@@ -59,7 +59,7 @@ class Logs404 extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		props.onLoad();
+		props.onLoad( props.error.table );
 
 		this.props.onLoadGroups();
 		this.handleRender = this.renderRow.bind( this );
@@ -109,8 +109,8 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: () => {
-			dispatch( loadLogs() );
+		onLoad: params => {
+			dispatch( loadLogs( params ) );
 		},
 		onLoadGroups: () => {
 			dispatch( getGroup() );
