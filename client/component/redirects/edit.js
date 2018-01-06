@@ -121,7 +121,7 @@ class EditRedirect extends React.Component {
 		this.handleData = this.onSetData.bind( this );
 		this.handleAdvanced = this.onAdvanced.bind( this );
 
-		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position } = props.item;
+		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position = 0 } = props.item;
 		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
 
 		this.state = {
@@ -434,7 +434,8 @@ class EditRedirect extends React.Component {
 
 	getGroup() {
 		const groups = this.props.group.rows;
-		const { group_id, position } = this.state;
+		const { group_id } = this.state;
+		const position = parseInt( this.state.position, 10 );
 		const { advanced } = this.state;
 
 		return (
@@ -551,7 +552,8 @@ function mapDispatchToProps( dispatch ) {
 		onCreate: redirect => {
 			dispatch( createRedirect( redirect ) );
 		},
-		onClose: () => {
+		onClose: ev => {
+			ev.preventDefault();
 			dispatch( addToTop( false ) );
 		},
 	};
