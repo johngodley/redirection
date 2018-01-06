@@ -122,7 +122,7 @@ class LogRow404 extends React.Component {
 	}
 
 	render() {
-		const { created, ip, referrer, url, agent, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, id } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -135,7 +135,7 @@ class LogRow404 extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">
-					{ created }
+					{ created }<br />{ created_time }
 				</td>
 				<td className="column-url column-primary">
 					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
@@ -150,7 +150,8 @@ class LogRow404 extends React.Component {
 					{ this.state.showMap && this.renderMap() }
 				</td>
 				<td className="column-referrer">
-					<Referrer url={ referrer } /><br />
+					<Referrer url={ referrer } />
+					{ referrer && <br /> }
 					<span>{ agent }</span>
 				</td>
 				<td className="column-ip">
