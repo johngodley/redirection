@@ -247,8 +247,6 @@ class RE_404 {
 
 		$extra = '';
 		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404";
-		// if ( isset( $_REQUEST['s'] ) )
-		// 	$extra = $wpdb->prepare( ' WHERE url LIKE %s', '%'.$wpdb->esc_like( $_REQUEST['s'] ).'%' );
 
 		$total_items = $wpdb->get_var( $sql.$extra );
 		$exported = 0;
@@ -329,7 +327,8 @@ class RE_Filter_Log {
 			$item = new $construct( $row );
 			$items[] = array_merge( $item->to_json(), array(
 				'id' => intval( $item->id, 10 ),
-				'created' => date_i18n( get_option( 'date_format' ), $item->created ).' '.gmdate( get_option( 'time_format' ), $item->created ),
+				'created' => date_i18n( get_option( 'date_format' ), $item->created ),
+				'created_time' => gmdate( get_option( 'time_format' ), $item->created ),
 				'url' => $item->url,
 				'agent' => $item->agent,
 				'referrer' => $item->referrer,

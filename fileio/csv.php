@@ -4,8 +4,7 @@ class Red_Csv_File extends Red_FileIO {
 	const CSV_SOURCE = 0;
 	const CSV_TARGET = 1;
 	const CSV_REGEX = 2;
-	const CSV_TYPE = 3;
-	const CSV_CODE = 4;
+	const CSV_CODE = 3;
 
 	public function force_download() {
 		parent::force_download();

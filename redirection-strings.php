@@ -135,24 +135,23 @@ __( "You get useful software and I get to carry on making it better.", "redirect
 __( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/component/options/donation.js:99
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
-__( "Update", "redirection" ), // client/component/options/options-form.js:196
-__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:192
-__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:190
-__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:181
-__( "Apache Module", "redirection" ), // client/component/options/options-form.js:176
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:168
-__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:165
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:162
-__( "RSS Token", "redirection" ), // client/component/options/options-form.js:160
-__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:154
-__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:151
-__( "IP Logging", "redirection" ), // client/component/options/options-form.js:150
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:147
-__( "404 Logs", "redirection" ), // client/component/options/options-form.js:146
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:143
-__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:142
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:138
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:131
+__( "Update", "redirection" ), // client/component/options/options-form.js:195
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:191
+__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:189
+__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:180
+__( "Apache Module", "redirection" ), // client/component/options/options-form.js:175
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID inserted", "redirection" ), // client/component/options/options-form.js:167
+__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:164
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:161
+__( "RSS Token", "redirection" ), // client/component/options/options-form.js:159
+__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:153
+__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:150
+__( "IP Logging", "redirection" ), // client/component/options/options-form.js:149
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:146
+__( "404 Logs", "redirection" ), // client/component/options/options-form.js:145
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:142
+__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:141
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:137
 __( "Monitor changes to %(type)s", "redirection" ), // client/component/options/options-form.js:114
 __( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:94
 __( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:94
