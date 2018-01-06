@@ -24,6 +24,7 @@ import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
 import { clearErrors } from 'state/message/action';
+import { addToTop } from 'state/redirect/action';
 
 const TITLES = {
 	redirect: __( 'Redirections' ),
@@ -148,7 +149,8 @@ class Home extends React.Component {
 
 		return (
 			<div className="wrap redirection">
-				<h2>{ title }</h2>
+				<h1 className="wp-heading-inline">{ title }</h1>
+				{ this.state.page === 'redirect' && <a href="#" onClick={ this.props.onAdd } className="page-title-action">Add New</a> }
 
 				<Menu onChangePage={ this.handlePageChange } />
 				<Error />
@@ -166,6 +168,9 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onClear: () => {
 			dispatch( clearErrors() );
+		},
+		onAdd: () => {
+			dispatch( addToTop( true ) );
 		},
 	};
 }

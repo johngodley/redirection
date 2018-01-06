@@ -10,6 +10,7 @@ import {
 	REDIRECT_ITEM_SAVED,
 	REDIRECT_SET_SELECTED,
 	REDIRECT_SET_ALL_SELECTED,
+	REDIRECT_ADD_TOP,
 } from './type';
 import { tableAction, createAction, updateAction, processRequest } from 'lib/store';
 import { RedirectionApi } from 'lib/api';
@@ -39,3 +40,4 @@ export const setSearch = filter => getRedirect( { filter, filterBy: '', page: 0,
 export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: REDIRECT_SET_ALL_SELECTED, onoff } );
+export const addToTop = onoff => ( { type: REDIRECT_ADD_TOP, onoff } );

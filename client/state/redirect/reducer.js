@@ -11,6 +11,7 @@ import {
 	REDIRECT_ITEM_SAVING,
 	REDIRECT_ITEM_SAVED,
 	REDIRECT_ITEM_FAILED,
+	REDIRECT_ADD_TOP,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
@@ -18,6 +19,9 @@ import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreT
 
 export default function redirects( state = {}, action ) {
 	switch ( action.type ) {
+		case REDIRECT_ADD_TOP:
+			return { ... state, addTop: action.onoff };
+
 		case REDIRECT_LOADING:
 			return { ... state, table: setTable( state, action ), status: STATUS_IN_PROGRESS, saving: [] };
 

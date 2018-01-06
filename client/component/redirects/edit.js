@@ -20,7 +20,7 @@ import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import Select from 'component/wordpress/select';
 import { nestedGroups } from 'state/group/selector';
-import { updateRedirect, createRedirect } from 'state/redirect/action';
+import { updateRedirect, createRedirect, addToTop } from 'state/redirect/action';
 import {
 	ACTION_URL,
 	ACTION_PASS,
@@ -478,7 +478,7 @@ class EditRedirect extends React.Component {
 
 	render() {
 		const { url, regex, advanced } = this.state;
-		const { saveButton = __( 'Save' ), onCancel, autoFocus = false } = this.props;
+		const { saveButton = __( 'Save' ), onCancel, autoFocus = false, addTop, onClose } = this.props;
 
 		return (
 			<form onSubmit={ this.handleSave }>
@@ -512,6 +512,7 @@ class EditRedirect extends React.Component {
 								<div className="table-actions">
 									<input className="button-primary" type="submit" name="save" value={ saveButton } disabled={ ! this.canSave() } /> &nbsp;
 									{ onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ onCancel } /> }
+									{ addTop && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Close' ) } onClick={ onClose } /> }
 									&nbsp;
 
 									{ this.canShowAdvanced() && this.props.advanced !== false && <a href="#" onClick={ this.handleAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
@@ -534,10 +535,11 @@ EditRedirect.propTypes = {
 };
 
 function mapStateToProps( state ) {
-	const { group } = state;
+	const { group, redirect } = state;
 
 	return {
 		group,
+		addTop: redirect.addTop,
 	};
 }
 
@@ -548,6 +550,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onCreate: redirect => {
 			dispatch( createRedirect( redirect ) );
+		},
+		onClose: () => {
+			dispatch( addToTop( false ) );
 		},
 	};
 }

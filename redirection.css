@@ -1,4 +1,4 @@
-#react-ui h1 {
+.react-error h1, .react-loading h1 {
 	text-align: center;
 	color: #999;
 	margin-top: 150px;
