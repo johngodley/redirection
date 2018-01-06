@@ -290,6 +290,7 @@ class Redirection_Admin {
 		<p><?php _e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
 		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
 		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ).'redirection.js?ver='.urlencode( REDIRECTION_VERSION ).'-'.urlencode( REDIRECTION_BUILD ) ); ?></code></p>
+		<p><?php _e( 'Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won\'t be able to use Redirection', 'redirection' ); ?></p>
 		<p><?php _e( "If you think Redirection is at fault then create an issue.", 'redirection' ); ?></p>
 		<p class="versions"><?php _e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
 		<p>
