@@ -99,10 +99,20 @@ export const RedirectionApi = {
 	},
 };
 
+const getRedirectLiUrl = url => {
+	return 'http://localhost:5000/v1/' + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';
+};
+
 export const RedirectLiApi = {
 	ip: {
 		getGeo: ip => ( {
-			url: 'https://api.redirect.li/v1/ip/' + ip + '?ref=redirection&locale=' + Redirectioni10n.localeSlug.substr( 0, 2 ),
+			url: getRedirectLiUrl( 'ip/' + ip + '?locale=' + Redirectioni10n.localeSlug.substr( 0, 2 ) ),
+			method: 'get',
+		} ),
+	},
+	agent: {
+		get: agent => ( {
+			url: getRedirectLiUrl( 'useragent/' + encodeURIComponent( agent ) ),
 			method: 'get',
 		} ),
 	},
