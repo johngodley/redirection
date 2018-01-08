@@ -10,7 +10,7 @@ import io from 'state/io/reducer';
 import group from 'state/group/reducer';
 import redirect from 'state/redirect/reducer';
 import message from 'state/message/reducer';
-import map from 'state/map/reducer';
+import info from 'state/info/reducer';
 
 const reducer = combineReducers( {
 	settings,
@@ -20,7 +20,7 @@ const reducer = combineReducers( {
 	group,
 	redirect,
 	message,
-	map,
+	info,
 } );
 
 export default reducer;

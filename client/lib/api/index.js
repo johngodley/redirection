@@ -134,7 +134,7 @@ export const getApi = request => {
 				const json = JSON.parse( text );
 
 				if ( request.status !== 200 ) {
-					throw { message: json.message, code: json.data.error_code, request, data: json.data };
+					throw { message: json.message, code: json.error_code ? json.error_code : json.data.error_code, request, data: json.data };
 				}
 
 				return json;

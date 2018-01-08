@@ -20,6 +20,7 @@ class Modal extends React.Component {
 	}
 
 	componentDidMount() {
+		this.height = 0;
 		this.resize();
 	}
 
@@ -57,7 +58,7 @@ class Modal extends React.Component {
 	render() {
 		const { show, onClose, width } = this.props;
 		const classes = classnames( {
-			'modal-wrapper' : true,
+			'modal-wrapper': true,
 			'modal-wrapper-padding': this.props.padding,
 		} );
 
@@ -80,7 +81,7 @@ class Modal extends React.Component {
 							<button onClick={ onClose }>&#x2716;</button>
 						</div>
 
-						{ this.props.children }
+						{ React.cloneElement( this.props.children, { parent: this } ) }
 					</div>
 				</div>
 			</div>

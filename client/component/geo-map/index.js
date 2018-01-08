@@ -11,7 +11,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import Spinner from 'component/wordpress/spinner';
-import { getMap } from 'state/map/action';
+import { getMap } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
 class GeoMap extends React.Component {
@@ -25,8 +25,9 @@ class GeoMap extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div>
-				<p>Sorry, but something went wrong obtaining IP information</p>
+			<div className="modal-error">
+				<h2>{ __( 'Geo IP Error' ) }</h2>
+				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p>{ error.message }</p>
 			</div>
 		);
@@ -37,7 +38,7 @@ class GeoMap extends React.Component {
 
 		return (
 			<div className="geo-simple">
-				<h2>Geo IP: { ip } - IPv{ ipType }</h2>
+				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
 					{ __( 'This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed.' ) }
@@ -51,7 +52,7 @@ class GeoMap extends React.Component {
 
 		return (
 			<div className="geo-simple">
-				<h2>Geo IP: { ip } - IPv{ ipType }</h2>
+				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
 					{ __( 'No details are known for this address.' ) }
@@ -71,24 +72,24 @@ class GeoMap extends React.Component {
 					<tbody>
 						<tr>
 							<th colSpan="2">
-								<h2>Geo IP: <a href={ "https://redirect.li/map/?ip=" + encodeURIComponent( ip ) } target="_blank">{ ip }</a> - IPv{ ipType }
+								<h2>{ __( 'Geo IP' ) }: <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } target="_blank" rel="noopener noreferrer">{ ip }</a> - IPv{ ipType }
 								</h2>
 							</th>
 						</tr>
 						<tr>
-							<th>City</th>
+							<th>{ __( 'City' ) }</th>
 							<td>{ city }</td>
 						</tr>
 						<tr>
-							<th>Area</th>
+							<th>{ __( 'Area' ) }</th>
 							<td>{ area.join( ', ' ) }</td>
 						</tr>
 						<tr>
-							<th>Timezone</th>
+							<th>{ __( 'Timezone' ) }</th>
 							<td>{ timeZone }</td>
 						</tr>
 						<tr>
-							<th>Geo Location</th>
+							<th>{ __( 'Geo Location' ) }</th>
 							<td>{ latitude + ',' + longitude + ' (~' + accuracyRadius + 'm)' }</td>
 						</tr>
 					</tbody>
@@ -121,22 +122,24 @@ class GeoMap extends React.Component {
 	}
 
 	renderLink() {
-		const { ip } = this.props;
-
 		return (
 			<div className="external">
 				{ __( 'Powered by {{link}}redirect.li{{/link}}', {
 					components: {
-						link: <a href="https://redirect.li" target="_blank" />
-					}
+						link: <a href="https://redirect.li" target="_blank" rel="noopener noreferrer" />,
+					},
 				} ) }
 			</div>
 		);
 	}
 
+	componentDidUpdate() {
+		this.props.parent.resize();
+	}
+
 	render() {
 		const { status } = this.props;
-		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[this.props.ip] && this.props.maps[this.props.ip].code !== 'geoip' );
+		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );
 		const klass = classnames( {
 			'geo-map': true,
 			'geo-map-loading': status === STATUS_IN_PROGRESS,
@@ -163,7 +166,7 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { status, error, maps } = state.map;
+	const { status, error, maps } = state.info;
 
 	return {
 		status,
