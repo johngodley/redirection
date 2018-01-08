@@ -18,6 +18,7 @@ import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
+import Useragent from 'component/useragent';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -35,6 +36,7 @@ class LogRow404 extends React.Component {
 			editing: false,
 			delete_log: false,
 			showMap: false,
+			showAgent: false,
 		};
 	}
 
@@ -100,13 +102,30 @@ class LogRow404 extends React.Component {
 		);
 	}
 
+	renderAgent() {
+		return (
+			<Modal show={ this.state.showAgent } onClose={ this.closeAgent } width="800">
+				<Useragent agent={ this.props.item.agent } />
+			</Modal>
+		);
+	}
+
 	showMap = ev => {
 		ev.preventDefault();
 		this.setState( { showMap: true } );
 	}
 
+	showAgent = ev => {
+		ev.preventDefault();
+		this.setState( { showAgent: true } );
+	}
+
 	closeMap = () => {
 		this.setState( { showMap: false } );
+	}
+
+	closeAgent = () => {
+		this.setState( { showAgent: false } );
 	}
 
 	renderIp( ip ) {
@@ -127,6 +146,18 @@ class LogRow404 extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
+		const menu = [
+			<a href="#" onClick={ this.handleDelete } key="0">{ __( 'Delete' ) }</a>,
+			<a href="#" onClick={ this.handleAdd } key="1">{ __( 'Add Redirect' ) }</a>,
+		];
+
+		if ( ip ) {
+			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );
+		}
+
+		if ( agent ) {
+			menu.unshift( <a href={ 'https://redirect.li/useragent/?agent=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+		}
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
@@ -140,14 +171,12 @@ class LogRow404 extends React.Component {
 				<td className="column-url column-primary">
 					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
 					<RowActions disabled={ isSaving }>
-						{ ip && <a href="#" onClick={ this.showMap }>{ __( 'Show Geo Info' ) }</a> }
-						{ ip && <span> | </span> }
-						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
-						<a href="#" onClick={ this.handleAdd }>{ __( 'Add Redirect' ) }</a>
+						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
 					</RowActions>
 
 					{ this.state.editing && this.renderEdit() }
 					{ this.state.showMap && this.renderMap() }
+					{ this.state.showAgent && this.renderAgent() }
 				</td>
 				<td className="column-referrer">
 					<Referrer url={ referrer } />
@@ -184,10 +213,10 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { status: mapStatus } = state.map;
+	const { status: infoStatus } = state.info;
 
 	return {
-		mapStatus,
+		infoStatus,
 	};
 }
 

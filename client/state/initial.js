@@ -9,7 +9,7 @@ import { getInitialIO } from 'state/io/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
 import { getInitialMessage } from 'state/message/initial';
-import { getInitialMap } from 'state/map/initial';
+import { getInitialInfo } from 'state/info/initial';
 
 export function initialActions( store ) {
 	return store;
@@ -24,6 +24,6 @@ export function getInitialState() {
 		group: getInitialGroup(),
 		redirect: getInitialRedirect(),
 		message: getInitialMessage(),
-		map: getInitialMap(),
+		info: getInitialInfo(),
 	};
 }

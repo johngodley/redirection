@@ -18,6 +18,7 @@ import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
+import Useragent from 'component/useragent';
 
 const Referrer = props => {
 	const { url } = props;
@@ -45,21 +46,22 @@ class LogRow extends React.Component {
 
 		this.state = {
 			showMap: false,
+			showAgent: false,
 		};
 	}
 
-	handleShow = ev => {
+	onShow = ev => {
 		ev.preventDefault();
-		props.onShowIP( ip );
+		this.props.onShowIP( this.props.item.ip );
 	}
 
-	handleSelected = () => {
-		props.onSetSelected( [ id ] );
+	onSelected = () => {
+		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
-	handleDelete = ev => {
+	onDelete = ev => {
 		ev.preventDefault();
-		props.onDelete( id );
+		this.props.onDelete( this.props.item.id );
 	}
 
 	renderIp = ipStr => {
@@ -80,13 +82,30 @@ class LogRow extends React.Component {
 		);
 	}
 
+	renderAgent() {
+		return (
+			<Modal show={ this.state.showAgent } onClose={ this.closeAgent } width="800">
+				<Useragent agent={ this.props.item.agent } />
+			</Modal>
+		);
+	}
+
 	showMap = ev => {
 		ev.preventDefault();
 		this.setState( { showMap: true } );
 	}
 
+	showAgent = ev => {
+		ev.preventDefault();
+		this.setState( { showAgent: true } );
+	}
+
 	closeMap = () => {
 		this.setState( { showMap: false } );
+	}
+
+	closeAgent = () => {
+		this.setState( { showAgent: false } );
 	}
 
 	render() {
@@ -95,11 +114,22 @@ class LogRow extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
+		const menu = [
+			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a>,
+		];
+
+		if ( ip ) {
+			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );
+		}
+
+		if ( agent ) {
+			menu.unshift( <a href={ 'https://redirect.li/useragent/?ip=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+		}
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">
@@ -110,12 +140,11 @@ class LogRow extends React.Component {
 					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
 
 					<RowActions disabled={ isSaving }>
-						{ ip && <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>{ __( 'Show Geo IP' ) }</a> }
-						{ ip && <span> | </span> }
-						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a>
+						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
 					</RowActions>
 
 					{ this.state.showMap && this.renderMap() }
+					{ this.state.showAgent && this.renderAgent() }
 				</td>
 				<td className="column-referrer">
 					<Referrer url={ referrer } />
@@ -126,13 +155,13 @@ class LogRow extends React.Component {
 					{ this.renderIp( ip ) }
 
 					<RowActions>
-						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Filter by IP' ) }</a> }
+						{ ip && <a href="#" onClick={ this.onShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
 				</td>
 			</tr>
 		);
 	}
-};
+}
 
 function mapDispatchToProps( dispatch ) {
 	return {
