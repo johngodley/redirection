@@ -34,7 +34,6 @@ const ipLogging = [
 	{ value: 1, text: __( 'Full IP logging' ) },
 	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
 ];
-const isMonitor = state => state.monitor_type_post || state.monitor_type_page || state.monitor_type_trash;
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -86,7 +85,7 @@ class OptionsForm extends React.Component {
 
 	renderMonitor( groups ) {
 		return (
-			<TableRow title={ __( 'URL Monitor Changes' ) + ':' }>
+			<TableRow title={ __( 'URL Monitor Changes' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
 				<Select items={ groups } name="monitor_post" value={ parseInt( this.state.monitor_post, 10 ) } onChange={ this.onChange } />
 				&nbsp;
 				{ __( 'Save changes to this group' ) }
@@ -124,6 +123,10 @@ class OptionsForm extends React.Component {
 		return types;
 	}
 
+	supportLink( rel, anchor ) {
+		return 'https://redirection.me/support/' + rel + '/?utm_source=redirection&utm_medium=plugin&utm_campaign=support' + ( anchor ? '&utm_term=' + anchor + '#' + anchor : '' );
+	}
+
 	render() {
 		const { groups, saveStatus, installed } = this.props;
 		const canMonitor = this.state.monitor_types.length > 0;
@@ -138,30 +141,30 @@ class OptionsForm extends React.Component {
 						</label>
 					</TableRow>
 
-					<TableRow title={ __( 'Redirect Logs' ) + ':' }>
+					<TableRow title={ __( 'Redirect Logs' ) + ':' } url={ this.supportLink( 'logs' ) }>
 						<Select items={ timeToKeep } name="expire_redirect" value={ parseInt( this.state.expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
-					<TableRow title={ __( '404 Logs' ) + ':' }>
+					<TableRow title={ __( '404 Logs' ) + ':' } url={ this.supportLink( 'tracking-404-errors' ) }>
 						<Select items={ timeToKeep } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
-					<TableRow title={ __( 'IP Logging' ) + ':' }>
+					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
 						<Select items={ ipLogging } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
 					</TableRow>
 
-					<TableRow title={ __( 'URL Monitor' ) + ':' }>
+					<TableRow title={ __( 'URL Monitor' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
 						{ this.renderPostTypes() }
 					</TableRow>
 
 					{ canMonitor && this.renderMonitor( groups ) }
 
-					<TableRow title={ __( 'RSS Token' ) + ':' }>
+					<TableRow title={ __( 'RSS Token' ) + ':' } url={ this.supportLink( 'options', 'rsstoken' ) }>
 						<input className="regular-text" type="text" value={ this.state.token } name="token" onChange={ this.onChange } /><br />
 						<span className="sub">{ __( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)' ) }</span>
 					</TableRow>
 
-					<TableRow title={ __( 'Auto-generate URL' ) + ':' }>
+					<TableRow title={ __( 'Auto-generate URL' ) + ':' } url={ this.supportLink( 'options', 'autogenerate' ) }>
 						<input className="regular-text" type="text" value={ this.state.auto_target } name="auto_target" onChange={ this.onChange } /><br />
 						<span className="sub">
 							{ __( 'Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID inserted', {
@@ -172,7 +175,7 @@ class OptionsForm extends React.Component {
 						</span>
 					</TableRow>
 
-					<TableRow title={ __( 'Apache Module' ) }>
+					<TableRow title={ __( 'Apache Module' ) } url={ this.supportLink( 'options', 'apache' ) }>
 						<label>
 							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } placeholder={ installed } /></p>
 
@@ -186,7 +189,7 @@ class OptionsForm extends React.Component {
 						</label>
 					</TableRow>
 
-					<TableRow title={ __( 'Redirect Cache' ) }>
+					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
 						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
 						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
