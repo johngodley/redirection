@@ -3,8 +3,8 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
-Tested up to: 4.9
-Stable tag: 2.10.1
+Tested up to: 4.9.1
+Stable tag: 3.0
 Requires PHP: 5.4
 License: GPLv3
 
@@ -139,7 +139,13 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Default to last group used when editing
 * Permissions changed from 'administrator' role to 'manage_options' capability
 * Swap to WP REST API
-* Swap IP map service
+* Add new IP map service
+* Add new useragent service
+* Add 'add new' button to redirect page
+* Increase 'title' length
+* Fix position not saving on creation
+* Fix log pages not remembering table settings
+* Fix incorrect column used for HTTP code when importing CSV
 
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors
