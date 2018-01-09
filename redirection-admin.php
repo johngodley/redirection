@@ -194,6 +194,20 @@ class Redirection_Admin {
 			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
 		) );
+
+		$this->add_help_tab();
+	}
+
+	private function add_help_tab() {
+		$title = __( 'Redirection Support', 'redirection' );
+		$content = sprintf( __( 'You can find full documentation about using Redirection on the <a href="%s" target="_blank">redirection.me</a> support site.', 'redirection' ), 'https://redirection.me/support/?utm_source=redirection&utm_medium=plugin&utm_campaign=context-help' );
+
+		$current_screen = get_current_screen();
+		$current_screen->add_help_tab( array(
+			'id'        => 'redirection',
+			'title'     => 'Redirection',
+			'content'   => "<h2>$title</h2><p>$content</p>",
+		) );
 	}
 
 	private function get_per_page() {

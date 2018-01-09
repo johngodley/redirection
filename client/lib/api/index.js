@@ -100,7 +100,8 @@ export const RedirectionApi = {
 };
 
 const getRedirectLiUrl = url => {
-	return 'http://localhost:5000/v1/' + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';
+	const base = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/v1/' : 'https://api.redirect.li/v1/';
+	return base + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';
 };
 
 export const RedirectLiApi = {
