@@ -131,7 +131,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.0 - Sometime =
+= 3.0 - 13th Jan 2018 =
 * Add support for IPv6
 * Add support for disabling or anonymising IP collection
 * Add support for monitoring custom post types
@@ -146,6 +146,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix position not saving on creation
 * Fix log pages not remembering table settings
 * Fix incorrect column used for HTTP code when importing CSV
+* Add support links from inside the plugin
 
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors
