@@ -47,7 +47,7 @@ function red_set_options( array $settings = array() ) {
 		}
 	}
 
-	if ( count( $monitor_types ) === 0 ) {
+	if ( isset( $settings['monitor_types'] ) && count( $monitor_types ) === 0 ) {
 		$options['monitor_post'] = 0;
 		$options['associated_redirect'] = '';
 	} elseif ( isset( $settings['monitor_post'] ) ) {
