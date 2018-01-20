@@ -3,6 +3,7 @@
 class Red_Monitor {
 	private $monitor_group_id;
 	private $updated_posts = array();
+	private $monitor_types = array();
 
 	function __construct( $options ) {
 		$this->monitor_types = apply_filters( 'redirection_monitor_types', isset( $options['monitor_types'] ) ? $options['monitor_types'] : array() );
@@ -30,7 +31,7 @@ class Red_Monitor {
 	}
 
 	public function can_monitor_post( $post, $post_before ) {
-		// Check this is the for the expected post
+		// Check this is for the expected post
 		if ( ! isset( $post->ID ) || ! isset( $this->updated_posts[ $post->ID ] ) ) {
             return false;
         }
@@ -40,7 +41,6 @@ class Red_Monitor {
 			return false;
 		}
 
-		// Hierarchical post? Do nothing
 		$type = get_post_type( $post->ID );
 		if ( ! in_array( $type, $this->monitor_types ) ) {
 			return false;
@@ -109,7 +109,7 @@ class Red_Monitor {
 
 	public function check_for_modified_slug( $post_id, $before ) {
 		$after  = parse_url( get_permalink( $post_id ), PHP_URL_PATH );
-		$before = esc_url( $before );
+		$before = parse_url( esc_url( $before ), PHP_URL_PATH );
 
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );

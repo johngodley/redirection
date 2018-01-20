@@ -53,7 +53,7 @@ function red_set_options( array $settings = array() ) {
 	} elseif ( isset( $settings['monitor_post'] ) ) {
 		$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
 
-		if ( ! Red_Group::get( $options['monitor_post'] ) ) {
+		if ( ! Red_Group::get( $options['monitor_post'] ) && $options['monitor_post'] !== 0 ) {
 			$groups = Red_Group::get_all();
 			$options['monitor_post'] = $groups[ 0 ]['id'];
 		}
@@ -111,6 +111,12 @@ function red_set_options( array $settings = array() ) {
 	if ( isset( $settings['location'] ) ) {
 		$module = Red_Module::get( 2 );
 		$options['modules'][2] = $module->update( $settings );
+	}
+
+	if ( !empty( $options['monitor_post'] ) && count( $options['monitor_types'] ) === 0 ) {
+		// If we have a monitor_post set, but no types, then blank everything
+		$options['monitor_post'] = 0;
+		$options['associated_redirect'] = '';
 	}
 
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );
