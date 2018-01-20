@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
-Tested up to: 4.9.1
+Tested up to: 4.9.2
 Stable tag: 3.0
 Requires PHP: 5.4
 License: GPLv3
@@ -131,7 +131,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.0 - 13th Jan 2018 =
+= 3.0 - 20th Jan 2018 =
 * Add support for IPv6
 * Add support for disabling or anonymising IP collection
 * Add support for monitoring custom post types
