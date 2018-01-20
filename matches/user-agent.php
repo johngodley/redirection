@@ -60,8 +60,12 @@ class Agent_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = unserialize( $values );
-		$this->url_from = $values['url_from'];
-		$this->url_notfrom = $values['url_notfrom'];
+
+		if ( isset( $values['url_from'] ) ) {
+			$this->url_from = $values['url_from'];
+			$this->url_notfrom = $values['url_notfrom'];
+		}
+
 		$this->regex = $values['regex'];
 		$this->agent = $values['agent'];
 	}
