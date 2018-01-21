@@ -1,17 +1,18 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.", "redirection" ), // client/component/error/index.js:161
-__( "Important details", "redirection" ), // client/component/error/index.js:160
-__( "Email", "redirection" ), // client/component/error/index.js:158
-__( "Create Issue", "redirection" ), // client/component/error/index.js:158
-__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:152
-__( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts.", "redirection" ), // client/component/error/index.js:150
-__( "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.", "redirection" ), // client/component/error/index.js:145
-__( "It didn't work when I tried again", "redirection" ), // client/component/error/index.js:144
-__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:141
-__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:123
-__( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again.", "redirection" ), // client/component/error/index.js:116
+__( "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.", "redirection" ), // client/component/error/index.js:165
+__( "Important details", "redirection" ), // client/component/error/index.js:164
+__( "Email", "redirection" ), // client/component/error/index.js:162
+__( "Create Issue", "redirection" ), // client/component/error/index.js:162
+__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:156
+__( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts.", "redirection" ), // client/component/error/index.js:154
+__( "See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.", "redirection" ), // client/component/error/index.js:149
+__( "It didn't work when I tried again", "redirection" ), // client/component/error/index.js:148
+__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:145
+__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:127
+__( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again.", "redirection" ), // client/component/error/index.js:120
+__( "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working", "redirection" ), // client/component/error/index.js:116
 __( "Your server has rejected the request for being too big. You will need to change it to continue.", "redirection" ), // client/component/error/index.js:112
 __( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:108
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:104
