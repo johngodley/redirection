@@ -112,6 +112,10 @@ class Error extends React.Component {
 				return __( 'Your server has rejected the request for being too big. You will need to change it to continue.' );
 			}
 
+			if ( item.code === 'disabled' || item.code === 'rest_disabled' ) {
+				return __( 'Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working' );
+			}
+
 			if ( item.message.indexOf( 'Unexpected token' ) !== -1 ) {
 				return __( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again." );
 			}
