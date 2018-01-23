@@ -28,7 +28,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 				'description' => 'Module ID',
 				'type' => 'integer',
 				'minimum' => 0,
-				'maximum' => 2,
+				'maximum' => 3,
 				'required' => true,
 			),
 			'name' => array(

@@ -214,7 +214,7 @@ class Redirection_Admin {
 	private function get_per_page() {
 		$per_page = intval( get_user_meta( get_current_user_id(), 'redirection_log_per_page', true ), 10 );
 
-		return $per_page > 0 ? min( $per_page, RED_MAX_PER_PAGE ) : RED_DEFAULT_PER_PAGE;
+		return $per_page > 0 ? max( 5, min( $per_page, RED_MAX_PER_PAGE ) ) : RED_DEFAULT_PER_PAGE;
 	}
 
 	private function get_i18n_data() {
