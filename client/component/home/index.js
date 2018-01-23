@@ -106,6 +106,7 @@ class Home extends React.Component {
 				<div className="notice notice-error">
 					<h2>{ __( 'Cached Redirection detected' ) }</h2>
 					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
+					<p><a href="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" target="_blank" rel="noreferrer noopener">{ __( 'More details.' ) }</a></p>
 					<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 				</div>
 			);

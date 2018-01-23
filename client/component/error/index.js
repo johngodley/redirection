@@ -104,11 +104,11 @@ class Error extends React.Component {
 				return __( 'WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.' );
 			}
 
-			if ( item.request.status === 403 ) {
+			if ( item.request && item.request.status === 403 ) {
 				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?' );
 			}
 
-			if ( item.request.status === 413 ) {
+			if ( item.request && item.request.status === 413 ) {
 				return __( 'Your server has rejected the request for being too big. You will need to change it to continue.' );
 			}
 
@@ -117,7 +117,7 @@ class Error extends React.Component {
 			}
 
 			if ( item.message.indexOf( 'Unexpected token' ) !== -1 ) {
-				return __( "WordPress returned an unexpected message. This usually indicates that a plugin or theme is outputting data when it shouldn't be. Please try disabling other plugins and try again." );
+				return __( 'WordPress returned an unexpected message. This could be caused by your REST API not working, or by another plugin or theme.' );
 			}
 
 			if ( item.message ) {
@@ -143,21 +143,53 @@ class Error extends React.Component {
 			<div className={ classes }>
 				<div className="closer" onClick={ this.onClick }>&#10006;</div>
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
+
 				{ this.getErrorMessage( errors ) }
 
-				<h3>{ __( "It didn't work when I tried again" ) }</h3>
-				<p>{ __( 'See if your problem is described on the list of outstanding {{link}}Redirection issues{{/link}}. Please add more details if you find the same problem.', {
+				<ol>
+					<li>
+						{ __( '{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it.', {
+							components: {
+								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/rest-api/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+							},
+						} ) }
+					</li>
+					<li>
+						{ __( '{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests.', {
+							components: {
+								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/security-software/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+							},
+						} ) }
+					</li>
+					<li>
+						{ __( '{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.', {
+							components: {
+								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+							},
+						} ) }
+					</li>
+					<li>
+						{ __( '{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.', {
+							components: {
+								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/plugins/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+							},
+						} ) }
+					</li>
+				</ol>
+				<h3>{ __( 'None of the suggestions helped' ) }</h3>
+				<p>{ __( 'Please take a look at your {{link}}plugin status{{/link}}. It may be able to identify and "magic fix" the problem.', {
 					components: {
-						link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />,
+						link: <a href="?page=redirection.php&sub=support" />,
 					},
 				} ) }</p>
-				<p>{ __( "If the issue isn't known then try disabling other plugins - it's easy to do, and you can re-enable them quickly. Other plugins can sometimes cause conflicts." ) }</p>
+
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
 						components: {
 							strong: <strong />,
 						},
-					} ) }</p>
+					} ) }
+				</p>
 
 				<p><a href={ github } className="button-primary">{ __( 'Create Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
 
