@@ -55,8 +55,15 @@ class Home extends React.Component {
 	}
 
 	onChangePage( page, url ) {
+		const { errors } = this.props;
+
 		if ( page === '' ) {
 			page = 'redirect';
+		}
+
+		if ( page === 'support' && errors.length > 0 ) {
+			document.location.href = url;
+			return;
 		}
 
 		history.pushState( {}, null, url );
@@ -176,7 +183,13 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
+function mapStateToProps( state ) {
+	return {
+		errors: state.message.errors,
+	};
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )( Home );
