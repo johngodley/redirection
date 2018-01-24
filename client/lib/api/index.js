@@ -9,8 +9,11 @@ const removeEmpty = item => Object.keys( item ).filter( key => item[ key ] ).red
 	return newObj;
 }, {} );
 
-const getRedirectionUrl = ( path, params ) => {
+const getRedirectionUrl = ( path, params = {} ) => {
 	const base = Redirectioni10n.WP_API_root + 'redirection/v1/' + path;
+
+	// Some servers dont pass the X-WP-Nonce through to PHP
+	params._wpnonce = Redirectioni10n.WP_API_nonce;
 
 	if ( params && Object.keys( params ).length > 0 ) {
 		params = removeEmpty( params );
