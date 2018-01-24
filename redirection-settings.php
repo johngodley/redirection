@@ -147,7 +147,7 @@ function red_get_options() {
 		'redirect_cache'      => 1,   // 1 hour
 		'ip_logging'          => 1,   // Full IP logging
 		'last_group_id'       => 0,
-		'rest_api'            => 0,
+		'rest_api'            => false,
 	) );
 
 	foreach ( $defaults as $key => $value ) {

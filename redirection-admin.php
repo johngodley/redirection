@@ -160,6 +160,7 @@ class Redirection_Admin {
 		global $wp_version;
 
 		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
+		$preload = $this->get_preload_data();
 		$options = red_get_options();
 		$versions = array(
 			'Plugin: '.REDIRECTION_VERSION,
@@ -168,9 +169,13 @@ class Redirection_Admin {
 			'Browser: '.Redirection_Request::get_user_agent(),
 			'REST API: '.red_get_rest_api(),
 		);
-		$preload = $this->get_preload_data();
 
 		$this->inject();
+
+		if ( $options['rest_api'] === false ) {
+			// Compatibility fix
+			$this->initial_set_api();
+		}
 
 		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
 			add_screen_option( 'per_page', array( 'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
@@ -204,6 +209,19 @@ class Redirection_Admin {
 		) );
 
 		$this->add_help_tab();
+	}
+
+	public function initial_set_api() {
+		include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
+
+		$fixer = new Red_Fixer();
+		$status = $fixer->get_rest_status();
+
+		if ( $status['status'] === 'problem' ) {
+			$fixer->fix_rest();
+		} else {
+			red_set_options( array( 'rest_api' => 0 ) );
+		}
 	}
 
 	private function run_fixit() {
@@ -402,7 +420,6 @@ class Redirection_Admin {
 	 * NOTE: nonce is checked by serve_request
 	 */
 	public function red_proxy() {
-		$_SERVER['HTTP_X_WP_NONCE'] = false;
 		if ( $this->user_has_access() && isset( $_GET['rest_path'] ) && substr( $_GET['rest_path'], 0, 15 ) === 'redirection/v1/' ) {
 			$server = rest_get_server();
 			$server->serve_request( '/'.$_GET['rest_path'] );

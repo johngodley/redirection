@@ -101,7 +101,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testDeleteAll() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'log', array( 'filter' => 'cat' ), 'DELETE' );
+		$result = $this->callApi( 'log', array( 'filter' => 'cat' ), 'POST' );
 		$result = $this->callApi( 'log' );
 
 		$this->assertEquals( 0, count( $result->data['items'] ) );
@@ -110,7 +110,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testDeleteFilter() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'log', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ), 'DELETE' );
+		$result = $this->callApi( 'log', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ), 'POST' );
 		$result = $this->callApi( 'log' );
 
 		$this->assertEquals( 4, count( $result->data['items'] ) );

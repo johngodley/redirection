@@ -4,6 +4,7 @@
  */
 
 global.console = { error: jest.fn() };
+global.Redirectioni10n = {};
 
 import reducer from 'state/settings/reducer';
 import { getInitialSettings } from 'state/settings/initial';

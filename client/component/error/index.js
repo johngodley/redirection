@@ -148,6 +148,13 @@ class Error extends React.Component {
 
 				<ol>
 					<li>
+						{ __( 'Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and "magic fix" the problem.', {
+							components: {
+								link: <a href="?page=redirection.php&sub=support" />,
+							},
+						} ) }
+					</li>
+					<li>
 						{ __( '{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it.', {
 							components: {
 								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/rest-api/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
@@ -177,12 +184,6 @@ class Error extends React.Component {
 					</li>
 				</ol>
 				<h3>{ __( 'None of the suggestions helped' ) }</h3>
-				<p>{ __( 'Please take a look at your {{link}}plugin status{{/link}}. It may be able to identify and "magic fix" the problem.', {
-					components: {
-						link: <a href="?page=redirection.php&sub=support" />,
-					},
-				} ) }</p>
-
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
 						components: {

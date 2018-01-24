@@ -41,7 +41,7 @@ class Red_Fixer {
 		return $result;
 	}
 
-	private function get_rest_status() {
+	public function get_rest_status() {
 		$status = array(
 			'name' => __( 'WordPress REST API', 'redirection' ),
 			'id' => 'rest',
@@ -80,9 +80,9 @@ class Red_Fixer {
 		return $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_items.id FROM {$wpdb->prefix}redirection_items LEFT JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id = {$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id IS NULL" );
 	}
 
-	private function fix_rest() {
+	public function fix_rest() {
 		// First check the default REST API
-		$result = $this->check_api( 'z'.get_rest_url() );
+		$result = $this->check_api( get_rest_url() );
 
 		if ( is_wp_error( $result ) ) {
 			// Try directly at index.php?rest_route
@@ -91,7 +91,7 @@ class Red_Fixer {
 
 			if ( is_wp_error( $result ) ) {
 				$rest_api = admin_url( 'admin-ajax.php' );
-				$response = wp_remote_get( $url );
+				$response = wp_remote_get( $rest_api );
 
 				if ( isset( $response['body'] ) && $response['body'] === '0' ) {
 					red_set_options( array( 'rest_api' => 2 ) );
