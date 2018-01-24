@@ -8,7 +8,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $filters, $orders ),
 			$this->get_route( WP_REST_Server::READABLE, 'route_log' ),
-			$this->get_route( WP_REST_Server::DELETABLE, 'route_delete_all' ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all' ),
 		) );
 
 		$this->register_bulk( $namespace, '/bulk/log/(?P<action>delete)', $filters, $filters, 'route_bulk' );

@@ -32,7 +32,7 @@ const apiRequest = url => ( {
 	credentials: 'same-origin',
 } );
 
-const deleteApiRequest = ( path, params ) => ( { ... apiRequest( getRedirectionUrl( path, params ) ), method: 'delete' } );
+const deleteApiRequest = ( path, params ) => ( { ... apiRequest( getRedirectionUrl( path, params ) ), method: 'post' } );
 const getApiRequest = ( path, params = {} ) => ( { ... apiRequest( getRedirectionUrl( path, params ) ), method: 'get' } );
 const uploadApiRequest = ( path, file ) => {
 	const request = { ... apiRequest( getRedirectionUrl( path ) ), method: 'post' };
