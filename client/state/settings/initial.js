@@ -1,3 +1,4 @@
+/* global Redirectioni10n */
 /**
  * Internal dependencies
  */
@@ -12,7 +13,7 @@ export function getInitialSettings() {
 		installed: '',
 		settings: {},
 		postTypes: [],
-		pluginStatus: [],
+		pluginStatus: Redirectioni10n.preload.pluginStatus ? Redirectioni10n.preload.pluginStatus : [],
 		canDelete: false,
 	};
 }

@@ -167,6 +167,7 @@ class Redirection_Admin {
 			'Browser: '.Redirection_Request::get_user_agent(),
 			'REST API: '.red_get_rest_api(),
 		);
+		$preload = $this->get_preload_data();
 
 		$this->inject();
 
@@ -192,11 +193,29 @@ class Redirection_Admin {
 			'localeSlug' => get_locale(),
 			'token' => $options['token'],
 			'autoGenerate' => $options['auto_target'],
+			'preload' => $preload,
 			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
 		) );
 
 		$this->add_help_tab();
+	}
+
+	private function get_preload_data() {
+		$page = '';
+		if ( isset( $_GET['sub'] ) && in_array( $_GET['sub'], array( 'group', '404s', 'log', 'io', 'options', 'support' ) ) ) {
+			$page = $_GET['sub'];
+		}
+
+		if ( $page === 'support' ) {
+			$api = new Redirection_Api_Plugin( REDIRECTION_API_NAMESPACE );
+
+			return array(
+				'pluginStatus' => $api->route_status( new WP_REST_Request() )
+			);
+		}
+
+		return array();
 	}
 
 	private function add_help_tab() {
@@ -370,13 +389,13 @@ class Redirection_Admin {
 
 	function inject() {
 		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
-			$this->tryExportLogs();
-			$this->tryExportRedirects();
-			$this->tryExportRSS();
+			$this->try_export_logs();
+			$this->try_export_redirects();
+			$this->try_export_rss();
 		}
 	}
 
-	function tryExportRSS() {
+	function try_export_rss() {
 		if ( isset( $_GET['token'] ) && $_GET['sub'] === 'rss' ) {
 			$options = red_get_options();
 
@@ -391,7 +410,7 @@ class Redirection_Admin {
 		}
 	}
 
-	private function tryExportLogs() {
+	private function try_export_logs() {
 		if ( $this->user_has_access() && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
 			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
 				RE_Log::export_to_csv();
@@ -403,7 +422,7 @@ class Redirection_Admin {
 		}
 	}
 
-	private function tryExportRedirects() {
+	private function try_export_redirects() {
 		if ( $this->user_has_access() && $_GET['sub'] === 'io' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
 			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
 
