@@ -92,7 +92,7 @@ export const RedirectionApi = {
 	plugin: {
 		status: () => getApiRequest( 'plugin' ),
 		fix: () => postApiRequest( 'plugin' ),
-		delete: () => deleteApiRequest( 'plugin' ),
+		delete: () => deleteApiRequest( 'plugin/delete' ),
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),

@@ -8,6 +8,9 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		register_rest_route( $namespace, '/plugin', array(
 			$this->get_route( WP_REST_Server::READABLE, 'route_status' ),
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_fixit' ),
+		) );
+
+		register_rest_route( $namespace, '/plugin/delete', array(
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete' ),
 		) );
 	}
