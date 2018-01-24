@@ -1,0 +1,13 @@
+{
+    "name": "johngodley/redirection",
+    "description": "Manage all your WordPress 301 redirects and monitor 404 errors",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "John Godley",
+            "email": "johngodley@johngodley.com"
+        }
+    ],
+    "require": {}
+}
