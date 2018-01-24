@@ -34,6 +34,11 @@ const ipLogging = [
 	{ value: 1, text: __( 'Full IP logging' ) },
 	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
 ];
+const restApi = [
+	{ value: 0, text: __( 'Default /wp-json/ (preferred)' ) },
+	{ value: 1, text: __( 'Raw /index.php?rest_route=/' ) },
+	{ value: 2, text: __( 'Proxy over Admin AJAX (danger!)' ) },
+];
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -192,6 +197,11 @@ class OptionsForm extends React.Component {
 					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
 						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
 						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
+					</TableRow>
+
+					<TableRow title={ __( 'REST API' ) } url={ this.supportLink( 'options', 'restapi' ) }>
+						<Select items={ restApi } name="rest_api" value={ parseInt( this.state.rest_api, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<span className="sub">{ __( 'How Redirection uses the REST API - danger, do not change unless you know exactly what you are doing!' ) }</span>
 					</TableRow>
 				</FormTable>
 

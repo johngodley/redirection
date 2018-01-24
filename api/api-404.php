@@ -7,7 +7,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 		register_rest_route( $namespace, '/404', array(
 			'args' => $this->get_filter_args( $filters, $filters ),
 			$this->get_route( WP_REST_Server::READABLE, 'route_404' ),
-			$this->get_route( WP_REST_Server::DELETABLE, 'route_delete_all' ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all' ),
 		) );
 
 		$this->register_bulk( $namespace, '/bulk/404/(?P<action>delete)', $filters, $filters, 'route_bulk' );

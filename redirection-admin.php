@@ -27,6 +27,7 @@ class Redirection_Admin {
 		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 		add_action( 'redirection_redirect_updated', array( $this, 'set_default_group' ), 10, 2 );
+		add_action( 'wp_ajax_red_proxy', array( $this, 'red_proxy' ) );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', array( $this, 'flying_solo' ), 10, 2 );
@@ -183,8 +184,12 @@ class Redirection_Admin {
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
 
+		if ( isset( $_POST['action'] ) && $_POST['action'] === 'fixit' && wp_verify_nonce( $_POST['_wpnonce'], 'wp_rest' ) ) {
+			$this->run_fixit();
+		}
+
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'WP_API_root' => esc_url_raw( get_rest_url() ),
+			'WP_API_root' => esc_url_raw( red_get_rest_api() ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
 			'pluginRoot' => admin_url( 'tools.php?page=redirection.php' ),
@@ -199,6 +204,15 @@ class Redirection_Admin {
 		) );
 
 		$this->add_help_tab();
+	}
+
+	private function run_fixit() {
+		if ( current_user_can( apply_filters( 'redirection_role', 'manage_options' ) ) ) {
+			include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
+
+			$fixer = new Red_Fixer();
+			$fixer->fix( $fixer->get_status() );
+		}
 	}
 
 	private function get_preload_data() {
@@ -381,6 +395,19 @@ class Redirection_Admin {
 	};
 </script>
 <?php
+	}
+
+	/**
+	 * Really wish I didnt have to do this...
+	 * NOTE: nonce is checked by serve_request
+	 */
+	public function red_proxy() {
+		$_SERVER['HTTP_X_WP_NONCE'] = false;
+		if ( $this->user_has_access() && isset( $_GET['rest_path'] ) && substr( $_GET['rest_path'], 0, 15 ) === 'redirection/v1/' ) {
+			$server = rest_get_server();
+			$server->serve_request( '/'.$_GET['rest_path'] );
+			die();
+		}
 	}
 
 	private function user_has_access() {
