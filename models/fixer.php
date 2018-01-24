@@ -93,10 +93,13 @@ class Red_Fixer {
 				$rest_api = admin_url( 'admin-ajax.php' );
 				$response = wp_remote_get( $rest_api );
 
-				if ( isset( $response['body'] ) && $response['body'] === '0' ) {
+				if ( ! is_wp_error( $result ) && isset( $response['body'] ) && $response['body'] === '0' ) {
 					red_set_options( array( 'rest_api' => 2 ) );
 					return true;
 				}
+
+				red_set_options( array( 'rest_api' => 0 ) );
+				return false;
 			}
 
 			// It worked! Save the URL
