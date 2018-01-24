@@ -122,6 +122,8 @@ export const RedirectLiApi = {
 	},
 };
 
+const getAction = ( data, request ) => data.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) + ' ' + request.method.toUpperCase();
+
 export const getApi = request => {
 	return fetch( request.url, request )
 		.then( data => {
@@ -132,7 +134,7 @@ export const getApi = request => {
 			if ( data.status && data.statusText !== undefined ) {
 				request.status = data.status;
 				request.statusText = data.statusText;
-				request.action = data.url.replace( Redirectioni10n.WP_API_root, '' ) + ' ' + request.method.toUpperCase();
+				request.action = getAction( data, request );
 			}
 
 			if ( data.headers.get( 'x-wp-nonce' ) ) {
