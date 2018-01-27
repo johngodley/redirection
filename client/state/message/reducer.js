@@ -50,6 +50,7 @@ const NOTICES = {
 	LOG_ITEM_SAVED: __( 'Log deleted' ),
 	SETTING_SAVED: __( 'Settings saved' ),
 	GROUP_ITEM_SAVED: __( 'Group saved' ),
+	ERROR_ITEM_SAVED: __( '404 deleted' ),
 };
 
 export default function messages( state = {}, action ) {
