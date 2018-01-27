@@ -42,7 +42,7 @@ class Error extends React.Component {
 			message.push( '' );
 			message.push( 'Error: ' + this.getErrorDetails( errors[ x ] ) );
 
-			if ( request ) {
+			if ( request && request.status && request.statusText ) {
 				message.push( 'Action: ' + request.action );
 
 				if ( request.params ) {

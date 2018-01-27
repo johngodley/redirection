@@ -52,18 +52,20 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function route_bulk( WP_REST_Request $request ) {
 		$action = $request['action'];
 
-		foreach ( $request['items'] as $item ) {
-			$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
+		if ( is_array( $request['items'] ) ) {
+			foreach ( $request['items'] as $item ) {
+				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
 
-			if ( $redirect ) {
-				if ( $action === 'delete' ) {
-					$redirect->delete();
-				} else if ( $action === 'disable' ) {
-					$redirect->disable();
-				} else if ( $action === 'enable' ) {
-					$redirect->enable();
-				} else if ( $action === 'reset' ) {
-					$redirect->reset();
+				if ( $redirect ) {
+					if ( $action === 'delete' ) {
+						$redirect->delete();
+					} else if ( $action === 'disable' ) {
+						$redirect->disable();
+					} else if ( $action === 'enable' ) {
+						$redirect->enable();
+					} else if ( $action === 'reset' ) {
+						$redirect->reset();
+					}
 				}
 			}
 		}

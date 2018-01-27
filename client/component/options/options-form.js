@@ -37,7 +37,7 @@ const ipLogging = [
 const restApi = [
 	{ value: 0, text: __( 'Default /wp-json/ (preferred)' ) },
 	{ value: 1, text: __( 'Raw /index.php?rest_route=/' ) },
-	{ value: 2, text: __( 'Proxy over Admin AJAX (danger!)' ) },
+	{ value: 2, text: __( 'Proxy over Admin AJAX (deprecated)' ) },
 ];
 
 class OptionsForm extends React.Component {
@@ -201,7 +201,7 @@ class OptionsForm extends React.Component {
 
 					<TableRow title={ __( 'REST API' ) } url={ this.supportLink( 'options', 'restapi' ) }>
 						<Select items={ restApi } name="rest_api" value={ parseInt( this.state.rest_api, 10 ) } onChange={ this.onChange } /> &nbsp;
-						<span className="sub">{ __( 'How Redirection uses the REST API - danger, do not change unless you know exactly what you are doing!' ) }</span>
+						<span className="sub">{ __( "How Redirection uses the REST API - don't change unless necessary" ) }</span>
 					</TableRow>
 				</FormTable>
 
