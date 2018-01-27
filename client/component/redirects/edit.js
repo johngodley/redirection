@@ -149,12 +149,17 @@ class EditRedirect extends React.Component {
 
 	getValidGroup( group_id ) {
 		const groups = this.props.group.rows;
+		const { table } = this.props;
 
 		if ( groups.find( item => item.id === group_id ) ) {
 			return group_id;
 		}
 
 		if ( groups.length > 0 ) {
+			if ( table.filterBy === 'group' && parseInt( table.filter, 10 ) > 0 ) {
+				return parseInt( table.filter, 10 );
+			}
+
 			const def = groups.find( item => item.default );
 
 			if ( def ) {
@@ -542,6 +547,7 @@ function mapStateToProps( state ) {
 	return {
 		group,
 		addTop: redirect.addTop,
+		table: redirect.table,
 	};
 }
 
