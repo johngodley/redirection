@@ -47,7 +47,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 		$this->setNonce();
 
 		$results = $this->callApi( 'plugin' );
-		$this->assertEquals( 'db', $results->data[1]['id'] );
+		$this->assertEquals( 'db', $results->data[2]['id'] );
 	}
 
 	public function testFixStatus() {
@@ -58,12 +58,12 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 
 		$results = $this->callApi( 'plugin' );
 
-		$this->assertEquals( 'groups', $results->data[2]['id'] );
-		$this->assertEquals( 'problem', $results->data[2]['status'] );
+		$this->assertEquals( 'groups', $results->data[3]['id'] );
+		$this->assertEquals( 'problem', $results->data[3]['status'] );
 
 		$results = $this->callApi( 'plugin', array(), 'POST' );
 
-		$this->assertEquals( 'groups', $results->data[2]['id'] );
-		$this->assertEquals( 'good', $results->data[2]['status'] );
+		$this->assertEquals( 'groups', $results->data[3]['id'] );
+		$this->assertEquals( 'good', $results->data[3]['status'] );
 	}
 }
