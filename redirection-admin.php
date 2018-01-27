@@ -164,7 +164,7 @@ class Redirection_Admin {
 		$options = red_get_options();
 		$versions = array(
 			'Plugin: '.REDIRECTION_VERSION,
-			'WordPress: '.$wp_version,
+			'WordPress: '.$wp_version.' ('.( is_multisite() ? 'multi' : 'single' ).')',
 			'PHP: '.phpversion(),
 			'Browser: '.Redirection_Request::get_user_agent(),
 			'REST API: '.red_get_rest_api(),
