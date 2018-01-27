@@ -166,12 +166,18 @@ function red_get_options() {
 
 function red_get_rest_api() {
 	$options = red_get_options();
+	$protocol = isset( $_SERVER['REQUEST_SCHEME'] ) ? $_SERVER['REQUEST_SCHEME'] : 'http';
 
-	if ( $options['rest_api'] === 1 ) {
-		return home_url( '/index.php?rest_route=/' );
-	} elseif ( $options['rest_api'] === 2 ) {
-		return admin_url( 'admin-ajax.php?action=red_proxy&rest_path=' );
+	if ( isset( $_SERVER['HTTPS'] ) ) {
+		$protocol = 'https';
 	}
 
-	return get_rest_url();
+	$url = get_rest_url();
+	if ( $options['rest_api'] === 1 ) {
+		$url = home_url( '/index.php?rest_route=/' );
+	} elseif ( $options['rest_api'] === 2 ) {
+		$url = admin_url( 'admin-ajax.php?action=red_proxy&rest_path=' );
+	}
+
+	return str_replace( 'http://', $protocol.'://', $url );
 }
