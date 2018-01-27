@@ -159,7 +159,10 @@ class Red_Item {
 			return $data;
 		}
 
-		$data['status'] = isset( $details['status'] ) && $details['status'] === 'disabled' ? 'disabled' : 'enabled';
+		$data['status'] = 'enabled';
+		if ( ( isset( $details['enabled'] ) && $details['enabled'] === 'disabled' ) || ( isset( $details['status'] ) && $details['status'] === 'disabled' ) ) {
+			$data['status'] = 'disabled';
+		}
 
 		if ( ! isset( $details['position'] ) || $details['position'] === 0 ) {
 			$data['position'] = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $data['group_id'] ) );
