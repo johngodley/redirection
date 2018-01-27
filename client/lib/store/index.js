@@ -54,8 +54,6 @@ export const createAction = ( endpoint, item, status ) => ( dispatch, getState )
 	table.page = 0;
 	table.orderby = 'id';
 	table.direction = 'desc';
-	table.filterBy = '';
-	table.filter = '';
 
 	return doAction( endpoint( item ), table, item, status, dispatch );
 };
