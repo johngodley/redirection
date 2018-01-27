@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-01-24 16:55:05+0000\n"
+"PO-Revision-Date: 2018-01-27 09:14:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #: redirection-strings.php:15
 msgid "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
-msgstr ""
+msgstr "Ditt WordPress REST API har inaktiverats. Du måste aktivera det för att Redirection ska fortsätta att fungera"
 
 #. Author URI of the plugin/theme
 msgid "https://johngodley.com"
@@ -21,11 +21,11 @@ msgstr "https://johngodley.com"
 
 #: redirection-strings.php:287
 msgid "Useragent Error"
-msgstr ""
+msgstr "Användaragentfel"
 
 #: redirection-strings.php:285
 msgid "Unknown Useragent"
-msgstr ""
+msgstr "Okänd användaragent"
 
 #: redirection-strings.php:284
 msgid "Device"
@@ -45,11 +45,11 @@ msgstr "Sökmotor"
 
 #: redirection-strings.php:280
 msgid "Useragent"
-msgstr ""
+msgstr "Useragent"
 
 #: redirection-strings.php:279
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #: redirection-strings.php:174
 msgid "No IP logging"
@@ -65,7 +65,7 @@ msgstr "Anonymisera IP-nummer (maska sista delen)"
 
 #: redirection-strings.php:167
 msgid "Monitor changes to %(type)s"
-msgstr ""
+msgstr "Övervaka ändringar till %(type)s"
 
 #: redirection-strings.php:161
 msgid "IP Logging"
@@ -73,15 +73,15 @@ msgstr "Läggning av IP-nummer"
 
 #: redirection-strings.php:160
 msgid "(select IP logging level)"
-msgstr ""
+msgstr "(välj loggningsnivå för IP)"
 
 #: redirection-strings.php:114 redirection-strings.php:123
 msgid "Geo Info"
-msgstr ""
+msgstr "Geo-info"
 
 #: redirection-strings.php:113 redirection-strings.php:122
 msgid "Agent Info"
-msgstr ""
+msgstr "Agentinfo"
 
 #: redirection-strings.php:112 redirection-strings.php:121
 msgid "Filter by IP"
@@ -89,19 +89,19 @@ msgstr "Filtrera på IP-nummer"
 
 #: redirection-strings.php:109 redirection-strings.php:118
 msgid "Referrer / User Agent"
-msgstr ""
+msgstr "Hänvisare/Användaragent"
 
 #: redirection-strings.php:31
 msgid "Geo IP Error"
-msgstr ""
+msgstr "Geo-IP-fel"
 
 #: redirection-strings.php:30 redirection-strings.php:286
 msgid "Something went wrong obtaining this information"
-msgstr ""
+msgstr "Något gick fel när denna information skulle hämtas"
 
 #: redirection-strings.php:28
 msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
-msgstr ""
+msgstr "Detta är en IP från ett privat nätverk. Det betyder att det ligger i ett hem- eller företagsnätverk och ingen mer information kan visas."
 
 #: redirection-strings.php:26
 msgid "No details are known for this address."
@@ -110,7 +110,7 @@ msgstr "Det finns inga kända detaljer för denna adress."
 #: redirection-strings.php:25 redirection-strings.php:27
 #: redirection-strings.php:29
 msgid "Geo IP"
-msgstr ""
+msgstr "Geo IP"
 
 #: redirection-strings.php:24
 msgid "City"
@@ -126,19 +126,19 @@ msgstr "Tidszon"
 
 #: redirection-strings.php:21
 msgid "Geo Location"
-msgstr ""
+msgstr "Geo-plats"
 
 #: redirection-strings.php:20 redirection-strings.php:278
 msgid "Powered by {{link}}redirect.li{{/link}}"
-msgstr ""
+msgstr "Drivs av {{link}}redirect.li{{/link}}"
 
 #: redirection-settings.php:7
 msgid "Trash"
-msgstr ""
+msgstr "Släng"
 
 #: redirection-admin.php:307
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
-msgstr ""
+msgstr "Observera att  Redirection kräver att WordPress REST API ska vara aktiverat. Om du har inaktiverat det här kommer du inte kunna använda  Redirection"
 
 #: redirection-admin.php:203
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."

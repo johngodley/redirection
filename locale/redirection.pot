@@ -567,7 +567,7 @@ msgid "Update"
 msgstr ""
 
 #: redirection-strings.php:155
-msgid "How Redirection uses the REST API - danger, do not change unless you know exactly what you are doing!"
+msgid "How Redirection uses the REST API - don't change unless necessary"
 msgstr ""
 
 #: redirection-strings.php:156
@@ -655,7 +655,7 @@ msgid "URL Monitor Changes"
 msgstr ""
 
 #: redirection-strings.php:178
-msgid "Proxy over Admin AJAX (danger!)"
+msgid "Proxy over Admin AJAX (deprecated)"
 msgstr ""
 
 #: redirection-strings.php:179
@@ -1047,18 +1047,22 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: redirection-strings.php:298
-msgid "Group saved"
+msgid "404 deleted"
 msgstr ""
 
 #: redirection-strings.php:299
-msgid "Settings saved"
+msgid "Group saved"
 msgstr ""
 
 #: redirection-strings.php:300
-msgid "Log deleted"
+msgid "Settings saved"
 msgstr ""
 
 #: redirection-strings.php:301
+msgid "Log deleted"
+msgstr ""
+
+#: redirection-strings.php:302
 msgid "Redirection saved"
 msgstr ""
 
@@ -1074,55 +1078,71 @@ msgstr ""
 msgid "The following tables are missing:"
 msgstr ""
 
-#: models/fixer.php:20
+#: models/fixer.php:21
 msgid "Database tables"
 msgstr ""
 
-#: models/fixer.php:22
+#: models/fixer.php:23
 msgid "Valid groups"
 msgstr ""
 
-#: models/fixer.php:24
+#: models/fixer.php:25
 msgid "No valid groups, so you will not be able to create any redirects"
 msgstr ""
 
-#: models/fixer.php:24
+#: models/fixer.php:25
 msgid "Valid groups detected"
 msgstr ""
 
-#: models/fixer.php:28
+#: models/fixer.php:29
 msgid "Valid redirect group"
 msgstr ""
 
-#: models/fixer.php:30
+#: models/fixer.php:31
 msgid "Redirects with invalid groups detected"
 msgstr ""
 
-#: models/fixer.php:30
+#: models/fixer.php:31
 msgid "All redirects have a valid group"
 msgstr ""
 
-#: models/fixer.php:34
+#: models/fixer.php:35
 msgid "Post monitor group"
 msgstr ""
 
-#: models/fixer.php:36
+#: models/fixer.php:37
 msgid "Post monitor group is invalid"
 msgstr ""
 
-#: models/fixer.php:46
+#: models/fixer.php:47
+msgid "Redirection routes"
+msgstr ""
+
+#: models/fixer.php:55
+msgid "Redirection does not appear in your REST API routes. Have you disabled it with a plugin?"
+msgstr ""
+
+#: models/fixer.php:58, models/fixer.php:67
+msgid "Redirection routes are working"
+msgstr ""
+
+#: models/fixer.php:73
+msgid "REST API is not working so routes not checked"
+msgstr ""
+
+#: models/fixer.php:81
 msgid "WordPress REST API"
 msgstr ""
 
-#: models/fixer.php:49
+#: models/fixer.php:84
 msgid "WordPress REST API is working at %s"
 msgstr ""
 
-#: models/fixer.php:140
+#: models/fixer.php:181
 msgid "Failed to fix database tables"
 msgstr ""
 
-#: models/fixer.php:148
+#: models/fixer.php:189
 msgid "Unable to create group"
 msgstr ""
 
@@ -1130,18 +1150,18 @@ msgstr ""
 msgid "Default WordPress \"old slugs\""
 msgstr ""
 
-#: models/redirect.php:434
+#: models/redirect.php:437
 msgid "Invalid redirect matcher"
 msgstr ""
 
-#: models/redirect.php:440
+#: models/redirect.php:443
 msgid "Invalid redirect action"
 msgstr ""
 
-#: models/redirect.php:498
+#: models/redirect.php:501
 msgid "Invalid group when creating redirect"
 msgstr ""
 
-#: models/redirect.php:508
+#: models/redirect.php:511
 msgid "Invalid source URL"
 msgstr ""

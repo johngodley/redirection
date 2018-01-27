@@ -152,7 +152,7 @@ __( "Redirection is free to use - life is wonderful and lovely! It has required 
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
 __( "Update", "redirection" ), // client/component/options/options-form.js:208
-__( "How Redirection uses the REST API - danger, do not change unless you know exactly what you are doing!", "redirection" ), // client/component/options/options-form.js:204
+__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/component/options/options-form.js:204
 __( "REST API", "redirection" ), // client/component/options/options-form.js:202
 __( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:199
 __( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:197
@@ -175,7 +175,7 @@ __( "Create associated redirect (added to end of URL)", "redirection" ), // clie
 __( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:98
 __( "Save changes to this group", "redirection" ), // client/component/options/options-form.js:96
 __( "URL Monitor Changes", "redirection" ), // client/component/options/options-form.js:93
-__( "Proxy over Admin AJAX (danger!)", "redirection" ), // client/component/options/options-form.js:40
+__( "Proxy over Admin AJAX (deprecated)", "redirection" ), // client/component/options/options-form.js:40
 __( "Raw /index.php?rest_route=/", "redirection" ), // client/component/options/options-form.js:39
 __( "Default /wp-json/ (preferred)", "redirection" ), // client/component/options/options-form.js:38
 __( "Anonymize IP (mask last part)", "redirection" ), // client/component/options/options-form.js:35
@@ -295,6 +295,7 @@ __( "Unknown Useragent", "redirection" ), // client/component/useragent/index.js
 __( "Something went wrong obtaining this information", "redirection" ), // client/component/useragent/index.js:30
 __( "Useragent Error", "redirection" ), // client/component/useragent/index.js:29
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Group saved", "redirection" ), // client/state/message/reducer.js:52
 __( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
 __( "Log deleted", "redirection" ), // client/state/message/reducer.js:50

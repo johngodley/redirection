@@ -135,9 +135,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add alternative REST API routes to help servers that block the API
 * Move DELETE API calls to POST, to help servers that block DELETE
 * Move API nonce to query param, to help servers that don't pass HTTP headers
-* Fix bug editing Nginx redirects
 * Improve error messaging
 * Preload support page so it can be used when REST API isn't working
+* Fix bug editing Nginx redirects
+* Fix import from JSON not setting status
 
 = 3.0.1 - 21st Jan 2018 =
 * Don't show warning if per page setting is greater than max
