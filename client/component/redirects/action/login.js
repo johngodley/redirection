@@ -28,26 +28,20 @@ class ActionLogin extends React.Component {
 
 	render() {
 		return (
-			<tr>
-				<td colSpan="2" className="no-margin">
-					<table>
-						<tbody>
-							<tr>
-								<th>{ __( 'Logged In' ) }</th>
-								<td>
-									<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.handleChangeIn } />
-								</td>
-							</tr>
-							<tr>
-								<th>{ __( 'Logged Out' ) }</th>
-								<td>
-									<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.handleChangeOut } />
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
+			<React.Fragment>
+				<tr>
+					<th>{ __( 'Logged In' ) }</th>
+					<td>
+						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.handleChangeIn } />
+					</td>
+				</tr>
+				<tr>
+					<th>{ __( 'Logged Out' ) }</th>
+					<td>
+						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.handleChangeOut } />
+					</td>
+				</tr>
+			</React.Fragment>
 		);
 	}
 }

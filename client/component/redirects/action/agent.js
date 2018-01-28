@@ -28,26 +28,20 @@ class ActionAgent extends React.Component {
 
 	render() {
 		return (
-			<tr>
-				<td colSpan="2" className="no-margin">
-					<table>
-						<tbody>
-							<tr>
-								<th>{ __( 'Matched Target' ) }</th>
-								<td>
-									<input type="text" name="url_from" value={ this.props.url_from } onChange={ this.handleChangeFrom } />
-								</td>
-							</tr>
-							<tr>
-								<th>{ __( 'Unmatched Target' ) }</th>
-								<td>
-									<input type="text" name="url_notfrom" value={ this.props.url_notfrom } onChange={ this.handleChangeNotFrom } />
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
+			<React.Fragment>
+				<tr>
+					<th>{ __( 'Matched Target' ) }</th>
+					<td>
+						<input type="text" name="url_from" value={ this.props.url_from } onChange={ this.handleChangeFrom } />
+					</td>
+				</tr>
+				<tr>
+					<th>{ __( 'Unmatched Target' ) }</th>
+					<td>
+						<input type="text" name="url_notfrom" value={ this.props.url_notfrom } onChange={ this.handleChangeNotFrom } />
+					</td>
+				</tr>
+			</React.Fragment>
 		);
 	}
 }

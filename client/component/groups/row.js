@@ -109,7 +109,7 @@ class GroupRow extends React.Component {
 	renderEdit() {
 		return (
 			<form onSubmit={ this.handleSave } >
-				<table className="edit">
+				<table className="edit-groups">
 					<tbody>
 						<tr>
 							<th width="70">{ __( 'Name' ) }</th>

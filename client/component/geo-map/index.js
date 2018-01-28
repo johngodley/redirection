@@ -28,7 +28,7 @@ class GeoMap extends React.Component {
 			<div className="modal-error">
 				<h2>{ __( 'Geo IP Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
-				<p>{ error.message }</p>
+				<p><code>{ error.message }</code></p>
 			</div>
 		);
 	}
@@ -142,7 +142,7 @@ class GeoMap extends React.Component {
 		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );
 		const klass = classnames( {
 			'geo-map': true,
-			'geo-map-loading': status === STATUS_IN_PROGRESS,
+			'modal-loading': status === STATUS_IN_PROGRESS,
 			'geo-map-small': status === STATUS_FAILED || isPrivate,
 		} );
 
