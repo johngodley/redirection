@@ -166,11 +166,6 @@ function red_get_options() {
 
 function red_get_rest_api() {
 	$options = red_get_options();
-	$protocol = isset( $_SERVER['REQUEST_SCHEME'] ) ? $_SERVER['REQUEST_SCHEME'] : 'http';
-
-	if ( isset( $_SERVER['HTTPS'] ) ) {
-		$protocol = 'https';
-	}
 
 	$url = get_rest_url();
 	if ( $options['rest_api'] === 1 ) {
@@ -179,5 +174,5 @@ function red_get_rest_api() {
 		$url = admin_url( 'admin-ajax.php?action=red_proxy&rest_path=' );
 	}
 
-	return str_replace( 'http://', $protocol.'://', $url );
+	return $url;
 }
