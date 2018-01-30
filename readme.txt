@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.4
 Tested up to: 4.9.2
-Stable tag: 3.1
+Stable tag: 3.1.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -130,6 +130,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Permissions changed from 'administrator' role to 'manage_options' capability
 
 == Changelog ==
+
+= 3.1.1 =
+* Fix problem fetching data on sites without https
 
 = 3.1 =
 * Add alternative REST API routes to help servers that block the API
