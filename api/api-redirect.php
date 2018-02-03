@@ -40,7 +40,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			$result = $redirect->update( $params );
 
 			if ( is_wp_error( $result ) ) {
-				return $this->add_error_details( $result, __LINE );
+				return $this->add_error_details( $result, __LINE__ );
 			}
 
 			return array( 'item' => $redirect->to_json() );
