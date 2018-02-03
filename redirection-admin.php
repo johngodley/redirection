@@ -167,6 +167,7 @@ class Redirection_Admin {
 			'WordPress: '.$wp_version.' ('.( is_multisite() ? 'multi' : 'single' ).')',
 			'PHP: '.phpversion(),
 			'Browser: '.Redirection_Request::get_user_agent(),
+			'JavaScript: '.plugin_dir_url( REDIRECTION_FILE ).'redirection.js',
 			'REST API: '.red_get_rest_api(),
 		);
 
