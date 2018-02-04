@@ -23,17 +23,16 @@ const CODE_NOTHING = 'nothing';
 const MATCH_URL = 'url';
 
 class RedirectRow extends React.Component {
+	static propTypes = {
+		item: PropTypes.object.isRequired,
+		selected: PropTypes.bool.isRequired,
+		status: PropTypes.string.isRequired,
+	};
+
 	constructor( props ) {
 		super( props );
 
 		this.state = { editing: false };
-
-		this.handleEdit = this.onEdit.bind( this );
-		this.handleDelete = this.onDelete.bind( this );
-		this.handleDisable = this.onDisable.bind( this );
-		this.handleEnable = this.onEnable.bind( this );
-		this.handleCancel = this.onCancel.bind( this );
-		this.handleSelected = this.onSelected.bind( this );
 	}
 
 	componentWillUpdate( nextProps ) {
@@ -42,32 +41,32 @@ class RedirectRow extends React.Component {
 		}
 	}
 
-	onEdit( ev ) {
+	onEdit = ev => {
 		ev.preventDefault();
 		this.setState( { editing: true } );
 	}
 
-	onCancel( ev ) {
+	onCancel = ev => {
 		ev.preventDefault();
 		this.setState( { editing: false } );
 	}
 
-	onDelete( ev ) {
+	onDelete = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'delete', this.props.item.id );
 	}
 
-	onDisable( ev ) {
+	onDisable = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'disable', this.props.item.id );
 	}
 
-	onEnable( ev ) {
+	onEnable = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'enable', this.props.item.id );
 	}
 
-	onSelected() {
+	onSelected = () => {
 		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
@@ -76,15 +75,15 @@ class RedirectRow extends React.Component {
 		const menu = [];
 
 		if ( enabled ) {
-			menu.push( [ __( 'Edit' ), this.handleEdit ] );
+			menu.push( [ __( 'Edit' ), this.onEdit ] );
 		}
 
-		menu.push( [ __( 'Delete' ), this.handleDelete ] );
+		menu.push( [ __( 'Delete' ), this.onDelete ] );
 
 		if ( enabled ) {
-			menu.push( [ __( 'Disable' ), this.handleDisable ] );
+			menu.push( [ __( 'Disable' ), this.onDisable ] );
 		} else {
-			menu.push( [ __( 'Enable' ), this.handleEnable ] );
+			menu.push( [ __( 'Enable' ), this.onEnable ] );
 		}
 
 		return menu
@@ -156,7 +155,7 @@ class RedirectRow extends React.Component {
 	renderEditColumns() {
 		return (
 			<td className="column-primary column-url" colSpan="4">
-				<EditRedirect item={ this.props.item } onCancel={ this.handleCancel } />
+				<EditRedirect item={ this.props.item } onCancel={ this.onCancel } />
 			</td>
 		);
 	}
@@ -194,7 +193,7 @@ class RedirectRow extends React.Component {
 		return (
 			<tr className={ classes }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-code">
@@ -206,12 +205,6 @@ class RedirectRow extends React.Component {
 		);
 	}
 }
-
-RedirectRow.propTypes = {
-	item: PropTypes.object.isRequired,
-	selected: PropTypes.bool.isRequired,
-	status: PropTypes.string.isRequired,
-};
 
 function mapDispatchToProps( dispatch ) {
 	return {

@@ -11,19 +11,14 @@ import PropTypes from 'prop-types';
  */
 
 class ActionLogin extends React.Component {
-	constructor( props ) {
-		super( props );
+	static propTypes = {
+		logged_in: PropTypes.string.isRequired,
+		logged_out: PropTypes.string.isRequired,
+		onChange: PropTypes.func.isRequired,
+	};
 
-		this.handleChangeIn = this.onChangeIn.bind( this );
-		this.handleChangeOut = this.onChangeOut.bind( this );
-	}
-
-	onChangeIn( ev ) {
-		this.props.onChange( 'login', 'logged_in', ev.target.value );
-	}
-
-	onChangeOut( ev ) {
-		this.props.onChange( 'login', 'logged_out', ev.target.value );
+	onChange = ev => {
+		this.props.onChange( 'login', ev.target.name, ev.target.value );
 	}
 
 	render() {
@@ -32,23 +27,18 @@ class ActionLogin extends React.Component {
 				<tr>
 					<th>{ __( 'Logged In' ) }</th>
 					<td>
-						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.handleChangeIn } />
+						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.onChange } placeholder={ __( 'Target URL when matched' ) } />
 					</td>
 				</tr>
 				<tr>
 					<th>{ __( 'Logged Out' ) }</th>
 					<td>
-						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.handleChangeOut } />
+						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.onChange } placeholder={ __( 'Target URL when not matched' ) } />
 					</td>
 				</tr>
 			</React.Fragment>
 		);
 	}
 }
-
-ActionLogin.propTypes = {
-	logged_in: PropTypes.string.isRequired,
-	logged_out: PropTypes.string.isRequired,
-};
 
 export default ActionLogin;
