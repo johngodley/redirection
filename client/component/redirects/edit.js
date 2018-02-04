@@ -432,7 +432,7 @@ class EditRedirect extends React.Component {
 						{ ACTIONS.filter( remover ).map( item => <option value={ item.value } key={ item.value }>{ item.name }</option> ) }
 					</select>
 
-					{ code && <span> <strong>{ __( 'with HTTP code' ) }</strong> { code }</span> }
+					{ code && <React.Fragment><strong className="small-flex">{ __( 'with HTTP code' ) }</strong> <span>{ code }</span></React.Fragment> }
 				</td>
 			</tr>
 		);
@@ -449,9 +449,13 @@ class EditRedirect extends React.Component {
 				<th>{ __( 'Group' ) }</th>
 				<td>
 					<Select name="group" value={ group_id } items={ nestedGroups( groups ) } onChange={ this.handleGroup } />
-					&nbsp;
-					{ advanced && <strong>{ __( 'Position' ) }</strong> }
-					{ advanced && <input type="number" value={ position } name="position" min="0" size="3" onChange={ this.handleChange } /> }
+
+					{ advanced &&
+						<span className="edit-redirection-position">
+							<strong>{ __( 'Position' ) }</strong>
+							<input type="number" value={ position } name="position" min="0" size="3" onChange={ this.handleChange } />
+						</span>
+					}
 				</td>
 			</tr>
 		);
@@ -494,8 +498,8 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ autoFocus } /> &nbsp;
-								<label>
+								<input type="text" name="url" value={ url } onChange={ this.handleChange } autoFocus={ autoFocus } />
+								<label className="edit-redirection-regex">
 									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 									&nbsp;
 									<input type="checkbox" name="regex" checked={ regex } onChange={ this.handleChange } />

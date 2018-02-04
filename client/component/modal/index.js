@@ -22,6 +22,12 @@ class Modal extends React.Component {
 	componentDidMount() {
 		this.height = 0;
 		this.resize();
+
+		document.body.classList.add( 'redirection-modal' );
+	}
+
+	componentWillUnmount() {
+		document.body.classList.remove( 'redirection-modal' );
 	}
 
 	componentWillReceiveProps() {
@@ -34,14 +40,13 @@ class Modal extends React.Component {
 
 	resize() {
 		if ( this.props.show ) {
-			let height = 5;
+			let height = 0;
 
 			for ( let x = 0; x < this.ref.children.length; x++ ) {
 				height += this.ref.children[ x ].clientHeight;
 			}
 
-			this.ref.style.height = height + 'px';
-			this.height = height - this.height;
+			this.ref.style.height = ( height ) + 'px';
 		}
 	}
 
@@ -56,7 +61,7 @@ class Modal extends React.Component {
 	};
 
 	render() {
-		const { show, onClose, width } = this.props;
+		const { show, onClose } = this.props;
 		const classes = classnames( {
 			'modal-wrapper': true,
 			'modal-wrapper-padding': this.props.padding,
@@ -66,7 +71,7 @@ class Modal extends React.Component {
 			return null;
 		}
 
-		const style = width ? { width: width + 'px' } : {};
+		const style = {};
 
 		if ( this.height ) {
 			style.height = this.height + 'px';

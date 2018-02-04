@@ -76,7 +76,7 @@ class LogRow extends React.Component {
 
 	renderMap() {
 		return (
-			<Modal show={ this.state.showMap } onClose={ this.closeMap } width="800" padding={ false }>
+			<Modal show={ this.state.showMap } onClose={ this.closeMap } padding={ false }>
 				<GeoMap ip={ this.props.item.ip } />
 			</Modal>
 		);

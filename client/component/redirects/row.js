@@ -153,8 +153,36 @@ class RedirectRow extends React.Component {
 		);
 	}
 
+	renderEditColumns() {
+		return (
+			<td className="column-primary column-url" colSpan="4">
+				<EditRedirect item={ this.props.item } onCancel={ this.handleCancel } />
+			</td>
+		);
+	}
+
+	renderViewColumns( isSaving ) {
+		const { url, hits, last_access, title, position } = this.props.item;
+
+		return (
+			<React.Fragment>
+				{ this.renderSource( url, title, isSaving ) }
+
+				<td className="column-position">
+					{ numberFormat( position ) }
+				</td>
+				<td className="column-last_count">
+					{ numberFormat( hits ) }
+				</td>
+				<td className="column_last_access">
+					{ last_access }
+				</td>
+			</React.Fragment>
+		);
+	}
+
 	render() {
-		const { id, url, hits, last_access, enabled, title, position } = this.props.item;
+		const { id, enabled } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -173,17 +201,7 @@ class RedirectRow extends React.Component {
 					{ this.getCode() }
 				</td>
 
-				{ this.state.editing ? <td className="column-primary column-url"><EditRedirect item={ this.props.item } onCancel={ this.handleCancel } /></td> : this.renderSource( url, title, isSaving ) }
-
-				<td className="column-position">
-					{ numberFormat( position ) }
-				</td>
-				<td className="column-last_count">
-					{ numberFormat( hits ) }
-				</td>
-				<td className="column_last_access">
-					{ last_access }
-				</td>
+				{ this.state.editing ? this.renderEditColumns() : this.renderViewColumns( isSaving ) }
 			</tr>
 		);
 	}

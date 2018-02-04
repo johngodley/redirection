@@ -50,8 +50,8 @@ class MatchAgent extends React.Component {
 		return (
 			<tr>
 				<th>{ __( 'User Agent' ) }</th>
-				<td>
-					<input type="text" name="agent" value={ this.props.agent } onChange={ this.handleChangeAgent } className="medium" /> &nbsp;
+				<td className="useraxgent-match">
+					<input type="text" name="agent" value={ this.props.agent } onChange={ this.handleChangeAgent } className="medium" />
 
 					<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
 						<option value="">{ __( 'Custom' ) }</option>
@@ -60,8 +60,8 @@ class MatchAgent extends React.Component {
 						<option value="lib">{ __( 'Libraries' ) }</option>
 					</select>
 
-					&nbsp; <label>
-						{ __( 'Regex' ) }
+					<label className="edit-redirection-regex">
+						{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 						&nbsp;
 						<input type="checkbox" name="regex" checked={ this.props.regex } onChange={ this.handleChangeRegex } />
 					</label>

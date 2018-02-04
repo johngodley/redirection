@@ -148,7 +148,7 @@ class Useragent extends React.Component {
 		const { status } = this.props;
 		const klass = classnames( {
 			useragent: true,
-			'useragent-loading': status === STATUS_IN_PROGRESS,
+			'modal-loading': status === STATUS_IN_PROGRESS,
 		} );
 
 		return (
