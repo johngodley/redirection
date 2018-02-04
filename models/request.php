@@ -51,4 +51,23 @@ class Redirection_Request {
 
 		return apply_filters( 'redirection_request_ip', $ip ? $ip : '' );
 	}
+
+	public static function get_cookie( $cookie ) {
+		if ( isset( $_COOKIE[ $cookie ] ) ) {
+			return apply_filters( 'redirection_request_cookie', $_COOKIE[ $cookie ], $cookie );
+		}
+
+		return false;
+	}
+
+	public static function get_header( $name ) {
+		$name = 'HTTP_'.strtoupper( $name );
+		$name = str_replace( '-', '_', $name );
+
+		if ( isset( $_SERVER[ $name ] ) ) {
+			return apply_filters( 'redirection_request_header', $_SERVER[ $name ], $name );
+		}
+
+		return false;
+	}
 }
