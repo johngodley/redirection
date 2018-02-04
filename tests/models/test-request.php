@@ -261,4 +261,33 @@ class RequestTest extends WP_UnitTestCase {
 		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '2000:420:22:0:10:226:260:3224', $result );
 	}
+
+	public function testMissingHeader() {
+		$result = Redirection_Request::get_header( 'test' );
+
+		$this->assertFalse( $result );
+	}
+
+	public function testHeader() {
+		$_SERVER['HTTP_TEST'] = 'test';
+
+		$result = Redirection_Request::get_header( 'test' );
+
+		$this->assertEquals( 'test', $result );
+		unset( $_SERVER['HTTP_TEST'] );
+	}
+
+	public function testMissingCookie() {
+		$result = Redirection_Request::get_cookie( 'cookie' );
+
+		$this->assertFalse( $result );
+	}
+
+	public function testCookie() {
+		$_COOKIE['cookie'] = 'cat';
+		$result = Redirection_Request::get_cookie( 'cookie' );
+
+		$this->assertEquals( 'cat', $result );
+		unset( $_COOKIE['cookie'] );
+	}
 }
