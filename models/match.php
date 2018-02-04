@@ -60,6 +60,9 @@ abstract class Red_Match {
 			'referrer' => 'referrer.php',
 			'agent'    => 'user-agent.php',
 			'login'    => 'login.php',
+			'header'   => 'http-header.php',
+			'custom'   => 'custom-filter.php',
+			'cookie'   => 'cookie.php',
 		 );
 	}
 }
