@@ -20,16 +20,27 @@ class WordPress_Module extends Red_Module {
 		add_action( 'send_headers',            array( $this, 'send_headers' ) );
 		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
 		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
-		add_action( 'template_redirect',       array( $this, 'template_redirect' ) );
-		//add_filter( 'status_header',           array( $this, 'status_header_404' ), 10, 4 );
+		add_filter( 'status_header',           array( $this, 'status_header_404' ), 10, 4 );
 		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
 		add_action( 'redirection_do_nothing',  array( $this, 'redirection_do_nothing' ) );
+		add_filter( 'redirect_canonical',      array( $this, 'redirect_canonical' ), 10, 2 );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 	}
 
-	// Replacement for template_redirect to catch all 404 situations, not just template_redirect
+	/**
+	 * This ensures that a matched URL is not overriddden by WordPress, if the URL happens to be a WordPress URL of some kind
+	 * For example: /?author=1 will be redirected to /author/name unless this returns false
+	 */
+	public function redirect_canonical( $redirect_url, $requested_url ) {
+		if ( $this->matched ) {
+			return false;
+		}
+
+		return $redirect_url;
+	}
+
 	public function status_header_404( $status_header, $code, $description, $protocol ) {
 		if ( $code === 404 ) {
 			$options = red_get_options();
@@ -84,16 +95,6 @@ class WordPress_Module extends Red_Module {
 		}
 
 		return false;
-	}
-
-	public function template_redirect() {
-		if ( is_404() )	{
-			$options = red_get_options();
-
-			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
-				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
-			}
-		}
 	}
 
 	public function status_header( $status ) {

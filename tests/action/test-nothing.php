@@ -20,7 +20,7 @@ class NothingTest extends WP_UnitTestCase {
 
 		$wp_query->is_404 = 1;
 		$module = Redirection::init()->get_module();
-		$module->template_redirect();
+		$module->status_header_404( '', 404, '', '' );
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 		$this->assertEquals( intval( $before, 10 ) + 1, intval( $after, 10 ) );
@@ -36,7 +36,7 @@ class NothingTest extends WP_UnitTestCase {
 		$action = Red_Action::create( 'nothing', 1 );
 
 		$action->process_before( 1, 'test' );
-		$module->template_redirect();
+		$module->status_header_404( '', 404, '', '' );
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 		$this->assertEquals( intval( $before, 10 ), intval( $after, 10 ) );
