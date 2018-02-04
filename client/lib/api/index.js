@@ -10,7 +10,7 @@ const removeEmpty = item => Object.keys( item ).filter( key => item[ key ] ).red
 }, {} );
 
 const getRedirectionUrl = ( path, params = {} ) => {
-	const base = Redirectioni10n.WP_API_root + 'redirection/v1/' + path;
+	const base = Redirectioni10n.WP_API_root + 'redirection/v1/' + path + '/';
 
 	// Some servers dont pass the X-WP-Nonce through to PHP
 	params._wpnonce = Redirectioni10n.WP_API_nonce;
@@ -29,7 +29,7 @@ const getRedirectionUrl = ( path, params = {} ) => {
 const apiRequest = url => ( {
 	url,
 	headers: new Headers( {
-		'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
+//		'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
 		'Content-Type': 'application/json',
 	} ),
 	credentials: 'same-origin',
@@ -122,9 +122,11 @@ export const RedirectLiApi = {
 	},
 };
 
-const getAction = ( data, request ) => data.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) + ' ' + request.method.toUpperCase();
+const getAction = request => request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) + ' ' + request.method.toUpperCase();
 
 export const getApi = request => {
+	request.action = getAction( request );
+
 	return fetch( request.url, request )
 		.then( data => {
 			if ( ! data || ! data.status ) {
@@ -134,7 +136,6 @@ export const getApi = request => {
 			if ( data.status && data.statusText !== undefined ) {
 				request.status = data.status;
 				request.statusText = data.statusText;
-				request.action = getAction( data, request );
 			}
 
 			if ( data.headers.get( 'x-wp-nonce' ) ) {
