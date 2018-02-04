@@ -97,7 +97,7 @@ class Redirection_Admin {
 
 		Red_Flusher::schedule();
 
-		if ( $version !== REDIRECTION_DB_VERSION ) {
+		if ( $version !== REDIRECTION_DB_VERSION || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
 			include_once dirname( REDIRECTION_FILE ).'/models/database.php';
 
 			$database = new RE_Database();
@@ -159,6 +159,8 @@ class Redirection_Admin {
 	function redirection_head() {
 		global $wp_version;
 
+		$this->check_rest_api();
+
 		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
 		$preload = $this->get_preload_data();
 		$options = red_get_options();
@@ -172,11 +174,6 @@ class Redirection_Admin {
 		);
 
 		$this->inject();
-
-		if ( $options['rest_api'] === false ) {
-			// Compatibility fix
-			$this->initial_set_api();
-		}
 
 		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
 			add_screen_option( 'per_page', array( 'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
@@ -212,16 +209,20 @@ class Redirection_Admin {
 		$this->add_help_tab();
 	}
 
-	public function initial_set_api() {
-		include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
+	public function check_rest_api() {
+		$options = red_get_options();
 
-		$fixer = new Red_Fixer();
-		$status = $fixer->get_rest_status();
+		if ( $options['version'] !== REDIRECTION_VERSION || $options['rest_api'] === false || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
+			include_once dirname( REDIRECTION_FILE ).'/models/fixer.php';
 
-		if ( $status['status'] === 'problem' ) {
-			$fixer->fix_rest();
-		} else {
-			red_set_options( array( 'rest_api' => 0 ) );
+			$fixer = new Red_Fixer();
+			$status = $fixer->get_rest_status();
+
+			if ( $status['status'] === 'problem' ) {
+				$fixer->fix_rest();
+			} elseif ( $options['rest_api'] === false ) {
+				red_set_options( array( 'rest_api' => 0 ) );
+			}
 		}
 	}
 

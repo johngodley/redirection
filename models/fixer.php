@@ -151,7 +151,7 @@ class Red_Fixer {
 	}
 
 	private function check_api( $url ) {
-		$response = wp_remote_get( $url, array( 'cookies' => $_COOKIE ) );
+		$response = wp_remote_get( $url.'redirection/v1/', array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
 		$http_code = wp_remote_retrieve_response_code( $response );
 
 		$specific = 'REST API returns an error code';
@@ -164,7 +164,7 @@ class Red_Fixer {
 				$specific = 'REST API returned invalid JSON data. This is probably an error page of some kind and indicates it has been disabled';
 			}
 		} elseif ( $http_code === 301 || $http_code === 302 ) {
-			$specific = 'REST API is being redirected. This indicates it has been disabled.';
+			$specific = 'REST API is being redirected. This indicates it has been disabled or you have a trailing slash redirect.';
 		} elseif ( $http_code === 404 ) {
 			$specific = 'REST API is returning 404 error. This indicates it has been disabled.';
 		}

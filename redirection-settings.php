@@ -148,6 +148,7 @@ function red_get_options() {
 		'ip_logging'          => 1,   // Full IP logging
 		'last_group_id'       => 0,
 		'rest_api'            => false,
+		'version'             => REDIRECTION_VERSION,
 	) );
 
 	foreach ( $defaults as $key => $value ) {
