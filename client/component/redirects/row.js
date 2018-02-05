@@ -131,7 +131,7 @@ class RedirectRow extends React.Component {
 		}
 
 		if ( regex ) {
-			return url;
+			return this.getUrl( url );
 		}
 
 		return <a href={ url } target="_blank" rel="noopener noreferrer">{ this.getUrl( url ) }</a>;
