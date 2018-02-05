@@ -86,7 +86,7 @@ class WordPress_Module extends Red_Module {
 	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
 	 */
 	private function protected_url( $url ) {
-		$rest = parse_url( get_rest_url() );
+		$rest = parse_url( red_get_rest_api() );
 		$rest_api = $rest['path'].( isset( $rest['query'] ) ? '?'.$rest['query'] : '' );
 
 		if ( substr( $url, 0, strlen( $rest_api ) ) === $rest_api ) {

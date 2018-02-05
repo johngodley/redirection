@@ -45,13 +45,14 @@ class Home extends React.Component {
 			clicked: 0,
 			stack: false,
 			error: REDIRECTION_VERSION !== Redirectioni10n.version,
+			info: false,
 		};
 
 		this.handlePageChange = this.onChangePage.bind( this );
 	}
 
-	componentDidCatch( error ) {
-		this.setState( { error: true, stack: error } );
+	componentDidCatch( error, info ) {
+		this.setState( { error: true, stack: error, info } );
 	}
 
 	onChangePage( page, url ) {
@@ -105,8 +106,13 @@ class Home extends React.Component {
 		const debug = [
 			Redirectioni10n.versions,
 			'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
+			'',
 			this.state.stack,
 		];
+
+		if ( this.state.info && this.state.info.componentStack ) {
+			debug.push( this.state.info.componentStack );
+		}
 
 		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
 			return (
@@ -146,7 +152,7 @@ class Home extends React.Component {
 						args: this.state.page,
 					} ) }
 				</p>
-				<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+				<p><textarea readOnly={ true } rows={ debug.length + 8 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
 	}

@@ -8,11 +8,42 @@ export const MATCH_URL = 'url';
 export const MATCH_LOGIN = 'login';
 export const MATCH_REFERRER = 'referrer';
 export const MATCH_AGENT = 'agent';
+export const MATCH_COOKIE = 'cookie';
+export const MATCH_HEADER = 'header';
+export const MATCH_CUSTOM = 'custom';
 
 export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
 
 export const getActionData = state => {
-	const { agent, referrer, login, match_type, target, action_type } = state;
+	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom } = state;
+
+	if ( match_type === MATCH_COOKIE ) {
+		return {
+			name: cookie.name,
+			value: cookie.value,
+			regex: cookie.regex,
+			url_from: hasUrlTarget( action_type ) ? cookie.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? cookie.url_notfrom : '',
+		};
+	}
+
+	if ( match_type === MATCH_HEADER ) {
+		return {
+			name: header.name,
+			value: header.value,
+			regex: header.regex,
+			url_from: hasUrlTarget( action_type ) ? header.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? header.url_notfrom : '',
+		};
+	}
+
+	if ( match_type === MATCH_CUSTOM ) {
+		return {
+			filter: custom.filter,
+			url_from: hasUrlTarget( action_type ) ? custom.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? custom.url_notfrom : '',
+		};
+	}
 
 	if ( match_type === MATCH_AGENT ) {
 		return {

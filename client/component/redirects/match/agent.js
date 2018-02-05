@@ -50,7 +50,7 @@ class MatchAgent extends React.Component {
 		return (
 			<tr>
 				<th>{ __( 'User Agent' ) }</th>
-				<td className="useraxgent-match">
+				<td className="useragent-match">
 					<input type="text" name="agent" value={ this.props.agent } onChange={ this.handleChangeAgent } className="medium" />
 
 					<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
