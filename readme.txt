@@ -35,12 +35,17 @@ In addition to straightforward URL matching you can redirect based on other cond
 - Login status - redirect only if the user is logged in or logged out
 - Browser - redirect if the user is using a certain browser
 - Referrer - redirect if the user visited the link from another page
+- Cookies - redirect if a particular cookie is set
+- HTTP headers - redirect based on a HTTP header
+- Custom filter - redirect based on your own WordPress filter
 
 = Full logging =
 
 A configurable logging option allows to view all redirects occurring on your site, including information about the visitor, the browser used, and the referrer. A 'hit' count is maintained for each redirect so you can see if a URL is being used.
 
 Logs can be exported for external viewing, and can be searched and filtered for more detailed investigation.
+
+Display geographic information about an IP address, as well as a full user agent information, to try and understand who the visitor is.
 
 = Track 404 errors =
 
