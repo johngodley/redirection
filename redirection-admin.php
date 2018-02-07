@@ -424,7 +424,7 @@ class Redirection_Admin {
 	public function red_proxy() {
 		if ( $this->user_has_access() && isset( $_GET['rest_path'] ) && substr( $_GET['rest_path'], 0, 15 ) === 'redirection/v1/' ) {
 			$server = rest_get_server();
-			$server->serve_request( '/'.$_GET['rest_path'] );
+			$server->serve_request( rtrim( '/'.$_GET['rest_path'], '/' ) );
 			die();
 		}
 	}
