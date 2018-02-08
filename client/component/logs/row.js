@@ -76,7 +76,7 @@ class LogRow extends React.Component {
 
 	renderMap() {
 		return (
-			<Modal show={ this.state.showMap } onClose={ this.closeMap } padding={ false }>
+			<Modal onClose={ this.closeMap } padding={ false }>
 				<GeoMap ip={ this.props.item.ip } />
 			</Modal>
 		);
@@ -84,7 +84,7 @@ class LogRow extends React.Component {
 
 	renderAgent() {
 		return (
-			<Modal show={ this.state.showAgent } onClose={ this.closeAgent } width="800">
+			<Modal onClose={ this.closeAgent } width="800">
 				<Useragent agent={ this.props.item.agent } />
 			</Modal>
 		);
@@ -123,7 +123,7 @@ class LogRow extends React.Component {
 		}
 
 		if ( agent ) {
-			menu.unshift( <a href={ 'https://redirect.li/useragent/?ip=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+			menu.unshift( <a href={ 'https://redirect.li/agent/?ip=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
 		}
 
 		return (

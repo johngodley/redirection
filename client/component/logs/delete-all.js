@@ -74,7 +74,7 @@ class DeleteAll extends React.Component {
 				<input className="button" type="submit" name="" value={ title } onClick={ this.onShow } />
 
 				{ this.state.isModal &&
-					<Modal show={ this.state.isModal } onClose={ this.onClose }>
+					<Modal onClose={ this.onClose }>
 						<div>
 							<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
 							<p>{ __( 'Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.' ) }</p>

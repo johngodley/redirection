@@ -75,7 +75,7 @@ class LogRow404 extends React.Component {
 
 	renderEdit() {
 		return (
-			<Modal show={ this.state.editing } onClose={ this.handleClose } width="700">
+			<Modal onClose={ this.handleClose } width="700">
 				<div className="add-new">
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave } autoFocus>
 						<tr>
@@ -96,7 +96,7 @@ class LogRow404 extends React.Component {
 
 	renderMap() {
 		return (
-			<Modal show={ this.state.showMap } onClose={ this.closeMap } padding={ false }>
+			<Modal onClose={ this.closeMap } padding={ false }>
 				<GeoMap ip={ this.props.item.ip } />
 			</Modal>
 		);
@@ -104,7 +104,7 @@ class LogRow404 extends React.Component {
 
 	renderAgent() {
 		return (
-			<Modal show={ this.state.showAgent } onClose={ this.closeAgent } width="800">
+			<Modal onClose={ this.closeAgent } width="800">
 				<Useragent agent={ this.props.item.agent } />
 			</Modal>
 		);
@@ -156,7 +156,7 @@ class LogRow404 extends React.Component {
 		}
 
 		if ( agent ) {
-			menu.unshift( <a href={ 'https://redirect.li/useragent/?agent=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+			menu.unshift( <a href={ 'https://redirect.li/agent/?agent=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
 		}
 
 		return (

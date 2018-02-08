@@ -7,6 +7,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class Modal extends React.Component {
+	static propTypes = {
+		onClose: PropTypes.func.isRequired,
+		children: PropTypes.node,
+		width: PropTypes.string,
+	};
+
 	static defaultProps = {
 		padding: true,
 	};
@@ -39,15 +45,13 @@ class Modal extends React.Component {
 	}
 
 	resize() {
-		if ( this.props.show ) {
-			let height = 0;
+		let height = 0;
 
-			for ( let x = 0; x < this.ref.children.length; x++ ) {
-				height += this.ref.children[ x ].clientHeight;
-			}
-
-			this.ref.style.height = ( height ) + 'px';
+		for ( let x = 0; x < this.ref.children.length; x++ ) {
+		height += this.ref.children[ x ].clientHeight;
 		}
+
+		this.ref.style.height = ( height ) + 'px';
 	}
 
 	onBackground( ev ) {
@@ -61,15 +65,11 @@ class Modal extends React.Component {
 	};
 
 	render() {
-		const { show, onClose } = this.props;
+		const { onClose } = this.props;
 		const classes = classnames( {
 			'modal-wrapper': true,
 			'modal-wrapper-padding': this.props.padding,
 		} );
-
-		if ( ! show ) {
-			return null;
-		}
 
 		const style = {};
 
@@ -93,12 +93,5 @@ class Modal extends React.Component {
 		);
 	}
 }
-
-Modal.propTypes = {
-	onClose: PropTypes.func.isRequired,
-	show: PropTypes.bool,
-	children: PropTypes.node,
-	width: PropTypes.string,
-};
 
 export default Modal;
