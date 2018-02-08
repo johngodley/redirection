@@ -22,7 +22,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 	}
 
 	const tableData = mergeWithTable( table, params );
-	const data = { ... { items: params.items.join( ',' ) }, ... extra };
+	const data = { ... { items: params.items }, ... extra };
 
 	getApi( endpoint( bulk, data, removeDefaults( table, status.order ) ) )
 		.then( json => {
