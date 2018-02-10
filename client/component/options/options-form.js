@@ -34,10 +34,12 @@ const ipLogging = [
 	{ value: 1, text: __( 'Full IP logging' ) },
 	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
 ];
-const restApi = [
-	{ value: 0, text: __( 'Default /wp-json/ (preferred)' ) },
+export const restApi = [
+	{ value: 0, text: __( 'Default /wp-json/' ) },
 	{ value: 1, text: __( 'Raw /index.php?rest_route=/' ) },
-	{ value: 2, text: __( 'Proxy over Admin AJAX (deprecated)' ) },
+	{ value: 2, text: __( 'Proxy over Admin AJAX' ) },
+	{ value: 3, text: __( 'Relative /wp-json/' ) },
+	{ value: 4, text: __( 'Form request' ) },
 ];
 
 class OptionsForm extends React.Component {

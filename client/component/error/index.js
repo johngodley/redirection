@@ -13,12 +13,17 @@ import { translate as __ } from 'lib/locale';
  */
 
 import { clearErrors } from 'state/message/action';
+import Select from 'component/wordpress/select';
+import { restApi } from 'component/options/options-form';
 
 class Error extends React.Component {
 	constructor( props ) {
 		super( props );
 
 		this.onClick = this.dismiss.bind( this );
+		this.state = {
+			rest_api: Redirectioni10n.api_setting,
+		};
 	}
 
 	componentWillUpdate( nextProps ) {
@@ -130,6 +135,10 @@ class Error extends React.Component {
 		return <p>{ Object.keys( [ {} ].concat( messages ).reduce( ( l, r ) => l[ r ] = l ) ) }</p>;
 	}
 
+	onChange = ev => {
+		this.setState( { rest_api: ev.target.value } );
+	}
+
 	renderError( errors ) {
 		const debug = this.getDebug( errors );
 		const classes = classnames( {
@@ -183,6 +192,16 @@ class Error extends React.Component {
 						} ) }
 					</li>
 				</ol>
+
+				<p>{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }</p>
+				<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
+					<Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
+
+					<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
+					<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
+					<input type="hidden" name="action" value="rest_api" />
+				</form>
+
 				<h3>{ __( 'None of the suggestions helped' ) }</h3>
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {

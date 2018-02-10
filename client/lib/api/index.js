@@ -19,7 +19,13 @@ const getRedirectionUrl = ( path, params = {} ) => {
 		params = removeEmpty( params );
 
 		if ( Object.keys( params ).length > 0 ) {
-			return base + ( Redirectioni10n.WP_API_root.indexOf( '?' ) === -1 ? '?' : '&' ) + querystring.stringify( params );
+			const querybase = base + ( Redirectioni10n.WP_API_root.indexOf( '?' ) === -1 ? '?' : '&' ) + querystring.stringify( params );
+
+			if ( Redirectioni10n.WP_API_root.indexOf( 'page=redirection.php' ) !== -1 ) {
+				return querybase.replace( /page=(\d+)/, 'ppage=$1' );
+			}
+
+			return querybase;
 		}
 	}
 
@@ -123,6 +129,33 @@ export const RedirectLiApi = {
 };
 
 const getAction = request => request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) + ' ' + request.method.toUpperCase();
+const getErrorMessage = json => {
+	if ( json === 0 ) {
+		return 'Admin AJAX returned 0';
+	}
+
+	if ( json.message ) {
+		return json.message;
+	}
+
+	return 'Unknown error ' + json;
+};
+
+const getErrorCode = json => {
+	if ( json.error_code ) {
+		return json.error_code;
+	}
+
+	if ( json.data && json.data.error_code ) {
+		return json.data.error_code;
+	}
+
+	if ( json === 0 ) {
+		return 'admin-ajax';
+	}
+
+	return 'unknown';
+};
 
 export const getApi = request => {
 	request.action = getAction( request );
@@ -151,7 +184,11 @@ export const getApi = request => {
 				const json = JSON.parse( text );
 
 				if ( request.status && request.status !== 200 ) {
-					throw { message: json.message, code: json.error_code ? json.error_code : json.data.error_code, request, data: json.data ? json.data : null };
+					throw { message: getErrorMessage( json ), code: getErrorCode( json ), request, data: json.data ? json.data : null };
+				}
+
+				if ( json === 0 ) {
+					throw { message: 'Failed to get data', code: 'json-zero' };
 				}
 
 				return json;

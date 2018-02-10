@@ -86,13 +86,9 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 			'args' => array_merge( $this->get_filter_args( $filters, $orders ), array(
 				'items' => array(
 					'description' => 'Array of item IDs to perform action on',
-					'type' => 'array',
+					'type' => 'string',
 					'required' => true,
-					'items' => array(
-						'type' => 'integer',
-						'minumum' => 1,
-					)
-				)
+				),
 			) ),
 		) );
 	}

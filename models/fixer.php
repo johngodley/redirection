@@ -50,7 +50,8 @@ class Red_Fixer {
 		);
 
 		if ( $status['status'] === 'good' ) {
-			$rest_api = red_get_rest_api();
+			$rest_api = $this->normalize_url( red_get_rest_api().'redirection/v1/' );
+			$rest_api = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $rest_api );
 
 			$result['message'] = __( 'Redirection does not appear in your REST API routes. Have you disabled it with a plugin?', 'redirection' );
 
@@ -58,7 +59,7 @@ class Red_Fixer {
 				$result['message'] = __( 'Redirection routes are working', 'redirection' );
 				$result['status'] = 'good';
 			} else {
-				$response = wp_remote_get( $rest_api, array( 'cookies' => $_COOKIE ) );
+				$response = wp_remote_get( $rest_api, array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
 
 				if ( $response && is_array( $response ) && isset( $response['body'] ) ) {
 					$json = @json_decode( $response['body'], true );
@@ -150,8 +151,20 @@ class Red_Fixer {
 		return true;
 	}
 
+	private function normalize_url( $url ) {
+		if ( substr( $url, 0, 4 ) !== 'http' ) {
+			$parts = parse_url( get_site_url() );
+			$url = ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'http' ).'://'.$parts['host'].$url;
+		}
+
+		return $url;
+	}
+
 	private function check_api( $url ) {
-		$response = wp_remote_get( $url.'redirection/v1/', array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
+		$url = $this->normalize_url( $url.'redirection/v1/' );
+		$request_url = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $url );
+
+		$response = wp_remote_get( $request_url, array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
 		$http_code = wp_remote_retrieve_response_code( $response );
 
 		$specific = 'REST API returns an error code';

@@ -161,6 +161,25 @@ class Redirection_Admin {
 
 		$this->check_rest_api();
 
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wp_rest' ) ) {
+			if ( $_REQUEST['action'] === 'fixit' ) {
+				$this->run_fixit();
+			} else if ( $_REQUEST['action'] === 'rest_api' ) {
+				$this->set_rest_api( intval( $_REQUEST['rest_api'], 10 ) );
+			} else if ( $_REQUEST['action'] === 'red_proxy' ) {
+				// Hack to get around clash with WP page param
+				if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' ) {
+					unset( $_GET['page'] );
+				}
+
+				if ( isset( $_GET['ppage'] ) ) {
+					$_GET['page'] = $_GET['ppage'];
+				}
+
+				$this->red_proxy();
+			}
+		}
+
 		$build = REDIRECTION_VERSION.'-'.REDIRECTION_BUILD;
 		$preload = $this->get_preload_data();
 		$options = red_get_options();
@@ -187,10 +206,6 @@ class Redirection_Admin {
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ).'redirection.css', array(), $build );
 
-		if ( isset( $_POST['action'] ) && $_POST['action'] === 'fixit' && wp_verify_nonce( $_POST['_wpnonce'], 'wp_rest' ) ) {
-			$this->run_fixit();
-		}
-
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => esc_url_raw( red_get_rest_api() ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
@@ -204,6 +219,7 @@ class Redirection_Admin {
 			'preload' => $preload,
 			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
+			'api_setting' => $options['rest_api'],
 		) );
 
 		$this->add_help_tab();
@@ -232,6 +248,12 @@ class Redirection_Admin {
 
 			$fixer = new Red_Fixer();
 			$fixer->fix( $fixer->get_status() );
+		}
+	}
+
+	private function set_rest_api( $api ) {
+		if ( $api >= 0 && $api <= REDIRECTION_API_POST ) {
+			red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
 		}
 	}
 
