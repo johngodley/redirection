@@ -15,7 +15,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_update' ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/redirect/(?P<action>delete|enable|disable|reset)', $filters, $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $filters, $orders, 'route_bulk' );
 	}
 
 	public function route_list( WP_REST_Request $request ) {
@@ -50,10 +50,11 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_bulk( WP_REST_Request $request ) {
-		$action = $request['action'];
+		$action = $request['bulk'];
+		$items = explode( ',', $request['items'] );
 
-		if ( is_array( $request['items'] ) ) {
-			foreach ( $request['items'] as $item ) {
+		if ( is_array( $items ) ) {
+			foreach ( $items as $item ) {
 				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
 
 				if ( $redirect ) {
@@ -68,8 +69,10 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 					}
 				}
 			}
+
+			return $this->route_list( $request );
 		}
 
-		return $this->route_list( $request );
+		return $this->add_error_details( new WP_Error( 'redirect', 'Invalid array of items' ), __LINE__ );
 	}
 }

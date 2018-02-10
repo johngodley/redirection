@@ -11,7 +11,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all' ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/log/(?P<action>delete)', $filters, $filters, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/log/(?P<bulk>delete)', $filters, $filters, 'route_bulk' );
 	}
 
 	public function route_log( WP_REST_Request $request ) {
@@ -19,8 +19,15 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_bulk( WP_REST_Request $request ) {
-		array_map( array( 'RE_Log', 'delete' ), $request['items'] );
-		return $this->route_log( $request );
+		$items = explode( ',', $request['items'] );
+
+		if ( is_array( $items ) ) {
+			$items = array_map( 'intval', $items );
+			array_map( array( 'RE_Log', 'delete' ), $items );
+			return $this->route_log( $request );
+		}
+
+		return $this->add_error_details( new WP_Error( 'redirect', 'Invalid array of items' ), __LINE__ );
 	}
 
 	public function route_delete_all( WP_REST_Request $request ) {

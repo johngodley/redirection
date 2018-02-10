@@ -19,7 +19,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_update' ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/group/(?P<action>delete|enable|disable)', $filters, $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/group/(?P<bulk>delete|enable|disable)', $filters, $orders, 'route_bulk' );
 	}
 
 	private function get_group_args() {
@@ -70,23 +70,27 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_bulk( WP_REST_Request $request ) {
-		$action = $request['action'];
-		$items = $request['items'];
+		$action = $request['bulk'];
+		$items = explode( ',', $request['items'] );
 
-		foreach ( $items as $item ) {
-			$group = Red_Group::get( intval( $item, 10 ) );
+		if ( is_array( $items ) ) {
+			foreach ( $items as $item ) {
+				$group = Red_Group::get( intval( $item, 10 ) );
 
-			if ( $group ) {
-				if ( $action === 'delete' ) {
-					$group->delete();
-				} else if ( $action === 'disable' ) {
-					$group->disable();
-				} else if ( $action === 'enable' ) {
-					$group->enable();
+				if ( $group ) {
+					if ( $action === 'delete' ) {
+						$group->delete();
+					} else if ( $action === 'disable' ) {
+						$group->disable();
+					} else if ( $action === 'enable' ) {
+						$group->enable();
+					}
 				}
 			}
+
+			return $this->route_list( $request );
 		}
 
-		return $this->route_list( $request );
+		return $this->add_error_details( new WP_Error( 'redirect', 'Invalid array of items' ), __LINE__ );
 	}
 }
