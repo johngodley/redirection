@@ -85,8 +85,8 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, $callback ),
 			'args' => array_merge( $this->get_filter_args( $filters, $orders ), array(
 				'items' => array(
-					'description' => 'Array of item IDs to perform action on',
-					'type' => 'string',
+					'description' => 'Comma separated list of item IDs to perform action on',
+					'type' => 'string|integer',
 					'required' => true,
 				),
 			) ),

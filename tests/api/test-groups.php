@@ -136,8 +136,8 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'bulk/group/cats', array( 'items' => $group->get_id() ), 'POST' );
 		$this->assertEquals( 'rest_no_route', $result->data['code'] );
 
-		$result = $this->callApi( 'bulk/group/delete', array( 'items' => 'x' ), 'POST' );
-		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+		// $result = $this->callApi( 'bulk/group/delete', array( 'items' => 'x' ), 'POST' );
+		// $this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testBulkDelete() {
