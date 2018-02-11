@@ -36,7 +36,7 @@ const apiRequest = url => ( {
 	url,
 	headers: new Headers( {
 //		'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
-		'Content-Type': 'application/json',
+		'Content-Type': 'application/json; charset=utf-8',
 	} ),
 	credentials: 'same-origin',
 } );
