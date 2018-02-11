@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
-Tested up to: 4.9.2
+Tested up to: 4.9.4
 Stable tag: 3.2
 Requires PHP: 5.4
 License: GPLv3
@@ -136,14 +136,16 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.2 XXXX =
+= 3.2 - 11th February 2018 =
 * Add cookie match - redirect based on a cookie
 * Add HTTP header match - redirect based on an HTTP header
 * Add custom filter match - redirect based on a custom WordPress filter
-* Fix double include error on some sites
 * Add detection of REST API redirect, causing 'fetch error' on some sites
 * Update table responsiveness
 * Allow redirects for canonical WordPress URLs
+* Fix double include error on some sites
+* Fix delete action on some sites
+* Fix trailing slash redirect of API on some sites
 
 = 3.1.1 - 29th January 2018 =
 * Fix problem fetching data on sites without https
