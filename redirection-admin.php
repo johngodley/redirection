@@ -308,7 +308,7 @@ class Redirection_Admin {
 	}
 
 	function admin_menu() {
-		$hook = add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'administrator' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
+		$hook = add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'manage_options' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
 		add_action( 'load-'.$hook, array( $this, 'redirection_head' ) );
 	}
 
