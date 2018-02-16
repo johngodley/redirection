@@ -195,7 +195,7 @@ class Error extends React.Component {
 
 				<p>{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }</p>
 				<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-					<Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
+					REST API: <Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
 
 					<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
 					<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
