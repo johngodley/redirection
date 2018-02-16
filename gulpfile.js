@@ -14,7 +14,7 @@ const crypto = require( 'crypto' );
 const through = require( 'through2' );
 const pkg = require( './package.json' );
 
-const LOCALE_PERCENT_COMPLETE = 50;
+const LOCALE_PERCENT_COMPLETE = 40;
 const AVAILABLE_LANGUAGES_URL = 'https://translate.wordpress.org/api/projects/wp-plugins/redirection/stable';
 const LOCALE_URL = 'https://translate.wordpress.org/projects/wp-plugins/redirection/stable/$LOCALE/default/export-translations?format=';
 const SVN_SOURCE_FILES = [
