@@ -37,6 +37,7 @@ class Redirection_Admin {
 		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
+		$this->run_hacks();
 	}
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
@@ -223,6 +224,30 @@ class Redirection_Admin {
 		) );
 
 		$this->add_help_tab();
+	}
+
+	// Some plugins misbehave, so this attempts to 'fix' them so Redirection can get on with it's work
+	private function run_hacks() {
+		add_filter( 'ip-geo-block-admin', array( $this, 'ip_geo_block' ) );
+	}
+
+	/**
+	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
+	 */
+	public function ip_geo_block( $validate ) {
+		$url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+		$override = array(
+			'tools.php?page=redirection.php',
+			'action=red_proxy&rest_path=redirection',
+		);
+
+		foreach ( $override as $path ) {
+			if ( strpos( $url, $path ) !== false ) {
+				return array( 'result' => 'passed', 'auth' => false, 'asn' => false, 'code' => false, 'ip' => false );
+			}
+		}
+
+		return $validate;
 	}
 
 	public function check_rest_api() {
