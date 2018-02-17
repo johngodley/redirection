@@ -50,24 +50,16 @@ class Red_Fixer {
 		);
 
 		if ( $status['status'] === 'good' ) {
-			$rest_api = $this->normalize_url( red_get_rest_api().'redirection/v1/' );
-			$rest_api = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $rest_api );
+			$response = $this->request_from_api( red_get_rest_api() );
 
 			$result['message'] = __( 'Redirection does not appear in your REST API routes. Have you disabled it with a plugin?', 'redirection' );
 
-			if ( strpos( $rest_api, 'admin-ajax.php' ) !== false ) {
-				$result['message'] = __( 'Redirection routes are working', 'redirection' );
-				$result['status'] = 'good';
-			} else {
-				$response = wp_remote_get( $rest_api, array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
+			if ( $response && is_array( $response ) && isset( $response['body'] ) ) {
+				$json = @json_decode( $response['body'], true );
 
-				if ( $response && is_array( $response ) && isset( $response['body'] ) ) {
-					$json = @json_decode( $response['body'], true );
-
-					if ( isset( $json['routes']['/redirection/v1'] ) ) {
-						$result['message'] = __( 'Redirection routes are working', 'redirection' );
-						$result['status'] = 'good';
-					}
+				if ( isset( $json['routes']['/redirection/v1'] ) ) {
+					$result['message'] = __( 'Redirection routes are working', 'redirection' );
+					$result['status'] = 'good';
 				}
 			}
 		} else {
@@ -130,7 +122,7 @@ class Red_Fixer {
 
 			if ( is_wp_error( $result ) ) {
 				$rest_api = admin_url( 'admin-ajax.php' );
-				$response = wp_remote_get( $rest_api );
+				$response = $this->request_from_api( $rest_api );
 
 				if ( is_array( $response ) && isset( $response['body'] ) && $response['body'] === '0' ) {
 					red_set_options( array( 'rest_api' => 2 ) );
@@ -160,11 +152,20 @@ class Red_Fixer {
 		return $url;
 	}
 
-	private function check_api( $url ) {
+	private function request_from_api( $url ) {
 		$url = $this->normalize_url( $url.'redirection/v1/' );
-		$request_url = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $url );
+		$url = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $url );
+		$options = array( 'cookies' => $_COOKIE, 'redirection' => 0 );
 
-		$response = wp_remote_get( $request_url, array( 'cookies' => $_COOKIE, 'redirection' => 0 ) );
+		if ( Redirection_Request::get_user_agent() ) {
+			$options['user-agent'] = Redirection_Request::get_user_agent();
+		}
+
+		return wp_remote_get( $url, $options );
+	}
+
+	private function check_api( $url ) {
+		$response = $this->request_from_api( $url );
 		$http_code = wp_remote_retrieve_response_code( $response );
 
 		$specific = 'REST API returns an error code';
