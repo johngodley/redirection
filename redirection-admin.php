@@ -127,12 +127,16 @@ class Redirection_Admin {
 	}
 
 	private function ignore_this_plugin( $src ) {
-		if ( strpos( $src, 'mootools' ) !== false ) {
-			return true;
-		}
+		$ignore = array(
+			'mootools',
+			'wp-seo-',
+			'authenticate',
+		);
 
-		if ( strpos( $src, 'wp-seo-' ) !== false ) {
-			return true;
+		foreach ( $ignore as $text ) {
+			if ( strpos( $src, $text ) !== false ) {
+				return true;
+			}
 		}
 
 		return false;
