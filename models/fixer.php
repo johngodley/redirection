@@ -37,9 +37,28 @@ class Red_Fixer {
 				'message' => $valid_monitor === false ? __( 'Post monitor group is invalid', 'redirection' ) : __( 'Post monitor group is valid' ),
 				'status' => $valid_monitor === false ? 'problem' : 'good',
 			),
+			$this->get_http_settings(),
 		);
 
 		return $result;
+	}
+
+	private function get_http_settings() {
+		$site = parse_url( get_site_url(), PHP_URL_SCHEME );
+		$home = parse_url( get_home_url(), PHP_URL_SCHEME );
+
+		$message = __( 'Site and home are consistent', 'redirection' );
+		if ( $site !== $home ) {
+			$message = __( 'Site and home URL are inconsistent - please correct from your General settings', 'redirection' );
+			$message .= ' - '.get_site_url().' !== '.get_home_url();
+		}
+
+		return array(
+			'name' => __( 'Site and home protocol', 'redirection' ),
+			'id' => 'redirect_url',
+			'message' => $message,
+			'status' => $site === $home ? 'good' : 'problem',
+		);
 	}
 
 	private function get_rest_route_status( $status ) {
