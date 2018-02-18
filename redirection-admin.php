@@ -239,7 +239,7 @@ class Redirection_Admin {
 	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
 	 */
 	public function ip_geo_block( $validate ) {
-		$url = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+		$url = Redirection_Request::get_request_url();
 		$override = array(
 			'tools.php?page=redirection.php',
 			'action=red_proxy&rest_path=redirection',
