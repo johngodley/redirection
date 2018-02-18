@@ -1,25 +1,27 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:100
-__( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:104
-__( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:108
-__( "Your server has rejected the request for being too big. You will need to change it to continue.", "redirection" ), // client/component/error/index.js:112
-__( "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working", "redirection" ), // client/component/error/index.js:116
-__( "WordPress returned an unexpected message. This could be caused by your REST API not working, or by another plugin or theme.", "redirection" ), // client/component/error/index.js:120
-__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:127
-__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:145
-__( "Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem.", "redirection" ), // client/component/error/index.js:151
-__( "{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it.", "redirection" ), // client/component/error/index.js:158
-__( "{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests.", "redirection" ), // client/component/error/index.js:165
-__( "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.", "redirection" ), // client/component/error/index.js:172
-__( "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.", "redirection" ), // client/component/error/index.js:179
-__( "None of the suggestions helped", "redirection" ), // client/component/error/index.js:186
-__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:188
-__( "Create Issue", "redirection" ), // client/component/error/index.js:195
-__( "Email", "redirection" ), // client/component/error/index.js:195
-__( "Important details", "redirection" ), // client/component/error/index.js:197
-__( "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.", "redirection" ), // client/component/error/index.js:198
+__( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:105
+__( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:109
+__( "Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?", "redirection" ), // client/component/error/index.js:113
+__( "Your server has rejected the request for being too big. You will need to change it to continue.", "redirection" ), // client/component/error/index.js:117
+__( "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working", "redirection" ), // client/component/error/index.js:121
+__( "WordPress returned an unexpected message. This could be caused by your REST API not working, or by another plugin or theme.", "redirection" ), // client/component/error/index.js:125
+__( "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!", "redirection" ), // client/component/error/index.js:132
+__( "Something went wrong 🙁", "redirection" ), // client/component/error/index.js:154
+__( "Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem.", "redirection" ), // client/component/error/index.js:160
+__( "{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it.", "redirection" ), // client/component/error/index.js:167
+__( "{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests.", "redirection" ), // client/component/error/index.js:174
+__( "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.", "redirection" ), // client/component/error/index.js:181
+__( "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.", "redirection" ), // client/component/error/index.js:188
+__( "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:", "redirection" ), // client/component/error/index.js:196
+__( "Save", "redirection" ), // client/component/error/index.js:200
+__( "None of the suggestions helped", "redirection" ), // client/component/error/index.js:205
+__( "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.", "redirection" ), // client/component/error/index.js:207
+__( "Create Issue", "redirection" ), // client/component/error/index.js:214
+__( "Email", "redirection" ), // client/component/error/index.js:214
+__( "Important details", "redirection" ), // client/component/error/index.js:216
+__( "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}.", "redirection" ), // client/component/error/index.js:217
 __( "Geo IP Error", "redirection" ), // client/component/geo-map/index.js:29
 __( "Something went wrong obtaining this information", "redirection" ), // client/component/geo-map/index.js:30
 __( "Geo IP", "redirection" ), // client/component/geo-map/index.js:41
@@ -139,13 +141,13 @@ __( "Import/Export", "redirection" ), // client/component/menu/index.js:33
 __( "Options", "redirection" ), // client/component/menu/index.js:37
 __( "Support", "redirection" ), // client/component/menu/index.js:41
 __( "View notice", "redirection" ), // client/component/notice/index.js:72
-__( "Delete Redirection", "redirection" ), // client/component/options/delete-plugin.js:37
-__( "Delete", "redirection" ), // client/component/options/delete-plugin.js:40
-__( "Delete the plugin - are you sure?", "redirection" ), // client/component/options/delete-plugin.js:45
-__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/component/options/delete-plugin.js:46
-__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/component/options/delete-plugin.js:47
-__( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
-__( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:49
+__( "Delete the plugin - are you sure?", "redirection" ), // client/component/options/delete-plugin.js:37
+__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/component/options/delete-plugin.js:38
+__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/component/options/delete-plugin.js:39
+__( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:41
+__( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:41
+__( "Delete Redirection", "redirection" ), // client/component/options/delete-plugin.js:52
+__( "Delete", "redirection" ), // client/component/options/delete-plugin.js:55
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:82
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:83
 __( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/component/options/donation.js:99
@@ -166,33 +168,35 @@ __( "Forever", "redirection" ), // client/component/options/options-form.js:30
 __( "No IP logging", "redirection" ), // client/component/options/options-form.js:33
 __( "Full IP logging", "redirection" ), // client/component/options/options-form.js:34
 __( "Anonymize IP (mask last part)", "redirection" ), // client/component/options/options-form.js:35
-__( "Default /wp-json/ (preferred)", "redirection" ), // client/component/options/options-form.js:38
+__( "Default /wp-json/", "redirection" ), // client/component/options/options-form.js:38
 __( "Raw /index.php?rest_route=/", "redirection" ), // client/component/options/options-form.js:39
-__( "Proxy over Admin AJAX (deprecated)", "redirection" ), // client/component/options/options-form.js:40
-__( "URL Monitor Changes", "redirection" ), // client/component/options/options-form.js:93
-__( "Save changes to this group", "redirection" ), // client/component/options/options-form.js:96
-__( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:98
-__( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:98
-__( "Monitor changes to %(type)s", "redirection" ), // client/component/options/options-form.js:118
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:145
-__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:149
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:150
-__( "404 Logs", "redirection" ), // client/component/options/options-form.js:153
-__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:154
-__( "IP Logging", "redirection" ), // client/component/options/options-form.js:157
-__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:158
-__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:161
-__( "RSS Token", "redirection" ), // client/component/options/options-form.js:167
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:169
-__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:172
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/component/options/options-form.js:175
-__( "Apache Module", "redirection" ), // client/component/options/options-form.js:183
-__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:188
-__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:197
-__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:199
-__( "REST API", "redirection" ), // client/component/options/options-form.js:202
-__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/component/options/options-form.js:204
-__( "Update", "redirection" ), // client/component/options/options-form.js:208
+__( "Proxy over Admin AJAX", "redirection" ), // client/component/options/options-form.js:40
+__( "Relative /wp-json/", "redirection" ), // client/component/options/options-form.js:41
+__( "Form request", "redirection" ), // client/component/options/options-form.js:42
+__( "URL Monitor Changes", "redirection" ), // client/component/options/options-form.js:95
+__( "Save changes to this group", "redirection" ), // client/component/options/options-form.js:98
+__( "For example \"/amp\"", "redirection" ), // client/component/options/options-form.js:100
+__( "Create associated redirect (added to end of URL)", "redirection" ), // client/component/options/options-form.js:100
+__( "Monitor changes to %(type)s", "redirection" ), // client/component/options/options-form.js:120
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/component/options/options-form.js:147
+__( "Redirect Logs", "redirection" ), // client/component/options/options-form.js:151
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:152
+__( "404 Logs", "redirection" ), // client/component/options/options-form.js:155
+__( "(time to keep logs for)", "redirection" ), // client/component/options/options-form.js:156
+__( "IP Logging", "redirection" ), // client/component/options/options-form.js:159
+__( "(select IP logging level)", "redirection" ), // client/component/options/options-form.js:160
+__( "URL Monitor", "redirection" ), // client/component/options/options-form.js:163
+__( "RSS Token", "redirection" ), // client/component/options/options-form.js:169
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/component/options/options-form.js:171
+__( "Auto-generate URL", "redirection" ), // client/component/options/options-form.js:174
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/component/options/options-form.js:177
+__( "Apache Module", "redirection" ), // client/component/options/options-form.js:185
+__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/component/options/options-form.js:190
+__( "Redirect Cache", "redirection" ), // client/component/options/options-form.js:199
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/component/options/options-form.js:201
+__( "REST API", "redirection" ), // client/component/options/options-form.js:204
+__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/component/options/options-form.js:206
+__( "Update", "redirection" ), // client/component/options/options-form.js:210
 __( "Saving...", "redirection" ), // client/component/progress/index.js:22
 __( "Saving...", "redirection" ), // client/component/progress/index.js:25
 __( "Logged In", "redirection" ), // client/component/redirects/action/login.js:28
