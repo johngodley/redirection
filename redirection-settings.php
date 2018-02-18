@@ -31,6 +31,10 @@ function red_set_options( array $settings = array() ) {
 	$options = red_get_options();
 	$monitor_types = array();
 
+	if ( isset( $settings['version'] ) ) {
+		$options['version'] = $settings['version'];
+	}
+
 	if ( isset( $settings['rest_api'] ) && in_array( intval( $settings['rest_api'], 10 ), array( 0, 1, 2, 3, 4 ) ) ) {
 		$options['rest_api'] = intval( $settings['rest_api'] );
 	}

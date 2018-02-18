@@ -268,6 +268,8 @@ class Redirection_Admin {
 			} elseif ( $options['rest_api'] === false ) {
 				red_set_options( array( 'rest_api' => 0 ) );
 			}
+
+			red_set_options( array( 'version' => REDIRECTION_VERSION ) );
 		}
 	}
 
