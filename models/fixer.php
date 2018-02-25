@@ -112,7 +112,7 @@ class Red_Fixer {
 
 	public function fix( $status ) {
 		foreach ( $status as $item ) {
-			if ( $item['status'] == 'good' ) {
+			if ( $item['status'] !== 'good' ) {
 				$fixer = 'fix_' . $item['id'];
 
 				if ( method_exists( $this, $fixer ) ) {
