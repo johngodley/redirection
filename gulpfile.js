@@ -12,6 +12,7 @@ const request = require( 'request' );
 const config = require( './.config.json' ); // Local config
 const crypto = require( 'crypto' );
 const through = require( 'through2' );
+const he = require( 'he' );
 const pkg = require( './package.json' );
 
 const LOCALE_PERCENT_COMPLETE = 40;
@@ -60,21 +61,21 @@ gulp.task( 'pot:json', done => {
 	gulp.src( [ 'locale/*.po' ] )
 		.pipe( po2json() )
 		.pipe( through.obj( ( file, enc, cb ) => {
-			const json = JSON.parse( String( file.contents ) )
+			const json = JSON.parse( String( file.contents ) );
 			const keys = Object.keys( json );
 
 			for ( let x = 0; x < keys.length; x++ ) {
 				const key = keys[ x ];
 				const newObj = [];
 
-				for ( let z = 1; z < json[ key ].length; z ++ ) {
+				for ( let z = 1; z < json[ key ].length; z++ ) {
 					newObj.push( json[ key ][ z ] );
 				}
 
 				json[ key ] = newObj;
 			}
 
-			file.contents = new Buffer( JSON.stringify( json ) );
+			file.contents = new Buffer( he.decode( JSON.stringify( json ) ) );
 			cb( null, file );
 		} ) )
 		.pipe( gulp.dest( 'locale/json/' ) )
@@ -131,8 +132,8 @@ gulp.task( 'pot:generate', () => {
 	const pot = {
 		domain: 'redirection',
 		destFile: 'redirection.pot',
-		'package': 'Redirection',
-		bugReport: 'https://wordpress.org/plugins/redirection/'
+		package: 'Redirection',
+		bugReport: 'https://wordpress.org/plugins/redirection/',
 	};
 
 	return gulp.src( [ '**/*.php' ] )
