@@ -32,12 +32,22 @@ const getRedirectionUrl = ( path, params = {} ) => {
 	return base;
 };
 
+const apiHeaders = url => {
+	if ( url.indexOf( 'rest_route' ) !== -1 || url.indexOf( '/wp-json/' ) !== -1 ) {
+		return new Headers( {
+			// 'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
+			'Content-Type': 'application/json; charset=utf-8',
+		} );
+	}
+
+	return new Headers( {
+		'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+	} );
+};
+
 const apiRequest = url => ( {
 	url,
-	headers: new Headers( {
-//		'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
-		'Content-Type': 'application/json; charset=utf-8',
-	} ),
+	headers: apiHeaders( url ),
 	credentials: 'same-origin',
 } );
 
