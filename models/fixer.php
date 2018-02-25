@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname( REDIRECTION_FILE ).'/models/database.php';
+include_once dirname( REDIRECTION_FILE ) . '/models/database.php';
 
 class Red_Fixer {
 	public function get_status() {
@@ -8,7 +8,7 @@ class Red_Fixer {
 
 		$options = red_get_options();
 
-		$db = new RE_Database();
+		$database = new RE_Database();
 		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 		$bad_group = $this->get_missing();
 		$monitor_group = $options['monitor_post'];
@@ -18,7 +18,10 @@ class Red_Fixer {
 		$result = array(
 			$rest_status,
 			$this->get_rest_route_status( $rest_status ),
-			array_merge( array( 'id' => 'db', 'name' => __( 'Database tables', 'redirection' ) ), $db->get_status() ),
+			array_merge( array(
+				'id' => 'db',
+				'name' => __( 'Database tables', 'redirection' ),
+			), $database->get_status() ),
 			array(
 				'name' => __( 'Valid groups', 'redirection' ),
 				'id' => 'groups',
@@ -50,7 +53,7 @@ class Red_Fixer {
 		$message = __( 'Site and home are consistent', 'redirection' );
 		if ( $site !== $home ) {
 			$message = __( 'Site and home URL are inconsistent - please correct from your General settings', 'redirection' );
-			$message .= ' - '.get_site_url().' !== '.get_home_url();
+			$message .= ' - ' . get_site_url() . ' !== ' . get_home_url();
 		}
 
 		return array(
@@ -74,9 +77,9 @@ class Red_Fixer {
 			$result['message'] = __( 'Redirection does not appear in your REST API routes. Have you disabled it with a plugin?', 'redirection' );
 
 			if ( $response && is_array( $response ) && isset( $response['body'] ) ) {
-				$json = @json_decode( $response['body'], true );
+				$json = $this->get_json( $response['body'] );
 
-				if ( isset( $json['routes']['/redirection/v1'] ) ) {
+				if ( isset( $json['success'] ) ) {
 					$result['message'] = __( 'Redirection routes are working', 'redirection' );
 					$result['status'] = 'good';
 				}
@@ -93,6 +96,7 @@ class Red_Fixer {
 			'name' => __( 'WordPress REST API', 'redirection' ),
 			'id' => 'rest',
 			'status' => 'good',
+			/* translators: %s: URL of REST API */
 			'message' => sprintf( __( 'WordPress REST API is working at %s', 'redirection' ), red_get_rest_api() ),
 		);
 
@@ -108,9 +112,12 @@ class Red_Fixer {
 
 	public function fix( $status ) {
 		foreach ( $status as $item ) {
-			if ( $item['status'] !== 'good' ) {
-				$fixer = 'fix_'.$item['id'];
-				$result = $this->$fixer();
+			if ( $item['status'] == 'good' ) {
+				$fixer = 'fix_' . $item['id'];
+
+				if ( method_exists( $this, $fixer ) ) {
+					$result = $this->$fixer();
+				}
 
 				if ( is_wp_error( $result ) ) {
 					return $result;
@@ -127,20 +134,17 @@ class Red_Fixer {
 		return $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_items.id FROM {$wpdb->prefix}redirection_items LEFT JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id = {$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id IS NULL" );
 	}
 
-	public function fix_routes() {
-	}
-
 	public function fix_rest() {
 		// First check the default REST API
 		$result = $this->check_api( get_rest_url() );
 
 		if ( is_wp_error( $result ) ) {
 			// Try directly at index.php?rest_route
-			$rest_api = home_url( '/index.php?rest_route=/' );
+			$rest_api = red_get_rest_api( REDIRECTION_API_JSON_INDEX );
 			$result = $this->check_api( $rest_api );
 
 			if ( is_wp_error( $result ) ) {
-				$rest_api = admin_url( 'admin-ajax.php' );
+				$rest_api = red_get_rest_api( REDIRECTION_API_ADMIN );
 				$response = $this->request_from_api( $rest_api );
 
 				if ( is_array( $response ) && isset( $response['body'] ) && $response['body'] === '0' ) {
@@ -165,22 +169,33 @@ class Red_Fixer {
 	private function normalize_url( $url ) {
 		if ( substr( $url, 0, 4 ) !== 'http' ) {
 			$parts = parse_url( get_site_url() );
-			$url = ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'http' ).'://'.$parts['host'].$url;
+			$url = ( isset( $parts['scheme'] ) ? $parts['scheme'] : 'http' ) . '://' . $parts['host'] . $url;
 		}
 
 		return $url;
 	}
 
 	private function request_from_api( $url ) {
-		$url = $this->normalize_url( $url.'redirection/v1/' );
+		$url = $this->normalize_url( $url . 'redirection/v1/plugin/test' );
 		$url = add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $url );
-		$options = array( 'cookies' => $_COOKIE, 'redirection' => 0 );
+		$options = array(
+			'cookies' => $_COOKIE,
+			'redirection' => 0,
+		);
 
+		// For REST API calls set the content-type - some servers get tripped up on this
+		if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, 'rest_route' ) !== false ) {
+			$options['headers'] = array(
+				'content-type: application/json; charset=utf-8',
+			);
+		}
+
+		// Match our user agent
 		if ( Redirection_Request::get_user_agent() ) {
 			$options['user-agent'] = Redirection_Request::get_user_agent();
 		}
 
-		return wp_remote_get( $url, $options );
+		return wp_remote_post( $url, $options );
 	}
 
 	private function check_api( $url ) {
@@ -189,12 +204,13 @@ class Red_Fixer {
 
 		$specific = 'REST API returns an error code';
 		if ( $http_code === 200 ) {
-			$json = @json_decode( $response['body'], true );
+			$json = $this->get_json( $response['body'] );
 
 			if ( $json || $response['body'] === '0' ) {
 				return true;
 			} else {
 				$specific = 'REST API returned invalid JSON data. This is probably an error page of some kind and indicates it has been disabled';
+				$specific .= ' - ' . json_last_error_msg();
 			}
 		} elseif ( $http_code === 301 || $http_code === 302 ) {
 			$specific = 'REST API is being redirected. This indicates it has been disabled or you have a trailing slash redirect.';
@@ -202,14 +218,22 @@ class Red_Fixer {
 			$specific = 'REST API is returning 404 error. This indicates it has been disabled.';
 		}
 
-		return new WP_Error( 'redirection', $specific.' ('.( $http_code ? $http_code : '40x' ) .' - '.$url.')' );
+		return new WP_Error( 'redirection', $specific . ' (' . ( $http_code ? $http_code : '40x' ) . ' - ' . $url . ')' );
+	}
+
+	private function get_json( $body ) {
+		if ( strpos( bin2hex( $body ), 'efbbbf' ) !== false ) {
+			$body = substr( $body, 3 );
+		}
+
+		return @json_decode( $body, true );
 	}
 
 	private function fix_db() {
-		$db = new RE_Database();
+		$database = new RE_Database();
 
 		try {
-			$db->create_tables();
+			$database->create_tables();
 		} catch ( Exception $e ) {
 			return new WP_Error( __( 'Failed to fix database tables', 'redirection' ) );
 		}
@@ -231,7 +255,7 @@ class Red_Fixer {
 		$missing = $this->get_missing();
 
 		foreach ( $missing as $row ) {
-			$wpdb->update( $wpdb->prefix.'redirection_items', array( 'group_id' => $this->get_valid_group() ), array( 'id' => $row->id ) );
+			$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'group_id' => $this->get_valid_group() ), array( 'id' => $row->id ) );
 		}
 	}
 
@@ -242,6 +266,6 @@ class Red_Fixer {
 	private function get_valid_group() {
 		$groups = Red_Group::get_all();
 
-		return $groups[ 0 ]['id'];
+		return $groups[0]['id'];
 	}
 }
