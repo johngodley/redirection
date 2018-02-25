@@ -129,8 +129,8 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	public function testDeleteBulk() {
 		$this->setNonce();
-		RE_log::create( 'test1', 'agent', '192.168.1.1', 'referrer' );
-		$last = RE_log::create( 'test2', 'agent', '192.168.1.2', 'referrer' );
+		RE_log::create( 'test1', 'target', 'agent', '192.168.1.1', 'referrer' );
+		$last = RE_log::create( 'test2', 'target', 'agent', '192.168.1.2', 'referrer' );
 
 		$result = $this->callApi( 'bulk/log/delete', array( 'items' => $last ), 'POST' );
 		$this->assertEquals( 1, count( $result->data['items'] ) );
