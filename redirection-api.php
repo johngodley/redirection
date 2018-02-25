@@ -1,13 +1,13 @@
 <?php
 
-include_once dirname( __FILE__ ).'/api/api-group.php';
-include_once dirname( __FILE__ ).'/api/api-redirect.php';
-include_once dirname( __FILE__ ).'/api/api-log.php';
-include_once dirname( __FILE__ ).'/api/api-404.php';
-include_once dirname( __FILE__ ).'/api/api-settings.php';
-include_once dirname( __FILE__ ).'/api/api-plugin.php';
-include_once dirname( __FILE__ ).'/api/api-import.php';
-include_once dirname( __FILE__ ).'/api/api-export.php';
+include_once dirname( __FILE__ ) . '/api/api-group.php';
+include_once dirname( __FILE__ ) . '/api/api-redirect.php';
+include_once dirname( __FILE__ ) . '/api/api-log.php';
+include_once dirname( __FILE__ ) . '/api/api-404.php';
+include_once dirname( __FILE__ ) . '/api/api-settings.php';
+include_once dirname( __FILE__ ) . '/api/api-plugin.php';
+include_once dirname( __FILE__ ) . '/api/api-import.php';
+include_once dirname( __FILE__ ) . '/api/api-export.php';
 
 define( 'REDIRECTION_API_NAMESPACE', 'redirection/v1' );
 
@@ -102,7 +102,7 @@ class Redirection_Api {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new Redirection_Api();
 
-			load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ).'/locale/' );
+			load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
 		}
 
 		return self::$instance;
