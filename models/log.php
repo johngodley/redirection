@@ -300,7 +300,7 @@ class RE_Filter_Log {
 			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'ip' ) {
 				$where = $wpdb->prepare( "WHERE ip=%s", $params['filter'] );
 			} else {
-				$where = $wpdb->prepare( 'WHERE url LIKE %s', '%'.$wpdb->esc_like( trim( $params['filter'] ) ).'%' );
+				$where = $wpdb->prepare( 'WHERE url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filter'] ) ) . '%' );
 			}
 		}
 
@@ -319,7 +319,7 @@ class RE_Filter_Log {
 		$table = $wpdb->prefix.$table;
 		$sql = trim( "SELECT * FROM {$table} $where " ).$wpdb->prepare( " ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit );
 
-		$rows		= $wpdb->get_results( $sql );
+		$rows = $wpdb->get_results( $sql );
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where );
 		$items = array();
 

@@ -144,6 +144,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Detect BOM marker in response
 * Improve detection of servers that block content-type json
 * Fix incorrect encoding of entities in some locale files
+* Fix table navigation parameters not affecting subsequent pages
 
 = 3.2 - 11th February 2018 =
 * Add cookie match - redirect based on a cookie
