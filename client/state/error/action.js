@@ -34,7 +34,7 @@ export const deleteAll = ( filterBy, filter ) => ( dispatch, getState ) => proce
 	return { ... table, filter: '', filterBy: '' };
 } );
 export const performTableAction = ( action, ids, extra ) => tableAction( RedirectionApi.bulk.error, action, ids, STATUS_ERROR_ITEM, extra );
-export const getLogs = args => dispatch => processRequest( RedirectionApi.error.list, dispatch, STATUS_ERROR, args );
+export const getLogs = args => ( dispatch, getState ) => processRequest( RedirectionApi.error.list, dispatch, STATUS_ERROR, args, getState().error );
 export const loadLogs = ( params = { filter: '', filterBy: '', page: 0, orderby: '' } ) => getLogs( params );
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
