@@ -35,8 +35,15 @@ class Custom_Match extends Red_Match {
 		// Check if referrer matches
 		if ( $matched && $this->url_from !== '' ) {
 			$target = $this->url_from;
+			if ( $regex ) {
+				$target = $this->get_target_regex_url( $matched_url, $this->url_from, $url );
+			}
+
 		} elseif ( ! $matched && $this->url_notfrom !== '' ) {
 			$target = $this->url_notfrom;
+			if ( $regex ) {
+				$target = $this->get_target_regex_url( $matched_url, $this->url_notfrom, $url );
+			}
 		}
 
 		return $target;
