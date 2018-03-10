@@ -38,7 +38,6 @@ class Custom_Match extends Red_Match {
 			if ( $regex ) {
 				$target = $this->get_target_regex_url( $matched_url, $this->url_from, $url );
 			}
-
 		} elseif ( ! $matched && $this->url_notfrom !== '' ) {
 			$target = $this->url_notfrom;
 			if ( $regex ) {
