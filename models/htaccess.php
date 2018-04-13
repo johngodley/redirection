@@ -103,7 +103,8 @@ class Red_Htaccess {
 		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
-			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
+			$query = isset($url_parts['query']) ? $url_parts['query'] : '';
+			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
 		}
 
 		$to = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->is_regex() );
