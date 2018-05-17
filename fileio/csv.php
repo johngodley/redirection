@@ -88,7 +88,19 @@ class Red_Csv_File extends Red_FileIO {
 		return 301;
 	}
 
+	private function get_action_type( $code ) {
+		if ( in_array( $code, array( 301, 302, 307, 308 ), true ) ) {
+			return 'url';
+		} elseif ( in_array( $code, array( 401, 404, 410 ), true ) ) {
+			return 'error';
+		}
+
+		return null;
+	}
+
 	public function csv_as_item( $csv, $group ) {
+		$action_code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+
 		if ( $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' && count( $csv ) > 1 ) {
 			return array(
 				'url'         => trim( $csv[ self ::CSV_SOURCE ] ),
@@ -96,8 +108,8 @@ class Red_Csv_File extends Red_FileIO {
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',
-				'action_type' => 'url',
-				'action_code' => isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301,
+				'action_type' => $this->get_action_type($action_code) ?: 'url',
+				'action_code' => $action_code,
 			);
 		}
 
