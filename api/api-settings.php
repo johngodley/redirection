@@ -23,10 +23,6 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 	}
 
 	public function route_save_settings( WP_REST_Request $request ) {
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			include_once ABSPATH.'/wp-admin/includes/plugin.php';
-		}
-
 		red_set_options( $request->get_params() );
 
 		return $this->route_settings( $request );

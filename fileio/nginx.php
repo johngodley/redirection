@@ -12,7 +12,7 @@ class Red_Nginx_File extends Red_FileIO {
 
 	public function get_data( array $items, array $groups ) {
 		$lines   = array();
-		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
+		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
 		$lines[] = '# Created by Redirection';
 		$lines[] = '# '.date( 'r' );

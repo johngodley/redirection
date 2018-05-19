@@ -7,9 +7,17 @@ define( 'REDIRECTION_API_ADMIN', 2 );
 define( 'REDIRECTION_API_JSON_RELATIVE', 3 );
 define( 'REDIRECTION_API_POST', 4 );
 
+function red_get_plugin_data( $plugin ) {
+	if ( ! function_exists( 'get_plugin_data' ) ) {
+		include_once ABSPATH . '/wp-admin/includes/plugin.php';
+	}
+
+	return get_plugin_data( $plugin );
+}
+
 function red_get_post_types( $full = true ) {
 	$types = get_post_types( array( 'public' => true ), 'objects' );
-	$types[] = (object)array( 'name' => 'trash', 'label' => __( 'Trash' ) );
+	$types[] = ( object )array( 'name' => 'trash', 'label' => __( 'Trash' ) );
 
 	$post_types = array();
 	foreach ( $types as $type ) {

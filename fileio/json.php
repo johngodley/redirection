@@ -11,7 +11,7 @@ class Red_Json_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
+		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
 
 		$items = array(
 			'plugin' => array(

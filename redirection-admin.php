@@ -384,7 +384,7 @@ class Redirection_Admin {
 	}
 
 	function admin_screen() {
-		$version = get_plugin_data( REDIRECTION_FILE );
+		$version = red_get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
 
 		Redirection_Admin::update();

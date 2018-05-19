@@ -8,10 +8,6 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	}
 
 	public function route_export( WP_REST_Request $request ) {
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			include_once ABSPATH.'/wp-admin/includes/plugin.php';
-		}
-
 		$module = $request['module'];
 		$format = 'json';
 

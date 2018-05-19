@@ -151,7 +151,7 @@ class Red_Htaccess {
 	}
 
 	private function target( $action, $data, $code, $regex ) {
-		$target = 'action_'.$action;
+		$target = 'action_' . $action;
 
 		if ( method_exists( $this, $target ) ) {
 			return $this->$target( $data, $code, $regex );
@@ -160,15 +160,15 @@ class Red_Htaccess {
 	}
 
 	private function generate() {
-		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
+		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
 		}
 
 		$text[] = '# Created by Redirection';
-		$text[] = '# '.date( 'r' );
-		$text[] = '# Redirection '.trim( $version['Version'] ).' - https://redirection.me';
+		$text[] = '# ' . date( 'r' );
+		$text[] = '# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me';
 		$text[] = '';
 
 		// mod_rewrite section
