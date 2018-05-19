@@ -131,6 +131,7 @@ class Redirection_Admin {
 			'mootools',
 			'wp-seo-',
 			'authenticate',
+			'yikes',
 		);
 
 		foreach ( $ignore as $text ) {
