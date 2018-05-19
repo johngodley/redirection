@@ -11,7 +11,7 @@ class RE_Log {
 
 	function __construct( $values ) {
 		foreach ( $values as $key => $value ) {
-		 	$this->$key = $value;
+			$this->$key = $value;
 		}
 
 		$this->created = mysql2date( 'U', $this->created );
@@ -54,7 +54,7 @@ class RE_Log {
 		if ( $insert ) {
 			do_action( 'redirection_log', $insert );
 
-			$wpdb->insert( $wpdb->prefix.'redirection_logs', $insert );
+			$wpdb->insert( $wpdb->prefix . 'redirection_logs', $insert );
 		}
 
 		return $wpdb->insert_id;
@@ -135,8 +135,9 @@ class RE_Log {
 				fputcsv( $stdout, $csv );
 			}
 
-			if ( count( $rows ) < 100 )
+			if ( count( $rows ) < 100 ) {
 				break;
+			}
 		}
 	}
 
@@ -158,7 +159,7 @@ class RE_404 {
 
 	function __construct( $values ) {
 		foreach ( $values as $key => $value ) {
-		 	$this->$key = $value;
+			$this->$key = $value;
 		}
 
 		$this->created = mysql2date( 'U', $this->created );

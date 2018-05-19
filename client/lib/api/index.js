@@ -1,13 +1,21 @@
-/* global fetch, Redirectioni10n */
+// global fetch, Redirectioni10n
+/**
+ *
+ * @format
+ */
+
 /**
  * Internal dependencies
  */
 import querystring from 'querystring';
 
-const removeEmpty = item => Object.keys( item ).filter( key => item[ key ] ).reduce( ( newObj, key ) => {
-	newObj[ key ] = item[ key ];
-	return newObj;
-}, {} );
+const removeEmpty = item =>
+	Object.keys( item )
+		.filter( key => item[ key ] )
+		.reduce( ( newObj, key ) => {
+			newObj[ key ] = item[ key ];
+			return newObj;
+		}, {} );
 
 const getRedirectionUrl = ( path, params = {} ) => {
 	const base = Redirectioni10n.WP_API_root + 'redirection/v1/' + path + '/';
@@ -19,7 +27,10 @@ const getRedirectionUrl = ( path, params = {} ) => {
 		params = removeEmpty( params );
 
 		if ( Object.keys( params ).length > 0 ) {
-			const querybase = base + ( Redirectioni10n.WP_API_root.indexOf( '?' ) === -1 ? '?' : '&' ) + querystring.stringify( params );
+			const querybase =
+				base +
+				( Redirectioni10n.WP_API_root.indexOf( '?' ) === -1 ? '?' : '&' ) +
+				querystring.stringify( params );
 
 			if ( Redirectioni10n.WP_API_root.indexOf( 'page=redirection.php' ) !== -1 ) {
 				return querybase.replace( /page=(\d+)/, 'ppage=$1' );
@@ -51,10 +62,16 @@ const apiRequest = url => ( {
 	credentials: 'same-origin',
 } );
 
-const deleteApiRequest = ( path, params ) => ( { ... apiRequest( getRedirectionUrl( path, params ) ), method: 'post' } );
-const getApiRequest = ( path, params = {} ) => ( { ... apiRequest( getRedirectionUrl( path, params ) ), method: 'get' } );
+const deleteApiRequest = ( path, params ) => ( {
+	...apiRequest( getRedirectionUrl( path, params ) ),
+	method: 'post',
+} );
+const getApiRequest = ( path, params = {} ) => ( {
+	...apiRequest( getRedirectionUrl( path, params ) ),
+	method: 'get',
+} );
 const uploadApiRequest = ( path, file ) => {
-	const request = { ... apiRequest( getRedirectionUrl( path ) ), method: 'post' };
+	const request = { ...apiRequest( getRedirectionUrl( path ) ), method: 'post' };
 
 	request.headers.delete( 'Content-Type' );
 	request.body = new FormData();
@@ -64,7 +81,7 @@ const uploadApiRequest = ( path, file ) => {
 };
 
 const postApiRequest = ( path, params = {}, query = {} ) => {
-	const request = { ... apiRequest( getRedirectionUrl( path, query ) ), method: 'post', params };
+	const request = { ...apiRequest( getRedirectionUrl( path, query ) ), method: 'post', params };
 
 	if ( Object.keys( params ).length > 0 ) {
 		request.body = JSON.stringify( params );
@@ -119,7 +136,10 @@ export const RedirectionApi = {
 };
 
 const getRedirectLiUrl = url => {
-	const base = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/v1/' : 'https://api.redirect.li/v1/';
+	const base =
+		process.env.NODE_ENV === 'development'
+			? 'http://localhost:5000/v1/'
+			: 'https://api.redirect.li/v1/';
 	return base + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';
 };
 
@@ -136,9 +156,18 @@ export const RedirectLiApi = {
 			method: 'get',
 		} ),
 	},
+	http: {
+		get: url => ( {
+			url: getRedirectLiUrl( 'http?url=' + encodeURIComponent( url ) ),
+			method: 'get',
+		} ),
+	},
 };
 
-const getAction = request => request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) + ' ' + request.method.toUpperCase();
+const getAction = request =>
+	request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
+	' ' +
+	request.method.toUpperCase();
 const getErrorMessage = json => {
 	if ( json === 0 ) {
 		return 'Admin AJAX returned 0';
@@ -194,7 +223,12 @@ export const getApi = request => {
 				const json = JSON.parse( text.replace( /\ufeff/, '' ) );
 
 				if ( request.status && request.status !== 200 ) {
-					throw { message: getErrorMessage( json ), code: getErrorCode( json ), request, data: json.data ? json.data : null };
+					throw {
+						message: getErrorMessage( json ),
+						code: getErrorCode( json ),
+						request,
+						data: json.data ? json.data : null,
+					};
 				}
 
 				if ( json === 0 ) {
