@@ -1,3 +1,5 @@
+/** @format */
+
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 
@@ -11,9 +13,7 @@ const getDevUrl = 'http://localhost:3312/';
 const pkg = require( './package.json' );
 
 const config = {
-	entry: [
-		path.join( __dirname, 'client', 'index.js' ),
-	],
+	entry: [ path.join( __dirname, 'client', 'index.js' ) ],
 	output: {
 		path: path.join( __dirname ),
 		filename: 'redirection.js',
@@ -33,17 +33,10 @@ const config = {
 			{
 				test: /\.scss$/,
 				exclude: /node_modules/,
-				use: [
-					'style-loader',
-					'css-loader',
-					'postcss-loader',
-					'sass-loader',
-				],
+				use: [ 'style-loader', 'css-loader', 'postcss-loader', 'sass-loader' ],
 			},
 			{
-				test: [
-					path.resolve( __dirname, 'node_modules/redbox-react' ),
-				],
+				test: [ path.resolve( __dirname, 'node_modules/redbox-react' ) ],
 				use: 'null-loader',
 			},
 		],
@@ -75,12 +68,13 @@ const config = {
 	watchOptions: {
 		ignored: [ /node_modules/ ],
 	},
+	performance: {
+		hints: false,
+	},
 };
 
 if ( isProduction() ) {
-	config.plugins.push( new webpack.optimize.UglifyJsPlugin( { compress: { warnings: false, drop_console: true, dead_code: true, unused: true, drop_debugger: true } } ) );
 	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
-	config.plugins.push( new webpack.optimize.ModuleConcatenationPlugin() );
 	config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
 } else {
 	config.output.publicPath = getDevUrl;
@@ -88,10 +82,9 @@ if ( isProduction() ) {
 	config.entry.unshift( 'webpack/hot/only-dev-server' );
 	config.entry.unshift( 'webpack-dev-server/client?' + getDevUrl );
 	config.entry.unshift( 'react-hot-loader/patch' );
-	config.plugins.push( new webpack.NamedModulesPlugin() );
 	config.devServer = {
 		historyApiFallback: {
-			index: '/'
+			index: '/',
 		},
 		contentBase: path.resolve( __dirname ),
 		publicPath: getDevUrl,
@@ -111,8 +104,8 @@ if ( isProduction() ) {
 			errors: true,
 			errorDetails: true,
 			warnings: false,
-			publicPath: false
-		}
+			publicPath: false,
+		},
 	};
 }
 
