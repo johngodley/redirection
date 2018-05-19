@@ -103,7 +103,7 @@ class Red_Htaccess {
 		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
-			$query = isset($url_parts['query']) ? $url_parts['query'] : '';
+			$query = isset( $url_parts['query'] ) ? $url_parts['query'] : '';
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
 		}
 
