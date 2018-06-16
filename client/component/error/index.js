@@ -95,6 +95,7 @@ class Error extends React.Component {
 	}
 
 	getErrorMessage( errors ) {
+		console.log( errors );
 		const messages = errors.map( item => {
 			if ( item.action && item.action === 'reload' ) {
 				if ( document.location.search.indexOf( 'retry=' ) === -1 ) {
@@ -107,6 +108,10 @@ class Error extends React.Component {
 
 			if ( item.code === 0 ) {
 				return __( 'WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.' );
+			}
+
+			if ( item.code === 'rest_cookie_invalid_nonce' ) {
+				return __( 'Please logout and login again.' );
 			}
 
 			if ( item.request && item.request.status === 403 ) {

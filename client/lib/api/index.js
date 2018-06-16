@@ -193,6 +193,10 @@ const getErrorCode = json => {
 		return 'admin-ajax';
 	}
 
+	if ( json.code ) {
+		return json.code;
+	}
+
 	return 'unknown';
 };
 
