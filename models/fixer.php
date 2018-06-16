@@ -100,6 +100,12 @@ class Red_Fixer {
 			'message' => sprintf( __( 'WordPress REST API is working at %s', 'redirection' ), red_get_rest_api() ),
 		);
 
+		// Special case for OVH servers - this is as close as I can get to detecting mod_security
+		$options = red_get_options();
+		if ( $options['rest_api'] === 0 && strpos( php_uname( 'a' ), 'ovh' ) !== false ) {
+			red_set_options( array( 'rest_api' => 2 ) );
+		}
+
 		$result = $this->check_api( red_get_rest_api() );
 
 		if ( is_wp_error( $result ) ) {
@@ -181,6 +187,7 @@ class Red_Fixer {
 		$options = array(
 			'cookies' => $_COOKIE,
 			'redirection' => 0,
+			'body' => '{}',
 		);
 
 		// For REST API calls set the content-type - some servers get tripped up on this
