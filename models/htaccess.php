@@ -11,7 +11,7 @@ class Red_Htaccess {
 		$url = ltrim( $url, '/' );
 
 		// Exactly match the URL
-		return '^'.$url.'$';
+		return '^' . $url . '$';
 	}
 
 	private function encode2nd( $url ) {
@@ -79,8 +79,9 @@ class Red_Htaccess {
 
 	private function add_agent( $item, $match ) {
 		$from = $this->encode( ltrim( $item->get_url(), '/' ) );
-		if ( $item->is_regex() )
+		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
+		}
 
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->user_agent ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', ( $match->regex ? $this->encode_regex( $match->user_agent ) : $this->encode2nd( $match->user_agent ) ) );
@@ -184,15 +185,16 @@ class Red_Htaccess {
 		// End of redirection section
 		$text[] = '# End of Redirection';
 
-		$text = implode( "\r\n", $text );
-		return "\n".$text."\n";
+		$text = implode( "\n", $text );
+		return "\n" . $text . "\n";
 	}
 
 	public function add( $item ) {
-		$target = 'add_'.$item->get_match_type();
+		$target = 'add_' . $item->get_match_type();
 
-		if ( method_exists( $this, $target ) )
+		if ( method_exists( $this, $target ) ) {
 			$this->$target( $item, $item->match );
+		}
 	}
 
 	public function get( $existing = false ) {
@@ -202,7 +204,7 @@ class Red_Htaccess {
 			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 ) {
 				$text = preg_replace( self::INSERT_REGEX, str_replace( '$', '\\$', $text ), $existing );
 			} else {
-				$text = trim( $existing )."\n".$text;
+				$text = $text . "\n" . trim( $existing );
 			}
 		}
 
