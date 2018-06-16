@@ -16,14 +16,13 @@ class WordPress_Module extends Red_Module {
 
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
-		add_action( 'init',                    array( $this, 'init' ) );
-		add_action( 'send_headers',            array( $this, 'send_headers' ) );
-		add_filter( 'permalink_redirect_skip', array( $this, 'permalink_redirect_skip' ) );
-		add_filter( 'wp_redirect',             array( $this, 'wp_redirect' ), 1, 2 );
-		add_filter( 'status_header',           array( $this, 'status_header_404' ), 10, 4 );
-		add_action( 'redirection_visit',       array( $this, 'redirection_visit' ), 10, 3 );
-		add_action( 'redirection_do_nothing',  array( $this, 'redirection_do_nothing' ) );
-		add_filter( 'redirect_canonical',      array( $this, 'redirect_canonical' ), 10, 2 );
+		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'send_headers', array( $this, 'send_headers' ) );
+		add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 1, 2 );
+		add_action( 'redirection_visit', array( $this, 'redirection_visit' ), 10, 3 );
+		add_action( 'redirection_do_nothing', array( $this, 'redirection_do_nothing' ) );
+		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ), 10, 2 );
+		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
 
 		// Remove WordPress 2.3 redirection
 		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
@@ -41,16 +40,14 @@ class WordPress_Module extends Red_Module {
 		return $redirect_url;
 	}
 
-	public function status_header_404( $status_header, $code, $description, $protocol ) {
-		if ( $code === 404 ) {
+	public function template_redirect() {
+		if ( is_404() ) {
 			$options = red_get_options();
 
 			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
 				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
 			}
 		}
-
-		return $status_header;
 	}
 
 	public function redirection_do_nothing() {
@@ -87,7 +84,7 @@ class WordPress_Module extends Red_Module {
 	 */
 	private function protected_url( $url ) {
 		$rest = parse_url( red_get_rest_api() );
-		$rest_api = $rest['path'].( isset( $rest['query'] ) ? '?'.$rest['query'] : '' );
+		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $url, 0, strlen( $rest_api ) ) === $rest_api ) {
 			// Never redirect the REST API
@@ -168,15 +165,6 @@ class WordPress_Module extends Red_Module {
 	}
 
 	protected function flush_module() {
-	}
-
-	public function permalink_redirect_skip( $skip ) {
-		// only want this if we've matched using redirection
-		if ( $this->matched ) {
-			$skip[] = $_SERVER['REQUEST_URI'];
-		}
-
-		return $skip;
 	}
 
 	public function reset() {

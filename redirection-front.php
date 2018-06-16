@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname( __FILE__ ).'/modules/wordpress.php';
+include_once dirname( __FILE__ ) . '/modules/wordpress.php';
 
 class Redirection {
 	private static $instance = null;
