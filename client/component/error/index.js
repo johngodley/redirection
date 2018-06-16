@@ -26,8 +26,8 @@ class Error extends React.Component {
 		};
 	}
 
-	componentWillUpdate( nextProps ) {
-		if ( nextProps.errors.length > 0 && this.props.errors.length === 0 ) {
+	componentDidUpdate( prevProps ) {
+		if ( prevProps.errors.length === 0 && this.props.errors.length > 0 ) {
 			window.scrollTo( 0, 0 );
 		}
 	}
@@ -55,6 +55,9 @@ class Error extends React.Component {
 				}
 
 				message.push( 'Code: ' + request.status + ' ' + request.statusText );
+			}
+
+			if ( request ) {
 				message.push( 'Raw: ' + ( request.raw ? request.raw : '-no data-' ) );
 			}
 		}
@@ -115,7 +118,7 @@ class Error extends React.Component {
 			}
 
 			if ( item.request && item.request.status === 403 ) {
-				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin?' );
+				return __( 'Your server returned a 403 Forbidden error which may indicate the request was blocked. Are you using a firewall or a security plugin like mod_security?' );
 			}
 
 			if ( item.request && item.request.status === 413 ) {
@@ -144,6 +147,18 @@ class Error extends React.Component {
 		this.setState( { rest_api: ev.target.value } );
 	}
 
+	getHeight( rows ) {
+		let height = 0;
+
+		for ( let index = 0; index < rows.length; index++ ) {
+			const parts = rows[ index ].split( '\n' );
+
+			height += parts.length;
+		}
+
+		return Math.max( height, 20 );
+	}
+
 	renderError( errors ) {
 		const debug = this.getDebug( errors );
 		const classes = classnames( {
@@ -158,11 +173,21 @@ class Error extends React.Component {
 				<div className="closer" onClick={ this.onClick }>&#10006;</div>
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
 
-				{ this.getErrorMessage( errors ) }
+				<strong>{ this.getErrorMessage( errors ) }</strong>
 
 				<ol>
 					<li>
-						{ __( 'Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and "magic fix" the problem.', {
+						{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }
+						<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
+							REST API: <Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
+
+							<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
+							<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
+							<input type="hidden" name="action" value="rest_api" />
+						</form>
+					</li>
+					<li>
+						{ __( 'Take a look at the {{link}}plugin status{{/link}}. It may be able to identify and "magic fix" the problem.', {
 							components: {
 								link: <a href="?page=redirection.php&sub=support" />,
 							},
@@ -198,15 +223,6 @@ class Error extends React.Component {
 					</li>
 				</ol>
 
-				<p>{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }</p>
-				<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-					REST API: <Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
-
-					<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
-					<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
-					<input type="hidden" name="action" value="rest_api" />
-				</form>
-
 				<h3>{ __( 'None of the suggestions helped' ) }</h3>
 				<p>
 					{ __( 'If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot.', {
@@ -224,7 +240,7 @@ class Error extends React.Component {
 						strong: <strong />,
 					},
 				} ) }</p>
-				<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+				<p><textarea readOnly={ true } rows={ this.getHeight( debug ) } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
 	}
