@@ -24,16 +24,16 @@ abstract class Red_Match {
 	}
 
 	protected function get_target_regex_url( $matched_url, $target, $url ) {
-		return preg_replace( '@'.str_replace( '@', '\\@', $matched_url ).'@', $target, $url );
+		return preg_replace( '@' . str_replace( '@', '\\@', $matched_url ) . '@', $target, $url );
 	}
 
 	static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
-			$classname = $name.'_match';
+			$classname = $name . '_match';
 
 			if ( ! class_exists( strtolower( $classname ) ) ) {
-				include( dirname( __FILE__ ).'/../matches/'.$avail[ strtolower( $name ) ] );
+				include( dirname( __FILE__ ) . '/../matches/' . $avail[ strtolower( $name ) ] );
 			}
 
 			return new $classname( $data );
@@ -55,7 +55,7 @@ abstract class Red_Match {
 	}
 
 	static function available() {
-	 	return array(
+		return array(
 			'url'      => 'url.php',
 			'referrer' => 'referrer.php',
 			'agent'    => 'user-agent.php',
@@ -63,6 +63,7 @@ abstract class Red_Match {
 			'header'   => 'http-header.php',
 			'custom'   => 'custom-filter.php',
 			'cookie'   => 'cookie.php',
-		 );
+			'role'     => 'user-role.php',
+		);
 	}
 }
