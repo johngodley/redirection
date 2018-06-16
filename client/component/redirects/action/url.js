@@ -19,7 +19,7 @@ const ActionUrl = props => {
 		<tr>
 			<th>{ __( 'Target URL' ) }</th>
 			<td>
-				<input type="text" name="url" value={ props.target.url } onChange={ changer } />
+				<input type="text" name="url" value={ props.target.url } onChange={ changer } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
 			</td>
 		</tr>
 	);
