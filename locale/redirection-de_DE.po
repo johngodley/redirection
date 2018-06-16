@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-01-29 12:23:16+0000\n"
+"PO-Revision-Date: 2018-06-08 01:04:38+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 
 #: redirection-strings.php:175
 msgid "Form request"
-msgstr ""
+msgstr "Formularanfrage"
 
 #: redirection-strings.php:174
 msgid "Relative /wp-json/"
-msgstr ""
+msgstr "Relativ /wp-json/"
 
 #: redirection-strings.php:173
 msgid "Proxy over Admin AJAX"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: redirection-strings.php:171
 msgid "Default /wp-json/"
-msgstr ""
+msgstr "Standard /wp-json/"
 
 #: redirection-strings.php:17
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
@@ -197,7 +197,7 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "https://johngodley.com"
-msgstr ""
+msgstr "https://johngodley.com"
 
 #: redirection-strings.php:311
 msgid "Useragent Error"
@@ -1257,7 +1257,7 @@ msgstr "Geänderte Beiträge"
 
 #: models/database.php:138 models/group.php:150 redirection-strings.php:56
 msgid "Redirections"
-msgstr "Umleitungen"
+msgstr "Redirections"
 
 #: redirection-strings.php:255
 msgid "User Agent"

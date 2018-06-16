@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-02-20 09:38:02+0000\n"
+"PO-Revision-Date: 2018-06-13 21:23:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,71 +13,71 @@ msgstr ""
 
 #: redirection-strings.php:175
 msgid "Form request"
-msgstr ""
+msgstr "Formulaire de demande"
 
 #: redirection-strings.php:174
 msgid "Relative /wp-json/"
-msgstr ""
+msgstr "/wp-json/ relatif"
 
 #: redirection-strings.php:173
 msgid "Proxy over Admin AJAX"
-msgstr ""
+msgstr "Proxy sur Admin AJAX"
 
 #: redirection-strings.php:171
 msgid "Default /wp-json/"
-msgstr ""
+msgstr "/wp-json/ par défaut"
 
 #: redirection-strings.php:17
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
-msgstr ""
+msgstr "Si vous ne pouvez pas faire fonctionne quoi que ce soit alors l’extension Redirection doit rencontrer des difficultés à communiquer avec votre serveur. Vous pouvez essayer de modifier ces réglages manuellement :"
 
 #: models/fixer.php:57
 msgid "Site and home protocol"
-msgstr ""
+msgstr "Protocole du site et de l’accueil"
 
 #: models/fixer.php:52
 msgid "Site and home URL are inconsistent - please correct from your General settings"
-msgstr ""
+msgstr "Les URL du site et de l’accueil sont incohérentes. Veuillez les corriger dans vos réglages généraux."
 
 #: models/fixer.php:50
 msgid "Site and home are consistent"
-msgstr ""
+msgstr "Le site et l’accueil sont cohérents"
 
 #: redirection-strings.php:273
 msgid "Note it is your responsability to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
-msgstr ""
+msgstr "Veuillez noter qu’il est de votre responsabilité de passer les en-têtes HTTP en PHP. Veuillez contacter votre hébergeur pour vous aider."
 
 #: redirection-strings.php:271
 msgid "Accept Language"
-msgstr ""
+msgstr "Accepter la langue"
 
 #: redirection-strings.php:269
 msgid "Header value"
-msgstr ""
+msgstr "Valeur de l’en-tête"
 
 #: redirection-strings.php:268
 msgid "Header name"
-msgstr ""
+msgstr "Nom de l’en-tête"
 
 #: redirection-strings.php:267
 msgid "HTTP Header"
-msgstr ""
+msgstr "En-tête HTTP"
 
 #: redirection-strings.php:266
 msgid "WordPress filter name"
-msgstr ""
+msgstr "Nom de filtre WordPress"
 
 #: redirection-strings.php:265
 msgid "Filter Name"
-msgstr ""
+msgstr "Nom du filtre"
 
 #: redirection-strings.php:263
 msgid "Cookie value"
-msgstr ""
+msgstr "Valeur du cookie"
 
 #: redirection-strings.php:262
 msgid "Cookie name"
-msgstr ""
+msgstr "Nom du cookie"
 
 #: redirection-strings.php:261
 msgid "Cookie"
@@ -89,23 +89,23 @@ msgstr "Description facultative"
 
 #: redirection-strings.php:205 redirection-strings.php:209
 msgid "Target URL when not matched"
-msgstr ""
+msgstr "URL cible lorsque cela ne correspond pas"
 
 #: redirection-strings.php:203 redirection-strings.php:207
 msgid "Target URL when matched"
-msgstr ""
+msgstr "URL cible lorsque cela correspond"
 
 #: redirection-strings.php:66
 msgid "clearing your cache."
-msgstr ""
+msgstr "vider votre cache."
 
 #: redirection-strings.php:65
 msgid "If you are using a caching system such as Cloudflare then please read this: "
-msgstr ""
+msgstr "Si vous utilisez un système de cache comme Cloudflare, veuillez lire ceci : "
 
 #: matches/http-header.php:11 redirection-strings.php:216
 msgid "URL and HTTP header"
-msgstr ""
+msgstr "URL et en-tête HTTP"
 
 #: matches/custom-filter.php:9 redirection-strings.php:217
 msgid "URL and custom filter"
@@ -121,7 +121,7 @@ msgstr "404 supprimée"
 
 #: redirection-strings.php:172
 msgid "Raw /index.php?rest_route=/"
-msgstr ""
+msgstr "/index.php?rest_route=/ brut"
 
 #: redirection-strings.php:197
 msgid "REST API"
@@ -137,31 +137,31 @@ msgstr "WordPress a renvoyé un message inattendu. Cela peut être causé par vo
 
 #: redirection-strings.php:12
 msgid "Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
-msgstr ""
+msgstr "Veuillez jeter un œil à {{link}}l’état de l’extension{{/link}}. Ça pourrait identifier et corriger le problème."
 
 #: redirection-strings.php:13
 msgid "{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it."
-msgstr ""
+msgstr "{{link}}L’extension Redirection ne peut pas communiquer avec l’API REST{{/link}}. Si vous l’avez désactivée alors vous devriez l’activer à nouveau."
 
 #: redirection-strings.php:14
 msgid "{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests."
-msgstr ""
+msgstr "{{link}}Un programme de sécurité peut bloquer Redirection{{/link}}. Veuillez le configurer pour qu’il autorise les requêtes de l’API REST."
 
 #: redirection-strings.php:15
 msgid "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
-msgstr ""
+msgstr "{{link}}Les logiciels de cache{{/link}}, comme Cloudflare en particulier, peuvent mettre en cache les mauvais éléments. Essayez de vider tous vos caches."
 
 #: redirection-strings.php:16
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
-msgstr ""
+msgstr "{{link}}Veuillez temporairement désactiver les autres extensions !{{/link}} Ça pourrait résoudre beaucoup de problèmes."
 
 #: redirection-strings.php:19
 msgid "None of the suggestions helped"
-msgstr ""
+msgstr "Aucune de ces suggestions n’a aidé"
 
 #: redirection-admin.php:414
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
-msgstr ""
+msgstr "Veuillez lire la <a href=\"https://redirection.me/support/problems/\">liste de problèmes communs</a>."
 
 #: redirection-admin.php:408
 msgid "Unable to load Redirection ☹️"
@@ -169,7 +169,7 @@ msgstr "Impossible de charger Redirection ☹️"
 
 #: models/fixer.php:96
 msgid "WordPress REST API is working at %s"
-msgstr ""
+msgstr "L’API REST WordPress fonctionne à %s"
 
 #: models/fixer.php:93
 msgid "WordPress REST API"
@@ -177,19 +177,19 @@ msgstr "API REST WordPress"
 
 #: models/fixer.php:85
 msgid "REST API is not working so routes not checked"
-msgstr ""
+msgstr "L’API REST ne fonctionne pas. Les routes n’ont pas été vérifiées."
 
 #: models/fixer.php:80
 msgid "Redirection routes are working"
-msgstr ""
+msgstr "Les redirections fonctionnent"
 
 #: models/fixer.php:74
 msgid "Redirection does not appear in your REST API routes. Have you disabled it with a plugin?"
-msgstr ""
+msgstr "Redirection n’apparait pas dans vos routes de l’API REST. L’avez-vous désactivée avec une extension ?"
 
 #: models/fixer.php:66
 msgid "Redirection routes"
-msgstr ""
+msgstr "Routes de redirection"
 
 #: redirection-strings.php:8
 msgid "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
@@ -201,11 +201,11 @@ msgstr "https://johngodley.com"
 
 #: redirection-strings.php:311
 msgid "Useragent Error"
-msgstr ""
+msgstr "Erreur de l’agent utilisateur"
 
 #: redirection-strings.php:313
 msgid "Unknown Useragent"
-msgstr ""
+msgstr "Agent utilisateur inconnu"
 
 #: redirection-strings.php:314
 msgid "Device"
@@ -225,7 +225,7 @@ msgstr "Moteur"
 
 #: redirection-strings.php:318
 msgid "Useragent"
-msgstr ""
+msgstr "Agent utilisateur"
 
 #: redirection-strings.php:319
 msgid "Agent"
@@ -233,35 +233,35 @@ msgstr "Agent"
 
 #: redirection-strings.php:168
 msgid "No IP logging"
-msgstr ""
+msgstr "Aucune IP journalisée"
 
 #: redirection-strings.php:169
 msgid "Full IP logging"
-msgstr ""
+msgstr "Connexion avec IP complète"
 
 #: redirection-strings.php:170
 msgid "Anonymize IP (mask last part)"
-msgstr ""
+msgstr "Anonymiser l’IP (masquer la dernière partie)"
 
 #: redirection-strings.php:180
 msgid "Monitor changes to %(type)s"
-msgstr ""
+msgstr "Monitorer les modifications de %(type)s"
 
 #: redirection-strings.php:186
 msgid "IP Logging"
-msgstr ""
+msgstr "Journalisation d’IP"
 
 #: redirection-strings.php:187
 msgid "(select IP logging level)"
-msgstr ""
+msgstr "(sélectionnez le niveau de journalisation des IP)"
 
 #: redirection-strings.php:120 redirection-strings.php:133
 msgid "Geo Info"
-msgstr ""
+msgstr "Informations géographiques"
 
 #: redirection-strings.php:121 redirection-strings.php:134
 msgid "Agent Info"
-msgstr ""
+msgstr "Informations sur l’agent"
 
 #: redirection-strings.php:122 redirection-strings.php:135
 msgid "Filter by IP"
@@ -269,28 +269,28 @@ msgstr "Filtrer par IP"
 
 #: redirection-strings.php:116 redirection-strings.php:125
 msgid "Referrer / User Agent"
-msgstr ""
+msgstr "Référent / Agent utilisateur"
 
 #: redirection-strings.php:25
 msgid "Geo IP Error"
-msgstr ""
+msgstr "Erreur de l’IP géographique"
 
 #: redirection-strings.php:26 redirection-strings.php:312
 msgid "Something went wrong obtaining this information"
-msgstr ""
+msgstr "Un problème est survenu lors de l’obtention de cette information"
 
 #: redirection-strings.php:28
 msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
-msgstr ""
+msgstr "Cette IP provient d’un réseau privé. Elle fait partie du réseau d’un domicile ou d’une entreprise. Aucune autre information ne peut être affichée."
 
 #: redirection-strings.php:30
 msgid "No details are known for this address."
-msgstr ""
+msgstr "Aucun détail n’est connu pour cette adresse."
 
 #: redirection-strings.php:27 redirection-strings.php:29
 #: redirection-strings.php:31
 msgid "Geo IP"
-msgstr ""
+msgstr "IP géographique"
 
 #: redirection-strings.php:32
 msgid "City"
@@ -298,7 +298,7 @@ msgstr "Ville"
 
 #: redirection-strings.php:33
 msgid "Area"
-msgstr ""
+msgstr "Zone"
 
 #: redirection-strings.php:34
 msgid "Timezone"
@@ -306,11 +306,11 @@ msgstr "Fuseau horaire"
 
 #: redirection-strings.php:35
 msgid "Geo Location"
-msgstr ""
+msgstr "Emplacement géographique"
 
 #: redirection-strings.php:36 redirection-strings.php:320
 msgid "Powered by {{link}}redirect.li{{/link}}"
-msgstr ""
+msgstr "Propulsé par {{link}}redirect.li{{/link}}"
 
 #: redirection-settings.php:12
 msgid "Trash"
@@ -334,7 +334,7 @@ msgstr "La documentation complète de Redirection est disponible sur {{site}}htt
 
 #: redirection-strings.php:283
 msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
-msgstr ""
+msgstr "Si vous souhaitez signaler un bogue, veuillez lire le guide {{report}}Reporting Bugs {{/report}}."
 
 #: redirection-strings.php:285
 msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
@@ -354,7 +354,7 @@ msgstr "Cache de redirection"
 
 #: redirection-strings.php:196
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
-msgstr ""
+msgstr "Combien de temps garder les URL redirigées en 301 dans le cache (via l’en-tête HTTP « Expires »)"
 
 #: redirection-strings.php:87
 msgid "Are you sure you want to import from %s?"
@@ -362,7 +362,7 @@ msgstr "Confirmez-vous l’importation depuis %s ?"
 
 #: redirection-strings.php:88
 msgid "Plugin Importers"
-msgstr ""
+msgstr "Importeurs d’extensions"
 
 #: redirection-strings.php:89
 msgid "The following redirect plugins were detected on your site and can be imported from."
@@ -390,7 +390,7 @@ msgstr "Redirection nécessite WordPress v%1s, vous utilisez v%2s. Veuillez mett
 
 #: models/importer.php:149
 msgid "Default WordPress \"old slugs\""
-msgstr ""
+msgstr "« Anciens slugs » de WordPress par défaut"
 
 #: redirection-strings.php:179
 msgid "Create associated redirect (added to end of URL)"
@@ -486,15 +486,15 @@ msgstr "La réparation des tables de la base de données a échoué."
 
 #: models/fixer.php:37
 msgid "Post monitor group is valid"
-msgstr ""
+msgstr "Le groupe de surveillance d’articles est valide"
 
 #: models/fixer.php:37
 msgid "Post monitor group is invalid"
-msgstr ""
+msgstr "Le groupe de surveillance d’articles est non valide"
 
 #: models/fixer.php:35
 msgid "Post monitor group"
-msgstr ""
+msgstr "Groupe de surveillance d’article"
 
 #: models/fixer.php:31
 msgid "All redirects have a valid group"
@@ -618,7 +618,7 @@ msgstr "Position"
 
 #: redirection-strings.php:192
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
-msgstr ""
+msgstr "Utilisé pour générer une URL si aucune URL n’est donnée. Utilisez les étiquettes spéciales {{code}}$dec${{/code}} ou {{code}}$hex${{/code}} pour insérer un identifiant unique déjà utilisé."
 
 #: redirection-strings.php:193
 msgid "Apache Module"

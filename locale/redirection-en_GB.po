@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-11-20 12:09:25+0000\n"
+"PO-Revision-Date: 2018-03-13 08:36:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,316 +13,316 @@ msgstr ""
 
 #: redirection-strings.php:175
 msgid "Form request"
-msgstr ""
+msgstr "Form request"
 
 #: redirection-strings.php:174
 msgid "Relative /wp-json/"
-msgstr ""
+msgstr "Relative /wp-json/"
 
 #: redirection-strings.php:173
 msgid "Proxy over Admin AJAX"
-msgstr ""
+msgstr "Proxy over Admin Ajax"
 
 #: redirection-strings.php:171
 msgid "Default /wp-json/"
-msgstr ""
+msgstr "Default /wp-json/"
 
 #: redirection-strings.php:17
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
-msgstr ""
+msgstr "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
 
 #: models/fixer.php:57
 msgid "Site and home protocol"
-msgstr ""
+msgstr "Site and home protocol"
 
 #: models/fixer.php:52
 msgid "Site and home URL are inconsistent - please correct from your General settings"
-msgstr ""
+msgstr "Site and home URL are inconsistent - please correct from your General settings"
 
 #: models/fixer.php:50
 msgid "Site and home are consistent"
-msgstr ""
+msgstr "Site and home are consistent"
 
 #: redirection-strings.php:273
 msgid "Note it is your responsability to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
-msgstr ""
+msgstr "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
 
 #: redirection-strings.php:271
 msgid "Accept Language"
-msgstr ""
+msgstr "Accept Language"
 
 #: redirection-strings.php:269
 msgid "Header value"
-msgstr ""
+msgstr "Header value"
 
 #: redirection-strings.php:268
 msgid "Header name"
-msgstr ""
+msgstr "Header name"
 
 #: redirection-strings.php:267
 msgid "HTTP Header"
-msgstr ""
+msgstr "HTTP Header"
 
 #: redirection-strings.php:266
 msgid "WordPress filter name"
-msgstr ""
+msgstr "WordPress filter name"
 
 #: redirection-strings.php:265
 msgid "Filter Name"
-msgstr ""
+msgstr "Filter Name"
 
 #: redirection-strings.php:263
 msgid "Cookie value"
-msgstr ""
+msgstr "Cookie value"
 
 #: redirection-strings.php:262
 msgid "Cookie name"
-msgstr ""
+msgstr "Cookie name"
 
 #: redirection-strings.php:261
 msgid "Cookie"
-msgstr ""
+msgstr "Cookie"
 
 #: redirection-strings.php:231
 msgid "Optional description"
-msgstr ""
+msgstr "Optional description"
 
 #: redirection-strings.php:205 redirection-strings.php:209
 msgid "Target URL when not matched"
-msgstr ""
+msgstr "Target URL when not matched"
 
 #: redirection-strings.php:203 redirection-strings.php:207
 msgid "Target URL when matched"
-msgstr ""
+msgstr "Target URL when matched"
 
 #: redirection-strings.php:66
 msgid "clearing your cache."
-msgstr ""
+msgstr "clearing your cache."
 
 #: redirection-strings.php:65
 msgid "If you are using a caching system such as Cloudflare then please read this: "
-msgstr ""
+msgstr "If you are using a caching system such as Cloudflare then please read this: "
 
 #: matches/http-header.php:11 redirection-strings.php:216
 msgid "URL and HTTP header"
-msgstr ""
+msgstr "URL and HTTP header"
 
 #: matches/custom-filter.php:9 redirection-strings.php:217
 msgid "URL and custom filter"
-msgstr ""
+msgstr "URL and custom filter"
 
 #: matches/cookie.php:7 redirection-strings.php:215
 msgid "URL and cookie"
-msgstr ""
+msgstr "URL and cookie"
 
 #: redirection-strings.php:326
 msgid "404 deleted"
-msgstr ""
+msgstr "404 deleted"
 
 #: redirection-strings.php:172
 msgid "Raw /index.php?rest_route=/"
-msgstr ""
+msgstr "Raw /index.php?rest_route=/"
 
 #: redirection-strings.php:197
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 #: redirection-strings.php:198
 msgid "How Redirection uses the REST API - don't change unless necessary"
-msgstr ""
+msgstr "How Redirection uses the REST API - don't change unless necessary"
 
 #: redirection-strings.php:9
 msgid "WordPress returned an unexpected message. This could be caused by your REST API not working, or by another plugin or theme."
-msgstr ""
+msgstr "WordPress returned an unexpected message. This could be caused by your REST API not working, or by another plugin or theme."
 
 #: redirection-strings.php:12
 msgid "Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
-msgstr ""
+msgstr "Please take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
 
 #: redirection-strings.php:13
 msgid "{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it."
-msgstr ""
+msgstr "{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it."
 
 #: redirection-strings.php:14
 msgid "{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests."
-msgstr ""
+msgstr "{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests."
 
 #: redirection-strings.php:15
 msgid "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
-msgstr ""
+msgstr "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
 
 #: redirection-strings.php:16
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
-msgstr ""
+msgstr "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 
 #: redirection-strings.php:19
 msgid "None of the suggestions helped"
-msgstr ""
+msgstr "None of the suggestions helped"
 
 #: redirection-admin.php:414
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
-msgstr ""
+msgstr "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 
 #: redirection-admin.php:408
 msgid "Unable to load Redirection ☹️"
-msgstr ""
+msgstr "Unable to load Redirection ☹️"
 
 #: models/fixer.php:96
 msgid "WordPress REST API is working at %s"
-msgstr ""
+msgstr "WordPress REST API is working at %s"
 
 #: models/fixer.php:93
 msgid "WordPress REST API"
-msgstr ""
+msgstr "WordPress REST API"
 
 #: models/fixer.php:85
 msgid "REST API is not working so routes not checked"
-msgstr ""
+msgstr "REST API is not working so routes not checked"
 
 #: models/fixer.php:80
 msgid "Redirection routes are working"
-msgstr ""
+msgstr "Redirection routes are working"
 
 #: models/fixer.php:74
 msgid "Redirection does not appear in your REST API routes. Have you disabled it with a plugin?"
-msgstr ""
+msgstr "Redirection does not appear in your REST API routes. Have you disabled it with a plugin?"
 
 #: models/fixer.php:66
 msgid "Redirection routes"
-msgstr ""
+msgstr "Redirection routes"
 
 #: redirection-strings.php:8
 msgid "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
-msgstr ""
+msgstr "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
 
 #. Author URI of the plugin/theme
 msgid "https://johngodley.com"
-msgstr ""
+msgstr "https://johngodley.com"
 
 #: redirection-strings.php:311
 msgid "Useragent Error"
-msgstr ""
+msgstr "User Agent Error"
 
 #: redirection-strings.php:313
 msgid "Unknown Useragent"
-msgstr ""
+msgstr "Unknown User Agent"
 
 #: redirection-strings.php:314
 msgid "Device"
-msgstr ""
+msgstr "Device"
 
 #: redirection-strings.php:315
 msgid "Operating System"
-msgstr ""
+msgstr "Operating System"
 
 #: redirection-strings.php:316
 msgid "Browser"
-msgstr ""
+msgstr "Browser"
 
 #: redirection-strings.php:317
 msgid "Engine"
-msgstr ""
+msgstr "Engine"
 
 #: redirection-strings.php:318
 msgid "Useragent"
-msgstr ""
+msgstr "User Agent"
 
 #: redirection-strings.php:319
 msgid "Agent"
-msgstr ""
+msgstr "Agent"
 
 #: redirection-strings.php:168
 msgid "No IP logging"
-msgstr ""
+msgstr "No IP logging"
 
 #: redirection-strings.php:169
 msgid "Full IP logging"
-msgstr ""
+msgstr "Full IP logging"
 
 #: redirection-strings.php:170
 msgid "Anonymize IP (mask last part)"
-msgstr ""
+msgstr "Anonymise IP (mask last part)"
 
 #: redirection-strings.php:180
 msgid "Monitor changes to %(type)s"
-msgstr ""
+msgstr "Monitor changes to %(type)s"
 
 #: redirection-strings.php:186
 msgid "IP Logging"
-msgstr ""
+msgstr "IP Logging"
 
 #: redirection-strings.php:187
 msgid "(select IP logging level)"
-msgstr ""
+msgstr "(select IP logging level)"
 
 #: redirection-strings.php:120 redirection-strings.php:133
 msgid "Geo Info"
-msgstr ""
+msgstr "Geo Info"
 
 #: redirection-strings.php:121 redirection-strings.php:134
 msgid "Agent Info"
-msgstr ""
+msgstr "Agent Info"
 
 #: redirection-strings.php:122 redirection-strings.php:135
 msgid "Filter by IP"
-msgstr ""
+msgstr "Filter by IP"
 
 #: redirection-strings.php:116 redirection-strings.php:125
 msgid "Referrer / User Agent"
-msgstr ""
+msgstr "Referrer / User Agent"
 
 #: redirection-strings.php:25
 msgid "Geo IP Error"
-msgstr ""
+msgstr "Geo IP Error"
 
 #: redirection-strings.php:26 redirection-strings.php:312
 msgid "Something went wrong obtaining this information"
-msgstr ""
+msgstr "Something went wrong obtaining this information"
 
 #: redirection-strings.php:28
 msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
-msgstr ""
+msgstr "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
 
 #: redirection-strings.php:30
 msgid "No details are known for this address."
-msgstr ""
+msgstr "No details are known for this address."
 
 #: redirection-strings.php:27 redirection-strings.php:29
 #: redirection-strings.php:31
 msgid "Geo IP"
-msgstr ""
+msgstr "Geo IP"
 
 #: redirection-strings.php:32
 msgid "City"
-msgstr ""
+msgstr "City"
 
 #: redirection-strings.php:33
 msgid "Area"
-msgstr ""
+msgstr "Area"
 
 #: redirection-strings.php:34
 msgid "Timezone"
-msgstr ""
+msgstr "Timezone"
 
 #: redirection-strings.php:35
 msgid "Geo Location"
-msgstr ""
+msgstr "Geo Location"
 
 #: redirection-strings.php:36 redirection-strings.php:320
 msgid "Powered by {{link}}redirect.li{{/link}}"
-msgstr ""
+msgstr "Powered by {{link}}redirect.li{{/link}}"
 
 #: redirection-settings.php:12
 msgid "Trash"
-msgstr ""
+msgstr "Bin"
 
 #: redirection-admin.php:413
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
-msgstr ""
+msgstr "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 
 #: redirection-admin.php:308
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
-msgstr ""
+msgstr "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 
 #. Plugin URI of the plugin/theme
 msgid "https://redirection.me/"
@@ -618,7 +618,7 @@ msgstr "Position"
 
 #: redirection-strings.php:192
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
-msgstr ""
+msgstr "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 
 #: redirection-strings.php:193
 msgid "Apache Module"

@@ -1006,7 +1006,7 @@ msgstr "Redirection を応援する"
 
 #: redirection-strings.php:62 redirection-strings.php:142
 msgid "Support"
-msgstr "作者を応援　"
+msgstr "サポート"
 
 #: redirection-strings.php:139
 msgid "404s"

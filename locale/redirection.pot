@@ -14,75 +14,75 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: redirection-admin.php:159
+#: redirection-admin.php:160
 msgid "Settings"
 msgstr ""
 
-#: redirection-admin.php:203
+#: redirection-admin.php:204
 msgid "Log entries (%d max)"
 msgstr ""
 
-#: redirection-admin.php:309
+#: redirection-admin.php:310
 msgid "Redirection Support"
 msgstr ""
 
-#: redirection-admin.php:310
+#: redirection-admin.php:311
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr ""
 
-#: redirection-admin.php:352
+#: redirection-admin.php:353
 msgid "Unable to load Redirection"
 msgstr ""
 
-#: redirection-admin.php:353
+#: redirection-admin.php:354
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
 msgstr ""
 
-#: redirection-admin.php:371
+#: redirection-admin.php:372
 msgid "Redirection not installed properly"
 msgstr ""
 
-#: redirection-admin.php:372
+#: redirection-admin.php:373
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
 msgstr ""
 
-#: redirection-admin.php:403
+#: redirection-admin.php:404
 msgid "Loading, please wait..."
 msgstr ""
 
-#: redirection-admin.php:410
+#: redirection-admin.php:411
 msgid "Unable to load Redirection ☹️"
 msgstr ""
 
-#: redirection-admin.php:411
+#: redirection-admin.php:412
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr ""
 
-#: redirection-admin.php:412, redirection-strings.php:69
+#: redirection-admin.php:413, redirection-strings.php:69
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr ""
 
-#: redirection-admin.php:413
+#: redirection-admin.php:414
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr ""
 
-#: redirection-admin.php:415
+#: redirection-admin.php:416
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr ""
 
-#: redirection-admin.php:416
+#: redirection-admin.php:417
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr ""
 
-#: redirection-admin.php:417
+#: redirection-admin.php:418
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:418
+#: redirection-admin.php:419
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr ""
 
-#: redirection-admin.php:421, redirection-strings.php:21
+#: redirection-admin.php:422, redirection-strings.php:21
 msgid "Create Issue"
 msgstr ""
 
@@ -1226,6 +1226,7 @@ msgstr ""
 msgid "WordPress REST API"
 msgstr ""
 
+#. translators: %s: URL of REST API
 #: models/fixer.php:100
 msgid "WordPress REST API is working at %s"
 msgstr ""

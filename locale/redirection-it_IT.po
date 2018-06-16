@@ -1231,7 +1231,7 @@ msgstr "Disattiva"
 #: redirection-strings.php:150 redirection-strings.php:248
 #: redirection-strings.php:277
 msgid "Delete"
-msgstr "Rimuovi"
+msgstr ""
 
 #: redirection-strings.php:47 redirection-strings.php:276
 msgid "Edit"
@@ -1293,11 +1293,11 @@ msgstr "URL e referrer"
 
 #: redirection-strings.php:204
 msgid "Logged Out"
-msgstr "Logged out"
+msgstr ""
 
 #: redirection-strings.php:202
 msgid "Logged In"
-msgstr "Logged in"
+msgstr ""
 
 #: matches/login.php:8 redirection-strings.php:212
 msgid "URL and login status"
