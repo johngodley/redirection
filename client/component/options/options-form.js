@@ -80,7 +80,7 @@ class OptionsForm extends React.Component {
 		} );
 	}
 
-	componentWillUpdate( nextProps ) {
+	UNSAFE_componentWillUpdate( nextProps ) {
 		if ( nextProps.values.token !== this.props.values.token ) {
 			this.setState( { token: nextProps.values.token } );
 		}
@@ -158,6 +158,8 @@ class OptionsForm extends React.Component {
 
 					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
 						<Select items={ ipLogging } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
+
+						&nbsp;- <a target="_blank" rel="noopener noreferrer" href={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</a>
 					</TableRow>
 
 					<TableRow title={ __( 'URL Monitor' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
@@ -192,6 +194,16 @@ class OptionsForm extends React.Component {
 										code: <code />,
 									},
 								} ) }
+							</p>
+						</label>
+					</TableRow>
+
+					<TableRow title={ __( 'Force HTTPS' ) } url={ this.supportLink( 'options', 'force-https' ) }>
+						<label>
+							<p>
+								<input type="checkbox" name="https" onChange={ this.onChange } checked={ this.state.https } />
+								{ __( 'Force a redirect from HTTP to HTTPS. Please ensure your HTTPS is working before enabling' ) }
+								&nbsp; { __( '(beta)' ) }
 							</p>
 						</label>
 					</TableRow>

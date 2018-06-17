@@ -17,6 +17,8 @@ import MatchReferrer from './match/referrer';
 import MatchHeader from './match/header';
 import MatchCustom from './match/custom';
 import MatchCookie from './match/cookie';
+import MatchRole from './match/role';
+import MatchServer from './match/server';
 import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import ActionUrlFrom from './action/url-from';
@@ -37,6 +39,8 @@ import {
 	MATCH_COOKIE,
 	MATCH_HEADER,
 	MATCH_CUSTOM,
+	MATCH_ROLE,
+	MATCH_SERVER,
 
 	getActionData,
 	hasUrlTarget,
@@ -52,6 +56,10 @@ const MATCHES = [
 		name: __( 'URL and login status' ),
 	},
 	{
+		value: MATCH_ROLE,
+		name: __( 'URL and role/capability filter' ),
+	},
+	{
 		value: MATCH_REFERRER,
 		name: __( 'URL and referrer' ),
 	},
@@ -62,6 +70,10 @@ const MATCHES = [
 	{
 		value: MATCH_COOKIE,
 		name: __( 'URL and cookie' ),
+	},
+	{
+		value: MATCH_SERVER,
+		name: __( 'URL and server' ),
 	},
 	{
 		value: MATCH_HEADER,
@@ -158,6 +170,8 @@ class EditRedirect extends React.Component {
 			cookie: this.getHeaderState( action_data ),
 			header: this.getHeaderState( action_data ),
 			custom: this.getCustomState( action_data ),
+			role: this.getRoleState( action_data ),
+			server: this.getServerState( action_data ),
 		};
 
 		this.state.advanced = ! this.canShowAdvanced();
@@ -242,6 +256,16 @@ class EditRedirect extends React.Component {
 				url_from: '',
 				url_notfrom: '',
 			},
+			role: {
+				role: '',
+				url_from: '',
+				url_notfrom: '',
+			},
+			server: {
+				server: '',
+				url_from: '',
+				url_notfrom: '',
+			},
 		};
 	}
 
@@ -268,6 +292,26 @@ class EditRedirect extends React.Component {
 		return {
 			referrer,
 			regex,
+			url_from,
+			url_notfrom,
+		};
+	}
+
+	getRoleState( action_data ) {
+		const { role = '', url_from = '', url_notfrom = '' } = action_data ? action_data : {};
+
+		return {
+			role,
+			url_from,
+			url_notfrom,
+		};
+	}
+
+	getServerState( action_data ) {
+		const { server = '', url_from = '', url_notfrom = '' } = action_data ? action_data : {};
+
+		return {
+			server,
 			url_from,
 			url_notfrom,
 		};
@@ -421,42 +465,51 @@ class EditRedirect extends React.Component {
 
 			case MATCH_CUSTOM:
 				return <MatchCustom filter={ this.state.custom.filter } onChange={ this.onSetData } />;
+
+			case MATCH_ROLE:
+				return <MatchRole role={ this.state.role.role } onChange={ this.onSetData } />;
+
+			case MATCH_SERVER:
+				return <MatchServer server={ this.state.server.server } onChange={ this.onSetData } />;
 		}
 
 		return null;
 	}
 
 	getTarget() {
-		const { match_type, action_type, agent, referrer, login, cookie, target, header, custom } = this.state;
+		const { match_type, action_type, agent, referrer, login, cookie, target, header, custom, role, server } = this.state;
 
-		if ( hasUrlTarget( action_type ) ) {
-			if ( match_type === MATCH_AGENT ) {
+		if ( ! hasUrlTarget( action_type ) ) {
+			return null;
+		}
+
+		switch ( match_type ) {
+			case MATCH_AGENT:
 				return <ActionUrlFrom url_from={ agent.url_from } url_notfrom={ agent.url_notfrom } target="agent" onChange={ this.onSetData } />;
-			}
 
-			if ( match_type === MATCH_REFERRER ) {
+			case MATCH_REFERRER:
 				return <ActionUrlFrom url_from={ referrer.url_from } url_notfrom={ referrer.url_notfrom } target="referrer" onChange={ this.onSetData } />;
-			}
 
-			if ( match_type === MATCH_LOGIN ) {
+			case MATCH_LOGIN:
 				return <ActionLogin logged_in={ login.logged_in } logged_out={ login.logged_out } onChange={ this.onSetData } />;
-			}
 
-			if ( match_type === MATCH_URL ) {
+			case MATCH_URL:
 				return <ActionUrl target={ target } onChange={ this.onSetData } />;
-			}
 
-			if ( match_type === MATCH_COOKIE ) {
-				return <ActionUrlFrom url_from={ cookie.url_from } url_notfrom={ cookie.url_notfrom } target="cookie" onChange={ this.onSetData } />
-			}
+			case MATCH_COOKIE:
+				return <ActionUrlFrom url_from={ cookie.url_from } url_notfrom={ cookie.url_notfrom } target="cookie" onChange={ this.onSetData } />;
 
-			if ( match_type === MATCH_HEADER ) {
-				return <ActionUrlFrom url_from={ header.url_from } url_notfrom={ header.url_notfrom } target="header" onChange={ this.onSetData } />
-			}
+			case MATCH_HEADER:
+				return <ActionUrlFrom url_from={ header.url_from } url_notfrom={ header.url_notfrom } target="header" onChange={ this.onSetData } />;
 
-			if ( match_type === MATCH_CUSTOM ) {
-				return <ActionUrlFrom url_from={ custom.url_from } url_notfrom={ custom.url_notfrom } target="custom" onChange={ this.onSetData } />
-			}
+			case MATCH_CUSTOM:
+				return <ActionUrlFrom url_from={ custom.url_from } url_notfrom={ custom.url_notfrom } target="custom" onChange={ this.onSetData } />;
+
+			case MATCH_ROLE:
+				return <ActionUrlFrom url_from={ role.url_from } url_notfrom={ role.url_notfrom } target="role" onChange={ this.onSetData } />;
+
+			case MATCH_SERVER:
+				return <ActionUrlFrom url_from={ server.url_from } url_notfrom={ server.url_notfrom } target="server" onChange={ this.onSetData } />;
 		}
 
 		return null;
@@ -469,7 +522,7 @@ class EditRedirect extends React.Component {
 			<tr>
 				<th>{ __( 'Title' ) }</th>
 				<td>
-					<input type="text" name="title" value={ title } onChange={ this.onChange } placeholder={ __( 'Optional description' ) } />
+					<input type="text" name="title" value={ title } onChange={ this.onChange } placeholder={ __( 'Optional description - describe the purpose of this redirect' ) } />
 				</td>
 			</tr>
 		);
@@ -540,7 +593,7 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
-		const { url, match_type, target, action_type, referrer, login, agent, header, custom, cookie } = this.state;
+		const { url, match_type, target, action_type, referrer, login, agent, header, cookie, role, server } = this.state;
 
 		if ( Redirectioni10n.autoGenerate === '' && url === '' ) {
 			return false;
@@ -570,6 +623,14 @@ class EditRedirect extends React.Component {
 			if ( match_type === MATCH_HEADER && header.url_from === '' && header.url_notfrom === '' ) {
 				return false;
 			}
+
+			if ( match_type === MATCH_ROLE && role.url_from === '' && role.url_notfrom === '' ) {
+				return false;
+			}
+
+			if ( match_type === MATCH_SERVER && server.url_from === '' && server.url_notfrom === '' ) {
+				return false;
+			}
 		}
 
 		return true;
@@ -586,7 +647,7 @@ class EditRedirect extends React.Component {
 						<tr>
 							<th>{ __( 'Source URL' ) }</th>
 							<td>
-								<input type="text" name="url" value={ url } onChange={ this.onChange } autoFocus={ autoFocus } />
+								<input type="text" name="url" value={ url } onChange={ this.onChange } autoFocus={ autoFocus } placeholder={ __( 'The relative URL you want to redirect from' ) } />
 								<label className="edit-redirection-regex">
 									{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 									&nbsp;
@@ -625,7 +686,6 @@ class EditRedirect extends React.Component {
 	}
 }
 
-// XXX
 EditRedirect.propTypes = {
 	item: PropTypes.object.isRequired,
 	onCancel: PropTypes.func,

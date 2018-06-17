@@ -31,7 +31,7 @@ class MatchReferrer extends React.Component {
 			<tr>
 				<th>{ __( 'Referrer' ) }</th>
 				<td>
-					<input type="text" name="referrer" value={ this.props.referrer } onChange={ this.handleChangeReferrer } />
+					<input type="text" name="referrer" value={ this.props.referrer } onChange={ this.handleChangeReferrer } placeholder={ __( 'Match against this browser referrer text' ) } />
 					<label className="edit-redirection-regex">
 						{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
 						&nbsp;

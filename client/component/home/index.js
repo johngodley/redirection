@@ -157,6 +157,11 @@ class Home extends React.Component {
 		);
 	}
 
+	onAdd = ev => {
+		ev.preventDefault();
+		this.props.onAdd();
+	}
+
 	render() {
 		const title = TITLES[ this.state.page ];
 
@@ -167,7 +172,7 @@ class Home extends React.Component {
 		return (
 			<div className="wrap redirection">
 				<h1 className="wp-heading-inline">{ title }</h1>
-				{ this.state.page === 'redirect' && <a href="#" onClick={ this.props.onAdd } className="page-title-action">Add New</a> }
+				{ this.state.page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
 				<Menu onChangePage={ this.handlePageChange } />
 				<Error />

@@ -11,11 +11,13 @@ export const MATCH_AGENT = 'agent';
 export const MATCH_COOKIE = 'cookie';
 export const MATCH_HEADER = 'header';
 export const MATCH_CUSTOM = 'custom';
+export const MATCH_ROLE = 'role';
+export const MATCH_SERVER = 'server';
 
 export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
 
 export const getActionData = state => {
-	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom } = state;
+	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom, role, server } = state;
 
 	if ( match_type === MATCH_COOKIE ) {
 		return {
@@ -60,6 +62,22 @@ export const getActionData = state => {
 			regex: referrer.regex,
 			url_from: hasUrlTarget( action_type ) ? referrer.url_from : '',
 			url_notfrom: hasUrlTarget( action_type ) ? referrer.url_notfrom : '',
+		};
+	}
+
+	if ( match_type === MATCH_ROLE ) {
+		return {
+			role: role.role,
+			url_from: hasUrlTarget( action_type ) ? role.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? role.url_notfrom : '',
+		};
+	}
+
+	if ( match_type === MATCH_SERVER ) {
+		return {
+			server: server.server,
+			url_from: hasUrlTarget( action_type ) ? server.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? server.url_notfrom : '',
 		};
 	}
 

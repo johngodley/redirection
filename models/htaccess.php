@@ -86,7 +86,7 @@ class Red_Htaccess {
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->user_agent ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', ( $match->regex ? $this->encode_regex( $match->user_agent ) : $this->encode2nd( $match->user_agent ) ) );
 
-			if ( $match->url_from )	{
+			if ( $match->url_from ) {
 				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
@@ -96,6 +96,12 @@ class Red_Htaccess {
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
+	}
+
+	private function add_server( $item, $match ) {
+		$match->url = $match->url_from;
+		$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( $match->server ) );
+		$this->add_url( $item, $match );
 	}
 
 	private function add_url( $item, $match ) {
@@ -175,8 +181,15 @@ class Red_Htaccess {
 		// mod_rewrite section
 		$text[] = '<IfModule mod_rewrite.c>';
 
+		// Add http => https option
+		$options = red_get_options();
+		if ( $options['https'] ) {
+			$text[] = 'RewriteCond %{HTTPS} off';
+			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}';
+		}
+
 		// Add redirects
-		$text = array_merge( $text, $this->items );
+		$text = array_merge( $text, array_filter( $this->items ) );
 
 		// End of mod_rewrite
 		$text[] = '</IfModule>';

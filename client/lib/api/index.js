@@ -168,6 +168,7 @@ const getAction = request =>
 	request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
 	' ' +
 	request.method.toUpperCase();
+
 const getErrorMessage = json => {
 	if ( json === 0 ) {
 		return 'Admin AJAX returned 0';
