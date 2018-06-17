@@ -234,8 +234,6 @@ class Red_Item {
 				do_action( 'redirection_visit', $this, $url, $target );
 				return $this->action->process_after( $this->action_code, $target );
 			}
-
-			return true;
 		}
 
 		return false;
