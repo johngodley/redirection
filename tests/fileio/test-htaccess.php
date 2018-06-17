@@ -46,17 +46,16 @@ and a line at the end';
 		$this->assertEquals( 'and a line at the end', trim( $lines[count( $lines ) - 1] ) );
 	}
 
-	public function testAddToEnd() {
+	public function testAddToStart() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ) ) );
 		$file = $htaccess->get( "this is\nan existing file\n" );
 		$lines = explode( "\n", $file );
 
-		$this->assertEquals( 'this is', trim( $lines[0] ) );
-		$this->assertEquals( 'an existing file', trim( $lines[1] ) );
-		$this->assertEquals( '', trim( $lines[2] ) );
-		$this->assertEquals( '# Created by Redirection', trim( $lines[3] ) );
-		$this->assertEquals( '# End of Redirection', trim( $lines[count( $lines ) - 1] ) );
+		$this->assertEquals( '# Created by Redirection', trim( $lines[0] ) );
+		$this->assertEquals( '# End of Redirection', trim( $lines[ count( $lines ) - 4 ] ) );
+		$this->assertEquals( 'this is', trim( $lines[ count( $lines ) - 2 ] ) );
+		$this->assertEquals( 'an existing file', trim( $lines[ count( $lines ) - 1 ] ) );
 	}
 
 	public function testRemoveExisting() {
