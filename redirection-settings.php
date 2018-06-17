@@ -76,7 +76,7 @@ function red_set_options( array $settings = array() ) {
 
 		if ( ! Red_Group::get( $options['monitor_post'] ) && $options['monitor_post'] !== 0 ) {
 			$groups = Red_Group::get_all();
-			$options['monitor_post'] = $groups[ 0 ]['id'];
+			$options['monitor_post'] = $groups[0]['id'];
 		}
 	}
 
@@ -89,7 +89,7 @@ function red_set_options( array $settings = array() ) {
 
 		if ( ! Red_Group::get( $options['last_group_id'] ) ) {
 			$groups = Red_Group::get_all();
-			$options['last_group_id'] = $groups[ 0 ]['id'];
+			$options['last_group_id'] = $groups[0]['id'];
 		}
 	}
 
@@ -101,7 +101,11 @@ function red_set_options( array $settings = array() ) {
 		$options['token'] = $settings['token'];
 	}
 
-	if ( !isset( $settings['token'] ) || trim( $options['token'] ) === '' ) {
+	if ( isset( $settings['https'] ) ) {
+		$options['https'] = $settings['https'] ? true : false;
+	}
+
+	if ( ! isset( $settings['token'] ) || trim( $options['token'] ) === '' ) {
 		$options['token'] = md5( uniqid() );
 	}
 
@@ -134,7 +138,7 @@ function red_set_options( array $settings = array() ) {
 		$options['modules'][2] = $module->update( $settings );
 	}
 
-	if ( !empty( $options['monitor_post'] ) && count( $options['monitor_types'] ) === 0 ) {
+	if ( ! empty( $options['monitor_post'] ) && count( $options['monitor_types'] ) === 0 ) {
 		// If we have a monitor_post set, but no types, then blank everything
 		$options['monitor_post'] = 0;
 		$options['associated_redirect'] = '';
@@ -165,6 +169,7 @@ function red_get_options() {
 		'ip_logging'          => 1,   // Full IP logging
 		'last_group_id'       => 0,
 		'rest_api'            => false,
+		'https'               => false,
 		'version'             => REDIRECTION_VERSION,
 	) );
 

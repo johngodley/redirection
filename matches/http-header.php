@@ -43,7 +43,7 @@ class Header_Match extends Red_Match {
 		$matched = Redirection_Request::get_header( $this->name ) === $this->value;
 
 		if ( $this->regex ) {
-			$matched = preg_match( '@'.str_replace( '@', '\\@', $this->value ).'@', Redirection_Request::get_header( $this->name ), $matches ) > 0;
+			$matched = preg_match( '@' . str_replace( '@', '\\@', $this->value ) . '@', Redirection_Request::get_header( $this->name ), $matches ) > 0;
 		}
 
 		// Check if referrer matches

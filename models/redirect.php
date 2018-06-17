@@ -201,8 +201,8 @@ class Red_Item {
 		// Save this
 		$data = apply_filters( 'redirection_update_redirect', $data );
 
-		$wpdb->update( $wpdb->prefix.'redirection_items', $data, array( 'id' => $this->id ) );
-		do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id) );
+		$wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
+		do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
 
 		$this->load_from_data( (object) $data );
 
