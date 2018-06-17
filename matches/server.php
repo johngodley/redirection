@@ -3,7 +3,7 @@
 class Server_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	private $server;
+	public $server;
 
 	function name() {
 		return __( 'URL and server', 'redirection' );
@@ -23,7 +23,7 @@ class Server_Match extends Red_Match {
 		$parts = parse_url( $server );
 
 		if ( isset( $parts['host'] ) ) {
-			return $parts['scheme'] . '://' . $parts['host'];
+			return $parts['host'];
 		}
 
 		return '';
@@ -31,13 +31,10 @@ class Server_Match extends Red_Match {
 
 	function get_target( $url, $matched_url, $regex ) {
 		$server = parse_url( $this->server, PHP_URL_HOST );
-		$protocol = parse_url( $this->server, PHP_URL_SCHEME );
 
 		$matched = false;
 		if ( $server === Redirection_Request::get_server_name() ) {
-			if ( ( $protocol === 'https' && is_ssl() ) || ( $protocol === 'http' && ! is_ssl() ) ) {
-				$matched = true;
-			}
+			$matched = true;
 		}
 
 		return $this->get_matched_target( $matched );
