@@ -99,6 +99,7 @@ class Red_Htaccess {
 	}
 
 	private function add_server( $item, $match ) {
+		$match->url = $match->url_from;
 		$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( $match->server ) );
 		$this->add_url( $item, $match );
 	}
@@ -179,6 +180,13 @@ class Red_Htaccess {
 
 		// mod_rewrite section
 		$text[] = '<IfModule mod_rewrite.c>';
+
+		// Add http => https option
+		$options = red_get_options();
+		if ( $options['https'] ) {
+			$text[] = 'RewriteCond %{HTTPS} off';
+			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}';
+		}
 
 		// Add redirects
 		$text = array_merge( $text, array_filter( $this->items ) );

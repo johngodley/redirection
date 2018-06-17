@@ -70,8 +70,8 @@ abstract class Red_Match {
 }
 
 trait FromNotFrom_Match {
-	protected $url_from;
-	protected $url_notfrom;
+	public $url_from;
+	public $url_notfrom;
 
 	private function save_data( array $details, $no_target_url, array $data ) {
 		if ( $no_target_url === false ) {

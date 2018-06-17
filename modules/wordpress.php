@@ -17,6 +17,7 @@ class WordPress_Module extends Red_Module {
 	public function start() {
 		// Setup the various filters and actions that allow Redirection to happen
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', array( $this, 'force_https' ) );
 		add_action( 'send_headers', array( $this, 'send_headers' ) );
 		add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 1, 2 );
 		add_action( 'redirection_visit', array( $this, 'redirection_visit' ), 10, 3 );
@@ -57,6 +58,15 @@ class WordPress_Module extends Red_Module {
 
 	public function redirection_visit( $redirect, $url, $target ) {
 		$redirect->visit( $url, $target );
+	}
+
+	public function force_https() {
+		$options = red_get_options();
+
+		if ( $options['https'] && ! is_ssl() ) {
+			wp_safe_redirect( 'https://' . Redirection_Request::get_server_name(), 301 );
+			die();
+		}
 	}
 
 	public function init() {

@@ -145,6 +145,12 @@ class Red_Fixer {
 		$result = $this->check_api( get_rest_url() );
 
 		if ( is_wp_error( $result ) ) {
+			$options = red_get_options();
+			if ( $options['https'] ) {
+				// Disable this just be to safe
+				red_set_options( array( 'https' => false ) );
+			}
+
 			// Try directly at index.php?rest_route
 			$rest_api = red_get_rest_api( REDIRECTION_API_JSON_INDEX );
 			$result = $this->check_api( $rest_api );
