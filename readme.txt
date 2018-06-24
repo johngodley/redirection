@@ -136,7 +136,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.3 beta 1 - 17th June 2018 =
+= 3.3 - 24th June 2018 =
 * Add user role/capability match
 * Add fix for IP blocking plugins
 * Add server match to redirect other domains (beta)
