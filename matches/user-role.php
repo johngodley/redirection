@@ -6,7 +6,7 @@ class Role_Match extends Red_Match {
 	public $url_notfrom;
 
 	function name() {
-		return __( 'URL and role/capability role', 'redirection' );
+		return __( 'URL and role/capability', 'redirection' );
 	}
 
 	public function save( array $details, $no_target_url = false ) {

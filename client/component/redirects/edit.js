@@ -57,7 +57,7 @@ const MATCHES = [
 	},
 	{
 		value: MATCH_ROLE,
-		name: __( 'URL and role/capability filter' ),
+		name: __( 'URL and role/capability' ),
 	},
 	{
 		value: MATCH_REFERRER,
