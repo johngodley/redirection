@@ -1,5 +1,7 @@
 /**
  * External dependencies
+ *
+ * @format
  */
 
 import React from 'react';
@@ -17,7 +19,15 @@ import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import RedirectRow from './row';
 import EditRedirect from './edit';
-import { getRedirect, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/redirect/action';
+import {
+	getRedirect,
+	setPage,
+	setSearch,
+	performTableAction,
+	setAllSelected,
+	setOrderBy,
+	setFilter,
+} from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
 import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
@@ -91,7 +101,9 @@ class Redirects extends React.Component {
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return <RedirectRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
+		return (
+			<RedirectRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />
+		);
 	}
 
 	getGroups( groups ) {
@@ -115,7 +127,11 @@ class Redirects extends React.Component {
 			<div>
 				{ ! addTop && <h2>{ __( 'Add new redirection' ) }</h2> }
 				<div className={ classes }>
-					<EditRedirect item={ getDefaultItem( '', 0 ) } saveButton={ __( 'Add Redirect' ) } autoFocus={ addTop } />
+					<EditRedirect
+						item={ getDefaultItem( '', 0 ) }
+						saveButton={ __( 'Add Redirect' ) }
+						autoFocus={ addTop }
+					/>
 				</div>
 			</div>
 		);
@@ -142,12 +158,46 @@ class Redirects extends React.Component {
 			<div className="redirects">
 				{ addTop && this.renderNew() }
 
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'group' ] } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } bulk={ bulk } status={ status } >
-					<TableFilter selected={ table.filter ? table.filter : '0' } options={ this.getGroups( group.rows ) } isEnabled={ this.canFilter( group, status ) } onFilter={ this.props.onFilter } />
+				<SearchBox
+					status={ status }
+					table={ table }
+					onSearch={ this.props.onSearch }
+					ignoreFilter={ [ 'group' ] }
+				/>
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onAction }
+					bulk={ bulk }
+					status={ status }
+				>
+					<TableFilter
+						selected={ table.filter ? table.filter : '0' }
+						options={ this.getGroups( group.rows ) }
+						isEnabled={ this.canFilter( group, status ) }
+						onFilter={ this.props.onFilter }
+					/>
 				</TableNav>
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
+				<Table
+					headers={ headers }
+					rows={ rows }
+					total={ total }
+					row={ this.handleRender }
+					table={ table }
+					status={ status }
+					onSetAllSelected={ this.props.onSetAllSelected }
+					onSetOrderBy={ this.props.onSetOrderBy }
+				/>
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onAction }
+					status={ status }
+				/>
 
 				{ canAdd && ! addTop && this.renderNew() }
 			</div>
@@ -193,7 +243,4 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)( Redirects );
+export default connect( mapStateToProps, mapDispatchToProps )( Redirects );

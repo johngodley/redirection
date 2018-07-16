@@ -360,6 +360,17 @@ class Redirection_Admin {
 		return true;
 	}
 
+	private function check_minimum_php() {
+		if ( version_compare( PHP_VERSION, '5.4' ) < 0 ) {
+		?>
+	<div class="error">
+		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+		<p style="text-align: left"><?php printf( __( 'Redirection requires PHP v%1s, you are using v%2s - please update your PHP', 'redirection' ), '5.4', PHP_VERSION ); ?></p>
+	</div>
+		<?php
+		}
+	}
+
 	private function check_tables_exist() {
 		include_once dirname( REDIRECTION_FILE ) . '/models/database.php';
 
@@ -389,6 +400,10 @@ class Redirection_Admin {
 		$version = $version['Version'];
 
 		Redirection_Admin::update();
+
+		if ( $this->check_minimum_php() === false ) {
+			return;
+		}
 
 		if ( $this->check_minimum_wp() === false ) {
 			return;

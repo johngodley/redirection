@@ -2,13 +2,14 @@
  * Internal dependencies
  */
 
-import { STATUS_IN_PROGRESS } from 'state/settings/type';
+import { STATUS_COMPLETE } from 'state/settings/type';
 
 export function getInitialInfo() {
 	return {
-		status: STATUS_IN_PROGRESS,
+		status: STATUS_COMPLETE,
 		maps: {},
 		agents: {},
+		http: false,
 		error: '',
 	};
 }
