@@ -23,7 +23,7 @@ class Server_Match extends Red_Match {
 		$parts = parse_url( $server );
 
 		if ( isset( $parts['host'] ) ) {
-			return $parts['host'];
+			return $parts['scheme'] . '://' . $parts['host'];
 		}
 
 		return '';
