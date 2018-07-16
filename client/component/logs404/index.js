@@ -1,5 +1,7 @@
 /**
  * External dependencies
+ *
+ * @format
  */
 
 import React from 'react';
@@ -19,7 +21,15 @@ import Row404 from './row';
 import TableButtons from 'component/table/table-buttons';
 import { LOGS_TYPE_404 } from 'state/error/type';
 import { getGroup } from 'state/group/action';
-import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/error/action';
+import {
+	loadLogs,
+	deleteAll,
+	setSearch,
+	setPage,
+	performTableAction,
+	setAllSelected,
+	setOrderBy,
+} from 'state/error/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 
 const headers = [
@@ -85,10 +95,34 @@ class Logs404 extends React.Component {
 		return (
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					status={ status }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onTableAction }
+					bulk={ bulk }
+				/>
+				<Table
+					headers={ headers }
+					rows={ rows }
+					total={ total }
+					row={ this.handleRender }
+					table={ table }
+					status={ status }
+					onSetAllSelected={ this.props.onSetAllSelected }
+					onSetOrderBy={ this.props.onSetOrderBy }
+				/>
 
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					status={ status }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onTableAction }
+				>
 					<TableButtons enabled={ rows.length > 0 }>
 						<ExportCSV logType={ LOGS_TYPE_404 } />
 						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
@@ -136,7 +170,4 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)( Logs404 );
+export default connect( mapStateToProps, mapDispatchToProps )( Logs404 );
