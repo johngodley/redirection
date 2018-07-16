@@ -1,0 +1,50 @@
+.http-tester {
+	input[type=text] {
+		width: 80%;
+	}
+
+	table {
+		width: 95%;
+
+		th, td {
+			vertical-align: top;
+			padding: 5px 5px;
+			overflow: hidden;
+		}
+
+		td {
+			max-width: 500px;
+		}
+
+		th {
+			text-align: right;
+			padding-right: 10px;
+			width: 150px;
+		}
+
+		p {
+			padding-top: 0;
+			margin-top: 0;
+		}
+
+		code {
+			background-color: transparent;
+			font-size: 12px;
+			padding: 0;
+		}
+	}
+
+	ul {
+		list-style-type: disc;
+		margin-left: 20px;
+
+		li span {
+			margin: -20px;
+		}
+
+		ul {
+			list-style-type: disc;
+			margin-left: 20px;
+		}
+	}
+}

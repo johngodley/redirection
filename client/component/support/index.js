@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 
 import Newsletter from './newsletter';
 import Help from './help';
+import HttpTester from './http-tester';
 import Status from './status';
 import { loadSettings } from 'state/settings/action';
 
@@ -27,6 +28,7 @@ class Support extends React.Component {
 		return (
 			<div>
 				<Status />
+				<HttpTester />
 				<Help />
 				<Newsletter newsletter={ newsletter } />
 			</div>
