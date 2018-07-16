@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-06-08 01:04:38+0000\n"
+"PO-Revision-Date: 2018-07-11 10:22:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,18 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection-admin.php:368
+msgid "Redirection requires PHP v%1s, you are using v%2s - please update your PHP"
+msgstr ""
+
+#: matches/user-role.php:9
+msgid "URL and role/capability role"
+msgstr ""
+
+#: matches/server.php:9
+msgid "URL and server"
+msgstr ""
 
 #: redirection-strings.php:175
 msgid "Form request"
@@ -21,7 +33,7 @@ msgstr "Relativ /wp-json/"
 
 #: redirection-strings.php:173
 msgid "Proxy over Admin AJAX"
-msgstr ""
+msgstr "Proxy über Admin AJAX"
 
 #: redirection-strings.php:171
 msgid "Default /wp-json/"
@@ -31,15 +43,15 @@ msgstr "Standard /wp-json/"
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
 msgstr ""
 
-#: models/fixer.php:57
+#: models/fixer.php:60
 msgid "Site and home protocol"
 msgstr ""
 
-#: models/fixer.php:52
+#: models/fixer.php:55
 msgid "Site and home URL are inconsistent - please correct from your General settings"
 msgstr ""
 
-#: models/fixer.php:50
+#: models/fixer.php:53
 msgid "Site and home are consistent"
 msgstr ""
 
@@ -49,27 +61,27 @@ msgstr ""
 
 #: redirection-strings.php:271
 msgid "Accept Language"
-msgstr ""
+msgstr "Akzeptiere Sprache"
 
 #: redirection-strings.php:269
 msgid "Header value"
-msgstr ""
+msgstr "Wert im Header "
 
 #: redirection-strings.php:268
 msgid "Header name"
-msgstr ""
+msgstr "Header Name "
 
 #: redirection-strings.php:267
 msgid "HTTP Header"
-msgstr ""
+msgstr "HTTP Header"
 
 #: redirection-strings.php:266
 msgid "WordPress filter name"
-msgstr ""
+msgstr "WordPress Filter Name "
 
 #: redirection-strings.php:265
 msgid "Filter Name"
-msgstr ""
+msgstr "Filter Name"
 
 #: redirection-strings.php:263
 msgid "Cookie value"
@@ -159,35 +171,36 @@ msgstr ""
 msgid "None of the suggestions helped"
 msgstr ""
 
-#: redirection-admin.php:414
+#: redirection-admin.php:432
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr ""
 
-#: redirection-admin.php:408
+#: redirection-admin.php:426
 msgid "Unable to load Redirection ☹️"
 msgstr ""
 
-#: models/fixer.php:96
+#. translators: %s: URL of REST API
+#: models/fixer.php:100
 msgid "WordPress REST API is working at %s"
 msgstr ""
 
-#: models/fixer.php:93
+#: models/fixer.php:96
 msgid "WordPress REST API"
 msgstr "WordPress REST API"
 
-#: models/fixer.php:85
+#: models/fixer.php:88
 msgid "REST API is not working so routes not checked"
 msgstr ""
 
-#: models/fixer.php:80
+#: models/fixer.php:83
 msgid "Redirection routes are working"
 msgstr ""
 
-#: models/fixer.php:74
+#: models/fixer.php:77
 msgid "Redirection does not appear in your REST API routes. Have you disabled it with a plugin?"
 msgstr ""
 
-#: models/fixer.php:66
+#: models/fixer.php:69
 msgid "Redirection routes"
 msgstr ""
 
@@ -312,15 +325,15 @@ msgstr ""
 msgid "Powered by {{link}}redirect.li{{/link}}"
 msgstr ""
 
-#: redirection-settings.php:12
+#: redirection-settings.php:20
 msgid "Trash"
 msgstr ""
 
-#: redirection-admin.php:413
+#: redirection-admin.php:431
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr ""
 
-#: redirection-admin.php:308
+#: redirection-admin.php:311
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr ""
 
@@ -376,15 +389,15 @@ msgstr "Total = "
 msgid "Import from %s"
 msgstr "Import von %s"
 
-#: redirection-admin.php:370
+#: redirection-admin.php:384
 msgid "Problems were detected with your database tables. Please visit the <a href=\"%s\">support page</a> for more details."
 msgstr "Es wurden Probleme mit den Datenbanktabellen festgestellt. Besuche bitte die <a href=\"%s\">Support Seite</a> für mehr Details."
 
-#: redirection-admin.php:369
+#: redirection-admin.php:383
 msgid "Redirection not installed properly"
 msgstr "Redirection wurde nicht korrekt installiert"
 
-#: redirection-admin.php:351
+#: redirection-admin.php:354
 msgid "Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress"
 msgstr "Redirection benötigt WordPress v%1s – Du benutzt v%2s. Bitte führe zunächst ein WordPress Update durch."
 
@@ -396,7 +409,7 @@ msgstr ""
 msgid "Create associated redirect (added to end of URL)"
 msgstr ""
 
-#: redirection-admin.php:416
+#: redirection-admin.php:434
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr ""
 
@@ -464,63 +477,63 @@ msgstr ""
 msgid "Your server has rejected the request for being too big. You will need to change it to continue."
 msgstr ""
 
-#: redirection-admin.php:411
+#: redirection-admin.php:429
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr ""
 
-#: redirection-admin.php:410 redirection-strings.php:69
+#: redirection-admin.php:428 redirection-strings.php:69
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr ""
 
-#: redirection-admin.php:350
+#: redirection-admin.php:353 redirection-admin.php:367
 msgid "Unable to load Redirection"
 msgstr "Redirection konnte nicht geladen werden"
 
-#: models/fixer.php:222
+#: models/fixer.php:259
 msgid "Unable to create group"
 msgstr ""
 
-#: models/fixer.php:214
+#: models/fixer.php:251
 msgid "Failed to fix database tables"
 msgstr ""
 
-#: models/fixer.php:37
+#: models/fixer.php:40
 msgid "Post monitor group is valid"
 msgstr ""
 
-#: models/fixer.php:37
+#: models/fixer.php:40
 msgid "Post monitor group is invalid"
 msgstr ""
 
-#: models/fixer.php:35
+#: models/fixer.php:38
 msgid "Post monitor group"
 msgstr ""
 
-#: models/fixer.php:31
+#: models/fixer.php:34
 msgid "All redirects have a valid group"
 msgstr ""
 
-#: models/fixer.php:31
+#: models/fixer.php:34
 msgid "Redirects with invalid groups detected"
 msgstr ""
 
-#: models/fixer.php:29
+#: models/fixer.php:32
 msgid "Valid redirect group"
 msgstr ""
 
-#: models/fixer.php:25
+#: models/fixer.php:28
 msgid "Valid groups detected"
 msgstr ""
 
-#: models/fixer.php:25
+#: models/fixer.php:28
 msgid "No valid groups, so you will not be able to create any redirects"
 msgstr ""
 
-#: models/fixer.php:23
+#: models/fixer.php:26
 msgid "Valid groups"
 msgstr ""
 
-#: models/fixer.php:21
+#: models/fixer.php:23
 msgid "Database tables"
 msgstr ""
 
@@ -556,15 +569,15 @@ msgstr "Dein Server hat einen 403-Verboten Fehler zurückgegeben, der darauf hin
 msgid "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}."
 msgstr "Füge diese Angaben in deinem Bericht {{strong}} zusammen mit einer Beschreibung dessen ein, was du getan hast{{/ strong}}."
 
-#: redirection-admin.php:415
+#: redirection-admin.php:433
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:409
+#: redirection-admin.php:427
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr ""
 
-#: redirection-admin.php:401
+#: redirection-admin.php:419
 msgid "Loading, please wait..."
 msgstr "Lädt, bitte warte..."
 
@@ -584,7 +597,7 @@ msgstr ""
 msgid "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot."
 msgstr ""
 
-#: redirection-admin.php:419 redirection-strings.php:21
+#: redirection-admin.php:437 redirection-strings.php:21
 msgid "Create Issue"
 msgstr ""
 
@@ -834,19 +847,19 @@ msgstr "Speichern..."
 msgid "View notice"
 msgstr "Hinweis anzeigen"
 
-#: models/redirect.php:511
+#: models/redirect.php:524
 msgid "Invalid source URL"
 msgstr "Ungültige Quell URL"
 
-#: models/redirect.php:443
+#: models/redirect.php:456
 msgid "Invalid redirect action"
 msgstr "Ungültige Umleitungsaktion"
 
-#: models/redirect.php:437
+#: models/redirect.php:450
 msgid "Invalid redirect matcher"
 msgstr ""
 
-#: models/redirect.php:183
+#: models/redirect.php:185
 msgid "Unable to add new redirect"
 msgstr ""
 
@@ -858,7 +871,7 @@ msgstr "Etwas ist schiefgelaufen 🙁"
 msgid "I was trying to do a thing and it went wrong. It may be a temporary issue and if you try again it might work - great!"
 msgstr "Ich habe versucht, etwas zu tun und es ging schief. Es kann eine vorübergehendes Problem sein und wenn du es nochmal probierst, könnte es funktionieren - toll!"
 
-#: redirection-admin.php:203
+#: redirection-admin.php:204
 msgid "Log entries (%d max)"
 msgstr "Log Einträge (%d max)"
 
@@ -1000,7 +1013,7 @@ msgstr "Verwalte alle 301-Umleitungen und 404-Fehler."
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection ist kostenlos – das Leben ist wundervoll und schön! Aber: Sehr viel Zeit und Arbeit sind in seine Entwicklung geflossen und falls es sich als nützlich erwiesen hat, kannst du die Entwicklung {{strong}}mit einer kleinen Spende unterstützen{{/strong}}."
 
-#: redirection-admin.php:307
+#: redirection-admin.php:310
 msgid "Redirection Support"
 msgstr "Unleitung Support"
 
@@ -1138,7 +1151,7 @@ msgstr "Download"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:159
+#: redirection-admin.php:160
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1162,7 +1175,7 @@ msgstr "Umleitung zu zufälligen Beitrag"
 msgid "Redirect to URL"
 msgstr "Umleitung zur URL"
 
-#: models/redirect.php:501
+#: models/redirect.php:514
 msgid "Invalid group when creating redirect"
 msgstr "Ungültige Gruppe für die Erstellung der Umleitung"
 
