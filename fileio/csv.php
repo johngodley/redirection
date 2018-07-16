@@ -89,10 +89,10 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function csv_as_item( $csv, $group ) {
-		if ( $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' && count( $csv ) > 1 ) {
+		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			return array(
-				'url'         => trim( $csv[ self ::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self ::CSV_TARGET ] ) ),
+				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
+				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',
