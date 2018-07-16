@@ -501,7 +501,7 @@ class Redirection_Admin {
 	}
 
 	private function user_has_access() {
-		return current_user_can( apply_filters( 'redirection_role', 'administrator' ) );
+		return current_user_can( apply_filters( 'redirection_role', 'manage_options' ) );
 	}
 
 	function inject() {
