@@ -63,7 +63,7 @@ class TableNav extends React.Component {
 
 				{ this.props.children ? this.props.children : null }
 
-				{ total > 0 && <NavigationPages perPage={ table.perPage } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } inProgress= { status === STATUS_IN_PROGRESS } /> }
+				{ total > 0 && <NavigationPages per_page={ table.per_page } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } inProgress= { status === STATUS_IN_PROGRESS } /> }
 			</div>
 		);
 	}

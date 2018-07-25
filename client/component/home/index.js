@@ -23,7 +23,8 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
-import { clearErrors, ping } from 'state/message/action';
+import { clearErrors } from 'state/message/action';
+import { addToTop } from 'state/redirect/action';
 
 const TITLES = {
 	redirect: __( 'Redirections' ),
@@ -35,8 +36,6 @@ const TITLES = {
 	support: __( 'Support' ),
 };
 
-const PING_TIMER = 60 * 60 * 1000;
-
 class Home extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -46,20 +45,26 @@ class Home extends React.Component {
 			clicked: 0,
 			stack: false,
 			error: REDIRECTION_VERSION !== Redirectioni10n.version,
+			info: false,
 		};
 
 		this.handlePageChange = this.onChangePage.bind( this );
-
-		setInterval( props.onPing, PING_TIMER );
 	}
 
-	componentDidCatch( error ) {
-		this.setState( { error: true, stack: error } );
+	componentDidCatch( error, info ) {
+		this.setState( { error: true, stack: error, info } );
 	}
 
 	onChangePage( page, url ) {
+		const { errors } = this.props;
+
 		if ( page === '' ) {
 			page = 'redirect';
+		}
+
+		if ( page === 'support' && errors.length > 0 ) {
+			document.location.href = url;
+			return;
 		}
 
 		history.pushState( {}, null, url );
@@ -101,14 +106,23 @@ class Home extends React.Component {
 		const debug = [
 			Redirectioni10n.versions,
 			'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
+			'',
 			this.state.stack,
 		];
+
+		if ( this.state.info && this.state.info.componentStack ) {
+			debug.push( this.state.info.componentStack );
+		}
 
 		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
 			return (
 				<div className="notice notice-error">
 					<h2>{ __( 'Cached Redirection detected' ) }</h2>
 					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
+					<p>
+						{ __( 'If you are using a caching system such as Cloudflare then please read this: ' ) }
+						<a href="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" target="_blank" rel="noreferrer noopener">{ __( 'clearing your cache.' ) }</a>
+					</p>
 					<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 				</div>
 			);
@@ -138,9 +152,14 @@ class Home extends React.Component {
 						args: this.state.page,
 					} ) }
 				</p>
-				<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+				<p><textarea readOnly={ true } rows={ debug.length + 8 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 			</div>
 		);
+	}
+
+	onAdd = ev => {
+		ev.preventDefault();
+		this.props.onAdd();
 	}
 
 	render() {
@@ -152,7 +171,8 @@ class Home extends React.Component {
 
 		return (
 			<div className="wrap redirection">
-				<h2>{ title }</h2>
+				<h1 className="wp-heading-inline">{ title }</h1>
+				{ this.state.page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
 				<Menu onChangePage={ this.handlePageChange } />
 				<Error />
@@ -171,13 +191,19 @@ function mapDispatchToProps( dispatch ) {
 		onClear: () => {
 			dispatch( clearErrors() );
 		},
-		onPing: () => {
-			dispatch( ping() );
+		onAdd: () => {
+			dispatch( addToTop( true ) );
 		},
 	};
 }
 
+function mapStateToProps( state ) {
+	return {
+		errors: state.message.errors,
+	};
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps,
 )( Home );

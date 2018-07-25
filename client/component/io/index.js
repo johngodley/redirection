@@ -16,9 +16,8 @@ import classnames from 'classnames';
 
 import { getGroup } from 'state/group/action';
 import { nestedGroups } from 'state/group/selector';
-import { importFile, clearFile, addFile, loadImporters, pluginImport } from 'state/io/action';
+import { importFile, clearFile, addFile, loadImporters, pluginImport, exportFile, downloadFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
-import { exportFile, downloadFile } from 'state/io/action';
 import Importer from './importer';
 
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
@@ -240,7 +239,7 @@ class ImportExport extends React.Component {
 		} );
 
 		return (
-			<div>
+			<div className="import">
 				<h2>{ __( 'Import' ) }</h2>
 
 				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } className={ classes } disableClick disablePreview multiple={ false }>

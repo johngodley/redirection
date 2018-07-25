@@ -13,7 +13,7 @@ export function getInitialLog() {
 		logType: LOGS_TYPE_REDIRECT,
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'ip', 'url' ], [ 'ip' ], 'date', [ 'log', '404s' ] ),
+		table: getDefaultTable( [ 'ip', 'url' ], [ 'ip' ], 'date', [ 'log' ] ),
 		requestCount: 0,
 	};
 }

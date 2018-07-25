@@ -5,7 +5,7 @@
 
 import { getPageUrl } from 'lib/wordpress-url';
 
-const tableParams = [ 'orderBy', 'direction', 'page', 'perPage', 'filter', 'filterBy' ];
+const tableParams = [ 'orderby', 'direction', 'page', 'per_page', 'filter', 'filterBy' ];
 
 const removeIfExists = ( current, newItems ) => {
 	const newArray = [];
@@ -22,10 +22,10 @@ const removeIfExists = ( current, newItems ) => {
 export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultOrder = '', subParams = [] ) => {
 	const query = getPageUrl();
 	const defaults = {
-		orderBy: defaultOrder,
+		orderby: defaultOrder,
 		direction: 'desc',
 		page: 0,
-		perPage: parseInt( Redirectioni10n.per_page, 10 ),
+		per_page: parseInt( Redirectioni10n.per_page, 10 ),
 		selected: [],
 		filterBy: '',
 		filter: '',
@@ -38,10 +38,10 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 
 	return {
 		... defaults,
-		orderBy: query.orderby && allowedOrder.indexOf( query.orderby ) !== -1 ? query.orderby : defaults.orderBy,
+		orderby: query.orderby && allowedOrder.indexOf( query.orderby ) !== -1 ? query.orderby : defaults.orderby,
 		direction: query.direction && query.direction === 'asc' ? 'asc' : defaults.direction,
 		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : defaults.page,
-		perPage: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.perPage,
+		per_page: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.per_page,
 		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) !== -1 ? query.filterby : defaults.filterBy,
 		filter: query.filter ? query.filter : defaults.filter,
 	};
@@ -64,20 +64,25 @@ export const removeDefaults = ( table, defaultOrder ) => {
 		delete table.direction;
 	}
 
-	if ( table.orderBy === defaultOrder ) {
-		delete table.orderBy;
+	if ( table.orderby === defaultOrder ) {
+		delete table.orderby;
 	}
 
 	if ( table.page === 0 ) {
 		delete table.page;
 	}
 
-	if ( table.perPage === parseInt( Redirectioni10n.per_page, 10 ) ) {
-		delete table.perPage;
+	if ( table.per_page === parseInt( Redirectioni10n.per_page, 10 ) ) {
+		delete table.per_page;
+	}
+
+	if ( table.filterBy === '' && table.filter === '' ) {
+		delete table.filterBy;
+		delete table.filter;
 	}
 
 	if ( parseInt( Redirectioni10n.per_page, 10 ) !== 25 ) {
-		table.perPage = parseInt( Redirectioni10n.per_page, 10 );
+		table.per_page = parseInt( Redirectioni10n.per_page, 10 );
 	}
 
 	delete table.selected;

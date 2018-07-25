@@ -37,26 +37,25 @@ class MonitorTest extends WP_UnitTestCase {
 		return $this->getPost( 'publish', $type );
 	}
 
-	private function getFormData( $id = 1 ) {
-		return array( 'redirection_slug' => true, 'ID' => $id );
-	}
-
 	public function testDraftToPublish() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$this->assertFalse( $monitor->can_monitor_post( $this->getDraftPost(), $this->getPublishedPost(), $this->getFormData() ) );
+		$monitor->pre_post_update( 1, false );
+		$this->assertFalse( $monitor->can_monitor_post( $this->getDraftPost(), $this->getPublishedPost() ) );
 	}
 
 	public function testPublishToDraft() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getDraftPost(), $this->getFormData() ) );
+		$monitor->pre_post_update( 1, false );
+		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getDraftPost() ) );
 	}
 
 	public function testHierarchical() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost( 'page' ), $this->getPublishedPost(), $this->getFormData() ) );
+		$monitor->pre_post_update( 1, false );
+		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost( 'page' ), $this->getPublishedPost() ) );
 	}
 
 	public function testPostUpdatedButNoRedirection() {
@@ -69,49 +68,52 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get();
-		$this->assertTrue( $monitor->can_monitor_post( $post, $post, $this->getFormData( $post->ID ) ) );
+		$monitor->pre_post_update( $post->ID, false );
+		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
 	public function testPostNotUpdated() {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get();
-		$this->assertFalse( $monitor->can_monitor_post( $post, $post, $this->getFormData( $post->ID ) ) );
+		$monitor->pre_post_update( $post->ID, false );
+		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
 	public function testPageUpdated() {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$this->assertTrue( $monitor->can_monitor_post( $post, $post, $this->getFormData( $post->ID ) ) );
+		$monitor->pre_post_update( $post->ID, false );
+		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
 	public function testPageNotUpdated() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$this->assertFalse( $monitor->can_monitor_post( $post, $post, $this->getFormData( $post->ID ) ) );
+		$monitor->pre_post_update( $post->ID, false );
+		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
 	public function testOtherNotUpdated() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'product' ) );
-		$this->assertFalse( $monitor->can_monitor_post( $post, $post, $this->getFormData( $post->ID ) ) );
+		$monitor->pre_post_update( $post->ID, false );
+		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
 	public function testNoAssociated() {
 		global $wpdb;
 
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
-		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
 		$post = $this->factory->post->create();
 		$before = parse_url( get_permalink( $post ), PHP_URL_PATH );
 		$this->factory->post->update_object( $post, array( 'post_name' => 'something' ) );
 
-		$monitor->check_for_modified_slug( $post, $before );
-
-		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
 
 		// Should not trigger another
 		$this->assertEquals( $total + 1, $after );
@@ -125,8 +127,6 @@ class MonitorTest extends WP_UnitTestCase {
 		$post = $this->factory->post->create();
 		$before = parse_url( get_permalink( $post ), PHP_URL_PATH );
 		$this->factory->post->update_object( $post, array( 'post_name' => 'something' ) );
-
-		$monitor->check_for_modified_slug( $post, $before );
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
@@ -183,8 +183,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$this->assertEquals( 11, has_action( 'post_updated', array( $monitor, 'post_updated' ) ) );
-		$this->assertEquals( 10, has_action( 'edit_form_advanced', array( $monitor, 'insert_old_post' ) ) );
-		$this->assertEquals( 10, has_action( 'edit_page_form', array( $monitor, 'insert_old_post' ) ) );
+		$this->assertEquals( 10, has_action( 'pre_post_update', array( $monitor, 'pre_post_update' ) ) );
 	}
 
 	public function testPermalinkNotChanged() {

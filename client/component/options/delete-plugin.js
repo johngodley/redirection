@@ -30,6 +30,21 @@ class DeletePlugin extends React.Component {
 		this.closeModal();
 	}
 
+	showModal() {
+		return (
+			<Modal onClose={ this.onClose }>
+				<div>
+					<h1>{ __( 'Delete the plugin - are you sure?' ) }</h1>
+					<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.' ) }</p>
+					<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.' ) }</p>
+					<p>
+						<button className="button-primary button-delete" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
+					</p>
+				</div>
+			</Modal>
+		);
+	}
+
 	render() {
 		return (
 			<div className="wrap">
@@ -40,16 +55,7 @@ class DeletePlugin extends React.Component {
 					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete' ) } />
 				</form>
 
-				<Modal show={ this.state.isModal } onClose={ this.onClose }>
-					<div>
-						<h1>{ __( 'Delete the plugin - are you sure?' ) }</h1>
-						<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.' ) }</p>
-						<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.' ) }</p>
-						<p>
-							<button className="button-primary button-delete" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
-						</p>
-					</div>
-				</Modal>
+				{ this.state.isModal && this.showModal() }
 			</div>
 		);
 	}

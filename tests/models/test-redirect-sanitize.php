@@ -57,9 +57,9 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testLongTitle() {
-		$title = str_repeat( 'a', 51 );
+		$title = str_repeat( 'a', 501 );
 		$result = $this->sanitizer->get( $this->get_new( array( 'title' => $title ) ) );
-		$this->assertEquals( substr( $title, 0, 50 ), $result['title'] );
+		$this->assertEquals( substr( $title, 0, 500 ), $result['title'] );
 	}
 
 	public function testBadUrl() {

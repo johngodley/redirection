@@ -16,7 +16,7 @@ class Red_Plugin_Importer {
 			$results[] = $importer->get_data();
 		}
 
-		return array_filter( $results );
+		return array_values( array_filter( $results ) );
 	}
 
 	public static function get_importer( $id ) {

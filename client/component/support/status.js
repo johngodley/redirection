@@ -1,3 +1,4 @@
+/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -10,21 +11,21 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import { loadStatus } from 'state/settings/action';
+import { loadStatus, fixStatus } from 'state/settings/action';
 
-const Fixit = connect( null, mapDispatchToProps )( props => {
-	const { onLoadStatus } = props;
-	const clicker = () => {
-		onLoadStatus( true );
-	};
-
+const Fixit = () => {
 	return (
 		<div>
-			<p>{ __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below." ) }</p>
-			<p><button className="button-primary" onClick={ clicker }>{ __( '⚡️ Magic fix ⚡️' ) }</button></p>
+			<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
+				<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
+				<input type="hidden" name="action" value="fixit" />
+
+				<p>{ __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below." ) }</p>
+				<p><input type="submit" className="button-primary" value={ __( '⚡️ Magic fix ⚡️' ) } /></p>
+			</form>
 		</div>
 	);
-} );
+};
 
 const PluginStatusItem = ( props ) => {
 	const { item } = props;
@@ -77,8 +78,11 @@ class Status extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoadStatus: fixit => {
-			dispatch( loadStatus( fixit ) );
+		onLoadStatus: () => {
+			dispatch( loadStatus() );
+		},
+		onFix: () => {
+			dispatch( fixStatus() );
 		},
 	};
 }

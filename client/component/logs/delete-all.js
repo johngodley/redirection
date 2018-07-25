@@ -73,15 +73,17 @@ class DeleteAll extends React.Component {
 			<div className="table-button-item">
 				<input className="button" type="submit" name="" value={ title } onClick={ this.onShow } />
 
-				<Modal show={ this.state.isModal } onClose={ this.onClose }>
-					<div>
-						<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
-						<p>{ __( 'Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.' ) }</p>
-						<p>
-							<button className="button-primary" onClick={ this.onDelete }>{ __( 'Yes! Delete the logs' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the logs" ) }</button>
-						</p>
-					</div>
-				</Modal>
+				{ this.state.isModal &&
+					<Modal onClose={ this.onClose }>
+						<div>
+							<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
+							<p>{ __( 'Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.' ) }</p>
+							<p>
+								<button className="button-primary" onClick={ this.onDelete }>{ __( 'Yes! Delete the logs' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the logs" ) }</button>
+							</p>
+						</div>
+					</Modal>
+				}
 			</div>
 		);
 	}

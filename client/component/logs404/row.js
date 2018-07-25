@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import { setFilter, setSelected, performTableAction, deleteExact } from 'state/log/action';
+import { setFilter, setSelected, performTableAction, deleteExact } from 'state/error/action';
 import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
 import EditRedirect from 'component/redirects/edit';
@@ -17,6 +17,8 @@ import { getDefaultItem } from 'state/redirect/selector';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
+import GeoMap from 'component/geo-map';
+import Useragent from 'component/useragent';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -33,6 +35,8 @@ class LogRow404 extends React.Component {
 		this.state = {
 			editing: false,
 			delete_log: false,
+			showMap: false,
+			showAgent: false,
 		};
 	}
 
@@ -71,7 +75,7 @@ class LogRow404 extends React.Component {
 
 	renderEdit() {
 		return (
-			<Modal show={ this.state.editing } onClose={ this.handleClose } width="700">
+			<Modal onClose={ this.handleClose } width="700">
 				<div className="add-new">
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave } autoFocus>
 						<tr>
@@ -90,12 +94,70 @@ class LogRow404 extends React.Component {
 		);
 	}
 
+	renderMap() {
+		return (
+			<Modal onClose={ this.closeMap } padding={ false }>
+				<GeoMap ip={ this.props.item.ip } />
+			</Modal>
+		);
+	}
+
+	renderAgent() {
+		return (
+			<Modal onClose={ this.closeAgent } width="800">
+				<Useragent agent={ this.props.item.agent } />
+			</Modal>
+		);
+	}
+
+	showMap = ev => {
+		ev.preventDefault();
+		this.setState( { showMap: true } );
+	}
+
+	showAgent = ev => {
+		ev.preventDefault();
+		this.setState( { showAgent: true } );
+	}
+
+	closeMap = () => {
+		this.setState( { showMap: false } );
+	}
+
+	closeAgent = () => {
+		this.setState( { showAgent: false } );
+	}
+
+	renderIp( ip ) {
+		if ( ip ) {
+			return (
+				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>
+					{ ip }
+				</a>
+			);
+		}
+
+		return '-';
+	}
+
 	render() {
-		const { created, ip, referrer, url, agent, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, id } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
+		const menu = [
+			<a href="#" onClick={ this.handleDelete } key="0">{ __( 'Delete' ) }</a>,
+			<a href="#" onClick={ this.handleAdd } key="1">{ __( 'Add Redirect' ) }</a>,
+		];
+
+		if ( ip ) {
+			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );
+		}
+
+		if ( agent ) {
+			menu.unshift( <a href={ 'https://redirect.li/agent/?agent=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+		}
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
@@ -104,27 +166,28 @@ class LogRow404 extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">
-					{ created }
-					<RowActions disabled={ isSaving }>
-						<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
-						<a href="#" onClick={ this.handleAdd }>{ __( 'Add Redirect' ) }</a>
-					</RowActions>
-
-					{ this.state.editing && this.renderEdit() }
+					{ created }<br />{ created_time }
 				</td>
 				<td className="column-url column-primary">
 					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
+					<RowActions disabled={ isSaving }>
+						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
+					</RowActions>
+
+					{ this.state.editing && this.renderEdit() }
+					{ this.state.showMap && this.renderMap() }
+					{ this.state.showAgent && this.renderAgent() }
 				</td>
 				<td className="column-referrer">
 					<Referrer url={ referrer } />
-					{ agent && <RowActions>{ [ agent ] }</RowActions> }
+					{ referrer && <br /> }
+					<span>{ agent }</span>
 				</td>
 				<td className="column-ip">
-					<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">
-						{ ip }
-					</a>
+					{ this.renderIp( ip ) }
+
 					<RowActions>
-						<a href="#" onClick={ this.handleShow }>{ __( 'Show only this IP' ) }</a>
+						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
 				</td>
 			</tr>
@@ -141,7 +204,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setSelected( items ) );
 		},
 		onDelete: item => {
-			dispatch( performTableAction( 'delete', item, { logType: '404' } ) );
+			dispatch( performTableAction( 'delete', item ) );
 		},
 		onDeleteFilter: filter => {
 			dispatch( deleteExact( 'url-exact', filter ) );
@@ -149,7 +212,15 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
+function mapStateToProps( state ) {
+	const { status: infoStatus } = state.info;
+
+	return {
+		infoStatus,
+	};
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )( LogRow404 );

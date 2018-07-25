@@ -16,6 +16,9 @@ import RowActions from 'component/table/row-action';
 import { setFilter, setSelected, performTableAction } from 'state/log/action';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import Modal from 'component/modal';
+import GeoMap from 'component/geo-map';
+import Useragent from 'component/useragent';
 
 const Referrer = props => {
 	const { url } = props;
@@ -31,64 +34,134 @@ const Referrer = props => {
 	return null;
 };
 
-const LogRow = props => {
-	const { created, ip, referrer, url, agent, sent_to, id } = props.item;
-	const { selected, status } = props;
-	const isLoading = status === STATUS_IN_PROGRESS;
-	const isSaving = status === STATUS_SAVING;
-	const hideRow = isLoading || isSaving;
+class LogRow extends React.Component {
+	static propTypes = {
+		item: PropTypes.object.isRequired,
+		selected: PropTypes.bool.isRequired,
+		status: PropTypes.string.isRequired,
+	};
 
-	const handleShow = ev => {
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			showMap: false,
+			showAgent: false,
+		};
+	}
+
+	onShow = ev => {
 		ev.preventDefault();
-		props.onShowIP( ip );
-	};
-	const handleSelected = () => {
-		props.onSetSelected( [ id ] );
-	};
-	const handleDelete = ev => {
+		this.props.onShowIP( this.props.item.ip );
+	}
+
+	onSelected = () => {
+		this.props.onSetSelected( [ this.props.item.id ] );
+	}
+
+	onDelete = ev => {
 		ev.preventDefault();
-		props.onDelete( id );
-	};
+		this.props.onDelete( this.props.item.id );
+	}
 
-	return (
-		<tr className={ hideRow ? 'disabled' : '' }>
-			<th scope="row" className="check-column">
-				{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ handleSelected } /> }
-				{ isSaving && <Spinner size="small" /> }
-			</th>
-			<td className="column-date">
-				{ created }
-				<RowActions disabled={ isSaving }>
-					<a href="#" onClick={ handleDelete }>{ __( 'Delete' ) }</a>
-				</RowActions>
-			</td>
-			<td className="column-primary column-url">
-				<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
-				<RowActions>
-					{ [ sent_to ? sent_to.substring( 0, 100 ) : '' ] }
-				</RowActions>
-			</td>
-			<td className="column-referrer">
-				<Referrer url={ referrer } />
-				<RowActions>
-					{ [ agent ] }
-				</RowActions>
-			</td>
-			<td className="column-ip">
-				<a href={ 'http://urbangiraffe.com/map/?ip=' + ip } rel="noreferrer noopener" target="_blank">{ ip }</a>
-				<RowActions>
-					<a href="#" onClick={ handleShow }>{ __( 'Show only this IP' ) }</a>
-				</RowActions>
-			</td>
-		</tr>
-	);
-};
+	renderIp = ipStr => {
+		if ( ipStr ) {
+			return (
+				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ipStr ) } onClick={ this.showMap }>{ ipStr }</a>
+			);
+		}
 
-LogRow.propTypes = {
-	item: PropTypes.object.isRequired,
-	selected: PropTypes.bool.isRequired,
-	status: PropTypes.string.isRequired,
-};
+		return '-';
+	}
+
+	renderMap() {
+		return (
+			<Modal onClose={ this.closeMap } padding={ false }>
+				<GeoMap ip={ this.props.item.ip } />
+			</Modal>
+		);
+	}
+
+	renderAgent() {
+		return (
+			<Modal onClose={ this.closeAgent } width="800">
+				<Useragent agent={ this.props.item.agent } />
+			</Modal>
+		);
+	}
+
+	showMap = ev => {
+		ev.preventDefault();
+		this.setState( { showMap: true } );
+	}
+
+	showAgent = ev => {
+		ev.preventDefault();
+		this.setState( { showAgent: true } );
+	}
+
+	closeMap = () => {
+		this.setState( { showMap: false } );
+	}
+
+	closeAgent = () => {
+		this.setState( { showAgent: false } );
+	}
+
+	render() {
+		const { created, created_time, ip, referrer, url, agent, sent_to, id } = this.props.item;
+		const { selected, status } = this.props;
+		const isLoading = status === STATUS_IN_PROGRESS;
+		const isSaving = status === STATUS_SAVING;
+		const hideRow = isLoading || isSaving;
+		const menu = [
+			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a>,
+		];
+
+		if ( ip ) {
+			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );
+		}
+
+		if ( agent ) {
+			menu.unshift( <a href={ 'https://redirect.li/agent/?ip=' + encodeURIComponent( agent ) } onClick={ this.showAgent } key="3">{ __( 'Agent Info' ) }</a> );
+		}
+
+		return (
+			<tr className={ hideRow ? 'disabled' : '' }>
+				<th scope="row" className="check-column">
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.onSelected } /> }
+					{ isSaving && <Spinner size="small" /> }
+				</th>
+				<td className="column-date">
+					{ created }<br />{ created_time }
+				</td>
+				<td className="column-primary column-url">
+					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a><br />
+					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
+
+					<RowActions disabled={ isSaving }>
+						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
+					</RowActions>
+
+					{ this.state.showMap && this.renderMap() }
+					{ this.state.showAgent && this.renderAgent() }
+				</td>
+				<td className="column-referrer">
+					<Referrer url={ referrer } />
+					{ referrer && <br /> }
+					{ agent }
+				</td>
+				<td className="column-ip">
+					{ this.renderIp( ip ) }
+
+					<RowActions>
+						{ ip && <a href="#" onClick={ this.onShow }>{ __( 'Filter by IP' ) }</a> }
+					</RowActions>
+				</td>
+			</tr>
+		);
+	}
+}
 
 function mapDispatchToProps( dispatch ) {
 	return {

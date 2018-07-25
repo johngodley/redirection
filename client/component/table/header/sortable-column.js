@@ -8,16 +8,16 @@ import PropTypes from 'prop-types';
 
 const SortableColumn = props => {
 	const { name, text, table, primary } = props;
-	const { direction, orderBy } = table;
+	const { direction, orderby } = table;
 	const click = ev => {
 		ev.preventDefault();
-		props.onSetOrderBy( name, orderBy === name && direction === 'desc' ? 'asc' : 'desc' );
+		props.onSetOrderBy( name, orderby === name && direction === 'desc' ? 'asc' : 'desc' );
 	};
 	const classes = classnames( {
 		'manage-column': true,
 		sortable: true,
-		asc: orderBy === name && direction === 'asc',
-		desc: orderBy === name && direction === 'desc' || orderBy !== name,
+		asc: orderby === name && direction === 'asc',
+		desc: orderby === name && direction === 'desc' || orderby !== name,
 		'column-primary': primary,
 		[ 'column-' + name ]: true,
 	} );

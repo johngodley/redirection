@@ -1,5 +1,7 @@
 /**
  * External dependencies
+ *
+ * @format
  */
 
 import React from 'react';
@@ -17,9 +19,17 @@ import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import Row404 from './row';
 import TableButtons from 'component/table/table-buttons';
-import { LOGS_TYPE_404 } from 'state/log/type';
+import { LOGS_TYPE_404 } from 'state/error/type';
 import { getGroup } from 'state/group/action';
-import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
+import {
+	loadLogs,
+	deleteAll,
+	setSearch,
+	setPage,
+	performTableAction,
+	setAllSelected,
+	setOrderBy,
+} from 'state/error/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 
 const headers = [
@@ -38,7 +48,8 @@ const headers = [
 	},
 	{
 		name: 'referrer',
-		title: __( 'Referrer' ),
+		title: __( 'Referrer / User Agent' ),
+		sortable: false,
 	},
 	{
 		name: 'ip',
@@ -58,7 +69,7 @@ class Logs404 extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		props.onLoad( LOGS_TYPE_404 );
+		props.onLoad( props.error.table );
 
 		this.props.onLoadGroups();
 		this.handleRender = this.renderRow.bind( this );
@@ -66,12 +77,12 @@ class Logs404 extends React.Component {
 
 	componentWillReceiveProps( nextProps ) {
 		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoad( LOGS_TYPE_404 );
+			nextProps.onLoad();
 		}
 	}
 
 	renderRow( row, key, status ) {
-		const { saving } = this.props.log;
+		const { saving } = this.props.error;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
@@ -79,15 +90,39 @@ class Logs404 extends React.Component {
 	}
 
 	render() {
-		const { status, total, table, rows } = this.props.log;
+		const { status, total, table, rows } = this.props.error;
 
 		return (
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					status={ status }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onTableAction }
+					bulk={ bulk }
+				/>
+				<Table
+					headers={ headers }
+					rows={ rows }
+					total={ total }
+					row={ this.handleRender }
+					table={ table }
+					status={ status }
+					onSetAllSelected={ this.props.onSetAllSelected }
+					onSetOrderBy={ this.props.onSetOrderBy }
+				/>
 
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
+				<TableNav
+					total={ total }
+					selected={ table.selected }
+					table={ table }
+					status={ status }
+					onChangePage={ this.props.onChangePage }
+					onAction={ this.props.onTableAction }
+				>
 					<TableButtons enabled={ rows.length > 0 }>
 						<ExportCSV logType={ LOGS_TYPE_404 } />
 						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
@@ -99,17 +134,17 @@ class Logs404 extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { log } = state;
+	const { error } = state;
 
 	return {
-		log,
+		error,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: logType => {
-			dispatch( loadLogs( logType ) );
+		onLoad: params => {
+			dispatch( loadLogs( params ) );
 		},
 		onLoadGroups: () => {
 			dispatch( getGroup() );
@@ -124,7 +159,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setPage( page ) );
 		},
 		onTableAction: action => {
-			dispatch( performTableAction( action, null, { logType: '404' } ) );
+			dispatch( performTableAction( action, null ) );
 		},
 		onSetAllSelected: onoff => {
 			dispatch( setAllSelected( onoff ) );
@@ -135,7 +170,4 @@ function mapDispatchToProps( dispatch ) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)( Logs404 );
+export default connect( mapStateToProps, mapDispatchToProps )( Logs404 );

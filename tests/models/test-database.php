@@ -169,10 +169,13 @@ class DatabaseTest extends WP_UnitTestCase {
 		$sql = $this->loadSql( $file );
 
 		if ( $sql ) {
+			$database = new RE_Database();
+
 			foreach ( $sql as $table ) {
 				$wpdb->query( $table );
 			}
 
+			$database->create_defaults();
 			return true;
 		}
 
@@ -201,8 +204,8 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( $this->checkTableExists( 'redirection_modules' ), 'Modules table still exists' );
 
 		// Other checks for converted rows
-		$this->assertEquals( 0, intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups WHERE module_id=3" ), 10 ) );
-		$this->assertTrue( intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 ) > 0 );
+		$this->assertEquals( 0, intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups WHERE module_id=3" ), 10 ), 'Checking '.$version );
+		$this->assertTrue( intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 ) > 0, 'Checking '.$version );
 	}
 
 	public function testUpgradeFromLatest() {
@@ -215,8 +218,15 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->checkAgainstLatest( REDIRECTION_DB_VERSION );
 	}
 
+	/**
+	 * Upgrades old tables the latest version
+	 */
 	public function testUpgradeFromOlder() {
+		global $wpdb;
+
+		// List of DB versions up to, but not including, the latest
 		$versions = array(
+			'2.3.3',
 			'2.3.2',
 			'2.3.1',
 			'2.3.0',
@@ -225,9 +235,12 @@ class DatabaseTest extends WP_UnitTestCase {
 			'2.0.0',
 		);
 
+		$this->removeTables();
+
 		foreach ( $versions as $ver ) {
 			// Load old tables
 			$this->createTables( dirname( __FILE__ ).'/sql/'.$ver.'.sql' );
+			$this->createContentForVersion( $ver );
 
 			// Perform upgrade to latest
 			$database = new RE_Database();
@@ -235,9 +248,32 @@ class DatabaseTest extends WP_UnitTestCase {
 
 			// Check tables match latest
 			$this->checkAgainstLatest( $ver );
+			$this->checkContentForVersion( $ver );
 
 			// Remove all evidence
 			$this->removeTables();
+		}
+	}
+
+	// Specifically checks the conversion of IP addresses when going from <2.4 => 2.4
+	public function createContentForVersion( $ver ) {
+		global $wpdb;
+
+		if ( $ver === '2.3.3' ) {
+			// Insert numeric IPs
+			$wpdb->insert( $wpdb->prefix.'redirection_404', array( 'ip' => ip2long( '192.168.1.1' ) ) );
+			$wpdb->insert( $wpdb->prefix.'redirection_404', array( 'ip' => ip2long( '203.168.1.5' ) ) );
+		}
+	}
+
+	public function checkContentForVersion( $ver ) {
+		global $wpdb;
+
+		if ( $ver === '2.3.3' ) {
+			// Check that the 404 table converts from INT to VARCHAR
+			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_404" );
+			$this->assertEquals( '192.168.1.1', $rows[0]->ip );
+			$this->assertEquals( '203.168.1.5', $rows[1]->ip );
 		}
 	}
 }

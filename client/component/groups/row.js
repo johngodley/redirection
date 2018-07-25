@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
  */
 
 import RowActions from 'component/table/row-action';
-import { setSelected, saveGroup, performTableAction } from 'state/group/action';
+import { setSelected, updateGroup, performTableAction } from 'state/group/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModuleName, getModules } from 'state/io/selector';
 import Spinner from 'component/wordpress/spinner';
@@ -74,7 +74,7 @@ class GroupRow extends React.Component {
 
 	onSave( ev ) {
 		this.onEdit( ev );
-		this.props.onSaveGroup( { id: this.props.item.id, name: this.state.name, moduleId: this.state.moduleId } );
+		this.props.onSaveGroup( this.props.item.id, { name: this.state.name, moduleId: this.state.moduleId } );
 	}
 
 	onSelect( ev ) {
@@ -109,7 +109,7 @@ class GroupRow extends React.Component {
 	renderEdit() {
 		return (
 			<form onSubmit={ this.handleSave } >
-				<table className="edit">
+				<table className="edit-groups">
 					<tbody>
 						<tr>
 							<th width="70">{ __( 'Name' ) }</th>
@@ -183,8 +183,8 @@ function mapDispatchToProps( dispatch ) {
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );
 		},
-		onSaveGroup: item => {
-			dispatch( saveGroup( item ) );
+		onSaveGroup: ( id, item ) => {
+			dispatch( updateGroup( id, item ) );
 		},
 		onTableAction: ( action, ids ) => {
 			dispatch( performTableAction( action, ids ) );

@@ -5,11 +5,14 @@
 import React from 'react';
 
 export const TableRow = props => {
-	const { title } = props;
+	const { title, url = false } = props;
 
 	return (
 		<tr>
-			<th>{ title }</th>
+			<th>
+				{ ! url && title }
+				{ url && <a href={ url } target="_blank">{ title }</a> }
+			</th>
 			<td>{ props.children }</td>
 		</tr>
 	);

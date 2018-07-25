@@ -17,8 +17,9 @@ class Nginx_Module extends Red_Module {
 		$mine = array( 'location' );
 
 		foreach ( $mine as $key ) {
-			if ( isset( $data[ $key ] ) )
+			if ( isset( $data[ $key ] ) ) {
 				$this->$key = $data[ $key ];
+			}
 		}
 	}
 

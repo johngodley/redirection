@@ -4,6 +4,7 @@
  */
 
 global.console = { error: jest.fn() };
+global.Redirectioni10n = {};
 
 import reducer from 'state/settings/reducer';
 import { getInitialSettings } from 'state/settings/initial';
@@ -34,9 +35,9 @@ describe( 'groups reducer', () => {
 	} );
 
 	test( 'SETTING_LOAD_SUCCESS sets load progress, values, and groups', () => {
-		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2, installed: 'install', canDelete: false } );
+		const state = reducer( DEFAULT_STATE, { type: SETTING_LOAD_SUCCESS, values: 1, groups: 2, installed: 'install', postTypes: [], canDelete: false } );
 
-		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2, installed: 'install', canDelete: false } );
+		expect( state ).toEqual( { ... DEFAULT_STATE, loadStatus: STATUS_COMPLETE, values: 1, groups: 2, postTypes: [], installed: 'install', canDelete: false } );
 	} );
 
 	test( 'SETTING_LOAD_FAILED sets failed', () => {

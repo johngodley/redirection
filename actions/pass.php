@@ -5,6 +5,9 @@ class Pass_Action extends Red_Action {
 		echo @wp_remote_fopen( $url );
 	}
 
+	/**
+	 * This is deprecated and will be removed in a future version
+	 */
 	public function process_file( $url ) {
 		$parts = explode( '?', substr( $url, 7 ) );
 

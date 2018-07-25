@@ -1,4 +1,3 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -98,8 +97,8 @@ class Donation extends React.Component {
 					<p>
 						{ __( 'Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.', {
 							components: {
-								strong: <strong />
-							}
+								strong: <strong />,
+							},
 						} ) }
 						&nbsp;{ __( 'You get useful software and I get to carry on making it better.' ) }
 					</p>
@@ -107,7 +106,7 @@ class Donation extends React.Component {
 
 				<input type="hidden" name="cmd" value="_xclick" />
 				<input type="hidden" name="business" value="admin@urbangiraffe.com" />
-				<input type="hidden" name="item_name" value="Redirection" />
+				<input type="hidden" name="item_name" value="Redirection (WordPress Plugin)" />
 				<input type="hidden" name="buyer_credit_promo_code" value="" />
 				<input type="hidden" name="buyer_credit_product_category" value="" />
 				<input type="hidden" name="buyer_credit_shipping_method" value="" />

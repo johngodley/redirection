@@ -25,7 +25,7 @@ class Options extends React.Component {
 	render() {
 		const { loadStatus, values, canDelete = false } = this.props;
 
-		if ( loadStatus === STATUS_IN_PROGRESS ) {
+		if ( loadStatus === STATUS_IN_PROGRESS || ! values ) {
 			return <Placeholder />;
 		}
 

@@ -15,7 +15,7 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import GroupRow from './row';
-import { getGroup, saveGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
+import { getGroup, createGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModules } from 'state/io/selector';
 import Select from 'component/wordpress/select';
@@ -156,7 +156,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onLoadGroups: () => {
-			dispatch( getGroup( { page: 0, filter: '', filterBy: '', orderBy: '' } ) );
+			dispatch( getGroup( { page: 0, filter: '', filterBy: '', orderby: '' } ) );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );
@@ -177,8 +177,8 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setFilter( 'module', moduleId ) );
 		},
 		onCreate: item => {
-			dispatch( saveGroup( item ) );
-		}
+			dispatch( createGroup( item ) );
+		},
 	};
 }
 

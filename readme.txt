@@ -2,9 +2,9 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 4.4
-Tested up to: 4.9
-Stable tag: 2.10.1
+Requires at least: 4.5
+Tested up to: 4.9.6
+Stable tag: 3.4
 Requires PHP: 5.4
 License: GPLv3
 
@@ -35,12 +35,17 @@ In addition to straightforward URL matching you can redirect based on other cond
 - Login status - redirect only if the user is logged in or logged out
 - Browser - redirect if the user is using a certain browser
 - Referrer - redirect if the user visited the link from another page
+- Cookies - redirect if a particular cookie is set
+- HTTP headers - redirect based on a HTTP header
+- Custom filter - redirect based on your own WordPress filter
 
 = Full logging =
 
 A configurable logging option allows to view all redirects occurring on your site, including information about the visitor, the browser used, and the referrer. A 'hit' count is maintained for each redirect so you can see if a URL is being used.
 
 Logs can be exported for external viewing, and can be searched and filtered for more detailed investigation.
+
+Display geographic information about an IP address, as well as a full user agent information, to try and understand who the visitor is.
 
 = Track 404 errors =
 
@@ -124,7 +129,83 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.4 =
 * Another database change. Please backup your data
 
+= 3.0 =
+* Upgrades the database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
+* Switches to the WordPress REST API
+* Permissions changed from 'administrator' role to 'manage_options' capability
+
 == Changelog ==
+
+= 3.4 - 17th July 2018 =
+* Add a redirect checker
+* Fix incorrect host parsing with server match
+* Fix PHP warning with CSV import
+* Fix old capability check that was missed from 3.0
+
+= 3.3.1 - 24th June 2018 =
+* Add a minimum PHP check for people < 5.4
+
+= 3.3 - 24th June 2018 =
+* Add user role/capability match
+* Add fix for IP blocking plugins
+* Add server match to redirect other domains (beta)
+* Add a force http to https option (beta)
+* Use users locale setting, not site
+* Check for mismatched site/home URLs
+* Fix WP CLI not clearing logs
+* Fix old capability check
+* Detect BOM marker in response
+* Improve detection of servers that block content-type json
+* Fix incorrect encoding of entities in some locale files
+* Fix table navigation parameters not affecting subsequent pages
+* Fix .htaccess saving after WordPress redirects
+* Fix get_plugin_data error
+* Fix canonical redirect problem caused by change in WordPress
+* Fix situation that prevented rules cascading
+
+= 3.2 - 11th February 2018 =
+* Add cookie match - redirect based on a cookie
+* Add HTTP header match - redirect based on an HTTP header
+* Add custom filter match - redirect based on a custom WordPress filter
+* Add detection of REST API redirect, causing 'fetch error' on some sites
+* Update table responsiveness
+* Allow redirects for canonical WordPress URLs
+* Fix double include error on some sites
+* Fix delete action on some sites
+* Fix trailing slash redirect of API on some sites
+
+= 3.1.1 - 29th January 2018 =
+* Fix problem fetching data on sites without https
+
+= 3.1 - 27th January 2018 =
+* Add alternative REST API routes to help servers that block the API
+* Move DELETE API calls to POST, to help servers that block DELETE
+* Move API nonce to query param, to help servers that don't pass HTTP headers
+* Improve error messaging
+* Preload support page so it can be used when REST API isn't working
+* Fix bug editing Nginx redirects
+* Fix import from JSON not setting status
+
+= 3.0.1 - 21st Jan 2018 =
+* Don't show warning if per page setting is greater than max
+* Don't allow WP REST API to be redirected
+
+= 3.0 - 20th Jan 2018 =
+* Add support for IPv6
+* Add support for disabling or anonymising IP collection
+* Add support for monitoring custom post types
+* Add support for monitoring from quick edit mode
+* Default to last group used when editing
+* Permissions changed from 'administrator' role to 'manage_options' capability
+* Swap to WP REST API
+* Add new IP map service
+* Add new useragent service
+* Add 'add new' button to redirect page
+* Increase 'title' length
+* Fix position not saving on creation
+* Fix log pages not remembering table settings
+* Fix incorrect column used for HTTP code when importing CSV
+* Add support links from inside the plugin
 
 = 2.10.1 - 26th November 2017 =
 * Fix incorrect HTTP code reported in errors

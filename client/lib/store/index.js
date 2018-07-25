@@ -2,18 +2,18 @@
  * Internal dependencies
  */
 
-import getApi from 'lib/api';
+import { getApi } from 'lib/api';
 import { mergeWithTable, removeDefaults } from 'lib/table';
 import { translate as __ } from 'lib/locale';
 
-export const tableAction = ( storeName, action, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
-	const { table, total } = getState()[ storeName ];
+export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
+	const { table, total } = getState()[ status.store ];
 	const params = {
 		items: ids ? [ ids ] : table.selected,
 		bulk,
 	};
 
-	if ( bulk === 'delete' && table.page > 0 && table.perPage * table.page === total - 1 ) {
+	if ( bulk === 'delete' && table.page > 0 && table.per_page * table.page === total - 1 ) {
 		table.page -= 1;
 	}
 
@@ -22,9 +22,9 @@ export const tableAction = ( storeName, action, bulk, ids, status, extra = {} ) 
 	}
 
 	const tableData = mergeWithTable( table, params );
-	const data = removeDefaults( { ... table, ... { items: params.items.join( ',' ), bulk: params.bulk }, ... extra }, status.order );
+	const data = { ... { items: params.items.join( ',' ) }, ... extra };
 
-	getApi( action, data )
+	getApi( endpoint( bulk, data, removeDefaults( table, status.order ) ) )
 		.then( json => {
 			dispatch( { type: status.saved, ... json, saving: params.items } );
 		} )
@@ -35,19 +35,8 @@ export const tableAction = ( storeName, action, bulk, ids, status, extra = {} ) 
 	return dispatch( { type: status.saving, table: tableData, saving: params.items } );
 };
 
-export const saveAction = ( storeName, action, item, status ) => ( dispatch, getState ) => {
-	const { table } = getState()[ storeName ];
-
-	if ( item.id === 0 ) {
-		// Reset the table params so this goes to the top
-		table.page = 0;
-		table.orderBy = 'id';
-		table.direction = 'desc';
-		table.filterBy = '';
-		table.filter = '';
-	}
-
-	getApi( action, removeDefaults( { ... table, ... item } ) )
+const doAction = ( endpoint, table, item, status, dispatch ) => {
+	getApi( endpoint )
 		.then( json => {
 			dispatch( { type: status.saved, item: json.item, items: json.items, total: json.total, saving: [ item.id ] } );
 		} )
@@ -56,6 +45,23 @@ export const saveAction = ( storeName, action, item, status ) => ( dispatch, get
 		} );
 
 	return dispatch( { type: status.saving, table, item, saving: [ item.id ] } );
+};
+
+export const createAction = ( endpoint, item, status ) => ( dispatch, getState ) => {
+	const { ... table } = getState()[ status.store ];
+
+	// Reset the table params so this goes to the top
+	table.page = 0;
+	table.orderby = 'id';
+	table.direction = 'desc';
+
+	return doAction( endpoint( item ), table, item, status, dispatch );
+};
+
+export const updateAction = ( endpoint, id, item, status ) => ( dispatch, getState ) => {
+	const { table } = getState()[ status.store ];
+
+	return doAction( endpoint( id, item ), table, item, status, dispatch );
 };
 
 const objectDiff = ( source, extra ) => {
@@ -80,16 +86,17 @@ const deepCompare = ( first, second ) => {
 	return true;
 };
 
-export const processRequest = ( action, dispatch, status, params = {}, state = {}, reduxer = s => s ) => {
-	const { table, rows } = state;
+export const processRequest = ( endpoint, dispatch, status, params = {}, state = {}, reduxer = s => s ) => {
+	const { table = {}, rows } = state;
 	const tableData = reduxer( mergeWithTable( table, params ) );
 	const data = removeDefaults( { ... table, ... params }, status.order );
 
+	// If it's the same as our current store then ignore
 	if ( deepCompare( tableData, table ) && rows.length > 0 && deepCompare( params, {} ) ) {
 		return;
 	}
 
-	getApi( action, data )
+	getApi( endpoint( data ) )
 		.then( json => {
 			dispatch( { type: status.saved, ... json } );
 		} )
@@ -100,11 +107,11 @@ export const processRequest = ( action, dispatch, status, params = {}, state = {
 	return dispatch( { table: tableData, type: status.saving, ... objectDiff( tableData, params ) } );
 };
 
-export const directApi = ( action, dispatch, status, params, state ) => {
+export const directApi = ( endpoint, dispatch, status, params, state ) => {
 	const { table } = state;
 	const data = removeDefaults( { ... table, ... params }, status.order );
 
-	getApi( action, data )
+	getApi( endpoint( data ) )
 		.then( json => {
 			dispatch( { type: status.saved, ... json } );
 		} )

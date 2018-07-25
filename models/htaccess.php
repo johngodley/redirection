@@ -11,7 +11,7 @@ class Red_Htaccess {
 		$url = ltrim( $url, '/' );
 
 		// Exactly match the URL
-		return '^'.$url.'$';
+		return '^' . $url . '$';
 	}
 
 	private function encode2nd( $url ) {
@@ -79,13 +79,14 @@ class Red_Htaccess {
 
 	private function add_agent( $item, $match ) {
 		$from = $this->encode( ltrim( $item->get_url(), '/' ) );
-		if ( $item->is_regex() )
+		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
+		}
 
 		if ( ( $match->url_from || $match->url_notfrom ) && $match->user_agent ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', ( $match->regex ? $this->encode_regex( $match->user_agent ) : $this->encode2nd( $match->user_agent ) ) );
 
-			if ( $match->url_from )	{
+			if ( $match->url_from ) {
 				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
@@ -97,13 +98,20 @@ class Red_Htaccess {
 		}
 	}
 
+	private function add_server( $item, $match ) {
+		$match->url = $match->url_from;
+		$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( $match->server ) );
+		$this->add_url( $item, $match );
+	}
+
 	private function add_url( $item, $match ) {
 		$url = $item->get_url();
 
 		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
 			$url_parts = parse_url( $url );
 			$url = $url_parts['path'];
-			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $url_parts['query'] );
+			$query = isset( $url_parts['query'] ) ? $url_parts['query'] : '';
+			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
 		}
 
 		$to = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->is_regex() );
@@ -150,7 +158,7 @@ class Red_Htaccess {
 	}
 
 	private function target( $action, $data, $code, $regex ) {
-		$target = 'action_'.$action;
+		$target = 'action_' . $action;
 
 		if ( method_exists( $this, $target ) ) {
 			return $this->$target( $data, $code, $regex );
@@ -159,22 +167,29 @@ class Red_Htaccess {
 	}
 
 	private function generate() {
-		$version = get_plugin_data( dirname( dirname( __FILE__ ) ).'/redirection.php' );
+		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
 		}
 
 		$text[] = '# Created by Redirection';
-		$text[] = '# '.date( 'r' );
-		$text[] = '# Redirection '.trim( $version['Version'] ).' - https://redirection.me';
+		$text[] = '# ' . date( 'r' );
+		$text[] = '# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me';
 		$text[] = '';
 
 		// mod_rewrite section
 		$text[] = '<IfModule mod_rewrite.c>';
 
+		// Add http => https option
+		$options = red_get_options();
+		if ( $options['https'] ) {
+			$text[] = 'RewriteCond %{HTTPS} off';
+			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}';
+		}
+
 		// Add redirects
-		$text = array_merge( $text, $this->items );
+		$text = array_merge( $text, array_filter( $this->items ) );
 
 		// End of mod_rewrite
 		$text[] = '</IfModule>';
@@ -183,15 +198,16 @@ class Red_Htaccess {
 		// End of redirection section
 		$text[] = '# End of Redirection';
 
-		$text = implode( "\r\n", $text );
-		return "\n".$text."\n";
+		$text = implode( "\n", $text );
+		return "\n" . $text . "\n";
 	}
 
 	public function add( $item ) {
-		$target = 'add_'.$item->get_match_type();
+		$target = 'add_' . $item->get_match_type();
 
-		if ( method_exists( $this, $target ) )
+		if ( method_exists( $this, $target ) ) {
 			$this->$target( $item, $item->match );
+		}
 	}
 
 	public function get( $existing = false ) {
@@ -201,7 +217,7 @@ class Red_Htaccess {
 			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 ) {
 				$text = preg_replace( self::INSERT_REGEX, str_replace( '$', '\\$', $text ), $existing );
 			} else {
-				$text = trim( $existing )."\n".$text;
+				$text = $text . "\n" . trim( $existing );
 			}
 		}
 

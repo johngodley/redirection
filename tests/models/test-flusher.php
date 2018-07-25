@@ -23,6 +23,7 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testNothingScheduled() {
+		Red_Flusher::clear();
 		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
 	}
 
@@ -60,6 +61,7 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testFlush() {
+		Red_Flusher::clear();
 		RE_Log::delete_all();
 
 		$this->addLog( 5 );
@@ -74,6 +76,7 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testBigFlush() {
+		Red_Flusher::clear();
 		RE_Log::delete_all();
 
 		for ( $i = 0; $i < Red_Flusher::DELETE_MAX + 2; $i++ ) {

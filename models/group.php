@@ -187,8 +187,8 @@ class Red_Group {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderBy'] ) && in_array( $params['orderBy'], array( 'name' ), true ) ) {
-			$orderby = $params['orderBy'];
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'name' ), true ) ) {
+			$orderby = $params['orderby'];
 		}
 
 		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
@@ -203,8 +203,8 @@ class Red_Group {
 			}
 		}
 
-		if ( isset( $params['perPage'] ) ) {
-			$limit = intval( $params['perPage'], 10 );
+		if ( isset( $params['per_page'] ) ) {
+			$limit = intval( $params['per_page'], 10 );
 			$limit = min( RED_MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
@@ -222,9 +222,17 @@ class Red_Group {
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
 		$items = array();
 
+		$options = red_get_options();
+
 		foreach ( $rows as $row ) {
 			$group = new Red_Group( $row );
-			$items[] = $group->to_json();
+			$group_json = $group->to_json();
+
+			if ( $group->get_id() === $options['last_group_id'] ) {
+				$group_json['default'] = true;
+			}
+
+			$items[] = $group_json;
 		}
 
 		return array(
