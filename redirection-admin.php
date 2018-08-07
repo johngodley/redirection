@@ -492,10 +492,11 @@ class Redirection_Admin {
 	 */
 	public function red_proxy() {
 		if ( $this->user_has_access() && isset( $_GET['rest_path'] ) && substr( $_GET['rest_path'], 0, 15 ) === 'redirection/v1/' ) {
+			$clean_rest_path = esc_url_raw( rtrim( '/' . $_GET['rest_path'], '/' ) );
 			$_SERVER['HTTP_CONTENT_TYPE'] = 'application/json; charset=utf-8';
 			$_SERVER['CONTENT_TYPE'] = $_SERVER['HTTP_CONTENT_TYPE'];
 			$server = rest_get_server();
-			$server->serve_request( rtrim( '/' . $_GET['rest_path'], '/' ) );
+			$server->serve_request( $clean_rest_path );
 			die();
 		}
 	}
