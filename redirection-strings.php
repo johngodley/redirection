@@ -304,6 +304,9 @@ __( "URL is being redirected with Redirection", "redirection" ), // client/compo
 __( "URL is not being redirected with Redirection", "redirection" ), // client/component/support/http-tester.js:51
 __( "Target", "redirection" ), // client/component/support/http-tester.js:52
 __( "Redirect Tester", "redirection" ), // client/component/support/http-tester.js:63
+__( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting.", "redirection" ), // client/component/support/http-tester.js:66
+__( "URL", "redirection" ), // client/component/support/http-tester.js:69
+__( "Enter full URL, including http:// or https://", "redirection" ), // client/component/support/http-tester.js:69
 __( "Unable to load details", "redirection" ), // client/component/support/http-tester.js:74
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:22
 __( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/component/support/newsletter.js:24
