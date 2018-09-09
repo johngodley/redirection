@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Stable tag: 3.4
 Requires PHP: 5.4
 License: GPLv3
@@ -135,6 +135,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Permissions changed from 'administrator' role to 'manage_options' capability
 
 == Changelog ==
+
+= 3.4.1 - 9th September 2018 =
+* Fix import of WordPress redirects
+* Fix incorrect parsing of URLs with 'http' in the path
+* Fix 'force ssl' not including path
 
 = 3.4 - 17th July 2018 =
 * Add a redirect checker
