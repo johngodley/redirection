@@ -64,7 +64,8 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		if ( $options['https'] && ! is_ssl() ) {
-			wp_safe_redirect( 'https://' . Redirection_Request::get_server_name(), 301 );
+			$target = rtrim( Redirection_Request::get_server_name(), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
+			wp_safe_redirect( 'https://' . $target, 301 );
 			die();
 		}
 	}
