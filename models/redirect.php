@@ -425,11 +425,11 @@ class Red_Item_Sanitize {
 		$data['regex'] = isset( $details['regex'] ) && intval( $details['regex'], 10 ) === 1 ? 1 : 0;
 
 		$url = empty( $details['url'] ) ? $this->auto_generate() : $details['url'];
-		if ( strpos( $url, 'http' ) !== false ) {
+		if ( strpos( $url, 'http:' ) !== false || strpos( $url, 'https:' ) !== false ) {
 			$domain = parse_url( $url, PHP_URL_HOST );
 
 			// Auto-convert an absolute URL to relative + server match
-			if ( $domain !== Redirection_Request::get_server_name() ) {
+			if ( $domain && $domain !== Redirection_Request::get_server_name() ) {
 				$details['match_type'] = 'server';
 				$details['action_data'] = array( 'server' => $domain );
 				$url = parse_url( $url, PHP_URL_PATH );
