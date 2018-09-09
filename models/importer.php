@@ -121,7 +121,7 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		}
 
 		$new = parse_url( $new, PHP_URL_PATH );
-		$old = dirname( $new ).'/'.$redirect->meta_value;
+		$old = rtrim( dirname( $new ), '/' ) . '/' . $redirect->meta_value;
 
 		$data = array(
 			'url'         => $old,
