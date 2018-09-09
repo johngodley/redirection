@@ -112,7 +112,7 @@ class Redirection_Admin {
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
-	// then this can prevent Redirection running, it's a little sensitive about that. We use the nuclear option here to disable
+	// then this can prevent Redirection running and it's a little sensitive about that. We use the nuclear option here to disable
 	// all other JS while viewing Redirection
 	public function flying_solo( $src, $handle ) {
 		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'page=redirection.php' ) !== false ) {
@@ -131,6 +131,7 @@ class Redirection_Admin {
 			'mootools',
 			'wp-seo-',
 			'authenticate',
+			'wordpress-seo',
 			'yikes',
 		);
 
