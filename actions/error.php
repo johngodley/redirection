@@ -23,7 +23,7 @@ class Error_Action extends Red_Action {
 		global $wp_query;
 
 		// Page comments plugin interferes with this
-		$wp_query->posts = false;
+		$wp_query->posts = array();
 		return false;
 	}
 
