@@ -74,7 +74,7 @@ class MatchHeader extends React.Component {
 				<tr>
 					<th />
 					<td>
-						{ __( 'Note it is your responsability to pass HTTP headers to PHP. Please contact your hosting provider for support about this.' ) }
+						{ __( 'Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this.' ) }
 					</td>
 				</tr>
 			</React.Fragment>
