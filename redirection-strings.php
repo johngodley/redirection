@@ -307,6 +307,7 @@ __( "Redirect Tester", "redirection" ), // client/component/support/http-tester.
 __( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting.", "redirection" ), // client/component/support/http-tester.js:66
 __( "URL", "redirection" ), // client/component/support/http-tester.js:69
 __( "Enter full URL, including http:// or https://", "redirection" ), // client/component/support/http-tester.js:69
+__( "Check", "redirection" ), // client/component/support/http-tester.js:70
 __( "Unable to load details", "redirection" ), // client/component/support/http-tester.js:74
 __( "Newsletter", "redirection" ), // client/component/support/newsletter.js:22
 __( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/component/support/newsletter.js:24
@@ -343,7 +344,7 @@ __( "Engine", "redirection" ), // client/component/useragent/index.js:108
 __( "Useragent", "redirection" ), // client/component/useragent/index.js:113
 __( "Agent", "redirection" ), // client/component/useragent/index.js:117
 __( "Powered by {{link}}redirect.li{{/link}}", "redirection" ), // client/component/useragent/index.js:133
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:21
 __( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
 __( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
 __( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
