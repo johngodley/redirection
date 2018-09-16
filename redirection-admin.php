@@ -326,7 +326,14 @@ class Redirection_Admin {
 	}
 
 	private function get_i18n_data() {
-		$i18n_json = dirname( REDIRECTION_FILE ) . '/locale/json/redirection-' . get_user_locale() . '.json';
+		$locale = get_locale();
+
+		// WP 4.7
+		if ( function_exists( 'get_user_locale' ) ) {
+			$locale = get_user_locale();
+		}
+
+		$i18n_json = dirname( REDIRECTION_FILE ) . '/locale/json/redirection-' . $locale . '.json';
 
 		if ( is_file( $i18n_json ) && is_readable( $i18n_json ) ) {
 			$locale_data = @file_get_contents( $i18n_json );
