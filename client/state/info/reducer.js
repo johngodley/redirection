@@ -8,6 +8,7 @@ import {
 	INFO_LOADED_GEO,
 	INFO_LOADED_HTTP,
 	INFO_FAILED,
+	INFO_CLEAR_HTTP,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
@@ -31,6 +32,9 @@ export default function modules( state = {}, action ) {
 
 		case INFO_LOADED_HTTP:
 			return { ... state, status: STATUS_COMPLETE, http: action.http };
+
+		case INFO_CLEAR_HTTP:
+			return { ... state, http: false };
 	}
 
 	return state;

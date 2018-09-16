@@ -6,6 +6,7 @@ import {
 	INFO_LOADED_GEO,
 	INFO_LOADED_AGENT,
 	INFO_LOADED_HTTP,
+	INFO_CLEAR_HTTP,
 	INFO_FAILED,
 } from './type';
 import { getApi, RedirectLiApi } from 'lib/api';
@@ -57,3 +58,5 @@ export const getHttp = url => dispatch => {
 
 	return dispatch( { type: INFO_LOADING } );
 };
+
+export const clearHttp = () => ( { type: INFO_CLEAR_HTTP } );

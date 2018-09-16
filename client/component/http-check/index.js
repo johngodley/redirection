@@ -11,7 +11,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import Spinner from 'component/wordpress/spinner';
-import { getHttp } from 'state/info/action';
+import { getHttp, clearHttp } from 'state/info/action';
 import { getServerUrl } from 'lib/wordpress-url';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
@@ -28,6 +28,10 @@ class HttpCheck extends React.Component {
 		}
 
 		return document.location.origin;
+	}
+
+	componentWillUnmount() {
+		this.props.onClearHttp();
 	}
 
 	renderError() {
@@ -143,6 +147,9 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onGet: url => {
 			dispatch( getHttp( url ) );
+		},
+		onClearHttp: () => {
+			dispatch( clearHttp() );
 		},
 	};
 }
