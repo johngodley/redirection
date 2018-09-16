@@ -32,7 +32,7 @@ import {
 } from 'state/error/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 
-const headers = [
+const getHeaders = () => [
 	{
 		name: 'cb',
 		check: true,
@@ -58,7 +58,7 @@ const headers = [
 	},
 ];
 
-const bulk = [
+const getBulk = () => [
 	{
 		id: 'delete',
 		name: __( 'Delete' ),
@@ -102,10 +102,10 @@ class Logs404 extends React.Component {
 					status={ status }
 					onChangePage={ this.props.onChangePage }
 					onAction={ this.props.onTableAction }
-					bulk={ bulk }
+					bulk={ getBulk() }
 				/>
 				<Table
-					headers={ headers }
+					headers={ getHeaders() }
 					rows={ rows }
 					total={ total }
 					row={ this.handleRender }

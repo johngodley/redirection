@@ -33,7 +33,7 @@ import { getDefaultItem } from 'state/redirect/selector';
 import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 import { nestedGroups } from 'state/group/selector';
 
-const headers = [
+const getHeaders = () => [
 	{
 		name: 'cb',
 		check: true,
@@ -62,7 +62,7 @@ const headers = [
 	},
 ];
 
-const bulk = [
+const getBulk = () => [
 	{
 		id: 'delete',
 		name: __( 'Delete' ),
@@ -170,7 +170,7 @@ class Redirects extends React.Component {
 					table={ table }
 					onChangePage={ this.props.onChangePage }
 					onAction={ this.props.onAction }
-					bulk={ bulk }
+					bulk={ getBulk() }
 					status={ status }
 				>
 					<TableFilter
@@ -181,7 +181,7 @@ class Redirects extends React.Component {
 					/>
 				</TableNav>
 				<Table
-					headers={ headers }
+					headers={ getHeaders() }
 					rows={ rows }
 					total={ total }
 					row={ this.handleRender }

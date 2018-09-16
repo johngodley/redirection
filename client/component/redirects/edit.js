@@ -46,7 +46,7 @@ import {
 	hasUrlTarget,
 } from 'state/redirect/selector';
 
-const MATCHES = [
+const getMatches = () => [
 	{
 		value: MATCH_URL,
 		name: __( 'URL only' ),
@@ -85,7 +85,7 @@ const MATCHES = [
 	},
 ];
 
-const ACTIONS = [
+const getActions = () => [
 	{
 		value: ACTION_URL,
 		name: __( 'Redirect to URL' ),
@@ -108,7 +108,7 @@ const ACTIONS = [
 	},
 ];
 
-const HTTP_REDIRECT = [
+const getHttpCodes = () => [
 	{
 		value: 301,
 		name: __( '301 - Moved Permanently' ),
@@ -127,7 +127,7 @@ const HTTP_REDIRECT = [
 	},
 ];
 
-const HTTP_ERROR = [
+const getHttpError = () => [
 	{
 		value: 401,
 		name: __( '401 - Unauthorized' ),
@@ -431,7 +431,7 @@ class EditRedirect extends React.Component {
 		if ( this.state.action_type === ACTION_ERROR ) {
 			return (
 				<select name="action_code" value={ this.state.action_code } onChange={ this.onChange }>
-					{ HTTP_ERROR.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
+					{ getHttpError.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
 				</select>
 			);
 		}
@@ -439,7 +439,7 @@ class EditRedirect extends React.Component {
 		if ( this.state.action_type === ACTION_URL || this.state.action_type === ACTION_RANDOM ) {
 			return (
 				<select name="action_code" value={ this.state.action_code } onChange={ this.onChange }>
-					{ HTTP_REDIRECT.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
+					{ getHttpCodes.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
 				</select>
 			);
 		}
@@ -536,7 +536,7 @@ class EditRedirect extends React.Component {
 				<th>{ __( 'Match' ) }</th>
 				<td>
 					<select name="match_type" value={ match_type } onChange={ this.onChange }>
-						{ MATCHES.map( item => <option value={ item.value } key={ item.value }>{ item.name }</option> ) }
+						{ getMatches().map( item => <option value={ item.value } key={ item.value }>{ item.name }</option> ) }
 					</select>
 				</td>
 			</tr>
@@ -560,7 +560,7 @@ class EditRedirect extends React.Component {
 				<th>{ __( 'When matched' ) }</th>
 				<td>
 					<select name="action_type" value={ action_type } onChange={ this.onChange }>
-						{ ACTIONS.filter( remover ).map( item => <option value={ item.value } key={ item.value }>{ item.name }</option> ) }
+						{ getActions().filter( remover ).map( item => <option value={ item.value } key={ item.value }>{ item.name }</option> ) }
 					</select>
 
 					{ code && <React.Fragment><strong className="small-flex">{ __( 'with HTTP code' ) }</strong> <span>{ code }</span></React.Fragment> }

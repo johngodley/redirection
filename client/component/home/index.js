@@ -26,7 +26,7 @@ import Menu from 'component/menu';
 import { clearErrors } from 'state/message/action';
 import { addToTop } from 'state/redirect/action';
 
-const TITLES = {
+const getTitles = () => ( {
 	redirect: __( 'Redirections' ),
 	groups: __( 'Groups' ),
 	io: __( 'Import/Export' ),
@@ -34,7 +34,7 @@ const TITLES = {
 	'404s': __( '404 errors' ),
 	options: __( 'Options' ),
 	support: __( 'Support' ),
-};
+} );
 
 class Home extends React.Component {
 	constructor( props ) {
@@ -163,7 +163,7 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const title = TITLES[ this.state.page ];
+		const title = getTitles()[ this.state.page ];
 
 		if ( this.state.error ) {
 			return this.renderError();

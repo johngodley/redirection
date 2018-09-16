@@ -22,7 +22,7 @@ import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSele
 import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
 
-const headers = [
+const getHeaders = () => [
 	{
 		name: 'cb',
 		check: true,
@@ -48,7 +48,7 @@ const headers = [
 	},
 ];
 
-const bulk = [
+const getBulk = () => [
 	{
 		id: 'delete',
 		name: __( 'Delete' ),
@@ -89,8 +89,8 @@ class Logs extends React.Component {
 		return (
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ bulk } />
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() } />
+				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
 						<ExportCSV logType={ LOGS_TYPE_REDIRECT } />

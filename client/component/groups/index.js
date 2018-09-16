@@ -20,7 +20,7 @@ import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settin
 import { getModules } from 'state/io/selector';
 import Select from 'component/wordpress/select';
 
-const headers = [
+const getHeaders = () => [
 	{
 		name: 'cb',
 		check: true,
@@ -117,7 +117,7 @@ class Groups extends React.Component {
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
 					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } />
 				</TableNav>
-				<Table headers={ headers } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
 
 				<h2>{ __( 'Add Group' ) }</h2>

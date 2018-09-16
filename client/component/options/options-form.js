@@ -14,7 +14,7 @@ import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/wordpress/form-table';
 import Select from 'component/wordpress/select';
 
-const timeToKeep = [
+const timeToKeep = () => [
 	{ value: -1, text: __( 'No logs' ) },
 	{ value: 1, text: __( 'A day' ) },
 	{ value: 7, text: __( 'A week' ) },
@@ -22,19 +22,19 @@ const timeToKeep = [
 	{ value: 60, text: __( 'Two months' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
-const expireTimes = [
+const expireTimes = () => [
 	{ value: -1, text: __( 'Never cache' ) },
 	{ value: 1, text: __( 'An hour' ) },
 	{ value: 24, text: __( 'A day' ) },
 	{ value: 24 * 7, text: __( 'A week' ) },
 	{ value: 0, text: __( 'Forever' ) },
 ];
-const ipLogging = [
+const ipLogging = () => [
 	{ value: 0, text: __( 'No IP logging' ) },
 	{ value: 1, text: __( 'Full IP logging' ) },
 	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
 ];
-export const restApi = [
+export const restApi = () => [
 	{ value: 0, text: __( 'Default /wp-json/' ) },
 	{ value: 1, text: __( 'Raw /index.php?rest_route=/' ) },
 	{ value: 2, text: __( 'Proxy over Admin AJAX' ) },
@@ -149,15 +149,15 @@ class OptionsForm extends React.Component {
 					</TableRow>
 
 					<TableRow title={ __( 'Redirect Logs' ) + ':' } url={ this.supportLink( 'logs' ) }>
-						<Select items={ timeToKeep } name="expire_redirect" value={ parseInt( this.state.expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
+						<Select items={ timeToKeep() } name="expire_redirect" value={ parseInt( this.state.expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
 					<TableRow title={ __( '404 Logs' ) + ':' } url={ this.supportLink( 'tracking-404-errors' ) }>
-						<Select items={ timeToKeep } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
+						<Select items={ timeToKeep() } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
 					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
-						<Select items={ ipLogging } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
+						<Select items={ ipLogging() } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
 
 						&nbsp;- <a target="_blank" rel="noopener noreferrer" href={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</a>
 					</TableRow>
@@ -209,12 +209,12 @@ class OptionsForm extends React.Component {
 					</TableRow>
 
 					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
-						<Select items={ expireTimes } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<Select items={ expireTimes() } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
 						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
 
 					<TableRow title={ __( 'REST API' ) } url={ this.supportLink( 'options', 'restapi' ) }>
-						<Select items={ restApi } name="rest_api" value={ parseInt( this.state.rest_api, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<Select items={ restApi() } name="rest_api" value={ parseInt( this.state.rest_api, 10 ) } onChange={ this.onChange } /> &nbsp;
 						<span className="sub">{ __( "How Redirection uses the REST API - don't change unless necessary" ) }</span>
 					</TableRow>
 				</FormTable>
