@@ -431,7 +431,7 @@ class EditRedirect extends React.Component {
 		if ( this.state.action_type === ACTION_ERROR ) {
 			return (
 				<select name="action_code" value={ this.state.action_code } onChange={ this.onChange }>
-					{ getHttpError.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
+					{ getHttpError().map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
 				</select>
 			);
 		}
@@ -439,7 +439,7 @@ class EditRedirect extends React.Component {
 		if ( this.state.action_type === ACTION_URL || this.state.action_type === ACTION_RANDOM ) {
 			return (
 				<select name="action_code" value={ this.state.action_code } onChange={ this.onChange }>
-					{ getHttpCodes.map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
+					{ getHttpCodes().map( item => <option key={ item.value } value={ item.value }>{ item.name }</option> ) }
 				</select>
 			);
 		}

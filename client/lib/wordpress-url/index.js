@@ -46,3 +46,7 @@ export function getPluginPage( url ) {
 export function getRssUrl() {
 	return Redirectioni10n.pluginRoot + '&sub=rss&module=1&token=' + Redirectioni10n.token;
 }
+
+export function getServerUrl( domain, path ) {
+	return domain.replace( /\/$/, '' ) + '/' + path.replace( /^\//, '' );
+}

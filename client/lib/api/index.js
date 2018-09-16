@@ -1,4 +1,4 @@
-// global fetch, Redirectioni10n
+/* global fetch, Redirectioni10n */
 /**
  *
  * @format

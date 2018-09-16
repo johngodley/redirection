@@ -48,7 +48,7 @@ class Modal extends React.Component {
 		let height = 0;
 
 		for ( let x = 0; x < this.ref.children.length; x++ ) {
-		height += this.ref.children[ x ].clientHeight;
+			height += this.ref.children[ x ].clientHeight;
 		}
 
 		this.ref.style.height = ( height ) + 'px';

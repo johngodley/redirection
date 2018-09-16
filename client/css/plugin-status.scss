@@ -14,7 +14,7 @@
 	}
 
 	.plugin-status-good {
-		background-color: #46b450;
+		background-color: $ok;
 		color: white;
 	}
 
@@ -24,7 +24,7 @@
 	}
 
 	.plugin-status-error {
-		background-color: #ff3860;
+		background-color: $error;
 		color: white;
 	}
 }
