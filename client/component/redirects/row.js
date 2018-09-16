@@ -14,7 +14,9 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import EditRedirect from './edit';
+import Modal from 'component/modal';
 import Spinner from 'component/wordpress/spinner';
+import HttpCheck from 'component/http-check';
 import { setSelected, performTableAction } from 'state/redirect/action';
 import { STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 
@@ -32,7 +34,10 @@ class RedirectRow extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { editing: false };
+		this.state = {
+			editing: false,
+			showCheck: false,
+		};
 	}
 
 	componentWillUpdate( nextProps ) {
@@ -70,8 +75,13 @@ class RedirectRow extends React.Component {
 		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
+	onCheck = ev => {
+		ev.preventDefault();
+		this.setState( { showCheck: true } );
+	}
+
 	getMenu() {
-		const { enabled } = this.props.item;
+		const { enabled, regex, action_type } = this.props.item;
 		const menu = [];
 
 		if ( enabled ) {
@@ -82,6 +92,10 @@ class RedirectRow extends React.Component {
 
 		if ( enabled ) {
 			menu.push( [ __( 'Disable' ), this.onDisable ] );
+
+			if ( ! regex && action_type === 'url' ) {
+				menu.push( [ __( 'Check Redirect' ), this.onCheck ] );
+			}
 		} else {
 			menu.push( [ __( 'Enable' ), this.onEnable ] );
 		}
@@ -160,6 +174,18 @@ class RedirectRow extends React.Component {
 		);
 	}
 
+	closeCheck = () => {
+		this.setState( { showCheck: false } );
+	}
+
+	renderCheck() {
+		return (
+			<Modal onClose={ this.closeCheck } padding={ false }>
+				<HttpCheck item={ this.props.item } />
+			</Modal>
+		);
+	}
+
 	renderViewColumns( isSaving ) {
 		const { url, hits, last_access, title, position } = this.props.item;
 
@@ -169,6 +195,7 @@ class RedirectRow extends React.Component {
 
 				<td className="column-position">
 					{ numberFormat( position ) }
+					{ this.state.showCheck && this.renderCheck() }
 				</td>
 				<td className="column-last_count">
 					{ numberFormat( hits ) }
@@ -193,7 +220,7 @@ class RedirectRow extends React.Component {
 		return (
 			<tr className={ classes }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.onSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-code">
