@@ -50,7 +50,8 @@ class HttpCheck extends React.Component {
 		const { action_code, action_data } = this.props.item;
 		const { status, headers } = this.props.http;
 		const location = headers.find( item => item.name === 'location' );
-		const matches = action_code === status && location && location.value === action_data.url;
+		const redirection = headers.find( item => item.name === 'x-redirect-agent' );
+		const matches = action_code === status && location && location.value === action_data.url && redirection;
 
 		return (
 			<div className="http-check-results">
@@ -60,32 +61,45 @@ class HttpCheck extends React.Component {
 				</div>
 				<div className="http-result">
 					<p>
-						<strong>{ __( 'Expected' ) }:</strong>&nbsp;
+						<strong>{ __( 'Expected' ) }: </strong>
 
-						{ __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
-							args: {
-								status: action_code,
-								url: action_data.url,
-							},
-							components: {
-								code: <code />,
-							},
-						} ) }
+						<span>
+							{ __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
+								args: {
+									status: action_code,
+									url: action_data.url,
+								},
+								components: {
+									code: <code />,
+								},
+							} ) }
+						</span>
 					</p>
 					<p>
-						<strong>{ __( 'Found' ) }:</strong>&nbsp;
+						<strong>{ __( 'Found' ) }: </strong>
 
-						{ location && __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
-							args: {
-								status,
-								url: location.value,
-							},
-							components: {
-								code: <code />,
-							},
-						} ) }
-						{ ! location && <span>{ status }</span>}
+						<span>
+							{
+								location
+									? __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
+										args: {
+											status,
+											url: location.value,
+										},
+										components: {
+											code: <code />,
+										},
+									} )
+									: status
+							}
+						</span>
 					</p>
+					<p>
+						<strong>{ __( 'Agent' ) }: </strong>
+
+						<span>{ redirection ? __( 'Using Redirection' ) : __( 'Not using Redirection' ) }</span>
+					</p>
+					{ location && ! redirection && <p><a href="https://redirection.me/support/problems/url-not-redirecting/" target="_blank" rel="noopener noreferrer">{ __( 'What does this mean?' ) }</a></p> }
 				</div>
 			</div>
 		);
