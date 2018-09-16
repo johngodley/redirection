@@ -33,7 +33,7 @@ const PluginStatusItem = ( props ) => {
 	return (
 		<tr>
 			<th>{ item.name }</th>
-			<td><span className={ 'plugin-status-' + item.status }>{ item.status.charAt( 0 ).toUpperCase() + item.status.slice( 1 ) }</span> { item.message }</td>
+			<td><span className={ 'plugin-status-' + item.status }>{ item.status === 'good' ? __( 'Good' ) : __( 'Problem' ) }</span> { item.message }</td>
 		</tr>
 	);
 };
