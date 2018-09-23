@@ -99,6 +99,7 @@ class Error extends React.Component {
 
 	getErrorMessage( errors ) {
 		console.log( errors );
+
 		const messages = errors.map( item => {
 			if ( item.action && item.action === 'reload' ) {
 				if ( document.location.search.indexOf( 'retry=' ) === -1 ) {
@@ -179,7 +180,7 @@ class Error extends React.Component {
 					<li>
 						{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }
 						<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-							REST API: <Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
+							REST API: <Select items={ restApi() } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
 
 							<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
 							<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />

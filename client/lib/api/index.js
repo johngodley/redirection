@@ -227,7 +227,7 @@ export const getApi = request => {
 			try {
 				const json = JSON.parse( text.replace( /\ufeff/, '' ) );
 
-				if ( json.status && json.status !== 200 && json.message ) {
+				if ( request.status && request.status !== 200 ) {
 					throw {
 						message: getErrorMessage( json ),
 						code: getErrorCode( json ),

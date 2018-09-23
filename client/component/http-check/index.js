@@ -48,7 +48,7 @@ class HttpCheck extends React.Component {
 
 	renderDetails() {
 		const { action_code, action_data } = this.props.item;
-		const { status, headers } = this.props.http;
+		const { status, headers = [] } = this.props.http;
 		const location = headers.find( item => item.name === 'location' );
 		const redirection = headers.find( item => item.name === 'x-redirect-agent' );
 		const matches = action_code === status && location && location.value === action_data.url && redirection;
