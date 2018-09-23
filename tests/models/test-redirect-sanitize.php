@@ -62,9 +62,9 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( substr( $title, 0, 500 ), $result['title'] );
 	}
 
-	public function testBadUrl() {
+	public function testEmptyUrl() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '' ) ) );
-		$this->assertWPError( $result );
+		$this->assertEquals( '/', $result['url'] );
 	}
 
 	public function testUrl() {

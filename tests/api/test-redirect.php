@@ -203,9 +203,6 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 		$result = $this->callApi( 'redirect', array( 'group_id' => 5, 'url' => 'yes', 'match_type' => 'url', 'action_type' => 'url' ), 'POST' );
 		$this->assertEquals( 400, $result->status );
-
-		$result = $this->callApi( 'redirect', array( 'group_id' => $this->group->get_id(), 'match_type' => 'url', 'action_type' => 'url' ), 'POST' );
-		$this->assertEquals( 400, $result->status );
 	}
 
 	public function testCreateRedirect() {

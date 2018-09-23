@@ -8,6 +8,6 @@ class ImportExportRss extends WP_UnitTestCase {
 		$exporter = Red_FileIO::create( 'rss' );
 		$xml = $exporter->get_data( array( $item ), array() );
 
-		$this->assertTrue( strpos( $xml, '<title>1</title>' ) !== false );
+		$this->assertTrue( strpos( $xml, '<title>/1</title>' ) !== false );
 	}
 }

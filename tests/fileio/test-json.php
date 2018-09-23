@@ -59,7 +59,7 @@ class JsonTest extends WP_UnitTestCase {
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
 		$this->assertEquals( 'groupx', $group->name );
-		$this->assertEquals( 'source1', $redirect->url );
+		$this->assertEquals( '/source1', $redirect->url );
 		$this->assertEquals( $group->id, $redirect->group_id );
 	}
 }
