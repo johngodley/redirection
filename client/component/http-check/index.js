@@ -128,7 +128,7 @@ class HttpCheck extends React.Component {
 			'modal-loading': status === STATUS_IN_PROGRESS,
 			'http-check-small': status === STATUS_FAILED,
 		} );
-console.log( http );
+
 		return (
 			<div className={ klass }>
 				{ status === STATUS_IN_PROGRESS && <Spinner /> }
