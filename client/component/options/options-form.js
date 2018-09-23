@@ -80,13 +80,13 @@ class OptionsForm extends React.Component {
 		} );
 	}
 
-	UNSAFE_componentWillUpdate( nextProps ) {
-		if ( nextProps.values.token !== this.props.values.token ) {
-			this.setState( { token: nextProps.values.token } );
+	getSnapshotBeforeUpdate( prevProps ) {
+		if ( prevProps.values.token !== this.props.values.token ) {
+			this.setState( { token: this.props.values.token } );
 		}
 
-		if ( nextProps.values.auto_target !== this.props.values.auto_target ) {
-			this.setState( { auto_target: nextProps.values.auto_target } );
+		if ( prevProps.values.auto_target !== this.props.values.auto_target ) {
+			this.setState( { auto_target: this.props.values.auto_target } );
 		}
 	}
 
