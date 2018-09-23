@@ -11,10 +11,12 @@ import PropTypes from 'prop-types';
  */
 
 class MatchServer extends React.Component {
+	static propTypes = {
+		server: PropTypes.string.isRequired,
+	};
+
 	onChange = ev => {
-		if ( ev.target.value !== '' ) {
-			this.props.onChange( 'server', 'server', ev.target.value );
-		}
+		this.props.onChange( 'server', 'server', ev.target.value );
 	}
 
 	render() {
@@ -28,9 +30,5 @@ class MatchServer extends React.Component {
 		);
 	}
 }
-
-MatchServer.propTypes = {
-	server: PropTypes.string.isRequired,
-};
 
 export default MatchServer;
