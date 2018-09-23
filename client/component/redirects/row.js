@@ -40,12 +40,6 @@ class RedirectRow extends React.Component {
 		};
 	}
 
-	componentWillUpdate( nextProps ) {
-		if ( nextProps.item.id !== this.props.item.id && this.state.editing ) {
-			this.setState( { editing: false } );
-		}
-	}
-
 	onEdit = ev => {
 		ev.preventDefault();
 		this.setState( { editing: true } );

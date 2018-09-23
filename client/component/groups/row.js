@@ -36,12 +36,6 @@ class GroupRow extends React.Component {
 		this.handleSelect = this.onSelect.bind( this );
 	}
 
-	componentWillUpdate( nextProps ) {
-		if ( this.props.item.name !== nextProps.item.name ) {
-			this.setState( { name: nextProps.item.name, moduleId: nextProps.item.module_id } );
-		}
-	}
-
 	onEdit( ev ) {
 		ev.preventDefault();
 		this.setState( { editing: ! this.state.editing } );
@@ -154,7 +148,7 @@ class GroupRow extends React.Component {
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.handleSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.handleSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-primary column-name">

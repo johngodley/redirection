@@ -18,12 +18,13 @@ class Notice extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.handleClick = this.onClick.bind( this );
-		this.handleShrink = this.onShrink.bind( this );
-		this.state = { shrunk: false, width: 'auto' };
+		this.state = {
+			shrunk: false,
+			width: 'auto',
+		};
 	}
 
-	onClick() {
+	onClick = () => {
 		if ( this.state.shrunk ) {
 			this.setState( { shrunk: false } );
 		} else {
@@ -31,8 +32,8 @@ class Notice extends React.Component {
 		}
 	}
 
-	componentWillUpdate( nextProps ) {
-		if ( this.props.notices !== nextProps.notices ) {
+	getSnapshotBeforeUpdate( prevProps ) {
+		if ( this.props.notices !== prevProps.notices ) {
 			this.stopTimer();
 			this.setState( { shrunk: false } );
 			this.startTimer();
@@ -48,10 +49,10 @@ class Notice extends React.Component {
 	}
 
 	startTimer() {
-		this.timer = setTimeout( this.handleShrink, SHRINK_TIME );
+		this.timer = setTimeout( this.onShrink, SHRINK_TIME );
 	}
 
-	onShrink() {
+	onShrink = () => {
 		this.setState( { shrunk: true } );
 	}
 
@@ -67,7 +68,7 @@ class Notice extends React.Component {
 		const klasses = 'notice notice-info redirection-notice' + ( this.state.shrunk ? ' notice-shrunk' : '' );
 
 		return (
-			<div className={ klasses } onClick={ this.handleClick }>
+			<div className={ klasses } onClick={ this.onClick }>
 				<div className="closer">&#10004;</div>
 				<p>{ this.state.shrunk ? <span title={ __( 'View notice' ) }>🔔</span> : this.getNotice( notices ) }</p>
 			</div>

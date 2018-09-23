@@ -16,12 +16,6 @@ class TableFilter extends React.Component {
 		this.handleSubmit = this.onSubmit.bind( this );
 	}
 
-	componentWillUpdate( nextProps ) {
-		if ( nextProps.selected !== this.state.selected ) {
-			this.setState( { selected: nextProps.selected } );
-		}
-	}
-
 	onChange( ev ) {
 		this.setState( { selected: ev.target.value } );
 	}
