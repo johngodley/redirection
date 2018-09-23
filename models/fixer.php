@@ -213,6 +213,10 @@ class Red_Fixer {
 
 	private function check_api( $url ) {
 		$response = $this->request_from_api( $url );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
 		$http_code = wp_remote_retrieve_response_code( $response );
 
 		$specific = 'REST API returns an error code';
@@ -228,10 +232,12 @@ class Red_Fixer {
 		} elseif ( $http_code === 301 || $http_code === 302 ) {
 			$specific = 'REST API is being redirected. This indicates it has been disabled or you have a trailing slash redirect.';
 		} elseif ( $http_code === 404 ) {
-			$specific = 'REST API is returning 404 error. This indicates it has been disabled.';
+			$specific = 'REST API is returning a 404 error. This indicates it has been disabled.';
+		} elseif ( $http_code ) {
+			$specific = 'REST API returned a ' . $http_code . ' code.';
 		}
 
-		return new WP_Error( 'redirection', $specific . ' (' . ( $http_code ? $http_code : '40x' ) . ' - ' . $url . ')' );
+		return new WP_Error( 'redirection', $specific . ' (' . ( $http_code ? $http_code : 'unknown' ) . ' - ' . $url . ')' );
 	}
 
 	private function get_json( $body ) {
