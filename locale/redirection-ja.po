@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-08-03 04:08:21+0000\n"
+"PO-Revision-Date: 2018-09-16 09:59:54+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 
 #: redirection-strings.php:309
 msgid "Enter full URL, including http:// or https://"
-msgstr ""
+msgstr "http:// や https:// を含めた完全な URL を入力してください"
 
 #: redirection-strings.php:307
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
-msgstr ""
+msgstr "ブラウザーが URL をキャッシュすることがあり、想定どおりに動作しているか確認が難しい場合があります。きちんとリダイレクトが機能しているかチェックするにはこちらを利用してください。"
 
 #: redirection-strings.php:306
 msgid "Redirect Tester"
@@ -129,7 +129,7 @@ msgstr "デフォルト /wp-json/"
 
 #: redirection-strings.php:13
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
-msgstr ""
+msgstr "動作が正常にできていない場合、 Redirection がサーバーと連携するのが困難な状態と考えられます。設定を手動で変更することが可能です :"
 
 #: models/fixer.php:60
 msgid "Site and home protocol"
@@ -217,7 +217,7 @@ msgstr "404 deleted"
 
 #: redirection-strings.php:174
 msgid "Raw /index.php?rest_route=/"
-msgstr ""
+msgstr "Raw /index.php?rest_route=/"
 
 #: redirection-strings.php:203
 msgid "REST API"
@@ -338,11 +338,11 @@ msgstr "フル IP ロギング"
 
 #: redirection-strings.php:172
 msgid "Anonymize IP (mask last part)"
-msgstr ""
+msgstr "匿名 IP (最後の部分をマスクする)"
 
 #: redirection-strings.php:182
 msgid "Monitor changes to %(type)s"
-msgstr ""
+msgstr "%(type) の変更を監視する"
 
 #: redirection-strings.php:188
 msgid "IP Logging"
@@ -350,27 +350,27 @@ msgstr "IP ロギング"
 
 #: redirection-strings.php:189
 msgid "(select IP logging level)"
-msgstr ""
+msgstr "(IP のログレベルを選択)"
 
 #: redirection-strings.php:122 redirection-strings.php:135
 msgid "Geo Info"
-msgstr ""
+msgstr "位置情報"
 
 #: redirection-strings.php:123 redirection-strings.php:136
 msgid "Agent Info"
-msgstr ""
+msgstr "エージェントの情報"
 
 #: redirection-strings.php:124 redirection-strings.php:137
 msgid "Filter by IP"
-msgstr ""
+msgstr "IP でフィルター"
 
 #: redirection-strings.php:118 redirection-strings.php:127
 msgid "Referrer / User Agent"
-msgstr ""
+msgstr "リファラー / User Agent"
 
 #: redirection-strings.php:26
 msgid "Geo IP Error"
-msgstr ""
+msgstr "位置情報エラー"
 
 #: redirection-strings.php:27 redirection-strings.php:337
 msgid "Something went wrong obtaining this information"
@@ -427,7 +427,7 @@ msgstr "https://redirection.me/"
 
 #: redirection-strings.php:298
 msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
-msgstr ""
+msgstr "Redirection の完全なドキュメントは {{site}}https://redirection.me{{/site}} で参照できます。問題がある場合はまず、{{faq}}FAQ{{/faq}} をチェックしてください。"
 
 #: redirection-strings.php:299
 msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
@@ -487,7 +487,7 @@ msgstr ""
 
 #: models/importer.php:149
 msgid "Default WordPress \"old slugs\""
-msgstr ""
+msgstr "初期設定の WordPress \"old slugs\""
 
 #: redirection-strings.php:181
 msgid "Create associated redirect (added to end of URL)"
