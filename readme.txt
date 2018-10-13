@@ -512,119 +512,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Use fgetcsv for CSV importer - better handling
 * Allow http as URL parameter
 
-= 2.2 =
-* Add Dutch translation
+= < 2.2 =
 * Props to Ben Noordhuis for a patch
 * WordPress 2.9+ only - cleaned up all the old cruft
 * Better new-install process
 * Upgrades from 1.0 of Redirection no longer supported
 * Optimized DB tables
-
-= 2.1.29 =
-* Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
-
-= 2.1.28 =
-* Brazilian Portuguese translation
-
-= 2.1.27 =
-* Arabic translation
-
-= 2.1.26 =
-* WP 3.0 compatibility
-
-= 2.1.25 =
-* Fix deep slashes
-
-= 2.1.24 =
-* Add Ukrainian translation
-* Add Polish translation
-* Database optimization
-
-= 2.1.23 =
-* Add Bahasa Indonesian translation
-* Add German translation
-* Add patch to disable logs (thanks to Simon Wheatley!)
-
-= 2.1.22 =
-* Pre WP2.8 compatibility fix
-
-= 2.1.21 =
-* Fix #620
-* Add Russian translation
-
-= 2.1.20 =
-* Fix for some users with problems deleting redirections
-
-= 2.1.19 =
-* Add Hindi translation
-* Fix some ajax
-
-= 2.1.18 =
-* Fix module deletion
-
-= 2.1.17 =
-* Log JS fixes
-
-= 2.1.16 =
-* Fix group edit and log add entry
-
-= 2.1.15 =
-* Use WP Ajax
-* Add Japanese
-
-= 2.1.14 =
-* Fix #457
-* Add #475, #427
-* Add Catalan translation.
-* WP2.8 compatibility
-
-= 2.1.13 =
-* Add Spanish and Chinese translation
-
-= 2.1.12 =
-* Add icons
-* Disable category monitoring
-
-= 2.1.11 =
-* Errors on some sites
-
-= 2.1.10 =
-* Missing localizations
-
-= 2.1.9 =
-* Fix 'you do not permissions' error on some non-English sites
-
-= 2.1.8 =
-* Fix category change 'quick edit'
-
-= 2.1.7 =
-* Fix #422, #426
-
-= 2.1.6 =
-* Redirection loops
-
-= 2.1.5 =
-* Fix #366, #371, #378, #390, #400.
-* Add #370, #357
-
-= 2.1.4 =
-* RSS feed token
-
-= 2.1.3 =
-* Re-enable import feature
-
-= 2.1.2 =
-* Minor button changes
-
-= 2.1.1 =
-* Force JS cache
-* Fix log deletion
-
-= < 2.1 =
 * Change to jQuery
 * Nonce protection
 * Disable category monitor in 2.7
-* Hebrew translation
 * Fix small issues in display with WP 2.7
 * Fix delete redirects
 * Refix log delete
@@ -635,4 +531,27 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Correct DB install
 * Fix IIS problem
 * Install defaults when no existing redirection setup
-* New version
+* Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
+* Brazilian Portuguese translation
+* WP 3.0 compatibility
+* Fix deep slashes
+* Database optimization
+* Add patch to disable logs (thanks to Simon Wheatley!)
+* Pre WP2.8 compatibility fix
+* Fix for some users with problems deleting redirections
+* Fix some ajax
+* Fix module deletion
+* Log JS fixes
+* Fix group edit and log add entry
+* Use WP Ajax
+* WP2.8 compatibility
+* Add icons
+* Disable category monitoring
+* Errors on some sites
+* Fix 'you do not permissions' error on some non-English sites
+* Fix category change 'quick edit'
+* Redirection loops
+* RSS feed token
+* Re-enable import feature
+* Force JS cache
+* Fix log deletion
