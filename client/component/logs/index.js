@@ -16,6 +16,7 @@ import SearchBox from 'component/table/search';
 import { LOGS_TYPE_REDIRECT } from 'state/log/type';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
+import { tableKey } from 'lib/table';
 import LogRow from './row';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
@@ -82,7 +83,7 @@ class Logs extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } key={ tableKey( table ) } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() } />
 				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>

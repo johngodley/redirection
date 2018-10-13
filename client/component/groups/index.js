@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
+import { tableKey } from 'lib/table';
 import TableFilter from 'component/table/filter';
 import GroupRow from './row';
 import { getGroup, createGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
@@ -103,7 +104,7 @@ class Groups extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } key={ tableKey( table ) } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
 					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } />
 				</TableNav>

@@ -20,6 +20,7 @@ import ExportCSV from 'component/logs/export-csv';
 import Row404 from './row';
 import TableButtons from 'component/table/table-buttons';
 import { LOGS_TYPE_404 } from 'state/error/type';
+import { tableKey } from 'lib/table';
 import { getGroup } from 'state/group/action';
 import {
 	loadLogs,
@@ -94,7 +95,7 @@ class Logs404 extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } key={ tableKey( table ) } />
 				<TableNav
 					total={ total }
 					selected={ table.selected }

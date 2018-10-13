@@ -96,3 +96,4 @@ export const clearSelected = state => {
 
 export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );
 export const setTableAllSelected = ( table, rows, onoff ) => ( { ... table, selected: onoff ? rows.map( item => item.id ) : [] } );
+export const tableKey = ( { filterBy, filter } ) => [ filterBy, filter ].join( '-' );
