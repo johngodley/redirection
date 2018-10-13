@@ -129,7 +129,7 @@ class LogRow extends React.Component {
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onClick={ this.onSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">

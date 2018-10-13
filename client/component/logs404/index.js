@@ -20,6 +20,7 @@ import ExportCSV from 'component/logs/export-csv';
 import Row404 from './row';
 import TableButtons from 'component/table/table-buttons';
 import { LOGS_TYPE_404 } from 'state/error/type';
+import { tableKey } from 'lib/table';
 import { getGroup } from 'state/group/action';
 import {
 	loadLogs,
@@ -75,12 +76,6 @@ class Logs404 extends React.Component {
 		this.handleRender = this.renderRow.bind( this );
 	}
 
-	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoad();
-		}
-	}
-
 	renderRow( row, key, status ) {
 		const { saving } = this.props.error;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
@@ -94,7 +89,7 @@ class Logs404 extends React.Component {
 
 		return (
 			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } />
+				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } key={ tableKey( table ) } />
 				<TableNav
 					total={ total }
 					selected={ table.selected }

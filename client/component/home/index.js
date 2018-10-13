@@ -17,7 +17,7 @@ import Support from 'component/support';
 import Logs from 'component/logs';
 import Logs404 from 'component/logs404';
 import ImportExport from 'component/io';
-import Grouper from 'component/groups';
+import Groups from 'component/groups';
 import Redirects from 'component/redirects';
 import Error from 'component/error';
 import Notice from 'component/notice';
@@ -84,22 +84,22 @@ class Home extends React.Component {
 				return <Support />;
 
 			case '404s':
-				return <Logs404 clicked={ clicked } />;
+				return <Logs404 key={ clicked } />;
 
 			case 'log':
-				return <Logs clicked={ clicked } />;
+				return <Logs key={ clicked } />;
 
 			case 'io':
 				return <ImportExport />;
 
 			case 'groups':
-				return <Grouper clicked={ clicked } />;
+				return <Groups key={ clicked } />;
 
 			case 'options':
 				return <Options />;
 		}
 
-		return <Redirects clicked={ clicked } />;
+		return <Redirects key={ clicked } />;
 	}
 
 	renderError() {

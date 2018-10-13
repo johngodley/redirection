@@ -10,9 +10,9 @@ const CheckColumn = props => {
 	const { onSetAllSelected, isDisabled, isSelected } = props;
 
 	return (
-		<td className="manage-column column-cb check-column" onClick={ onSetAllSelected }>
+		<td className="manage-column column-cb check-column">
 			<label className="screen-reader-text">{ __( 'Select All' ) }</label>
-			<input type="checkbox" disabled={ isDisabled } checked={ isSelected } />
+			<input type="checkbox" disabled={ isDisabled } checked={ isSelected } onChange={ onSetAllSelected } />
 		</td>
 	);
 };
