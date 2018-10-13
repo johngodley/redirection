@@ -87,7 +87,7 @@ class Home extends React.Component {
 				return <Logs404 clicked={ clicked } />;
 
 			case 'log':
-				return <Logs clicked={ clicked } />;
+				return <Logs key={ clicked } />;
 
 			case 'io':
 				return <ImportExport />;
