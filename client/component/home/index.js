@@ -99,7 +99,7 @@ class Home extends React.Component {
 				return <Options />;
 		}
 
-		return <Redirects clicked={ clicked } />;
+		return <Redirects key={ clicked } />;
 	}
 
 	renderError() {

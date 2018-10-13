@@ -86,14 +86,8 @@ class Redirects extends React.Component {
 		super( props );
 
 		this.handleRender = this.renderRow.bind( this );
-		this.props.onLoadRedirects();
+		this.props.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderby: '' } );
 		this.props.onLoadGroups();
-	}
-
-	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderby: '' } );
-		}
 	}
 
 	renderRow( row, key, status ) {
