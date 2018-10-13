@@ -161,6 +161,7 @@ __( "Once deleted your redirections will stop working. If they appear to continu
 __( "Yes! Delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:41
 __( "No! Don't delete the plugin", "redirection" ), // client/component/options/delete-plugin.js:41
 __( "Delete Redirection", "redirection" ), // client/component/options/delete-plugin.js:52
+__( "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.", "redirection" ), // client/component/options/delete-plugin.js:54
 __( "Delete", "redirection" ), // client/component/options/delete-plugin.js:55
 __( "You've supported this plugin - thank you!", "redirection" ), // client/component/options/donation.js:81
 __( "I'd like to support some more.", "redirection" ), // client/component/options/donation.js:82
