@@ -36,7 +36,7 @@ class Modal extends React.Component {
 		document.body.classList.remove( 'redirection-modal' );
 	}
 
-	componentWillReceiveProps() {
+	componentDidUpdate() {
 		this.resize();
 	}
 

@@ -84,7 +84,7 @@ class Home extends React.Component {
 				return <Support />;
 
 			case '404s':
-				return <Logs404 clicked={ clicked } />;
+				return <Logs404 key={ clicked } />;
 
 			case 'log':
 				return <Logs key={ clicked } />;

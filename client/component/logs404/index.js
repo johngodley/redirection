@@ -76,12 +76,6 @@ class Logs404 extends React.Component {
 		this.handleRender = this.renderRow.bind( this );
 	}
 
-	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.clicked !== this.props.clicked ) {
-			nextProps.onLoad();
-		}
-	}
-
 	renderRow( row, key, status ) {
 		const { saving } = this.props.error;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
