@@ -14,8 +14,6 @@ class Redirection_Admin {
 	static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new Redirection_Admin();
-
-			load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
 		}
 
 		return self::$instance;

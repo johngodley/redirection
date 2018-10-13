@@ -37,7 +37,7 @@ class Red_Fixer {
 			array(
 				'name' => __( 'Post monitor group', 'redirection' ),
 				'id' => 'monitor',
-				'message' => $valid_monitor === false ? __( 'Post monitor group is invalid', 'redirection' ) : __( 'Post monitor group is valid' ),
+				'message' => $valid_monitor === false ? __( 'Post monitor group is invalid', 'redirection' ) : __( 'Post monitor group is valid', 'redirection' ),
 				'status' => $valid_monitor === false ? 'problem' : 'good',
 			),
 			$this->get_http_settings(),

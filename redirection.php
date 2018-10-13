@@ -70,6 +70,10 @@ function red_start_rest() {
 	remove_action( 'rest_api_init', 'red_start_rest' );
 }
 
+function redirection_locale() {
+	load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
+}
+
 if ( red_is_admin() || red_is_wpcli() ) {
 	include_once dirname( __FILE__ ) . '/redirection-admin.php';
 	include_once dirname( __FILE__ ) . '/redirection-api.php';
@@ -82,3 +86,4 @@ if ( red_is_wpcli() ) {
 }
 
 add_action( 'rest_api_init', 'red_start_rest' );
+add_action( 'init', 'redirection_locale' );

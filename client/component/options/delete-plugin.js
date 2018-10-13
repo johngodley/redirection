@@ -51,7 +51,7 @@ class DeletePlugin extends React.Component {
 				<form action="" method="post" onSubmit={ this.onSubmit }>
 					<h2>{ __( 'Delete Redirection' ) }</h2>
 
-					<p>{ ( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.' ) }</p>
+					<p>{ __( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.' ) }</p>
 					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete' ) } />
 				</form>
 
