@@ -163,6 +163,7 @@ function red_get_options() {
 		'auto_target'         => '',
 		'expire_redirect'     => 7,   // Expire in 7 days
 		'expire_404'          => 7,   // Expire in 7 days
+        'count_redirect'      => true,
 		'modules'             => array(),
 		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour

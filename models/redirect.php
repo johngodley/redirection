@@ -248,9 +248,11 @@ class Red_Item {
 
 		$options = red_get_options();
 
-		// Update the counters
-		$this->last_count++;
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
+        // Update the counters
+        $this->last_count++;
+        if ( isset( $options['count_redirect'] ) && $options['count_redirect'] && apply_filters( 'redirection_count_redirect_override', true ) ) {
+            $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
+        }
 
 		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 && $target ) {
 			RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), array( 'redirect_id' => $this->id, 'group_id' => $this->group_id ) );
