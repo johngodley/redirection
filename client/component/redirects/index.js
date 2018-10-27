@@ -17,6 +17,7 @@ import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
+import { tableKey } from 'lib/table';
 import RedirectRow from './row';
 import EditRedirect from './edit';
 import {
@@ -86,7 +87,7 @@ class Redirects extends React.Component {
 		super( props );
 
 		this.handleRender = this.renderRow.bind( this );
-		this.props.onLoadRedirects( { page: 0, filter: '', filterBy: '', orderby: '' } );
+		this.props.onLoadRedirects();
 		this.props.onLoadGroups();
 	}
 
@@ -172,6 +173,7 @@ class Redirects extends React.Component {
 						options={ this.getGroups( group.rows ) }
 						isEnabled={ this.canFilter( group, status ) }
 						onFilter={ this.props.onFilter }
+						key={ tableKey( table ) }
 					/>
 				</TableNav>
 				<Table
