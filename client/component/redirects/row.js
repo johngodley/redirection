@@ -18,11 +18,8 @@ import Modal from 'component/modal';
 import Spinner from 'component/wordpress/spinner';
 import HttpCheck from 'component/http-check';
 import { setSelected, performTableAction } from 'state/redirect/action';
+import { MATCH_URL, MATCH_SERVER, CODE_PASS, CODE_NOTHING } from 'state/redirect/selector';
 import { STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
-
-const CODE_PASS = 'pass';
-const CODE_NOTHING = 'nothing';
-const MATCH_URL = 'url';
 
 class RedirectRow extends React.Component {
 	static propTypes = {
@@ -123,7 +120,19 @@ class RedirectRow extends React.Component {
 		return null;
 	}
 
-	getUrl( url ) {
+	getServerUrl( url, matchType ) {
+		if ( matchType === MATCH_SERVER ) {
+			const { action_data } = this.props.item;
+
+			return action_data.server + url;
+		}
+
+		return url;
+	}
+
+	getUrl( url, matchType ) {
+		url = this.getServerUrl( url, matchType );
+
 		if ( this.props.item.enabled ) {
 			return url;
 		}
@@ -132,17 +141,18 @@ class RedirectRow extends React.Component {
 	}
 
 	getName( url, title ) {
-		const { regex } = this.props.item;
+		const { regex, match_type } = this.props.item;
 
 		if ( title ) {
 			return title;
 		}
 
+		const fullUrl = this.getUrl( url, match_type );
 		if ( regex ) {
-			return this.getUrl( url );
+			return fullUrl;
 		}
 
-		return <a href={ url } target="_blank" rel="noopener noreferrer">{ this.getUrl( url ) }</a>;
+		return <a href={ fullUrl } target="_blank" rel="noopener noreferrer">{ fullUrl }</a>;
 	}
 
 	renderSource( url, title, saving ) {
