@@ -27,13 +27,13 @@ class ActionLogin extends React.Component {
 				<tr>
 					<th>{ __( 'Logged In' ) }</th>
 					<td>
-						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.onChange } placeholder={ __( 'Target URL when matched' ) } />
+						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
 					</td>
 				</tr>
 				<tr>
 					<th>{ __( 'Logged Out' ) }</th>
 					<td>
-						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.onChange } placeholder={ __( 'Target URL when not matched' ) } />
+						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
 					</td>
 				</tr>
 			</React.Fragment>
