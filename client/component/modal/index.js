@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -11,6 +12,7 @@ class Modal extends React.Component {
 		onClose: PropTypes.func.isRequired,
 		children: PropTypes.node,
 		width: PropTypes.string,
+		height: PropTypes.number,
 	};
 
 	static defaultProps = {
@@ -34,10 +36,6 @@ class Modal extends React.Component {
 
 	componentWillUnmount() {
 		document.body.classList.remove( 'redirection-modal' );
-	}
-
-	componentDidUpdate() {
-		this.resize();
 	}
 
 	componentDidUpdate() {
@@ -77,7 +75,7 @@ class Modal extends React.Component {
 			style.height = this.height + 'px';
 		}
 
-		return (
+		return ReactDOM.createPortal(
 			<div className={ classes } onClick={ this.handleClick }>
 				<div className="modal-backdrop"></div>
 				<div className="modal">
@@ -89,8 +87,7 @@ class Modal extends React.Component {
 						{ React.cloneElement( this.props.children, { parent: this } ) }
 					</div>
 				</div>
-			</div>
-		);
+			</div>, document.getElementById( 'react-modal' ) );
 	}
 }
 

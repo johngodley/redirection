@@ -420,6 +420,7 @@ class Redirection_Admin {
 		}
 
 ?>
+<div id="react-modal"></div>
 <div id="react-ui">
 	<div class="react-loading">
 		<h1><?php _e( 'Loading, please wait...', 'redirection' ); ?></h1>
