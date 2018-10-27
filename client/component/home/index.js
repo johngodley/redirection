@@ -24,7 +24,14 @@ import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
 import { clearErrors } from 'state/message/action';
-import { addToTop } from 'state/redirect/action';
+import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
+import { setTable as setErrorTable } from 'state/error/action';
+import { setTable as setGroupTable } from 'state/group/action';
+import { setTable as setLogTable } from 'state/log/action';
+import { getInitialError } from 'state/error/initial';
+import { getInitialLog } from 'state/log/initial';
+import { getInitialGroup } from 'state/group/initial';
+import { getInitialRedirect } from 'state/redirect/initial';
 
 const getTitles = () => ( {
 	redirect: __( 'Redirections' ),
@@ -48,14 +55,25 @@ class Home extends React.Component {
 			info: false,
 		};
 
-		this.handlePageChange = this.onChangePage.bind( this );
+		window.addEventListener( 'popstate', this.onPageChanged );
 	}
 
 	componentDidCatch( error, info ) {
 		this.setState( { error: true, stack: error, info } );
 	}
 
-	onChangePage( page, url ) {
+	componentWillUnmount() {
+		window.removeEventListener( 'popstate', this.onPageChanged );
+	}
+
+	onPageChanged = () => {
+		const page = getPluginPage();
+
+		this.changePage( page );
+		this.setState( { page, clicked: this.state.clicked + 1 } );
+	}
+
+	onChangePage = ( page, url ) => {
 		const { errors } = this.props;
 
 		if ( page === '' ) {
@@ -67,13 +85,29 @@ class Home extends React.Component {
 			return;
 		}
 
+		this.props.onClear();
+
 		history.pushState( {}, null, url );
+
+		this.changePage( page );
 		this.setState( {
 			page,
 			clicked: this.state.clicked + 1,
 		} );
+	}
 
-		this.props.onClear();
+	changePage( page ) {
+		const { onSet404Table, onSetLogTable, onSetRedirectTable, onSetGroupTable } = this.props;
+
+		if ( page === '404s' ) {
+			onSet404Table( getInitialError().table );
+		} else if ( page === 'log' ) {
+			onSetLogTable( getInitialLog().table );
+		} else if ( page === 'redirect' ) {
+			onSetRedirectTable( getInitialRedirect().table );
+		} else if ( page === 'groups' ) {
+			onSetGroupTable( getInitialGroup().table );
+		}
 	}
 
 	getContent( page ) {
@@ -174,7 +208,7 @@ class Home extends React.Component {
 				<h1 className="wp-heading-inline">{ title }</h1>
 				{ this.state.page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
-				<Menu onChangePage={ this.handlePageChange } />
+				<Menu onChangePage={ this.onChangePage } />
 				<Error />
 
 				{ this.getContent( this.state.page ) }
@@ -193,6 +227,18 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onAdd: () => {
 			dispatch( addToTop( true ) );
+		},
+		onSet404Table: table => {
+			dispatch( setErrorTable( table ) );
+		},
+		onSetLogTable: table => {
+			dispatch( setLogTable( table ) );
+		},
+		onSetGroupTable: table => {
+			dispatch( setGroupTable( table ) );
+		},
+		onSetRedirectTable: table => {
+			dispatch( setRedirectTable( table ) );
 		},
 	};
 }
