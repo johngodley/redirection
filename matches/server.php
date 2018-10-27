@@ -29,15 +29,16 @@ class Server_Match extends Red_Match {
 		return '';
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $url, $matched_url, $regex ) {
 		$server = parse_url( $this->server, PHP_URL_HOST );
+		$matched = $server === Redirection_Request::get_server_name();
+		$target = $this->get_matched_target( $matched );
 
-		$matched = false;
-		if ( $server === Redirection_Request::get_server_name() ) {
-			$matched = true;
+		if ( $regex && $target ) {
+			return $this->get_target_regex_url( $matched_url, $target, $url );
 		}
 
-		return $this->get_matched_target( $matched );
+		return $target;
 	}
 
 	public function get_data() {
