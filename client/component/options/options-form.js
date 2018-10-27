@@ -88,6 +88,8 @@ class OptionsForm extends React.Component {
 		if ( prevProps.values.auto_target !== this.props.values.auto_target ) {
 			this.setState( { auto_target: this.props.values.auto_target } );
 		}
+
+		return null;
 	}
 
 	renderMonitor( groups ) {

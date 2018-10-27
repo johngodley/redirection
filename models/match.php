@@ -65,6 +65,7 @@ abstract class Red_Match {
 			'cookie'   => 'cookie.php',
 			'role'     => 'user-role.php',
 			'server'   => 'server.php',
+			'ip'       => 'ip.php',
 		);
 	}
 }
