@@ -13,6 +13,16 @@ import NavigationPages from './navigation-pages';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 
 class TableNav extends React.Component {
+	static propTypes = {
+		total: PropTypes.number.isRequired,
+		selected: PropTypes.array.isRequired,
+		table: PropTypes.object.isRequired,
+		onAction: PropTypes.func.isRequired,
+		onChangePage: PropTypes.func.isRequired,
+		bulk: PropTypes.array,
+		status: PropTypes.string.isRequired,
+	};
+
 	constructor( props ) {
 		super( props );
 
@@ -68,15 +78,5 @@ class TableNav extends React.Component {
 		);
 	}
 }
-
-TableNav.propTypes = {
-	total: PropTypes.number.isRequired,
-	selected: PropTypes.array.isRequired,
-	table: PropTypes.object.isRequired,
-	onAction: PropTypes.func.isRequired,
-	onChangePage: PropTypes.func.isRequired,
-	bulk: PropTypes.array,
-	status: PropTypes.string.isRequired,
-};
 
 export default TableNav;
