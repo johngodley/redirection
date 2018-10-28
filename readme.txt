@@ -146,6 +146,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add 303 and 304 redirect codes
 * Add 400, 403, and 418 (I'm a teapot!) error codes
 * Fix server match not supporting regex properly
+* Deprecated file pass through removed
 
 = 3.5 - 23rd September 2018 =
 * Add redirect checker on redirects page
