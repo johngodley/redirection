@@ -445,7 +445,7 @@ class Red_Item_Sanitize {
 		$data = array();
 		$details = $this->clean_array( $details );
 
-		$data['regex'] = isset( $details['regex'] ) && intval( $details['regex'], 10 ) === 1 ? true : false;
+		$data['regex'] = isset( $details['regex'] ) && intval( $details['regex'], 10 ) === 1 ? 1 : 0;
 
 		$url = empty( $details['url'] ) ? $this->auto_generate() : $details['url'];
 		if ( strpos( $url, 'http:' ) !== false || strpos( $url, 'https:' ) !== false ) {
