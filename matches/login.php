@@ -4,7 +4,7 @@ class Login_Match extends Red_Match {
 	public $logged_in;
 	public $logged_out;
 
-	function name() {
+	public function name() {
 		return __( 'URL and login status', 'redirection' );
 	}
 
@@ -44,7 +44,7 @@ class Login_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = unserialize( $values );
-		$this->logged_in = $values['logged_in'];
-		$this->logged_out = $values['logged_out'];
+		$this->logged_in = isset( $values['logged_in'] ) ? $values['logged_in'] : '';
+		$this->logged_out = isset( $values['logged_out'] ) ? $values['logged_out'] : '';
 	}
 }
