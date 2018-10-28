@@ -5,7 +5,7 @@ class Server_Match extends Red_Match {
 
 	public $server;
 
-	function name() {
+	public function name() {
 		return __( 'URL and server', 'redirection' );
 	}
 

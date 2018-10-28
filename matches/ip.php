@@ -10,7 +10,7 @@ class IP_Match extends Red_Match {
 	}
 
 	public function save( array $details, $no_target_url = false ) {
-		$data = array( 'ip' => isset( $details['ip'] ) ? $this->sanitize_ips( $details['ip'] ) : '' );
+		$data = array( 'ip' => isset( $details['ip'] ) && is_array( $details['ip'] ) ? $this->sanitize_ips( $details['ip'] ) : [] );
 
 		return $this->save_data( $details, $no_target_url, $data );
 	}
