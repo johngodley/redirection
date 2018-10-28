@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-09-15 10:34:29+0000\n"
+"PO-Revision-Date: 2018-10-15 08:33:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #: redirection-strings.php:334
 msgid "Problem"
-msgstr ""
+msgstr "Problema"
 
 #: redirection-strings.php:333
 msgid "Good"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: redirection-strings.php:78
 msgid "Found"
-msgstr ""
+msgstr "Trovato"
 
 #: redirection-strings.php:77 redirection-strings.php:79
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: redirection-strings.php:74
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: redirection-strings.php:322
 msgid "Enter full URL, including http:// or https://"
@@ -1211,7 +1211,7 @@ msgstr "Sono una brava persona e ho contribuito a sostenere l'autore di questo p
 
 #: redirection-strings.php:170
 msgid "Plugin Support"
-msgstr ""
+msgstr "Supporto del plugin"
 
 #: redirection-strings.php:62 redirection-strings.php:155
 msgid "Options"
@@ -1331,7 +1331,7 @@ msgstr "Data"
 #: redirection-strings.php:142 redirection-strings.php:146
 #: redirection-strings.php:276
 msgid "Add Redirect"
-msgstr ""
+msgstr "Aggiungi una redirezione"
 
 #: redirection-strings.php:44
 msgid "All modules"

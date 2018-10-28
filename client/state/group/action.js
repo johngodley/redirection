@@ -39,3 +39,4 @@ export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, or
 export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );
+export const setTable = table => getGroup( table );

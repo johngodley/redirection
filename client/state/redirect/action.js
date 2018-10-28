@@ -41,3 +41,4 @@ export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: REDIRECT_SET_ALL_SELECTED, onoff } );
 export const addToTop = onoff => ( { type: REDIRECT_ADD_TOP, onoff } );
+export const setTable = table => getRedirect( table );

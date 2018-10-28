@@ -106,7 +106,7 @@ class Groups extends React.Component {
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } key={ tableKey( table ) } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
-					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } />
+					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } key={ tableKey( table ) } />
 				</TableNav>
 				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.onRenderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
@@ -147,7 +147,7 @@ function mapStateToProps( state ) {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onLoadGroups: () => {
-			dispatch( getGroup( { page: 0, filter: '', filterBy: '', orderby: '', direction: 'desc' } ) );
+			dispatch( getGroup() );
 		},
 		onSearch: search => {
 			dispatch( setSearch( search ) );

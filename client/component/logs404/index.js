@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
 
 /**
  * Internal dependencies
@@ -15,10 +14,14 @@ import { translate as __ } from 'lib/locale';
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
+import TableGroup from 'component/table/group';
 import DeleteAll from 'component/logs/delete-all';
 import ExportCSV from 'component/logs/export-csv';
 import Row404 from './row';
+import RowUrl from './row-url';
+import RowIp from './row-ip';
 import TableButtons from 'component/table/table-buttons';
+import CreateRedirect from './create-redirect';
 import { LOGS_TYPE_404 } from 'state/error/type';
 import { tableKey } from 'lib/table';
 import { getGroup } from 'state/group/action';
@@ -30,65 +33,84 @@ import {
 	performTableAction,
 	setAllSelected,
 	setOrderBy,
+	setGroupBy,
+	setSelected,
 } from 'state/error/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
-
-const getHeaders = () => [
-	{
-		name: 'cb',
-		check: true,
-	},
-	{
-		name: 'date',
-		title: __( 'Date' ),
-	},
-	{
-		name: 'url',
-		title: __( 'Source URL' ),
-		primary: true,
-	},
-	{
-		name: 'referrer',
-		title: __( 'Referrer / User Agent' ),
-		sortable: false,
-	},
-	{
-		name: 'ip',
-		title: __( 'IP' ),
-		sortable: false,
-	},
-];
-
-const getBulk = () => [
-	{
-		id: 'delete',
-		name: __( 'Delete' ),
-	},
-];
+import { MATCH_IP, ACTION_URL, ACTION_ERROR, MATCH_URL, ACTION_NOTHING } from 'state/redirect/selector';
+import { getBulk, getGroupBy, getHeaders } from './constants';
 
 class Logs404 extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		props.onLoad( props.error.table );
+		props.onLoad();
 
 		this.props.onLoadGroups();
-		this.handleRender = this.renderRow.bind( this );
+		this.state = { create: null };
 	}
 
-	renderRow( row, key, status ) {
-		const { saving } = this.props.error;
+	onRenderRow = ( row, key, status ) => {
+		const { saving, table } = this.props.error;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return <Row404 item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
+		if ( status.isLoading ) {
+			return null;
+		}
+
+		if ( table.groupBy === 'url' ) {
+			return <RowUrl item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } onCreate={ this.onCreate } />;
+		} else if ( table.groupBy === 'ip' ) {
+			return <RowIp item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } onCreate={ this.onCreate } />;
+		}
+
+		return <Row404 item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } onCreate={ this.onCreate } />;
+	}
+
+	onCreate = ( id, create ) => {
+		this.props.onSetAllSelected( false );
+		this.props.onSetSelected( id );
+		this.setState( { create } );
+	}
+
+	onClose = () => {
+		this.props.onSetAllSelected( false );
+		this.setState( { create: false } );
+	}
+
+	onBulk = action => {
+		const { table } = this.props.error;
+
+		if ( action === 'redirect-ip' ) {
+			const create = { regex: true, match_type: MATCH_IP, action_type: ACTION_URL, action_data: { ip: table.selected } };
+
+			this.setState( { create } );
+		} else if ( action === 'block' ) {
+			const create = { regex: true, match_type: MATCH_IP, action_type: ACTION_ERROR, action_data: { ip: table.selected }, action_code: 403 };
+
+			this.setState( { create } );
+		} else if ( action === 'redirect-url' ) {
+			const create = { match_type: MATCH_URL, action_type: ACTION_URL };
+
+			this.setState( { create } );
+		} else if ( action === 'ignore' ) {
+			const create = { match_type: MATCH_URL, action_type: ACTION_NOTHING };
+
+			this.setState( { create } );
+		} else {
+			this.props.onTableAction( action );
+		}
 	}
 
 	render() {
 		const { status, total, table, rows } = this.props.error;
+		const { create } = this.state;
 
 		return (
 			<div>
+				{ create && <CreateRedirect onClose={ this.onClose } create={ create } /> }
+
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } key={ tableKey( table ) } />
 				<TableNav
 					total={ total }
@@ -96,14 +118,23 @@ class Logs404 extends React.Component {
 					table={ table }
 					status={ status }
 					onChangePage={ this.props.onChangePage }
-					onAction={ this.props.onTableAction }
-					bulk={ getBulk() }
-				/>
+					onAction={ this.onBulk }
+					bulk={ getBulk( table.groupBy ) }
+				>
+					<TableGroup
+						selected={ table.groupBy ? table.groupBy : '0' }
+						options={ getGroupBy() }
+						isEnabled={ status !== STATUS_IN_PROGRESS }
+						onGroup={ this.props.onGroup }
+						key={ table.groupBy }
+					/>
+				</TableNav>
+
 				<Table
-					headers={ getHeaders() }
+					headers={ getHeaders( table.groupBy ) }
 					rows={ rows }
 					total={ total }
-					row={ this.handleRender }
+					row={ this.onRenderRow }
 					table={ table }
 					status={ status }
 					onSetAllSelected={ this.props.onSetAllSelected }
@@ -138,8 +169,8 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: params => {
-			dispatch( loadLogs( params ) );
+		onLoad: () => {
+			dispatch( loadLogs() );
 		},
 		onLoadGroups: () => {
 			dispatch( getGroup() );
@@ -161,6 +192,12 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onSetOrderBy: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
+		},
+		onGroup: groupBy => {
+			dispatch( setGroupBy( groupBy ) );
+		},
+		onSetSelected: items => {
+			dispatch( setSelected( items ) );
 		},
 	};
 }

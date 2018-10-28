@@ -24,14 +24,6 @@ class LogRow404 extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.handleSelected = this.onSelect.bind( this );
-		this.handleDelete = this.onDelete.bind( this );
-		this.handleAdd = this.onAdd.bind( this );
-		this.handleShow = this.onShow.bind( this );
-		this.handleClose = this.onClose.bind( this );
-		this.handleSave = this.onSave.bind( this );
-		this.handleDeleteLog = this.onDeleteLog.bind( this );
-
 		this.state = {
 			editing: false,
 			delete_log: false,
@@ -40,34 +32,34 @@ class LogRow404 extends React.Component {
 		};
 	}
 
-	onSelect() {
+	onSelect = () => {
 		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
-	onDelete( ev ) {
+	onDelete = ev => {
 		ev.preventDefault();
 		this.props.onDelete( this.props.item.id );
 	}
 
-	onShow( ev ) {
+	onShow = ev => {
 		ev.preventDefault();
 		this.props.onShowIP( this.props.item.ip );
 	}
 
-	onAdd( ev ) {
+	onAdd = ev => {
 		ev.preventDefault();
 		this.setState( { editing: true } );
 	}
 
-	onClose() {
+	onClose = () => {
 		this.setState( { editing: false } );
 	}
 
-	onDeleteLog( ev ) {
+	onDeleteLog = ev => {
 		this.setState( { delete_log: ev.target.checked } );
 	}
 
-	onSave() {
+	onSave = () => {
 		if ( this.state.delete_log ) {
 			this.props.onDeleteFilter( this.props.item.url );
 		}
@@ -75,14 +67,14 @@ class LogRow404 extends React.Component {
 
 	renderEdit() {
 		return (
-			<Modal onClose={ this.handleClose } width="700">
+			<Modal onClose={ this.onClose } width="700">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } advanced={ false } onCancel={ this.handleClose } childSave={ this.handleSave } autoFocus>
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } childSave={ this.onSave } autoFocus>
 						<tr>
 							<th>{ __( 'Delete 404s' ) }</th>
 							<td>
 								<label>
-									<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.handleDeleteLog } />
+									<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.onDeleteLog } />
 
 									{ __( 'Delete all logs for this 404' ) }
 								</label>
@@ -147,8 +139,8 @@ class LogRow404 extends React.Component {
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
 		const menu = [
-			<a href="#" onClick={ this.handleDelete } key="0">{ __( 'Delete' ) }</a>,
-			<a href="#" onClick={ this.handleAdd } key="1">{ __( 'Add Redirect' ) }</a>,
+			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a>,
+			<a href="#" onClick={ this.onAdd } key="1">{ __( 'Add Redirect' ) }</a>,
 		];
 
 		if ( ip ) {
@@ -162,7 +154,7 @@ class LogRow404 extends React.Component {
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.handleSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelect } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">
@@ -187,7 +179,7 @@ class LogRow404 extends React.Component {
 					{ this.renderIp( ip ) }
 
 					<RowActions>
-						{ ip && <a href="#" onClick={ this.handleShow }>{ __( 'Filter by IP' ) }</a> }
+						{ ip && <a href="#" onClick={ this.onShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
 				</td>
 			</tr>

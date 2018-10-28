@@ -38,6 +38,8 @@ class Notice extends React.Component {
 			this.setState( { shrunk: false } );
 			this.startTimer();
 		}
+
+		return null;
 	}
 
 	componentWillUnmount() {

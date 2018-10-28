@@ -7,12 +7,12 @@ import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
 import Select from 'component/wordpress/select';
 
-class TableFilter extends React.Component {
+class TableGroup extends React.Component {
 	static propTypes = {
 		options: PropTypes.array.isRequired,
 		selected: PropTypes.string.isRequired,
 		isEnabled: PropTypes.bool.isRequired,
-		onFilter: PropTypes.func.isRequired,
+		onGroup: PropTypes.func.isRequired,
 	};
 
 	constructor( props ) {
@@ -26,7 +26,7 @@ class TableFilter extends React.Component {
 	}
 
 	onSubmit = () => {
-		this.props.onFilter( this.state.selected );
+		this.props.onGroup( this.state.selected );
 	}
 
 	render() {
@@ -36,10 +36,10 @@ class TableFilter extends React.Component {
 			<div className="alignleft actions">
 				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.onChange } isEnabled={ isEnabled } />
 
-				<button className="button" onClick={ this.onSubmit } disabled={ ! isEnabled }>{ __( 'Filter' ) }</button>
+				<button className="button" onClick={ this.onSubmit } disabled={ ! isEnabled }>{ __( 'Group' ) }</button>
 			</div>
 		);
 	}
 }
 
-export default TableFilter;
+export default TableGroup;

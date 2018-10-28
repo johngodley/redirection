@@ -495,15 +495,19 @@ class Red_Item_Sanitize {
 
 	protected function get_code( $action_type, $code ) {
 		if ( $action_type === 'url' || $action_type === 'random' ) {
-			if ( in_array( $code, array( 301, 302, 307, 308 ), true ) ) {
+			if ( in_array( $code, array( 301, 302, 303, 304, 307, 308 ), true ) ) {
 				return $code;
 			}
+
+			return 301;
 		}
 
 		if ( $action_type === 'error' ) {
-			if ( in_array( $code, array( 401, 404, 410 ), true ) ) {
+			if ( in_array( $code, array( 400, 401, 403, 404, 410, 418 ), true ) ) {
 				return $code;
 			}
+
+			return 404;
 		}
 
 		return 0;

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-09-24 10:38:57+0000\n"
+"PO-Revision-Date: 2018-10-24 16:20:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,59 +13,59 @@ msgstr ""
 
 #: redirection-strings.php:334
 msgid "Problem"
-msgstr ""
+msgstr "Problème"
 
 #: redirection-strings.php:333
 msgid "Good"
-msgstr ""
+msgstr "Bon"
 
 #: redirection-strings.php:323
 msgid "Check"
-msgstr ""
+msgstr "Vérifier"
 
 #: redirection-strings.php:307
 msgid "Check Redirect"
-msgstr ""
+msgstr "Vérifier la redirection"
 
 #: redirection-strings.php:85
 msgid "Check redirect for: {{code}}%s{{/code}}"
-msgstr ""
+msgstr "Vérifier la redirection pour : {{code}}%s{{/code}}"
 
 #: redirection-strings.php:83
 msgid "What does this mean?"
-msgstr ""
+msgstr "Qu’est-ce que cela veut dire ?"
 
 #: redirection-strings.php:82
 msgid "Not using Redirection"
-msgstr ""
+msgstr "N’utilisant pas Redirection"
 
 #: redirection-strings.php:81
 msgid "Using Redirection"
-msgstr ""
+msgstr "Utilisant Redirection"
 
 #: redirection-strings.php:78
 msgid "Found"
-msgstr ""
+msgstr "Trouvé"
 
 #: redirection-strings.php:77 redirection-strings.php:79
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
-msgstr ""
+msgstr "{{code}}%(code)d{{/code}} vers {{code}}%(url)s{{/code}}"
 
 #: redirection-strings.php:76
 msgid "Expected"
-msgstr ""
+msgstr "Attendu"
 
 #: redirection-strings.php:74
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: redirection-strings.php:322
 msgid "Enter full URL, including http:// or https://"
-msgstr "Saisir l’URL complète, avec http:// ou https://"
+msgstr "Saisissez l’URL complète, avec http:// ou https://"
 
 #: redirection-strings.php:320
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
-msgstr "Parfois, votre navigateur peut mettre en cache une URL, ce qui rend difficile de savoir si cela fonctionne comme prévu. Utiliser ceci pour vérifier qu’une URL est réellement redirigée."
+msgstr "Parfois votre navigateur peut mettre en cache une URL, ce qui rend les diagnostics difficiles. Utilisez cet outil pour vérifier qu’une URL est réellement redirigée."
 
 #: redirection-strings.php:319
 msgid "Redirect Tester"
@@ -193,7 +193,7 @@ msgstr "Le site et l’accueil sont cohérents"
 
 #: redirection-strings.php:296
 msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
-msgstr ""
+msgstr "Sachez qu’il est de votre responsabilité de passer les en-têtes HTTP en PHP. Veuillez contacter votre hébergeur pour obtenir de l’aide."
 
 #: redirection-strings.php:294
 msgid "Accept Language"

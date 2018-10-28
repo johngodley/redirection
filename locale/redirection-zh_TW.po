@@ -88,11 +88,11 @@ msgid "Optional description"
 msgstr ""
 
 #: redirection-strings.php:205 redirection-strings.php:209
-msgid "Target URL when not matched"
+msgid "Target URL when not matched (empty to ignore)"
 msgstr ""
 
 #: redirection-strings.php:203 redirection-strings.php:207
-msgid "Target URL when matched"
+msgid "Target URL when matched (empty to ignore)"
 msgstr ""
 
 #: redirection-strings.php:66

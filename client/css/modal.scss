@@ -40,6 +40,7 @@ body.redirection-modal {
 		padding-right: 5px;
 		border: none;
 		background-color: white;
+		border-radius: 5px;
 		cursor: pointer;
 		z-index: 10001;
 	}
@@ -127,6 +128,8 @@ body.redirection-modal {
 
 	table th {
 		font-weight: bold;
+		text-align: left;
+		width: 150px;
 	}
 
 	table td {

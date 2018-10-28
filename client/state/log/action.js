@@ -35,10 +35,12 @@ export const deleteAll = ( filterBy, filter ) => ( dispatch, getState ) => proce
 } );
 export const performTableAction = ( action, ids, extra ) => tableAction( RedirectionApi.bulk.log, action, ids, STATUS_LOG_ITEM, extra );
 export const getLogs = args => ( dispatch, getState ) => processRequest( RedirectionApi.log.list, dispatch, STATUS_LOG, args, getState().log );
-export const loadLogs = ( params = { filter: '', filterBy: '', page: 0, orderby: '' } ) => getLogs( params );
+export const loadLogs = ( params = {} ) => getLogs( params );
+
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
 export const setSearch = ( filter, filterBy = '' ) => getLogs( { filter, filterBy: filter === '' ? '' : filterBy, page: 0, orderby: '' } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
+export const setTable = table => getLogs( table );
