@@ -94,7 +94,7 @@ class WordPress_Module extends Red_Module {
 	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
 	 */
 	private function protected_url( $url ) {
-		$rest = parse_url( red_get_rest_api() );
+		$rest = wp_parse_url( red_get_rest_api() );
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $url, 0, strlen( $rest_api ) ) === $rest_api ) {
@@ -136,7 +136,7 @@ class WordPress_Module extends Red_Module {
 			$servers_to_check = array( 'lighttpd', 'nginx' );
 
 			foreach ( $servers_to_check as $name ) {
-				if ( stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
+				if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
 					status_header( $status );
 					header( "Location: $url" );
 					exit( 0 );

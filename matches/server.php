@@ -20,7 +20,7 @@ class Server_Match extends Red_Match {
 			$server = ( is_ssl() ? 'https://' : 'http://' ) . $server;
 		}
 
-		$parts = parse_url( $server );
+		$parts = wp_parse_url( $server );
 
 		if ( isset( $parts['host'] ) ) {
 			return $parts['scheme'] . '://' . $parts['host'];
@@ -30,7 +30,7 @@ class Server_Match extends Red_Match {
 	}
 
 	public function get_target( $url, $matched_url, $regex ) {
-		$server = parse_url( $this->server, PHP_URL_HOST );
+		$server = wp_parse_url( $this->server, PHP_URL_HOST );
 		$matched = $server === Redirection_Request::get_server_name();
 		$target = $this->get_matched_target( $matched );
 

@@ -74,7 +74,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	}
 
 	private function get_404( array $params ) {
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], array( 'ip', 'url' ) ) ) {
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], array( 'ip', 'url' ), true ) ) {
 			return RE_Filter_Log::get_grouped( 'redirection_404', $params['groupBy'], $params );
 		}
 

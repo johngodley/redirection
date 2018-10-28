@@ -57,19 +57,19 @@ class Redirection_Cli extends WP_CLI_Command {
 		}
 
 		if ( $format === 'csv' ) {
-			$file = fopen( $args[ 0 ], 'r' );
+			$file = fopen( $args[0], 'r' );
 
 			if ( $file ) {
-				$count = $importer->load( $group, $args[ 0 ], '' );
-				WP_CLI::success( 'Imported ' . $count . ' as '.$format );
+				$count = $importer->load( $group, $args[0], '' );
+				WP_CLI::success( 'Imported ' . $count . ' as ' . $format );
 			} else {
 				WP_CLI::error( 'Invalid import file' );
 			}
 		} else {
-			$data = @file_get_contents( $args[ 0 ] );
+			$data = @file_get_contents( $args[0] );
 			if ( $data ) {
-				$count = $importer->load( $group, $args[ 0 ], $data );
-				WP_CLI::success( 'Imported ' . $count . ' as '.$format );
+				$count = $importer->load( $group, $args[0], $data );
+				WP_CLI::success( 'Imported ' . $count . ' as ' . $format );
 			}
 		}
 	}
@@ -101,9 +101,9 @@ class Redirection_Cli extends WP_CLI_Command {
 			return;
 		}
 
-		$file = fopen( $args[ 1 ] === '-' ? 'php://stdout' : $args[ 1 ], 'w' );
+		$file = fopen( $args[1] === '-' ? 'php://stdout' : $args[1], 'w' );
 		if ( $file ) {
-			$export = Red_FileIO::export( $args[ 0 ], $format );
+			$export = Red_FileIO::export( $args[0], $format );
 
 			if ( $export === false ) {
 				WP_CLI::error( 'Invalid module - must be wordpress, apache, nginx, or all' );
@@ -113,7 +113,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			fwrite( $file, $export['data'] );
 			fclose( $file );
 
-			WP_CLI::success( 'Exported ' . $export['total'] .' to '.$format );
+			WP_CLI::success( 'Exported ' . $export['total'] . ' to ' . $format );
 		} else {
 			WP_CLI::error( 'Invalid output file' );
 		}

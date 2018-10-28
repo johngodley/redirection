@@ -33,17 +33,17 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function route_delete_all( WP_REST_Request $request ) {
 		$params = $request->get_params();
 		$filter = false;
-		$filterBy = false;
+		$filter_by = false;
 
 		if ( isset( $params['filter'] ) ) {
 			$filter = $params['filter'];
 		}
 
 		if ( isset( $params['filterBy'] ) && in_array( $params['filterBy'], array( 'url', 'ip', 'url-exact' ), true ) ) {
-			$filterBy = $params['filterBy'];
+			$filter_by = $params['filterBy'];
 		}
 
-		RE_Log::delete_all( $filterBy, $filter );
+		RE_Log::delete_all( $filter_by, $filter );
 		return $this->route_log( $request );
 	}
 

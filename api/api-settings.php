@@ -33,9 +33,15 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 
 		foreach ( $groups as $text => $value ) {
 			if ( is_array( $value ) && $depth === 0 ) {
-				$items[] = (object)array( 'text' => $text, 'value' => $this->groups_to_json( $value, 1 ) );
+				$items[] = (object) array(
+					'text' => $text,
+					'value' => $this->groups_to_json( $value, 1 ),
+				);
 			} else {
-				$items[] = (object)array( 'text' => $value, 'value' => $text );
+				$items[] = (object) array(
+					'text' => $value,
+					'value' => $text,
+				);
 			}
 		}
 

@@ -4,14 +4,14 @@ class Red_Apache_File extends Red_FileIO {
 	public function force_download() {
 		parent::force_download();
 
-		$filename = 'redirection-'.date_i18n( get_option( 'date_format' ) ).'.htaccess';
+		$filename = 'redirection-' . date_i18n( get_option( 'date_format' ) ) . '.htaccess';
 
 		header( 'Content-Type: application/octet-stream' );
-		header( 'Content-Disposition: attachment; filename="'.$filename.'"' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 	}
 
 	public function get_data( array $items, array $groups ) {
-		include_once dirname( dirname( __FILE__ ) ).'/models/htaccess.php';
+		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
 
 		$htaccess = new Red_Htaccess();
 
@@ -19,7 +19,7 @@ class Red_Apache_File extends Red_FileIO {
 			$htaccess->add( $item );
 		}
 
-		return $htaccess->get().PHP_EOL;
+		return $htaccess->get() . PHP_EOL;
 	}
 
 	public function load( $group, $filename, $data ) {
@@ -30,14 +30,14 @@ class Red_Apache_File extends Red_FileIO {
 		$lines = array_filter( explode( "\r", $data ) );
 		$count = 0;
 
-		foreach ( (array)$lines as $line ) {
+		foreach ( (array) $lines as $line ) {
 			$item = $this->get_as_item( $line );
 
 			if ( $item ) {
 				$item['group_id'] = $group;
 				$redirect = Red_Item::create( $item );
 
-				if ( !is_wp_error( $redirect ) ) {
+				if ( ! is_wp_error( $redirect ) ) {
 					$count++;
 				}
 			}
@@ -144,22 +144,22 @@ class Red_Apache_File extends Red_FileIO {
 		return false;
 	}
 
-	private function regex_url ($url) {
+	private function regex_url( $url ) {
 		if ( $this->is_str_regex( $url ) ) {
 			$tmp = ltrim( $url, '^' );
 			$tmp = rtrim( $tmp, '$' );
 
 			if ( $this->is_str_regex( $tmp ) === false ) {
-				return '/'.$this->decode_url( $tmp );
+				return '/' . $this->decode_url( $tmp );
 			}
 
-			return '/'.$this->decode_url( $url );
+			return '/' . $this->decode_url( $url );
 		}
 
 		return $this->decode_url( $url );
 	}
 
-	private function get_code ($code) {
+	private function get_code( $code ) {
 		if ( strpos( $code, '301' ) !== false || stripos( $code, 'permanent' ) !== false ) {
 			return 301;
 		} elseif ( strpos( $code, '302' ) !== false ) {

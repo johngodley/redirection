@@ -109,7 +109,7 @@ class RE_Database {
 
 		foreach ( $this->get_all_tables() as $sql ) {
 			if ( $wpdb->query( $sql ) === false ) {
-				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues - '.$sql.' = '.$wpdb->print_error() );
+				throw new Exception( 'There was a database error installing Redirection - please post these details to https://github.com/johngodley/redirection/issues - ' . $sql . ' = ' . $wpdb->print_error() );
 				return false;
 			}
 		}
@@ -135,8 +135,8 @@ class RE_Database {
 
 		// Default groups
 		if ( intval( $existing_groups, 10 ) === 0 ) {
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections', 'redirection' ), 'module_id' => 1, 'position' => 0 ) );
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Modified Posts', 'redirection' ), 'module_id' => 1, 'position' => 1 ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_groups', array( 'name' => __( 'Redirections', 'redirection' ), 'module_id' => 1, 'position' => 0 ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_groups', array( 'name' => __( 'Modified Posts', 'redirection' ), 'module_id' => 1, 'position' => 1 ) );
 		}
 	}
 
@@ -167,7 +167,7 @@ class RE_Database {
 				'2.4'    => 'upgrade_to_24',
 			);
 
-			foreach ( $versions AS $vers => $upgrade ) {
+			foreach ( $versions as $vers => $upgrade ) {
 				if ( version_compare( $current, $vers ) === -1 ) {
 					$this->$upgrade();
 				}
@@ -314,7 +314,7 @@ class RE_Database {
 
 		return array(
 			'status' => count( $missing ) === 0 ? 'good' : 'error',
-			'message' => count( $missing ) === 0 ? __( 'All tables present', 'redirection' ) : __( 'The following tables are missing:', 'redirection' ).' '.join( ',', $missing ),
+			'message' => count( $missing ) === 0 ? __( 'All tables present', 'redirection' ) : __( 'The following tables are missing:', 'redirection' ) . ' ' . join( ',', $missing ),
 		);
 	}
 }

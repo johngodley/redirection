@@ -33,8 +33,8 @@ class Red_Monitor {
 	public function can_monitor_post( $post, $post_before ) {
 		// Check this is for the expected post
 		if ( ! isset( $post->ID ) || ! isset( $this->updated_posts[ $post->ID ] ) ) {
-            return false;
-        }
+			return false;
+		}
 
 		// Don't do anything if we're not published
 		if ( $post->post_status !== 'publish' || $post_before->post_status !== 'publish' ) {
@@ -67,7 +67,7 @@ class Red_Monitor {
 
 	public function post_trashed( $post_id ) {
 		$data = array(
-			'url'         => parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
+			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
 			'action_data' => array( 'url' => '/' ),
 			'match_type'  => 'url',
 			'action_type' => 'url',
@@ -98,18 +98,18 @@ class Red_Monitor {
 	}
 
 	private function get_site_path() {
-		$path = parse_url( get_site_url(), PHP_URL_PATH );
+		$path = wp_parse_url( get_site_url(), PHP_URL_PATH );
 
 		if ( $path ) {
-			return rtrim( $path, '/' ).'/';
+			return rtrim( $path, '/' ) . '/';
 		}
 
 		return '/';
 	}
 
 	public function check_for_modified_slug( $post_id, $before ) {
-		$after  = parse_url( get_permalink( $post_id ), PHP_URL_PATH );
-		$before = parse_url( esc_url( $before ), PHP_URL_PATH );
+		$after  = wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH );
+		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
 
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
@@ -129,7 +129,7 @@ class Red_Monitor {
 			if ( ! is_wp_error( $new_item ) ) {
 				do_action( 'redirection_monitor_created', $new_item, $before, $post_id );
 
-				if ( !empty( $this->associated ) ) {
+				if ( ! empty( $this->associated ) ) {
 					// Create an associated redirect for this post
 					$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
 					$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );

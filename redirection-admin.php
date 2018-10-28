@@ -169,9 +169,9 @@ class Redirection_Admin {
 		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wp_rest' ) ) {
 			if ( $_REQUEST['action'] === 'fixit' ) {
 				$this->run_fixit();
-			} else if ( $_REQUEST['action'] === 'rest_api' ) {
+			} elseif ( $_REQUEST['action'] === 'rest_api' ) {
 				$this->set_rest_api( intval( $_REQUEST['rest_api'], 10 ) );
-			} else if ( $_REQUEST['action'] === 'red_proxy' ) {
+			} elseif ( $_REQUEST['action'] === 'red_proxy' ) {
 				// Hack to get around clash with WP page param
 				if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' ) {
 					unset( $_GET['page'] );
@@ -200,7 +200,12 @@ class Redirection_Admin {
 		$this->inject();
 
 		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
-			add_screen_option( 'per_page', array( 'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ), 'default' => RED_DEFAULT_PER_PAGE, 'option' => 'redirection_log_per_page' ) );
+			add_screen_option( 'per_page', array(
+				/* translators: maximum number of log entries */
+				'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ),
+				'default' => RED_DEFAULT_PER_PAGE,
+				'option' => 'redirection_log_per_page',
+			) );
 		}
 
 		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
@@ -247,7 +252,13 @@ class Redirection_Admin {
 
 		foreach ( $override as $path ) {
 			if ( strpos( $url, $path ) !== false ) {
-				return array( 'result' => 'passed', 'auth' => false, 'asn' => false, 'code' => false, 'ip' => false );
+				return array(
+					'result' => 'passed',
+					'auth' => false,
+					'asn' => false,
+					'code' => false,
+					'ip' => false,
+				);
 			}
 		}
 
@@ -306,8 +317,9 @@ class Redirection_Admin {
 	}
 
 	private function add_help_tab() {
-		$title = __( 'Redirection Support', 'redirection' );
+		/* translators: URL */
 		$content = sprintf( __( 'You can find full documentation about using Redirection on the <a href="%s" target="_blank">redirection.me</a> support site.', 'redirection' ), 'https://redirection.me/support/?utm_source=redirection&utm_medium=plugin&utm_campaign=context-help' );
+		$title = __( 'Redirection Support', 'redirection' );
 
 		$current_screen = get_current_screen();
 		$current_screen->add_help_tab( array(
@@ -354,12 +366,14 @@ class Redirection_Admin {
 		$wp_version = get_bloginfo( 'version' );
 
 		if ( version_compare( $wp_version, REDIRECTION_MIN_WP, '<' ) ) {
-?>
+			/* translators: 1: Expected WordPress version, 2: Actual WordPress version */
+			$wp_requirement = sprintf( __( 'Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version );
+			?>
 	<div class="react-error">
-		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
-		<p style="text-align: left"><?php printf( __( 'Redirection requires WordPress v%1s, you are using v%2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version ); ?></p>
+		<h1><?php esc_html_e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+		<p style="text-align: left"><?php echo esc_html( $wp_requirement ); ?></p>
 	</div>
-<?php
+			<?php
 			return false;
 		}
 
@@ -368,12 +382,14 @@ class Redirection_Admin {
 
 	private function check_minimum_php() {
 		if ( version_compare( PHP_VERSION, '5.4' ) < 0 ) {
-		?>
+			/* translators: 1: Expected PHP version, 2: Actual PHP version */
+			$php_version = sprintf( __( 'Redirection requires PHP v%1$1s, you are using v%2$2s - please update your PHP', 'redirection' ), '5.4', PHP_VERSION );
+			?>
 	<div class="error">
-		<h1><?php _e( 'Unable to load Redirection', 'redirection' ); ?></h1>
-		<p style="text-align: left"><?php printf( __( 'Redirection requires PHP v%1s, you are using v%2s - please update your PHP', 'redirection' ), '5.4', PHP_VERSION ); ?></p>
+		<h1><?php esc_html_e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+		<p style="text-align: left"><?php echo esc_html( $php_version ); ?></p>
 	</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -384,10 +400,12 @@ class Redirection_Admin {
 		$status = $database->get_status();
 
 		if ( $status['status'] !== 'good' ) {
+			/* translators: URL */
+			$reason = printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' );
 			?>
 				<div class="error">
-					<h3><?php _e( 'Redirection not installed properly', 'redirection' ); ?></h3>
-					<p style="text-align: left"><?php printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' ); ?></p>
+					<h3><?php esc_html_e( 'Redirection not installed properly', 'redirection' ); ?></h3>
+					<p style="text-align: left"><?php echo esc_html( $reason ); ?></p>
 				</div>
 			<?php
 
@@ -419,29 +437,29 @@ class Redirection_Admin {
 			return false;
 		}
 
-?>
+		?>
 <div id="react-modal"></div>
 <div id="react-ui">
 	<div class="react-loading">
-		<h1><?php _e( 'Loading, please wait...', 'redirection' ); ?></h1>
+		<h1><?php esc_html_e( 'Loading, please wait...', 'redirection' ); ?></h1>
 
 		<span class="react-loading-spinner"></span>
 	</div>
 	<noscript>Please enable JavaScript</noscript>
 
 	<div class="react-error" style="display: none">
-		<h1><?php _e( 'Unable to load Redirection ☹️', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
-		<p><?php _e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
-		<p><?php _e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
-		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
+		<h1><?php esc_html_e( 'Unable to load Redirection ☹️', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
+		<p><?php esc_html_e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
+		<p><?php esc_html_e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
+		<p><?php esc_html_e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
 		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . urlencode( REDIRECTION_VERSION ) . '-' . urlencode( REDIRECTION_BUILD ) ); ?></code></p>
-		<p><?php _e( 'Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won\'t be able to use Redirection', 'redirection' ); ?></p>
-		<p><?php _e( 'Please see the <a href="https://redirection.me/support/problems/">list of common problems</a>.', 'redirection' ); ?></p>
-		<p><?php _e( 'If you think Redirection is at fault then create an issue.', 'redirection' ); ?></p>
-		<p class="versions"><?php _e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
+		<p><?php esc_html_e( 'Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won\'t be able to use Redirection', 'redirection' ); ?></p>
+		<p><?php esc_html_e( 'Please see the <a href="https://redirection.me/support/problems/">list of common problems</a>.', 'redirection' ); ?></p>
+		<p><?php esc_html_e( 'If you think Redirection is at fault then create an issue.', 'redirection' ); ?></p>
+		<p class="versions"><?php esc_html_e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ); ?>">
-				<?php _e( 'Create Issue', 'redirection' ); ?>
+				<?php esc_html_e( 'Create Issue', 'redirection' ); ?>
 			</a>
 		</p>
 	</div>
@@ -490,7 +508,7 @@ class Redirection_Admin {
 		errors.push( error + ' ' + url + ' ' + line );
 	};
 </script>
-<?php
+		<?php
 	}
 
 	/**

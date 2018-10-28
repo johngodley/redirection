@@ -32,7 +32,7 @@ class Agent_Match extends Red_Match {
 		// Check if referrer matches
 		$matched = $this->agent === Redirection_Request::get_user_agent();
 		if ( $this->regex ) {
-			$matched = preg_match( '@'.str_replace( '@', '\\@', $this->agent ).'@i', Redirection_Request::get_user_agent() ) > 0;
+			$matched = preg_match( '@' . str_replace( '@', '\\@', $this->agent ) . '@i', Redirection_Request::get_user_agent() ) > 0;
 		}
 
 		$target = false;
