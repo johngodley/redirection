@@ -82,7 +82,7 @@ class Red_Nginx_File extends Red_FileIO {
 		}
 
 		if ( $item->match->url_notfrom ) {
-			$lines[] = 'if ( $http_referer !~* ^' . $item->match->referrer.'$ ) {';
+			$lines[] = 'if ( $http_referer !~* ^' . $item->match->referrer . '$ ) {';
 			$lines[] = '        ' . $this->add_redirect( $item->get_url(), $item->match->url_notfrom, $this->get_redirect_code( $item ) );
 			$lines[] = '    }';
 		}

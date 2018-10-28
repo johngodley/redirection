@@ -17,7 +17,10 @@ function red_get_plugin_data( $plugin ) {
 
 function red_get_post_types( $full = true ) {
 	$types = get_post_types( array( 'public' => true ), 'objects' );
-	$types[] = ( object )array( 'name' => 'trash', 'label' => __( 'Trash' ) );
+	$types[] = (object) array(
+		'name' => 'trash',
+		'label' => __( 'Trash' ),
+	);
 
 	$post_types = array();
 	foreach ( $types as $type ) {
@@ -200,7 +203,7 @@ function red_get_rest_api( $type = false ) {
 	} elseif ( $type === REDIRECTION_API_ADMIN ) {
 		$url = admin_url( 'admin-ajax.php?action=red_proxy&rest_path=' );
 	} elseif ( $type === REDIRECTION_API_JSON_RELATIVE ) {
-		$url = parse_url( $url, PHP_URL_PATH );
+		$url = wp_parse_url( $url, PHP_URL_PATH );
 	} elseif ( $type === REDIRECTION_API_POST ) {
 		$url = admin_url( 'tools.php?page=redirection.php&action=red_proxy&rest_path=' );
 	}

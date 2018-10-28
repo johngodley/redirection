@@ -16,22 +16,22 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	}
 
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		include_once dirname( dirname( __FILE__ ) ).'/models/importer.php';
+		include_once dirname( dirname( __FILE__ ) ) . '/models/importer.php';
 
 		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
 	}
 
 	public function route_plugin_import( WP_REST_Request $request ) {
-		include_once dirname( dirname( __FILE__ ) ).'/models/importer.php';
+		include_once dirname( dirname( __FILE__ ) ) . '/models/importer.php';
 
 		$groups = Red_Group::get_all();
 
-		return array( 'imported' => Red_Plugin_Importer::import( $request['plugin'], $groups[ 0 ]['id'] ) );
+		return array( 'imported' => Red_Plugin_Importer::import( $request['plugin'], $groups[0]['id'] ) );
 	}
 
 	public function route_import_file( WP_REST_Request $request ) {
 		$upload = $request->get_file_params();
-		$upload = isset( $upload[ 'file' ] ) ? $upload[ 'file' ] : false;
+		$upload = isset( $upload['file'] ) ? $upload['file'] : false;
 		$group_id = $request['group_id'];
 
 		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {

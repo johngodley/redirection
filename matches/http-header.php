@@ -14,7 +14,7 @@ class Header_Match extends Red_Match {
 	public function save( array $details, $no_target_url = false ) {
 		$data = array(
 			'regex' => isset( $details['regex'] ) && $details['regex'] ? true : false,
-			'name'  => isset( $details['name'] ) ? $this->sanitize_name( $details['name'] ): '',
+			'name'  => isset( $details['name'] ) ? $this->sanitize_name( $details['name'] ) : '',
 			'value' => isset( $details['value'] ) ? $this->sanitize_value( $details['value'] ) : '',
 		);
 

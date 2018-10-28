@@ -24,7 +24,7 @@ class Login_Match extends Red_Match {
 
 		if ( is_user_logged_in() && $this->logged_in !== '' ) {
 			$target = $this->logged_in;
-		} else if ( ! is_user_logged_in() && $this->logged_out !== '' ) {
+		} elseif ( ! is_user_logged_in() && $this->logged_out !== '' ) {
 			$target = $this->logged_out;
 		}
 

@@ -24,7 +24,7 @@ class Redirection {
 		$options = red_get_options();
 		if ( $options['ip_logging'] === 0 ) {
 			add_filter( 'redirection_request_ip', array( $this, 'no_ip_logging' ) );
-		} else if ( $options['ip_logging'] === 2 ) {
+		} elseif ( $options['ip_logging'] === 2 ) {
 			add_filter( 'redirection_request_ip', array( $this, 'mask_ip' ) );
 		}
 	}

@@ -33,7 +33,7 @@ class Referrer_Match extends Red_Match {
 		$matched = Redirection_Request::get_referrer() === $this->referrer;
 
 		if ( $this->regex ) {
-			$matched = preg_match( '@'.str_replace( '@', '\\@', $this->referrer ).'@', Redirection_Request::get_referrer(), $matches ) > 0;
+			$matched = preg_match( '@' . str_replace( '@', '\\@', $this->referrer ) . '@', Redirection_Request::get_referrer(), $matches ) > 0;
 		}
 
 		// Check if referrer matches

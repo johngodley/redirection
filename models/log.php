@@ -86,7 +86,7 @@ class RE_Log {
 
 		if ( $filter_by === 'url' && $filter ) {
 			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
-		} else if ( $filter_by === 'ip' ) {
+		} elseif ( $filter_by === 'ip' ) {
 			$where[] = $wpdb->prepare( 'ip=%s', $filter );
 		}
 
@@ -112,10 +112,7 @@ class RE_Log {
 
 		fputcsv( $stdout, array( 'date', 'source', 'target', 'ip', 'referrer', 'agent' ) );
 
-		$extra = '';
-		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs";
-
-		$total_items = $wpdb->get_var( $sql.$extra );
+		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 		$exported = 0;
 
 		while ( $exported < $total_items ) {
@@ -246,10 +243,7 @@ class RE_404 {
 
 		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer' ) );
 
-		$extra = '';
-		$sql = "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404";
-
-		$total_items = $wpdb->get_var( $sql . $extra );
+		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 		$exported = 0;
 
 		while ( $exported < $total_items ) {
@@ -286,11 +280,10 @@ class RE_Filter_Log {
 
 		$query = self::get_query( $params );
 
-		$table = $wpdb->prefix . $table;
- 		$sql = trim( "SELECT * FROM $table {$query['where']} " ) . $wpdb->prepare( ' ORDER BY ' . $query['orderby'] . ' ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] );
-
-		$rows = $wpdb->get_results( $sql );
-		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM $table " . $query['where'] );
+		$rows = $wpdb->get_results(
+			"SELECT * FROM {$wpdb->prefix}$table {$query['where']}" . $wpdb->prepare( ' ORDER BY ' . $query['orderby'] . ' ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] )
+		);
+		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}$table " . $query['where'] );
 		$items = [];
 
 		foreach ( $rows as $row ) {
@@ -315,11 +308,14 @@ class RE_Filter_Log {
 		global $wpdb;
 
 		$query = self::get_query( $params );
-		$table = $wpdb->prefix . $table;
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) as count,$group FROM $table " . $query['where'] . ' GROUP BY ' . $group . ' ORDER BY count ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] );
+		if ( ! in_array( $group, array( 'ip', 'url' ), true ) ) {
+			$group = 'url';
+		}
+
+		$sql = $wpdb->prepare( "SELECT COUNT(*) as count,$group FROM {$wpdb->prefix}$table " . $query['where'] . ' GROUP BY ' . $group . ' ORDER BY count ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] );
 		$rows = $wpdb->get_results( $sql );
-		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM $table" );
+		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM {$wpdb->prefix}$table" );
 
 		foreach ( $rows as $row ) {
 			$row->count = intval( $row->count, 10 );
