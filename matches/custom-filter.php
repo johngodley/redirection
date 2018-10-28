@@ -1,11 +1,11 @@
 <?php
 
 class Custom_Match extends Red_Match {
-	public $filter;
-	public $url_from;
-	public $url_notfrom;
+	use FromNotFrom_Match;
 
-	function name() {
+	public $filter;
+
+	public function name() {
 		return __( 'URL and custom filter', 'redirection' );
 	}
 
@@ -14,12 +14,7 @@ class Custom_Match extends Red_Match {
 			'filter' => isset( $details['filter'] ) ? $this->sanitize_filter( $details['filter'] ) : '',
 		);
 
-		if ( $no_target_url === false ) {
-			$data['url_from'] = isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : '';
-			$data['url_notfrom'] = isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : '';
-		}
-
-		return $data;
+		return $this->save_data( $details, $no_target_url, $data );
 	}
 
 	public function sanitize_filter( $name ) {
@@ -31,29 +26,23 @@ class Custom_Match extends Red_Match {
 	function get_target( $url, $matched_url, $regex ) {
 		$target = false;
 		$matched = apply_filters( $this->filter, false, $url );
+		$target = $this->get_matched_target( $matched );
 
-		// Check if referrer matches
-		if ( $matched && $this->url_from !== '' ) {
-			$target = $this->url_from;
-		} elseif ( ! $matched && $this->url_notfrom !== '' ) {
-			$target = $this->url_notfrom;
+		if ( $regex && $target ) {
+			return $this->get_target_regex_url( $matched_url, $target, $url );
 		}
 
 		return $target;
 	}
 
 	public function get_data() {
-		return array(
-			'url_from' => $this->url_from,
-			'url_notfrom' => $this->url_notfrom,
+		return array_merge( array(
 			'filter' => $this->filter,
-		);
+		), $this->get_from_data() );
 	}
 
 	public function load( $values ) {
-		$values = unserialize( $values );
-		$this->url_from = $values['url_from'];
-		$this->url_notfrom = $values['url_notfrom'];
+		$values = $this->load_data( $values );
 		$this->filter = $values['filter'];
 	}
 }
