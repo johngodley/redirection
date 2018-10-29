@@ -53,7 +53,7 @@ class WordPress_Module extends Red_Module {
 
 	public function redirection_do_nothing() {
 		$this->can_log = false;
-		return false;
+		return true;
 	}
 
 	public function redirection_visit( $redirect, $url, $target ) {

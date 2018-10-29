@@ -137,16 +137,17 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 = 3.6 - Sometime =
-* Ignore 404s
-* Block 404s by IP
+* Add option to ignore 404s
+* Add option to block 404s by IP
 * Add grouping of 404s by IP and URL
-* Bulk block or redirect a group of 404s
+* Add bulk block or redirect a group of 404s
 * Better page navigation change monitoring
 * Add URL & IP match
 * Add 303 and 304 redirect codes
 * Add 400, 403, and 418 (I'm a teapot!) error codes
 * Fix server match not supporting regex properly
 * Deprecated file pass through removed
+* 'Do nothing' now stops processing further rules
 
 = 3.5 - 23rd September 2018 =
 * Add redirect checker on redirects page
