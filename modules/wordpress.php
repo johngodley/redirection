@@ -42,11 +42,11 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function template_redirect() {
-		if ( ! is_404() ) {
+		if ( ! is_404() || $this->matched ) {
 			return;
 		}
 
-		if ( $this->match_404_type( $this->redirects ) ) {
+		if ( $this->match_404_type() ) {
 			// Don't log an intentionally redirected 404
 			return;
 		}
@@ -58,12 +58,12 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	private function match_404_type( array $redirects ) {
-		if ( property_exists( $this, 'redirects' ) && count( $this->redirects ) > 0 ) {
+	private function match_404_type() {
+		if ( ! property_exists( $this, 'redirects' ) || count( $this->redirects ) === 0 ) {
 			return false;
 		}
 
-		$page_type = array_values( array_filter( $redirects, function( $redirect ) {
+		$page_type = array_values( array_filter( $this->redirects, function( $redirect ) {
 			return $redirect->match->get_type() === 'page';
 		} ) );
 
