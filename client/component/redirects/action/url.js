@@ -12,21 +12,22 @@ import PropTypes from 'prop-types';
 
 const ActionUrl = props => {
 	const changer = ev => {
-		props.onChange( 'target', 'url', ev.target.value );
+		props.onChange( props.target, 'url', ev.target.value );
 	};
 
 	return (
 		<tr>
 			<th>{ __( 'Target URL' ) }</th>
 			<td>
-				<input type="text" name="url" value={ props.target.url } onChange={ changer } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
+				<input type="text" name="url" value={ props.url } onChange={ changer } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
 			</td>
 		</tr>
 	);
 };
 
 ActionUrl.propTypes = {
-	target: PropTypes.object.isRequired,
+	url: PropTypes.string.isRequired,
+	target: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
 

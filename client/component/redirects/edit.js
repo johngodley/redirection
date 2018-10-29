@@ -20,6 +20,7 @@ import MatchCookie from './match/cookie';
 import MatchRole from './match/role';
 import MatchServer from './match/server';
 import MatchIp from './match/ip';
+import MatchPage from './match/page';
 import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import ActionUrlFrom from './action/url-from';
@@ -42,6 +43,7 @@ import {
 	MATCH_ROLE,
 	MATCH_SERVER,
 	MATCH_IP,
+	MATCH_PAGE,
 
 	getActionData,
 	hasUrlTarget,
@@ -86,6 +88,7 @@ class EditRedirect extends React.Component {
 			role: this.getRoleState( action_data ),
 			server: this.getServerState( action_data ),
 			ip: this.getIpState( action_data ),
+			page: this.getPageState( action_data ),
 		};
 
 		this.state.advanced = ! this.canShowAdvanced();
@@ -186,6 +189,10 @@ class EditRedirect extends React.Component {
 				url_from: '',
 				url_notfrom: '',
 			},
+			page: {
+				page: '404',
+				url: '',
+			},
 		};
 	}
 
@@ -244,6 +251,15 @@ class EditRedirect extends React.Component {
 			ip,
 			url_from,
 			url_notfrom,
+		};
+	}
+
+	getPageState( action_data ) {
+		const { page = '404', url = '' } = action_data ? action_data : {};
+
+		return {
+			page,
+			url,
 		};
 	}
 
@@ -381,7 +397,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getMatchExtra() {
-		const { match_type, agent, referrer, cookie, header, custom, role, server, ip } = this.state;
+		const { match_type, agent, referrer, cookie, header, custom, role, server, ip, page } = this.state;
 
 		switch ( match_type ) {
 			case MATCH_AGENT:
@@ -407,13 +423,16 @@ class EditRedirect extends React.Component {
 
 			case MATCH_IP:
 				return <MatchIp ip={ ip.ip } onChange={ this.onSetData } />;
+
+			case MATCH_PAGE:
+				return <MatchPage page={ page.page } onChange={ this.onSetData } />;
 		}
 
 		return null;
 	}
 
 	getTarget() {
-		const { match_type, action_type, agent, referrer, login, cookie, target, header, custom, role, server, ip } = this.state;
+		const { match_type, action_type, agent, referrer, login, cookie, target, header, custom, role, server, ip, page } = this.state;
 
 		if ( ! hasUrlTarget( action_type ) ) {
 			return null;
@@ -430,7 +449,7 @@ class EditRedirect extends React.Component {
 				return <ActionLogin logged_in={ login.logged_in } logged_out={ login.logged_out } onChange={ this.onSetData } />;
 
 			case MATCH_URL:
-				return <ActionUrl target={ target } onChange={ this.onSetData } />;
+				return <ActionUrl url={ target.url } target="target" onChange={ this.onSetData } />;
 
 			case MATCH_COOKIE:
 				return <ActionUrlFrom url_from={ cookie.url_from } url_notfrom={ cookie.url_notfrom } target="cookie" onChange={ this.onSetData } />;
@@ -449,6 +468,9 @@ class EditRedirect extends React.Component {
 
 			case MATCH_IP:
 				return <ActionUrlFrom url_from={ ip.url_from } url_notfrom={ ip.url_notfrom } target="ip" onChange={ this.onSetData } />;
+
+			case MATCH_PAGE:
+				return <ActionUrl url={ page.url } target="page" onChange={ this.onSetData } />;
 		}
 
 		return null;
@@ -532,7 +554,7 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
-		const { url, match_type, target, action_type, referrer, login, agent, header, cookie, role, server } = this.state;
+		const { url, match_type, target, action_type, referrer, login, agent, header, cookie, role, server, ip, page } = this.state;
 
 		if ( Redirectioni10n.autoGenerate === '' && url === '' ) {
 			return false;
@@ -568,6 +590,14 @@ class EditRedirect extends React.Component {
 			}
 
 			if ( match_type === MATCH_SERVER && server.url_from === '' && server.url_notfrom === '' ) {
+				return false;
+			}
+
+			if ( match_type === MATCH_IP && ip.url_from === '' && ip.url_notfrom === '' ) {
+				return false;
+			}
+
+			if ( match_type === MATCH_PAGE && page.url === '' ) {
 				return false;
 			}
 		}
