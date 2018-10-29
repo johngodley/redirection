@@ -57,8 +57,8 @@ class RedirectTest extends WP_UnitTestCase {
 		$disabledGroup = Red_Group::create( 'group', 1 );
 		$disabledGroup->disable();
 
-		$item1 = $this->createRedirect( array( 'url' => 'url1' ) );
-		$item2 = $this->createRedirect( array( 'url' => 'url2' ) );
+		$item1 = $this->createRedirect( array( 'url' => '/url1' ) );
+		$item2 = $this->createRedirect( array( 'url' => '/url2' ) );
 		$item3 = $this->createRedirect( array( 'url' => 'url3', 'group_id' => $disabledGroup->get_id() ) );
 
 		$items = Red_Item::get_all_for_module( 1 );

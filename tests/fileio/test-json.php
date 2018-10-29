@@ -37,18 +37,18 @@ class JsonTest extends WP_UnitTestCase {
 					'name' => 'groupx',
 					'id' => 5,
 					'module_id' => 1,
-				)
+				),
 			),
 			'redirects' => array(
 				array(
-					'url' => 'source1',
+					'url' => '/source1',
 					'id' => 1,
 					'group_id' => 5,
 					'match_type' => 'url',
 					'action_type' => 'url',
 					'action_data' => array( 'url' => '/test' ),
-				)
-			)
+				),
+			),
 		);
 
 		$json = new Red_Json_File();
