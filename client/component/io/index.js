@@ -242,7 +242,7 @@ class ImportExport extends React.Component {
 			<div className="import">
 				<h2>{ __( 'Import' ) }</h2>
 
-				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } className={ classes } disableClick disablePreview multiple={ false }>
+				<Dropzone ref={ this.setDropzone } onDrop={ this.handleDrop } onDragLeave={ this.handleLeave } onDragEnter={ this.handleEnter } className={ classes } disableClick multiple={ false }>
 					{ this.renderDropzoneContent() }
 				</Dropzone>
 
