@@ -17,6 +17,7 @@ class Error_Action extends Red_Action {
 	public function wp() {
 		status_header( $this->code );
 		nocache_headers();
+		header( 'X-Redirect-Agent: redirection' );
 	}
 
 	public function pre_handle_404() {
