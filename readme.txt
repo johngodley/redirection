@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
 Tested up to: 4.9.8
-Stable tag: 3.5
+Stable tag: 3.6
 Requires PHP: 5.4
 License: GPLv3
 
@@ -141,6 +141,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add option to block 404s by IP
 * Add grouping of 404s by IP and URL
 * Add bulk block or redirect a group of 404s
+* Add option to redirect on a 404
 * Better page navigation change monitoring
 * Add URL & IP match
 * Add 303 and 304 redirect codes

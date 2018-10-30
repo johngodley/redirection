@@ -11,7 +11,7 @@ class Error_Action extends Red_Action {
 		add_filter( 'pre_handle_404', array( $this, 'pre_handle_404' ) );
 		add_action( 'wp', array( $this, 'wp' ) );
 
-		return false;
+		return true;
 	}
 
 	public function wp() {
