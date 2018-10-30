@@ -10,7 +10,7 @@ class Page_Match extends Red_Match {
 	}
 
 	public function save( array $details, $no_target_url = false ) {
-		$data = array( 'page' => isset( $details['page'] ) ? $this->sanitize_page( $details['page'] ) : [] );
+		$data = array( 'page' => isset( $details['page'] ) ? $this->sanitize_page( $details['page'] ) : '404' );
 
 		return $this->save_data( $details, $no_target_url, $data );
 	}
