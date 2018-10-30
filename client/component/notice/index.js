@@ -11,6 +11,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import { clearNotices } from 'state/message/action';
+import './style.scss';
 
 const SHRINK_TIME = 5000;
 

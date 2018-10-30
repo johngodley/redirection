@@ -12,7 +12,7 @@ import { translate as __ } from 'lib/locale';
 import { setFilter, setSelected, performTableAction, deleteExact } from 'state/error/action';
 import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
-import EditRedirect from 'component/redirects/edit';
+import EditRedirect from 'page/redirects/edit';
 import { getDefaultItem } from 'state/redirect/selector';
 import Spinner from 'component/wordpress/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';

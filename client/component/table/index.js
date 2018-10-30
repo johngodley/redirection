@@ -14,6 +14,7 @@ import DataRow from './row/data-row';
 import LoadingRow from './row/loading-row';
 import EmptyRow from './row/empty-row';
 import FailedRow from './row/failed-row';
+import './style.scss';
 
 const isDisabledHeader = ( status, rows ) => status !== STATUS_COMPLETE || rows.length === 0;
 const isSelectedHeader = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;

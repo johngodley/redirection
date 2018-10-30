@@ -4,6 +4,12 @@
 
 import React from 'react';
 
+/**
+ * Internal dependencies
+ */
+
+import './placeholder.scss';
+
 const Placeholder = () => {
 	return (
 		<div className="placeholder-container">

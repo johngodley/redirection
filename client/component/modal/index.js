@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import './style.scss';
+
 class Modal extends React.Component {
 	static propTypes = {
 		onClose: PropTypes.func.isRequired,

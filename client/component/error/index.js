@@ -14,7 +14,7 @@ import { translate as __ } from 'lib/locale';
 
 import { clearErrors } from 'state/message/action';
 import Select from 'component/wordpress/select';
-import { restApi } from 'component/options/options-form';
+import { restApi } from 'page/options/options-form';
 
 class Error extends React.Component {
 	constructor( props ) {

@@ -19,6 +19,7 @@ import { nestedGroups } from 'state/group/selector';
 import { importFile, clearFile, addFile, loadImporters, pluginImport, exportFile, downloadFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import Importer from './importer';
+import './style.scss';
 
 const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
 

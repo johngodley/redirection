@@ -12,6 +12,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import { loadStatus, fixStatus } from 'state/settings/action';
+import './status.scss';
 
 const Fixit = () => {
 	return (

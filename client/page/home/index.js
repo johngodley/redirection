@@ -12,13 +12,13 @@ import { connect } from 'react-redux';
  */
 
 import { getPluginPage } from 'lib/wordpress-url';
-import Options from 'component/options';
-import Support from 'component/support';
-import Logs from 'component/logs';
-import Logs404 from 'component/logs404';
-import ImportExport from 'component/io';
-import Groups from 'component/groups';
-import Redirects from 'component/redirects';
+import Options from 'page/options';
+import Support from 'page/support';
+import Logs from 'page/logs';
+import Logs404 from 'page/logs404';
+import ImportExport from 'page/io';
+import Groups from 'page/groups';
+import Redirects from 'page/redirects';
 import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
@@ -32,6 +32,7 @@ import { getInitialError } from 'state/error/initial';
 import { getInitialLog } from 'state/log/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
+import './style.scss';
 
 const getTitles = () => ( {
 	redirect: __( 'Redirections' ),

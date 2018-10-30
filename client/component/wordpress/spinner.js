@@ -5,6 +5,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Internal dependencies
+ */
+
+import './spinner.scss';
+
 const Spinner = props => {
 	const { size = '' } = props;
 	const klasses = 'spinner-container' + ( size ? ' spinner-' + size : '' );

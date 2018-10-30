@@ -1,13 +1,4 @@
-@import 'globals';
-@import 'spinner';
-@import 'modal';
-@import 'table';
-@import 'plugin-status';
-@import 'donation';
-@import 'dropzone';
-@import 'notice';
-@import 'loading';
-@import 'http-tester';
+@import '../../globals';
 
 /**
  * Submenu
@@ -95,36 +86,10 @@
 }
 
 /**
- * Additions to the WordPress error notice
- */
-.notice-error {
-	margin-top: 3em;
-
-	.closer {
-		float: right;
-		padding-top: 5px;
-		font-size: 18px;
-		cursor: pointer;
-		color: #333;
-	}
-
-	textarea {
-		font-family: courier;
-		font-size: 12px;
-		background-color: #eee;
-		width: 100%;
-	}
-
-	span code {
-		background-color: transparent;
-	}
-}
-
-/**
  * Import/export page
  */
 
- .module-export {
+.module-export {
 	border: 1px solid #ddd;
 	padding: 5px;
 	font-family: courier;
