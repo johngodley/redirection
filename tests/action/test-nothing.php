@@ -9,8 +9,7 @@ class NothingTest extends WP_UnitTestCase {
 	public function testNothingAction() {
 		$action = Red_Action::create( 'nothing', 1 );
 
-		$this->assertFalse( $action->process_before( 1, 'test' ) );
-
+		$this->assertTrue( $action->process_before( 1, 'test' ) );
 	}
 
 	public function test404Logs() {

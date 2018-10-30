@@ -42,15 +42,42 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function template_redirect() {
-		if ( is_404() ) {
-			$options = red_get_options();
+		if ( ! is_404() || $this->matched ) {
+			return;
+		}
 
-			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
-				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
-			}
+		if ( $this->match_404_type() ) {
+			// Don't log an intentionally redirected 404
+			return;
+		}
+
+		$options = red_get_options();
+
+		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
+			RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
 		}
 	}
 
+	private function match_404_type() {
+		if ( ! property_exists( $this, 'redirects' ) || count( $this->redirects ) === 0 ) {
+			return false;
+		}
+
+		$page_type = array_values( array_filter( $this->redirects, function( $redirect ) {
+			return $redirect->match->get_type() === 'page';
+		} ) );
+
+		if ( count( $page_type ) > 0 ) {
+			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
+			$first = $page_type[0];
+			$first->matches( $url );
+			return true;
+		}
+
+		return false;
+	}
+
+	// Return true to stop further processing of the 'do nothing'
 	public function redirection_do_nothing() {
 		$this->can_log = false;
 		return true;
@@ -87,6 +114,11 @@ class WordPress_Module extends Red_Module {
 			}
 
 			do_action( 'redirection_last', $url, $this );
+
+			if ( ! $this->matched ) {
+				// Keep them for later
+				$this->redirects = $redirects;
+			}
 		}
 	}
 
