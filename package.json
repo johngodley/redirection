@@ -89,6 +89,7 @@
     "postcss-focus": "^4.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-reporter": "^6.0.0",
+    "precss": "^3.1.2",
     "prettier": "github:automattic/calypso-prettier#503d7779",
     "redux-devtools-extension": "^2.13.5",
     "sass-loader": "^7.1.0",
