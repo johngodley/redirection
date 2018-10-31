@@ -1,17 +1,17 @@
 @import "../../global";
 
-body.redirection-modal {
+body.redirection-modal_shown {
 	overflow: hidden;
 }
 
-.modal-wrapper {
+.redirection-modal_wrapper {
 	width: 100%;
 }
 
 /**
  * Modal background
  */
-.modal-backdrop {
+.redirection-modal_backdrop {
 	background-color: #999;
 	opacity: 0.6;
 	width: 100%;
@@ -25,7 +25,7 @@ body.redirection-modal {
 /**
  * The base modal dialog
  */
-.modal {
+.redirection-modal_main {
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -34,21 +34,20 @@ body.redirection-modal {
 	z-index: 10000;
 	text-align: center;
 
-	.modal-close button {
+	.redirection-modal_close button {
 		position: absolute;
 		top: 0;
 		right: 0;
 		padding-top: 5px;
 		padding-right: 5px;
 		border: none;
-		background-color: white;
+		background-color: $white;
 		border-radius: 5px;
 		cursor: pointer;
 		z-index: 10001;
 	}
 
-	.modal-content,
-	.modal-table {
+	.redirection-modal_content {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -57,13 +56,13 @@ body.redirection-modal {
 		z-index: 10000;
 		margin: auto;
 		border-radius: 5px;
-		background: white;
+		background: $white;
 		opacity: 1;
 
 		box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 	}
 
-	.modal-content {
+	.redirection-modal_content {
 		width: 60%;
 		height: 100px;
 		margin-right: 15%;
@@ -77,20 +76,20 @@ body.redirection-modal {
 	}
 }
 
-.modal-wrapper.modal-wrapper-padless {
-	.modal-content {
+.redirection-modal_wrapper.redirection-modal_wrapper-padless {
+	.redirection-modal_content {
 		padding: 20px;
 	}
 }
 
-.modal-wrapper-padding .modal-content {
+.redirection-modal_wrapper-padding .redirection-modal_content {
 	padding: 10px;
 }
 
 /**
  * If an error occurred while loading the modal content
  */
-.modal-error {
+.redirection-modal_error {
 	h2 {
 		text-align: center;
 	}
@@ -99,7 +98,7 @@ body.redirection-modal {
 /**
  * Centres the CSS spinner
  */
-.modal-loading {
+.redirection-modal_loading {
 	display: flex;
 	height: 100px;
 
@@ -112,8 +111,8 @@ body.redirection-modal {
 }
 
 @media screen and (max-width: 782px) {
-	.modal {
-		.modal-content {
+	.redirection-modal_main {
+		.redirection-modal_content {
 			width: 80%;
 			margin-right: 10%;
 		}

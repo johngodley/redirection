@@ -33,11 +33,11 @@ class Modal extends React.Component {
 		this.height = 0;
 		this.resize();
 
-		document.body.classList.add( 'redirection-modal' );
+		document.body.classList.add( 'redirection-modal_shown' );
 	}
 
 	componentWillUnmount() {
-		document.body.classList.remove( 'redirection-modal' );
+		document.body.classList.remove( 'redirection-modal_shown' );
 	}
 
 	componentDidUpdate() {
@@ -67,8 +67,8 @@ class Modal extends React.Component {
 	render() {
 		const { onClose } = this.props;
 		const classes = classnames( {
-			'modal-wrapper': true,
-			'modal-wrapper-padding': this.props.padding,
+			'redirection-modal_wrapper': true,
+			'redirection-modal_wrapper-padding': this.props.padding,
 		} );
 
 		const style = {};
@@ -79,10 +79,10 @@ class Modal extends React.Component {
 
 		return ReactDOM.createPortal(
 			<div className={ classes } onClick={ this.handleClick }>
-				<div className="modal-backdrop"></div>
-				<div className="modal">
-					<div className="modal-content" ref={ this.nodeRef } style={ style }>
-						<div className="modal-close">
+				<div className="redirection-modal_backdrop"></div>
+				<div className="redirection-modal_main">
+					<div className="redirection-modal_content" ref={ this.nodeRef } style={ style }>
+						<div className="redirection-modal_close">
 							<button onClick={ onClose }>&#x2716;</button>
 						</div>
 

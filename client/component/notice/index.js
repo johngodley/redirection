@@ -68,7 +68,7 @@ class Notice extends React.Component {
 	}
 
 	renderNotice( notices ) {
-		const klasses = 'notice notice-info redirection-notice' + ( this.state.shrunk ? ' notice-shrunk' : '' );
+		const klasses = 'notice notice-info redirection-notice' + ( this.state.shrunk ? ' redirection-notice_shrunk' : '' );
 
 		return (
 			<div className={ klasses } onClick={ this.onClick }>
