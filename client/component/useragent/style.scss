@@ -1,4 +1,4 @@
-.useragent {
+.redirection-useragent {
 	box-sizing: border-box;
 	padding-bottom: 30px;
 
@@ -6,14 +6,12 @@
 		width: 120px;
 		vertical-align: top;
 		line-height: 1;
+		text-align: left;
+		padding-left: 10px;
 	}
 
 	td {
 		line-height: 1.2;
-	}
-
-	h2 {
-		padding-left: 10px;
 	}
 
 	td,
@@ -23,26 +21,22 @@
 
 	h2 {
 		margin-bottom: 0;
+		padding-left: 12px;
 		padding-bottom: 5px;
 	}
 
-	.useragent-agent {
+	.redirection-useragent_agent {
 		font-size: 12px;
 	}
 
-	.external {
-		position: absolute;
-		right: 15px;
-		bottom: 15px;
-	}
-
-	.agent-unknown,
-	.agent-unknown h2 {
+	.redirection-useragent_unknown,
+	.redirection-useragent_unknown h2 {
 		text-align: center;
 		padding: 5px;
 	}
 
 	table {
 		padding-bottom: 15px;
+		padding-top: 10px;
 	}
 }

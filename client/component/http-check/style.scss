@@ -1,10 +1,20 @@
-@import '../../global';
+@import "../../global";
 
-.http-check-results {
+.redirection-httpcheck_results {
 	display: flex;
 	padding-bottom: 40px;
 
-	.http-status {
+	.redirection-httpcheck_info {
+		text-align: left;
+	}
+}
+
+.redirection-httpcheck {
+	table {
+		width: 100%;
+	}
+
+	.redirection-httpcheck_status {
 		width: 80px;
 
 		.dashicons {
@@ -22,23 +32,10 @@
 		}
 	}
 
-	.http-result {
-		text-align: left;
-		padding-top: 10px;
-	}
-}
-
-.http-check {
 	h2 {
 		margin-bottom: 0;
 		padding-bottom: 5px;
 		text-align: left;
 		padding-left: 10px;
-	}
-
-	.external {
-		position: absolute;
-		right: 15px;
-		bottom: 15px;
 	}
 }

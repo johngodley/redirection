@@ -1,7 +1,4 @@
-/**
- * Variables
- */
-
+/* Colours */
 $white: #fff;
 $black: #000;
 $blue-light: #78dcfa;
@@ -17,7 +14,9 @@ $yellow: #f0b849;
 $red: #d94f4f;
 $green: #4ab866;
 
-$sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 $error: #ff3860;
-$ok: #46b450;
+$ok: $green;
+
+/* Fonts */
+$sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 $monospace: courier, Monaco, monospace;

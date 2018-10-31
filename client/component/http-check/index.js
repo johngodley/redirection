@@ -11,6 +11,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import Spinner from 'component/spinner';
+import PoweredBy from 'component/powered-by';
 import { getHttp, clearHttp } from 'state/info/action';
 import { getServerUrl } from 'lib/wordpress-url';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
@@ -55,12 +56,12 @@ class HttpCheck extends React.Component {
 		const matches = action_code === status && location && location.value === action_data.url && redirection;
 
 		return (
-			<div className="http-check-results">
-				<div className="http-status">
+			<div className="redirection-httpcheck_results">
+				<div className="redirection-httpcheck_status">
 					{ matches && <span className="dashicons dashicons-yes"></span> }
 					{ ! matches && <span className="dashicons dashicons-no"></span> }
 				</div>
-				<div className="http-result">
+				<div className="redirection-httpcheck_info">
 					<p>
 						<strong>{ __( 'Expected' ) }: </strong>
 
@@ -106,18 +107,6 @@ class HttpCheck extends React.Component {
 		);
 	}
 
-	renderLink() {
-		return (
-			<div className="external">
-				{ __( 'Powered by {{link}}redirect.li{{/link}}', {
-					components: {
-						link: <a href="https://redirect.li" target="_blank" rel="noopener noreferrer" />,
-					},
-				} ) }
-			</div>
-		);
-	}
-
 	componentDidUpdate() {
 		this.props.parent.resize();
 	}
@@ -125,9 +114,9 @@ class HttpCheck extends React.Component {
 	render() {
 		const { status, http } = this.props;
 		const klass = classnames( {
-			'http-check': true,
+			'redirection-httpcheck': true,
 			'modal-loading': status === STATUS_IN_PROGRESS,
-			'http-check-small': status === STATUS_FAILED,
+			'redirection-httpcheck_small': status === STATUS_FAILED,
 		} );
 
 		return (
@@ -150,7 +139,7 @@ class HttpCheck extends React.Component {
 						</h2>
 
 						{ this.renderDetails() }
-						{ this.renderLink() }
+						<PoweredBy />
 					</React.Fragment>
 				}
 			</div>

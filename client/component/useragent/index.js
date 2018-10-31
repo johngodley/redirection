@@ -10,6 +10,8 @@ import classnames from 'classnames';
 /**
  * Internal dependencies
  */
+
+import PoweredBy from 'component/powered-by';
 import Spinner from 'component/spinner';
 import { getAgent } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
@@ -38,7 +40,7 @@ class Useragent extends React.Component {
 		const { agent } = this.props;
 
 		return (
-			<div className="agent-unknown">
+			<div className="redirection-useragent_unknown">
 				<h2>{ __( 'Unknown Useragent' ) }</h2>
 				<br />
 				<p>{ agent }</p>
@@ -72,7 +74,7 @@ class Useragent extends React.Component {
 		const name = type.slice( 0, 1 ).toUpperCase() + type.slice( 1 );
 
 		if ( url ) {
-			return <a href={ url } target="_blank">{ name }</a>;
+			return <a href={ url } target="_blank" rel="noopener noreferrer">{ name }</a>;
 		}
 
 		return name;
@@ -116,7 +118,7 @@ class Useragent extends React.Component {
 					<tbody>
 						<tr>
 							<th>{ __( 'Agent' ) }</th>
-							<td className="useragent-agent">{ agent }</td>
+							<td className="redirection-useragent_agent">{ agent }</td>
 						</tr>
 
 						{ parts.map( ( item, key ) => {
@@ -130,13 +132,7 @@ class Useragent extends React.Component {
 					</tbody>
 				</table>
 
-				<div className="external">
-					{ __( 'Powered by {{link}}redirect.li{{/link}}', {
-						components: {
-							link: <a href="https://redirect.li" target="_blank" rel="noopener noreferrer" />,
-						},
-					} ) }
-				</div>
+				<PoweredBy />
 			</div>
 		);
 	}
@@ -148,7 +144,7 @@ class Useragent extends React.Component {
 	render() {
 		const { status } = this.props;
 		const klass = classnames( {
-			useragent: true,
+			'redirection-useragent': true,
 			'modal-loading': status === STATUS_IN_PROGRESS,
 		} );
 

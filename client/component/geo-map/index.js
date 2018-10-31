@@ -11,6 +11,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import Spinner from 'component/spinner';
+import PoweredBy from 'component/powered-by';
 import { getMap } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -38,7 +39,7 @@ class GeoMap extends React.Component {
 		const { ip, ipType } = details;
 
 		return (
-			<div className="geo-simple">
+			<div className="redirection-geomap_simple">
 				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
@@ -52,7 +53,7 @@ class GeoMap extends React.Component {
 		const { ip, ipType } = details;
 
 		return (
-			<div className="geo-simple">
+			<div className="redirection-geomap_simple">
 				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
@@ -68,7 +69,7 @@ class GeoMap extends React.Component {
 		const area = [ regionName, countryName, postCode ].filter( item => item );
 
 		return (
-			<div className="geo-full">
+			<div className="redirection-geomap_full">
 				<table>
 					<tbody>
 						<tr>
@@ -122,18 +123,6 @@ class GeoMap extends React.Component {
 		return null;
 	}
 
-	renderLink() {
-		return (
-			<div className="external">
-				{ __( 'Powered by {{link}}redirect.li{{/link}}', {
-					components: {
-						link: <a href="https://redirect.li" target="_blank" rel="noopener noreferrer" />,
-					},
-				} ) }
-			</div>
-		);
-	}
-
 	componentDidUpdate() {
 		this.props.parent.resize();
 	}
@@ -142,9 +131,9 @@ class GeoMap extends React.Component {
 		const { status } = this.props;
 		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );
 		const klass = classnames( {
-			'geo-map': true,
+			'redirection-geomap': true,
 			'modal-loading': status === STATUS_IN_PROGRESS,
-			'geo-map-small': status === STATUS_FAILED || isPrivate,
+			'redirection-geomap_small': status === STATUS_FAILED || isPrivate,
 		} );
 
 		return (
@@ -152,7 +141,7 @@ class GeoMap extends React.Component {
 				{ status === STATUS_IN_PROGRESS && <Spinner /> }
 				{ status === STATUS_FAILED && this.renderError() }
 				{ status === STATUS_COMPLETE && this.renderDetails() }
-				{ status === STATUS_COMPLETE && this.renderLink() }
+				{ status === STATUS_COMPLETE && <PoweredBy /> }
 			</div>
 		);
 	}
