@@ -1,0 +1,41 @@
+@import "../../global";
+
+.redirection-httpcheck_results {
+	display: flex;
+	padding-bottom: 40px;
+
+	.redirection-httpcheck_info {
+		text-align: left;
+	}
+}
+
+.redirection-httpcheck {
+	table {
+		width: 100%;
+	}
+
+	.redirection-httpcheck_status {
+		width: 80px;
+
+		.dashicons {
+			font-size: 70px;
+			width: 70px;
+			height: 70px;
+		}
+
+		.dashicons-yes {
+			color: $ok;
+		}
+
+		.dashicons-no {
+			color: $error;
+		}
+	}
+
+	h2 {
+		margin-bottom: 0;
+		padding-bottom: 5px;
+		text-align: left;
+		padding-left: 10px;
+	}
+}

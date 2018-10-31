@@ -1,0 +1,221 @@
+.redirection .wp-list-table {
+	tbody {
+		> th:not(.check-column) {
+			vertical-align: top;
+			padding: 5px;
+		}
+	}
+
+	.column-last_count {
+		width: 80px;
+		text-align: left;
+	}
+
+	.column-date {
+		width: 150px;
+	}
+
+	.column-last_access {
+		width: 150px;
+		text-align: left;
+	}
+
+	.column-module, .column-total, .column-ip {
+		width: 110px;
+	}
+
+	.column-redirects {
+		width: 100px;
+		text-align: left;
+	}
+
+	.column-position {
+		width: 80px;
+		text-align: left;
+	}
+
+	.column-code {
+		width: 50px;
+		text-align: left;
+	}
+
+	.check-column-red {
+		vertical-align: middle;
+		padding: 4px 0 0 3px !important;
+		width: 2.2em;
+		margin: 0px;
+	}
+
+	strike {
+		opacity: 0.7;
+	}
+}
+
+.redirection .form-table {
+	/* Links on options page */
+	th a {
+		color: #444;
+	}
+}
+
+table.edit-redirection {
+	width: 100%;
+	padding-right: 15px;
+
+	th {
+		width: 130px;
+		font-weight: bold;
+		text-align: left;
+	}
+
+	th.top {
+		vertical-align: top;
+	}
+
+	tbody tr td {
+		display: flex;
+		padding: 0px;
+
+		> * {
+			flex: 1 1 auto;
+			justify-content: flex-start;
+			margin-right: 5px;
+		}
+
+		.edit-redirection-regex,
+		> select {
+			flex: 0 0 auto;
+		}
+
+		.edit-redirection-position input {
+			width: 60px;
+		}
+
+		.small-flex {
+			flex-grow: 0;
+			padding-top: 5px;
+		}
+	}
+
+	tbody td.edit-left > * {
+		flex: none;
+	}
+
+	textarea {
+		width: 100%;
+		height: 100px;
+	}
+}
+
+
+.edit-groups {
+	width: 100%;
+
+	th {
+		line-height: 1.2;
+		vertical-align: top;
+		padding: 2px;
+		padding-top: 5px !important;
+		padding-left: 0px;
+		font-size: 13px;
+		font-weight: bold;
+	}
+
+	td {
+		padding: 2px;
+	}
+
+	input[type=text] {
+		width: 100%;
+	}
+}
+
+
+/**
+ * The buttons at the bottom of a table to perform an action - delete logs etc
+ */
+.table-buttons {
+	float: left;
+	padding-top: 2px;
+
+	> button, > form, > div.table-button-item {
+		margin-right: 5px !important;
+		display: inline;
+	}
+
+	.redirection-modal_wrapper {
+		display: inline;
+	}
+}
+
+/**
+ * Mobile version of table
+ */
+@media screen and (max-width: 782px) {
+	input[type="checkbox"] {
+		height: 20px;
+		width: 20px;
+	}
+
+	.wp-list-table {
+		td.column-primary {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+
+	.redirection .wp-list-table {
+		td,
+		input,
+		select,
+		th {
+			font-size: 1em !important;
+		}
+
+		td.column-code,
+		th.column-code,
+		td.column-url .target,
+		td.column-date,
+		th.column-date,
+		td.column-referrer {
+			display: none !important;
+		}
+	}
+
+	table.edit-redirection {
+		padding-right: 0;
+
+		th {
+			display: block;
+			font-weight: bold;
+			padding-left: 0px !important;
+		}
+
+		tbody tr td {
+			flex-wrap: wrap;
+
+			> * {
+				flex: 1 0 auto;
+				width: 100%;
+			}
+		}
+
+		input[type="text"],
+		select,
+		input[type="number"] {
+			width: 100%;
+		}
+
+		select,
+		input[type="number"] {
+			height: 30px !important;
+		}
+	}
+
+	table.edit-groups {
+		select,
+		input[type="number"] {
+			height: 30px !important;
+		}
+	}
+}

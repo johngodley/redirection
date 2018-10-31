@@ -1,0 +1,40 @@
+/**
+ * Dropzone area on import/export page
+ */
+ .dropzone {
+	border: 3px dashed #bbb;
+	text-align: center;
+	padding: 10px;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	color: #666;
+
+	h3 {
+		color: #666;
+	}
+
+	p {
+		font-size: 14px;
+	}
+
+	.groups {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+
+	.is-placeholder {
+		width: 50%;
+		height: 90px;
+		position: relative;
+		margin: 0 auto;
+	}
+}
+
+.dropzone-hover, .dropzone-hover {
+	border-color: rgb(134, 191, 212);
+}
+
+.dropzone-importing {
+	border-color: transparent;
+}

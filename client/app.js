@@ -11,8 +11,7 @@ import { Provider } from 'react-redux';
 
 import createReduxStore from 'state';
 import { getInitialState } from 'state/initial';
-import './css/index.scss';
-import Home from './component/home';
+import Home from './page/home';
 
 const App = () => (
 	<Provider store={ createReduxStore( getInitialState() ) }>
