@@ -10,10 +10,11 @@ import classnames from 'classnames';
 /**
  * Internal dependencies
  */
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import { getHttp, clearHttp } from 'state/info/action';
 import { getServerUrl } from 'lib/wordpress-url';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
+import './style.scss';
 
 class HttpCheck extends React.Component {
 	constructor( props ) {

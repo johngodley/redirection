@@ -1,0 +1,17 @@
+.notice-progress {
+	border-left: 5px solid green;
+	padding: 10px;
+	cursor: auto;
+	bottom: 80px;
+
+	p {
+		margin-left: 50px;
+		animation: loading-fade 1.2s ease-in-out infinite;
+	}
+
+	.spinner-container {
+		position: absolute;
+		left: 0;
+		top: 33px;
+	}
+}

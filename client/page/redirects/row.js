@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import RowActions from 'component/table/row-action';
 import EditRedirect from './edit';
 import Modal from 'component/modal';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import HttpCheck from 'component/http-check';
 import { setSelected, performTableAction } from 'state/redirect/action';
 import { MATCH_URL, MATCH_SERVER, CODE_PASS, CODE_NOTHING } from 'state/redirect/selector';

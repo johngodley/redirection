@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import { setFilter, setSelected, performTableAction } from 'state/log/action';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';

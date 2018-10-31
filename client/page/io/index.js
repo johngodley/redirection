@@ -7,7 +7,7 @@ import React from 'react';
 import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
-import Select from 'component/wordpress/select';
+import Select from 'component/select';
 import classnames from 'classnames';
 
 /**

@@ -1,16 +1,4 @@
-@import '../../globals';
-
-/**
- * Submenu
- */
-.subsubsub-container::before, .subsubsub-container::after {
-    content:"";
-    display:table;
-}
-
-.subsubsub-container::after {
-    clear:both;
-}
+@import "../../global";
 
 /**
  * Delete button on options page
@@ -92,7 +80,7 @@
 .module-export {
 	border: 1px solid #ddd;
 	padding: 5px;
-	font-family: courier;
+	font-family: $monospace;
 	margin-top: 15px;
 	width: 100%;
 	background-color: white !important;

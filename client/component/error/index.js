@@ -12,9 +12,10 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
+import Select from 'component/select';
 import { clearErrors } from 'state/message/action';
-import Select from 'component/wordpress/select';
 import { restApi } from 'page/options/options-form';
+import './style.scss';
 
 class Error extends React.Component {
 	constructor( props ) {

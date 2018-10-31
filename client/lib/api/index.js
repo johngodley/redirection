@@ -148,7 +148,7 @@ export const RedirectionApi = {
 
 const getRedirectLiUrl = url => {
 	const base =
-		process.env.NODE_ENV === 'development'
+		process.env.NODE_ENV === 'developmxent'
 			? 'http://localhost:5000/v1/'
 			: 'https://api.redirect.li/v1/';
 	return base + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';

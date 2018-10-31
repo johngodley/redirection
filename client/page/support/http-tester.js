@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import { getHttp } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import './style.scss';
 
 class HttpTester extends React.Component {

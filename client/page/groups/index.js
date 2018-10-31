@@ -19,7 +19,7 @@ import GroupRow from './row';
 import { getGroup, createGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModules } from 'state/io/selector';
-import Select from 'component/wordpress/select';
+import Select from 'component/select';
 
 const getHeaders = () => [
 	{

@@ -1,4 +1,4 @@
-@import '../../globals';
+@import "../../global";
 
 body.redirection-modal {
 	overflow: hidden;
@@ -36,8 +36,8 @@ body.redirection-modal {
 
 	.modal-close button {
 		position: absolute;
-		top: 0px;
-		right: 0px;
+		top: 0;
+		right: 0;
 		padding-top: 5px;
 		padding-right: 5px;
 		border: none;
@@ -47,7 +47,8 @@ body.redirection-modal {
 		z-index: 10001;
 	}
 
-	.modal-content, .modal-table {
+	.modal-content,
+	.modal-table {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -59,7 +60,7 @@ body.redirection-modal {
 		background: white;
 		opacity: 1;
 
-		box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+		box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 	}
 
 	.modal-content {
@@ -84,164 +85,6 @@ body.redirection-modal {
 
 .modal-wrapper-padding .modal-content {
 	padding: 10px;
-}
-
-/**
- * Geo Map
- */
-.geo-map {
-	padding-bottom: 10px;
-	width: 100%;
-	position: relative;
-
-	.geo-full {
-		height: 600px;
-	}
-
-	&.geo-map-small {
-		height: 100px;
-		padding-top: 20px;
-	}
-
-	iframe {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		background-color: #ddd;
-		height: 450px;
-		max-height: 90%;
-	}
-
-	table {
-		background-color: white;
-		padding: 10px;
-		padding-bottom: 30px;
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		height: 130px;
-		width: 100%;
-	}
-
-	table th, table td {
-		padding: 0;
-	}
-
-	table th {
-		font-weight: bold;
-		text-align: left;
-		width: 150px;
-	}
-
-	table td {
-		text-align: left;
-	}
-
-	h2 {
-		line-height: 1;
-		margin: 0;
-		padding-bottom: 10px;
-	}
-
-	.external {
-		position: absolute;
-		right: 15px;
-		bottom: 10px;
-	}
-}
-
-/**
- * User agent info display
- */
-.useragent {
-	box-sizing: border-box;
-	padding-bottom: 30px;
-
-	th {
-		width: 120px;
-		vertical-align: top;
-		line-height: 1;
-	}
-
-	td {
-		line-height: 1.2;
-	}
-
-	h2 {
-		padding-left: 10px;
-	}
-
-	td, h2 {
-		text-align: left;
-	}
-
-	h2 {
-		margin-bottom: 0;
-		padding-bottom: 5px;
-	}
-
-	.useragent-agent {
-		font-size: 12px;
-	}
-
-	.external {
-		position: absolute;
-		right: 15px;
-		bottom: 15px;
-	}
-
-	.agent-unknown, .agent-unknown h2 {
-		text-align: center;
-		padding: 5px;
-	}
-
-	table {
-		padding-bottom: 15px;
-	}
-}
-
-.http-check-results {
-	display: flex;
-	padding-bottom: 40px;
-
-	.http-status {
-		width: 80px;
-
-		.dashicons {
-			font-size: 70px;
-			width: 70px;
-			height: 70px;
-		}
-
-		.dashicons-yes {
-			color: $ok;
-		}
-
-		.dashicons-no {
-			color: $error;
-		}
-	}
-
-	.http-result {
-		text-align: left;
-		padding-top: 10px;
-	}
-}
-
-.http-check {
-	h2 {
-		margin-bottom: 0;
-		padding-bottom: 5px;
-		text-align: left;
-		padding-left: 10px;
-	}
-
-	.external {
-		position: absolute;
-		right: 15px;
-		bottom: 15px;
-	}
 }
 
 /**
@@ -274,16 +117,5 @@ body.redirection-modal {
 			width: 80%;
 			margin-right: 10%;
 		}
-
-		.geo-map {
-			iframe {
-				height: 255px;
-			}
-
-			.geo-full {
-				height: 400px !important;
-			}
-		}
 	}
-
 }

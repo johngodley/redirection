@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
-import { FormTable, TableRow } from 'component/wordpress/form-table';
+import { FormTable, TableRow } from 'component/form-table';
 import './donation.scss';
 
 const MIN = 16;

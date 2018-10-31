@@ -1,13 +1,19 @@
-@import '../../globals';
+@import "../../global";
 
 /**
  * Inline loading styles
  */
 
- @keyframes loading-fade {
-	0% { opacity: .5; }
-	50% { opacity: 1; }
-	100% { opacity: .5; }
+@keyframes loading-fade {
+	0% {
+		opacity: 0.5;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.5;
+	}
 }
 
 .placeholder-container {
@@ -17,7 +23,7 @@
 }
 
 .placeholder-loading {
-	content: '';
+	content: "";
 	position: absolute;
 	top: 16px;
 	right: 8px;
@@ -63,7 +69,7 @@ input.current-page {
  * Loading for tables
  */
 
- .wp-list-table {
+.wp-list-table {
 	.is-placeholder {
 		td {
 			position: relative;

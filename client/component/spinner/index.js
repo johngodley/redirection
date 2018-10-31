@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import './spinner.scss';
+import './style.scss';
 
 const Spinner = props => {
 	const { size = '' } = props;

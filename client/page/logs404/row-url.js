@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
  */
 
 import RowActions from 'component/table/row-action';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import { setUngroupedSearch, setSelected, performTableAction } from 'state/error/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { ACTION_NOTHING, ACTION_URL, MATCH_URL } from 'state/redirect/selector';

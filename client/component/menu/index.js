@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
  */
 import { getPluginPage } from 'lib/wordpress-url';
 import MenuItem from './menu-item';
+import './style.scss';
 
 const getMenu = () => [
 	{

@@ -16,8 +16,8 @@ import RowActions from 'component/table/row-action';
 import { setSelected, updateGroup, performTableAction } from 'state/group/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModuleName, getModules } from 'state/io/selector';
-import Spinner from 'component/wordpress/spinner';
-import Select from 'component/wordpress/select';
+import Spinner from 'component/spinner';
+import Select from 'component/select';
 
 class GroupRow extends React.Component {
 	constructor( props ) {

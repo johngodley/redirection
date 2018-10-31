@@ -24,7 +24,7 @@ import MatchPage from './match/page';
 import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import ActionUrlFrom from './action/url-from';
-import Select from 'component/wordpress/select';
+import Select from 'component/select';
 import { nestedGroups } from 'state/group/selector';
 import { updateRedirect, createRedirect, addToTop } from 'state/redirect/action';
 import { getHttpError, getHttpCodes, getActions, getMatches } from './constants';

@@ -152,7 +152,7 @@ table.edit-redirection {
  * Mobile version of table
  */
 @media screen and (max-width: 782px) {
-	input[type=checkbox] {
+	input[type="checkbox"] {
 		height: 20px;
 		width: 20px;
 	}
@@ -165,7 +165,10 @@ table.edit-redirection {
 	}
 
 	.redirection .wp-list-table {
-		td, input, select, th {
+		td,
+		input,
+		select,
+		th {
 			font-size: 1em !important;
 		}
 
@@ -180,7 +183,7 @@ table.edit-redirection {
 	}
 
 	table.edit-redirection {
-		padding-right: 0px;
+		padding-right: 0;
 
 		th {
 			display: block;
@@ -197,17 +200,21 @@ table.edit-redirection {
 			}
 		}
 
-		input[type=text], select, input[type=number] {
+		input[type="text"],
+		select,
+		input[type="number"] {
 			width: 100%;
 		}
 
-		select, input[type=number] {
+		select,
+		input[type="number"] {
 			height: 30px !important;
 		}
 	}
 
 	table.edit-groups {
-		select, input[type=number] {
+		select,
+		input[type="number"] {
 			height: 30px !important;
 		}
 	}

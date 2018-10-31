@@ -12,7 +12,7 @@ import { loadSettings, deletePlugin } from 'state/settings/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'page/options/delete-plugin';
-import Placeholder from 'component/wordpress/placeholder';
+import Placeholder from 'component/placeholder';
 import Donation from './donation';
 
 class Options extends React.Component {

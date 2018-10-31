@@ -1,7 +1,7 @@
 /**
  * The little popup notice
  */
- .redirection-notice {
+.redirection-notice {
 	position: fixed;
 	bottom: 25px;
 	right: 0px;
@@ -33,50 +33,5 @@
 
 	.closer {
 		display: none;
-	}
-}
-
-.notice-progress {
-	border-left: 5px solid green;
-	padding: 10px;
-	cursor: auto;
-	bottom: 80px;
-
-	p {
-		margin-left: 50px;
-		animation: loading-fade 1.2s ease-in-out infinite;
-	}
-
-	.spinner-container {
-		position: absolute;
-		left: 0px;
-		top: 33px;
-	}
-}
-
-
-/**
- * Additions to the WordPress error notice
- */
-.notice-error {
-	margin-top: 3em;
-
-	.closer {
-		float: right;
-		padding-top: 5px;
-		font-size: 18px;
-		cursor: pointer;
-		color: #333;
-	}
-
-	textarea {
-		font-family: courier;
-		font-size: 12px;
-		background-color: #eee;
-		width: 100%;
-	}
-
-	span code {
-		background-color: transparent;
 	}
 }

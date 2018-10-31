@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
  */
 
 import RowActions from 'component/table/row-action';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import { setUngroupedSearch, setSelected, performTableAction } from 'state/error/action';

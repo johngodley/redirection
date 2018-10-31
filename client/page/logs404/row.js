@@ -14,7 +14,7 @@ import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
 import EditRedirect from 'page/redirects/edit';
 import { getDefaultItem } from 'state/redirect/selector';
-import Spinner from 'component/wordpress/spinner';
+import Spinner from 'component/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
