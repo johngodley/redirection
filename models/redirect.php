@@ -454,7 +454,16 @@ class Red_Item_Sanitize {
 			// Auto-convert an absolute URL to relative + server match
 			if ( $domain && $domain !== Redirection_Request::get_server_name() ) {
 				$details['match_type'] = 'server';
-				$details['action_data'] = array( 'server' => $domain );
+
+				if ( isset( $details['action_data']['url'] ) ) {
+					$details['action_data'] = array(
+						'server' => $domain,
+						'url_from' => $details['action_data']['url'],
+					);
+				} else {
+					$details['action_data'] = array( 'server' => $domain );
+				}
+
 				$url = wp_parse_url( $url, PHP_URL_PATH );
 			}
 		}
