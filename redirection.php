@@ -29,19 +29,17 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 	define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
 }
 
+if ( version_compare( phpversion(), '5.4' ) < 0 ) {
+	return;
+}
+
 include dirname( __FILE__ ) . '/redirection-version.php';
 include dirname( __FILE__ ) . '/redirection-settings.php';
 include dirname( __FILE__ ) . '/models/redirect.php';
 include dirname( __FILE__ ) . '/models/module.php';
 include dirname( __FILE__ ) . '/models/log.php';
 include dirname( __FILE__ ) . '/models/flusher.php';
-
-if ( version_compare( phpversion(), '5.4' ) < 0 ) {
-	include dirname( __FILE__ ) . '/models/match-deprecated.php';
-} else {
-	include dirname( __FILE__ ) . '/models/match.php';
-}
-
+include dirname( __FILE__ ) . '/models/match.php';
 include dirname( __FILE__ ) . '/models/action.php';
 include dirname( __FILE__ ) . '/models/request.php';
 
