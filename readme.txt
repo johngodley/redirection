@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
 Tested up to: 5.0
-Stable tag: 3.6
+Stable tag: 3.6.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -134,9 +134,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Switches to the WordPress REST API
 * Permissions changed from 'administrator' role to 'manage_options' capability
 
+= 3.6.1 =
+* Note Redirection will not work with PHP < 5.4 after 3.6 - please update your PHP
+
 == Changelog ==
 
-= 3.6 - Sometime =
+= 3.6.1 - 3rd November 2018 =
+* Add another PHP < 5.4 fix. Sigh
+
+= 3.6 - 3rd November 2018 =
 * Add option to ignore 404s
 * Add option to block 404s by IP
 * Add grouping of 404s by IP and URL
