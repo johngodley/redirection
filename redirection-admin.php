@@ -187,7 +187,7 @@ class Redirection_Admin {
 
 		$this->inject();
 
-		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
+		if ( in_array( $this->get_menu_page(), array( 'redirects', 'log', '404s', 'groups' ) ) ) {
 			add_screen_option( 'per_page', array(
 				/* translators: maximum number of log entries */
 				'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ),
@@ -288,12 +288,7 @@ class Redirection_Admin {
 	}
 
 	private function get_preload_data() {
-		$page = '';
-		if ( isset( $_GET['sub'] ) && in_array( $_GET['sub'], array( 'group', '404s', 'log', 'io', 'options', 'support' ) ) ) {
-			$page = $_GET['sub'];
-		}
-
-		if ( $page === 'support' ) {
+		if ( $this->get_menu_page() === 'support' ) {
 			$api = new Redirection_Api_Plugin( REDIRECTION_API_NAMESPACE );
 
 			return array(
@@ -503,16 +498,24 @@ class Redirection_Admin {
 		return current_user_can( apply_filters( 'redirection_role', 'manage_options' ) );
 	}
 
-	function inject() {
-		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
+	private function inject() {
+		if ( isset( $_GET['page'] ) && $this->get_menu_page() !== 'redirects' && $_GET['page'] === 'redirection.php' ) {
 			$this->try_export_logs();
 			$this->try_export_redirects();
 			$this->try_export_rss();
 		}
 	}
 
-	function try_export_rss() {
-		if ( isset( $_GET['token'] ) && $_GET['sub'] === 'rss' ) {
+	private function get_menu_page() {
+		if ( isset( $_GET['sub'] ) && in_array( $_GET['sub'], array( 'group', '404s', 'log', 'io', 'options', 'support', true ) ) ) {
+			return $_GET['sub'];
+		}
+
+		return 'redirects';
+	}
+
+	public function try_export_rss() {
+		if ( isset( $_GET['token'] ) && $this->get_menu_page() === 'rss' ) {
 			$options = red_get_options();
 
 			if ( $_GET['token'] === $options['token'] && ! empty( $options['token'] ) ) {
@@ -528,7 +531,7 @@ class Redirection_Admin {
 
 	private function try_export_logs() {
 		if ( $this->user_has_access() && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
-			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
+			if ( $this->get_menu_page() === 'log' ) {
 				RE_Log::export_to_csv();
 			} else {
 				RE_404::export_to_csv();
