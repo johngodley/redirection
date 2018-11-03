@@ -38,6 +38,27 @@ function red_get_post_types( $full = true ) {
 	return apply_filters( 'redirection_post_types', $post_types );
 }
 
+function red_get_default_options() {
+	return apply_filters( 'red_default_options', array(
+		'support'             => false,
+		'token'               => md5( uniqid() ),
+		'monitor_post'        => 0,   // Dont monitor posts by default
+		'monitor_types'       => array(),
+		'associated_redirect' => '',
+		'auto_target'         => '',
+		'expire_redirect'     => 7,   // Expire in 7 days
+		'expire_404'          => 7,   // Expire in 7 days
+		'modules'             => array(),
+		'newsletter'          => false,
+		'redirect_cache'      => 1,   // 1 hour
+		'ip_logging'          => 1,   // Full IP logging
+		'last_group_id'       => 0,
+		'rest_api'            => false,
+		'https'               => false,
+		'database'            => '',
+	) );
+}
+
 function red_set_options( array $settings = array() ) {
 	$options = red_get_options();
 	$monitor_types = array();
@@ -47,7 +68,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['rest_api'] ) && in_array( intval( $settings['rest_api'], 10 ), array( 0, 1, 2, 3, 4 ) ) ) {
-		$options['rest_api'] = intval( $settings['rest_api'] );
+		$options['rest_api'] = intval( $settings['rest_api'], 10 );
 	}
 
 	if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
@@ -157,24 +178,7 @@ function red_get_options() {
 		$options = array();
 	}
 
-	$defaults = apply_filters( 'red_default_options', array(
-		'support'             => false,
-		'token'               => md5( uniqid() ),
-		'monitor_post'        => 0,   // Dont monitor posts by default
-		'monitor_types'       => array(),
-		'associated_redirect' => '',
-		'auto_target'         => '',
-		'expire_redirect'     => 7,   // Expire in 7 days
-		'expire_404'          => 7,   // Expire in 7 days
-		'modules'             => array(),
-		'newsletter'          => false,
-		'redirect_cache'      => 1,   // 1 hour
-		'ip_logging'          => 1,   // Full IP logging
-		'last_group_id'       => 0,
-		'rest_api'            => false,
-		'https'               => false,
-		'version'             => REDIRECTION_VERSION,
-	) );
+	$defaults = red_get_default_options();
 
 	foreach ( $defaults as $key => $value ) {
 		if ( ! isset( $options[ $key ] ) ) {
@@ -187,7 +191,9 @@ function red_get_options() {
 		$options['monitor_types'] = array( 'post' );
 	}
 
-	return $options;
+	return array_filter( $options, function( $key ) use ( $defaults ) {
+		return isset( $defaults[ $key ] );
+	}, ARRAY_FILTER_USE_KEY );
 }
 
 function red_get_rest_api( $type = false ) {
