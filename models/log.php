@@ -284,7 +284,7 @@ class RE_Filter_Log {
 			"SELECT * FROM {$wpdb->prefix}$table {$query['where']}" . $wpdb->prepare( ' ORDER BY ' . $query['orderby'] . ' ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] )
 		);
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}$table " . $query['where'] );
-		$items = [];
+		$items = array();
 
 		foreach ( $rows as $row ) {
 			$item = new $construct( $row );
