@@ -173,7 +173,7 @@ function red_get_options() {
 		'last_group_id'       => 0,
 		'rest_api'            => false,
 		'https'               => false,
-		'version'             => REDIRECTION_DB_VERSION,
+		'version'             => REDIRECTION_VERSION,
 	) );
 
 	foreach ( $defaults as $key => $value ) {

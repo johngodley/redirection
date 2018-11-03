@@ -383,10 +383,10 @@ class Redirection_Admin {
 	private function check_minimum_php() {
 		if ( version_compare( PHP_VERSION, '5.4' ) < 0 ) {
 			/* translators: 1: Expected PHP version, 2: Actual PHP version */
-			$php_version = sprintf( __( 'Redirection requires PHP v%1$1s, you are using v%2$2s - please update your PHP', 'redirection' ), '5.4', PHP_VERSION );
+			$php_version = sprintf( __( 'Redirection requires PHP v%1$1s, you are using v%2$2s. This plugin will stop working from the next version.', 'redirection' ), '5.4', PHP_VERSION );
 			?>
 	<div class="error">
-		<h1><?php esc_html_e( 'Unable to load Redirection', 'redirection' ); ?></h1>
+		<h1><?php esc_html_e( 'Unsupported PHP', 'redirection' ); ?></h1>
 		<p style="text-align: left"><?php echo esc_html( $php_version ); ?></p>
 	</div>
 			<?php
