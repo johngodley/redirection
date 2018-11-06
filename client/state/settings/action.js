@@ -11,6 +11,11 @@ import {
 	SETTING_SAVE_FAILED,
 	STATUS_COMPLETE,
 	SETTING_LOAD_STATUS,
+	SETTING_DATABASE_START,
+	SETTING_DATABASE_FAILED,
+	SETTING_DATABASE_SUCCESS,
+	SETTING_DATABASE_SHOW,
+	SETTING_DATABASE_FINISH,
 } from './type';
 import { getApi, RedirectionApi } from 'lib/api';
 
@@ -77,3 +82,19 @@ export const fixStatus = () => dispatch => {
 
 	return dispatch( { type: SETTING_LOAD_START } );
 };
+
+export const showUpgrade = () => ( { type: SETTING_DATABASE_SHOW } );
+
+export const upgradeDatabase = ( arg ) => dispatch => {
+	getApi( RedirectionApi.plugin.upgradeDatabase( arg ) )
+		.then( json => {
+			dispatch( { type: SETTING_DATABASE_SUCCESS, database: json } );
+		} )
+		.catch( error => {
+			dispatch( { type: SETTING_DATABASE_FAILED, error } );
+		} );
+
+	return dispatch( { type: SETTING_DATABASE_START, arg } );
+};
+
+export const finishUpgrade = () => ( { type: SETTING_DATABASE_FINISH } );

@@ -25,5 +25,7 @@ export function getInitialSettings() {
 		postTypes: [],
 		pluginStatus,
 		canDelete: false,
+		showDatabase: Redirectioni10n.database.needInstall || Redirectioni10n.database.inProgress,
+		database: Redirectioni10n.database,
 	};
 }

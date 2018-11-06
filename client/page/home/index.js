@@ -23,6 +23,7 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
+import Database from 'component/database';
 import { clearErrors } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
 import { setTable as setErrorTable } from 'state/error/action';
@@ -32,6 +33,8 @@ import { getInitialError } from 'state/error/initial';
 import { getInitialLog } from 'state/log/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
+import { showUpgrade } from 'state/settings/action';
+import { getExportUrl } from 'state/io/selector';
 import './style.scss';
 
 const getTitles = () => ( {
@@ -197,22 +200,63 @@ class Home extends React.Component {
 		this.props.onAdd();
 	}
 
-	render() {
-		const title = getTitles()[ this.state.page ];
+	onShowUpgrade = ev => {
+		ev.preventDefault();
+		this.props.onShowUpgrade();
+	}
 
-		if ( this.state.error ) {
+	renderUpgrade() {
+		return (
+			<div className="error">
+				<h3>{ __( 'Redirection database needs updating' ) }</h3>
+				<p>{ __( 'Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.', {
+					args: {
+						current: Redirectioni10n.database.current,
+						latest: Redirectioni10n.database.next,
+					},
+				} ) }</p>
+				<p>{ __( 'As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.', {
+					components: {
+						download: <a href={ getExportUrl( 'all', 'json' ) } target="_blank" rel="noopener noreferrer" />,
+					},
+				} ) }</p>
+				<p>{ __( 'Please upgrade your database when ready.' ) }</p>
+				<p><input className="button-primary" type="submit" value={ __( 'Upgrade Database' ) } onClick={ this.onShowUpgrade } disabled={ this.state.inProgress } /></p>
+			</div>
+		);
+	}
+
+	render() {
+		const { error, page } = this.state;
+		const { needUpgrade, showDatabase } = this.props;
+		const title = getTitles()[ page ];
+
+		if ( error ) {
 			return this.renderError();
+		}
+
+		if ( showDatabase ) {
+			return <Database />;
+		}
+
+		if ( needUpgrade ) {
+			return (
+				<div className="wrap redirection">
+					<h1 className="wp-heading-inline">{ __( 'Update Required' ) }</h1>
+					{ this.renderUpgrade() }
+				</div>
+			);
 		}
 
 		return (
 			<div className="wrap redirection">
 				<h1 className="wp-heading-inline">{ title }</h1>
-				{ this.state.page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
+				{ page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
 				<Menu onChangePage={ this.onChangePage } />
 				<Error />
 
-				{ this.getContent( this.state.page ) }
+				{ this.getContent( page ) }
 
 				<Progress />
 				<Notice />
@@ -241,12 +285,20 @@ function mapDispatchToProps( dispatch ) {
 		onSetRedirectTable: table => {
 			dispatch( setRedirectTable( table ) );
 		},
+		onShowUpgrade: () => {
+			dispatch( showUpgrade() );
+		},
 	};
 }
 
 function mapStateToProps( state ) {
+	const { message: { errors }, settings: { showDatabase } } = state;
+	const { needUpgrade } = state.settings.database;
+
 	return {
-		errors: state.message.errors,
+		errors,
+		showDatabase,
+		needUpgrade,
 	};
 }
 

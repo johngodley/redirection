@@ -139,6 +139,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 3.7 - ??? =
+* Add new database install and upgrade process
+* Add database functions to WP CLI
+
 = 3.6.4 - 14th November 2018 =
 * Remove potential CSRF
 

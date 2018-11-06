@@ -1,4 +1,3 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -18,6 +17,7 @@ import { getGroup } from 'state/group/action';
 import { nestedGroups } from 'state/group/selector';
 import { importFile, clearFile, addFile, loadImporters, pluginImport, exportFile, downloadFile } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
+import { getExportUrl } from 'state/io/selector';
 import Importer from './importer';
 import './style.scss';
 
@@ -54,7 +54,7 @@ class ImportExport extends React.Component {
 	}
 
 	onDownload() {
-		this.props.onDownloadFile( getUrl( this.state.module, this.state.format ) );
+		this.props.onDownloadFile( getExportUrl( this.state.module, this.state.format ) );
 	}
 
 	onEnter() {

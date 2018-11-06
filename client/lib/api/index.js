@@ -66,7 +66,7 @@ const deleteApiRequest = ( path, params ) => {
 	const query = { ... params };
 	const body = {};
 
-	if ( params.items ) {
+	if ( params && params.items ) {
 		body.items = params.items;
 		delete query.items;
 	}
@@ -137,6 +137,7 @@ export const RedirectionApi = {
 		status: () => getApiRequest( 'plugin' ),
 		fix: () => postApiRequest( 'plugin' ),
 		delete: () => deleteApiRequest( 'plugin/delete' ),
+		upgradeDatabase: ( upgrade ) => postApiRequest( 'plugin/database', upgrade ? { upgrade } : {} ),
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),

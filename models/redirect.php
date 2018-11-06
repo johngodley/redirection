@@ -465,6 +465,9 @@ class Red_Item_Sanitize {
 				}
 
 				$url = wp_parse_url( $url, PHP_URL_PATH );
+				if ( is_wp_error( $url ) ) {
+					$url = '/';
+				}
 			}
 		}
 

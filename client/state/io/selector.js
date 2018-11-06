@@ -1,3 +1,4 @@
+/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -13,7 +14,7 @@ export const getModules = () => [
 	},
 	{
 		value: 3,
-		text: 'Nginx'
+		text: 'Nginx',
 	},
 ];
 
@@ -22,3 +23,5 @@ export const getModuleName = moduleId => {
 
 	return result ? result.text : '';
 };
+
+export const getExportUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
