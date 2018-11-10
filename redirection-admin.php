@@ -401,7 +401,7 @@ class Redirection_Admin {
 
 		if ( $status['status'] !== 'good' ) {
 			/* translators: URL */
-			$reason = printf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' );
+			$reason = sprintf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' );
 			?>
 				<div class="error">
 					<h3><?php esc_html_e( 'Redirection not installed properly', 'redirection' ); ?></h3>
