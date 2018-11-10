@@ -174,13 +174,13 @@ const copyPlugin = ( target, cb ) => gulp.src( SVN_SOURCE_FILES )
 		}
 	} );
 
-gulp.task( 'svn', () => copyPlugin( config.svn_target ) );
+gulp.task( 'svn', () => copyPlugin( config.svn_target, () => console.log( 'SVN exported to ' + config.svn_target ) ) );
 
 gulp.task( 'export', () => {
 	const zipTarget = path.resolve( config.export_target, '..' );
 	const zipName = 'redirection-' + pkg.version + '.zip';
 
-	console.log( 'Exporting: ' + zipName );
+	console.log( 'Exporting: ' + zipName + ' to ' + config.export_target );
 
 	return copyPlugin( config.export_target, () => {
 		return gulp.src( config.export_target + '/**', { base: path.join( config.export_target, '..' ) } )

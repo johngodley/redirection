@@ -52,8 +52,8 @@ class Red_Fixer {
 
 		$message = __( 'Site and home are consistent', 'redirection' );
 		if ( $site !== $home ) {
-			$message = __( 'Site and home URL are inconsistent - please correct from your General settings', 'redirection' );
-			$message .= ' - ' . get_site_url() . ' !== ' . get_home_url();
+			/* translators: 1: Site URL, 2: Home URL */
+			$message = sprintf( __( 'Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s', 'redirection' ), get_site_url(), get_home_url() );
 		}
 
 		return array(

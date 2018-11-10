@@ -139,8 +139,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.6.2 - 7th November 2018 =
-* Add another PHP < 5.4 fix
+= 3.6.2 - 10th November 2018 =
+* Add another PHP < 5.4 compat fix
+* Fix 'delete all from 404 log' when ungrouped deleting all 404s
+* Fix IDs shown in bulk add redirect
 
 = 3.6.1 - 3rd November 2018 =
 * Add another PHP < 5.4 fix. Sigh
