@@ -103,13 +103,24 @@ class Logs404 extends React.Component {
 		}
 	}
 
+	transformRow = id => {
+		const { rows } = this.props.error;
+		const found = rows.find( item => item.id === id );
+
+		if ( found ) {
+			return found.ip ? found.ip : found.url;
+		}
+
+		return '';
+	}
+
 	render() {
 		const { status, total, table, rows } = this.props.error;
 		const { create } = this.state;
 
 		return (
 			<div>
-				{ create && <CreateRedirect onClose={ this.onClose } create={ create } /> }
+				{ create && <CreateRedirect onClose={ this.onClose } create={ create } transform={ this.transformRow } /> }
 
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } key={ tableKey( table ) } />
 				<TableNav

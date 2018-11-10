@@ -20,6 +20,11 @@ class CreateRedirect extends React.Component {
 	static propTypes = {
 		onClose: PropTypes.func.isRequired,
 		create: PropTypes.object.isRequired,
+		transform: PropTypes.func,
+	};
+
+	static defaultProps = {
+		transform: null,
 	};
 
 	constructor( props ) {
@@ -36,7 +41,7 @@ class CreateRedirect extends React.Component {
 	}
 
 	onDelete = () => {
-		const { selected } = this.props;
+		const selected = this.getSelected();
 		const { deleteLog } = this.state;
 
 		if ( deleteLog ) {
@@ -48,8 +53,15 @@ class CreateRedirect extends React.Component {
 		this.setState( { height } );
 	}
 
+	getSelected() {
+		const { transform } = this.props;
+
+		return transform ? this.props.selected.map( transform ) : this.props.selected;
+	}
+
 	render() {
-		const { onClose, selected, create } = this.props;
+		const { onClose, create } = this.props;
+		const selected = this.getSelected();
 		const item = { ... getDefaultItem( selected[ 0 ], 0 ), ... create };
 
 		if ( item.match_type === MATCH_IP ) {
