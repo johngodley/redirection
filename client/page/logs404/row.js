@@ -72,11 +72,11 @@ class LogRow404 extends React.Component {
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } childSave={ this.onSave } autoFocus>
 						<tr>
 							<th>{ __( 'Delete 404s' ) }</th>
-							<td>
+							<td className="edit-left" style={ { padding: '7px 0px' } }>
 								<label>
 									<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.onDeleteLog } />
 
-									{ __( 'Delete all logs for this 404' ) }
+									{ __( 'Delete all logs for this entry' ) }
 								</label>
 							</td>
 						</tr>
@@ -199,7 +199,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( performTableAction( 'delete', item ) );
 		},
 		onDeleteFilter: filter => {
-			dispatch( deleteExact( 'url-exact', filter ) );
+			dispatch( deleteExact( [ filter ] ) );
 		},
 	};
 }
