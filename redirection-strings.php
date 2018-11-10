@@ -187,10 +187,10 @@ __( "Ignore URL", "redirection" ), // client/page/logs404/constants.js:102
 __( "No grouping", "redirection" ), // client/page/logs404/constants.js:110
 __( "Group by URL", "redirection" ), // client/page/logs404/constants.js:114
 __( "Group by IP", "redirection" ), // client/page/logs404/constants.js:118
-__( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:64
-__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:66
-__( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:71
-__( "Delete all logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:71
+__( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:76
+__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:78
+__( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:83
+__( "Delete all logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:83
 __( "Delete All", "redirection" ), // client/page/logs404/row-ip.js:93
 __( "Redirect All", "redirection" ), // client/page/logs404/row-ip.js:94
 __( "Show All", "redirection" ), // client/page/logs404/row-ip.js:95
@@ -202,7 +202,7 @@ __( "Show All", "redirection" ), // client/page/logs404/row-url.js:63
 __( "Ignore URL", "redirection" ), // client/page/logs404/row-url.js:64
 __( "Add Redirect", "redirection" ), // client/page/logs404/row.js:72
 __( "Delete 404s", "redirection" ), // client/page/logs404/row.js:74
-__( "Delete all logs for this 404", "redirection" ), // client/page/logs404/row.js:79
+__( "Delete all logs for this entry", "redirection" ), // client/page/logs404/row.js:79
 __( "Delete", "redirection" ), // client/page/logs404/row.js:142
 __( "Add Redirect", "redirection" ), // client/page/logs404/row.js:143
 __( "Geo Info", "redirection" ), // client/page/logs404/row.js:147
