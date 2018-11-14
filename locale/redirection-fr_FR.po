@@ -11,6 +11,11 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
+#. translators: 1: Site URL, 2: Home URL
+#: models/fixer.php:56
+msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
+msgstr ""
+
 #: redirection-admin.php:389
 msgid "Unsupported PHP"
 msgstr "PHP non supporté"
@@ -80,7 +85,7 @@ msgstr "Tout afficher"
 msgid "Delete all logs for these entries"
 msgstr "Supprimer les journaux pour ces entrées"
 
-#: redirection-strings.php:192
+#: redirection-strings.php:192 redirection-strings.php:205
 msgid "Delete all logs for this entry"
 msgstr "Supprimer les journaux pour cet entrée"
 
@@ -288,10 +293,6 @@ msgstr "Si vous ne pouvez pas faire fonctionne quoi que ce soit alors l’extens
 #: models/fixer.php:60
 msgid "Site and home protocol"
 msgstr "Protocole du site et de l’accueil"
-
-#: models/fixer.php:55
-msgid "Site and home URL are inconsistent - please correct from your General settings"
-msgstr "Les URL du site et de l’accueil sont incohérentes. Veuillez les corriger dans vos réglages généraux."
 
 #: models/fixer.php:53
 msgid "Site and home are consistent"
@@ -695,10 +696,6 @@ msgstr "URL à surveiller"
 #: redirection-strings.php:204
 msgid "Delete 404s"
 msgstr "Supprimer les pages 404"
-
-#: redirection-strings.php:205
-msgid "Delete all logs for this 404"
-msgstr "Supprimer tous les journaux pour cette page 404"
 
 #: redirection-strings.php:156
 msgid "Delete all from IP %s"

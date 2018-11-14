@@ -226,6 +226,7 @@ class Red_Htaccess {
 
 	public function save( $filename, $content_to_save = false ) {
 		$existing = false;
+		$filename = str_replace( '.php', '', $filename );
 
 		if ( file_exists( $filename ) ) {
 			$existing = file_get_contents( $filename );

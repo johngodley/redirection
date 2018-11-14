@@ -21,7 +21,7 @@ import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import Importer from './importer';
 import './style.scss';
 
-const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType;
+const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + Redirectioni10n.WP_API_nonce;
 
 class ImportExport extends React.Component {
 	constructor( props ) {

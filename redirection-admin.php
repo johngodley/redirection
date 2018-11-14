@@ -25,7 +25,6 @@ class Redirection_Admin {
 		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 		add_action( 'redirection_redirect_updated', array( $this, 'set_default_group' ), 10, 2 );
-		add_action( 'wp_ajax_red_proxy', array( $this, 'red_proxy' ) );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', array( $this, 'flying_solo' ), 10, 2 );
@@ -171,17 +170,6 @@ class Redirection_Admin {
 				$this->run_fixit();
 			} elseif ( $_REQUEST['action'] === 'rest_api' ) {
 				$this->set_rest_api( intval( $_REQUEST['rest_api'], 10 ) );
-			} elseif ( $_REQUEST['action'] === 'red_proxy' ) {
-				// Hack to get around clash with WP page param
-				if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' ) {
-					unset( $_GET['page'] );
-				}
-
-				if ( isset( $_GET['ppage'] ) ) {
-					$_GET['page'] = $_GET['ppage'];
-				}
-
-				$this->red_proxy();
 			}
 		}
 
@@ -511,20 +499,6 @@ class Redirection_Admin {
 		<?php
 	}
 
-	/**
-	 * Really wish I didnt have to do this...
-	 * NOTE: nonce is checked by serve_request
-	 */
-	public function red_proxy() {
-		if ( $this->user_has_access() && isset( $_GET['rest_path'] ) && substr( $_GET['rest_path'], 0, 15 ) === 'redirection/v1/' ) {
-			$_SERVER['HTTP_CONTENT_TYPE'] = 'application/json; charset=utf-8';
-			$_SERVER['CONTENT_TYPE'] = $_SERVER['HTTP_CONTENT_TYPE'];
-			$server = rest_get_server();
-			$server->serve_request( rtrim( '/' . $_GET['rest_path'], '/' ) );
-			die();
-		}
-	}
-
 	private function user_has_access() {
 		return current_user_can( apply_filters( 'redirection_role', 'manage_options' ) );
 	}
@@ -565,7 +539,7 @@ class Redirection_Admin {
 	}
 
 	private function try_export_redirects() {
-		if ( $this->user_has_access() && $_GET['sub'] === 'io' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) ) {
+		if ( $this->user_has_access() && $_GET['sub'] === 'io' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
 			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
 
 			if ( $export !== false ) {

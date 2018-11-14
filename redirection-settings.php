@@ -200,12 +200,8 @@ function red_get_rest_api( $type = false ) {
 
 	if ( $type === REDIRECTION_API_JSON_INDEX ) {
 		$url = home_url( '/index.php?rest_route=/' );
-	} elseif ( $type === REDIRECTION_API_ADMIN ) {
-		$url = admin_url( 'admin-ajax.php?action=red_proxy&rest_path=' );
 	} elseif ( $type === REDIRECTION_API_JSON_RELATIVE ) {
 		$url = wp_parse_url( $url, PHP_URL_PATH );
-	} elseif ( $type === REDIRECTION_API_POST ) {
-		$url = admin_url( 'tools.php?page=redirection.php&action=red_proxy&rest_path=' );
 	}
 
 	return $url;

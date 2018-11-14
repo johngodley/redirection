@@ -11,6 +11,11 @@ msgstr ""
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
+#. translators: 1: Site URL, 2: Home URL
+#: models/fixer.php:56
+msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
+msgstr ""
+
 #: redirection-admin.php:389
 msgid "Unsupported PHP"
 msgstr ""
@@ -80,7 +85,7 @@ msgstr ""
 msgid "Delete all logs for these entries"
 msgstr ""
 
-#: redirection-strings.php:192
+#: redirection-strings.php:192 redirection-strings.php:205
 msgid "Delete all logs for this entry"
 msgstr ""
 
@@ -288,10 +293,6 @@ msgstr "動作が正常にできていない場合、 Redirection がサーバ�
 #: models/fixer.php:60
 msgid "Site and home protocol"
 msgstr "サイト URL とホーム URL のプロトコル"
-
-#: models/fixer.php:55
-msgid "Site and home URL are inconsistent - please correct from your General settings"
-msgstr "サイト URL とホーム URL が一致しません。一般設定より設定してください。"
 
 #: models/fixer.php:53
 msgid "Site and home are consistent"
@@ -695,10 +696,6 @@ msgstr "URL モニター"
 #: redirection-strings.php:204
 msgid "Delete 404s"
 msgstr "404を削除"
-
-#: redirection-strings.php:205
-msgid "Delete all logs for this 404"
-msgstr "この404エラーに対するすべてのログを削除"
 
 #: redirection-strings.php:156
 msgid "Delete all from IP %s"

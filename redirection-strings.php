@@ -238,37 +238,35 @@ __( "Full IP logging", "redirection" ), // client/page/options/options-form.js:3
 __( "Anonymize IP (mask last part)", "redirection" ), // client/page/options/options-form.js:35
 __( "Default /wp-json/", "redirection" ), // client/page/options/options-form.js:38
 __( "Raw /index.php?rest_route=/", "redirection" ), // client/page/options/options-form.js:39
-__( "Proxy over Admin AJAX", "redirection" ), // client/page/options/options-form.js:40
-__( "Relative /wp-json/", "redirection" ), // client/page/options/options-form.js:41
-__( "Form request", "redirection" ), // client/page/options/options-form.js:42
-__( "URL Monitor Changes", "redirection" ), // client/page/options/options-form.js:97
-__( "Save changes to this group", "redirection" ), // client/page/options/options-form.js:100
-__( "For example \"/amp\"", "redirection" ), // client/page/options/options-form.js:102
-__( "Create associated redirect (added to end of URL)", "redirection" ), // client/page/options/options-form.js:102
-__( "Monitor changes to %(type)s", "redirection" ), // client/page/options/options-form.js:122
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/page/options/options-form.js:149
-__( "Redirect Logs", "redirection" ), // client/page/options/options-form.js:153
-__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:154
-__( "404 Logs", "redirection" ), // client/page/options/options-form.js:157
-__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:158
-__( "IP Logging", "redirection" ), // client/page/options/options-form.js:161
-__( "(select IP logging level)", "redirection" ), // client/page/options/options-form.js:162
-__( "GDPR / Privacy information", "redirection" ), // client/page/options/options-form.js:164
-__( "URL Monitor", "redirection" ), // client/page/options/options-form.js:167
-__( "RSS Token", "redirection" ), // client/page/options/options-form.js:173
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/page/options/options-form.js:175
-__( "Auto-generate URL", "redirection" ), // client/page/options/options-form.js:178
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/page/options/options-form.js:181
-__( "Apache Module", "redirection" ), // client/page/options/options-form.js:189
-__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/page/options/options-form.js:194
-__( "Force HTTPS", "redirection" ), // client/page/options/options-form.js:203
-__( "Force a redirect from HTTP to HTTPS. Please ensure your HTTPS is working before enabling", "redirection" ), // client/page/options/options-form.js:207
-__( "(beta)", "redirection" ), // client/page/options/options-form.js:208
-__( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:213
-__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:215
-__( "REST API", "redirection" ), // client/page/options/options-form.js:218
-__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/page/options/options-form.js:220
-__( "Update", "redirection" ), // client/page/options/options-form.js:224
+__( "Relative /wp-json/", "redirection" ), // client/page/options/options-form.js:40
+__( "URL Monitor Changes", "redirection" ), // client/page/options/options-form.js:95
+__( "Save changes to this group", "redirection" ), // client/page/options/options-form.js:98
+__( "For example \"/amp\"", "redirection" ), // client/page/options/options-form.js:100
+__( "Create associated redirect (added to end of URL)", "redirection" ), // client/page/options/options-form.js:100
+__( "Monitor changes to %(type)s", "redirection" ), // client/page/options/options-form.js:120
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/page/options/options-form.js:147
+__( "Redirect Logs", "redirection" ), // client/page/options/options-form.js:151
+__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:152
+__( "404 Logs", "redirection" ), // client/page/options/options-form.js:155
+__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:156
+__( "IP Logging", "redirection" ), // client/page/options/options-form.js:159
+__( "(select IP logging level)", "redirection" ), // client/page/options/options-form.js:160
+__( "GDPR / Privacy information", "redirection" ), // client/page/options/options-form.js:162
+__( "URL Monitor", "redirection" ), // client/page/options/options-form.js:165
+__( "RSS Token", "redirection" ), // client/page/options/options-form.js:171
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/page/options/options-form.js:173
+__( "Auto-generate URL", "redirection" ), // client/page/options/options-form.js:176
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/page/options/options-form.js:179
+__( "Apache Module", "redirection" ), // client/page/options/options-form.js:187
+__( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/page/options/options-form.js:192
+__( "Force HTTPS", "redirection" ), // client/page/options/options-form.js:201
+__( "Force a redirect from HTTP to HTTPS. Please ensure your HTTPS is working before enabling", "redirection" ), // client/page/options/options-form.js:205
+__( "(beta)", "redirection" ), // client/page/options/options-form.js:206
+__( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:211
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:213
+__( "REST API", "redirection" ), // client/page/options/options-form.js:216
+__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/page/options/options-form.js:218
+__( "Update", "redirection" ), // client/page/options/options-form.js:222
 __( "Logged In", "redirection" ), // client/page/redirects/action/login.js:28
 __( "Target URL when matched (empty to ignore)", "redirection" ), // client/page/redirects/action/login.js:30
 __( "Logged Out", "redirection" ), // client/page/redirects/action/login.js:34
