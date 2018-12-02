@@ -1,4 +1,3 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -38,6 +37,7 @@ import {
 	SETTING_SAVE_FAILED,
 	SETTING_SAVED,
 	SETTING_SAVING,
+	SETTING_DATABASE_FAILED,
 } from 'state/settings/type';
 import { IO_FAILED } from 'state/io/type';
 
@@ -65,6 +65,7 @@ export default function messages( state = {}, action ) {
 		case SETTING_SAVE_FAILED:
 		case ERROR_ITEM_FAILED:
 		case ERROR_FAILED:
+		case SETTING_DATABASE_FAILED:
 		case REDIRECT_FAILED:
 			/* eslint-disable */
 			const errors = addErrors( state.errors, action.error );

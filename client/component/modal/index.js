@@ -15,10 +15,13 @@ class Modal extends React.Component {
 		children: PropTypes.node,
 		width: PropTypes.string,
 		height: PropTypes.number,
+		canClose: PropTypes.bool,
 	};
 
 	static defaultProps = {
 		padding: true,
+		onClose: () => {},
+		canClose: true,
 	};
 
 	constructor( props ) {
@@ -65,7 +68,7 @@ class Modal extends React.Component {
 	};
 
 	render() {
-		const { onClose } = this.props;
+		const { onClose, canClose } = this.props;
 		const classes = classnames( {
 			'redirection-modal_wrapper': true,
 			'redirection-modal_wrapper-padding': this.props.padding,
@@ -82,9 +85,9 @@ class Modal extends React.Component {
 				<div className="redirection-modal_backdrop"></div>
 				<div className="redirection-modal_main">
 					<div className="redirection-modal_content" ref={ this.nodeRef } style={ style }>
-						<div className="redirection-modal_close">
+						{ canClose && <div className="redirection-modal_close">
 							<button onClick={ onClose }>&#x2716;</button>
-						</div>
+						</div> }
 
 						{ React.cloneElement( this.props.children, { parent: this } ) }
 					</div>

@@ -1,8 +1,9 @@
 <?php
 
-include dirname( __FILE__ ) . '/models/group.php';
-include dirname( __FILE__ ) . '/models/monitor.php';
-include dirname( __FILE__ ) . '/models/file-io.php';
+include_once dirname( __FILE__ ) . '/models/group.php';
+include_once dirname( __FILE__ ) . '/models/monitor.php';
+include_once dirname( __FILE__ ) . '/models/file-io.php';
+include_once dirname( __FILE__ ) . '/database/database.php';
 
 define( 'RED_DEFAULT_PER_PAGE', 25 );
 define( 'RED_MAX_PER_PAGE', 200 );
@@ -10,6 +11,7 @@ define( 'RED_MAX_PER_PAGE', 200 );
 class Redirection_Admin {
 	private static $instance = null;
 	private $monitor;
+	private $fixit_failed = false;
 
 	static function init() {
 		if ( is_null( self::$instance ) ) {
@@ -22,6 +24,8 @@ class Redirection_Admin {
 	function __construct() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
+
 		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
 		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
 		add_action( 'redirection_redirect_updated', array( $this, 'set_default_group' ), 10, 2 );
@@ -43,14 +47,12 @@ class Redirection_Admin {
 			foreach ( get_sites() as $site ) {
 				switch_to_blog( $site->blog_id );
 
-				Redirection_Admin::update();
 				Red_Flusher::schedule();
 				red_set_options();
 
 				restore_current_blog();
 			}
 		} else {
-			Redirection_Admin::update();
 			Red_Flusher::schedule();
 			red_set_options();
 		}
@@ -73,38 +75,18 @@ class Redirection_Admin {
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_uninstall() {
-		include_once dirname( REDIRECTION_FILE ) . '/models/database.php';
-
-		$database = new RE_Database();
+		$database = Red_Database::get_latest_database();
 
 		if ( is_network_admin() ) {
 			foreach ( get_sites() as $site ) {
 				switch_to_blog( $site->blog_id );
 
-				$database->remove( REDIRECTION_FILE );
+				$database->remove();
 
 				restore_current_blog();
 			}
 		} else {
-			$database->remove( REDIRECTION_FILE );
-		}
-	}
-
-	private static function update() {
-		$version = get_option( 'redirection_version' );
-
-		Red_Flusher::schedule();
-
-		if ( $version !== REDIRECTION_DB_VERSION || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
-			include_once dirname( REDIRECTION_FILE ) . '/models/database.php';
-
-			$database = new RE_Database();
-
-			if ( $version === false ) {
-				$database->install();
-			}
-
-			$database->upgrade( $version, REDIRECTION_DB_VERSION );
+			$database->remove();
 		}
 	}
 
@@ -155,9 +137,21 @@ class Redirection_Admin {
 	}
 
 	function plugin_settings( $links ) {
-		$settings_link = '<a href="tools.php?page=' . basename( REDIRECTION_FILE ) . '&amp;sub=options">' . __( 'Settings', 'redirection' ) . '</a>';
-		array_unshift( $links, $settings_link );
+		$database = new Red_Database();
+		if ( $database->needs_updating( REDIRECTION_DB_VERSION ) ) {
+			array_unshift( $links, '<a style="color: red" href="tools.php?page=' . basename( REDIRECTION_FILE ) . '&amp;sub=support">' . __( 'Upgrade Database', 'redirection' ) . '</a>' );
+		}
+
+		array_unshift( $links, '<a href="tools.php?page=' . basename( REDIRECTION_FILE ) . '&amp;sub=options">' . __( 'Settings', 'redirection' ) . '</a>' );
 		return $links;
+	}
+
+	function plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data, $status ) {
+		if ( $plugin_file === basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ) ) {
+			$plugin_data['Description'] .= '<p>Please upgrade your database</p>';
+		}
+
+		return $plugin_meta;
 	}
 
 	function redirection_head() {
@@ -187,7 +181,7 @@ class Redirection_Admin {
 
 		$this->inject();
 
-		if ( ! isset( $_GET['sub'] ) || ( isset( $_GET['sub'] ) && ( in_array( $_GET['sub'], array( 'log', '404s', 'groups' ) ) ) ) ) {
+		if ( in_array( $this->get_menu_page(), array( 'redirects', 'log', '404s', 'groups' ) ) ) {
 			add_screen_option( 'per_page', array(
 				/* translators: maximum number of log entries */
 				'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ),
@@ -204,6 +198,7 @@ class Redirection_Admin {
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.css', array(), $build );
 
+		$status = new Red_Database_Status();
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => esc_url_raw( red_get_rest_api() ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
@@ -218,6 +213,7 @@ class Redirection_Admin {
 			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
 			'api_setting' => $options['rest_api'],
+			'database' => $status->get_upgrade_status(),
 		) );
 
 		$this->add_help_tab();
@@ -256,7 +252,7 @@ class Redirection_Admin {
 	public function check_rest_api() {
 		$options = red_get_options();
 
-		if ( $options['version'] !== REDIRECTION_VERSION || $options['rest_api'] === false || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
+		if ( $options['rest_api'] === false || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
 			include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 
 			$fixer = new Red_Fixer();
@@ -277,7 +273,11 @@ class Redirection_Admin {
 			include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 
 			$fixer = new Red_Fixer();
-			$fixer->fix( $fixer->get_status() );
+			$result = $fixer->fix( $fixer->get_status() );
+
+			if ( is_wp_error( $result ) ) {
+				$this->fixit_failed = $result;
+			}
 		}
 	}
 
@@ -288,12 +288,7 @@ class Redirection_Admin {
 	}
 
 	private function get_preload_data() {
-		$page = '';
-		if ( isset( $_GET['sub'] ) && in_array( $_GET['sub'], array( 'group', '404s', 'log', 'io', 'options', 'support' ) ) ) {
-			$page = $_GET['sub'];
-		}
-
-		if ( $page === 'support' ) {
+		if ( $this->get_menu_page() === 'support' ) {
 			$api = new Redirection_Api_Plugin( REDIRECTION_API_NAMESPACE );
 
 			return array(
@@ -359,44 +354,9 @@ class Redirection_Admin {
 			?>
 	<div class="react-error">
 		<h1><?php esc_html_e( 'Unable to load Redirection', 'redirection' ); ?></h1>
-		<p style="text-align: left"><?php echo esc_html( $wp_requirement ); ?></p>
+		<p><?php echo esc_html( $wp_requirement ); ?></p>
 	</div>
 			<?php
-			return false;
-		}
-
-		return true;
-	}
-
-	private function check_minimum_php() {
-		if ( version_compare( PHP_VERSION, '5.4' ) < 0 ) {
-			/* translators: 1: Expected PHP version, 2: Actual PHP version */
-			$php_version = sprintf( __( 'Redirection requires PHP v%1$1s, you are using v%2$2s. This plugin will stop working from the next version.', 'redirection' ), '5.4', PHP_VERSION );
-			?>
-	<div class="error">
-		<h1><?php esc_html_e( 'Unsupported PHP', 'redirection' ); ?></h1>
-		<p style="text-align: left"><?php echo esc_html( $php_version ); ?></p>
-	</div>
-			<?php
-		}
-	}
-
-	private function check_tables_exist() {
-		include_once dirname( REDIRECTION_FILE ) . '/models/database.php';
-
-		$database = new RE_Database();
-		$status = $database->get_status();
-
-		if ( $status['status'] !== 'good' ) {
-			/* translators: URL */
-			$reason = sprintf( __( 'Problems were detected with your database tables. Please visit the <a href="%s">support page</a> for more details.', 'redirection' ), 'tools.php?page=redirection.php&amp;sub=support' );
-			?>
-				<div class="error">
-					<h3><?php esc_html_e( 'Redirection not installed properly', 'redirection' ); ?></h3>
-					<p style="text-align: left"><?php echo esc_html( $reason ); ?></p>
-				</div>
-			<?php
-
 			return false;
 		}
 
@@ -407,23 +367,24 @@ class Redirection_Admin {
 		red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
 	}
 
-	function admin_screen() {
+	public function admin_screen() {
 		$version = red_get_plugin_data( REDIRECTION_FILE );
 		$version = $version['Version'];
-
-		Redirection_Admin::update();
-
-		if ( $this->check_minimum_php() === false ) {
-			return;
-		}
 
 		if ( $this->check_minimum_wp() === false ) {
 			return;
 		}
 
-		if ( $this->check_tables_exist() === false && ( ! isset( $_GET['sub'] ) || $_GET['sub'] !== 'support' ) ) {
-			return false;
+		if ( $this->fixit_failed ) {
+			?>
+			<div class="notice notice-error">
+				<h1><?php echo esc_html( $this->fixit_failed->get_error_message() ); ?></h1>
+				<p><?php echo esc_html( $this->fixit_failed->get_error_data() ); ?></p>
+			</div>
+			<?php
 		}
+
+		Red_Flusher::schedule();
 
 		?>
 <div id="react-modal"></div>
@@ -433,18 +394,18 @@ class Redirection_Admin {
 
 		<span class="react-loading-spinner"></span>
 	</div>
-	<noscript>Please enable JavaScript</noscript>
+	<noscript><?php esc_html_e( 'Please enable JavaScript', 'redirection' ); ?></noscript>
 
 	<div class="react-error" style="display: none">
 		<h1><?php esc_html_e( 'Unable to load Redirection ☹️', 'redirection' ); ?> v<?php echo esc_html( $version ); ?></h1>
 		<p><?php esc_html_e( "This may be caused by another plugin - look at your browser's error console for more details.", 'redirection' ); ?></p>
 		<p><?php esc_html_e( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.', 'redirection' ); ?></p>
-		<p><?php esc_html_e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
+		<p><?php _e( 'Also check if your browser is able to load <code>redirection.js</code>:', 'redirection' ); ?></p>
 		<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . urlencode( REDIRECTION_VERSION ) . '-' . urlencode( REDIRECTION_BUILD ) ); ?></code></p>
 		<p><?php esc_html_e( 'Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won\'t be able to use Redirection', 'redirection' ); ?></p>
-		<p><?php esc_html_e( 'Please see the <a href="https://redirection.me/support/problems/">list of common problems</a>.', 'redirection' ); ?></p>
+		<p><?php _e( 'Please see the <a href="https://redirection.me/support/problems/">list of common problems</a>.', 'redirection' ); ?></p>
 		<p><?php esc_html_e( 'If you think Redirection is at fault then create an issue.', 'redirection' ); ?></p>
-		<p class="versions"><?php esc_html_e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
+		<p class="versions"><?php _e( '<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again.', 'redirection' ); ?></p>
 		<p>
 			<a class="button-primary" target="_blank" href="https://github.com/johngodley/redirection/issues/new?title=Problem%20starting%20Redirection%20<?php echo esc_attr( $version ); ?>">
 				<?php esc_html_e( 'Create Issue', 'redirection' ); ?>
@@ -503,16 +464,24 @@ class Redirection_Admin {
 		return current_user_can( apply_filters( 'redirection_role', 'manage_options' ) );
 	}
 
-	function inject() {
-		if ( isset( $_GET['page'] ) && isset( $_GET['sub'] ) && $_GET['page'] === 'redirection.php' ) {
+	private function inject() {
+		if ( isset( $_GET['page'] ) && $this->get_menu_page() !== 'redirects' && $_GET['page'] === 'redirection.php' ) {
 			$this->try_export_logs();
 			$this->try_export_redirects();
 			$this->try_export_rss();
 		}
 	}
 
-	function try_export_rss() {
-		if ( isset( $_GET['token'] ) && $_GET['sub'] === 'rss' ) {
+	private function get_menu_page() {
+		if ( isset( $_GET['sub'] ) && in_array( $_GET['sub'], array( 'group', '404s', 'log', 'io', 'options', 'support', true ) ) ) {
+			return $_GET['sub'];
+		}
+
+		return 'redirects';
+	}
+
+	public function try_export_rss() {
+		if ( isset( $_GET['token'] ) && $this->get_menu_page() === 'rss' ) {
 			$options = red_get_options();
 
 			if ( $_GET['token'] === $options['token'] && ! empty( $options['token'] ) ) {
@@ -528,7 +497,7 @@ class Redirection_Admin {
 
 	private function try_export_logs() {
 		if ( $this->user_has_access() && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
-			if ( isset( $_GET['sub'] ) && $_GET['sub'] === 'log' ) {
+			if ( $this->get_menu_page() === 'log' ) {
 				RE_Log::export_to_csv();
 			} else {
 				RE_404::export_to_csv();
