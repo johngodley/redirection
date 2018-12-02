@@ -4,10 +4,8 @@ class Red_Json_File extends Red_FileIO {
 	public function force_download() {
 		parent::force_download();
 
-		$filename = 'redirection-' . date_i18n( get_option( 'date_format' ) ) . '.json';
-
 		header( 'Content-Type: application/json' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+		header( 'Content-Disposition: attachment; filename="' . $this->export_filename( 'json' ) . '"' );
 	}
 
 	public function get_data( array $items, array $groups ) {
