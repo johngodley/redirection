@@ -98,8 +98,9 @@ class Red_Database_Status {
 			'debug' => $latest->get_table_schema(),
 		];
 
-		if ( ! empty( $error->get_error_data() ) ) {
-			$result['debug'] = array_merge( [ $error->get_error_data(), '' ], $result['debug'] );
+		$error = $error->get_error_data();
+		if ( ! empty( $error ) ) {
+			$result['debug'] = array_merge( [ $error, '' ], $result['debug'] );
 		}
 
 		return $result;
