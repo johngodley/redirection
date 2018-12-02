@@ -73,7 +73,7 @@ Additionally, if the target URL is a number without any slashes then Redirection
 ### Permissions
 
 Access to the Redirection admin interface is given to users who can `manage_options`. You can modify this with the filter `redirection_role`, returning your
-own WordPress access level or capability
+own WordPress capability
 
 ## Building
 

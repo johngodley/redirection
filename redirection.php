@@ -65,6 +65,7 @@ function red_start_rest() {
 	include_once dirname( __FILE__ ) . '/redirection-api.php';
 
 	Redirection_Api::init();
+	Redirection_Admin::init();
 
 	remove_action( 'rest_api_init', 'red_start_rest' );
 }
