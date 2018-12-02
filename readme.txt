@@ -137,11 +137,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 3.6.1 =
 * Note Redirection will not work with PHP < 5.4 after 3.6 - please upgrade your PHP
 
+= 3.7 =
+* Requires minimum PHP 5.4. Do not upgrade if you are still using PHP < 5.4
+
 == Changelog ==
 
 = 3.7 - ??? =
 * Add new database install and upgrade process
 * Add database functions to WP CLI
+* Drop PHP < 5.4 support
 
 = 3.6.4 - 14th November 2018 =
 * Remove potential CSRF

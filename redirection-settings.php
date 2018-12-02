@@ -192,9 +192,14 @@ function red_get_options() {
 		$options['monitor_types'] = array( 'post' );
 	}
 
-	return array_filter( $options, function( $key ) use ( $defaults ) {
-		return isset( $defaults[ $key ] );
-	}, ARRAY_FILTER_USE_KEY );
+	// Remove old options not in red_get_default_options()
+	foreach ( $options as $key => $value ) {
+		if ( ! isset( $defaults[ $key ] ) ) {
+			unset( $options[ $key ] );
+		}
+	}
+
+	return $options;
 }
 
 function red_get_rest_api( $type = false ) {
