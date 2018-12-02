@@ -108,7 +108,7 @@ class Logs404 extends React.Component {
 		const found = rows.find( item => item.id === id );
 
 		if ( found ) {
-			return found.ip ? found.ip : found.url;
+			return found.url ? found.url : found.id;
 		}
 
 		return '';
