@@ -9,10 +9,8 @@ class Red_Csv_File extends Red_FileIO {
 	public function force_download() {
 		parent::force_download();
 
-		$filename = 'redirection-' . date_i18n( get_option( 'date_format' ) ) . '.csv';
-
 		header( 'Content-Type: text/csv' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+		header( 'Content-Disposition: attachment; filename="' . $this->export_filename( 'csv' ) . '"' );
 	}
 
 	public function get_data( array $items, array $groups ) {
