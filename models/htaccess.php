@@ -205,7 +205,7 @@ class Red_Htaccess {
 	public function add( $item ) {
 		$target = 'add_' . $item->get_match_type();
 
-		if ( method_exists( $this, $target ) ) {
+		if ( method_exists( $this, $target ) && $item->is_enabled() ) {
 			$this->$target( $item, $item->match );
 		}
 	}

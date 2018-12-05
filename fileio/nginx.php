@@ -20,7 +20,9 @@ class Red_Nginx_File extends Red_FileIO {
 
 		$parts = array();
 		foreach ( $items as $item ) {
-			$parts[] = $this->get_nginx_item( $item );
+			if ( $item->is_enabled() ) {
+				$parts[] = $this->get_nginx_item( $item );
+			}
 		}
 
 		$lines = array_merge( $lines, array_filter( $parts ) );
