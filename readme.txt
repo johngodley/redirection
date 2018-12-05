@@ -143,11 +143,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 = 3.7 - ??? =
+* Add redirect warning for known problem redirects
 * Add new database install and upgrade process
 * Add database functions to WP CLI
 * Drop PHP < 5.4 support
+* Improve export filename
+* Fix IPs appearing for bulk redirect
+* Fix disabled redirects appearing in htaccess
 
-= 3.6.4 - 14th November 2018 =
+= 3.6.3 - 14th November 2018 =
 * Remove potential CSRF
 
 = 3.6.2 - 10th November 2018 =

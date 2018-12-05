@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
  */
 
 import RowActions from 'component/table/row-action';
-import EditRedirect from './edit';
+import EditRedirect from 'component/redirect-edit';
 import Modal from 'component/modal';
 import Spinner from 'component/spinner';
 import HttpCheck from 'component/http-check';
