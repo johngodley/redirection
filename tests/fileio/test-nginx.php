@@ -15,7 +15,7 @@ class NginxTest extends WP_UnitTestCase {
 
 	public function testNew() {
 		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ) ) );
+		$redirects = array( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'status' => 'enabled' ) ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );

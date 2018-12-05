@@ -135,4 +135,12 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$result = $this->sanitizer->get( $this->get_new( array( 'position' => 6 ) ) );
 		$this->assertEquals( 6, $result['position'] );
 	}
+
+	public function testAbsoluteUrl() {
+		$result = $this->sanitizer->get( $this->get_new( array( 'url' => 'http://full.com' ) ) );
+
+		$this->assertEquals( 'server', $result['match_type'] );
+		$this->assertEquals( '/', $result['url'] );
+		$this->assertEquals( 'http://full.com', unserialize( $result['action_data'] )['server'] );
+	}
 }

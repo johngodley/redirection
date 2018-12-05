@@ -14,26 +14,41 @@ class Red_Htaccess {
 		return '^' . $url . '$';
 	}
 
+	// URL encode some things, but other things can be passed through
 	private function encode2nd( $url ) {
+		$allowed = [
+			'%2F' => '/',
+			'%3F' => '?',
+			'%3A' => ':',
+			'%3D' => '=',
+			'%26' => '&',
+			'%25' => '%',
+			'+' => '%20',
+			'%24' => '$',
+			'%23' => '#',
+		];
+
 		$url = urlencode( $url );
-		$url = str_replace( '%2F', '/', $url );
-		$url = str_replace( '%3F', '?', $url );
-		$url = str_replace( '%3A', ':', $url );
-		$url = str_replace( '%3D', '=', $url );
-		$url = str_replace( '%26', '&', $url );
-		$url = str_replace( '%25', '%', $url );
-		$url = str_replace( '+', '%20', $url );
-		$url = str_replace( '%24', '$', $url );
-		return $url;
+		return $this->replace_encoding( $url, $allowed );
+	}
+
+	private function replace_encoding( $str, $allowed ) {
+		foreach ( $allowed as $before => $after ) {
+			$str = str_replace( $before, $after, $str );
+		}
+
+		return $str;
 	}
 
 	private function encode( $url ) {
-		$url = urlencode( $url );
-		$url = str_replace( '%2F', '/', $url );
-		$url = str_replace( '%3F', '?', $url );
-		$url = str_replace( '+', '%20', $url );
-		$url = str_replace( '.', '\\.', $url );
-		return $url;
+		$allowed = [
+			'%2F' => '/',
+			'%3F' => '?',
+			'+' => '%20',
+			'.' => '\\.',
+		];
+
+		return $this->replace_encoding( urlencode( $url ), $allowed );
 	}
 
 	private function encode_regex( $url ) {
@@ -189,7 +204,7 @@ class Red_Htaccess {
 		}
 
 		// Add redirects
-		$text = array_merge( $text, array_filter( $this->items ) );
+		$text = array_merge( $text, array_filter( array_map( [ $this, 'sanitize_redirect' ], $this->items ) ) );
 
 		// End of mod_rewrite
 		$text[] = '</IfModule>';
@@ -205,7 +220,7 @@ class Red_Htaccess {
 	public function add( $item ) {
 		$target = 'add_' . $item->get_match_type();
 
-		if ( method_exists( $this, $target ) ) {
+		if ( method_exists( $this, $target ) && $item->is_enabled() ) {
 			$this->$target( $item, $item->match );
 		}
 	}
@@ -224,9 +239,17 @@ class Red_Htaccess {
 		return trim( $text );
 	}
 
+	public function sanitize_redirect( $text ) {
+		return str_replace( [ '<?', '>' ], '', $text );
+	}
+
+	public function sanitize_filename( $filename ) {
+		return str_replace( '.php', '', $filename );
+	}
+
 	public function save( $filename, $content_to_save = false ) {
 		$existing = false;
-		$filename = str_replace( '.php', '', $filename );
+		$filename = $this->sanitize_filename( $filename );
 
 		if ( file_exists( $filename ) ) {
 			$existing = file_get_contents( $filename );
