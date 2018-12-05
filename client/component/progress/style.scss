@@ -1,5 +1,7 @@
+@import "../../global";
+
 .notice-progress {
-	border-left: 5px solid green;
+	border-left: 5px solid $ok;
 	padding: 10px;
 	cursor: auto;
 	bottom: 80px;

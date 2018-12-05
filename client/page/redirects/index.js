@@ -19,7 +19,7 @@ import SearchBox from 'component/table/search';
 import TableFilter from 'component/table/filter';
 import { tableKey } from 'lib/table';
 import RedirectRow from './row';
-import EditRedirect from './edit';
+import EditRedirect from 'component/redirect-edit';
 import {
 	getRedirect,
 	setPage,

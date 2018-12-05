@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import EditRedirect from 'page/redirects/edit';
+import EditRedirect from 'component/redirect-edit';
 import Modal from 'component/modal';
 import { getDefaultItem, MATCH_IP } from 'state/redirect/selector';
 import { deleteExact } from 'state/error/action';

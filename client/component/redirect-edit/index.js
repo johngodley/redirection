@@ -48,6 +48,8 @@ import {
 	getActionData,
 	hasUrlTarget,
 } from 'state/redirect/selector';
+import getWarningFromState from './warning';
+import './style.scss';
 
 class EditRedirect extends React.Component {
 	static propTypes = {
@@ -65,6 +67,7 @@ class EditRedirect extends React.Component {
 		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
 
 		this.state = {
+			warning: [],
 			url,
 			title,
 			regex,
@@ -93,6 +96,10 @@ class EditRedirect extends React.Component {
 
 		this.state.advanced = ! this.canShowAdvanced();
 		this.ref = React.createRef();
+	}
+
+	getWarning( newState ) {
+		return getWarningFromState( { ... this.state, ... newState } );
 	}
 
 	getValidGroup( group_id ) {
@@ -286,11 +293,16 @@ class EditRedirect extends React.Component {
 	}
 
 	onSetData = ( name, subname, value ) => {
+		const newState = {};
+
 		if ( value !== undefined ) {
-			this.setState( { [ name ]: { ... this.state[ name ], [ subname ]: value } } );
+			newState[ name ] = { ... this.state[ name ], [ subname ]: value };
 		} else {
-			this.setState( { [ name ]: subname } );
+			newState[ name ] = subname;
 		}
+
+		newState.warning = this.getWarning( newState );
+		this.setState( newState, this.triggerCallback );
 	}
 
 	onCustomAgent = newAgent => {
@@ -351,7 +363,9 @@ class EditRedirect extends React.Component {
 	onChange = ev => {
 		const { target } = ev;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
-		let newState = { [ target.name ]: value };
+		let newState = {
+			[ target.name ]: value,
+		};
 
 		if ( target.name === 'action_type' ) {
 			if ( target.value === ACTION_URL ) {
@@ -367,6 +381,7 @@ class EditRedirect extends React.Component {
 			}
 		}
 
+		newState.warning = this.getWarning( newState ),
 		this.setState( newState, this.triggerCallback );
 	}
 
@@ -641,7 +656,7 @@ class EditRedirect extends React.Component {
 	}
 
 	render() {
-		const { url, advanced } = this.state;
+		const { url, advanced, warning } = this.state;
 		const { saveButton = __( 'Save' ), onCancel, addTop, onClose } = this.props;
 
 		return (
@@ -675,6 +690,16 @@ class EditRedirect extends React.Component {
 								</div>
 							</td>
 						</tr>
+						{ warning.length > 0 &&
+							<tr>
+								<th></th>
+								<td className="edit-left">
+									<div className="edit-redirection_warning notice notice-warning">
+										{ warning.map( ( text, pos ) => <p key={ pos }><span className="dashicons dashicons-info"></span>{ text }</p> ) }
+									</div>
+								</td>
+							</tr>
+						}
 					</tbody>
 				</table>
 			</form>

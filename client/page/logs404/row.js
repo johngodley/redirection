@@ -12,7 +12,7 @@ import { translate as __ } from 'lib/locale';
 import { setFilter, setSelected, performTableAction, deleteExact } from 'state/error/action';
 import RowActions from 'component/table/row-action';
 import Referrer from './referrer';
-import EditRedirect from 'page/redirects/edit';
+import EditRedirect from 'component/redirect-edit';
 import { getDefaultItem } from 'state/redirect/selector';
 import Spinner from 'component/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
@@ -65,11 +65,15 @@ class LogRow404 extends React.Component {
 		}
 	}
 
+	setHeight = height => {
+		this.setState( { height } );
+	}
+
 	renderEdit() {
 		return (
 			<Modal onClose={ this.onClose } width="700">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } childSave={ this.onSave } autoFocus>
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } callback={ this.setHeight } childSave={ this.onSave } autoFocus>
 						<tr>
 							<th>{ __( 'Delete 404s' ) }</th>
 							<td className="edit-left" style={ { padding: '7px 0px' } }>
