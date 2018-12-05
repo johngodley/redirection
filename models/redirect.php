@@ -11,7 +11,7 @@ class Red_Item {
 	private $title;
 	private $last_access = null;
 	private $last_count  = 0;
-	private $status;
+	private $status = 'enabled';
 	private $position;
 	private $group_id;
 
@@ -465,7 +465,7 @@ class Red_Item_Sanitize {
 				}
 
 				$url = wp_parse_url( $url, PHP_URL_PATH );
-				if ( is_wp_error( $url ) ) {
+				if ( is_wp_error( $url ) || $url === null ) {
 					$url = '/';
 				}
 			}
