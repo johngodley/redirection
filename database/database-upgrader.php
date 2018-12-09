@@ -21,20 +21,22 @@ abstract class Red_Database_Upgrader {
 	/**
 	 * Run a particular stage on the current upgrader
 	 *
-	 * @return bool true if success, otherwise an exception is thrown
+	 * @return Red_Database_Status
 	 */
-	public function perform_stage( $stage ) {
+	public function perform_stage( Red_Database_Status $status ) {
 		global $wpdb;
 
+		$stage = $status->get_current_stage();
 		if ( $this->has_stage( $stage ) && method_exists( $this, $stage ) ) {
 			try {
-				return $this->$stage( $wpdb );
+				$this->$stage( $wpdb );
+				$status->set_ok( $this->get_reason( $stage ) );
 			} catch ( Exception $e ) {
-				return new WP_Error( 'redirection', $e->getMessage() );
+				$status->set_error( $e->getMessage() );
 			}
+		} else {
+			$status->set_error( 'No stage found for upgrade ' . $stage );
 		}
-
-		return new WP_Error( 'redirection', 'No stage found for upgrade ' . $stage );
 	}
 
 	/**

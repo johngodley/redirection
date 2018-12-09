@@ -9,6 +9,8 @@ class SettingsTest extends WP_UnitTestCase {
 
 		unset( $defaults['token'] );
 		unset( $options['token'] );
+		unset( $options['version_seen'] );
+		unset( $defaults['version_seen'] );
 
 		foreach ( $defaults as $name => $value ) {
 			$this->assertTrue( isset( $options[ $name ] ) );

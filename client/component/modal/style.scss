@@ -19,7 +19,7 @@ body.redirection-modal_shown {
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 1000;
+	z-index: 10000;
 }
 
 /**
@@ -42,7 +42,7 @@ body.redirection-modal_shown {
 		padding-right: 5px;
 		border: none;
 		background-color: $white;
-		border-radius: 5px;
+		border-radius: 2px;
 		cursor: pointer;
 		z-index: 10001;
 	}
@@ -55,7 +55,7 @@ body.redirection-modal_shown {
 		left: 0;
 		z-index: 10000;
 		margin: auto;
-		border-radius: 5px;
+		border-radius: 2px;
 		background: $white;
 		opacity: 1;
 

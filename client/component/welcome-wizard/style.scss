@@ -1,0 +1,129 @@
+@import "../../global";
+
+.wizard-wrapper {
+	width: 100%;
+	max-width: 700px;
+	margin: 0 auto;
+	margin-top: 90px;
+	color: #555;
+
+	h1 {
+		text-align: center;
+		font-weight: 300;
+		color: #999;
+	}
+}
+
+.wizard {
+	padding: 40px;
+	padding-bottom: 30px;
+	background-color: white;
+	border-top: 2px solid #ca4a1f;
+	border-bottom: 2px solid #ca4a1f;
+
+	h2 {
+		font-size: 2em;
+		font-weight: 400;
+		padding-bottom: 10px;
+		margin-top: 5px;
+		margin-bottom: 0;
+	}
+
+	h3 {
+		font-size: 1.3em;
+		font-weight: 300;
+		padding-top: 10px;
+	}
+
+	ul {
+		list-style-type: disc;
+	}
+
+	li {
+		margin-left: 20px;
+	}
+
+	.notice {
+		margin-bottom: 20px;
+		margin-left: 0;
+		box-shadow: none;
+		margin-top: 0;
+	}
+
+	.redirection-database_error h2 {
+		padding-top: 0;
+		margin-top: 0;
+	}
+}
+
+.wizard-buttons {
+	margin-top: 20px;
+}
+
+.wizard-option {
+	padding: 2px 0;
+
+	label {
+		font-weight: bold;
+	}
+}
+
+.wizard-option_disabled {
+	opacity: 0.5;
+}
+
+.wizard-support {
+	text-align: center;
+	padding-top: 10px;
+
+	a {
+		color: #555;
+	}
+}
+
+.button.wizard-retry {
+	float: right;
+	margin-top: 5px;
+}
+
+.api-result {
+	padding: 5px;
+	height: 30px;
+
+	.spinner-container {
+		line-height: 1;
+		vertical-align: middle;
+	}
+
+	.css-spinner {
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 26px;
+		height: 26px;
+		margin-right: 5px;
+	}
+
+	.dashicons {
+		vertical-align: middle;
+		margin-right: 3px;
+		width: 26px;
+		height: 26px;
+		font-size: 26px;
+		padding: 0;
+		padding-right: 2px;
+	}
+
+	.dashicons-no {
+		color: $error;
+	}
+
+	.dashicons-yes {
+		color: $ok;
+	}
+
+	.api-result_error {
+		font-family: 'Courier New', Courier, monospace;
+		font-weight: bold;
+	}
+}

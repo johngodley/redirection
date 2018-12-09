@@ -138,6 +138,16 @@ export const RedirectionApi = {
 		fix: () => postApiRequest( 'plugin' ),
 		delete: () => deleteApiRequest( 'plugin/delete' ),
 		upgradeDatabase: ( upgrade ) => postApiRequest( 'plugin/database', upgrade ? { upgrade } : {} ),
+		checkApi: ( url, post = false ) => {
+			const request = post ? getApiRequest( 'plugin/test' ) : postApiRequest( 'plugin/test', { test: 'ping' } );
+
+			request.url = request.url.replace( Redirectioni10n.WP_API_root, url );
+			if ( request.url.indexOf( 'php?' ) !== -1 ) {
+				request.url = request.url.replace( '?_', '&_' );
+			}
+
+			return request;
+		},
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),

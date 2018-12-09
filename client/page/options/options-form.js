@@ -13,6 +13,7 @@ import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/form-table';
 import Select from 'component/select';
+import ExternalLink from 'component/external-link';
 
 const timeToKeep = () => [
 	{ value: -1, text: __( 'No logs' ) },
@@ -159,7 +160,7 @@ class OptionsForm extends React.Component {
 					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
 						<Select items={ ipLogging() } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
 
-						&nbsp;- <a target="_blank" rel="noopener noreferrer" href={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</a>
+						&nbsp;- <ExternalLink url={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</ExternalLink>
 					</TableRow>
 
 					<TableRow title={ __( 'URL Monitor' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>

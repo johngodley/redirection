@@ -52,7 +52,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		delete_option( 'redirection_root' );
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_options' );
-		delete_option( Red_Database::OLD_DB_VERSION );
+		delete_option( Red_Database_Status::OLD_DB_VERSION );
 	}
 
 	/**

@@ -13,6 +13,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import Select from 'component/select';
+import ExternalLink from 'component/external-link';
 import { clearErrors } from 'state/message/action';
 import { restApi } from 'page/options/options-form';
 import './style.scss';
@@ -198,28 +199,28 @@ class Error extends React.Component {
 					<li>
 						{ __( '{{link}}Redirection is unable to talk to your REST API{{/link}}. If you have disabled it then you will need to enable it.', {
 							components: {
-								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/rest-api/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+								link: <ExternalLink url="https://redirection.me/support/problems/rest-api/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
 							},
 						} ) }
 					</li>
 					<li>
 						{ __( '{{link}}Security software may be blocking Redirection{{/link}}. You will need to configure this to allow REST API requests.', {
 							components: {
-								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/security-software/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+								link: <ExternalLink url="https://redirection.me/support/problems/security-software/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
 							},
 						} ) }
 					</li>
 					<li>
 						{ __( '{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.', {
 							components: {
-								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+								link: <ExternalLink url="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
 							},
 						} ) }
 					</li>
 					<li>
 						{ __( '{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.', {
 							components: {
-								link: <a target="_blank" rel="noreferrer noopener" href="https://redirection.me/support/problems/plugins/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
+								link: <ExternalLink url="https://redirection.me/support/problems/plugins/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" />,
 							},
 						} ) }
 					</li>

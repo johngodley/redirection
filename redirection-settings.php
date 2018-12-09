@@ -56,6 +56,7 @@ function red_get_default_options() {
 		'rest_api'            => false,
 		'https'               => false,
 		'database'            => '',
+		'version_seen'        => 0,
 	) );
 }
 
@@ -130,7 +131,6 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['token'] ) && trim( $options['token'] ) === '' ) {
-		// XXX
 		$options['token'] = md5( uniqid() );
 	}
 
@@ -176,7 +176,8 @@ function red_set_options( array $settings = array() ) {
 function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
 	if ( $options === false ) {
-		$options = array();
+		// New users don't see the new version information
+		$options = [ 'version_seen' => REDIRECTION_VERSION ];
 	}
 
 	$defaults = red_get_default_options();

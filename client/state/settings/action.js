@@ -16,6 +16,9 @@ import {
 	SETTING_DATABASE_SUCCESS,
 	SETTING_DATABASE_SHOW,
 	SETTING_DATABASE_FINISH,
+	SETTING_API_SUCCESS,
+	SETTING_API_FAILED,
+	SETTING_API_TRY,
 } from './type';
 import { getApi, RedirectionApi } from 'lib/api';
 
@@ -98,3 +101,30 @@ export const upgradeDatabase = ( arg ) => dispatch => {
 };
 
 export const finishUpgrade = () => ( { type: SETTING_DATABASE_FINISH } );
+
+export const checkApi = api => dispatch => {
+	for ( let index = 0; index < api.length; index++ ) {
+		const { id, url } = api[ index ];
+
+		dispatch( { type: SETTING_API_TRY, id, method: 'GET' } );
+		dispatch( { type: SETTING_API_TRY, id, method: 'POST' } );
+
+		// GET test
+		getApi( RedirectionApi.plugin.checkApi( url ) )
+			.then( () => {
+				dispatch( { type: SETTING_API_SUCCESS, id, method: 'GET' } );
+			} )
+			.catch( error => {
+				dispatch( { type: SETTING_API_FAILED, id, method: 'GET', error } );
+			} );
+
+		// POST test
+		getApi( RedirectionApi.plugin.checkApi( url, true ) )
+			.then( () => {
+				dispatch( { type: SETTING_API_SUCCESS, id, method: 'POST' } );
+			} )
+			.catch( error => {
+				dispatch( { type: SETTING_API_FAILED, id, method: 'POST', error } );
+			} );
+	}
+};

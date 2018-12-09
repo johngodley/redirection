@@ -15,7 +15,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		) );
 
 		register_rest_route( $namespace, '/plugin/test', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_test' ),
+			$this->get_route( WP_REST_Server::ALLMETHODS, 'route_test' ),
 		) );
 
 		register_rest_route( $namespace, '/plugin/database', array(
@@ -60,7 +60,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		return array( 'location' => admin_url() . 'plugins.php' );
 	}
 
-	public function route_test() {
+	public function route_test( WP_REST_Request $request ) {
 		return array(
 			'success' => true,
 		);
@@ -68,7 +68,6 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 	public function route_database( WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$database = new Red_Database();
 		$status = new Red_Database_Status();
 		$upgrade = false;
 
@@ -77,35 +76,24 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		}
 
 		// Check upgrade
-		if ( ! $database->needs_updating( REDIRECTION_DB_VERSION ) && ! $database->needs_installing() ) {
-			$latest = Red_Database::get_latest_database();
+		if ( ! $status->needs_updating() && ! $status->needs_installing() ) {
+			/* translators: version number */
+			$status->set_error( sprintf( __( 'Your database does not need updating to %s.', 'redirection' ), REDIRECTION_DB_VERSION ) );
 
-			return array_merge(
-				$status->get_upgrade_status(),
-				[
-					'status' => 'error',
-					/* translators: version number */
-					'reason' => sprintf( __( 'Your database does not need updating to %s.', 'redirection' ), REDIRECTION_DB_VERSION ),
-					'debug' => $latest->get_table_schema(),
-				]
-			);
+			return $status->get_json();
 		}
 
 		if ( $upgrade === 'stop' ) {
-			$status->stop_upgrade();
-			return $status->get_upgrade_status();
+			$status->stop_update();
+		} elseif ( $upgrade === 'skip' ) {
+			$status->set_next_stage();
 		}
 
-		$current = $status->get_current_stage();
-		if ( $upgrade === 'skip' ) {
-			$current = $status->skip_current_stage();
-
-			if ( $current === false ) {
-				return $status->get_upgrade_status();
-			}
+		if ( $upgrade === false || $status->get_current_stage() ) {
+			$database = new Red_Database();
+			$database->apply_upgrade( $status );
 		}
 
-		$result = $database->apply_upgrade( $current );
-		return $status->get_upgrade_status( $result );
+		return $status->get_json();
 	}
 }

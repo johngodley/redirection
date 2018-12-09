@@ -1,17 +1,5 @@
 @import "../../global";
 
-.redirection-database_progress {
-	background-color: $white;
-	text-align: center;
-	width: 75%;
-	margin: 0 auto;
-	margin-top: 30px;
-	padding: 20px;
-	border: 1px solid $gray-light;
-	border-radius: 3px;
-	box-shadow: 3px 3px 3px $gray-light;
-}
-
 .redirection-database_error {
 	text-align: left;
 	box-shadow: none;
@@ -27,12 +15,14 @@
 }
 
 .redirection-database {
-	clear: both;
-	padding-top: 20px;
+	.redirection-database_spinner {
+		margin: 0 auto;
+		width: 100px;
+	}
 
-	h1,
-	> p {
-		text-align: center;
+	.redirection-database {
+		clear: both;
+		padding-top: 20px;
 	}
 
 	.rc-progress-line {
@@ -40,8 +30,23 @@
 		display: block;
 		margin-bottom: 20px;
 	}
+}
 
-	.spinner-container {
-		margin-left: -60px;
+.redirection-database_wrapper {
+	h1,
+	> p {
+		text-align: center;
+	}
+
+	.redirection-database_progress {
+		background-color: $white;
+		text-align: center;
+		width: 75%;
+		margin: 0 auto;
+		margin-top: 30px;
+		padding: 20px;
+		border: 1px solid $gray-light;
+		border-radius: 3px;
+		box-shadow: 3px 3px 3px $gray-light;
 	}
 }

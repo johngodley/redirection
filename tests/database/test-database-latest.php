@@ -61,7 +61,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		add_option( 'redirection_post', 'test' );
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
-		add_option( Red_Database::OLD_DB_VERSION, 'test' );
+		add_option( Red_Database_Status::OLD_DB_VERSION, 'test' );
 
 		$database = new Red_Latest_Database();
 		$database->install();
@@ -75,7 +75,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'redirection_post' ) );
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );
-		$this->assertFalse( get_option( Red_Database::OLD_DB_VERSION ) );
+		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
 	}
 
 	public function testDefaultGroupsClean() {
@@ -100,13 +100,13 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testVersion() {
-		delete_option( Red_Database::OLD_DB_VERSION );
+		delete_option( Red_Database_Status::OLD_DB_VERSION );
 
 		$database = new Red_Latest_Database();
 		$database->install();
 
 		$settings = red_get_options();
-		$this->assertFalse( get_option( Red_Database::OLD_DB_VERSION ) );
+		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
 		$this->assertEquals( REDIRECTION_DB_VERSION, $settings['database'] );
 	}
 

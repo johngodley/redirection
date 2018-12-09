@@ -44,7 +44,7 @@ class HttpTester extends React.Component {
 		}
 
 		const location = headers.find( item => item.name === 'location' );
-		const xredirection = headers.find( item => item.name === 'x-redirection' );
+		const xredirection = headers.find( item => item.name === 'x-redirect-agent' );
 		return (
 			<div className="inline-notice">
 				<p><strong>HTTP { status + ' ' + statusMessage }</strong> - { statusDescription }</p>

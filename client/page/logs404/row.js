@@ -19,6 +19,7 @@ import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
+import ExternalLink from 'component/external-link';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -165,7 +166,7 @@ class LogRow404 extends React.Component {
 					{ created }<br />{ created_time }
 				</td>
 				<td className="column-url column-primary">
-					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
+					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink>
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
 					</RowActions>
