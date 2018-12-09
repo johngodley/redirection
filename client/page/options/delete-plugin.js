@@ -33,7 +33,7 @@ class DeletePlugin extends React.Component {
 	showModal() {
 		return (
 			<Modal onClose={ this.onClose }>
-				<div>
+				<div style={ { padding: '15px 10px 5px 15px' } }>
 					<h1>{ __( 'Delete the plugin - are you sure?' ) }</h1>
 					<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.' ) }</p>
 					<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.' ) }</p>

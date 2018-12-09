@@ -17,6 +17,7 @@ import EditRedirect from 'component/redirect-edit';
 import Modal from 'component/modal';
 import Spinner from 'component/spinner';
 import HttpCheck from 'component/http-check';
+import ExternalLink from 'component/external-link';
 import { setSelected, performTableAction } from 'state/redirect/action';
 import { MATCH_URL, MATCH_SERVER, CODE_PASS, CODE_NOTHING } from 'state/redirect/selector';
 import { STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
@@ -152,7 +153,7 @@ class RedirectRow extends React.Component {
 			return fullUrl;
 		}
 
-		return <a href={ fullUrl } target="_blank" rel="noopener noreferrer">{ fullUrl }</a>;
+		return <ExternalLink url={ fullUrl }>{ fullUrl }</ExternalLink>;
 	}
 
 	renderSource( url, title, saving ) {
