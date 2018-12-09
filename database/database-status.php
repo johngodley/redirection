@@ -84,7 +84,12 @@ class Red_Database_Status {
 		if ( $settings['database'] !== '' ) {
 			return $settings['database'];
 		} elseif ( $this->get_old_version() !== false ) {
-			return $this->get_old_version();
+			$version = $this->get_old_version();
+
+			// Upgrade the old value
+			red_set_options( array( 'database' => $version ) );
+			delete_option( self::OLD_DB_VERSION );
+			return $version;
 		}
 
 		return '';
