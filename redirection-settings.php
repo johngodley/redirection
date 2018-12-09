@@ -56,7 +56,6 @@ function red_get_default_options() {
 		'rest_api'            => false,
 		'https'               => false,
 		'database'            => '',
-		'version_seen'        => 0,
 	) );
 }
 
@@ -177,7 +176,7 @@ function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
 	if ( $options === false ) {
 		// New users don't see the new version information
-		$options = [ 'version_seen' => REDIRECTION_VERSION ];
+		$options = [];
 	}
 
 	$defaults = red_get_default_options();
