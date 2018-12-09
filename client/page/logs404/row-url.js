@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 
 import RowActions from 'component/table/row-action';
 import Spinner from 'component/spinner';
+import ExternalLink from 'component/external-link';
 import { setUngroupedSearch, setSelected, performTableAction } from 'state/error/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { ACTION_NOTHING, ACTION_URL, MATCH_URL } from 'state/redirect/selector';
@@ -71,7 +72,7 @@ class LogRow404 extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-url column-primary">
-					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a>
+					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink>
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }

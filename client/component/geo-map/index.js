@@ -12,6 +12,7 @@ import classnames from 'classnames';
  */
 import Spinner from 'component/spinner';
 import PoweredBy from 'component/powered-by';
+import ExternalLink from 'component/external-link';
 import { getMap } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -74,7 +75,7 @@ class GeoMap extends React.Component {
 					<tbody>
 						<tr>
 							<th colSpan="2">
-								<h2>{ __( 'Geo IP' ) }: <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } target="_blank" rel="noopener noreferrer">{ ip }</a> - IPv{ ipType }
+								<h2>{ __( 'Geo IP' ) }: <ExternalLink url={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } >{ ip }</ExternalLink> - IPv{ ipType }
 								</h2>
 							</th>
 						</tr>

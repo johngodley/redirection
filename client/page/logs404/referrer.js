@@ -5,6 +5,8 @@
 import React from 'react';
 import * as parseUrl from 'url';
 
+import ExternalLink from 'component/external-link';
+
 const Referrer = props => {
 	const { url } = props;
 
@@ -12,7 +14,7 @@ const Referrer = props => {
 		const domain = parseUrl.parse( url ).hostname;
 
 		return (
-			<a href={ url } rel="noreferrer noopener" target="_blank">{ domain }</a>
+			<ExternalLink url={ url }>{ domain }</ExternalLink>
 		);
 	}
 

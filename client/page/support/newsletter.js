@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
  */
 
 import { saveSettings } from 'state/settings/action';
+import ExternalLink from 'component/external-link';
 
 const Newsletter = props => {
 	const { newsletter } = props;
@@ -23,7 +24,7 @@ const Newsletter = props => {
 
 				<p>{ __( 'Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.', {
 					components: {
-						a: <a target="_blank" rel="noopener noreferrer" href="https://tinyletter.com/redirection" />,
+						a: <ExternalLink url="https://tinyletter.com/redirection" />,
 					}
 				} ) }</p>
 			</div>
@@ -40,7 +41,7 @@ const Newsletter = props => {
 			<form action="https://tinyletter.com/redirection" method="post" onSubmit={ props.onSubscribe }>
 				<p>
 					<label>{ __( 'Your email address:' ) } <input type="email" name="email" id="tlemail" /> <input type="submit" value="Subscribe" className="button-secondary" /></label>
-					<input type="hidden" value="1" name="embed" /> <span><a href="https://tinyletter.com/redirection" target="_blank" rel="noreferrer noopener">Powered by TinyLetter</a></span>
+					<input type="hidden" value="1" name="embed" /> <span><ExternalLink url="https://tinyletter.com/redirection">Powered by TinyLetter</ExternalLink></span>
 				</p>
 			</form>
 		</div>

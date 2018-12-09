@@ -13,6 +13,7 @@ import classnames from 'classnames';
 
 import PoweredBy from 'component/powered-by';
 import Spinner from 'component/spinner';
+import ExternalLink from 'component/external-link';
 import { getAgent } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -74,7 +75,7 @@ class Useragent extends React.Component {
 		const name = type.slice( 0, 1 ).toUpperCase() + type.slice( 1 );
 
 		if ( url ) {
-			return <a href={ url } target="_blank" rel="noopener noreferrer">{ name }</a>;
+			return <ExternalLink url={ url }>{ name }</ExternalLink>;
 		}
 
 		return name;

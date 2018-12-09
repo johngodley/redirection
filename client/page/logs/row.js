@@ -19,6 +19,7 @@ import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
+import ExternalLink from 'component/external-link';
 
 const Referrer = props => {
 	const { url } = props;
@@ -27,7 +28,7 @@ const Referrer = props => {
 		const domain = parseUrl.parse( url ).hostname;
 
 		return (
-			<a href={ url } rel="noreferrer noopener" target="_blank">{ domain }</a>
+			<ExternalLink url={ url }>{ domain }</ExternalLink>
 		);
 	}
 
@@ -136,7 +137,7 @@ class LogRow extends React.Component {
 					{ created }<br />{ created_time }
 				</td>
 				<td className="column-primary column-url">
-					<a href={ url } rel="noreferrer noopener" target="_blank">{ url.substring( 0, 100 ) }</a><br />
+					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink><br />
 					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
 
 					<RowActions disabled={ isSaving }>
