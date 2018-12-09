@@ -153,7 +153,7 @@ class RedirectRow extends React.Component {
 			return fullUrl;
 		}
 
-		return <ExternalLink url={ fullUrl }>{ fullUrl }</ExternalLink>;
+		return <ExternalLink url={ this.getServerUrl( url, match_type ) }>{ fullUrl }</ExternalLink>;
 	}
 
 	renderSource( url, title, saving ) {
