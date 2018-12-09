@@ -12,6 +12,7 @@ import classnames from 'classnames';
  */
 import Spinner from 'component/spinner';
 import PoweredBy from 'component/powered-by';
+import HttpDetails from './details';
 import { getHttp, clearHttp } from 'state/info/action';
 import { getServerUrl } from 'lib/wordpress-url';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
@@ -48,71 +49,12 @@ class HttpCheck extends React.Component {
 		);
 	}
 
-	renderDetails() {
-		const { action_code, action_data } = this.props.item;
-		const { status, headers = [] } = this.props.http;
-		const location = headers.find( item => item.name === 'location' );
-		const redirection = headers.find( item => item.name === 'x-redirect-agent' );
-		const matches = action_code === status && location && location.value === action_data.url && redirection;
-
-		return (
-			<div className="redirection-httpcheck_results">
-				<div className="redirection-httpcheck_status">
-					{ matches && <span className="dashicons dashicons-yes"></span> }
-					{ ! matches && <span className="dashicons dashicons-no"></span> }
-				</div>
-				<div className="redirection-httpcheck_info">
-					<p>
-						<strong>{ __( 'Expected' ) }: </strong>
-
-						<span>
-							{ __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
-								args: {
-									status: action_code,
-									url: action_data.url,
-								},
-								components: {
-									code: <code />,
-								},
-							} ) }
-						</span>
-					</p>
-					<p>
-						<strong>{ __( 'Found' ) }: </strong>
-
-						<span>
-							{
-								location
-									? __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
-										args: {
-											status,
-											url: location.value,
-										},
-										components: {
-											code: <code />,
-										},
-									} )
-									: status
-							}
-						</span>
-					</p>
-					<p>
-						<strong>{ __( 'Agent' ) }: </strong>
-
-						<span>{ redirection ? __( 'Using Redirection' ) : __( 'Not using Redirection' ) }</span>
-					</p>
-					{ location && ! redirection && <p><a href="https://redirection.me/support/problems/url-not-redirecting/" target="_blank" rel="noopener noreferrer">{ __( 'What does this mean?' ) }</a></p> }
-				</div>
-			</div>
-		);
-	}
-
 	componentDidUpdate() {
 		this.props.parent.resize();
 	}
 
 	render() {
-		const { status, http } = this.props;
+		const { status, http, item } = this.props;
 		const klass = classnames( {
 			'redirection-httpcheck': true,
 			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
@@ -122,7 +64,6 @@ class HttpCheck extends React.Component {
 		return (
 			<div className={ klass }>
 				{ status === STATUS_IN_PROGRESS && <Spinner /> }
-
 				{ status === STATUS_FAILED && this.renderError() }
 
 				{ status === STATUS_COMPLETE && http &&
@@ -138,7 +79,7 @@ class HttpCheck extends React.Component {
 							}
 						</h2>
 
-						{ this.renderDetails() }
+						<HttpDetails http={ http } item={ item } />
 						<PoweredBy />
 					</React.Fragment>
 				}

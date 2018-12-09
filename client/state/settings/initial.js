@@ -13,14 +13,6 @@ function getPreload() {
 	return [];
 }
 
-function getShowDatabase() {
-	if ( Redirectioni10n.database ) {
-		return Redirectioni10n.database.needInstall || Redirectioni10n.database.inProgress;
-	}
-
-	return false;
-}
-
 export function getInitialSettings() {
 	const pluginStatus = getPreload();
 
@@ -33,7 +25,8 @@ export function getInitialSettings() {
 		postTypes: [],
 		pluginStatus,
 		canDelete: false,
-		showDatabase: getShowDatabase(),
+		showDatabase: false,
+		apiTest: {},
 		database: Redirectioni10n.database ? Redirectioni10n.database : {},
 	};
 }

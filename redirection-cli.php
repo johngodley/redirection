@@ -140,14 +140,17 @@ class Redirection_Cli extends WP_CLI_Command {
 		}
 
 		if ( $args[0] === 'install' ) {
-			$latest = Red_Database::get_latest_database();
-			$latest->install();
+			Red_Database::apply_to_sites( function() {
+				$latest = Red_Database::get_latest_database();
+				$latest->install();
+			} );
+
 			WP_CLI::success( 'Database installed' );
 		} elseif ( $args[0] === 'upgrade' ) {
 			$database = new Red_Database();
 			$status = new Red_Database_Status();
 
-			if ( ! $database->needs_updating( REDIRECTION_DB_VERSION ) ) {
+			if ( ! $status->needs_updating() ) {
 				WP_CLI::success( 'Database is already the latest version' );
 				return;
 			}
@@ -155,8 +158,8 @@ class Redirection_Cli extends WP_CLI_Command {
 			$loop = 0;
 
 			while ( $loop < 50 ) {
-				$result = $database->apply_upgrade( $status->get_current_stage(), false );
-				$info = $status->get_upgrade_status( $result );
+				$result = $database->apply_upgrade( $status );
+				$info = $status->get_json();
 
 				if ( ! $info['inProgress'] ) {
 					break;
@@ -172,8 +175,11 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			WP_CLI::success( 'Database upgraded' );
 		} elseif ( $args[0] === 'remove' ) {
-			$latest = Red_Database::get_latest_database();
-			$latest->remove();
+			Red_Database::apply_to_sites( function() {
+				$latest = Red_Database::get_latest_database();
+				$latest->remove();
+			} );
+
 			WP_CLI::success( 'Database removed' );
 		}
 	}

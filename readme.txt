@@ -146,6 +146,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add redirect warning for known problem redirects
 * Add new database install and upgrade process
 * Add database functions to WP CLI
+* Add introduction message when first installed
 * Drop PHP < 5.4 support
 * Improve export filename
 * Fix IPs appearing for bulk redirect

@@ -1,13 +1,150 @@
 <?php
 
 class Red_Database_Status {
+	// Used in < 3.7 versions of Redirection, but since migrated to general settings
+	const OLD_DB_VERSION = 'redirection_version';
 	const DB_UPGRADE_STAGE = 'redirection_database_stage';
+
+	const RESULT_OK = 'ok';
+	const RESULT_ERROR = 'error';
+
+	const STATUS_OK = 'ok';
+	const STATUS_NEED_INSTALL = 'need-install';
+	const STATUS_NEED_UPDATING = 'need-update';
+	const STATUS_FINISHED_INSTALL = 'finish-install';
+	const STATUS_FINISHED_UPDATING = 'finish-update';
+
+	private $stage = false;
+	private $stages = [];
+
+	private $status = false;
+	private $result = false;
+	private $reason = false;
+	private $debug = [];
+
+	public function __construct() {
+		$this->status = self::STATUS_OK;
+
+		if ( $this->needs_installing() ) {
+			$this->status = self::STATUS_NEED_INSTALL;
+		} elseif ( $this->needs_updating() ) {
+			$this->status = self::STATUS_NEED_UPDATING;
+		}
+
+		$info = get_option( self::DB_UPGRADE_STAGE );
+		if ( $info ) {
+			$this->stage = isset( $info['stage'] ) ? $info['stage'] : false;
+			$this->stages = isset( $info['stages'] ) ? $info['stages'] : [];
+			$this->status = isset( $info['status'] ) ? $info['status'] : false;
+		}
+	}
+
+	/**
+	 * Does the database need install
+	 *
+	 * @return bool true if needs installing, false otherwise
+	 */
+	public function needs_installing() {
+		$settings = red_get_options();
+
+		if ( $settings['database'] === '' && $this->get_old_version() === false ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Does the current database need updating to the target
+	 *
+	 * @return bool true if needs updating, false otherwise
+	 */
+	public function needs_updating() {
+		// We need updating if we don't need to install, and the current version is less than target version
+		if ( $this->needs_installing() === false && version_compare( $this->get_current_version(), REDIRECTION_DB_VERSION, '<' ) ) {
+			return true;
+		}
+
+		// Also if we're still in the process of upgrading
+		if ( $this->get_current_stage() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get current database version
+	 *
+	 * @return string Current database version
+	 */
+	public function get_current_version() {
+		$settings = red_get_options();
+
+		if ( $settings['database'] !== '' ) {
+			return $settings['database'];
+		} elseif ( $this->get_old_version() !== false ) {
+			return $this->get_old_version();
+		}
+
+		return '';
+	}
+
+	private function get_old_version() {
+		return get_option( self::OLD_DB_VERSION );
+	}
+
+	/**
+	 * Does the current database support a particular version
+	 *
+	 * @param string $version Target version
+	 * @return bool true if supported, false otherwise
+	 */
+	public function does_support( $version ) {
+		return version_compare( $this->get_current_version(), $version, 'ge' );
+	}
+
+	public function is_error() {
+		return $this->result === self::RESULT_ERROR;
+	}
+
+	public function set_error( $error ) {
+		global $wpdb;
+
+		$this->result = self::RESULT_ERROR;
+		$this->reason = str_replace( "\t", ' ', $error );
+
+		if ( $wpdb->last_error ) {
+			$this->debug[] = $wpdb->last_error;
+		}
+
+		$latest = Red_Database::get_latest_database();
+		$this->debug = array_merge( $this->debug, $latest->get_table_schema() );
+	}
+
+	public function set_ok( $reason ) {
+		$this->reason = $reason;
+		$this->result = self::RESULT_OK;
+	}
 
 	/**
 	 * Stop current upgrade
 	 */
-	public function stop_upgrade() {
+	public function stop_update() {
+		$this->stage = false;
+		$this->stages = [];
+
 		delete_option( self::DB_UPGRADE_STAGE );
+	}
+
+	public function finish() {
+		$this->stop_update();
+
+		if ( $this->status === self::STATUS_NEED_INSTALL ) {
+			$this->status = self::STATUS_FINISHED_INSTALL;
+		} elseif ( $this->status === self::STATUS_NEED_UPDATING ) {
+			$this->status = self::STATUS_FINISHED_UPDATING;
+		}
 	}
 
 	/**
@@ -15,36 +152,25 @@ class Red_Database_Status {
 	 * @return string|bool Current stage name, or false if not upgrading
 	 */
 	public function get_current_stage() {
-		$info = get_option( self::DB_UPGRADE_STAGE );
-
-		if ( $info === false || ! isset( $info['stage'] ) ) {
-			return false;
-		}
-
-		return $info['stage'];
+		return $this->stage;
 	}
 
 	/**
 	 * Move current stage on to the next
-	 * @return string Next stage
 	 */
-	public function skip_current_stage() {
+	public function set_next_stage() {
 		$stage = $this->get_current_stage();
 
 		if ( $stage ) {
-			$next = $this->get_next_stage( $stage );
+			$stage = $this->get_next_stage( $stage );
 
 			// Save next position
-			if ( $next ) {
-				$this->update_stage( $next );
+			if ( $stage ) {
+				$this->set_stage( $stage );
 			} else {
-				$this->stop_upgrade();
+				$this->finish();
 			}
-
-			return $next;
 		}
-
-		return $stage;
 	}
 
 	/**
@@ -52,79 +178,64 @@ class Red_Database_Status {
 	 *
 	 * @return array Database status array
 	 */
-	public function get_upgrade_status( $last_result = false ) {
-		$database = new Red_Database();
-		$info = get_option( self::DB_UPGRADE_STAGE );
-		$stage = false;
-
-		if ( $info ) {
-			$stage = $info['stage'];
-			$stages = $info['stages'];
-		}
-
+	public function get_json() {
 		// Base information
 		$result = [
-			'needUpgrade' => $database->needs_updating( REDIRECTION_DB_VERSION ),
-			'needInstall' => $database->needs_installing(),
-			'inProgress' => $stage !== false,
+			'status' => $this->status,
+			'inProgress' => $this->stage !== false,
 		];
 
 		// Add on version status
-		if ( $result['needUpgrade'] || $result['needInstall'] ) {
-			$result = array_merge( $result, $this->get_version_upgrade( $database ) );
+		if ( $this->status === self::STATUS_NEED_INSTALL || $this->status === self::STATUS_NEED_UPDATING ) {
+			$result = array_merge( $result, $this->get_version_upgrade() );
+		}
+
+		if ( $this->status == self::STATUS_NEED_INSTALL ) {
+			$result['api'] = [
+				REDIRECTION_API_JSON => red_get_rest_api( REDIRECTION_API_JSON ),
+				REDIRECTION_API_JSON_INDEX => red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
+				REDIRECTION_API_JSON_RELATIVE => red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
+			];
 		}
 
 		// Add on upgrade status
-		if ( $stage !== false ) {
-			$result = array_merge( $result, $this->get_upgrade_progress( $stage, $stages, $last_result ) );
-		} elseif ( $last_result && ! is_wp_error( $last_result ) ) {
-			$result = array_merge( $result, $this->get_finish_status( $last_result ) );
-		}
-
-		// Got an error? That overrides everything
-		if ( is_wp_error( $last_result ) ) {
-			$result = array_merge( $result, $this->get_error_status( $last_result ) );
-		}
-
-		return $result;
-	}
-
-	private function get_error_status( WP_Error $error ) {
-		$latest = Red_Database::get_latest_database();
-
-		$result = [
-			'status' => 'error',
-			'reason' => $error->get_error_message(),
-			'debug' => $latest->get_table_schema(),
-		];
-
-		$error = $error->get_error_data();
-		if ( ! empty( $error ) ) {
-			$result['debug'] = array_merge( [ $error, '' ], $result['debug'] );
+		if ( $this->is_error() ) {
+			$result = array_merge( $result, $this->get_version_upgrade(), $this->get_progress_status(), $this->get_error_status() );
+		} elseif ( $result['inProgress'] ) {
+			$result = array_merge( $result, $this->get_progress_status() );
+		} elseif ( $this->status === self::STATUS_FINISHED_INSTALL || $this->status === self::STATUS_FINISHED_UPDATING ) {
+			$result['complete'] = 100;
+			$result['reason'] = $this->reason;
 		}
 
 		return $result;
 	}
 
-	private function get_finish_status( $last_result ) {
+	private function get_error_status() {
 		return [
-			'complete' => 100,
-			'status' => 'ok',
-			'reason' => $last_result,
+			'reason' => $this->reason,
+			'result' => self::RESULT_ERROR,
+			'debug' => $this->debug,
 		];
 	}
 
-	private function get_upgrade_progress( $stage, array $stages, $last_result ) {
+	private function get_progress_status() {
+		$complete = 0;
+
+		if ( $this->stage ) {
+			$complete = round( ( array_search( $this->stage, $this->stages, true ) / count( $this->stages ) ) * 100, 1 );
+		}
+
 		return [
-			'status' => 'ok',
-			'reason' => $last_result,
-			'complete' => round( ( array_search( $stage, $stages, true ) / count( $stages ) ) * 100, 1 ),
+			'complete' => $complete,
+			'result' => self::RESULT_OK,
+			'reason' => $this->reason,
 		];
 	}
 
-	private function get_version_upgrade( Red_Database $database ) {
+	private function get_version_upgrade() {
 		return [
-			'current' => $database->get_current_version() ? $database->get_current_version() : '-',
+			'current' => $this->get_current_version() ? $this->get_current_version() : '-',
 			'next' => REDIRECTION_DB_VERSION,
 			'time' => microtime( true ),
 		];
@@ -132,65 +243,69 @@ class Red_Database_Status {
 
 	/**
 	 * Set the status information for a database upgrade
-	 *
-	 * @return string First stage
 	 */
-	public function set_initial_stages( array $upgrades ) {
-		$stages = [];
+	public function start_install( array $upgrades ) {
+		$this->set_stages( $upgrades );
+		$this->status = self::STATUS_NEED_INSTALL;
+	}
+
+	public function start_upgrade( array $upgrades ) {
+		$this->set_stages( $upgrades );
+		$this->status = self::STATUS_NEED_UPDATING;
+	}
+
+	private function set_stages( array $upgrades ) {
+		$this->stages = [];
 
 		foreach ( $upgrades as $upgrade ) {
 			$upgrader = Red_Database_Upgrader::get( $upgrade );
-			$stages = array_merge( $stages, array_keys( $upgrader->get_stages() ) );
+			$this->stages = array_merge( $this->stages, array_keys( $upgrader->get_stages() ) );
 		}
 
-		$this->set_stage( $stages, $stages[0] );
-		return $stages[0];
-	}
-
-	private function set_stage( array $stages, $stage ) {
-		update_option( self::DB_UPGRADE_STAGE, array(
-			'stages' => $stages,
-			'stage' => $stage,
-		) );
-	}
-
-	public function update_stage( $stage ) {
-		$info = get_option( self::DB_UPGRADE_STAGE );
-
-		if ( $info ) {
-			$info['stage'] = $stage;
-			update_option( self::DB_UPGRADE_STAGE, $info );
+		if ( count( $this->stages ) > 0 ) {
+			$this->set_stage( $this->stages[0] );
 		}
+	}
+
+	public function set_stage( $stage ) {
+		$this->stage = $stage;
+		$this->save_details();
+	}
+
+	private function save_details() {
+		update_option( self::DB_UPGRADE_STAGE, [
+			'stage' => $this->stage,
+			'stages' => $this->stages,
+			'status' => $this->status,
+		] );
 	}
 
 	private function get_next_stage( $stage ) {
-		$info = get_option( self::DB_UPGRADE_STAGE );
-		if ( ! $info ) {
-			return false;
-		}
-
 		$database = new Red_Database();
-
-		$stages = $info['stages'];
-		$upgraders = $database->get_upgrades_for_version( $database->get_current_version() );
+		$upgraders = $database->get_upgrades_for_version( $this->get_current_version() );
 		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?
-		$pos = array_search( $stage, $stages, true );
+		$pos = array_search( $this->stage, $this->stages, true );
 
-		if ( $pos === count( $stages ) - 1 ) {
-			red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
+		if ( $pos === count( $this->stages ) - 1 ) {
+			$this->save_db_version( REDIRECTION_DB_VERSION );
 			return false;
 		}
 
 		// Set current DB version
 		$current_stages = array_keys( $upgrader->get_stages() );
 
-		if ( array_search( $stage, $current_stages, true ) === count( $current_stages ) - 1 ) {
-			red_set_options( array( 'database' => $upgraders[1]['version'] ) );
+		if ( array_search( $this->stage, $current_stages, true ) === count( $current_stages ) - 1 ) {
+			$this->save_db_version( $upgraders[1]['version'] );
 		}
 
 		// Move on to next in current version
-		return $stages[ $pos + 1 ];
+		return $this->stages[ $pos + 1 ];
+	}
+
+	private function save_db_version( $version ) {
+		red_set_options( array( 'database' => $version ) );
+		delete_option( self::OLD_DB_VERSION );
 	}
 }

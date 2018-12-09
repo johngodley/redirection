@@ -16,22 +16,42 @@ import {
 	SETTING_DATABASE_FAILED,
 	SETTING_DATABASE_FINISH,
 	SETTING_DATABASE_SHOW,
+	SETTING_API_SUCCESS,
+	SETTING_API_FAILED,
+	SETTING_API_TRY,
 
 	STATUS_IN_PROGRESS,
 	STATUS_COMPLETE,
 	STATUS_FAILED,
 } from './type';
 
+function setApiTest( existing, id, method, result ) {
+	const api = existing[ id ] ? { ... existing[ id ] } : [];
+
+	api[ method ] = result;
+
+	return { [ id ]: api };
+}
+
 export default function settings( state = {}, action ) {
 	switch ( action.type ) {
+		case SETTING_API_TRY:
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, undefined ) } };
+
+		case SETTING_API_SUCCESS:
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, true ) } };
+
+		case SETTING_API_FAILED:
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, action.error.request.status ) } };
+
 		case SETTING_DATABASE_SHOW:
 			return { ... state, showDatabase: true };
 
 		case SETTING_DATABASE_FINISH:
-			return { ... state, showDatabase: false };
+			return { ... state, showDatabase: false, database: { ... state.database, status: 'ok' } };
 
 		case SETTING_DATABASE_START:
-			return { ... state, showDatabase: action.arg === 'stop' ? false : true, database: { ... state.database, status: STATUS_IN_PROGRESS, inProgress: true, debug: false, reason: state.status === 'error' ? null : state.database.reason } };
+			return { ... state, database: { ... state.database, inProgress: true, result: 'ok', reason: action.arg === 'skip' ? false : state.database.reason }, showDatabase: action.arg === 'stop' ? false : true };
 
 		case SETTING_DATABASE_SUCCESS:
 			return { ... state, database: { ... state.database, ... action.database } };
@@ -40,7 +60,7 @@ export default function settings( state = {}, action ) {
 			return { ... state, database: { ... state.database, inProgress: false } };
 
 		case SETTING_DATABASE_FAILED:
-			return { ... state, database: { ... state.database, status: STATUS_FAILED, error: action.error } };
+			return { ... state, database: { ... state.database, result: STATUS_FAILED, reason: action.error } };
 
 		case SETTING_LOAD_START:
 			return { ... state, loadStatus: STATUS_IN_PROGRESS };

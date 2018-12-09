@@ -23,7 +23,9 @@ import Error from 'component/error';
 import Notice from 'component/notice';
 import Progress from 'component/progress';
 import Menu from 'component/menu';
-import Database from 'component/database';
+import WelcomeWizard from 'component/welcome-wizard';
+import DatabaseUpdate from './database-update';
+import ExternalLink from 'component/external-link';
 import { clearErrors } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
 import { setTable as setErrorTable } from 'state/error/action';
@@ -34,7 +36,6 @@ import { getInitialLog } from 'state/log/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
 import { showUpgrade } from 'state/settings/action';
-import { getExportUrl } from 'state/io/selector';
 import './style.scss';
 
 const getTitles = () => ( {
@@ -159,7 +160,7 @@ class Home extends React.Component {
 					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
 					<p>
 						{ __( 'If you are using a caching system such as Cloudflare then please read this: ' ) }
-						<a href="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support" target="_blank" rel="noreferrer noopener">{ __( 'clearing your cache.' ) }</a>
+						<ExternalLink url="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support">{ __( 'clearing your cache.' ) }</ExternalLink>
 					</p>
 					<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
 				</div>
@@ -178,7 +179,7 @@ class Home extends React.Component {
 				<p>
 					{ __( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", {
 						components: {
-							link: <a target="_blank" rel="noopener noreferrer" href="https://github.com/johngodley/redirection/issues" />,
+							link: <ExternalLink url="https://github.com/johngodley/redirection/issues" />,
 						},
 					} ) }
 				</p>
@@ -205,47 +206,21 @@ class Home extends React.Component {
 		this.props.onShowUpgrade();
 	}
 
-	renderUpgrade() {
-		return (
-			<div className="error">
-				<h3>{ __( 'Redirection database needs updating' ) }</h3>
-				<p>{ __( 'Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.', {
-					args: {
-						current: Redirectioni10n.database.current,
-						latest: Redirectioni10n.database.next,
-					},
-				} ) }</p>
-				<p>{ __( 'As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.', {
-					components: {
-						download: <a href={ getExportUrl( 'all', 'json' ) } target="_blank" rel="noopener noreferrer" />,
-					},
-				} ) }</p>
-				<p>{ __( 'Please upgrade your database when ready.' ) }</p>
-				<p><input className="button-primary" type="submit" value={ __( 'Upgrade Database' ) } onClick={ this.onShowUpgrade } disabled={ this.state.inProgress } /></p>
-			</div>
-		);
-	}
-
 	render() {
 		const { error, page } = this.state;
-		const { needUpgrade, showDatabase } = this.props;
+		const { databaseStatus, showDatabase } = this.props;
 		const title = getTitles()[ page ];
 
 		if ( error ) {
 			return this.renderError();
 		}
 
-		if ( showDatabase ) {
-			return <Database />;
+		if ( databaseStatus === 'need-install' || databaseStatus === 'finish-install' ) {
+			return <WelcomeWizard />;
 		}
 
-		if ( needUpgrade ) {
-			return (
-				<div className="wrap redirection">
-					<h1 className="wp-heading-inline">{ __( 'Update Required' ) }</h1>
-					{ this.renderUpgrade() }
-				</div>
-			);
+		if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
+			return <DatabaseUpdate onShowUpgrade={ this.props.onShowUpgrade } showDatabase={ showDatabase } />;
 		}
 
 		return (
@@ -293,12 +268,12 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	const { message: { errors }, settings: { showDatabase } } = state;
-	const { needUpgrade } = state.settings.database;
+	const { status: databaseStatus } = state.settings.database;
 
 	return {
 		errors,
 		showDatabase,
-		needUpgrade,
+		databaseStatus,
 	};
 }
 
