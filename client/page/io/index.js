@@ -21,8 +21,6 @@ import { getExportUrl } from 'state/io/selector';
 import Importer from './importer';
 import './style.scss';
 
-const getUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + Redirectioni10n.WP_API_nonce;
-
 class ImportExport extends React.Component {
 	constructor( props ) {
 		super( props );

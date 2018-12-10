@@ -15,7 +15,8 @@
     "dist": "NODE_ENV=production webpack --progress --colors --config ./webpack.config.js --mode production",
     "localprod": "NODE_ENV=production webpack-dev-server --progress --colors --hot --config ./webpack.config.js --port 3312 --mode production",
     "lint": "eslint --cache --ext=.js src",
-    "stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer"
+    "stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
+    "e2e": "NODE_ENV=e2e jest e2e"
   },
   "repository": {
     "type": "git",
@@ -82,6 +83,7 @@
     "jest": "^23.6.0",
     "json-loader": "^0.5.7",
     "mocha": "^5.2.0",
+    "node-fetch": "^2.3.0",
     "node-sass": "^4.11.0",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
@@ -92,6 +94,7 @@
     "precss": "^4.0.0",
     "prettier": "github:automattic/calypso-prettier#503d7779",
     "redux-devtools-extension": "^2.13.7",
+    "request-promise": "^4.2.2",
     "sass-loader": "^7.1.0",
     "shared-git-hooks": "^1.2.1",
     "style-loader": "^0.23.1",

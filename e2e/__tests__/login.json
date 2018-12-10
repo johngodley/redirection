@@ -1,0 +1,15 @@
+[
+	[
+		"Test login not matched",
+		{
+			"source": {
+				"url": "/login"
+			},
+			"target": {
+				"status": 301,
+				"location": "/login/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

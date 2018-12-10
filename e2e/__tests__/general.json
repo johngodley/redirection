@@ -1,0 +1,24 @@
+[
+	[
+		"Test pass-through",
+		{
+			"source": {
+				"url": "/plain-pass"
+			},
+			"target": {
+				"status": 200
+			}
+		}
+	],
+	[
+		"Test ignore",
+		{
+			"source": {
+				"url": "/plain-ignore"
+			},
+			"target": {
+				"status": 404
+			}
+		}
+	]
+]

@@ -1,0 +1,29 @@
+[
+	[
+		"Test cookie matched",
+		{
+			"source": {
+				"url": "/cookie",
+				"headers": {
+					"cookie": "cookie=cookievalue; path=/; Max-Age=1296000;"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/cookie/match"
+			}
+		}
+	],
+	[
+		"Test cookie not matched",
+		{
+			"source": {
+				"url": "/cookie"
+			},
+			"target": {
+				"status": 301,
+				"location": "/cookie/notmatch"
+			}
+		}
+	]
+]

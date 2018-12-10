@@ -1,0 +1,15 @@
+[
+	[
+		"Test capability not matched",
+		{
+			"source": {
+				"url": "/capability"
+			},
+			"target": {
+				"status": 301,
+				"location": "/capability/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

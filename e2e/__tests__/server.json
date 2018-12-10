@@ -1,0 +1,15 @@
+[
+	[
+		"Test server not matched",
+		{
+			"source": {
+				"url": "/server"
+			},
+			"target": {
+				"status": 301,
+				"location": "/server/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

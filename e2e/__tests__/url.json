@@ -1,0 +1,117 @@
+[
+	[
+		"Test plain 301 redirect to relative target",
+		{
+			"source": {
+				"url": "/plain301"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 regex redirect to relative target",
+		{
+			"source": {
+				"url": "/plain-regex/cat"
+			},
+			"target": {
+				"location": "/plain-redirect/cat",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain redirect disabled",
+		{
+			"source": {
+				"url": "/plain-redirect-disabled"
+			},
+			"target": {
+				"status": 404
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect to absolute URL",
+		{
+			"source": {
+				"url": "/plain-redirect-absolute"
+			},
+			"target": {
+				"location": "http://wordpress.org/",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 with position",
+		{
+			"source": {
+				"url": "/plain-position"
+			},
+			"target": {
+				"location": "/plain-redirect2",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 302 redirect to relative target",
+		{
+			"source": {
+				"url": "/plain302"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 302,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 303 redirect to relative target",
+		{
+			"source": {
+				"url": "/plain303"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 303,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 307 redirect to relative target",
+		{
+			"source": {
+				"url": "/plain307"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 307,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 308 redirect to relative target",
+		{
+			"source": {
+				"url": "/plain308"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 308,
+				"agent": true
+			}
+		}
+	]
+]

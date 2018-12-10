@@ -1,0 +1,31 @@
+[
+	[
+		"Test referrer matched",
+		{
+			"source": {
+				"url": "/referrer",
+				"headers": {
+					"referer": "test referrer"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/referrer/match",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test referrer not matched",
+		{
+			"source": {
+				"url": "/referrer"
+			},
+			"target": {
+				"status": 301,
+				"location": "/referrer/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

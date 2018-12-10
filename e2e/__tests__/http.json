@@ -1,0 +1,31 @@
+[
+	[
+		"Test http matched",
+		{
+			"source": {
+				"url": "/http",
+				"headers": {
+					"testheader": "testvalue"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/http/match",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test http not matched",
+		{
+			"source": {
+				"url": "/http"
+			},
+			"target": {
+				"status": 301,
+				"location": "/http/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

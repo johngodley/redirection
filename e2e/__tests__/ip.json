@@ -1,0 +1,31 @@
+[
+	[
+		"Test ip matched",
+		{
+			"source": {
+				"url": "/ip",
+				"headers": {
+					"cf-connecting-ip": "192.168.1.66"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/ip/match",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test ip not matched",
+		{
+			"source": {
+				"url": "/ip"
+			},
+			"target": {
+				"status": 301,
+				"location": "/ip/notmatch",
+				"agent": true
+			}
+		}
+	]
+]

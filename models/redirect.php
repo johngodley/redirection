@@ -172,7 +172,7 @@ class Red_Item {
 		}
 
 		$data['status'] = 'enabled';
-		if ( ( isset( $details['enabled'] ) && $details['enabled'] === 'disabled' ) || ( isset( $details['status'] ) && $details['status'] === 'disabled' ) ) {
+		if ( ( isset( $details['enabled'] ) && ( $details['enabled'] === 'disabled' || $details['enabled'] === false ) ) || ( isset( $details['status'] ) && $details['status'] === 'disabled' ) ) {
 			$data['status'] = 'disabled';
 		}
 

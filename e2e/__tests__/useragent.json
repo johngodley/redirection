@@ -1,0 +1,31 @@
+[
+	[
+		"Test useragent matched",
+		{
+			"source": {
+				"url": "/useragent",
+				"headers": {
+					"user-agent": "test agent"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/useragent/match",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test useragent not matched",
+		{
+			"source": {
+				"url": "/useragent"
+			},
+			"target": {
+				"status": 301,
+				"location": "/useragent/notmatch",
+				"agent": true
+			}
+		}
+	]
+]
