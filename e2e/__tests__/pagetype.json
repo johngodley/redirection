@@ -1,0 +1,15 @@
+[
+	[
+		"Test pagetype matched",
+		{
+			"source": {
+				"url": "/pagetype"
+			},
+			"target": {
+				"status": 301,
+				"location": "/pagetype-redirect",
+				"agent": true
+			}
+		}
+	]
+]
