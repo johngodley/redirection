@@ -29,7 +29,7 @@ const getWarningFromState = ( state ) => {
 	}
 
 	// Server redirect
-	if ( state.url.indexOf( 'http' ) !== -1 && state.url.indexOf( document.location.origin ) === -1 ) {
+	if ( state.url.substr( 0, 4 ) === 'http' && state.url.indexOf( document.location.origin ) === -1 ) {
 		warnings.push(
 			__( 'This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.', {
 				components: {
