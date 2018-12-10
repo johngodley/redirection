@@ -33,11 +33,15 @@ The plugin can also be configured to monitor when post or page permalinks are ch
 In addition to straightforward URL matching you can redirect based on other conditions:
 
 - Login status - redirect only if the user is logged in or logged out
+- WordPress capability - redirect if the user is able to perform a certain capability
 - Browser - redirect if the user is using a certain browser
 - Referrer - redirect if the user visited the link from another page
 - Cookies - redirect if a particular cookie is set
 - HTTP headers - redirect based on a HTTP header
 - Custom filter - redirect based on your own WordPress filter
+- IP address - redirect if the client IP address matches
+- Server - redirect another domain if also hosted on this server
+- Page type - redirect if the current page is a 404
 
 = Full logging =
 
@@ -47,9 +51,13 @@ Logs can be exported for external viewing, and can be searched and filtered for 
 
 Display geographic information about an IP address, as well as a full user agent information, to try and understand who the visitor is.
 
+You are able to disable or reduce IP collection to meet the legal requirements of your geographic region.
+
 = Track 404 errors =
 
 Redirection will keep track of all 404 errors that occur on your site, allowing you to track down and fix problems.
+
+Errors can be grouped to show where you should focus your attention, and can be redirected in bulk.
 
 = Apache & Nginx support =
 

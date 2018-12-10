@@ -39,6 +39,8 @@ const SVN_SOURCE_FILES = [
 	'!phpunit.xml',
 	'!webpack.config.js',
 	'!package-lock.json',
+	'!e2e/**',
+	'!e2e',
 ];
 
 function downloadLocale( locale, wpName, type ) {
