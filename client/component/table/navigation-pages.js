@@ -34,14 +34,6 @@ class PaginationLinks extends React.Component {
 		this.state = { currentPage: props.page };
 	}
 
-	componentWillUpdate( nextProps ) {
-		this.setClickers( nextProps );
-
-		if ( nextProps.page !== this.props.page ) {
-			this.setState( { currentPage: nextProps.page } );
-		}
-	}
-
 	setClickers( props ) {
 		this.onFirst = this.handleClick.bind( this, 0 );
 		this.onLast = this.handleClick.bind( this, this.getTotalPages( props ) - 1 );
@@ -118,7 +110,7 @@ class NavigationPages extends React.Component {
 			<div className={ classes }>
 				<span className="displaying-num">{ __( '%s item', '%s items', { count: total, args: numberFormat( total ) } ) }</span>
 
-				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } per_page={ per_page } page={ page } inProgress={ inProgress } /> }
+				{ ! onePage && <PaginationLinks onChangePage={ onChangePage } total={ total } per_page={ per_page } page={ page } inProgress={ inProgress } key={ page } /> }
 			</div>
 		);
 	}

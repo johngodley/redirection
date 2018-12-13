@@ -59,10 +59,10 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 
 	public function testExportCSV() {
 		$expected = 'source,target,regex,type,code,match,hits,title
-"1","*","0","url","0","url","0",""';
+"/1","*","0","url","301","url","0",""';
 
 		$group1 = Red_Group::create( 'group1', 1 );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		Red_Item::create( array( 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 
 		$this->setNonce();
 		$result = $this->callApi( 'export/1/csv' );

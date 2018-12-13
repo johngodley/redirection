@@ -42,18 +42,47 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function template_redirect() {
-		if ( is_404() ) {
-			$options = red_get_options();
+		if ( ! is_404() || $this->matched ) {
+			return;
+		}
 
-			if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
-				RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
-			}
+		if ( $this->match_404_type() ) {
+			// Don't log an intentionally redirected 404
+			return;
+		}
+
+		$options = red_get_options();
+
+		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
+			RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
 		}
 	}
 
+	private function match_404_type() {
+		if ( ! property_exists( $this, 'redirects' ) || count( $this->redirects ) === 0 ) {
+			return false;
+		}
+
+		$page_type = array_values( array_filter( $this->redirects, array( $this, 'only_404' ) ) );
+
+		if ( count( $page_type ) > 0 ) {
+			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
+			$first = $page_type[0];
+			$first->matches( $url );
+			return true;
+		}
+
+		return false;
+	}
+
+	private function only_404( $redirect ) {
+		return $redirect->match->get_type() === 'page';
+	}
+
+	// Return true to stop further processing of the 'do nothing'
 	public function redirection_do_nothing() {
 		$this->can_log = false;
-		return false;
+		return true;
 	}
 
 	public function redirection_visit( $redirect, $url, $target ) {
@@ -64,7 +93,8 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		if ( $options['https'] && ! is_ssl() ) {
-			wp_safe_redirect( 'https://' . Redirection_Request::get_server_name(), 301 );
+			$target = rtrim( Redirection_Request::get_server_name(), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
+			wp_safe_redirect( 'https://' . $target, 301 );
 			die();
 		}
 	}
@@ -86,6 +116,11 @@ class WordPress_Module extends Red_Module {
 			}
 
 			do_action( 'redirection_last', $url, $this );
+
+			if ( ! $this->matched ) {
+				// Keep them for later
+				$this->redirects = $redirects;
+			}
 		}
 	}
 
@@ -93,7 +128,7 @@ class WordPress_Module extends Red_Module {
 	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
 	 */
 	private function protected_url( $url ) {
-		$rest = parse_url( red_get_rest_api() );
+		$rest = wp_parse_url( red_get_rest_api() );
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $url, 0, strlen( $rest_api ) ) === $rest_api ) {
@@ -135,7 +170,7 @@ class WordPress_Module extends Red_Module {
 			$servers_to_check = array( 'lighttpd', 'nginx' );
 
 			foreach ( $servers_to_check as $name ) {
-				if ( stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
+				if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
 					status_header( $status );
 					header( "Location: $url" );
 					exit( 0 );

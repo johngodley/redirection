@@ -1,4 +1,4 @@
-// global fetch, Redirectioni10n
+/* global fetch, Redirectioni10n */
 /**
  *
  * @format
@@ -62,10 +62,21 @@ const apiRequest = url => ( {
 	credentials: 'same-origin',
 } );
 
-const deleteApiRequest = ( path, params ) => ( {
-	...apiRequest( getRedirectionUrl( path, params ) ),
-	method: 'post',
-} );
+const deleteApiRequest = ( path, params ) => {
+	const query = { ... params };
+	const body = {};
+
+	if ( params.items ) {
+		body.items = params.items;
+		delete query.items;
+	}
+
+	return {
+		... apiRequest( getRedirectionUrl( path, query ) ),
+		method: 'post',
+		body: body.items ? JSON.stringify( body ) : null,
+	};
+};
 const getApiRequest = ( path, params = {} ) => ( {
 	...apiRequest( getRedirectionUrl( path, params ) ),
 	method: 'get',
@@ -137,7 +148,7 @@ export const RedirectionApi = {
 
 const getRedirectLiUrl = url => {
 	const base =
-		process.env.NODE_ENV === 'development'
+		process.env.NODE_ENV === 'developmxent'
 			? 'http://localhost:5000/v1/'
 			: 'https://api.redirect.li/v1/';
 	return base + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';

@@ -27,12 +27,13 @@ class Red_Flusher {
 	private function optimize_logs() {
 		global $wpdb;
 
-		$rand = mt_rand( 1, 5000 );
+		$rand = wp_rand( 1, 5000 );
 
-		if ( $rand === 11 )
+		if ( $rand === 11 ) {
 			$wpdb->query( "OPTIMIZE TABLE {$wpdb->prefix}redirection_logs" );
-		elseif ( $rand === 12 )
+		} elseif ( $rand === 12 ) {
 			$wpdb->query( "OPTIMIZE TABLE {$wpdb->prefix}redirection_404" );
+		}
 	}
 
 	private function expire_logs( $table, $expiry_time ) {
@@ -57,8 +58,7 @@ class Red_Flusher {
 			if ( ! wp_next_scheduled( self::DELETE_HOOK ) ) {
 				wp_schedule_event( time(), self::DELETE_FREQ, self::DELETE_HOOK );
 			}
-		}
-		else {
+		} else {
 			Red_Flusher::clear();
 		}
 	}

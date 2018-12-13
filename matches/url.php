@@ -3,7 +3,7 @@
 class URL_Match extends Red_Match {
 	public $url = false;
 
-	function name () {
+	function name() {
 		return __( 'URL only', 'redirection' );
 	}
 

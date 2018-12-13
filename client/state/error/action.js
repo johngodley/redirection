@@ -29,16 +29,19 @@ const STATUS_ERROR = {
 	store: 'error',
 };
 
-export const deleteExact = ( filterBy, filter ) => ( dispatch, getState ) => directApi( RedirectionApi.error.deleteAll, dispatch, STATUS_ERROR, { page: 0, filter, filterBy }, getState().error );
+export const deleteExact = items => ( dispatch, getState ) => directApi( RedirectionApi.error.deleteAll, dispatch, STATUS_ERROR, { page: 0, items }, getState().error );
 export const deleteAll = ( filterBy, filter ) => ( dispatch, getState ) => processRequest( RedirectionApi.error.deleteAll, dispatch, STATUS_ERROR, { page: 0, filter, filterBy }, getState().error, table => {
 	return { ... table, filter: '', filterBy: '' };
 } );
 export const performTableAction = ( action, ids, extra ) => tableAction( RedirectionApi.bulk.error, action, ids, STATUS_ERROR_ITEM, extra );
 export const getLogs = args => ( dispatch, getState ) => processRequest( RedirectionApi.error.list, dispatch, STATUS_ERROR, args, getState().error );
-export const loadLogs = ( params = { filter: '', filterBy: '', page: 0, orderby: '' } ) => getLogs( params );
+export const loadLogs = ( params = {} ) => getLogs( params );
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
 export const setSearch = ( filter, filterBy = '' ) => getLogs( { filter, filterBy: filter === '' ? '' : filterBy, page: 0, orderby: '' } );
+export const setUngroupedSearch = ( filter, filterBy ) => getLogs( { filter, filterBy, page: 0, orderby: '', groupBy: '' } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderby: '', page: 0 } );
-export const setSelected = items => ( { type: ERROR_SET_SELECTED, items: items.map( parseInt ) } );
+export const setSelected = items => ( { type: ERROR_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: ERROR_SET_ALL_SELECTED, onoff } );
+export const setGroupBy = groupBy => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: '', filter: '' } );
+export const setTable = table => getLogs( table );

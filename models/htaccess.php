@@ -108,7 +108,7 @@ class Red_Htaccess {
 		$url = $item->get_url();
 
 		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
-			$url_parts = parse_url( $url );
+			$url_parts = wp_parse_url( $url );
 			$url = $url_parts['path'];
 			$query = isset( $url_parts['query'] ) ? $url_parts['query'] : '';
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
@@ -131,7 +131,7 @@ class Red_Htaccess {
 		global $wpdb;
 
 		$post = $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} ORDER BY RAND() LIMIT 0,1" );
-		$url  = parse_url( get_permalink( $post ) );
+		$url  = wp_parse_url( get_permalink( $post ) );
 
 		return sprintf( '%s [R=%d,L]', $this->encode( $url['path'] ), $code );
 	}
@@ -226,6 +226,7 @@ class Red_Htaccess {
 
 	public function save( $filename, $content_to_save = false ) {
 		$existing = false;
+		$filename = str_replace( '.php', '', $filename );
 
 		if ( file_exists( $filename ) ) {
 			$existing = file_get_contents( $filename );

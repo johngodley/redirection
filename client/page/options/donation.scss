@@ -1,0 +1,40 @@
+/**
+ * The donation section of the options page
+ */
+ .donation {
+	.donation-amount {
+		float: left;
+		margin-top: 10px;
+
+		span {
+			font-size: 28px;
+			margin-top: 4px;
+			vertical-align: bottom;
+		}
+
+		img {
+			width: 24px !important;
+			margin-bottom: -5px !important
+		}
+	}
+
+	.donation-amount:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	input[type=number] {
+		width: 60px;
+		margin-left: 10px;
+	}
+
+	td, th {
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+	}
+
+	input[type=submit] {
+		margin-left: 10px;
+	}
+}

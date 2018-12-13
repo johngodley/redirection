@@ -5,7 +5,7 @@
 
 import { getPageUrl } from 'lib/wordpress-url';
 
-const tableParams = [ 'orderby', 'direction', 'page', 'per_page', 'filter', 'filterBy' ];
+const tableParams = [ 'orderby', 'direction', 'page', 'per_page', 'filter', 'filterBy', 'groupBy', 'group' ];
 
 const removeIfExists = ( current, newItems ) => {
 	const newArray = [];
@@ -19,7 +19,7 @@ const removeIfExists = ( current, newItems ) => {
 	return newArray;
 };
 
-export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultOrder = '', subParams = [] ) => {
+export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedGroup = [], defaultOrder = '', subParams = [] ) => {
 	const query = getPageUrl();
 	const defaults = {
 		orderby: defaultOrder,
@@ -29,6 +29,7 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		selected: [],
 		filterBy: '',
 		filter: '',
+		groupBy: '',
 	};
 	const sub = query.sub === undefined ? '' : query.sub;
 
@@ -44,6 +45,7 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], defaultO
 		per_page: Redirectioni10n.per_page ? parseInt( Redirectioni10n.per_page, 10 ) : defaults.per_page,
 		filterBy: query.filterby && allowedFilter.indexOf( query.filterby ) !== -1 ? query.filterby : defaults.filterBy,
 		filter: query.filter ? query.filter : defaults.filter,
+		groupBy: query.groupby && allowedGroup.indexOf( query.groupby ) !== -1 ? query.groupby : defaults.groupBy,
 	};
 };
 
@@ -81,6 +83,11 @@ export const removeDefaults = ( table, defaultOrder ) => {
 		delete table.filter;
 	}
 
+	if ( table.groupBy === '' && table.group === '' ) {
+		delete table.groupBy;
+		delete table.group;
+	}
+
 	if ( parseInt( Redirectioni10n.per_page, 10 ) !== 25 ) {
 		table.per_page = parseInt( Redirectioni10n.per_page, 10 );
 	}
@@ -96,3 +103,4 @@ export const clearSelected = state => {
 
 export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );
 export const setTableAllSelected = ( table, rows, onoff ) => ( { ... table, selected: onoff ? rows.map( item => item.id ) : [] } );
+export const tableKey = ( { filterBy, filter } ) => [ filterBy, filter ].join( '-' );

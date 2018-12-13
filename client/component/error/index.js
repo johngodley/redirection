@@ -12,9 +12,10 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
+import Select from 'component/select';
 import { clearErrors } from 'state/message/action';
-import Select from 'component/wordpress/select';
-import { restApi } from 'component/options/options-form';
+import { restApi } from 'page/options/options-form';
+import './style.scss';
 
 class Error extends React.Component {
 	constructor( props ) {
@@ -99,6 +100,7 @@ class Error extends React.Component {
 
 	getErrorMessage( errors ) {
 		console.log( errors );
+
 		const messages = errors.map( item => {
 			if ( item.action && item.action === 'reload' ) {
 				if ( document.location.search.indexOf( 'retry=' ) === -1 ) {
@@ -179,7 +181,7 @@ class Error extends React.Component {
 					<li>
 						{ __( 'If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:' ) }
 						<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-							REST API: <Select items={ restApi } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
+							REST API: <Select items={ restApi() } name="rest_api" value={ this.state.rest_api } onChange={ this.onChange } />
 
 							<input type="submit" className="button-secondary" value={ __( 'Save' ) } />
 							<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />

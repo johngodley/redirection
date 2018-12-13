@@ -8,7 +8,11 @@ import * as qs from 'querystring';
 const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support' ];
 
 export function setPageUrl( query, defaults ) {
-	history.pushState( {}, null, getWordPressUrl( query, defaults ) );
+	const url = getWordPressUrl( query, defaults );
+
+	if ( document.location.search !== url ) {
+		history.pushState( {}, null, url );
+	}
 }
 
 export function getPageUrl( query ) {
@@ -45,4 +49,8 @@ export function getPluginPage( url ) {
 
 export function getRssUrl() {
 	return Redirectioni10n.pluginRoot + '&sub=rss&module=1&token=' + Redirectioni10n.token;
+}
+
+export function getServerUrl( domain, path ) {
+	return domain.replace( /\/$/, '' ) + '/' + path.replace( /^\//, '' );
 }

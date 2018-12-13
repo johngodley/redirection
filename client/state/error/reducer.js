@@ -31,7 +31,7 @@ export default function log( state = {}, action ) {
 			return { ... state, rows: setRows( state, action ), total: setTotal( state, action ), saving: removeSaving( state, action ) };
 
 		case ERROR_LOADING:
-			return { ... state, table: setTable( state, action ), status: STATUS_IN_PROGRESS, saving: [], logType: action.logType, requestCount: state.requestCount + 1 };
+			return { ... state, table: setTable( state, action ), status: STATUS_IN_PROGRESS, saving: [], requestCount: state.requestCount + 1 };
 
 		case ERROR_FAILED:
 			return { ... state, status: STATUS_FAILED, saving: [] };

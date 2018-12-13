@@ -12,6 +12,13 @@ import PropTypes from 'prop-types';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 
 class SearchBox extends React.Component {
+	static propTypes = {
+		table: PropTypes.object.isRequired,
+		status: PropTypes.string.isRequired,
+		onSearch: PropTypes.func.isRequired,
+		ignoreFilter: PropTypes.array,
+	};
+
 	constructor( props ) {
 		super( props );
 
@@ -26,12 +33,6 @@ class SearchBox extends React.Component {
 		}
 
 		return table.filter;
-	}
-
-	componentWillReceiveProps( nextProps ) {
-		if ( nextProps.table.filterBy !== this.props.table.filterBy || nextProps.table.filter !== this.props.table.filter ) {
-			this.setState( { search: this.getDefaultSearch( nextProps.table, nextProps.ignoreFilter ) } );
-		}
 	}
 
 	onChange( ev ) {
@@ -58,12 +59,5 @@ class SearchBox extends React.Component {
 		);
 	}
 }
-
-SearchBox.propTypes = {
-	table: PropTypes.object.isRequired,
-	status: PropTypes.string.isRequired,
-	onSearch: PropTypes.func.isRequired,
-	ignoreFilter: PropTypes.array,
-};
 
 export default SearchBox;

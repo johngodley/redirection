@@ -1,0 +1,93 @@
+@import "../../global";
+
+/**
+ * Delete button on options page
+ */
+.wp-core-ui .button-delete {
+	box-shadow: none;
+	text-shadow: none;
+
+	background-color: #ff3860;
+	border-color: transparent;
+	color: #fff;
+}
+
+.wp-core-ui .button-delete:hover {
+	background-color: #ff3860;
+	border-color: transparent;
+	box-shadow: none;
+	text-shadow: none;
+}
+
+/**
+ * An inline 'notice' message
+ */
+
+.inline-notice {
+	background: #fff;
+	border-left: 4px solid #fff;
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	margin: 5px 15px 2px;
+	padding: 1px 12px;
+    margin: 5px 0 15px;
+    border-left-color: #ffb900;
+
+	&.inline-general {
+		border-left-color: #46b450;
+	}
+}
+
+/**
+ * Adds a bit more space to the top of redirect 'add new' section
+ */
+
+.addTop {
+	margin-top: 20px;
+}
+
+/**
+ * Mobile version of stuff
+ */
+@media screen and (max-width: 782px) {
+	.newsletter form {
+		input[type=email] {
+			display: block;
+			width: 100%;
+			margin: 5px 0px;
+		}
+	}
+
+	.import {
+		select {
+			width: 100%;
+			margin: 5px 0px;
+		}
+	}
+
+	.plugin-importer button {
+		width: 100%;
+	}
+
+	p.search-box input[name="s"] {
+		margin-top: 20px;
+	}
+}
+
+/**
+ * Import/export page
+ */
+
+.module-export {
+	border: 1px solid #ddd;
+	padding: 5px;
+	font-family: $monospace;
+	margin-top: 15px;
+	width: 100%;
+	background-color: white !important;
+}
+
+.redirects {
+	a.advanced {
+		text-decoration: none;
+	}
+}

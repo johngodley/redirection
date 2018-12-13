@@ -1,0 +1,70 @@
+@import "../../global";
+
+.redirection-geomap {
+	padding-bottom: 10px;
+	width: 100%;
+	position: relative;
+
+	.redirection-geomap_full {
+		height: 600px;
+	}
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: $gray-lightest;
+		height: 450px;
+		max-height: 90%;
+	}
+
+	table {
+		background-color: $white;
+		padding: 10px;
+		padding-bottom: 30px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		height: 130px;
+		width: 100%;
+	}
+
+	table th,
+	table td {
+		padding: 0;
+	}
+
+	table th {
+		font-weight: bold;
+		text-align: left;
+		width: 150px;
+	}
+
+	table td {
+		text-align: left;
+	}
+
+	h2 {
+		line-height: 1;
+		margin: 0;
+		padding-bottom: 10px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.redirection-modal_main .redirection-geomap {
+		iframe {
+			height: 255px;
+		}
+
+		.redirection-geomap_full {
+			height: 400px !important;
+		}
+	}
+}
+
+.redirection-geomap_small {
+	height: 100px;
+	padding-top: 20px;
+}

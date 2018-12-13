@@ -189,7 +189,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$this->createAB();
 		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
-		$result = $this->callApi( 'redirect/'.$redirect->get_id(), array( 'url' => '/cats', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ), 'POST' );
+		$result = $this->callApi( 'redirect/' . $redirect->get_id(), array( 'url' => '/cats', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ), 'POST' );
 		$redirect = Red_Item::get_by_id( $redirect->get_id() );
 
 		$this->assertEquals( '/cats', $redirect->get_url() );
@@ -198,13 +198,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 	public function testCreateBadRedirect() {
 		$this->createAB();
 
-		$result = $this->callApi( 'redirect', array(), 'POST' );
-		$this->assertEquals( 400, $result->status );
-
 		$result = $this->callApi( 'redirect', array( 'group_id' => 5, 'url' => 'yes', 'match_type' => 'url', 'action_type' => 'url' ), 'POST' );
-		$this->assertEquals( 400, $result->status );
-
-		$result = $this->callApi( 'redirect', array( 'group_id' => $this->group->get_id(), 'match_type' => 'url', 'action_type' => 'url' ), 'POST' );
 		$this->assertEquals( 400, $result->status );
 	}
 

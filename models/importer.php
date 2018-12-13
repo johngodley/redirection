@@ -8,7 +8,7 @@ class Red_Plugin_Importer {
 			'wp-simple-redirect',
 			'seo-redirection',
 			'safe-redirect-manager',
-			'wordpress-old-slugs'
+			'wordpress-old-slugs',
 		);
 
 		foreach ( $importers as $importer ) {
@@ -99,9 +99,10 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		global $wpdb;
 
 		$count = 0;
-		$sql = "SELECT wp_postmeta.* FROM wp_postmeta INNER JOIN wp_posts ON wp_posts.ID=wp_postmeta.post_id WHERE wp_postmeta.meta_key = '_wp_old_slug' AND wp_posts.post_status='publish' AND wp_posts.post_type IN ('page', 'post')";
-		$sql = str_replace( 'wp_', $wpdb->prefix, $sql );
-		$redirects = $wpdb->get_results( $sql );
+		$redirects = $wpdb->get_results(
+			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id " .
+			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+		);
 
 		foreach ( $redirects as $redirect ) {
 			$item = $this->create_for_item( $group_id, $redirect );
@@ -120,8 +121,9 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 			return false;
 		}
 
-		$new = parse_url( $new, PHP_URL_PATH );
-		$old = dirname( $new ).'/'.$redirect->meta_value;
+		$new = wp_parse_url( $new, PHP_URL_PATH );
+		$old = rtrim( dirname( $new ), '/' ) . '/' . rtrim( $redirect->meta_value, '/' ) . '/';
+		$old = str_replace( '\\', '', $old );
 
 		$data = array(
 			'url'         => $old,
@@ -139,9 +141,9 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 	public function get_data() {
 		global $wpdb;
 
-		$sql = "SELECT COUNT(*) FROM wp_postmeta INNER JOIN wp_posts ON wp_posts.ID=wp_postmeta.post_id WHERE wp_postmeta.meta_key = '_wp_old_slug' AND wp_posts.post_status='publish' AND wp_posts.post_type IN ('page', 'post')";
-		$sql = str_replace( 'wp_', $wpdb->prefix, $sql );
-		$total = $wpdb->get_var( $sql );
+		$total = $wpdb->get_var(
+			"SELECT COUNT(*) FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+		);
 
 		if ( $total ) {
 			return array(
@@ -223,9 +225,9 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 		global $wpdb;
 
 		$count = 0;
-		$sql = "SELECT wp_postmeta.* FROM wp_postmeta INNER JOIN wp_posts ON wp_posts.ID=wp_postmeta.post_id WHERE wp_postmeta.meta_key LIKE '_redirect_rule_%' AND wp_posts.post_status='publish'";
-		$sql = str_replace( 'wp_', $wpdb->prefix, $sql );
-		$redirects = $wpdb->get_results( $sql );
+		$redirects = $wpdb->get_results(
+			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key LIKE '_redirect_rule_%' AND {$wpdb->prefix}posts.post_status='publish'"
+		);
 
 		// Group them by post ID
 		$by_post = array();
@@ -256,7 +258,7 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 		if ( strpos( $post['from'], '*' ) !== false ) {
 			$regex = true;
 			$source = str_replace( '*', '.*', $source );
-		} else if ( isset( $post['from_regex'] ) && $post['from_regex'] === '1' ) {
+		} elseif ( isset( $post['from_regex'] ) && $post['from_regex'] === '1' ) {
 			$regex = true;
 		}
 
@@ -276,10 +278,9 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 	public function get_data() {
 		global $wpdb;
 
-		$sql = "SELECT COUNT(*) FROM wp_postmeta INNER JOIN wp_posts ON wp_posts.ID=wp_postmeta.post_id WHERE wp_postmeta.meta_key = '_redirect_rule_from' AND wp_posts.post_status='publish'";
-		$sql = str_replace( 'wp_', $wpdb->prefix, $sql );
-
-		$total = $wpdb->get_var( $sql );
+		$total = $wpdb->get_var(
+			"SELECT COUNT(*) FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key = '_redirect_rule_from' AND {$wpdb->prefix}posts.post_status='publish'"
+		);
 
 		if ( $total ) {
 			return array(

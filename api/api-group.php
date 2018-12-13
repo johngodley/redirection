@@ -80,9 +80,9 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 				if ( $group ) {
 					if ( $action === 'delete' ) {
 						$group->delete();
-					} else if ( $action === 'disable' ) {
+					} elseif ( $action === 'disable' ) {
 						$group->disable();
-					} else if ( $action === 'enable' ) {
+					} elseif ( $action === 'enable' ) {
 						$group->enable();
 					}
 				}

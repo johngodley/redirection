@@ -62,7 +62,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( substr( $title, 0, 500 ), $result['title'] );
 	}
 
-	public function testBadUrl() {
+	public function testEmptyUrl() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '' ) ) );
 		$this->assertWPError( $result );
 	}
@@ -87,10 +87,10 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 	public function testBadRedirectCode() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'action_code' => 'cat' ) ) );
-		$this->assertEquals( 0, $result['action_code'] );
+		$this->assertEquals( 301, $result['action_code'] );
 
 		$result = $this->sanitizer->get( $this->get_new( array( 'action_code' => '404' ) ) );
-		$this->assertEquals( 0, $result['action_code'] );
+		$this->assertEquals( 301, $result['action_code'] );
 	}
 
 	public function testGoodRedirectCode() {
@@ -100,7 +100,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 	public function testBadErrorCode() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'action_code' => '301', 'action_type' => 'error' ) ) );
-		$this->assertEquals( 0, $result['action_code'] );
+		$this->assertEquals( 404, $result['action_code'] );
 	}
 
 	public function testGoodErrorCode() {

@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname( __FILE__).'/url.php';
+include_once dirname( __FILE__ ) . '/url.php';
 
 class Random_Action extends Url_Action {
 	public function process_before( $code, $target ) {

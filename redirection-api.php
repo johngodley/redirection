@@ -101,8 +101,6 @@ class Redirection_Api {
 	static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new Redirection_Api();
-
-			load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
 		}
 
 		return self::$instance;

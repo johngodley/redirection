@@ -13,11 +13,16 @@ export const MATCH_HEADER = 'header';
 export const MATCH_CUSTOM = 'custom';
 export const MATCH_ROLE = 'role';
 export const MATCH_SERVER = 'server';
+export const MATCH_IP = 'ip';
+export const MATCH_PAGE = 'page';
+
+export const CODE_PASS = 'pass';
+export const CODE_NOTHING = 'nothing';
 
 export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
 
 export const getActionData = state => {
-	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom, role, server } = state;
+	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom, role, server, ip, page } = state;
 
 	if ( match_type === MATCH_COOKIE ) {
 		return {
@@ -81,6 +86,14 @@ export const getActionData = state => {
 		};
 	}
 
+	if ( match_type === MATCH_IP ) {
+		return {
+			ip: ip.ip,
+			url_from: hasUrlTarget( action_type ) ? ip.url_from : '',
+			url_notfrom: hasUrlTarget( action_type ) ? ip.url_notfrom : '',
+		};
+	}
+
 	if ( match_type === MATCH_LOGIN && hasUrlTarget( action_type ) ) {
 		return {
 			logged_in: login.logged_in,
@@ -91,6 +104,13 @@ export const getActionData = state => {
 	if ( match_type === MATCH_URL && hasUrlTarget( action_type ) ) {
 		return {
 			url: target.url,
+		};
+	}
+
+	if ( match_type === MATCH_PAGE && hasUrlTarget( action_type ) ) {
+		return {
+			page: page.page,
+			url: hasUrlTarget( action_type ) ? page.url : '',
 		};
 	}
 

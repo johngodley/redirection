@@ -57,15 +57,15 @@ class RedirectTest extends WP_UnitTestCase {
 		$disabledGroup = Red_Group::create( 'group', 1 );
 		$disabledGroup->disable();
 
-		$item1 = $this->createRedirect( array( 'url' => 'url1' ) );
-		$item2 = $this->createRedirect( array( 'url' => 'url2' ) );
+		$item1 = $this->createRedirect( array( 'url' => '/url1' ) );
+		$item2 = $this->createRedirect( array( 'url' => '/url2' ) );
 		$item3 = $this->createRedirect( array( 'url' => 'url3', 'group_id' => $disabledGroup->get_id() ) );
 
 		$items = Red_Item::get_all_for_module( 1 );
 
 		$this->assertEquals( 2, count( $items ) );
-		$this->assertEquals( 'url1', $items[ 0 ]->get_url() );
-		$this->assertEquals( 'url2', $items[ 1 ]->get_url() );
+		$this->assertEquals( '/url1', $items[ 0 ]->get_url() );
+		$this->assertEquals( '/url2', $items[ 1 ]->get_url() );
 	}
 
 	public function testGetForUrlNone() {
@@ -111,8 +111,8 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testDisableMatches() {
-		$item = $this->createRedirect( array( 'url' => 'cats' ) );
-		Red_Item::disable_where_matches( 'cats' );
+		$item = $this->createRedirect( array( 'url' => '/cats' ) );
+		Red_Item::disable_where_matches( '/cats' );
 		$item = Red_Item::get_by_id( $item->get_id() );
 		$this->assertFalse( $item->is_enabled() );
 	}

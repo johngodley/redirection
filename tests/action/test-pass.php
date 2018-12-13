@@ -1,16 +1,6 @@
 <?php
 
 class PassTest extends WP_UnitTestCase {
-	public function testIsFile() {
-		$action = Red_Action::create( 'pass', 1 );
-		$this->assertTrue( $action->is_file( 'file://something' ) );
-	}
-
-	public function testIsNotFile() {
-		$action = Red_Action::create( 'pass', 1 );
-		$this->assertFalse( $action->is_file( 'x://something' ) );
-	}
-
 	public function testIsExternal() {
 		$action = Red_Action::create( 'pass', 1 );
 		$this->assertTrue( $action->is_external( 'http://something' ) );
@@ -26,7 +16,7 @@ class PassTest extends WP_UnitTestCase {
 		$action = Red_Action::create( 'pass', 1 );
 
  		ob_start();
-		$action->process_file( 'file://' . dirname( __FILE__ ).'/fixtures/file-pass.php' );
+		$action->process_file( 'file://' . dirname( __FILE__ ) . '/fixtures/file-pass.php' );
 		$file = ob_get_contents();
 		ob_end_clean();
 

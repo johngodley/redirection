@@ -11,8 +11,9 @@ import PropTypes from 'prop-types';
  */
 import { getPluginPage } from 'lib/wordpress-url';
 import MenuItem from './menu-item';
+import './style.scss';
 
-const MENU = [
+const getMenu = () => [
 	{
 		name: __( 'Redirects' ),
 		value: '',
@@ -51,7 +52,7 @@ const Menu = props => {
 		<div className="subsubsub-container">
 			<ul className="subsubsub">
 				{
-					MENU
+					getMenu()
 						.map( ( item, pos ) => <MenuItem key={ pos } item={ item } isCurrent={ page === item.value || page === 'redirect' && item.value === '' } onClick={ onChangePage } /> )
 						.reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
 				}

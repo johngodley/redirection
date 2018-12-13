@@ -14,6 +14,7 @@ import { getPageUrl } from 'lib/wordpress-url';
 
 const NEW_TABLE = {
 	orderby: 'name',
+	groupBy: '',
 	direction: 'desc',
 	page: 0,
 	per_page: 25,
@@ -30,7 +31,7 @@ const DEFAULT_ROWS = [
 	},
 	{
 		id: 3,
-	}
+	},
 ];
 global.Redirectioni10n = {
 	per_page: 25,
@@ -109,7 +110,7 @@ describe( 'tables', () => {
 	test( 'getDefaultTable doesnt allow overriding when not on query page', () => {
 		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
 
-		const table = getDefaultTable( [], [], 'name', 'page' );
+		const table = getDefaultTable( [], [], [], 'name', 'page' );
 
 		expect( table ).toEqual( NEW_TABLE );
 	} );
@@ -117,7 +118,7 @@ describe( 'tables', () => {
 	test( 'getDefaultTable returns default with query override when on page', () => {
 		getPageUrl.mockReturnValueOnce( { sub: 'page', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
 
-		const table = getDefaultTable( [ 'other' ], [ 'filter' ], 'name', [ 'page' ] );
+		const table = getDefaultTable( [ 'other' ], [ 'filter' ], [], 'name', [ 'page' ] );
 
 		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, filterBy: 'filter', filter: 'monkey' } ) );
 	} );

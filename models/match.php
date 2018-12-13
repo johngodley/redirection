@@ -1,10 +1,16 @@
 <?php
 
 abstract class Red_Match {
+	protected $type;
+
 	public function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->load( $values );
 		}
+	}
+
+	public function get_type() {
+		return $this->type;
 	}
 
 	abstract public function save( array $details, $no_target_url = false );
@@ -36,7 +42,9 @@ abstract class Red_Match {
 				include( dirname( __FILE__ ) . '/../matches/' . $avail[ strtolower( $name ) ] );
 			}
 
-			return new $classname( $data );
+			$class = new $classname( $data );
+			$class->type = $name;
+			return $class;
 		}
 
 		return false;
@@ -65,6 +73,46 @@ abstract class Red_Match {
 			'cookie'   => 'cookie.php',
 			'role'     => 'user-role.php',
 			'server'   => 'server.php',
+			'ip'       => 'ip.php',
+			'page'     => 'page.php',
+		);
+	}
+}
+
+trait FromUrl_Match {
+	public $url;
+
+	private function save_data( array $details, $no_target_url, array $data ) {
+		if ( $no_target_url === false ) {
+			return array_merge( array(
+				'url' => isset( $details['url'] ) ? $this->sanitize_url( $details['url'] ) : '',
+			), $data );
+		}
+
+		return $data;
+	}
+
+	private function get_matched_target( $matched ) {
+		if ( $matched ) {
+			return $this->url;
+		}
+
+		return false;
+	}
+
+	private function load_data( $values ) {
+		$values = unserialize( $values );
+
+		if ( isset( $values['url'] ) ) {
+			$this->url = $values['url'];
+		}
+
+		return $values;
+	}
+
+	private function get_from_data() {
+		return array(
+			'url' => $this->url,
 		);
 	}
 }

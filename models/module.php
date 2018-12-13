@@ -1,13 +1,14 @@
 <?php
 
-include_once dirname( dirname( __FILE__ ) ).'/modules/wordpress.php';
-include_once dirname( dirname( __FILE__ ) ).'/modules/apache.php';
-include_once dirname( dirname( __FILE__ ) ).'/modules/nginx.php';
+include_once dirname( dirname( __FILE__ ) ) . '/modules/wordpress.php';
+include_once dirname( dirname( __FILE__ ) ) . '/modules/apache.php';
+include_once dirname( dirname( __FILE__ ) ) . '/modules/nginx.php';
 
 abstract class Red_Module {
 	public function __construct( $options ) {
-		if ( is_array( $options ) )
+		if ( is_array( $options ) ) {
 			$this->load( $options );
+		}
 	}
 
 	static function get( $id ) {
@@ -16,9 +17,9 @@ abstract class Red_Module {
 
 		if ( $id === Apache_Module::MODULE_ID ) {
 			return new Apache_Module( isset( $options['modules'][ Apache_Module::MODULE_ID ] ) ? $options['modules'][ Apache_Module::MODULE_ID ] : array() );
-		} else if ( $id === WordPress_Module::MODULE_ID ) {
+		} elseif ( $id === WordPress_Module::MODULE_ID ) {
 			return new WordPress_Module( isset( $options['modules'][ WordPress_Module::MODULE_ID ] ) ? $options['modules'][ WordPress_Module::MODULE_ID ] : array() );
-		} else if ( $id === Nginx_Module::MODULE_ID ) {
+		} elseif ( $id === Nginx_Module::MODULE_ID ) {
 			return new Nginx_Module( isset( $options['modules'][ Nginx_Module::MODULE_ID ] ) ? $options['modules'][ Nginx_Module::MODULE_ID ] : array() );
 		}
 

@@ -13,6 +13,7 @@ const config = require( './.config.json' ); // Local config
 const crypto = require( 'crypto' );
 const through = require( 'through2' );
 const he = require( 'he' );
+const download = require( 'download' );
 const pkg = require( './package.json' );
 
 const LOCALE_PERCENT_COMPLETE = 40;
@@ -43,16 +44,12 @@ const SVN_SOURCE_FILES = [
 function downloadLocale( locale, wpName, type ) {
 	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
 
-	request( url, ( error, response, body ) => {
-		if ( error || response.statusCode !== 200 ) {
-			console.error( 'Failed to download locale from ' + url, error );
-			return;
-		}
-
-		const target = path.join( 'locale', 'redirection-' + wpName + '.' + type );
-
-		fs.writeFileSync( target, body, 'utf8' );
-	} );
+	download( url, 'locale', {
+		filename: 'redirection-' + wpName + '.' + type,
+	} )
+		.catch( e => {
+			console.error( 'Failed to download: ' + url, e );
+		} );
 }
 
 gulp.task( 'pot', [ 'pot:download', 'pot:extract', 'pot:generate', 'pot:json' ] );
@@ -177,13 +174,13 @@ const copyPlugin = ( target, cb ) => gulp.src( SVN_SOURCE_FILES )
 		}
 	} );
 
-gulp.task( 'svn', () => copyPlugin( config.svn_target ) );
+gulp.task( 'svn', () => copyPlugin( config.svn_target, () => console.log( 'SVN exported to ' + config.svn_target ) ) );
 
 gulp.task( 'export', () => {
 	const zipTarget = path.resolve( config.export_target, '..' );
 	const zipName = 'redirection-' + pkg.version + '.zip';
 
-	console.log( 'Exporting: ' + zipName );
+	console.log( 'Exporting: ' + zipName + ' to ' + config.export_target );
 
 	return copyPlugin( config.export_target, () => {
 		return gulp.src( config.export_target + '/**', { base: path.join( config.export_target, '..' ) } )

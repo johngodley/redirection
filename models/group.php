@@ -3,19 +3,17 @@
 class Red_Group {
 	private $items = 0;
 	private $name;
-	private $tracking;
 	private $module_id;
 	private $status;
 	private $position;
 
-	public function __construct( $values = ''  ) {
+	public function __construct( $values = '' ) {
 		if ( is_object( $values ) ) {
-			foreach ( $values as $key => $value ) {
-			 	$this->$key = $value;
-			}
-
-			$this->id = intval( $this->id, 10 );
-			$this->module_id = intval( $this->module_id, 10 );
+			$this->name = $values->name;
+			$this->module_id = intval( $values->module_id, 10 );
+			$this->status = $values->status;
+			$this->id = intval( $values->id, 10 );
+			$this->position = intval( $values->position, 10 );
 		}
 	}
 
@@ -107,7 +105,7 @@ class Red_Group {
 				'position'  => intval( $position ),
 			);
 
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', $data );
+			$wpdb->insert( $wpdb->prefix . 'redirection_groups', $data );
 
 			return Red_Group::get( $wpdb->insert_id );
 		}
@@ -125,7 +123,7 @@ class Red_Group {
 			$this->module_id = intval( $data['moduleId'], 10 );
 		}
 
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'name' => $this->name, 'module_id' => $this->module_id ), array( 'id' => intval( $this->id ) ) );
+		$wpdb->update( $wpdb->prefix . 'redirection_groups', array( 'name' => $this->name, 'module_id' => $this->module_id ), array( 'id' => intval( $this->id ) ) );
 
 		if ( $old_id !== $this->module_id ) {
 			Red_Module::flush_by_module( $old_id );
@@ -146,8 +144,9 @@ class Red_Group {
 		// Delete the group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $this->id ) );
 
-		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) === 0 )
-			$wpdb->insert( $wpdb->prefix.'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
+		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) === 0 ) {
+			$wpdb->insert( $wpdb->prefix . 'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
+		}
 	}
 
 	public function get_total_redirects() {
@@ -159,8 +158,8 @@ class Red_Group {
 	public function enable() {
 		global $wpdb;
 
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'status' => 'enabled' ), array( 'id' => $this->id ) );
-		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'enabled' ), array( 'group_id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix . 'redirection_groups', array( 'status' => 'enabled' ), array( 'id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => 'enabled' ), array( 'group_id' => $this->id ) );
 
 		Red_Module::flush( $this->id );
 	}
@@ -168,8 +167,8 @@ class Red_Group {
 	public function disable() {
 		global $wpdb;
 
-		$wpdb->update( $wpdb->prefix.'redirection_groups', array( 'status' => 'disabled' ), array( 'id' => $this->id ) );
-		$wpdb->update( $wpdb->prefix.'redirection_items', array( 'status' => 'disabled' ), array( 'group_id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix . 'redirection_groups', array( 'status' => 'disabled' ), array( 'id' => $this->id ) );
+		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => 'disabled' ), array( 'group_id' => $this->id ) );
 
 		Red_Module::flush( $this->id );
 	}
@@ -197,9 +196,9 @@ class Red_Group {
 
 		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 ) {
 			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'module' ) {
-				$where = $wpdb->prepare( "WHERE module_id=%d", intval( $params['filter'], 10 ) );
+				$where = $wpdb->prepare( 'WHERE module_id=%d', intval( $params['filter'], 10 ) );
 			} else {
-				$where = $wpdb->prepare( 'WHERE name LIKE %s', '%'.$wpdb->esc_like( trim( $params['filter'] ) ).'%' );
+				$where = $wpdb->prepare( 'WHERE name LIKE %s', '%' . $wpdb->esc_like( trim( $params['filter'] ) ) . '%' );
 			}
 		}
 
@@ -215,11 +214,10 @@ class Red_Group {
 			$offset *= $limit;
 		}
 
-		$table = $wpdb->prefix.'redirection_groups';
-		$sql = trim( "SELECT * FROM {$table} $where " ).$wpdb->prepare( " ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit );
-
-		$rows = $wpdb->get_results( $sql );
-		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$table} ".$where ) );
+		$rows = $wpdb->get_results(
+			"SELECT * FROM {$wpdb->prefix}redirection_groups $where " . $wpdb->prepare( "ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit )
+		);
+		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups " . $where ) );
 		$items = array();
 
 		$options = red_get_options();
