@@ -21,10 +21,10 @@ class URL_Match extends Red_Match {
 		return $this->sanitize_url( $data );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$target = $this->url;
-		if ( $regex ) {
-			$target = $this->get_target_regex_url( $matched_url, $this->url, $url );
+		if ( $flags->is_regex() ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		if ( $target === '' ) {

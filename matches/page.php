@@ -19,15 +19,15 @@ class Page_Match extends Red_Match {
 		return '404';
 	}
 
-	public function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		if ( ! is_404() ) {
 			return false;
 		}
 
 		$target = $this->get_matched_target( true );
 
-		if ( $regex && $target ) {
-			return $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

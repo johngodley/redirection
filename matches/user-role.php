@@ -20,7 +20,7 @@ class Role_Match extends Red_Match {
 		return $data;
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		// Check if referrer matches
 		$matched = current_user_can( $this->role );
 

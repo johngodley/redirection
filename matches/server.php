@@ -29,13 +29,13 @@ class Server_Match extends Red_Match {
 		return '';
 	}
 
-	public function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$server = wp_parse_url( $this->server, PHP_URL_HOST );
 		$matched = $server === Redirection_Request::get_server_name();
 		$target = $this->get_matched_target( $matched );
 
-		if ( $regex && $target ) {
-			return $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;
