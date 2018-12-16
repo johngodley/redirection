@@ -32,11 +32,11 @@ class UrlMatchTest extends WP_UnitTestCase {
 
 	public function testTarget() {
 		$match = new URL_Match( '/something' );
-		$this->assertEquals( '/something', $match->get_target( '/a', '/b', false ) );
+		$this->assertEquals( '/something', $match->get_target( '/a', '/b', new Red_Source_Flags() ) );
 	}
 
 	public function testRegexTarget() {
 		$match = new URL_Match( '/other/$1' );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
 	}
 }

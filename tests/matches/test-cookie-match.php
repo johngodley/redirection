@@ -9,7 +9,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 			'url_from' => '/some/url',
 			'url_notfrom' => '/some/url',
 			'regex' => false,
-			'name' => "thisisits-_",
+			'name' => 'thisisits-_',
 			'value' => 'value',
 		);
 		$source = array(
@@ -44,7 +44,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -52,7 +52,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -60,7 +60,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -68,7 +68,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -76,7 +76,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'nothing', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -84,7 +84,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'nothing|other|cat';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'cat', 'regex' => true, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		unset( $_COOKIE['cookie'] );
 	}
 
@@ -92,7 +92,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 		$_COOKIE['cookie'] = 'cat';
 
 		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'cat', 'regex' => false, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
 		unset( $_COOKIE['cookie'] );
 	}
 }

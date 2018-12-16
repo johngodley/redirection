@@ -49,20 +49,20 @@ class PageMatchTest extends WP_UnitTestCase {
 		$this->set_404( true );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/target' ) ) );
-		$this->assertEquals( '/target', $match->get_target( '/cat', '/cat', false ) );
+		$this->assertEquals( '/target', $match->get_target( '/cat', '/cat', new Red_Source_Flags() ) );
 	}
 
 	public function test404UrlRegex() {
 		$this->set_404( true );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/from$1' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', true ) );
+		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
 	}
 
 	public function testNot404Url() {
 		$this->set_404( false );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/cat' ) ) );
-		$this->assertEquals( false, $match->get_target( '/cat', '/cat', false ) );
+		$this->assertEquals( false, $match->get_target( '/cat', '/cat', new Red_Source_Flags() ) );
 	}
 }
