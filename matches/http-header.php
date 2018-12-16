@@ -38,12 +38,13 @@ class Header_Match extends Red_Match {
 		return $this->sanitize_url( $value );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$target = false;
 		$matched = Redirection_Request::get_header( $this->name ) === $this->value;
 
 		if ( $this->regex ) {
-			$matched = preg_match( '@' . str_replace( '@', '\\@', $this->value ) . '@', Redirection_Request::get_header( $this->name ), $matches ) > 0;
+			$regex = new Red_Regex( $this->value, true );
+			$matched = $regex->is_match( Redirection_Request::get_header( $this->name ) );
 		}
 
 		// Check if referrer matches
@@ -53,8 +54,8 @@ class Header_Match extends Red_Match {
 			$target = $this->url_notfrom;
 		}
 
-		if ( $regex && $target ) {
-			$target = $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

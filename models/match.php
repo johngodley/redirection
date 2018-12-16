@@ -15,7 +15,7 @@ abstract class Red_Match {
 
 	abstract public function save( array $details, $no_target_url = false );
 	abstract public function name();
-	abstract public function get_target( $url, $matched_url, $regex );
+	abstract public function get_target( $url, $matched_url, Red_Source_Flags $flag );
 	abstract public function get_data();
 	abstract public function load( $values );
 
@@ -29,8 +29,10 @@ abstract class Red_Match {
 		return $url;
 	}
 
-	protected function get_target_regex_url( $matched_url, $target, $url ) {
-		return preg_replace( '@' . str_replace( '@', '\\@', $matched_url ) . '@', $target, $url );
+	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
+		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
+
+		return $regex->replace( $target_url, $requested_url );
 	}
 
 	static function create( $name, $data = '' ) {

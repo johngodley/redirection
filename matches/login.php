@@ -19,7 +19,7 @@ class Login_Match extends Red_Match {
 		);
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$target = false;
 
 		if ( is_user_logged_in() && $this->logged_in !== '' ) {
@@ -28,8 +28,8 @@ class Login_Match extends Red_Match {
 			$target = $this->logged_out;
 		}
 
-		if ( $regex && $target ) {
-			$target = $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;
