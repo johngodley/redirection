@@ -91,6 +91,10 @@ class DatabaseTester {
 			// Insert numeric IPs
 			$wpdb->insert( $wpdb->prefix . 'redirection_404', array( 'ip' => ip2long( '192.168.1.1' ) ) );
 			$wpdb->insert( $wpdb->prefix . 'redirection_404', array( 'ip' => ip2long( '203.168.1.5' ) ) );
+		} elseif ( $ver === '3.9' ) {
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/TEST/?thing=cat' ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/' ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/.*', 'regex' => 1 ) );
 		}
 	}
 
@@ -102,6 +106,14 @@ class DatabaseTester {
 			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_404" );
 			$unit->assertEquals( '192.168.1.1', $rows[0]->ip );
 			$unit->assertEquals( '203.168.1.5', $rows[1]->ip );
+		} elseif ( $ver === '3.9' ) {
+			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
+			$unit->assertEquals( '/TEST/?thing=cat', $rows[0]->url );
+			$unit->assertEquals( '/test', $rows[0]->match_url );
+			$unit->assertEquals( '/', $rows[1]->url );
+			$unit->assertEquals( '/', $rows[1]->match_url );
+			$unit->assertEquals( '/.*', $rows[2]->url );
+			$unit->assertEquals( 'regex', $rows[2]->match_url );
 		}
 	}
 }
@@ -283,6 +295,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$tester = new DatabaseTester();
 
 		$versions = array(
+			'3.9',    // => 4.0
 			'2.3.4',  // => 2.4
 			'2.3.2',  // => 2.3.3
 			'2.3.1.1',  // => 2.3.2
