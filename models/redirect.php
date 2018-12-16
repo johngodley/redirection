@@ -1,9 +1,14 @@
 <?php
 
+include_once dirname( __FILE__ ) . '/url.php';
+include_once dirname( __FILE__ ) . '/regex.php';
 include_once dirname( __FILE__ ) . '/redirect-sanitizer.php';
+
 class Red_Item {
-	private $id    = null;
-	private $url   = null;
+	private $id  = null;
+	private $url = null;
+	private $match_url = null;
+	private $match_data = null;
 	private $regex = false;
 	private $action_data = null;
 	private $action_code = 0;
@@ -16,44 +21,59 @@ class Red_Item {
 	private $position;
 	private $group_id;
 
-	function __construct( $values, $type = '', $match = '' ) {
+	public $source_flags = false;
+
+	function __construct( $values = null ) {
 		if ( is_object( $values ) ) {
 			$this->load_from_data( $values );
-
-			if ( $this->last_access === '0000-00-00 00:00:00' ) {
-				$this->last_access = 0;
-			} else {
-				$this->last_access = mysql2date( 'U', $this->last_access );
-			}
 		}
 	}
 
 	private function load_from_data( stdClass $values ) {
 		foreach ( $values as $key => $value ) {
-			$this->$key = $value;
-		}
-
-		if ( $this->match_type === '' ) {
-			$this->match_type = 'url';
+			if ( property_exists( $this, $key ) ) {
+				$this->$key = $value;
+			}
 		}
 
 		$this->regex = (bool) $this->regex;
-		$this->match              = Red_Match::create( $this->match_type, $this->action_data );
-		$this->match->id          = $this->id;
-		$this->match->action_code = $this->action_code;
+		$this->last_access = $this->last_access === '0000-00-00 00:00:00' ? 0 : mysql2date( 'U', $this->last_access );
 
-		$action = false;
+		$this->load_matcher();
+		$this->load_action();
+		$this->load_source_flags();
+	}
 
-		if ( $this->action_type ) {
-			$action = Red_Action::create( $this->action_type, $this->action_code );
+	// v4 JSON
+	private function load_source_flags() {
+		// Default regex flag to regex column. This will be removed once the regex column has been migrated
+		// todo: deprecate
+		$this->source_flags = new Red_Source_Flags( [ 'regex' => $this->regex ] );
+
+		if ( isset( $this->match_data ) ) {
+			$json = json_decode( $this->match_data, true );
+
+			if ( $json && isset( $json['source'] ) ) {
+				$this->source_flags->set_flags( $json['source'] );
+			}
+		}
+	}
+
+	private function load_matcher() {
+		if ( empty( $this->match_type ) ) {
+			$this->match_type = 'url';
 		}
 
-		if ( $action ) {
-			$this->action = $action;
-			$this->match->action = $this->action;
-		} else {
-			$this->action = Red_Action::create( 'nothing', 0 );
+		$this->match = Red_Match::create( $this->match_type, $this->action_data );
+	}
+
+	private function load_action() {
+		if ( empty( $this->action_type ) ) {
+			$this->action_type = 'nothing';
 		}
+
+		$this->action = Red_Action::create( $this->action_type, $this->action_code );
+		$this->match->action = $this->action;
 	}
 
 	static function get_all_for_module( $module ) {
@@ -79,6 +99,36 @@ class Red_Item {
 	}
 
 	static function get_for_url( $url ) {
+		$status = new Red_Database_Status();
+
+		// deprecate
+		if ( $status->does_support( '4.0' ) ) {
+			return self::get_for_matched_url( $url );
+		}
+
+		return self::get_old_url( $url );
+	}
+
+	static function get_for_matched_url( $url ) {
+		global $wpdb;
+
+		$url = new Red_Url_Match( $url );
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE match_url=%s OR match_url='regex'", $url->get_url() ) );
+
+		$items = array();
+		if ( count( $rows ) > 0 ) {
+			foreach ( $rows as $row ) {
+				$items[] = new Red_Item( $row );
+			}
+		}
+
+		usort( $items, array( 'Red_Item', 'sort_urls' ) );
+
+		return $items;
+	}
+
+	// deprecate
+	public static function get_old_url( $url ) {
 		global $wpdb;
 
 		$rows = $wpdb->get_results(
@@ -112,7 +162,11 @@ class Red_Item {
 		return $items;
 	}
 
-	static function get_all() {
+	static public function reduce_sorted_items( $item ) {
+		return $item['item'];
+	}
+
+	static public function get_all() {
 		global $wpdb;
 
 		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
@@ -125,16 +179,12 @@ class Red_Item {
 		return $items;
 	}
 
-	static function sort_urls( $first, $second ) {
-		if ( $first['position'] === $second['position'] ) {
+	public static function sort_urls( $first, $second ) {
+		if ( $first->position === $second->position ) {
 			return 0;
 		}
 
-		return ( $first['position'] < $second['position'] ) ? -1 : 1;
-	}
-
-	static function reduce_sorted_items( $item ) {
-		return $item['item'];
+		return ( $first->position < $second->position ) ? -1 : 1;
 	}
 
 	static function get_by_id( $id ) {
@@ -173,6 +223,8 @@ class Red_Item {
 		}
 
 		$data['status'] = 'enabled';
+
+		// todo: fix this mess
 		if ( ( isset( $details['enabled'] ) && ( $details['enabled'] === 'disabled' || $details['enabled'] === false ) ) || ( isset( $details['status'] ) && $details['status'] === 'disabled' ) ) {
 			$data['status'] = 'disabled';
 		}
@@ -182,6 +234,10 @@ class Red_Item {
 		}
 
 		$data = apply_filters( 'redirection_create_redirect', $data );
+
+		if ( ! empty( $data['match_data'] ) ) {
+			$data['match_data'] = json_encode( $data['match_data'] );
+		}
 
 		// Create
 		if ( $wpdb->insert( $wpdb->prefix . 'redirection_items', $data ) !== false ) {
@@ -213,6 +269,9 @@ class Red_Item {
 
 		// Save this
 		$data = apply_filters( 'redirection_update_redirect', $data );
+		if ( ! empty( $data['match_data'] ) ) {
+			$data['match_data'] = json_encode( $data['match_data'] );
+		}
 
 		$wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
 		do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
@@ -228,23 +287,27 @@ class Red_Item {
 		return true;
 	}
 
-	public function matches( $url ) {
+	/**
+	 * Determine if a requested URL matches this URL
+	 *
+	 * @param string $requested_url
+	 * @return bool true if matched, false otherwise
+	 */
+	public function matches( $requested_url ) {
 		if ( ! $this->is_enabled() ) {
 			return false;
 		}
 
-		$this->url = str_replace( ' ', '%20', $this->url );
-		$matches   = false;
-
-		// Check if we match the URL
-		if ( ( $this->regex === false && ( $this->url === $url || $this->url === rtrim( $url, '/' ) || $this->url === urldecode( $url ) ) ) || ( $this->regex === true && @preg_match( '@' . str_replace( '@', '\\@', $this->url ) . '@', $url, $matches ) > 0 ) || ( $this->regex === true && @preg_match( '@' . str_replace( '@', '\\@', $this->url ) . '@', urldecode( $url ), $matches ) > 0 ) ) {
+		$url = new Red_Url( $this->url );
+		if ( $url->is_match( $requested_url, $this->source_flags ) ) {
 			// Check if our match wants this URL
-			$target = $this->match->get_target( $url, $this->url, $this->regex );
+			$target = $this->match->get_target( $requested_url, $url->get_url(), $this->source_flags );
+			$target = Red_Url_Query::add_to_target( $target, $requested_url, $this->source_flags );
 			$target = apply_filters( 'redirection_url_target', $target, $this->url );
 			$target = $this->action->process_before( $this->action_code, $target );
 
 			if ( $target ) {
-				do_action( 'redirection_visit', $this, $url, $target );
+				do_action( 'redirection_visit', $this, $requested_url, $target );
 				return $this->action->process_after( $this->action_code, $target );
 			}
 		}
@@ -320,6 +383,14 @@ class Red_Item {
 
 	public function get_url() {
 		return $this->url;
+	}
+
+	public function get_match_url() {
+		return $this->match_url;
+	}
+
+	public function get_match_data() {
+		return $this->match_data;
 	}
 
 	public function get_title() {
@@ -413,6 +484,8 @@ class Red_Item {
 		return array(
 			'id' => $this->get_id(),
 			'url' => $this->get_url(),
+			'match_url' => $this->get_match_url(),
+			'match_data' => $this->get_match_data(),
 			'action_code' => $this->get_action_code(),
 			'action_type' => $this->get_action_type(),
 			'action_data' => $this->match->get_data(),
@@ -426,5 +499,4 @@ class Red_Item {
 			'enabled' => $this->is_enabled(),
 		);
 	}
-}
 }
