@@ -143,6 +143,11 @@ class Red_Database {
 				'file' => '240.php',
 				'class' => 'Red_Database_240',
 			],
+			[
+				'version' => '4.0',
+				'file' => '400.php',
+				'class' => 'Red_Database_400',
+			],
 		];
 	}
 }
