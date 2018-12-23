@@ -34,7 +34,7 @@ const getHeaders = () => [
 	},
 	{
 		name: 'url',
-		title: __( 'Source URL' ),
+		title: __( 'Source URL / Sent To / Matched Rule' ),
 		primary: true,
 	},
 	{

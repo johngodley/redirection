@@ -138,7 +138,8 @@ class LogRow extends React.Component {
 				</td>
 				<td className="column-primary column-url">
 					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink><br />
-					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
+					{ sent_to ? sent_to.substring( 0, 100 ) : '' }<br />
+					{ redirection_url }
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
