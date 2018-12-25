@@ -110,7 +110,7 @@ class LogRow extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip, referrer, url, agent, sent_to, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, sent_to, redirection_url, id } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
