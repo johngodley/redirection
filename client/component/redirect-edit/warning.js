@@ -75,7 +75,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	// Anchor
 	if ( isRegex( url ) && url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 ) {
 		warnings.push(
-			__( 'To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
+			__( 'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
 				components: {
 					code: <code />,
 				},
