@@ -70,14 +70,14 @@ class ServerMatchTest extends WP_UnitTestCase {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetUrl() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'http://server.com', 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetNotFrom() {

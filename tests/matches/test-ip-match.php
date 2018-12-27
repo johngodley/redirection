@@ -50,14 +50,14 @@ class IPMatchTest extends WP_UnitTestCase {
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.2' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetUrl() {
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetNotFrom() {

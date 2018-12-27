@@ -51,13 +51,17 @@ class Red_Item_Sanitize {
 		$data['regex'] = isset( $details['regex'] ) && intval( $details['regex'], 10 ) === 1 ? 1 : 0;
 
 		// Auto-migrate the regex to the source flags
-		$data['match_data'] = [ 'source' => [ 'regex' => $data['regex'] === 1 ? true : false ] ];
+		$data['match_data'] = [ 'source' => [ 'flag_regex' => $data['regex'] === 1 ? true : false ] ];
 
 		// Set flags
 		if ( isset( $details['match_data'] ) && isset( $details['match_data']['source'] ) ) {
+			$defaults = red_get_options();
+
 			// Parse the source flags
 			$flags = new Red_Source_Flags( $details['match_data']['source'] );
-			$data['match_data']['source'] = array_merge( $data['match_data']['source'], $flags->get_json() );
+
+			// Remove defaults
+			$data['match_data']['source'] = $flags->get_json( $defaults );
 		}
 
 		// Parse URL

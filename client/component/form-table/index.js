@@ -4,6 +4,11 @@
 
 import React from 'react';
 
+/**
+ * External dependencies
+ */
+import './style.scss';
+
 export const TableRow = props => {
 	const { title, url = false } = props;
 

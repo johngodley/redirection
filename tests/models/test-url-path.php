@@ -15,11 +15,11 @@ class UrlPathTest extends WP_UnitTestCase {
 
 	public function testPathMatchCase() {
 		$url = new Red_Url_Path( '/test1' );
-		$this->assertTrue( $url->is_match( '/teSt1', new Red_Source_Flags( [ 'case' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/teSt1', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
 	}
 
 	public function testPathMatchTrailing() {
 		$url = new Red_Url_Path( '/test1/' );
-		$this->assertTrue( $url->is_match( '/test1', new Red_Source_Flags( [ 'trailing' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/test1', new Red_Source_Flags( [ 'flag_trailing' => true ] ) ) );
 	}
 }
