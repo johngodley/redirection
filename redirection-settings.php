@@ -39,7 +39,8 @@ function red_get_post_types( $full = true ) {
 }
 
 function red_get_default_options() {
-	return apply_filters( 'red_default_options', array(
+	$flags = new Red_Source_Flags();
+	$defaults = [
 		'support'             => false,
 		'token'               => md5( uniqid() ),
 		'monitor_post'        => 0,   // Dont monitor posts by default
@@ -56,7 +57,10 @@ function red_get_default_options() {
 		'rest_api'            => false,
 		'https'               => false,
 		'database'            => '',
-	) );
+	];
+	$defaults = array_merge( $defaults, $flags->get_json() );
+
+	return apply_filters( 'red_default_options', $defaults );
 }
 
 function red_set_options( array $settings = array() ) {
@@ -168,6 +172,20 @@ function red_set_options( array $settings = array() ) {
 		$options['associated_redirect'] = '';
 	}
 
+	$flags = new Red_Source_Flags();
+	$flags_present = [];
+
+	foreach ( array_keys( $flags->get_json() ) as $flag ) {
+		if ( isset( $settings[ $flag ] ) ) {
+			$flags_present[ $flag ] = $settings[ $flag ];
+		}
+	}
+
+	if ( count( $flags_present ) > 0 ) {
+		$flags->set_flags( $flags_present );
+		$options = array_merge( $options, $flags->get_json() );
+	}
+
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );
 	return $options;
 }
@@ -175,8 +193,9 @@ function red_set_options( array $settings = array() ) {
 function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
 	if ( $options === false ) {
-		// New users don't see the new version information
-		$options = [];
+		// Default flags for new installs - ignore case and trailing slashes
+		$options['flags_case'] = true;
+		$options['flags_trailing'] = true;
 	}
 
 	$defaults = red_get_default_options();

@@ -48,14 +48,14 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
 
 		$match = new Agent_Match( serialize( array( 'agent' => 'other', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetUrl() {
 		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
 
 		$match = new Agent_Match( serialize( array( 'agent' => 'nothing', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetNotFrom() {
@@ -83,6 +83,6 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 		$_SERVER['HTTP_USER_AGENT'] = 'cat';
 
 		$match = new Agent_Match( serialize( array( 'agent' => 'cat', 'regex' => false, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 }

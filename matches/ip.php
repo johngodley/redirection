@@ -35,7 +35,7 @@ class IP_Match extends Red_Match {
 
 	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$ip = Redirection_Request::get_ip();
-		$current_ip = @inet_pton( $ip );  // XXX can throw exception
+		$current_ip = @inet_pton( $ip );
 
 		$matched = array_filter( $this->ip, function( $ip ) use ( $current_ip ) {
 			return @inet_pton( $ip ) === $current_ip;

@@ -21,7 +21,7 @@ class Red_Url_Query {
 		// Get list of whatever is left over
 		$query_diff = $this->get_query_diff( $this->query, $target );
 
-		if ( $flags->is_query_ignore() ) {
+		if ( $flags->is_query_ignore() || $flags->is_query_pass() ) {
 			return true;  // This ignores all other query params
 		}
 

@@ -56,7 +56,7 @@ class PageMatchTest extends WP_UnitTestCase {
 		$this->set_404( true );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/from$1' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNot404Url() {

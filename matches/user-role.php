@@ -31,6 +31,10 @@ class Role_Match extends Red_Match {
 			$target = $this->url_notfrom;
 		}
 
+		if ( $flags->is_regex() && $target ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
+		}
+
 		return $target;
 	}
 

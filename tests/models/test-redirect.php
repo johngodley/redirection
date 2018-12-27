@@ -303,7 +303,7 @@ class RedirectTest extends WP_UnitTestCase {
 			'regex' => false,
 			'url' => '/source',
 			'match_url' => '/source',
-			'match_data' => json_encode( [ 'source' => [ 'queryMatch' => 'ignore' ] ] ),
+			'match_data' => json_encode( [ 'source' => [ 'flag_query' => 'ignore' ] ] ),
 			'action_data' => '/target',
 			'action_code' => 301,
 			'status' => 'enabled',
@@ -323,7 +323,7 @@ class RedirectTest extends WP_UnitTestCase {
 			'regex' => false,
 			'url' => '/TEST/?cat=1',
 			'match_url' => '/test',
-			'match_data' => json_encode( [ 'source' => [ 'case' => true, 'trailing' => true ] ] ),
+			'match_data' => json_encode( [ 'source' => [ 'flag_case' => true, 'flag_trailing' => true ] ] ),
 			'action_data' => '/target',
 			'action_code' => 301,
 			'status' => 'enabled',
@@ -343,7 +343,7 @@ class RedirectTest extends WP_UnitTestCase {
 			'regex' => false,
 			'url' => '/TEST/?cat=1',
 			'match_url' => '/test',
-			'match_data' => json_encode( [ 'source' => [ 'case' => true, 'trailing' => true ] ] ),
+			'match_data' => json_encode( [ 'source' => [ 'flag_case' => true, 'flag_trailing' => true ] ] ),
 			'action_data' => '/target',
 			'action_code' => 301,
 			'status' => 'enabled',
@@ -362,7 +362,7 @@ class RedirectTest extends WP_UnitTestCase {
 			'regex' => false,
 			'url' => '/source',
 			'match_url' => '/source',
-			'match_data' => json_encode( [ 'source' => [ 'queryPass' => true, 'queryMatch' => 'ignore' ] ] ),
+			'match_data' => json_encode( [ 'source' => [ 'flag_query' => 'pass' ] ] ),
 			'action_data' => '/target',
 			'action_code' => 301,
 			'status' => 'enabled',
@@ -434,7 +434,7 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testLoadFlags() {
-		$flags = [ 'source' => [ 'case' => true ] ];
+		$flags = [ 'source' => [ 'flag_case' => true ] ];
 		$item = new Red_Item( (object) [
 			'match_type' => 'url',
 			'match_data' => json_encode( $flags ),
@@ -491,13 +491,12 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testCreateSavesJson() {
 		global $wpdb;
 
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
 		$expected = [
 			'source' => [
-				'case' => true,
-				'regex' => false,
-				'queryMatch' => 'exact',
-				'queryPass' => false,
-				'trailing' => false,
+				'flag_case' => true,
+				'flag_query' => 'exact',
+				'flag_trailing' => false,
 			],
 		];
 		$item = $this->createRedirect( [
@@ -506,7 +505,6 @@ class RedirectTest extends WP_UnitTestCase {
 		] );
 
 		$json = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id=%d", $item->get_id() ) );
-
 		$this->assertEquals( $expected, json_decode( $json->match_data, true ) );
 	}
 }

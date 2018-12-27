@@ -75,7 +75,7 @@ class CustomMatchTest extends WP_UnitTestCase {
 		add_filter( 'test_filter', $action, 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'regex' => true ] ) ) );
+		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 		remove_filter( 'test_filter', $action, 10, 2 );
 	}
 }

@@ -159,9 +159,10 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testSourceFlags() {
-		$flags = [ 'source' => [ 'case' => true ] ];
+		$flags = [ 'source' => [ 'flag_case' => true ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
-		$this->assertEquals( $flags['source']['case'], $result['match_data']['source']['case'] );
+
+		$this->assertEquals( $flags['source']['flag_case'], $result['match_data']['source']['flag_case'] );
 	}
 
 	public function testSourceFlagsRegexOverride() {
@@ -170,7 +171,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 1, $result['regex'] );
 		$this->assertEquals( 'regex', $result['match_url'] );
-		$this->assertTrue( $result['match_data']['source']['regex'] );
+		$this->assertTrue( $result['match_data']['source']['flag_regex'] );
 	}
 
 	public function testMatchUrlSet() {
@@ -183,5 +184,23 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'regex' => true ] ) );
 
 		$this->assertEquals( 'regex', $result['match_url'] );
+	}
+
+	public function testGetJsonDefaultSame() {
+		red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+
+		$flags = [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] ];
+		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
+
+		$this->assertEquals( [], $result['match_data']['source'] );
+	}
+
+	public function testGetJsonDefaultDifferent() {
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+
+		$flags = [ 'source' => [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] ];
+		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
+
+		$this->assertEquals( $flags['source'], $result['match_data']['source'] );
 	}
 }
