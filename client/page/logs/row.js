@@ -110,7 +110,7 @@ class LogRow extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip, referrer, url, agent, sent_to, redirection_url, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, sent_to, redirection_url, redirection_action_code, id } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -134,7 +134,8 @@ class LogRow extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-date">
-					{ created }<br />{ created_time }
+					{ created }<br />{ created_time }<br />
+					{ redirection_action_code ? redirection_action_code : 'none' }
 				</td>
 				<td className="column-primary column-url">
 					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink><br />

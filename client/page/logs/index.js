@@ -30,7 +30,7 @@ const getHeaders = () => [
 	},
 	{
 		name: 'date',
-		title: __( 'Date' ),
+		title: __( 'Date / HTTP Code' ),
 	},
 	{
 		name: 'url',

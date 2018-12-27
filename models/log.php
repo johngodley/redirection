@@ -22,7 +22,8 @@ class RE_Log {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_logs.*,
-		                                               {$wpdb->prefix}redirection_items.url AS redirection_url
+		                                               {$wpdb->prefix}redirection_items.url AS redirection_url,
+		                                               {$wpdb->prefix}redirection_items.code AS redirection_action_code,
 												FROM {$wpdb->prefix}redirection_logs
 												INNER JOIN {$wpdb->prefix}redirection_items
 												ON {$wpdb->prefix}redirection_logs.redirection_id={$wpdb->prefix}redirection_items.id
