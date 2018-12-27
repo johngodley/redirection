@@ -110,7 +110,7 @@ class LogRow extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip, referrer, url, agent, sent_to, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, sent_to, redirection_url, id } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -138,7 +138,8 @@ class LogRow extends React.Component {
 				</td>
 				<td className="column-primary column-url">
 					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink><br />
-					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
+					{ sent_to ? sent_to.substring( 0, 100 ) : '' }<br />
+					{ redirection_url }
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
