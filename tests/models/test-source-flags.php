@@ -87,7 +87,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 
 		$flags = new Red_Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => false, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
-		$this->assertEquals( $expected, $flags->get_json( $defaults ) );
+		$this->assertEquals( $expected, $flags->get_json_without_defaults( $defaults ) );
 	}
 
 	public function testReturnDifferentDefaults() {
@@ -109,6 +109,16 @@ class SourceFlagsTest extends WP_UnitTestCase {
 
 		$flags = new Red_Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => false, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
-		$this->assertEquals( $expected, $flags->get_json( $defaults ) );
+		$this->assertEquals( $expected, $flags->get_json_without_defaults( $defaults ) );
+	}
+
+	public function testDefaults() {
+		red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
+
+		$expected = [ 'flag_case' => true, 'flag_trailing' => true, 'flag_regex' => false, 'flag_query' => 'exact' ];
+		$flags = new Red_Source_Flags();
+		$flags->set_flags( [ 'flag_case' => true, 'flag_trailing' => true ] );
+
+		$this->assertEquals( $expected, $flags->get_json_with_defaults() );
 	}
 }

@@ -146,3 +146,37 @@ export const getHttpError = () => [
 		name: __( "418 - I'm a teapot" ),
 	},
 ];
+
+export const getSourceFlags = () => [
+	{
+		value: 'flag_regex',
+		label: __( 'Regex' ),
+	},
+	{
+		value: 'flag_trailing',
+		label: __( 'Ignore Slash' ),
+	},
+	{
+		value: 'flag_case',
+		label: __( 'Ignore Case' ),
+	},
+];
+
+export const FLAG_REGEX = 0;
+export const FLAG_TRAILING = 1;
+export const FLAG_CASE = 2;
+
+export const getSourceQuery = () => [
+	{
+		value: 'exact',
+		text: __( 'Exact match all parameters in any order' ),
+	},
+	{
+		value: 'ignore',
+		text: __( 'Ignore all parameters' ),
+	},
+	{
+		value: 'pass',
+		text: __( 'Ignore & pass parameters to the target' ),
+	},
+];

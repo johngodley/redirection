@@ -61,7 +61,8 @@ class Red_Item_Sanitize {
 			$flags = new Red_Source_Flags( $details['match_data']['source'] );
 
 			// Remove defaults
-			$data['match_data']['source'] = $flags->get_json( $defaults );
+			$data['match_data']['source'] = $flags->get_json_without_defaults( $defaults );
+			$data['regex'] = $flags->is_regex();
 		}
 
 		// Parse URL
