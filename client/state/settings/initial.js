@@ -21,12 +21,13 @@ export function getInitialSettings() {
 		saveStatus: false,
 		error: false,
 		installed: '',
-		settings: {},
 		postTypes: [],
 		pluginStatus,
 		canDelete: false,
 		showDatabase: false,
 		apiTest: {},
 		database: Redirectioni10n.database ? Redirectioni10n.database : {},
+		values: Redirectioni10n.settings ? Redirectioni10n.settings : {},
+		groups: [],
 	};
 }

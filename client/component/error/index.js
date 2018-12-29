@@ -16,6 +16,7 @@ import Select from 'component/select';
 import ExternalLink from 'component/external-link';
 import { clearErrors } from 'state/message/action';
 import { restApi } from 'page/options/options-form';
+import { getOption } from 'state/settings/selector';
 import './style.scss';
 
 class Error extends React.Component {
@@ -24,7 +25,7 @@ class Error extends React.Component {
 
 		this.onClick = this.dismiss.bind( this );
 		this.state = {
-			rest_api: Redirectioni10n.api_setting,
+			rest_api: this.props.rest_api,
 		};
 	}
 
@@ -260,10 +261,11 @@ class Error extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { errors } = state.message;
+	const { message: { errors } } = state;
 
 	return {
 		errors,
+		rest_api: getOption( state, 'rest_api' ),
 	};
 }
 

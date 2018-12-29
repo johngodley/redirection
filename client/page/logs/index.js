@@ -67,7 +67,7 @@ class Logs extends React.Component {
 	}
 
 	onRSS() {
-		document.location = getRssUrl();
+		document.location = getRssUrl( this.props.token );
 	}
 
 	renderRow( row, key, status ) {
@@ -99,10 +99,11 @@ class Logs extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { log } = state;
+	const { log, settings } = state;
 
 	return {
 		log,
+		token: settings.settings.token,
 	};
 }
 
