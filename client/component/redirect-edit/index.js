@@ -1,4 +1,3 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
@@ -28,6 +27,7 @@ import Select from 'component/select';
 import { nestedGroups } from 'state/group/selector';
 import { updateRedirect, createRedirect, addToTop } from 'state/redirect/action';
 import { getHttpError, getHttpCodes, getActions, getMatches } from './constants';
+import { getOption } from 'state/settings/selector';
 import {
 	ACTION_URL,
 	ACTION_RANDOM,
@@ -547,9 +547,8 @@ class EditRedirect extends React.Component {
 
 	getGroup() {
 		const groups = this.props.group.rows;
-		const { group_id } = this.state;
+		const { group_id, advanced } = this.state;
 		const position = parseInt( this.state.position, 10 );
-		const { advanced } = this.state;
 
 		return (
 			<tr>
@@ -570,8 +569,9 @@ class EditRedirect extends React.Component {
 
 	canSave() {
 		const { url, match_type, target, action_type, referrer, login, agent, header, cookie, role, server, ip, page } = this.state;
+		const { autoTarget } = this.props;
 
-		if ( Redirectioni10n.autoGenerate === '' && url === '' ) {
+		if ( autoTarget === '' && url === '' ) {
 			return false;
 		}
 
@@ -708,12 +708,19 @@ class EditRedirect extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { group, redirect } = state;
+	const { group, redirect: { addTop, table } } = state;
+	const { flag_case, flag_query, flag_trailing } = getOption( state );
 
 	return {
 		group,
-		addTop: redirect.addTop,
-		table: redirect.table,
+		addTop,
+		table,
+		autoTarget: getOption( state, 'auto_target' ),
+		flags: {
+			flag_case,
+			flag_query,
+			flag_trailing,
+		},
 	};
 }
 

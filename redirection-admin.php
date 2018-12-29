@@ -204,12 +204,10 @@ class Redirection_Admin {
 			'per_page' => $this->get_per_page(),
 			'locale' => $this->get_i18n_data(),
 			'localeSlug' => get_locale(),
-			'token' => $options['token'],
-			'autoGenerate' => $options['auto_target'],
+			'settings' => $options,
 			'preload' => $preload,
 			'versions' => implode( "\n", $versions ),
 			'version' => REDIRECTION_VERSION,
-			'api_setting' => $options['rest_api'],
 			'database' => $status->get_json(),
 		) );
 
