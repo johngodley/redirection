@@ -24,7 +24,7 @@ const isRegex = ( text ) => {
 	return false;
 };
 
-const getWarningFromState = ( { url, regex } ) => {
+const getWarningFromState = ( { url, flag_regex } ) => {
 	const warnings = [];
 
 	if ( Array.isArray( url ) ) {
@@ -64,7 +64,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Regex without checkbox
-	if ( isRegex( url ) && regex === false ) {
+	if ( isRegex( url ) && flag_regex === false ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
 				{ __( 'Remember to enable the "regex" checkbox if this is a regular expression.' ) }
@@ -73,7 +73,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Anchor
-	if ( isRegex( url ) && url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 ) {
+	if ( url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 && flag_regex ) {
 		warnings.push(
 			__( 'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
 				components: {

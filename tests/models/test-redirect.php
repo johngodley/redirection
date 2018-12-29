@@ -507,4 +507,32 @@ class RedirectTest extends WP_UnitTestCase {
 		$json = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id=%d", $item->get_id() ) );
 		$this->assertEquals( $expected, json_decode( $json->match_data, true ) );
 	}
+
+	public function testMatchData() {
+		// This returns with defaults
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
+
+		$item = new Red_Item( (object) [ 'match_data' => json_encode( [ 'source' => [ 'flag_case' => true ] ] ) ] );
+		$data = $item->get_match_data();
+
+		$this->assertEquals( [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] ], $data );
+	}
+
+	public function testMatchDataSaved() {
+		global $wpdb;
+
+		// This returns without defaults
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => true ] );
+
+		$item = $this->createRedirect( [
+			'url' => '/cat.*',
+			'regex' => true,
+			'match_data' => [ 'source' => [ 'flag_case' => true, 'flag_query' => 'exact', 'flag_trailing' => true ] ],
+		] );
+
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT match_data FROM {$wpdb->prefix}redirection_items WHERE id=%d", $item->get_id() ) );
+		$expected = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
+
+		$this->assertEquals( $expected, $row->match_data );
+	}
 }

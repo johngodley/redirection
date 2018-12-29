@@ -186,6 +186,14 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( 'regex', $result['match_url'] );
 	}
 
+	public function testRegexFlagsSetColumn() {
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'match_data' => [ 'source' => [ 'flag_regex' => true ] ] ] ) );
+
+		$this->assertEquals( 'regex', $result['match_url'] );
+		$this->assertTrue( $result['regex'] );
+	}
+
 	public function testGetJsonDefaultSame() {
 		red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 

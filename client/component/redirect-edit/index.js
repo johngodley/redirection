@@ -24,10 +24,21 @@ import ActionLogin from './action/login';
 import ActionUrl from './action/url';
 import ActionUrlFrom from './action/url-from';
 import Select from 'component/select';
+import ReactSelect from 'react-select';
 import { nestedGroups } from 'state/group/selector';
 import { updateRedirect, createRedirect, addToTop } from 'state/redirect/action';
-import { getHttpError, getHttpCodes, getActions, getMatches } from './constants';
 import { getOption } from 'state/settings/selector';
+import {
+	getHttpError,
+	getHttpCodes,
+	getActions,
+	getMatches,
+	getSourceFlags,
+	getSourceQuery,
+	FLAG_CASE,
+	FLAG_REGEX,
+	FLAG_TRAILING,
+} from './constants';
 import {
 	ACTION_URL,
 	ACTION_RANDOM,
@@ -63,14 +74,19 @@ class EditRedirect extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { url, regex, match_type, action_type, action_data, group_id = 0, title, action_code, position = 0 } = props.item;
+		const { url, match_data, match_type, action_type, action_data, group_id = 0, title, action_code, position = 0 } = props.item;
 		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
+		const { flag_regex, flag_trailing, flag_case, flag_query } = match_data.source;
 
 		this.state = {
-			warning: getWarningFromState( props.item ),
 			url,
 			title,
-			regex,
+
+			flag_regex,
+			flag_trailing,
+			flag_case,
+			flag_query,
+
 			match_type,
 			action_type,
 			action_code,
@@ -94,8 +110,20 @@ class EditRedirect extends React.Component {
 			page: this.getPageState( action_data ),
 		};
 
+		this.state.warning = getWarningFromState( this.state );
 		this.state.advanced = ! this.canShowAdvanced();
+
 		this.ref = React.createRef();
+	}
+
+	getFlagValue( { flag_regex, flag_trailing, flag_case } ) {
+		const flags = getSourceFlags();
+		//const { flag_trailing: defaultTrailing, flag_case: defaultCase } = this.props.flags;
+		return [
+			flag_regex ? flags[ FLAG_REGEX ] : false,
+			flag_case ? flags[ FLAG_CASE ] : false,
+			flag_trailing ? flags[ FLAG_TRAILING ] : false,
+		].filter( item => item );
 	}
 
 	getWarning( newState ) {
@@ -130,7 +158,7 @@ class EditRedirect extends React.Component {
 	reset() {
 		this.setState( {
 			url: '',
-			regex: false,
+			flag_regex: false,
 			match_type: MATCH_URL,
 			action_type: ACTION_URL,
 			action_data: '',
@@ -317,14 +345,21 @@ class EditRedirect extends React.Component {
 	onSave = ev => {
 		ev.preventDefault();
 
-		const { url, title, regex, match_type, action_type, group_id, action_code, position } = this.state;
+		const { url, title, flag_regex, flag_trailing, flag_case, flag_query, match_type, action_type, group_id, action_code, position } = this.state;
 		const groups = this.props.group.rows;
 
 		const redirect = {
 			id: parseInt( this.props.item.id, 10 ),
 			url,
 			title,
-			regex,
+			match_data: {
+				source: {
+					flag_regex,
+					flag_trailing,
+					flag_case,
+					flag_query,
+				},
+			},
 			match_type,
 			action_type,
 			position,
@@ -360,6 +395,24 @@ class EditRedirect extends React.Component {
 		this.setState( { group_id: parseInt( ev.target.value, 10 ) } );
 	}
 
+	onFlagChange = option => {
+		const options = option.map( item => item.value );
+		const flags = {
+			flag_regex: options.indexOf( 'flag_regex' ) !== -1 ? true : false,
+			flag_case: options.indexOf( 'flag_case' ) !== -1 ? true : false,
+			flag_trailing: options.indexOf( 'flag_trailing' ) !== -1 ? true : false,
+		};
+
+		flags.warning = this.getWarning( flags );
+
+		// If regex is enabled then disable trailing flag
+		if ( flags.flag_regex ) {
+			flags.flag_trailing = false;
+		}
+
+		this.setState( flags );
+	}
+
 	onChange = ev => {
 		const { target } = ev;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -381,7 +434,7 @@ class EditRedirect extends React.Component {
 			}
 		}
 
-		newState.warning = this.getWarning( newState ),
+		newState.warning = this.getWarning( newState );
 		this.setState( newState, this.triggerCallback );
 	}
 
@@ -631,18 +684,58 @@ class EditRedirect extends React.Component {
 		);
 	}
 
+	isDifferentFlag( flag, value ) {
+		const { flag_case, flag_trailing } = this.props.flags;
+
+		if ( flag === 'flag_case' && value !== flag_case ) {
+			return true;
+		}
+
+		if ( flag === 'flag_trailing' && value !== flag_trailing ) {
+			return true;
+		}
+
+		return flag === 'flag_regex';
+	}
+
+	getFlagStyle = ( provided, state ) => {
+		if ( this.isDifferentFlag( state.data.value, state.hasValue ) ) {
+			return { ... provided, backgroundColor: '#ffb900' };
+		}
+
+		return provided;
+	}
+
+	getRemoveFlag = ( provided, state ) => {
+		if ( this.isDifferentFlag( state.data.value, state.hasValue ) ) {
+			return { ... provided, ':hover': { backgroundColor: '#C48E00' } };
+		}
+
+		return provided;
+	}
+
 	renderSingleUrl() {
-		const { url, regex } = this.state;
+		const { url, flag_regex } = this.state;
 		const { autoFocus = false } = this.props;
+		const flags = getSourceFlags();
 
 		return (
 			<React.Fragment>
 				<input type="text" name="url" value={ url } onChange={ this.onChange } autoFocus={ autoFocus } placeholder={ __( 'The relative URL you want to redirect from' ) } />
-				<label className="edit-redirection-regex">
-					{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
-					&nbsp;
-					<input type="checkbox" name="regex" checked={ regex } onChange={ this.onChange } />
-				</label>
+
+				<ReactSelect
+					options={ flag_regex ? flags.filter( item => item.value !== 'flag_trailing' ) : flags }
+					placeholder={ __( 'URL options' ) }
+					isMulti
+					onChange={ this.onFlagChange }
+					isSearchable={ false }
+					className="redirection-edit_flags"
+					classNamePrefix="redirection-edit_flags"
+					defaultValue={ this.getFlagValue( this.state ) }
+					noOptionsMessage={ () => __( 'No more options' ) }
+					value={ this.getFlagValue( this.state ) }
+					styles={ { multiValue: this.getFlagStyle, multiValueRemove: this.getRemoveFlag } }
+				/>
 			</React.Fragment>
 		);
 	}

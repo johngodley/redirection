@@ -391,7 +391,13 @@ class Red_Item {
 	}
 
 	public function get_match_data() {
-		return $this->match_data;
+		$source = $this->source_flags->get_json_with_defaults();
+
+		if ( ! empty( $source ) ) {
+			return [ 'source' => $source ];
+		}
+
+		return null;
 	}
 
 	public function get_title() {
