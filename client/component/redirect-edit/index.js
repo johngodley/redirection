@@ -27,7 +27,7 @@ import Select from 'component/select';
 import ReactSelect from 'react-select';
 import { nestedGroups } from 'state/group/selector';
 import { updateRedirect, createRedirect, addToTop } from 'state/redirect/action';
-import { getOption } from 'state/settings/selector';
+import { getOption, getFlags } from 'state/settings/selector';
 import {
 	getHttpError,
 	getHttpCodes,
@@ -156,6 +156,8 @@ class EditRedirect extends React.Component {
 	}
 
 	reset() {
+		const source = this.props.flags;
+
 		this.setState( {
 			url: '',
 			flag_regex: false,
@@ -165,6 +167,7 @@ class EditRedirect extends React.Component {
 			title: '',
 			action_code: 301,
 			position: 0,
+			... source,
 			... this.resetActionData(),
 		} );
 	}
@@ -629,7 +632,7 @@ class EditRedirect extends React.Component {
 		}
 
 		if ( hasUrlTarget( action_type ) ) {
-			if ( match_type === MATCH_URL && target === '' ) {
+			if ( match_type === MATCH_URL && target.url === '' ) {
 				return false;
 			}
 
@@ -748,8 +751,21 @@ class EditRedirect extends React.Component {
 		);
 	}
 
+	renderQuery() {
+		const { flag_query } = this.state;
+
+		return (
+			<tr>
+				<th>{ __( 'Query Parameters' ) }</th>
+				<td>
+					<Select name="flag_query" items={ getSourceQuery() } value={ flag_query } onChange={ this.onChange } />
+				</td>
+			</tr>
+		);
+	}
+
 	render() {
-		const { url, advanced, warning } = this.state;
+		const { url, advanced, warning, flag_regex } = this.state;
 		const { saveButton = __( 'Save' ), onCancel, addTop, onClose } = this.props;
 
 		return (
@@ -763,6 +779,7 @@ class EditRedirect extends React.Component {
 							</td>
 						</tr>
 
+						{ ! flag_regex && this.renderQuery() }
 						{ advanced && this.renderExtra() }
 
 						{ this.getTarget() }
@@ -802,18 +819,13 @@ class EditRedirect extends React.Component {
 
 function mapStateToProps( state ) {
 	const { group, redirect: { addTop, table } } = state;
-	const { flag_case, flag_query, flag_trailing } = getOption( state );
 
 	return {
 		group,
 		addTop,
 		table,
 		autoTarget: getOption( state, 'auto_target' ),
-		flags: {
-			flag_case,
-			flag_query,
-			flag_trailing,
-		},
+		flags: getFlags( state ),
 	};
 }
 
