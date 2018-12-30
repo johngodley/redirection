@@ -2,8 +2,6 @@
  * Internal dependencies
  */
 
-import { getOption } from 'state/settings/selector';
-
 export const ACTION_URL = 'url';
 export const ACTION_PASS = 'pass';
 export const ACTION_ERROR = 'error';
@@ -127,8 +125,8 @@ export const getDefaultItem = ( url, group_id, source ) => ( {
 	id: 0,
 	url,
 	regex: false,
-	match_type: 'url',
-	action_type: 'url',
+	match_type: MATCH_URL,
+	action_type: ACTION_URL,
 	action_data: {
 		url: '',
 	},
