@@ -1,7 +1,14 @@
-export const getOption = ( state, name ) => {
+export const getOption = ( { settings }, name ) => {
 	if ( name === undefined ) {
-		return state.settings.values;
+		return settings.values;
 	}
 
-	return state.settings.values[ name ] ? state.settings.values[ name ] : null;
+	return settings.values[ name ] !== undefined ? settings.values[ name ] : null;
 };
+
+export const getFlags = state => ( {
+	flag_regex: getOption( state, 'flag_regex' ),
+	flag_case: getOption( state, 'flag_case' ),
+	flag_trailing: getOption( state, 'flag_trailing' ),
+	flag_query: getOption( state, 'flag_query' ),
+} );

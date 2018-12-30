@@ -1,3 +1,9 @@
+/**
+ * Internal dependencies
+ */
+
+import { getOption } from 'state/settings/selector';
+
 export const ACTION_URL = 'url';
 export const ACTION_PASS = 'pass';
 export const ACTION_ERROR = 'error';
@@ -117,7 +123,7 @@ export const getActionData = state => {
 	return '';
 };
 
-export const getDefaultItem = ( url, group_id ) => ( {
+export const getDefaultItem = ( url, group_id, source ) => ( {
 	id: 0,
 	url,
 	regex: false,
@@ -129,4 +135,5 @@ export const getDefaultItem = ( url, group_id ) => ( {
 	group_id,
 	title: '',
 	action_code: 301,
+	match_data: { source },
 } );

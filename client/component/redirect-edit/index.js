@@ -118,7 +118,7 @@ class EditRedirect extends React.Component {
 
 	getFlagValue( { flag_regex, flag_trailing, flag_case } ) {
 		const flags = getSourceFlags();
-		//const { flag_trailing: defaultTrailing, flag_case: defaultCase } = this.props.flags;
+
 		return [
 			flag_regex ? flags[ FLAG_REGEX ] : false,
 			flag_case ? flags[ FLAG_CASE ] : false,
