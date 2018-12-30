@@ -79,9 +79,6 @@ if ( isProduction() ) {
 } else {
 	config.output.publicPath = getDevUrl;
 	config.devtool = 'inline-source-map';
-	config.entry.unshift( 'webpack/hot/only-dev-server' );
-	config.entry.unshift( 'webpack-dev-server/client?' + getDevUrl );
-	config.entry.unshift( 'react-hot-loader/patch' );
 	config.devServer = {
 		historyApiFallback: {
 			index: '/',
@@ -89,7 +86,6 @@ if ( isProduction() ) {
 		contentBase: path.resolve( __dirname ),
 		publicPath: getDevUrl,
 		headers: { 'Access-Control-Allow-Origin': '*' },
-		hot: true,
 		stats: {
 			colors: true,
 			hash: false,
