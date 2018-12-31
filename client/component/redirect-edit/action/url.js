@@ -10,24 +10,20 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-const ActionUrl = props => {
-	const changer = ev => {
-		props.onChange( props.target, 'url', ev.target.value );
-	};
+import TableRow from '../table-row';
+
+const ActionUrl = ( { onChange, data } ) => {
+	const { url } = data;
 
 	return (
-		<tr>
-			<th>{ __( 'Target URL' ) }</th>
-			<td>
-				<input type="text" name="url" value={ props.url } onChange={ changer } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
-			</td>
-		</tr>
+		<TableRow title={ __( 'Target URL' ) }>
+			<input type="text" name="url" value={ url } onChange={ onChange } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
+		</TableRow>
 	);
 };
 
 ActionUrl.propTypes = {
-	url: PropTypes.string.isRequired,
-	target: PropTypes.string.isRequired,
+	data: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
 

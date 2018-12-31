@@ -13,3 +13,5 @@ export const nestedGroups = groups => {
 
 	return Object.keys( nested ).map( moduleName => ( { text: moduleName, value: nested[ moduleName ] } ) );
 };
+
+export const getGroup = ( groups, groupId ) => groups.find( item => item.id === groupId );

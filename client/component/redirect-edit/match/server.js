@@ -9,26 +9,21 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
+import TableRow from '../table-row';
 
-class MatchServer extends React.Component {
-	static propTypes = {
-		server: PropTypes.string.isRequired,
-	};
+const MatchServer = ( { data, onChange } ) => {
+	const { server } = data;
 
-	onChange = ev => {
-		this.props.onChange( 'server', 'server', ev.target.value );
-	}
+	return (
+		<TableRow title={ __( 'Server' ) }>
+			<input type="text" name="server" value={ server } placeholder={ __( 'Enter server URL to match against' ) } onChange={ onChange } />
+		</TableRow>
+	);
+};
 
-	render() {
-		return (
-			<tr>
-				<th>{ __( 'Server' ) }</th>
-				<td>
-					<input type="text" value={ this.props.server } placeholder={ __( 'Enter server URL to match against' ) } onChange={ this.onChange } />
-				</td>
-			</tr>
-		);
-	}
-}
+MatchServer.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default MatchServer;

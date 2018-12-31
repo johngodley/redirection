@@ -10,35 +10,26 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-class ActionLogin extends React.Component {
-	static propTypes = {
-		logged_in: PropTypes.string.isRequired,
-		logged_out: PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
-	};
+import TableRow from '../table-row';
 
-	onChange = ev => {
-		this.props.onChange( 'login', ev.target.name, ev.target.value );
-	}
+const ActionLogin = ( { onChange, data } ) => {
+	const { logged_in, logged_out } = data;
 
-	render() {
-		return (
-			<React.Fragment>
-				<tr>
-					<th>{ __( 'Logged In' ) }</th>
-					<td>
-						<input type="text" name="logged_in" value={ this.props.logged_in } onChange={ this.onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
-					</td>
-				</tr>
-				<tr>
-					<th>{ __( 'Logged Out' ) }</th>
-					<td>
-						<input type="text" name="logged_out" value={ this.props.logged_out } onChange={ this.onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
-					</td>
-				</tr>
-			</React.Fragment>
-		);
-	}
-}
+	return (
+		<React.Fragment>
+			<TableRow title={ __( 'Logged In' ) }>
+				<input type="text" name="logged_in" value={ logged_in } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
+			</TableRow>
+			<TableRow title={ __( 'Logged Out' ) }>
+				<input type="text" name="logged_out" value={ logged_out } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
+			</TableRow>
+		</React.Fragment>
+	);
+};
+
+ActionLogin.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default ActionLogin;
