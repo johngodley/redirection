@@ -21,8 +21,6 @@ import TableRow from './table-row';
 const FLAG_DEFAULT = '#ffb900';
 const FLAG_DEFAULT_HOVER = '#C48E00';
 
-const noTrailingFlag = flags => flags.filter( item => item.value !== 'flag_trailing' );
-
 function getFlagValue( { flag_regex, flag_trailing, flag_case } ) {
 	const flags = getSourceFlags();
 
@@ -49,7 +47,6 @@ function isDifferentFlag( flag, value, existing ) {
 
 const RedirectSourceUrl = ( { url, flags, onFlagChange, onChange, autoFocus = false } ) => {
 	const flagOptions = getSourceFlags();
-	const { flag_regex } = flags;
 
 	if ( Array.isArray( url ) ) {
 		return (
@@ -87,7 +84,7 @@ const RedirectSourceUrl = ( { url, flags, onFlagChange, onChange, autoFocus = fa
 			/>
 
 			<ReactSelect
-				options={ flag_regex ? noTrailingFlag( flagOptions ) : flagOptions }
+				options={ flagOptions }
 				placeholder={ __( 'URL options' ) }
 				isMulti
 				onChange={ onFlagChange }

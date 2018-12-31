@@ -180,11 +180,6 @@ class EditRedirect extends React.Component {
 			flag_trailing: options.indexOf( 'flag_trailing' ) !== -1 ? true : false,
 		};
 
-		// If regex is enabled then disable trailing flag
-		if ( flags.flag_regex ) {
-			flags.flag_trailing = false;
-		}
-
 		this.onUpdateState( flags );
 	}
 

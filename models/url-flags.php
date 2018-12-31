@@ -57,7 +57,6 @@ class Red_Source_Flags {
 			if ( $this->flag_regex ) {
 				// Regex auto-disables other things
 				$this->flag_query = self::QUERY_EXACT;
-				$this->flag_trailing = false;
 			}
 		}
 

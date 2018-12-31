@@ -61,7 +61,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 		$flags->set_flags( [ 'flag_regex' => true, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
 		$this->assertTrue( $flags->is_regex() );
 		$this->assertTrue( $flags->is_ignore_case() );
-		$this->assertFalse( $flags->is_ignore_trailing() );
+		$this->assertTrue( $flags->is_ignore_trailing() );
 		$this->assertFalse( $flags->is_query_pass() );
 	}
 
