@@ -33,7 +33,6 @@ function getComponentForType( type ) {
 }
 
 const ActionTarget = ( { actionType, matchType, actionData, onChange } ) => {
-	console.log(actionData);
 	if ( hasUrlTarget( actionType ) ) {
 		const Component = getComponentForType( matchType );
 
