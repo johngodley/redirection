@@ -13,7 +13,7 @@ import * as parseUrl from 'url';
 import ExternalLink from 'component/external-link';
 import TableRow from './table-row';
 
-const isRegex = ( text ) => {
+export const isRegex = ( text ) => {
 	if ( text.match( /[\*\\\(\)\[\]\^\$]/ ) !== null ) {
 		return true;
 	}

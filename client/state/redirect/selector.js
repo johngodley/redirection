@@ -23,23 +23,6 @@ export const MATCH_PAGE = 'page';
 export const CODE_PASS = 'pass';
 export const CODE_NOTHING = 'nothing';
 
-export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
-
-export const getDefaultItem = ( url, group_id, source ) => ( {
-	id: 0,
-	url,
-	match_type: MATCH_URL,
-	action_type: ACTION_URL,
-	action_data: {
-		url: '',
-	},
-	group_id,
-	title: '',
-	action_code: 301,
-	position: 0,
-	match_data: { source },
-} );
-
 function getFromNotFrom( name, actionData, defaultValue = '' ) {
 	const { url_from = '', url_notfrom = '' } = actionData;
 
@@ -118,7 +101,7 @@ function getLoginState( actionData ) {
 	};
 }
 
-const matchMap = {
+const MATCH_MAP = {
 	[ MATCH_URL ]: getUrlState,
 	[ MATCH_LOGIN ]: getLoginState,
 	[ MATCH_REFERRER ]: getReferrerState,
@@ -132,9 +115,26 @@ const matchMap = {
 	[ MATCH_PAGE ]: getPageState,
 };
 
+export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
+
+export const getDefaultItem = ( url, group_id, source ) => ( {
+	id: 0,
+	url,
+	match_type: MATCH_URL,
+	action_type: ACTION_URL,
+	action_data: {
+		url: '',
+	},
+	group_id,
+	title: '',
+	action_code: 301,
+	position: 0,
+	match_data: { source },
+} );
+
 export function getMatchState( matchType, actionData ) {
-	if ( matchMap[ matchType ] ) {
-		return matchMap[ matchType ]( actionData );
+	if ( MATCH_MAP[ matchType ] ) {
+		return MATCH_MAP[ matchType ]( actionData );
 	}
 
 	return null;
