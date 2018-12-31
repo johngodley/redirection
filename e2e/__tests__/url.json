@@ -113,5 +113,148 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test plain 301 redirect with no trailing slash",
+		{
+			"source": {
+				"url": "/plain-trailing-slash/"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect with no trailing slash",
+		{
+			"source": {
+				"url": "/plain-trailing-slash"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect any case",
+		{
+			"source": {
+				"url": "/plain-TRAILING-case"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect ignore query",
+		{
+			"source": {
+				"url": "/plain-query-ignore"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect ignore query",
+		{
+			"source": {
+				"url": "/plain-query-ignore?param1=1&param2=2"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect exact query in same order",
+		{
+			"source": {
+				"url": "/plain-query-exact?param1=1&param2=2"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect exact query in any order",
+		{
+			"source": {
+				"url": "/plain-query-exact?param2=2&param1=1"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect pass query to target",
+		{
+			"source": {
+				"url": "/plain-query-pass?random=yes"
+			},
+			"target": {
+				"location": "/plain-redirect?random=yes",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect pass query to target with existing params",
+		{
+			"source": {
+				"url": "/plain-query-pass-existing?random=no&other=no"
+			},
+			"target": {
+				"location": "/plain-redirect?random=yes&other=no",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect with no case, trailing, and ignore params",
+		{
+			"source": {
+				"url": "/plain-QUERY-all/?thing=yes"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 case insensitive regex redirect",
+		{
+			"source": {
+				"url": "/plain-CASE-regex/thing"
+			},
+			"target": {
+				"location": "/plain-redirect/thing",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]

@@ -1,13 +1,13 @@
 {
     "plugin": {
         "version": "3.7",
-        "date": "Mon, 10 Dec 2018 17:29:24 +0000"
+        "date": "Mon, 31 Dec 2018 19:42:57 +0000"
     },
     "groups": [
         {
             "id": 1,
             "name": "Redirections",
-            "redirects": 21,
+            "redirects": 0,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -19,12 +19,37 @@
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
+        },
+        {
+            "id": 3,
+            "name": "Redirections",
+            "redirects": 29,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 4,
+            "name": "Modified Posts",
+            "redirects": 0,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
         }
     ],
     "redirects": [
         {
             "id": 1,
             "url": "\/plain301",
+            "match_url": "\/plain301",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -32,16 +57,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 53,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 0,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
             "id": 2,
             "url": "\/plain302",
+            "match_url": "\/plain302",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 302,
             "action_type": "url",
             "action_data": {
@@ -49,16 +83,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 38,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 1,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
             "id": 3,
             "url": "\/plain303",
+            "match_url": "\/plain303",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 303,
             "action_type": "url",
             "action_data": {
@@ -66,16 +109,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 30,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 2,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
             "id": 4,
             "url": "\/plain307",
+            "match_url": "\/plain307",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 307,
             "action_type": "url",
             "action_data": {
@@ -83,16 +135,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 30,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 3,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
             "id": 5,
             "url": "\/plain308",
+            "match_url": "\/plain308",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 308,
             "action_type": "url",
             "action_data": {
@@ -100,16 +161,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 29,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 4,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 7,
+            "id": 6,
             "url": "\/plain-pass",
+            "match_url": "\/plain-pass",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 0,
             "action_type": "pass",
             "action_data": {
@@ -117,31 +187,49 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 31,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 6,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 8,
+            "id": 7,
             "url": "\/plain-ignore",
+            "match_url": "\/plain-ignore",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 0,
             "action_type": "nothing",
             "action_data": "",
             "match_type": "url",
             "title": "",
-            "hits": 29,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 7,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 9,
+            "id": 8,
             "url": "^\/plain-regex\/(.*)",
+            "match_url": "regex",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": true
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -149,16 +237,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 27,
+            "hits": 11,
             "regex": true,
-            "group_id": 1,
+            "group_id": 3,
             "position": 8,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 10,
+            "id": 9,
             "url": "\/plain-redirect-disabled",
+            "match_url": "\/plain-redirect-disabled",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -168,14 +265,23 @@
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 9,
             "last_access": "-",
             "enabled": false
         },
         {
-            "id": 11,
+            "id": 10,
             "url": "\/plain-redirect-absolute",
+            "match_url": "\/plain-redirect-absolute",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -183,16 +289,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 27,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 10,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 12,
+            "id": 11,
             "url": "\/plain-position",
+            "match_url": "\/plain-position",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -202,14 +317,23 @@
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 13,
             "last_access": "-",
             "enabled": true
         },
         {
-            "id": 13,
+            "id": 12,
             "url": "\/plain-position",
+            "match_url": "\/plain-position",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -217,16 +341,25 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 22,
+            "hits": 11,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 12,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 14,
+            "id": 13,
             "url": "\/login",
+            "match_url": "\/login",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -235,16 +368,25 @@
             },
             "match_type": "login",
             "title": "",
-            "hits": 43,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 13,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 15,
+            "id": 14,
             "url": "\/capability",
+            "match_url": "\/capability",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -254,16 +396,25 @@
             },
             "match_type": "role",
             "title": "",
-            "hits": 42,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 13,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 16,
+            "id": 15,
             "url": "\/referrer",
+            "match_url": "\/referrer",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -274,16 +425,25 @@
             },
             "match_type": "referrer",
             "title": "",
-            "hits": 42,
+            "hits": 26,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 14,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 17,
+            "id": 16,
             "url": "\/useragent",
+            "match_url": "\/useragent",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -294,16 +454,25 @@
             },
             "match_type": "agent",
             "title": "",
-            "hits": 50,
+            "hits": 26,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 15,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 18,
+            "id": 17,
             "url": "\/cookie",
+            "match_url": "\/cookie",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -315,16 +484,25 @@
             },
             "match_type": "cookie",
             "title": "",
-            "hits": 42,
+            "hits": 26,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 16,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 19,
+            "id": 18,
             "url": "\/ip",
+            "match_url": "\/ip",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -336,16 +514,25 @@
             },
             "match_type": "ip",
             "title": "",
-            "hits": 47,
+            "hits": 37,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 17,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 20,
+            "id": 19,
             "url": "\/server",
+            "match_url": "\/server",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -355,16 +542,25 @@
             },
             "match_type": "server",
             "title": "",
-            "hits": 34,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 18,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 21,
+            "id": 20,
             "url": "\/http",
+            "match_url": "\/http",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -376,16 +572,25 @@
             },
             "match_type": "header",
             "title": "",
-            "hits": 42,
+            "hits": 26,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 19,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
             "enabled": true
         },
         {
-            "id": 22,
+            "id": 21,
             "url": "\/pagetype",
+            "match_url": "\/pagetype",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
             "action_code": 301,
             "action_type": "url",
             "action_data": {
@@ -394,11 +599,219 @@
             },
             "match_type": "page",
             "title": "",
-            "hits": 21,
+            "hits": 13,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 20,
-            "last_access": "December 10, 2018",
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 22,
+            "url": "\/plain-trailing-slash",
+            "match_url": "\/plain-trailing-slash",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 16,
+            "regex": false,
+            "group_id": 3,
+            "position": 21,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 23,
+            "url": "\/plain-trailing-case",
+            "match_url": "\/plain-trailing-case",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 6,
+            "regex": false,
+            "group_id": 3,
+            "position": 22,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 24,
+            "url": "\/plain-query-ignore",
+            "match_url": "\/plain-query-ignore",
+            "match_data": {
+                "source": {
+                    "flag_query": "ignore",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 12,
+            "regex": false,
+            "group_id": 3,
+            "position": 23,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 25,
+            "url": "\/plain-query-exact?param1=1&param2=2",
+            "match_url": "\/plain-query-exact",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 12,
+            "regex": false,
+            "group_id": 3,
+            "position": 24,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 26,
+            "url": "\/plain-query-pass",
+            "match_url": "\/plain-query-pass",
+            "match_data": {
+                "source": {
+                    "flag_query": "pass",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 6,
+            "regex": false,
+            "group_id": 3,
+            "position": 25,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 27,
+            "url": "\/plain-query-pass-existing",
+            "match_url": "\/plain-query-pass-existing",
+            "match_data": {
+                "source": {
+                    "flag_query": "pass",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect?random=yes"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 6,
+            "regex": false,
+            "group_id": 3,
+            "position": 26,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 28,
+            "url": "\/plain-query-all",
+            "match_url": "\/plain-query-all",
+            "match_data": {
+                "source": {
+                    "flag_query": "ignore",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 3,
+            "position": 27,
+            "last_access": "December 31, 2018",
+            "enabled": true
+        },
+        {
+            "id": 29,
+            "url": "^\/plain-case-regex\/(.*)",
+            "match_url": "regex",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": false,
+                    "flag_regex": true
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "\/plain-redirect\/$1"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 6,
+            "regex": true,
+            "group_id": 3,
+            "position": 28,
+            "last_access": "December 31, 2018",
             "enabled": true
         }
     ]
