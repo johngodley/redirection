@@ -39,4 +39,9 @@ class UrlMatchTest extends WP_UnitTestCase {
 		$match = new URL_Match( '/other/$1' );
 		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
+
+	public function testRegexTargetTrailing() {
+		$match = new URL_Match( '/other/$1' );
+		$this->assertEquals( '/other/1/', $match->get_target( '/category/1/', '/category/(.*?)', new Red_Source_Flags( [ 'flag_regex' => true, 'flag_trailing' => true ] ) ) );
+	}
 }
