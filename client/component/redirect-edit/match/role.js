@@ -9,28 +9,21 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
+import TableRow from '../table-row';
 
-class MatchRole extends React.Component {
-	onChange = ev => {
-		if ( ev.target.value !== '' ) {
-			this.props.onChange( 'role', 'role', ev.target.value );
-		}
-	}
+const MatchRole = ( { data, onChange } ) => {
+	const { role } = data;
 
-	render() {
-		return (
-			<tr>
-				<th>{ __( 'Role' ) }</th>
-				<td>
-					<input type="text" value={ this.props.role } placeholder={ __( 'Enter role or capability value' ) } onChange={ this.onChange } />
-				</td>
-			</tr>
-		);
-	}
-}
+	return (
+		<TableRow title={ __( 'Role' ) }>
+			<input type="text" value={ role } name="role" placeholder={ __( 'Enter role or capability value' ) } onChange={ onChange } />
+		</TableRow>
+	);
+};
 
 MatchRole.propTypes = {
-	role: PropTypes.string.isRequired,
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 export default MatchRole;

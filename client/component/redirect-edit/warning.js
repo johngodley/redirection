@@ -11,6 +11,7 @@ import * as parseUrl from 'url';
  */
 
 import ExternalLink from 'component/external-link';
+import TableRow from './table-row';
 
 const isRegex = ( text ) => {
 	if ( text.match( /[\*\\\(\)\[\]\^\$]/ ) !== null ) {
@@ -24,7 +25,7 @@ const isRegex = ( text ) => {
 	return false;
 };
 
-const getWarningFromState = ( { url, flag_regex } ) => {
+export const getWarningFromState = ( { url, flag_regex } ) => {
 	const warnings = [];
 
 	// Anchor value
@@ -90,4 +91,16 @@ const getWarningFromState = ( { url, flag_regex } ) => {
 	return warnings;
 };
 
-export default getWarningFromState;
+export const Warnings = ( { warnings } ) => {
+	if ( warnings.length === 0 ) {
+		return null;
+	}
+
+	return (
+		<TableRow>
+			<div className="edit-redirection_warning notice notice-warning">
+				{ warnings.map( ( text, pos ) => <p key={ pos }><span className="dashicons dashicons-info"></span>{ text }</p> ) }
+			</div>
+		</TableRow>
+	);
+};

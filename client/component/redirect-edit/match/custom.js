@@ -9,27 +9,21 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
+import TableRow from '../table-row';
 
-class MatchCustom extends React.Component {
-	static propTypes = {
-		filter: PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
-	};
+const MatchCustom = ( { data, onChange } ) => {
+	const { filter } = data;
 
-	onChange = ev => {
-		this.props.onChange( 'custom', 'filter', ev.target.value );
-	}
+	return (
+		<TableRow title={ __( 'Filter Name' ) }>
+			<input type="text" name="filter" value={ filter } onChange={ onChange } className="medium" placeholder={ __( 'WordPress filter name' ) } />
+		</TableRow>
+	);
+};
 
-	render() {
-		return (
-			<tr>
-				<th>{ __( 'Filter Name' ) }</th>
-				<td className="customfilter-match">
-					<input type="text" name="filter" value={ this.props.filter } onChange={ this.onChange } className="medium" placeholder={ __( 'WordPress filter name' ) } />
-				</td>
-			</tr>
-		);
-	}
-}
+MatchCustom.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default MatchCustom;
