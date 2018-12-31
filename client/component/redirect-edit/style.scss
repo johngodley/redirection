@@ -22,6 +22,7 @@
 			flex: 1 1 auto;
 			justify-content: flex-start;
 			margin-right: 5px;
+			text-align: left;
 		}
 
 		> select {
@@ -61,11 +62,12 @@
 		}
 
 		p {
+			color: #444;
 			margin: auto;
 		}
 
 		a {
-			color: black;
+			color: #444;
 			text-decoration: none;
 		}
 
