@@ -33,6 +33,16 @@ class IPMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $saved, $match->save( array( 'ip' => [ '192.168.1.1' ] ) ) );
 	}
 
+	public function testIgnoreBadIp() {
+		$match = new Ip_Match();
+		$saved = array(
+			'url_from' => '',
+			'url_notfrom' => '',
+			'ip' => [ '192.168.1.1' ],
+		);
+		$this->assertEquals( $saved, $match->save( array( 'ip' => [ 'a', 'b', '192.168.1.1' ] ) ) );
+	}
+
 	public function testLoadBad() {
 		$match = new Ip_Match();
 		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes', 'ip' => '' ) ) );

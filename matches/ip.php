@@ -27,7 +27,7 @@ class IP_Match extends Red_Match {
 	private function sanitize_ips( $ips ) {
 		if ( is_array( $ips ) ) {
 			$ips = array_map( array( $this, 'sanitize_single_ip' ), $ips );
-			return array_filter( array_unique( $ips ) );
+			return array_values( array_filter( array_unique( $ips ) ) );
 		}
 
 		return array();
