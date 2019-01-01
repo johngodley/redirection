@@ -71,7 +71,7 @@
     "eslint-plugin-wpcalypso": "^4.0.2",
     "exports-loader": "^0.7.0",
     "glob-all": "^3.1.0",
-    "gulp": "^4.0.0",
+    "gulp": "3.9.1",
     "gulp-deleted": "0.0.2",
     "gulp-po2json": "^1.0.0",
     "gulp-sort": "^2.0.0",
