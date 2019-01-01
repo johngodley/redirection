@@ -106,6 +106,7 @@ if ( isProduction() ) {
 			warnings: false,
 			publicPath: false,
 		},
+		disableHostCheck: true,
 	};
 }
 

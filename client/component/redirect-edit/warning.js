@@ -6,6 +6,12 @@ import React from 'react';
 import { translate as __ } from 'lib/locale';
 import * as parseUrl from 'url';
 
+/**
+ * Internal dependencies
+ */
+
+import ExternalLink from 'component/external-link';
+
 const isRegex = ( text ) => {
 	if ( text.match( /[\*\\\(\)\[\]\^\$]/ ) !== null ) {
 		return true;
@@ -18,53 +24,66 @@ const isRegex = ( text ) => {
 	return false;
 };
 
-const getWarningFromState = ( state ) => {
+const getWarningFromState = ( { url, regex } ) => {
 	const warnings = [];
 
 	// Anchor value
-	if ( state.url.indexOf( '#' ) !== -1 ) {
+	if ( url.indexOf( '#' ) !== -1 ) {
 		warnings.push(
-			__( 'Anchor values are not sent to the server and cannot be redirected.' ),
+			<ExternalLink url="https://redirection.me/support/faq/#anchor">{ __( 'Anchor values are not sent to the server and cannot be redirected.' ) }</ExternalLink>,
 		);
 	}
 
 	// Server redirect
-	if ( state.url.substr( 0, 4 ) === 'http' && state.url.indexOf( document.location.origin ) === -1 ) {
+	if ( url.substr( 0, 4 ) === 'http' && url.indexOf( document.location.origin ) === -1 ) {
 		warnings.push(
-			__( 'This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.', {
-				components: {
-					code: <code />,
-				},
-				args: {
-					server: parseUrl.parse( state.url ).hostname,
-				},
-			} )
+			<ExternalLink url="https://redirection.me/support/matching-redirects/#server">
+				{ __( 'This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.', {
+					components: {
+						code: <code />,
+					},
+					args: {
+						server: parseUrl.parse( url ).hostname,
+					},
+				} ) }
+			</ExternalLink>
 		);
 	}
 
+	// Relative URL without leading slash
+	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 ) {
+		warnings.push( __( 'The source URL should probably start with a {{code}}/{{/code}}', {
+			components: {
+				code: <code />,
+			},
+		} ) );
+	}
+
 	// Regex without checkbox
-	if ( isRegex( state.url ) && state.regex === false ) {
+	if ( isRegex( url ) && regex === false ) {
 		warnings.push(
-			__( 'Remember to enable the "regex" checkbox if this is a regular expression.' ),
+			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
+				{ __( 'Remember to enable the "regex" checkbox if this is a regular expression.' ) }
+			</ExternalLink>
 		);
 	}
 
 	// Anchor
-	if ( isRegex( state.url ) && state.url.indexOf( '^' ) === -1 && state.url.indexOf( '$' ) === -1 ) {
+	if ( isRegex( url ) && url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 ) {
 		warnings.push(
 			__( 'To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
 				components: {
 					code: <code />,
 				},
 				args: {
-					example: '^' + state.url,
+					example: '^' + url,
 				},
 			} ),
 		);
 	}
 
 	// Redirect everything
-	if ( state.url === '/(.*)' || state.url === '^/(.*)' ) {
+	if ( url === '/(.*)' || url === '^/(.*)' ) {
 		warnings.push( __( 'This will redirect everything, including the login pages. Please be sure you want to do this.' ) );
 	}
 

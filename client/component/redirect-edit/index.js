@@ -67,7 +67,7 @@ class EditRedirect extends React.Component {
 		const { logged_in = '', logged_out = '' } = action_data ? action_data : {};
 
 		this.state = {
-			warning: [],
+			warning: getWarningFromState( props.item ),
 			url,
 			title,
 			regex,
