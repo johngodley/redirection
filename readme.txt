@@ -151,12 +151,14 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 4.0 =
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
-== Changelog == 
+== Changelog ==
 = 4.0 - ??? =
 * Add option for case insensitive redirects
 * Add option to ignore trailing slashes
+* Add option to copy query parameters to target URL
 * Add option to ignore query parameters
-* Add option to copy query parameters to target URL 
+* Add option to set defaults for case, trailing, and query settings
+
 = 3.7.3 - 2nd Feb 2019 =
 * Add PHP < 5.4 message on plugins page
 * Prevent upgrade message being hidden by other plugins
