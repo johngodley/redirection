@@ -278,7 +278,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	public function testGetUpgradesForSameVersion() {
 		$database = new Red_Database();
 		$upgrades = $database->get_upgrades_for_version( '2.2', false );
-		$this->assertEquals( 4, count( $upgrades ) );
+		$this->assertEquals( 5, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
