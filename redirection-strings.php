@@ -153,11 +153,12 @@ __( "Role", "redirection" ), // client/component/redirect-edit/match/role.js:23
 __( "Enter role or capability value", "redirection" ), // client/component/redirect-edit/match/role.js:25
 __( "Server", "redirection" ), // client/component/redirect-edit/match/server.js:25
 __( "Enter server URL to match against", "redirection" ), // client/component/redirect-edit/match/server.js:27
-__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:27
-__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:34
-__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:48
-__( "To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:55
-__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:68
+__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:33
+__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:41
+__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:55
+__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:66
+__( "To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:74
+__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:87
 __( "Filter", "redirection" ), // client/component/table/filter.js:39
 __( "Group", "redirection" ), // client/component/table/group.js:39
 __( "Select All", "redirection" ), // client/component/table/header/check-column.js:14
@@ -229,6 +230,7 @@ __( "Retry", "redirection" ), // client/component/welcome-wizard/index.js:295
 __( "Checking your REST API", "redirection" ), // client/component/welcome-wizard/index.js:297
 __( "Finish Setup", "redirection" ), // client/component/welcome-wizard/index.js:306
 __( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:307
+__( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:351
 __( "I need some support!", "redirection" ), // client/component/welcome-wizard/index.js:359
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
 __( "Name", "redirection" ), // client/page/groups/index.js:31
@@ -250,11 +252,11 @@ __( "Name", "redirection" ), // client/page/groups/row.js:109
 __( "Module", "redirection" ), // client/page/groups/row.js:113
 __( "Save", "redirection" ), // client/page/groups/row.js:122
 __( "Cancel", "redirection" ), // client/page/groups/row.js:123
-__( "Update Required", "redirection" ), // client/page/home/database-update.js:23
-__( "Redirection database needs updating", "redirection" ), // client/page/home/database-update.js:26
-__( "Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.", "redirection" ), // client/page/home/database-update.js:27
-__( "As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.", "redirection" ), // client/page/home/database-update.js:34
-__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:40
+__( "Update Required", "redirection" ), // client/page/home/database-update.js:35
+__( "Redirection database needs updating", "redirection" ), // client/page/home/database-update.js:38
+__( "Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.", "redirection" ), // client/page/home/database-update.js:39
+__( "As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.", "redirection" ), // client/page/home/database-update.js:46
+__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:52
 __( "Redirections", "redirection" ), // client/page/home/index.js:42
 __( "Groups", "redirection" ), // client/page/home/index.js:43
 __( "Import/Export", "redirection" ), // client/page/home/index.js:44
@@ -274,38 +276,38 @@ __( "Please mention {{code}}%s{{/code}}, and explain what you were doing at the 
 __( "Add New", "redirection" ), // client/page/home/index.js:229
 __( "total = ", "redirection" ), // client/page/io/importer.js:17
 __( "Import from %s", "redirection" ), // client/page/io/importer.js:20
-__( "Import to group", "redirection" ), // client/page/io/index.js:114
-__( "Import a CSV, .htaccess, or JSON file.", "redirection" ), // client/page/io/index.js:122
-__( "Click 'Add File' or drag and drop here.", "redirection" ), // client/page/io/index.js:123
-__( "Add File", "redirection" ), // client/page/io/index.js:125
-__( "File selected", "redirection" ), // client/page/io/index.js:136
-__( "Upload", "redirection" ), // client/page/io/index.js:142
-__( "Cancel", "redirection" ), // client/page/io/index.js:143
-__( "Importing", "redirection" ), // client/page/io/index.js:153
-__( "Finished importing", "redirection" ), // client/page/io/index.js:169
-__( "Total redirects imported:", "redirection" ), // client/page/io/index.js:171
-__( "Double-check the file is the correct format!", "redirection" ), // client/page/io/index.js:172
-__( "OK", "redirection" ), // client/page/io/index.js:174
-__( "Close", "redirection" ), // client/page/io/index.js:201
-__( "Are you sure you want to import from %s?", "redirection" ), // client/page/io/index.js:215
-__( "Plugin Importers", "redirection" ), // client/page/io/index.js:223
-__( "The following redirect plugins were detected on your site and can be imported from.", "redirection" ), // client/page/io/index.js:225
-__( "Import", "redirection" ), // client/page/io/index.js:244
-__( "All imports will be appended to the current database.", "redirection" ), // client/page/io/index.js:250
-__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/page/io/index.js:253
-__( "Export", "redirection" ), // client/page/io/index.js:262
-__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/page/io/index.js:263
-__( "Everything", "redirection" ), // client/page/io/index.js:266
-__( "WordPress redirects", "redirection" ), // client/page/io/index.js:267
-__( "Apache redirects", "redirection" ), // client/page/io/index.js:268
-__( "Nginx redirects", "redirection" ), // client/page/io/index.js:269
-__( "CSV", "redirection" ), // client/page/io/index.js:273
-__( "Apache .htaccess", "redirection" ), // client/page/io/index.js:274
-__( "Nginx rewrite rules", "redirection" ), // client/page/io/index.js:275
-__( "Redirection JSON", "redirection" ), // client/page/io/index.js:276
-__( "View", "redirection" ), // client/page/io/index.js:279
-__( "Download", "redirection" ), // client/page/io/index.js:281
-__( "Log files can be exported from the log pages.", "redirection" ), // client/page/io/index.js:286
+__( "Import to group", "redirection" ), // client/page/io/index.js:112
+__( "Import a CSV, .htaccess, or JSON file.", "redirection" ), // client/page/io/index.js:120
+__( "Click 'Add File' or drag and drop here.", "redirection" ), // client/page/io/index.js:121
+__( "Add File", "redirection" ), // client/page/io/index.js:123
+__( "File selected", "redirection" ), // client/page/io/index.js:134
+__( "Upload", "redirection" ), // client/page/io/index.js:140
+__( "Cancel", "redirection" ), // client/page/io/index.js:141
+__( "Importing", "redirection" ), // client/page/io/index.js:151
+__( "Finished importing", "redirection" ), // client/page/io/index.js:167
+__( "Total redirects imported:", "redirection" ), // client/page/io/index.js:169
+__( "Double-check the file is the correct format!", "redirection" ), // client/page/io/index.js:170
+__( "OK", "redirection" ), // client/page/io/index.js:172
+__( "Close", "redirection" ), // client/page/io/index.js:199
+__( "Are you sure you want to import from %s?", "redirection" ), // client/page/io/index.js:213
+__( "Plugin Importers", "redirection" ), // client/page/io/index.js:221
+__( "The following redirect plugins were detected on your site and can be imported from.", "redirection" ), // client/page/io/index.js:223
+__( "Import", "redirection" ), // client/page/io/index.js:242
+__( "All imports will be appended to the current database.", "redirection" ), // client/page/io/index.js:248
+__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/page/io/index.js:251
+__( "Export", "redirection" ), // client/page/io/index.js:260
+__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/page/io/index.js:261
+__( "Everything", "redirection" ), // client/page/io/index.js:264
+__( "WordPress redirects", "redirection" ), // client/page/io/index.js:265
+__( "Apache redirects", "redirection" ), // client/page/io/index.js:266
+__( "Nginx redirects", "redirection" ), // client/page/io/index.js:267
+__( "CSV", "redirection" ), // client/page/io/index.js:271
+__( "Apache .htaccess", "redirection" ), // client/page/io/index.js:272
+__( "Nginx rewrite rules", "redirection" ), // client/page/io/index.js:273
+__( "Redirection JSON", "redirection" ), // client/page/io/index.js:274
+__( "View", "redirection" ), // client/page/io/index.js:277
+__( "Download", "redirection" ), // client/page/io/index.js:279
+__( "Log files can be exported from the log pages.", "redirection" ), // client/page/io/index.js:284
 __( "Delete all from IP %s", "redirection" ), // client/page/logs/delete-all.js:54
 __( "Delete all matching \"%s\"", "redirection" ), // client/page/logs/delete-all.js:60
 __( "Delete All", "redirection" ), // client/page/logs/delete-all.js:65

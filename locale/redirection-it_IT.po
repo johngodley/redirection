@@ -1364,7 +1364,7 @@ msgstr "Gruppo"
 
 #: redirection-strings.php:310
 msgid "Match"
-msgstr "Match"
+msgstr ""
 
 #: redirection-strings.php:332
 msgid "Add new redirection"
