@@ -158,6 +158,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add option to ignore trailing slashes
 * Add option to ignore query parameters
 * Add option to copy query parameters to target URL
+* Add option to set defaults for case, trailing, and query settings
 
 = 3.7 - ??? =
 * Add redirect warning for known problem redirects
