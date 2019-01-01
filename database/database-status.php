@@ -130,6 +130,7 @@ class Red_Database_Status {
 	public function set_ok( $reason ) {
 		$this->reason = $reason;
 		$this->result = self::RESULT_OK;
+		$this->debug = [];
 	}
 
 	/**
@@ -138,6 +139,7 @@ class Red_Database_Status {
 	public function stop_update() {
 		$this->stage = false;
 		$this->stages = [];
+		$this->debug = [];
 
 		delete_option( self::DB_UPGRADE_STAGE );
 	}
@@ -287,7 +289,7 @@ class Red_Database_Status {
 
 	private function get_next_stage( $stage ) {
 		$database = new Red_Database();
-		$upgraders = $database->get_upgrades_for_version( $this->get_current_version() );
+		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), $this->get_current_stage() );
 		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?

@@ -9,7 +9,7 @@ class Red_Database {
 	 *
 	 * @return array Array of versions from self::get_upgrades()
 	 */
-	public function get_upgrades_for_version( $current_version ) {
+	public function get_upgrades_for_version( $current_version, $current_stage ) {
 		if ( $current_version === '' ) {
 			return [ [
 				'version' => REDIRECTION_DB_VERSION,
@@ -19,9 +19,21 @@ class Red_Database {
 		}
 
 		$upgraders = [];
+		$found = false;
 
 		foreach ( $this->get_upgrades() as $upgrade ) {
-			if ( version_compare( $upgrade['version'], $current_version, 'ge' ) ) {
+			if ( ! $found ) {
+				$upgrader = Red_Database_Upgrader::get( $upgrade );
+
+				$stage_present = in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
+				$same_version = $current_stage === false && version_compare( $upgrade['version'], $current_version, 'g' );
+
+				if ( $stage_present || $same_version ) {
+					$found = true;
+				}
+			}
+
+			if ( $found ) {
 				$upgraders[] = $upgrade;
 			}
 		}
@@ -35,7 +47,7 @@ class Red_Database {
 	 * @return mixed Result for upgrade
 	 */
 	public function apply_upgrade( Red_Database_Status $status ) {
-		$upgraders = $this->get_upgrades_for_version( $status->get_current_version() );
+		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
 			return new WP_Error( 'redirect', 'No upgrades found for version ' . $status->get_current_version() );

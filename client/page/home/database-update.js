@@ -12,10 +12,22 @@ import { translate as __ } from 'lib/locale';
 import { getExportUrl } from 'state/io/selector';
 import Database from 'component/database';
 import ExternalLink from 'component/external-link';
+import Error from 'component/error';
+import { STATUS_FAILED } from 'state/settings/type';
 
-const NeedUpdate = ( { onShowUpgrade, showDatabase } ) => {
+const NeedUpdate = ( { onShowUpgrade, showDatabase, result } ) => {
 	if ( showDatabase ) {
-		return <div className="wizard-wrapper"><div className="wizard"><Database /></div></div>;
+		return (
+			<React.Fragment>
+				{ result === STATUS_FAILED && <Error /> }
+
+				<div className="wizard-wrapper">
+					<div className="wizard">
+						<Database />
+					</div>
+				</div>
+			</React.Fragment>
+		);
 	}
 
 	return (

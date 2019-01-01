@@ -14,6 +14,7 @@ function _manually_load_plugin() {
 	require dirname( __FILE__ ) . '/../database/schema/latest.php';
 
 	$database = new Red_Latest_Database();
+	$database->remove();
 	$database->install();
 }
 

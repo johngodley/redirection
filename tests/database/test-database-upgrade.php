@@ -63,7 +63,7 @@ class DatabaseTester {
 		return false;
 	}
 
-	public function create_tables( $file ) {
+	public function create_tables( $file, $unit ) {
 		global $wpdb;
 
 		$sql = $this->load_sql( $file );
@@ -80,7 +80,7 @@ class DatabaseTester {
 			return true;
 		}
 
-		$this->fail( 'Missing table: ' . $file );
+		$unit->fail( 'Missing table: ' . $file );
 	}
 
 	// Specifically checks the conversion of IP addresses when going from <2.4 => 2.4
@@ -265,13 +265,13 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	public function testGetUpgradesForSameVersion() {
 		$database = new Red_Database();
-		$upgrades = $database->get_upgrades_for_version( '2.2' );
-		$this->assertEquals( 5, count( $upgrades ) );
+		$upgrades = $database->get_upgrades_for_version( '2.2', false );
+		$this->assertEquals( 4, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
 		$database = new Red_Database();
-		$upgrades = $database->get_upgrades_for_version( '100.0.0' );
+		$upgrades = $database->get_upgrades_for_version( '100.0.0', false );
 		$this->assertEmpty( $upgrades );
 	}
 
@@ -284,9 +284,9 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 		$versions = array(
 			'2.3.4',  // => 2.4
-			'2.3.3',  // => 2.3.3
-			'2.3.2',  // => 2.3.2
-			'2.3.1',  // => 2.3.1
+			'2.3.2',  // => 2.3.3
+			'2.3.1.1',  // => 2.3.2
+			'2.3.0',  // => 2.3.1
 			'2.1.19', // => 2.2
 			'2.1.15', // => 2.1.16
 			'2.0.0',  // => 2.0.1
@@ -299,32 +299,39 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 			$status->stop_update();
 
 			// Load old tables
-			$tester->create_tables( dirname( __FILE__ ) . '/sql/' . $ver . '.sql' );
+			$tester->create_tables( dirname( __FILE__ ) . '/sql/' . $ver . '.sql', $this );
 			$latest->create_groups( $wpdb );
 			$tester->create_content_for_version( $ver );
 
 			red_set_options( array( 'database' => $ver ) );
 
 			// Perform upgrade to latest
+			$last = 0;
 			$loop = 0;
 
-			while ( $loop < 50 ) {
+			while ( $loop < 200 ) {
 				$result = $database->apply_upgrade( $status );
-				$info = $status->get_json();
 
+				if ( is_wp_error( $result ) ) {
+					$this->fail( $result->get_error_message() );
+				}
+
+				$info = $status->get_json();
 				if ( ! $info['inProgress'] ) {
 					break;
 				}
 
-				if ( $info['status'] === 'error' ) {
-					$this->fail( $info['reason'] );
+				if ( $info['result'] === 'error' ) {
+					$this->fail( $ver . ' ' . $info['reason'] );
 				}
 
-				$loop++;
-			}
+				if ( $last === $status->get_current_stage() ) {
+					$this->fail( 'Loop detected for ' . $ver );
+					die();
+				}
 
-			if ( $loop === 50 ) {
-				$this->fail( 'Loop detected' );
+				$last = $status->get_current_stage();
+				$loop++;
 			}
 
 			// Check tables match latest

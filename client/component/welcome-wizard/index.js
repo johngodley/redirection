@@ -348,7 +348,7 @@ class WelcomeWizard extends React.Component {
 				{ result === STATUS_FAILED && <Error /> }
 
 				<div className="wizard-wrapper">
-					{ step !== 0 && step !== 3 && <h1>Redirection</h1> }
+					{ step !== 0 && step !== 3 && <h1>{ __( 'Redirection' ) }</h1> }
 
 					<div className="wizard">
 						{ content }
