@@ -38,8 +38,8 @@ class RedirectTest extends WP_UnitTestCase {
 		remove_filter( 'wp_redirect', array( $this, 'captureRedirectResult' ) );
 	}
 
-	public function testConstruct() {
-		$data = array(
+	private function get_item_data() {
+		return [
 			'id' => 1,
 			'url' => 'url',
 			'match_url' => 'url',
@@ -55,7 +55,11 @@ class RedirectTest extends WP_UnitTestCase {
 			'status' => 'enabled',
 			'position' => 5,
 			'group_id' => 2,
-		);
+		];
+	}
+
+	public function testConstruct() {
+		$data = $this->get_item_data();
 
 		$item = new Red_Item( (object) $data );
 
@@ -73,6 +77,37 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->assertEquals( 5, $item->get_hits() );
 		$this->assertEquals( 5, $item->get_position() );
 		$this->assertEquals( mysql2date( 'U', '2017-01-02 01:02:03' ), $item->get_last_hit() );
+
+		// The old regex column should be copied to the source flags
+		$this->assertTrue( $item->source_flags->is_regex() );
+	}
+
+	public function testConstructNoSourceDefaults() {
+		// Test that with no flag data at all we still get the defaults
+		red_set_options( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true, 'flag_regex' => false ] );
+
+		$data = $this->get_item_data();
+		$data['regex'] = false;
+
+		$item = new Red_Item( (object) $data );
+
+		$this->assertTrue( $item->source_flags->is_query_ignore() );
+		$this->assertTrue( $item->source_flags->is_ignore_case() );
+		$this->assertTrue( $item->source_flags->is_ignore_trailing() );
+	}
+
+	public function testConstructOverride() {
+		// Check that with some flags we get defaults
+		red_set_options( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
+
+		$data = $this->get_item_data();
+		$data['match_data'] = json_encode( [ 'source' => [ 'flag_case' => false ] ] );
+
+		$item = new Red_Item( (object) $data );
+
+		$this->assertTrue( $item->source_flags->is_query_ignore() );
+		$this->assertFalse( $item->source_flags->is_ignore_case() );
+		$this->assertTrue( $item->source_flags->is_ignore_trailing() );
 	}
 
 	public function testBadAllForModule() {

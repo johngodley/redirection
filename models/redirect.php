@@ -48,7 +48,7 @@ class Red_Item {
 	private function load_source_flags() {
 		// Default regex flag to regex column. This will be removed once the regex column has been migrated
 		// todo: deprecate
-		$this->source_flags = new Red_Source_Flags( [ 'flag_regex' => $this->regex ] );
+		$this->source_flags = new Red_Source_Flags( array_merge( red_get_options(), [ 'flag_regex' => $this->regex ] ) );
 
 		if ( isset( $this->match_data ) ) {
 			$json = json_decode( $this->match_data, true );
