@@ -45,7 +45,7 @@ function isDifferentFlag( flag, value, existing ) {
 	return flag === 'flag_regex';
 }
 
-const RedirectSourceUrl = ( { url, flags, onFlagChange, onChange, autoFocus = false } ) => {
+const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, autoFocus = false } ) => {
 	const flagOptions = getSourceFlags();
 
 	if ( Array.isArray( url ) ) {
@@ -57,7 +57,7 @@ const RedirectSourceUrl = ( { url, flags, onFlagChange, onChange, autoFocus = fa
 	}
 
 	const getFlagStyle = ( provided, state ) => {
-		if ( isDifferentFlag( state.data.value, state.hasValue, flags ) ) {
+		if ( isDifferentFlag( state.data.value, state.hasValue, defaultFlags ) ) {
 			return { ... provided, backgroundColor: FLAG_DEFAULT };
 		}
 
@@ -65,7 +65,7 @@ const RedirectSourceUrl = ( { url, flags, onFlagChange, onChange, autoFocus = fa
 	};
 
 	const getRemoveFlag = ( provided, state ) => {
-		if ( isDifferentFlag( state.data.value, state.hasValue, flags ) ) {
+		if ( isDifferentFlag( state.data.value, state.hasValue, defaultFlags ) ) {
 			return { ... provided, ':hover': { backgroundColor: FLAG_DEFAULT_HOVER } };
 		}
 
@@ -106,6 +106,7 @@ RedirectSourceUrl.propTypes = {
 	onFlagChange: PropTypes.func.isRequired,
 	onChange: PropTypes.func.isRequired,
 	autoFocus: PropTypes.bool,
+	defaultFlags: PropTypes.object.isRequired,
 };
 
 export default RedirectSourceUrl;

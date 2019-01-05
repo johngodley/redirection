@@ -255,11 +255,11 @@ class EditRedirect extends React.Component {
 
 	renderItem() {
 		const { url, advanced, flag_regex, action_type, match_type, action_data, flag_query, group_id, position, title, action_code } = this.state;
-		const { autoFocus, group } = this.props;
+		const { autoFocus, group, flags } = this.props;
 
 		return (
 			<React.Fragment>
-				<RedirectSourceUrl url={ url } flags={ this.state } autoFocus={ autoFocus } onFlagChange={ this.onFlagChange } onChange={ this.onChange } />
+				<RedirectSourceUrl url={ url } flags={ this.state } defaultFlags={ flags } autoFocus={ autoFocus } onFlagChange={ this.onFlagChange } onChange={ this.onChange } />
 				<RedirectSourceQuery query={ flag_query } regex={ flag_regex } onChange={ this.onChange } />
 				{ advanced &&
 
