@@ -139,7 +139,7 @@ export const RedirectionApi = {
 		delete: () => deleteApiRequest( 'plugin/delete' ),
 		upgradeDatabase: ( upgrade ) => postApiRequest( 'plugin/database', upgrade ? { upgrade } : {} ),
 		checkApi: ( url, post = false ) => {
-			const request = post ? getApiRequest( 'plugin/test' ) : postApiRequest( 'plugin/test', { test: 'ping' } );
+			const request = post ? postApiRequest( 'plugin/test', { test: 'ping' } ) : getApiRequest( 'plugin/test' );
 
 			request.url = request.url.replace( Redirectioni10n.WP_API_root, url );
 			if ( request.url.indexOf( 'php?' ) !== -1 ) {
