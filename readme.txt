@@ -150,7 +150,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.7 - ??? =
+= 3.7 - 12th Jan 2019 =
 * Add redirect warning for known problem redirects
 * Add new database install and upgrade process
 * Add database functions to WP CLI

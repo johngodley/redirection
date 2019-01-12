@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-11-10 16:31:31+0000\n"
+"PO-Revision-Date: 2019-01-11 01:26:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1057,11 +1057,11 @@ msgstr "Exibir opções avançadas"
 
 #: redirection-strings.php:274
 msgid "Matched Target"
-msgstr "Destino correspondido"
+msgstr "Destino se correspondido"
 
 #: redirection-strings.php:276
 msgid "Unmatched Target"
-msgstr "Destino não correspondido"
+msgstr "Destino se não correspondido"
 
 #: redirection-strings.php:57 redirection-strings.php:58
 msgid "Saving..."
