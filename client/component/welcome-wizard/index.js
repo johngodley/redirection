@@ -274,9 +274,9 @@ class WelcomeWizard extends React.Component {
 				</p>
 
 				<ul>
-					<li>{ __( 'A security plugin' ) }</li>
-					<li>{ __( 'A server firewall or other server configuration' ) }</li>
-					<li>{ __( 'Caching software, for example Cloudflare' ) }</li>
+					<li>{ __( 'A security plugin (e.g Wordfence)' ) }</li>
+					<li>{ __( 'A server firewall or other server configuration (e.g OVH)' ) }</li>
+					<li>{ __( 'Caching software (e.g Cloudflare)' ) }</li>
 					<li>{ __( 'Some other plugin that blocks the REST API' ) }</li>
 				</ul>
 
