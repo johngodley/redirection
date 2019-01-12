@@ -27,6 +27,10 @@ const isRegex = ( text ) => {
 const getWarningFromState = ( { url, regex } ) => {
 	const warnings = [];
 
+	if ( Array.isArray( url ) ) {
+		return warnings;
+	}
+
 	// Anchor value
 	if ( url.indexOf( '#' ) !== -1 ) {
 		warnings.push(
