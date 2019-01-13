@@ -150,6 +150,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 3.7.1 - 13th Jan 2019 =
+* Clarify database upgrade text
+* Fix Firefox problem with multiple URLs
+* Fix 3.7 built against wrong dropzone module
+* Add DB upgrade detection for people with partial 2.4 sites
+
 = 3.7 - 12th Jan 2019 =
 * Add redirect warning for known problem redirects
 * Add new database install and upgrade process
