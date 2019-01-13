@@ -339,4 +339,51 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 			$tester->check_content_for_version( $this, $ver );
 		}
 	}
+
+	public function testUpgradeBroken233() {
+		global $wpdb;
+
+		$this->removeTables();
+
+		// Some sites have a broken 2.4 database and are still marked as 2.3.3
+		$status = new Red_Database_Status();
+		$tester = new DatabaseTester();
+		$latest = new Red_Latest_Database();
+		$database = new Red_Database();
+
+		$status->stop_update();
+		$tester->create_tables( dirname( __FILE__ ) . '/sql/2.3.2.sql', $this );
+		red_set_options( array( 'database' => '2.3.3' ) );
+		$latest->create_groups( $wpdb );
+
+		// Set up the broken install
+		$wpdb->query( "ALTER TABLE {$wpdb->prefix}redirection_404 DROP INDEX ip" );
+		$wpdb->query( "ALTER TABLE {$wpdb->prefix}redirection_404 ADD INDEX ip (id)" );
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+
+		while ( true ) {
+			$result = $database->apply_upgrade( $status );
+
+			if ( is_wp_error( $result ) ) {
+				$this->fail( $result->get_error_message() );
+			}
+
+			$info = $status->get_json();
+			if ( ! $info['inProgress'] ) {
+				break;
+			}
+
+			if ( $info['result'] === 'error' ) {
+				$this->fail( $ver . ' ' . $info['reason'] );
+			}
+		}
+
+		$tester->check_against_latest( $this, '2.3.2' );
+
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+		$this->assertTrue( strpos( $existing[1], 'KEY `ip` (`ip`)' ) !== false );
+	}
+
+	// XXX add test for 2.3.3 => 2.4 when key `ip` (`id`) exists
+	// XXX have a 'build for release' task that removes all node_modules, builds from scratch, versions, locale, etc
 }
