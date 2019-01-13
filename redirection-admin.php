@@ -73,8 +73,8 @@ class Redirection_Admin {
 			/* translators: 1: URL to plugin page */
 			$message = sprintf( __( 'Please complete your <a href="%s">Redirection setup</a> to activate the plugin.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ) );
 		} elseif ( $status->needs_updating() ) {
-			/* translators: 1: URL to plugin page 2: version number */
-			$message = sprintf( __( 'Redirection needs to be <a href="%1$1s">updated to version %2$2s</a>.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ), REDIRECTION_DB_VERSION );
+			/* translators: 1: URL to plugin page, 2: current version, 3: target version */
+			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update from %2$2s to %3$3s</a>.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ), $status->get_current_version(), REDIRECTION_DB_VERSION );
 		}
 
 		if ( ! $message || strpos( Redirection_Request::get_request_url(), 'page=redirection.php' ) !== false ) {
