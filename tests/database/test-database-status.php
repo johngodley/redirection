@@ -236,7 +236,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'next' => REDIRECTION_DB_VERSION,
 			'complete' => 0.0,
 			'reason' => 'this is an error',
-			'debug' => $latest->get_table_schema(),
+			'debug' => array_merge( $latest->get_table_schema(), [ 'Stage: add_title_201' ] ),
 		];
 
 		$actual = $status->get_json( new WP_Error( 'error', 'this is an error' ) );
