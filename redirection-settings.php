@@ -213,7 +213,11 @@ function red_get_rest_api( $type = false ) {
 	if ( $type === REDIRECTION_API_JSON_INDEX ) {
 		$url = home_url( '/index.php?rest_route=/' );
 	} elseif ( $type === REDIRECTION_API_JSON_RELATIVE ) {
-		$url = wp_parse_url( $url, PHP_URL_PATH );
+		$relative = wp_parse_url( $url, PHP_URL_PATH );
+
+		if ( $relative ) {
+			$url = $relative;
+		}
 	}
 
 	return $url;
