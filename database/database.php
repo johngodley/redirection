@@ -11,11 +11,13 @@ class Red_Database {
 	 */
 	public function get_upgrades_for_version( $current_version, $current_stage ) {
 		if ( $current_version === '' ) {
-			return [ [
-				'version' => REDIRECTION_DB_VERSION,
-				'file' => 'latest.php',
-				'class' => 'Red_Latest_Database',
-			] ];
+			return [
+				[
+					'version' => REDIRECTION_DB_VERSION,
+					'file' => 'latest.php',
+					'class' => 'Red_Latest_Database',
+				],
+			];
 		}
 
 		$upgraders = [];

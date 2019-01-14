@@ -125,6 +125,7 @@ class Red_Database_Status {
 
 		$latest = Red_Database::get_latest_database();
 		$this->debug = array_merge( $this->debug, $latest->get_table_schema() );
+		$this->debug[] = 'Stage: ' . $this->get_current_stage();
 	}
 
 	public function set_ok( $reason ) {
