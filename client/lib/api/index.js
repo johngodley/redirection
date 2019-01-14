@@ -17,8 +17,10 @@ const removeEmpty = item =>
 			return newObj;
 		}, {} );
 
+const getRootUrl = () => Redirectioni10n.WP_API_root ? Redirectioni10n.WP_API_root : '/wp-json/';
+
 const getRedirectionUrl = ( path, params = {} ) => {
-	const base = Redirectioni10n.WP_API_root + 'redirection/v1/' + path + '/';
+	const base = getRootUrl() + 'redirection/v1/' + path + '/';
 
 	// Some servers dont pass the X-WP-Nonce through to PHP
 	params._wpnonce = Redirectioni10n.WP_API_nonce;
@@ -29,10 +31,10 @@ const getRedirectionUrl = ( path, params = {} ) => {
 		if ( Object.keys( params ).length > 0 ) {
 			const querybase =
 				base +
-				( Redirectioni10n.WP_API_root.indexOf( '?' ) === -1 ? '?' : '&' ) +
+				( getRootUrl().indexOf( '?' ) === -1 ? '?' : '&' ) +
 				querystring.stringify( params );
 
-			if ( Redirectioni10n.WP_API_root.indexOf( 'page=redirection.php' ) !== -1 ) {
+			if ( getRootUrl().indexOf( 'page=redirection.php' ) !== -1 ) {
 				return querybase.replace( /page=(\d+)/, 'ppage=$1' );
 			}
 
@@ -141,7 +143,7 @@ export const RedirectionApi = {
 		checkApi: ( url, post = false ) => {
 			const request = post ? postApiRequest( 'plugin/test', { test: 'ping' } ) : getApiRequest( 'plugin/test' );
 
-			request.url = request.url.replace( Redirectioni10n.WP_API_root, url );
+			request.url = request.url.replace( getRootUrl(), url );
 			if ( request.url.indexOf( 'php?' ) !== -1 ) {
 				request.url = request.url.replace( '?_', '&_' );
 			}
@@ -187,7 +189,7 @@ export const RedirectLiApi = {
 };
 
 const getAction = request =>
-	request.url.replace( Redirectioni10n.WP_API_root, '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
+	request.url.replace( getRootUrl(), '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
 	' ' +
 	request.method.toUpperCase();
 
