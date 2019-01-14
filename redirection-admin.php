@@ -74,7 +74,7 @@ class Redirection_Admin {
 			$message = sprintf( __( 'Please complete your <a href="%s">Redirection setup</a> to activate the plugin.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ) );
 		} elseif ( $status->needs_updating() ) {
 			/* translators: 1: URL to plugin page, 2: current version, 3: target version */
-			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update from %2$2s to %3$3s</a>.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ), $status->get_current_version(), REDIRECTION_DB_VERSION );
+			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update</a>.' ), 'tools.php?page=' . basename( REDIRECTION_FILE ) );
 		}
 
 		if ( ! $message || strpos( Redirection_Request::get_request_url(), 'page=redirection.php' ) !== false ) {
@@ -258,8 +258,6 @@ class Redirection_Admin {
 			} elseif ( $options['rest_api'] === false ) {
 				red_set_options( array( 'rest_api' => 0 ) );
 			}
-
-			red_set_options( array( 'version' => REDIRECTION_VERSION ) );
 		}
 	}
 
