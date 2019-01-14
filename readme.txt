@@ -3,8 +3,8 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
-Tested up to: 5.0
-Stable tag: 3.7
+Tested up to: 5.0.3
+Stable tag: 3.7.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -149,6 +149,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Requires minimum PHP 5.4. Do not upgrade if you are still using PHP < 5.4
 
 == Changelog ==
+
+= 3.7.2 - ??? =
+* Add further partial upgrade detection
+* Add fallback for sites with no REST API value
 
 = 3.7.1 - 13th Jan 2019 =
 * Clarify database upgrade text
