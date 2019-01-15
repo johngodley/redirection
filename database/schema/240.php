@@ -25,7 +25,7 @@ class Red_Database_240 extends Red_Database_Upgrader {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 
 		if ( isset( $existing[1] ) ) {
-			return strpos( strtolower( $existing[1] ), 'key `ip` (`id`)' ) !== false;
+			return strpos( strtolower( $existing[1] ), 'key `ip` (' ) !== false;
 		}
 
 		return false;
