@@ -49,7 +49,7 @@ const NeedUpdate = ( { onShowUpgrade, showDatabase, result } ) => {
 		<div className="wrap redirection">
 			<h1 className="wp-heading-inline">{ __( 'Update Required' ) }</h1>
 
-			<div className="error">
+			<div className="notice-error notice">
 				<h3>{ __( 'Redirection database needs updating' ) }</h3>
 				<p>{ getUpgradeNotice() }</p>
 
