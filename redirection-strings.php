@@ -153,12 +153,12 @@ __( "Role", "redirection" ), // client/component/redirect-edit/match/role.js:23
 __( "Enter role or capability value", "redirection" ), // client/component/redirect-edit/match/role.js:25
 __( "Server", "redirection" ), // client/component/redirect-edit/match/server.js:25
 __( "Enter server URL to match against", "redirection" ), // client/component/redirect-edit/match/server.js:27
-__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:33
-__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:41
-__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:55
-__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:66
-__( "To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:74
-__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:87
+__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:37
+__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:45
+__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:59
+__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:70
+__( "To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:78
+__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:91
 __( "Filter", "redirection" ), // client/component/table/filter.js:39
 __( "Group", "redirection" ), // client/component/table/group.js:39
 __( "Select All", "redirection" ), // client/component/table/header/check-column.js:14
@@ -252,11 +252,12 @@ __( "Name", "redirection" ), // client/page/groups/row.js:109
 __( "Module", "redirection" ), // client/page/groups/row.js:113
 __( "Save", "redirection" ), // client/page/groups/row.js:122
 __( "Cancel", "redirection" ), // client/page/groups/row.js:123
-__( "Update Required", "redirection" ), // client/page/home/database-update.js:35
-__( "Redirection database needs updating", "redirection" ), // client/page/home/database-update.js:38
-__( "Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.", "redirection" ), // client/page/home/database-update.js:39
-__( "As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.", "redirection" ), // client/page/home/database-update.js:46
-__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:52
+__( "A database upgrade is in progress. Please continue to finish.", "redirection" ), // client/page/home/database-update.js:22
+__( "Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.", "redirection" ), // client/page/home/database-update.js:25
+__( "Update Required", "redirection" ), // client/page/home/database-update.js:50
+__( "Redirection database needs updating", "redirection" ), // client/page/home/database-update.js:53
+__( "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}.", "redirection" ), // client/page/home/database-update.js:56
+__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:62
 __( "Redirections", "redirection" ), // client/page/home/index.js:42
 __( "Groups", "redirection" ), // client/page/home/index.js:43
 __( "Import/Export", "redirection" ), // client/page/home/index.js:44
@@ -459,7 +460,7 @@ __( "Newsletter", "redirection" ), // client/page/support/newsletter.js:23
 __( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/page/support/newsletter.js:25
 __( "Newsletter", "redirection" ), // client/page/support/newsletter.js:36
 __( "Want to keep up to date with changes to Redirection?", "redirection" ), // client/page/support/newsletter.js:38
-__( "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release.", "redirection" ), // client/page/support/newsletter.js:39
+__( "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release.", "redirection" ), // client/page/support/newsletter.js:39
 __( "Your email address:", "redirection" ), // client/page/support/newsletter.js:43
 __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below.", "redirection" ), // client/page/support/status.js:24
 __( "⚡️ Magic fix ⚡️", "redirection" ), // client/page/support/status.js:25
