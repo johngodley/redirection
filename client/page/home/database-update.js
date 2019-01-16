@@ -53,7 +53,7 @@ const NeedUpdate = ( { onShowUpgrade, showDatabase, result } ) => {
 				<h3>{ __( 'Redirection database needs updating' ) }</h3>
 				<p>{ getUpgradeNotice() }</p>
 
-				<p>{ __( 'As with any upgrade you should make a backup. You can do this by {{download}}downloading a copy{{/download}} of your Redirection data.', {
+				<p>{ __( 'Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}.', {
 					components: {
 						download: <ExternalLink url={ getExportUrl( 'all', 'json' ) } />,
 					},
