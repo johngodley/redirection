@@ -150,7 +150,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 3.7.2 - ??? =
+= 3.7.2 - 16th Jan 2019 =
 * Add further partial upgrade detection
 * Add fallback for sites with no REST API value
 
