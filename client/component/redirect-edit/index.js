@@ -686,7 +686,7 @@ class EditRedirect extends React.Component {
 									{ addTop && ! onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Close' ) } onClick={ onClose } /> }
 									&nbsp;
 
-									{ this.canShowAdvanced() && <a href="#" onClick={ this.onAdvanced } className="advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
+									{ this.canShowAdvanced() && <a href="#" onClick={ this.onAdvanced } className="redirection-edit_advanced" title={ __( 'Show advanced options' ) }>&#9881;</a> }
 								</div>
 							</td>
 						</tr>
