@@ -36,9 +36,9 @@ const ipLogging = () => [
 	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
 ];
 export const restApi = () => [
-	{ value: 0, text: __( 'Default /wp-json/' ) },
-	{ value: 1, text: __( 'Raw /index.php?rest_route=/' ) },
-	{ value: 3, text: __( 'Relative /wp-json/' ) },
+	{ value: 0, text: __( 'Default REST API' ) },
+	{ value: 1, text: __( 'Raw REST API' ) },
+	{ value: 3, text: __( 'Relative REST API' ) },
 ];
 
 class OptionsForm extends React.Component {
@@ -63,6 +63,28 @@ class OptionsForm extends React.Component {
 		this.props.onSaveSettings( this.state );
 	}
 
+	getFirstGroup( groups ) {
+		if ( groups.length > 0 ) {
+			if ( groups[ 0 ].value.length !== undefined ) {
+				return groups[ 0 ].value[ 0 ].value;
+			}
+
+			return groups[ 0 ].value;
+		}
+
+		return 0;
+	}
+
+	getMonitorPost( post ) {
+		const { groups } = this.props;
+
+		if ( parseInt( post, 10 ) === 0 && groups.length > 0 ) {
+			return this.getFirstGroup( groups );
+		}
+
+		return post;
+	}
+
 	onMonitor = ev => {
 		const type = ev.target.name.replace( 'monitor_type_', '' );
 		const { monitor_post, associated_redirect } = this.state;
@@ -74,7 +96,7 @@ class OptionsForm extends React.Component {
 
 		this.setState( {
 			monitor_types,
-			monitor_post: monitor_types.length > 0 ? monitor_post : 0,
+			monitor_post: monitor_types.length > 0 ? this.getMonitorPost( monitor_post ) : 0,
 			associated_redirect: monitor_types.length > 0 ? associated_redirect : '',
 		} );
 	}

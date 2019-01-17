@@ -323,6 +323,7 @@ class WelcomeWizard extends React.Component {
 			ip_logging: ip ? 1 : 0,
 			rest_api: this.getFirstApi(),
 			monitor_types: monitor ? [ 'post', 'page' ] : undefined,
+			monitor_post: monitor ? 1 : 0,
 		} );
 	}
 
