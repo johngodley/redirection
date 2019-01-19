@@ -216,6 +216,11 @@ class Red_Fixer {
 			$options['user-agent'] = Redirection_Request::get_user_agent();
 		}
 
+		// Some plugins make use of sessions, so we end up getting blocked.
+		if ( session_id() ) {
+			session_write_close();
+		}
+
 		return wp_remote_post( $url, $options );
 	}
 
