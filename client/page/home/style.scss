@@ -94,3 +94,8 @@
 .error {
 	padding-bottom: 10px !important;
 }
+
+/* Some plugins hide .notice - ensure our stuff always shows */
+.notice {
+	display: block !important;
+}
