@@ -55,7 +55,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Relative URL without leading slash
-	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 ) {
+	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 && ! regex ) {
 		warnings.push( __( 'The source URL should probably start with a {{code}}/{{/code}}', {
 			components: {
 				code: <code />,
