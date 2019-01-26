@@ -99,6 +99,18 @@ class Red_Database_Status {
 		return get_option( self::OLD_DB_VERSION );
 	}
 
+	public function check_tables_exist() {
+		$latest = Red_Database::get_latest_database();
+		$missing = $latest->get_missing_tables();
+
+		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
+			delete_option( Red_Database_Status::OLD_DB_VERSION );
+			red_set_options( [ 'database' => '' ] );
+			$this->status = self::STATUS_NEED_INSTALL;
+			$this->stop_update();
+		}
+	}
+
 	/**
 	 * Does the current database support a particular version
 	 *

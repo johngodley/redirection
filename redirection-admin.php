@@ -194,6 +194,8 @@ class Redirection_Admin {
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.css', array(), $build );
 
 		$status = new Red_Database_Status();
+		$status->check_tables_exist();
+
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'WP_API_root' => esc_url_raw( red_get_rest_api() ),
 			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
