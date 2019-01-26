@@ -31,6 +31,13 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 
 // This file must support PHP < 5.4 so as not to crash
 if ( version_compare( phpversion(), '5.4' ) < 0 ) {
+	add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php', 10, 4 );
+
+	function red_deprecated_php( $links ) {
+		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %s, need PHP 5.4+', 'redirection' ), phpversion() ) . '</a>' );
+		return $links;
+	}
+
 	return;
 }
 
