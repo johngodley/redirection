@@ -776,19 +776,19 @@ msgid "How do I use this plugin?"
 msgstr ""
 
 #: redirection-strings.php:192
-msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL):"
+msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
 msgstr ""
 
 #: redirection-strings.php:194
-msgid "The source URL is your old or original URL"
+msgid "(Example) The source URL is your old or original URL"
 msgstr ""
 
 #: redirection-strings.php:196
-msgid "The target URL is the new URL"
+msgid "(Example) The target URL is the new URL"
 msgstr ""
 
 #: redirection-strings.php:197
-msgid "That's all there is to it - you are now redirecting!"
+msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect."
 msgstr ""
 
 #: redirection-strings.php:198
@@ -1362,15 +1362,15 @@ msgid "Anonymize IP (mask last part)"
 msgstr ""
 
 #: redirection-strings.php:395
-msgid "Default /wp-json/"
+msgid "Default REST API"
 msgstr ""
 
 #: redirection-strings.php:396
-msgid "Raw /index.php?rest_route=/"
+msgid "Raw REST API"
 msgstr ""
 
 #: redirection-strings.php:397
-msgid "Relative /wp-json/"
+msgid "Relative REST API"
 msgstr ""
 
 #: redirection-strings.php:398
@@ -1629,6 +1629,10 @@ msgstr ""
 msgid "404 deleted"
 msgstr ""
 
+#: redirection.php:37
+msgid "Disabled! Detected PHP %s, need PHP 5.4+"
+msgstr ""
+
 #. translators: version number
 #: api/api-plugin.php:81
 msgid "Your database does not need updating to %s."
@@ -1720,7 +1724,7 @@ msgstr ""
 msgid "WordPress REST API is working at %s"
 msgstr ""
 
-#: models/fixer.php:266
+#: models/fixer.php:271
 msgid "Unable to create group"
 msgstr ""
 
