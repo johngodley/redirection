@@ -140,7 +140,7 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.' ) }</p>
 
 				<h3>{ __( 'How do I use this plugin?' ) }</h3>
-				<p>{ __( 'A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL):', {
+				<p>{ __( 'A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here\'s an example:', {
 					components: {
 						strong: <strong />,
 					},
@@ -150,16 +150,16 @@ class WelcomeWizard extends React.Component {
 					<tbody>
 						<tr>
 							<th>{ __( 'Source URL' ) }:</th>
-							<td><input type="text" readOnly value={ __( 'The source URL is your old or original URL' ) } /></td>
+							<td><input type="text" readOnly value={ __( '(Example) The source URL is your old or original URL' ) } /></td>
 						</tr>
 						<tr>
 							<th>{ __( 'Target URL' ) }:</th>
-							<td><input type="text" readOnly value={ __( 'The target URL is the new URL' ) } /></td>
+							<td><input type="text" readOnly value={ __( '(Example) The target URL is the new URL' ) } /></td>
 						</tr>
 					</tbody>
 				</table>
 
-				<p>{ __( "That's all there is to it - you are now redirecting!" ) }</p>
+				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect." ) }</p>
 				<p>{ __( 'Full documentation can be found on the {{link}}Redirection website.{{/link}}', {
 					components: {
 						link: <ExternalLink url="https://redirection.me/support/" />,
