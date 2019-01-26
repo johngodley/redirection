@@ -150,6 +150,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 3.7.3 - ??? =
+* Prevent upgrade message being hidden by other plugins
+* Improve API detection with plugins that use sessions
+* Fix warning with regex and no leading slash
+* Improve upgrade for sites with a missing IP <column></column>n></column>
+* Show PHP < 5.4 message on plugins page
+* Fix missing display of disabled redirects with a title
+* Detect site where Redirection was once installed and has settings but no database tables
+
 = 3.7.2 - 16th Jan 2019 =
 * Add further partial upgrade detection
 * Add fallback for sites with no REST API value
