@@ -19,13 +19,21 @@ class Red_Database_240 extends Red_Database_Upgrader {
 		];
 	}
 
-	private function has_weird_ip_index() {
-		global $wpdb;
-
+	private function has_weird_ip_index( $wpdb ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 
 		if ( isset( $existing[1] ) ) {
 			return strpos( strtolower( $existing[1] ), 'key `ip` (' ) !== false;
+		}
+
+		return false;
+	}
+
+	private function has_ip_column( $wpdb ) {
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+
+		if ( isset( $existing[1] ) ) {
+			return strpos( strtolower( $existing[1] ), '`ip` varchar' ) !== false;
 		}
 
 		return false;
@@ -71,8 +79,12 @@ class Red_Database_240 extends Red_Database_Upgrader {
 	}
 
 	protected function add_missing_index_240( $wpdb ) {
-		if ( $this->has_weird_ip_index() ) {
+		if ( $this->has_weird_ip_index( $wpdb ) ) {
 			$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` DROP INDEX ip" );
+		}
+
+		if ( ! $this->has_ip_column( $wpdb ) ) {
+			$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `ip` VARCHAR(45) DEFAULT NULL" );
 		}
 
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD INDEX `ip` (`ip`)" );
