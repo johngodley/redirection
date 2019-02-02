@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-25 16:53:21+0000\n"
+"PO-Revision-Date: 2019-01-26 17:34:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,11 +34,11 @@ msgstr ""
 
 #: redirection-strings.php:257
 msgid "Update Required"
-msgstr ""
+msgstr "Mise à jour nécessaire"
 
 #: redirection-strings.php:234
 msgid "I need some support!"
-msgstr ""
+msgstr "J’ai besoin d’aide !"
 
 #: redirection-strings.php:231
 msgid "Finish Setup"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: redirection-strings.php:229
 msgid "Retry"
-msgstr ""
+msgstr "Réessayer"
 
 #: redirection-strings.php:228
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
@@ -271,11 +271,11 @@ msgstr ""
 
 #: redirection-admin.php:419
 msgid "Please enable JavaScript"
-msgstr ""
+msgstr "Veuillez activer JavaScript"
 
 #: redirection-admin.php:146
 msgid "Please upgrade your database"
-msgstr ""
+msgstr "Veuillez mettre à niveau votre base de données"
 
 #: redirection-admin.php:137 redirection-strings.php:260
 msgid "Upgrade Database"
@@ -352,7 +352,7 @@ msgstr "304 - Non modifié"
 
 #: redirection-strings.php:100
 msgid "303 - See Other"
-msgstr "303 - Voir ailleur"
+msgstr "303 - Voir ailleurs"
 
 #: redirection-strings.php:97
 msgid "Do nothing (ignore)"

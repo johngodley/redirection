@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-24 12:34:46+0000\n"
+"PO-Revision-Date: 2019-01-31 20:12:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: redirection-strings.php:255
 msgid "A database upgrade is in progress. Please continue to finish."
-msgstr ""
+msgstr "Обновление базы данных в процессе. Пожалуйста, продолжите для завершения."
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:77
@@ -227,27 +227,27 @@ msgstr ""
 
 #: redirection-strings.php:14
 msgid "Finished! 🎉"
-msgstr ""
+msgstr "Завершено! 🎉"
 
 #: redirection-strings.php:13
 msgid "Progress: %(complete)d$"
-msgstr ""
+msgstr "Прогресс: %(complete)d$"
 
 #: redirection-strings.php:12
 msgid "Leaving before the process has completed may cause problems."
-msgstr ""
+msgstr "Если вы уйдете до завершения, то могут возникнуть проблемы."
 
 #: redirection-strings.php:11
 msgid "Setting up Redirection"
-msgstr ""
+msgstr "Установка Redirection"
 
 #: redirection-strings.php:10
 msgid "Upgrading Redirection"
-msgstr ""
+msgstr "Обновление Redirection"
 
 #: redirection-strings.php:9
 msgid "Please remain on this page until complete."
-msgstr ""
+msgstr "Оставайтесь на этой странице до завершения."
 
 #: redirection-strings.php:8
 msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
@@ -255,31 +255,31 @@ msgstr ""
 
 #: redirection-strings.php:7
 msgid "Stop upgrade"
-msgstr ""
+msgstr "Остановить обновление"
 
 #: redirection-strings.php:6
 msgid "Skip this stage"
-msgstr ""
+msgstr "Пропустить этот шаг"
 
 #: redirection-strings.php:5
 msgid "Try again"
-msgstr ""
+msgstr "Попробуйте снова"
 
 #: redirection-strings.php:4
 msgid "Database problem"
-msgstr ""
+msgstr "Проблема с базой данных"
 
 #: redirection-admin.php:419
 msgid "Please enable JavaScript"
-msgstr ""
+msgstr "Пожалуйста, включите JavaScript"
 
 #: redirection-admin.php:146
 msgid "Please upgrade your database"
-msgstr ""
+msgstr "Пожалуйста, обновите вашу базу данных"
 
 #: redirection-admin.php:137 redirection-strings.php:260
 msgid "Upgrade Database"
-msgstr ""
+msgstr "Обновить базу данных"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:74
@@ -289,25 +289,25 @@ msgstr ""
 #. translators: version number
 #: api/api-plugin.php:81
 msgid "Your database does not need updating to %s."
-msgstr ""
+msgstr "Ваша база данных не нуждается в обновлении до %s."
 
 #. translators: 1: SQL string
 #: database/database-upgrader.php:74
 msgid "Failed to perform query \"%s\""
-msgstr ""
+msgstr "Ошибка выполнения запроса \"%s\""
 
 #. translators: 1: table name
 #: database/schema/latest.php:101
 msgid "Table \"%s\" is missing"
-msgstr ""
+msgstr "Таблица \"%s\" отсутствует"
 
 #: database/schema/latest.php:10
 msgid "Create basic data"
-msgstr ""
+msgstr "Создать основные данные"
 
 #: database/schema/latest.php:9
 msgid "Install Redirection tables"
-msgstr ""
+msgstr "Установить таблицы Redirection"
 
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:64
@@ -1466,7 +1466,7 @@ msgstr "Хотите быть в курсе изменений в плагине
 
 #: redirection-strings.php:463
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
-msgstr ""
+msgstr "Подпишитесь на маленький информационный бюллетень Redirection - информационный бюллетень о новых функциях и изменениях в плагине с небольшим количеством сообщений. Идеально, если вы хотите протестировать бета-версии до выпуска."
 
 #: redirection-strings.php:464
 msgid "Your email address:"
