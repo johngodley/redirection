@@ -34,10 +34,6 @@ const getRedirectionUrl = ( path, params = {} ) => {
 				( getRootUrl().indexOf( '?' ) === -1 ? '?' : '&' ) +
 				querystring.stringify( params );
 
-			if ( getRootUrl().indexOf( 'page=redirection.php' ) !== -1 ) {
-				return querybase.replace( /page=(\d+)/, 'ppage=$1' );
-			}
-
 			return querybase;
 		}
 	}
@@ -45,7 +41,7 @@ const getRedirectionUrl = ( path, params = {} ) => {
 	return base;
 };
 
-const apiHeaders = url => {
+const apiHeaders = () => {
 	return new Headers( {
 		// 'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
 		'Content-Type': 'application/json; charset=utf-8',
