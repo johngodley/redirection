@@ -76,7 +76,7 @@ const deleteApiRequest = ( path, params ) => {
 	return {
 		... apiRequest( getRedirectionUrl( path, query ) ),
 		method: 'post',
-		body: body.items ? JSON.stringify( body ) : null,
+		body: body.items ? JSON.stringify( body ) : '{}',
 	};
 };
 const getApiRequest = ( path, params = {} ) => ( {
@@ -96,6 +96,7 @@ const uploadApiRequest = ( path, file ) => {
 const postApiRequest = ( path, params = {}, query = {} ) => {
 	const request = { ...apiRequest( getRedirectionUrl( path, query ) ), method: 'post', params };
 
+	request.body = '{}';
 	if ( Object.keys( params ).length > 0 ) {
 		request.body = JSON.stringify( params );
 	}
