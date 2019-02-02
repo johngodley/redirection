@@ -288,8 +288,8 @@ class WelcomeWizard extends React.Component {
 
 				{ warning && <div className="notice notice-error">
 					{ __( 'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.' ) }
-					<p><code>{ api.protocol + '://' + api.host }</code></p>
-					<p><code>{ home.protocol + '://' + home.host }</code></p>
+					<p><code>{ api.protocol + '//' + api.host }</code></p>
+					<p><code>{ home.protocol + '//' + home.host }</code></p>
 				</div> }
 
 				<button className="button wizard-retry" onClick={ this.onRetry } disabled={ this.apiInProgress() }>{ __( 'Retry' ) }</button>
