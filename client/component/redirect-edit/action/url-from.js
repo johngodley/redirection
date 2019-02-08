@@ -10,35 +10,26 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-class ActionUrlFrom extends React.Component {
-	static propTypes = {
-		url_from: PropTypes.string.isRequired,
-		url_notfrom: PropTypes.string.isRequired,
-		target: PropTypes.string.isRequired,
-	};
+import TableRow from '../table-row';
 
-	onChange = ev => {
-		this.props.onChange( this.props.target, ev.target.name, ev.target.value );
-	}
+const ActionUrlFrom = ( { onChange, data } ) => {
+	const { url_from, url_notfrom } = data;
 
-	render() {
-		return (
-			<React.Fragment>
-				<tr>
-					<th>{ __( 'Matched Target' ) }</th>
-					<td>
-						<input type="text" name="url_from" value={ this.props.url_from } onChange={ this.onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
-					</td>
-				</tr>
-				<tr>
-					<th>{ __( 'Unmatched Target' ) }</th>
-					<td>
-						<input type="text" name="url_notfrom" value={ this.props.url_notfrom } onChange={ this.onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
-					</td>
-				</tr>
-			</React.Fragment>
-		);
-	}
-}
+	return (
+		<React.Fragment>
+			<TableRow title={ __( 'Matched Target' ) }>
+				<input type="text" name="url_from" value={ url_from } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
+			</TableRow>
+			<TableRow title={ __( 'Unmatched Target' ) }>
+				<input type="text" name="url_notfrom" value={ url_notfrom } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
+			</TableRow>
+		</React.Fragment>
+	);
+};
+
+ActionUrlFrom.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default ActionUrlFrom;

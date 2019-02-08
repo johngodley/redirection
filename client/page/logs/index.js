@@ -19,6 +19,7 @@ import ExportCSV from 'page/logs/export-csv';
 import { tableKey } from 'lib/table';
 import LogRow from './row';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import { getOption } from 'state/settings/selector';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
@@ -67,7 +68,7 @@ class Logs extends React.Component {
 	}
 
 	onRSS() {
-		document.location = getRssUrl();
+		document.location = getRssUrl( this.props.token );
 	}
 
 	renderRow( row, key, status ) {
@@ -103,6 +104,7 @@ function mapStateToProps( state ) {
 
 	return {
 		log,
+		token: getOption( state, 'token' ),
 	};
 }
 

@@ -23,13 +23,13 @@ class Custom_Match extends Red_Match {
 		return trim( $name );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		$target = false;
 		$matched = apply_filters( $this->filter, false, $url );
 		$target = $this->get_matched_target( $matched );
 
-		if ( $regex && $target ) {
-			return $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

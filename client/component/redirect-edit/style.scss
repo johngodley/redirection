@@ -22,9 +22,9 @@
 			flex: 1 1 auto;
 			justify-content: flex-start;
 			margin-right: 5px;
+			text-align: left;
 		}
 
-		.edit-redirection-regex,
 		> select {
 			flex: 0 0 auto;
 		}
@@ -61,8 +61,13 @@
 			margin-right: 4px;
 		}
 
+		p {
+			color: #444;
+			margin: auto;
+		}
+
 		a {
-			color: black;
+			color: #444;
 			text-decoration: none;
 		}
 
@@ -79,4 +84,25 @@
 .redirection-modal_content .edit-redirection_warning {
 	margin-left: 0;
 	box-shadow: none;
+}
+
+.redirects input[type="text"] {
+	padding: 4px;
+}
+
+.edit-redirection .redirection-edit_flags {
+	flex: none;
+	min-width: 200px;
+
+	.redirection-edit_flags__control {
+		max-height: 32px;
+		min-height: 32px;
+		height: 32px;
+		border-color: #ddd;
+		border-radius: 0;
+	}
+
+	.redirection-edit_flags__multi-value__label {
+		padding: 2px 5px;
+	}
 }

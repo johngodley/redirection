@@ -28,11 +28,13 @@ class Agent_Match extends Red_Match {
 		return $this->sanitize_url( $agent );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		// Check if referrer matches
 		$matched = $this->agent === Redirection_Request::get_user_agent();
+
 		if ( $this->regex ) {
-			$matched = preg_match( '@' . str_replace( '@', '\\@', $this->agent ) . '@i', Redirection_Request::get_user_agent() ) > 0;
+			$regex = new Red_Regex( $this->agent, true );
+			$matched = $regex->is_match( Redirection_Request::get_user_agent() );
 		}
 
 		$target = false;
@@ -42,8 +44,8 @@ class Agent_Match extends Red_Match {
 			$target = $this->url_notfrom;
 		}
 
-		if ( $regex && $target ) {
-			$target = $this->get_target_regex_url( $matched_url, $target, $url );
+		if ( $flags->is_regex() && $target ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

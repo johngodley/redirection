@@ -63,34 +63,34 @@ class ServerMatchTest extends WP_UnitTestCase {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 	}
 
 	public function testRegexNoTargetNoUrl() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetUrl() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'http://server.com', 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
 	public function testNoTargetNotFrom() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 	}
 
 	public function testNoTargetFrom() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
 		$match = new Server_Match( serialize( array( 'server' => 'http://server.com', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 	}
 }

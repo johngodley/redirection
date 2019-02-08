@@ -40,6 +40,11 @@ export const restApi = () => [
 	{ value: 1, text: __( 'Raw REST API' ) },
 	{ value: 3, text: __( 'Relative REST API' ) },
 ];
+export const queryMatch = () => [
+	{ value: 'exact', text: __( 'Exact match' ) },
+	{ value: 'ignore', text: __( 'Ignore all query parameters' ) },
+	{ value: 'pass', text: __( 'Ignore and pass all query parameters' ) },
+];
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -194,6 +199,43 @@ class OptionsForm extends React.Component {
 					<TableRow title={ __( 'RSS Token' ) + ':' } url={ this.supportLink( 'options', 'rsstoken' ) }>
 						<input className="regular-text" type="text" value={ this.state.token } name="token" onChange={ this.onChange } /><br />
 						<span className="sub">{ __( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)' ) }</span>
+					</TableRow>
+
+					<TableRow title={ __( 'Default URL settings' ) + ':' } url={ this.supportLink( 'options', 'urlsettings' ) }>
+						<p>{ __( 'Applies to all redirections unless you configure them otherwise.' ) }</p>
+						<label>
+							<p>
+								<input type="checkbox" name="flag_case" onChange={ this.onChange } checked={ this.state.flag_case } />
+								{ __( 'Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})', {
+									components: {
+										code: <code />,
+									},
+								} ) }
+							</p>
+						</label>
+
+						<label>
+							<p>
+								<input type="checkbox" name="flag_trailing" onChange={ this.onChange } checked={ this.state.flag_trailing } />
+								{ __( 'Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})', {
+									components: {
+										code: <code />,
+									},
+								} ) }
+							</p>
+						</label>
+					</TableRow>
+
+					<TableRow title={ __( 'Default query matching' ) + ':' } url={ this.supportLink( 'options', 'querysettings' ) }>
+						<p>{ __( 'Applies to all redirections unless you configure them otherwise.' ) }</p>
+						<p>
+							<Select items={ queryMatch() } name="flag_query" value={ this.state.flag_query } onChange={ this.onChange } />
+						</p>
+						<ul>
+							<li>{ __( 'Exact - matches the query parameters exactly defined in your source, in any order' ) }</li>
+							<li>{ __( 'Ignore - as exact, but ignores any query parameters not in your source' ) }</li>
+							<li>{ __( 'Pass - as ignore, but also copies the query parameters to the target' ) }</li>
+						</ul>
 					</TableRow>
 
 					<TableRow title={ __( 'Auto-generate URL' ) + ':' } url={ this.supportLink( 'options', 'autogenerate' ) }>

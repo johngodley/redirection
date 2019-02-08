@@ -42,7 +42,7 @@ class CustomMatchTest extends WP_UnitTestCase {
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '', 'url_notfrom' => '' ) ) );
 
 		// filter fires, but nothing is connected so it returns false
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( false, $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		$this->assertEquals( 1, $action->get_call_count() );
 	}
 
@@ -53,7 +53,7 @@ class CustomMatchTest extends WP_UnitTestCase {
 		add_filter( 'test_filter', $action, 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		remove_filter( 'test_filter', $action, 10, 2 );
 	}
 
@@ -64,7 +64,7 @@ class CustomMatchTest extends WP_UnitTestCase {
 		add_filter( 'test_filter', $action, 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+		$this->assertEquals( '/from', $match->get_target( 'a', 'b', new Red_Source_Flags() ) );
 		remove_filter( 'test_filter', $action, 10, 2 );
 	}
 
@@ -75,7 +75,7 @@ class CustomMatchTest extends WP_UnitTestCase {
 		add_filter( 'test_filter', $action, 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', true ) );
+		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 		remove_filter( 'test_filter', $action, 10, 2 );
 	}
 }

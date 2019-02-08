@@ -11,8 +11,9 @@ import * as parseUrl from 'url';
  */
 
 import ExternalLink from 'component/external-link';
+import TableRow from './table-row';
 
-const isRegex = ( text ) => {
+export const isRegex = ( text ) => {
 	if ( text.match( /[\*\\\(\)\[\]\^\$]/ ) !== null ) {
 		return true;
 	}
@@ -24,7 +25,7 @@ const isRegex = ( text ) => {
 	return false;
 };
 
-const getWarningFromState = ( { url, regex } ) => {
+export const getWarningFromState = ( { url, flag_regex } ) => {
 	const warnings = [];
 
 	if ( Array.isArray( url ) ) {
@@ -55,7 +56,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Relative URL without leading slash
-	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 && ! regex ) {
+	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 && flag_regex === false ) {
 		warnings.push( __( 'The source URL should probably start with a {{code}}/{{/code}}', {
 			components: {
 				code: <code />,
@@ -64,7 +65,7 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Regex without checkbox
-	if ( isRegex( url ) && regex === false ) {
+	if ( isRegex( url ) && flag_regex === false ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
 				{ __( 'Remember to enable the "regex" checkbox if this is a regular expression.' ) }
@@ -73,9 +74,9 @@ const getWarningFromState = ( { url, regex } ) => {
 	}
 
 	// Anchor
-	if ( isRegex( url ) && url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 ) {
+	if ( url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 && flag_regex ) {
 		warnings.push(
-			__( 'To prevent a greedy regular expression you can use a {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
+			__( 'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
 				components: {
 					code: <code />,
 				},
@@ -94,4 +95,16 @@ const getWarningFromState = ( { url, regex } ) => {
 	return warnings;
 };
 
-export default getWarningFromState;
+export const Warnings = ( { warnings } ) => {
+	if ( warnings.length === 0 ) {
+		return null;
+	}
+
+	return (
+		<TableRow>
+			<div className="edit-redirection_warning notice notice-warning">
+				{ warnings.map( ( text, pos ) => <p key={ pos }><span className="dashicons dashicons-info"></span>{ text }</p> ) }
+			</div>
+		</TableRow>
+	);
+};

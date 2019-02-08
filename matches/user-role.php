@@ -20,7 +20,7 @@ class Role_Match extends Red_Match {
 		return $data;
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
+	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
 		// Check if referrer matches
 		$matched = current_user_can( $this->role );
 
@@ -29,6 +29,10 @@ class Role_Match extends Red_Match {
 			$target = $this->url_from;
 		} elseif ( $this->url_notfrom !== '' && ! $matched ) {
 			$target = $this->url_notfrom;
+		}
+
+		if ( $flags->is_regex() && $target ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

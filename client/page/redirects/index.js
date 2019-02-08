@@ -31,6 +31,7 @@ import {
 } from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
+import { getFlags } from 'state/settings/selector';
 import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 import { nestedGroups } from 'state/group/selector';
 
@@ -119,16 +120,16 @@ class Redirects extends React.Component {
 		} );
 
 		return (
-			<div>
+			<React.Fragment>
 				{ ! addTop && <h2>{ __( 'Add new redirection' ) }</h2> }
 				<div className={ classes }>
 					<EditRedirect
-						item={ getDefaultItem( '', 0 ) }
+						item={ getDefaultItem( '', 0, this.props.defaultFlags ) }
 						saveButton={ __( 'Add Redirect' ) }
 						autoFocus={ addTop }
 					/>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	}
 
@@ -207,6 +208,7 @@ function mapStateToProps( state ) {
 	return {
 		redirect,
 		group,
+		defaultFlags: getFlags( state ),
 	};
 }
 

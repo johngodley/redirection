@@ -2,7 +2,12 @@
 
 class RedirectSanitizeTest extends WP_UnitTestCase {
 	private function get_new( array $extra = array() ) {
-		return array_merge( array( 'url' => '/a', 'group_id' => $this->group->get_id(), 'match_type' => 'url', 'action_type' => 'url' ), $extra );
+		return array_merge( [
+			'url' => '/a',
+			'group_id' => $this->group->get_id(),
+			'match_type' => 'url',
+			'action_type' => 'url',
+		], $extra );
 	}
 
 	public function setUp() {
@@ -119,8 +124,17 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testStripSlasheserializeData() {
-		$result = $this->sanitizer->get( $this->get_new( array( 'match_type' => 'login', 'action_data' => array( 'logged_in' => '', 'logged_out' => '' ) ) ) );
-		$this->assertEquals( serialize( array( 'logged_in' => '', 'logged_out' => '' ) ), $result['action_data'] );
+		$result = $this->sanitizer->get( $this->get_new( [
+			'match_type' => 'login',
+			'action_data' => [
+				'logged_in' => '',
+				'logged_out' => '',
+			],
+		] ) );
+		$this->assertEquals( serialize( [
+			'logged_in' => '',
+			'logged_out' => '',
+		] ), $result['action_data'] );
 	}
 
 	public function testBadPosition() {
@@ -142,5 +156,59 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( 'server', $result['match_type'] );
 		$this->assertEquals( '/', $result['url'] );
 		$this->assertEquals( 'http://full.com', unserialize( $result['action_data'] )['server'] );
+	}
+
+	public function testSourceFlags() {
+		$flags = [ 'source' => [ 'flag_case' => true ] ];
+		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
+
+		$this->assertEquals( $flags['source']['flag_case'], $result['match_data']['source']['flag_case'] );
+	}
+
+	public function testSourceFlagsRegexOverride() {
+		$flags = [ 'regex' => true ];
+		$result = $this->sanitizer->get( $this->get_new( $flags ) );
+
+		$this->assertEquals( 1, $result['regex'] );
+		$this->assertEquals( 'regex', $result['match_url'] );
+		$this->assertTrue( $result['match_data']['source']['flag_regex'] );
+	}
+
+	public function testMatchUrlSet() {
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/TEST/?thing=1' ] ) );
+
+		$this->assertEquals( '/test', $result['match_url'] );
+	}
+
+	public function testMatchUrlSetRegex() {
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'regex' => true ] ) );
+
+		$this->assertEquals( 'regex', $result['match_url'] );
+	}
+
+	public function testRegexFlagsSetColumn() {
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'match_data' => [ 'source' => [ 'flag_regex' => true ] ] ] ) );
+
+		$this->assertEquals( 'regex', $result['match_url'] );
+		$this->assertTrue( $result['regex'] );
+	}
+
+	public function testGetJsonDefaultSame() {
+		red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+
+		$flags = [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] ];
+		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
+
+		$this->assertEquals( [], $result['match_data']['source'] );
+	}
+
+	public function testGetJsonDefaultDifferent() {
+		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+
+		$flags = [ 'source' => [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] ];
+		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
+
+		$this->assertEquals( $flags['source'], $result['match_data']['source'] );
 	}
 }
