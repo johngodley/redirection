@@ -103,11 +103,15 @@ class Red_Database_Status {
 		$latest = Red_Database::get_latest_database();
 		$missing = $latest->get_missing_tables();
 
+		// No tables installed - do a fresh install
 		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
 			delete_option( Red_Database_Status::OLD_DB_VERSION );
 			red_set_options( [ 'database' => '' ] );
 			$this->status = self::STATUS_NEED_INSTALL;
 			$this->stop_update();
+		} elseif ( count( $missing ) > 0 && version_compare( $this->get_current_version(), '2.3.3', 'ge' ) ) {
+			// Some tables are missing - try and fill them in
+			$latest->install();
 		}
 	}
 
