@@ -30,6 +30,8 @@ class Database extends React.Component {
 		if ( this.hasWork( props ) ) {
 			props.onUpgrade();
 		}
+
+		this.state = { looped: true };
 	}
 
 	hasWork( props ) {
@@ -73,15 +75,19 @@ class Database extends React.Component {
 
 	componentDidUpdate( prevProps ) {
 		if ( prevProps.time !== this.props.time && this.hasWork( this.props ) ) {
-			// Start next call, after a slight pause to allow the server a bit of breathing room
-			setTimeout( () => {
-				this.props.onUpgrade();
-			}, 1000 );
+			if ( prevProps.complete === this.props.complete && this.props.status !== 'error' ) {
+				this.setState( { looped: true } );
+			} else {
+				// Start next call, after a slight pause to allow the server a bit of breathing room
+				setTimeout( () => {
+					this.props.onUpgrade();
+				}, 1000 );
+			}
 		}
 	}
 
 	getErrorMessage() {
-		const { debug, reason, current, next } = this.props;
+		const { debug = [], reason, current, next } = this.props;
 		const message = [
 			'Message: ' + reason,
 			'Installed: ' + current,
@@ -90,6 +96,10 @@ class Database extends React.Component {
 		];
 
 		return message.join( '\n' );
+	}
+
+	renderLoopError() {
+		return this.renderError( 'Something has gone wrong with the upgrade' );
 	}
 
 	renderError( error ) {
@@ -141,7 +151,8 @@ class Database extends React.Component {
 
 	render() {
 		const { status, complete = 0, reason, result } = this.props;
-		const showLoading = result === 'ok' && ! this.hasFinished( status );
+		const { looped } = this.state;
+		const showLoading = result === 'ok' && ! this.hasFinished( status ) && ! looped;
 
 		return (
 			<div className="redirection-database">
@@ -166,6 +177,7 @@ class Database extends React.Component {
 
 					{ showLoading && <div className="redirection-database_spinner"><Spinner /></div> }
 					{ result === 'error' && this.renderError( reason ) }
+					{ looped && this.renderLoopError() }
 					{ this.hasFinished( status ) && <button className="button button-primary" onClick={ this.onFinish }>{ __( 'Finished! 🎉' ) }</button> }
 				</div>
 			</div>
