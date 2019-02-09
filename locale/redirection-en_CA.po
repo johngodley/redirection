@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-16 17:34:43+0000\n"
+"PO-Revision-Date: 2019-02-04 17:20:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,31 +13,31 @@ msgstr ""
 
 #: redirection-strings.php:397
 msgid "Relative REST API"
-msgstr ""
+msgstr "Relative REST API"
 
 #: redirection-strings.php:396
 msgid "Raw REST API"
-msgstr ""
+msgstr "Raw REST API"
 
 #: redirection-strings.php:395
 msgid "Default REST API"
-msgstr ""
+msgstr "Default REST API"
 
 #: redirection-strings.php:197
 msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect."
-msgstr ""
+msgstr "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect."
 
 #: redirection-strings.php:196
 msgid "(Example) The target URL is the new URL"
-msgstr ""
+msgstr "(Example) The target URL is the new URL"
 
 #: redirection-strings.php:194
 msgid "(Example) The source URL is your old or original URL"
-msgstr ""
+msgstr "(Example) The source URL is your old or original URL"
 
 #: redirection.php:37
 msgid "Disabled! Detected PHP %s, need PHP 5.4+"
-msgstr ""
+msgstr "Disabled! Detected PHP %s, need PHP 5.4+"
 
 #: redirection-strings.php:259
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}."
@@ -195,7 +195,7 @@ msgstr "Full documentation can be found on the {{link}}Redirection website.{{/li
 
 #: redirection-strings.php:192
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
-msgstr ""
+msgstr "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
 
 #: redirection-strings.php:191
 msgid "How do I use this plugin?"

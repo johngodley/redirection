@@ -1,17 +1,17 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "Database problem", "redirection" ), // client/component/database/index.js:101
-__( "Try again", "redirection" ), // client/component/database/index.js:104
-__( "Skip this stage", "redirection" ), // client/component/database/index.js:105
-__( "Stop upgrade", "redirection" ), // client/component/database/index.js:106
-__( "If you want to {{support}}ask for support{{/support}} please include these details:", "redirection" ), // client/component/database/index.js:110
-__( "Please remain on this page until complete.", "redirection" ), // client/component/database/index.js:128
-__( "Upgrading Redirection", "redirection" ), // client/component/database/index.js:136
-__( "Setting up Redirection", "redirection" ), // client/component/database/index.js:139
-__( "Leaving before the process has completed may cause problems.", "redirection" ), // client/component/database/index.js:148
-__( "Progress: %(complete)d\$", "redirection" ), // client/component/database/index.js:156
-__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:169
+__( "Database problem", "redirection" ), // client/component/database/index.js:111
+__( "Try again", "redirection" ), // client/component/database/index.js:114
+__( "Skip this stage", "redirection" ), // client/component/database/index.js:115
+__( "Stop upgrade", "redirection" ), // client/component/database/index.js:116
+__( "If you want to {{support}}ask for support{{/support}} please include these details:", "redirection" ), // client/component/database/index.js:120
+__( "Please remain on this page until complete.", "redirection" ), // client/component/database/index.js:138
+__( "Upgrading Redirection", "redirection" ), // client/component/database/index.js:146
+__( "Setting up Redirection", "redirection" ), // client/component/database/index.js:149
+__( "Leaving before the process has completed may cause problems.", "redirection" ), // client/component/database/index.js:159
+__( "Progress: %(complete)d\$", "redirection" ), // client/component/database/index.js:167
+__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:181
 __( "The data on this page has expired, please reload.", "redirection" ), // client/component/error/index.js:113
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/error/index.js:117
 __( "Please logout and login again.", "redirection" ), // client/component/error/index.js:121

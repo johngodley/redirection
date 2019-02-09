@@ -31,7 +31,7 @@ class Database extends React.Component {
 			props.onUpgrade();
 		}
 
-		this.state = { looped: true };
+		this.state = { looped: false };
 	}
 
 	hasWork( props ) {
