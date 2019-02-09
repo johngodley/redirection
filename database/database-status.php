@@ -303,6 +303,11 @@ class Red_Database_Status {
 	private function get_next_stage( $stage ) {
 		$database = new Red_Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), $this->get_current_stage() );
+
+		if ( count( $upgraders ) === 0 ) {
+			$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
+		}
+
 		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?
