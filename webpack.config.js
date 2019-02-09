@@ -4,7 +4,7 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 
 // PostCSS plugins
-const cssnext = require( 'postcss-cssnext' );
+const postcssPresetEnv = require( 'postcss-preset-env' );
 const postcssFocus = require( 'postcss-focus' );
 const postcssReporter = require( 'postcss-reporter' );
 
@@ -55,7 +55,7 @@ const config = {
 			options: {
 				postcss: [
 					postcssFocus(),
-					cssnext( {
+					postcssPresetEnv( {
 						browsers: [ 'last 2 versions', 'IE > 10' ],
 					} ),
 					postcssReporter( {
