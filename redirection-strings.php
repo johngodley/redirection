@@ -201,7 +201,7 @@ __( "Source URL", "redirection" ), // client/component/welcome-wizard/index.js:1
 __( "(Example) The source URL is your old or original URL", "redirection" ), // client/component/welcome-wizard/index.js:153
 __( "Target URL", "redirection" ), // client/component/welcome-wizard/index.js:156
 __( "(Example) The target URL is the new URL", "redirection" ), // client/component/welcome-wizard/index.js:157
-__( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect.", "redirection" ), // client/component/welcome-wizard/index.js:162
+__( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect.", "redirection" ), // client/component/welcome-wizard/index.js:162
 __( "Full documentation can be found on the {{link}}Redirection website.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:163
 __( "Some features you may find useful are", "redirection" ), // client/component/welcome-wizard/index.js:169
 __( "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems", "redirection" ), // client/component/welcome-wizard/index.js:172

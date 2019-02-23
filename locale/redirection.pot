@@ -820,7 +820,7 @@ msgid "(Example) The target URL is the new URL"
 msgstr ""
 
 #: redirection-strings.php:204
-msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect."
+msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect."
 msgstr ""
 
 #: redirection-strings.php:205
