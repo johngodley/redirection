@@ -156,6 +156,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
 == Changelog ==
+
+= 4.0.1 - ??? =
+* Improve styling of query flags
+* Match DB upgrade for new match_url to creation script
+
 = 4.0 - 23rd Feb 2019 =
 * Add option for case insensitive redirects
 * Add option to ignore trailing slashes
