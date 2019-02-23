@@ -64,6 +64,14 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 		return provided;
 	};
 
+	const getIndicatorStyle = ( provided, state ) => {
+		return { ... provided, height: '28px' };
+	};
+
+	const getPlaceholderStyle = ( provided, state ) => {
+		return { ... provided, top: '40%' };
+	};
+
 	const getRemoveFlag = ( provided, state ) => {
 		if ( isDifferentFlag( state.data.value, state.hasValue, defaultFlags ) ) {
 			return { ... provided, ':hover': { backgroundColor: FLAG_DEFAULT_HOVER } };
@@ -94,7 +102,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 				defaultValue={ getFlagValue( flags ) }
 				noOptionsMessage={ () => __( 'No more options' ) }
 				value={ getFlagValue( flags ) }
-				styles={ { multiValue: getFlagStyle, multiValueRemove: getRemoveFlag } }
+				styles={ { multiValue: getFlagStyle, multiValueRemove: getRemoveFlag, indicatorsContainer: getIndicatorStyle, placeholder: getPlaceholderStyle } }
 			/>
 		</TableRow>
 	);
