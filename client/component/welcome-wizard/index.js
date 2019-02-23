@@ -159,7 +159,7 @@ class WelcomeWizard extends React.Component {
 					</tbody>
 				</table>
 
-				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect." ) }</p>
+				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect." ) }</p>
 				<p>{ __( 'Full documentation can be found on the {{link}}Redirection website.{{/link}}', {
 					components: {
 						link: <ExternalLink url="https://redirection.me/support/" />,
