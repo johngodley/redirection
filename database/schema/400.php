@@ -11,7 +11,7 @@ class Red_Database_400 extends Red_Database_Upgrader {
 
 	protected function add_match_url_400( $wpdb ) {
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_url` VARCHAR(2000) NULL DEFAULT NULL AFTER `url`" );
-		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `match_url` (`match_url`)" );
+		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `match_url` (`match_url`(191))" );
 	}
 
 	protected function add_redirect_data_400( $wpdb ) {
