@@ -19,18 +19,8 @@ class Page_Match extends Red_Match {
 		return '404';
 	}
 
-	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
-		if ( ! is_404() ) {
-			return false;
-		}
-
-		$target = $this->get_matched_target( true );
-
-		if ( $flags->is_regex() && $target ) {
-			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
-		}
-
-		return $target;
+	public function is_match( $url ) {
+		return is_404();
 	}
 
 	public function get_data() {
@@ -41,6 +31,6 @@ class Page_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = $this->load_data( $values );
-		$this->page = $values['page'];
+		$this->page = isset( $values['page'] ) ? $values['page'] : '404';
 	}
 }
