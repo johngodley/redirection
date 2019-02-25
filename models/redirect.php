@@ -154,7 +154,7 @@ class Red_Item {
 			}
 		}
 
-		usort( $items, array( 'Red_Item', 'sort_urls' ) );
+		usort( $items, array( 'Red_Item', 'sort_urls_old' ) );
 		$items = array_map( array( 'Red_Item', 'reduce_sorted_items' ), $items );
 
 		// Sort it in PHP
@@ -186,6 +186,14 @@ class Red_Item {
 		}
 
 		return ( $first->position < $second->position ) ? -1 : 1;
+	}
+
+	public static function sort_urls_old( $first, $second ) {
+		if ( $first['position'] === $second['position'] ) {
+			return 0;
+		}
+
+		return ( $first['position'] < $second['position'] ) ? -1 : 1;
 	}
 
 	static function get_by_id( $id ) {
