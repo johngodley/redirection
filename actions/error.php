@@ -31,4 +31,8 @@ class Error_Action extends Red_Action {
 	public function template_include() {
 		return get_404_template();
 	}
+
+	public function needs_target() {
+		return false;
+	}
 }

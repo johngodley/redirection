@@ -19,12 +19,16 @@ class Login_Match extends Red_Match {
 		);
 	}
 
-	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
+	public function is_match( $url ) {
+		return is_user_logged_in();
+	}
+
+	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $match ) {
 		$target = false;
 
-		if ( is_user_logged_in() && $this->logged_in !== '' ) {
+		if ( $match && $this->logged_in !== '' ) {
 			$target = $this->logged_in;
-		} elseif ( ! is_user_logged_in() && $this->logged_out !== '' ) {
+		} elseif ( ! $match && $this->logged_out !== '' ) {
 			$target = $this->logged_out;
 		}
 

@@ -1,6 +1,6 @@
 <?php
 
-class Red_Action {
+abstract class Red_Action {
 	protected $code;
 	protected $type;
 
@@ -53,4 +53,6 @@ class Red_Action {
 	public function get_type() {
 		return $this->type;
 	}
+
+	abstract public function needs_target();
 }

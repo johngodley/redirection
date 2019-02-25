@@ -3,7 +3,7 @@
 class IP_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	public $ip;
+	public $ip = [];
 
 	public function name() {
 		return __( 'URL and IP', 'redirection' );
@@ -33,21 +33,18 @@ class IP_Match extends Red_Match {
 		return array();
 	}
 
-	public function get_target( $requested_url, $source_url, Red_Source_Flags $flags ) {
-		$ip = Redirection_Request::get_ip();
-		$current_ip = @inet_pton( $ip );
+	private function get_matching_ips( $match_ip ) {
+		$current_ip = @inet_pton( $match_ip );
 
-		$matched = array_filter( $this->ip, function( $ip ) use ( $current_ip ) {
+		return array_filter( $this->ip, function( $ip ) use ( $current_ip ) {
 			return @inet_pton( $ip ) === $current_ip;
 		} );
+	}
 
-		$target = $this->get_matched_target( count( $matched ) > 0 );
+	public function is_match( $url ) {
+		$matched = $this->get_matching_ips( Redirection_Request::get_ip() );
 
-		if ( $flags->is_regex() && $target ) {
-			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
-		}
-
-		return $target;
+		return count( $matched ) > 0;
 	}
 
 	public function get_data() {
@@ -58,6 +55,6 @@ class IP_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = $this->load_data( $values );
-		$this->ip = $values['ip'];
+		$this->ip = isset( $values['ip'] ) ? $values['ip'] : [];
 	}
 }

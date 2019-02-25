@@ -83,7 +83,7 @@ abstract class Red_Database_Upgrader {
 	 * @return object Database upgrader
 	 */
 	public static function get( $version ) {
-		include_once dirname( __FILE__ ) . '/schema/' . str_replace( [ '..', '/'  ], '', $version['file'] );
+		include_once dirname( __FILE__ ) . '/schema/' . str_replace( [ '..', '/' ], '', $version['file'] );
 
 		return new $version['class'];
 	}

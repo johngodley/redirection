@@ -1,6 +1,6 @@
 [
 	[
-		"Test ip matched",
+		"Test IP matched",
 		{
 			"source": {
 				"url": "/ip",
@@ -16,7 +16,7 @@
 		}
 	],
 	[
-		"Test ip not matched",
+		"Test IP not matched",
 		{
 			"source": {
 				"url": "/ip"
@@ -25,6 +25,32 @@
 				"status": 301,
 				"location": "/ip/notmatch",
 				"agent": true
+			}
+		}
+	],
+	[
+		"Test IP matched with 403 error",
+		{
+			"source": {
+				"url": "/ip/403",
+				"headers": {
+					"cf-connecting-ip": "192.168.1.66"
+				}
+			},
+			"target": {
+				"status": 403,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test IP matched with 403 error doesnt match",
+		{
+			"source": {
+				"url": "/ip/403"
+			},
+			"target": {
+				"status": 404
 			}
 		}
 	]

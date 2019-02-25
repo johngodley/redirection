@@ -45,24 +45,17 @@ class PageMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url );
 	}
 
-	public function test404Url() {
+	public function testMatch404() {
 		$this->set_404( true );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/target' ) ) );
-		$this->assertEquals( '/target', $match->get_target( '/cat', '/cat', new Red_Source_Flags() ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 
-	public function test404UrlRegex() {
-		$this->set_404( true );
-
-		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/from$1' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
-	}
-
-	public function testNot404Url() {
+	public function testNotMatch() {
 		$this->set_404( false );
 
 		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/cat' ) ) );
-		$this->assertEquals( false, $match->get_target( '/cat', '/cat', new Red_Source_Flags() ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 }

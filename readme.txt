@@ -20,6 +20,8 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
+Redirection is compatible with PHP from 5.4 and upwards (including 7.2).
+
 = Redirect manager =
 
 Create and manage redirects quickly and easily without needing Apache or Nginx knowledge. If your WordPress supports permalinks then you can use Redirection to redirect any URL.
@@ -160,6 +162,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 4.0.1 - ??? =
 * Improve styling of query flags
 * Match DB upgrade for new match_url to creation script
+* Fix pagination button style in WP 5.1
 
 = 4.0 - 23rd Feb 2019 =
 * Add option for case insensitive redirects

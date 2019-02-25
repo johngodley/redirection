@@ -4,13 +4,31 @@ class Red_Database_400 extends Red_Database_Upgrader {
 	public function get_stages() {
 		return [
 			'add_match_url_400' => 'Add a matched URL column',
+			'add_match_url_index' => 'Add match URL index',
 			'add_redirect_data_400' => 'Add column to store new flags',
 			'convert_existing_urls_400' => 'Convert existing URLs to new format',
 		];
 	}
 
+	private function has_match_url( $wpdb ) {
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_items`", ARRAY_N );
+
+		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`match_url` varchar(2000)' ) !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	protected function add_match_url_400( $wpdb ) {
-		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_url` VARCHAR(2000) NULL DEFAULT NULL AFTER `url`" );
+		if ( ! $this->has_match_url( $wpdb ) ) {
+			return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_url` VARCHAR(2000) NULL DEFAULT NULL AFTER `url`" );
+		}
+
+		return true;
+	}
+
+	protected function add_match_url_index( $wpdb ) {
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `match_url` (`match_url`(191))" );
 	}
 
