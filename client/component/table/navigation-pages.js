@@ -12,7 +12,7 @@ const Nav = props => {
 
 	if ( enabled ) {
 		return (
-			<a className={ className } href="#" onClick={ onClick }>
+			<a className={ className + ' button' } href="#" onClick={ onClick }>
 				<span className="screen-reader-text">{ title }</span>
 				<span aria-hidden="true">{ button }</span>
 			</a>
@@ -20,7 +20,7 @@ const Nav = props => {
 	}
 
 	return (
-		<span className="tablenav-pages-navspan" aria-hidden="true">{ button }</span>
+		<span className="tablenav-pages-navspan button disabled" aria-hidden="true">{ button }</span>
 	);
 };
 
