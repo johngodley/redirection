@@ -56,4 +56,8 @@ class Pass_Action extends Red_Action {
 
 		return $this->process_internal( $target );
 	}
+
+	public function needs_target() {
+		return true;
+	}
 }
