@@ -67,6 +67,7 @@ class CreateRedirect extends React.Component {
 
 		if ( item.match_type === MATCH_IP ) {
 			item.url = '^/.*$';
+			item.match_data.source.flag_regex = true;
 		} else if ( selected.length > 1 ) {
 			item.url = selected;
 		}
