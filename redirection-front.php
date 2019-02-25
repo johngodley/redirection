@@ -24,7 +24,7 @@ class Redirection {
 		$this->module->start();
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
-		add_action( 'redirection_url_target', array( $this, 'replace_special_tags' ) );
+		add_filter( 'redirection_url_target', array( $this, 'replace_special_tags' ) );
 
 		$options = red_get_options();
 		if ( $options['ip_logging'] === 0 ) {
