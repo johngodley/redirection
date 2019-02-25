@@ -148,7 +148,7 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function send_headers( $obj ) {
-		if ( ! empty( $this->matched ) && $this->matched->match->action_code === '410' ) {
+		if ( ! empty( $this->matched ) && $this->matched->action->get_code() === 410 ) {
 			add_filter( 'status_header', array( $this, 'set_header_410' ) );
 		}
 	}
