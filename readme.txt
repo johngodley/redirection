@@ -163,6 +163,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Improve styling of query flags
 * Match DB upgrade for new match_url to creation script
 * Fix pagination button style in WP 5.1
+* Fix IP match when action is 'error'
 
 = 4.0 - 23rd Feb 2019 =
 * Add option for case insensitive redirects
