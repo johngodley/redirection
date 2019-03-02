@@ -154,10 +154,10 @@ __( "Enter server URL to match against", "redirection" ), // client/component/re
 __( "Position", "redirection" ), // client/component/redirect-edit/position.js:12
 __( "Query Parameters", "redirection" ), // client/component/redirect-edit/source-query.js:23
 __( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:53
-__( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:76
-__( "The relative URL you want to redirect from", "redirection" ), // client/component/redirect-edit/source-url.js:83
-__( "URL options", "redirection" ), // client/component/redirect-edit/source-url.js:88
-__( "No more options", "redirection" ), // client/component/redirect-edit/source-url.js:95
+__( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:84
+__( "The relative URL you want to redirect from", "redirection" ), // client/component/redirect-edit/source-url.js:91
+__( "URL options", "redirection" ), // client/component/redirect-edit/source-url.js:96
+__( "No more options", "redirection" ), // client/component/redirect-edit/source-url.js:103
 __( "Title", "redirection" ), // client/component/redirect-edit/title.js:17
 __( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:23
 __( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:38
@@ -350,10 +350,10 @@ __( "Ignore URL", "redirection" ), // client/page/logs404/constants.js:102
 __( "No grouping", "redirection" ), // client/page/logs404/constants.js:110
 __( "Group by URL", "redirection" ), // client/page/logs404/constants.js:114
 __( "Group by IP", "redirection" ), // client/page/logs404/constants.js:118
-__( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:77
-__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:79
-__( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:84
-__( "Delete all logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:84
+__( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:78
+__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:80
+__( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:85
+__( "Delete all logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:85
 __( "Delete All", "redirection" ), // client/page/logs404/row-ip.js:93
 __( "Redirect All", "redirection" ), // client/page/logs404/row-ip.js:94
 __( "Show All", "redirection" ), // client/page/logs404/row-ip.js:95
