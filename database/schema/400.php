@@ -10,10 +10,20 @@ class Red_Database_400 extends Red_Database_Upgrader {
 		];
 	}
 
-	private function has_match_url( $wpdb ) {
+	private function has_column( $wpdb, $column ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_items`", ARRAY_N );
 
-		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`match_url` varchar(2000)' ) !== false ) {
+		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), strtolower( $column ) ) !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function has_match_index( $wpdb ) {
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_items`", ARRAY_N );
+
+		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'key `match_url' ) !== false ) {
 			return true;
 		}
 
@@ -21,7 +31,7 @@ class Red_Database_400 extends Red_Database_Upgrader {
 	}
 
 	protected function add_match_url_400( $wpdb ) {
-		if ( ! $this->has_match_url( $wpdb ) ) {
+		if ( ! $this->has_column( $wpdb, '`match_url` varchar(2000)' ) ) {
 			return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_url` VARCHAR(2000) NULL DEFAULT NULL AFTER `url`" );
 		}
 
@@ -29,11 +39,17 @@ class Red_Database_400 extends Red_Database_Upgrader {
 	}
 
 	protected function add_match_url_index( $wpdb ) {
-		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `match_url` (`match_url`(191))" );
+		if ( ! $this->has_match_index( $wpdb ) ) {
+			return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD INDEX `match_url` (`match_url`(191))" );
+		}
 	}
 
 	protected function add_redirect_data_400( $wpdb ) {
-		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_data` TEXT NULL DEFAULT NULL AFTER `match_url`" );
+		if ( ! $this->has_column( $wpdb, '`match_data` TEXT' ) ) {
+			return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_items` ADD `match_data` TEXT NULL DEFAULT NULL AFTER `match_url`" );
+		}
+
+		return true;
 	}
 
 	protected function convert_existing_urls_400( $wpdb ) {

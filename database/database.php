@@ -76,7 +76,7 @@ class Red_Database {
 	}
 
 	public static function apply_to_sites( $callback ) {
-		if ( is_network_admin() ) {
+		if ( is_network_admin() || defined( 'WP_CLI' ) && WP_CLI ) {
 			array_map( function( $site ) use ( $callback ) {
 				switch_to_blog( $site->blog_id );
 
