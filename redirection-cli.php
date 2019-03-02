@@ -147,31 +147,33 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			WP_CLI::success( 'Database installed' );
 		} elseif ( $args[0] === 'upgrade' ) {
-			$database = new Red_Database();
-			$status = new Red_Database_Status();
+			Red_Database::apply_to_sites( function() {
+				$database = new Red_Database();
+				$status = new Red_Database_Status();
 
-			if ( ! $status->needs_updating() ) {
-				WP_CLI::success( 'Database is already the latest version' );
-				return;
-			}
-
-			$loop = 0;
-
-			while ( $loop < 50 ) {
-				$result = $database->apply_upgrade( $status );
-				$info = $status->get_json();
-
-				if ( ! $info['inProgress'] ) {
-					break;
-				}
-
-				if ( $info['status'] === 'error' ) {
-					WP_CLI::error( 'Database failed to upgrade: ' . $info['reason'] );
+				if ( ! $status->needs_updating() ) {
+					WP_CLI::success( 'Database is already the latest version' );
 					return;
 				}
 
-				$loop++;
-			}
+				$loop = 0;
+
+				while ( $loop < 50 ) {
+					$result = $database->apply_upgrade( $status );
+					$info = $status->get_json();
+
+					if ( ! $info['inProgress'] ) {
+						break;
+					}
+
+					if ( $info['status'] === 'error' ) {
+						WP_CLI::error( 'Database failed to upgrade: ' . $info['reason'] );
+						return;
+					}
+
+					$loop++;
+				}
+			} );
 
 			WP_CLI::success( 'Database upgraded' );
 		} elseif ( $args[0] === 'remove' ) {
