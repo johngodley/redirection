@@ -62,6 +62,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
 		add_option( Red_Database_Status::OLD_DB_VERSION, 'test' );
+		add_option( Red_Database_Status::DB_UPGRADE_STAGE, 'something' );
 
 		$database = new Red_Latest_Database();
 		$database->install();
@@ -76,6 +77,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );
 		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
+		$this->assertFalse( get_option( Red_Database_Status::DB_UPGRADE_STAGE ) );
 	}
 
 	public function testDefaultGroupsClean() {
