@@ -32,9 +32,9 @@ const ApiResultIcon = ( { result, method } ) => {
 	return <span className="dashicons dashicons-no"></span>;
 };
 
-const ApiResult = ( { item, result, method } ) => {
+const ApiResult = ( { item, result, method, alt } ) => {
 	return (
-		<div className="api-result">
+		<div className={ 'api-result' + ( alt ? ' api-result-alt' : '' ) }>
 			<ApiResultIcon result={ result } method={ method } /> <code>{ method }</code> { item.text }
 
 			{ result[ method ] && result[ method ] !== true &&
@@ -295,12 +295,14 @@ class WelcomeWizard extends React.Component {
 				<button className="button wizard-retry" onClick={ this.onRetry } disabled={ this.apiInProgress() }>{ __( 'Retry' ) }</button>
 
 				<h3>{ __( 'Checking your REST API' ) }</h3>
-				{ routes.map( item =>
+				{ routes.map( ( item, pos ) =>
 					<React.Fragment key={ item.value } >
-						<ApiResult item={ item } result={ apiTest[ item.value ] } method="GET" />
-						<ApiResult item={ item } result={ apiTest[ item.value ] } method="POST" />
+						<ApiResult item={ item } result={ apiTest[ item.value ] } method="GET" alt={ pos % 2 === 1 } />
+						<ApiResult item={ item } result={ apiTest[ item.value ] } method="POST" alt={ pos % 2 === 1 } />
 					</React.Fragment>
 				) }
+
+				<p>{ __( 'You need at least one GET/POST pair for the plugin to work.' ) }</p>
 
 				<div className="wizard-buttons">
 					<button className="button-primary button" onClick={ this.finishSetup }>{ __( 'Finish Setup' ) }</button> &nbsp;
