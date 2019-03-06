@@ -22,7 +22,7 @@ class Red_Json_File extends Red_FileIO {
 			}, $items ),
 		);
 
-		return wp_json_encode( $items, JSON_PRETTY_PRINT ) . PHP_EOL;
+		return wp_json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . PHP_EOL;
 	}
 
 	public function load( $group, $filename, $data ) {
