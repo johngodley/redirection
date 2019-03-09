@@ -17,6 +17,9 @@
     "lint": "eslint --cache --ext=.js src",
     "stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
     "e2e": "NODE_ENV=e2e jest e2e",
+    "up": "docker-compose up",
+    "down": "docker-compose down",
+    "clean": "docker-compose down && docker-compose rm && docker volume prune",
     "release": "rm -rf node_modules && yarn install && yarn dist && gulp version"
   },
   "repository": {

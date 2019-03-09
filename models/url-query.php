@@ -58,7 +58,7 @@ class Red_Url_Query {
 			}
 
 			$query = http_build_query( $query_diff );
-			$query = preg_replace( '@%5B\d*%5D@', '[]', $query );
+			$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
 
 			if ( $query ) {
 				return $target_url . ( strpos( $target_url, '?' ) === false ? '?' : '&' ) . $query;

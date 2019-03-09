@@ -67,9 +67,12 @@ class Redirection_Cli extends WP_CLI_Command {
 			}
 		} else {
 			$data = @file_get_contents( $args[0] );
+
 			if ( $data ) {
 				$count = $importer->load( $group, $args[0], $data );
-				WP_CLI::success( 'Imported ' . $count . ' as ' . $format );
+				WP_CLI::success( 'Imported ' . $count . ' redirects as ' . $format );
+			} else {
+				WP_CLI::error( 'Invalid import file' );
 			}
 		}
 	}
