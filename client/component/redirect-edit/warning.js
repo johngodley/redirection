@@ -25,8 +25,9 @@ export const isRegex = ( text ) => {
 	return false;
 };
 
-export const getWarningFromState = ( { url, flag_regex } ) => {
+export const getWarningFromState = ( item ) => {
 	const warnings = [];
+	const { url, flag_regex, action_data } = item;
 
 	if ( Array.isArray( url ) ) {
 		return warnings;
@@ -73,6 +74,15 @@ export const getWarningFromState = ( { url, flag_regex } ) => {
 		);
 	}
 
+	// Period without escape
+	if ( flag_regex && url.match( /(?<!\\)\.(?![\*\+])/ ) ) {
+		warnings.push( __( 'A literal period {{code}}.{{/code}} should be escaped like {{code}}\\.{{/code}} otherwise it will interpreted as a regular expression.', {
+			components: {
+				code: <code />,
+			},
+		} ) );
+	}
+
 	// Anchor
 	if ( url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 && flag_regex ) {
 		warnings.push(
@@ -90,6 +100,11 @@ export const getWarningFromState = ( { url, flag_regex } ) => {
 	// Redirect everything
 	if ( url === '/(.*)' || url === '^/(.*)' ) {
 		warnings.push( __( 'This will redirect everything, including the login pages. Please be sure you want to do this.' ) );
+	}
+
+	// If matched/unmatched that is the same as the source URL
+	if ( action_data.url_from === url || action_data.url_notfrom === url || action_data.logged_in === url || action_data.logged_out === url ) {
+		warnings.push( __( 'Leave a target blank if you do not wish to redirect otherwise you could create a loop.' ) );
 	}
 
 	return warnings;
