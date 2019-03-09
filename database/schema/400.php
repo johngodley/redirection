@@ -56,8 +56,11 @@ class Red_Database_400 extends Red_Database_Upgrader {
 		// All regex get match_url=regex
 		$this->do_query( $wpdb, "UPDATE `{$wpdb->prefix}redirection_items` SET match_url='regex' WHERE regex=1" );
 
-		// Lowercase, trim trailing, and remove query params
-		$this->do_query( $wpdb, "UPDATE `{$wpdb->prefix}redirection_items` SET match_url=TRIM(TRAILING '/' FROM SUBSTRING_INDEX(LOWER(url), '?', 1)) WHERE regex=0" );
+		// Remove query part from all URLs and lowercase
+		$this->do_query( $wpdb, "UPDATE `{$wpdb->prefix}redirection_items` SET match_url=SUBSTRING_INDEX(LOWER(url), '?', 1) WHERE regex=0" );
+
+		// Trim the last / from a URL
+		$this->do_query( $wpdb, "UPDATE `{$wpdb->prefix}redirection_items` SET match_url=LEFT(match_url,LENGTH(match_url)-1) WHERE regex=0 AND match_url != '/' AND RIGHT(match_url, 1) = '/'" );
 
 		// Any URL that is now empty becomes /
 		return $this->do_query( $wpdb, "UPDATE `{$wpdb->prefix}redirection_items` SET match_url='/' WHERE match_url=''" );

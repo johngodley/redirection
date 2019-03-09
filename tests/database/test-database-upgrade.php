@@ -92,9 +92,12 @@ class DatabaseTester {
 			$wpdb->insert( $wpdb->prefix . 'redirection_404', array( 'ip' => ip2long( '192.168.1.1' ) ) );
 			$wpdb->insert( $wpdb->prefix . 'redirection_404', array( 'ip' => ip2long( '203.168.1.5' ) ) );
 		} elseif ( $ver === '3.9' ) {
-			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/TEST/?thing=cat' ) );
-			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/' ) );
-			$wpdb->insert( $wpdb->prefix . 'redirection_items', array( 'url' => '/.*', 'regex' => 1 ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/TEST/?thing=cat' ] );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/' ] );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/.*', 'regex' => 1 ] );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '//' ] );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/thing///' ] );
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/index.php' ] );
 		}
 	}
 
@@ -108,12 +111,19 @@ class DatabaseTester {
 			$unit->assertEquals( '203.168.1.5', $rows[1]->ip );
 		} elseif ( $ver === '3.9' ) {
 			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
+
 			$unit->assertEquals( '/TEST/?thing=cat', $rows[0]->url );
 			$unit->assertEquals( '/test', $rows[0]->match_url );
+
 			$unit->assertEquals( '/', $rows[1]->url );
 			$unit->assertEquals( '/', $rows[1]->match_url );
+
 			$unit->assertEquals( '/.*', $rows[2]->url );
 			$unit->assertEquals( 'regex', $rows[2]->match_url );
+
+			$unit->assertEquals( '/', $rows[3]->match_url );
+			$unit->assertEquals( '/thing//', $rows[4]->match_url );
+			$unit->assertEquals( '/index.php', $rows[5]->match_url );
 		}
 	}
 }
@@ -396,7 +406,4 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$this->assertTrue( strpos( $existing[1], 'KEY `ip` (`ip`)' ) !== false );
 	}
-
-	// XXX add test for 2.3.3 => 2.4 when key `ip` (`id`) exists
-	// XXX have a 'build for release' task that removes all node_modules, builds from scratch, versions, locale, etc
 }
