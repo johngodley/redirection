@@ -65,6 +65,17 @@ class Red_Item_Sanitize {
 			$data['regex'] = $flags->is_regex();
 		}
 
+		// If match_data is empty then don't save anything
+		if ( isset( $data['match_data']['source'] ) ) {
+			$data['match_data']['source'] = array_filter( $data['match_data']['source'] );
+		}
+
+		$data['match_data'] = array_filter( $data['match_data'] );
+
+		if ( empty( $data['match_data'] ) ) {
+			$data['match_data'] = null;
+		}
+
 		// Parse URL
 		$url = empty( $details['url'] ) ? $this->auto_generate() : $details['url'];
 		if ( strpos( $url, 'http:' ) !== false || strpos( $url, 'https:' ) !== false ) {
