@@ -160,6 +160,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 = 4.1 - ??? =
+* Move 404 export option to import/export page
+* Add additional redirect suggestions
+* Add import from Rank Math
 * Fix 'force https' causing WP to redirect to admin URL when accessing www subdomain
 * Fix .htaccess import adding ^ to the source
 * Fix handling of double-slashed URLs

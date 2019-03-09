@@ -9,6 +9,7 @@ class Red_Plugin_Importer {
 			'seo-redirection',
 			'safe-redirect-manager',
 			'wordpress-old-slugs',
+			'rank-math',
 		);
 
 		foreach ( $importers as $importer ) {
@@ -36,6 +37,10 @@ class Red_Plugin_Importer {
 			return new Red_WordPressOldSlug_Importer();
 		}
 
+		if ( $id === 'rank-math' ) {
+			return new Red_RankMath_Importer();
+		}
+
 		return false;
 	}
 
@@ -46,6 +51,63 @@ class Red_Plugin_Importer {
 		}
 
 		return 0;
+	}
+}
+
+class Red_RankMath_Importer extends Red_Plugin_Importer {
+	public function import_plugin( $group_id ) {
+		global $wpdb;
+
+		$count = 0;
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}rank_math_redirections" );
+
+		foreach ( $redirects as $redirect ) {
+			$created = $this->create_for_item( $group_id, $redirect );
+			$count += $created;
+		}
+
+		return $count;
+	}
+
+	private function create_for_item( $group_id, $redirect ) {
+		$sources = unserialize( $redirect->sources );
+
+		foreach ( $sources as $source ) {
+			$url = $source['pattern'];
+			if ( substr( $url, 0, 1 ) !== '/' ) {
+				$url = '/' . $url;
+			}
+
+			$data = array(
+				'url'         => $url,
+				'action_data' => array( 'url' => $redirect->url_to ),
+				'regex'       => $source['comparison'] === 'regex' ? true : false,
+				'group_id'    => $group_id,
+				'match_type'  => 'url',
+				'action_type' => 'url',
+				'action_code' => $redirect->header_code,
+			);
+
+			$items[] = Red_Item::create( $data );
+		}
+
+		return count( $items );
+	}
+
+	public function get_data() {
+		global $wpdb;
+
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_redirections" );
+
+		if ( $total ) {
+			return array(
+				'id' => 'rank-math',
+				'name' => 'RankMath',
+				'total' => intval( $total, 10 ),
+			);
+		}
+
+		return false;
 	}
 }
 
