@@ -1,6 +1,6 @@
 {
   "name": "redirection",
-  "version": "4.0.1",
+  "version": "4.1",
   "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
   "main": "redirection.php",
   "sideEffects": true,
@@ -17,6 +17,9 @@
     "lint": "eslint --cache --ext=.js src",
     "stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
     "e2e": "NODE_ENV=e2e jest e2e",
+    "up": "docker-compose up",
+    "down": "docker-compose down",
+    "clean": "docker-compose down && docker-compose rm && docker volume prune",
     "release": "rm -rf node_modules && yarn install && yarn dist && gulp version"
   },
   "repository": {

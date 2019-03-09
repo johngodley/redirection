@@ -41,6 +41,8 @@ const SVN_SOURCE_FILES = [
 	'!package-lock.json',
 	'!e2e/**',
 	'!e2e',
+	'!docker-compose.yml',
+	'!.DS_Store',
 ];
 
 function downloadLocale( locale, wpName, type ) {

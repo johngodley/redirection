@@ -256,5 +256,57 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test double-slash URL",
+		{
+			"source": {
+				"url": "//?query"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test double-slash with other details",
+		{
+			"source": {
+				"url": "//thing/here"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param array",
+		{
+			"source": {
+				"url": "/plain-array/?arr[]=1&arr[]=2&arr[]=3"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param array merge",
+		{
+			"source": {
+				"url": "/plain-array-pass/?arr2[]=3&arr2[]=2&arr[]=3&arr[]=2&arr[]=1"
+			},
+			"target": {
+				"location": "/plain-redirect?arr2[]=3&arr2[]=2&arr[]=3&arr[]=2&arr[]=1",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
