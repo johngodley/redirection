@@ -16,13 +16,11 @@ import TableNav from 'component/table/navigation';
 import SearchBox from 'component/table/search';
 import TableGroup from 'component/table/group';
 import DeleteAll from 'page/logs/delete-all';
-import ExportCSV from 'page/logs/export-csv';
 import Row404 from './row';
 import RowUrl from './row-url';
 import RowIp from './row-ip';
 import TableButtons from 'component/table/table-buttons';
 import CreateRedirect from './create-redirect';
-import { LOGS_TYPE_404 } from 'state/error/type';
 import { tableKey } from 'lib/table';
 import { getGroup } from 'state/group/action';
 import {
@@ -161,7 +159,6 @@ class Logs404 extends React.Component {
 					onAction={ this.props.onTableAction }
 				>
 					<TableButtons enabled={ rows.length > 0 }>
-						<ExportCSV logType={ LOGS_TYPE_404 } />
 						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 					</TableButtons>
 				</TableNav>

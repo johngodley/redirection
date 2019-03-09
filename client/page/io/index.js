@@ -19,6 +19,8 @@ import { importFile, clearFile, addFile, loadImporters, pluginImport, exportFile
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import { getExportUrl } from 'state/io/selector';
 import Importer from './importer';
+import ExportCSV from 'page/logs/export-csv';
+import { LOGS_TYPE_404, LOGS_TYPE_REDIRECT } from 'state/error/type';
 import './style.scss';
 
 class ImportExport extends React.Component {
@@ -281,7 +283,9 @@ class ImportExport extends React.Component {
 				{ exportStatus === STATUS_IN_PROGRESS && this.renderExporting() }
 				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }
 
-				<p>{ __( 'Log files can be exported from the log pages.' ) }</p>
+				<h2>Export Logs</h2>
+				<p><ExportCSV logType={ LOGS_TYPE_REDIRECT } title={ __( 'Export redirect' ) } /></p>
+				<p><ExportCSV logType={ LOGS_TYPE_404 } title={ __( 'Export 404' ) } /></p>
 
 				{ importers.length > 0 && this.renderImporters( importers ) }
 			</div>
