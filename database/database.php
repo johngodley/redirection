@@ -149,6 +149,11 @@ class Red_Database {
 				'file' => '400.php',
 				'class' => 'Red_Database_400',
 			],
+			[
+				'version' => '4.1',
+				'file' => '410.php',
+				'class' => 'Red_Database_410',
+			],
 		];
 	}
 }

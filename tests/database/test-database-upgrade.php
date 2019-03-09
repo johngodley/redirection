@@ -98,6 +98,8 @@ class DatabaseTester {
 			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '//' ] );
 			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/thing///' ] );
 			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '/index.php' ] );
+		} elseif ( $ver === '4.0' ) {
+			$wpdb->insert( $wpdb->prefix . 'redirection_items', [ 'url' => '//?s=no-results' ] );
 		}
 	}
 
@@ -124,6 +126,10 @@ class DatabaseTester {
 			$unit->assertEquals( '/', $rows[3]->match_url );
 			$unit->assertEquals( '/thing//', $rows[4]->match_url );
 			$unit->assertEquals( '/index.php', $rows[5]->match_url );
+		} elseif ( $ver === '4.0' ) {
+			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
+
+			$unit->assertEquals( '/', $rows[0]->match_url );
 		}
 	}
 }
@@ -288,7 +294,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	public function testGetUpgradesForSameVersion() {
 		$database = new Red_Database();
 		$upgrades = $database->get_upgrades_for_version( '2.2', false );
-		$this->assertEquals( 5, count( $upgrades ) );
+		$this->assertEquals( 6, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
@@ -305,11 +311,12 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$tester = new DatabaseTester();
 
 		$versions = array(
-			'3.9',    // => 4.0
-			'2.3.4',  // => 2.4
-			'2.3.2',  // => 2.3.3
-			'2.3.1.1',  // => 2.3.2
-			'2.3.0',  // => 2.3.1
+			'4.0', // => 4.1
+			'3.9', // => 4.0
+			'2.3.4', // => 2.4
+			'2.3.2', // => 2.3.3
+			'2.3.1.1', // => 2.3.2
+			'2.3.0', // => 2.3.1
 			'2.1.19', // => 2.2
 			'2.1.15', // => 2.1.16
 			'2.0.0',  // => 2.0.1
@@ -345,7 +352,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 				}
 
 				if ( $info['result'] === 'error' ) {
-					$this->fail( $ver . ' ' . $info['reason'] );
+					$this->fail( $info['current'] . ' ' . $info['reason'] );
 				}
 
 				if ( $last === $status->get_current_stage() ) {
@@ -397,7 +404,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 			}
 
 			if ( $info['result'] === 'error' ) {
-				$this->fail( $ver . ' ' . $info['reason'] );
+				$this->fail( $info['current'] . ' ' . $info['reason'] );
 			}
 		}
 
