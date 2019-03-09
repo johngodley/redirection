@@ -1,6 +1,8 @@
 <?php
 
 class Red_Url_Match {
+	private $url;
+
 	public function __construct( $url ) {
 		$this->url = $url;
 	}
@@ -15,13 +17,11 @@ class Red_Url_Match {
 	 */
 	public function get_url() {
 		// Remove query params
-		$path = wp_parse_url( $this->url, PHP_URL_PATH );
+		$url = new Red_Url_Path( $this->url );
+		$path = $url->get_without_trailing_slash();
 
 		// Lowercase everything
 		$path = strtolower( $path );
-
-		// Trim trailing slash
-		$path = rtrim( $path, '/' );
 
 		return $path ? $path : '/';
 	}
