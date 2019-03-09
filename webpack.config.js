@@ -79,6 +79,9 @@ if ( isProduction() ) {
 } else {
 	config.output.publicPath = getDevUrl;
 	config.devtool = 'inline-source-map';
+	config.resolve.alias = {
+		'react-dom': '@hot-loader/react-dom',
+	};
 	config.devServer = {
 		historyApiFallback: {
 			index: '/',
