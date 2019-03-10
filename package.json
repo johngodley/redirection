@@ -20,6 +20,7 @@
     "up": "docker-compose up",
     "down": "docker-compose down",
     "clean": "docker-compose down && docker-compose rm && docker volume prune",
+    "cli": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
     "release": "rm -rf node_modules && yarn install && yarn dist && gulp version"
   },
   "repository": {

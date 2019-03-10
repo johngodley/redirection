@@ -1,13 +1,13 @@
 {
     "plugin": {
-        "version": "4.0.1",
-        "date": "Mon, 25 Feb 2019 15:25:26 +0000"
+        "version": "4.1",
+        "date": "Sun, 10 Mar 2019 07:33:33 +0000"
     },
     "groups": [
         {
             "id": 1,
             "name": "Redirections",
-            "redirects": 1,
+            "redirects": 0,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -23,7 +23,7 @@
         {
             "id": 3,
             "name": "Redirections",
-            "redirects": 0,
+            "redirects": 5,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -39,7 +39,7 @@
         {
             "id": 5,
             "name": "Redirections",
-            "redirects": 29,
+            "redirects": 0,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -51,13 +51,29 @@
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
+        },
+        {
+            "id": 7,
+            "name": "Redirections",
+            "redirects": 29,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 8,
+            "name": "Modified Posts",
+            "redirects": 0,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
         }
     ],
     "redirects": [
         {
             "id": 1,
-            "url": "\/plain301",
-            "match_url": "\/plain301",
+            "url": "/plain301",
+            "match_url": "/plain301",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -69,21 +85,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 0,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 2,
-            "url": "\/plain302",
-            "match_url": "\/plain302",
+            "url": "/plain302",
+            "match_url": "/plain302",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -95,21 +111,21 @@
             "action_code": 302,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 12,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 1,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 3,
-            "url": "\/plain303",
-            "match_url": "\/plain303",
+            "url": "/plain303",
+            "match_url": "/plain303",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -121,21 +137,21 @@
             "action_code": 303,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 11,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 2,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 4,
-            "url": "\/plain307",
-            "match_url": "\/plain307",
+            "url": "/plain307",
+            "match_url": "/plain307",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -147,21 +163,21 @@
             "action_code": 307,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 10,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 3,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 5,
-            "url": "\/plain308",
-            "match_url": "\/plain308",
+            "url": "/plain308",
+            "match_url": "/plain308",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -173,21 +189,21 @@
             "action_code": 308,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 10,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 4,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 6,
-            "url": "\/plain-pass",
-            "match_url": "\/plain-pass",
+            "url": "/plain-pass",
+            "match_url": "/plain-pass",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -199,21 +215,21 @@
             "action_code": 0,
             "action_type": "pass",
             "action_data": {
-                "url": "\/"
+                "url": "/"
             },
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 6,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 7,
-            "url": "\/plain-ignore",
-            "match_url": "\/plain-ignore",
+            "url": "/plain-ignore",
+            "match_url": "/plain-ignore",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -227,16 +243,16 @@
             "action_data": "",
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 7,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 8,
-            "url": "^\/plain-regex\/(.*)",
+            "url": "^/plain-regex/(.*)",
             "match_url": "regex",
             "match_data": {
                 "source": {
@@ -249,21 +265,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect\/$1"
+                "url": "/plain-redirect/$1"
             },
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 8,
             "regex": true,
-            "group_id": 5,
+            "group_id": 7,
             "position": 8,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 9,
-            "url": "\/plain-redirect-disabled",
-            "match_url": "\/plain-redirect-disabled",
+            "url": "/plain-redirect-disabled",
+            "match_url": "/plain-redirect-disabled",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -275,21 +291,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 9,
             "last_access": "-",
             "enabled": false
         },
         {
             "id": 10,
-            "url": "\/plain-redirect-absolute",
-            "match_url": "\/plain-redirect-absolute",
+            "url": "/plain-redirect-absolute",
+            "match_url": "/plain-redirect-absolute",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -301,21 +317,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "http:\/\/wordpress.org"
+                "url": "http://wordpress.org"
             },
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 10,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 11,
-            "url": "\/plain-position",
-            "match_url": "\/plain-position",
+            "url": "/plain-position",
+            "match_url": "/plain-position",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -327,21 +343,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect1"
+                "url": "/plain-redirect1"
             },
             "match_type": "url",
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 13,
             "last_access": "-",
             "enabled": true
         },
         {
             "id": 12,
-            "url": "\/plain-position",
-            "match_url": "\/plain-position",
+            "url": "/plain-position",
+            "match_url": "/plain-position",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -353,21 +369,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect2"
+                "url": "/plain-redirect2"
             },
             "match_type": "url",
             "title": "",
-            "hits": 12,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 12,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 13,
-            "url": "\/login",
-            "match_url": "\/login",
+            "url": "/login",
+            "match_url": "/login",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -379,22 +395,22 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "logged_in": "\/login\/match",
-                "logged_out": "\/login\/notmatch"
+                "logged_in": "/login/match",
+                "logged_out": "/login/notmatch"
             },
             "match_type": "login",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 13,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 14,
-            "url": "\/capability",
-            "match_url": "\/capability",
+            "url": "/capability",
+            "match_url": "/capability",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -407,22 +423,22 @@
             "action_type": "url",
             "action_data": {
                 "role": "manage_links",
-                "url_from": "\/capability\/match",
-                "url_notfrom": "\/capability\/notmatch"
+                "url_from": "/capability/match",
+                "url_notfrom": "/capability/notmatch"
             },
             "match_type": "role",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 13,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 15,
-            "url": "\/referrer",
-            "match_url": "\/referrer",
+            "url": "/referrer",
+            "match_url": "/referrer",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -436,22 +452,22 @@
             "action_data": {
                 "regex": false,
                 "referrer": "test referrer",
-                "url_from": "\/referrer\/match",
-                "url_notfrom": "\/referrer\/notmatch"
+                "url_from": "/referrer/match",
+                "url_notfrom": "/referrer/notmatch"
             },
             "match_type": "referrer",
             "title": "",
-            "hits": 26,
+            "hits": 14,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 14,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 16,
-            "url": "\/useragent",
-            "match_url": "\/useragent",
+            "url": "/useragent",
+            "match_url": "/useragent",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -465,22 +481,22 @@
             "action_data": {
                 "regex": false,
                 "agent": "test agent",
-                "url_from": "\/useragent\/match",
-                "url_notfrom": "\/useragent\/notmatch"
+                "url_from": "/useragent/match",
+                "url_notfrom": "/useragent/notmatch"
             },
             "match_type": "agent",
             "title": "",
-            "hits": 26,
+            "hits": 14,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 15,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 17,
-            "url": "\/cookie",
-            "match_url": "\/cookie",
+            "url": "/cookie",
+            "match_url": "/cookie",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -495,22 +511,22 @@
                 "regex": false,
                 "name": "cookie",
                 "value": "cookievalue",
-                "url_from": "\/cookie\/match",
-                "url_notfrom": "\/cookie\/notmatch"
+                "url_from": "/cookie/match",
+                "url_notfrom": "/cookie/notmatch"
             },
             "match_type": "cookie",
             "title": "",
-            "hits": 26,
+            "hits": 14,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 16,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 18,
-            "url": "\/ip",
-            "match_url": "\/ip",
+            "url": "/ip",
+            "match_url": "/ip",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -525,22 +541,22 @@
                 "ip": [
                     "192.168.1.66"
                 ],
-                "url_from": "\/ip\/match",
-                "url_notfrom": "\/ip\/notmatch"
+                "url_from": "/ip/match",
+                "url_notfrom": "/ip/notmatch"
             },
             "match_type": "ip",
             "title": "",
-            "hits": 33,
+            "hits": 14,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 17,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 19,
-            "url": "\/server",
-            "match_url": "\/server",
+            "url": "/server",
+            "match_url": "/server",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -552,23 +568,23 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "server": "http:\/\/test.com",
-                "url_from": "\/server\/match",
-                "url_notfrom": "\/server\/notmatch"
+                "server": "http://test.com",
+                "url_from": "/server/match",
+                "url_notfrom": "/server/notmatch"
             },
             "match_type": "server",
             "title": "",
-            "hits": 13,
+            "hits": 7,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 18,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 20,
-            "url": "\/http",
-            "match_url": "\/http",
+            "url": "/http",
+            "match_url": "/http",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -583,22 +599,22 @@
                 "regex": false,
                 "name": "testheader",
                 "value": "testvalue",
-                "url_from": "\/http\/match",
-                "url_notfrom": "\/http\/notmatch"
+                "url_from": "/http/match",
+                "url_notfrom": "/http/notmatch"
             },
             "match_type": "header",
             "title": "",
-            "hits": 26,
+            "hits": 14,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 19,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 21,
-            "url": "\/pagetype",
-            "match_url": "\/pagetype",
+            "url": "/pagetype",
+            "match_url": "/pagetype",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -611,21 +627,21 @@
             "action_type": "url",
             "action_data": {
                 "page": "404",
-                "url": "\/pagetype-redirect"
+                "url": "/pagetype-redirect"
             },
             "match_type": "page",
             "title": "",
-            "hits": 13,
+            "hits": 6,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 20,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 22,
-            "url": "\/plain-trailing-slash",
-            "match_url": "\/plain-trailing-slash",
+            "url": "/plain-trailing-slash",
+            "match_url": "/plain-trailing-slash",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -637,21 +653,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 20,
+            "hits": 13,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 21,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 23,
-            "url": "\/plain-trailing-case",
-            "match_url": "\/plain-trailing-case",
+            "url": "/plain-trailing-case",
+            "match_url": "/plain-trailing-case",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -663,21 +679,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 10,
+            "hits": 6,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 22,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 24,
-            "url": "\/plain-query-ignore",
-            "match_url": "\/plain-query-ignore",
+            "url": "/plain-query-ignore",
+            "match_url": "/plain-query-ignore",
             "match_data": {
                 "source": {
                     "flag_query": "ignore",
@@ -689,21 +705,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 19,
+            "hits": 12,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 23,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 25,
-            "url": "\/plain-query-exact?param1=1&param2=2",
-            "match_url": "\/plain-query-exact",
+            "url": "/plain-query-exact?param1=1&param2=2",
+            "match_url": "/plain-query-exact",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -715,21 +731,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 18,
+            "hits": 12,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 24,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 26,
-            "url": "\/plain-query-pass",
-            "match_url": "\/plain-query-pass",
+            "url": "/plain-query-pass",
+            "match_url": "/plain-query-pass",
             "match_data": {
                 "source": {
                     "flag_query": "pass",
@@ -741,21 +757,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 9,
+            "hits": 6,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 25,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 27,
-            "url": "\/plain-query-pass-existing",
-            "match_url": "\/plain-query-pass-existing",
+            "url": "/plain-query-pass-existing",
+            "match_url": "/plain-query-pass-existing",
             "match_data": {
                 "source": {
                     "flag_query": "pass",
@@ -767,21 +783,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect?random=yes"
+                "url": "/plain-redirect?random=yes"
             },
             "match_type": "url",
             "title": "",
-            "hits": 9,
+            "hits": 6,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 26,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 28,
-            "url": "\/plain-query-all",
-            "match_url": "\/plain-query-all",
+            "url": "/plain-query-all",
+            "match_url": "/plain-query-all",
             "match_data": {
                 "source": {
                     "flag_query": "ignore",
@@ -793,20 +809,20 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect"
+                "url": "/plain-redirect"
             },
             "match_type": "url",
             "title": "",
-            "hits": 9,
+            "hits": 6,
             "regex": false,
-            "group_id": 5,
+            "group_id": 7,
             "position": 27,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 29,
-            "url": "^\/plain-case-regex\/(.*)",
+            "url": "^/plain-case-regex/(.*)",
             "match_url": "regex",
             "match_data": {
                 "source": {
@@ -819,21 +835,21 @@
             "action_code": 301,
             "action_type": "url",
             "action_data": {
-                "url": "\/plain-redirect\/$1"
+                "url": "/plain-redirect/$1"
             },
             "match_type": "url",
             "title": "",
-            "hits": 9,
+            "hits": 7,
             "regex": true,
-            "group_id": 5,
+            "group_id": 7,
             "position": 28,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
             "enabled": true
         },
         {
             "id": 30,
-            "url": "\/ip\/403",
-            "match_url": "\/ip\/403",
+            "url": "/ip/403",
+            "match_url": "/ip/403",
             "match_data": {
                 "source": {
                     "flag_query": "exact",
@@ -853,11 +869,115 @@
             },
             "match_type": "ip",
             "title": "",
-            "hits": 11,
+            "hits": 8,
             "regex": false,
-            "group_id": 1,
+            "group_id": 3,
             "position": 0,
-            "last_access": "February 25, 2019",
+            "last_access": "March 9, 2019",
+            "enabled": true
+        },
+        {
+            "id": 31,
+            "url": "//",
+            "match_url": "//",
+            "match_data": {
+                "source": {
+                    "flag_query": "ignore",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 4,
+            "regex": false,
+            "group_id": 3,
+            "position": 1,
+            "last_access": "March 9, 2019",
+            "enabled": true
+        },
+        {
+            "id": 32,
+            "url": "//thing/here",
+            "match_url": "//thing/here",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 4,
+            "regex": false,
+            "group_id": 3,
+            "position": 2,
+            "last_access": "March 9, 2019",
+            "enabled": true
+        },
+        {
+            "id": 33,
+            "url": "/plain-array/?arr[]=1&arr[]=2&arr[]=3",
+            "match_url": "/plain-array",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 3,
+            "regex": false,
+            "group_id": 3,
+            "position": 3,
+            "last_access": "March 9, 2019",
+            "enabled": true
+        },
+        {
+            "id": 34,
+            "url": "/plain-array-pass/?arr[]=3&arr[]=2&arr[]=1",
+            "match_url": "/plain-array-pass",
+            "match_data": {
+                "source": {
+                    "flag_query": "pass",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 3,
+            "position": 4,
+            "last_access": "March 9, 2019",
             "enabled": true
         }
     ]
