@@ -69,6 +69,11 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 	public function testEmptyUrl() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '' ) ) );
+		$this->assertEquals( '/', $result['url'] );
+	}
+
+	public function testEmptyUrlRegex() {
+		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '', 'regex' => true ) ) );
 		$this->assertWPError( $result );
 	}
 
@@ -180,6 +185,13 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( '/test', $result['match_url'] );
 	}
 
+	public function testMatchUrlSanitize() {
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => 'url' ] ) );
+
+		$this->assertEquals( '/url', $result['match_url'] );
+		$this->assertEquals( '/url', $result['url'] );
+	}
+
 	public function testMatchUrlSetRegex() {
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'regex' => true ] ) );
 
@@ -199,8 +211,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 		$flags = [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
-
-		$this->assertEquals( [], $result['match_data']['source'] );
+		$this->assertTrue( ! isset( $result['match_data'] ) );
 	}
 
 	public function testGetJsonDefaultDifferent() {

@@ -65,7 +65,7 @@ class UrlPathTest extends WP_UnitTestCase {
 
 	public function testDoubleTrailingSlash() {
 		$url = new Red_Url_Path( '//' );
-		$this->assertEquals( '//', $url->get_without_trailing_slash() );
+		$this->assertEquals( '/', $url->get_without_trailing_slash() );
 	}
 
 	public function testTrailingSlashLonger() {

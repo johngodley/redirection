@@ -66,14 +66,14 @@ class Red_Item_Sanitize {
 		}
 
 		// If match_data is empty then don't save anything
-		if ( isset( $data['match_data']['source'] ) ) {
-			$data['match_data']['source'] = array_filter( $data['match_data']['source'] );
+		if ( isset( $data['match_data']['source'] ) && count( $data['match_data']['source'] ) === 0 ) {
+			$data['match_data']['source'] = [];
 		}
 
 		$data['match_data'] = array_filter( $data['match_data'] );
 
 		if ( empty( $data['match_data'] ) ) {
-			$data['match_data'] = null;
+			unset( $data['match_data'] );
 		}
 
 		// Parse URL
@@ -84,8 +84,12 @@ class Red_Item_Sanitize {
 
 		$data['match_type'] = isset( $details['match_type'] ) ? $details['match_type'] : 'url';
 		$data['url'] = $this->get_url( $url, $data['regex'] );
-		$data['match_url'] = new Red_Url_Match( $data['url'] );
-		$data['match_url'] = $data['match_url']->get_url();
+
+		if ( ! is_wp_error( $data['url'] ) ) {
+			$data['match_url'] = new Red_Url_Match( $data['url'] );
+			$data['match_url'] = $data['match_url']->get_url();
+		}
+
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
 		$data['position'] = $this->get_position( $details );
@@ -209,7 +213,7 @@ class Red_Item_Sanitize {
 		$url = preg_replace( '/[^\PC\s]/u', '', $url );
 
 		// Ensure a slash at start
-		if ( substr( $url, 0, 1 ) !== '/' && $regex === false ) {
+		if ( substr( $url, 0, 1 ) !== '/' && (bool) $regex === false ) {
 			$url = '/' . $url;
 		}
 

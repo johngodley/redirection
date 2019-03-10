@@ -97,6 +97,10 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 	public function get_data() {
 		global $wpdb;
 
+		if ( defined( 'REDIRECTION_TESTS' ) && REDIRECTION_TESTS ) {
+			return 0;
+		}
+
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_redirections" );
 
 		if ( $total ) {
@@ -107,7 +111,7 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 			);
 		}
 
-		return false;
+		return 0;
 	}
 }
 
@@ -222,6 +226,10 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 class Red_SeoRedirection_Importer extends Red_Plugin_Importer {
 	public function import_plugin( $group_id ) {
 		global $wpdb;
+
+		if ( defined( 'REDIRECTION_TESTS' ) && REDIRECTION_TESTS ) {
+			return 0;
+		}
 
 		$count = 0;
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}WP_SEO_Redirection" );
