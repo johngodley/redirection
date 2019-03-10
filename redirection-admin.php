@@ -22,20 +22,21 @@ class Redirection_Admin {
 	}
 
 	function __construct() {
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_notices', array( $this, 'update_nag' ) );
-		add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), array( $this, 'plugin_settings' ), 10, 4 );
-		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 4 );
-		add_filter( 'redirection_save_options', array( $this, 'flush_schedule' ) );
-		add_filter( 'set-screen-option', array( $this, 'set_per_page' ), 10, 3 );
-		add_action( 'redirection_redirect_updated', array( $this, 'set_default_group' ), 10, 2 );
+		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
+		add_action( 'admin_notices', [ $this, 'update_nag' ] );
+		// add_action( 'network_admin_notices', [ $this, 'update_nag' ] );
+		add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), [ $this, 'plugin_settings' ], 10, 4 );
+		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 4 );
+		add_filter( 'redirection_save_options', [ $this, 'flush_schedule' ] );
+		add_filter( 'set-screen-option', [ $this, 'set_per_page' ], 10, 3 );
+		add_action( 'redirection_redirect_updated', [ $this, 'set_default_group' ], 10, 2 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
-			add_filter( 'script_loader_src', array( $this, 'flying_solo' ), 10, 2 );
+			add_filter( 'script_loader_src', [ $this, 'flying_solo' ], 10, 2 );
 		}
 
-		register_deactivation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_deactivated' ) );
-		register_uninstall_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_uninstall' ) );
+		register_deactivation_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_deactivated' ] );
+		register_uninstall_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_uninstall' ] );
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 		$this->run_hacks();
