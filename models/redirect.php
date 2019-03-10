@@ -282,18 +282,21 @@ class Red_Item {
 			$data['match_data'] = json_encode( $data['match_data'] );
 		}
 
-		$wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
-		do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
+		$result = $wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
+		if ( $result !== false ) {
+			do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
+			$this->load_from_data( (object) $data );
 
-		$this->load_from_data( (object) $data );
+			Red_Module::flush( $this->group_id );
 
-		Red_Module::flush( $this->group_id );
+			if ( $old_group !== $this->group_id ) {
+				Red_Module::flush( $old_group );
+			}
 
-		if ( $old_group !== $this->group_id ) {
-			Red_Module::flush( $old_group );
+			return true;
 		}
 
-		return true;
+		return new WP_Error( 'redirect', __( 'Unable to update redirect' ) );
 	}
 
 	/**
