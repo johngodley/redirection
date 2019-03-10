@@ -262,7 +262,7 @@ class Redirection_Admin {
 	}
 
 	private function run_fixit() {
-		if ( current_user_can( apply_filters( 'redirection_role', 'manage_options' ) ) ) {
+		if ( $this->user_has_access() ) {
 			include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 
 			$fixer = new Red_Fixer();
@@ -333,9 +333,13 @@ class Redirection_Admin {
 		return array();
 	}
 
-	function admin_menu() {
-		$hook = add_management_page( 'Redirection', 'Redirection', apply_filters( 'redirection_role', 'manage_options' ), basename( REDIRECTION_FILE ), array( &$this, 'admin_screen' ) );
-		add_action( 'load-' . $hook, array( $this, 'redirection_head' ) );
+	public function admin_menu() {
+		$hook = add_management_page( 'Redirection', 'Redirection', $this->get_access_role(), basename( REDIRECTION_FILE ), [ &$this, 'admin_screen' ] );
+		add_action( 'load-' . $hook, [ $this, 'redirection_head' ] );
+	}
+
+	public function get_access_role() {
+		return apply_filters( 'redirection_role', 'manage_options' );
 	}
 
 	private function check_minimum_wp() {
@@ -353,6 +357,10 @@ class Redirection_Admin {
 	}
 
 	public function admin_screen() {
+		if ( ! $this->user_has_access() ) {
+			die( 'You do not have sufficient permissions to access this page.' );
+		}
+
 		if ( $this->check_minimum_wp() === false ) {
 			return $this->show_minimum_wordpress();
 		}
@@ -468,7 +476,7 @@ class Redirection_Admin {
 	}
 
 	private function user_has_access() {
-		return current_user_can( apply_filters( 'redirection_role', 'manage_options' ) );
+		return current_user_can( $this->get_access_role() );
 	}
 
 	private function inject() {
