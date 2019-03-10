@@ -4998,7 +4998,7 @@ gulp-zip@^4.2.0:
     vinyl "^2.1.0"
     yazl "^2.1.0"
 
-gulp@4.0.0:
+gulp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/gulp/-/gulp-4.0.0.tgz#95766c601dade4a77ed3e7b2b6dc03881b596366"
   integrity sha1-lXZsYB2t5Kd+0+eyttwDiBtZY2Y=
