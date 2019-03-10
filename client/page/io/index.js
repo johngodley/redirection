@@ -30,8 +30,6 @@ class ImportExport extends React.Component {
 		this.props.onLoadGroups();
 		this.props.onLoadImport();
 
-		this.dropzone = React.createRef();
-
 		this.state = {
 			group: 0,
 			hover: false,
@@ -99,20 +97,15 @@ class ImportExport extends React.Component {
 		);
 	}
 
-	renderInitialDrop() {
+	renderInitialDrop( open ) {
 		return (
 			<React.Fragment>
 				<h3>{ __( 'Import a CSV, .htaccess, or JSON file.' ) }</h3>
 				<p>{ __( "Click 'Add File' or drag and drop here." ) }</p>
 
-				<button type="button" className="button-secondary" onClick={ this.open }>{ __( 'Add File' ) }</button>
+				<button type="button" className="button-secondary" onClick={ open }>{ __( 'Add File' ) }</button>
 			</React.Fragment>
 		);
-	}
-
-	open = ev => {
-		ev.preventDefault();
-		this.dropzone.current.open();
 	}
 
 	renderDropBeforeUpload() {
@@ -174,6 +167,16 @@ class ImportExport extends React.Component {
 			'dropzone-importing': importingStatus === STATUS_IN_PROGRESS,
 			'dropzone-hover': hover,
 		} );
+
+		const rootProps = getRootProps( {
+			// Disable click and keydown behavior
+			onClick: event => event.stopPropagation(),
+			onKeyDown: event => {
+				if ( event.keyCode === 32 || event.keyCode === 13 ) {
+					event.stopPropagation();
+				}
+			},
+		} );
 		let content;
 
 		if ( importingStatus === STATUS_IN_PROGRESS ) {
@@ -181,13 +184,13 @@ class ImportExport extends React.Component {
 		} else if ( importingStatus === STATUS_COMPLETE && lastImport !== false && file === false ) {
 			content = this.renderUploaded();
 		} else if ( file === false ) {
-			content = this.renderInitialDrop();
+			content = this.renderInitialDrop( props.open );
 		} else {
 			content = this.renderDropBeforeUpload();
 		}
 
 		return (
-			<div className={ classes } { ... getRootProps() }>
+			<div className={ classes } { ... rootProps }>
 				<input { ... getInputProps() } />
 				{ content }
 			</div>
@@ -237,8 +240,6 @@ class ImportExport extends React.Component {
 				<h2>{ __( 'Import' ) }</h2>
 
 				<Dropzone
-					ref={ this.dropzone }
-					disableClick
 					multiple={ false }
 					onDrop={ this.onDrop }
 					onDragLeave={ this.onLeave }
@@ -284,8 +285,8 @@ class ImportExport extends React.Component {
 				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }
 
 				<h2>Export Logs</h2>
-				<p><ExportCSV logType={ LOGS_TYPE_REDIRECT } title={ __( 'Export redirect' ) } /></p>
-				<p><ExportCSV logType={ LOGS_TYPE_404 } title={ __( 'Export 404' ) } /></p>
+				<ExportCSV logType={ LOGS_TYPE_REDIRECT } title={ __( 'Export redirect' ) } /><br />
+				<ExportCSV logType={ LOGS_TYPE_404 } title={ __( 'Export 404' ) } />
 
 				{ importers.length > 0 && this.renderImporters( importers ) }
 			</div>
