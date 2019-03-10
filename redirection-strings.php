@@ -160,12 +160,14 @@ __( "URL options", "redirection" ), // client/component/redirect-edit/source-url
 __( "No more options", "redirection" ), // client/component/redirect-edit/source-url.js:103
 __( "Title", "redirection" ), // client/component/redirect-edit/title.js:17
 __( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:23
-__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:38
-__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:46
-__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:60
-__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:71
-__( "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:79
-__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:92
+__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:39
+__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:47
+__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:61
+__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:72
+__( "A literal period {{code}}.{{/code}} should be escaped like {{code}}\\.{{/code}} otherwise it will interpreted as a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:79
+__( "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:89
+__( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:102
+__( "Leave a target blank if you do not wish to redirect otherwise you could create a loop.", "redirection" ), // client/component/redirect-edit/warning.js:107
 __( "Filter", "redirection" ), // client/component/table/filter.js:39
 __( "Group", "redirection" ), // client/component/table/group.js:39
 __( "Select All", "redirection" ), // client/component/table/header/check-column.js:14
@@ -235,10 +237,11 @@ __( "If you do experience a problem then please consult your plugin documentatio
 __( "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.", "redirection" ), // client/component/welcome-wizard/index.js:290
 __( "Retry", "redirection" ), // client/component/welcome-wizard/index.js:295
 __( "Checking your REST API", "redirection" ), // client/component/welcome-wizard/index.js:297
-__( "Finish Setup", "redirection" ), // client/component/welcome-wizard/index.js:306
-__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:307
-__( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:352
-__( "I need some support!", "redirection" ), // client/component/welcome-wizard/index.js:360
+__( "You need at least one GET/POST pair for the plugin to work.", "redirection" ), // client/component/welcome-wizard/index.js:305
+__( "Finish Setup", "redirection" ), // client/component/welcome-wizard/index.js:308
+__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:309
+__( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:354
+__( "I need some support!", "redirection" ), // client/component/welcome-wizard/index.js:362
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
 __( "Name", "redirection" ), // client/page/groups/index.js:31
 __( "Redirects", "redirection" ), // client/page/groups/index.js:36
@@ -288,34 +291,35 @@ __( "Import to group", "redirection" ), // client/page/io/index.js:95
 __( "Import a CSV, .htaccess, or JSON file.", "redirection" ), // client/page/io/index.js:103
 __( "Click 'Add File' or drag and drop here.", "redirection" ), // client/page/io/index.js:104
 __( "Add File", "redirection" ), // client/page/io/index.js:106
-__( "File selected", "redirection" ), // client/page/io/index.js:122
-__( "Upload", "redirection" ), // client/page/io/index.js:128
-__( "Cancel", "redirection" ), // client/page/io/index.js:129
-__( "Importing", "redirection" ), // client/page/io/index.js:139
-__( "Finished importing", "redirection" ), // client/page/io/index.js:155
-__( "Total redirects imported:", "redirection" ), // client/page/io/index.js:157
-__( "Double-check the file is the correct format!", "redirection" ), // client/page/io/index.js:158
-__( "OK", "redirection" ), // client/page/io/index.js:160
-__( "Close", "redirection" ), // client/page/io/index.js:199
-__( "Are you sure you want to import from %s?", "redirection" ), // client/page/io/index.js:213
-__( "Plugin Importers", "redirection" ), // client/page/io/index.js:221
-__( "The following redirect plugins were detected on your site and can be imported from.", "redirection" ), // client/page/io/index.js:223
-__( "Import", "redirection" ), // client/page/io/index.js:235
-__( "All imports will be appended to the current database.", "redirection" ), // client/page/io/index.js:248
-__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/page/io/index.js:251
-__( "Export", "redirection" ), // client/page/io/index.js:260
-__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/page/io/index.js:261
-__( "Everything", "redirection" ), // client/page/io/index.js:264
-__( "WordPress redirects", "redirection" ), // client/page/io/index.js:265
-__( "Apache redirects", "redirection" ), // client/page/io/index.js:266
-__( "Nginx redirects", "redirection" ), // client/page/io/index.js:267
-__( "CSV", "redirection" ), // client/page/io/index.js:271
-__( "Apache .htaccess", "redirection" ), // client/page/io/index.js:272
-__( "Nginx rewrite rules", "redirection" ), // client/page/io/index.js:273
-__( "Redirection JSON", "redirection" ), // client/page/io/index.js:274
-__( "View", "redirection" ), // client/page/io/index.js:277
-__( "Download", "redirection" ), // client/page/io/index.js:279
-__( "Log files can be exported from the log pages.", "redirection" ), // client/page/io/index.js:284
+__( "File selected", "redirection" ), // client/page/io/index.js:117
+__( "Upload", "redirection" ), // client/page/io/index.js:123
+__( "Cancel", "redirection" ), // client/page/io/index.js:124
+__( "Importing", "redirection" ), // client/page/io/index.js:134
+__( "Finished importing", "redirection" ), // client/page/io/index.js:150
+__( "Total redirects imported:", "redirection" ), // client/page/io/index.js:152
+__( "Double-check the file is the correct format!", "redirection" ), // client/page/io/index.js:153
+__( "OK", "redirection" ), // client/page/io/index.js:155
+__( "Close", "redirection" ), // client/page/io/index.js:204
+__( "Are you sure you want to import from %s?", "redirection" ), // client/page/io/index.js:218
+__( "Plugin Importers", "redirection" ), // client/page/io/index.js:226
+__( "The following redirect plugins were detected on your site and can be imported from.", "redirection" ), // client/page/io/index.js:228
+__( "Import", "redirection" ), // client/page/io/index.js:240
+__( "All imports will be appended to the current database.", "redirection" ), // client/page/io/index.js:251
+__( "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).", "redirection" ), // client/page/io/index.js:254
+__( "Export", "redirection" ), // client/page/io/index.js:263
+__( "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).", "redirection" ), // client/page/io/index.js:264
+__( "Everything", "redirection" ), // client/page/io/index.js:267
+__( "WordPress redirects", "redirection" ), // client/page/io/index.js:268
+__( "Apache redirects", "redirection" ), // client/page/io/index.js:269
+__( "Nginx redirects", "redirection" ), // client/page/io/index.js:270
+__( "CSV", "redirection" ), // client/page/io/index.js:274
+__( "Apache .htaccess", "redirection" ), // client/page/io/index.js:275
+__( "Nginx rewrite rules", "redirection" ), // client/page/io/index.js:276
+__( "Redirection JSON", "redirection" ), // client/page/io/index.js:277
+__( "View", "redirection" ), // client/page/io/index.js:280
+__( "Download", "redirection" ), // client/page/io/index.js:282
+__( "Export redirect", "redirection" ), // client/page/io/index.js:288
+__( "Export 404", "redirection" ), // client/page/io/index.js:289
 __( "Delete all from IP %s", "redirection" ), // client/page/logs/delete-all.js:54
 __( "Delete all matching \"%s\"", "redirection" ), // client/page/logs/delete-all.js:60
 __( "Delete All", "redirection" ), // client/page/logs/delete-all.js:65
@@ -323,7 +327,6 @@ __( "Delete the logs - are you sure?", "redirection" ), // client/page/logs/dele
 __( "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/page/logs/delete-all.js:80
 __( "Yes! Delete the logs", "redirection" ), // client/page/logs/delete-all.js:82
 __( "No! Don't delete the logs", "redirection" ), // client/page/logs/delete-all.js:82
-__( "Export", "redirection" ), // client/page/logs/export-csv.js:16
 __( "Date", "redirection" ), // client/page/logs/index.js:34
 __( "Source URL", "redirection" ), // client/page/logs/index.js:38
 __( "Referrer / User Agent", "redirection" ), // client/page/logs/index.js:43
@@ -435,7 +438,7 @@ __( "Used to auto-generate a URL if no URL is given. Use the special tags {{code
 __( "Apache Module", "redirection" ), // client/page/options/options-form.js:252
 __( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/page/options/options-form.js:257
 __( "Force HTTPS", "redirection" ), // client/page/options/options-form.js:266
-__( "Force a redirect from HTTP to HTTPS. Please ensure your HTTPS is working before enabling", "redirection" ), // client/page/options/options-form.js:270
+__( "Force a redirect from HTTP to the HTTPS version of your  WordPress site domain. Please ensure your HTTPS is working before enabling.", "redirection" ), // client/page/options/options-form.js:270
 __( "(beta)", "redirection" ), // client/page/options/options-form.js:271
 __( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:276
 __( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:278

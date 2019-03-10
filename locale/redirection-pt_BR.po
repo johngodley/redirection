@@ -1451,7 +1451,7 @@ msgstr "Ação de redirecionamento inválida"
 msgid "Invalid redirect matcher"
 msgstr "Critério de redirecionamento inválido"
 
-#: models/redirect.php:253
+#: models/redirect.php:261
 msgid "Unable to add new redirect"
 msgstr "Não foi possível criar novo redirecionamento"
 
@@ -1865,8 +1865,8 @@ msgstr "Tipo"
 msgid "Modified Posts"
 msgstr "Posts modificados"
 
-#: database/schema/latest.php:132 models/group.php:148
-#: redirection-strings.php:268
+#: models/group.php:148 redirection-strings.php:268
+#: database/schema/latest.php:132
 msgid "Redirections"
 msgstr "Redirecionamentos"
 

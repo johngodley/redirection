@@ -1452,7 +1452,7 @@ msgstr "不正なリダイレクトアクション"
 msgid "Invalid redirect matcher"
 msgstr "不正なリダイレクトマッチャー"
 
-#: models/redirect.php:253
+#: models/redirect.php:261
 msgid "Unable to add new redirect"
 msgstr "新しいリダイレクトの追加に失敗しました"
 
@@ -1865,8 +1865,8 @@ msgstr "タイプ"
 msgid "Modified Posts"
 msgstr "編集済みの投稿"
 
-#: database/schema/latest.php:132 models/group.php:148
-#: redirection-strings.php:268
+#: models/group.php:148 redirection-strings.php:268
+#: database/schema/latest.php:132
 msgid "Redirections"
 msgstr "転送ルール"
 

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-31 20:12:04+0000\n"
+"PO-Revision-Date: 2019-03-02 19:12:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,23 +13,23 @@ msgstr ""
 
 #: redirection.js:33
 msgid "blur"
-msgstr ""
+msgstr "размытие"
 
 #: redirection.js:33
 msgid "focus"
-msgstr ""
+msgstr "фокус"
 
 #: redirection.js:33
 msgid "scroll"
-msgstr ""
+msgstr "прокрутка"
 
 #: redirection-strings.php:432
 msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr ""
+msgstr "Передача - как игнорирование, но с копированием параметров запроса в целевой объект"
 
 #: redirection-strings.php:431
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr ""
+msgstr "Игнор - как точное совпадение, но с игнорированием любых параметров запроса, отсутствующих в источнике"
 
 #: redirection-strings.php:430
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
@@ -53,59 +53,59 @@ msgstr ""
 
 #: redirection-strings.php:424
 msgid "Default URL settings"
-msgstr ""
+msgstr "Настройки URL по умолчанию"
 
 #: redirection-strings.php:407
 msgid "Ignore and pass all query parameters"
-msgstr ""
+msgstr "Игнорировать и передавать все параметры запроса"
 
 #: redirection-strings.php:406
 msgid "Ignore all query parameters"
-msgstr ""
+msgstr "Игнорировать все параметры запроса"
 
 #: redirection-strings.php:405
 msgid "Exact match"
-msgstr ""
+msgstr "Точное совпадение"
 
 #: redirection-strings.php:232
 msgid "Caching software (e.g Cloudflare)"
-msgstr ""
+msgstr "Системы кэширования (например Cloudflare)"
 
 #: redirection-strings.php:230
 msgid "A security plugin (e.g Wordfence)"
-msgstr ""
+msgstr "Плагин безопасности (например Wordfence)"
 
 #: redirection-strings.php:160
 msgid "No more options"
-msgstr ""
+msgstr "Больше нет опций"
 
 #: redirection-strings.php:159
 msgid "URL options"
-msgstr ""
+msgstr "Настройки URL"
 
 #: redirection-strings.php:155
 msgid "Query Parameters"
-msgstr ""
+msgstr "Параметры запроса"
 
 #: redirection-strings.php:114
 msgid "Ignore & pass parameters to the target"
-msgstr ""
+msgstr "Игнорировать и передавать параметры цели"
 
 #: redirection-strings.php:113
 msgid "Ignore all parameters"
-msgstr ""
+msgstr "Игнорировать все параметры"
 
 #: redirection-strings.php:112
 msgid "Exact match all parameters in any order"
-msgstr ""
+msgstr "Точное совпадение всех параметров в любом порядке"
 
 #: redirection-strings.php:111
 msgid "Ignore Case"
-msgstr ""
+msgstr "Игнорировать регистр"
 
 #: redirection-strings.php:110
 msgid "Ignore Slash"
-msgstr ""
+msgstr "Игнорировать слэша"
 
 #: redirection-strings.php:404
 msgid "Relative REST API"
@@ -299,7 +299,7 @@ msgstr ""
 
 #: redirection-strings.php:195
 msgid "Welcome to Redirection 🚀🎉"
-msgstr ""
+msgstr "Добро пожаловать в Redirection 🚀🎉"
 
 #: redirection-strings.php:168
 msgid "This will redirect everything, including the login pages. Please be sure you want to do this."
@@ -1452,7 +1452,7 @@ msgstr "Неверное действие перенаправления"
 msgid "Invalid redirect matcher"
 msgstr "Неверное совпадение перенаправления"
 
-#: models/redirect.php:253
+#: models/redirect.php:261
 msgid "Unable to add new redirect"
 msgstr "Не удалось добавить новое перенаправление"
 
@@ -1867,8 +1867,8 @@ msgstr "Тип"
 msgid "Modified Posts"
 msgstr "Измененные записи"
 
-#: database/schema/latest.php:132 models/group.php:148
-#: redirection-strings.php:268
+#: models/group.php:148 redirection-strings.php:268
+#: database/schema/latest.php:132
 msgid "Redirections"
 msgstr "Перенаправления"
 

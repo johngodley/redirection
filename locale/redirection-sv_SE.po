@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-20 20:45:28+0000\n"
+"PO-Revision-Date: 2019-03-02 22:40:29+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,11 +77,11 @@ msgstr ""
 
 #: redirection-strings.php:160
 msgid "No more options"
-msgstr ""
+msgstr "Inga fler alternativ"
 
 #: redirection-strings.php:159
 msgid "URL options"
-msgstr ""
+msgstr "URL-alternativ"
 
 #: redirection-strings.php:155
 msgid "Query Parameters"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: redirection-strings.php:113
 msgid "Ignore all parameters"
-msgstr ""
+msgstr "Ignorera alla parametrar"
 
 #: redirection-strings.php:112
 msgid "Exact match all parameters in any order"
@@ -109,7 +109,7 @@ msgstr ""
 
 #: redirection-strings.php:404
 msgid "Relative REST API"
-msgstr ""
+msgstr "Relativ REST API"
 
 #: redirection-strings.php:403
 msgid "Raw REST API"
@@ -166,7 +166,7 @@ msgstr "Jag behöver lite support!"
 
 #: redirection-strings.php:238
 msgid "Finish Setup"
-msgstr ""
+msgstr "Slutför inställning"
 
 #: redirection-strings.php:237
 msgid "Checking your REST API"
@@ -1451,7 +1451,7 @@ msgstr "Ogiltig omdirigeringsåtgärd"
 msgid "Invalid redirect matcher"
 msgstr "Ogiltig omdirigeringsmatchning"
 
-#: models/redirect.php:253
+#: models/redirect.php:261
 msgid "Unable to add new redirect"
 msgstr "Det går inte att lägga till en ny omdirigering"
 
@@ -1865,8 +1865,8 @@ msgstr "Typ"
 msgid "Modified Posts"
 msgstr "Modifierade inlägg"
 
-#: database/schema/latest.php:132 models/group.php:148
-#: redirection-strings.php:268
+#: models/group.php:148 redirection-strings.php:268
+#: database/schema/latest.php:132
 msgid "Redirections"
 msgstr "Omdirigeringar"
 

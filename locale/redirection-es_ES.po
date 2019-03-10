@@ -1451,7 +1451,7 @@ msgstr "Acción de redirección no válida"
 msgid "Invalid redirect matcher"
 msgstr "Coincidencia de redirección no válida"
 
-#: models/redirect.php:253
+#: models/redirect.php:261
 msgid "Unable to add new redirect"
 msgstr "No ha sido posible añadir la nueva redirección"
 
@@ -1865,8 +1865,8 @@ msgstr "Tipo"
 msgid "Modified Posts"
 msgstr "Entradas modificadas"
 
-#: database/schema/latest.php:132 models/group.php:148
-#: redirection-strings.php:268
+#: models/group.php:148 redirection-strings.php:268
+#: database/schema/latest.php:132
 msgid "Redirections"
 msgstr "Redirecciones"
 
