@@ -27,7 +27,7 @@ export const isRegex = ( text ) => {
 
 export const getWarningFromState = ( item ) => {
 	const warnings = [];
-	const { url, flag_regex, action_data } = item;
+	const { url, flag_regex, action_data = {} } = item;
 
 	if ( Array.isArray( url ) ) {
 		return warnings;
