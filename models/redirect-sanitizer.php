@@ -84,7 +84,7 @@ class Red_Item_Sanitize {
 
 		$data['match_type'] = isset( $details['match_type'] ) ? $details['match_type'] : 'url';
 		$data['url'] = $this->get_url( $url, $data['regex'] );
-		$data['match_url'] = new Red_Url_Match( $url );
+		$data['match_url'] = new Red_Url_Match( $data['url'] );
 		$data['match_url'] = $data['match_url']->get_url();
 		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
