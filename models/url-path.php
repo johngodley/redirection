@@ -34,7 +34,7 @@ class Red_Url_Path {
 
 	public function get_without_trailing_slash() {
 		// Return / or // as-is
-		if ( $this->path === '//' || $this->path === '/' ) {
+		if ( $this->path === '/' ) {
 			return $this->path;
 		}
 
