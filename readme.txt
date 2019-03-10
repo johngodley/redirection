@@ -159,7 +159,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.1 - ??? =
+= 4.1 - Unreleased =
 * Move 404 export option to import/export page
 * Add additional redirect suggestions
 * Add import from Rank Math
