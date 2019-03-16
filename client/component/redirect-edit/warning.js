@@ -74,6 +74,14 @@ export const getWarningFromState = ( item ) => {
 		);
 	}
 
+	if ( url.indexOf( '%postname%' ) !== -1 ) {
+		warnings.push(
+			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
+				{ __( 'WordPress permalink structures do not work in normal URLs. Please use a regular expression.' ) }
+			</ExternalLink>
+		);
+	}
+
 	// Period without escape
 	// if ( flag_regex && url.match( /(?<!\\)\.(?![\*\+])/ ) ) {
 	// 	warnings.push( __( 'A literal period {{code}}.{{/code}} should be escaped like {{code}}\\.{{/code}} otherwise it will interpreted as a regular expression.', {
