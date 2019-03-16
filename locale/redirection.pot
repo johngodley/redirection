@@ -690,7 +690,7 @@ msgid "Remember to enable the \"regex\" checkbox if this is a regular expression
 msgstr ""
 
 #: redirection-strings.php:167
-msgid "A literal period {{code}}.{{/code}} should be escaped like {{code}}\.{{/code}} otherwise it will interpreted as a regular expression."
+msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
 msgstr ""
 
 #: redirection-strings.php:168
