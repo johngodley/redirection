@@ -337,7 +337,7 @@ class Redirection_Admin {
 	}
 
 	public function admin_menu() {
-		$hook = add_management_page( 'Redirection', 'Redirection', $this->get_access_role(), basename( REDIRECTION_FILE ), [ &$this, 'admin_screen' ] );
+		$hook = add_management_page( 'Redirection', 'Redirection', $this->get_access_role(), basename( REDIRECTION_FILE ), [ $this, 'admin_screen' ] );
 		add_action( 'load-' . $hook, [ $this, 'redirection_head' ] );
 	}
 
