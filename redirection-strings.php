@@ -438,7 +438,7 @@ __( "Used to auto-generate a URL if no URL is given. Use the special tags {{code
 __( "Apache Module", "redirection" ), // client/page/options/options-form.js:252
 __( "Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.", "redirection" ), // client/page/options/options-form.js:257
 __( "Force HTTPS", "redirection" ), // client/page/options/options-form.js:266
-__( "Force a redirect from HTTP to the HTTPS version of your  WordPress site domain. Please ensure your HTTPS is working before enabling.", "redirection" ), // client/page/options/options-form.js:270
+__( "Force a redirect from HTTP to the HTTPS version of your WordPress site domain. Please ensure your HTTPS is working before enabling.", "redirection" ), // client/page/options/options-form.js:270
 __( "(beta)", "redirection" ), // client/page/options/options-form.js:271
 __( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:276
 __( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:278
