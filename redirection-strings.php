@@ -156,14 +156,14 @@ __( "Query Parameters", "redirection" ), // client/component/redirect-edit/sourc
 __( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:53
 __( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:84
 __( "The relative URL you want to redirect from", "redirection" ), // client/component/redirect-edit/source-url.js:91
-__( "URL options", "redirection" ), // client/component/redirect-edit/source-url.js:96
+__( "URL options / Regex", "redirection" ), // client/component/redirect-edit/source-url.js:96
 __( "No more options", "redirection" ), // client/component/redirect-edit/source-url.js:103
 __( "Title", "redirection" ), // client/component/redirect-edit/title.js:17
 __( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:23
 __( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:39
 __( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:47
 __( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:61
-__( "Remember to enable the \"regex\" checkbox if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:72
+__( "Remember to enable the \"regex\" option if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:72
 __( "WordPress permalink structures do not work in normal URLs. Please use a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:80
 __( "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:97
 __( "This will redirect everything, including the login pages. Please be sure you want to do this.", "redirection" ), // client/component/redirect-edit/warning.js:110
