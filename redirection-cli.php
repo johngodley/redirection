@@ -146,16 +146,18 @@ class Redirection_Cli extends WP_CLI_Command {
 			Red_Database::apply_to_sites( function() {
 				$latest = Red_Database::get_latest_database();
 				$latest->install();
+
+				WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is installed' );
 			} );
 
-			WP_CLI::success( 'Database installed' );
+			WP_CLI::success( 'Database install finished' );
 		} elseif ( $args[0] === 'upgrade' ) {
 			Red_Database::apply_to_sites( function() {
 				$database = new Red_Database();
 				$status = new Red_Database_Status();
 
 				if ( ! $status->needs_updating() ) {
-					WP_CLI::success( 'Database is already the latest version' );
+					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is already the latest version' );
 					return;
 				}
 
@@ -170,15 +172,17 @@ class Redirection_Cli extends WP_CLI_Command {
 					}
 
 					if ( $info['status'] === 'error' ) {
-						WP_CLI::error( 'Database failed to upgrade: ' . $info['reason'] );
+						WP_CLI::error( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] );
 						return;
 					}
+
+					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database upgraded' );
 
 					$loop++;
 				}
 			} );
 
-			WP_CLI::success( 'Database upgraded' );
+			WP_CLI::success( 'Database upgrade finished' );
 		} elseif ( $args[0] === 'remove' ) {
 			Red_Database::apply_to_sites( function() {
 				$latest = Red_Database::get_latest_database();
