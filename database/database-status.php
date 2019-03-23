@@ -89,6 +89,7 @@ class Red_Database_Status {
 			// Upgrade the old value
 			red_set_options( array( 'database' => $version ) );
 			delete_option( self::OLD_DB_VERSION );
+			$this->clear_cache();
 			return $version;
 		}
 
@@ -107,6 +108,8 @@ class Red_Database_Status {
 		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
 			delete_option( Red_Database_Status::OLD_DB_VERSION );
 			red_set_options( [ 'database' => '' ] );
+			$this->clear_cache();
+
 			$this->status = self::STATUS_NEED_INSTALL;
 			$this->stop_update();
 		} elseif ( count( $missing ) > 0 && version_compare( $this->get_current_version(), '2.3.3', 'ge' ) ) {
@@ -159,6 +162,7 @@ class Red_Database_Status {
 		$this->debug = [];
 
 		delete_option( self::DB_UPGRADE_STAGE );
+		$this->clear_cache();
 	}
 
 	public function finish() {
@@ -302,6 +306,8 @@ class Red_Database_Status {
 			'stages' => $this->stages,
 			'status' => $this->status,
 		] );
+
+		$this->clear_cache();
 	}
 
 	private function get_next_stage( $stage ) {
@@ -336,5 +342,12 @@ class Red_Database_Status {
 	private function save_db_version( $version ) {
 		red_set_options( array( 'database' => $version ) );
 		delete_option( self::OLD_DB_VERSION );
+		$this->clear_cache();
+	}
+
+	private function clear_cache() {
+		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) && function_exists( 'wp_cache_flush' ) ) {
+			wp_cache_flush();
+		}
 	}
 }
