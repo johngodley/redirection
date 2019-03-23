@@ -69,7 +69,7 @@ export const getWarningFromState = ( item ) => {
 	if ( isRegex( url ) && flag_regex === false ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
-				{ __( 'Remember to enable the "regex" checkbox if this is a regular expression.' ) }
+				{ __( 'Remember to enable the "regex" option if this is a regular expression.' ) }
 			</ExternalLink>
 		);
 	}

@@ -93,7 +93,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 
 			<ReactSelect
 				options={ flagOptions }
-				placeholder={ __( 'URL options' ) }
+				placeholder={ __( 'URL options / Regex' ) }
 				isMulti
 				onChange={ onFlagChange }
 				isSearchable={ false }
