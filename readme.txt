@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.5
 Tested up to: 5.1.1
-Stable tag: 4.1
+Stable tag: 4.1.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -158,6 +158,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
 == Changelog ==
+
+= 4.1.1 - 23rd Mar 2019 =
+* Remove deprecated PHP
+* Fix REST API warning
+* Improve WP CLI database output
 
 = 4.1 - 16th Mar 2019 =
 * Move 404 export option to import/export page
