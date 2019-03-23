@@ -92,6 +92,10 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function get_redirect( $line, $target, $code, $source ) {
+		// Remove any existing start/end from a regex
+		$line = ltrim( $line, '^' );
+		$line = rtrim( $line, '$' );
+
 		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
 			$line = '(?i)^' . $line;
 		} else {

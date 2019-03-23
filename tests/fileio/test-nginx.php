@@ -40,6 +40,16 @@ class NginxTest extends WP_UnitTestCase {
 		$this->assertEquals( 'rewrite ^something$ something permanent;', trim( $lines[5] ) );
 	}
 
+	public function testRegexStartEnd() {
+		$nginx = new Red_Nginx_File();
+		$redirects = array( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '^/test$', 'action_data' => '/target', 'action_code' => 301 ] ) );
+
+		$file = $nginx->get_data( $redirects, array() );
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'rewrite ^/test$ /target permanent;', trim( $lines[5] ) );
+	}
+
 	public function testCaseInsensitive() {
 		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
 		$nginx = new Red_Nginx_File();
