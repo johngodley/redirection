@@ -286,7 +286,7 @@ class WelcomeWizard extends React.Component {
 					},
 				} ) }</p>
 
-				{ warning && <div className="notice notice-error">
+				{ warning && <div className="red-error">
 					{ __( 'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.' ) }
 					<p><code>{ api.protocol + '//' + api.host }</code></p>
 					<p><code>{ home.protocol + '//' + home.host }</code></p>

@@ -165,15 +165,11 @@ class Error extends React.Component {
 
 	renderError( errors ) {
 		const debug = this.getDebug( errors );
-		const classes = classnames( {
-			notice: true,
-			'notice-error': true,
-		} );
 		const email = 'mailto:john@redirection.me?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
 		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
 
 		return (
-			<div className={ classes }>
+			<div className="red-error">
 				<div className="closer" onClick={ this.onClick }>&#10006;</div>
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
 

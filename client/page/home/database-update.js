@@ -22,7 +22,7 @@ function getUpgradeNotice() {
 		return __( 'A database upgrade is in progress. Please continue to finish.' );
 	}
 
-	return __( 'Your current database is version %(current)s, the latest is %(latest)s. Please update to use new features.', {
+	return __( 'Your current database is version %(current)s, the latest is %(latest)s. Please upgrade by clicking the "Upgrade Database" button to use new features.', {
 		args: {
 			current: Redirectioni10n.database.current,
 			latest: Redirectioni10n.database.next,
@@ -49,13 +49,14 @@ const NeedUpdate = ( { onShowUpgrade, showDatabase, result } ) => {
 		<div className="wrap redirection">
 			<h1 className="wp-heading-inline">{ __( 'Update Required' ) }</h1>
 
-			<div className="notice-error notice">
+			<div className="red-error">
 				<h3>{ __( 'Redirection database needs updating' ) }</h3>
 				<p>{ getUpgradeNotice() }</p>
 
-				<p>{ __( 'Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}.', {
+				<p>{ __( 'Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection.', {
 					components: {
 						download: <ExternalLink url={ getExportUrl( 'all', 'json' ) } />,
+						import: <ExternalLink url="https://redirection.me/support/import-export-redirects/" />,
 					},
 				} ) }</p>
 
