@@ -196,8 +196,16 @@ class Redirection_Admin {
 		$status->check_tables_exist();
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
-			'WP_API_root' => esc_url_raw( red_get_rest_api() ),
-			'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
+			'api' => [
+				'WP_API_root' => esc_url_raw( red_get_rest_api() ),
+				'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
+				'current' => $options['rest_api'],
+				'routes' => [
+					REDIRECTION_API_JSON => red_get_rest_api( REDIRECTION_API_JSON ),
+					REDIRECTION_API_JSON_INDEX => red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
+					REDIRECTION_API_JSON_RELATIVE => red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
+				],
+			],
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
 			'pluginRoot' => admin_url( 'tools.php?page=redirection.php' ),
 			'per_page' => $this->get_per_page(),

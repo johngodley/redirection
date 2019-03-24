@@ -11,6 +11,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
+import { getApiNonce } from 'lib/api';
 import { loadStatus, fixStatus } from 'state/settings/action';
 import './status.scss';
 
@@ -18,7 +19,7 @@ const Fixit = () => {
 	return (
 		<div>
 			<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-				<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
+				<input type="hidden" name="_wpnonce" value={ getApiNonce() } />
 				<input type="hidden" name="action" value="fixit" />
 
 				<p>{ __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below." ) }</p>

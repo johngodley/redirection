@@ -17,13 +17,16 @@ const removeEmpty = item =>
 			return newObj;
 		}, {} );
 
-const getRootUrl = () => Redirectioni10n.WP_API_root ? Redirectioni10n.WP_API_root : '/wp-json/';
+export const getApiUrl = () => Redirectioni10n.api && Redirectioni10n.api.WP_API_root ? Redirectioni10n.api.WP_API_root : '/wp-json/';
+export const setApiUrl = url => Redirectioni10n.api.WP_API_root = url;
+export const getApiNonce = () => Redirectioni10n.api.WP_API_nonce;
+const setApiNonce = nonce => Redirectioni10n.api.WP_API_nonce = nonce;
 
 const getRedirectionUrl = ( path, params = {} ) => {
-	const base = getRootUrl() + 'redirection/v1/' + path + '/';
+	const base = getApiUrl() + 'redirection/v1/' + path + '/';
 
 	// Some servers dont pass the X-WP-Nonce through to PHP
-	params._wpnonce = Redirectioni10n.WP_API_nonce;
+	params._wpnonce = getApiNonce();
 
 	if ( params && Object.keys( params ).length > 0 ) {
 		params = removeEmpty( params );
@@ -31,7 +34,7 @@ const getRedirectionUrl = ( path, params = {} ) => {
 		if ( Object.keys( params ).length > 0 ) {
 			const querybase =
 				base +
-				( getRootUrl().indexOf( '?' ) === -1 ? '?' : '&' ) +
+				( getApiUrl().indexOf( '?' ) === -1 ? '?' : '&' ) +
 				querystring.stringify( params );
 
 			return querybase;
@@ -43,7 +46,7 @@ const getRedirectionUrl = ( path, params = {} ) => {
 
 const apiHeaders = () => {
 	return new Headers( {
-		// 'X-WP-Nonce': Redirectioni10n.WP_API_nonce,
+		// 'X-WP-Nonce': Redirectioni10n.api.WP_API_nonce,
 		'Content-Type': 'application/json; charset=utf-8',
 	} );
 };
@@ -180,7 +183,7 @@ export const RedirectLiApi = {
 };
 
 const getAction = request =>
-	request.url.replace( getRootUrl(), '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
+	request.url.replace( getApiUrl(), '' ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' ) +
 	' ' +
 	request.method.toUpperCase();
 
@@ -231,7 +234,7 @@ export const getApi = request => {
 			}
 
 			if ( data.headers.get( 'x-wp-nonce' ) ) {
-				Redirectioni10n.WP_API_nonce = data.headers.get( 'x-wp-nonce' );
+				setApiNonce( data.headers.get( 'x-wp-nonce' ) );
 			}
 
 			return data.text();
