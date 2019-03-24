@@ -83,6 +83,7 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	// Period without escape
+	// TODO
 	// if ( flag_regex && url.match( /(?<!\\)\.(?![\*\+])/ ) ) {
 	// 	warnings.push( __( 'A literal period {{code}}.{{/code}} should be escaped like {{code}}\\.{{/code}} otherwise it will interpreted as a regular expression.', {
 	// 		components: {
