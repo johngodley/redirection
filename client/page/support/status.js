@@ -11,6 +11,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
+import RestApiStatus from 'component/rest-api-status';
 import { getApiNonce } from 'lib/api';
 import { loadStatus, fixStatus } from 'state/settings/action';
 import './status.scss';
@@ -69,6 +70,10 @@ class Status extends React.Component {
 
 		return (
 			<div>
+				<h2>{ __( 'WordPress REST API' ) }</h2>
+				<p>{ __( 'Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it.' ) }</p>
+				<RestApiStatus />
+
 				<h2>{ __( 'Plugin Status' ) }</h2>
 
 				{ pluginStatus.length > 0 && <PluginStatus status={ pluginStatus } /> }
