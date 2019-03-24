@@ -36,13 +36,13 @@ function setApiTest( existing, id, method, result ) {
 export default function settings( state = {}, action ) {
 	switch ( action.type ) {
 		case SETTING_API_TRY:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, undefined ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'loading' } ) } };
 
 		case SETTING_API_SUCCESS:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, true ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'ok' } ) } };
 
 		case SETTING_API_FAILED:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, action.error.request.status ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'fail', error: action.error } ) } };
 
 		case SETTING_DATABASE_SHOW:
 			return { ... state, showDatabase: true };

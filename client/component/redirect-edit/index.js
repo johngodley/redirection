@@ -114,6 +114,7 @@ class EditRedirect extends React.Component {
 
 		this.setState( {
 			... getDefaultItem( '', this.state.group_id, source ),
+			warning: [],
 			id: this.state.id,
 		} );
 	}

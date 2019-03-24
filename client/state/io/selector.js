@@ -3,6 +3,8 @@
  * External dependencies
  */
 
+import { getApiNonce } from 'lib/api';
+
 export const getModules = () => [
 	{
 		value: 1,
@@ -24,4 +26,4 @@ export const getModuleName = moduleId => {
 	return result ? result.text : '';
 };
 
-export const getExportUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + Redirectioni10n.WP_API_nonce;
+export const getExportUrl = ( moduleId, modType ) => Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + getApiNonce();

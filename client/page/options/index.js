@@ -14,6 +14,7 @@ import OptionsForm from './options-form';
 import DeletePlugin from 'page/options/delete-plugin';
 import Placeholder from 'component/placeholder';
 import Donation from './donation';
+import Newsletter from './newsletter';
 
 class Options extends React.Component {
 	constructor( props ) {
@@ -24,6 +25,7 @@ class Options extends React.Component {
 
 	render() {
 		const { loadStatus, values, canDelete = false } = this.props;
+		const { newsletter = false } = this.props.values ? this.props.values : {};
 
 		if ( loadStatus === STATUS_IN_PROGRESS || ! values ) {
 			return <Placeholder />;
@@ -34,7 +36,9 @@ class Options extends React.Component {
 				{ loadStatus === STATUS_COMPLETE && <Donation support={ values.support } /> }
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
 
-				<br /><br /><hr />
+				<Newsletter newsletter={ newsletter } />
+
+				<hr />
 				{ canDelete && <DeletePlugin onDelete={ this.props.onDeletePlugin } /> }
 			</div>
 		);

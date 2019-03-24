@@ -218,14 +218,6 @@ class Red_Database_Status {
 			$result = array_merge( $result, $this->get_version_upgrade() );
 		}
 
-		if ( $this->status == self::STATUS_NEED_INSTALL ) {
-			$result['api'] = [
-				REDIRECTION_API_JSON => red_get_rest_api( REDIRECTION_API_JSON ),
-				REDIRECTION_API_JSON_INDEX => red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
-				REDIRECTION_API_JSON_RELATIVE => red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
-			];
-		}
-
 		// Add on upgrade status
 		if ( $this->is_error() ) {
 			$result = array_merge( $result, $this->get_version_upgrade(), $this->get_progress_status(), $this->get_error_status() );

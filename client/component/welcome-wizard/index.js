@@ -13,38 +13,12 @@ import * as parseUrl from 'url';
  */
 import ExternalLink from 'component/external-link';
 import Database from 'component/database';
-import { restApi } from 'page/options/options-form';
 import Error from 'component/error';
-import Spinner from 'component/spinner';
-import { checkApi, saveSettings } from 'state/settings/action';
+import RestApiStatus from 'component/rest-api-status';
+import { getApiUrl, setApiUrl } from 'lib/api';
+import { saveSettings } from 'state/settings/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';
-
-const ApiResultIcon = ( { result, method } ) => {
-	if ( result === undefined || result[ method ] === undefined ) {
-		return <Spinner />;
-	}
-
-	if ( result[ method ] === true ) {
-		return <span className="dashicons dashicons-yes"></span>;
-	}
-
-	return <span className="dashicons dashicons-no"></span>;
-};
-
-const ApiResult = ( { item, result, method, alt } ) => {
-	return (
-		<div className={ 'api-result' + ( alt ? ' api-result-alt' : '' ) }>
-			<ApiResultIcon result={ result } method={ method } /> <code>{ method }</code> { item.text }
-
-			{ result[ method ] && result[ method ] !== true &&
-				<React.Fragment>
-					&nbsp; - <ExternalLink url="https://redirection.me/support/problems/rest-api/#http"><span className="api-result_error">HTTP { result[ method ] }</span></ExternalLink>
-				</React.Fragment>
-			}
-		</div>
-	);
-};
 
 class WelcomeWizard extends React.Component {
 	constructor( props ) {
@@ -59,31 +33,8 @@ class WelcomeWizard extends React.Component {
 	}
 
 	nextStep = ev => {
-		const { apiTest } = this.props;
-
 		ev.preventDefault();
-
-		if ( this.state.step === 1 ) {
-			const untested = Object.keys( Redirectioni10n.database.api ).map( id => apiTest[ id ] === undefined ? { id, url: Redirectioni10n.database.api[ id ] } : undefined );
-
-			this.props.onCheckApi( untested.filter( item => item ) );
-		}
-
 		this.setState( { step: this.state.step + 1 } );
-	}
-
-	apiInProgress() {
-		const { apiTest } = this.props;
-		const progress = Object.keys( Redirectioni10n.database.api ).filter( id => apiTest[ id ] === undefined || apiTest[ id ].GET === undefined || apiTest[ id ].POST === undefined );
-
-		return progress.length > 0;
-	}
-
-	onRetry = ev => {
-		const all = Object.keys( Redirectioni10n.database.api ).map( id => ( { id, url: Redirectioni10n.database.api[ id ] } ) );
-
-		ev.preventDefault();
-		this.props.onCheckApi( all );
 	}
 
 	prevStep = ev => {
@@ -97,7 +48,7 @@ class WelcomeWizard extends React.Component {
 		const keys = Object.keys( apiTest );
 
 		for ( let index = 0; index < keys.length; index++ ) {
-			if ( apiTest[ index ] && apiTest[ index ].GET === true && apiTest[ index ].POST === true ) {
+			if ( apiTest[ index ] && apiTest[ index ].GET.status === 'ok' && apiTest[ index ].POST.status === 'ok' ) {
 				return index;
 			}
 		}
@@ -109,8 +60,9 @@ class WelcomeWizard extends React.Component {
 		// Set the API to the best
 		const api = this.getFirstApi();
 
-		if ( Redirectioni10n.database.api[ api ] ) {
-			Redirectioni10n.WP_API_root = Redirectioni10n.database.api[ api ];
+		// Set out REST API route
+		if ( Redirectioni10n.api.routes[ api ] ) {
+			setApiUrl( Redirectioni10n.api.routes[ api ] );
 		}
 
 		ev.preventDefault();
@@ -255,11 +207,9 @@ class WelcomeWizard extends React.Component {
 	}
 
 	renderStep2() {
-		const { apiTest } = this.props;
-		const api = parseUrl.parse( Redirectioni10n.WP_API_root );
+		const api = parseUrl.parse( getApiUrl() );
 		const home = parseUrl.parse( Redirectioni10n.pluginBaseUrl );
 		const warning = api.protocol !== home.protocol || api.host !== home.host;
-		const routes = restApi();
 
 		return (
 			<React.Fragment>
@@ -286,23 +236,15 @@ class WelcomeWizard extends React.Component {
 					},
 				} ) }</p>
 
-				{ warning && <div className="notice notice-error">
+				{ warning && <div className="red-error">
 					{ __( 'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.' ) }
 					<p><code>{ api.protocol + '//' + api.host }</code></p>
 					<p><code>{ home.protocol + '//' + home.host }</code></p>
 				</div> }
 
-				<button className="button wizard-retry" onClick={ this.onRetry } disabled={ this.apiInProgress() }>{ __( 'Retry' ) }</button>
+				<RestApiStatus allowChange={ false } />
 
-				<h3>{ __( 'Checking your REST API' ) }</h3>
-				{ routes.map( ( item, pos ) =>
-					<React.Fragment key={ item.value } >
-						<ApiResult item={ item } result={ apiTest[ item.value ] } method="GET" alt={ pos % 2 === 1 } />
-						<ApiResult item={ item } result={ apiTest[ item.value ] } method="POST" alt={ pos % 2 === 1 } />
-					</React.Fragment>
-				) }
-
-				<p>{ __( 'You need at least one GET/POST pair for the plugin to work.' ) }</p>
+				<p>{ __( 'You will need at least one working REST API to continue.' ) }</p>
 
 				<div className="wizard-buttons">
 					<button className="button-primary button" onClick={ this.finishSetup }>{ __( 'Finish Setup' ) }</button> &nbsp;
@@ -359,7 +301,7 @@ class WelcomeWizard extends React.Component {
 				</div>
 
 				<div className="wizard-support">
-					<ExternalLink url="https://redirection.me/contact/">{ __( 'I need some support!' ) }</ExternalLink>
+					<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!' ) }</ExternalLink>
 				</div>
 			</React.Fragment>
 		);
@@ -378,9 +320,6 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onCheckApi: api => {
-			dispatch( checkApi( api ) );
-		},
 		onSaveSettings: settings => {
 			dispatch( saveSettings( settings ) );
 		},

@@ -107,7 +107,7 @@ class Database extends React.Component {
 		const recovery = this.getErrorMessage();
 
 		return (
-			<div className="redirection-database_error notice notice-error">
+			<div className="redirection-database_error red-error">
 				<h3>{ __( 'Database problem' ) }</h3>
 				<p>{ error }</p>
 				<p>

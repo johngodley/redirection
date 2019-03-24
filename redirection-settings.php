@@ -54,7 +54,7 @@ function red_get_default_options() {
 		'redirect_cache'      => 1,   // 1 hour
 		'ip_logging'          => 1,   // Full IP logging
 		'last_group_id'       => 0,
-		'rest_api'            => false,
+		'rest_api'            => REDIRECTION_API_JSON,
 		'https'               => false,
 		'database'            => '',
 	];
@@ -208,7 +208,7 @@ function red_get_options() {
 
 	// Back-compat. If monitor_post is set without types then it's from an older Redirection
 	if ( $options['monitor_post'] > 0 && count( $options['monitor_types'] ) === 0 ) {
-		$options['monitor_types'] = array( 'post' );
+		$options['monitor_types'] = [ 'post' ];
 	}
 
 	// Remove old options not in red_get_default_options()
@@ -216,6 +216,11 @@ function red_get_options() {
 		if ( ! isset( $defaults[ $key ] ) ) {
 			unset( $options[ $key ] );
 		}
+	}
+
+	// Back-compat fix
+	if ( $options['rest_api'] === false ) {
+		$options['rest_api'] = REDIRECTION_API_JSON;
 	}
 
 	return $options;

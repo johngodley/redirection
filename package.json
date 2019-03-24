@@ -131,6 +131,7 @@
     "react-dropzone": "^10.0.4",
     "react-redux": "^6.0.1",
     "react-select": "^2.4.2",
+    "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "whatwg-fetch": "^3.0.0"
