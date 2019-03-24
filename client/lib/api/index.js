@@ -137,10 +137,9 @@ export const RedirectionApi = {
 		checkApi: ( url, post = false ) => {
 			const request = post ? postApiRequest( 'plugin/test', { test: 'ping' } ) : getApiRequest( 'plugin/test' );
 
-			request.url = request.url.replace( getRootUrl(), url );
-			if ( request.url.indexOf( 'php?' ) !== -1 ) {
-				request.url = request.url.replace( '?_', '&_' );
-			}
+			// Replace normal request URL with the URL to check
+			request.url = request.url.replace( getApiUrl(), url ).replace( /[\?&]_wpnonce=[a-f0-9]*/, '' );
+			request.url += ( request.url.indexOf( '?' ) === -1 ? '?' : '&' ) + '_wpnonce=' + getApiNonce();
 
 			return request;
 		},
@@ -261,6 +260,7 @@ export const getApi = request => {
 				return json;
 			} catch ( error ) {
 				error.request = request;
+				error.code = error.code || error.name;
 				throw error;
 			}
 		} );
