@@ -153,8 +153,6 @@ class Redirection_Admin {
 	function redirection_head() {
 		global $wp_version;
 
-		$this->check_rest_api();
-
 		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wp_rest' ) ) {
 			if ( $_REQUEST['action'] === 'fixit' ) {
 				$this->run_fixit();
@@ -243,23 +241,6 @@ class Redirection_Admin {
 		}
 
 		return $validate;
-	}
-
-	public function check_rest_api() {
-		$options = red_get_options();
-
-		if ( $options['rest_api'] === false || ( defined( 'REDIRECTION_FORCE_UPDATE' ) && REDIRECTION_FORCE_UPDATE ) ) {
-			include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
-
-			$fixer = new Red_Fixer();
-			$status = $fixer->get_rest_status();
-
-			if ( $status['status'] === 'problem' ) {
-				$fixer->fix_rest();
-			} elseif ( $options['rest_api'] === false ) {
-				red_set_options( array( 'rest_api' => 0 ) );
-			}
-		}
 	}
 
 	private function run_fixit() {
