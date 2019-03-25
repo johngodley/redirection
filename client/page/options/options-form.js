@@ -267,7 +267,7 @@ class OptionsForm extends React.Component {
 						<label>
 							<p>
 								<input type="checkbox" name="https" onChange={ this.onChange } checked={ this.state.https } />
-								{ __( 'Force a redirect from HTTP to the HTTPS version of your  WordPress site domain. Please ensure your HTTPS is working before enabling.' ) }
+								{ __( 'Force a redirect from HTTP to the HTTPS version of your WordPress site domain. Please ensure your HTTPS is working before enabling.' ) }
 								&nbsp; { __( '(beta)' ) }
 							</p>
 						</label>
