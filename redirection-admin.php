@@ -277,7 +277,7 @@ class Redirection_Admin {
 			$fixer = new Red_Fixer();
 
 			return array(
-				'pluginStatus' => $fixer->get_status(),
+				'pluginStatus' => $fixer->get_json(),
 			);
 		}
 
