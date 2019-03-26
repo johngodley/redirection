@@ -12,7 +12,6 @@ import {
 	SETTING_LOAD_STATUS,
 	SETTING_DATABASE_START,
 	SETTING_DATABASE_SUCCESS,
-	SETTING_DATABASE_COMPLETE,
 	SETTING_DATABASE_FAILED,
 	SETTING_DATABASE_FINISH,
 	SETTING_DATABASE_SHOW,
@@ -55,9 +54,6 @@ export default function settings( state = {}, action ) {
 
 		case SETTING_DATABASE_SUCCESS:
 			return { ... state, database: { ... state.database, ... action.database } };
-
-		case SETTING_DATABASE_COMPLETE:
-			return { ... state, database: { ... state.database, inProgress: false } };
 
 		case SETTING_DATABASE_FAILED:
 			return { ... state, database: { ... state.database, result: STATUS_FAILED, reason: action.error } };

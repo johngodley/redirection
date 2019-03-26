@@ -1,6 +1,9 @@
 <?php
 
 abstract class Red_Database_Upgrader {
+	private $queries = [];
+	private $live = true;
+
 	/**
 	 * Return an array of all the stages for an upgrade
 	 *
@@ -39,6 +42,17 @@ abstract class Red_Database_Upgrader {
 		}
 	}
 
+	public function get_queries_for_stage( $stage ) {
+		global $wpdb;
+
+		$this->queries = [];
+		$this->live = false;
+		$this->$stage( $wpdb );
+		$this->live = true;
+
+		return $this->queries;
+	}
+
 	/**
 	 * Returns the current database charset
 	 *
@@ -65,6 +79,11 @@ abstract class Red_Database_Upgrader {
 	 * @return bool true if query is performed ok, otherwise an exception is thrown
 	 */
 	protected function do_query( $wpdb, $sql ) {
+		if ( ! $this->live ) {
+			$this->queries[] = $sql;
+			return true;
+		}
+
 		// These are known queries without user input
 		// phpcs:ignore
 		$result = $wpdb->query( $sql );

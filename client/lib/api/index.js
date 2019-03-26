@@ -131,7 +131,7 @@ export const RedirectionApi = {
 	},
 	plugin: {
 		status: () => getApiRequest( 'plugin' ),
-		fix: () => postApiRequest( 'plugin' ),
+		fix: ( name, value ) => postApiRequest( 'plugin', { name, value } ),
 		delete: () => deleteApiRequest( 'plugin/delete' ),
 		upgradeDatabase: ( upgrade ) => postApiRequest( 'plugin/database', upgrade ? { upgrade } : {} ),
 		checkApi: ( url, post = false ) => {
