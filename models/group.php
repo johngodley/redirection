@@ -90,7 +90,7 @@ class Red_Group {
 		return $data;
 	}
 
-	static function create( $name, $module_id ) {
+	static function create( $name, $module_id, $enabled = true ) {
 		global $wpdb;
 
 		$name = trim( substr( $name, 0, 50 ) );
@@ -103,6 +103,7 @@ class Red_Group {
 				'name'      => trim( $name ),
 				'module_id' => intval( $module_id ),
 				'position'  => intval( $position ),
+				'status'    => $enabled ? 'enabled' : 'disabled',
 			);
 
 			$wpdb->insert( $wpdb->prefix . 'redirection_groups', $data );
