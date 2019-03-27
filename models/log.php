@@ -241,7 +241,7 @@ class RE_404 {
 
 		$stdout = fopen( 'php://output', 'w' );
 
-		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer' ) );
+		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer', 'useragent' ) );
 
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 		$exported = 0;
@@ -256,6 +256,7 @@ class RE_404 {
 					$row->url,
 					$row->ip,
 					$row->referrer,
+					$row->agent,
 				);
 
 				fputcsv( $stdout, $csv );
