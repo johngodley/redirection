@@ -130,6 +130,8 @@ class Groups extends React.Component {
 							</tr>
 						</tbody>
 					</table>
+
+					{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 				</form>
 			</div>
 		);

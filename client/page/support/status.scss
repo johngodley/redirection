@@ -1,17 +1,16 @@
-@import '../../global';
+@import "../../global";
 
 /**
  * The plugin status section of the support page
  */
- .plugin-status {
+.plugin-status {
 	th {
 		text-align: left;
 		padding: 5px;
-		vertical-align: top;
 	}
 
-	td, span {
-		vertical-align: top;
+	td,
+	span {
 		padding: 5px;
 	}
 

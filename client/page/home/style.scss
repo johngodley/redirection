@@ -99,3 +99,16 @@
 .notice {
 	display: block !important;
 }
+
+.database-switch {
+	float: right;
+
+	a {
+		color: #444;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+}

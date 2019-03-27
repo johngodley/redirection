@@ -3,6 +3,44 @@
 include_once dirname( REDIRECTION_FILE ) . '/database/database.php';
 
 class Red_Fixer {
+	public function get_json() {
+		return [
+			'status' => $this->get_status(),
+			'debug' => $this->get_debug(),
+		];
+	}
+
+	public function get_debug() {
+		$status = new Red_Database_Status();
+
+		return [
+			'database' => [
+				'current' => $status->get_current_version(),
+				'latest' => REDIRECTION_DB_VERSION,
+			],
+			'ip_header' => [
+				'HTTP_CF_CONNECTING_IP' => isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ? $_SERVER['HTTP_CF_CONNECTING_IP'] : false,
+				'HTTP_X_FORWARDED_FOR' => isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : false,
+				'REMOTE_ADDR' => isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : false,
+			],
+		];
+	}
+
+	public function save_debug( $name, $value ) {
+		if ( $name === 'database' ) {
+			$database = new Red_Database();
+			$status = new Red_Database_Status();
+
+			foreach ( $database->get_upgrades() as $upgrade ) {
+				if ( $value === $upgrade['version'] ) {
+					$status->finish();
+					$status->save_db_version( $value );
+					break;
+				}
+			}
+		}
+	}
+
 	public function get_status() {
 		global $wpdb;
 
@@ -13,33 +51,31 @@ class Red_Fixer {
 		$monitor_group = $options['monitor_post'];
 		$valid_monitor = Red_Group::get( $monitor_group ) || $monitor_group === 0;
 
-		$result = array(
-			array_merge( array(
+		return [
+			array_merge( [
 				'id' => 'db',
 				'name' => __( 'Database tables', 'redirection' ),
-			), $this->get_database_status( Red_Database::get_latest_database() ) ),
-			array(
+			], $this->get_database_status( Red_Database::get_latest_database() ) ),
+			[
 				'name' => __( 'Valid groups', 'redirection' ),
 				'id' => 'groups',
 				'message' => $groups === 0 ? __( 'No valid groups, so you will not be able to create any redirects', 'redirection' ) : __( 'Valid groups detected', 'redirection' ),
 				'status' => $groups === 0 ? 'problem' : 'good',
-			),
-			array(
+			],
+			[
 				'name' => __( 'Valid redirect group', 'redirection' ),
 				'id' => 'redirect_groups',
 				'message' => count( $bad_group ) > 0 ? __( 'Redirects with invalid groups detected', 'redirection' ) : __( 'All redirects have a valid group', 'redirection' ),
 				'status' => count( $bad_group ) > 0 ? 'problem' : 'good',
-			),
-			array(
+			],
+			[
 				'name' => __( 'Post monitor group', 'redirection' ),
 				'id' => 'monitor',
 				'message' => $valid_monitor === false ? __( 'Post monitor group is invalid', 'redirection' ) : __( 'Post monitor group is valid', 'redirection' ),
 				'status' => $valid_monitor === false ? 'problem' : 'good',
-			),
+			],
 			$this->get_http_settings(),
-		);
-
-		return $result;
+		];
 	}
 
 	private function get_database_status( $database ) {

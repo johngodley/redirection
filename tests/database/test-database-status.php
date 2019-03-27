@@ -83,7 +83,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 		$database = new Red_Database();
 		$upgrades = $database->get_upgrades();
 		$upgrade = Red_Database_Upgrader::get( $upgrades[ count( $upgrades ) - 1 ] );
-		$stages = $upgrade->get_stages();
+		$stages = array_keys( $upgrade->get_stages() );
 
 		red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( $stages[ count( $stages ) - 1 ] );
@@ -118,8 +118,8 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'current' => '1.0',
 			'next' => REDIRECTION_DB_VERSION,
 		];
-		$actual = $status->get_json();
-		unset( $actual['time'] );
+
+		$actual = $this->get_results( $status, null );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -135,9 +135,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'current' => '-',
 			'next' => REDIRECTION_DB_VERSION,
 		];
-		$actual = $status->get_json();
-		unset( $actual['time'] );
-		unset( $actual['api'] );
+		$actual = $this->get_results( $status, null );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -163,8 +161,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -188,8 +185,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -213,8 +209,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -239,9 +234,16 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'debug' => array_merge( $latest->get_table_schema(), [ 'Stage: add_title_201' ] ),
 		];
 
-		$actual = $status->get_json( new WP_Error( 'error', 'this is an error' ) );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, new WP_Error( 'error', 'this is an error' ) );
 
 		$this->assertEquals( $expected, $actual );
+	}
+
+	private function get_results( $status, $reason ) {
+		$actual = $status->get_json( $reason );
+		unset( $actual['time'] );
+		unset( $actual['manual'] );
+
+		return $actual;
 	}
 }

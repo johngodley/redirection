@@ -24,54 +24,44 @@ class GroupRow extends React.Component {
 		super( props );
 
 		this.state = { editing: false, name: props.item.name, moduleId: props.item.module_id };
-		this.handleSelected = this.onSelected.bind( this );
-
-		this.handleEdit = this.onEdit.bind( this );
-		this.handleSave = this.onSave.bind( this );
-		this.handleDelete = this.onDelete.bind( this );
-		this.handleDisable = this.onDisable.bind( this );
-		this.handleEnable = this.onEnable.bind( this );
-
-		this.handleChange = this.onChange.bind( this );
-		this.handleSelect = this.onSelect.bind( this );
 	}
 
-	onEdit( ev ) {
+	onEdit = ev => {
 		ev.preventDefault();
 		this.setState( { editing: ! this.state.editing } );
 	}
 
-	onDelete( ev ) {
+	onDelete = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'delete', this.props.item.id );
 	}
 
-	onDisable( ev ) {
+	onDisable = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'disable', this.props.item.id );
 	}
 
-	onEnable( ev ) {
+	onEnable = ev => {
 		ev.preventDefault();
 		this.props.onTableAction( 'enable', this.props.item.id );
 	}
 
-	onSelected() {
+	onSelected = () => {
 		this.props.onSetSelected( [ this.props.item.id ] );
 	}
 
-	onChange( ev ) {
+	onChange = ev => {
 		const { target } = ev;
 
 		this.setState( { name: target.value } );
 	}
 
-	onSave( ev ) {
+	onSave = ev => {
 		this.onEdit( ev );
 		this.props.onSaveGroup( this.props.item.id, { name: this.state.name, moduleId: this.state.moduleId } );
 	}
 
-	onSelect( ev ) {
+	onSelect = ev => {
 		const { target } = ev;
 
 		this.setState( { moduleId: parseInt( target.value, 10 ) } );
@@ -91,28 +81,28 @@ class GroupRow extends React.Component {
 
 		return (
 			<RowActions disabled={ saving }>
-				<a href="#" onClick={ this.handleEdit }>{ __( 'Edit' ) }</a> |&nbsp;
-				<a href="#" onClick={ this.handleDelete }>{ __( 'Delete' ) }</a> |&nbsp;
+				<a href="#" onClick={ this.onEdit }>{ __( 'Edit' ) }</a> |&nbsp;
+				<a href="#" onClick={ this.onDelete }>{ __( 'Delete' ) }</a> |&nbsp;
 				<a href={ Redirectioni10n.pluginRoot + '&filterby=group&filter=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
-				{ enabled && <a href="#" onClick={ this.handleDisable }>{ __( 'Disable' ) }</a> }
-				{ ! enabled && <a href="#" onClick={ this.handleEnable }>{ __( 'Enable' ) }</a> }
+				{ enabled && <a href="#" onClick={ this.onDisable }>{ __( 'Disable' ) }</a> }
+				{ ! enabled && <a href="#" onClick={ this.onEnable }>{ __( 'Enable' ) }</a> }
 			</RowActions>
 		);
 	}
 
 	renderEdit() {
 		return (
-			<form onSubmit={ this.handleSave } >
+			<form onSubmit={ this.onSave } >
 				<table className="edit-groups">
 					<tbody>
 						<tr>
 							<th width="70">{ __( 'Name' ) }</th>
-							<td><input type="text" name="name" value={ this.state.name } onChange={ this.handleChange } /></td>
+							<td><input type="text" name="name" value={ this.state.name } onChange={ this.onChange } /></td>
 						</tr>
 						<tr>
 							<th width="70">{ __( 'Module' ) }</th>
 							<td>
-								<Select name="module_id" value={ this.state.moduleId } onChange={ this.handleSelect } items={ getModules() } />
+								<Select name="module_id" value={ this.state.moduleId } onChange={ this.onSelect } items={ getModules() } />
 							</td>
 						</tr>
 						<tr>
@@ -120,8 +110,10 @@ class GroupRow extends React.Component {
 							<td>
 								<div className="table-actions">
 									<input className="button-primary" type="submit" name="save" value={ __( 'Save' ) } /> &nbsp;
-									<input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ this.handleEdit } />
+									<input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ this.onEdit } />
 								</div>
+
+								{ parseInt( this.state.moduleId, 10 ) === 2 && <p><br />{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 							</td>
 						</tr>
 					</tbody>
@@ -148,7 +140,7 @@ class GroupRow extends React.Component {
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
 				<th scope="row" className="check-column">
-					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.handleSelected } /> }
+					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-primary column-name">

@@ -248,7 +248,7 @@ class ImportExport extends React.Component {
 					{ props => this.renderDropzoneContent( props ) }
 				</Dropzone>
 
-				<p>{ __( 'All imports will be appended to the current database.' ) }</p>
+				<p>{ __( 'All imports will be appended to the current database - nothing is merged.' ) }</p>
 				<div className="inline-notice notice-warning">
 					<p>
 						{ __( '{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).', {
@@ -258,6 +258,7 @@ class ImportExport extends React.Component {
 							},
 						} ) }
 					</p>
+					<p>{ __( 'Note only the above data are supported by CSV, and everything is imported/exported as "URL only" matches.' ) }</p>
 				</div>
 
 				<h2>{ __( 'Export' ) }</h2>

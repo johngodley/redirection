@@ -74,10 +74,11 @@ export const loadStatus = () => dispatch => {
 	return dispatch( { type: SETTING_LOAD_START } );
 };
 
-export const fixStatus = () => dispatch => {
-	getApi( RedirectionApi.plugin.fix() )
+export const fixStatus = ( name, value ) => dispatch => {
+	getApi( RedirectionApi.plugin.fix( name, value ) )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
+			document.location.reload();
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );
