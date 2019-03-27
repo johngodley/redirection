@@ -59,6 +59,8 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 		if ( isset( $params['name'] ) && isset( $params['value'] ) ) {
 			$fixer->save_debug( $params['name'], $params['value'] );
+		} else {
+			$fixer->fix( $fixer->get_status() );
 		}
 
 		return $fixer->get_json();
