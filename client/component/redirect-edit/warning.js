@@ -74,6 +74,7 @@ export const getWarningFromState = ( item ) => {
 		);
 	}
 
+	// Permalink
 	if ( url.indexOf( '%postname%' ) !== -1 ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
