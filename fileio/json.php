@@ -43,7 +43,7 @@ class Red_Json_File extends Red_FileIO {
 				$old_group_id = $group['id'];
 				unset( $group['id'] );
 
-				$group = Red_Group::create( $group['name'], $group['module_id'] );
+				$group = Red_Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
 				if ( $group ) {
 					$group_map[ $old_group_id ] = $group->get_id();
 				}

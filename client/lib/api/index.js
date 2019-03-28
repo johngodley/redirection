@@ -143,6 +143,7 @@ export const RedirectionApi = {
 
 			return request;
 		},
+		matchPost: text => getApiRequest( 'plugin/post', { text } )
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),

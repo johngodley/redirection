@@ -67,6 +67,10 @@ class Redirection_Admin {
 	}
 
 	public function update_nag() {
+		if ( ! $this->user_has_access() ) {
+			return;
+		}
+
 		$status = new Red_Database_Status();
 
 		$message = false;

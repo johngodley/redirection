@@ -258,11 +258,11 @@ class ImportExport extends React.Component {
 							},
 						} ) }
 					</p>
-					<p>{ __( 'Note only the above data are supported by CSV, and everything is imported/exported as "URL only" matches.' ) }</p>
+					<p>{ __( 'CSV does not include all information, and everything is imported/exported as "URL only" matches. Use the JSON format for a full set of data.' ) }</p>
 				</div>
 
 				<h2>{ __( 'Export' ) }</h2>
-				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON (which contains all redirects and groups).' ) }</p>
+				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format.' ) }</p>
 
 				<select name="module" onChange={ this.onInput } value={ this.state.module }>
 					<option value="0">{ __( 'Everything' ) }</option>
@@ -272,10 +272,10 @@ class ImportExport extends React.Component {
 				</select>
 
 				<select name="format" onChange={ this.onInput } value={ this.state.format }>
-					<option value="csv">{ __( 'CSV' ) }</option>
+					<option value="json">{ __( 'Complete data (JSON)' ) }</option>
+					<option value="dcsv">{ __( 'CSV' ) }</option>
 					<option value="apache">{ __( 'Apache .htaccess' ) }</option>
 					<option value="nginx">{ __( 'Nginx rewrite rules' ) }</option>
-					<option value="json">{ __( 'Redirection JSON' ) }</option>
 				</select>
 				&nbsp;
 				<button className="button-primary" onClick={ this.onView }>{ __( 'View' ) }</button>

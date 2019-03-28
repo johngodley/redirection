@@ -25,6 +25,8 @@ export const isRegex = ( text ) => {
 	return false;
 };
 
+const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0, match.length ) === match;
+
 export const getWarningFromState = ( item ) => {
 	const warnings = [];
 	const { url, flag_regex, action_data = {} } = item;
@@ -114,7 +116,18 @@ export const getWarningFromState = ( item ) => {
 
 	// If matched/unmatched that is the same as the source URL
 	if ( action_data.url_from === url || action_data.url_notfrom === url || action_data.logged_in === url || action_data.logged_out === url ) {
-		warnings.push( __( 'Leave a target blank if you do not wish to redirect otherwise you could create a loop.' ) );
+		warnings.push( __( 'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.' ) );
+	}
+
+	if ( action_data.url && ! beginsWith( action_data.url, 'https://' ) && ! beginsWith( action_data.url, 'http://' ) && action_data.url.substr( 0, 1 ) !== '/' ) {
+		warnings.push( __( 'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.', {
+			components: {
+				code: <code />,
+			},
+			args: {
+				url: action_data.url,
+			},
+		} ) );
 	}
 
 	return warnings;
