@@ -95,3 +95,14 @@ if ( red_is_wpcli() ) {
 
 add_action( 'rest_api_init', 'red_start_rest' );
 add_action( 'init', 'redirection_locale' );
+
+// This is causing a lot of problems with the REST API - disable qTranslate
+add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {
+	$url = Redirection_Request::get_request_url();
+
+	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, 'index.php?rest_route' ) !== false ) {
+		return false;
+	}
+
+	return $lang;
+}, 10, 2 );
