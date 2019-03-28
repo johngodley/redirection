@@ -11,13 +11,14 @@ import PropTypes from 'prop-types';
  */
 
 import TableRow from '../table-row';
+import TargetUrl from '../target';
 
 const ActionUrl = ( { onChange, data } ) => {
 	const { url } = data;
 
 	return (
 		<TableRow title={ __( 'Target URL' ) }>
-			<input type="text" name="url" value={ url } onChange={ onChange } placeholder={ __( 'The target URL you want to redirect to if matched' ) } />
+			<TargetUrl url={ url } onChange={ onChange } />
 		</TableRow>
 	);
 };

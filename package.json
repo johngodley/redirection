@@ -120,6 +120,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
+    "debounce-promise": "^3.1.0",
     "interpolate-components": "^1.1.1",
     "jed": "^1.1.1",
     "lru": "^3.1.0",
@@ -127,6 +128,7 @@
     "prop-types": "^15.7.2",
     "rc-progress": "^2.3.0",
     "react": "^16.8.4",
+    "react-click-outside": "^3.0.1",
     "react-dom": "^16.8.4",
     "react-dropzone": "^10.0.4",
     "react-redux": "^6.0.1",

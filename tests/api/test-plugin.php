@@ -66,4 +66,18 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 		$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
 		$this->assertEquals( 'good', $results->data['status'][1]['status'] );
 	}
+
+	public function testMatchPost() {
+		$this->setNonce();
+
+		$results = $this->callApi( 'plugin/post', [ 'text' => 'e' ] );
+		$this->assertTrue( count( $results->data ) > 0 );
+	}
+
+	public function testNoMatchPost() {
+		$this->setNonce();
+
+		$results = $this->callApi( 'plugin/post', [ 'text' => 'z' ] );
+		$this->assertTrue( count( $results->data ) === 0 );
+	}
 }
