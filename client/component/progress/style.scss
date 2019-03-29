@@ -13,7 +13,12 @@
 
 	.spinner-container {
 		position: absolute;
-		left: 0;
-		top: 33px;
+		left: 5px;
+		top: 34px;
+
+		.css-spinner {
+			width: 26px;
+			height: 26px;
+		}
 	}
 }

@@ -244,8 +244,12 @@ class EditRedirect extends React.Component {
 	}
 
 	canSave() {
-		const { match_type, action_type, action_data } = this.state;
+		const { match_type, action_type, action_data, url } = this.state;
 		const { autoTarget } = this.props;
+
+		if ( url.length === 0 ) {
+			return false;
+		}
 
 		if ( hasUrlTarget( action_type ) ) {
 			return hasTargetData( match_type, action_data ) || autoTarget !== '';

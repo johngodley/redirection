@@ -115,7 +115,7 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	// If matched/unmatched that is the same as the source URL
-	if ( action_data.url_from === url || action_data.url_notfrom === url || action_data.logged_in === url || action_data.logged_out === url ) {
+	if ( url.length > 0 && ( action_data.url_from === url || action_data.url_notfrom === url || action_data.logged_in === url || action_data.logged_out === url || action_data.url === url ) ) {
 		warnings.push( __( 'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.' ) );
 	}
 
