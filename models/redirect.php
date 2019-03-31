@@ -305,7 +305,7 @@ class Red_Item {
 	 * @param string $requested_url
 	 * @return bool true if matched, false otherwise
 	 */
-	public function matches( $requested_url ) {
+	public function is_match( $requested_url ) {
 		if ( ! $this->is_enabled() ) {
 			return false;
 		}

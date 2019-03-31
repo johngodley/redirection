@@ -68,7 +68,7 @@ class WordPress_Module extends Red_Module {
 		if ( count( $page_type ) > 0 ) {
 			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
 			$first = $page_type[0];
-			return $first->matches( $url );
+			return $first->is_match( $url );
 		}
 
 		return false;
@@ -108,7 +108,7 @@ class WordPress_Module extends Red_Module {
 			$redirects = Red_Item::get_for_url( $url );
 
 			foreach ( (array) $redirects as $item ) {
-				if ( $item->matches( $url ) ) {
+				if ( $item->is_match( $url ) ) {
 					$this->matched = $item;
 					break;
 				}
