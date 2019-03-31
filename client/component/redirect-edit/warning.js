@@ -30,6 +30,7 @@ const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0
 export const getWarningFromState = ( item ) => {
 	const warnings = [];
 	const { url, flag_regex, action_data = {} } = item;
+	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = item.action_data;
 
 	if ( Array.isArray( url ) ) {
 		return warnings;
@@ -115,13 +116,13 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	// If matched/unmatched that is the same as the source URL
-	if ( url.length > 0 && ( action_data.url_from === url || action_data.url_notfrom === url || action_data.logged_in === url || action_data.logged_out === url || action_data.url === url ) ) {
+	if ( url.length > 0 && ( url_from === url || url_notfrom === url || logged_in === url || logged_out === url || targetUrl === url ) ) {
 		warnings.push( __( 'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.' ) );
 	}
 
 	const targets = [ action_data.url, action_data.url_from, action_data.url_notfrom, action_data.logged_in, action_data.logged_out ].filter( filt => filt );
 
-	if ( action_data.url && ! beginsWith( action_data.url, 'https://' ) && ! beginsWith( action_data.url, 'http://' ) && action_data.url.substr( 0, 1 ) !== '/' ) {
+	if ( targetUrl && ! beginsWith( targetUrl, 'https://' ) && ! beginsWith( targetUrl, 'http://' ) && targetUrl.substr( 0, 1 ) !== '/' ) {
 		warnings.push( __( 'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.', {
 			components: {
 				code: <code />,
