@@ -21,7 +21,7 @@ class Red_Url_Match {
 		$path = $url->get_without_trailing_slash();
 
 		// Lowercase everything
-		$path = strtolower( $path );
+		$path = mb_strtolower( $path );
 
 		return $path ? $path : '/';
 	}
