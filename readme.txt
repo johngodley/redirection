@@ -159,6 +159,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 4.3 - ??? =
+* Add support for utf8 URLs without manual encoding
+
 = 4.2 - ??? =
 * Add auto-complete for target URLs
 * Add manual database upgrade
