@@ -1,7 +1,7 @@
 {
     "plugin": {
-        "version": "4.1",
-        "date": "Sun, 10 Mar 2019 07:33:33 +0000"
+        "version": "4.2",
+        "date": "Sun, 31 Mar 2019 15:58:10 +0000"
     },
     "groups": [
         {
@@ -23,7 +23,7 @@
         {
             "id": 3,
             "name": "Redirections",
-            "redirects": 5,
+            "redirects": 0,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -39,7 +39,7 @@
         {
             "id": 5,
             "name": "Redirections",
-            "redirects": 0,
+            "redirects": 9,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
@@ -55,13 +55,29 @@
         {
             "id": 7,
             "name": "Redirections",
-            "redirects": 29,
+            "redirects": 0,
             "module_id": 1,
             "moduleName": "WordPress",
             "enabled": true
         },
         {
             "id": 8,
+            "name": "Modified Posts",
+            "redirects": 0,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 9,
+            "name": "Redirections",
+            "redirects": 29,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 10,
             "name": "Modified Posts",
             "redirects": 0,
             "module_id": 1,
@@ -91,9 +107,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 0,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -115,11 +131,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 1,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -141,11 +157,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 2,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -167,11 +183,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 3,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -193,11 +209,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 4,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -221,9 +237,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 6,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -245,9 +261,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 7,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -269,11 +285,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 8,
+            "hits": 7,
             "regex": true,
-            "group_id": 7,
+            "group_id": 9,
             "position": 8,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -297,7 +313,7 @@
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 9,
             "last_access": "-",
             "enabled": false
@@ -323,9 +339,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 10,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -349,7 +365,7 @@
             "title": "",
             "hits": 0,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 13,
             "last_access": "-",
             "enabled": true
@@ -373,11 +389,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 12,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -402,9 +418,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 13,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -430,9 +446,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 13,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -459,9 +475,9 @@
             "title": "",
             "hits": 14,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 14,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -488,9 +504,9 @@
             "title": "",
             "hits": 14,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 15,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -518,9 +534,9 @@
             "title": "",
             "hits": 14,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 16,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -548,9 +564,9 @@
             "title": "",
             "hits": 14,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 17,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -576,9 +592,9 @@
             "title": "",
             "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 18,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -606,9 +622,9 @@
             "title": "",
             "hits": 14,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 19,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -631,11 +647,11 @@
             },
             "match_type": "page",
             "title": "",
-            "hits": 6,
+            "hits": 7,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 20,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -657,11 +673,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 13,
+            "hits": 12,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 21,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -685,9 +701,9 @@
             "title": "",
             "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 22,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -711,9 +727,9 @@
             "title": "",
             "hits": 12,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 23,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -737,9 +753,9 @@
             "title": "",
             "hits": 12,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 24,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -763,9 +779,9 @@
             "title": "",
             "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 25,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -789,9 +805,9 @@
             "title": "",
             "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 26,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -815,9 +831,9 @@
             "title": "",
             "hits": 6,
             "regex": false,
-            "group_id": 7,
+            "group_id": 9,
             "position": 27,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -839,11 +855,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 7,
+            "hits": 6,
             "regex": true,
-            "group_id": 7,
+            "group_id": 9,
             "position": 28,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -869,17 +885,17 @@
             },
             "match_type": "ip",
             "title": "",
-            "hits": 8,
+            "hits": 7,
             "regex": false,
-            "group_id": 3,
+            "group_id": 5,
             "position": 0,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
             "id": 31,
             "url": "//",
-            "match_url": "//",
+            "match_url": "/",
             "match_data": {
                 "source": {
                     "flag_query": "ignore",
@@ -895,11 +911,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 4,
+            "hits": 6,
             "regex": false,
-            "group_id": 3,
+            "group_id": 5,
             "position": 1,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -921,11 +937,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 4,
+            "hits": 6,
             "regex": false,
-            "group_id": 3,
+            "group_id": 5,
             "position": 2,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -947,11 +963,11 @@
             },
             "match_type": "url",
             "title": "",
-            "hits": 3,
+            "hits": 6,
             "regex": false,
-            "group_id": 3,
+            "group_id": 5,
             "position": 3,
-            "last_access": "March 9, 2019",
+            "last_access": "March 31, 2019",
             "enabled": true
         },
         {
@@ -973,11 +989,115 @@
             },
             "match_type": "url",
             "title": "",
+            "hits": 6,
+            "regex": false,
+            "group_id": 5,
+            "position": 4,
+            "last_access": "March 31, 2019",
+            "enabled": true
+        },
+        {
+            "id": 35,
+            "url": "/hello-world2:\u4e2d\u56fd/",
+            "match_url": "/hello-world2:%e4%b8%ad%e5%9b%bd",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
             "hits": 2,
             "regex": false,
-            "group_id": 3,
-            "position": 4,
-            "last_access": "March 9, 2019",
+            "group_id": 5,
+            "position": 5,
+            "last_access": "March 31, 2019",
+            "enabled": true
+        },
+        {
+            "id": 36,
+            "url": "/gardens/Journey's-End_p.html",
+            "match_url": "/gardens/journey%27s-end_p.html",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 5,
+            "position": 6,
+            "last_access": "March 31, 2019",
+            "enabled": true
+        },
+        {
+            "id": 37,
+            "url": "^/\u4e2d\u56fd(.*)",
+            "match_url": "regex",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": true
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": true,
+            "group_id": 5,
+            "position": 7,
+            "last_access": "March 31, 2019",
+            "enabled": true
+        },
+        {
+            "id": 38,
+            "url": "/encoded-%e4%b8%ad%e5%9b%bdsomething",
+            "match_url": "/encoded-%e4%b8%ad%e5%9b%bdsomething",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/plain-redirect"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 5,
+            "position": 8,
+            "last_access": "-",
             "enabled": true
         }
     ]
