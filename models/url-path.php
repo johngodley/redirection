@@ -56,7 +56,7 @@ class Red_Url_Path {
 			}
 		}
 
-		return $this->get_query_before( $path );
+		return urldecode( $this->get_query_before( $path ) );
 	}
 
 	private function get_query_before( $url ) {
