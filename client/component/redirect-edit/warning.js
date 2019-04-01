@@ -30,7 +30,7 @@ const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0
 export const getWarningFromState = ( item ) => {
 	const warnings = [];
 	const { url, flag_regex, action_data = {} } = item;
-	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = item.action_data;
+	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = action_data;
 
 	if ( Array.isArray( url ) ) {
 		return warnings;
