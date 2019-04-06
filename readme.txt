@@ -159,7 +159,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.2 - ??? =
+= 4.2 - 6th Apr 2019 =
 * Add auto-complete for target URLs
 * Add manual database upgrade
 * Add support for semi-colon separated import files
