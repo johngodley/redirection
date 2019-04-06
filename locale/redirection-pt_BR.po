@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-03-22 23:21:41+0000\n"
+"PO-Revision-Date: 2019-04-02 23:25:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #: redirection-strings.php:159
 msgid "URL options / Regex"
-msgstr ""
+msgstr "Opções de URL / Regex"
 
 #: redirection-strings.php:441
 msgid "Force a redirect from HTTP to the HTTPS version of your  WordPress site domain. Please ensure your HTTPS is working before enabling."
@@ -340,7 +340,7 @@ msgstr "Para prevenir uma expressão regular gananciosa, você pode usar {{code}
 
 #: redirection-strings.php:166
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
-msgstr ""
+msgstr "Lembre-se de ativar a opção \"regex\" se isto for uma expressão regular."
 
 #: redirection-strings.php:165
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
