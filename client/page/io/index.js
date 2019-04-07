@@ -273,7 +273,7 @@ class ImportExport extends React.Component {
 
 				<select name="format" onChange={ this.onInput } value={ this.state.format }>
 					<option value="json">{ __( 'Complete data (JSON)' ) }</option>
-					<option value="dcsv">{ __( 'CSV' ) }</option>
+					<option value="csv">{ __( 'CSV' ) }</option>
 					<option value="apache">{ __( 'Apache .htaccess' ) }</option>
 					<option value="nginx">{ __( 'Nginx rewrite rules' ) }</option>
 				</select>
