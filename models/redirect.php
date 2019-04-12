@@ -353,6 +353,10 @@ class Red_Item {
 				'group_id' => $this->group_id,
 			);
 
+			if ( $target === true ) {
+				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
+			}
+
 			RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), $details );
 		}
 	}
