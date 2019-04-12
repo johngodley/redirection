@@ -14,7 +14,7 @@ import ExternalLink from 'component/external-link';
 import ApiResultItem from './api-result-item';
 import { getApiNonce } from 'lib/api';
 
-const isLoading = result => Object.keys( result ).length === 0 || result.GET.status === 'loading' || result.POST === 'loading';
+const isLoading = result => Object.keys( result ).length === 0 || result.GET.status === 'loading' || result.POST.status === 'loading';
 
 const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 	if ( isLoading( result ) ) {

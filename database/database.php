@@ -10,7 +10,7 @@ class Red_Database {
 	 * @return array Array of versions from self::get_upgrades()
 	 */
 	public function get_upgrades_for_version( $current_version, $current_stage ) {
-		if ( $current_version === '' ) {
+		if ( empty( $current_version ) ) {
 			return [
 				[
 					'version' => REDIRECTION_DB_VERSION,

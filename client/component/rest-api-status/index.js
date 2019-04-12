@@ -25,8 +25,8 @@ const STATUS_WARNING_CURRENT = 'warning-current';
 const STATUS_WARNING = 'warning-not-selected';
 
 const getApiResult = ( results, name ) => results && results[ name ] ? results[ name ] : {};
-const isError = result => result.GET.status === STATUS_FAIL || result.POST.status === STATUS_FAIL;
-const isWorking = result => result.GET.status === STATUS_OK && result.POST.status === STATUS_OK;
+const isError = result => result.GET && result.POST && ( result.GET.status === STATUS_FAIL || result.POST.status === STATUS_FAIL );
+const isWorking = result => result.GET && result.POST && ( result.GET.status === STATUS_OK && result.POST.status === STATUS_OK );
 
 class RestApiStatus extends React.Component {
 	static propTypes = {
@@ -71,11 +71,11 @@ class RestApiStatus extends React.Component {
 		for ( let index = 0; index < Object.keys( apiTest ).length; index++ ) {
 			const key = Object.keys( apiTest )[ index ];
 
-			if ( apiTest[ key ].GET.status !== STATUS_LOADING ) {
+			if ( apiTest[ key ] && apiTest[ key ].GET && apiTest[ key ].GET.status !== STATUS_LOADING ) {
 				finished++;
 			}
 
-			if ( apiTest[ key ].POST.status !== STATUS_LOADING ) {
+			if ( apiTest[ key ] && apiTest[ key ].POST && apiTest[ key ].POST.status !== STATUS_LOADING ) {
 				finished++;
 			}
 		}
