@@ -269,7 +269,7 @@ class Redirection_Admin {
 	}
 
 	private function set_rest_api( $api ) {
-		if ( $api >= 0 && $api <= REDIRECTION_API_POST ) {
+		if ( $api >= 0 && $api <= REDIRECTION_API_JSON_RELATIVE ) {
 			red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
 		}
 	}

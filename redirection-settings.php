@@ -3,9 +3,7 @@
 define( 'REDIRECTION_OPTION', 'redirection_options' );
 define( 'REDIRECTION_API_JSON', 0 );
 define( 'REDIRECTION_API_JSON_INDEX', 1 );
-define( 'REDIRECTION_API_ADMIN', 2 );
 define( 'REDIRECTION_API_JSON_RELATIVE', 3 );
-define( 'REDIRECTION_API_POST', 4 );
 
 function red_get_plugin_data( $plugin ) {
 	if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -219,7 +217,7 @@ function red_get_options() {
 	}
 
 	// Back-compat fix
-	if ( $options['rest_api'] === false ) {
+	if ( $options['rest_api'] === false || ! in_array( $options['rest_api'], [ REDIRECTION_API_JSON, REDIRECTION_API_JSON_INDEX, REDIRECTION_API_JSON_RELATIVE ], true ) ) {
 		$options['rest_api'] = REDIRECTION_API_JSON;
 	}
 
