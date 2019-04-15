@@ -80,6 +80,10 @@ class Error extends React.Component {
 				if ( item.code && errors[ pos ].code && item.code === errors[ pos ].code ) {
 					return false;
 				}
+
+				if ( item.message && errors[ pos ].message && item.message === errors[ pos ].message ) {
+					return false;
+				}
 			}
 
 			return true;
