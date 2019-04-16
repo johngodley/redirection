@@ -11,7 +11,7 @@ import { translate as __ } from 'lib/locale';
 
 import ExternalLink from 'component/external-link';
 
-const isSecurityPlugin = ( status, code ) => [ 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route';
+const isSecurityPlugin = ( status, code ) => [ 400, 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route';
 const extractPhpError = ( { raw } ) => {
 	const parts = raw.split( '<br />' ).filter( item => item );
 	const last = raw.lastIndexOf( '}' );
@@ -103,7 +103,7 @@ const DecodeError = ( { error } ) => {
 			<React.Fragment>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'WordPress returned an unexpected message. This is probably a PHP error from another plugin.' ) }</p>
-				{ php.length > 1 && <p><strong>{ __( 'Possible cause' ) }:</strong> <code>{ php }</code></p>}
+				{ php.length > 1 && <p><strong>{ __( 'Possible cause' ) }:</strong> <code>{ php.substr( 0, 1000 ) }</code></p>}
 			</React.Fragment>
 		);
 	}
