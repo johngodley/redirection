@@ -29,6 +29,7 @@ class WelcomeWizard extends React.Component {
 			monitor: false,
 			log: false,
 			ip: false,
+			manual: false,
 		};
 	}
 
@@ -255,7 +256,18 @@ class WelcomeWizard extends React.Component {
 	}
 
 	renderStep3() {
-		return <Database onFinished={ this.afterFinishInstall } />;
+		return <Database onFinished={ this.afterFinishInstall } manual={ this.state.manual } />;
+	}
+
+	startManual = ev => {
+		ev.preventDefault();
+		this.afterFinishInstall();
+		this.setState( { step: 3, manual: true } );
+	}
+
+	stopManual = ev => {
+		ev.preventDefault();
+		this.setState( { step: 3, manual: false } );
 	}
 
 	afterFinishInstall = () => {
@@ -284,7 +296,7 @@ class WelcomeWizard extends React.Component {
 	}
 
 	render() {
-		const { step } = this.state;
+		const { step, manual } = this.state;
 		const { result } = this.props;
 		const content = this.getContentForStep( step );
 
@@ -302,6 +314,8 @@ class WelcomeWizard extends React.Component {
 
 				<div className="wizard-support">
 					<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!' ) }</ExternalLink>
+					{ step === 2 && <React.Fragment> | <a href="#" onClick={ this.startManual }>{ __( 'Manual Install' ) }</a></React.Fragment>}
+					{ step === 3 && manual && <React.Fragment> | <a href="#" onClick={ this.stopManual }>{ __( 'Automatic Install' ) }</a></React.Fragment>}
 				</div>
 			</React.Fragment>
 		);

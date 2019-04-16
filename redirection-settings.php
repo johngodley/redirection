@@ -102,7 +102,10 @@ function red_set_options( array $settings = array() ) {
 
 		if ( ! Red_Group::get( $options['monitor_post'] ) && $options['monitor_post'] !== 0 ) {
 			$groups = Red_Group::get_all();
-			$options['monitor_post'] = $groups[0]['id'];
+
+			if ( count( $groups ) > 0 ) {
+				$options['monitor_post'] = $groups[0]['id'];
+			}
 		}
 	}
 
