@@ -101,7 +101,14 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 			return 0;
 		}
 
-		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_redirections" );
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		$total = 0;
+		if ( is_plugin_active( 'seo-by-rank-math/rank-math.php' ) ) {
+			$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_redirections" );
+		}
 
 		if ( $total ) {
 			return array(
