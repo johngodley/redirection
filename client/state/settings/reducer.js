@@ -68,10 +68,10 @@ export default function settings( state = {}, action ) {
 			return { ... state, loadStatus: STATUS_FAILED, error: action.error };
 
 		case SETTING_SAVING:
-			return { ... state, saveStatus: STATUS_IN_PROGRESS };
+			return { ... state, saveStatus: STATUS_IN_PROGRESS, warning: false };
 
 		case SETTING_SAVED:
-			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed };
+			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed, warning: action.warning ? action.warning : false };
 
 		case SETTING_SAVE_FAILED:
 			return { ... state, saveStatus: STATUS_FAILED, error: action.error };

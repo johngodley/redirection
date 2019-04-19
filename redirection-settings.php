@@ -42,12 +42,12 @@ function red_get_default_options() {
 		'support'             => false,
 		'token'               => md5( uniqid() ),
 		'monitor_post'        => 0,   // Dont monitor posts by default
-		'monitor_types'       => array(),
+		'monitor_types'       => [],
 		'associated_redirect' => '',
 		'auto_target'         => '',
 		'expire_redirect'     => 7,   // Expire in 7 days
 		'expire_404'          => 7,   // Expire in 7 days
-		'modules'             => array(),
+		'modules'             => [],
 		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour
 		'ip_logging'          => 1,   // Full IP logging
