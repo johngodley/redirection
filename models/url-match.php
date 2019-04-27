@@ -43,7 +43,7 @@ class Red_Url_Match {
 		}
 
 		// Lowercase everything
-		$path = mb_strtolower( $path );
+		$path = Red_Url_Path::to_lower( $path );
 
 		return $path ? $path : '/';
 	}
