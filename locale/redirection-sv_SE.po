@@ -722,11 +722,11 @@ msgstr "Omdirigera alla"
 msgid "Count"
 msgstr ""
 
-#: matches/page.php:9 redirection-strings.php:93
+#: redirection-strings.php:93 matches/page.php:9
 msgid "URL and WordPress page type"
 msgstr ""
 
-#: matches/ip.php:9 redirection-strings.php:89
+#: redirection-strings.php:89 matches/ip.php:9
 msgid "URL and IP"
 msgstr "URL och IP"
 
@@ -850,11 +850,11 @@ msgstr "GDPR/integritetsinformation"
 msgid "Add New"
 msgstr "Lägg till ny"
 
-#: matches/user-role.php:9 redirection-strings.php:85
+#: redirection-strings.php:85 matches/user-role.php:9
 msgid "URL and role/capability"
 msgstr "URL och roll/behörighet"
 
-#: matches/server.php:9 redirection-strings.php:90
+#: redirection-strings.php:90 matches/server.php:9
 msgid "URL and server"
 msgstr "URL och server"
 
@@ -914,15 +914,15 @@ msgstr "rensa cacheminnet."
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "Om du använder ett caching-system som Cloudflare, läs det här:"
 
-#: matches/http-header.php:11 redirection-strings.php:91
+#: redirection-strings.php:91 matches/http-header.php:11
 msgid "URL and HTTP header"
 msgstr "URL- och HTTP-sidhuvuden"
 
-#: matches/custom-filter.php:9 redirection-strings.php:92
+#: redirection-strings.php:92 matches/custom-filter.php:9
 msgid "URL and custom filter"
 msgstr "URL och anpassat filter"
 
-#: matches/cookie.php:7 redirection-strings.php:88
+#: redirection-strings.php:88 matches/cookie.php:7
 msgid "URL and cookie"
 msgstr "URL och cookie"
 
@@ -1085,7 +1085,7 @@ msgstr "Geo-plats"
 msgid "Powered by {{link}}redirect.li{{/link}}"
 msgstr "Drivs av {{link}}redirect.li{{/link}}"
 
-#: redirection-settings.php:22
+#: redirection-settings.php:20
 msgid "Trash"
 msgstr "Släng"
 
@@ -1979,8 +1979,8 @@ msgstr "Typ"
 msgid "Modified Posts"
 msgstr "Modifierade inlägg"
 
-#: models/group.php:149 redirection-strings.php:296
-#: database/schema/latest.php:133
+#: models/group.php:149 database/schema/latest.php:133
+#: redirection-strings.php:296
 msgid "Redirections"
 msgstr "Omdirigeringar"
 
@@ -1988,7 +1988,7 @@ msgstr "Omdirigeringar"
 msgid "User Agent"
 msgstr "Användaragent"
 
-#: matches/user-agent.php:10 redirection-strings.php:87
+#: redirection-strings.php:87 matches/user-agent.php:10
 msgid "URL and user agent"
 msgstr "URL och användaragent"
 
@@ -1996,7 +1996,7 @@ msgstr "URL och användaragent"
 msgid "Target URL"
 msgstr "Mål-URL"
 
-#: matches/url.php:7 redirection-strings.php:83
+#: redirection-strings.php:83 matches/url.php:7
 msgid "URL only"
 msgstr "Endast URL"
 
@@ -2010,7 +2010,7 @@ msgstr "Reguljärt uttryck"
 msgid "Referrer"
 msgstr "Hänvisningsadress"
 
-#: matches/referrer.php:10 redirection-strings.php:86
+#: redirection-strings.php:86 matches/referrer.php:10
 msgid "URL and referrer"
 msgstr "URL och hänvisande webbplats"
 
@@ -2022,6 +2022,6 @@ msgstr "Utloggad"
 msgid "Logged In"
 msgstr "Inloggad"
 
-#: matches/login.php:8 redirection-strings.php:84
+#: redirection-strings.php:84 matches/login.php:8
 msgid "URL and login status"
 msgstr "URL och inloggnings-status"

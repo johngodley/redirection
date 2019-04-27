@@ -722,11 +722,11 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: matches/page.php:9 redirection-strings.php:93
+#: redirection-strings.php:93 matches/page.php:9
 msgid "URL and WordPress page type"
 msgstr ""
 
-#: matches/ip.php:9 redirection-strings.php:89
+#: redirection-strings.php:89 matches/ip.php:9
 msgid "URL and IP"
 msgstr ""
 
@@ -850,11 +850,11 @@ msgstr "GDPR / 個人情報"
 msgid "Add New"
 msgstr "新規追加"
 
-#: matches/user-role.php:9 redirection-strings.php:85
+#: redirection-strings.php:85 matches/user-role.php:9
 msgid "URL and role/capability"
 msgstr "URL と権限グループ / 権限"
 
-#: matches/server.php:9 redirection-strings.php:90
+#: redirection-strings.php:90 matches/server.php:9
 msgid "URL and server"
 msgstr "URL とサーバー"
 
@@ -914,15 +914,15 @@ msgstr "キャッシュを削除"
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "Cloudflare などのキャッシュシステムをお使いの場合こちらをお読みください :"
 
-#: matches/http-header.php:11 redirection-strings.php:91
+#: redirection-strings.php:91 matches/http-header.php:11
 msgid "URL and HTTP header"
 msgstr "URL と HTTP ヘッダー"
 
-#: matches/custom-filter.php:9 redirection-strings.php:92
+#: redirection-strings.php:92 matches/custom-filter.php:9
 msgid "URL and custom filter"
 msgstr "URL とカスタムフィルター"
 
-#: matches/cookie.php:7 redirection-strings.php:88
+#: redirection-strings.php:88 matches/cookie.php:7
 msgid "URL and cookie"
 msgstr "URL と Cookie"
 
@@ -1085,7 +1085,7 @@ msgstr "位置情報"
 msgid "Powered by {{link}}redirect.li{{/link}}"
 msgstr "Powered by {{link}}redirect.li{{/link}}"
 
-#: redirection-settings.php:22
+#: redirection-settings.php:20
 msgid "Trash"
 msgstr "ゴミ箱"
 
@@ -1979,8 +1979,8 @@ msgstr "タイプ"
 msgid "Modified Posts"
 msgstr "編集済みの投稿"
 
-#: models/group.php:149 redirection-strings.php:296
-#: database/schema/latest.php:133
+#: models/group.php:149 database/schema/latest.php:133
+#: redirection-strings.php:296
 msgid "Redirections"
 msgstr "転送ルール"
 
@@ -1988,7 +1988,7 @@ msgstr "転送ルール"
 msgid "User Agent"
 msgstr "ユーザーエージェント"
 
-#: matches/user-agent.php:10 redirection-strings.php:87
+#: redirection-strings.php:87 matches/user-agent.php:10
 msgid "URL and user agent"
 msgstr "URL およびユーザーエージェント"
 
@@ -1996,7 +1996,7 @@ msgstr "URL およびユーザーエージェント"
 msgid "Target URL"
 msgstr "ターゲット URL"
 
-#: matches/url.php:7 redirection-strings.php:83
+#: redirection-strings.php:83 matches/url.php:7
 msgid "URL only"
 msgstr "URL のみ"
 
@@ -2010,7 +2010,7 @@ msgstr "正規表現"
 msgid "Referrer"
 msgstr "リファラー"
 
-#: matches/referrer.php:10 redirection-strings.php:86
+#: redirection-strings.php:86 matches/referrer.php:10
 msgid "URL and referrer"
 msgstr "URL およびリファラー"
 
@@ -2022,6 +2022,6 @@ msgstr "ログアウト中"
 msgid "Logged In"
 msgstr "ログイン中"
 
-#: matches/login.php:8 redirection-strings.php:84
+#: redirection-strings.php:84 matches/login.php:8
 msgid "URL and login status"
 msgstr "URL およびログイン状態"

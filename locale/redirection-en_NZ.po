@@ -722,11 +722,11 @@ msgstr "Redirect All"
 msgid "Count"
 msgstr "Count"
 
-#: matches/page.php:9 redirection-strings.php:93
+#: redirection-strings.php:93 matches/page.php:9
 msgid "URL and WordPress page type"
 msgstr "URL and WordPress page type"
 
-#: matches/ip.php:9 redirection-strings.php:89
+#: redirection-strings.php:89 matches/ip.php:9
 msgid "URL and IP"
 msgstr "URL and IP"
 
@@ -850,11 +850,11 @@ msgstr "GDPR / Privacy information"
 msgid "Add New"
 msgstr "Add New"
 
-#: matches/user-role.php:9 redirection-strings.php:85
+#: redirection-strings.php:85 matches/user-role.php:9
 msgid "URL and role/capability"
 msgstr "URL and role/capability"
 
-#: matches/server.php:9 redirection-strings.php:90
+#: redirection-strings.php:90 matches/server.php:9
 msgid "URL and server"
 msgstr "URL and server"
 
@@ -914,15 +914,15 @@ msgstr "clearing your cache."
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "If you are using a caching system such as Cloudflare then please read this: "
 
-#: matches/http-header.php:11 redirection-strings.php:91
+#: redirection-strings.php:91 matches/http-header.php:11
 msgid "URL and HTTP header"
 msgstr "URL and HTTP header"
 
-#: matches/custom-filter.php:9 redirection-strings.php:92
+#: redirection-strings.php:92 matches/custom-filter.php:9
 msgid "URL and custom filter"
 msgstr "URL and custom filter"
 
-#: matches/cookie.php:7 redirection-strings.php:88
+#: redirection-strings.php:88 matches/cookie.php:7
 msgid "URL and cookie"
 msgstr "URL and cookie"
 
@@ -1085,7 +1085,7 @@ msgstr "Geo Location"
 msgid "Powered by {{link}}redirect.li{{/link}}"
 msgstr "Powered by {{link}}redirect.li{{/link}}"
 
-#: redirection-settings.php:22
+#: redirection-settings.php:20
 msgid "Trash"
 msgstr "Trash"
 
@@ -1979,8 +1979,8 @@ msgstr "Type"
 msgid "Modified Posts"
 msgstr "Modified Posts"
 
-#: models/group.php:149 redirection-strings.php:296
-#: database/schema/latest.php:133
+#: models/group.php:149 database/schema/latest.php:133
+#: redirection-strings.php:296
 msgid "Redirections"
 msgstr "Redirections"
 
@@ -1988,7 +1988,7 @@ msgstr "Redirections"
 msgid "User Agent"
 msgstr "User Agent"
 
-#: matches/user-agent.php:10 redirection-strings.php:87
+#: redirection-strings.php:87 matches/user-agent.php:10
 msgid "URL and user agent"
 msgstr "URL and user agent"
 
@@ -1996,7 +1996,7 @@ msgstr "URL and user agent"
 msgid "Target URL"
 msgstr "Target URL"
 
-#: matches/url.php:7 redirection-strings.php:83
+#: redirection-strings.php:83 matches/url.php:7
 msgid "URL only"
 msgstr "URL only"
 
@@ -2010,7 +2010,7 @@ msgstr "Regex"
 msgid "Referrer"
 msgstr "Referrer"
 
-#: matches/referrer.php:10 redirection-strings.php:86
+#: redirection-strings.php:86 matches/referrer.php:10
 msgid "URL and referrer"
 msgstr "URL and referrer"
 
@@ -2022,6 +2022,6 @@ msgstr "Logged Out"
 msgid "Logged In"
 msgstr "Logged In"
 
-#: matches/login.php:8 redirection-strings.php:84
+#: redirection-strings.php:84 matches/login.php:8
 msgid "URL and login status"
 msgstr "URL and login status"
