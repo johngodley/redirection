@@ -38,8 +38,7 @@
 				}
 			},
 			"target": {
-				"status": 403,
-				"agent": true
+				"status": 403
 			}
 		}
 	],

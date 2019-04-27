@@ -10,7 +10,6 @@ class Error_Action extends Red_Action {
 		add_filter( 'template_include', [ $this, 'template_include' ] );
 		add_filter( 'pre_handle_404', [ $this, 'pre_handle_404' ] );
 		add_action( 'wp', [ $this, 'wp' ] );
-		add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
 
 		return true;
 	}
@@ -34,9 +33,5 @@ class Error_Action extends Red_Action {
 
 	public function needs_target() {
 		return false;
-	}
-
-	public function x_redirect_by() {
-		return 'redirection';
 	}
 }
