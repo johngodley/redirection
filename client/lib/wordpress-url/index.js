@@ -54,3 +54,5 @@ export function getRssUrl( token ) {
 export function getServerUrl( domain, path ) {
 	return domain.replace( /\/$/, '' ) + '/' + path.replace( /^\//, '' );
 }
+
+export const isRedirection = headers => headers.find( item => ( item.name === 'x-redirect-agent' || item.name === 'x-redirect-by' ) && item.value.toLowerCase() === 'redirection' );

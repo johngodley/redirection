@@ -19,7 +19,7 @@ function testItem( source, target ) {
 			}
 
 			if ( target.agent ) {
-				expect( headers.get( 'x-redirect-agent' ) ).toBe( 'redirection' );
+				expect( headers.get( 'x-redirect-by' ) ).toBe( 'redirection' );
 			}
 		} );
 }

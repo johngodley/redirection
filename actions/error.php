@@ -7,9 +7,10 @@ class Error_Action extends Red_Action {
 		wp_reset_query();
 		set_query_var( 'is_404', true );
 
-		add_filter( 'template_include', array( $this, 'template_include' ) );
-		add_filter( 'pre_handle_404', array( $this, 'pre_handle_404' ) );
-		add_action( 'wp', array( $this, 'wp' ) );
+		add_filter( 'template_include', [ $this, 'template_include' ] );
+		add_filter( 'pre_handle_404', [ $this, 'pre_handle_404' ] );
+		add_action( 'wp', [ $this, 'wp' ] );
+		add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
 
 		return true;
 	}
@@ -17,14 +18,13 @@ class Error_Action extends Red_Action {
 	public function wp() {
 		status_header( $this->code );
 		nocache_headers();
-		header( 'X-Redirect-Agent: redirection' );
 	}
 
 	public function pre_handle_404() {
 		global $wp_query;
 
 		// Page comments plugin interferes with this
-		$wp_query->posts = array();
+		$wp_query->posts = [];
 		return false;
 	}
 
@@ -34,5 +34,9 @@ class Error_Action extends Red_Action {
 
 	public function needs_target() {
 		return false;
+	}
+
+	public function x_redirect_by() {
+		return 'redirection';
 	}
 }
