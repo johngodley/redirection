@@ -162,4 +162,13 @@ and a line at the end';
 		$lines = $this->getOutput( $htaccess );
 		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L,NC]', trim( $lines[5] ) );
 	}
+
+	public function testPassQuery() {
+		$match_data = json_encode( [ 'source' => [ 'flag_query' => 'pass' ] ] );
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => '/target', 'action_code' => 301, 'match_data' => $match_data ] ) );
+
+		$lines = $this->getOutput( $htaccess );
+		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L,QSA]', trim( $lines[5] ) );
+	}
 }

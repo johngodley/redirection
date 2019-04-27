@@ -159,6 +159,10 @@ class Red_Htaccess {
 			$flags[] = 'NC';
 		}
 
+		if ( isset( $source['flag_query'] ) && $source['flag_query'] === 'pass' ) {
+			$flags[] = 'QSA';
+		}
+
 		return array_merge( $existing, $flags );
 	}
 
