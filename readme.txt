@@ -159,6 +159,17 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 4.3 - ??? =
+* Add automatic URL encoding
+* Add manual database install option
+* Add check for pipe character in target URL
+* Add warning when problems saving .htaccess file
+* Switch from 'x-redirect-agent' to 'x-redirect-by'
+* Improve handling of invalid query parameters
+* Fix query param name is a number
+* Fix redirect with blank target and auto target settings
+* Disable IP grouping when IP option is disabled
+
 = 4.2.3 - 16th Apr 2019 =
 * Fix bug with old API routes breaking test
 
