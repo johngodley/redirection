@@ -247,7 +247,7 @@ class EditRedirect extends React.Component {
 		const { match_type, action_type, action_data, url } = this.state;
 		const { autoTarget } = this.props;
 
-		if ( url.length === 0 ) {
+		if ( url.length === 0 && ! autoTarget ) {
 			return false;
 		}
 
