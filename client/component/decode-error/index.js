@@ -12,6 +12,7 @@ import { translate as __ } from 'lib/locale';
 import ExternalLink from 'component/external-link';
 
 const isSecurityPlugin = ( status, code ) => [ 400, 401, 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route';
+const isServerError = status => [ 500, 502, 503 ].indexOf( status ) !== -1;
 const extractPhpError = ( { raw } ) => {
 	const parts = raw.split( '<br />' ).filter( item => item );
 	const last = raw.lastIndexOf( '}' );
@@ -82,7 +83,7 @@ const DecodeError = ( { error } ) => {
 		return <p>{ __( 'Your server has rejected the request for being too big. You will need to change it to continue.' ) }</p>;
 	}
 
-	if ( error.request && error.request.status === 500 ) {
+	if ( error.request && isServerError( error.request.status ) ) {
 		return (
 			<React.Fragment>
 				<p>{ getErrorDetails( error ) }</p>
