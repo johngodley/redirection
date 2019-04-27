@@ -140,6 +140,10 @@ class Red_Database_Status {
 
 		if ( $wpdb->last_error ) {
 			$this->debug[] = $wpdb->last_error;
+
+			if ( strpos( $wpdb->last_error, 'command denied to user' ) !== false ) {
+				$this->reason .= ' - ' . __( 'Insufficient database permissions detected. Please give your database user appropriate permissions.', 'redirection' );
+			}
 		}
 
 		$latest = Red_Database::get_latest_database();
