@@ -128,8 +128,8 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$data = '30';
 		$this->setNonce();
 
-		$result = $this->callApi( 'setting', array( 'location' => 'location' ), 'POST' );
-		$this->assertEquals( 'location', $result->data['settings']['modules']['2']['location'] );
+		$result = $this->callApi( 'setting', array( 'location' => '/tmp/' ), 'POST' );
+		$this->assertEquals( '/tmp/.htaccess', $result->data['settings']['modules']['2']['location'] );
 
 		unlink( 'location' );
 	}

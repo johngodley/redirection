@@ -61,7 +61,8 @@ class Apache_Module extends Red_Module {
 	}
 
 	private function sanitize_location( $location ) {
-		return dirname( $location ) . '/.htaccess';
+		$location = rtrim( $location, '/' ) . '/.htaccess';
+		return rtrim( dirname( $location ), '/' ) . '/.htaccess';
 	}
 
 	public function update( array $data ) {
