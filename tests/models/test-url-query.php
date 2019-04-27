@@ -26,6 +26,16 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertTrue( $url->is_match( '/this?b=2&a=1', new Red_Source_Flags() ) );
 	}
 
+	public function testQueryMatchInvalidParams() {
+		$url = new Red_Url_Query( '/this?=2' );
+		$this->assertTrue( $url->is_match( '/this?=2', new Red_Source_Flags() ) );
+	}
+
+	public function testQueryNotMatchInvalidParams() {
+		$url = new Red_Url_Query( '/this?=2' );
+		$this->assertFalse( $url->is_match( '/this?=1', new Red_Source_Flags() ) );
+	}
+
 	public function testQueryMatchIgnore() {
 		$url = new Red_Url_Query( '' );
 		$this->assertTrue( $url->is_match( '/this?b=2&a=1', new Red_Source_Flags( [ 'flag_query' => 'ignore' ] ) ) );

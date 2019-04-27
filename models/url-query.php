@@ -4,12 +4,18 @@ class Red_Url_Query {
 	const RECURSION_LIMIT = 10;
 
 	private $query = [];
+	private $match_exact = false;
 
 	public function __construct( $url ) {
 		$this->query = $this->get_url_query( $url );
 	}
 
 	public function is_match( $url, Red_Source_Flags $flags ) {
+		// If we can't parse the query params then match the params exactly
+		if ( $this->match_exact !== false ) {
+			return $this->get_query_after( $url ) === $this->match_exact;
+		}
+
 		$target = $this->get_url_query( $url );
 
 		// All params in the source have to exist in the request, but in any order
@@ -76,13 +82,36 @@ class Red_Url_Query {
 		return $this->query;
 	}
 
+	private function is_exact_match( $url, $params ) {
+		// No parsed query params but we have query params on the URL - some parsing error with wp_parse_str
+		if ( count( $params ) === 0 && $this->has_query_params( $url ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private function get_url_query( $url ) {
 		$params = [];
 		$query = $this->get_query_after( $url );
 
 		wp_parse_str( $query ? $query : '', $params );
 
+		if ( $this->is_exact_match( $url, $params ) ) {
+			$this->match_exact = $query;
+		}
+
 		return $params;
+	}
+
+	public function has_query_params( $url ) {
+		$qpos = strpos( $url, '?' );
+
+		if ( $qpos === false ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public function get_query_after( $url ) {
