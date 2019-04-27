@@ -47,7 +47,11 @@ class Red_Url_Query {
 
 			// Now add any remaining params
 			$query_diff = $source_query->get_query_diff( $source_query->query, $request_query->query );
-			$query_diff = array_merge( $query_diff, $request_query->get_query_diff( $request_query->query, $source_query->query ) );
+			$request_diff = $request_query->get_query_diff( $request_query->query, $source_query->query );
+
+			foreach ( $request_diff as $key => $value ) {
+				$query_diff[ $key ] = $value;
+			}
 
 			// Remove any params from $source that are present in $request - we dont allow
 			// predefined params to be overridden

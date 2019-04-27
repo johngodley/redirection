@@ -67,6 +67,10 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertEquals( '/cats?hey=there', Red_Url_Query::add_to_target( '/cats', '/target?hey=there', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}
 
+	public function testQueryPassParamsInt() {
+		$this->assertEquals( '/cats?1=there', Red_Url_Query::add_to_target( '/cats', '/target?1=there', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
+	}
+
 	public function testQueryPassParamsEncoding() {
 		$this->assertEquals( '/cats?this=a+cat', Red_Url_Query::add_to_target( '/cats', '/target?this=a%20cat', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 		$this->assertEquals( '/cats?this=a+cat', Red_Url_Query::add_to_target( '/cats', '/target?this=a+cat', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
@@ -155,5 +159,3 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertEquals( [ 'a' => [ 'a' => 'a' ] ], $url->get_query_diff( [ 'a' => [ 'a' => 'a' ] ], [ 'a' => [ 'a' => 'b' ] ] ) );
 	}
 }
-
-// XXX put these into e2e tests
