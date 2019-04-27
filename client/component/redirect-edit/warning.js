@@ -119,6 +119,8 @@ export const getWarningFromState = ( item ) => {
 		warnings.push( __( 'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.' ) );
 	}
 
+	const targets = [ action_data.url, action_data.url_from, action_data.url_notfrom, action_data.logged_in, action_data.logged_out ].filter( filt => filt );
+
 	if ( action_data.url && ! beginsWith( action_data.url, 'https://' ) && ! beginsWith( action_data.url, 'http://' ) && action_data.url.substr( 0, 1 ) !== '/' ) {
 		warnings.push( __( 'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.', {
 			components: {
@@ -129,6 +131,21 @@ export const getWarningFromState = ( item ) => {
 			},
 		} ) );
 	}
+
+	targets.forEach( target => {
+		const matches = target.match( /[|\\]/g );
+
+		if ( matches !== null ) {
+			warnings.push( __( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
+				components: {
+					code: <code />,
+				},
+				args: {
+					invalid: matches,
+				},
+			} ) );
+		}
+	} );
 
 	return warnings;
 };

@@ -8,6 +8,7 @@ import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
 import PropTypes from 'prop-types';
+import TextareaAutosize from 'react-textarea-autosize';
 
 /**
  * Internal dependencies
@@ -15,19 +16,24 @@ import PropTypes from 'prop-types';
 
 import PreventLeaveWarning from 'component/prevent-leave';
 import Spinner from 'component/spinner';
-import { upgradeDatabase, finishUpgrade } from 'state/settings/action';
+import { upgradeDatabase, finishUpgrade, fixStatus } from 'state/settings/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';
 
 class Database extends React.Component {
 	static propTypes = {
 		onFinished: PropTypes.func,
+		manual: PropTypes.bool,
 	};
+
+	static defaultProps = {
+		manual: false,
+	}
 
 	constructor( props ) {
 		super( props );
 
-		if ( this.hasWork( props ) ) {
+		if ( this.hasWork( props ) && ! props.manual ) {
 			props.onUpgrade();
 		}
 
@@ -92,7 +98,7 @@ class Database extends React.Component {
 			'Message: ' + reason,
 			'Installed: ' + current,
 			'Next: ' + next,
-			'Debug:\n\n' + debug.join( '\n' ),
+			'Debug: ' + debug.join( '\n' ),
 		];
 
 		return message.join( '\n' );
@@ -124,7 +130,7 @@ class Database extends React.Component {
 					} ) }
 				</p>
 
-				<textarea value={ recovery } rows="15" readOnly />
+				<TextareaAutosize readOnly value={ recovery } rows="15" />
 			</div>
 		);
 	}
@@ -149,10 +155,27 @@ class Database extends React.Component {
 		return __( 'Setting up Redirection' );
 	}
 
+	onComplete = () => {
+		this.props.onComplete( Redirectioni10n.database.next );
+	}
+
 	render() {
-		const { status, complete = 0, reason, result } = this.props;
+		const { status, complete = 0, reason, result, manual } = this.props;
 		const { looped } = this.state;
 		const showLoading = result === 'ok' && ! this.hasFinished( status ) && ! looped;
+
+		if ( manual ) {
+			return (
+				<div className="redirection-database">
+					<h1>{ __( 'Manual Install' ) }</h1>
+
+					<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Finished! 🎉" when finished.' ) }</p>
+					<p><TextareaAutosize readOnly cols="120" value={ Redirectioni10n.database.manual.join( ';\n\n' ) + ';' } spellCheck={ false } /></p>
+					<button className="button button-primary" onClick={ this.onComplete }>{ __( 'Finished! 🎉' ) }</button>
+					<p>{ __( 'If you do not complete the manual install you will be returned here.' ) }</p>
+				</div>
+			);
+		}
 
 		return (
 			<div className="redirection-database">
@@ -192,6 +215,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onFinish: () => {
 			dispatch( finishUpgrade() );
+		},
+		onComplete: ( version ) => {
+			dispatch( fixStatus( 'database', version ) );
 		},
 	};
 }

@@ -63,7 +63,18 @@ abstract class Red_Database_Upgrader {
 
 		$charset_collate = '';
 		if ( ! empty( $wpdb->charset ) ) {
-			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+			// Fix some common invalid charset values
+			$fixes = [
+				'utf-8',
+				'utf',
+			];
+
+			$charset = $wpdb->charset;
+			if ( in_array( strtolower( $charset ), $fixes, true ) ) {
+				$charset = 'utf8';
+			}
+
+			$charset_collate = "DEFAULT CHARACTER SET $charset";
 		}
 
 		if ( ! empty( $wpdb->collate ) ) {

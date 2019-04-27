@@ -29,6 +29,7 @@ export function getInitialSettings() {
 		database: Redirectioni10n.database ? Redirectioni10n.database : {},
 		values: Redirectioni10n.settings ? Redirectioni10n.settings : {},
 		api: Redirectioni10n.api ? Redirectioni10n.api : [],
+		warning: false,
 		groups: [],
 	};
 }

@@ -104,17 +104,24 @@ export const getBulk = groupBy => {
 	];
 };
 
-export const getGroupBy = () => [
-	{
-		value: '',
-		text: __( 'No grouping' ),
-	},
-	{
-		value: 'url',
-		text: __( 'Group by URL' ),
-	},
-	{
-		value: 'ip',
-		text: __( 'Group by IP' ),
-	},
-];
+export const getGroupBy = ( ipLogging ) => {
+	const values = [
+		{
+			value: '',
+			text: __( 'No grouping' ),
+		},
+		{
+			value: 'url',
+			text: __( 'Group by URL' ),
+		},
+	];
+
+	if ( ipLogging > 0 ) {
+		values.push( 	{
+			value: 'ip',
+			text: __( 'Group by IP' ),
+		} );
+	}
+
+	return values;
+};

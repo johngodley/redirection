@@ -60,7 +60,7 @@ class NeedUpdate extends React.Component {
 	renderManual() {
 		return (
 			<React.Fragment>
-				<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL. Click "Complete Upgrade" when finished.' ) }</p>
+				<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Complete Upgrade" when finished.' ) }</p>
 				<p><TextareaAutosize readOnly={ true } cols="120" value={ Redirectioni10n.database.manual.join( ';\n' ) + ';' } spellCheck={ false } /></p>
 				<p><button className="button-primary" onClick={ this.onComplete }>{ __( 'Complete Upgrade' ) }</button></p>
 			</React.Fragment>

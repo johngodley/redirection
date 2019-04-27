@@ -41,7 +41,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 export const saveSettings = settings => dispatch => {
 	getApi( RedirectionApi.setting.update( settings ) )
 		.then( json => {
-			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed } );
+			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed, warning: json.warning } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_SAVE_FAILED, error } );

@@ -118,6 +118,15 @@ class OptionsForm extends React.Component {
 		return null;
 	}
 
+	componentDidUpdate( prevProps ) {
+		const newLocation = this.props.values.modules[ 2 ] ? this.props.values.modules[ 2 ].location : '';
+		const oldLocation = prevProps.values.modules[ 2 ] ? prevProps.values.modules[ 2 ].location : '';
+
+		if ( oldLocation !== newLocation ) {
+			this.setState( { location: newLocation } );
+		}
+	}
+
 	renderMonitor( groups ) {
 		return (
 			<TableRow title={ __( 'URL Monitor Changes' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
@@ -163,7 +172,7 @@ class OptionsForm extends React.Component {
 	}
 
 	render() {
-		const { groups, saveStatus, installed } = this.props;
+		const { groups, saveStatus, installed, warning } = this.props;
 		const canMonitor = this.state.monitor_types.length > 0;
 
 		return (
@@ -249,17 +258,22 @@ class OptionsForm extends React.Component {
 						</span>
 					</TableRow>
 
-					<TableRow title={ __( 'Apache Module' ) } url={ this.supportLink( 'options', 'apache' ) }>
+					<TableRow title={ __( 'Apache .htaccess' ) } url={ this.supportLink( 'options', 'apache' ) }>
 						<label>
-							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } placeholder={ installed } /></p>
+							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } /></p>
 
 							<p className="sub">
-								{ __( 'Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.', {
+								{ __( 'Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}.', {
 									components: {
 										code: <code />,
 									},
+									args: {
+										installed,
+									},
 								} ) }
 							</p>
+
+							{ warning && <p className="inline-notice">{ __( 'Unable to save .htaccess file' ) } <code>{ warning }</code></p>}
 						</label>
 					</TableRow>
 
@@ -299,7 +313,7 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { groups, values, saveStatus, installed, postTypes } = state.settings;
+	const { groups, values, saveStatus, installed, postTypes, warning } = state.settings;
 
 	return {
 		groups,
@@ -307,6 +321,7 @@ function mapStateToProps( state ) {
 		saveStatus,
 		installed,
 		postTypes,
+		warning,
 	};
 }
 

@@ -26,6 +26,16 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertTrue( $url->is_match( '/this?b=2&a=1', new Red_Source_Flags() ) );
 	}
 
+	public function testQueryMatchInvalidParams() {
+		$url = new Red_Url_Query( '/this?=2' );
+		$this->assertTrue( $url->is_match( '/this?=2', new Red_Source_Flags() ) );
+	}
+
+	public function testQueryNotMatchInvalidParams() {
+		$url = new Red_Url_Query( '/this?=2' );
+		$this->assertFalse( $url->is_match( '/this?=1', new Red_Source_Flags() ) );
+	}
+
 	public function testQueryMatchIgnore() {
 		$url = new Red_Url_Query( '' );
 		$this->assertTrue( $url->is_match( '/this?b=2&a=1', new Red_Source_Flags( [ 'flag_query' => 'ignore' ] ) ) );
@@ -65,6 +75,10 @@ class UrlQueryTest extends WP_UnitTestCase {
 
 	public function testQueryPassParams() {
 		$this->assertEquals( '/cats?hey=there', Red_Url_Query::add_to_target( '/cats', '/target?hey=there', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
+	}
+
+	public function testQueryPassParamsInt() {
+		$this->assertEquals( '/cats?1=there', Red_Url_Query::add_to_target( '/cats', '/target?1=there', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}
 
 	public function testQueryPassParamsEncoding() {
@@ -155,5 +169,3 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertEquals( [ 'a' => [ 'a' => 'a' ] ], $url->get_query_diff( [ 'a' => [ 'a' => 'a' ] ], [ 'a' => [ 'a' => 'b' ] ] ) );
 	}
 }
-
-// XXX put these into e2e tests
