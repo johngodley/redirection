@@ -160,7 +160,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 = 4.3 - ??? =
-* Add support for utf8 URLs without manual encoding
+* Add support for UTF8 URLs without manual encoding
 * Add manual database install option
 * Add check for pipe character in target URL
 * Add warning when problems saving .htaccess file
