@@ -68,7 +68,7 @@ class WordPress_Module extends Red_Module {
 		if ( count( $page_type ) > 0 ) {
 			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
 			$first = $page_type[0];
-			return $first->matches( $url );
+			return $first->is_match( $url );
 		}
 
 		return false;
@@ -98,17 +98,23 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
+	/**
+	 * This is the key to Redirection and where requests are matched to redirects
+	 */
 	public function init() {
-		$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
+		$url = Redirection_Request::get_request_url();
+		$url = apply_filters( 'redirection_url_source', urldecode( $url ) );
 
 		// Make sure we don't try and redirect something essential
 		if ( $url && ! $this->protected_url( $url ) && $this->matched === false ) {
 			do_action( 'redirection_first', $url, $this );
 
+			// Get all redirects that match the URL
 			$redirects = Red_Item::get_for_url( $url );
 
+			// Redirects will be ordered by position. Run through the list until one fires
 			foreach ( (array) $redirects as $item ) {
-				if ( $item->matches( $url ) ) {
+				if ( $item->is_match( $url ) ) {
 					$this->matched = $item;
 					break;
 				}

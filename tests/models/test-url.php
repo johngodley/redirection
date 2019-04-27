@@ -36,6 +36,10 @@ class UrlTest extends WP_UnitTestCase {
 		$this->assertEquals( '/test', $url->get_url() );
 	}
 
+	public function testEncode() {
+		$url = new Red_Url_Match( '/中国:again/thing?other=中国' );
+		$this->assertEquals( '/%e4%b8%ad%e5%9b%bd:again/thing', $url->get_url() );
+	}
 	public function testNotIsMatchPlain() {
 		$url = new Red_Url( '/cats' );
 		$this->assertFalse( $url->is_match( '/bats', new Red_Source_Flags() ) );
@@ -77,7 +81,7 @@ class UrlTest extends WP_UnitTestCase {
 		$this->assertTrue( $url->is_match( '/cat/1', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
-	public function testIsMatchIgnoreQueryx() {
+	public function testIsMatchIgnoreQuery() {
 		$url = new Red_Url( '/cat' );
 		$this->assertTrue( $url->is_match( '/cat?things', new Red_Source_Flags( [ 'flag_query' => 'ignore' ] ) ) );
 	}

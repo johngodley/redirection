@@ -30,6 +30,10 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( '/some/url', $this->sanitizer->sanitize_url( 'some/url' ) );
 	}
 
+	public function testDecodePath() {
+		$this->assertEquals( '/中国/thing?other=中国', $this->sanitizer->sanitize_url( '/%E4%B8%AD%E5%9B%BD/thing?other=%E4%B8%AD%E5%9B%BD' ) );
+	}
+
 	// Note this also checks a good URL, good match, good group, and good action
 	public function testTrim() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'url' => ' /spaces   ' ) ) );

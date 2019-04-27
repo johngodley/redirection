@@ -285,17 +285,17 @@ class RedirectTest extends WP_UnitTestCase {
 
 	public function testNoMatch() {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
-		$this->assertFalse( $item->matches( '/source2' ) );
+		$this->assertFalse( $item->is_match( '/source2' ) );
 	}
 
 	public function testRegexNoMatch() {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '/source.*', 'action_data' => '/target', 'action_code' => 301 ) );
-		$this->assertFalse( $item->matches( '/cat' ) );
+		$this->assertFalse( $item->is_match( '/cat' ) );
 	}
 
 	public function testMatchDisabled() {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301, 'status' => 'disabled' ) );
-		$this->assertFalse( $item->matches( '/source' ) );
+		$this->assertFalse( $item->is_match( '/source' ) );
 	}
 
 	public function testMatch() {
@@ -308,7 +308,7 @@ class RedirectTest extends WP_UnitTestCase {
 		add_action( 'redirection_url_target', array( $action, 'action' ), 10, 2 );
 
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301, 'status' => 'enabled' ) );
-		$item->matches( '/source' );
+		$item->is_match( '/source' );
 
 		$data = $action->get_args();
 
@@ -325,7 +325,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->capturedRedirect();
 
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '/source(.*)', 'match_url' => 'regex', 'action_data' => '/target$1', 'action_code' => 301, 'status' => 'enabled' ) );
-		$item->matches( '/source45' );
+		$item->is_match( '/source45' );
 
 		$this->assertEquals( '/target45', $this->captured_url );   // URL is redirected
 		$this->resetCaptured();
@@ -346,7 +346,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$item = new Red_Item( (object) $item );
 
-		$item->matches( '/source?thing=yes' );
+		$item->is_match( '/source?thing=yes' );
 		$this->assertEquals( '/target', $this->captured_url );   // URL is redirected
 		$this->resetCaptured();
 	}
@@ -366,7 +366,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$item = new Red_Item( (object) $item );
 
-		$item->matches( '/TEST/?cat=1' );
+		$item->is_match( '/TEST/?cat=1' );
 		$this->assertEquals( '/target', $this->captured_url );   // URL is redirected
 		$this->resetCaptured();
 	}
@@ -386,7 +386,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$item = new Red_Item( (object) $item );
 
-		$this->assertFalse( $item->matches( '/test' ) );
+		$this->assertFalse( $item->is_match( '/test' ) );
 		$this->resetCaptured();
 	}
 
@@ -405,7 +405,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$item = new Red_Item( (object) $item );
 
-		$item->matches( '/source?thing=yes' );
+		$item->is_match( '/source?thing=yes' );
 		$this->assertEquals( '/target?thing=yes', $this->captured_url );   // URL is redirected
 		$this->resetCaptured();
 	}

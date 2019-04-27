@@ -22,7 +22,7 @@ class Redirection_Request {
 			$url = $_SERVER['REQUEST_URI'];
 		}
 
-		return apply_filters( 'redirection_request_url', $url );
+		return apply_filters( 'redirection_request_url', stripslashes( $url ) );
 	}
 
 	public static function get_user_agent() {

@@ -310,6 +310,58 @@
 		}
 	],
 	[
+		"Test URL with quote",
+		{
+			"source": {
+				"url": "/gardens/Journey%27s-End_p.html"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test URL with i10n",
+		{
+			"source": {
+				"url": "/hello-world2:%E4%B8%AD%E5%9B%BD/"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test URL with i10n and regex",
+		{
+			"source": {
+				"url": "/%E4%B8%AD%E5%9B%BDsomething"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test existing URL with encoded 'url'",
+		{
+			"source": {
+				"url": "/encoded-%E4%B8%AD%E5%9B%BDsomething"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
 		"Test invalid query param",
 		{
 			"source": {

@@ -21,8 +21,8 @@ class Red_Url_Path {
 
 		if ( $flags->is_ignore_case() ) {
 			// Case insensitive match
-			$source_path = strtolower( $source_path );
-			$target_path = strtolower( $target_path );
+			$source_path = mb_strtolower( $source_path );
+			$target_path = mb_strtolower( $target_path );
 		}
 
 		return $target_path === $source_path;
@@ -56,7 +56,7 @@ class Red_Url_Path {
 			}
 		}
 
-		return $this->get_query_before( $path );
+		return urldecode( $this->get_query_before( $path ) );
 	}
 
 	private function get_query_before( $url ) {

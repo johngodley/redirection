@@ -35,7 +35,7 @@ class Red_Htaccess {
 			'%23' => '#',
 		];
 
-		$url = urlencode( $url );
+		$url = rawurlencode( $url );
 		return $this->replace_encoding( $url, $allowed );
 	}
 
@@ -55,7 +55,7 @@ class Red_Htaccess {
 			'.' => '\\.',
 		];
 
-		return $this->replace_encoding( urlencode( $url ), $allowed );
+		return $this->replace_encoding( rawurlencode( $url ), $allowed );
 	}
 
 	private function encode_regex( $url ) {

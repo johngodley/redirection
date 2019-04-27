@@ -39,6 +39,17 @@ class RequestTest extends WP_UnitTestCase {
 		$this->assertEquals( 'test', $this->getActionData( $action ) );
 	}
 
+	public function testSlashedRequestUrl() {
+		$action = $this->monitorAction( 'redirection_request_url' );
+		$_SERVER['REQUEST_URI'] = "test\\'s";
+
+		$result = Redirection_Request::get_request_url();
+
+		$this->assertEquals( "test's", $result );
+		$this->assertEquals( 1, $action->get_call_count() );
+		$this->assertEquals( "test's", $this->getActionData( $action ) );
+	}
+
 	public function testNoUserAgent() {
 		$action = $this->monitorAction( 'redirection_request_agent' );
 		unset( $_SERVER['HTTP_USER_AGENT'] );
