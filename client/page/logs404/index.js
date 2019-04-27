@@ -132,7 +132,7 @@ class Logs404 extends React.Component {
 				>
 					<TableGroup
 						selected={ table.groupBy ? table.groupBy : '0' }
-						options={ getGroupBy() }
+						options={ getGroupBy( this.props.settings.values.ip_logging ) }
 						isEnabled={ status !== STATUS_IN_PROGRESS }
 						onGroup={ this.props.onGroup }
 						key={ table.groupBy }
@@ -168,10 +168,11 @@ class Logs404 extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { error } = state;
+	const { error, settings } = state;
 
 	return {
 		error,
+		settings,
 	};
 }
 
