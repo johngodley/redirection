@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Convert redirects to .htaccess format
+ *
+ * Ignores:
+ * - Trailing slash flag
+ * - Query flags
+ */
 class Red_Htaccess {
 	private $items = array();
 	const INSERT_REGEX = '@\n?# Created by Redirection(?:.*?)# End of Redirection\n?@sm';
@@ -28,7 +35,7 @@ class Red_Htaccess {
 			'%23' => '#',
 		];
 
-		$url = urlencode( $url );
+		$url = rawurlencode( $url );
 		return $this->replace_encoding( $url, $allowed );
 	}
 
@@ -48,7 +55,7 @@ class Red_Htaccess {
 			'.' => '\\.',
 		];
 
-		return $this->replace_encoding( urlencode( $url ), $allowed );
+		return $this->replace_encoding( rawurlencode( $url ), $allowed );
 	}
 
 	private function encode_regex( $url ) {
@@ -81,12 +88,12 @@ class Red_Htaccess {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_REFERER} %s [NC]', ( $match->regex ? $this->encode_regex( $match->referrer ) : $this->encode_from( $match->referrer ) ) );
 
 			if ( $match->url_from ) {
-				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
+				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->get_match_data() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 
 			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->is_regex() );
+				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->get_match_data() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
@@ -102,12 +109,12 @@ class Red_Htaccess {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', ( $match->regex ? $this->encode_regex( $match->user_agent ) : $this->encode2nd( $match->user_agent ) ) );
 
 			if ( $match->url_from ) {
-				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->is_regex() );
+				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->get_match_data() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 
 			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->is_regex() );
+				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->get_match_data() );
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
@@ -129,7 +136,7 @@ class Red_Htaccess {
 			$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
 		}
 
-		$to = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->is_regex() );
+		$to = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->get_match_data() );
 		$from = $this->encode_from( $url );
 
 		if ( $item->is_regex() ) {
@@ -141,43 +148,69 @@ class Red_Htaccess {
 		}
 	}
 
-	private function action_random( $data, $code, $regex ) {
+	private function add_flags( $current, array $flags ) {
+		return $current . ' [' . implode( ',', $flags ) . ']';
+	}
+
+	private function get_source_flags( array $existing, array $source ) {
+		$flags = [];
+
+		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
+			$flags[] = 'NC';
+		}
+
+		if ( isset( $source['flag_query'] ) && $source['flag_query'] === 'pass' ) {
+			$flags[] = 'QSA';
+		}
+
+		return array_merge( $existing, $flags );
+	}
+
+	private function action_random( $data, $code, $match_data ) {
 		// Pick a WP post at random
 		global $wpdb;
 
 		$post = $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} ORDER BY RAND() LIMIT 0,1" );
 		$url  = wp_parse_url( get_permalink( $post ) );
 
-		return sprintf( '%s [R=%d,L]', $this->encode( $url['path'] ), $code );
+		$flags = [ sprintf( 'R=%d', $code ) ];
+		$flags[] = 'L';
+		$flags = $this->get_source_flags( $flags, $match_data['source'] );
+
+		return $this->add_flags( $this->encode( $url['path'] ), $flags );
 	}
 
-	private function action_pass( $data, $code, $regex ) {
-		if ( $regex ) {
-			return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
-		}
-		return sprintf( '%s [L]', $this->encode2nd( $data ), $code );
+	private function action_pass( $data, $code, $match_data ) {
+		$flags = $this->get_source_flags( [ 'L' ], $match_data['source'] );
+
+		return $this->add_flags( $this->encode2nd( $data ), $flags );
 	}
 
-	private function action_error( $data, $code, $regex ) {
+	private function action_error( $data, $code, $match_data ) {
+		$flags = $this->get_source_flags( [ 'F' ], $match_data['source'] );
+
 		if ( $code === 410 ) {
-			return '/ [G]';
+			$flags = $this->get_source_flags( [ 'G' ], $match_data['source'] );
 		}
-		return '/ [F]';
+
+		return $this->add_flags( '/', $flags );
 	}
 
-	private function action_url( $data, $code, $regex ) {
-		if ( $regex ) {
-			return sprintf( '%s [R=%d,L]', $this->encode2nd( $data ), $code );
-		}
-		return sprintf( '%s [R=%d,L]', $this->encode2nd( $data ), $code );
+	private function action_url( $data, $code, $match_data ) {
+		$flags = [ sprintf( 'R=%d', $code ) ];
+		$flags[] = 'L';
+		$flags = $this->get_source_flags( $flags, $match_data['source'] );
+
+		return $this->add_flags( $this->encode2nd( $data ), $flags );
 	}
 
-	private function target( $action, $data, $code, $regex ) {
+	private function target( $action, $data, $code, $match_data ) {
 		$target = 'action_' . $action;
 
 		if ( method_exists( $this, $target ) ) {
-			return $this->$target( $data, $code, $regex );
+			return $this->$target( $data, $code, $match_data );
 		}
+
 		return '';
 	}
 

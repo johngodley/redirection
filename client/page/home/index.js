@@ -155,7 +155,7 @@ class Home extends React.Component {
 
 		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
 			return (
-				<div className="notice notice-error">
+				<div className="red-error">
 					<h2>{ __( 'Cached Redirection detected' ) }</h2>
 					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
 					<p>
@@ -168,7 +168,7 @@ class Home extends React.Component {
 		}
 
 		return (
-			<div className="notice notice-error">
+			<div className="red-error">
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
 
 				<p>

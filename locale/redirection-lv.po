@@ -11,6 +11,34 @@ msgstr ""
 "Language: lv\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
+#: redirection-strings.php:397
+msgid "Relative REST API"
+msgstr ""
+
+#: redirection-strings.php:396
+msgid "Raw REST API"
+msgstr ""
+
+#: redirection-strings.php:395
+msgid "Default REST API"
+msgstr ""
+
+#: redirection-strings.php:197
+msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can not enter a redirect."
+msgstr ""
+
+#: redirection-strings.php:196
+msgid "(Example) The target URL is the new URL"
+msgstr ""
+
+#: redirection-strings.php:194
+msgid "(Example) The source URL is your old or original URL"
+msgstr ""
+
+#: redirection.php:37
+msgid "Disabled! Detected PHP %s, need PHP 5.4+"
+msgstr ""
+
 #: redirection-strings.php:259
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}."
 msgstr ""
@@ -165,20 +193,8 @@ msgstr ""
 msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
 msgstr ""
 
-#: redirection-strings.php:197
-msgid "That's all there is to it - you are now redirecting!"
-msgstr ""
-
-#: redirection-strings.php:196
-msgid "The target URL is the new URL"
-msgstr ""
-
-#: redirection-strings.php:194
-msgid "The source URL is your old or original URL"
-msgstr ""
-
 #: redirection-strings.php:192
-msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL):"
+msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
 msgstr ""
 
 #: redirection-strings.php:191
@@ -269,7 +285,7 @@ msgstr ""
 msgid "Database problem"
 msgstr ""
 
-#: redirection-admin.php:419
+#: redirection-admin.php:421
 msgid "Please enable JavaScript"
 msgstr ""
 
@@ -411,11 +427,11 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: redirection-strings.php:92 matches/page.php:9
+#: matches/page.php:9 redirection-strings.php:92
 msgid "URL and WordPress page type"
 msgstr ""
 
-#: redirection-strings.php:88 matches/ip.php:9
+#: matches/ip.php:9 redirection-strings.php:88
 msgid "URL and IP"
 msgstr ""
 
@@ -551,21 +567,13 @@ msgstr "Pievienot Jaunu"
 msgid "Please logout and login again."
 msgstr "Lūdzu izej no sistēmas, un autorizējies tajā vēlreiz."
 
-#: redirection-strings.php:84 matches/user-role.php:9
+#: matches/user-role.php:9 redirection-strings.php:84
 msgid "URL and role/capability"
 msgstr ""
 
-#: redirection-strings.php:89 matches/server.php:9
+#: matches/server.php:9 redirection-strings.php:89
 msgid "URL and server"
 msgstr "URL un servera domēns"
-
-#: redirection-strings.php:397
-msgid "Relative /wp-json/"
-msgstr ""
-
-#: redirection-strings.php:395
-msgid "Default /wp-json/"
-msgstr ""
 
 #: redirection-strings.php:24
 msgid "If you are unable to get anything working then Redirection may have difficulty communicating with your server. You can try manually changing this setting:"
@@ -627,24 +635,20 @@ msgstr ""
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "Ja Tu izmanto kešošanas sistēmu, piemēram \"CloudFlare\", lūdzi izlasi šo:"
 
-#: redirection-strings.php:90 matches/http-header.php:11
+#: matches/http-header.php:11 redirection-strings.php:90
 msgid "URL and HTTP header"
 msgstr ""
 
-#: redirection-strings.php:91 matches/custom-filter.php:9
+#: matches/custom-filter.php:9 redirection-strings.php:91
 msgid "URL and custom filter"
 msgstr ""
 
-#: redirection-strings.php:87 matches/cookie.php:7
+#: matches/cookie.php:7 redirection-strings.php:87
 msgid "URL and cookie"
 msgstr "URL un sīkdatne"
 
 #: redirection-strings.php:474
 msgid "404 deleted"
-msgstr ""
-
-#: redirection-strings.php:396
-msgid "Raw /index.php?rest_route=/"
 msgstr ""
 
 #: redirection-strings.php:221 redirection-strings.php:423
@@ -683,11 +687,11 @@ msgstr ""
 msgid "None of the suggestions helped"
 msgstr "Neviens no ieteikumiem nelīdzēja"
 
-#: redirection-admin.php:398
+#: redirection-admin.php:400
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr "Lūdzu apskati <a href=\"https://redirection.me/support/problems/\">sarakstu ar biežākajām problēmām</a>."
 
-#: redirection-admin.php:392
+#: redirection-admin.php:394
 msgid "Unable to load Redirection ☹️"
 msgstr "Neizdevās ielādēt spraudni \"Pāradresācija\" ☹️"
 
@@ -843,12 +847,12 @@ msgstr "Darbību nodrošina {{link}}redirect.li{{/link}}"
 msgid "Trash"
 msgstr ""
 
-#: redirection-admin.php:397
+#: redirection-admin.php:399
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr ""
 
 #. translators: URL
-#: redirection-admin.php:297
+#: redirection-admin.php:299
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr ""
 
@@ -905,7 +909,7 @@ msgid "Import from %s"
 msgstr ""
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:380
+#: redirection-admin.php:382
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr ""
 
@@ -917,7 +921,7 @@ msgstr ""
 msgid "Create associated redirect (added to end of URL)"
 msgstr ""
 
-#: redirection-admin.php:400
+#: redirection-admin.php:402
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr ""
 
@@ -981,19 +985,19 @@ msgstr ""
 msgid "Your server has rejected the request for being too big. You will need to change it to continue."
 msgstr ""
 
-#: redirection-admin.php:395
+#: redirection-admin.php:397
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr ""
 
-#: redirection-admin.php:394 redirection-strings.php:274
+#: redirection-admin.php:396 redirection-strings.php:274
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr ""
 
-#: redirection-admin.php:383
+#: redirection-admin.php:385
 msgid "Unable to load Redirection"
 msgstr ""
 
-#: models/fixer.php:266
+#: models/fixer.php:271
 msgid "Unable to create group"
 msgstr "Nav iespējams izveidot grupu"
 
@@ -1069,15 +1073,15 @@ msgstr ""
 msgid "Include these details in your report {{strong}}along with a description of what you were doing{{/strong}}."
 msgstr ""
 
-#: redirection-admin.php:399
+#: redirection-admin.php:401
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:393
+#: redirection-admin.php:395
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr ""
 
-#: redirection-admin.php:415
+#: redirection-admin.php:417
 msgid "Loading, please wait..."
 msgstr ""
 
@@ -1097,7 +1101,7 @@ msgstr ""
 msgid "If this is a new problem then please either {{strong}}create a new issue{{/strong}} or send it in an {{strong}}email{{/strong}}. Include a description of what you were trying to do and the important details listed below. Please include a screenshot."
 msgstr ""
 
-#: redirection-admin.php:403 redirection-strings.php:33
+#: redirection-admin.php:405 redirection-strings.php:33
 msgid "Create Issue"
 msgstr ""
 
@@ -1516,7 +1520,7 @@ msgstr ""
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Spraudnis \"Pāradresācija\" ir paredzēts bezmaksas lietošanai - dzīve ir vienkārši lieliska! Tā attīstīšanai ir veltīts daudz laika, un arī Tu vari sniegt atbalstu spraudņa tālākai attīstībai, {{strong}}veicot mazu ziedojumu{{/strong}}."
 
-#: redirection-admin.php:298
+#: redirection-admin.php:300
 msgid "Redirection Support"
 msgstr ""
 
@@ -1775,8 +1779,8 @@ msgstr "Veids"
 msgid "Modified Posts"
 msgstr "Izmainītie Raksti"
 
-#: models/group.php:148 redirection-strings.php:261
-#: database/schema/latest.php:132
+#: database/schema/latest.php:132 models/group.php:148
+#: redirection-strings.php:261
 msgid "Redirections"
 msgstr "Pāradresācijas"
 
@@ -1784,7 +1788,7 @@ msgstr "Pāradresācijas"
 msgid "User Agent"
 msgstr "Programmatūras Dati"
 
-#: redirection-strings.php:86 matches/user-agent.php:10
+#: matches/user-agent.php:10 redirection-strings.php:86
 msgid "URL and user agent"
 msgstr "URL un iekārtas dati"
 
@@ -1793,7 +1797,7 @@ msgstr "URL un iekārtas dati"
 msgid "Target URL"
 msgstr "Galamērķa URL"
 
-#: redirection-strings.php:82 matches/url.php:7
+#: matches/url.php:7 redirection-strings.php:82
 msgid "URL only"
 msgstr "tikai URL"
 
@@ -1807,7 +1811,7 @@ msgstr "Regulārā Izteiksme"
 msgid "Referrer"
 msgstr "Ieteicējs (Referrer)"
 
-#: redirection-strings.php:85 matches/referrer.php:10
+#: matches/referrer.php:10 redirection-strings.php:85
 msgid "URL and referrer"
 msgstr "URL un ieteicējs (referrer)"
 
@@ -1819,6 +1823,6 @@ msgstr "Ja nav autorizējies"
 msgid "Logged In"
 msgstr "Ja autorizējies"
 
-#: redirection-strings.php:83 matches/login.php:8
+#: matches/login.php:8 redirection-strings.php:83
 msgid "URL and login status"
 msgstr "URL un autorizācijas statuss"

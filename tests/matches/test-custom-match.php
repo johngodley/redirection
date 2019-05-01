@@ -35,47 +35,36 @@ class CustomMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
 
-	public function testNoTargetNoUrl() {
+	public function testFilterFiredDefaultFalse() {
 		$action = new MockAction();
 		add_filter( 'test_filter', array( $action, 'action' ), 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '', 'url_notfrom' => '' ) ) );
 
-		// filter fires, but nothing is connected so it returns false
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertFalse( $match->is_match( '' ) );
 		$this->assertEquals( 1, $action->get_call_count() );
 	}
 
-	public function testNoTargetNotFrom() {
+	public function testFilterFalse() {
 		$action = function() {
 			return false;
 		};
 		add_filter( 'test_filter', $action, 10, 2 );
 
-		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
-		remove_filter( 'test_filter', $action, 10, 2 );
+		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '', 'url_notfrom' => '' ) ) );
+
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetFrom() {
+	public function testFilterTrue() {
 		$action = function() {
 			return true;
 		};
 		add_filter( 'test_filter', $action, 10, 2 );
 
 		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
-		remove_filter( 'test_filter', $action, 10, 2 );
-	}
+		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '', 'url_notfrom' => '' ) ) );
 
-	public function testNoTargetFromRegex() {
-		$action = function() {
-			return true;
-		};
-		add_filter( 'test_filter', $action, 10, 2 );
-
-		$match = new Custom_Match( serialize( array( 'filter' => 'test_filter', 'url_from' => '/from$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from1', $match->get_target( '/from1', '/from(.*)', true ) );
-		remove_filter( 'test_filter', $action, 10, 2 );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

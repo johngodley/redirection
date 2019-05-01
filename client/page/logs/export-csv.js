@@ -4,16 +4,15 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
 
-const ExportCSV = props => {
-	const { logType } = props;
+import { getApiNonce } from 'lib/api';
 
+const ExportCSV = ( { logType, title } ) => {
 	return (
 		<form method="post" action={ Redirectioni10n.pluginRoot + '&sub=' + logType }>
-			<input type="hidden" name="_wpnonce" value={ Redirectioni10n.WP_API_nonce } />
+			<input type="hidden" name="_wpnonce" value={ getApiNonce() } />
 			<input type="hidden" name="export-csv" value="" />
-			<input className="button" type="submit" name="" value={ __( 'Export' ) } />
+			<input className="button" type="submit" name="" value={ title } />
 		</form>
 	);
 };

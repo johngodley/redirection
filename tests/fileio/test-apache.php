@@ -77,10 +77,17 @@ class ApacheTest extends WP_UnitTestCase {
 
 	public function testRewriteNoCode() {
 		$apache = new Red_Apache_File();
-		$item = $apache->get_as_item( 'RewriteRule ^products/reporting /products/ [R,L]' );
+		$item = $apache->get_as_item( 'RewriteRule ^products/reporting$ /products/ [R,L]' );
 
 		$this->assertEquals( '/products/reporting', $item['url'] );
 		$this->assertEquals( array( 'url' => '/products/' ), $item['action_data'] );
 		$this->assertEquals( '302', $item['action_code'] );
+	}
+
+	public function testRedirectWithExtension() {
+		$apache = new Red_Apache_File();
+		$item = $apache->get_as_item( 'RewriteRule ^products/reporting\.html.*$ /products/ [R,L]' );
+
+		$this->assertEquals( '^/products/reporting\.html.*', $item['url'] );
 	}
 }

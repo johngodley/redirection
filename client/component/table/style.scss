@@ -20,7 +20,9 @@
 		text-align: left;
 	}
 
-	.column-module, .column-total, .column-ip {
+	.column-module,
+	.column-total,
+	.column-ip {
 		width: 110px;
 	}
 
@@ -43,18 +45,11 @@
 		vertical-align: middle;
 		padding: 4px 0 0 3px !important;
 		width: 2.2em;
-		margin: 0px;
+		margin: 0;
 	}
 
 	strike {
 		opacity: 0.7;
-	}
-}
-
-.redirection .form-table {
-	/* Links on options page */
-	th a {
-		color: #444;
 	}
 }
 
@@ -66,7 +61,7 @@
 		vertical-align: top;
 		padding: 2px;
 		padding-top: 5px !important;
-		padding-left: 0px;
+		padding-left: 0;
 		font-size: 13px;
 		font-weight: bold;
 	}
@@ -138,7 +133,7 @@
 		th {
 			display: block;
 			font-weight: bold;
-			padding-left: 0px !important;
+			padding-left: 0 !important;
 		}
 
 		tbody tr td {
@@ -146,7 +141,6 @@
 
 			> * {
 				flex: 1 0 auto;
-				width: 100%;
 			}
 		}
 

@@ -67,9 +67,12 @@ class Redirection_Cli extends WP_CLI_Command {
 			}
 		} else {
 			$data = @file_get_contents( $args[0] );
+
 			if ( $data ) {
 				$count = $importer->load( $group, $args[0], $data );
-				WP_CLI::success( 'Imported ' . $count . ' as ' . $format );
+				WP_CLI::success( 'Imported ' . $count . ' redirects as ' . $format );
+			} else {
+				WP_CLI::error( 'Invalid import file' );
 			}
 		}
 	}
@@ -143,37 +146,43 @@ class Redirection_Cli extends WP_CLI_Command {
 			Red_Database::apply_to_sites( function() {
 				$latest = Red_Database::get_latest_database();
 				$latest->install();
+
+				WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is installed' );
 			} );
 
-			WP_CLI::success( 'Database installed' );
+			WP_CLI::success( 'Database install finished' );
 		} elseif ( $args[0] === 'upgrade' ) {
-			$database = new Red_Database();
-			$status = new Red_Database_Status();
+			Red_Database::apply_to_sites( function() {
+				$database = new Red_Database();
+				$status = new Red_Database_Status();
 
-			if ( ! $status->needs_updating() ) {
-				WP_CLI::success( 'Database is already the latest version' );
-				return;
-			}
-
-			$loop = 0;
-
-			while ( $loop < 50 ) {
-				$result = $database->apply_upgrade( $status );
-				$info = $status->get_json();
-
-				if ( ! $info['inProgress'] ) {
-					break;
-				}
-
-				if ( $info['status'] === 'error' ) {
-					WP_CLI::error( 'Database failed to upgrade: ' . $info['reason'] );
+				if ( ! $status->needs_updating() ) {
+					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is already the latest version' );
 					return;
 				}
 
-				$loop++;
-			}
+				$loop = 0;
 
-			WP_CLI::success( 'Database upgraded' );
+				while ( $loop < 50 ) {
+					$result = $database->apply_upgrade( $status );
+					$info = $status->get_json();
+
+					if ( ! $info['inProgress'] ) {
+						break;
+					}
+
+					if ( $info['status'] === 'error' ) {
+						WP_CLI::error( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] );
+						return;
+					}
+
+					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database upgraded' );
+
+					$loop++;
+				}
+			} );
+
+			WP_CLI::success( 'Database upgrade finished' );
 		} elseif ( $args[0] === 'remove' ) {
 			Red_Database::apply_to_sites( function() {
 				$latest = Red_Database::get_latest_database();

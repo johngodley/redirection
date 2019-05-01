@@ -41,7 +41,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 export const saveSettings = settings => dispatch => {
 	getApi( RedirectionApi.setting.update( settings ) )
 		.then( json => {
-			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed } );
+			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed, warning: json.warning } );
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_SAVE_FAILED, error } );
@@ -74,10 +74,11 @@ export const loadStatus = () => dispatch => {
 	return dispatch( { type: SETTING_LOAD_START } );
 };
 
-export const fixStatus = () => dispatch => {
-	getApi( RedirectionApi.plugin.fix() )
+export const fixStatus = ( name, value ) => dispatch => {
+	getApi( RedirectionApi.plugin.fix( name, value ) )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
+			document.location.reload();
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );
@@ -109,22 +110,25 @@ export const checkApi = api => dispatch => {
 		dispatch( { type: SETTING_API_TRY, id, method: 'GET' } );
 		dispatch( { type: SETTING_API_TRY, id, method: 'POST' } );
 
-		// GET test
-		getApi( RedirectionApi.plugin.checkApi( url ) )
-			.then( () => {
-				dispatch( { type: SETTING_API_SUCCESS, id, method: 'GET' } );
-			} )
-			.catch( error => {
-				dispatch( { type: SETTING_API_FAILED, id, method: 'GET', error } );
-			} );
+		// Bit of a delay otherwise it can seem too fast...
+		setTimeout( () => {
+			// GET test
+			getApi( RedirectionApi.plugin.checkApi( url ) )
+				.then( () => {
+					dispatch( { type: SETTING_API_SUCCESS, id, method: 'GET' } );
+				} )
+				.catch( error => {
+					dispatch( { type: SETTING_API_FAILED, id, method: 'GET', error } );
+				} );
 
-		// POST test
-		getApi( RedirectionApi.plugin.checkApi( url, true ) )
-			.then( () => {
-				dispatch( { type: SETTING_API_SUCCESS, id, method: 'POST' } );
-			} )
-			.catch( error => {
-				dispatch( { type: SETTING_API_FAILED, id, method: 'POST', error } );
-			} );
+			// POST test
+			getApi( RedirectionApi.plugin.checkApi( url, true ) )
+				.then( () => {
+					dispatch( { type: SETTING_API_SUCCESS, id, method: 'POST' } );
+				} )
+				.catch( error => {
+					dispatch( { type: SETTING_API_FAILED, id, method: 'POST', error } );
+				} );
+		}, 1000 );
 	}
 };

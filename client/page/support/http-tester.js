@@ -16,6 +16,7 @@ import { getHttp } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
 import Spinner from 'component/spinner';
 import './style.scss';
+import { isRedirection } from 'lib/wordpress-url';
 
 class HttpTester extends React.Component {
 	constructor( props ) {
@@ -44,7 +45,7 @@ class HttpTester extends React.Component {
 		}
 
 		const location = headers.find( item => item.name === 'location' );
-		const xredirection = headers.find( item => item.name === 'x-redirect-agent' );
+		const xredirection = isRedirection( headers );
 		return (
 			<div className="inline-notice">
 				<p><strong>HTTP { status + ' ' + statusMessage }</strong> - { statusDescription }</p>

@@ -9,43 +9,29 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
+import ExternalLink from 'component/external-link';
+import TableRow from '../table-row';
 
-class MatchReferrer extends React.Component {
-	constructor( props ) {
-		super( props );
+const MatchReferrer = ( { data, onChange } ) => {
+	const { referrer, regex } = data;
 
-		this.handleChangeReferrer = this.onChangeReferrer.bind( this );
-		this.handleChangeRegex = this.onChangeRegex.bind( this );
-	}
+	return (
+		<TableRow title={ __( 'Referrer' ) }>
+			<input type="text" name="referrer" value={ referrer } onChange={ onChange } placeholder={ __( 'Match against this browser referrer text' ) } />
 
-	onChangeReferrer( ev ) {
-		this.props.onChange( 'referrer', 'referrer', ev.target.value );
-	}
+			<label className="edit-redirection-regex">
+				{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
+				&nbsp;
 
-	onChangeRegex( ev ) {
-		this.props.onChange( 'referrer', 'regex', ev.target.checked );
-	}
-
-	render() {
-		return (
-			<tr>
-				<th>{ __( 'Referrer' ) }</th>
-				<td>
-					<input type="text" name="referrer" value={ this.props.referrer } onChange={ this.handleChangeReferrer } placeholder={ __( 'Match against this browser referrer text' ) } />
-					<label className="edit-redirection-regex">
-						{ __( 'Regex' ) } <sup><a tabIndex="-1" target="_blank" rel="noopener noreferrer" href="https://redirection.me/support/redirect-regular-expressions/">?</a></sup>
-						&nbsp;
-						<input type="checkbox" name="regex" checked={ this.props.regex } onChange={ this.handleChangeRegex } />
-					</label>
-				</td>
-			</tr>
-		);
-	}
-}
+				<input type="checkbox" name="regex" checked={ regex } onChange={ onChange } />
+			</label>
+		</TableRow>
+	);
+};
 
 MatchReferrer.propTypes = {
-	referrer: PropTypes.string.isRequired,
-	regex: PropTypes.bool.isRequired,
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 export default MatchReferrer;

@@ -37,52 +37,31 @@ class ReferrerMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
 
-	public function testNoTargetNoUrl() {
+	public function testNotMatch() {
 		$_SERVER['HTTP_REFERER'] = 'nothing';
 
 		$match = new Referrer_Match( serialize( array( 'referrer' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testRegexNoTargetNoUrl() {
-		$_SERVER['HTTP_REFERER'] = 'nothing';
+	public function testNotMatchNotExists() {
+		unset( $_SERVER['HTTP_REFERER'] );
 
 		$match = new Referrer_Match( serialize( array( 'referrer' => 'other', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetUrl() {
+	public function testMatch() {
 		$_SERVER['HTTP_REFERER'] = 'nothing';
 
 		$match = new Referrer_Match( serialize( array( 'referrer' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetNotFrom() {
-		$_SERVER['HTTP_REFERER'] = 'nothing';
+	public function testMatchRegex() {
+		$_SERVER['HTTP_REFERER'] = 'agent1';
 
-		$match = new Referrer_Match( serialize( array( 'referrer' => 'other', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testNoTargetFrom() {
-		$_SERVER['HTTP_REFERER'] = 'nothing';
-
-		$match = new Referrer_Match( serialize( array( 'referrer' => 'nothing', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testRegexTarget() {
-		$_SERVER['HTTP_REFERER'] = 'nothing|other|cat';
-
-		$match = new Referrer_Match( serialize( array( 'referrer' => 'cat', 'regex' => true, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testRegexUrl() {
-		$_SERVER['HTTP_REFERER'] = 'cat';
-
-		$match = new Referrer_Match( serialize( array( 'referrer' => 'cat', 'regex' => false, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+		$match = new Referrer_Match( serialize( array( 'referrer' => 'agent.*', 'regex' => true, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

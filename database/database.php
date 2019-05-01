@@ -10,7 +10,7 @@ class Red_Database {
 	 * @return array Array of versions from self::get_upgrades()
 	 */
 	public function get_upgrades_for_version( $current_version, $current_stage ) {
-		if ( $current_version === '' ) {
+		if ( empty( $current_version ) ) {
 			return [
 				[
 					'version' => REDIRECTION_DB_VERSION,
@@ -52,7 +52,8 @@ class Red_Database {
 		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
-			return new WP_Error( 'redirect', 'No upgrades found for version ' . $status->get_current_version() );
+			$status->set_error( 'No upgrades found for version ' . $status->get_current_version() );
+			return;
 		}
 
 		if ( $status->get_current_stage() === false ) {
@@ -75,7 +76,7 @@ class Red_Database {
 	}
 
 	public static function apply_to_sites( $callback ) {
-		if ( is_network_admin() ) {
+		if ( is_multisite() && ( is_network_admin() || defined( 'WP_CLI' ) && WP_CLI ) ) {
 			array_map( function( $site ) use ( $callback ) {
 				switch_to_blog( $site->blog_id );
 
@@ -142,6 +143,16 @@ class Red_Database {
 				'version' => '2.4',
 				'file' => '240.php',
 				'class' => 'Red_Database_240',
+			],
+			[
+				'version' => '4.0',
+				'file' => '400.php',
+				'class' => 'Red_Database_400',
+			],
+			[
+				'version' => '4.1',
+				'file' => '410.php',
+				'class' => 'Red_Database_410',
 			],
 		];
 	}

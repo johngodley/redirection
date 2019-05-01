@@ -3,56 +3,23 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 
 /**
  * Internal dependencies
  */
 
-import Newsletter from './newsletter';
 import Help from './help';
 import HttpTester from './http-tester';
 import Status from './status';
-import { loadSettings } from 'state/settings/action';
 
-class Support extends React.Component {
-	constructor( props ) {
-		super( props );
+const Support = () => {
+	return (
+		<React.Fragment>
+			<Status />
+			<HttpTester />
+			<Help />
+		</React.Fragment>
+	);
+};
 
-		props.onLoadSettings();
-	}
-
-	render() {
-		const { newsletter = false } = this.props.values ? this.props.values : {};
-
-		return (
-			<div>
-				<Status />
-				<HttpTester />
-				<Help />
-				<Newsletter newsletter={ newsletter } />
-			</div>
-		);
-	}
-}
-
-function mapDispatchToProps( dispatch ) {
-	return {
-		onLoadSettings: () => {
-			dispatch( loadSettings() );
-		},
-	};
-}
-
-function mapStateToProps( state ) {
-	const { values } = state.settings;
-
-	return {
-		values,
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)( Support );
+export default Support;

@@ -3,7 +3,7 @@
 class URL_Match extends Red_Match {
 	public $url = false;
 
-	function name() {
+	public function name() {
 		return __( 'URL only', 'redirection' );
 	}
 
@@ -21,14 +21,14 @@ class URL_Match extends Red_Match {
 		return $this->sanitize_url( $data );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
-		$target = $this->url;
-		if ( $regex ) {
-			$target = $this->get_target_regex_url( $matched_url, $this->url, $url );
-		}
+	public function is_match( $url ) {
+		return true;
+	}
 
-		if ( $target === '' ) {
-			return $matched_url;
+	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
+		$target = $this->url;
+		if ( $flags->is_regex() ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;

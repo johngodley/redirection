@@ -10,25 +10,24 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-class MatchIp extends React.Component {
-	static propTypes = {
-		ip: PropTypes.array.isRequired,
+import TableRow from '../table-row';
+
+const MatchIp = ( { data, onChange } ) => {
+	const { ip } = data;
+	const changer = ev => {
+		onChange( { target: { name: ev.target.name, value: ev.target.value.split( '\n' ) } } );
 	};
 
-	onChange = ev => {
-		this.props.onChange( 'ip', 'ip', ev.target.value.split( '\n' ) );
-	}
+	return (
+		<TableRow className="top" title={ __( 'IP' ) }>
+			<textarea value={ ip.join( '\n' ) } name="ip" placeholder={ __( 'Enter IP addresses (one per line)' ) } onChange={ changer } />
+		</TableRow>
+	);
+};
 
-	render() {
-		return (
-			<tr>
-				<th className="top">{ __( 'IP' ) }</th>
-				<td>
-					<textarea value={ this.props.ip.join( '\n' ) } placeholder={ __( 'Enter IP addresses (one per line)' ) } onChange={ this.onChange } />
-				</td>
-			</tr>
-		);
-	}
-}
+MatchIp.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default MatchIp;

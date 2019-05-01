@@ -49,12 +49,28 @@ class Apache_Module extends Red_Module {
 		return $htaccess->save( $this->location );
 	}
 
+	public function can_save( $location ) {
+		$location = $this->sanitize_location( $location );
+
+		if ( @fopen( $location, 'a' ) === false ) {
+			$error = error_get_last();
+			return new WP_Error( 'redirect', isset( $error['message'] ) ? $error['message'] : 'Unknown error' );
+		}
+
+		return true;
+	}
+
+	private function sanitize_location( $location ) {
+		$location = rtrim( $location, '/' ) . '/.htaccess';
+		return rtrim( dirname( $location ), '/' ) . '/.htaccess';
+	}
+
 	public function update( array $data ) {
 		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
 
-		$save = array(
-			'location' => isset( $data['location'] ) ? trim( $data['location'] ) : '',
-		);
+		$save = [
+			'location' => isset( $data['location'] ) ? $this->sanitize_location( trim( $data['location'] ) ) : '',
+		];
 
 		if ( ! empty( $this->location ) && $save['location'] !== $this->location ) {
 			// Location has moved. Remove from old location

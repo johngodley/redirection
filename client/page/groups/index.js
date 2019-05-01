@@ -72,7 +72,7 @@ class Groups extends React.Component {
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return <GroupRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
+		return <GroupRow item={ row } key={ row.id } selected={ status.isSelected } status={ rowStatus } />;
 	}
 
 	onChange = ev => {
@@ -130,6 +130,8 @@ class Groups extends React.Component {
 							</tr>
 						</tbody>
 					</table>
+
+					{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 				</form>
 			</div>
 		);

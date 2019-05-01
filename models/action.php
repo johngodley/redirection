@@ -1,6 +1,9 @@
 <?php
 
-class Red_Action {
+abstract class Red_Action {
+	protected $code;
+	protected $type;
+
 	function __construct( $values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
@@ -17,7 +20,7 @@ class Red_Action {
 				include_once dirname( __FILE__ ) . '/../actions/' . $avail[ $name ][0];
 			}
 
-			$obj = new $avail[ $name ][1]( array( 'action_code' => $code ) );
+			$obj = new $avail[ $name ][1]( array( 'code' => $code ) );
 			$obj->type = $name;
 			return $obj;
 		}
@@ -42,4 +45,14 @@ class Red_Action {
 	public function process_after( $code, $target ) {
 		return true;
 	}
+
+	public function get_code() {
+		return $this->code;
+	}
+
+	public function get_type() {
+		return $this->type;
+	}
+
+	abstract public function needs_target();
 }

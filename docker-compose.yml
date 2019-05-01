@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+            - db_data:/var/lib/mysql
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: somewordpress
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress
+
+    wordpress:
+        image: wordpress:latest
+        depends_on:
+            - db
+        ports:
+            - "80:80"
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: db:3306
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: wordpress
+            WORDPRESS_DB_NAME: wordpress
+            VIRTUAL_HOST: redirectione2e.local
+        volumes:
+            - wordpress:/var/www/html
+            - ./:/var/www/html/wp-content/plugins/redirection
+
+    cli:
+        image: wordpress:cli
+        user: "33:33"
+        volumes:
+            - wordpress:/var/www/html
+            - ./:/var/www/html/wp-content/plugins/redirection
+            - ./bin/docker-setup.sh:/opt/redirection/docker-setup.sh
+            - ./e2e/redirects.json:/opt/redirection/redirects.json
+        links:
+            - db
+        depends_on:
+            - db
+            - wordpress
+        command: sh /opt/redirection/docker-setup.sh
+
+volumes:
+    db_data:
+    wordpress:

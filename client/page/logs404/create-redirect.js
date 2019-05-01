@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import EditRedirect from 'component/redirect-edit';
 import Modal from 'component/modal';
 import { getDefaultItem, MATCH_IP } from 'state/redirect/selector';
+import { getFlags } from 'state/settings/selector';
 import { deleteExact } from 'state/error/action';
 
 class CreateRedirect extends React.Component {
@@ -60,12 +61,13 @@ class CreateRedirect extends React.Component {
 	}
 
 	render() {
-		const { onClose, create } = this.props;
+		const { onClose, create, defaultFlags } = this.props;
 		const selected = this.getSelected();
-		const item = { ... getDefaultItem( selected[ 0 ], 0 ), ... create };
+		const item = { ... getDefaultItem( selected[ 0 ], 0, defaultFlags ), ... create };
 
 		if ( item.match_type === MATCH_IP ) {
 			item.url = '^/.*$';
+			item.match_data.source.flag_regex = true;
 		} else if ( selected.length > 1 ) {
 			item.url = selected;
 		}
@@ -104,6 +106,7 @@ function mapStateToProps( state ) {
 
 	return {
 		selected,
+		defaultFlags: getFlags( state ),
 	};
 }
 

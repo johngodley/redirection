@@ -40,6 +40,11 @@ export const restApi = () => [
 	{ value: 1, text: __( 'Raw REST API' ) },
 	{ value: 3, text: __( 'Relative REST API' ) },
 ];
+export const queryMatch = () => [
+	{ value: 'exact', text: __( 'Exact match' ) },
+	{ value: 'ignore', text: __( 'Ignore all query parameters' ) },
+	{ value: 'pass', text: __( 'Ignore and pass all query parameters' ) },
+];
 
 class OptionsForm extends React.Component {
 	constructor( props ) {
@@ -113,6 +118,15 @@ class OptionsForm extends React.Component {
 		return null;
 	}
 
+	componentDidUpdate( prevProps ) {
+		const newLocation = this.props.values.modules[ 2 ] ? this.props.values.modules[ 2 ].location : '';
+		const oldLocation = prevProps.values.modules[ 2 ] ? prevProps.values.modules[ 2 ].location : '';
+
+		if ( oldLocation !== newLocation ) {
+			this.setState( { location: newLocation } );
+		}
+	}
+
 	renderMonitor( groups ) {
 		return (
 			<TableRow title={ __( 'URL Monitor Changes' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
@@ -158,7 +172,7 @@ class OptionsForm extends React.Component {
 	}
 
 	render() {
-		const { groups, saveStatus, installed } = this.props;
+		const { groups, saveStatus, installed, warning } = this.props;
 		const canMonitor = this.state.monitor_types.length > 0;
 
 		return (
@@ -196,6 +210,43 @@ class OptionsForm extends React.Component {
 						<span className="sub">{ __( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)' ) }</span>
 					</TableRow>
 
+					<TableRow title={ __( 'Default URL settings' ) + ':' } url={ this.supportLink( 'options', 'urlsettings' ) }>
+						<p>{ __( 'Applies to all redirections unless you configure them otherwise.' ) }</p>
+						<label>
+							<p>
+								<input type="checkbox" name="flag_case" onChange={ this.onChange } checked={ this.state.flag_case } />
+								{ __( 'Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})', {
+									components: {
+										code: <code />,
+									},
+								} ) }
+							</p>
+						</label>
+
+						<label>
+							<p>
+								<input type="checkbox" name="flag_trailing" onChange={ this.onChange } checked={ this.state.flag_trailing } />
+								{ __( 'Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})', {
+									components: {
+										code: <code />,
+									},
+								} ) }
+							</p>
+						</label>
+					</TableRow>
+
+					<TableRow title={ __( 'Default query matching' ) + ':' } url={ this.supportLink( 'options', 'querysettings' ) }>
+						<p>{ __( 'Applies to all redirections unless you configure them otherwise.' ) }</p>
+						<p>
+							<Select items={ queryMatch() } name="flag_query" value={ this.state.flag_query } onChange={ this.onChange } />
+						</p>
+						<ul>
+							<li>{ __( 'Exact - matches the query parameters exactly defined in your source, in any order' ) }</li>
+							<li>{ __( 'Ignore - as exact, but ignores any query parameters not in your source' ) }</li>
+							<li>{ __( 'Pass - as ignore, but also copies the query parameters to the target' ) }</li>
+						</ul>
+					</TableRow>
+
 					<TableRow title={ __( 'Auto-generate URL' ) + ':' } url={ this.supportLink( 'options', 'autogenerate' ) }>
 						<input className="regular-text" type="text" value={ this.state.auto_target } name="auto_target" onChange={ this.onChange } /><br />
 						<span className="sub">
@@ -207,17 +258,22 @@ class OptionsForm extends React.Component {
 						</span>
 					</TableRow>
 
-					<TableRow title={ __( 'Apache Module' ) } url={ this.supportLink( 'options', 'apache' ) }>
+					<TableRow title={ __( 'Apache .htaccess' ) } url={ this.supportLink( 'options', 'apache' ) }>
 						<label>
-							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } placeholder={ installed } /></p>
+							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } /></p>
 
 							<p className="sub">
-								{ __( 'Enter the full path and filename if you want Redirection to automatically update your {{code}}.htaccess{{/code}}.', {
+								{ __( 'Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}.', {
 									components: {
 										code: <code />,
 									},
+									args: {
+										installed,
+									},
 								} ) }
 							</p>
+
+							{ warning && <p className="inline-notice">{ __( 'Unable to save .htaccess file' ) } <code>{ warning }</code></p>}
 						</label>
 					</TableRow>
 
@@ -225,7 +281,7 @@ class OptionsForm extends React.Component {
 						<label>
 							<p>
 								<input type="checkbox" name="https" onChange={ this.onChange } checked={ this.state.https } />
-								{ __( 'Force a redirect from HTTP to HTTPS. Please ensure your HTTPS is working before enabling' ) }
+								{ __( 'Force a redirect from HTTP to the HTTPS version of your WordPress site domain. Please ensure your HTTPS is working before enabling.' ) }
 								&nbsp; { __( '(beta)' ) }
 							</p>
 						</label>
@@ -257,7 +313,7 @@ function mapDispatchToProps( dispatch ) {
 }
 
 function mapStateToProps( state ) {
-	const { groups, values, saveStatus, installed, postTypes } = state.settings;
+	const { groups, values, saveStatus, installed, postTypes, warning } = state.settings;
 
 	return {
 		groups,
@@ -265,6 +321,7 @@ function mapStateToProps( state ) {
 		saveStatus,
 		installed,
 		postTypes,
+		warning,
 	};
 }
 

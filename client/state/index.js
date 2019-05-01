@@ -31,12 +31,5 @@ export default function createReduxStore( initialState = {} ) {
 		composeEnhancers( applyMiddleware( ...middlewares ) )
 	);
 
-	if ( module.hot ) {
-		module.hot.accept( './reducers', () => {
-			const nextRootReducer = require( './reducers' );
-			store.replaceReducer( nextRootReducer );
-		} );
-	}
-
 	return store;
 }

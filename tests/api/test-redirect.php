@@ -27,13 +27,13 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 	}
 
 	private function isAthenB( $result ) {
-		$this->assertEquals( '/test1', $result->data['items'][ 0 ]['url'] );
-		$this->assertEquals( '/test2', $result->data['items'][ 1 ]['url'] );
+		$this->assertEquals( '/test1', $result->data['items'][0]['url'] );
+		$this->assertEquals( '/test2', $result->data['items'][1]['url'] );
 	}
 
 	private function isBthenA( $result ) {
-		$this->assertEquals( '/test2', $result->data['items'][ 0 ]['url'] );
-		$this->assertEquals( '/test1', $result->data['items'][ 1 ]['url'] );
+		$this->assertEquals( '/test2', $result->data['items'][0]['url'] );
+		$this->assertEquals( '/test1', $result->data['items'][1]['url'] );
 	}
 
 	public function testNoPermission() {
@@ -52,37 +52,37 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListBadOrderBy() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'orderby' => 'cats' ) );
+		$result = $this->callApi( 'redirect', [ 'orderby' => 'cats' ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListOrderBy() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'orderby' => 'url' ) );
+		$result = $this->callApi( 'redirect', [ 'orderby' => 'url' ] );
 		$this->isBthenA( $result );
 	}
 
 	public function testListBadDirection() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'direction' => 'cats' ) );
+		$result = $this->callApi( 'redirect', [ 'direction' => 'cats' ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListDirection() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'direction' => 'asc' ) );
+		$result = $this->callApi( 'redirect', [ 'direction' => 'asc' ] );
 		$this->isAthenB( $result );
 	}
 
 	public function testListBadFilter() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'filterBy' => 'cats', 'filter' => 'nothing' ) );
+		$result = $this->callApi( 'redirect', [ 'filterBy' => 'cats', 'filter' => 'nothing' ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListFilterName() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect',  array( 'filter' => 'test1' ) );
+		$result = $this->callApi( 'redirect', [ 'filter' => 'test1' ] );
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 

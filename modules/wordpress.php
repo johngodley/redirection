@@ -69,8 +69,8 @@ class WordPress_Module extends Red_Module {
 			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
 
 			foreach ( $redirects as $redirect ) {
-				if ( $redirect->matches( $url ) ) {
-					return true;
+				if ( $redirect->is_match( $url ) ) {
+					return $redirect;
 				}
 			}
 		}
@@ -96,23 +96,29 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		if ( $options['https'] && ! is_ssl() ) {
-			$target = rtrim( Redirection_Request::get_server_name(), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
+			$target = rtrim( parse_url( home_url(), PHP_URL_HOST ), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
 			wp_safe_redirect( 'https://' . $target, 301 );
 			die();
 		}
 	}
 
+	/**
+	 * This is the key to Redirection and where requests are matched to redirects
+	 */
 	public function init() {
-		$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
+		$url = Redirection_Request::get_request_url();
+		$url = apply_filters( 'redirection_url_source', urldecode( $url ) );
 
 		// Make sure we don't try and redirect something essential
 		if ( $url && ! $this->protected_url( $url ) && $this->matched === false ) {
 			do_action( 'redirection_first', $url, $this );
 
+			// Get all redirects that match the URL
 			$redirects = Red_Item::get_for_url( $url );
 
+			// Redirects will be ordered by position. Run through the list until one fires
 			foreach ( (array) $redirects as $item ) {
-				if ( $item->matches( $url ) ) {
+				if ( $item->is_match( $url ) ) {
 					$this->matched = $item;
 					break;
 				}
@@ -152,7 +158,7 @@ class WordPress_Module extends Red_Module {
 	}
 
 	public function send_headers( $obj ) {
-		if ( ! empty( $this->matched ) && $this->matched->match->action_code === '410' ) {
+		if ( ! empty( $this->matched ) && $this->matched->action->get_code() === 410 ) {
 			add_filter( 'status_header', array( $this, 'set_header_410' ) );
 		}
 	}

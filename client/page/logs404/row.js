@@ -20,6 +20,7 @@ import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
 import ExternalLink from 'component/external-link';
+import { getFlags } from 'state/settings/selector';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -74,7 +75,7 @@ class LogRow404 extends React.Component {
 		return (
 			<Modal onClose={ this.onClose } width="700">
 				<div className="add-new">
-					<EditRedirect item={ getDefaultItem( this.props.item.url, 0 ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } callback={ this.setHeight } childSave={ this.onSave } autoFocus>
+					<EditRedirect item={ getDefaultItem( this.props.item.url, 0, this.props.defaultFlags ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } callback={ this.setHeight } childSave={ this.onSave } autoFocus>
 						<tr>
 							<th>{ __( 'Delete 404s' ) }</th>
 							<td className="edit-left" style={ { padding: '7px 0px' } }>
@@ -214,6 +215,7 @@ function mapStateToProps( state ) {
 
 	return {
 		infoStatus,
+		defaultFlags: getFlags( state ),
 	};
 }
 

@@ -64,7 +64,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		rewind( $file );
 
 		$importer = new Red_Csv_File();
-		$count = $importer->load_from_file( $group->get_id(), $file );
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
 		$this->assertEquals( 1, $count );
@@ -80,7 +80,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
 		ini_set( 'auto_detect_line_endings', true );
-		$multi = file_get_contents( dirname( __FILE__ ).'/fixtures/multiline-ending.csv' );
+		$multi = file_get_contents( dirname( __FILE__ ) . '/fixtures/multiline-ending.csv' );
 
 		$file = fopen( 'php://memory', 'w+' );
 
@@ -88,7 +88,29 @@ class ImportCsvTest extends WP_UnitTestCase {
 		rewind( $file );
 
 		$importer = new Red_Csv_File();
-		$count = $importer->load_from_file( $group->get_id(), $file );
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		$this->assertEquals( 3, $count );
+		$this->assertEquals( '/sign/SMEK', $redirect->url );
+	}
+
+	public function testSemicolon() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', 1 );
+
+		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
+		ini_set( 'auto_detect_line_endings', true );
+		$multi = file_get_contents( dirname( __FILE__ ) . '/fixtures/semicolon.csv' );
+
+		$file = fopen( 'php://memory', 'w+' );
+
+		fwrite( $file, $multi );
+		rewind( $file );
+
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file, ';' );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
 		$this->assertEquals( 3, $count );

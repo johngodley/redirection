@@ -241,7 +241,7 @@ class RE_404 {
 
 		$stdout = fopen( 'php://output', 'w' );
 
-		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer' ) );
+		fputcsv( $stdout, array( 'date', 'source', 'ip', 'referrer', 'useragent' ) );
 
 		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 		$exported = 0;
@@ -256,6 +256,7 @@ class RE_404 {
 					$row->url,
 					$row->ip,
 					$row->referrer,
+					$row->agent,
 				);
 
 				fputcsv( $stdout, $csv );
@@ -313,7 +314,7 @@ class RE_Filter_Log {
 			$group = 'url';
 		}
 
-		$sql = $wpdb->prepare( "SELECT COUNT(*) as count,$group FROM {$wpdb->prefix}$table " . $query['where'] . ' GROUP BY ' . $group . ' ORDER BY count ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] );
+		$sql = $wpdb->prepare( "SELECT COUNT(*) as count,$group FROM {$wpdb->prefix}$table " . $query['where'] . ' GROUP BY ' . $group . ' ORDER BY count ' . $query['direction'] . ', ' . $group . ' LIMIT %d,%d', $query['offset'], $query['limit'] );
 		$rows = $wpdb->get_results( $sql );
 		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM {$wpdb->prefix}$table" );
 

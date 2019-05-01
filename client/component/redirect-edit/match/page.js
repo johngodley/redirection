@@ -10,26 +10,20 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-class MatchPage extends React.Component {
-	static propTypes = {
-		page: PropTypes.string.isRequired,
-	};
+import TableRow from '../table-row';
 
-	onChange = ev => {
-		this.props.onChange( 'page', 'page', ev.target.value );
-	}
+const MatchPage = () => {
+	return (
+		<TableRow title={ __( 'Page Type' ) }>
+			{ __( 'Only the 404 page type is currently supported.' ) }&nbsp;
+			{ __( 'Please do not try and redirect all your 404s - this is not a good thing to do.' ) }
+		</TableRow>
+	);
+};
 
-	render() {
-		return (
-			<tr>
-				<th>{ __( 'Page Type' ) }</th>
-				<td>
-					{ __( 'Only the 404 page type is currently supported.' ) }&nbsp;
-					{ __( 'Please do not try and redirect all your 404s - this is not a good thing to do.' ) }
-				</td>
-			</tr>
-		);
-	}
-}
+MatchPage.propTypes = {
+	data: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default MatchPage;

@@ -53,17 +53,23 @@ class Red_Csv_File extends Red_FileIO {
 
 		ini_set( 'auto_detect_line_endings', false );
 
+		$count = 0;
 		if ( $file ) {
-			return $this->load_from_file( $group, $file );
+			$count = $this->load_from_file( $group, $file, ',' );
+
+			// Try again with semicolons - Excel often exports CSV with semicolons
+			if ( $count === 0 ) {
+				$count = $this->load_from_file( $group, $file, ';' );
+			}
 		}
 
-		return 0;
+		return $count;
 	}
 
-	public function load_from_file( $group_id, $file ) {
+	public function load_from_file( $group_id, $file, $separator ) {
 		$count = 0;
 
-		while ( ( $csv = fgetcsv( $file, 5000, ',' ) ) ) {
+		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) ) {
 			$item = $this->csv_as_item( $csv, $group_id );
 
 			if ( $item ) {

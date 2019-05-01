@@ -7,7 +7,6 @@ import 'lib/polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
 import i18n from 'lib/locale';
 
 /**
@@ -16,27 +15,11 @@ import i18n from 'lib/locale';
 
 import App from './app';
 
-const render = ( Component, dom ) => {
-	ReactDOM.render(
-		<AppContainer>
-			<Component />
-		</AppContainer>,
-
-		document.getElementById( dom )
-	);
-};
-
 const show = dom => {
 	i18n.setLocale( { '': { localeSlug: Redirectioni10n.localeSlug } } );
 	i18n.addTranslations( Redirectioni10n.locale );
 
-	if ( module.hot ) {
-		module.hot.accept( './app', () => {
-			render( App, dom );
-		} );
-	}
-
-	render( App, dom );
+	ReactDOM.render( <App />, document.getElementById( dom ) );
 };
 
 if ( document.querySelector( '#react-ui' ) ) {
