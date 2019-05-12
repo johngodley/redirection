@@ -64,7 +64,8 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 			$posts = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s)",
+					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
+					"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
 					'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
 				)
 			);
