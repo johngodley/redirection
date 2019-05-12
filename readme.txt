@@ -2,9 +2,9 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 4.6
-Tested up to: 5.1.1
-Stable tag: 4.2.3
+Requires at least: 4.7
+Tested up to: 5.2
+Stable tag: 4.3
 Requires PHP: 5.4
 License: GPLv3
 
@@ -169,6 +169,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix query param name is a number
 * Fix redirect with blank target and auto target settings
 * Disable IP grouping when IP option is disabled
+* Allow multisite database updates to run when more than 100 sites
 
 = 4.2.3 - 16th Apr 2019 =
 * Fix bug with old API routes breaking test
