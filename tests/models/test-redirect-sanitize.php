@@ -207,7 +207,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'match_data' => [ 'source' => [ 'flag_regex' => true ] ] ] ) );
 
 		$this->assertEquals( 'regex', $result['match_url'] );
-		$this->assertTrue( $result['regex'] );
+		$this->assertEquals( 1, $result['regex'] );
 	}
 
 	public function testGetJsonDefaultSame() {
