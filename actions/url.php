@@ -7,6 +7,12 @@ class Url_Action extends Red_Action {
 		$redirect = wp_redirect( $target, $code );
 
 		if ( $redirect ) {
+			global $wp_version;
+
+			if ( version_compare( $wp_version, '5.1', '<' ) ) {
+				header( 'X-Redirect-Agent: redirection' );
+			}
+
 			die();
 		}
 	}
