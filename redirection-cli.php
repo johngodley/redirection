@@ -176,10 +176,10 @@ class Redirection_Cli extends WP_CLI_Command {
 						return;
 					}
 
-					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database upgraded' );
-
 					$loop++;
 				}
+
+				WP_CLI::success( 'Site ' . get_current_blog_id() . ' database upgraded' );
 			} );
 
 			WP_CLI::success( 'Database upgrade finished' );
