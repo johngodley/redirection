@@ -62,7 +62,7 @@ class Red_Item_Sanitize {
 
 			// Remove defaults
 			$data['match_data']['source'] = $flags->get_json_without_defaults( $defaults );
-			$data['regex'] = $flags->is_regex();
+			$data['regex'] = $flags->is_regex() ? 1 : 0;
 		}
 
 		// If match_data is empty then don't save anything
