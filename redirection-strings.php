@@ -119,12 +119,12 @@ __( "Ignore Case", "redirection" ), // client/component/redirect-edit/constants.
 __( "Exact match all parameters in any order", "redirection" ), // client/component/redirect-edit/constants.js:172
 __( "Ignore all parameters", "redirection" ), // client/component/redirect-edit/constants.js:176
 __( "Ignore & pass parameters to the target", "redirection" ), // client/component/redirect-edit/constants.js:180
-__( "When matched", "redirection" ), // client/component/redirect-edit/index.js:276
-__( "Group", "redirection" ), // client/component/redirect-edit/index.js:285
-__( "Save", "redirection" ), // client/component/redirect-edit/index.js:295
-__( "Cancel", "redirection" ), // client/component/redirect-edit/index.js:307
-__( "Close", "redirection" ), // client/component/redirect-edit/index.js:308
-__( "Show advanced options", "redirection" ), // client/component/redirect-edit/index.js:311
+__( "When matched", "redirection" ), // client/component/redirect-edit/index.js:277
+__( "Group", "redirection" ), // client/component/redirect-edit/index.js:286
+__( "Save", "redirection" ), // client/component/redirect-edit/index.js:296
+__( "Cancel", "redirection" ), // client/component/redirect-edit/index.js:308
+__( "Close", "redirection" ), // client/component/redirect-edit/index.js:309
+__( "Show advanced options", "redirection" ), // client/component/redirect-edit/index.js:312
 __( "Match", "redirection" ), // client/component/redirect-edit/match-type.js:19
 __( "User Agent", "redirection" ), // client/component/redirect-edit/match/agent.js:51
 __( "Match against this browser user agent", "redirection" ), // client/component/redirect-edit/match/agent.js:52

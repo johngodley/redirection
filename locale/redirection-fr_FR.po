@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-04-25 06:55:45+0000\n"
+"PO-Revision-Date: 2019-05-06 14:54:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1742,7 +1742,7 @@ msgstr "Sélectionner cette option supprimera toutes les redirections, les journ
 
 #: redirection-strings.php:408
 msgid "Delete Redirection"
-msgstr "Supprimer la redirection"
+msgstr "Supprimer Redirection"
 
 #: redirection-strings.php:320
 msgid "Upload"

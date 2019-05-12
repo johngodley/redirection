@@ -1867,7 +1867,7 @@ msgid "Disabled! Detected PHP %s, need PHP 5.4+"
 msgstr ""
 
 #. translators: version number
-#: api/api-plugin.php:139
+#: api/api-plugin.php:147
 msgid "Your database does not need updating to %s."
 msgstr ""
 
