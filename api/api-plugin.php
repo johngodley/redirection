@@ -95,7 +95,14 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		$fixer = new Red_Fixer();
 
 		if ( isset( $params['name'] ) && isset( $params['value'] ) ) {
+			global $wpdb;
+
 			$fixer->save_debug( $params['name'], $params['value'] );
+
+			$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
+			if ( $groups === 0 ) {
+				Red_Group::create( 'new group', 1 );
+			}
 		} else {
 			$fixer->fix( $fixer->get_status() );
 		}
