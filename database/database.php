@@ -77,13 +77,19 @@ class Red_Database {
 
 	public static function apply_to_sites( $callback ) {
 		if ( is_multisite() && ( is_network_admin() || defined( 'WP_CLI' ) && WP_CLI ) ) {
-			array_map( function( $site ) use ( $callback ) {
-				switch_to_blog( $site->blog_id );
+			$total = get_sites( [ 'count' => true ] );
+			$per_page = 100;
 
-				$callback();
+			// Paginate through all sites and apply the callback
+			for ( $offset = 0; $offset < $total; $offset += $per_page ) {
+				array_map( function( $site ) use ( $callback ) {
+					switch_to_blog( $site->blog_id );
 
-				restore_current_blog();
-			}, get_sites() );
+					$callback();
+
+					restore_current_blog();
+				}, get_sites( [ 'number' => $per_page, 'offset' => $offset ] ) );
+			}
 
 			return;
 		}
