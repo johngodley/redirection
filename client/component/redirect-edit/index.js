@@ -130,6 +130,7 @@ class EditRedirect extends React.Component {
 
 		const { url, title, flag_regex, flag_trailing, flag_case, flag_query, match_type, action_type, group_id, action_code, position, action_data } = this.state;
 		const groups = this.props.group.rows;
+		const group_value = group_id > 0 || ! groups ? group_id : groups[ 0 ].id;
 
 		const redirect = {
 			id: parseInt( this.props.item.id, 10 ),
@@ -146,7 +147,7 @@ class EditRedirect extends React.Component {
 			match_type,
 			action_type,
 			position,
-			group_id: group_id > 0 ? group_id : groups[ 0 ].id,
+			group_id: group_value,
 			action_code: parseInt( action_code, 10 ),
 			action_data: getMatchState( match_type, action_data ),
 		};
