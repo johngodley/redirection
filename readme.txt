@@ -164,10 +164,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add manual database install option
 * Add check for pipe character in target URL
 * Add warning when problems saving .htaccess file
-* Switch from 'x-redirect-agent' to 'x-redirect-by'
+* Switch from 'x-redirect-agent' to 'x-redirect-by', for WP 5+
 * Improve handling of invalid query parameters
 * Fix query param name is a number
 * Fix redirect with blank target and auto target settings
+* Fix monitor trash option applying when deleting a draft
+* Fix case insensitivity not applying to query params
 * Disable IP grouping when IP option is disabled
 * Allow multisite database updates to run when more than 100 sites
 
