@@ -76,8 +76,10 @@ class Red_Monitor {
 			'status'      => 'disabled',
 		);
 
-		// Create a new redirect for this post
-		Red_Item::create( $data );
+		// Create a new redirect for this post, but only if not draft
+		if ( $data['url'] !== '/' ) {
+			Red_Item::create( $data );
+		}
 	}
 
 	/**
