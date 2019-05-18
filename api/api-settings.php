@@ -26,10 +26,11 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 		$params = $request->get_params();
 		$result = true;
 
-		if ( isset( $params['location'] ) ) {
+		if ( isset( $params['location'] ) && strlen( $params['location'] ) > 0 ) {
 			$module = Red_Module::get( 2 );
 			$result = $module->can_save( $params['location'] );
 		}
+
 		red_set_options( $params );
 
 		$settings = $this->route_settings( $request );
