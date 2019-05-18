@@ -6,11 +6,19 @@ class Red_Url_Query {
 	private $query = [];
 	private $match_exact = false;
 
-	public function __construct( $url ) {
+	public function __construct( $url, $flags ) {
+		if ( $flags->is_ignore_case() ) {
+			$url = Red_Url_Path::to_lower( $url );
+		}
+
 		$this->query = $this->get_url_query( $url );
 	}
 
 	public function is_match( $url, Red_Source_Flags $flags ) {
+		if ( $flags->is_ignore_case() ) {
+			$url = Red_Url_Path::to_lower( $url );
+		}
+
 		// If we can't parse the query params then match the params exactly
 		if ( $this->match_exact !== false ) {
 			return $this->get_query_after( $url ) === $this->match_exact;
@@ -48,8 +56,8 @@ class Red_Url_Query {
 	 */
 	public static function add_to_target( $target_url, $requested_url, Red_Source_Flags $flags ) {
 		if ( $flags->is_query_pass() && $target_url ) {
-			$source_query = new Red_Url_Query( $target_url );
-			$request_query = new Red_Url_Query( $requested_url );
+			$source_query = new Red_Url_Query( $target_url, $flags );
+			$request_query = new Red_Url_Query( $requested_url, $flags );
 
 			// Now add any remaining params
 			$query_diff = $source_query->get_query_diff( $source_query->query, $request_query->query );

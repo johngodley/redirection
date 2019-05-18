@@ -37,7 +37,7 @@ class Red_Url {
 		}
 
 		$path = new Red_Url_Path( $this->url );
-		$query = new Red_Url_Query( $this->url );
+		$query = new Red_Url_Query( $this->url, $flags );
 
 		return $path->is_match( $requested_url, $flags ) && $query->is_match( $requested_url, $flags );
 	}

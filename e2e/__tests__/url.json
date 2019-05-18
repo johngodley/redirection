@@ -373,5 +373,18 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test case insensitive query param",
+		{
+			"source": {
+				"url": "/plain301-query-case?CATS=1"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
