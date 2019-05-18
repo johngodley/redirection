@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-12-05 14:43:26+0000\n"
+"PO-Revision-Date: 2019-05-13 14:30:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: redirection-strings.php:501
 msgid "IP Headers"
-msgstr ""
+msgstr "IP ヘッダー"
 
 #: redirection-strings.php:499
 msgid "Do not change unless advised to do so!"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: redirection-strings.php:498
 msgid "Database version"
-msgstr ""
+msgstr "データベースバージョン"
 
 #: redirection-strings.php:341
 msgid "Complete data (JSON)"
@@ -53,11 +53,11 @@ msgstr ""
 
 #: redirection-strings.php:295
 msgid "Automatic Upgrade"
-msgstr ""
+msgstr "自動アップグレード"
 
 #: redirection-strings.php:294
 msgid "Manual Upgrade"
-msgstr ""
+msgstr "手動アップグレード"
 
 #: redirection-strings.php:293
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
@@ -69,7 +69,7 @@ msgstr ""
 
 #: redirection-strings.php:288
 msgid "Complete Upgrade"
-msgstr ""
+msgstr "アップグレード完了"
 
 #: redirection-strings.php:287
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL. Click \"Complete Upgrade\" when finished."
@@ -105,7 +105,7 @@ msgstr ""
 
 #: redirection-strings.php:187
 msgid "Summary"
-msgstr ""
+msgstr "概要"
 
 #: redirection-strings.php:186
 msgid "You are using a broken REST API route. Changing to a working API should fix the problem."
@@ -133,7 +133,7 @@ msgstr ""
 
 #: redirection-strings.php:179
 msgid "Current API"
-msgstr ""
+msgstr "現在の API"
 
 #: redirection-strings.php:178
 msgid "Switch to this API"
@@ -141,11 +141,11 @@ msgstr ""
 
 #: redirection-strings.php:177
 msgid "Hide"
-msgstr ""
+msgstr "隠す"
 
 #: redirection-strings.php:176
 msgid "Show Full"
-msgstr ""
+msgstr "すべてを表示"
 
 #: redirection-strings.php:175
 msgid "Working!"
@@ -283,7 +283,7 @@ msgstr ""
 
 #: redirection-strings.php:459
 msgid "Default URL settings"
-msgstr ""
+msgstr "デフォルトの URL 設定"
 
 #: redirection-strings.php:442
 msgid "Ignore and pass all query parameters"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: redirection-strings.php:440
 msgid "Exact match"
-msgstr ""
+msgstr "完全一致"
 
 #: redirection-strings.php:254
 msgid "Caching software (e.g Cloudflare)"
@@ -377,11 +377,11 @@ msgstr ""
 
 #: redirection-strings.php:291
 msgid "Upgrade Required"
-msgstr ""
+msgstr "アップグレードが必須"
 
 #: redirection-strings.php:259
 msgid "Finish Setup"
-msgstr ""
+msgstr "セットアップ完了"
 
 #: redirection-strings.php:257
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
@@ -405,11 +405,11 @@ msgstr ""
 
 #: redirection-strings.php:249 redirection-strings.php:260
 msgid "Go back"
-msgstr ""
+msgstr "戻る"
 
 #: redirection-strings.php:248
 msgid "Continue Setup"
-msgstr ""
+msgstr "セットアップを続行"
 
 #: redirection-strings.php:246
 msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
@@ -446,11 +446,11 @@ msgstr ""
 
 #: redirection-strings.php:237
 msgid "Basic Setup"
-msgstr ""
+msgstr "基本セットアップ"
 
 #: redirection-strings.php:236
 msgid "Start Setup"
-msgstr ""
+msgstr "セットアップを開始"
 
 #: redirection-strings.php:235
 msgid "When ready please press the button to continue."
@@ -506,7 +506,7 @@ msgstr ""
 
 #: redirection-strings.php:217
 msgid "Welcome to Redirection 🚀🎉"
-msgstr ""
+msgstr "Redirection へようこそ 🚀🎉"
 
 #: redirection-strings.php:172
 msgid "This will redirect everything, including the login pages. Please be sure you want to do this."
@@ -538,7 +538,7 @@ msgstr ""
 
 #: redirection-strings.php:14
 msgid "Finished! 🎉"
-msgstr ""
+msgstr "完了 ! 🎉"
 
 #: redirection-strings.php:13
 msgid "Progress: %(complete)d$"
@@ -582,15 +582,15 @@ msgstr ""
 
 #: redirection-admin.php:423
 msgid "Please enable JavaScript"
-msgstr ""
+msgstr "JavaScript を有効化してください"
 
 #: redirection-admin.php:151
 msgid "Please upgrade your database"
-msgstr ""
+msgstr "データベースをアップグレードしてください"
 
 #: redirection-admin.php:142 redirection-strings.php:290
 msgid "Upgrade Database"
-msgstr ""
+msgstr "データベースをアップグレード"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:79
@@ -618,7 +618,7 @@ msgstr ""
 
 #: database/schema/latest.php:9
 msgid "Install Redirection tables"
-msgstr ""
+msgstr "Redirection テーブルをインストール"
 
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
@@ -635,7 +635,7 @@ msgstr ""
 
 #: redirection-strings.php:146
 msgid "Page Type"
-msgstr ""
+msgstr "ページ種別"
 
 #: redirection-strings.php:145
 msgid "Enter IP addresses (one per line)"
@@ -647,23 +647,23 @@ msgstr ""
 
 #: redirection-strings.php:110
 msgid "418 - I'm a teapot"
-msgstr ""
+msgstr "418 - I'm a teapot"
 
 #: redirection-strings.php:107
 msgid "403 - Forbidden"
-msgstr ""
+msgstr "403 - Forbidden"
 
 #: redirection-strings.php:105
 msgid "400 - Bad Request"
-msgstr ""
+msgstr "400 - Bad Request"
 
 #: redirection-strings.php:102
 msgid "304 - Not Modified"
-msgstr ""
+msgstr "304 - Not Modified"
 
 #: redirection-strings.php:101
 msgid "303 - See Other"
-msgstr ""
+msgstr "303 - See Other"
 
 #: redirection-strings.php:98
 msgid "Do nothing (ignore)"
