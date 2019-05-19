@@ -1,5 +1,33 @@
 <?php
+/**
+ * @api {get} /redirection/v1/log Get log logs
+ * @apiDescription Get log logs
+ * @apiGroup Log
+ *
+ * @apiParam {string} groupBy Group by 'ip' or 'url'
+ * @apiParam {string} orderby
+ * @apiParam {string} direction
+ * @apiParam {string} filter
+ * @apiParam {string} per_page
+ * @apiParam {string} page
+ */
 
+/**
+ * @api {post} /redirection/v1/log Delete log logs
+ * @apiDescription Delete log logs either by ID or filter or group
+ * @apiGroup Log
+ *
+ * @apiParam {string} items Array of log IDs
+ * @apiParam {string} filter
+ * @apiParam {string} filterBy
+ * @apiParam {string} groupBy Group by 'ip' or 'url'
+ */
+
+/**
+ * @api {post} /redirection/v1/bulk/log/delete Bulk actions on logs
+ * @apiDescription Delete log logs either by ID
+ * @apiGroup Log
+ */
 class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$filters = array( 'url', 'ip', 'url-exact' );

@@ -43,6 +43,9 @@ const SVN_SOURCE_FILES = [
 	'!e2e',
 	'!docker-compose.yml',
 	'!.DS_Store',
+	'!api-doc/**',
+	'!api/*.md',
+	'!api/api.php',
 ];
 const versionHeader = md5 => `<?php
 

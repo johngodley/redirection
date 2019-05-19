@@ -1,5 +1,34 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/404 Get 404 logs
+ * @apiDescription Get 404 logs
+ * @apiGroup 404
+ *
+ * @apiParam {string} groupBy Group by 'ip' or 'url'
+ * @apiParam {string} orderby
+ * @apiParam {string} direction
+ * @apiParam {string} filter
+ * @apiParam {string} per_page
+ * @apiParam {string} page
+ */
+
+/**
+ * @api {post} /redirection/v1/404 Delete 404 logs
+ * @apiDescription Delete 404 logs either by ID or filter or group
+ * @apiGroup 404
+ *
+ * @apiParam {string} items Array of log IDs
+ * @apiParam {string} filter
+ * @apiParam {string} filterBy
+ * @apiParam {string} groupBy Group by 'ip' or 'url'
+ */
+
+/**
+ * @api {post} /redirection/v1/bulk/404/delete Bulk actions on 404s
+ * @apiDescription Delete 404 logs either by ID
+ * @apiGroup 404
+ */
 class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$filters = array( 'ip', 'url', 'url-exact', 'total' );

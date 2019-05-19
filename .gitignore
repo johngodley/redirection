@@ -2,3 +2,4 @@ node_modules
 .config.json
 /.vscode
 /yarn-error.log
+/api-doc

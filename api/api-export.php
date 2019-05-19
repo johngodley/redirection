@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/export/:module/:format Export redirects for a module in a format
+ * @apiDescription Export redirects for a module in a format
+ * @apiGroup Export
+ *
+ * @apiParam {String} module The module to export - 1, 2, 3, or 'all'
+ * @apiParam {String} format The format of the export. Either 'csv', 'apache', 'nginx', or 'json'
+ *
+ * @apiSuccess {Array} ip Array of export data
+ * @apiSuccess {Integer} total Number of items exported
+ *
+ * @apiUse 400Error
+ */
 class Redirection_Api_Export extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)', array(

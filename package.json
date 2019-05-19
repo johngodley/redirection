@@ -21,7 +21,8 @@
     "down": "docker-compose down",
     "clean": "docker-compose down && docker-compose rm && docker volume prune",
     "cli": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
-    "release": "rm -rf node_modules && yarn install && yarn dist && gulp version"
+    "release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
+    "doc": "apidoc -v -i api/ -o ./api-doc/"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@hot-loader/react-dom": "^16.8.6",
+    "apidoc": "^0.17.7",
     "autoprefixer": "^9.5.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
@@ -165,5 +167,22 @@
     "modulePaths": [
       "./client"
     ]
+  },
+  "apidoc": {
+    "name": "Redirection REST API",
+    "version": "0.1.0",
+    "description": "WordPress REST API documentation for Redirection",
+    "title": "Redirection REST API",
+    "url": "https://redirection.me/wp-json",
+    "header": {
+      "title": "Introduction",
+      "filename": "./api/header.md"
+    },
+    "footer": {
+      "filename": "./api/footer.md"
+    },
+    "template": {
+      "withCompare": false
+    }
   }
 }
