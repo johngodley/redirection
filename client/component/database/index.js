@@ -95,17 +95,17 @@ class Database extends React.Component {
 	getErrorMessage() {
 		const { debug = [], reason, current, next } = this.props;
 		const message = [
-			'Message: ' + reason,
+			reason ? 'Message: ' + reason : null,
 			'Installed: ' + current,
 			'Next: ' + next,
-			'Debug: ' + debug.join( '\n' ),
+			debug.length > 0 ? 'Debug: ' + debug.join( '\n' ) : null,
 		];
 
-		return message.join( '\n' );
+		return message.filter( item => item ).join( '\n' );
 	}
 
 	renderLoopError() {
-		return this.renderError( 'Something has gone wrong with the upgrade' );
+		return this.renderError( 'Something has gone wrong with the upgrade - loop detected.', false );
 	}
 
 	renderError( error ) {
