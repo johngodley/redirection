@@ -37,11 +37,12 @@ __( "What do I do next?", "redirection" ), // client/component/error/index.js:11
 __( "Take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem.", "redirection" ), // client/component/error/index.js:114
 __( "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.", "redirection" ), // client/component/error/index.js:121
 __( "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.", "redirection" ), // client/component/error/index.js:128
-__( "That didn't help", "redirection" ), // client/component/error/index.js:136
-__( "Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.", "redirection" ), // client/component/error/index.js:139
-__( "Create An Issue", "redirection" ), // client/component/error/index.js:146
-__( "Email", "redirection" ), // client/component/error/index.js:146
-__( "Include these details in your report along with a description of what you were doing and a screenshot", "redirection" ), // client/component/error/index.js:147
+__( "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues.", "redirection" ), // client/component/error/index.js:135
+__( "That didn't help", "redirection" ), // client/component/error/index.js:143
+__( "Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.", "redirection" ), // client/component/error/index.js:146
+__( "Create An Issue", "redirection" ), // client/component/error/index.js:153
+__( "Email", "redirection" ), // client/component/error/index.js:153
+__( "Include these details in your report along with a description of what you were doing and a screenshot", "redirection" ), // client/component/error/index.js:154
 __( "Geo IP Error", "redirection" ), // client/component/geo-map/index.js:32
 __( "Something went wrong obtaining this information", "redirection" ), // client/component/geo-map/index.js:33
 __( "Geo IP", "redirection" ), // client/component/geo-map/index.js:44
