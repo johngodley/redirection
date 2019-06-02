@@ -534,3 +534,14 @@ class Redirection_Admin {
 register_activation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_activated' ) );
 
 add_action( 'init', array( 'Redirection_Admin', 'init' ) );
+
+// This is causing a lot of problems with the REST API - disable qTranslate
+add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {
+	$url = Redirection_Request::get_request_url();
+
+	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, 'index.php?rest_route' ) !== false ) {
+		return false;
+	}
+
+	return $lang;
+}, 10, 2 );

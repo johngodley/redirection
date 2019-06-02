@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 4.7
+Requires at least: 4.8
 Tested up to: 5.2.1
 Stable tag: 4.3
 Requires PHP: 5.4
@@ -86,6 +86,7 @@ You can also import from the following plugins:
 - Simple 301 Redirects
 - SEO Redirection
 - Safe Redirect Manager
+- Rank Math
 - WordPress old slug redirects
 
 = Wait, it's free? =
@@ -137,9 +138,6 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Upgrade Notice ==
 
-= 2.3.3 =
-* Full WordPress 3.5+ compatibility! Note that this contains database changes so please backup your data.
-
 = 2.4 =
 * Another database change. Please backup your data
 
@@ -159,7 +157,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.3 - ??? =
+= 4.3 - 2nd June 2019 =
 * Add support for UTF8 URLs without manual encoding
 * Add manual database install option
 * Add check for pipe character in target URL
@@ -642,13 +640,8 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix 410 error code
 * Fix DB errors when MySQL doesn't auto-convert data types
 
-= 2.2.4 =
-* Add Hungarian translation, thanks to daSSad
-
-= 2.2.3 =
+= < 2.2.4 =
 * Remove debug from htaccess module
-
-= < 2.2.2 =
 * Fix encoding of JS strings
 * Use fgetcsv for CSV importer - better handling
 * Allow http as URL parameter
