@@ -218,6 +218,6 @@ class Red_Item_Sanitize {
 		}
 
 		// Ensure we URL decode any i10n characters
-		return urldecode( $url );
+		return rawurldecode( $url );
 	}
 }

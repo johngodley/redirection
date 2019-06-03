@@ -45,6 +45,11 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( "/spaces'", $result['url'] );
 	}
 
+	public function testPlusChar() {
+		$result = $this->sanitizer->get( $this->get_new( array( 'url' => '/test(.+)' ) ) );
+		$this->assertEquals( '/test(.+)', $result['url'] );
+	}
+
 	public function testBadRegex() {
 		$result = $this->sanitizer->get( $this->get_new( array( 'regex' => 'cat' ) ) );
 		$this->assertEquals( 0, $result['regex'] );
