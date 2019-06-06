@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/redirect Get list of redirects
+ * @apiDescription Get list of redirects
+ * @apiGroup Redirect
+ *
+ * @apiParam {string} orderby
+ * @apiParam {string} direction
+ * @apiParam {string} filter
+ * @apiParam {string} per_page
+ * @apiParam {string} page
+ *
+ * @apiSuccess {Array} ip Array of redirects
+ * @apiSuccess {Integer} total Number of items
+ *
+ * @apiUse 400Error
+ */
+
 class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$filters = array( 'url', 'group' );

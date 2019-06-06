@@ -1,55 +1,32 @@
 <?php
 
 class Role_Match extends Red_Match {
-	public $role;
-	public $url_from;
-	public $url_notfrom;
+	use FromNotFrom_Match;
 
-	function name() {
+	public $role;
+
+	public function name() {
 		return __( 'URL and role/capability', 'redirection' );
 	}
 
 	public function save( array $details, $no_target_url = false ) {
 		$data = array( 'role' => isset( $details['role'] ) ? $details['role'] : '' );
 
-		if ( $no_target_url === false ) {
-			$data['url_from'] = isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : '';
-			$data['url_notfrom'] = isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : '';
-		}
-
-		return $data;
+		return $this->save_data( $details, $no_target_url, $data );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
-		// Check if referrer matches
-		$matched = current_user_can( $this->role );
-
-		$target = false;
-		if ( $this->url_from !== '' && $matched ) {
-			$target = $this->url_from;
-		} elseif ( $this->url_notfrom !== '' && ! $matched ) {
-			$target = $this->url_notfrom;
-		}
-
-		return $target;
+	public function is_match( $url ) {
+		return current_user_can( $this->role );
 	}
 
 	public function get_data() {
-		return array(
-			'url_from' => $this->url_from,
-			'url_notfrom' => $this->url_notfrom,
+		return array_merge( array(
 			'role' => $this->role,
-		);
+		), $this->get_from_data() );
 	}
 
 	public function load( $values ) {
-		$values = unserialize( $values );
-
-		if ( isset( $values['url_from'] ) ) {
-			$this->url_from = $values['url_from'];
-			$this->url_notfrom = $values['url_notfrom'];
-		}
-
-		$this->role = $values['role'];
+		$values = $this->load_data( $values );
+		$this->role = isset( $values['role'] ) ? $values['role'] : '';
 	}
 }

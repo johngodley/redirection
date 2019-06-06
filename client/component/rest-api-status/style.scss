@@ -1,0 +1,145 @@
+@import "../../global";
+
+.api-result-retry {
+	float: right;
+	clear: both;
+}
+
+.api-result-log {
+	background-color: #ddd;
+	padding: 5px 10px;
+	color: #111;
+	margin: 10px 0;
+	position: relative;
+
+	.api-result-method_fail {
+		color: white;
+		background-color: $error;
+		padding: 3px 5px;
+		margin-right: 5px;
+	}
+
+	.api-result-method_pass {
+		color: white;
+		background-color: $ok;
+		padding: 3px 5px;
+		width: 150px;
+		margin-right: 5px;
+	}
+
+	.dashicons {
+		vertical-align: middle;
+		width: 26px;
+		height: 26px;
+		font-size: 26px;
+		padding: 0;
+	}
+
+	.dashicons-no {
+		color: $error;
+	}
+
+	.dashicons-yes {
+		color: $ok;
+	}
+
+	pre {
+		background-color: #ccc;
+		padding: 10px 15px;
+	}
+
+	pre {
+		font-family: 'Courier New', Courier, monospace;
+	}
+
+	code {
+		background-color: transparent;
+	}
+
+	h4 {
+		margin: 0;
+		margin-top: 5px;
+		font-size: 14px;
+	}
+}
+
+.api-result-log_details {
+	display: flex;
+
+	> div {
+		width: 95%;
+	}
+
+	a {
+		color: #111;
+	}
+
+	a:hover {
+		font-weight: bold;
+	}
+
+	pre {
+		white-space: pre-wrap;       /* css-3 */
+		white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+		white-space: -pre-wrap;      /* Opera 4-6 */
+		white-space: -o-pre-wrap;    /* Opera 7 */
+		word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	}
+}
+
+.api-result-hide {
+	position: absolute;
+	bottom: 25px;
+	right: 5%;
+}
+
+.api-result-select {
+	position: absolute;
+	right: 10px;
+	top: 15px;
+
+	span {
+		background-color: #777;
+		color: white;
+		padding: 5px 10px;
+		margin-left: 10px;
+	}
+}
+
+.api-result-header {
+	display: flex;
+	align-items: center;
+
+	.api-result-progress {
+		margin: 0 15px;
+	}
+
+	.css-spinner {
+		width: 18px;
+		height: 18px;
+		top: -14px;
+	}
+
+	.api-result-status {
+		text-align: center;
+		top: 0;
+		left: 0;
+		padding: 5px 10px;
+		background-color: #ddd;
+		font-weight: bold;
+	}
+
+	.api-result-status_good {
+		background-color: $ok;
+		color: white;
+	}
+
+	.api-result-status_problem {
+		background-color: $yellow;
+	}
+
+	.api-result-status_failed {
+		background-color: $error;
+		color: white;
+	}
+}

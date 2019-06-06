@@ -3,6 +3,10 @@
 require dirname( __FILE__ ) . '/../../models/htaccess.php';
 
 class HtaccessTest extends WP_UnitTestCase {
+	private function getOutput( Red_Htaccess $htaccess ) {
+		return explode( "\n", $htaccess->get() );
+	}
+
 	private function getExisting() {
 		return 'this is a line
 
@@ -14,8 +18,7 @@ and a line at the end';
 
 	public function testEmpty() {
 		$htaccess = new Red_Htaccess();
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( count( $lines ), 1 );
 	}
@@ -24,8 +27,7 @@ and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ) ) );
 
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( count( $lines ), 9 );
 		$this->assertEquals( '# Created by Redirection', trim( $lines[0] ) );
@@ -71,8 +73,8 @@ and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_code' => 301 ) ) );
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php', 'action_code' => 302 ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteRule ^my-test$  [R=301,L]', trim( $lines[5] ) );
 		$this->assertEquals( 'RewriteRule ^my-test\.php$  [R=302,L]', trim( $lines[6] ) );
@@ -81,8 +83,8 @@ and a line at the end';
 	public function testRedirectUrlRegex() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my\.test.*?', 'action_code' => 301, 'regex' => true ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteRule my\.test.*?  [R=301,L]', trim( $lines[5] ) );
 	}
@@ -90,8 +92,8 @@ and a line at the end';
 	public function testRedirectUrlRegexLimit() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '^/my-test.*?$', 'action_code' => 301, 'regex' => true ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteRule ^my-test.*?$  [R=301,L]', trim( $lines[5] ) );
 	}
@@ -100,8 +102,8 @@ and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test', 'action_code' => 404 ) ) );
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my-test.php', 'action_code' => 410 ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteRule ^my-test$ / [F]', trim( $lines[5] ) );
 		$this->assertEquals( 'RewriteRule ^my-test\.php$ / [G]', trim( $lines[6] ) );
@@ -111,8 +113,8 @@ and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test?query=1', 'action_code' => 301 ) ) );
 		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test.php?query=1&thing=2', 'action_code' => 302 ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1$', trim( $lines[5] ) );
 		$this->assertEquals( 'RewriteRule ^my-test$  [R=301,L]', trim( $lines[6] ) );
@@ -123,8 +125,8 @@ and a line at the end';
 	public function testRedirectUrlWithTargetQuery() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_data' => '/target?test=1&test=2%20', 'action_code' => 301 ) ) );
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteRule ^my-test$ /target?test=1&test=2%20 [R=301,L]', trim( $lines[5] ) );
 	}
@@ -134,8 +136,7 @@ and a line at the end';
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => $regex, 'action_data' => $regex, 'action_code' => 301 ) ) );
 
-		$file = $htaccess->get();
-		$lines = explode( "\n", $file );
+		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( count( $lines ), 9 );
 		$this->assertEquals( 'RewriteRule something something%0Awith%20newline [R=301,L]', trim( $lines[5] ) );
@@ -151,5 +152,23 @@ and a line at the end';
 
 		$this->assertEquals( count( $lines ), 13 );
 		$this->assertEquals( 'RewriteRule blog/(.*) /$1 [R=301,L]', trim( $lines[7] ) );
+	}
+
+	public function testCaseInsensitive() {
+		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => '/target', 'action_code' => 301, 'match_data' => $match_data ] ) );
+
+		$lines = $this->getOutput( $htaccess );
+		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L,NC]', trim( $lines[5] ) );
+	}
+
+	public function testPassQuery() {
+		$match_data = json_encode( [ 'source' => [ 'flag_query' => 'pass' ] ] );
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => '/target', 'action_code' => 301, 'match_data' => $match_data ] ) );
+
+		$lines = $this->getOutput( $htaccess );
+		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L,QSA]', trim( $lines[5] ) );
 	}
 }

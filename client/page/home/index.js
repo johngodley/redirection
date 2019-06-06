@@ -155,7 +155,7 @@ class Home extends React.Component {
 
 		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
 			return (
-				<div className="notice notice-error">
+				<div className="red-error">
 					<h2>{ __( 'Cached Redirection detected' ) }</h2>
 					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
 					<p>
@@ -168,7 +168,7 @@ class Home extends React.Component {
 		}
 
 		return (
-			<div className="notice notice-error">
+			<div className="red-error">
 				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
 
 				<p>
@@ -208,7 +208,7 @@ class Home extends React.Component {
 
 	render() {
 		const { error, page } = this.state;
-		const { databaseStatus, showDatabase } = this.props;
+		const { databaseStatus, showDatabase, result } = this.props;
 		const title = getTitles()[ page ];
 
 		if ( error ) {
@@ -220,7 +220,7 @@ class Home extends React.Component {
 		}
 
 		if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
-			return <DatabaseUpdate onShowUpgrade={ this.props.onShowUpgrade } showDatabase={ showDatabase } />;
+			return <DatabaseUpdate onShowUpgrade={ this.props.onShowUpgrade } showDatabase={ showDatabase } result={ result } />;
 		}
 
 		return (
@@ -268,12 +268,13 @@ function mapDispatchToProps( dispatch ) {
 
 function mapStateToProps( state ) {
 	const { message: { errors }, settings: { showDatabase } } = state;
-	const { status: databaseStatus } = state.settings.database;
+	const { status: databaseStatus, result } = state.settings.database;
 
 	return {
 		errors,
 		showDatabase,
 		databaseStatus,
+		result,
 	};
 }
 

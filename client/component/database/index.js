@@ -8,6 +8,7 @@ import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
 import PropTypes from 'prop-types';
+import TextareaAutosize from 'react-textarea-autosize';
 
 /**
  * Internal dependencies
@@ -15,21 +16,28 @@ import PropTypes from 'prop-types';
 
 import PreventLeaveWarning from 'component/prevent-leave';
 import Spinner from 'component/spinner';
-import { upgradeDatabase, finishUpgrade } from 'state/settings/action';
+import { upgradeDatabase, finishUpgrade, fixStatus } from 'state/settings/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';
 
 class Database extends React.Component {
 	static propTypes = {
 		onFinished: PropTypes.func,
+		manual: PropTypes.bool,
 	};
+
+	static defaultProps = {
+		manual: false,
+	}
 
 	constructor( props ) {
 		super( props );
 
-		if ( this.hasWork( props ) ) {
+		if ( this.hasWork( props ) && ! props.manual ) {
 			props.onUpgrade();
 		}
+
+		this.state = { looped: false };
 	}
 
 	hasWork( props ) {
@@ -73,23 +81,31 @@ class Database extends React.Component {
 
 	componentDidUpdate( prevProps ) {
 		if ( prevProps.time !== this.props.time && this.hasWork( this.props ) ) {
-			// Start next call, after a slight pause to allow the server a bit of breathing room
-			setTimeout( () => {
-				this.props.onUpgrade();
-			}, 1000 );
+			if ( prevProps.complete === this.props.complete && this.props.status !== 'error' ) {
+				this.setState( { looped: true } );
+			} else {
+				// Start next call, after a slight pause to allow the server a bit of breathing room
+				setTimeout( () => {
+					this.props.onUpgrade();
+				}, 1000 );
+			}
 		}
 	}
 
 	getErrorMessage() {
-		const { debug, reason, current, next } = this.props;
+		const { debug = [], reason, current, next } = this.props;
 		const message = [
-			'Message: ' + reason,
+			reason ? 'Message: ' + reason : null,
 			'Installed: ' + current,
 			'Next: ' + next,
-			'Debug:\n\n' + debug.join( '\n' ),
+			debug.length > 0 ? 'Debug: ' + debug.join( '\n' ) : null,
 		];
 
-		return message.join( '\n' );
+		return message.filter( item => item ).join( '\n' );
+	}
+
+	renderLoopError() {
+		return this.renderError( 'Something has gone wrong with the upgrade - loop detected.', false );
 	}
 
 	renderError( error ) {
@@ -97,7 +113,7 @@ class Database extends React.Component {
 		const recovery = this.getErrorMessage();
 
 		return (
-			<div className="redirection-database_error notice notice-error">
+			<div className="redirection-database_error red-error">
 				<h3>{ __( 'Database problem' ) }</h3>
 				<p>{ error }</p>
 				<p>
@@ -114,7 +130,7 @@ class Database extends React.Component {
 					} ) }
 				</p>
 
-				<textarea value={ recovery } rows="15" readOnly />
+				<TextareaAutosize readOnly value={ recovery } rows="15" />
 			</div>
 		);
 	}
@@ -139,9 +155,27 @@ class Database extends React.Component {
 		return __( 'Setting up Redirection' );
 	}
 
+	onComplete = () => {
+		this.props.onComplete( Redirectioni10n.database.next );
+	}
+
 	render() {
-		const { status, complete = 0, reason, result } = this.props;
-		const showLoading = result === 'ok' && ! this.hasFinished( status );
+		const { status, complete = 0, reason, result, manual } = this.props;
+		const { looped } = this.state;
+		const showLoading = result === 'ok' && ! this.hasFinished( status ) && ! looped;
+
+		if ( manual ) {
+			return (
+				<div className="redirection-database">
+					<h1>{ __( 'Manual Install' ) }</h1>
+
+					<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Finished! 🎉" when finished.' ) }</p>
+					<p><TextareaAutosize readOnly cols="120" value={ Redirectioni10n.database.manual.join( ';\n\n' ) + ';' } spellCheck={ false } /></p>
+					<button className="button button-primary" onClick={ this.onComplete }>{ __( 'Finished! 🎉' ) }</button>
+					<p>{ __( 'If you do not complete the manual install you will be returned here.' ) }</p>
+				</div>
+			);
+		}
 
 		return (
 			<div className="redirection-database">
@@ -166,6 +200,7 @@ class Database extends React.Component {
 
 					{ showLoading && <div className="redirection-database_spinner"><Spinner /></div> }
 					{ result === 'error' && this.renderError( reason ) }
+					{ looped && this.renderLoopError() }
 					{ this.hasFinished( status ) && <button className="button button-primary" onClick={ this.onFinish }>{ __( 'Finished! 🎉' ) }</button> }
 				</div>
 			</div>
@@ -180,6 +215,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onFinish: () => {
 			dispatch( finishUpgrade() );
+		},
+		onComplete: ( version ) => {
+			dispatch( fixStatus( 'database', version ) );
 		},
 	};
 }

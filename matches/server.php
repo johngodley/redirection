@@ -29,16 +29,10 @@ class Server_Match extends Red_Match {
 		return '';
 	}
 
-	public function get_target( $url, $matched_url, $regex ) {
+	public function is_match( $url ) {
 		$server = wp_parse_url( $this->server, PHP_URL_HOST );
-		$matched = $server === Redirection_Request::get_server_name();
-		$target = $this->get_matched_target( $matched );
 
-		if ( $regex && $target ) {
-			return $this->get_target_regex_url( $matched_url, $target, $url );
-		}
-
-		return $target;
+		return $server === Redirection_Request::get_server_name();
 	}
 
 	public function get_data() {
@@ -49,6 +43,6 @@ class Server_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = $this->load_data( $values );
-		$this->server = $values['server'];
+		$this->server = isset( $values['server'] ) ? $values['server'] : '';
 	}
 }

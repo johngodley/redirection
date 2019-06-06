@@ -3,7 +3,7 @@
 class Custom_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	public $filter;
+	public $filter = '';
 
 	public function name() {
 		return __( 'URL and custom filter', 'redirection' );
@@ -23,16 +23,8 @@ class Custom_Match extends Red_Match {
 		return trim( $name );
 	}
 
-	function get_target( $url, $matched_url, $regex ) {
-		$target = false;
-		$matched = apply_filters( $this->filter, false, $url );
-		$target = $this->get_matched_target( $matched );
-
-		if ( $regex && $target ) {
-			return $this->get_target_regex_url( $matched_url, $target, $url );
-		}
-
-		return $target;
+	public function is_match( $url ) {
+		return apply_filters( $this->filter, false, $url );
 	}
 
 	public function get_data() {
@@ -43,6 +35,6 @@ class Custom_Match extends Red_Match {
 
 	public function load( $values ) {
 		$values = $this->load_data( $values );
-		$this->filter = $values['filter'];
+		$this->filter = isset( $values['filter'] ) ? $values['filter'] : '';
 	}
 }

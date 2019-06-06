@@ -28,7 +28,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 		$this->assertNotEquals( array(), $before );
 
 		$active = get_option( 'active_plugins' );
-		$active[] = basename( dirname( REDIRECTION_FILE ) ).'/'.basename( REDIRECTION_FILE );
+		$active[] = basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE );
 		update_option( 'active_plugins', $active );
 
 		$this->setNonce();
@@ -47,7 +47,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 		$this->setNonce();
 
 		$results = $this->callApi( 'plugin' );
-		$this->assertEquals( 'db', $results->data[2]['id'] );
+		$this->assertEquals( 'db', $results->data['status'][0]['id'] );
 	}
 
 	public function testFixStatus() {
@@ -58,12 +58,26 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 
 		$results = $this->callApi( 'plugin' );
 
-		$this->assertEquals( 'groups', $results->data[3]['id'] );
-		$this->assertEquals( 'problem', $results->data[3]['status'] );
+		$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
+		$this->assertEquals( 'problem', $results->data['status'][1]['status'] );
 
 		$results = $this->callApi( 'plugin', array(), 'POST' );
 
-		$this->assertEquals( 'groups', $results->data[3]['id'] );
-		$this->assertEquals( 'good', $results->data[3]['status'] );
+		$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
+		$this->assertEquals( 'good', $results->data['status'][1]['status'] );
+	}
+
+	public function testMatchPost() {
+		$this->setNonce();
+
+		$results = $this->callApi( 'plugin/post', [ 'text' => 'e' ] );
+		$this->assertTrue( count( $results->data ) > 0 );
+	}
+
+	public function testNoMatchPost() {
+		$this->setNonce();
+
+		$results = $this->callApi( 'plugin/post', [ 'text' => 'z' ] );
+		$this->assertTrue( count( $results->data ) === 0 );
 	}
 }

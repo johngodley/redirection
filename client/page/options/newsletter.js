@@ -36,7 +36,7 @@ const Newsletter = props => {
 			<h3>{ __( 'Newsletter' )}</h3>
 
 			<p>{ __( 'Want to keep up to date with changes to Redirection?' ) }</p>
-			<p>{ __( 'Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if want to test beta changes before release.' ) }</p>
+			<p>{ __( 'Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release.' ) }</p>
 
 			<form action="https://tinyletter.com/redirection" method="post" onSubmit={ props.onSubscribe }>
 				<p>

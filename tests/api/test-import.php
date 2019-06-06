@@ -10,7 +10,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'import/plugin' );
 		$this->assertEquals( 403, $result->status );
 
-		$result = $this->callApi( 'import/plugin/XXX', array(), 'POST' );
+		$result = $this->callApi( 'import/plugin/zzz', array(), 'POST' );
 		$this->assertEquals( 403, $result->status );
 	}
 

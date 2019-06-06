@@ -37,52 +37,31 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
 
-	public function testNoTargetNoUrl() {
+	public function testNoMatch() {
 		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
 
 		$match = new Agent_Match( serialize( array( 'agent' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testRegexNoTargetNoUrl() {
-		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
+	public function testNoMatchNoExists() {
+		unset( $_SERVER['HTTP_USER_AGENT'] );
 
-		$match = new Agent_Match( serialize( array( 'agent' => 'other', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$match = new Agent_Match( serialize( array( 'agent' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetUrl() {
+	public function testMatch() {
 		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
 
 		$match = new Agent_Match( serialize( array( 'agent' => 'nothing', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetNotFrom() {
-		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
+	public function testMatchRegex() {
+		$_SERVER['HTTP_USER_AGENT'] = 'agent1';
 
-		$match = new Agent_Match( serialize( array( 'agent' => 'other', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testNoTargetFrom() {
-		$_SERVER['HTTP_USER_AGENT'] = 'nothing';
-
-		$match = new Agent_Match( serialize( array( 'agent' => 'nothing', 'regex' => false, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testRegexTarget() {
-		$_SERVER['HTTP_USER_AGENT'] = 'nothing|other|cat';
-
-		$match = new Agent_Match( serialize( array( 'agent' => 'cat', 'regex' => true, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testRegexUrl() {
-		$_SERVER['HTTP_USER_AGENT'] = 'cat';
-
-		$match = new Agent_Match( serialize( array( 'agent' => 'cat', 'regex' => false, 'url_from' => '/other/$1', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+		$match = new Agent_Match( serialize( array( 'agent' => 'agent.*', 'regex' => true, 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

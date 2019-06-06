@@ -33,44 +33,54 @@ class IPMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $saved, $match->save( array( 'ip' => [ '192.168.1.1' ] ) ) );
 	}
 
+	public function testIgnoreBadIp() {
+		$match = new Ip_Match();
+		$saved = array(
+			'url_from' => '',
+			'url_notfrom' => '',
+			'ip' => [ '192.168.1.1' ],
+		);
+		$this->assertEquals( $saved, $match->save( array( 'ip' => [ 'a', 'b', '192.168.1.1' ] ) ) );
+	}
+
 	public function testLoadBad() {
 		$match = new Ip_Match();
 		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes', 'ip' => '' ) ) );
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
 
-	public function testNoTargetNoUrl() {
+	public function testNoMatch() {
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.2' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', false ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testRegexNoTargetNoUrl() {
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+	public function testNoMatchNoIp() {
+		unset( $_SERVER['REMOTE_ADDR'] );
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.2' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertFalse( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetUrl() {
+	public function testNoMatchMultiple() {
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+
+		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.2', '192.168.1.3' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertFalse( $match->is_match( '' ) );
+	}
+
+	public function testMatch() {
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
-		$this->assertEquals( false, $match->get_target( 'a', 'b', true ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 
-	public function testNoTargetNotFrom() {
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+	public function testMatchMultiple() {
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.2';
 
-		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.2' ], 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/notfrom', $match->get_target( 'a', 'b', false ) );
-	}
-
-	public function testNoTargetFrom() {
-		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
-
-		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1' ], 'url_from' => '/from', 'url_notfrom' => '/notfrom' ) ) );
-		$this->assertEquals( '/from', $match->get_target( 'a', 'b', false ) );
+		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1', '192.168.1.2' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

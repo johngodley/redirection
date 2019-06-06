@@ -19,6 +19,7 @@ import ExportCSV from 'page/logs/export-csv';
 import { tableKey } from 'lib/table';
 import LogRow from './row';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import { getOption } from 'state/settings/selector';
 import { loadLogs, deleteAll, setSearch, setPage, performTableAction, setAllSelected, setOrderBy } from 'state/log/action';
 import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
@@ -67,7 +68,7 @@ class Logs extends React.Component {
 	}
 
 	onRSS() {
-		document.location = getRssUrl();
+		document.location = getRssUrl( this.props.token );
 	}
 
 	renderRow( row, key, status ) {
@@ -88,7 +89,6 @@ class Logs extends React.Component {
 				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.handleRender } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
-						<ExportCSV logType={ LOGS_TYPE_REDIRECT } />
 						<button className="button-secondary" onClick={ this.handleRSS }>RSS</button>
 						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 					</TableButtons>
@@ -103,6 +103,7 @@ function mapStateToProps( state ) {
 
 	return {
 		log,
+		token: getOption( state, 'token' ),
 	};
 }
 

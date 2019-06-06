@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/group Get list of groups
+ * @apiDescription Get list of groups
+ * @apiGroup Group
+ *
+ * @apiParam {string} orderby
+ * @apiParam {string} direction
+ * @apiParam {string} filter
+ * @apiParam {string} per_page
+ * @apiParam {string} page
+ *
+ * @apiSuccess {Array} ip Array of groups
+ * @apiSuccess {Integer} total Number of items
+ *
+ * @apiUse 400Error
+ */
 class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$filters = array( 'name', 'module' );

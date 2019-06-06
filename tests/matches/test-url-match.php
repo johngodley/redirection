@@ -30,13 +30,18 @@ class UrlMatchTest extends WP_UnitTestCase {
 		$this->assertEquals( $match->save( array() ), '/' );
 	}
 
-	public function testTarget() {
+	public function testMatch() {
 		$match = new URL_Match( '/something' );
-		$this->assertEquals( '/something', $match->get_target( '/a', '/b', false ) );
+		$this->assertTrue( $match->is_match( '' ) );
+	}
+
+	public function testMatchedTarget() {
+		$match = new URL_Match( '/url' );
+		$this->assertEquals( '/url', $match->get_target_url( '', '', new Red_Source_Flags(), true ) );
 	}
 
 	public function testRegexTarget() {
-		$match = new URL_Match( '/other/$1' );
-		$this->assertEquals( '/other/1', $match->get_target( '/category/1', '/category/(.*?)', true ) );
+		$match = new URL_Match( '/url/$1' );
+		$this->assertEquals( '/url/1', $match->get_target_url( '/category/1', '/category/(.*?)', new Red_Source_Flags( [ 'flag_regex' => true ] ), true ) );
 	}
 }

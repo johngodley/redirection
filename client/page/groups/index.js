@@ -43,7 +43,7 @@ const getHeaders = () => [
 	},
 ];
 
-const bulk = [
+const getBulk = () => [
 	{
 		id: 'delete',
 		name: __( 'Delete' ),
@@ -72,7 +72,7 @@ class Groups extends React.Component {
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return <GroupRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />;
+		return <GroupRow item={ row } key={ row.id } selected={ status.isSelected } status={ rowStatus } />;
 	}
 
 	onChange = ev => {
@@ -105,7 +105,7 @@ class Groups extends React.Component {
 		return (
 			<div>
 				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } key={ tableKey( table ) } />
-				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ bulk }>
+				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ getBulk() }>
 					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } key={ tableKey( table ) } />
 				</TableNav>
 				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.onRenderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
@@ -130,6 +130,8 @@ class Groups extends React.Component {
 							</tr>
 						</tbody>
 					</table>
+
+					{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 				</form>
 			</div>
 		);

@@ -11,7 +11,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 
 	private function setRunningStage( $stage ) {
 		$database = new Red_Database();
-		$upgraders = $database->get_upgrades_for_version( '1.0' );
+		$upgraders = $database->get_upgrades_for_version( '1.0', false );
 
 		$status = new Red_Database_Status();
 		$status->start_upgrade( $upgraders );
@@ -49,7 +49,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 
 	public function testStopWhenRunning() {
 		$database = new Red_Database();
-		$upgraders = $database->get_upgrades_for_version( '1.0' );
+		$upgraders = $database->get_upgrades_for_version( '1.0', false );
 
 		$status = new Red_Database_Status();
 		$status->start_upgrade( $upgraders );
@@ -80,8 +80,13 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testSkipToEnd() {
+		$database = new Red_Database();
+		$upgrades = $database->get_upgrades();
+		$upgrade = Red_Database_Upgrader::get( $upgrades[ count( $upgrades ) - 1 ] );
+		$stages = array_keys( $upgrade->get_stages() );
+
 		red_set_options( array( 'database' => '1.0' ) );
-		$this->setRunningStage( 'convert_title_to_text_240' );
+		$this->setRunningStage( $stages[ count( $stages ) - 1 ] );
 
 		$status = new Red_Database_Status();
 		$status->set_next_stage();
@@ -113,8 +118,8 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'current' => '1.0',
 			'next' => REDIRECTION_DB_VERSION,
 		];
-		$actual = $status->get_json();
-		unset( $actual['time'] );
+
+		$actual = $this->get_results( $status, null );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -130,9 +135,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'current' => '-',
 			'next' => REDIRECTION_DB_VERSION,
 		];
-		$actual = $status->get_json();
-		unset( $actual['time'] );
-		unset( $actual['api'] );
+		$actual = $this->get_results( $status, null );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -158,8 +161,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -183,8 +185,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -198,7 +199,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 		$status = new Red_Database_Status();
 		$database = new Red_Database();
 
-		$status->start_install( $database->get_upgrades_for_version( '' ) );
+		$status->start_install( $database->get_upgrades_for_version( '', false ) );
 		$status->set_ok( $reason );
 		$status->finish();
 		$expected = [
@@ -208,8 +209,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'reason' => $reason,
 		];
 
-		$actual = $status->get_json( $reason );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, $reason );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -231,12 +231,19 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'next' => REDIRECTION_DB_VERSION,
 			'complete' => 0.0,
 			'reason' => 'this is an error',
-			'debug' => $latest->get_table_schema(),
+			'debug' => array_merge( $latest->get_table_schema(), [ 'Stage: add_title_201' ] ),
 		];
 
-		$actual = $status->get_json( new WP_Error( 'error', 'this is an error' ) );
-		unset( $actual['time'] );
+		$actual = $this->get_results( $status, new WP_Error( 'error', 'this is an error' ) );
 
 		$this->assertEquals( $expected, $actual );
+	}
+
+	private function get_results( $status, $reason ) {
+		$actual = $status->get_json( $reason );
+		unset( $actual['time'] );
+		unset( $actual['manual'] );
+
+		return $actual;
 	}
 }

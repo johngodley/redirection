@@ -108,7 +108,12 @@ class Red_Apache_File extends Red_FileIO {
 
 	private function decode_url( $url ) {
 		$url = rawurldecode( $url );
-		$url = str_replace( '\\.', '.', $url );
+
+		// Replace quoted slashes
+		$url = preg_replace( '@\\\/@', '/', $url );
+
+		// Ensure escaped '.' is still escaped
+		$url = preg_replace( '@\\\\.@', '\\\\.', $url );
 		return $url;
 	}
 
@@ -143,15 +148,17 @@ class Red_Apache_File extends Red_FileIO {
 	}
 
 	private function regex_url( $url ) {
+		$url = $this->decode_url( $url );
+
 		if ( $this->is_str_regex( $url ) ) {
 			$tmp = ltrim( $url, '^' );
 			$tmp = rtrim( $tmp, '$' );
 
-			if ( $this->is_str_regex( $tmp ) === false ) {
-				return '/' . $this->decode_url( $tmp );
+			if ( $this->is_str_regex( $tmp ) ) {
+				return '^/' . ltrim( $tmp, '/' );
 			}
 
-			return '/' . $this->decode_url( $url );
+			return '/' . ltrim( $tmp, '/' );
 		}
 
 		return $this->decode_url( $url );

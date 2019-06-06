@@ -12,7 +12,6 @@ import {
 	SETTING_LOAD_STATUS,
 	SETTING_DATABASE_START,
 	SETTING_DATABASE_SUCCESS,
-	SETTING_DATABASE_COMPLETE,
 	SETTING_DATABASE_FAILED,
 	SETTING_DATABASE_FINISH,
 	SETTING_DATABASE_SHOW,
@@ -36,13 +35,13 @@ function setApiTest( existing, id, method, result ) {
 export default function settings( state = {}, action ) {
 	switch ( action.type ) {
 		case SETTING_API_TRY:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, undefined ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'loading' } ) } };
 
 		case SETTING_API_SUCCESS:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, true ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'ok' } ) } };
 
 		case SETTING_API_FAILED:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, action.error.request.status ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'fail', error: action.error } ) } };
 
 		case SETTING_DATABASE_SHOW:
 			return { ... state, showDatabase: true };
@@ -55,9 +54,6 @@ export default function settings( state = {}, action ) {
 
 		case SETTING_DATABASE_SUCCESS:
 			return { ... state, database: { ... state.database, ... action.database } };
-
-		case SETTING_DATABASE_COMPLETE:
-			return { ... state, database: { ... state.database, inProgress: false } };
 
 		case SETTING_DATABASE_FAILED:
 			return { ... state, database: { ... state.database, result: STATUS_FAILED, reason: action.error } };
@@ -72,10 +68,10 @@ export default function settings( state = {}, action ) {
 			return { ... state, loadStatus: STATUS_FAILED, error: action.error };
 
 		case SETTING_SAVING:
-			return { ... state, saveStatus: STATUS_IN_PROGRESS };
+			return { ... state, saveStatus: STATUS_IN_PROGRESS, warning: false };
 
 		case SETTING_SAVED:
-			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed };
+			return { ... state, saveStatus: STATUS_COMPLETE, values: action.values, groups: action.groups, installed: action.installed, warning: action.warning ? action.warning : false };
 
 		case SETTING_SAVE_FAILED:
 			return { ... state, saveStatus: STATUS_FAILED, error: action.error };

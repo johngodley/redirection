@@ -145,7 +145,10 @@ class RedirectRow extends React.Component {
 		const { regex, match_type } = this.props.item;
 
 		if ( title ) {
-			return title;
+			if ( this.props.item.enabled ) {
+				return title;
+			}
+			return <strike>{ title }</strike>;
 		}
 
 		const fullUrl = this.getUrl( url, match_type );

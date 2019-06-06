@@ -64,13 +64,3 @@ CREATE TABLE `{$prefix}redirection_404` (
   KEY `ip` (`ip`),
   KEY `referrer` (`referrer`(191))
 );
-
-CREATE TABLE `{$prefix}redirection_modules` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `type` varchar(20) NOT NULL default '',
-  `name` varchar(50) NOT NULL default '',
-  `options` mediumtext,
-  PRIMARY KEY ( `id`),
-  KEY `name` (`name`),
-  KEY `type` (`type`)
-);

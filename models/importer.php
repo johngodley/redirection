@@ -9,6 +9,7 @@ class Red_Plugin_Importer {
 			'seo-redirection',
 			'safe-redirect-manager',
 			'wordpress-old-slugs',
+			'rank-math',
 		);
 
 		foreach ( $importers as $importer ) {
@@ -36,6 +37,10 @@ class Red_Plugin_Importer {
 			return new Red_WordPressOldSlug_Importer();
 		}
 
+		if ( $id === 'rank-math' ) {
+			return new Red_RankMath_Importer();
+		}
+
 		return false;
 	}
 
@@ -43,6 +48,74 @@ class Red_Plugin_Importer {
 		$importer = Red_Plugin_Importer::get_importer( $plugin );
 		if ( $importer ) {
 			return $importer->import_plugin( $group_id );
+		}
+
+		return 0;
+	}
+}
+
+class Red_RankMath_Importer extends Red_Plugin_Importer {
+	public function import_plugin( $group_id ) {
+		global $wpdb;
+
+		$count = 0;
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}rank_math_redirections" );
+
+		foreach ( $redirects as $redirect ) {
+			$created = $this->create_for_item( $group_id, $redirect );
+			$count += $created;
+		}
+
+		return $count;
+	}
+
+	private function create_for_item( $group_id, $redirect ) {
+		$sources = unserialize( $redirect->sources );
+
+		foreach ( $sources as $source ) {
+			$url = $source['pattern'];
+			if ( substr( $url, 0, 1 ) !== '/' ) {
+				$url = '/' . $url;
+			}
+
+			$data = array(
+				'url'         => $url,
+				'action_data' => array( 'url' => $redirect->url_to ),
+				'regex'       => $source['comparison'] === 'regex' ? true : false,
+				'group_id'    => $group_id,
+				'match_type'  => 'url',
+				'action_type' => 'url',
+				'action_code' => $redirect->header_code,
+			);
+
+			$items[] = Red_Item::create( $data );
+		}
+
+		return count( $items );
+	}
+
+	public function get_data() {
+		global $wpdb;
+
+		if ( defined( 'REDIRECTION_TESTS' ) && REDIRECTION_TESTS ) {
+			return 0;
+		}
+
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		$total = 0;
+		if ( is_plugin_active( 'seo-by-rank-math/rank-math.php' ) ) {
+			$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}rank_math_redirections" );
+		}
+
+		if ( $total ) {
+			return array(
+				'id' => 'rank-math',
+				'name' => 'RankMath',
+				'total' => intval( $total, 10 ),
+			);
 		}
 
 		return 0;
@@ -121,8 +194,8 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 			return false;
 		}
 
-		$new = wp_parse_url( $new, PHP_URL_PATH );
-		$old = rtrim( dirname( $new ), '/' ) . '/' . rtrim( $redirect->meta_value, '/' ) . '/';
+		$new_path = wp_parse_url( $new, PHP_URL_PATH );
+		$old = rtrim( dirname( $new_path ), '/' ) . '/' . rtrim( $redirect->meta_value, '/' ) . '/';
 		$old = str_replace( '\\', '', $old );
 
 		$data = array(
@@ -160,6 +233,10 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 class Red_SeoRedirection_Importer extends Red_Plugin_Importer {
 	public function import_plugin( $group_id ) {
 		global $wpdb;
+
+		if ( defined( 'REDIRECTION_TESTS' ) && REDIRECTION_TESTS ) {
+			return 0;
+		}
 
 		$count = 0;
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}WP_SEO_Redirection" );

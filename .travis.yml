@@ -1,14 +1,43 @@
-language: php
+dist: trusty
+
+language: generic
 
 php:
-    - 5.4
-    - 7.0
+    - '5.4'
+    - '5.6'
+    - '7.1'
 
-env:
-    - WP_VERSION=latest WP_MULTISITE=0
-    - WP_VERSION=latest WP_MULTISITE=1
+jobs:
+    include:
+        - name: PHPunit tests (single, 7.1)
+          php: '7.1'
+          env: WP_VERSION=latest WP_MULTISITE=0
+          before_install:
+            - phpenv global 7.1
+            - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+          script:
+            - phpunit
 
-before_script:
-    - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+        - name: PHPunit tests (multi, 7.1)
+          php: '7.1'
+          env: WP_VERSION=latest WP_MULTISITE=1
+          before_install:
+            - phpenv global 7.1
+            - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+          script:
+            - phpunit
 
-script: phpunit
+        - name: PHPunit tests (single, 5.6)
+          php: '5.6'
+          env: WP_VERSION=latest WP_MULTISITE=0
+          before_install:
+            - phpenv global 5.6
+            - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+          script:
+            - phpunit
+
+        - name: Jest tests
+          before_install:
+            - yarn install --ignore-engines
+          script:
+            - yarn test

@@ -86,12 +86,37 @@
 	background-color: white !important;
 }
 
-.redirects {
-	a.advanced {
+.edit-redirection .table-actions {
+	margin-left: 1px;
+	margin-top: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	.redirection-edit_advanced {
 		text-decoration: none;
+		font-size: 16px;
 	}
 }
 
 .error {
 	padding-bottom: 10px !important;
+}
+
+/* Some plugins hide .notice - ensure our stuff always shows */
+.notice {
+	display: block !important;
+}
+
+.database-switch {
+	float: right;
+
+	a {
+		color: #444;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
 }

@@ -1,3 +1,7 @@
+/**
+ * Internal dependencies
+ */
+
 export const ACTION_URL = 'url';
 export const ACTION_PASS = 'pass';
 export const ACTION_ERROR = 'error';
@@ -19,114 +23,141 @@ export const MATCH_PAGE = 'page';
 export const CODE_PASS = 'pass';
 export const CODE_NOTHING = 'nothing';
 
-export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
+function getFromNotFrom( name, actionData, defaultValue = '' ) {
+	const { url_from = '', url_notfrom = '' } = actionData;
 
-export const getActionData = state => {
-	const { agent, referrer, login, match_type, target, action_type, header, cookie, custom, role, server, ip, page } = state;
+	return {
+		[ name ]: actionData[ name ] ? actionData[ name ] : defaultValue,
+		url_from,
+		url_notfrom,
+	};
+}
 
-	if ( match_type === MATCH_COOKIE ) {
-		return {
-			name: cookie.name,
-			value: cookie.value,
-			regex: cookie.regex,
-			url_from: hasUrlTarget( action_type ) ? cookie.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? cookie.url_notfrom : '',
-		};
-	}
+function getRegexFromNotFrom( name, actionData, defaultValue = '' ) {
+	const { regex = false } = actionData;
 
-	if ( match_type === MATCH_HEADER ) {
-		return {
-			name: header.name,
-			value: header.value,
-			regex: header.regex,
-			url_from: hasUrlTarget( action_type ) ? header.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? header.url_notfrom : '',
-		};
-	}
+	return {
+		regex,
+		... getFromNotFrom( name, actionData, defaultValue ),
+	};
+}
 
-	if ( match_type === MATCH_CUSTOM ) {
-		return {
-			filter: custom.filter,
-			url_from: hasUrlTarget( action_type ) ? custom.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? custom.url_notfrom : '',
-		};
-	}
+function getNameValueState( actionData ) {
+	const { value = '' } = actionData;
 
-	if ( match_type === MATCH_AGENT ) {
-		return {
-			agent: agent.agent,
-			regex: agent.regex,
-			url_from: hasUrlTarget( action_type ) ? agent.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? agent.url_notfrom : '',
-		};
-	}
+	return {
+		value,
+		... getRegexFromNotFrom( 'name', actionData ),
+	};
+}
 
-	if ( match_type === MATCH_REFERRER ) {
-		return {
-			referrer: referrer.referrer,
-			regex: referrer.regex,
-			url_from: hasUrlTarget( action_type ) ? referrer.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? referrer.url_notfrom : '',
-		};
-	}
+function getAgentState( actionData ) {
+	return getRegexFromNotFrom( 'agent', actionData );
+}
 
-	if ( match_type === MATCH_ROLE ) {
-		return {
-			role: role.role,
-			url_from: hasUrlTarget( action_type ) ? role.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? role.url_notfrom : '',
-		};
-	}
+function getReferrerState( actionData ) {
+	return getRegexFromNotFrom( 'referrer', actionData );
+}
 
-	if ( match_type === MATCH_SERVER ) {
-		return {
-			server: server.server,
-			url_from: hasUrlTarget( action_type ) ? server.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? server.url_notfrom : '',
-		};
-	}
+function getRoleState( actionData ) {
+	return getFromNotFrom( 'role', actionData );
+}
 
-	if ( match_type === MATCH_IP ) {
-		return {
-			ip: ip.ip,
-			url_from: hasUrlTarget( action_type ) ? ip.url_from : '',
-			url_notfrom: hasUrlTarget( action_type ) ? ip.url_notfrom : '',
-		};
-	}
+function getServerState( actionData ) {
+	return getFromNotFrom( 'server', actionData );
+}
 
-	if ( match_type === MATCH_LOGIN && hasUrlTarget( action_type ) ) {
-		return {
-			logged_in: login.logged_in,
-			logged_out: login.logged_out,
-		};
-	}
+function getIpState( actionData ) {
+	return getFromNotFrom( 'ip', actionData, [] );
+}
 
-	if ( match_type === MATCH_URL && hasUrlTarget( action_type ) ) {
-		return {
-			url: target.url,
-		};
-	}
+function getPageState( actionData ) {
+	const { page = '404', url = '' } = actionData;
 
-	if ( match_type === MATCH_PAGE && hasUrlTarget( action_type ) ) {
-		return {
-			page: page.page,
-			url: hasUrlTarget( action_type ) ? page.url : '',
-		};
-	}
+	return {
+		page,
+		url,
+	};
+}
 
-	return '';
+function getCustomState( actionData ) {
+	return getFromNotFrom( 'filter', actionData );
+}
+
+function getUrlState( actionData ) {
+	const { url = '' } = actionData;
+
+	return {
+		url,
+	};
+}
+
+function getLoginState( actionData ) {
+	const { logged_in = '', logged_out = '' } = actionData;
+
+	return {
+		logged_in,
+		logged_out,
+	};
+}
+
+const MATCH_MAP = {
+	[ MATCH_URL ]: getUrlState,
+	[ MATCH_LOGIN ]: getLoginState,
+	[ MATCH_REFERRER ]: getReferrerState,
+	[ MATCH_AGENT ]: getAgentState,
+	[ MATCH_COOKIE ]: getNameValueState,
+	[ MATCH_HEADER ]: getNameValueState,
+	[ MATCH_CUSTOM ]: getCustomState,
+	[ MATCH_ROLE ]: getRoleState,
+	[ MATCH_SERVER ]: getServerState,
+	[ MATCH_IP ]: getIpState,
+	[ MATCH_PAGE ]: getPageState,
 };
 
-export const getDefaultItem = ( url, group_id ) => ( {
+export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;
+
+export const getDefaultItem = ( url, group_id, source ) => ( {
 	id: 0,
 	url,
-	regex: false,
-	match_type: 'url',
-	action_type: 'url',
+	match_type: MATCH_URL,
+	action_type: ACTION_URL,
 	action_data: {
 		url: '',
 	},
 	group_id,
 	title: '',
 	action_code: 301,
+	position: 0,
+	match_data: { source },
 } );
+
+export function getMatchState( matchType, actionData ) {
+	if ( MATCH_MAP[ matchType ] ) {
+		return MATCH_MAP[ matchType ]( actionData );
+	}
+
+	return null;
+}
+
+export function hasTargetData( matchType, actionData ) {
+	if ( matchType === MATCH_URL || matchType === MATCH_PAGE ) {
+		return actionData.url !== '';
+	}
+
+	if ( matchType === MATCH_LOGIN ) {
+		return actionData.logged_in !== '' || actionData.logged_out !== '';
+	}
+
+	return actionData.url_from !== '' || actionData.url_notfrom !== '';
+}
+
+export function getCodeForActionType( type ) {
+	if ( type === ACTION_URL || type === ACTION_PASS ) {
+		return 301;
+	} else if ( type === ACTION_ERROR ) {
+		return 404;
+	}
+
+	return 0;
+}

@@ -11,7 +11,7 @@ CREATE TABLE `{$prefix}redirection_items` (
 	`action_code` int(11) unsigned NOT NULL,
 	`action_data` mediumtext,
 	`match_type` varchar(20) NOT NULL,
-	`title` text,
+	`title` varchar(50) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `url` (`url`(191)),
 	KEY `status` (`status`),
@@ -40,7 +40,7 @@ CREATE TABLE `{$prefix}redirection_logs` (
   `agent` mediumtext NOT NULL,
   `referrer` mediumtext,
   `redirection_id` int(11) unsigned DEFAULT NULL,
-  `ip` varchar(45) DEFAULT NULL,
+  `ip` varchar(17) NOT NULL DEFAULT '',
   `module_id` int(11) unsigned NOT NULL,
   `group_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -57,10 +57,10 @@ CREATE TABLE `{$prefix}redirection_404` (
   `url` varchar(255) NOT NULL DEFAULT '',
   `agent` varchar(255) DEFAULT NULL,
   `referrer` varchar(255) DEFAULT NULL,
-  `ip` varchar(45) DEFAULT NULL,
+  `ip` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `created` (`created`),
   KEY `url` (`url`(191)),
-  KEY `referrer` (`referrer`(191)),
-  KEY `ip` (`ip`)
+  KEY `ip` (`ip`),
+  KEY `referrer` (`referrer`(191))
 );
