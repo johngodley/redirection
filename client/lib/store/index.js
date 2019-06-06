@@ -17,7 +17,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 		table.page -= 1;
 	}
 
-	if ( bulk === 'delete' && ! confirm( __( 'Are you sure you want to delete this item?', 'Are you sure you want to delete these items?', { count: params.items.length } ) ) ) {
+	if ( bulk === 'delete' && ! confirm( __( 'Are you sure you want to delete this item?', 'Are you sure you want to delete the selected items?', { count: params.items.length } ) ) ) {
 		return;
 	}
 
