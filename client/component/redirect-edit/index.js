@@ -175,7 +175,7 @@ class EditRedirect extends React.Component {
 	}
 
 	onFlagChange = option => {
-		const options = option.map( item => item.value );
+		const options = option ? option.map( item => item.value ) : [];
 		const flags = {
 			flag_regex: options.indexOf( 'flag_regex' ) !== -1 ? true : false,
 			flag_case: options.indexOf( 'flag_case' ) !== -1 ? true : false,
