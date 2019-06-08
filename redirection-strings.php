@@ -269,7 +269,7 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:316
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:317
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:318
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete these items?", 1, "redirection" ), // client/lib/store/index.js:20
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:20
 __( "Name", "redirection" ), // client/page/groups/index.js:31
 __( "Redirects", "redirection" ), // client/page/groups/index.js:36
 __( "Module", "redirection" ), // client/page/groups/index.js:41
