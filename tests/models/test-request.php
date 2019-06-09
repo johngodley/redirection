@@ -108,6 +108,20 @@ class RequestTest extends WP_UnitTestCase {
 		return $ip;
 	}
 
+	public function testNoAcceptLanguage() {
+		unset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+		$language = Redirection_Request::get_accept_language();
+
+		$this->assertEquals( [], $language );
+	}
+
+	public function testAcceptLanguage() {
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'ab, cd, de;something';
+		$language = Redirection_Request::get_accept_language();
+
+		$this->assertEquals( [ 'ab', 'cd', 'de' ], $language );
+	}
+
 	public function testNoIP() {
 		$this->monitorRequestIP();
 

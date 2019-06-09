@@ -1,0 +1,31 @@
+[
+	[
+		"Test language matched",
+		{
+			"source": {
+				"url": "/language",
+				"headers": {
+					"accept-language": "de,da;thing"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "/language/match",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test language not matched",
+		{
+			"source": {
+				"url": "/language"
+			},
+			"target": {
+				"status": 301,
+				"location": "/language/notmatch",
+				"agent": true
+			}
+		}
+	]
+]
