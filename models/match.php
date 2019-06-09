@@ -78,6 +78,7 @@ abstract class Red_Match {
 			'server'   => 'server.php',
 			'ip'       => 'ip.php',
 			'page'     => 'page.php',
+			'language' => 'language.php',
 		);
 	}
 }
