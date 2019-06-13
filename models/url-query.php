@@ -157,7 +157,7 @@ class Red_Url_Query {
 					$add = $value === $target_query[ $key ] ? $value : false;
 				}
 
-				if ( ! empty( $add ) || $add === '' ) {
+				if ( ! empty( $add ) || is_numeric( $add ) || $add === '' ) {
 					$same[ $key ] = $add;
 				}
 			}
