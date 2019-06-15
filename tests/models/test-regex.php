@@ -21,6 +21,12 @@ class RegexTest extends WP_UnitTestCase {
 		$this->assertFalse( $regex->is_match( 'DOG5' ) );
 	}
 
+	public function testDecode() {
+		$regex = new Red_Regex( urlencode( 'für.*' ) );
+
+		$this->assertTrue( $regex->is_match( 'fürcat' ) );
+	}
+
 	public function testQuoteRegex() {
 		$regex = new Red_Regex( '@cat.*' );
 
