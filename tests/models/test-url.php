@@ -81,6 +81,11 @@ class UrlTest extends WP_UnitTestCase {
 		$this->assertTrue( $url->is_match( '/cat/1', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
 	}
 
+	public function testIsMatchEncodedRegex() {
+		$url = new Red_Url( urlencode( '/für/\d' ) );
+		$this->assertTrue( $url->is_match( '/für/1', new Red_Source_Flags( [ 'flag_regex' => true ] ) ) );
+	}
+
 	public function testIsMatchIgnoreQuery() {
 		$url = new Red_Url( '/cat' );
 		$this->assertTrue( $url->is_match( '/cat?things', new Red_Source_Flags( [ 'flag_query' => 'ignore' ] ) ) );

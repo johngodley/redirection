@@ -157,6 +157,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 4.3.2 - ??? ==
+* Fix problem with UTF8 characters in a regex URL
+
 = 4.3.1 - 8th June 2019 =
 * Fix + character being removed from source URL
 
