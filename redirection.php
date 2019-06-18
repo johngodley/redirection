@@ -34,7 +34,7 @@ if ( version_compare( phpversion(), '5.4' ) < 0 ) {
 	add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php', 10, 4 );
 
 	function red_deprecated_php( $links ) {
-		/* translators: 1: PHP version */
+		/* translators: 1: server PHP version. 2: required PHP version. */
 		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %1$s, need PHP %2$s+', 'redirection' ), phpversion(), '5.4' ) . '</a>' );
 		return $links;
 	}
