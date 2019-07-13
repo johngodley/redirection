@@ -73,7 +73,7 @@ class Red_Item_Sanitize {
 		$data['match_data'] = array_filter( $data['match_data'] );
 
 		if ( empty( $data['match_data'] ) ) {
-			unset( $data['match_data'] );
+			$data['match_data'] = null;
 		}
 
 		// Parse URL
