@@ -11,7 +11,7 @@ import { translate as __ } from 'lib/locale';
 
 import ExternalLink from 'component/external-link';
 
-const isSecurityPlugin = ( status, code ) => [ 400, 401, 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route';
+const isSecurityPlugin = ( status, code ) => ( [ 400, 401, 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route' ) && parseInt( code, 10 ) === 0;
 const isServerError = status => [ 500, 502, 503 ].indexOf( status ) !== -1;
 const extractPhpError = ( { raw } ) => {
 	const parts = raw.split( '<br />' ).filter( item => item );
