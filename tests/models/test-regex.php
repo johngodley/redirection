@@ -45,4 +45,10 @@ class RegexTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 'cat5', $regex->replace( 'dog$1', 'cat5' ) );
 	}
+
+	public function testPlusRegex() {
+		$regex = new Red_Regex( '^/hello\+world' );
+
+		$this->assertTrue( $regex->is_match( '/hello+world' ) );
+	}
 }
