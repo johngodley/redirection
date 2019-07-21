@@ -8,7 +8,7 @@ class Red_Regex {
 	private $case;
 
 	public function __construct( $pattern, $case_insensitive = false ) {
-		$this->pattern = urldecode( $pattern );
+		$this->pattern = rawurldecode( $pattern );
 		$this->case = $case_insensitive;
 	}
 

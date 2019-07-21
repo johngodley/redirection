@@ -386,5 +386,18 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test regex URL with a +",
+		{
+			"source": {
+				"url": "/hello%2Bworld"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
