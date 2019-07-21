@@ -221,7 +221,7 @@ class Red_Item_Sanitize {
 		$url = rawurldecode( $url );
 
 		// Remove bad decoding
-		$url = iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
+		$url = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
 
 		return $url;
 	}

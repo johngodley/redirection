@@ -103,7 +103,8 @@ class WordPress_Module extends Red_Module {
 	 */
 	public function init() {
 		$url = Redirection_Request::get_request_url();
-		$url = apply_filters( 'redirection_url_source', urldecode( $url ) );
+		$url = apply_filters( 'redirection_url_source', $url );
+		$url = rawurldecode( $url );
 
 		// Make sure we don't try and redirect something essential
 		if ( $url && ! $this->protected_url( $url ) && $this->matched === false ) {

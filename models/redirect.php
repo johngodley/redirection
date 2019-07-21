@@ -74,7 +74,9 @@ class Red_Item {
 		}
 
 		$this->action = Red_Action::create( $this->action_type, $this->action_code );
-		$this->match->action = $this->action;
+		if ( $this->match ) {
+			$this->match->action = $this->action;
+		}
 	}
 
 	static function get_all_for_module( $module ) {
@@ -521,7 +523,7 @@ class Red_Item {
 			'match_data' => $this->get_match_data(),
 			'action_code' => $this->get_action_code(),
 			'action_type' => $this->get_action_type(),
-			'action_data' => $this->match->get_data(),
+			'action_data' => $this->match ? $this->match->get_data() : null,
 			'match_type' => $this->get_match_type(),
 			'title' => $this->get_title(),
 			'hits' => $this->get_hits(),
