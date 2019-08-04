@@ -16,6 +16,7 @@ import MatchRole from './role';
 import MatchServer from './server';
 import MatchIp from './ip';
 import MatchPage from './page';
+import MatchLanguage from './language';
 import {
 	MATCH_REFERRER,
 	MATCH_AGENT,
@@ -26,6 +27,7 @@ import {
 	MATCH_SERVER,
 	MATCH_IP,
 	MATCH_PAGE,
+	MATCH_LANGUAGE,
 } from 'state/redirect/selector';
 
 const Match = ( { matchType, actionData, onChange } ) => {
@@ -39,6 +41,7 @@ const Match = ( { matchType, actionData, onChange } ) => {
 		[ MATCH_SERVER ]: MatchServer,
 		[ MATCH_IP ]: MatchIp,
 		[ MATCH_PAGE ]: MatchPage,
+		[ MATCH_LANGUAGE ]: MatchLanguage,
 	};
 
 	if ( map[ matchType ] ) {

@@ -1,7 +1,7 @@
 {
     "plugin": {
-        "version": "4.3.2-beta-2",
-        "date": "Sun, 21 Jul 2019 09:33:42 +0000"
+        "version": "4.3",
+        "date": "Sun, 09 Jun 2019 06:43:50 +0000"
     },
     "groups": [
         {
@@ -1192,6 +1192,34 @@
             "group_id": 1,
             "position": 0,
             "last_access": "July 21, 2019",
+            "enabled": true
+        },
+        {
+            "id": 42,
+            "url": "/language",
+            "match_url": "/language",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": false,
+                    "flag_trailing": false,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "language": "de",
+                "url_from": "/language/match",
+                "url_notfrom": "/language/notmatch"
+            },
+            "match_type": "language",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 5,
+            "position": 11,
+            "last_access": "June 9, 2019",
             "enabled": true
         }
     ]

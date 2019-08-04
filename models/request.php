@@ -84,4 +84,14 @@ class Redirection_Request {
 
 		return false;
 	}
+
+	public static function get_accept_language() {
+		if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+			$languages = preg_replace( '/;.*$/', '', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+			$languages = str_replace( ' ', '', $languages );
+			return apply_filters( 'redirection_request_accept_language', explode( ',', $languages ) );
+		}
+
+		return [];
+	}
 }

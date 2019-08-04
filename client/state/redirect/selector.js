@@ -19,6 +19,7 @@ export const MATCH_ROLE = 'role';
 export const MATCH_SERVER = 'server';
 export const MATCH_IP = 'ip';
 export const MATCH_PAGE = 'page';
+export const MATCH_LANGUAGE = 'language';
 
 export const CODE_PASS = 'pass';
 export const CODE_NOTHING = 'nothing';
@@ -67,6 +68,10 @@ function getServerState( actionData ) {
 	return getFromNotFrom( 'server', actionData );
 }
 
+function getLanguageState( actionData ) {
+	return getFromNotFrom( 'language', actionData );
+}
+
 function getIpState( actionData ) {
 	return getFromNotFrom( 'ip', actionData, [] );
 }
@@ -113,6 +118,7 @@ const MATCH_MAP = {
 	[ MATCH_SERVER ]: getServerState,
 	[ MATCH_IP ]: getIpState,
 	[ MATCH_PAGE ]: getPageState,
+	[ MATCH_LANGUAGE ]: getLanguageState,
 };
 
 export const hasUrlTarget = type => type === ACTION_URL || type === ACTION_PASS;

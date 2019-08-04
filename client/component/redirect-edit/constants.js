@@ -21,6 +21,7 @@ import {
 	MATCH_SERVER,
 	MATCH_IP,
 	MATCH_PAGE,
+	MATCH_LANGUAGE,
 } from 'state/redirect/selector';
 
 export const getMatches = () => [
@@ -67,6 +68,10 @@ export const getMatches = () => [
 	{
 		value: MATCH_PAGE,
 		text: __( 'URL and WordPress page type' ),
+	},
+	{
+		value: MATCH_LANGUAGE,
+		text: __( 'URL and language' ),
 	},
 ];
 
