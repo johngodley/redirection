@@ -25,6 +25,16 @@ export const isRegex = ( text ) => {
 	return false;
 };
 
+const getRelativeAbsolute = url => {
+	const matched = url.match( /^\/([a-zA-Z0-9_\-%]*\..*)\// );
+
+	if ( matched ) {
+		return matched[ 0 ];
+	}
+
+	return null;
+};
+
 const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0, match.length ) === match;
 
 export const getWarningFromState = ( item ) => {
@@ -143,6 +153,23 @@ export const getWarningFromState = ( item ) => {
 				},
 				args: {
 					invalid: matches,
+				},
+			} ) );
+		}
+	} );
+
+	// People often try and use a relative absolute domain - /something.com/
+	[ url, ... targets ].forEach( target => {
+		const relative = getRelativeAbsolute( target );
+
+		if ( relative ) {
+			warnings.push( __( 'Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?', {
+				components: {
+					code: <code />,
+				},
+				args: {
+					relative,
+					absolute: 'https://' + relative,
 				},
 			} ) );
 		}
