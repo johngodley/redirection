@@ -23,16 +23,16 @@ class PassTest extends WP_UnitTestCase {
 		$this->assertEquals( 'PASS', $file );
 	}
 
-	public function testExternal() {
-		$action = Red_Action::create( 'pass', 1 );
+	// public function testExternal() {
+	// 	$action = Red_Action::create( 'pass', 1 );
 
-		ob_start();
-		$action->process_external( 'http://apple.com/robots.txt' );
-		$file = ob_get_contents();
-		ob_end_clean();
+	// 	ob_start();
+	// 	$action->process_external( 'http://apple.com/robots.txt' );
+	// 	$file = ob_get_contents();
+	// 	ob_end_clean();
 
-		$this->assertTrue( strlen( $file ) !== 0 );
-	}
+	// 	$this->assertTrue( strlen( $file ) !== 0 );
+	// }
 
 	public function testInternal() {
 		$action = Red_Action::create( 'pass', 1 );
