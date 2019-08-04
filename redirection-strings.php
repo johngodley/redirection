@@ -1,22 +1,23 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "Database problem", "redirection" ), // client/component/database/index.js:117
-__( "Try again", "redirection" ), // client/component/database/index.js:120
-__( "Skip this stage", "redirection" ), // client/component/database/index.js:121
-__( "Stop upgrade", "redirection" ), // client/component/database/index.js:122
-__( "If you want to {{support}}ask for support{{/support}} please include these details:", "redirection" ), // client/component/database/index.js:126
-__( "Please remain on this page until complete.", "redirection" ), // client/component/database/index.js:144
-__( "Upgrading Redirection", "redirection" ), // client/component/database/index.js:152
-__( "Setting up Redirection", "redirection" ), // client/component/database/index.js:155
-__( "Manual Install", "redirection" ), // client/component/database/index.js:170
-__( "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.", "redirection" ), // client/component/database/index.js:172
-__( "Click \"Finished! 🎉\" when finished.", "redirection" ), // client/component/database/index.js:172
-__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:174
-__( "If you do not complete the manual install you will be returned here.", "redirection" ), // client/component/database/index.js:175
-__( "Leaving before the process has completed may cause problems.", "redirection" ), // client/component/database/index.js:182
-__( "Progress: %(complete)d\$", "redirection" ), // client/component/database/index.js:190
-__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:204
+__( "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved.", "redirection" ), // client/component/database/index.js:109
+__( "Database problem", "redirection" ), // client/component/database/index.js:122
+__( "Try again", "redirection" ), // client/component/database/index.js:125
+__( "Skip this stage", "redirection" ), // client/component/database/index.js:126
+__( "Stop upgrade", "redirection" ), // client/component/database/index.js:127
+__( "If you want to {{support}}ask for support{{/support}} please include these details:", "redirection" ), // client/component/database/index.js:131
+__( "Please remain on this page until complete.", "redirection" ), // client/component/database/index.js:149
+__( "Upgrading Redirection", "redirection" ), // client/component/database/index.js:157
+__( "Setting up Redirection", "redirection" ), // client/component/database/index.js:160
+__( "Manual Install", "redirection" ), // client/component/database/index.js:175
+__( "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.", "redirection" ), // client/component/database/index.js:177
+__( "Click \"Finished! 🎉\" when finished.", "redirection" ), // client/component/database/index.js:177
+__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:179
+__( "If you do not complete the manual install you will be returned here.", "redirection" ), // client/component/database/index.js:180
+__( "Leaving before the process has completed may cause problems.", "redirection" ), // client/component/database/index.js:187
+__( "Progress: %(complete)d\$", "redirection" ), // client/component/database/index.js:195
+__( "Finished! 🎉", "redirection" ), // client/component/database/index.js:209
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/component/decode-error/index.js:49
 __( "Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again.", "redirection" ), // client/component/decode-error/index.js:56
 __( "Read this REST API guide for more information.", "redirection" ), // client/component/decode-error/index.js:57

@@ -105,7 +105,12 @@ class Database extends React.Component {
 	}
 
 	renderLoopError() {
-		return this.renderError( 'Something has gone wrong with the upgrade - loop detected.', false );
+		return this.renderError(
+			__( 'A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved.', {
+				components: {
+					support: <a href="https://redirection.me/support/problems/data-is-not-saved/" />,
+				},
+			} ), false );
 	}
 
 	renderError( error ) {
