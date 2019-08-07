@@ -221,7 +221,13 @@ class Red_Item_Sanitize {
 		$url = rawurldecode( $url );
 
 		// Remove bad decoding
-		$url = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
+		if ( function_exists( 'iconv' ) ) {
+			$url = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
+		} elseif ( function_exists( 'mb_convert_encoding' ) ) {
+			$url = mb_convert_encoding( $url, 'UTF-8', 'UTF-8' );
+		} else {
+			// don't know, maybe need some action or just ignore
+		}
 
 		return $url;
 	}
