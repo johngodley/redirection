@@ -6,18 +6,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SelectItem = props => {
-	const { value, text } = props;
+	const { value, label } = props;
 
 	if ( typeof value === 'object' ) {
 		return (
-			<optgroup label={ text }>
-				{ value.map( ( item, pos ) => <SelectItem text={ item.text } value={ item.value } key={ pos } /> ) }
+			<optgroup label={ label }>
+				{ value.map( ( item, pos ) => <SelectItem label={ item.label } value={ item.value } key={ pos } /> ) }
 			</optgroup>
 		);
 	}
 
 	return (
-		<option value={ value }>{ text }</option>
+		<option value={ value }>{ label }</option>
 	);
 };
 
@@ -26,7 +26,7 @@ const Select = props => {
 
 	return (
 		<select name={ name } value={ value } onChange={ onChange } disabled={ ! isEnabled } >
-			{ items.map( ( item, pos ) => <SelectItem value={ item.value } text={ item.text } key={ pos } /> ) }
+			{ items.map( ( item, pos ) => <SelectItem value={ item.value } label={ item.label } key={ pos } /> ) }
 		</select>
 	);
 };
