@@ -3,10 +3,18 @@
  */
 
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
-import { getDefaultTable } from 'lib/table';
+import { getDefaultTable, toFilter } from 'lib/table';
+import { getFilterOptions, getDisplayGroups } from 'page/redirects/constants';
 import { getPageUrl } from 'lib/wordpress-url';
 
 export function getInitialError() {
+	const extra = {
+		url: true,
+		ip: true,
+		referrer: true,
+		agent: true,
+		'url-exact': true,
+	};
 	const query = getPageUrl();
 	let defaultOrder = 'date';
 
@@ -19,7 +27,7 @@ export function getInitialError() {
 		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'ip', 'url', 'total' ], [ 'ip', 'url-exact' ], [ 'url', 'ip' ], defaultOrder, [ '404s' ] ),
+		table: getDefaultTable( [ 'ip', 'url', 'total' ], toFilter( getFilterOptions(), extra ), [ 'url', 'ip' ], defaultOrder, [ '404s' ], '404s', getDisplayGroups() ),
 		requestCount: 0,
 	};
 }

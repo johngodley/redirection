@@ -6,6 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __, numberFormat } from 'lib/locale';
 import PropTypes from 'prop-types';
+import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
@@ -15,7 +16,7 @@ import RowActions from 'component/table/row-action';
 import Spinner from 'component/spinner';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
-import { setUngroupedSearch, setSelected, performTableAction } from 'state/error/action';
+import { setUngroupedFilter, setSelected, performTableAction } from 'state/error/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { ACTION_URL, MATCH_IP, ACTION_ERROR } from 'state/redirect/selector';
 
@@ -49,7 +50,10 @@ class LogRowIp extends React.Component {
 
 	onShow = ev => {
 		ev.preventDefault();
-		this.props.onShow( this.props.item.ip );
+
+		const { filterBy } = this.props.filters;
+
+		this.props.onShow( { ...filterBy, ip: this.props.item.ip } );
 	}
 
 	onAdd = ev => {
@@ -104,7 +108,9 @@ class LogRowIp extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-ipx column-primary">
-					<a href="#" onClick={ this.onGeo }>{ ip }</a>
+					<a href="#" onClick={ this.onGeo }>
+						<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } />
+					</a>
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
@@ -123,7 +129,7 @@ class LogRowIp extends React.Component {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onShow: ip => {
-			dispatch( setUngroupedSearch( ip, 'ip' ) );
+			dispatch( setUngroupedFilter( filters ) );
 		},
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );

@@ -348,13 +348,26 @@ class RE_Filter_Log {
 			$query['direction'] = strtoupper( $params['direction'] );
 		}
 
-		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 ) {
-			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'ip' ) {
-				$query['where'] = $wpdb->prepare( 'WHERE ip=%s', $params['filter'] );
-			} elseif ( isset( $params['filterBy'] ) && $params['filterBy'] === 'url-exact' ) {
-				$query['where'] = $wpdb->prepare( 'WHERE url=%s', $params['filter'] );
-			} else {
-				$query['where'] = $wpdb->prepare( 'WHERE url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filter'] ) ) . '%' );
+		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+			if ( isset( $params['filterBy']['ip'] ) ) {
+				$ip = @inet_pton( trim( $params['filterBy']['ip'] ) );
+
+				if ( $ip !== false ) {
+					$ip = @inet_ntop( $ip );  // Convert back to string
+					$query['where'] = $wpdb->prepare( 'WHERE ip=%s', $ip );
+				} else {
+					$query['where'] = $wpdb->prepare( 'WHERE ip LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['ip'] ) ) . '%' );
+				}
+			} elseif ( isset( $params['filterBy']['url-exact'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE url=%s', $params['filterBy']['url-exact'] );
+			} elseif ( isset( $params['filterBy']['referrer'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE referrer LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['referrer'] ) ) . '%' );
+			} elseif ( isset( $params['filterBy']['agent'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE agent LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['agent'] ) ) . '%' );
+			} elseif ( isset( $params['filterBy']['target'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE sent_to LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['target'] ) ) . '%' );
+			} elseif ( isset( $params['filterBy']['url'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['url'] ) ) . '%' );
 			}
 		}
 

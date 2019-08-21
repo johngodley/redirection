@@ -11,6 +11,7 @@ import {
 	ERROR_ITEM_FAILED,
 	ERROR_SET_SELECTED,
 	ERROR_SET_ALL_SELECTED,
+	ERROR_DISPLAY_SET,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
@@ -41,6 +42,9 @@ export default function log( state = {}, action ) {
 
 		case ERROR_ITEM_FAILED:
 			return { ... state, saving: removeSaving( state, action ), rows: restoreToOriginal( state, action ) };
+
+		case ERROR_DISPLAY_SET:
+			return { ... state, table: { ... state.table, displayType: action.displayType, displaySelected: action.displaySelected } };
 	}
 
 	return state;

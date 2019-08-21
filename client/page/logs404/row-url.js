@@ -6,6 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __, numberFormat } from 'lib/locale';
 import PropTypes from 'prop-types';
+import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
@@ -14,7 +15,7 @@ import PropTypes from 'prop-types';
 import RowActions from 'component/table/row-action';
 import Spinner from 'component/spinner';
 import ExternalLink from 'component/external-link';
-import { setUngroupedSearch, setSelected, performTableAction } from 'state/error/action';
+import { setUngroupedFilter, setSelected, performTableAction } from 'state/error/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { ACTION_NOTHING, ACTION_URL, MATCH_URL } from 'state/redirect/selector';
 
@@ -49,7 +50,10 @@ class LogRow404 extends React.Component {
 
 	onShow = ev => {
 		ev.preventDefault();
-		this.props.onShow( this.props.item.id );
+
+		const { filterBy } = this.props.filters;
+
+		this.props.onShow( { ...filterBy, 'url-exact': this.props.item.id } );
 	}
 
 	render() {
@@ -72,7 +76,9 @@ class LogRow404 extends React.Component {
 					{ isSaving && <Spinner size="small" /> }
 				</th>
 				<td className="column-url column-primary">
-					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink>
+					<ExternalLink url={ url }>
+						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+					</ExternalLink>
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
@@ -94,8 +100,8 @@ function mapDispatchToProps( dispatch ) {
 		onDelete: item => {
 			dispatch( performTableAction( 'delete', item ) );
 		},
-		onShow: url => {
-			dispatch( setUngroupedSearch( url, 'url-exact' ) );
+		onShow: filters => {
+			dispatch( setUngroupedFilter( filters ) );
 		},
 	};
 }
