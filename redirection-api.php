@@ -42,16 +42,10 @@ class Redirection_Api_Route {
 }
 
 class Redirection_Api_Filter_Route extends Redirection_Api_Route {
-	protected function get_filter_args( $filter_fields, $order_fields ) {
+	protected function get_filter_args( $order_fields ) {
 		return array(
 			'filterBy' => array(
 				'description' => 'Field to filter by',
-				'type' => 'enum',
-				'enum' => $filter_fields,
-			),
-			'filter' => array(
-				'description' => 'Value to filter by',
-				'type' => 'string',
 			),
 			'orderby' => array(
 				'description' => 'Field to order results by',
@@ -80,10 +74,10 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 		);
 	}
 
-	public function register_bulk( $namespace, $route, $filters, $orders, $callback ) {
+	public function register_bulk( $namespace, $route, $orders, $callback ) {
 		register_rest_route( $namespace, $route, array(
 			$this->get_route( WP_REST_Server::EDITABLE, $callback ),
-			'args' => array_merge( $this->get_filter_args( $filters, $orders ), array(
+			'args' => array_merge( $this->get_filter_args( $orders ), array(
 				'items' => array(
 					'description' => 'Comma separated list of item IDs to perform action on',
 					'type' => 'string|integer',
