@@ -1,0 +1,42 @@
+.redirect-badge {
+	display: flex;
+	align-items: center;
+	padding: 0 5px 0 6px;
+	font-size: 12px;
+	background-color: #ddd;
+	border-radius: 3px;
+	font-variant: small-caps;
+	white-space: nowrap;
+	color: black;
+
+	&.redirect-badge__click {
+		cursor: pointer;
+		border: 1px solid transparent;
+
+		&:hover {
+			border: 1px solid black;
+		}
+	}
+
+	button {
+		background-color: transparent;
+		border: none;
+		width: 15px;
+		text-align: center;
+		padding: 0;
+		margin-left: 4px;
+		font-size: 20px;
+		vertical-align: middle;
+		margin-top: -5px;
+		margin-right: -3px;
+	}
+
+	button:hover {
+		color: white;
+		background-color: #333;
+	}
+}
+
+.redirect-badge:not(:last-child) {
+	margin-right: 5px;
+}
