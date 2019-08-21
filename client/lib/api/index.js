@@ -7,11 +7,11 @@
 /**
  * Internal dependencies
  */
-import querystring from 'querystring';
+import querystring from 'qs';
 
 const removeEmpty = item =>
 	Object.keys( item )
-		.filter( key => item[ key ] )
+		.filter( key => item[ key ] && key !== 'displaySelected' && key !== 'displayType' )
 		.reduce( ( newObj, key ) => {
 			newObj[ key ] = item[ key ];
 			return newObj;
