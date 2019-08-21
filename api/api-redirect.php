@@ -19,11 +19,10 @@
 
 class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
-		$filters = array( 'url', 'group' );
 		$orders = array( 'url', 'last_count', 'last_access', 'position', 'id' );
 
 		register_rest_route( $namespace, '/redirect', array(
-			'args' => $this->get_filter_args( $filters, $orders ),
+			'args' => $this->get_filter_args( $orders ),
 			$this->get_route( WP_REST_Server::READABLE, 'route_list' ),
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_create' ),
 		) );
@@ -32,7 +31,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_update' ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $filters, $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $orders, 'route_bulk' );
 	}
 
 	public function route_list( WP_REST_Request $request ) {

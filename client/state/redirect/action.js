@@ -11,6 +11,7 @@ import {
 	REDIRECT_SET_SELECTED,
 	REDIRECT_SET_ALL_SELECTED,
 	REDIRECT_ADD_TOP,
+	REDIRECT_DISPLAY_SET,
 } from './type';
 import { tableAction, createAction, updateAction, processRequest } from 'lib/store';
 import { RedirectionApi } from 'lib/api';
@@ -36,9 +37,9 @@ export const performTableAction = ( action, ids ) => tableAction( RedirectionApi
 export const getRedirect = args => ( dispatch, getState ) => processRequest( RedirectionApi.redirect.list, dispatch, STATUS_REDIRECT, args, getState().redirect );
 export const setOrderBy = ( orderby, direction ) => getRedirect( { orderby, direction } );
 export const setPage = page => getRedirect( { page } );
-export const setSearch = filter => getRedirect( { filter, filterBy: '', page: 0, orderby: '' } );
-export const setFilter = ( filterBy, filter ) => getRedirect( { filterBy, filter, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getRedirect( { filterBy, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: REDIRECT_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: REDIRECT_SET_ALL_SELECTED, onoff } );
 export const addToTop = onoff => ( { type: REDIRECT_ADD_TOP, onoff } );
 export const setTable = table => getRedirect( table );
+export const setDisplay = ( displayType, displaySelected ) => ( { type: REDIRECT_DISPLAY_SET, displayType, displaySelected } );

@@ -20,7 +20,7 @@ const isDisabledHeader = ( status, rows ) => status !== STATUS_COMPLETE || rows.
 const isSelectedHeader = ( selected, rows ) => selected.length === rows.length && rows.length !== 0;
 
 const Table = props => {
-	const { headers, row, rows, total, table, status, onSetAllSelected, onSetOrderBy } = props;
+	const { headers, row, rows, total, table, status, onSetAllSelected, onSetOrderBy, currentDisplayType, currentDisplaySelected } = props;
 	const isDisabled = isDisabledHeader( status, rows );
 	const isSelected = isSelectedHeader( table.selected, rows );
 
@@ -33,7 +33,7 @@ const Table = props => {
 	} else if ( status === STATUS_FAILED ) {
 		content = <FailedRow headers={ headers } />;
 	} else if ( rows.length > 0 ) {
-		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } />;
+		content = <DataRow rows={ rows } status={ status } selected={ table.selected } row={ row } currentDisplayType={ currentDisplayType } currentDisplaySelected={ currentDisplaySelected } />;
 	}
 
 	return (
@@ -60,6 +60,8 @@ Table.propTypes = {
 	onSetOrderBy: PropTypes.func,
 	status: PropTypes.string.isRequired,
 	total: PropTypes.number.isRequired,
+	currentDisplayType: PropTypes.string,
+	currentDisplaySelected: PropTypes.array,
 };
 
 export default Table;
