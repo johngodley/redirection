@@ -228,8 +228,13 @@ class Red_Item_Sanitize {
 		// Ensure we URL decode any i10n characters
 		$url = rawurldecode( $url );
 
-		// Remove bad decoding
-		$url = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
+		// Try and remove bad decoding
+		if ( function_exists( 'iconv' ) ) {
+			$converted = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
+			if ( $converted !== false ) {
+				$url = $converted;
+			}
+		}
 
 		return $url;
 	}
