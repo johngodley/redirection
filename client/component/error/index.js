@@ -134,7 +134,7 @@ class Error extends React.Component {
 					<li>
 						{ __( 'If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues.', {
 							components: {
-								link: <ExternalLink url="http://latest.local/wp-admin/site-health.php" />,
+								link: <ExternalLink url="/wp-admin/site-health.php" />,
 							},
 						} ) }
 					</li>
