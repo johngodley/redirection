@@ -10,6 +10,7 @@ import {
 	GROUP_ITEM_SAVED,
 	GROUP_SET_SELECTED,
 	GROUP_SET_ALL_SELECTED,
+	GROUP_DISPLAY_SET,
 } from './type';
 import { tableAction, createAction, updateAction, processRequest } from 'lib/store';
 import { RedirectionApi } from 'lib/api';
@@ -35,8 +36,8 @@ export const performTableAction = ( action, ids ) => tableAction( RedirectionApi
 export const getGroup = args => ( dispatch, getState ) => processRequest( RedirectionApi.group.list, dispatch, STATUS_GROUP, args, getState().group );
 export const setOrderBy = ( orderby, direction ) => getGroup( { orderby, direction } );
 export const setPage = page => getGroup( { page } );
-export const setSearch = filter => getGroup( { filter, filterBy: '', page: 0, orderby: '' } );
-export const setFilter = ( filterBy, filter ) => getGroup( { filterBy, filter, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getGroup( { filterBy, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: GROUP_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: GROUP_SET_ALL_SELECTED, onoff } );
 export const setTable = table => getGroup( table );
+export const setDisplay = ( displayType, displaySelected ) => ( { type: GROUP_DISPLAY_SET, displayType, displaySelected } );

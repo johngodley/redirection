@@ -195,12 +195,9 @@ class Red_Group {
 			$direction = strtoupper( $params['direction'] );
 		}
 
-		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 ) {
-			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'module' ) {
-				$where = $wpdb->prepare( 'WHERE module_id=%d', intval( $params['filter'], 10 ) );
-			} else {
-				$where = $wpdb->prepare( 'WHERE name LIKE %s', '%' . $wpdb->esc_like( trim( $params['filter'] ) ) . '%' );
-			}
+		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+			$filters = new Red_Group_Filters( $params['filterBy'] );
+			$where = $filters->get_as_sql();
 		}
 
 		if ( isset( $params['per_page'] ) ) {
@@ -251,5 +248,35 @@ class Red_Group {
 			'moduleName' => $module ? $module->get_name() : '',
 			'enabled' => $this->is_enabled(),
 		);
+	}
+}
+
+class Red_Group_Filters {
+	private $filters = [];
+
+	public function __construct( $filter_params ) {
+		global $wpdb;
+
+		foreach ( $filter_params as $filter_by => $filter ) {
+			if ( $filter_by === 'status' ) {
+				if ( $filter === 'enabled' ) {
+					$this->filters[] = "status='enabled'";
+				} else {
+					$this->filters[] = "status='disabled'";
+				}
+			} elseif ( $filter_by === 'module' ) {
+				$this->filters[] = $wpdb->prepare( 'module_id=%d', intval( $filter, 10 ) );
+			} elseif ( $filter_by === 'name' ) {
+				$this->filters[] = $wpdb->prepare( 'name LIKE %s', '%' . $wpdb->esc_like( trim( $filter ) ) . '%' );
+			}
+		}
+	}
+
+	public function get_as_sql() {
+		if ( count( $this->filters ) > 0 ) {
+			return ' WHERE ' . implode( ' AND ', $this->filters );
+		}
+
+		return '';
 	}
 }
