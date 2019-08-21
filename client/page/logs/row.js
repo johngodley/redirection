@@ -7,12 +7,14 @@ import * as parseUrl from 'url';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
+import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
  */
 
 import RowActions from 'component/table/row-action';
+import Column from 'component/table/column';
 import { setFilter, setSelected, performTableAction } from 'state/log/action';
 import Spinner from 'component/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
@@ -53,7 +55,7 @@ class LogRow extends React.Component {
 
 	onShow = ev => {
 		ev.preventDefault();
-		this.props.onShowIP( this.props.item.ip );
+		this.props.setFilter( 'ip', this.props.item.ip );
 	}
 
 	onSelected = () => {
@@ -68,7 +70,9 @@ class LogRow extends React.Component {
 	renderIp = ipStr => {
 		if ( ipStr ) {
 			return (
-				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ipStr ) } onClick={ this.showMap }>{ ipStr }</a>
+				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ipStr ) } onClick={ this.showMap }>
+					<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ipStr } />
+				</a>
 			);
 		}
 
@@ -110,8 +114,8 @@ class LogRow extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip, referrer, url, agent, sent_to, id } = this.props.item;
-		const { selected, status } = this.props;
+		const { created, created_time, ip = '', referrer = '', url = '', agent = '', sent_to = '', id } = this.props.item;
+		const { selected, status, currentDisplaySelected } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
@@ -133,12 +137,15 @@ class LogRow extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td className="column-date">
+
+				<Column enabled="date" className="column-date" selected={ currentDisplaySelected }>
 					{ created }<br />{ created_time }
-				</td>
-				<td className="column-primary column-url">
-					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink><br />
-					{ sent_to ? sent_to.substring( 0, 100 ) : '' }
+				</Column>
+
+				<Column enabled="url" className="column-primary column-url" selected={ currentDisplaySelected }>
+					<ExternalLink url={ url }>
+						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+					</ExternalLink>
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
@@ -146,19 +153,30 @@ class LogRow extends React.Component {
 
 					{ this.state.showMap && this.renderMap() }
 					{ this.state.showAgent && this.renderAgent() }
-				</td>
-				<td className="column-referrer">
+				</Column>
+
+				<Column enabled="target" className="column-primary column-target" selected={ currentDisplaySelected }>
+					<ExternalLink url={ sent_to }>
+						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to.substring( 0, 100 ) } />
+					</ExternalLink>
+				</Column>
+
+				<Column enabled="referrer" className="column-referrer" selected={ currentDisplaySelected }>
 					<Referrer url={ referrer } />
-					{ referrer && <br /> }
-					{ agent }
-				</td>
-				<td className="column-ip">
+					<Highlighter searchWords={ [ this.props.filters.referrer ] } textToHighlight={ referrer ? referrer : '' } />
+				</Column>
+
+				<Column enabled="agent" className="column-agent" selected={ currentDisplaySelected }>
+					<Highlighter searchWords={ [ this.props.filters.agent ] } textToHighlight={ agent } />
+				</Column>
+
+				<Column enabled="ip" className="column-ip" selected={ currentDisplaySelected }>
 					{ this.renderIp( ip ) }
 
 					<RowActions>
 						{ ip && <a href="#" onClick={ this.onShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
-				</td>
+				</Column>
 			</tr>
 		);
 	}

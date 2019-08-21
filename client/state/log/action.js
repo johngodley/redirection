@@ -10,6 +10,7 @@ import {
 	LOG_ITEM_FAILED,
 	LOG_SET_SELECTED,
 	LOG_SET_ALL_SELECTED,
+	LOG_DISPLAY_SET,
 } from './type';
 import { tableAction, processRequest, directApi } from 'lib/store';
 import { RedirectionApi } from 'lib/api';
@@ -39,8 +40,8 @@ export const loadLogs = ( params = {} ) => getLogs( params );
 
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
-export const setSearch = ( filter, filterBy = '' ) => getLogs( { filter, filterBy: filter === '' ? '' : filterBy, page: 0, orderby: '' } );
 export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
 export const setTable = table => getLogs( table );
+export const setDisplay = ( displayType, displaySelected ) => ( { type: LOG_DISPLAY_SET, displayType, displaySelected } );
