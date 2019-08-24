@@ -153,7 +153,7 @@ class Red_Item_Sanitize {
 	}
 
 	public function is_valid_error_code( $code ) {
-		return in_array( $code, array( 400, 401, 403, 404, 410, 418 ), true );
+		return in_array( $code, array( 400, 401, 403, 404, 410, 418, 500, 501, 502, 503, 504 ), true );
 	}
 
 	protected function get_code( $action_type, $code ) {

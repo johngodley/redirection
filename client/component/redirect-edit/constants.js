@@ -150,6 +150,26 @@ export const getHttpError = () => [
 		value: 418,
 		label: __( "418 - I'm a teapot" ),
 	},
+	{
+		value: 500,
+		label: __( '500 - Internal Server Error' ),
+	},
+	{
+		value: 501,
+		label: __( '501 - Not implemented' ),
+	},
+	{
+		value: 502,
+		label: __( '502 - Bad Gateway' ),
+	},
+	{
+		value: 503,
+		label: __( '503 - Service Unavailable' ),
+	},
+	{
+		value: 504,
+		label: __( '504 - Gateway Timeout' ),
+	},
 ];
 
 export const getAllHttpCodes = () => getHttpCodes().concat( getHttpError() );

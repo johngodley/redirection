@@ -163,6 +163,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add 'search by' to search by different information
 * Add filter dropdown to filter data
 * Add warning about relative absolute URLs
+* Add 500, 501, 502, 503, 504 error codes
 
 = 4.3.3 - 8th August 2019 ==
 * Add back compatibility fix for URL sanitization
