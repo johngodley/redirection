@@ -10,6 +10,7 @@ import {
 	ERROR_ITEM_FAILED,
 	ERROR_SET_SELECTED,
 	ERROR_SET_ALL_SELECTED,
+	ERROR_DISPLAY_SET,
 } from './type';
 import { tableAction, processRequest, directApi } from 'lib/store';
 import { RedirectionApi } from 'lib/api';
@@ -38,10 +39,10 @@ export const getLogs = args => ( dispatch, getState ) => processRequest( Redirec
 export const loadLogs = ( params = {} ) => getLogs( params );
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
-export const setSearch = ( filter, filterBy = '' ) => getLogs( { filter, filterBy: filter === '' ? '' : filterBy, page: 0, orderby: '' } );
-export const setUngroupedSearch = ( filter, filterBy ) => getLogs( { filter, filterBy, page: 0, orderby: '', groupBy: '' } );
-export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderby: '', page: 0 } );
+export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
+export const setFilter = ( filterBy ) => getLogs( { filterBy, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: ERROR_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: ERROR_SET_ALL_SELECTED, onoff } );
 export const setGroupBy = groupBy => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: '', filter: '' } );
 export const setTable = table => getLogs( table );
+export const setDisplay = ( displayType, displaySelected ) => ( { type: ERROR_DISPLAY_SET, displayType, displaySelected } );

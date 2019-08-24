@@ -12,51 +12,17 @@ import { connect } from 'react-redux';
 
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
-import SearchBox from 'component/table/search';
-import { tableKey } from 'lib/table';
-import TableFilter from 'component/table/filter';
+import SearchBox from 'component/search-box';
+import BulkAction from 'component/table/bulk-action';
+import TableDisplay from 'component/table/table-display';
 import GroupRow from './row';
-import { getGroup, createGroup, setPage, setSearch, performTableAction, setAllSelected, setOrderBy, setFilter } from 'state/group/action';
+import { getGroup, createGroup, setPage, performTableAction, setAllSelected, setOrderBy, setFilter, setDisplay } from 'state/group/action';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModules } from 'state/io/selector';
+import { getFilterOptions, getDisplayGroups, getDisplayOptions, getHeaders, getBulk, getSearchOptions } from './constants';
 import Select from 'component/select';
-
-const getHeaders = () => [
-	{
-		name: 'cb',
-		check: true,
-	},
-	{
-		name: 'name',
-		title: __( 'Name' ),
-		primary: true,
-	},
-	{
-		name: 'redirects',
-		title: __( 'Redirects' ),
-		sortable: false,
-	},
-	{
-		name: 'module',
-		title: __( 'Module' ),
-		sortable: false,
-	},
-];
-
-const getBulk = () => [
-	{
-		id: 'delete',
-		name: __( 'Delete' ),
-	},
-	{
-		id: 'enable',
-		name: __( 'Enable' ),
-	},
-	{
-		id: 'disable',
-		name: __( 'Disable' ),
-	},
-];
+import MultiOptionDropdown from 'component/multi-option-dropdown';
+import { isEnabled } from 'component/table/utils';
 
 class Groups extends React.Component {
 	constructor( props ) {
@@ -67,12 +33,33 @@ class Groups extends React.Component {
 		this.state = { name: '', moduleId: 1 };
 	}
 
-	onRenderRow = ( row, key, status ) => {
+	onRenderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {
 		const { saving } = this.props.group;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return <GroupRow item={ row } key={ row.id } selected={ status.isSelected } status={ rowStatus } />;
+		return (
+			<GroupRow
+				item={ row }
+				key={ row.id }
+				selected={ status.isSelected }
+				status={ rowStatus }
+				currentDisplayType={ currentDisplayType }
+				currentDisplaySelected={ currentDisplaySelected }
+				setFilter={ this.setFilter }
+				filters={ this.props.group.table.filterBy }
+			/>
+		);
+	}
+
+	setFilter = ( filterName, filterValue ) => {
+		const { filterBy } = this.props.group.table;
+
+		this.props.onFilter( { ...filterBy, [ filterName ]: filterValue ? filterValue : undefined } );
+	}
+
+	getHeaders( selected ) {
+		return getHeaders().filter( header => isEnabled( selected, header.name ) || header.name === 'cb' || header.name === 'name' );
 	}
 
 	onChange = ev => {
@@ -89,13 +76,25 @@ class Groups extends React.Component {
 		this.setState( { name: '' } );
 	}
 
-	getModules() {
-		return [
-			{
-				value: '',
-				text: __( 'All modules' ),
-			},
-		].concat( getModules() );
+	onSearch = ( search, type ) => {
+		const filterBy = { ...this.props.group.table.filterBy };
+
+		getSearchOptions().map( item => delete filterBy[ item.name ] );
+
+		if ( search ) {
+			filterBy[ type ] = search;
+		}
+
+		this.props.onFilter( filterBy );
+	}
+
+	validateDisplay( selected ) {
+		// Ensure we have at least source or title
+		if ( selected.indexOf( 'name' ) === -1 ) {
+			return selected.concat( [ 'name' ] );
+		}
+
+		return selected;
 	}
 
 	render() {
@@ -103,12 +102,52 @@ class Groups extends React.Component {
 		const isSaving = saving.indexOf( 0 ) !== -1;
 
 		return (
-			<div>
-				<SearchBox status={ status } table={ table } onSearch={ this.props.onSearch } ignoreFilter={ [ 'module' ] } key={ tableKey( table ) } />
+			<React.Fragment>
+				<div className="redirect-table-display">
+					<TableDisplay
+						disable={ status === STATUS_IN_PROGRESS }
+						options={ getDisplayOptions() }
+						groups={ getDisplayGroups() }
+						store="group"
+						currentDisplayType={ table.displayType }
+						currentDisplaySelected={ table.displaySelected }
+						setDisplay={ this.props.onSetDisplay }
+						validation={ this.validateDisplay }
+					/>
+					<SearchBox
+						status={ status }
+						table={ table }
+						onSearch={ this.onSearch }
+						selected={ table.filterBy }
+						searchTypes={ getSearchOptions() }
+					/>
+				</div>
+
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } bulk={ getBulk() }>
-					<TableFilter selected={ table.filter } options={ this.getModules() } onFilter={ this.props.onFilter } isEnabled={ true } key={ tableKey( table ) } />
+					<BulkAction>
+						<MultiOptionDropdown
+							options={ getFilterOptions( getModules() ) }
+							selected={ table.filterBy ? table.filterBy : {} }
+							onApply={ this.props.onFilter }
+							title={ __( 'Filters' ) }
+							isEnabled={ status !== STATUS_IN_PROGRESS }
+						/>
+					</BulkAction>
 				</TableNav>
-				<Table headers={ getHeaders() } rows={ rows } total={ total } row={ this.onRenderRow } table={ table } status={ status } onSetAllSelected={ this.props.onSetAllSelected } onSetOrderBy={ this.props.onSetOrderBy } />
+
+				<Table
+					headers={ this.getHeaders( table.displaySelected ) }
+					rows={ rows }
+					total={ total }
+					row={ this.onRenderRow }
+					table={ table }
+					status={ status }
+					onSetAllSelected={ this.props.onSetAllSelected }
+					onSetOrderBy={ this.props.onSetOrderBy }
+					currentDisplayType={ table.displayType }
+					currentDisplaySelected={ table.displaySelected }
+				/>
+
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
 
 				<h2>{ __( 'Add Group' ) }</h2>
@@ -133,7 +172,7 @@ class Groups extends React.Component {
 
 					{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 				</form>
-			</div>
+			</React.Fragment>
 		);
 	}
 }
@@ -151,9 +190,6 @@ function mapDispatchToProps( dispatch ) {
 		onLoadGroups: () => {
 			dispatch( getGroup() );
 		},
-		onSearch: search => {
-			dispatch( setSearch( search ) );
-		},
 		onChangePage: page => {
 			dispatch( setPage( page ) );
 		},
@@ -166,11 +202,14 @@ function mapDispatchToProps( dispatch ) {
 		onSetOrderBy: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
-		onFilter: moduleId => {
-			dispatch( setFilter( 'module', moduleId ) );
+		onFilter: ( filterBy ) => {
+			dispatch( setFilter( filterBy ) );
 		},
 		onCreate: item => {
 			dispatch( createGroup( item ) );
+		},
+		onSetDisplay: ( displayType, displaySelected ) => {
+			dispatch( setDisplay( displayType, displaySelected ) );
 		},
 	};
 }

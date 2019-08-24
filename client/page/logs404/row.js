@@ -5,6 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
+import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
@@ -20,6 +21,7 @@ import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
 import ExternalLink from 'component/external-link';
+import Column from 'component/table/column';
 import { getFlags } from 'state/settings/selector';
 
 class LogRow404 extends React.Component {
@@ -127,20 +129,20 @@ class LogRow404 extends React.Component {
 	}
 
 	renderIp( ip ) {
-		if ( ip ) {
-			return (
-				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>
-					{ ip }
-				</a>
-			);
+		if ( ! ip ) {
+			return '-';
 		}
 
-		return '-';
+		return (
+			<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>
+				<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } />
+			</a>
+		);
 	}
 
 	render() {
 		const { created, created_time, ip, referrer, url, agent, id } = this.props.item;
-		const { selected, status } = this.props;
+		const { selected, status, currentDisplaySelected, filters } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
@@ -163,11 +165,16 @@ class LogRow404 extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelect } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td className="column-date">
+
+				<Column enabled="date" className="column-date" selected={ currentDisplaySelected }>
 					{ created }<br />{ created_time }
-				</td>
-				<td className="column-url column-primary">
-					<ExternalLink url={ url }>{ url.substring( 0, 100 ) }</ExternalLink>
+				</Column>
+
+				<Column enabled="url" className="column-url column-primary" selected={ currentDisplaySelected }>
+					<ExternalLink url={ url }>
+						<Highlighter searchWords={ [ filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+					</ExternalLink>
+
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
 					</RowActions>
@@ -175,19 +182,23 @@ class LogRow404 extends React.Component {
 					{ this.state.editing && this.renderEdit() }
 					{ this.state.showMap && this.renderMap() }
 					{ this.state.showAgent && this.renderAgent() }
-				</td>
-				<td className="column-referrer">
-					<Referrer url={ referrer } />
-					{ referrer && <br /> }
-					<span>{ agent }</span>
-				</td>
-				<td className="column-ip">
+				</Column>
+
+				<Column enabled="referrer" className="column-referrer" selected={ currentDisplaySelected }>
+					<Referrer url={ referrer } search={ filters.referrer } />
+				</Column>
+
+				<Column enabled="agent" className="column-agent" selected={ currentDisplaySelected }>
+					<Highlighter searchWords={ [ filters.agent ] } textToHighlight={ agent || '' } />
+				</Column>
+
+				<Column enabled="ip" className="column-ip" selected={ currentDisplaySelected }>
 					{ this.renderIp( ip ) }
 
 					<RowActions>
 						{ ip && <a href="#" onClick={ this.onShow }>{ __( 'Filter by IP' ) }</a> }
 					</RowActions>
-				</td>
+				</Column>
 			</tr>
 		);
 	}

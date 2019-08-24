@@ -15,12 +15,13 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		}
 
 		for ( $i = 0; $i < $total; $i++ ) {
-			Red_Item::create( array(
-				'url' => '/test'.( $i + 1 ),
+			Red_Item::create( [
+				'url' => '/test' . ( $i + 1 ),
 				'group_id' => $group ? $group : $this->group->get_id(),
 				'action_type' => 'url',
 				'match_type' => 'url',
-			) );
+				'title' => 'title' . ( $i + 1 ),
+			] );
 		}
 
 		$this->setNonce();
@@ -76,13 +77,23 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListBadFilter() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect', [ 'filterBy' => 'cats', 'filter' => 'nothing' ] );
+		$result = $this->callApi( 'redirect', [ 'filterBy' => 'cats' ] );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'cats' => 'thing' ] ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
-	public function testListFilterName() {
+	public function testListFilterUrl() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect', [ 'filter' => 'test1' ] );
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'url' => 'test1' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterTitle() {
+		$this->createAB();
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'title' => 'title1' ] ] );
+
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 
@@ -90,51 +101,92 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$this->createAB();
 		$this->createAB( 1, $this->group2->get_id(), false );
 
-		$result = $this->callApi( 'redirect',  array( 'filter' => (string)$this->group2->get_id(), 'filterBy' => 'group' ) );
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'group' => (string) $this->group2->get_id() ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterStatus() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'status' => 'disabled' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'status' => 'disabled' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterUrlMatch() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'regex' => 1 ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'url-match' => 'regular' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterMatch() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'login' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'match' => 'login' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterActionType() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'pass', 'match_type' => 'url' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'action' => 'pass' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterHTTP() {
+		$this->createAB();
+
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'action_code' => 303 ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'http' => '303' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 
 	public function testListBadPerPage() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 'cats' ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 'cats' ) );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListPerPageMin() {
 		$this->createAB( 20 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 5 ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 5 ) );
 		$this->assertEquals( 5, count( $result->data['items'] ) );
 	}
 
 	public function testListPerPageMax() {
 		$this->createAB( 201 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 201 ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 201 ) );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListPerPage() {
 		$this->createAB( 20 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 12 ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 12 ) );
 		$this->assertEquals( 12, count( $result->data['items'] ) );
 	}
 
 	public function testListBadPage() {
 		$this->createAB( 20 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 10, 'page' => 'cats' ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 10, 'page' => 'cats' ) );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testListPage() {
 		$this->createAB( 30 );
 
-		$result = $this->callApi( 'redirect',  array( 'per_page' => 10, 'page' => 2 ) );
+		$result = $this->callApi( 'redirect', array( 'per_page' => 10, 'page' => 2 ) );
 		$this->assertEquals( 10, count( $result->data['items'] ) );
-		$this->assertEquals( '/test10', $result->data['items'][ 0 ]['url'] );
+		$this->assertEquals( '/test10', $result->data['items'][0]['url'] );
 	}
 
 	public function testBadBulk() {

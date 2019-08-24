@@ -31,14 +31,13 @@ const setUrlForPage = ( action, table ) => {
 	};
 
 	if ( currentPage[ pluginPage ] && action === currentPage[ pluginPage ][ 0 ].find( item => item === action ) ) {
-		const { orderby, direction, page, per_page, filter, filterBy, groupBy } = table;
-		const query = { orderby, direction, offset: page, per_page, filter, filterBy, groupBy };
+		const { orderby, direction, page, per_page, filterBy, groupBy } = table;
+		const query = { orderby, direction, offset: page, per_page, filterBy, groupBy };
 		const defaults = {
 			orderby: currentPage[ pluginPage ][ 1 ],
 			direction: 'desc',
 			offset: 0,
-			filter: '',
-			filterBy: '',
+			filterBy: {},
 			per_page: parseInt( Redirectioni10n.per_page, 10 ),
 			groupBy: '',
 		};

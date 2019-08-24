@@ -174,15 +174,8 @@ class EditRedirect extends React.Component {
 		this.setState( { group_id: parseInt( ev.target.value, 10 ) } );
 	}
 
-	onFlagChange = option => {
-		const options = option ? option.map( item => item.value ) : [];
-		const flags = {
-			flag_regex: options.indexOf( 'flag_regex' ) !== -1 ? true : false,
-			flag_case: options.indexOf( 'flag_case' ) !== -1 ? true : false,
-			flag_trailing: options.indexOf( 'flag_trailing' ) !== -1 ? true : false,
-		};
-
-		this.onUpdateState( flags );
+	onFlagChange = flags => {
+		this.onUpdateState( { ...this.props.flags, ...flags } );
 	}
 
 	getInputState( ev ) {

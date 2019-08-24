@@ -3,7 +3,7 @@
  * Internal dependencies
  */
 
-import * as qs from 'querystring';
+import * as qs from 'qs';
 
 const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support' ];
 
@@ -28,10 +28,6 @@ export function getWordPressUrl( query, defaults, url ) {
 		} else if ( defaults[ param ] === query[ param ] ) {
 			delete existing[ param.toLowerCase() ];
 		}
-	}
-
-	if ( existing.filterby && ! existing.filter ) {
-		delete existing.filterby;
 	}
 
 	return '?' + qs.stringify( existing );

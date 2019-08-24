@@ -11,6 +11,7 @@ import {
 	GROUP_ITEM_SAVING,
 	GROUP_ITEM_SAVED,
 	GROUP_ITEM_FAILED,
+	GROUP_DISPLAY_SET,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
@@ -41,6 +42,9 @@ export default function redirects( state = {}, action ) {
 
 		case GROUP_ITEM_FAILED:
 			return { ... state, saving: removeSaving( state, action ), rows: restoreToOriginal( state, action ) };
+
+		case GROUP_DISPLAY_SET:
+			return { ... state, table: { ... state.table, displayType: action.displayType, displaySelected: action.displaySelected } };
 	}
 
 	return state;

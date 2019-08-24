@@ -477,12 +477,9 @@ class Red_Item {
 			$direction = strtoupper( $params['direction'] );
 		}
 
-		if ( isset( $params['filter'] ) && strlen( $params['filter'] ) > 0 && $params['filter'] !== '0' ) {
-			if ( isset( $params['filterBy'] ) && $params['filterBy'] === 'group' ) {
-				$where = $wpdb->prepare( 'WHERE group_id=%d', intval( $params['filter'], 10 ) );
-			} else {
-				$where = $wpdb->prepare( 'WHERE url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filter'] ) ) . '%' );
-			}
+		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+			$filters = new Red_Item_Filters( $params['filterBy'] );
+			$where = $filters->get_as_sql();
 		}
 
 		if ( isset( $params['per_page'] ) ) {
@@ -533,5 +530,66 @@ class Red_Item {
 			'last_access' => $this->get_last_hit() > 0 ? date_i18n( get_option( 'date_format' ), $this->get_last_hit() ) : '-',
 			'enabled' => $this->is_enabled(),
 		);
+	}
+}
+
+class Red_Item_Filters {
+	private $filters = [];
+
+	public function __construct( $filter_params ) {
+		global $wpdb;
+
+		foreach ( $filter_params as $filter_by => $filter ) {
+			$filter = trim( $filter );
+
+			if ( $filter_by === 'status' ) {
+				if ( $filter === 'enabled' ) {
+					$this->filters[] = "status='enabled'";
+				} else {
+					$this->filters[] = "status='disabled'";
+				}
+			} elseif ( $filter_by === 'url-match' ) {
+				if ( $filter === 'regular' ) {
+					$this->filters[] = 'regex=1';
+				} else {
+					$this->filters[] = 'regex=0';
+				}
+			} elseif ( $filter_by === 'match' && in_array( $filter, array_keys( Red_Match::available() ), true ) ) {
+				$this->filters[] = $wpdb->prepare( 'match_type=%s', $filter );
+			} elseif ( $filter_by === 'action' && in_array( $filter, array_keys( Red_Action::available() ), true ) ) {
+				$this->filters[] = $wpdb->prepare( 'action_type=%s', $filter );
+			} elseif ( $filter_by === 'http' ) {
+				$sanitizer = new Red_Item_Sanitize();
+				$filter = intval( $filter, 10 );
+
+				if ( $sanitizer->is_valid_error_code( $filter ) || $sanitizer->is_valid_redirect_code( $filter ) ) {
+					$this->filters[] = $wpdb->prepare( 'action_code=%d', $filter );
+				}
+			} elseif ( $filter_by === 'access' ) {
+				if ( $filter === 'year' ) {
+					$this->filters[] = 'last_access < DATE_SUB(NOW(),INTERVAL 1 YEAR)';
+				} elseif ( $filter === 'month' ) {
+					$this->filters[] = 'last_access < DATE_SUB(NOW(),INTERVAL 1 MONTH)';
+				} else {
+					$this->filters[] = "last_access = '0000-00-00 00:00:00'";
+				}
+			} elseif ( $filter_by === 'url' ) {
+				$this->filters[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
+			} elseif ( $filter_by === 'target' ) {
+				$this->filters[] = $wpdb->prepare( 'action_data LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
+			} elseif ( $filter_by === 'title' ) {
+				$this->filters[] = $wpdb->prepare( 'title LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
+			} elseif ( $filter_by === 'group' ) {
+				$this->filters[] = $wpdb->prepare( 'group_id=%d', intval( $filter, 10 ) );
+			}
+		}
+	}
+
+	public function get_as_sql() {
+		if ( count( $this->filters ) > 0 ) {
+			return 'WHERE ' . implode( ' AND ', $this->filters );
+		}
+
+		return '';
 	}
 }

@@ -12,6 +12,7 @@ import {
 	REDIRECT_ITEM_SAVED,
 	REDIRECT_ITEM_FAILED,
 	REDIRECT_ADD_TOP,
+	REDIRECT_DISPLAY_SET,
 } from './type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
@@ -45,6 +46,9 @@ export default function redirects( state = {}, action ) {
 
 		case REDIRECT_ITEM_FAILED:
 			return { ... state, saving: removeSaving( state, action ), rows: restoreToOriginal( state, action ) };
+
+		case REDIRECT_DISPLAY_SET:
+			return { ... state, table: { ... state.table, displayType: action.displayType, displaySelected: action.displaySelected } };
 	}
 
 	return state;

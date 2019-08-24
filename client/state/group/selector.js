@@ -8,10 +8,10 @@ export const nestedGroups = groups => {
 			nested[ group.moduleName ] = [];
 		}
 
-		nested[ group.moduleName ].push( { value: group.id, text: group.name } );
+		nested[ group.moduleName ].push( { value: group.id, label: group.name } );
 	}
 
-	return Object.keys( nested ).map( moduleName => ( { text: moduleName, value: nested[ moduleName ] } ) );
+	return Object.keys( nested ).map( moduleName => ( { label: moduleName, value: nested[ moduleName ] } ) );
 };
 
 export const getGroup = ( groups, groupId ) => groups.find( item => item.id === groupId );

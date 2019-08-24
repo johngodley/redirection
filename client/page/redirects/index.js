@@ -15,100 +15,59 @@ import classnames from 'classnames';
 
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
-import SearchBox from 'component/table/search';
-import TableFilter from 'component/table/filter';
-import { tableKey } from 'lib/table';
+import SearchBox from 'component/search-box';
+import TableDisplay from 'component/table/table-display';
+import BulkAction from 'component/table/bulk-action';
+import Select from 'component/select';
+import MultiOptionDropdown from 'component/multi-option-dropdown';
 import RedirectRow from './row';
 import EditRedirect from 'component/redirect-edit';
 import {
 	getRedirect,
 	setPage,
-	setSearch,
 	performTableAction,
 	setAllSelected,
 	setOrderBy,
 	setFilter,
+	setDisplay,
 } from 'state/redirect/action';
 import { getGroup } from 'state/group/action';
 import { getDefaultItem } from 'state/redirect/selector';
 import { getFlags } from 'state/settings/selector';
 import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settings/type';
 import { nestedGroups } from 'state/group/selector';
-
-const getHeaders = () => [
-	{
-		name: 'cb',
-		check: true,
-	},
-	{
-		name: 'code',
-		title: __( 'Type' ),
-		sortable: false,
-	},
-	{
-		name: 'url',
-		title: __( 'URL' ),
-		primary: true,
-	},
-	{
-		name: 'position',
-		title: __( 'Pos' ),
-	},
-	{
-		name: 'last_count',
-		title: __( 'Hits' ),
-	},
-	{
-		name: 'last_access',
-		title: __( 'Last Access' ),
-	},
-];
-
-const getBulk = () => [
-	{
-		id: 'delete',
-		name: __( 'Delete' ),
-	},
-	{
-		id: 'enable',
-		name: __( 'Enable' ),
-	},
-	{
-		id: 'disable',
-		name: __( 'Disable' ),
-	},
-	{
-		id: 'reset',
-		name: __( 'Reset hits' ),
-	},
-];
+import { getDisplayGroups, getDisplayOptions, getBulk, getHeaders, getFilterOptions, getSearchOptions } from './constants';
+import { isEnabled } from 'component/table/utils';
 
 class Redirects extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.handleRender = this.renderRow.bind( this );
 		this.props.onLoadRedirects();
 		this.props.onLoadGroups();
 	}
 
-	renderRow( row, key, status ) {
+	renderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {
 		const { saving } = this.props.redirect;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
 		return (
-			<RedirectRow item={ row } key={ key } selected={ status.isSelected } status={ rowStatus } />
+			<RedirectRow
+				item={ row }
+				key={ key }
+				selected={ status.isSelected }
+				status={ rowStatus }
+				currentDisplayType={ currentDisplayType }
+				currentDisplaySelected={ currentDisplaySelected }
+				defaultFlags={ this.props.defaultFlags }
+				filters={ this.props.redirect.table.filterBy }
+			/>
 		);
 	}
 
-	getGroups( groups ) {
-		return [
-			{
-				value: 0,
-				text: __( 'All groups' ),
-			},
-		].concat( nestedGroups( groups ) );
+	getGroupOptions( groups ) {
+		return nestedGroups( groups ).map( item => ( { label: item.label, options: item.value } ) );
 	}
 
 	renderNew() {
@@ -145,6 +104,50 @@ class Redirects extends React.Component {
 		return true;
 	}
 
+	getHeaders( selected ) {
+		return getHeaders().filter( header => isEnabled( selected, header.name ) || header.name === 'cb' || header.name === 'url' );
+	}
+
+	validateDisplay( selected ) {
+		// Ensure we have at least source or title
+		if ( selected.indexOf( 'title' ) === -1 && selected.indexOf( 'source' ) === -1 ) {
+			return selected.concat( [ 'title' ] );
+		}
+
+		return selected;
+	}
+
+	setFilter = ( filterName, filterValue ) => {
+		const { filterBy } = this.props.group.table;
+
+		this.props.onFilter( { ...filterBy, [ filterName ]: filterValue ? filterValue : undefined } );
+	}
+
+	onSearch = ( search, type ) => {
+		const filterBy = { ...this.props.redirect.table.filterBy };
+
+		getSearchOptions().map( item => delete filterBy[ item.name ] );
+
+		if ( search ) {
+			filterBy[ type ] = search;
+		}
+
+		this.props.onFilter( filterBy );
+	}
+
+	onGroup = ev => {
+		this.setFilter( 'group', parseInt( ev.target.value, 10 ) === 0 ? undefined : parseInt( ev.target.value, 10 ) );
+	}
+
+	getGroups( groups ) {
+		return [
+			{
+				value: 0,
+				label: __( 'All groups' ),
+			},
+		].concat( nestedGroups( groups ) );
+	}
+
 	render() {
 		const { status, total, table, rows, addTop } = this.props.redirect;
 		const { group } = this.props;
@@ -154,12 +157,26 @@ class Redirects extends React.Component {
 			<div className="redirects">
 				{ addTop && this.renderNew() }
 
-				<SearchBox
-					status={ status }
-					table={ table }
-					onSearch={ this.props.onSearch }
-					ignoreFilter={ [ 'group' ] }
-				/>
+				<div className="redirect-table-display">
+					<TableDisplay
+						disable={ status === STATUS_IN_PROGRESS }
+						options={ getDisplayOptions() }
+						groups={ getDisplayGroups() }
+						store="redirect"
+						currentDisplayType={ table.displayType }
+						currentDisplaySelected={ table.displaySelected }
+						setDisplay={ this.props.onSetDisplay }
+						validation={ this.validateDisplay }
+					/>
+					<SearchBox
+						status={ status }
+						table={ table }
+						onSearch={ this.onSearch }
+						selected={ table.filterBy }
+						searchTypes={ getSearchOptions() }
+					/>
+				</div>
+
 				<TableNav
 					total={ total }
 					selected={ table.selected }
@@ -169,23 +186,37 @@ class Redirects extends React.Component {
 					bulk={ getBulk() }
 					status={ status }
 				>
-					<TableFilter
-						selected={ table.filter ? table.filter : '0' }
-						options={ this.getGroups( group.rows ) }
-						isEnabled={ this.canFilter( group, status ) }
-						onFilter={ this.props.onFilter }
-						key={ tableKey( table ) }
-					/>
+					{ group.rows.length > 1 && <BulkAction>
+						<Select
+							name="group"
+							items={ this.getGroups( group.rows ) }
+							value={ table.filterBy.group ? table.filterBy.group : 0 }
+							onChange={ this.onGroup }
+						/>
+					</BulkAction> }
+
+					<BulkAction>
+						<MultiOptionDropdown
+							options={ getFilterOptions() }
+							selected={ table.filterBy ? table.filterBy : {} }
+							onApply={ this.props.onFilter }
+							title={ __( 'Filters' ) }
+							isEnabled={ this.canFilter( group, status ) }
+							badges
+						/>
+					</BulkAction>
 				</TableNav>
 				<Table
-					headers={ getHeaders() }
+					headers={ this.getHeaders( table.displaySelected ) }
 					rows={ rows }
 					total={ total }
-					row={ this.handleRender }
+					row={ this.renderRow }
 					table={ table }
 					status={ status }
 					onSetAllSelected={ this.props.onSetAllSelected }
 					onSetOrderBy={ this.props.onSetOrderBy }
+					currentDisplayType={ table.displayType }
+					currentDisplaySelected={ table.displaySelected }
 				/>
 				<TableNav
 					total={ total }
@@ -220,9 +251,6 @@ function mapDispatchToProps( dispatch ) {
 		onLoadRedirects: args => {
 			dispatch( getRedirect( args ) );
 		},
-		onSearch: search => {
-			dispatch( setSearch( search ) );
-		},
 		onChangePage: page => {
 			dispatch( setPage( page ) );
 		},
@@ -235,8 +263,11 @@ function mapDispatchToProps( dispatch ) {
 		onSetOrderBy: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
-		onFilter: groupId => {
-			dispatch( setFilter( 'group', groupId ) );
+		onFilter: ( filterBy ) => {
+			dispatch( setFilter( filterBy ) );
+		},
+		onSetDisplay: ( displayType, displaySelected ) => {
+			dispatch( setDisplay( displayType, displaySelected ) );
 		},
 	};
 }

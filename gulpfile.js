@@ -51,7 +51,7 @@ const versionHeader = md5 => `<?php
 
 define( 'REDIRECTION_VERSION', '${ pkg.version }' );
 define( 'REDIRECTION_BUILD', '${ md5 }' );
-define( 'REDIRECTION_MIN_WP', '${ pkg.engines.wordpress }' );
+define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 `;
 
 function downloadLocale( locale, wpName, type ) {

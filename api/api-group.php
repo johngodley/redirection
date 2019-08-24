@@ -7,7 +7,7 @@
  *
  * @apiParam {string} orderby
  * @apiParam {string} direction
- * @apiParam {string} filter
+ * @apiParam {string} filterBy
  * @apiParam {string} per_page
  * @apiParam {string} page
  *
@@ -18,11 +18,11 @@
  */
 class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
-		$filters = array( 'name', 'module' );
-		$orders = array( 'name', 'id' );
+		$orders = [ 'name', 'id' ];
+		$filters = [ 'status', 'module', 'name' ];
 
 		register_rest_route( $namespace, '/group', array(
-			'args' => $this->get_filter_args( $filters, $orders ),
+			'args' => $this->get_filter_args( $orders, $filters ),
 			$this->get_route( WP_REST_Server::READABLE, 'route_list' ),
 			array_merge(
 				$this->get_route( WP_REST_Server::EDITABLE, 'route_create' ),
@@ -35,7 +35,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_update' ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/group/(?P<bulk>delete|enable|disable)', $filters, $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/group/(?P<bulk>delete|enable|disable)', $orders, 'route_bulk' );
 	}
 
 	private function get_group_args() {

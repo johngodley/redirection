@@ -17,11 +17,11 @@ const getRowStatus = ( status, selected, item ) => ( {
 } );
 
 const TableContent = props => {
-	const { rows, status, selected, row } = props;
+	const { rows, status, selected, row, currentDisplayType, currentDisplaySelected, search } = props;
 
 	return (
 		<tbody>
-			{ rows.map( ( item, pos ) => row( item, pos, getRowStatus( status, selected, item ) ) ) }
+			{ rows.map( ( item, pos ) => row( item, pos, getRowStatus( status, selected, item ), currentDisplayType, currentDisplaySelected, search ) ) }
 		</tbody>
 	);
 };

@@ -59,7 +59,12 @@ export const getHeaders = groupBy => {
 		},
 		{
 			name: 'referrer',
-			title: __( 'Referrer / User Agent' ),
+			title: __( 'Referrer' ),
+			sortable: false,
+		},
+		{
+			name: 'agent',
+			title: __( 'User Agent' ),
 			sortable: false,
 		},
 		{
@@ -108,20 +113,60 @@ export const getGroupBy = ( ipLogging ) => {
 	const values = [
 		{
 			value: '',
-			text: __( 'No grouping' ),
+			label: __( 'No grouping' ),
 		},
 		{
 			value: 'url',
-			text: __( 'Group by URL' ),
+			label: __( 'Group by URL' ),
 		},
 	];
 
 	if ( ipLogging > 0 ) {
 		values.push( 	{
 			value: 'ip',
-			text: __( 'Group by IP' ),
+			label: __( 'Group by IP' ),
 		} );
 	}
 
 	return values;
 };
+
+export const getDisplayGroups = () => [
+	{
+		value: 'standard',
+		label: __( 'Standard Display' ),
+		grouping: [ 'date', 'url', 'referrer', 'ip' ],
+	},
+	{
+		value: 'minimal',
+		label: __( 'Compact Display' ),
+		grouping: [ 'date', 'url' ],
+	},
+];
+
+export const getDisplayOptions = () => [
+	{ value: 'date', label: __( 'Date' ) },
+	{ value: 'url', label: __( 'URL' ) },
+	{ value: 'referrer', label: __( 'Referrer' ) },
+	{ value: 'agent', label: __( 'User Agent' ) },
+	{ value: 'ip', label: __( 'IP' ) },
+];
+
+export const getSearchOptions = () => [
+	{
+		name: 'url',
+		title: __( 'Search URL' ),
+	},
+	{
+		name: 'referrer',
+		title: __( 'Search referrer' ),
+	},
+	{
+		name: 'agent',
+		title: __( 'Search user agent' ),
+	},
+	{
+		name: 'ip',
+		title: __( 'Search IP' ),
+	},
+];

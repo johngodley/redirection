@@ -7,6 +7,7 @@ import React from 'react';
 import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
@@ -18,6 +19,8 @@ import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getModuleName, getModules } from 'state/io/selector';
 import Spinner from 'component/spinner';
 import Select from 'component/select';
+import Badge from 'component/badge';
+import Column from 'component/table/column';
 
 class GroupRow extends React.Component {
 	constructor( props ) {
@@ -124,15 +127,27 @@ class GroupRow extends React.Component {
 
 	getName( name, enabled ) {
 		if ( enabled ) {
-			return name;
+			return <Highlighter searchWords={ [ this.props.filters.name ] } textToHighlight={ name } />;
 		}
 
 		return <strike>{ name }</strike>;
 	}
 
+	getStatus() {
+		if ( this.props.item.enabled ) {
+			return <div className="redirect-status redirect-status__enabled">✓</div>;
+		}
+
+		return <div className="redirect-status redirect-status__disabled">𐄂</div>;
+	}
+
+	enableModule( moduleId ) {
+		this.props.setFilter( 'module', moduleId );
+	}
+
 	render() {
 		const { name, redirects, id, module_id, enabled } = this.props.item;
-		const { selected, status } = this.props;
+		const { selected, status, currentDisplaySelected } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = ! enabled || isLoading || isSaving;
@@ -143,16 +158,28 @@ class GroupRow extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelected } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td className="column-primary column-name">
+
+				<Column enabled="status" className="column-status" selected={ currentDisplaySelected }>
+					{ this.getStatus() }
+				</Column>
+
+				<Column enabled="name" className="column-primary column-name" selected={ currentDisplaySelected }>
 					{ ! this.state.editing && this.getName( name, enabled ) }
 					{ this.state.editing ? this.renderEdit() : this.renderActions( isSaving ) }
-				</td>
-				<td className="column-redirects">
+				</Column>
+
+				<Column enabled="redirects" className="column-redirects" selected={ currentDisplaySelected }>
 					{ redirects }
-				</td>
-				<td className="column-module">
-					{ getModuleName( module_id ) }
-				</td>
+				</Column>
+
+				<Column enabled="module" className="column-module" selected={ currentDisplaySelected }>
+					<Badge
+						onClick={ () => this.enableModule( module_id ) }
+						title={ __( 'Filter on: %(type)s', { args: { type: getModuleName( module_id ) } } ) }
+					>
+						{ getModuleName( module_id ) }
+					</Badge>
+				</Column>
 			</tr>
 		);
 	}

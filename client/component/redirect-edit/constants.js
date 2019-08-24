@@ -27,130 +27,132 @@ import {
 export const getMatches = () => [
 	{
 		value: MATCH_URL,
-		text: __( 'URL only' ),
+		label: __( 'URL only' ),
 	},
 	{
 		value: MATCH_LOGIN,
-		text: __( 'URL and login status' ),
+		label: __( 'URL and login status' ),
 	},
 	{
 		value: MATCH_ROLE,
-		text: __( 'URL and role/capability' ),
+		label: __( 'URL and role/capability' ),
 	},
 	{
 		value: MATCH_REFERRER,
-		text: __( 'URL and referrer' ),
+		label: __( 'URL and referrer' ),
 	},
 	{
 		value: MATCH_AGENT,
-		text: __( 'URL and user agent' ),
+		label: __( 'URL and user agent' ),
 	},
 	{
 		value: MATCH_COOKIE,
-		text: __( 'URL and cookie' ),
+		label: __( 'URL and cookie' ),
 	},
 	{
 		value: MATCH_IP,
-		text: __( 'URL and IP' ),
+		label: __( 'URL and IP' ),
 	},
 	{
 		value: MATCH_SERVER,
-		text: __( 'URL and server' ),
+		label: __( 'URL and server' ),
 	},
 	{
 		value: MATCH_HEADER,
-		text: __( 'URL and HTTP header' ),
+		label: __( 'URL and HTTP header' ),
 	},
 	{
 		value: MATCH_CUSTOM,
-		text: __( 'URL and custom filter' ),
+		label: __( 'URL and custom filter' ),
 	},
 	{
 		value: MATCH_PAGE,
-		text: __( 'URL and WordPress page type' ),
+		label: __( 'URL and WordPress page type' ),
 	},
 	{
 		value: MATCH_LANGUAGE,
-		text: __( 'URL and language' ),
+		label: __( 'URL and language' ),
 	},
 ];
 
 export const getActions = () => [
 	{
 		value: ACTION_URL,
-		text: __( 'Redirect to URL' ),
+		label: __( 'Redirect to URL' ),
 	},
 	{
 		value: ACTION_RANDOM,
-		text: __( 'Redirect to random post' ),
+		label: __( 'Redirect to random post' ),
 	},
 	{
 		value: ACTION_PASS,
-		text: __( 'Pass-through' ),
+		label: __( 'Pass-through' ),
 	},
 	{
 		value: ACTION_ERROR,
-		text: __( 'Error (404)' ),
+		label: __( 'Error (404)' ),
 	},
 	{
 		value: ACTION_NOTHING,
-		text: __( 'Do nothing (ignore)' ),
+		label: __( 'Do nothing (ignore)' ),
 	},
 ];
 
 export const getHttpCodes = () => [
 	{
 		value: 301,
-		text: __( '301 - Moved Permanently' ),
+		label: __( '301 - Moved Permanently' ),
 	},
 	{
 		value: 302,
-		text: __( '302 - Found' ),
+		label: __( '302 - Found' ),
 	},
 	{
 		value: 303,
-		text: __( '303 - See Other' ),
+		label: __( '303 - See Other' ),
 	},
 	{
 		value: 304,
-		text: __( '304 - Not Modified' ),
+		label: __( '304 - Not Modified' ),
 	},
 	{
 		value: 307,
-		text: __( '307 - Temporary Redirect' ),
+		label: __( '307 - Temporary Redirect' ),
 	},
 	{
 		value: 308,
-		text: __( '308 - Permanent Redirect' ),
+		label: __( '308 - Permanent Redirect' ),
 	},
 ];
 
 export const getHttpError = () => [
 	{
 		value: 400,
-		text: __( '400 - Bad Request' ),
+		label: __( '400 - Bad Request' ),
 	},
 	{
 		value: 401,
-		text: __( '401 - Unauthorized' ),
+		label: __( '401 - Unauthorized' ),
 	},
 	{
 		value: 403,
-		text: __( '403 - Forbidden' ),
+		label: __( '403 - Forbidden' ),
 	},
 	{
 		value: 404,
-		text: __( '404 - Not Found' ),
+		label: __( '404 - Not Found' ),
 	},
 	{
 		value: 410,
-		text: __( '410 - Gone' ),
+		label: __( '410 - Gone' ),
 	},
 	{
 		value: 418,
-		text: __( "418 - I'm a teapot" ),
+		label: __( "418 - I'm a teapot" ),
 	},
 ];
+
+export const getAllHttpCodes = () => getHttpCodes().concat( getHttpError() );
 
 export const getSourceFlags = () => [
 	{
@@ -174,14 +176,14 @@ export const FLAG_CASE = 2;
 export const getSourceQuery = () => [
 	{
 		value: 'exact',
-		text: __( 'Exact match all parameters in any order' ),
+		label: __( 'Exact match all parameters in any order' ),
 	},
 	{
 		value: 'ignore',
-		text: __( 'Ignore all parameters' ),
+		label: __( 'Ignore all parameters' ),
 	},
 	{
 		value: 'pass',
-		text: __( 'Ignore & pass parameters to the target' ),
+		label: __( 'Ignore & pass parameters to the target' ),
 	},
 ];

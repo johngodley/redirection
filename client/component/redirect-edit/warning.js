@@ -42,7 +42,7 @@ export const getWarningFromState = ( item ) => {
 	const { url, flag_regex, action_data = {} } = item;
 	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = action_data;
 
-	if ( Array.isArray( url ) ) {
+	if ( Array.isArray( url ) || url.length === 0 ) {
 		return warnings;
 	}
 
