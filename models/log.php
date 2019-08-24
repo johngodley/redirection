@@ -79,15 +79,15 @@ class RE_Log {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_logs WHERE group_id=%d", $id ) );
 	}
 
-	static function delete_all( $filter_by = '', $filter = '' ) {
+	static function delete_all( $filter_by = [] ) {
 		global $wpdb;
 
-		$where = array();
+		$where = [];
 
-		if ( $filter_by === 'url' && $filter ) {
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
-		} elseif ( $filter_by === 'ip' ) {
-			$where[] = $wpdb->prepare( 'ip=%s', $filter );
+		if ( isset( $filter_by['url'] ) ) {
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter_by['url'] ) . '%' );
+		} elseif ( isset( $filter_by['ip'] ) ) {
+			$where[] = $wpdb->prepare( 'ip=%s', $filter_by['ip'] );
 		}
 
 		$where_cond = '';
@@ -208,17 +208,17 @@ class RE_404 {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
 	}
 
-	static function delete_all( $filter_by = '', $filter = '' ) {
+	static function delete_all( $filter_by = [] ) {
 		global $wpdb;
 
-		$where = array();
+		$where = [];
 
-		if ( $filter_by === 'url-exact' ) {
-			$where[] = $wpdb->prepare( 'url=%s', $filter );
-		} if ( $filter_by === 'url' && $filter ) {
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
-		} elseif ( $filter_by === 'ip' ) {
-			$where[] = $wpdb->prepare( 'ip=%s', $filter );
+		if ( isset( $filter_by['url-exact'] ) ) {
+			$where[] = $wpdb->prepare( 'url=%s', $filter_by );
+		} if ( isset( $filter_by['url'] ) ) {
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter_by ) . '%' );
+		} elseif ( isset( $filter_by['ip'] ) ) {
+			$where[] = $wpdb->prepare( 'ip=%s', $filter_by );
 		}
 
 		$where_cond = '';

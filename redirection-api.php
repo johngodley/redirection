@@ -42,10 +42,30 @@ class Redirection_Api_Route {
 }
 
 class Redirection_Api_Filter_Route extends Redirection_Api_Route {
-	protected function get_filter_args( $order_fields ) {
+	public function validate_filter( $value, $request, $param ) {
+		$fields = $request->get_attributes()['args']['filterBy']['filter_fields'];
+
+		if ( ! is_array( $value ) ) {
+			return new WP_Error( 'rest_invalid_param', 'Filter is not an array', array( 'status' => 400 ) );
+		}
+
+		if ( ! empty( $fields ) ) {
+			foreach ( array_keys( $value ) as $key ) {
+				if ( ! in_array( $key, $fields, true ) ) {
+					return new WP_Error( 'rest_invalid_param', 'Filter type is not supported: ' . $key, array( 'status' => 400 ) );
+				}
+			}
+		}
+
+		return true;
+	}
+
+	protected function get_filter_args( $order_fields, $filters = [] ) {
 		return array(
 			'filterBy' => array(
 				'description' => 'Field to filter by',
+				'validate_callback' => [ $this, 'validate_filter' ],
+				'filter_fields' => $filters,
 			),
 			'orderby' => array(
 				'description' => 'Field to order results by',
