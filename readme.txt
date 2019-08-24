@@ -157,6 +157,13 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+= 4.4 - ??? =
+* Add 'URL and language' match
+* Add page display type for configurable information
+* Add 'search by' to search by different information
+* Add filter dropdown to filter data
+* Add warning about relative absolute URLs
+
 = 4.3.3 - 8th August 2019 ==
 * Add back compatibility fix for URL sanitization
 
