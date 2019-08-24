@@ -181,7 +181,7 @@ class Red_Group {
 	public static function get_filtered( array $params ) {
 		global $wpdb;
 
-		$orderby = 'id';
+		$orderby = 'name';
 		$direction = 'DESC';
 		$limit = RED_DEFAULT_PER_PAGE;
 		$offset = 0;
