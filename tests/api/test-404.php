@@ -19,7 +19,7 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			RE_404::create( 'test' . ( $i + 1 ), 'agent', '192.168.1.' . ( $i + 1 ), 'referrer' );
+			RE_404::create( 'test' . ( $i + 1 ), 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
 		}
 
 		$this->setNonce();
@@ -83,14 +83,7 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
-	public function testIPFilter() {
-		$this->createAB( 5 );
-
-		$result = $this->callApi( '404', array( 'filterBy' => [ 'ip' => '192.168.1.1' ] ) );
-		$this->assertEquals( 1, count( $result->data['items'] ) );
-	}
-
-	public function testBadIPFilter() {
+	public function testBadFilter() {
 		$this->createAB();
 
 		$result = $this->callApi( '404', array( 'filterBy' => 'cats' ) );
@@ -98,6 +91,37 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 		$result = $this->callApi( '404', [ 'filterBy' => [ 'cats' => 'thing' ] ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testIPFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filterBy' => [ 'ip' => '192.168.1.1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+
+		$result = $this->callApi( '404', array( 'filterBy' => [ 'ip' => '192.168.1' ] ) );
+		$this->assertEquals( 5, count( $result->data['items'] ) );
+	}
+
+	public function testUrlFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filterBy' => [ 'url' => 'test1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testReferrerFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filterBy' => [ 'referrer' => 'referrer1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testUserAgentFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( '404', array( 'filterBy' => [ 'agent' => 'agent1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
 
 	public function testDeleteAll() {

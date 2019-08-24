@@ -540,6 +540,8 @@ class Red_Item_Filters {
 		global $wpdb;
 
 		foreach ( $filter_params as $filter_by => $filter ) {
+			$filter = trim( $filter );
+
 			if ( $filter_by === 'status' ) {
 				if ( $filter === 'enabled' ) {
 					$this->filters[] = "status='enabled'";
@@ -572,11 +574,11 @@ class Red_Item_Filters {
 					$this->filters[] = "last_access = '0000-00-00 00:00:00'";
 				}
 			} elseif ( $filter_by === 'url' ) {
-				$this->filters[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( trim( $filter ) ) . '%' );
+				$this->filters[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
 			} elseif ( $filter_by === 'target' ) {
-				$this->filters[] = $wpdb->prepare( 'action_data LIKE %s', '%' . $wpdb->esc_like( trim( $filter ) ) . '%' );
+				$this->filters[] = $wpdb->prepare( 'action_data LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
 			} elseif ( $filter_by === 'title' ) {
-				$this->filters[] = $wpdb->prepare( 'title LIKE %s', '%' . $wpdb->esc_like( trim( $filter ) ) . '%' );
+				$this->filters[] = $wpdb->prepare( 'title LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );
 			} elseif ( $filter_by === 'group' ) {
 				$this->filters[] = $wpdb->prepare( 'group_id=%d', intval( $filter, 10 ) );
 			}
@@ -585,7 +587,7 @@ class Red_Item_Filters {
 
 	public function get_as_sql() {
 		if ( count( $this->filters ) > 0 ) {
-			return ' WHERE ' . implode( ' AND ', $this->filters );
+			return 'WHERE ' . implode( ' AND ', $this->filters );
 		}
 
 		return '';

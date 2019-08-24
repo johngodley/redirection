@@ -15,12 +15,13 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		}
 
 		for ( $i = 0; $i < $total; $i++ ) {
-			Red_Item::create( array(
-				'url' => '/test'.( $i + 1 ),
+			Red_Item::create( [
+				'url' => '/test' . ( $i + 1 ),
 				'group_id' => $group ? $group : $this->group->get_id(),
 				'action_type' => 'url',
 				'match_type' => 'url',
-			) );
+				'title' => 'title' . ( $i + 1 ),
+			] );
 		}
 
 		$this->setNonce();
@@ -83,9 +84,16 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
-	public function testListFilterName() {
+	public function testListFilterUrl() {
 		$this->createAB();
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'url' => 'test1' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterTitle() {
+		$this->createAB();
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'title' => 'title1' ] ] );
+
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 
@@ -94,6 +102,47 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$this->createAB( 1, $this->group2->get_id(), false );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'group' => (string) $this->group2->get_id() ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterStatus() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'status' => 'disabled' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'status' => 'disabled' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterUrlMatch() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'regex' => 1 ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'url-match' => 'regular' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterMatch() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'login' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'match' => 'login' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterActionType() {
+		$this->createAB();
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'pass', 'match_type' => 'url' ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'action' => 'pass' ] ] );
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
+	public function testListFilterHTTP() {
+		$this->createAB();
+
+		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'action_code' => 303 ) );
+
+		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'http' => '303' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 

@@ -19,7 +19,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			RE_Log::create( 'test' . ( $i + 1 ), 'target', 'agent', '192.168.1.' . ( $i + 1 ), 'referrer' );
+			RE_Log::create( 'test' . ( $i + 1 ), 'target' . $i, 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
 		}
 
 		$this->setNonce();
@@ -83,15 +83,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
-	public function testIPFilter() {
-		$this->createAB( 5 );
-
-		$result = $this->callApi( 'log', [ 'filterBy' => [ 'ip' => '192.168.1.1' ] ] );
-
-		$this->assertEquals( 1, count( $result->data['items'] ) );
-	}
-
-	public function testBadIPFilter() {
+	public function testBadFilter() {
 		$this->createAB();
 
 		$result = $this->callApi( 'log', array( 'filterBy' => 'cats' ) );
@@ -99,6 +91,45 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 		$result = $this->callApi( 'log', [ 'filterBy' => [ 'cats' => 'thing' ] ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+
+	public function testIPFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'ip' => '192.168.1.1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'ip' => '192.168.1' ] ) );
+		$this->assertEquals( 5, count( $result->data['items'] ) );
+	}
+
+	public function testUrlFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'url' => 'test1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testReferrerFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'referrer' => 'referrer1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testUserAgentFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'agent' => 'agent1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testTargetFilter() {
+		$this->createAB( 5 );
+
+		$result = $this->callApi( 'log', array( 'filterBy' => [ 'target' => 'target1' ] ) );
+		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
 
 	public function testDeleteAll() {

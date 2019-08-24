@@ -156,11 +156,11 @@ export const getFilterOptions = () => [
 				value: 'never',
 			},
 			{
-				label: __( 'Never accessed in last month' ),
+				label: __( 'Not accessed in last month' ),
 				value: 'month',
 			},
 			{
-				label: __( 'Never accessed in last year' ),
+				label: __( 'Not accessed in last year' ),
 				value: 'year',
 			},
 		],

@@ -81,6 +81,16 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 		$this->assertEquals( 1, $result->data['total'] );
 	}
 
+	public function testListFilterStatus() {
+		$this->createAB();
+		$group = Red_Group::create( 'test', 1 );
+
+		$result = $this->callApi( 'bulk/group/disable', array( 'items' => $group->get_id() ), 'POST' );
+		$result = $this->callApi( 'group', [ 'filterBy' => [ 'status' => 'disabled' ] ] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+	}
+
 	public function testListFilterModule() {
 		$this->createAB();
 		$this->createAB( 1, 2, false );
