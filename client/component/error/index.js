@@ -90,11 +90,56 @@ class Error extends React.Component {
 		} );
 	}
 
+	renderDebug( debug ) {
+		const email = 'mailto:john@redirection.me?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
+		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
+
+		return (
+			<React.Fragment>
+				<p>
+					{ __( 'Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.', {
+						components: {
+							strong: <strong />,
+						},
+					} ) }
+				</p>
+
+				<p><a href={ github } className="button-primary">{ __( 'Create An Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
+				<p>{ __( 'Include these details in your report along with a description of what you were doing and a screenshot' ) }</p>
+
+				<p><TextareaAutosize readOnly={ true } cols="120" value={ debug.join( '\n' ) } spellCheck={ false } /></p>
+			</React.Fragment>
+		);
+	}
+
+	renderNonce( debug ) {
+		return (
+			<div className="red-error">
+				<h2>{ __( 'You are not authorised to access this page.' ) }</h2>
+
+				<p>{ __( 'This is usually fixed by doing one of these:' ) }</p>
+				<ol>
+					<li>{ __( 'Reload the page - your current session is old.' ) }</li>
+					<li>{ __( 'Log out, clear your browser cache, and log in again - your browser has cached an old session.' ) }</li>
+					<li>{ __( 'Your admin pages are being cached. Clear this cache and try again.' ) }</li>
+				</ol>
+
+				<p>{ __( 'The problem is almost certainly caused by one of the above.' ) }</p>
+
+				<h3>{ __( 'That didn\'t help' ) }</h3>
+
+				{ this.renderDebug( debug ) }
+			</div>
+		);
+	}
+
 	renderError( errors ) {
 		const uniqErrors = this.removeSameError( errors );
 		const debug = this.getDebug( uniqErrors );
-		const email = 'mailto:john@redirection.me?subject=Redirection%20Error&body=' + encodeURIComponent( debug.join( '\n' ) );
-		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
+
+		if ( errors.length > 0 && errors[ 0 ].code === 'rest_cookie_invalid_nonce' ) {
+			return this.renderNonce( debug );
+		}
 
 		return (
 			<div className="red-error">
@@ -142,18 +187,7 @@ class Error extends React.Component {
 
 				<h3>{ __( 'That didn\'t help' ) }</h3>
 
-				<p>
-					{ __( 'Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.', {
-						components: {
-							strong: <strong />,
-						},
-					} ) }
-				</p>
-
-				<p><a href={ github } className="button-primary">{ __( 'Create An Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
-				<p>{ __( 'Include these details in your report along with a description of what you were doing and a screenshot' ) }</p>
-
-				<p><TextareaAutosize readOnly={ true } cols="120" value={ debug.join( '\n' ) } spellCheck={ false } /></p>
+				{ this.renderDebug( debug ) }
 			</div>
 		);
 	}
