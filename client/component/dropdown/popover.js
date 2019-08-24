@@ -11,7 +11,10 @@ class Popover extends React.Component {
 		super( props );
 
 		this.ref = React.createRef();
-		this.state = { width: 0 };
+		this.state = {
+			containerWidth: 0,
+			buttonWidth: 0,
+		};
 	}
 
 	handleClickOutside = ev => {
@@ -23,16 +26,32 @@ class Popover extends React.Component {
 	}
 
 	componentDidMount() {
-		const { toggle } = this.props;
-		const { right } = this.ref.current.childNodes[ 0 ].getBoundingClientRect();
-
-		this.setState( { width: right - toggle.right } );
+		this.setWidths();
 	}
 
-	getPosition( position ) {
-		if ( position === 'right' ) {
+	componentDidUpdate() {
+		const { width } = this.props.toggleRef.childNodes[ 0 ].getBoundingClientRect();
+
+		if ( width !== this.state.buttonWidth ) {
+			this.setWidths();
+		}
+	}
+
+	setWidths() {
+		const { width } = this.props.toggleRef.childNodes[ 0 ].getBoundingClientRect();
+
+		this.setState( {
+			containerWidth: this.ref.current.getBoundingClientRect().width,
+			buttonWidth: width,
+		} );
+	}
+
+	getPopoverWidth() {
+		const { buttonWidth, containerWidth } = this.state;
+
+		if ( buttonWidth < containerWidth ) {
 			return {
-				left: `calc(100% - ${ this.state.width }px)`,
+				minWidth: buttonWidth + 'px',
 			};
 		}
 
@@ -41,10 +60,17 @@ class Popover extends React.Component {
 
 	render() {
 		const { position, className, content } = this.props;
+		const width = this.getPopoverWidth();
+		const classes = classnames(
+			'redirect-popover',
+			{
+				'redirect-popover__right': position === 'right' || width === null,
+			},
+		);
 
 		return (
-			<div className="redirect-popover" style={ this.getPosition( position ) } ref={ this.ref }>
-				<div className={ classnames( 'redirect-popover__content', className ) }>
+			<div className={ classes }>
+				<div className={ classnames( 'redirect-popover__content', className ) } style={ width } ref={ this.ref }>
 					{ content() }
 				</div>
 			</div>

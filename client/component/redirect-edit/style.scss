@@ -80,6 +80,14 @@
 			margin: 0;
 		}
 	}
+
+	.redirect-multioption__button {
+		min-width: 200px;
+	}
+
+	.redirect-multioption__button .redirect-badge {
+		background-color: #ffb900;
+	}
 }
 
 .redirection-modal_content .edit-redirection_warning {
@@ -209,4 +217,10 @@
 .redirect-badge.redirect-source__flag_regex {
 	background-color: #ffb900;
 	color: black;
+}
+
+.redirect-source__flags {
+	.redirect-badge {
+		margin-bottom: 2px;
+	}
 }

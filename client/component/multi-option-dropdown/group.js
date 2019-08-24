@@ -20,7 +20,7 @@ const MultiOption = ( { label, value, onSelect, isSelected } ) => {
 class MultiOptionGroup extends React.Component {
 	static propTypes = {
 		label: PropTypes.string.isRequired,
-		options: PropTypes.array.isRequired,
+		options: PropTypes.array,
 		value: PropTypes.string.isRequired,
 		selected: PropTypes.object.isRequired,
 		onApply: PropTypes.func.isRequired,
@@ -33,7 +33,8 @@ class MultiOptionGroup extends React.Component {
 
 		// Now add the new option
 		if ( checked ) {
-			newSelected[ value ] = multiple ? [ ...newSelected[ value ], optionValue ] : optionValue;
+			const target = optionValue === value ? true : optionValue;
+			newSelected[ value ] = multiple ? [ ...newSelected[ value ], optionValue ] : target;
 		} else if ( multiple ) {
 			newSelected[ value ] = newSelected[ value ].filter( item => item !== optionValue );
 		} else {
@@ -50,26 +51,41 @@ class MultiOptionGroup extends React.Component {
 			return selected[ value ].indexOf( option ) !== -1;
 		}
 
+		if ( value === option && selected[ value ] ) {
+			return true;
+		}
+
 		return selected[ value ] === option;
 	}
 
 	render() {
-		const { label, options } = this.props;
+		const { label, options, value } = this.props;
+
+		if ( options ) {
+			return (
+				<div className="redirect-multioption__group">
+					<h5>{ label }</h5>
+
+					{ options.map( option => (
+						<MultiOption
+							label={ option.label }
+							value={ option.value }
+							onSelect={ this.onSelect }
+							isSelected={ this.isSelected( option.value ) }
+							key={ option.value }
+						/>
+					) ) }
+				</div>
+			);
+		}
 
 		return (
-			<div className="redirect-multioption__group">
-				<h5>{ label }</h5>
-
-				{ options.map( option => (
-					<MultiOption
-						label={ option.label }
-						value={ option.value }
-						onSelect={ this.onSelect }
-						isSelected={ this.isSelected( option.value ) }
-						key={ option.value }
-					/>
-				) ) }
-			</div>
+			<MultiOption
+				label={ label }
+				value={ value }
+				onSelect={ this.onSelect }
+				isSelected={ this.isSelected( value ) }
+			/>
 		);
 	}
 }

@@ -1,12 +1,17 @@
 .redirect-popover__container {
 	position: relative;
 	display: inline-block;
+	flex: none !important;
 }
 
 .redirect-popover {
 	position: absolute;
 	z-index: 10000;
 	width: 100%;
+
+	&.redirect-popover__right .redirect-popover__content {
+		right: 0;
+	}
 }
 
 .redirect-popover__content {
@@ -17,7 +22,7 @@
 	position: absolute;
 	height: auto;
 	overflow-y: auto;
-	min-width: 100px;
+	min-width: 150px;
 	max-height: 400px;
 }
 

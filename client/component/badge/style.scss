@@ -1,6 +1,11 @@
 .redirect-badge {
-	display: flex;
-	align-items: center;
+	display: inline-block;
+
+	> div {
+		display: flex;
+		align-items: center;
+	}
+
 	padding: 0 5px 0 6px;
 	font-size: 12px;
 	background-color: #ddd;
@@ -18,7 +23,7 @@
 		}
 	}
 
-	button {
+	span {
 		background-color: transparent;
 		border: none;
 		width: 15px;
@@ -31,7 +36,7 @@
 		margin-right: -3px;
 	}
 
-	button:hover {
+	span:hover {
 		color: white;
 		background-color: #333;
 	}

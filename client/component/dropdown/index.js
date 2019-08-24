@@ -23,7 +23,8 @@ class Dropdown extends React.Component {
 		this.setState( { showing: false } );
 	}
 
-	onToggle = () => {
+	onToggle = ev => {
+		ev && ev.preventDefault();
 		this.setState( { showing: ! this.state.showing } );
 	}
 

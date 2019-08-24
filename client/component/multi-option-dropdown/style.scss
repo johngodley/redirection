@@ -1,6 +1,7 @@
 .redirect-multioption .redirect-popover__content {
-	padding: 5px 10px;
+	padding: 10px 10px;
 	white-space: nowrap;
+	box-sizing: border-box;
 
 	h4 {
 		margin-top: 5px;
@@ -8,18 +9,32 @@
 
 	h5 {
 		margin-top: 3px;
-		margin-bottom: -3px;
+		margin-bottom: 3px;
 		text-transform: uppercase;
 		color: #999;
 	}
 
+	p {
+		margin: 2px 0 0.8em !important;
+	}
+
+	p:first-child {
+		margin-top: 0;
+	}
+
 	p:last-child {
-		margin-bottom: 0;
+		margin-bottom: 0 !important;
+	}
+
+	label {
+		display: inline-block;
+		width: 100%;
 	}
 }
 
 .button.redirect-multioption__button,
 .redirect-multioption__button {
+	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -49,12 +64,16 @@
 	}
 
 	.redirect-badge {
-		line-height: 1.5;
-		margin-top: -1px;
+		line-height: 1.3;
+		margin-top: 1px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
+}
+
+.actions .redirect-multioption__button .redirect-badge {
+	margin-top: -1px;
 }
 
 .redirect-multioption__button.redirect-multioption__button_enabled {

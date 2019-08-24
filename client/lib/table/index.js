@@ -43,7 +43,7 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedG
 		page: 0,
 		per_page: parseInt( Redirectioni10n.per_page, 10 ),
 		selected: [],
-		filterBy: [],
+		filterBy: {},
 		groupBy: '',
 		displayType: '',
 		displaySelected: [],

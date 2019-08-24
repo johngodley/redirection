@@ -19,10 +19,12 @@ const Badge = props => {
 	};
 
 	return (
-		<span className={ classnames( 'redirect-badge', className, onClick ? 'redirect-badge__click' : null ) } { ...extra }>
-			{ children }
-			{ onCancel && <button onClick={ onCancel }>⨯</button> }
-		</span>
+		<div className={ classnames( 'redirect-badge', className, onClick ? 'redirect-badge__click' : null ) } { ...extra }>
+			<div>
+				{ children }
+				{ onCancel && <span onClick={ onCancel }>⨯</span> }
+			</div>
+		</div>
 	);
 };
 
@@ -30,7 +32,10 @@ Badge.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func,
 	onCancel: PropTypes.func,
-	children: PropTypes.object.isRequired,
+	children: PropTypes.oneOfType( [
+		PropTypes.object,
+		PropTypes.string,
+	] ).isRequired,
 	title: PropTypes.string,
 };
 
