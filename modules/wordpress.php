@@ -63,12 +63,16 @@ class WordPress_Module extends Red_Module {
 			return false;
 		}
 
-		$page_type = array_values( array_filter( $this->redirects, array( $this, 'only_404' ) ) );
+		$page_types = array_values( array_filter( $this->redirects, [ $this, 'only_404' ] ) );
 
-		if ( count( $page_type ) > 0 ) {
+		if ( count( $page_types ) > 0 ) {
 			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
-			$first = $page_type[0];
-			return $first->is_match( $url );
+
+			foreach ( $page_types as $page_type ) {
+				if ( $page_type->is_match( $url ) ) {
+					return true;
+				}
+			}
 		}
 
 		return false;
