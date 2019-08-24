@@ -55,7 +55,7 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedG
 	}
 
 	let displayType = 'standard';
-	let displaySelected = displayGroups[ 0 ].grouping;
+	let displaySelected = displayGroups.length > 0 ? displayGroups[ 0 ].grouping : [];
 
 	if ( localStorage.getItem( displayName + '_displayType' ) ) {
 		displayType = localStorage.getItem( displayName + '_displayType' );

@@ -47,6 +47,6 @@ describe( 'WordPress URL', () => {
 	} );
 
 	test( 'getWordPressUrl ignores filterby when filter has no value', () => {
-		expect( getWordPressUrl( { filterby: 'monkey' }, {}, '?existing=thing' ) ).toEqual( '?existing=thing' );
+		expect( getWordPressUrl( { filterby: [] }, {}, '?existing=thing' ) ).toEqual( '?existing=thing' );
 	} );
 } );

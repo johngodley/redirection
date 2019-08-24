@@ -19,8 +19,9 @@ const NEW_TABLE = {
 	page: 0,
 	per_page: 25,
 	selected: [],
-	filterBy: '',
-	filter: '',
+	filterBy: {},
+	displaySelected: [],
+	displayType: '',
 };
 const DEFAULT_ROWS = [
 	{
@@ -108,18 +109,18 @@ describe( 'tables', () => {
 	} );
 
 	test( 'getDefaultTable doesnt allow overriding when not on query page', () => {
-		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
+		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderby: 'other', direction: 'asc', offset: 5, filterby: {}, displayType: '', displaySelected: [] } );
 
-		const table = getDefaultTable( [], [], [], 'name', 'page' );
+		const table = getDefaultTable( [], [], [], 'name', 'page', 'name', 'groups' );
 
 		expect( table ).toEqual( NEW_TABLE );
 	} );
 
 	test( 'getDefaultTable returns default with query override when on page', () => {
-		getPageUrl.mockReturnValueOnce( { sub: 'page', orderby: 'other', direction: 'asc', offset: 5, filterby: 'filter', filter: 'monkey' } );
+		getPageUrl.mockReturnValueOnce( { sub: 'page', orderby: 'other', direction: 'asc', offset: 5 } );
 
 		const table = getDefaultTable( [ 'other' ], [ 'filter' ], [], 'name', [ 'page' ] );
 
-		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, filterBy: 'filter', filter: 'monkey' } ) );
+		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, displayType: 'standard' } ) );
 	} );
 } );
