@@ -8,18 +8,18 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	}
 
 	private function isAthenB( $result ) {
-		$this->assertEquals( 'test1', $result['items'][ 0 ]['url'] );
-		$this->assertEquals( 'test2', $result['items'][ 1 ]['url'] );
+		$this->assertEquals( 'test1', $result['items'][0]['url'] );
+		$this->assertEquals( 'test2', $result['items'][1]['url'] );
 	}
 
 	private function isBthenA( $result ) {
-		$this->assertEquals( 'test2', $result['items'][ 0 ]['url'] );
-		$this->assertEquals( 'test1', $result['items'][ 1 ]['url'] );
+		$this->assertEquals( 'test2', $result['items'][0]['url'] );
+		$this->assertEquals( 'test1', $result['items'][1]['url'] );
 	}
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			RE_Log::create( 'test'.( $i + 1 ), 'target', 'agent', '192.168.1.'.( $i + 1 ), 'referrer' );
+			RE_Log::create( 'test' . ( $i + 1 ), 'target', 'agent', '192.168.1.' . ( $i + 1 ), 'referrer' );
 		}
 
 		$this->setNonce();
@@ -86,7 +86,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testIPFilter() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'log', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ) );
+		$result = $this->callApi( 'log', [ 'filterBy' => [ 'ip' => '192.168.1.1' ] ] );
 
 		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
@@ -94,23 +94,24 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testBadIPFilter() {
 		$this->createAB();
 
-		$result = $this->callApi( 'log', array( 'filter' => 'cats', 'filterBy' => 'cats' ) );
+		$result = $this->callApi( 'log', array( 'filterBy' => 'cats' ) );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+
+		$result = $this->callApi( 'log', [ 'filterBy' => [ 'cats' => 'thing' ] ] );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testDeleteAll() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'log', array( 'filter' => 'cat' ), 'POST' );
-		$result = $this->callApi( 'log' );
-
-		$this->assertEquals( 0, count( $result->data['items'] ) );
+		$result = $this->callApi( 'log', array( 'filterBy' => 'cat' ), 'POST' );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
 	public function testDeleteFilter() {
 		$this->createAB( 5 );
 
-		$result = $this->callApi( 'log', array( 'filter' => '192.168.1.1', 'filterBy' => 'ip' ), 'POST' );
+		$result = $this->callApi( 'log', [ 'filterBy' => [ 'ip' => '192.168.1.1' ] ], 'POST' );
 		$result = $this->callApi( 'log' );
 
 		$this->assertEquals( 4, count( $result->data['items'] ) );
