@@ -11,6 +11,7 @@ export function getInitialRedirect() {
 		url: true,
 		target: true,
 		title: true,
+		group: true,
 	};
 
 	return {
