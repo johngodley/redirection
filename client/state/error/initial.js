@@ -4,7 +4,7 @@
 
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { getDefaultTable, toFilter } from 'lib/table';
-import { getFilterOptions, getDisplayGroups } from 'page/redirects/constants';
+import { getFilterOptions, getDisplayGroups } from 'page/logs404/constants';
 import { getPageUrl } from 'lib/wordpress-url';
 
 export function getInitialError() {

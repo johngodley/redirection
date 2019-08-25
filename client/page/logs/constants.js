@@ -51,7 +51,7 @@ export const getDisplayGroups = () => [
 	{
 		value: 'standard',
 		label: __( 'Standard Display' ),
-		grouping: [ 'date', 'url', 'referrer', 'ip' ],
+		grouping: [ 'date', 'url', 'target', 'agent', 'ip' ],
 	},
 	{
 		value: 'minimal',
@@ -68,6 +68,8 @@ export const getDisplayOptions = () => [
 	{ value: 'target', label: __( 'Target' ) },
 	{ value: 'ip', label: __( 'IP' ) },
 ];
+
+export const getFilterOptions = () => [];
 
 export const getSearchOptions = () => [
 	{

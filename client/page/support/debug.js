@@ -17,23 +17,23 @@ import { fixStatus } from 'state/settings/action';
 const getVersions = () => ( [
 	{
 		value: '2.3.1',
-		text: '2.3.1',
+		label: '2.3.1',
 	},
 	{
 		value: '2.3.2',
-		text: '2.3.2',
+		label: '2.3.2',
 	},
 	{
 		value: '2.4',
-		text: '2.4',
+		label: '2.4',
 	},
 	{
 		value: '4.0',
-		text: '4.0',
+		label: '4.0',
 	},
 	{
 		value: '4.1',
-		text: '4.1',
+		label: '4.1',
 	},
 ] );
 

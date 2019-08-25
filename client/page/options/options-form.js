@@ -16,34 +16,34 @@ import Select from 'component/select';
 import ExternalLink from 'component/external-link';
 
 const timeToKeep = () => [
-	{ value: -1, text: __( 'No logs' ) },
-	{ value: 1, text: __( 'A day' ) },
-	{ value: 7, text: __( 'A week' ) },
-	{ value: 30, text: __( 'A month' ) },
-	{ value: 60, text: __( 'Two months' ) },
-	{ value: 0, text: __( 'Forever' ) },
+	{ value: -1, label: __( 'No logs' ) },
+	{ value: 1, label: __( 'A day' ) },
+	{ value: 7, label: __( 'A week' ) },
+	{ value: 30, label: __( 'A month' ) },
+	{ value: 60, label: __( 'Two months' ) },
+	{ value: 0, label: __( 'Forever' ) },
 ];
 const expireTimes = () => [
-	{ value: -1, text: __( 'Never cache' ) },
-	{ value: 1, text: __( 'An hour' ) },
-	{ value: 24, text: __( 'A day' ) },
-	{ value: 24 * 7, text: __( 'A week' ) },
-	{ value: 0, text: __( 'Forever' ) },
+	{ value: -1, label: __( 'Never cache' ) },
+	{ value: 1, label: __( 'An hour' ) },
+	{ value: 24, label: __( 'A day' ) },
+	{ value: 24 * 7, label: __( 'A week' ) },
+	{ value: 0, label: __( 'Forever' ) },
 ];
 const ipLogging = () => [
-	{ value: 0, text: __( 'No IP logging' ) },
-	{ value: 1, text: __( 'Full IP logging' ) },
-	{ value: 2, text: __( 'Anonymize IP (mask last part)' ) },
+	{ value: 0, label: __( 'No IP logging' ) },
+	{ value: 1, label: __( 'Full IP logging' ) },
+	{ value: 2, label: __( 'Anonymize IP (mask last part)' ) },
 ];
 export const restApi = () => [
-	{ value: 0, text: __( 'Default REST API' ) },
-	{ value: 1, text: __( 'Raw REST API' ) },
-	{ value: 3, text: __( 'Relative REST API' ) },
+	{ value: 0, label: __( 'Default REST API' ) },
+	{ value: 1, label: __( 'Raw REST API' ) },
+	{ value: 3, label: __( 'Relative REST API' ) },
 ];
 export const queryMatch = () => [
-	{ value: 'exact', text: __( 'Exact match' ) },
-	{ value: 'ignore', text: __( 'Ignore all query parameters' ) },
-	{ value: 'pass', text: __( 'Ignore and pass all query parameters' ) },
+	{ value: 'exact', label: __( 'Exact match' ) },
+	{ value: 'ignore', label: __( 'Ignore all query parameters' ) },
+	{ value: 'pass', label: __( 'Ignore and pass all query parameters' ) },
 ];
 
 class OptionsForm extends React.Component {

@@ -93,7 +93,7 @@ export const getDisplayGroups = () => [
 	{
 		value: 'standard',
 		label: __( 'Standard Display' ),
-		grouping: [ 'last_count', 'last_access', 'target', 'code', 'title' ],
+		grouping: [ 'last_count', 'last_access', 'source', 'target', 'code', 'title' ],
 	},
 	{
 		value: 'minimal',
