@@ -105,7 +105,7 @@ class Error extends React.Component {
 				</p>
 
 				<p><a href={ github } className="button-primary">{ __( 'Create An Issue' ) }</a> <a href={ email } className="button-secondary">{ __( 'Email' ) }</a></p>
-				<p>{ __( 'Include these details in your report along with a description of what you were doing and a screenshot' ) }</p>
+				<p>{ __( 'Include these details in your report along with a description of what you were doing and a screenshot.' ) }</p>
 
 				<p><TextareaAutosize readOnly={ true } cols="120" value={ debug.join( '\n' ) } spellCheck={ false } /></p>
 			</React.Fragment>

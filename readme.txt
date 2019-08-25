@@ -138,9 +138,6 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Upgrade Notice ==
 
-= 2.4 =
-* Another database change. Please backup your data
-
 = 3.0 =
 * Upgrades the database to support IPv6. Please backup your data and visit the Redirection settings to perform the upgrade
 * Switches to the WordPress REST API
@@ -166,6 +163,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add 451, 500, 501, 502, 503, 504 error codes
 * Fix multiple 'URL and page type' redirects
 * Improve invalid nonce warning
+* Encode replaced values in regular expression targets
 
 = 4.3.3 - 8th August 2019 ==
 * Add back compatibility fix for URL sanitization

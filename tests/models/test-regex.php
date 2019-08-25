@@ -40,6 +40,18 @@ class RegexTest extends WP_UnitTestCase {
 		$this->assertEquals( 'dog5', $regex->replace( 'dog$1', 'cat5' ) );
 	}
 
+	public function testPathSpaceReplace() {
+		$regex = new Red_Regex( 'cat(.*)' );
+
+		$this->assertEquals( 'dog5%203', $regex->replace( 'dog$1', 'cat5 3' ) );
+	}
+
+	public function testQuerySpaceReplace() {
+		$regex = new Red_Regex( 'cat(.*)' );
+
+		$this->assertEquals( 'dog5?thing+4', $regex->replace( 'dog$1', 'cat5?thing 4' ) );
+	}
+
 	public function testMalformedReplace() {
 		$regex = new Red_Regex( '/cat[5' );
 

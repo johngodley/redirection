@@ -139,7 +139,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 		$result = $this->callApi( 'group', array( 'per_page' => 10, 'page' => 2 ) );
 		$this->assertEquals( 10, count( $result->data['items'] ) );
-		$this->assertEquals( 'test10', $result->data['items'][0]['name'] );
+		$this->assertEquals( 'test18', $result->data['items'][0]['name'] );
 	}
 
 	public function testBadBulk() {
