@@ -49,7 +49,7 @@ class Popover extends React.Component {
 	getPopoverWidth() {
 		const { buttonWidth, containerWidth } = this.state;
 
-		if ( buttonWidth < containerWidth ) {
+		if ( buttonWidth < containerWidth + 100 ) {
 			return {
 				minWidth: buttonWidth + 'px',
 			};
