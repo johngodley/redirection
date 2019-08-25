@@ -163,7 +163,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Add 'search by' to search by different information
 * Add filter dropdown to filter data
 * Add warning about relative absolute URLs
-* Add 500, 501, 502, 503, 504 error codes
+* Add 451, 500, 501, 502, 503, 504 error codes
+* Fix multiple 'URL and page type' redirects
+* Improve invalid nonce warning
 
 = 4.3.3 - 8th August 2019 ==
 * Add back compatibility fix for URL sanitization
@@ -650,16 +652,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 2.2.7 =
 * Better database compatibility
 
-= 2.2.6 =
+= < 2.2.6 =
 * Remove warning from VaultPress
-
-= 2.2.5 =
 * Add Turkish translation, thanks to Fatih Cevik
 * Fix search box
 * Fix 410 error code
 * Fix DB errors when MySQL doesn't auto-convert data types
-
-= < 2.2.4 =
 * Remove debug from htaccess module
 * Fix encoding of JS strings
 * Use fgetcsv for CSV importer - better handling
@@ -695,13 +693,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix group edit and log add entry
 * Use WP Ajax
 * WP2.8 compatibility
-* Add icons
 * Disable category monitoring
-* Errors on some sites
 * Fix 'you do not permissions' error on some non-English sites
 * Fix category change 'quick edit'
 * Redirection loops
 * RSS feed token
 * Re-enable import feature
-* Force JS cache
 * Fix log deletion

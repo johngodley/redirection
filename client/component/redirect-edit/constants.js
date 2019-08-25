@@ -151,6 +151,10 @@ export const getHttpError = () => [
 		label: __( "418 - I'm a teapot" ),
 	},
 	{
+		value: 451,
+		label: __( '451 - Unavailable For Legal Reasons' ),
+	},
+	{
 		value: 500,
 		label: __( '500 - Internal Server Error' ),
 	},
