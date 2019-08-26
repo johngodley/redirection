@@ -67,7 +67,7 @@ class Red_Regex {
 			$case = 'i';
 		}
 
-		return '@' . $at_escaped . '@' . $case;
+		return '@' . $at_escaped . '@s' . $case;
 	}
 
 	public function is_ignore_case() {
