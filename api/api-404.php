@@ -30,7 +30,7 @@
  */
 class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
-		$orders = [ 'url', 'ip' ];
+		$orders = [ 'url', 'ip', 'total' ];
 		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url' ];
 
 		register_rest_route( $namespace, '/404', array(
