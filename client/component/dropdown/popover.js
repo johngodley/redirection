@@ -6,6 +6,9 @@ import React from 'react';
 import classnames from 'classnames';
 import enhanceWithClickOutside from 'react-click-outside';
 
+const POPOVER_MIN = 100;
+const POPOVER_MAX = 250;
+
 class Popover extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -49,22 +52,34 @@ class Popover extends React.Component {
 	getPopoverWidth() {
 		const { buttonWidth, containerWidth } = this.state;
 
-		if ( buttonWidth < containerWidth + 100 ) {
+		if ( buttonWidth < containerWidth + POPOVER_MIN ) {
 			return {
 				minWidth: buttonWidth + 'px',
 			};
 		}
 
-		return null;
+		return {
+			minWidth: Math.min( containerWidth + POPOVER_MIN, POPOVER_MAX ) + 'px',
+		};
+	}
+
+	isRightAligned() {
+		const { buttonWidth, containerWidth } = this.state;
+
+		if ( buttonWidth > containerWidth + POPOVER_MIN || this.props.position === 'right' ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	render() {
-		const { position, className, content } = this.props;
+		const { className, content } = this.props;
 		const width = this.getPopoverWidth();
 		const classes = classnames(
 			'redirect-popover',
 			{
-				'redirect-popover__right': position === 'right' || width === null,
+				'redirect-popover__right': this.isRightAligned(),
 			},
 		);
 
