@@ -208,17 +208,17 @@ class RE_404 {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_404 WHERE id=%d", $id ) );
 	}
 
-	static function delete_all( $filter_by = [] ) {
+	static function delete_all( $filter_by, $filter_value ) {
 		global $wpdb;
 
 		$where = [];
 
-		if ( isset( $filter_by['url-exact'] ) ) {
-			$where[] = $wpdb->prepare( 'url=%s', $filter_by );
-		} if ( isset( $filter_by['url'] ) ) {
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter_by ) . '%' );
-		} elseif ( isset( $filter_by['ip'] ) ) {
-			$where[] = $wpdb->prepare( 'ip=%s', $filter_by );
+		if ( $filter_by === 'url-exact' ) {
+			$where[] = $wpdb->prepare( 'url=%s', $filter_value );
+		} elseif ( $filter_by === 'url' ) {
+			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter_value ) . '%' );
+		} elseif ( $filter_by === 'ip' ) {
+			$where[] = $wpdb->prepare( 'ip=%s', $filter_value );
 		}
 
 		$where_cond = '';
