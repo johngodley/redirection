@@ -212,7 +212,7 @@ __( "Summary", "redirection" ), // client/component/rest-api-status/index.js:132
 __( "Show Problems", "redirection" ), // client/component/rest-api-status/index.js:134
 __( "Testing - %s\$", "redirection" ), // client/component/rest-api-status/index.js:160
 __( "Check Again", "redirection" ), // client/component/rest-api-status/index.js:167
-__( "Group", "redirection" ), // client/component/table/group.js:39
+__( "Apply", "redirection" ), // client/component/table/group.js:39
 __( "Select All", "redirection" ), // client/component/table/header/check-column.js:14
 __( "First page", "redirection" ), // client/component/table/navigation-pages.js:74
 __( "Prev page", "redirection" ), // client/component/table/navigation-pages.js:75
@@ -402,11 +402,11 @@ __( "Referrer", "redirection" ), // client/page/logs/constants.js:66
 __( "User Agent", "redirection" ), // client/page/logs/constants.js:67
 __( "Target", "redirection" ), // client/page/logs/constants.js:68
 __( "IP", "redirection" ), // client/page/logs/constants.js:69
-__( "Search URL", "redirection" ), // client/page/logs/constants.js:75
-__( "Search referrer", "redirection" ), // client/page/logs/constants.js:79
-__( "Search user agent", "redirection" ), // client/page/logs/constants.js:83
-__( "Search IP", "redirection" ), // client/page/logs/constants.js:87
-__( "Search target URL", "redirection" ), // client/page/logs/constants.js:91
+__( "Search URL", "redirection" ), // client/page/logs/constants.js:77
+__( "Search referrer", "redirection" ), // client/page/logs/constants.js:81
+__( "Search user agent", "redirection" ), // client/page/logs/constants.js:85
+__( "Search IP", "redirection" ), // client/page/logs/constants.js:89
+__( "Search target URL", "redirection" ), // client/page/logs/constants.js:93
 __( "Delete all from IP %s", "redirection" ), // client/page/logs/delete-all.js:54
 __( "Delete all matching \"%s\"", "redirection" ), // client/page/logs/delete-all.js:60
 __( "Delete All", "redirection" ), // client/page/logs/delete-all.js:65
@@ -443,10 +443,10 @@ __( "URL", "redirection" ), // client/page/logs404/constants.js:149
 __( "Referrer", "redirection" ), // client/page/logs404/constants.js:150
 __( "User Agent", "redirection" ), // client/page/logs404/constants.js:151
 __( "IP", "redirection" ), // client/page/logs404/constants.js:152
-__( "Search URL", "redirection" ), // client/page/logs404/constants.js:158
-__( "Search referrer", "redirection" ), // client/page/logs404/constants.js:162
-__( "Search user agent", "redirection" ), // client/page/logs404/constants.js:166
-__( "Search IP", "redirection" ), // client/page/logs404/constants.js:170
+__( "Search URL", "redirection" ), // client/page/logs404/constants.js:160
+__( "Search referrer", "redirection" ), // client/page/logs404/constants.js:164
+__( "Search user agent", "redirection" ), // client/page/logs404/constants.js:168
+__( "Search IP", "redirection" ), // client/page/logs404/constants.js:172
 __( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:78
 __( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:80
 __( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:85

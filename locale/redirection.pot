@@ -585,7 +585,7 @@ msgstr ""
 msgid "When matched"
 msgstr ""
 
-#: redirection-strings.php:139, redirection-strings.php:215, redirection-strings.php:554, redirection-strings.php:574
+#: redirection-strings.php:139, redirection-strings.php:554, redirection-strings.php:574
 msgid "Group"
 msgstr ""
 
@@ -865,6 +865,10 @@ msgstr ""
 msgid "Check Again"
 msgstr ""
 
+#: redirection-strings.php:215, redirection-strings.php:226
+msgid "Apply"
+msgstr ""
+
 #: redirection-strings.php:216
 msgid "Select All"
 msgstr ""
@@ -905,10 +909,6 @@ msgstr ""
 
 #: redirection-strings.php:225
 msgid "Bulk Actions"
-msgstr ""
-
-#: redirection-strings.php:226
-msgid "Apply"
 msgstr ""
 
 #: redirection-strings.php:227
