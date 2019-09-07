@@ -181,7 +181,7 @@ class RedirectRow extends React.Component {
 			return source;
 		}
 
-		return <strike>source</strike>;
+		return <strike>{ source }</strike>;
 	}
 
 	getName( url, title ) {
