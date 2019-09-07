@@ -30,9 +30,9 @@ const STATUS_LOG = {
 	store: 'log',
 };
 
-export const deleteExact = ( filterBy, filter ) => ( dispatch, getState ) => directApi( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filter, filterBy }, getState().log );
-export const deleteAll = ( filterBy, filter ) => ( dispatch, getState ) => processRequest( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filter, filterBy }, getState().log, table => {
-	return { ... table, filter: '', filterBy: '' };
+export const deleteExact = ( filterBy ) => ( dispatch, getState ) => directApi( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filterBy }, getState().log );
+export const deleteAll = ( filterBy ) => ( dispatch, getState ) => processRequest( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filterBy }, getState().log, table => {
+	return { ... table, filterBy: {} };
 } );
 export const performTableAction = ( action, ids, extra ) => tableAction( RedirectionApi.bulk.log, action, ids, STATUS_LOG_ITEM, extra );
 export const getLogs = args => ( dispatch, getState ) => processRequest( RedirectionApi.log.list, dispatch, STATUS_LOG, args, getState().log );
@@ -40,7 +40,7 @@ export const loadLogs = ( params = {} ) => getLogs( params );
 
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
-export const setFilter = ( filterBy, filter ) => getLogs( { filterBy, filter, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getLogs( { filterBy, orderby: '', page: 0 } );
 export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
 export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
 export const setTable = table => getLogs( table );

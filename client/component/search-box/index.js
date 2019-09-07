@@ -25,9 +25,11 @@ class SearchBox extends React.Component {
 		super( props );
 
 		const found = props.searchTypes.find( item => props.selected[ item.name ] );
+		const search = this.getInitialValue( props.searchTypes, props.selected );
 
 		this.state = {
-			search: this.getInitialValue( props.searchTypes, props.selected ),
+			search,
+			initial: search,
 			selected: found ? found.name : props.searchTypes[ 0 ].name,
 		};
 	}
@@ -44,6 +46,16 @@ class SearchBox extends React.Component {
 		}
 
 		return initial || '';
+	}
+
+	componentDidUpdate( prevProps ) {
+		const initial = this.getInitialValue( prevProps.searchTypes, prevProps.selected );
+
+		if ( initial !== this.state.initial ) {
+			const found = this.props.searchTypes.find( item => this.props.selected[ item.name ] );
+
+			this.setState( { initial, search: initial, selected: found ? found.name : this.props.searchTypes[ 0 ].name } );
+		}
 	}
 
 	onSearch = ( ev ) => {

@@ -34,31 +34,19 @@ class DeleteAll extends React.Component {
 		const { table } = this.props;
 
 		this.setState( { isModal: false } );
-		this.props.onDelete( this.getFilterBy( table.filterBy, table.filter ), table.filter );
+		this.props.onDelete( table.filterBy );
 	}
 
-	getFilterBy( filterBy, filter ) {
-		if ( filter ) {
-			if ( filterBy ) {
-				return filterBy;
-			}
-
-			return 'url';
-		}
-
-		return '';
-	}
-
-	getTitle( filterBy, filter ) {
-		if ( filterBy === 'ip' ) {
+	getTitle( filterBy ) {
+		if ( filterBy.ip ) {
 			return __( 'Delete all from IP %s', {
-				args: filter,
+				args: filterBy.ip,
 			} );
 		}
 
-		if ( filter ) {
+		if ( filterBy.url ) {
 			return __( 'Delete all matching "%s"', {
-				args: filter.substring( 0, 15 ),
+				args: filterBy.url.substring( 0, 15 ),
 			} );
 		}
 
@@ -67,7 +55,7 @@ class DeleteAll extends React.Component {
 
 	render() {
 		const { table } = this.props;
-		const title = this.getTitle( table.filterBy, table.filter );
+		const title = this.getTitle( table.filterBy );
 
 		return (
 			<div className="table-button-item">

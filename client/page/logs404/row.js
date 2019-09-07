@@ -207,7 +207,7 @@ class LogRow404 extends React.Component {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onShowIP: ip => {
-			dispatch( setFilter( 'ip', ip ) );
+			dispatch( setFilter( { ip } ) );
 		},
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );

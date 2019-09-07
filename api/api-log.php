@@ -59,13 +59,8 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 
 	public function route_delete_all( WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$filter_by = [];
 
-		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
-			$filter_by = $params['filterBy'];
-		}
-
-		RE_Log::delete_all( $filter_by );
+		RE_Log::delete_all( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		return $this->route_log( $request );
 	}
 

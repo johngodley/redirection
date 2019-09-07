@@ -158,8 +158,8 @@ function mapDispatchToProps( dispatch ) {
 		onLoad: params => {
 			dispatch( loadLogs( params ) );
 		},
-		onDeleteAll: ( filterBy, filter ) => {
-			dispatch( deleteAll( filterBy, filter ) );
+		onDeleteAll: ( filterBy ) => {
+			dispatch( deleteAll( filterBy ) );
 		},
 		onChangePage: page => {
 			dispatch( setPage( page ) );

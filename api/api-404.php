@@ -75,19 +75,15 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 
 	public function route_delete_all( WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$filter = false;
-		$filter_by = false;
 
 		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
 			foreach ( $params['items'] as $url ) {
 				RE_404::delete_all( $this->get_delete_group( $params ), $url );
 			}
 		} else {
-			if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
-				$filter_by = $params['filterBy'];
-			}
+			$first_filter = isset( $params['filterBy'] ) ? array_keys( $params['filterBy'] )[0] : false;
 
-			RE_404::delete_all( $filter_by );
+			RE_404::delete_all( $first_filter ? $first_filter : false, $first_filter ? $params['filterBy'][ $first_filter ] : false );
 
 			unset( $params['filterBy'] );
 		}
