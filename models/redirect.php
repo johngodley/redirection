@@ -255,9 +255,13 @@ class Red_Item {
 			Red_Module::flush( $data['group_id'] );
 
 			$redirect = self::get_by_id( $wpdb->insert_id );
-			do_action( 'redirection_redirect_updated', $wpdb->insert_id, $redirect );
+			if ( $redirect ) {
+				do_action( 'redirection_redirect_updated', $wpdb->insert_id, $redirect );
 
-			return $redirect;
+				return $redirect;
+			}
+
+			return new WP_Error( 'redirect', 'Unable to get newly added redirect' );
 		}
 
 		return new WP_Error( 'redirect', __( 'Unable to add new redirect' ) );
