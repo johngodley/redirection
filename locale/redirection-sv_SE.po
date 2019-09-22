@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-08-22 09:05:48+0000\n"
+"PO-Revision-Date: 2019-09-11 12:11:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +33,7 @@ msgstr "Automatisk installation"
 
 #: redirection-strings.php:182
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
-msgstr ""
+msgstr "Din mål-URL innehåller det ogiltiga tecknet {{code}}%(invalid)s{{/code}}"
 
 #: redirection-strings.php:41
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
@@ -49,7 +49,7 @@ msgstr ""
 
 #: redirection-strings.php:14 redirection-strings.php:297
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr ""
+msgstr "Om din webbplats behöver speciella databasbehörigheter, eller om du hellre vill göra det själv, kan du köra följande SQL manuellt."
 
 #: redirection-strings.php:13 redirection-strings.php:271
 msgid "Manual Install"
@@ -57,19 +57,19 @@ msgstr "Manuell installation"
 
 #: database/database-status.php:145
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
-msgstr ""
+msgstr "Otillräckliga databasbehörigheter upptäckt. Ge din databasanvändare lämpliga behörigheter."
 
 #: redirection-strings.php:537
 msgid "This information is provided for debugging purposes. Be careful making any changes."
-msgstr ""
+msgstr "Denna information tillhandahålls för felsökningsändamål. Var försiktig med att göra några ändringar."
 
 #: redirection-strings.php:536
 msgid "Plugin Debug"
-msgstr ""
+msgstr "Felsökning av tillägg"
 
 #: redirection-strings.php:534
 msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
-msgstr ""
+msgstr "Redirection kommunicerar med WordPress via WordPress REST API. Detta är en standarddel av WordPress, och du kommer att få problem om du inte kan använda det."
 
 #: redirection-strings.php:513
 msgid "IP Headers"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: redirection-strings.php:511
 msgid "Do not change unless advised to do so!"
-msgstr ""
+msgstr "Ändra inte om du inte rekommenderas att göra det!"
 
 #: redirection-strings.php:510
 msgid "Database version"
@@ -113,7 +113,7 @@ msgstr ""
 
 #: redirection-strings.php:300
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
-msgstr ""
+msgstr "Klicka på knappen ”Uppgradera databas” för att automatiskt uppgradera databasen."
 
 #: redirection-strings.php:299
 msgid "Complete Upgrade"
@@ -121,11 +121,11 @@ msgstr "Slutför uppgradering"
 
 #: redirection-strings.php:296
 msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
-msgstr ""
+msgstr "Redirection lagrar data i din databas och ibland måste detta uppgraderas. Din databas är i version {{strong}}%(current)s{{/strong}} och den senaste är {{strong}}%(latest)s{{/strong}}."
 
 #: redirection-strings.php:284 redirection-strings.php:294
 msgid "Note that you will need to set the Apache module path in your Redirection options."
-msgstr ""
+msgstr "Observera att du måste ställa in Apache-modulens sökväg i dina alternativ för Redirection."
 
 #: redirection-strings.php:270
 msgid "I need support!"
@@ -133,7 +133,7 @@ msgstr "Jag behöver support!"
 
 #: redirection-strings.php:266
 msgid "You will need at least one working REST API to continue."
-msgstr ""
+msgstr "Du behöver minst ett fungerande REST-API för att fortsätta."
 
 #: redirection-strings.php:198
 msgid "Check Again"
@@ -153,15 +153,15 @@ msgstr "Sammanfattning"
 
 #: redirection-strings.php:194
 msgid "You are using a broken REST API route. Changing to a working API should fix the problem."
-msgstr ""
+msgstr "Du använder en bruten REST-API-rutt. Att byta till ett fungerande API bör åtgärda problemet."
 
 #: redirection-strings.php:193
 msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
-msgstr ""
+msgstr "Ditt REST-API fungerar inte och tillägget kan inte fortsätta förrän detta är åtgärdat."
 
 #: redirection-strings.php:192
 msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
-msgstr ""
+msgstr "Det finns några problem med att ansluta till ditt REST-API. Det är inte nödvändigt att åtgärda dessa problem och tillägget kan fungera."
 
 #: redirection-strings.php:191
 msgid "Unavailable"
@@ -209,7 +209,7 @@ msgstr ""
 
 #: redirection-strings.php:46
 msgid "Include these details in your report along with a description of what you were doing and a screenshot"
-msgstr ""
+msgstr "Inkludera dessa detaljer i din rapport tillsammans med en beskrivning av vad du gjorde och en skärmdump"
 
 #: redirection-strings.php:44
 msgid "Create An Issue"
@@ -229,7 +229,7 @@ msgstr "Vad gör jag härnäst?"
 
 #: redirection-strings.php:34
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent."
-msgstr ""
+msgstr "Kan inte göra begäran på grund av webbläsarsäkerhet. Detta beror vanligtvis på att dina inställningar för WordPress och URL:er är inkonsekventa."
 
 #: redirection-strings.php:33
 msgid "Possible cause"
@@ -237,19 +237,19 @@ msgstr "Möjlig orsak"
 
 #: redirection-strings.php:32
 msgid "WordPress returned an unexpected message. This is probably a PHP error from another plugin."
-msgstr ""
+msgstr "WordPress returnerade ett oväntat meddelande. Detta är förmodligen ett PHP-fel från ett annat tillägg."
 
 #: redirection-strings.php:29
 msgid "This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log"
-msgstr ""
+msgstr "Detta kan vara ett säkerhetstillägg, eller servern har slut på minne eller har ett externt fel. Kontrollera din serverfellogg"
 
 #: redirection-strings.php:26
 msgid "Your REST API is returning a 404 page. This may be caused by a security plugin, or your server may be misconfigured"
-msgstr ""
+msgstr "Din REST-API returnerar en 404-sida. Detta kan orsakas av ett säkerhetstillägg, eller så kan din server vara felkonfigurerad"
 
 #: redirection-strings.php:24
 msgid "Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests."
-msgstr ""
+msgstr "Ditt REST-API blockeras antagligen av ett säkerhetstillägg. Inaktivera detta eller konfigurera det för att tillåta REST API-förfrågningar."
 
 #: redirection-strings.php:23 redirection-strings.php:25
 #: redirection-strings.php:27 redirection-strings.php:30
@@ -267,7 +267,7 @@ msgstr ""
 
 #: redirection-strings.php:485
 msgid "Force a redirect from HTTP to the HTTPS version of your WordPress site domain. Please ensure your HTTPS is working before enabling."
-msgstr ""
+msgstr "Tvinga en omdirigering från HTTP till HTTPS-versionen av din WordPress-webbplatsdomän. Se till att HTTPS fungerar innan du aktiverar det."
 
 #: redirection-strings.php:359
 msgid "Export 404"
@@ -279,7 +279,7 @@ msgstr "Exportera omdirigering"
 
 #: redirection-strings.php:177
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
-msgstr ""
+msgstr "WordPress-permalänkstrukturer fungerar inte i vanliga URL:er. Använd ett vanligt uttryck."
 
 #: models/redirect.php:301
 msgid "Unable to update redirect"
@@ -323,11 +323,11 @@ msgstr ""
 
 #: redirection-strings.php:471 redirection-strings.php:475
 msgid "Applies to all redirections unless you configure them otherwise."
-msgstr ""
+msgstr "Tillämpas till alla omdirigeringar om du inte konfigurerar dem på annat sätt."
 
 #: redirection-strings.php:470
 msgid "Default URL settings"
-msgstr ""
+msgstr "Standard URL-inställningar"
 
 #: redirection-strings.php:453
 msgid "Ignore and pass all query parameters"
@@ -347,7 +347,7 @@ msgstr ""
 
 #: redirection-strings.php:260
 msgid "A security plugin (e.g Wordfence)"
-msgstr ""
+msgstr "Ett säkerhetstillägg (t.ex. Wordfence)"
 
 #: redirection-strings.php:169
 msgid "No more options"
@@ -375,7 +375,7 @@ msgstr ""
 
 #: redirection-strings.php:119
 msgid "Ignore Slash"
-msgstr ""
+msgstr "Ignorera snedstreck"
 
 #: redirection-strings.php:450
 msgid "Relative REST API"
@@ -391,15 +391,15 @@ msgstr "Standard REST API"
 
 #: redirection-strings.php:234
 msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect."
-msgstr ""
+msgstr "Det är allt du behöver – du omdirigerar nu! Observera att ovanstående bara är ett exempel – du kan nu ange en omdirigering."
 
 #: redirection-strings.php:233
 msgid "(Example) The target URL is the new URL"
-msgstr ""
+msgstr "(Exempel) Mål-URL:en är den nya URL:en"
 
 #: redirection-strings.php:231
 msgid "(Example) The source URL is your old or original URL"
-msgstr ""
+msgstr "(Exempel) Käll-URL:en är din gamla eller ursprungliga URL"
 
 #. translators: 1: PHP version
 #: redirection.php:38
@@ -413,7 +413,7 @@ msgstr "En databasuppgradering pågår. Fortsätt att slutföra."
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:82
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
-msgstr ""
+msgstr "Redirections databas måste uppdateras – <a href=\"%1$1s\">klicka för att uppdatera</a>."
 
 #: redirection-strings.php:303
 msgid "Redirection database needs upgrading"
@@ -478,7 +478,7 @@ msgstr "{{link}}Läs mer om detta.{{/link}}"
 
 #: redirection-strings.php:248
 msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
-msgstr ""
+msgstr "Om du ändrar permalänken i ett inlägg eller sida kan Redirection automatiskt skapa en omdirigering åt dig."
 
 #: redirection-strings.php:247
 msgid "Monitor permalink changes in WordPress posts and pages"
@@ -502,7 +502,7 @@ msgstr "När du är klar, tryck på knappen för att fortsätta."
 
 #: redirection-strings.php:242
 msgid "First you will be asked a few questions, and then Redirection will set up your database."
-msgstr ""
+msgstr "Först får du några frågor och sedan kommer Redirection att ställa in din databas."
 
 #: redirection-strings.php:241
 msgid "What's next?"
@@ -510,19 +510,19 @@ msgstr "Vad kommer härnäst?"
 
 #: redirection-strings.php:240
 msgid "Check a URL is being redirected"
-msgstr ""
+msgstr "Kontrollera att en URL omdirigeras"
 
 #: redirection-strings.php:239
 msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
-msgstr ""
+msgstr "Mer kraftfull URL-matchning, inklusive {{regular}}reguljära uttryck{{/regular}}, och {{other}}andra villkor{{/other}}"
 
 #: redirection-strings.php:238
 msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
-msgstr ""
+msgstr "{{link}}Importera{{/link}} från .htaccess, CSV, och en mängd andra tillägg"
 
 #: redirection-strings.php:237
 msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
-msgstr ""
+msgstr "{{link}}Övervaka 404-fel{{/link}}, få detaljerad information om besökaren och åtgärda eventuella problem"
 
 #: redirection-strings.php:236
 msgid "Some features you may find useful are"
@@ -530,7 +530,7 @@ msgstr "Vissa funktioner som du kan tycka är användbara är"
 
 #: redirection-strings.php:235
 msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
-msgstr ""
+msgstr "Fullständig dokumentation kan hittas på {{link}}Redirections webbplats.{{/link}}"
 
 #: redirection-strings.php:229
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
@@ -542,7 +542,7 @@ msgstr "Hur använder jag detta tillägg?"
 
 #: redirection-strings.php:227
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
-msgstr ""
+msgstr "Redirection är utformad för att användas på webbplatser med några få omdirigeringar till webbplatser med tusentals omdirigeringar."
 
 #: redirection-strings.php:226
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
@@ -554,7 +554,7 @@ msgstr "Välkommen till Redirection 🚀🎉"
 
 #: redirection-strings.php:179
 msgid "This will redirect everything, including the login pages. Please be sure you want to do this."
-msgstr ""
+msgstr "Detta kommer att omdirigera allt, inklusive inloggningssidorna. Var säker på att du vill göra detta."
 
 #: redirection-strings.php:178
 msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
@@ -566,7 +566,7 @@ msgstr ""
 
 #: redirection-strings.php:175
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
-msgstr ""
+msgstr "Käll-URL:en bör antagligen börja med en {{code}}/{{/code}}"
 
 #: redirection-strings.php:174
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
@@ -574,7 +574,7 @@ msgstr ""
 
 #: redirection-strings.php:173
 msgid "Anchor values are not sent to the server and cannot be redirected."
-msgstr ""
+msgstr "Ankarvärden skickas inte till servern och kan inte omdirigeras."
 
 #: redirection-strings.php:59
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}"
@@ -590,7 +590,7 @@ msgstr ""
 
 #: redirection-strings.php:18
 msgid "Leaving before the process has completed may cause problems."
-msgstr ""
+msgstr "Att lämna innan processen är klar kan orsaka problem."
 
 #: redirection-strings.php:12
 msgid "Setting up Redirection"
@@ -602,7 +602,7 @@ msgstr "Uppgraderar Redirection"
 
 #: redirection-strings.php:10
 msgid "Please remain on this page until complete."
-msgstr ""
+msgstr "Stanna kvar på denna sida tills det är slutfört."
 
 #: redirection-strings.php:9
 msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
@@ -639,7 +639,7 @@ msgstr "Uppgradera databas"
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:79
 msgid "Please complete your <a href=\"%s\">Redirection setup</a> to activate the plugin."
-msgstr ""
+msgstr "Slutför din <a href=\"%s\">Redirection-inställning</a> för att aktivera tillägget."
 
 #. translators: version number
 #: api/api-plugin.php:147
@@ -649,7 +649,7 @@ msgstr "Din databas behöver inte uppdateras till %s."
 #. translators: 1: SQL string
 #: database/database-upgrader.php:104
 msgid "Failed to perform query \"%s\""
-msgstr ""
+msgstr "Misslyckades att utföra fråga ”%s”"
 
 #. translators: 1: table name
 #: database/schema/latest.php:102
@@ -667,7 +667,7 @@ msgstr "Installera Redirection-tabeller"
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
 msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
-msgstr ""
+msgstr "Webbplats och hem-URL är inkonsekventa. Korrigera från dina Inställningar > Allmän sida: %1$1s är inte %2$2s"
 
 #: redirection-strings.php:155
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
@@ -707,7 +707,7 @@ msgstr "304 – Inte modifierad"
 
 #: redirection-strings.php:108
 msgid "303 - See Other"
-msgstr ""
+msgstr "303 – Se annat"
 
 #: redirection-strings.php:105
 msgid "Do nothing (ignore)"
@@ -735,7 +735,7 @@ msgstr "Ta bort alla loggar för denna post"
 
 #: redirection-strings.php:394
 msgid "Delete Log Entries"
-msgstr ""
+msgstr "Ta bort loggposter"
 
 #: redirection-strings.php:392
 msgid "Group by IP"

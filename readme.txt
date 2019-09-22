@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.8
 Tested up to: 5.2.1
-Stable tag: 4.3.2
+Stable tag: 4.4
 Requires PHP: 5.4
 License: GPLv3
 
@@ -154,7 +154,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.4 - ??? =
+= 4.4 - 22nd September 2019 =
 * Add 'URL and language' match
 * Add page display type for configurable information
 * Add 'search by' to search by different information

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-06-02 05:57:22+0000\n"
+"PO-Revision-Date: 2019-09-17 16:49:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,11 +17,11 @@ msgstr ""
 
 #: redirection-strings.php:483
 msgid "Unable to save .htaccess file"
-msgstr ""
+msgstr "Impossibile salvare il file .htaccess"
 
 #: redirection-strings.php:482
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
-msgstr ""
+msgstr "I reindirizzamenti aggiunti a un gruppo Apache possono essere salvati su un file {{code}}.htaccess{{/code}} aggiungendo il percorso completo qui. Come riferimento, WordPress è installato in {{code}}%(installed)s{{/code}}."
 
 #: redirection-strings.php:298
 msgid "Click \"Complete Upgrade\" when finished."
@@ -29,7 +29,7 @@ msgstr ""
 
 #: redirection-strings.php:272
 msgid "Automatic Install"
-msgstr ""
+msgstr "Installazione automatica"
 
 #: redirection-strings.php:182
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
@@ -37,11 +37,11 @@ msgstr ""
 
 #: redirection-strings.php:41
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr ""
+msgstr "Se stai usando WordPress 5.2 o successivi, dai un'occhiata a {{link}}Site Health{{/link}} e risolvi i problemi."
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
-msgstr ""
+msgstr "Se non completi l'installazione manuale verrai rimandato qui."
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
@@ -53,7 +53,7 @@ msgstr ""
 
 #: redirection-strings.php:13 redirection-strings.php:271
 msgid "Manual Install"
-msgstr ""
+msgstr "Installazione manuale"
 
 #: database/database-status.php:145
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
@@ -89,7 +89,7 @@ msgstr "Tutti i dati (JSON)"
 
 #: redirection-strings.php:347
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
-msgstr ""
+msgstr "Esporta in CSV, .htaccess di Apache, Nginx o JSON. Il formato JSON contiene tutti i dati, mentre gli altri formati contengono informazioni parziali adatte al formato stesso."
 
 #: redirection-strings.php:345
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
@@ -101,7 +101,7 @@ msgstr ""
 
 #: redirection-strings.php:306
 msgid "Automatic Upgrade"
-msgstr ""
+msgstr "Aggiornamenti automatici"
 
 #: redirection-strings.php:305
 msgid "Manual Upgrade"
@@ -141,11 +141,11 @@ msgstr "Controlla di nuovo"
 
 #: redirection-strings.php:197
 msgid "Testing - %s$"
-msgstr ""
+msgstr "Verifica - %s$"
 
 #: redirection-strings.php:196
 msgid "Show Problems"
-msgstr ""
+msgstr "Mostra problemi"
 
 #: redirection-strings.php:195
 msgid "Summary"
@@ -259,7 +259,7 @@ msgstr "Leggi questa guida alle REST API per maggiori informazioni."
 
 #: redirection-strings.php:22
 msgid "Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again."
-msgstr ""
+msgstr "La REST API sarà salvata in cache. Pulisci ogni plugin di cache e ogni cache del server, disconnettiti, pulisci la cache del browser e prova di nuovo."
 
 #: redirection-strings.php:168
 msgid "URL options / Regex"
@@ -271,11 +271,11 @@ msgstr "Forza un reindirizzamento dalla versione HTTP del dominio del tuo sito a
 
 #: redirection-strings.php:359
 msgid "Export 404"
-msgstr ""
+msgstr "Esporta 404"
 
 #: redirection-strings.php:358
 msgid "Export redirect"
-msgstr ""
+msgstr "Esporta redirect"
 
 #: redirection-strings.php:177
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
@@ -359,7 +359,7 @@ msgstr ""
 
 #: redirection-strings.php:123
 msgid "Ignore & pass parameters to the target"
-msgstr ""
+msgstr "Ignora e passa i parametri alla destinazione"
 
 #: redirection-strings.php:122
 msgid "Ignore all parameters"
@@ -371,7 +371,7 @@ msgstr "Corrispondenza esatta di tutti i parametri in qualsiasi ordine"
 
 #: redirection-strings.php:120
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ignora MAIUSC/minusc"
 
 #: redirection-strings.php:119
 msgid "Ignore Slash"
@@ -379,11 +379,11 @@ msgstr "Ignora la barra (\"/\")"
 
 #: redirection-strings.php:450
 msgid "Relative REST API"
-msgstr ""
+msgstr "REST API relativa"
 
 #: redirection-strings.php:449
 msgid "Raw REST API"
-msgstr ""
+msgstr "REST API raw"
 
 #: redirection-strings.php:448
 msgid "Default REST API"
@@ -399,12 +399,12 @@ msgstr "(Esempio) L'URL di arrivo è il nuovo URL"
 
 #: redirection-strings.php:231
 msgid "(Example) The source URL is your old or original URL"
-msgstr "(Esempio) L'URL sorgente è il tuo URL vecchio o originale URL"
+msgstr "(Esempio) L'URL di partenza è il tuo URL vecchio o di origine"
 
 #. translators: 1: PHP version
 #: redirection.php:38
 msgid "Disabled! Detected PHP %s, need PHP 5.4+"
-msgstr ""
+msgstr "Disabilitato! Rilevato PHP %s, necessario PHP 5.4+"
 
 #: redirection-strings.php:295
 msgid "A database upgrade is in progress. Please continue to finish."
@@ -582,7 +582,7 @@ msgstr "{{code}}%(status)d{{/code}} a {{code}}%(target)s{{/code}}"
 
 #: redirection-strings.php:16 redirection-strings.php:20
 msgid "Finished! 🎉"
-msgstr ""
+msgstr "Finito! 🎉"
 
 #: redirection-strings.php:19
 msgid "Progress: %(complete)d$"
@@ -598,7 +598,7 @@ msgstr "Configurare Redirection"
 
 #: redirection-strings.php:11
 msgid "Upgrading Redirection"
-msgstr ""
+msgstr "Aggiornare Redirection"
 
 #: redirection-strings.php:10
 msgid "Please remain on this page until complete."
@@ -622,7 +622,7 @@ msgstr "Prova di nuovo"
 
 #: redirection-strings.php:5
 msgid "Database problem"
-msgstr ""
+msgstr "Problema del database"
 
 #: redirection-admin.php:423
 msgid "Please enable JavaScript"
@@ -644,21 +644,21 @@ msgstr "Completa la <a href=\"%s\">configurazione di Redirection</a> per attivar
 #. translators: version number
 #: api/api-plugin.php:147
 msgid "Your database does not need updating to %s."
-msgstr ""
+msgstr "Il database non necessita di aggiornamento a %s."
 
 #. translators: 1: SQL string
 #: database/database-upgrader.php:104
 msgid "Failed to perform query \"%s\""
-msgstr ""
+msgstr "Esecuzione fallita della query \"%s\""
 
 #. translators: 1: table name
 #: database/schema/latest.php:102
 msgid "Table \"%s\" is missing"
-msgstr ""
+msgstr "La tabella \"%s\" è mancante"
 
 #: database/schema/latest.php:10
 msgid "Create basic data"
-msgstr ""
+msgstr "Crea dati di base"
 
 #: database/schema/latest.php:9
 msgid "Install Redirection tables"
@@ -667,47 +667,47 @@ msgstr ""
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
 msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
-msgstr ""
+msgstr "L'URL del sito e quello della home non coincidono. Correggi dalla pagina Impostazioni > Generali: %1$1s non è %2$2s"
 
 #: redirection-strings.php:155
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
-msgstr ""
+msgstr "Non provare a reindirizzare tutti i 404 - non è una buona cosa da fare."
 
 #: redirection-strings.php:154
 msgid "Only the 404 page type is currently supported."
-msgstr ""
+msgstr "Solo il tipo di pagina 404 è supportato attualmente"
 
 #: redirection-strings.php:153
 msgid "Page Type"
-msgstr ""
+msgstr "Tipo di pagina"
 
 #: redirection-strings.php:152
 msgid "Enter IP addresses (one per line)"
-msgstr ""
+msgstr "Inserisci gli indirizzi IP (uno per riga)"
 
 #: redirection-strings.php:172
 msgid "Describe the purpose of this redirect (optional)"
-msgstr ""
+msgstr "Descrivi lo scopo di questo reindirizzamento (opzionale)"
 
 #: redirection-strings.php:117
 msgid "418 - I'm a teapot"
-msgstr ""
+msgstr "418 - Sono una teiera"
 
 #: redirection-strings.php:114
 msgid "403 - Forbidden"
-msgstr ""
+msgstr "403 - Vietato"
 
 #: redirection-strings.php:112
 msgid "400 - Bad Request"
-msgstr ""
+msgstr "400 - Richiesta errata"
 
 #: redirection-strings.php:109
 msgid "304 - Not Modified"
-msgstr ""
+msgstr "304 - Non modificato"
 
 #: redirection-strings.php:108
 msgid "303 - See Other"
-msgstr ""
+msgstr "303 - Vedi altro"
 
 #: redirection-strings.php:105
 msgid "Do nothing (ignore)"
@@ -764,7 +764,7 @@ msgstr "Reindirizza tutto"
 
 #: redirection-strings.php:377 redirection-strings.php:379
 msgid "Count"
-msgstr ""
+msgstr "Conteggio"
 
 #: matches/page.php:9 redirection-strings.php:100
 msgid "URL and WordPress page type"

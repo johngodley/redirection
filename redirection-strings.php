@@ -407,13 +407,13 @@ __( "Search referrer", "redirection" ), // client/page/logs/constants.js:81
 __( "Search user agent", "redirection" ), // client/page/logs/constants.js:85
 __( "Search IP", "redirection" ), // client/page/logs/constants.js:89
 __( "Search target URL", "redirection" ), // client/page/logs/constants.js:93
-__( "Delete all from IP %s", "redirection" ), // client/page/logs/delete-all.js:54
-__( "Delete all matching \"%s\"", "redirection" ), // client/page/logs/delete-all.js:60
-__( "Delete All", "redirection" ), // client/page/logs/delete-all.js:65
-__( "Delete the logs - are you sure?", "redirection" ), // client/page/logs/delete-all.js:79
-__( "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/page/logs/delete-all.js:80
-__( "Yes! Delete the logs", "redirection" ), // client/page/logs/delete-all.js:82
-__( "No! Don't delete the logs", "redirection" ), // client/page/logs/delete-all.js:82
+__( "Delete all from IP %s", "redirection" ), // client/page/logs/delete-all.js:42
+__( "Delete all matching \"%s\"", "redirection" ), // client/page/logs/delete-all.js:48
+__( "Delete All", "redirection" ), // client/page/logs/delete-all.js:53
+__( "Delete the logs - are you sure?", "redirection" ), // client/page/logs/delete-all.js:67
+__( "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/page/logs/delete-all.js:68
+__( "Yes! Delete the logs", "redirection" ), // client/page/logs/delete-all.js:70
+__( "No! Don't delete the logs", "redirection" ), // client/page/logs/delete-all.js:70
 __( "Delete", "redirection" ), // client/page/logs/row.js:123
 __( "Geo Info", "redirection" ), // client/page/logs/row.js:127
 __( "Agent Info", "redirection" ), // client/page/logs/row.js:131
