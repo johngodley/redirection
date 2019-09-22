@@ -170,7 +170,7 @@ trait FromNotFrom_Match {
 	}
 
 	private function load_data( $values ) {
-		$values = unserialize( $values );
+		$values = @unserialize( $values );
 
 		if ( isset( $values['url_from'] ) ) {
 			$this->url_from = $values['url_from'];
