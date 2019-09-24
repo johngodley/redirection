@@ -48,7 +48,7 @@ const doAction = ( endpoint, table, item, status, dispatch ) => {
 };
 
 export const createAction = ( endpoint, item, status ) => ( dispatch, getState ) => {
-	const { ... table } = getState()[ status.store ];
+	const { table } = getState()[ status.store ];
 
 	// Reset the table params so this goes to the top
 	table.page = 0;
