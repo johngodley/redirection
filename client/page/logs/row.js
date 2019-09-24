@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import * as parseUrl from 'url';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
@@ -15,27 +14,13 @@ import Highlighter from 'react-highlight-words';
 
 import RowActions from 'component/table/row-action';
 import Column from 'component/table/column';
-import { setFilter, setSelected, performTableAction } from 'state/log/action';
+import { setSelected, performTableAction } from 'state/log/action';
 import Spinner from 'component/spinner';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
 import ExternalLink from 'component/external-link';
-
-const Referrer = props => {
-	const { url } = props;
-
-	if ( url ) {
-		const domain = parseUrl.parse( url ).hostname;
-
-		return (
-			<ExternalLink url={ url }>{ domain }</ExternalLink>
-		);
-	}
-
-	return null;
-};
 
 class LogRow extends React.Component {
 	static propTypes = {
@@ -162,7 +147,6 @@ class LogRow extends React.Component {
 				</Column>
 
 				<Column enabled="referrer" className="column-referrer" selected={ currentDisplaySelected }>
-					<Referrer url={ referrer } />
 					<Highlighter searchWords={ [ this.props.filters.referrer ] } textToHighlight={ referrer ? referrer : '' } autoEscape />
 				</Column>
 
