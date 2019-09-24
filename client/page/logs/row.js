@@ -71,7 +71,7 @@ class LogRow extends React.Component {
 		if ( ipStr ) {
 			return (
 				<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ipStr ) } onClick={ this.showMap }>
-					<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ipStr } />
+					<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ipStr } autoEscape />
 				</a>
 			);
 		}
@@ -144,7 +144,7 @@ class LogRow extends React.Component {
 
 				<Column enabled="url" className="column-primary column-url" selected={ currentDisplaySelected }>
 					<ExternalLink url={ url }>
-						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
 					</ExternalLink>
 
 					<RowActions disabled={ isSaving }>
@@ -157,17 +157,17 @@ class LogRow extends React.Component {
 
 				<Column enabled="target" className="column-primary column-target" selected={ currentDisplaySelected }>
 					<ExternalLink url={ sent_to }>
-						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to.substring( 0, 100 ) } />
+						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to.substring( 0, 100 ) } autoEscape />
 					</ExternalLink>
 				</Column>
 
 				<Column enabled="referrer" className="column-referrer" selected={ currentDisplaySelected }>
 					<Referrer url={ referrer } />
-					<Highlighter searchWords={ [ this.props.filters.referrer ] } textToHighlight={ referrer ? referrer : '' } />
+					<Highlighter searchWords={ [ this.props.filters.referrer ] } textToHighlight={ referrer ? referrer : '' } autoEscape />
 				</Column>
 
 				<Column enabled="agent" className="column-agent" selected={ currentDisplaySelected }>
-					<Highlighter searchWords={ [ this.props.filters.agent ] } textToHighlight={ agent } />
+					<Highlighter searchWords={ [ this.props.filters.agent ] } textToHighlight={ agent } autoEscape />
 				</Column>
 
 				<Column enabled="ip" className="column-ip" selected={ currentDisplaySelected }>

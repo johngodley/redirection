@@ -127,7 +127,7 @@ class GroupRow extends React.Component {
 
 	getName( name, enabled ) {
 		if ( enabled ) {
-			return <Highlighter searchWords={ [ this.props.filters.name ] } textToHighlight={ name } />;
+			return <Highlighter searchWords={ [ this.props.filters.name ] } textToHighlight={ name } autoEscape />;
 		}
 
 		return <strike>{ name }</strike>;

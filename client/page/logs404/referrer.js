@@ -19,7 +19,7 @@ const Referrer = props => {
 
 		return (
 			<ExternalLink url={ url }>
-				<Highlighter searchWords={ [ search ] } textToHighlight={ domain || '' } />
+				<Highlighter searchWords={ [ search ] } textToHighlight={ domain || '' } autoEscape />
 			</ExternalLink>
 		);
 	}

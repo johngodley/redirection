@@ -77,7 +77,7 @@ class LogRow404 extends React.Component {
 				</th>
 				<td className="column-url column-primary">
 					<ExternalLink url={ url }>
-						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
 					</ExternalLink>
 
 					<RowActions disabled={ isSaving }>

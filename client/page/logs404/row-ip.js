@@ -109,7 +109,7 @@ class LogRowIp extends React.Component {
 				</th>
 				<td className="column-ipx column-primary">
 					<a href="#" onClick={ this.onGeo }>
-						<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } />
+						<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } autoEscape />
 					</a>
 
 					<RowActions disabled={ isSaving }>

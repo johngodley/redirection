@@ -160,7 +160,7 @@ class RedirectRow extends React.Component {
 		const { match_type, action_data } = this.props.item;
 
 		if ( match_type === MATCH_URL ) {
-			return <Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ action_data.url } />;
+			return <Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ action_data.url || '' } autoEscape />;
 		}
 
 		return null;
@@ -188,8 +188,8 @@ class RedirectRow extends React.Component {
 		const { currentDisplaySelected } = this.props;
 		const { match_type } = this.props.item;
 		const parts = [];
-		const serverUrl = <Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ this.getServerUrl( url, match_type ) } />;
-		const titled = <Highlighter searchWords={ [ this.props.filters.title ] } textToHighlight={ title } />;
+		const serverUrl = <Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ this.getServerUrl( url, match_type ) } autoEscape />;
+		const titled = <Highlighter searchWords={ [ this.props.filters.title ] } textToHighlight={ title } autoEscape />;
 
 		if ( isEnabled( currentDisplaySelected, 'title' ) && ! isEnabled( currentDisplaySelected, 'source' ) ) {
 			// Source or title

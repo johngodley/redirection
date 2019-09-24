@@ -135,7 +135,7 @@ class LogRow404 extends React.Component {
 
 		return (
 			<a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap }>
-				<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } />
+				<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } autoEscape />
 			</a>
 		);
 	}
@@ -172,7 +172,7 @@ class LogRow404 extends React.Component {
 
 				<Column enabled="url" className="column-url column-primary" selected={ currentDisplaySelected }>
 					<ExternalLink url={ url }>
-						<Highlighter searchWords={ [ filters.url ] } textToHighlight={ url.substring( 0, 100 ) } />
+						<Highlighter searchWords={ [ filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
 					</ExternalLink>
 
 					<RowActions disabled={ isSaving }>
@@ -189,7 +189,7 @@ class LogRow404 extends React.Component {
 				</Column>
 
 				<Column enabled="agent" className="column-agent" selected={ currentDisplaySelected }>
-					<Highlighter searchWords={ [ filters.agent ] } textToHighlight={ agent || '' } />
+					<Highlighter searchWords={ [ filters.agent ] } textToHighlight={ agent || '' } autoEscape />
 				</Column>
 
 				<Column enabled="ip" className="column-ip" selected={ currentDisplaySelected }>
