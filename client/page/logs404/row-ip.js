@@ -51,9 +51,7 @@ class LogRowIp extends React.Component {
 	onShow = ev => {
 		ev.preventDefault();
 
-		const { filterBy } = this.props.filters;
-
-		this.props.onShow( { ...filterBy, ip: this.props.item.ip } );
+		this.props.setFilter( { ip: this.props.item.ip } );
 	}
 
 	onAdd = ev => {
@@ -128,14 +126,15 @@ class LogRowIp extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onShow: ip => {
-			dispatch( setUngroupedFilter( filters ) );
-		},
 		onSetSelected: items => {
 			dispatch( setSelected( items ) );
 		},
 		onDelete: item => {
 			dispatch( performTableAction( 'delete', item ) );
+		},
+		setFilter: filters => {
+			debugger;
+			dispatch( setUngroupedFilter( filters ) );
 		},
 	};
 }

@@ -50,10 +50,7 @@ class LogRow404 extends React.Component {
 
 	onShow = ev => {
 		ev.preventDefault();
-
-		const { filterBy } = this.props.filters;
-
-		this.props.onShow( { ...filterBy, 'url-exact': this.props.item.id } );
+		this.props.setFilter( { 'url-exact': this.props.item.id } );
 	}
 
 	render() {
@@ -100,7 +97,7 @@ function mapDispatchToProps( dispatch ) {
 		onDelete: item => {
 			dispatch( performTableAction( 'delete', item ) );
 		},
-		onShow: filters => {
+		setFilter: filters => {
 			dispatch( setUngroupedFilter( filters ) );
 		},
 	};
