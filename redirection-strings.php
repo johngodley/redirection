@@ -414,10 +414,10 @@ __( "Delete the logs - are you sure?", "redirection" ), // client/page/logs/dele
 __( "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.", "redirection" ), // client/page/logs/delete-all.js:68
 __( "Yes! Delete the logs", "redirection" ), // client/page/logs/delete-all.js:70
 __( "No! Don't delete the logs", "redirection" ), // client/page/logs/delete-all.js:70
-__( "Delete", "redirection" ), // client/page/logs/row.js:123
-__( "Geo Info", "redirection" ), // client/page/logs/row.js:127
-__( "Agent Info", "redirection" ), // client/page/logs/row.js:131
-__( "Filter by IP", "redirection" ), // client/page/logs/row.js:177
+__( "Delete", "redirection" ), // client/page/logs/row.js:108
+__( "Geo Info", "redirection" ), // client/page/logs/row.js:112
+__( "Agent Info", "redirection" ), // client/page/logs/row.js:116
+__( "Filter by IP", "redirection" ), // client/page/logs/row.js:161
 __( "Source URL", "redirection" ), // client/page/logs404/constants.js:16
 __( "Count", "redirection" ), // client/page/logs404/constants.js:22
 __( "IP", "redirection" ), // client/page/logs404/constants.js:34
@@ -451,15 +451,15 @@ __( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:7
 __( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:80
 __( "Delete all logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:85
 __( "Delete all logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:85
-__( "Delete All", "redirection" ), // client/page/logs404/row-ip.js:97
-__( "Redirect All", "redirection" ), // client/page/logs404/row-ip.js:98
-__( "Show All", "redirection" ), // client/page/logs404/row-ip.js:99
-__( "Geo Info", "redirection" ), // client/page/logs404/row-ip.js:100
-__( "Block IP", "redirection" ), // client/page/logs404/row-ip.js:101
-__( "Delete All", "redirection" ), // client/page/logs404/row-url.js:66
-__( "Redirect All", "redirection" ), // client/page/logs404/row-url.js:67
-__( "Show All", "redirection" ), // client/page/logs404/row-url.js:68
-__( "Ignore URL", "redirection" ), // client/page/logs404/row-url.js:69
+__( "Delete All", "redirection" ), // client/page/logs404/row-ip.js:95
+__( "Redirect All", "redirection" ), // client/page/logs404/row-ip.js:96
+__( "Show All", "redirection" ), // client/page/logs404/row-ip.js:97
+__( "Geo Info", "redirection" ), // client/page/logs404/row-ip.js:98
+__( "Block IP", "redirection" ), // client/page/logs404/row-ip.js:99
+__( "Delete All", "redirection" ), // client/page/logs404/row-url.js:63
+__( "Redirect All", "redirection" ), // client/page/logs404/row-url.js:64
+__( "Show All", "redirection" ), // client/page/logs404/row-url.js:65
+__( "Ignore URL", "redirection" ), // client/page/logs404/row-url.js:66
 __( "Add Redirect", "redirection" ), // client/page/logs404/row.js:80
 __( "Delete 404s", "redirection" ), // client/page/logs404/row.js:82
 __( "Delete all logs for this entry", "redirection" ), // client/page/logs404/row.js:87
