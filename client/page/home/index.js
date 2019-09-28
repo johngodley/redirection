@@ -224,18 +224,20 @@ class Home extends React.Component {
 		}
 
 		return (
-			<div className="wrap redirection">
-				<h1 className="wp-heading-inline">{ title }</h1>
-				{ page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
+			<React.StrictMode>
+				<div className="wrap redirection">
+					<h1 className="wp-heading-inline">{ title }</h1>
+					{ page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
-				<Menu onChangePage={ this.onChangePage } />
-				<Error />
+					<Menu onChangePage={ this.onChangePage } />
+					<Error />
 
-				{ this.getContent( page ) }
+					{ this.getContent( page ) }
 
-				<Progress />
-				<Notice />
-			</div>
+					<Progress />
+					<Notice />
+				</div>
+			</React.StrictMode>
 		);
 	}
 }

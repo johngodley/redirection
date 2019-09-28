@@ -40,9 +40,7 @@ import { getDisplayGroups, getDisplayOptions, getBulk, getHeaders, getFilterOpti
 import { isEnabled } from 'component/table/utils';
 
 class Redirects extends React.Component {
-	constructor( props ) {
-		super( props );
-
+	componentDidMount() {
 		this.props.onLoadRedirects();
 		this.props.onLoadGroups();
 	}

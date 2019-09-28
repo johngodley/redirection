@@ -28,9 +28,11 @@ class Groups extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.props.onLoadGroups();
-
 		this.state = { name: '', moduleId: 1 };
+	}
+
+	componentDidMount() {
+		this.props.onLoadGroups();
 	}
 
 	onRenderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {

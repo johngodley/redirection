@@ -17,10 +17,8 @@ import Donation from './donation';
 import Newsletter from './newsletter';
 
 class Options extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		props.onLoadSettings();
+	componentDidMount() {
+		this.props.onLoadSettings();
 	}
 
 	render() {

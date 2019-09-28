@@ -44,10 +44,12 @@ class Logs404 extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		props.onLoad();
-
-		this.props.onLoadGroups();
 		this.state = { create: null };
+	}
+
+	componentDidMount() {
+		this.props.onLoad();
+		this.props.onLoadGroups();
 	}
 
 	renderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {

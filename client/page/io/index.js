@@ -27,15 +27,17 @@ class ImportExport extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.props.onLoadGroups();
-		this.props.onLoadImport();
-
 		this.state = {
 			group: 0,
 			hover: false,
 			module: 'all',
 			format: 'json',
 		};
+	}
+
+	componentDidMount() {
+		this.props.onLoadGroups();
+		this.props.onLoadImport();
 	}
 
 	onView = () => {

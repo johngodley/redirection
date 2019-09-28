@@ -17,9 +17,7 @@ import { loadStatus } from 'state/settings/action';
 import './status.scss';
 
 class Status extends React.Component {
-	constructor( props ) {
-		super( props );
-
+	componentDidMount() {
 		this.props.onLoadStatus();
 	}
 

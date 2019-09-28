@@ -34,10 +34,8 @@ import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOpti
 import { isEnabled } from 'component/table/utils';
 
 class Logs extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		props.onLoad( props.log.table );
+	componentDidMount() {
+		this.props.onLoad( this.props.log.table );
 	}
 
 	onRSS = () => {
