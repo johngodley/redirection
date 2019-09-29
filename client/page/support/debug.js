@@ -76,9 +76,13 @@ class Debug extends React.Component {
 					<tr>
 						<th>{ __( 'IP Headers' ) }</th>
 						<td>
-							{ Object.keys( ip_header ).map( ( key, pos ) =>
-								<React.Fragment key={ pos }><code>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }</code>&nbsp;</React.Fragment>
-							) }
+							{ Object
+								.keys( ip_header )
+								.filter( key => ip_header[ key ] )
+								.map( ( key, pos ) =>
+									<React.Fragment key={ pos }><code>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }</code>&nbsp;</React.Fragment>
+								)
+							}
 						</td>
 					</tr>
 				</tbody>
