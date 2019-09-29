@@ -191,12 +191,23 @@ function red_set_options( array $settings = array() ) {
 	return $options;
 }
 
+function red_is_disabled() {
+	return file_exists( __DIR__ . '/redirect-disable.txt' );
+}
+
 function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
+
+	if ( is_array( $options ) && red_is_disabled() ) {
+		$options['https'] = false;
+	}
+
 	if ( $options === false ) {
 		// Default flags for new installs - ignore case and trailing slashes
-		$options['flags_case'] = true;
-		$options['flags_trailing'] = true;
+		$options = [
+			'flags_case' => true,
+			'flags_trailing' => true,
+		];
 	}
 
 	$defaults = red_get_default_options();
