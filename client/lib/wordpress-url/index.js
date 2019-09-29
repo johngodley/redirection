@@ -1,11 +1,11 @@
-/* global document, Redirectioni10n */
+/* global Redirectioni10n */
 /**
  * Internal dependencies
  */
 
 import * as qs from 'qs';
 
-const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support' ];
+const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support', 'site' ];
 
 export function setPageUrl( query, defaults ) {
 	const url = getWordPressUrl( query, defaults );

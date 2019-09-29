@@ -19,6 +19,10 @@ const getMenu = () => [
 		value: '',
 	},
 	{
+		name: __( 'Site' ),
+		value: 'site',
+	},
+	{
 		name: __( 'Groups' ),
 		value: 'groups',
 	},
@@ -44,6 +48,8 @@ const getMenu = () => [
 	},
 ];
 
+const isCurrent = ( page, item ) => page === item.value || page === 'redirect' && item.value === '';
+
 const Menu = props => {
 	const { onChangePage } = props;
 	const page = getPluginPage();
@@ -53,7 +59,7 @@ const Menu = props => {
 			<ul className="subsubsub">
 				{
 					getMenu()
-						.map( ( item, pos ) => <MenuItem key={ pos } item={ item } isCurrent={ page === item.value || page === 'redirect' && item.value === '' } onClick={ onChangePage } /> )
+						.map( ( item, pos ) => <MenuItem key={ pos } item={ item } isCurrent={ isCurrent( page, item ) } onClick={ onChangePage } /> )
 						.reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
 				}
 			</ul>
