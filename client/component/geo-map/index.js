@@ -18,10 +18,8 @@ import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settin
 import './style.scss';
 
 class GeoMap extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		this.props.onGet( props.ip );
+	componentDidMount() {
+		this.props.onGet( this.props.ip );
 	}
 
 	renderError() {

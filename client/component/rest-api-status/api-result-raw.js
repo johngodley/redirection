@@ -17,7 +17,7 @@ class ApiResultRaw extends React.Component {
 	}
 
 	doesNeedHiding( request ) {
-		return request && request.raw && request.raw.length > RAW_HIDE_LENGTH
+		return request && request.raw && request.raw.length > RAW_HIDE_LENGTH;
 	}
 
 	onShow = ev => {

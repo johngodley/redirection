@@ -33,11 +33,13 @@ class Database extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		if ( this.hasWork( props ) && ! props.manual ) {
-			props.onUpgrade();
-		}
-
 		this.state = { looped: false };
+	}
+
+	componentDidMount() {
+		if ( this.hasWork( this.props ) && ! this.props.manual ) {
+			this.props.onUpgrade();
+		}
 	}
 
 	hasWork( props ) {

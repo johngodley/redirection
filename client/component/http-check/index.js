@@ -19,10 +19,8 @@ import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settin
 import './style.scss';
 
 class HttpCheck extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		this.props.onGet( getServerUrl( this.getServer( props.item ), props.item.url ) );
+	componentDidMount() {
+		this.props.onGet( getServerUrl( this.getServer( this.props.item ), this.props.item.url ) );
 	}
 
 	getServer( item ) {

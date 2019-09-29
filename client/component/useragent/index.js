@@ -19,10 +19,8 @@ import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settin
 import './style.scss';
 
 class Useragent extends React.Component {
-	constructor( props ) {
-		super( props );
-
-		this.props.onGet( props.agent );
+	componentDidMount() {
+		this.props.onGet( this.props.agent );
 	}
 
 	renderError() {
