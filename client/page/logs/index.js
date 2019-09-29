@@ -38,10 +38,6 @@ class Logs extends React.Component {
 		this.props.onLoad( this.props.log.table );
 	}
 
-	onRSS = () => {
-		document.location = getRssUrl( this.props.token );
-	}
-
 	renderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {
 		const { saving, table } = this.props.log;
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
@@ -133,7 +129,7 @@ class Logs extends React.Component {
 
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
-						<button className="button-secondary" onClick={ this.onRSS }>RSS</button>
+						{ this.props.token && <div className="table-button-item"><a href={ getRssUrl( this.props.token ) } className="button-secondary">RSS</a></div> }
 						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 					</TableButtons>
 				</TableNav>
