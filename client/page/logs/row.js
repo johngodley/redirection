@@ -74,7 +74,7 @@ class LogRow extends React.Component {
 
 	renderAgent() {
 		return (
-			<Modal onClose={ this.closeAgent } width="800">
+			<Modal onClose={ this.closeAgent }>
 				<Useragent agent={ this.props.item.agent } />
 			</Modal>
 		);

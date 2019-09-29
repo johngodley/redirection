@@ -47,10 +47,6 @@ class HttpCheck extends React.Component {
 		);
 	}
 
-	componentDidUpdate() {
-		this.props.parent.resize();
-	}
-
 	render() {
 		const { status, http, item } = this.props;
 		const klass = classnames( {

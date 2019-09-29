@@ -12,67 +12,64 @@ body.redirection-modal_shown {
  * Modal background
  */
 .redirection-modal_backdrop {
-	background-color: #999;
-	opacity: 0.6;
 	width: 100%;
 	height: 100%;
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 10000;
+	background-color: rgba(255, 255, 255, 0.4);
 }
 
 /**
  * The base modal dialog
  */
 .redirection-modal_main {
-	width: 100%;
-	height: 100%;
 	position: fixed;
 	top: 0;
 	left: 0;
+	height: 100%;
+	width: 100%;
 	z-index: 10000;
-	text-align: center;
 
-	.redirection-modal_close button {
-		position: absolute;
-		top: 0;
-		right: 0;
-		padding-top: 5px;
-		padding-right: 5px;
-		border: none;
-		background-color: $white;
-		border-radius: 2px;
-		cursor: pointer;
-		z-index: 10001;
-	}
+	align-items: center;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 
 	.redirection-modal_content {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		z-index: 10000;
-		margin: auto;
-		border-radius: 2px;
+		position: relative;
 		background: $white;
 		opacity: 1;
 
-		box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-	}
+		border: 1px solid #e2e4e7;
+		box-shadow: 0 3px 30px rgba(25, 30, 35, 0.2);
 
-	.redirection-modal_content {
-		width: 60%;
-		height: 100px;
-		margin-right: 15%;
+		transition: height 0.05s ease;
+
+		min-height: 100px;
 		max-width: 90%;
 		max-height: 90%;
+		min-width: 60%;
 
 		h1 {
 			margin: 0 !important;
 			color: #333 !important;
 		}
+	}
+
+	.redirection-modal_close button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding-top: 10px;
+		padding-right: 10px;
+		border: none;
+		background-color: $white;
+		border-radius: 2px;
+		cursor: pointer;
+		z-index: 10001;
 	}
 }
 

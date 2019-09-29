@@ -73,7 +73,7 @@ class CreateRedirect extends React.Component {
 		}
 
 		return (
-			<Modal onClose={ onClose } width="700" height={ this.state.height }>
+			<Modal onClose={ onClose }>
 				<div className="add-new">
 					<EditRedirect item={ item } saveButton={ __( 'Add Redirect' ) } onCancel={ onClose } childSave={ this.onDelete } autoFocus callback={ this.setHeight }>
 						<tr>

@@ -75,7 +75,7 @@ class LogRow404 extends React.Component {
 
 	renderEdit() {
 		return (
-			<Modal onClose={ this.onClose } width="700">
+			<Modal onClose={ this.onClose }>
 				<div className="add-new">
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0, this.props.defaultFlags ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } callback={ this.setHeight } childSave={ this.onSave } autoFocus>
 						<tr>
@@ -103,9 +103,11 @@ class LogRow404 extends React.Component {
 	}
 
 	renderAgent() {
+		const { infoStatus, item } = this.props;
+
 		return (
-			<Modal onClose={ this.closeAgent } width="800">
-				<Useragent agent={ this.props.item.agent } />
+			<Modal onClose={ this.closeAgent } key={ infoStatus }>
+				<Useragent agent={ item.agent } />
 			</Modal>
 		);
 	}
