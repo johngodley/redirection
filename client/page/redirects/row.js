@@ -273,6 +273,8 @@ class RedirectRow extends React.Component {
 						{ isEnabled( currentDisplaySelected, 'flags' ) && this.renderFlags() }
 						{ isEnabled( currentDisplaySelected, 'query' ) && this.renderQuery() }
 					</div>
+
+					{ this.state.showCheck && this.renderCheck() }
 				</div>
 			</td>
 		);
@@ -337,7 +339,6 @@ class RedirectRow extends React.Component {
 
 				<Column enabled="position" className="column-position" selected={ currentDisplaySelected }>
 					{ numberFormat( position ) }
-					{ this.state.showCheck && this.renderCheck() }
 				</Column>
 
 				<Column enabled="last_count" className="column-last_count" selected={ currentDisplaySelected }>
