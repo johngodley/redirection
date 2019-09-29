@@ -80,6 +80,15 @@ and a line at the end';
 		$this->assertEquals( 'RewriteRule ^my-test\.php$  [R=302,L]', trim( $lines[6] ) );
 	}
 
+	public function testRedirectUrlHash() {
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my-test', 'action_code' => 301, 'action_data' => '/target#hash' ) ) );
+
+		$lines = $this->getOutput( $htaccess );
+
+		$this->assertEquals( 'RewriteRule ^my-test$ /target#hash [R=301,L,NE]', trim( $lines[5] ) );
+	}
+
 	public function testRedirectUrlRegex() {
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( new Red_Item( (object)array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/my\.test.*?', 'action_code' => 301, 'regex' => true ) ) );
