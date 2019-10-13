@@ -34,11 +34,11 @@ class Redirection_Cli extends WP_CLI_Command {
 	 *   contains it's own group
 	 *
 	 * [--format=<importformat>]
-	 * : The import format - csv, htaccess, or json. Defaults to json
+	 * : The import format - csv, apache, or json. Defaults to json
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp redirection import .htaccess --format=htaccess
+	 *     wp redirection import .htaccess --format=apache
 	 */
 	public function import( $args, $extra ) {
 		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
@@ -52,7 +52,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$importer = Red_FileIO::create( $format );
 
 		if ( ! $importer ) {
-			WP_CLI::error( 'Invalid import format - csv, json, or htaccess supported' );
+			WP_CLI::error( 'Invalid import format - csv, json, or apache supported' );
 			return;
 		}
 
@@ -100,7 +100,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$exporter = Red_FileIO::create( $format );
 
 		if ( ! $exporter ) {
-			WP_CLI::error( 'Invalid export format - json, csv, htaccess, or nginx supported' );
+			WP_CLI::error( 'Invalid export format - json, csv, apache, or nginx supported' );
 			return;
 		}
 
