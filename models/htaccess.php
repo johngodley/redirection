@@ -152,7 +152,7 @@ class Red_Htaccess {
 		return $current . ' [' . implode( ',', $flags ) . ']';
 	}
 
-	private function get_source_flags( array $existing, array $source ) {
+	private function get_source_flags( array $existing, array $source, $url ) {
 		$flags = [];
 
 		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
@@ -161,6 +161,10 @@ class Red_Htaccess {
 
 		if ( isset( $source['flag_query'] ) && $source['flag_query'] === 'pass' ) {
 			$flags[] = 'QSA';
+		}
+
+		if ( strpos( $url, '#' ) !== false ) {
+			$flags[] = 'NE';
 		}
 
 		return array_merge( $existing, $flags );
@@ -175,22 +179,22 @@ class Red_Htaccess {
 
 		$flags = [ sprintf( 'R=%d', $code ) ];
 		$flags[] = 'L';
-		$flags = $this->get_source_flags( $flags, $match_data['source'] );
+		$flags = $this->get_source_flags( $flags, $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode( $url['path'] ), $flags );
 	}
 
 	private function action_pass( $data, $code, $match_data ) {
-		$flags = $this->get_source_flags( [ 'L' ], $match_data['source'] );
+		$flags = $this->get_source_flags( [ 'L' ], $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode2nd( $data ), $flags );
 	}
 
 	private function action_error( $data, $code, $match_data ) {
-		$flags = $this->get_source_flags( [ 'F' ], $match_data['source'] );
+		$flags = $this->get_source_flags( [ 'F' ], $match_data['source'], $data );
 
 		if ( $code === 410 ) {
-			$flags = $this->get_source_flags( [ 'G' ], $match_data['source'] );
+			$flags = $this->get_source_flags( [ 'G' ], $match_data['source'], $data );
 		}
 
 		return $this->add_flags( '/', $flags );
@@ -199,7 +203,7 @@ class Red_Htaccess {
 	private function action_url( $data, $code, $match_data ) {
 		$flags = [ sprintf( 'R=%d', $code ) ];
 		$flags[] = 'L';
-		$flags = $this->get_source_flags( $flags, $match_data['source'] );
+		$flags = $this->get_source_flags( $flags, $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode2nd( $data ), $flags );
 	}
