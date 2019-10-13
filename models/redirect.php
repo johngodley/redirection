@@ -351,7 +351,10 @@ class Red_Item {
 
 		// Update the counters
 		$this->last_count++;
-		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
+
+		if ( apply_filters( 'redirection_redirect_counter', true ) ) {
+			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
+		}
 
 		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 && $target ) {
 			$details = array(

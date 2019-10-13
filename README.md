@@ -33,6 +33,7 @@ The following WordPress filters are available for customisation of logged data:
 - `redirection_log_data` - Data to be inserted into the redirect log table
 - `redirection_log_404` - Return true if the current 404 page should be logged, false otherwise
 - `redirection_log` - Action fired when something is logged
+- `redirection_redirect_counter` - Returns `true` if a redirect should increase the 'hits' column, `false` otherwise
 
 Note that returning `false` from the filter will bypass the log.
 
