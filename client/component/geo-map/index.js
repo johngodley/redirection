@@ -122,10 +122,6 @@ class GeoMap extends React.Component {
 		return null;
 	}
 
-	componentDidUpdate() {
-		this.props.parent.resize();
-	}
-
 	render() {
 		const { status } = this.props;
 		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );

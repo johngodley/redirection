@@ -136,10 +136,6 @@ class Useragent extends React.Component {
 		);
 	}
 
-	componentDidUpdate() {
-		this.props.parent.resize();
-	}
-
 	render() {
 		const { status } = this.props;
 		const klass = classnames( {

@@ -63,7 +63,7 @@ class DeleteAll extends React.Component {
 
 				{ this.state.isModal &&
 					<Modal onClose={ this.onClose }>
-						<div>
+						<div style={ { padding: '10px' } }>
 							<h1>{ __( 'Delete the logs - are you sure?' ) }</h1>
 							<p>{ __( 'Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically.' ) }</p>
 							<p>
