@@ -213,6 +213,7 @@ class Red_Item {
 		global $wpdb;
 
 		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => 'disabled' ), array( 'url' => $url ) );
+		do_action( 'redirection_redirect_disabled_where_matches', $url );
 	}
 
 	public function delete() {
@@ -396,6 +397,7 @@ class Red_Item {
 
 		$this->status = 'enabled';
 		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
+		do_action( 'redirection_redirect_enabled', $this );
 	}
 
 	public function disable() {
@@ -403,6 +405,7 @@ class Red_Item {
 
 		$this->status = 'disabled';
 		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => $this->status ), array( 'id' => $this->id ) );
+		do_action( 'redirection_redirect_disabled', $this );
 	}
 
 	public function get_id() {
