@@ -47,7 +47,7 @@ abstract class Red_Database_Upgrader {
 
 		$this->queries = [];
 		$this->live = false;
-		$this->$stage( $wpdb );
+		$this->$stage( $wpdb, false );
 		$this->live = true;
 
 		return $this->queries;

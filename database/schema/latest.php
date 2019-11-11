@@ -127,7 +127,11 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 	/**
 	 * Creates default group information
 	 */
-	public function create_groups( $wpdb ) {
+	public function create_groups( $wpdb, $is_live = true ) {
+		if ( ! $is_live ) {
+			return true;
+		}
+
 		$defaults = [
 			[
 				'name' => __( 'Redirections', 'redirection' ),
