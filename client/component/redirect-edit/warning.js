@@ -175,6 +175,15 @@ export const getWarningFromState = ( item ) => {
 		}
 	} );
 
+	// Warning if a URL with a common file extension
+	if ( url.match( /(\.html|\.htm|\.php|\.pdf|\.jpg)$/ ) !== null ) {
+		warnings.push(
+			<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
+				{ __( 'Some servers may be configured to serve file resources directly, preventing a redirect occurring.' ) }
+			</ExternalLink>
+		);
+	}
+
 	return warnings;
 };
 
