@@ -24,7 +24,7 @@ class WordPress_Module extends Red_Module {
 		add_action( 'init', [ $this, 'force_https' ] );
 		add_action( 'send_headers', [ $this, 'send_headers' ] );
 		add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 2 );
-		add_action( 'redirection_visit', [ $this, 'redirection_visit' ], 10 );
+		add_action( 'redirection_visit', [ $this, 'redirection_visit' ], 10, 3 );
 		add_action( 'redirection_do_nothing', [ $this, 'redirection_do_nothing' ] );
 		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10 );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
@@ -166,6 +166,11 @@ class WordPress_Module extends Red_Module {
 		if ( ! empty( $this->matched ) && $this->matched->action->get_code() === 410 ) {
 			add_filter( 'status_header', [ $this, 'set_header_410' ] );
 		}
+
+		// Add any custom headers
+		$options = red_get_options();
+		$headers = new Red_Http_Headers( $options['headers'] );
+		$headers->run_site();
 	}
 
 	public function set_header_410() {
@@ -174,6 +179,10 @@ class WordPress_Module extends Red_Module {
 
 	public function wp_redirect( $url, $status = 302 ) {
 		global $wp_version, $is_IIS;
+
+		$options = red_get_options();
+		$headers = new Red_Http_Headers( $options['headers'] );
+		$headers->run_redirect();
 
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );
