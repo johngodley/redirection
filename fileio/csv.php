@@ -59,6 +59,7 @@ class Red_Csv_File extends Red_FileIO {
 
 			// Try again with semicolons - Excel often exports CSV with semicolons
 			if ( $count === 0 ) {
+				fseek( $file, 0 );
 				$count = $this->load_from_file( $group, $file, ';' );
 			}
 		}
