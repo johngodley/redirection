@@ -15,6 +15,8 @@ import Badge from 'component/badge';
 import MultiOptionGroup from './group';
 import './style.scss';
 
+const MAX_BADGES = 3;
+
 class MultiOptionDropdown extends React.Component {
 	static propTypes = {
 		title: PropTypes.string.isRequired,
@@ -48,11 +50,13 @@ class MultiOptionDropdown extends React.Component {
 		const keys = Object.keys( selected ).filter( item => selected[ item ] !== undefined );
 
 		if ( keys.length > 0 && badges ) {
-			return keys.map( key => {
+			return keys.slice( 0, MAX_BADGES ).map( key => {
 				const found = options.find( item => item.value === key );
 
 				return found ? <Badge key={ key } onCancel={ ev => this.removeFilter( key, ev ) }>{ found.label }</Badge> : null;
-			} );
+			} ).concat(
+				[ keys.length > MAX_BADGES ? <span>...</span> : null ],
+			);
 		}
 
 		return null;
