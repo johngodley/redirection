@@ -54,6 +54,7 @@ function red_get_default_options() {
 		'last_group_id'       => 0,
 		'rest_api'            => REDIRECTION_API_JSON,
 		'https'               => false,
+		'headers'             => [],
 		'database'            => '',
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
@@ -185,6 +186,11 @@ function red_set_options( array $settings = array() ) {
 	if ( count( $flags_present ) > 0 ) {
 		$flags->set_flags( $flags_present );
 		$options = array_merge( $options, $flags->get_json() );
+	}
+
+	if ( isset( $settings['headers'] ) ) {
+		$headers = new Red_Http_Headers( $settings['headers'] );
+		$options['headers'] = $headers->get_json();
 	}
 
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );

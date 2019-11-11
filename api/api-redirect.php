@@ -11,12 +11,57 @@
  * @apiParam {string} per_page
  * @apiParam {string} page
  *
- * @apiSuccess {Array} ip Array of redirects
+ * @apiSuccess {Redirect[]} items Array of redirects
  * @apiSuccess {Integer} total Number of items
  *
  * @apiUse 400Error
  */
 
+/**
+ * @api {post} /redirection/v1/redirect Create a new redirect
+ * @apiDescription Create a new redirect
+ * @apiGroup Redirect
+ *
+ * @apiUse Redirect
+ *
+ * @apiSuccess {Redirect} item Created redirect
+ *
+ * @apiUse 400Error
+ */
+
+/**
+ * @api {post} /redirection/v1/redirect/:id Update an existing redirect
+ * @apiDescription Update an existing redirect
+ * @apiGroup Redirect
+ *
+ * @apiParam {Number} id Redirect ID
+ *
+ * @apiSuccess {Redirect} item Created redirect
+ *
+ * @apiUse 400Error
+ */
+
+/**
+ * @api {post} /redirection/v1/bulkd/redirect/:type Bulk change redirects
+ * @apiDescription Enable, disable, reset, and delete a set of redirects
+ * @apiGroup Redirect
+ *
+ * @apiParam {string} orderby
+ * @apiParam {string} direction
+ * @apiParam {string} filterBy
+ * @apiParam {string} per_page
+ * @apiParam {string} page
+ *
+ * @apiSuccess {Redirect[]} items Fresh page of redirects after applying the bulk action
+ * @apiSuccess {Integer} total Number of items
+ *
+ * @apiUse 400Error
+ */
+
+/**
+ * @apiDefine Redirect A redirect
+ * All data associated with a redirect
+ */
 class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'last_count', 'last_access', 'position', 'id' ];
