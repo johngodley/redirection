@@ -38,6 +38,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 				value={ url }
 				onChange={ onChange }
 				autoFocus={ autoFocus }
+				className="regular-text"
 				placeholder={ __( 'The relative URL you want to redirect from' ) }
 			/>
 

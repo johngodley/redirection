@@ -69,9 +69,11 @@ class TableNav extends React.Component {
 
 		return (
 			<div className="tablenav top">
-				{ bulk && this.getBulk( bulk ) }
+				<div className="redirect-table__actions">
+					{ bulk && this.getBulk( bulk ) }
 
-				{ this.props.children ? this.props.children : null }
+					{ this.props.children ? this.props.children : null }
+				</div>
 
 				{ total > 0 && <NavigationPages per_page={ table.per_page } page={ table.page } total={ total } onChangePage={ this.props.onChangePage } inProgress= { status === STATUS_IN_PROGRESS } /> }
 			</div>

@@ -16,7 +16,7 @@ const MatchServer = ( { data, onChange } ) => {
 
 	return (
 		<TableRow title={ __( 'Server' ) }>
-			<input type="text" name="server" value={ server } placeholder={ __( 'Enter server URL to match against' ) } onChange={ onChange } />
+			<input type="text" className="regular-text" name="server" value={ server } placeholder={ __( 'Enter server URL to match against' ) } onChange={ onChange } />
 		</TableRow>
 	);
 };

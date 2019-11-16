@@ -18,10 +18,10 @@ const ActionLogin = ( { onChange, data } ) => {
 	return (
 		<React.Fragment>
 			<TableRow title={ __( 'Logged In' ) }>
-				<input type="text" name="logged_in" value={ logged_in } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
+				<input type="text" className="regular-text" name="logged_in" value={ logged_in } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
 			</TableRow>
 			<TableRow title={ __( 'Logged Out' ) }>
-				<input type="text" name="logged_out" value={ logged_out } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
+				<input type="text" className="regular-text" name="logged_out" value={ logged_out } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
 			</TableRow>
 		</React.Fragment>
 	);

@@ -103,7 +103,6 @@
  * @apiParam {String} action_data Any data associated with the `action_type` and `match_type`. For example, the target URL
  */
 
-// XXX
 /**
  * @apiDefine RedirectList A list of redirects
  * A list of redirects

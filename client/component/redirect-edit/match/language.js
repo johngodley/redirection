@@ -16,7 +16,7 @@ const MatchLanguage = ( { data, onChange } ) => {
 
 	return (
 		<TableRow title={ __( 'Language' ) }>
-			<input type="text" name="language" value={ language } onChange={ onChange } placeholder={ __( 'Comma separated list of languages to match against (i.e. da, en-GB)' ) } />
+			<input type="text" className="regular-text" name="language" value={ language } onChange={ onChange } placeholder={ __( 'Comma separated list of languages to match against (i.e. da, en-GB)' ) } />
 		</TableRow>
 	);
 };

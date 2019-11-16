@@ -10,7 +10,7 @@ const RedirectPosition = ( { position, onChange } ) => {
 	return (
 		<span className="edit-redirection-position">
 			<strong>{ __( 'Position' ) }</strong>
-			<input type="number" value={ position } name="position" min="0" size="3" onChange={ onChange } />
+			&nbsp;<input type="number" value={ position } name="position" min="0" size="3" onChange={ onChange } />
 		</span>
 	);
 };

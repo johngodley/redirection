@@ -48,8 +48,8 @@ class MatchHeader extends React.Component {
 		return (
 			<React.Fragment>
 				<TableRow title={ __( 'HTTP Header' ) }>
-					<input type="text" name="name" value={ name } onChange={ onChange } className="medium" placeholder={ __( 'Header name' ) } />
-					<input type="text" name="value" value={ value } onChange={ onChange } className="medium" placeholder={ __( 'Header value' ) } />
+					<input type="text" name="name" value={ name } onChange={ onChange } className="regular-text" placeholder={ __( 'Header name' ) } />
+					<input type="text" name="value" value={ value } onChange={ onChange } className="regular-text" placeholder={ __( 'Header value' ) } />
 
 					<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
 						<option value="">{ __( 'Custom' ) }</option>

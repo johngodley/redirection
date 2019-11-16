@@ -1,6 +1,11 @@
 .redirect-headers {
 	margin-bottom: 20px;
 	table-layout: auto !important;
+
+	.redirect-multioption__button {
+		height: 28px;
+		margin-top: 1px;
+	}
 }
 
 .redirect-headers__name {

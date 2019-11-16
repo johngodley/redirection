@@ -18,8 +18,8 @@ const MatchCookie = ( { data, onChange } ) => {
 
 	return (
 		<TableRow title={ __( 'Cookie' ) }>
-			<input type="text" name="name" value={ name } onChange={ onChange } className="medium" placeholder={ __( 'Cookie name' ) } />
-			<input type="text" name="value" value={ value } onChange={ onChange } className="medium" placeholder={ __( 'Cookie value' ) } />
+			<input type="text" name="name" value={ name } onChange={ onChange } className="regular-text" placeholder={ __( 'Cookie name' ) } />
+			<input type="text" name="value" value={ value } onChange={ onChange } className="regular-text" placeholder={ __( 'Cookie value' ) } />
 
 			<label className="edit-redirection-regex">
 				{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>

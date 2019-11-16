@@ -100,7 +100,7 @@ class GroupRow extends React.Component {
 					<tbody>
 						<tr>
 							<th width="70">{ __( 'Name' ) }</th>
-							<td><input type="text" name="name" value={ this.state.name } onChange={ this.onChange } /></td>
+							<td><input type="text" className="regular-text" name="name" value={ this.state.name } onChange={ this.onChange } /></td>
 						</tr>
 						<tr>
 							<th width="70">{ __( 'Module' ) }</th>

@@ -1,12 +1,19 @@
 .http-tester {
-	input[type=text] {
+	input[type="text"] {
 		width: 80%;
+		margin-right: 5px;
+	}
+
+	input[type="submit"] {
+		margin-top: 1px;
+		min-height: 30px;
 	}
 
 	table {
 		width: 95%;
 
-		th, td {
+		th,
+		td {
 			vertical-align: top;
 			padding: 5px 5px;
 			overflow: hidden;

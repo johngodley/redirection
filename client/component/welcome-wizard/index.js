@@ -103,11 +103,11 @@ class WelcomeWizard extends React.Component {
 					<tbody>
 						<tr>
 							<th>{ __( 'Source URL' ) }:</th>
-							<td><input type="text" readOnly value={ __( '(Example) The source URL is your old or original URL' ) } /></td>
+							<td><input type="text" className="regular-text" readOnly value={ __( '(Example) The source URL is your old or original URL' ) } /></td>
 						</tr>
 						<tr>
 							<th>{ __( 'Target URL' ) }:</th>
-							<td><input type="text" readOnly value={ __( '(Example) The target URL is the new URL' ) } /></td>
+							<td><input type="text" className="regular-text" readOnly value={ __( '(Example) The target URL is the new URL' ) } /></td>
 						</tr>
 					</tbody>
 				</table>

@@ -53,7 +53,7 @@ const HeaderReplaceSimpleChoice = ( { headerValue, headerSettings, options, onCh
 				<label>
 					{ getReplace( replace ).replace( '<', '' ).replace( '>', '' ) }
 
-					<input type="text" name="replaceValue" value={ replaceValue } onChange={ onChangeReplace } />
+					<input type="text" className="regular-text" name="replaceValue" value={ replaceValue } onChange={ onChangeReplace } />
 				</label>
 			) }
 		</React.Fragment>

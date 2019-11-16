@@ -4,6 +4,10 @@
 	width: 100%;
 	padding-right: 15px;
 
+	p {
+		margin: 5px;
+	}
+
 	th {
 		width: 130px;
 		font-weight: bold;
@@ -83,6 +87,7 @@
 
 	.redirect-multioption__button {
 		min-width: 200px;
+		margin-top: 1px;
 	}
 
 	.redirect-multioption__button .redirect-badge {
@@ -93,10 +98,6 @@
 .redirection-modal_content .edit-redirection_warning {
 	margin-left: 0;
 	box-shadow: none;
-}
-
-.redirects input[type="text"] {
-	padding: 4px;
 }
 
 .edit-redirection .redirection-edit_flags {
@@ -222,5 +223,14 @@
 .redirect-source__flags {
 	.redirect-badge {
 		margin-bottom: 2px;
+	}
+}
+
+.edit-redirection-regex {
+	display: flex;
+	align-items: center;
+
+	input[type="checkbox"] {
+		margin: 0;
 	}
 }

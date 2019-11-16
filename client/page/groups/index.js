@@ -23,6 +23,7 @@ import { getFilterOptions, getDisplayGroups, getDisplayOptions, getHeaders, getB
 import Select from 'component/select';
 import MultiOptionDropdown from 'component/multi-option-dropdown';
 import { isEnabled } from 'component/table/utils';
+import './style.scss';
 
 class Groups extends React.Component {
 	constructor( props ) {
@@ -156,14 +157,14 @@ class Groups extends React.Component {
 				<p>{ __( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.' ) }</p>
 
 				<form onSubmit={ this.onSubmit }>
-					<table className="form-table">
+					<table className="form-table redirect-groups">
 						<tbody>
 							<tr>
-								<th style={ { width: '50px' } }>{ __( 'Name' ) }</th>
+								<th>{ __( 'Name' ) }</th>
 								<td>
 									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.onChange } disabled={ isSaving } />
 
-									<Select name="id" value={ this.state.moduleId } onChange={ this.onModule } items={ getModules() } disabled={ isSaving } />
+									<Select value={ this.state.moduleId } onChange={ this.onModule } items={ getModules() } disabled={ isSaving } />
 
 									&nbsp;
 									<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' } />

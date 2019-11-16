@@ -194,12 +194,10 @@
 	justify-content: flex-end;
 
 	> div {
-		margin-right: 15px;
+		margin-right: 5px;
 	}
 
 	input[name="s"] {
-		padding-top: 4px;
-		padding-bottom: 5px;
 		margin-right: 5px;
 		margin-top: 0;
 	}
@@ -254,5 +252,18 @@
 	.redirect-table-display__select__option--is-selected {
 		background-color: rgba(38, 132, 255, 0.1);
 		color: #333;
+	}
+}
+
+.redirect-table__actions {
+	.redirect-multioption {
+		margin-top: 1px;
+	}
+}
+
+.redirect-table__actions .actions {
+	.button {
+		height: 28px;
+		margin-top: 1px;
 	}
 }

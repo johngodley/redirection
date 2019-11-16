@@ -16,7 +16,7 @@ const MatchRole = ( { data, onChange } ) => {
 
 	return (
 		<TableRow title={ __( 'Role' ) }>
-			<input type="text" value={ role } name="role" placeholder={ __( 'Enter role or capability value' ) } onChange={ onChange } />
+			<input type="text" className="regular-text" value={ role } name="role" placeholder={ __( 'Enter role or capability value' ) } onChange={ onChange } />
 		</TableRow>
 	);
 };
