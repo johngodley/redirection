@@ -27,5 +27,37 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test HTTP header is added to redirect",
+		{
+			"source": {
+				"url": "/plain301"
+			},
+			"target": {
+				"status": 301,
+				"location": "/plain-redirect",
+				"agent": true,
+				"headers": {
+					"X-Custom-Header": "custom",
+					"X-Robots-Tag": "nofollow,noindex"
+				}
+			}
+		}
+	],
+	[
+		"Test HTTP header is added to site",
+		{
+			"source": {
+				"url": "/"
+			},
+			"target": {
+				"status": 200,
+				"headers": {
+					"X-Custom-Header": "custom",
+					"X-Robots-Tag": "nofollow"
+				}
+			}
+		}
 	]
 ]

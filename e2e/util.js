@@ -21,6 +21,12 @@ function testItem( source, target ) {
 			if ( target.agent ) {
 				expect( headers.get( 'x-redirect-by' ) ).toBe( 'redirection' );
 			}
+
+			if ( target.headers ) {
+				Object.keys( target.headers ).forEach( header => {
+					expect( headers.get( header.toLowerCase() ) ).toBe( target.headers[ header ] );
+				} );
+			}
 		} );
 }
 

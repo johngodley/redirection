@@ -257,7 +257,7 @@ const getHeaders = () => {
 		},
 		{
 			label: __( 'Custom Header' ),
-			value: 'custom',
+			value: 'Custom',
 		},
 	];
 };
