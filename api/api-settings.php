@@ -1,5 +1,82 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/setting Get settings
+ * @apiName GetSettings
+ * @apiDescription Get all settings for Redirection. This includes user-configurable settings, as well as necessary WordPress settings.
+ * @apiGroup Settings
+ *
+ * @apiUse SettingItem
+ * @apiUse 401Error
+ * @apiUse 404Error
+ */
+
+/**
+ * @api {post} /redirection/v1/setting Update settings
+ * @apiName UpdateSettings
+ * @apiDescription Update Redirection settings. Note you can do partial updates, and only the values specified will be changed.
+ * @apiGroup Settings
+ *
+ * @apiParam {Object} settings An object containing all the settings to update
+ * @apiParamExample {json} settings:
+ *     {
+ *       "expire_redirect": 14,
+ *       "https": false
+ *     }
+ *
+ * @apiUse SettingItem
+ * @apiUse 401Error
+ * @apiUse 404Error
+ */
+
+/**
+ * @apiDefine SettingItem Settings
+ * Redirection settings
+ *
+ * @apiSuccess {Object[]} settings An object containing all settings
+ * @apiSuccess {String} settings.expire_redirect
+ * @apiSuccess {String} settings.token
+ * @apiSuccess {String} settings.monitor_post
+ * @apiSuccess {String} settings.monitor_types
+ * @apiSuccess {String} settings.associated_redirect
+ * @apiSuccess {String} settings.auto_target
+ * @apiSuccess {String} settings.expire_redirect
+ * @apiSuccess {String} settings.expire_404
+ * @apiSuccess {String} settings.modules
+ * @apiSuccess {String} settings.newsletter
+ * @apiSuccess {String} settings.redirect_cache
+ * @apiSuccess {String} settings.ip_logging
+ * @apiSuccess {String} settings.last_group_id
+ * @apiSuccess {String} settings.rest_api
+ * @apiSuccess {String} settings.https
+ * @apiSuccess {String} settings.headers
+ * @apiSuccess {String} settings.database
+ * @apiSuccess {Object[]} groups An array of groups
+ * @apiSuccess {String} groups.label Name of the group
+ * @apiSuccess {Integer} groups.value Group ID
+ * @apiSuccess {String} installed The path that WordPress is installed in
+ * @apiSuccess {Boolean} canDelete True if Redirection can be deleted, false otherwise (on multisite, for example)
+ * @apiSuccess {String[]} post_types Array of WordPress post types
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "settings": {
+ *         "expire_redirect": 7,
+ *         "https": true
+ *       },
+ *       "groups": [
+ *          { label: 'My group', value: 5 }
+ *       ],
+ *       "installed": "/var/html/wordpress",
+ *       "canDelete": true,
+ *       "post_types": [
+ *         "post",
+ *         "page"
+ *       ]
+ *     }
+ */
+
 class Redirection_Api_Settings extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/setting', array(

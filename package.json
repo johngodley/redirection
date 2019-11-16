@@ -19,7 +19,8 @@
     "clean": "docker-compose down && docker-compose rm && docker volume prune",
     "cli": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
     "release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
-    "doc": "apidoc -v -i api/ -o ./api-doc/"
+    "doc": "apidoc -v -i api/ -o ./api-doc/",
+    "phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php"
   },
   "repository": {
     "type": "git",
@@ -57,7 +58,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@hot-loader/react-dom": "^16.11.0",
-    "apidoc": "^0.17.7",
+    "apidoc": "^0.18.0",
     "autoprefixer": "^9.7.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
@@ -70,7 +71,7 @@
     "eslint": "^6.6.0",
     "eslint-config-wpcalypso": "^4.0.1",
     "eslint-loader": "^3.0.2",
-    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-flowtype": "^4.4.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-wpcalypso": "^4.1.0",
     "exports-loader": "^0.7.0",
@@ -99,7 +100,7 @@
     "postcss-reporter": "^6.0.1",
     "precss": "^4.0.0",
     "prettier": "https://github.com/Automattic/wp-prettier/releases/download/wp-1.16.4/wp-prettier-1.16.4.tgz",
-    "react-hot-loader": "^4.12.16",
+    "react-hot-loader": "^4.12.17",
     "redux-devtools-extension": "^2.13.8",
     "request-promise": "^4.2.5",
     "sass-loader": "^8.0.0",

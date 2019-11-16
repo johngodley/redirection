@@ -2,31 +2,103 @@
 
 /**
  * @api {get} /redirection/v1/404 Get 404 logs
- * @apiDescription Get 404 logs
+ * @apiName GetLogs
+ * @apiDescription Get a paged list of 404 logs after applying a set of filters and result ordering.
  * @apiGroup 404
  *
- * @apiParam {string} groupBy Group by 'ip' or 'url'
- * @apiParam {string} orderby
- * @apiParam {string} direction
- * @apiParam {string} filterBy
- * @apiParam {string} per_page
- * @apiParam {string} page
+ * @apiUse 404QueryParams
+ *
+ * @apiUse 404List
+ * @apiUse 401Error
+ * @apiUse 404Error
  */
 
 /**
  * @api {post} /redirection/v1/404 Delete 404 logs
- * @apiDescription Delete 404 logs either by ID or filter or group
+ * @apiName DeleteLogs
+ * @apiDescription Delete 404 logs by filter. If no filter is supplied then all entries will be deleted. The endpoint will return the next page of results after.
+ * performing the action, based on the supplied query parameters. This information can be used to refresh a list displayed to the client.
  * @apiGroup 404
  *
- * @apiParam {string} items Array of log IDs
- * @apiParam {string} filterBy
- * @apiParam {string} groupBy Group by 'ip' or 'url'
+ * @apiParam (Query Parameter) {String} filterBy[ip] Filter the results by the supplied IP
+ * @apiParam (Query Parameter) {String} filterBy[url] Filter the results by the supplied URL
+ * @apiParam (Query Parameter) {String} filterBy[url-exact] Filter the results by the exact URL (not a substring match, as per `url`)
+ * @apiParam (Query Parameter) {String} filterBy[referrer] Filter the results by the supplied referrer
+ * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
+ * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
+ *
+ * @apiUse 404List
+ * @apiUse 401Error
+ * @apiUse 404Error
  */
 
 /**
- * @api {post} /redirection/v1/bulk/404/delete Bulk actions on 404s
- * @apiDescription Delete 404 logs either by ID
+ * @api {post} /redirection/v1/bulk/404/:type Bulk 404 action
+ * @apiName BulkAction
+ * @apiDescription Delete 404 logs by ID
  * @apiGroup 404
+ *
+ * @apiParam (URL) {String="delete"} :type Type of bulk action that is applied to every log ID.
+ *
+ * @apiParam (Query Parameter) {Integer[]} items Array of group IDs to perform the action on
+ * @apiUse 404QueryParams
+ *
+ * @apiUse 404List
+ * @apiUse 401Error
+ * @apiUse 404Error
+ * @apiUse 400MissingError
+ * @apiError (Error 400) redirect_404_invalid_items Invalid array of items
+ * @apiErrorExample {json} 404 Error Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "code": "redirect_404_invalid_items",
+ *       "message": "Invalid array of items"
+ *     }
+ */
+
+/**
+ * @apiDefine 404QueryParams 404 log query parameters
+ *
+ * @apiParam (Query Parameter) {String} filterBy[ip] Filter the results by the supplied IP
+ * @apiParam (Query Parameter) {String} filterBy[url] Filter the results by the supplied URL
+ * @apiParam (Query Parameter) {String} filterBy[url-exact] Filter the results by the exact URL (not a substring match, as per `url`)
+ * @apiParam (Query Parameter) {String} filterBy[referrer] Filter the results by the supplied referrer
+ * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
+ * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
+ * @apiParam (Query Parameter) {string="ip","url"} orderby Order by IP or URL
+ * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
+ * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
+ * @apiParam (Query Parameter) {Integer} page Current page of results
+ * @apiParam (Query Parameter) {String="ip","url"} groupBy Group by IP or URL
+ */
+
+/**
+ * @apiDefine 404List
+ *
+ * @apiSuccess {Object[]} items Array of 404 log objects
+ * @apiSuccess {Integer} items.id ID of 404 log entry
+ * @apiSuccess {String} items.created Date the 404 log entry was recorded
+ * @apiSuccess {Integer} items.created_time Unix time value for `created`
+ * @apiSuccess {Integer} items.url The requested URL that caused the 404 log entry
+ * @apiSuccess {String} items.agent User agent of the client initiating the request
+ * @apiSuccess {Integer} items.referrer Referrer of the client initiating the request
+ * @apiSuccess {Integer} total Number of items
+ *
+ * @apiSuccessExample {json} Success 200:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "items": [
+ *           {
+ *             "id": 3,
+ *             "created": "2019-01-01 12:12:00,
+ *             "created_time": "12345678",
+ *             "url": "/the-url",
+ *             "agent": "FancyBrowser",
+ *             "referrer": "http://site.com/previous/,
+ *           }
+ *       ],
+ *       "total": 1
+ *     }
  */
 class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
@@ -62,7 +134,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 			return $this->route_404( $request );
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect', 'Invalid array of items' ), __LINE__ );
+		return $this->add_error_details( new WP_Error( 'redirect_404_invalid_items', 'Invalid array of items' ), __LINE__ );
 	}
 
 	private function get_delete_group( array $params ) {

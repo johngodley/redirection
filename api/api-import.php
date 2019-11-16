@@ -1,5 +1,33 @@
 <?php
 
+/**
+ * @api {get} /redirection/v1/import/file/:group_id Import redirects
+ * @apiName Import
+ * @apiDescription Import redirects from CSV, JSON, or Apache .htaccess
+ * @apiGroup Import/Export
+ *
+ * @apiParam (URL) {Integer} :group_id The group ID to import into
+ * @apiParam (File) {File} file The multipart form upload containing the file to import
+ *
+ * @apiSuccess {Integer} imported Number of items imported
+ *
+ * @apiUse 401Error
+ * @apiUse 404Error
+ * @apiError (Error 400) redirect_import_invalid_group Invalid group
+ * @apiErrorExample {json} 404 Error Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "code": "redirect_import_invalid_group",
+ *       "message": "Invalid group"
+ *     }
+ * @apiError (Error 400) redirect_import_invalid_file Invalid file upload
+ * @apiErrorExample {json} 404 Error Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "code": "redirect_import_invalid_file",
+ *       "message": "Invalid file upload"
+ *     }
+ */
 class Redirection_Api_Import extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/import/file/(?P<group_id>\d+)', array(
@@ -43,10 +71,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 				);
 			}
 
-			return $this->add_error_details( new WP_Error( 'redirect', 'Invalid group' ), __LINE__ );
+			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect', 'Invalid file' ), __LINE__ );
+		return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file' ), __LINE__ );
 	}
 
 }
