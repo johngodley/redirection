@@ -53,9 +53,9 @@ class MultiOptionDropdown extends React.Component {
 			return keys.slice( 0, MAX_BADGES ).map( key => {
 				const found = options.find( item => item.value === key );
 
-				return found ? <Badge key={ key } onCancel={ ev => this.removeFilter( key, ev ) }>{ found.label }</Badge> : null;
+				return found && selected[ key ] ? <Badge key={ key } onCancel={ ev => this.removeFilter( key, ev ) }>{ found.label }</Badge> : null;
 			} ).concat(
-				[ keys.length > MAX_BADGES ? <span>...</span> : null ],
+				[ keys.length > MAX_BADGES ? <span key="end">...</span> : null ],
 			);
 		}
 

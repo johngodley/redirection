@@ -13,17 +13,11 @@ import { getSourceFlags } from './constants';
 import TableRow from './table-row';
 import MultiOptionDropdown from 'component/multi-option-dropdown';
 
-function getFlagDifference( flags, defaultFlags ) {
-	const diff = {};
-
-	Object.keys( defaultFlags ).map( key => {
-		if ( flags[ key ] !== defaultFlags[ key ] ) {
-			diff[ key ] = flags[ key ];
-		}
-	} );
-
-	return diff;
-}
+const getUrlFlags = ( { flag_case, flag_regex, flag_trailing } ) => ( {
+	flag_case,
+	flag_regex,
+	flag_trailing,
+} );
 
 const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, autoFocus = false } ) => {
 	const flagOptions = getSourceFlags();
@@ -49,7 +43,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 
 			<MultiOptionDropdown
 				options={ flagOptions }
-				selected={ getFlagDifference( flags, defaultFlags ) }
+				selected={ getUrlFlags( flags ) }
 				onApply={ onFlagChange }
 				title={ __( 'URL options / Regex' ) }
 				badges
