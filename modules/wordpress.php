@@ -170,7 +170,7 @@ class WordPress_Module extends Red_Module {
 		// Add any custom headers
 		$options = red_get_options();
 		$headers = new Red_Http_Headers( $options['headers'] );
-		$headers->run_site();
+		$headers->run( $headers->get_site_headers() );
 	}
 
 	public function set_header_410() {
@@ -182,7 +182,7 @@ class WordPress_Module extends Red_Module {
 
 		$options = red_get_options();
 		$headers = new Red_Http_Headers( $options['headers'] );
-		$headers->run_redirect();
+		$headers->run( $headers->get_redirect_headers() );
 
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );

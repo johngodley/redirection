@@ -3,7 +3,7 @@
 class Red_Http_Headers {
 	private $headers = [];
 
-	public function __construct( $options ) {
+	public function __construct( $options = [] ) {
 		if ( is_array( $options ) ) {
 			$this->headers = array_filter( array_map( [ $this, 'normalize' ], $options ) );
 		}
@@ -11,11 +11,12 @@ class Red_Http_Headers {
 
 	private function normalize( $header ) {
 		$location = 'site';
-		if ( $header['location'] === 'redirect' ) {
+		if ( isset( $header['location'] ) && $header['location'] === 'redirect' ) {
 			$location = 'redirect';
 		}
 
 		$name = $this->sanitize( isset( $header['headerName'] ) ? $header['headerName'] : '' );
+		$type = $this->sanitize( isset( $header['type'] ) ? $header['type'] : '' );
 		$value = $this->sanitize( isset( $header['headerValue'] ) ? $header['headerValue'] : '' );
 		$settings = [];
 
@@ -25,20 +26,17 @@ class Red_Http_Headers {
 			}
 		}
 
-		if ( strlen( $name ) > 0 ) {
-			$this->add_header( $this->dash_case( $name ), $value, $location, $settings );
+		if ( strlen( $name ) > 0 && strlen( $type ) > 0 ) {
+			return [
+				'type' => $this->dash_case( $name ),
+				'headerName' => $this->dash_case( $name ),
+				'headerValue' => $value,
+				'location' => $location,
+				'headerSettings' => $settings,
+			];
 		}
 
-		return $header;
-	}
-
-	private function add_header( $name, $value, $location, $settings ) {
-		$this->headers[] = [
-			'headerName' => $name,
-			'headerValue' => $value,
-			'location' => $location,
-			'headerSettings' => $settings,
-		];
+		return null;
 	}
 
 	public function get_json() {
@@ -46,21 +44,38 @@ class Red_Http_Headers {
 	}
 
 	private function dash_case( $name ) {
-		$name = str_replace( ' ', '-', $name );
+		$name = preg_replace( '/[^A-Za-z0-9]/', ' ', $name );
+		$name = preg_replace( '/\s{2,}/', ' ', $name );
+		$name = trim( $name, ' ' );
 		$name = ucwords( $name );
+		$name = str_replace( ' ', '-', $name );
 
 		return $name;
 	}
 
-	public function run_site() {
-		$this->run( array_filter( $this->headers, [ $this, 'is_site_header' ] ) );
+	private function remove_dupes( $headers ) {
+		$new_headers = [];
+
+		foreach ( $headers as $header ) {
+			$new_headers[ $header['headerName'] ] = $header;
+		}
+
+		return array_values( $new_headers );
 	}
 
-	public function run_redirect() {
-		// Redirect headers first, then site ones
-		$headers = array_filter( $this->headers, [ $this, 'is_redirect_header' ] );
-		$headers = array_merge( $headers, array_filter( $this->headers, [ $this, 'is_site_header' ] ) );
-		$this->run( $headers );
+	public function get_site_headers() {
+		$headers = array_values( $this->remove_dupes( array_filter( $this->headers, [ $this, 'is_site_header' ] ) ) );
+
+		return apply_filters( 'redirection_headers_site', $headers );
+	}
+
+	public function get_redirect_headers() {
+		// Site ones first, then redirect - redirect will override any site ones
+		$headers = $this->get_site_headers();
+		$headers = array_merge( $headers, array_values( array_filter( $this->headers, [ $this, 'is_redirect_header' ] ) ) );
+		$headers = array_values( $this->remove_dupes( $headers ) );
+
+		return apply_filters( 'redirection_headers_redirect', $headers );
 	}
 
 	private function is_site_header( $header ) {
@@ -71,12 +86,18 @@ class Red_Http_Headers {
 		return $header['location'] === 'redirect';
 	}
 
-	private function run( $headers ) {
+	public function run( $headers ) {
 		$done = [];
 
 		foreach ( $headers as $header ) {
 			if ( ! in_array( $header['headerName'], $done, true ) ) {
-				header( sprintf( '%s: %s', $this->sanitize( $this->dash_case( $header['headerName'] ) ), $this->sanitize( $header['headerValue'] ) ) );
+				$name = $this->sanitize( $this->dash_case( $header['headerName'] ) );
+				$value = $this->sanitize( $header['headerValue'] );
+
+				// Trigger some other action
+				do_action( 'redirection_header', $name, $value );
+
+				header( sprintf( '%s: %s', $name, $value ) );
 				$done[] = $header['headerName'];
 			}
 		}
