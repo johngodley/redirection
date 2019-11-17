@@ -12,13 +12,16 @@
 	display: flex;
 	align-items: center;
 
-
 	select {
 		margin-right: 5px;
 	}
 
 	input[type="text"] {
-		margin-left: 5px;
+		margin: 0 5px;
+	}
+
+	select + input[type="text"] {
+		margin-left: 0;
 	}
 
 	.redirect-multioption__button .redirect-badge,
