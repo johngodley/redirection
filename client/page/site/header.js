@@ -268,11 +268,20 @@ const Header = ( { header, onChange, onDelete } ) => {
 		onChange( { ...header, ...attrs } );
 	};
 	const changeHeader = ( ev ) => {
+		const { name, value } = ev.target;
+		let hName = headerName;
+
+		if ( name === 'type' && value === 'Custom' ) {
+			hName = '';
+		} else if ( name === 'headerName' ) {
+			hName = value;
+		}
+
 		saveHeader( {
-			headerValue: ev.target.name === 'type' ? '' : header.headerValue,
-			headerSettings: ev.target.name === 'type' ? getDefault( ev.target.value ) : header.headerSettings,
-			headerName: ev.target.name === 'type' && ev.target.value === 'Custom' ? '' : ev.target.value,
-			[ ev.target.name ]: ev.target.value,
+			headerValue: name === 'type' ? '' : header.headerValue,
+			headerSettings: name === 'type' ? getDefault( value ) : header.headerSettings,
+			headerName: hName,
+			[ name ]: value,
 		} );
 	};
 	const deleteIt = ev => {
