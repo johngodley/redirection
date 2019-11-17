@@ -2,9 +2,9 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 4.8
-Tested up to: 5.2.3
-Stable tag: 4.4.2
+Requires at least: 4.9
+Tested up to: 5.3
+Stable tag: 4.5
 Requires PHP: 5.4
 License: GPLv3
 
@@ -54,6 +54,11 @@ Logs can be exported for external viewing, and can be searched and filtered for 
 Display geographic information about an IP address, as well as a full user agent information, to try and understand who the visitor is.
 
 You are able to disable or reduce IP collection to meet the legal requirements of your geographic region.
+
+= Add HTTP headers =
+
+HTTP headers can be adder to redirects or your entire site that help reduce the impact of redirects or help increase security. You can also add your
+own custom headers.
 
 = Track 404 errors =
 
@@ -153,6 +158,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
 == Changelog ==
+
+= 4.5 - ??? =
+* Add HTTP header feature, with x-robots-tag
+* Move HTTPS setting to new Site page
+* Add filter to disable redirect hits
+* Add an 'Disable Redirection' option to stop Redirection, in case you break your site
+* Fill out API documentation
+* Fix style with WordPress 5.4
+* Fix encoding of # in .htaccess
 
 = 4.4.2 - 29th September 2019 =
 * Fix missing options for monitor group
@@ -652,14 +666,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Fix XSS in admin menu
 * Update Russian translation, thanks to Alexey Pazdnikov
 
-= 2.2.8 =
+= 2.2.8 and earlier
 * Add Romanian translation, thanks to Alina
 * Add Greek, thanks to Stefanos Kofopoulos
-
-= 2.2.7 =
 * Better database compatibility
-
-= < 2.2.6 =
 * Remove warning from VaultPress
 * Add Turkish translation, thanks to Fatih Cevik
 * Fix search box
