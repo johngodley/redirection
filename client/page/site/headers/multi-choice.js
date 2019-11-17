@@ -35,6 +35,7 @@ const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 			selected={ arrayToObject( selected ) }
 			onApply={ applyItem }
 			title={ __( 'Values' ) }
+			hideTitle
 			badges
 		/>
 	);

@@ -101,3 +101,24 @@
 .redirect-multioption__group:last-child {
 	margin-bottom: 10px;
 }
+
+/* Smoothes over the differences between 5.3 and earlier */
+.branch-4-9,
+.branch-5-0,
+.branch-5-1,
+.branch-5-2 {
+	.redirect-dropdownbutton .button,
+	.button.redirect-multioption__button {
+		border-color: #ddd;
+	}
+
+	input[type="search"] {
+		height: 30px;
+	}
+
+	.redirect-multioption__button .redirect-badge,
+	.redirect-multioption,
+	.actions .redirect-multioption__button .redirect-badge {
+		margin-top: 1px !important;
+	}
+}

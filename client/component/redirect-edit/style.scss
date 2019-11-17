@@ -100,33 +100,6 @@
 	box-shadow: none;
 }
 
-.edit-redirection .redirection-edit_flags {
-	flex: none;
-	min-width: 200px;
-
-	.redirection-edit_flags__control {
-		max-height: 27px;
-		min-height: 27px;
-		height: 27px;
-		border-color: #ddd;
-		border-radius: 0;
-		margin-top: 1px;
-	}
-
-	.redirection-edit_flags__multi-value {
-		margin-top: -1px;
-	}
-
-	.redirection-edit_flags__multi-value__label {
-		padding: 2px 5px;
-		height: 20px;
-	}
-}
-
-.wp-list-table .edit-redirection .redirection-edit_flags .redirection-edit_flags__multi-value__label {
-	padding-top: 0;
-}
-
 .redirection-url-autocomplete {
 	display: flex;
 	position: relative;

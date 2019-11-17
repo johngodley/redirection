@@ -48,6 +48,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 				onApply={ onFlagChange }
 				title={ __( 'URL options / Regex' ) }
 				badges
+				hideTitle
 			/>
 		</TableRow>
 	);
