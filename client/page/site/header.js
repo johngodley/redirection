@@ -129,7 +129,7 @@ const knownHeaders = {
 		component: HeaderPlainValue,
 		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy-Report-Only',
 	},
-	custom: {
+	Custom: {
 		component: HeaderCustom,
 	},
 	'Access-Control-Allow-Methods': {
@@ -271,7 +271,7 @@ const Header = ( { header, onChange, onDelete } ) => {
 		saveHeader( {
 			headerValue: ev.target.name === 'type' ? '' : header.headerValue,
 			headerSettings: ev.target.name === 'type' ? getDefault( ev.target.value ) : header.headerSettings,
-			headerName: ev.target.name === 'type' && ev.target.value === 'custom' ? '' : ev.target.value,
+			headerName: ev.target.name === 'type' && ev.target.value === 'Custom' ? '' : ev.target.value,
 			[ ev.target.name ]: ev.target.value,
 		} );
 	};

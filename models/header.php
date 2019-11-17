@@ -28,7 +28,7 @@ class Red_Http_Headers {
 
 		if ( strlen( $name ) > 0 && strlen( $type ) > 0 ) {
 			return [
-				'type' => $this->dash_case( $name ),
+				'type' => $this->dash_case( $type ),
 				'headerName' => $this->dash_case( $name ),
 				'headerValue' => $value,
 				'location' => $location,

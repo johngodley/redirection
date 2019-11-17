@@ -7,47 +7,59 @@ class HeaderTest extends WP_UnitTestCase {
 	}
 
 	public function testBadHeaderNoName() {
-		$headers = [ [ 'name' => 'bad' ] ];
+		$headers = [ [ 'name' => 'bad', 'type' => 'Custom' ] ];
+		$http = new Red_Http_Headers( $headers );
+		$this->assertEquals( [], $http->get_json() );
+	}
+
+	public function testBadHeaderNoType() {
+		$headers = [ [ 'headerName' => 'Good' ] ];
 		$http = new Red_Http_Headers( $headers );
 		$this->assertEquals( [], $http->get_json() );
 	}
 
 	public function testHeaderSanitizeName() {
-		$headers = [ [ 'headerName' => 'this is  nonsense }' ] ];
+		$headers = [ [ 'headerName' => 'this is  nonsense }', 'type' => 'Custom' ] ];
+		$expected = [ [ 'type' => 'Custom', 'location' => 'site', 'headerName' => 'This-Is-Nonsense', 'headerValue' => '', 'headerSettings' => [] ] ];
+
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( [ [ 'location' => 'site', 'headerName' => 'This-Is-Nonsense', 'headerValue' => '', 'headerSettings' => [] ] ], $http->get_json() );
+		$this->assertEquals( $expected, $http->get_json() );
 	}
 
 	public function testHeaderBadLocation() {
-		$headers = [ [ 'headerName' => 'Good', 'location' => 'bad' ] ];
+		$headers = [ [ 'headerName' => 'Good', 'location' => 'bad', 'type' => 'Custom' ] ];
+		$expected = [ [ 'type' => 'Custom', 'location' => 'site', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( [ [ 'location' => 'site', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ], $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json( $headers ) );
 	}
 
 	public function testHeaderLocation() {
-		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect' ] ];
+		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'type' => 'Custom' ] ];
+		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ], $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json( $headers ) );
 	}
 
 	public function testHeaderSanitizeValue() {
-		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => "this\nthing" ] ];
+		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => "this\nthing", 'type' => 'Custom' ] ];
+		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'this', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'this', 'headerSettings' => [] ] ], $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json( $headers ) );
 	}
 
 	public function testGoodHeader() {
-		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value' ] ];
+		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value', 'type' => 'Custom' ] ];
+		$expected = [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Custom' ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'value', 'headerSettings' => [] ] ], $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json( $headers ) );
 	}
 
 	public function testSiteHeaders() {
 		$headers = [
-			[ 'headerName' => 'redirect', 'location' => 'redirect', 'headerValue' => 'value' ],
-			[ 'headerName' => 'site', 'location' => 'site', 'headerValue' => 'value' ],
+			[ 'headerName' => 'redirect', 'location' => 'redirect', 'headerValue' => 'value', 'type' => 'Custom' ],
+			[ 'headerName' => 'site', 'location' => 'site', 'headerValue' => 'value', 'type' => 'Custom' ],
 		];
-		$expected = [ [ 'location' => 'site', 'headerName' => 'Site', 'headerValue' => 'value', 'headerSettings' => [] ] ];
+		$expected = [ [ 'location' => 'site', 'headerName' => 'Site', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Custom' ] ];
 
 		$http = new Red_Http_Headers( $headers );
 		$this->assertEquals( $expected, $http->get_site_headers() );
@@ -55,13 +67,13 @@ class HeaderTest extends WP_UnitTestCase {
 
 	public function testRedirectHeaders() {
 		$headers = [
-			[ 'headerName' => 'Site', 'location' => 'site', 'headerValue' => 'value' ],
-			[ 'headerName' => 'Redirect', 'location' => 'redirect', 'headerValue' => 'value' ],
+			[ 'headerName' => 'Site', 'location' => 'site', 'headerValue' => 'value', 'type' => 'Custom' ],
+			[ 'headerName' => 'Redirect', 'location' => 'redirect', 'headerValue' => 'value', 'type' => 'Custom' ],
 		];
 
 		$expected = [
-			[ 'headerName' => 'Site', 'location' => 'site', 'headerValue' => 'value', 'headerSettings' => [] ],
-			[ 'headerName' => 'Redirect', 'location' => 'redirect', 'headerValue' => 'value', 'headerSettings' => [] ],
+			[ 'headerName' => 'Site', 'location' => 'site', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Custom' ],
+			[ 'headerName' => 'Redirect', 'location' => 'redirect', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Custom' ],
 		];
 
 		$http = new Red_Http_Headers( $headers );
@@ -70,12 +82,12 @@ class HeaderTest extends WP_UnitTestCase {
 
 	public function testRedirectHeadersRemoveRedirectDupes() {
 		$headers = [
-			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'valuesite' ],
-			[ 'headerName' => 'name', 'location' => 'redirect', 'headerValue' => 'valueredirect' ],
+			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'valuesite', 'type' => 'Custom' ],
+			[ 'headerName' => 'name', 'location' => 'redirect', 'headerValue' => 'valueredirect', 'type' => 'Custom' ],
 		];
 
 		$expected = [
-			[ 'headerName' => 'Name', 'location' => 'redirect', 'headerValue' => 'valueredirect', 'headerSettings' => [] ],
+			[ 'headerName' => 'Name', 'location' => 'redirect', 'headerValue' => 'valueredirect', 'headerSettings' => [], 'type' => 'Custom' ],
 		];
 
 		$http = new Red_Http_Headers( $headers );
@@ -84,12 +96,12 @@ class HeaderTest extends WP_UnitTestCase {
 
 	public function testRedirectHeadersRemoveSiteDupes() {
 		$headers = [
-			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'value1' ],
-			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'value2' ],
+			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'value1', 'type' => 'Custom' ],
+			[ 'headerName' => 'name', 'location' => 'site', 'headerValue' => 'value2', 'type' => 'Custom' ],
 		];
 
 		$expected = [
-			[ 'headerName' => 'Name', 'location' => 'site', 'headerValue' => 'value2', 'headerSettings' => [] ],
+			[ 'headerName' => 'Name', 'location' => 'site', 'headerValue' => 'value2', 'headerSettings' => [], 'type' => 'Custom' ],
 		];
 
 		$http = new Red_Http_Headers( $headers );
