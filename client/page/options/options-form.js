@@ -277,16 +277,6 @@ class OptionsForm extends React.Component {
 						</label>
 					</TableRow>
 
-					<TableRow title={ __( 'Force HTTPS' ) } url={ this.supportLink( 'options', 'force-https' ) }>
-						<label>
-							<p>
-								<input type="checkbox" name="https" onChange={ this.onChange } checked={ this.state.https } />
-								{ __( 'Force a redirect from HTTP to the HTTPS version of your WordPress site domain. Please ensure your HTTPS is working before enabling.' ) }
-								&nbsp; { __( '(beta)' ) }
-							</p>
-						</label>
-					</TableRow>
-
 					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
 						<Select items={ expireTimes() } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
 						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>

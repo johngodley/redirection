@@ -54,8 +54,12 @@
 }
 
 .redirect-dropdownbutton .button {
+	background-color: #fff;
+	border-color: #7e8993;
+	color: #32373c;
 	display: flex;
 	align-items: center;
+	min-height: 30px;
 }
 
 .redirect-dropdownbutton__single h5 {

@@ -45,6 +45,7 @@ Note that returning `false` from the filter will bypass the log.
 ### Actions
 
 - `redirection_do_nothing` - Called when a 'do nothing' action fires
+- `redirection_header` - action fired when Redirection is adding a HTTP header to the request. Passed HTTP name and value
 
 ### Dynamic URL data
 
@@ -70,6 +71,11 @@ The following special words can be inserted into a target URL:
 - `redirection_redirect_deleted` - Action fire when a redirect is deleted
 
 Additionally, if the target URL is a number without any slashes then Redirection will treat it as a post ID and redirect to the full URL for that post.
+
+### HTTP headers
+
+- `redirection_header_site` - Array of HTTP headers that Redirection is adding from the 'site' location
+- `redirection_header_redirect - Array of HTTP headers that Redirection is adding from the 'redirect' location (will include those from 'site')
 
 ### Permissions
 

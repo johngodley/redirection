@@ -266,23 +266,24 @@ class ImportExport extends React.Component {
 				<h2>{ __( 'Export' ) }</h2>
 				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format.' ) }</p>
 
-				<select name="module" onChange={ this.onInput } value={ this.state.module }>
-					<option value="0">{ __( 'Everything' ) }</option>
-					<option value="1">{ __( 'WordPress redirects' ) }</option>
-					<option value="2">{ __( 'Apache redirects' ) }</option>
-					<option value="3">{ __( 'Nginx redirects' ) }</option>
-				</select>
+				<p className="redirect-export_buttons">
+					<select name="module" onChange={ this.onInput } value={ this.state.module }>
+						<option value="0">{ __( 'Everything' ) }</option>
+						<option value="1">{ __( 'WordPress redirects' ) }</option>
+						<option value="2">{ __( 'Apache redirects' ) }</option>
+						<option value="3">{ __( 'Nginx redirects' ) }</option>
+					</select>
 
-				<select name="format" onChange={ this.onInput } value={ this.state.format }>
-					<option value="json">{ __( 'Complete data (JSON)' ) }</option>
-					<option value="csv">{ __( 'CSV' ) }</option>
-					<option value="apache">{ __( 'Apache .htaccess' ) }</option>
-					<option value="nginx">{ __( 'Nginx rewrite rules' ) }</option>
-				</select>
-				&nbsp;
-				<button className="button-primary" onClick={ this.onView }>{ __( 'View' ) }</button>
-				&nbsp;
-				<button className="button-secondary" onClick={ this.onDownload }>{ __( 'Download' ) }</button>
+					<select name="format" onChange={ this.onInput } value={ this.state.format }>
+						<option value="json">{ __( 'Complete data (JSON)' ) }</option>
+						<option value="csv">{ __( 'CSV' ) }</option>
+						<option value="apache">{ __( 'Apache .htaccess' ) }</option>
+						<option value="nginx">{ __( 'Nginx rewrite rules' ) }</option>
+					</select>
+
+					<button className="button-primary" onClick={ this.onView }>{ __( 'View' ) }</button>
+					<button className="button-secondary" onClick={ this.onDownload }>{ __( 'Download' ) }</button>
+				</p>
 
 				{ exportStatus === STATUS_IN_PROGRESS && this.renderExporting() }
 				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }

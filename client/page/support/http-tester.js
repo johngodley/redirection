@@ -68,7 +68,7 @@ class HttpTester extends React.Component {
 					{ __( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting." ) }
 				</p>
 				<p>
-					{ __( 'URL' ) }: <input type="text" value={ url } onChange={ this.onChange } disabled={ status === STATUS_IN_PROGRESS } placeholder={ __( 'Enter full URL, including http:// or https://' ) } />
+					{ __( 'URL' ) }: <input className="regular-text" type="text" value={ url } onChange={ this.onChange } disabled={ status === STATUS_IN_PROGRESS } placeholder={ __( 'Enter full URL, including http:// or https://' ) } />
 					<input type="submit" className="button-secondary" onClick={ this.onSubmit } disabled={ status === STATUS_IN_PROGRESS } value={ __( 'Check' ) } />
 				</p>
 

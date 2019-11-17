@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { getPluginPage } from 'lib/wordpress-url';
 import Options from 'page/options';
 import Support from 'page/support';
+import Site from 'page/site';
 import Logs from 'page/logs';
 import Logs404 from 'page/logs404';
 import ImportExport from 'page/io';
@@ -40,6 +41,7 @@ import './style.scss';
 
 const getTitles = () => ( {
 	redirect: __( 'Redirections' ),
+	site: __( 'Site' ),
 	groups: __( 'Groups' ),
 	io: __( 'Import/Export' ),
 	log: __( 'Logs' ),
@@ -136,6 +138,9 @@ class Home extends React.Component {
 
 			case 'options':
 				return <Options />;
+
+			case 'site':
+				return <Site />;
 		}
 
 		return <Redirects key={ clicked } />;

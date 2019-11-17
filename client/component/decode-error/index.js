@@ -114,7 +114,7 @@ const DecodeError = ( { error } ) => {
 		return (
 			<React.Fragment>
 				<p>{ getErrorDetails( error ) }</p>
-				<p>{ __( 'Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent.' ) }</p>
+				<p>{ __( 'Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy.' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/rest-api/#url">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
 			</React.Fragment>
 		);

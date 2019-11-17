@@ -175,7 +175,13 @@ class EditRedirect extends React.Component {
 	}
 
 	onFlagChange = flags => {
-		this.onUpdateState( { ...this.props.flags, ...flags } );
+		const changed = {};
+
+		Object.keys( this.props.flags ).forEach( key => {
+			changed[ key ] = false;
+		} );
+
+		this.onUpdateState( { ...changed, ...flags } );
 	}
 
 	getInputState( ev ) {

@@ -157,4 +157,13 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
 		$this->assertEquals( 1, $result->data['settings']['monitor_post'] );
 	}
+
+	public function testHeader() {
+		$this->setNonce();
+
+		$data = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Good' ] ];
+
+		$result = $this->callApi( 'setting', array( 'headers' => $data ), 'POST' );
+		$this->assertEquals( $data, $result->data['settings']['headers'] );
+	}
 }

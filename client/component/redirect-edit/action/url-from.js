@@ -18,10 +18,10 @@ const ActionUrlFrom = ( { onChange, data } ) => {
 	return (
 		<React.Fragment>
 			<TableRow title={ __( 'Matched Target' ) }>
-				<input type="text" name="url_from" value={ url_from } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
+				<input type="text" className="regular-text" name="url_from" value={ url_from } onChange={ onChange } placeholder={ __( 'Target URL when matched (empty to ignore)' ) } />
 			</TableRow>
 			<TableRow title={ __( 'Unmatched Target' ) }>
-				<input type="text" name="url_notfrom" value={ url_notfrom } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
+				<input type="text" className="regular-text" name="url_notfrom" value={ url_notfrom } onChange={ onChange } placeholder={ __( 'Target URL when not matched (empty to ignore)' ) } />
 			</TableRow>
 		</React.Fragment>
 	);

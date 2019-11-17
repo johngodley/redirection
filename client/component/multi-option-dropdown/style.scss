@@ -38,13 +38,16 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	box-shadow: none;
 
-	height: 27px;
-	margin-top: 1px;
+	height: 30px;
 	max-width: 500px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	background-color: #fff;
+	border-color: #7e8993;
+	color: #32373c;
 
 	svg {
 		margin-left: 5px;
@@ -65,11 +68,14 @@
 
 	.redirect-badge {
 		line-height: 1.3;
-		margin-top: 1px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
+}
+
+.actions .button.redirect-multioption__button {
+	height: 28px;
 }
 
 .actions .redirect-multioption__button .redirect-badge {
@@ -77,6 +83,8 @@
 }
 
 .redirect-multioption__button.redirect-multioption__button_enabled {
+	background-color: #fff;
+
 	svg {
 		transform: rotate(180deg);
 		border-right: 1px solid #ddd;

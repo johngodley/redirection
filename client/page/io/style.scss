@@ -31,10 +31,21 @@
 	}
 }
 
-.dropzone-hover, .dropzone-hover {
+.dropzone-hover,
+.dropzone-hover {
 	border-color: rgb(134, 191, 212);
 }
 
 .dropzone-importing {
 	border-color: transparent;
+}
+
+.redirect-export_buttons {
+	display: flex;
+	align-items: center;
+
+	.button-primary,
+	select {
+		margin-right: 5px;
+	}
 }

@@ -1,0 +1,56 @@
+.redirect-headers {
+	margin-bottom: 20px;
+	table-layout: auto !important;
+
+	.redirect-multioption__button {
+		height: 28px;
+		margin-top: 1px;
+	}
+}
+
+.redirect-headers__name {
+	display: flex;
+	align-items: center;
+
+	select {
+		margin-right: 5px;
+	}
+
+	input[type="text"] {
+		margin: 0 5px;
+	}
+
+	select + input[type="text"] {
+		margin-left: 0;
+	}
+
+	.redirect-multioption__button .redirect-badge,
+	.redirect-multioption {
+		margin-top: -1px;
+	}
+}
+
+.redirect-headers__name__content {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	flex-wrap: wrap;
+}
+
+.redirect-headers__type {
+	width: 100px;
+}
+
+.redirect-headers__delete {
+	width: 35px;
+
+	button {
+		border: none;
+		background: none;
+
+		&:hover {
+			color: red;
+			cursor: pointer;
+		}
+	}
+}

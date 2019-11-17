@@ -16,7 +16,7 @@ const MatchCustom = ( { data, onChange } ) => {
 
 	return (
 		<TableRow title={ __( 'Filter Name' ) }>
-			<input type="text" name="filter" value={ filter } onChange={ onChange } className="medium" placeholder={ __( 'WordPress filter name' ) } />
+			<input type="text" name="filter" value={ filter } onChange={ onChange } className="regular-text" placeholder={ __( 'WordPress filter name' ) } />
 		</TableRow>
 	);
 };
