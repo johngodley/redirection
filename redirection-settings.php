@@ -198,7 +198,7 @@ function red_set_options( array $settings = array() ) {
 }
 
 function red_is_disabled() {
-	return ( defined( 'REDIRECTION_DISABLE' ) && REDIRECTION_DISABLE ) || file_exists( __DIR__ . '/redirect-disable.txt' );
+	return ( defined( 'REDIRECTION_DISABLE' ) && REDIRECTION_DISABLE ) || file_exists( __DIR__ . '/redirection-disable.txt' );
 }
 
 function red_get_options() {

@@ -14,6 +14,7 @@ import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import Placeholder from 'component/placeholder';
 import DropdownButton from 'component/dropdown-button';
 import Header from './header';
+import ExternalLink from 'component/external-link';
 import './style.scss';
 
 const getPresets = () => [
@@ -128,7 +129,11 @@ class Site extends React.Component {
 							strong: <strong />,
 						},
 					} ) } { __( 'Ensure that you update your site URL settings.' ) }</p>
-					<p>{ __( 'If your site stops working you will need to do an emergency revert.' ) }</p>
+					<p>{ __( 'If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes.', {
+						components: {
+							link: <ExternalLink url="https://redirection.me/support/disable-redirection/" />,
+						},
+					} ) }</p>
 				</div>
 
 				<h3>{ __( 'HTTP Headers' ) }</h3>

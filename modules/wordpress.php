@@ -18,12 +18,12 @@ class WordPress_Module extends Red_Module {
 		// Only run redirect rules if we're not disabled
 		if ( ! red_is_disabled() ) {
 			add_action( 'init', [ $this, 'init' ] );
+			add_action( 'send_headers', [ $this, 'send_headers' ] );
+			add_action( 'init', [ $this, 'force_https' ] );
+			add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 2 );
 		}
 
 		// Setup the various filters and actions that allow Redirection to happen
-		add_action( 'init', [ $this, 'force_https' ] );
-		add_action( 'send_headers', [ $this, 'send_headers' ] );
-		add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 2 );
 		add_action( 'redirection_visit', [ $this, 'redirection_visit' ], 10, 3 );
 		add_action( 'redirection_do_nothing', [ $this, 'redirection_do_nothing' ] );
 		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10 );
@@ -101,9 +101,14 @@ class WordPress_Module extends Red_Module {
 
 		if ( $options['https'] && ! is_ssl() ) {
 			$target = rtrim( parse_url( home_url(), PHP_URL_HOST ), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
+			add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
 			wp_safe_redirect( 'https://' . $target, 301 );
 			die();
 		}
+	}
+
+	public function x_redirect_by() {
+		return 'redirection';
 	}
 
 	/**
