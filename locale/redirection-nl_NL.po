@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-27 12:48:47+0000\n"
+"PO-Revision-Date: 2019-10-27 14:12:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,122 +13,122 @@ msgstr ""
 
 #: redirection-strings.php:605
 msgid "Ignore & Pass Query"
-msgstr ""
+msgstr "Ignore & Pass Query"
 
 #: redirection-strings.php:604
 msgid "Ignore Query"
-msgstr ""
+msgstr "Ignore Query"
 
 #: redirection-strings.php:603
 msgid "Exact Query"
-msgstr ""
+msgstr "Exact Query"
 
 #: redirection-strings.php:592
 msgid "Search title"
-msgstr ""
+msgstr "Zoek in de titel"
 
 #: redirection-strings.php:589
 msgid "Not accessed in last year"
-msgstr ""
+msgstr "Niet benaderd in afgelopen jaar"
 
 #: redirection-strings.php:588
 msgid "Not accessed in last month"
-msgstr ""
+msgstr "Niet benaderd in afgelopen maand"
 
 #: redirection-strings.php:587
 msgid "Never accessed"
-msgstr ""
+msgstr "Nooit benaderd"
 
 #: redirection-strings.php:586
 msgid "Last Accessed"
-msgstr ""
+msgstr "Laatst benaderd"
 
 #: redirection-strings.php:585
 msgid "HTTP Status Code"
-msgstr ""
+msgstr "HTTP status code"
 
 #: redirection-strings.php:582
 msgid "Plain"
-msgstr ""
+msgstr "Eenvoudig"
 
 #: redirection-strings.php:562
 msgid "Source"
-msgstr ""
+msgstr "Bron"
 
 #: redirection-strings.php:553
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: redirection-strings.php:552 redirection-strings.php:573
 #: redirection-strings.php:584
 msgid "Action Type"
-msgstr ""
+msgstr "Action Type"
 
 #: redirection-strings.php:551 redirection-strings.php:568
 #: redirection-strings.php:583
 msgid "Match Type"
-msgstr ""
+msgstr "Match Type"
 
 #: redirection-strings.php:409 redirection-strings.php:591
 msgid "Search target URL"
-msgstr ""
+msgstr "Zoek doel URL"
 
 #: redirection-strings.php:408 redirection-strings.php:449
 msgid "Search IP"
-msgstr ""
+msgstr "Zoek IP"
 
 #: redirection-strings.php:407 redirection-strings.php:448
 msgid "Search user agent"
-msgstr ""
+msgstr "Zoek user agent"
 
 #: redirection-strings.php:406 redirection-strings.php:447
 msgid "Search referrer"
-msgstr ""
+msgstr "Zoek verwijzer"
 
 #: redirection-strings.php:405 redirection-strings.php:446
 #: redirection-strings.php:590
 msgid "Search URL"
-msgstr ""
+msgstr "Zoek URL"
 
 #: redirection-strings.php:324
 msgid "Filter on: %(type)s"
-msgstr ""
+msgstr "Filter op: %(type)s"
 
 #: redirection-strings.php:299 redirection-strings.php:579
 msgid "Disabled"
-msgstr ""
+msgstr "Uitgeschakeld"
 
 #: redirection-strings.php:298 redirection-strings.php:578
 msgid "Enabled"
-msgstr ""
+msgstr "Ingeschakeld"
 
 #: redirection-strings.php:296 redirection-strings.php:398
 #: redirection-strings.php:440 redirection-strings.php:576
 msgid "Compact Display"
-msgstr ""
+msgstr "Compacte display"
 
 #: redirection-strings.php:295 redirection-strings.php:397
 #: redirection-strings.php:439 redirection-strings.php:575
 msgid "Standard Display"
-msgstr ""
+msgstr "Standaard display"
 
 #: redirection-strings.php:293 redirection-strings.php:297
 #: redirection-strings.php:301 redirection-strings.php:549
 #: redirection-strings.php:572 redirection-strings.php:577
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: redirection-strings.php:231
 msgid "Pre-defined"
-msgstr ""
+msgstr "Vooraf gedefinieerd"
 
 #: redirection-strings.php:230
 msgid "Custom Display"
-msgstr ""
+msgstr "Aangepast display"
 
 #: redirection-strings.php:229
 msgid "Display All"
-msgstr ""
+msgstr "Toon alles"
 
 #: redirection-strings.php:198
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
@@ -136,67 +136,67 @@ msgstr ""
 
 #: redirection-strings.php:168
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "Lijst van met komma gescheiden talen om mee te vergelijken (bv. da, en_GB)"
 
 #: redirection-strings.php:167
 msgid "Language"
-msgstr ""
+msgstr "Taal"
 
 #: redirection-strings.php:131
 msgid "504 - Gateway Timeout"
-msgstr ""
+msgstr "504 - Gateway timeout"
 
 #: redirection-strings.php:130
 msgid "503 - Service Unavailable"
-msgstr ""
+msgstr "503 - Dienst niet beschikbaar"
 
 #: redirection-strings.php:129
 msgid "502 - Bad Gateway"
-msgstr ""
+msgstr "502 - Bad gateway"
 
 #: redirection-strings.php:128
 msgid "501 - Not implemented"
-msgstr ""
+msgstr "501 - Niet geïmplementeerd"
 
 #: redirection-strings.php:127
 msgid "500 - Internal Server Error"
-msgstr ""
+msgstr "500 - Interne serverfout"
 
 #: redirection-strings.php:126
 msgid "451 - Unavailable For Legal Reasons"
-msgstr ""
+msgstr "451 - Toegang geweigerd vanwege juridische redenen"
 
 #: redirection-strings.php:108 matches/language.php:9
 msgid "URL and language"
-msgstr ""
+msgstr "URL en taal"
 
 #: redirection-strings.php:45
 msgid "The problem is almost certainly caused by one of the above."
-msgstr ""
+msgstr "Het probleem wordt vrijwel zeker veroorzaakt door een van de bovenstaande."
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "Je admin pagina's worden gecached. Wis deze cache en probeer het opnieuw."
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
-msgstr ""
+msgstr "Meld je af, wis de browsercache en log opnieuw in - je browser heeft een oude sessie in de cache opgeslagen."
 
 #: redirection-strings.php:42
 msgid "Reload the page - your current session is old."
-msgstr ""
+msgstr "Herlaad de pagina - je huidige sessie is oud."
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "Dit wordt gewoonlijk opgelost door een van deze oplossingen:"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
+msgstr "Je hebt geen toegang tot deze pagina."
 
 #: redirection-strings.php:580
 msgid "URL match"
-msgstr ""
+msgstr "URL overeenkomst"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -264,7 +264,7 @@ msgstr "IP headers"
 
 #: redirection-strings.php:607
 msgid "Do not change unless advised to do so!"
-msgstr ""
+msgstr "Niet veranderen tenzij je wordt geadviseerd om dit te doen!"
 
 #: redirection-strings.php:606
 msgid "Database version"
@@ -400,7 +400,7 @@ msgstr ""
 
 #: redirection-strings.php:37
 msgid "Create An Issue"
-msgstr ""
+msgstr "Open een probleem"
 
 #: redirection-strings.php:36
 msgid "Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
@@ -442,7 +442,7 @@ msgstr ""
 #: redirection-strings.php:27 redirection-strings.php:30
 #: redirection-strings.php:35
 msgid "Read this REST API guide for more information."
-msgstr ""
+msgstr "Lees de REST API gids voor meer informatie."
 
 #: redirection-strings.php:22
 msgid "Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again."
@@ -486,7 +486,7 @@ msgstr ""
 
 #: redirection-strings.php:531
 msgid "Default query matching"
-msgstr ""
+msgstr "Standaard zoekopdracht matching"
 
 #: redirection-strings.php:530
 msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
@@ -506,35 +506,35 @@ msgstr "Standaard URL instellingen"
 
 #: redirection-strings.php:510
 msgid "Ignore and pass all query parameters"
-msgstr ""
+msgstr "Negeer & geef zoekopdrachtparameters door"
 
 #: redirection-strings.php:509
 msgid "Ignore all query parameters"
-msgstr ""
+msgstr "Negeer alle zoekopdrachtparameters"
 
 #: redirection-strings.php:508
 msgid "Exact match"
-msgstr ""
+msgstr "Exacte overeenkomst"
 
 #: redirection-strings.php:279
 msgid "Caching software (e.g Cloudflare)"
-msgstr ""
+msgstr "Caching software (bv. Cloudflare)"
 
 #: redirection-strings.php:277
 msgid "A security plugin (e.g Wordfence)"
-msgstr ""
+msgstr "Een beveiligingsplugin (bv. Wordfence)"
 
 #: redirection-strings.php:563
 msgid "URL options"
-msgstr ""
+msgstr "URL opties"
 
 #: redirection-strings.php:180 redirection-strings.php:564
 msgid "Query Parameters"
-msgstr ""
+msgstr "Zoekopdrachtparameters"
 
 #: redirection-strings.php:137
 msgid "Ignore & pass parameters to the target"
-msgstr ""
+msgstr "Negeer & geef parameters door aan het doel"
 
 #: redirection-strings.php:136
 msgid "Ignore all parameters"
@@ -542,15 +542,15 @@ msgstr "Negeer alle parameters"
 
 #: redirection-strings.php:135
 msgid "Exact match all parameters in any order"
-msgstr ""
+msgstr "Exacte overeenkomst met alle parameters in elke volgorde"
 
 #: redirection-strings.php:134
 msgid "Ignore Case"
-msgstr ""
+msgstr "Negeer hoofdlettergebruik"
 
 #: redirection-strings.php:133
 msgid "Ignore Slash"
-msgstr ""
+msgstr "Negeer slash"
 
 #: redirection-strings.php:507
 msgid "Relative REST API"
@@ -570,7 +570,7 @@ msgstr "Dat is alles - je bent nu aan het verwijzen! Denk erom dat wat hierboven
 
 #: redirection-strings.php:250
 msgid "(Example) The target URL is the new URL"
-msgstr ""
+msgstr "(Voorbeeld) De doel URL is de nieuwe URL"
 
 #: redirection-strings.php:248
 msgid "(Example) The source URL is your old or original URL"
@@ -579,16 +579,16 @@ msgstr ""
 #. translators: 1: server PHP version. 2: required PHP version.
 #: redirection.php:38
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
-msgstr ""
+msgstr "Uitgeschakeld! Gedetecteerd PHP %1$s, nodig PHP %2$s+"
 
 #: redirection-strings.php:325
 msgid "A database upgrade is in progress. Please continue to finish."
-msgstr ""
+msgstr "Er wordt een database-upgrade uitgevoerd. Ga door om te voltooien."
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:82
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
-msgstr ""
+msgstr "Redirection's database moet bijgewerkt worden - <a href=\"%1$1s\">klik om bij te werken</a>."
 
 #: redirection-strings.php:333
 msgid "Redirection database needs upgrading"
@@ -644,12 +644,12 @@ msgstr ""
 
 #: redirection-strings.php:267
 msgid "Keep a log of all redirects and 404 errors."
-msgstr ""
+msgstr "Houd een logboek bij van alle omleidingen en 404-fouten."
 
 #: redirection-strings.php:266 redirection-strings.php:269
 #: redirection-strings.php:272
 msgid "{{link}}Read more about this.{{/link}}"
-msgstr ""
+msgstr "{{link}}Lees hier meer over.{{/link}}"
 
 #: redirection-strings.php:265
 msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
@@ -657,7 +657,7 @@ msgstr "Wanneer je de permalink van een bericht of pagina aanpast, kan Redirecti
 
 #: redirection-strings.php:264
 msgid "Monitor permalink changes in WordPress posts and pages"
-msgstr "Bewaak permalink veranderingen in WordPress berichten en pagina's."
+msgstr "Bewaak permalink veranderingen in WordPress berichten en pagina's"
 
 #: redirection-strings.php:263
 msgid "These are some options you may want to enable now. They can be changed at any time."
@@ -673,11 +673,11 @@ msgstr "Begin configuratie"
 
 #: redirection-strings.php:260
 msgid "When ready please press the button to continue."
-msgstr ""
+msgstr "Klik wanneer je klaar bent op de knop om door te gaan."
 
 #: redirection-strings.php:259
 msgid "First you will be asked a few questions, and then Redirection will set up your database."
-msgstr ""
+msgstr "Je krijgt eerst een aantal vragen, daarna zet Redirection je database op."
 
 #: redirection-strings.php:258
 msgid "What's next?"
@@ -685,7 +685,7 @@ msgstr "Wat is het volgende?"
 
 #: redirection-strings.php:257
 msgid "Check a URL is being redirected"
-msgstr ""
+msgstr "Controleer of een URL wordt doorverwezen."
 
 #: redirection-strings.php:256
 msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
@@ -713,7 +713,7 @@ msgstr ""
 
 #: redirection-strings.php:245
 msgid "How do I use this plugin?"
-msgstr ""
+msgstr "Hoe gebruik ik deze plugin?"
 
 #: redirection-strings.php:244
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
@@ -785,11 +785,11 @@ msgstr ""
 
 #: redirection-strings.php:8
 msgid "Stop upgrade"
-msgstr ""
+msgstr "Stop upgrade"
 
 #: redirection-strings.php:7
 msgid "Skip this stage"
-msgstr ""
+msgstr "Sla deze stap over"
 
 #: redirection-strings.php:6
 msgid "Try again"
@@ -797,19 +797,19 @@ msgstr "Probeer nogmaals"
 
 #: redirection-strings.php:5
 msgid "Database problem"
-msgstr ""
+msgstr "Database probleem"
 
 #: redirection-admin.php:423
 msgid "Please enable JavaScript"
-msgstr ""
+msgstr "Schakel Javascript in"
 
 #: redirection-admin.php:151
 msgid "Please upgrade your database"
-msgstr ""
+msgstr "Upgrade je database"
 
 #: redirection-admin.php:142 redirection-strings.php:331
 msgid "Upgrade Database"
-msgstr ""
+msgstr "Upgrade database"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:79
@@ -829,15 +829,15 @@ msgstr ""
 #. translators: 1: table name
 #: database/schema/latest.php:102
 msgid "Table \"%s\" is missing"
-msgstr ""
+msgstr "Tabel \"%s\" bestaat niet"
 
 #: database/schema/latest.php:10
 msgid "Create basic data"
-msgstr ""
+msgstr "Maak basisgegevens"
 
 #: database/schema/latest.php:9
 msgid "Install Redirection tables"
-msgstr ""
+msgstr "Installeer Redirection's tabellen"
 
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
@@ -1257,7 +1257,7 @@ msgstr "Agent info"
 
 #: redirection-strings.php:420 redirection-strings.php:470
 msgid "Filter by IP"
-msgstr "Filteren op IP"
+msgstr "Filter op IP"
 
 #: redirection-strings.php:54
 msgid "Geo IP Error"
@@ -1817,7 +1817,7 @@ msgstr "Huidige pagina"
 
 #: redirection-strings.php:220
 msgid "of %(page)s"
-msgstr "van %(pagina)s"
+msgstr "van %(page)s"
 
 #: redirection-strings.php:221
 msgid "Next page"
@@ -1987,7 +1987,7 @@ msgstr "Redirect logboeken"
 
 #: redirection-strings.php:516
 msgid "I'm a nice person and I have helped support the author of this plugin"
-msgstr "Ik ben een aardig persoon en ik heb de auteur van deze plugin geholpen met ondersteuning."
+msgstr "Ik ben een aardig persoon en ik heb de auteur van deze plugin geholpen met ondersteuning"
 
 #: redirection-strings.php:484
 msgid "Plugin Support"

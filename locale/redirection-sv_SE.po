@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-26 11:28:01+0000\n"
+"PO-Revision-Date: 2019-11-09 19:54:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -136,7 +136,7 @@ msgstr ""
 
 #: redirection-strings.php:168
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "Kommaseparerad lista över språk att matcha mot (dvs. da, en-GB)"
 
 #: redirection-strings.php:167
 msgid "Language"
@@ -172,11 +172,11 @@ msgstr "URL och språk"
 
 #: redirection-strings.php:45
 msgid "The problem is almost certainly caused by one of the above."
-msgstr ""
+msgstr "Problemet orsakas nästan säkert av något av ovan."
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "Dina admin-sidor cachas. Rensa denna cache och försök igen."
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
@@ -188,7 +188,7 @@ msgstr "Ladda om sidan - din nuvarande session är gammal."
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "Detta åtgärdas vanligtvis genom att göra något av detta:"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
@@ -228,7 +228,7 @@ msgstr ""
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
-msgstr ""
+msgstr "Om du inte slutför den manuella installationen kommer du att komma tillbaka hit."
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-08-28 22:25:11+0000\n"
+"PO-Revision-Date: 2019-10-25 11:45:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -96,11 +96,11 @@ msgstr ""
 
 #: redirection-strings.php:299 redirection-strings.php:579
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
 #: redirection-strings.php:298 redirection-strings.php:578
 msgid "Enabled"
-msgstr ""
+msgstr "Activé"
 
 #: redirection-strings.php:296 redirection-strings.php:398
 #: redirection-strings.php:440 redirection-strings.php:576
@@ -116,7 +116,7 @@ msgstr ""
 #: redirection-strings.php:301 redirection-strings.php:549
 #: redirection-strings.php:572 redirection-strings.php:577
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 #: redirection-strings.php:231
 msgid "Pre-defined"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: redirection-strings.php:167
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: redirection-strings.php:131
 msgid "504 - Gateway Timeout"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
+msgstr "Vous n’êtes pas autorisé à accéder à cette page."
 
 #: redirection-strings.php:580
 msgid "URL match"
