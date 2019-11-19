@@ -80,8 +80,8 @@
 class Redirection_Api_Settings extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/setting', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_settings' ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_save_settings' ),
+			$this->get_route( WP_REST_Server::READABLE, 'route_settings', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_save_settings', [ $this, 'permission_callback_manage' ] ),
 		) );
 	}
 
@@ -97,6 +97,10 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 			'canDelete' => ! is_multisite(),
 			'post_types' => red_get_post_types(),
 		];
+	}
+
+	public function permission_callback_manage( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) || Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
 	}
 
 	public function route_save_settings( WP_REST_Request $request ) {

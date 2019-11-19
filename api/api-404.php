@@ -107,11 +107,19 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 
 		register_rest_route( $namespace, '/404', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_404' ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all' ),
+			$this->get_route( WP_REST_Server::READABLE, 'route_404', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all', [ $this, 'permission_callback_delete' ] ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/404/(?P<bulk>delete)', $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/404/(?P<bulk>delete)', $orders, 'route_bulk', [ $this, 'permission_callback_delete' ] );
+	}
+
+	public function permission_callback_manage( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE );
+	}
+
+	public function permission_callback_delete( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_DELETE );
 	}
 
 	public function route_404( WP_REST_Request $request ) {
