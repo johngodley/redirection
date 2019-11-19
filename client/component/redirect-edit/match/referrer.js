@@ -16,10 +16,10 @@ const MatchReferrer = ( { data, onChange } ) => {
 	const { referrer, regex } = data;
 
 	return (
-		<TableRow title={ __( 'Referrer' ) }>
+		<TableRow title={ __( 'Referrer' ) } className="redirect-edit__match">
 			<input type="text" className="regular-text" name="referrer" value={ referrer } onChange={ onChange } placeholder={ __( 'Match against this browser referrer text' ) } />
 
-			<label className="edit-redirection-regex">
+			<label className="redirect-edit-regex">
 				{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
 				&nbsp;
 

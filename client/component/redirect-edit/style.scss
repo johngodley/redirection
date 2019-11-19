@@ -1,6 +1,6 @@
 @import "../../global";
 
-.edit-redirection {
+.redirect-edit {
 	width: 100%;
 	padding-right: 15px;
 
@@ -12,10 +12,6 @@
 		width: 130px;
 		font-weight: bold;
 		text-align: left;
-	}
-
-	th.top {
-		vertical-align: top;
 	}
 
 	tbody tr td {
@@ -34,7 +30,7 @@
 			flex: 0 0 auto;
 		}
 
-		.edit-redirection-position input {
+		.redirect-edit-position input {
 			width: 60px;
 		}
 
@@ -53,7 +49,7 @@
 		height: 100px;
 	}
 
-	.edit-redirection_warning {
+	.redirect-edit_warning {
 		padding-top: 5px;
 		padding-bottom: 5px;
 		margin-bottom: 0;
@@ -95,7 +91,7 @@
 	}
 }
 
-.redirection-modal_content .edit-redirection_warning {
+.redirection-modal_content .redirect-edit_warning {
 	margin-left: 0;
 	box-shadow: none;
 }
@@ -199,7 +195,7 @@
 	}
 }
 
-.edit-redirection-regex {
+.redirect-edit-regex {
 	display: flex;
 	align-items: center;
 

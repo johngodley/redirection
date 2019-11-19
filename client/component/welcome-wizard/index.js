@@ -99,7 +99,7 @@ class WelcomeWizard extends React.Component {
 					},
 				} ) }</p>
 
-				<table className="edit edit-redirection">
+				<table className="redirect-edit">
 					<tbody>
 						<tr>
 							<th>{ __( 'Source URL' ) }:</th>

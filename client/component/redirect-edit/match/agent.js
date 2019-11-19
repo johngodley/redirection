@@ -48,7 +48,7 @@ class MatchAgent extends React.Component {
 		const { agent, regex } = data;
 
 		return (
-			<TableRow title={ __( 'User Agent' ) }>
+			<TableRow title={ __( 'User Agent' ) } className="redirect-edit__match">
 				<input type="text" name="agent" value={ agent } onChange={ onChange } className="regular-text" placeholder={ __( 'Match against this browser user agent' ) } />
 
 				<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
@@ -58,7 +58,7 @@ class MatchAgent extends React.Component {
 					<option value="lib">{ __( 'Libraries' ) }</option>
 				</select>
 
-				<label className="edit-redirection-regex">
+				<label className="redirect-edit-regex">
 					{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
 					&nbsp;
 					<input type="checkbox" name="regex" checked={ regex } onChange={ onChange } />

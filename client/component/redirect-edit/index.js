@@ -273,7 +273,7 @@ class EditRedirect extends React.Component {
 						<MatchType matchType={ match_type } onChange={ this.onChangeMatch } />
 						<MatchTarget matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
 
-						<TableRow title={ __( 'When matched' ) }>
+						<TableRow title={ __( 'When matched' ) } className="redirect-edit__action">
 							<ActionType actionType={ action_type } matchType={ match_type } onChange={ this.onChangeActionType } />
 							<ActionCode actionType={ action_type } actionCode={ action_code } onChange={ this.onChange } />
 						</TableRow>
@@ -282,7 +282,7 @@ class EditRedirect extends React.Component {
 
 				<ActionTarget actionType={ action_type } matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
 
-				<TableRow title={ __( 'Group' ) }>
+				<TableRow title={ __( 'Group' ) } className="redirect-edit__group">
 					<RedirectGroup groups={ group.rows } currentGroup={ group_id } onChange={ this.onSetGroup } />
 					{ advanced && <RedirectPosition position={ position } onChange={ this.onChange } /> }
 				</TableRow>
@@ -296,7 +296,7 @@ class EditRedirect extends React.Component {
 
 		return (
 			<form onSubmit={ this.onSave } ref={ this.ref }>
-				<table className="edit edit-redirection">
+				<table className="redirect-edit">
 					<tbody>
 						{ this.renderItem() }
 						{ this.props.children && this.props.children }

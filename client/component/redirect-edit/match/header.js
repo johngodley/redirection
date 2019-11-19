@@ -47,7 +47,7 @@ class MatchHeader extends React.Component {
 
 		return (
 			<React.Fragment>
-				<TableRow title={ __( 'HTTP Header' ) }>
+				<TableRow title={ __( 'HTTP Header' ) } className="redirect-edit__match">
 					<input type="text" name="name" value={ name } onChange={ onChange } className="regular-text" placeholder={ __( 'Header name' ) } />
 					<input type="text" name="value" value={ value } onChange={ onChange } className="regular-text" placeholder={ __( 'Header value' ) } />
 
@@ -56,7 +56,7 @@ class MatchHeader extends React.Component {
 						<option value="accept">{ __( 'Accept Language' ) }</option>
 					</select>
 
-					<label className="edit-redirection-regex">
+					<label className="redirect-edit-regex">
 						{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
 						&nbsp;
 						<input type="checkbox" name="regex" checked={ regex } onChange={ onChange } />
