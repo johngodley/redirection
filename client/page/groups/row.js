@@ -21,6 +21,7 @@ import Spinner from 'component/spinner';
 import Select from 'component/select';
 import Badge from 'component/badge';
 import Column from 'component/table/column';
+import { has_capability, CAP_GROUP_ADD, CAP_GROUP_DELETE, CAP_REDIRECT_MANAGE } from 'lib/capabilities';
 
 class GroupRow extends React.Component {
 	constructor( props ) {
@@ -79,16 +80,43 @@ class GroupRow extends React.Component {
 		);
 	}
 
-	renderActions( saving ) {
+	getMenu() {
 		const { id, enabled } = this.props.item;
+		const menu = [];
 
+		if ( has_capability( CAP_GROUP_ADD ) ) {
+			menu.push( [ __( 'Edit' ), this.onEdit ] );
+		}
+
+		if ( has_capability( CAP_GROUP_DELETE ) ) {
+			menu.push( [ __( 'Delete' ), this.onDelete ] );
+		}
+
+		if ( has_capability( CAP_REDIRECT_MANAGE ) ) {
+			menu.push( [ __( 'View Redirects' ), () => {}, Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[group]' ) + '=' + id ] );
+		}
+
+		if ( has_capability( CAP_GROUP_ADD ) ) {
+			if ( enabled ) {
+				menu.push( [ __( 'Disable' ), this.onDisable ] );
+			} else {
+				menu.push( [ __( 'Enable' ), this.onEnable ] );
+			}
+		}
+
+		if ( menu.length === 0 ) {
+			return [];
+		}
+
+		return menu
+			.map( ( item, pos ) => <a key={ pos } href={ item[ 2 ] ? item[ 2 ] : '#' } onClick={ item[ 1 ] }>{ item[ 0 ] }</a> )
+			.reduce( ( prev, curr ) => [ prev, ' | ', curr ] );
+	}
+
+	renderActions( saving ) {
 		return (
 			<RowActions disabled={ saving }>
-				<a href="#" onClick={ this.onEdit }>{ __( 'Edit' ) }</a> |&nbsp;
-				<a href="#" onClick={ this.onDelete }>{ __( 'Delete' ) }</a> |&nbsp;
-				<a href={ Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[group]' ) + '=' + id }>{ __( 'View Redirects' ) }</a> |&nbsp;
-				{ enabled && <a href="#" onClick={ this.onDisable }>{ __( 'Disable' ) }</a> }
-				{ ! enabled && <a href="#" onClick={ this.onEnable }>{ __( 'Enable' ) }</a> }
+				{ this.getMenu() }
 			</RowActions>
 		);
 	}

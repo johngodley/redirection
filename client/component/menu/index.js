@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
  */
 import { getPluginPage } from 'lib/wordpress-url';
 import MenuItem from './menu-item';
+import { has_page_access } from 'lib/capabilities';
 import './style.scss';
 
 const getMenu = () => [
@@ -53,12 +54,17 @@ const isCurrent = ( page, item ) => page === item.value || page === 'redirect' &
 const Menu = props => {
 	const { onChangePage } = props;
 	const page = getPluginPage();
+	const menu = getMenu().filter( option => has_page_access( option.value ) || option.value === '' && has_page_access( 'redirect' ) );
+
+	if ( menu.length < 2 ) {
+		return null;
+	}
 
 	return (
 		<div className="subsubsub-container">
 			<ul className="subsubsub">
 				{
-					getMenu()
+					menu
 						.map( ( item, pos ) => <MenuItem key={ pos } item={ item } isCurrent={ isCurrent( page, item ) } onClick={ onChangePage } /> )
 						.reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
 				}

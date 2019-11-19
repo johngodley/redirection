@@ -39,6 +39,7 @@ import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settin
 import { MATCH_IP, ACTION_URL, ACTION_ERROR, MATCH_URL, ACTION_NOTHING } from 'state/redirect/selector';
 import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getGroupBy, getSearchOptions } from './constants';
 import { isEnabled } from 'component/table/utils';
+import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
 
 class Logs404 extends React.Component {
 	constructor( props ) {
@@ -220,9 +221,11 @@ class Logs404 extends React.Component {
 					onChangePage={ this.props.onChangePage }
 					onAction={ this.props.onTableAction }
 				>
-					<TableButtons enabled={ rows.length > 0 }>
-						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
-					</TableButtons>
+					{ has_capability( CAP_404_DELETE ) && (
+						<TableButtons enabled={ rows.length > 0 }>
+							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
+						</TableButtons>
+					) }
 				</TableNav>
 			</React.Fragment>
 		);

@@ -23,6 +23,7 @@ import Useragent from 'component/useragent';
 import ExternalLink from 'component/external-link';
 import Column from 'component/table/column';
 import { getFlags } from 'state/settings/selector';
+import { has_capability, CAP_404_DELETE, CAP_REDIRECT_ADD } from 'lib/capabilities';
 
 class LogRow404 extends React.Component {
 	constructor( props ) {
@@ -78,16 +79,18 @@ class LogRow404 extends React.Component {
 			<Modal onClose={ this.onClose }>
 				<div className="add-new">
 					<EditRedirect item={ getDefaultItem( this.props.item.url, 0, this.props.defaultFlags ) } saveButton={ __( 'Add Redirect' ) } onCancel={ this.onClose } callback={ this.setHeight } childSave={ this.onSave } autoFocus>
-						<tr>
-							<th>{ __( 'Delete 404s' ) }</th>
-							<td className="edit-left" style={ { padding: '7px 0px' } }>
-								<label>
-									<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.onDeleteLog } />
+						{ has_capability( CAP_404_DELETE ) && (
+							<tr>
+								<th>{ __( 'Delete 404s' ) }</th>
+								<td className="edit-left" style={ { padding: '7px 0px' } }>
+									<label>
+										<input type="checkbox" name="delete_log" checked={ this.state.delete_log } onChange={ this.onDeleteLog } />
 
-									{ __( 'Delete all logs for this entry' ) }
-								</label>
-							</td>
-						</tr>
+										{ __( 'Delete all logs for this entry' ) }
+									</label>
+								</td>
+							</tr>
+						) }
 					</EditRedirect>
 				</div>
 			</Modal>
@@ -148,10 +151,15 @@ class LogRow404 extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
-		const menu = [
-			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a>,
-			<a href="#" onClick={ this.onAdd } key="1">{ __( 'Add Redirect' ) }</a>,
-		];
+		const menu = [];
+
+		if ( has_capability( CAP_404_DELETE ) ) {
+			menu.push( <a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a> );
+		}
+
+		if ( has_capability( CAP_REDIRECT_ADD ) ) {
+			menu.push( <a href="#" onClick={ this.onAdd } key="1">{ __( 'Add Redirect' ) }</a> );
+		}
 
 		if ( ip ) {
 			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );
