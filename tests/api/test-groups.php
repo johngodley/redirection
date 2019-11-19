@@ -27,13 +27,50 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 		$this->assertEquals( 'test1', $result->data['items'][1]['name'] );
 	}
 
+	private function get_endpoints() {
+		return [
+			[ 'group', 'GET', [] ],
+			[ 'group', 'POST', [ 'moduleId' => 1, 'name' => '1' ] ],
+			[ 'group/1', 'POST', [ 'moduleId' => 1, 'name' => '1' ] ],
+			[ 'bulk/group/delete', 'POST', [ 'items' => [ 1 ] ] ],
+			[ 'bulk/group/enable', 'POST', [ 'items' => [ 1 ] ] ],
+			[ 'bulk/group/disable', 'POST', [ 'items' => [ 1 ] ] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'group' );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
-		$result = $this->callApi( 'bulk/group/delete', array( 'items' => '1' ), 'POST' );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
+
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_GROUP_MANAGE => [ [ 'group', 'GET' ] ],
+			Redirection_Capabilities::CAP_REDIRECT_MANAGE => [ [ 'group', 'GET' ] ],
+			Redirection_Capabilities::CAP_GROUP_ADD => [
+				[ 'group', 'POST' ],
+				[ 'group/1', 'POST' ],
+				[ 'bulk/group/enable', 'POST' ],
+				[ 'bulk/group/disable', 'POST' ],
+			],
+			Redirection_Capabilities::CAP_GROUP_DELETE => [ [ 'bulk/group/delete', 'POST' ] ],
+		];
+
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
+	}
+
+	public function testAdminPermission() {
+		// All of these should work
+		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
 	public function testListNoParams() {

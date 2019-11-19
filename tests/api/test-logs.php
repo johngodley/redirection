@@ -25,12 +25,43 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 		$this->setNonce();
 	}
 
+	private function get_endpoints() {
+		return [
+			[ 'log', 'GET', [] ],
+			[ 'log', 'POST', [] ],
+			[ 'bulk/log/delete', 'POST', [ 'items' => [] ] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
-		$result = $this->callApi( 'log' );
 
-		$this->assertEquals( 403, $result->status );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
+
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_LOG_MANAGE => [ [ 'log', 'GET' ] ],
+			Redirection_Capabilities::CAP_LOG_DELETE => [
+				[ 'log', 'POST' ],
+				[ 'bulk/log/delete', 'POST' ],
+			],
+		];
+
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
+	}
+
+	public function testAdminPermission() {
+		// All of these should work
+		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
 	public function testListBadOrderBy() {

@@ -1,17 +1,43 @@
 <?php
 
 class ImportImportCsvTest extends Redirection_Api_Test {
+	private function get_endpoints() {
+		return [
+			[ 'import/file/1', 'POST', [] ],
+			[ 'import/plugin', 'GET', [] ],
+			[ 'import/plugin/thing', 'POST', [] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'import/file/cat', array(), 'POST' );
-		$this->assertEquals( 404, $result->status );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
 
-		$result = $this->callApi( 'import/plugin' );
-		$this->assertEquals( 403, $result->status );
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_IO_MANAGE => [
+				[ 'import/plugin', 'GET' ],
+				[ 'import/plugin/thing', 'POST' ],
+				[ 'import/file/1', 'POST' ],
+			],
+		];
 
-		$result = $this->callApi( 'import/plugin/zzz', array(), 'POST' );
-		$this->assertEquals( 403, $result->status );
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
+	}
+
+	public function testAdminPermission() {
+		// All of these should work
+		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
 	public function testPluginList() {

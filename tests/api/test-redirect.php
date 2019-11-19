@@ -37,12 +37,48 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$this->assertEquals( '/test1', $result->data['items'][1]['url'] );
 	}
 
+	private function get_endpoints() {
+		return [
+			[ 'redirect', 'GET', [] ],
+			[ 'redirect', 'POST', [] ],
+			[ 'redirect/1', 'POST', [] ],
+			[ 'bulk/redirect/delete', 'POST', [ 'items' => '1' ] ],
+			[ 'bulk/redirect/enable', 'POST', [ 'items' => '1' ] ],
+			[ 'bulk/redirect/disable', 'POST', [ 'items' => '1' ] ],
+			[ 'bulk/redirect/reset', 'POST', [ 'items' => '1' ] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
-		$result = $this->callApi( 'redirect' );
 
-		$this->assertEquals( 403, $result->status );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
+
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_REDIRECT_MANAGE => [
+				[ 'redirect', 'GET' ],
+			],
+			Redirection_Capabilities::CAP_REDIRECT_DELETE => [ [ 'bulk/redirect/delete', 'POST' ] ],
+			Redirection_Capabilities::CAP_REDIRECT_ADD => [
+				[ 'redirect', 'POST' ],
+				[ 'redirect/1', 'POST' ],
+				[ 'bulk/redirect/enable', 'POST' ],
+				[ 'bulk/redirect/disable', 'POST' ],
+				[ 'bulk/redirect/reset', 'POST' ],
+			],
+		];
+
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
 	}
 
 	public function testListNoParams() {
