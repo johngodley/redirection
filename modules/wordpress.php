@@ -20,13 +20,13 @@ class WordPress_Module extends Red_Module {
 			add_action( 'init', [ $this, 'init' ] );
 			add_action( 'send_headers', [ $this, 'send_headers' ] );
 			add_action( 'init', [ $this, 'force_https' ] );
-			add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 2 );
+			add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 1, 2 );
 		}
 
 		// Setup the various filters and actions that allow Redirection to happen
 		add_action( 'redirection_visit', [ $this, 'redirection_visit' ], 10, 3 );
 		add_action( 'redirection_do_nothing', [ $this, 'redirection_do_nothing' ] );
-		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10 );
+		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10, 2 );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
 
 		// Remove WordPress 2.3 redirection
