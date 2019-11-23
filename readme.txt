@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.3
-Stable tag: 4.5
+Stable tag: 4.5.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -157,6 +157,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
 == Changelog ==
+
+= 4.5.1 - 23rd November 2019 =
+* Fix broken canonical redirects
 
 = 4.5 - 23rd November 2019 =
 * Add HTTP header feature, with x-robots-tag support
