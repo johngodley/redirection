@@ -17,8 +17,8 @@ const HttpDetails = props => {
 	const { status, headers = [] } = props.http;
 	const location = headers.find( item => item.name === 'location' );
 	const redirection = isRedirection( headers );
-	const matches = action_code === status && location && location.value === action_data.url && redirection;
 	const target = action_data.url_from ? action_data.url_from : action_data.url;
+	const matches = action_code === status && location && location.value === target && redirection;
 
 	return (
 		<div className="redirection-httpcheck_results">
