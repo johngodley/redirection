@@ -159,11 +159,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.5 - ??? =
-* Add HTTP header feature, with x-robots-tag
+= 4.5 - 23rd November 2019 =
+* Add HTTP header feature, with x-robots-tag support
 * Move HTTPS setting to new Site page
 * Add filter to disable redirect hits
-* Add an 'Disable Redirection' option to stop Redirection, in case you break your site
+* Add 'Disable Redirection' option to stop Redirection, in case you break your site
 * Fill out API documentation
 * Fix style with WordPress 5.4
 * Fix encoding of # in .htaccess
