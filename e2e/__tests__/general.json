@@ -20,5 +20,17 @@
 				"status": 404
 			}
 		}
+	],
+	[
+		"Test canonical",
+		{
+			"source": {
+				"url": "/?author=1"
+			},
+			"target": {
+				"status": 301,
+				"location": "/author/admin"
+			}
+		}
 	]
 ]

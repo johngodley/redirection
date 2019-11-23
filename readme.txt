@@ -57,8 +57,7 @@ You are able to disable or reduce IP collection to meet the legal requirements o
 
 = Add HTTP headers =
 
-HTTP headers can be adder to redirects or your entire site that help reduce the impact of redirects or help increase security. You can also add your
-own custom headers.
+HTTP headers can be adder to redirects or your entire site that help reduce the impact of redirects or help increase security. You can also add your own custom headers.
 
 = Track 404 errors =
 
