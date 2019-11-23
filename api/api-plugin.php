@@ -117,7 +117,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 	public function route_delete() {
 		if ( is_multisite() ) {
-			return $this->getError( 'Multisite installations must delete the plugin from the network admin', __LINE__ );
+			return new WP_Error( 'redirect_delete_multi', 'Multisite installations must delete the plugin from the network admin' );
 		}
 
 		$plugin = Redirection_Admin::init();
