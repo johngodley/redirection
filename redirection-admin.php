@@ -302,6 +302,16 @@ class Redirection_Admin {
 	}
 
 	private function get_preload_data() {
+		$status = new Red_Database_Status();
+
+		if ( $status->needs_installing() ) {
+			include_once __DIR__ . '/models/importer.php';
+
+			return [
+				'importers' => Red_Plugin_Importer::get_plugins(),
+			];
+		}
+
 		if ( $this->get_current_page() === 'support' ) {
 			require_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 

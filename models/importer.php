@@ -13,7 +13,7 @@ class Red_Plugin_Importer {
 		);
 
 		foreach ( $importers as $importer ) {
-			$importer = Red_Plugin_Importer::get_importer( $importer );
+			$importer = self::get_importer( $importer );
 			$results[] = $importer->get_data();
 		}
 
@@ -45,7 +45,7 @@ class Red_Plugin_Importer {
 	}
 
 	public static function import( $plugin, $group_id ) {
-		$importer = Red_Plugin_Importer::get_importer( $plugin );
+		$importer = self::get_importer( $plugin );
 		if ( $importer ) {
 			return $importer->import_plugin( $group_id );
 		}
