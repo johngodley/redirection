@@ -96,6 +96,6 @@ abstract class Red_FileIO {
 		return false;
 	}
 
-	abstract function get_data( array $items, array $groups );
-	abstract function load( $group, $filename, $data );
+	abstract public function get_data( array $items, array $groups );
+	abstract public function load( $group, $filename, $data );
 }

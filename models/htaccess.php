@@ -225,13 +225,13 @@ class Red_Htaccess {
 			return '';
 		}
 
-		$text[] = '# Created by Redirection';
-		$text[] = '# ' . date( 'r' );
-		$text[] = '# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me';
-		$text[] = '';
-
-		// mod_rewrite section
-		$text[] = '<IfModule mod_rewrite.c>';
+		$text = [
+			'# Created by Redirection',
+			'# ' . date( 'r' ),
+			'# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me',
+			'',
+			'<IfModule mod_rewrite.c>',
+		];
 
 		// Add http => https option
 		$options = red_get_options();

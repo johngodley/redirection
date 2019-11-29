@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @api {get} /redirection/v1/404 Get 404 logs
  * @apiName GetLogs

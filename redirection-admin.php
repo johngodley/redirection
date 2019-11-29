@@ -76,10 +76,10 @@ class Redirection_Admin {
 		$message = false;
 		if ( $status->needs_installing() ) {
 			/* translators: 1: URL to plugin page */
-			$message = sprintf( __( 'Please complete your <a href="%s">Redirection setup</a> to activate the plugin.' ), esc_url( $this->get_plugin_url() ) );
+			$message = sprintf( __( 'Please complete your <a href="%s">Redirection setup</a> to activate the plugin.', 'redirection' ), esc_url( $this->get_plugin_url() ) );
 		} elseif ( $status->needs_updating() ) {
 			/* translators: 1: URL to plugin page, 2: current version, 3: target version */
-			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update</a>.' ), esc_url( $this->get_plugin_url() ) );
+			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update</a>.', 'redirection' ), esc_url( $this->get_plugin_url() ) );
 		}
 
 		if ( ! $message || strpos( Redirection_Request::get_request_url(), 'page=redirection.php' ) !== false ) {
@@ -257,7 +257,7 @@ class Redirection_Admin {
 		add_filter( 'ip-geo-block-admin', array( $this, 'ip_geo_block' ) );
 	}
 
-	/**
+	/*
 	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
 	 */
 	public function ip_geo_block( $validate ) {
@@ -312,7 +312,7 @@ class Redirection_Admin {
 			);
 		}
 
-		return array();
+		return [];
 	}
 
 	private function add_help_tab() {
@@ -404,6 +404,8 @@ class Redirection_Admin {
 	}
 
 	private function show_minimum_wordpress() {
+		global $wp_version;
+
 		/* translators: 1: Expected WordPress version, 2: Actual WordPress version */
 		$wp_requirement = sprintf( __( 'Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress', 'redirection' ), REDIRECTION_MIN_WP, $wp_version );
 		?>
@@ -496,12 +498,12 @@ class Redirection_Admin {
 	}
 
 	/**
-	 * Get the current plugin page
-	 * Uses $_GET['sub'] to determine the current page unless a page is supplied
+	 * Get the current plugin page.
+	 * Uses $_GET['sub'] to determine the current page unless a page is supplied.
 	 *
-	 * @param string $page Current page
+	 * @param string $page Current page.
 	 *
-	 * @return string|boolean Current page, or false
+	 * @return string|boolean Current page, or false.
 	 */
 	private function get_current_page( $page = false ) {
 		// $_GET['sub'] is validated below

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Represent URL source flags
+ * Represent URL source flags.
  */
 class Red_Source_Flags {
 	const QUERY_IGNORE = 'ignore';
@@ -34,9 +34,9 @@ class Red_Source_Flags {
 	}
 
 	/**
-	 * Parse flag data
+	 * Parse flag data.
 	 *
-	 * @param array $json Flag data
+	 * @param array $json Flag data.
 	 */
 	public function set_flags( array $json ) {
 		if ( isset( $json[ self::FLAG_QUERY ] ) && in_array( $json[ self::FLAG_QUERY ], $this->get_allowed_query(), true ) ) {
@@ -98,7 +98,9 @@ class Red_Source_Flags {
 	}
 
 	/**
-	 * Return flag data, with defaults removed from the data
+	 * Return flag data, with defaults removed from the data.
+	 *
+	 * @param array $defaults Defaults to remove.
 	 */
 	public function get_json_without_defaults( $defaults ) {
 		$json = $this->get_json();
@@ -115,7 +117,7 @@ class Red_Source_Flags {
 	}
 
 	/**
-	 * Return flag data, with defaults filling in any gaps not set
+	 * Return flag data, with defaults filling in any gaps not set.
 	 */
 	public function get_json_with_defaults() {
 		$settings = red_get_options();

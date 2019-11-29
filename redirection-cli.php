@@ -20,6 +20,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 		return false;
 	}
+
 	/**
 	 * Get or set a Redirection setting
 	 *
@@ -152,6 +153,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			$export = Red_FileIO::export( $args[0], $format );
 
 			if ( $export === false ) {
+				// phpcs:ignore
 				WP_CLI::error( 'Invalid module - must be wordpress, apache, nginx, or all' );
 				return;
 			}
@@ -238,10 +240,10 @@ class Redirection_Cli extends WP_CLI_Command {
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	WP_CLI::add_command( 'redirection import', array( 'Redirection_Cli', 'import' ) );
-	WP_CLI::add_command( 'redirection export', array( 'Redirection_Cli', 'export' ) );
-	WP_CLI::add_command( 'redirection database', array( 'Redirection_Cli', 'database' ) );
-	WP_CLI::add_command( 'redirection setting', array( 'Redirection_Cli', 'setting' ) );
+	WP_CLI::add_command( 'redirection import', [ 'Redirection_Cli', 'import' ] );
+	WP_CLI::add_command( 'redirection export', [ 'Redirection_Cli', 'export' ] );
+	WP_CLI::add_command( 'redirection database', [ 'Redirection_Cli', 'database' ] );
+	WP_CLI::add_command( 'redirection setting', [ 'Redirection_Cli', 'setting' ] );
 
 	add_action( Red_Flusher::DELETE_HOOK, function() {
 		$flusher = new Red_Flusher();

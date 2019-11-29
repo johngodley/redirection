@@ -1,13 +1,13 @@
 <?php
 
-include_once dirname( __FILE__ ) . '/modules/wordpress.php';
-include_once dirname( __FILE__ ) . '/database/database-status.php';
+require_once __DIR__ . '/modules/wordpress.php';
+require_once __DIR__ . '/database/database-status.php';
 
 class Redirection {
 	private static $instance = null;
 	private $module;
 
-	static function init() {
+	public static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new Redirection();
 		}
@@ -51,8 +51,10 @@ class Redirection {
 		$ip = trim( $ip );
 
 		if ( strpos( $ip, ':' ) !== false ) {
+			// phpcs:ignore
 			$ip = @inet_pton( trim( $ip ) );
 
+			// phpcs:ignore
 			return @inet_ntop( $ip & pack( 'a16', 'ffff:ffff:ffff:ffff::ff00::0000::0000::0000' ) );
 		}
 
@@ -73,9 +75,7 @@ class Redirection {
 		$flusher->flush();
 	}
 
-	/**
-	 * From the distant Redirection past. Undecided whether to keep
-	 */
+	// From the distant Redirection past. Undecided whether to keep
 	public function replace_special_tags( $url ) {
 		if ( is_numeric( $url ) ) {
 			$url = get_permalink( $url );
@@ -92,9 +92,7 @@ class Redirection {
 		return $url;
 	}
 
-	/**
-	 * Used for unit tests
-	 */
+	// Used for unit tests
 	public function get_module() {
 		return $this->module;
 	}

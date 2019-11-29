@@ -47,12 +47,12 @@ class Red_Url_Query {
 	}
 
 	/**
-	 * Pass query params from one URL to another URL, ignoring any params that already exist on the target
+	 * Pass query params from one URL to another URL, ignoring any params that already exist on the target.
 	 *
-	 * @param string $target_url The target URL to add params to
-	 * @param string $requested_url The source URL to pass params from
-	 * @param Red_Source_Flags $flags Any URL flags
-	 * @return string URL, modified or not
+	 * @param string $target_url The target URL to add params to.
+	 * @param string $requested_url The source URL to pass params from.
+	 * @param Red_Source_Flags $flags Any URL flags.
+	 * @return string URL, modified or not.
 	 */
 	public static function add_to_target( $target_url, $requested_url, Red_Source_Flags $flags ) {
 		if ( $flags->is_query_pass() && $target_url ) {
