@@ -57,7 +57,6 @@ define( 'REDIRECTION_API_NAMESPACE', 'redirection/v1' );
  *       "message": "Missing parameter(s): PARAM"
  *     }
  */
-
 class Redirection_Api_Route {
 	protected function add_error_details( WP_Error $error, $line, $code = 400 ) {
 		global $wpdb;
