@@ -20,12 +20,12 @@ const getMenu = () => [
 		value: '',
 	},
 	{
-		name: __( 'Site' ),
-		value: 'site',
-	},
-	{
 		name: __( 'Groups' ),
 		value: 'groups',
+	},
+	{
+		name: __( 'Site' ),
+		value: 'site',
 	},
 	{
 		name: __( 'Log' ),

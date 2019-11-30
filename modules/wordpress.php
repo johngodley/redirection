@@ -17,23 +17,31 @@ class WordPress_Module extends Red_Module {
 	public function start() {
 		// Only run redirect rules if we're not disabled
 		if ( ! red_is_disabled() ) {
+			// The main redirect loop
 			add_action( 'init', [ $this, 'init' ] );
-			add_action( 'send_headers', [ $this, 'send_headers' ] );
+
+			// Force HTTPs code
 			add_action( 'init', [ $this, 'force_https' ] );
+
+			// Send site HTTP headers as well as 410 error codes
+			add_action( 'send_headers', [ $this, 'send_headers' ] );
+
+			// Redirect HTTP headers and server-specific overrides
 			add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 1, 2 );
 		}
 
 		// Setup the various filters and actions that allow Redirection to happen
 		add_action( 'redirection_visit', [ $this, 'redirection_visit' ], 10, 3 );
 		add_action( 'redirection_do_nothing', [ $this, 'redirection_do_nothing' ] );
-		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10, 2 );
-		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
 
-		// Remove WordPress 2.3 redirection
-		remove_action( 'template_redirect', 'wp_old_slug_redirect' );
+		// Prevent WordPress overriding a canonical redirect
+		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ], 10, 2 );
+
+		// Log 404s and perform 'URL and WordPress page type' redirects
+		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
 	}
 
-	/**
+	/*
 	 * This ensures that a matched URL is not overriddden by WordPress, if the URL happens to be a WordPress URL of some kind
 	 * For example: /?author=1 will be redirected to /author/name unless this returns false
 	 */
@@ -143,7 +151,7 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	/**
+	/*
 	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
 	 */
 	private function protected_url( $url ) {

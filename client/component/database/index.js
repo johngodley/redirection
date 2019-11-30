@@ -28,6 +28,7 @@ class Database extends React.Component {
 
 	static defaultProps = {
 		manual: false,
+		onFinished: null,
 	}
 
 	constructor( props ) {
@@ -76,9 +77,9 @@ class Database extends React.Component {
 
 		if ( this.props.onFinished ) {
 			this.props.onFinished();
+		} else {
+			this.props.onFinish();
 		}
-
-		this.props.onFinish();
 	}
 
 	componentDidUpdate( prevProps ) {

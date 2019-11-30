@@ -264,7 +264,7 @@ class Red_Item {
 			return new WP_Error( 'redirect_create_failed', 'Unable to get newly added redirect' );
 		}
 
-		return new WP_Error( 'redirect_create_failed', __( 'Unable to add new redirect' ) );
+		return new WP_Error( 'redirect_create_failed', 'Unable to add new redirect' );
 	}
 
 	public function update( $details ) {

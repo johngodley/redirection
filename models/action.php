@@ -4,7 +4,7 @@ abstract class Red_Action {
 	protected $code;
 	protected $type;
 
-	function __construct( $values ) {
+	public function __construct( $values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
 				$this->$key = $value;
@@ -12,7 +12,7 @@ abstract class Red_Action {
 		}
 	}
 
-	static function create( $name, $code ) {
+	public static function create( $name, $code ) {
 		$avail = self::available();
 
 		if ( isset( $avail[ $name ] ) ) {
@@ -28,7 +28,7 @@ abstract class Red_Action {
 		return false;
 	}
 
-	static function available() {
+	public static function available() {
 		return array(
 			'url'     => array( 'url.php', 'Url_Action' ),
 			'error'   => array( 'error.php', 'Error_Action' ),

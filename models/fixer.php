@@ -1,6 +1,6 @@
 <?php
 
-include_once dirname( REDIRECTION_FILE ) . '/database/database.php';
+require_once dirname( REDIRECTION_FILE ) . '/database/database.php';
 
 class Red_Fixer {
 	public function get_json() {

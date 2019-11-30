@@ -5,7 +5,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		return [
 			[ 'import/file/1', 'POST', [] ],
 			[ 'import/plugin', 'GET', [] ],
-			[ 'import/plugin/thing', 'POST', [] ],
+			[ 'import/plugin', 'POST', [ 'plugin' => [ 'thing' ] ] ],
 		];
 	}
 
@@ -21,7 +21,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$working = [
 			Redirection_Capabilities::CAP_IO_MANAGE => [
 				[ 'import/plugin', 'GET' ],
-				[ 'import/plugin/thing', 'POST' ],
+				[ 'import/plugin', 'POST' ],
 				[ 'import/file/1', 'POST' ],
 			],
 		];

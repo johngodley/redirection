@@ -1,8 +1,17 @@
+/* global Redirectioni10n */
 /**
  * Internal dependencies
  */
 
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
+
+function getPreload() {
+	if ( Redirectioni10n && Redirectioni10n.preload && Redirectioni10n.preload.importers ) {
+		return Redirectioni10n.preload.importers;
+	}
+
+	return [];
+}
 
 export function getInitialIO() {
 	return {
@@ -12,6 +21,6 @@ export function getInitialIO() {
 		exportData: false,
 		importingStatus: false,
 		exportStatus: false,
-		importers: [],
+		importers: getPreload(),
 	};
 }

@@ -1,4 +1,3 @@
-/* global fetch */
 /**
  * Internal dependencies
  */

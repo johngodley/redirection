@@ -23,6 +23,11 @@ import {
 	STATUS_COMPLETE,
 	STATUS_FAILED,
 } from './type';
+import { IO_IMPORTED, IO_FAILED } from 'state/io/type';
+
+const DB_STATUS_OK = 'ok';
+const DB_STATUS_LOADING = 'loading';
+const DB_STATUS_FAIL = 'fail';
 
 function setApiTest( existing, id, method, result ) {
 	const api = existing[ id ] ? { ... existing[ id ] } : [];
@@ -35,22 +40,24 @@ function setApiTest( existing, id, method, result ) {
 export default function settings( state = {}, action ) {
 	switch ( action.type ) {
 		case SETTING_API_TRY:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'loading' } ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: DB_STATUS_LOADING } ) } };
 
 		case SETTING_API_SUCCESS:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'ok' } ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: DB_STATUS_OK } ) } };
 
 		case SETTING_API_FAILED:
-			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: 'fail', error: action.error } ) } };
+			return { ... state, apiTest: { ... state.apiTest, ... setApiTest( state.apiTest, action.id, action.method, { status: DB_STATUS_FAIL, error: action.error } ) } };
 
 		case SETTING_DATABASE_SHOW:
 			return { ... state, showDatabase: true };
 
+		case IO_FAILED:
+		case IO_IMPORTED:
 		case SETTING_DATABASE_FINISH:
-			return { ... state, showDatabase: false, database: { ... state.database, status: 'ok' } };
+			return { ... state, showDatabase: false, database: { ... state.database, status: DB_STATUS_OK } };
 
 		case SETTING_DATABASE_START:
-			return { ... state, database: { ... state.database, inProgress: true, result: 'ok', reason: action.arg === 'skip' ? false : state.database.reason }, showDatabase: action.arg === 'stop' ? false : true };
+			return { ... state, database: { ... state.database, inProgress: true, result: DB_STATUS_OK, reason: action.arg === 'skip' ? false : state.database.reason }, showDatabase: action.arg === 'stop' ? false : true };
 
 		case SETTING_DATABASE_SUCCESS:
 			return { ... state, database: { ... state.database, ... action.database } };

@@ -70,9 +70,9 @@ class Redirection_Capabilities {
 	const CAP_SITE_MANAGE = 'redirection_cap_site_manage';
 
 	/**
-	 * Determine if the current user has access to a named capability
+	 * Determine if the current user has access to a named capability.
 	 *
-	 * @param string $cap The capability to check for. See Redirection_Capabilities for constants
+	 * @param string $cap_name The capability to check for. See Redirection_Capabilities for constants.
 	 * @return boolean
 	 */
 	public static function has_access( $cap_name ) {

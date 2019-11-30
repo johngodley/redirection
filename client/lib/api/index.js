@@ -124,7 +124,7 @@ export const RedirectionApi = {
 		get: () => getApiRequest( 'import' ),
 		upload: ( group, file ) => uploadApiRequest( 'import/file/' + group, file ),
 		pluginList: () => getApiRequest( 'import/plugin' ),
-		pluginImport: plugin => postApiRequest( 'import/plugin/' + plugin ),
+		pluginImport: plugin => postApiRequest( 'import/plugin', { plugin } ),
 	},
 	export: {
 		file: ( module, format ) => getApiRequest( 'export/' + module + '/' + format ),
@@ -143,7 +143,7 @@ export const RedirectionApi = {
 
 			return request;
 		},
-		matchPost: text => getApiRequest( 'plugin/post', { text } )
+		matchPost: text => getApiRequest( 'plugin/post', { text } ),
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),

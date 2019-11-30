@@ -21,8 +21,8 @@ class Red_Url_Path {
 
 		if ( $flags->is_ignore_case() ) {
 			// Case insensitive match
-			$source_path = Red_Url_Path::to_lower( $source_path );
-			$target_path = Red_Url_Path::to_lower( $target_path );
+			$source_path = self::to_lower( $source_path );
+			$target_path = self::to_lower( $target_path );
 		}
 
 		return $target_path === $source_path;

@@ -17,7 +17,7 @@ function red_get_post_types( $full = true ) {
 	$types = get_post_types( array( 'public' => true ), 'objects' );
 	$types[] = (object) array(
 		'name' => 'trash',
-		'label' => __( 'Trash' ),
+		'label' => __( 'Trash', 'default' ),
 	);
 
 	$post_types = array();
@@ -70,7 +70,7 @@ function red_set_options( array $settings = array() ) {
 		$options['database'] = $settings['database'];
 	}
 
-	if ( isset( $settings['rest_api'] ) && in_array( intval( $settings['rest_api'], 10 ), array( 0, 1, 2, 3, 4 ) ) ) {
+	if ( isset( $settings['rest_api'] ) && in_array( intval( $settings['rest_api'], 10 ), array( 0, 1, 2, 3, 4 ), true ) ) {
 		$options['rest_api'] = intval( $settings['rest_api'], 10 );
 	}
 
@@ -78,7 +78,7 @@ function red_set_options( array $settings = array() ) {
 		$allowed = red_get_post_types( false );
 
 		foreach ( $settings['monitor_types'] as $type ) {
-			if ( in_array( $type, $allowed ) ) {
+			if ( in_array( $type, $allowed, true ) ) {
 				$monitor_types[] = $type;
 			}
 		}
