@@ -3,11 +3,11 @@
 /**
  * Redirection capabilities
  *
- * Pre 4.4
+ * Pre 4.6
  * =======
  * Hook `redirection_role` and return a capability. This gives access to the entire plugin
  *
- * Post 4.4
+ * Post 4.6
  * ========
  * Hook `redirection_role` and return a capability for access to the plugin menu. For example `edit_pages` will allow an editor
  * Hook `redirection_capability` and return a different capability for each check that needs specific permissions.
@@ -15,8 +15,8 @@
  * For example, if you want to give editors access to create redirects, but nothing else:
  *
  * ```php
- * add_filter( 'redirection_capability_check', function( $capability, $capability_name ) {
- *     if ( $capability_name === 'redirection_cap_redirect_manage' || $capability_name === 'redirection_cap_redirect_add' ) {
+ * add_filter( 'redirection_capability_check', function( $capability, $permission_name ) {
+ *     if ( $permission_name === 'redirection_cap_redirect_manage' || $permission_name === 'redirection_cap_redirect_add' ) {
  *         return $capability;
  *     }
  *
@@ -28,7 +28,7 @@
  * capability is added your users won't automatically be granted access.
  *
  * Capabilities can be filtered with:
- * - `redirection_capability_check( $capability, $capability_name )` - override `$capability` dependant on `$cability_name`
+ * - `redirection_capability_check( $capability, $permission_name )` - override `$capability` dependant on `$permission_name`
  * - `redirection_capability_pages( $pages )` - filters the list of available pages
  * - `redirection_role( $cap )` - return the role/capability used for overall access to the plugin
  *
