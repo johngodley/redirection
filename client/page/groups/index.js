@@ -23,6 +23,7 @@ import { getFilterOptions, getDisplayGroups, getDisplayOptions, getHeaders, getB
 import Select from 'component/select';
 import MultiOptionDropdown from 'component/multi-option-dropdown';
 import { isEnabled } from 'component/table/utils';
+import { has_capability, CAP_GROUP_ADD } from 'lib/capabilities';
 import './style.scss';
 
 class Groups extends React.Component {
@@ -153,28 +154,32 @@ class Groups extends React.Component {
 
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
 
-				<h2>{ __( 'Add Group' ) }</h2>
-				<p>{ __( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.' ) }</p>
+				{ has_capability( CAP_GROUP_ADD ) && (
+					<React.Fragment>
+						<h2>{ __( 'Add Group' ) }</h2>
+						<p>{ __( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.' ) }</p>
 
-				<form onSubmit={ this.onSubmit }>
-					<table className="form-table redirect-groups">
-						<tbody>
-							<tr>
-								<th>{ __( 'Name' ) }</th>
-								<td>
-									<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.onChange } disabled={ isSaving } />
+						<form onSubmit={ this.onSubmit }>
+							<table className="form-table redirect-groups">
+								<tbody>
+									<tr>
+										<th>{ __( 'Name' ) }</th>
+										<td>
+											<input size="30" className="regular-text" type="text" name="name" value={ this.state.name } onChange={ this.onChange } disabled={ isSaving } />
 
-									<Select value={ this.state.moduleId } onChange={ this.onModule } items={ getModules() } disabled={ isSaving } />
+											<Select name="group" value={ this.state.moduleId } onChange={ this.onModule } items={ getModules() } disabled={ isSaving } />
 
-									&nbsp;
-									<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' } />
-								</td>
-							</tr>
-						</tbody>
-					</table>
+											&nbsp;
+											<input className="button-primary" type="submit" name="add" value="Add" disabled={ isSaving || this.state.name === '' } />
+										</td>
+									</tr>
+								</tbody>
+							</table>
 
-					{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
-				</form>
+							{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
+						</form>
+					</React.Fragment>
+				) }
 			</React.Fragment>
 		);
 	}

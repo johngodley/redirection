@@ -15,7 +15,7 @@ const MatchServer = ( { data, onChange } ) => {
 	const { server } = data;
 
 	return (
-		<TableRow title={ __( 'Server' ) }>
+		<TableRow title={ __( 'Server' ) } className="redirect-edit__match">
 			<input type="text" className="regular-text" name="server" value={ server } placeholder={ __( 'Enter server URL to match against' ) } onChange={ onChange } />
 		</TableRow>
 	);

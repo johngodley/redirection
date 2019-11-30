@@ -19,7 +19,7 @@ const MatchIp = ( { data, onChange } ) => {
 	};
 
 	return (
-		<TableRow className="top" title={ __( 'IP' ) }>
+		<TableRow title={ __( 'IP' ) } className="redirect-edit__match">
 			<textarea value={ ip.join( '\n' ) } name="ip" placeholder={ __( 'Enter IP addresses (one per line)' ) } onChange={ changer } />
 		</TableRow>
 	);

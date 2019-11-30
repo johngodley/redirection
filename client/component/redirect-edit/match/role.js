@@ -15,7 +15,7 @@ const MatchRole = ( { data, onChange } ) => {
 	const { role } = data;
 
 	return (
-		<TableRow title={ __( 'Role' ) }>
+		<TableRow title={ __( 'Role' ) } className="redirect-edit__match">
 			<input type="text" className="regular-text" value={ role } name="role" placeholder={ __( 'Enter role or capability value' ) } onChange={ onChange } />
 		</TableRow>
 	);

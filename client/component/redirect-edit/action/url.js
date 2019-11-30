@@ -17,7 +17,7 @@ const ActionUrl = ( { onChange, data } ) => {
 	const { url } = data;
 
 	return (
-		<TableRow title={ __( 'Target URL' ) }>
+		<TableRow title={ __( 'Target URL' ) } className="redirect-edit__target">
 			<TargetUrl url={ url } onChange={ onChange } />
 		</TableRow>
 	);

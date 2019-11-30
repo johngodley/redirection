@@ -194,7 +194,7 @@ export const Warnings = ( { warnings } ) => {
 
 	return (
 		<TableRow>
-			<div className="edit-redirection_warning notice notice-warning">
+			<div className="redirect-edit_warning notice notice-warning">
 				{ warnings.map( ( text, pos ) => <p key={ pos }><span className="dashicons dashicons-info"></span>{ text }</p> ) }
 			</div>
 		</TableRow>

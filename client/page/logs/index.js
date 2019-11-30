@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
 import { connect } from 'react-redux';
 
 /**
@@ -32,6 +31,7 @@ import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
 import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions } from './constants';
 import { isEnabled } from 'component/table/utils';
+import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
 
 class Logs extends React.Component {
 	componentDidMount() {
@@ -130,7 +130,9 @@ class Logs extends React.Component {
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
 						{ this.props.token && <div className="table-button-item"><a href={ getRssUrl( this.props.token ) } className="button-secondary">RSS</a></div> }
-						<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
+						{ has_capability( CAP_LOG_DELETE ) && (
+							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
+						) }
 					</TableButtons>
 				</TableNav>
 			</React.Fragment>

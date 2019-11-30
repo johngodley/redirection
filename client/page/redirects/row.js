@@ -13,6 +13,7 @@ import Highlighter from 'react-highlight-words';
  * Internal dependencies
  */
 
+import { has_capability, CAP_REDIRECT_DELETE, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import RowActions from 'component/table/row-action';
 import EditRedirect from 'component/redirect-edit';
 import Modal from 'component/modal';
@@ -84,20 +85,28 @@ class RedirectRow extends React.Component {
 		const { enabled, regex, action_type } = this.props.item;
 		const menu = [];
 
-		if ( enabled ) {
+		if ( enabled && has_capability( CAP_REDIRECT_ADD ) ) {
 			menu.push( [ __( 'Edit' ), this.onEdit ] );
 		}
 
-		menu.push( [ __( 'Delete' ), this.onDelete ] );
+		if ( has_capability( CAP_REDIRECT_DELETE ) ) {
+			menu.push( [ __( 'Delete' ), this.onDelete ] );
+		}
 
-		if ( enabled ) {
-			menu.push( [ __( 'Disable' ), this.onDisable ] );
-
-			if ( ! regex && action_type === 'url' ) {
-				menu.push( [ __( 'Check Redirect' ), this.onCheck ] );
+		if ( has_capability( CAP_REDIRECT_ADD ) ) {
+			if ( enabled ) {
+				menu.push( [ __( 'Disable' ), this.onDisable ] );
+			} else {
+				menu.push( [ __( 'Enable' ), this.onEnable ] );
 			}
-		} else {
-			menu.push( [ __( 'Enable' ), this.onEnable ] );
+		}
+
+		if ( enabled && ! regex && action_type === 'url' ) {
+			menu.push( [ __( 'Check Redirect' ), this.onCheck ] );
+		}
+
+		if ( menu.length === 0 ) {
+			return [];
 		}
 
 		return menu

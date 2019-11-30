@@ -21,6 +21,7 @@ import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
 import Useragent from 'component/useragent';
 import ExternalLink from 'component/external-link';
+import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
 
 class LogRow extends React.Component {
 	static propTypes = {
@@ -104,9 +105,11 @@ class LogRow extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
-		const menu = [
-			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a>,
-		];
+		const menu = [];
+
+		if ( has_capability( CAP_LOG_DELETE ) ) {
+			menu.push( <a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete' ) }</a> );
+		}
 
 		if ( ip ) {
 			menu.unshift( <a href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } onClick={ this.showMap } key="2">{ __( 'Geo Info' ) }</a> );

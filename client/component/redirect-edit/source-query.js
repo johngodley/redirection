@@ -20,7 +20,7 @@ const RedirectSourceQuery = ( { query, regex, onChange } ) => {
 	}
 
 	return (
-		<TableRow title={ __( 'Query Parameters' ) }>
+		<TableRow title={ __( 'Query Parameters' ) } className="redirect-edit__sourcequery">
 			<Select name="flag_query" items={ getSourceQuery() } value={ query } onChange={ onChange } />
 		</TableRow>
 	);

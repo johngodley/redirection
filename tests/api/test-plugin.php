@@ -1,19 +1,48 @@
 <?php
 
-include_once ABSPATH . 'wp-admin/includes/plugin.php';
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 class RedirectionApiPluginTest extends Redirection_Api_Test {
+	private function get_endpoints() {
+		return [
+			[ 'plugin', 'GET', [] ],
+			[ 'plugin', 'POST', [] ],
+			[ 'plugin/delete', 'POST', [] ],
+			[ 'plugin/test', 'GET', [] ],
+			[ 'plugin/test', 'POST', [] ],
+			[ 'plugin/post', 'GET', [] ],
+			[ 'plugin/database', 'POST', [] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'plugin' );
-		$this->assertEquals( 403, $result->status );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
 
-		$result = $this->callApi( 'plugin', array(), 'POST' );
-		$this->assertEquals( 403, $result->status );
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_SUPPORT_MANAGE => [
+				[ 'plugin', 'GET' ],
+				[ 'plugin', 'POST' ],
+				[ 'plugin/delete', 'POST' ],
+				[ 'plugin/test', 'GET' ],
+				[ 'plugin/test', 'POST' ],
+				[ 'plugin/post', 'GET' ],
+				[ 'plugin/database', 'POST' ],
+			],
+		];
 
-		$result = $this->callApi( 'plugin', array(), 'POST' );
-		$this->assertEquals( 403, $result->status );
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
 	}
 
 	public function testDelete() {

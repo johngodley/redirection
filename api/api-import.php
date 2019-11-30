@@ -31,16 +31,20 @@
 class Redirection_Api_Import extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/import/file/(?P<group_id>\d+)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_import_file' ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_import_file', [ $this, 'permission_callback_manage' ] ),
 		) );
 
 		register_rest_route( $namespace, '/import/plugin', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_plugin_import_list' ),
+			$this->get_route( WP_REST_Server::READABLE, 'route_plugin_import_list', [ $this, 'permission_callback_manage' ] ),
 		) );
 
 		register_rest_route( $namespace, '/import/plugin/(?P<plugin>.*?)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_plugin_import' ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_plugin_import', [ $this, 'permission_callback_manage' ] ),
 		) );
+	}
+
+	public function permission_callback_manage( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
 	}
 
 	public function route_plugin_import_list( WP_REST_Request $request ) {

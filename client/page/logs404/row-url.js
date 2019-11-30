@@ -18,6 +18,7 @@ import ExternalLink from 'component/external-link';
 import { setUngroupedFilter, setSelected, performTableAction } from 'state/error/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { ACTION_NOTHING, ACTION_URL, MATCH_URL } from 'state/redirect/selector';
+import { has_capability, CAP_404_DELETE, CAP_REDIRECT_ADD, CAP_REDIRECT_MANAGE } from 'lib/capabilities';
 
 class LogRow404 extends React.Component {
 	static propTypes = {
@@ -59,12 +60,23 @@ class LogRow404 extends React.Component {
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
-		const menu = [
-			<a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete All' ) }</a>,
-			<a href="#" onClick={ this.onAdd } key="1">{ __( 'Redirect All' ) }</a>,
-			<a href="#" onClick={ this.onShow } key="2">{ __( 'Show All' ) }</a>,
-			<a href="#" onClick={ this.onIgnore } key="3">{ __( 'Ignore URL' ) }</a>,
-		];
+		const menu = [];
+
+		if ( has_capability( CAP_404_DELETE ) ) {
+			menu.push( <a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete All' ) }</a> );
+		}
+
+		if ( has_capability( CAP_REDIRECT_ADD ) ) {
+			menu.push( <a href="#" onClick={ this.onAdd } key="1">{ __( 'Redirect All' ) }</a> );
+		}
+
+		if ( has_capability( CAP_REDIRECT_MANAGE ) ) {
+			menu.push( <a href="#" onClick={ this.onShow } key="2">{ __( 'Show All' ) }</a> );
+		}
+
+		if ( has_capability( CAP_REDIRECT_ADD ) ) {
+			menu.push( <a href="#" onClick={ this.onIgnore } key="3">{ __( 'Ignore URL' ) }</a> );
+		}
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
@@ -77,9 +89,9 @@ class LogRow404 extends React.Component {
 						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
 					</ExternalLink>
 
-					<RowActions disabled={ isSaving }>
+					{ menu.length > 0 && <RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
-					</RowActions>
+					</RowActions> }
 				</td>
 				<td className="column-total">
 					{ numberFormat( count ) }

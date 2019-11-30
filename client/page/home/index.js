@@ -37,6 +37,7 @@ import { getInitialLog } from 'state/log/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
 import { showUpgrade } from 'state/settings/action';
+import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import './style.scss';
 
 const getTitles = () => ( {
@@ -232,7 +233,7 @@ class Home extends React.Component {
 			<React.StrictMode>
 				<div className="wrap redirection">
 					<h1 className="wp-heading-inline">{ title }</h1>
-					{ page === 'redirect' && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
+					{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
 
 					<Menu onChangePage={ this.onChangePage } />
 					<Error />

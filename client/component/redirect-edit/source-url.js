@@ -31,7 +31,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 	}
 
 	return (
-		<TableRow title={ __( 'Source URL' ) }>
+		<TableRow title={ __( 'Source URL' ) } className="redirect-edit__source">
 			<input
 				type="text"
 				name="url"

@@ -8,15 +8,41 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_groups" );
 	}
 
+	private function get_endpoints() {
+		return [
+			[ 'export/1/csv', 'GET', [] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'export/1/csv' );
-		$this->assertEquals( 403, $result->status );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
+
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_IO_MANAGE => [ [ 'export/1/csv', 'GET' ] ],
+		];
+
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
+	}
+
+	public function testAdminPermission() {
+		// All of these should work
+		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
 	public function testExportNameModule() {
-		// Create 2 groups, one in apache, one in wordpress
+		// Create 2 groups, one in apache, one in WordPress
 		$group1 = Red_Group::create( 'group1', 1 );
 		$group2 = Red_Group::create( 'group2', 2 );
 

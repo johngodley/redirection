@@ -1,14 +1,45 @@
 <?php
 
 class RedirectionApiSettingsTest extends Redirection_Api_Test {
+	private function get_endpoints() {
+		return [
+			[ 'setting', 'GET', [] ],
+			[ 'setting', 'POST', [] ],
+		];
+	}
+
 	public function testNoPermission() {
 		$this->setUnauthorised();
 
-		$result = $this->callApi( 'setting' );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+		// None of these should work
+		$this->check_endpoints( $this->get_endpoints() );
+	}
 
-		$result = $this->callApi( 'setting', array( 'thing' => true ), 'POST' );
-		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+	public function testEditorPermission() {
+		// Everything else is 403
+		$working = [
+			Redirection_Capabilities::CAP_OPTION_MANAGE => [
+				[ 'setting', 'GET' ],
+				[ 'setting', 'POST' ],
+			],
+			Redirection_Capabilities::CAP_SITE_MANAGE => [
+				[ 'setting', 'GET' ],
+				[ 'setting', 'POST' ],
+			],
+		];
+
+		$this->setEditor();
+
+		foreach ( $working as $cap => $working_caps ) {
+			$this->add_capability( $cap );
+			$this->check_endpoints( $this->get_endpoints(), $working_caps );
+			$this->clear_capability();
+		}
+	}
+
+	public function testAdminPermission() {
+		// All of these should work
+		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
 	public function testLoadSettings() {
@@ -24,7 +55,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$this->setNonce();
 
 		$before = $this->callApi( 'setting' );
-		update_option( 'redirection_options', (array)$before->data['settings'] );
+		update_option( 'redirection_options', (array) $before->data['settings'] );
 		$before = $before->data['settings'];
 
 		$after = $this->callApi( 'setting', array(), 'POST' );
@@ -49,7 +80,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	}
 
 	public function testSaveInvalidMonitorPost() {
-		$data = "monkey";
+		$data = 'monkey';
 		$this->setNonce();
 
 		$result = $this->callApi( 'setting', array( 'monitor_post' => $data ), 'POST' );

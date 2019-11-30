@@ -177,15 +177,31 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 
 		register_rest_route( $namespace, '/redirect', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_list' ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_create' ),
+			$this->get_route( WP_REST_Server::READABLE, 'route_list', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_create', [ $this, 'permission_callback_add' ] ),
 		) );
 
 		register_rest_route( $namespace, '/redirect/(?P<id>[\d]+)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_update' ),
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_update', [ $this, 'permission_callback_add' ] ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $orders, 'route_bulk' );
+		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $orders, 'route_bulk', [ $this, 'permission_callback_bulk' ] );
+	}
+
+	public function permission_callback_manage( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
+	}
+
+	public function permission_callback_bulk( WP_REST_Request $request ) {
+		if ( $request['bulk'] === 'delete' ) {
+			return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_DELETE );
+		}
+
+		return $this->permission_callback_add( $request );
+	}
+
+	public function permission_callback_add( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_ADD );
 	}
 
 	public function route_list( WP_REST_Request $request ) {

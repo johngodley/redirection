@@ -38,6 +38,7 @@ import { STATUS_COMPLETE, STATUS_SAVING, STATUS_IN_PROGRESS } from 'state/settin
 import { nestedGroups } from 'state/group/selector';
 import { getDisplayGroups, getDisplayOptions, getBulk, getHeaders, getFilterOptions, getSearchOptions } from './constants';
 import { isEnabled } from 'component/table/utils';
+import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 
 class Redirects extends React.Component {
 	componentDidMount() {
@@ -78,7 +79,7 @@ class Redirects extends React.Component {
 
 		return (
 			<React.Fragment>
-				{ ! addTop && <h2>{ __( 'Add new redirection' ) }</h2> }
+				{ ! addTop && has_capability( CAP_REDIRECT_ADD ) && <h2>{ __( 'Add new redirection' ) }</h2> }
 				<div className={ classes }>
 					<EditRedirect
 						item={ getDefaultItem( '', 0, this.props.defaultFlags ) }
@@ -149,11 +150,11 @@ class Redirects extends React.Component {
 	render() {
 		const { status, total, table, rows, addTop } = this.props.redirect;
 		const { group } = this.props;
-		const canAdd = status === STATUS_COMPLETE && group.status === STATUS_COMPLETE;
+		const canAdd = status === STATUS_COMPLETE && group.status === STATUS_COMPLETE && has_capability( CAP_REDIRECT_ADD );
 
 		return (
 			<div className="redirects">
-				{ addTop && this.renderNew() }
+				{ addTop && has_capability( CAP_REDIRECT_ADD ) && this.renderNew() }
 
 				<div className="redirect-table-display">
 					<TableDisplay

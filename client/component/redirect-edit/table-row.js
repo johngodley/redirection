@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 
 const TableRow = ( { title = null, children, className = '' } ) => {
 	return (
-		<tr>
-			<th className={ className }>{ title }</th>
+		<tr className={ className }>
+			<th>{ title }</th>
 			<td>
 				{ children }
 			</td>

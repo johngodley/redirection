@@ -15,7 +15,7 @@ const MatchCustom = ( { data, onChange } ) => {
 	const { filter } = data;
 
 	return (
-		<TableRow title={ __( 'Filter Name' ) }>
+		<TableRow title={ __( 'Filter Name' ) } className="redirect-edit__match">
 			<input type="text" name="filter" value={ filter } onChange={ onChange } className="regular-text" placeholder={ __( 'WordPress filter name' ) } />
 		</TableRow>
 	);

@@ -14,7 +14,7 @@ import TableRow from './table-row';
 
 const RedirectTitle = ( { title, onChange } ) => {
 	return (
-		<TableRow title={ __( 'Title' ) }>
+		<TableRow title={ __( 'Title' ) } className="redirect-edit__title">
 			<input
 				type="text"
 				name="title"
