@@ -38,7 +38,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			$this->get_route( WP_REST_Server::READABLE, 'route_plugin_import_list', [ $this, 'permission_callback_manage' ] ),
 		) );
 
-		register_rest_route( $namespace, '/import/plugin/(?P<plugin>.*?)', array(
+		register_rest_route( $namespace, '/import/plugin', array(
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_plugin_import', [ $this, 'permission_callback_manage' ] ),
 		) );
 	}
@@ -48,17 +48,24 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	}
 
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/importer.php';
+		include_once dirname( __DIR__ ) . '/models/importer.php';
 
 		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
 	}
 
 	public function route_plugin_import( WP_REST_Request $request ) {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/importer.php';
+		include_once dirname( __DIR__ ) . '/models/importer.php';
 
+		$params = $request->get_params( $request );
 		$groups = Red_Group::get_all();
+		$plugins = is_array( $request['plugin'] ) ? $request['plugin'] : [ $request['plugin'] ];
+		$total = 0;
 
-		return array( 'imported' => Red_Plugin_Importer::import( $request['plugin'], $groups[0]['id'] ) );
+		foreach ( $plugins as $plugin ) {
+			$total += Red_Plugin_Importer::import( $plugin, $groups[0]['id'] );
+		}
+
+		return [ 'imported' => $total ];
 	}
 
 	public function route_import_file( WP_REST_Request $request ) {
