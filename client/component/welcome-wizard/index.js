@@ -16,31 +16,48 @@ import Database from 'component/database';
 import Error from 'component/error';
 import RestApiStatus from 'component/rest-api-status';
 import { getApiUrl, setApiUrl } from 'lib/api';
-import { saveSettings } from 'state/settings/action';
+import { saveSettings, finishUpgrade } from 'state/settings/action';
+import { pluginImport } from 'state/io/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';
+
+const IMPORTER_WP = 'wordpress-old-slugs';
+
+const STEP_WELCOME = 0;
+const STEP_BASIC = 1;
+const STEP_API = 2;
+const STEP_DATABASE = 3;
+const STEP_IMPORT = 4;
+const STEP_IMPORTING = 5;
 
 class WelcomeWizard extends React.Component {
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			step: 0,
+			step: STEP_WELCOME,
 			monitor: false,
 			log: false,
 			ip: false,
 			manual: false,
+			importers: props.importers.find( item => item.id === IMPORTER_WP ) ? [ IMPORTER_WP ] : [],
 		};
 	}
 
 	nextStep = ev => {
+		const nextStage = this.state.step + 1;
+
 		ev.preventDefault();
-		this.setState( { step: this.state.step + 1 } );
+		this.performActionForStep( nextStage );
+		this.setState( { step: nextStage } );
 	}
 
 	prevStep = ev => {
+		const nextStage = this.state.step - 1;
+
 		ev.preventDefault();
-		this.setState( { step: this.state.step - 1 } );
+		this.performActionForStep( nextStage );
+		this.setState( { step: nextStage } );
 	}
 
 	// Returns the best API route (the one with a valid GET and POST), in order they are defined. If nothing is valid, return the default
@@ -57,17 +74,59 @@ class WelcomeWizard extends React.Component {
 		return 0;
 	}
 
-	finishSetup = ev => {
-		// Set the API to the best
-		const api = this.getFirstApi();
-
-		// Set out REST API route
-		if ( Redirectioni10n.api.routes[ api ] ) {
-			setApiUrl( Redirectioni10n.api.routes[ api ] );
-		}
-
+	startManual = ev => {
 		ev.preventDefault();
-		this.setState( { step: 3 } );
+		this.saveSettings();
+		this.setState( { manual: true } );
+	}
+
+	stopManual = ev => {
+		ev.preventDefault();
+		this.setState( { manual: false } );
+	}
+
+	saveSettings() {
+		const { ip, log, monitor } = this.state;
+
+		this.props.onSaveSettings( {
+			expire_redirect: log ? 7 : -1,
+			expire_404: log ? 7 : -1,
+			ip_logging: ip ? 1 : 0,
+			rest_api: this.getFirstApi(),
+			monitor_types: monitor ? [ 'post', 'page' ] : undefined,
+			monitor_post: monitor ? 1 : 0,
+		} );
+	}
+
+	afterFinishInstall = () => {
+		this.saveSettings();
+
+		if ( this.props.importers.length > 0 ) {
+			// We have potential redirects to import - show the import stage
+			this.setState( { step: STEP_IMPORT, manual: false } );
+		} else {
+			this.props.onFinishInstall();
+		}
+	}
+
+	performActionForStep = stage => {
+		if ( stage === STEP_DATABASE ) {
+			// Set the API to the best
+			const api = this.getFirstApi();
+
+			// Set our REST API route
+			if ( Redirectioni10n.api.routes[ api ] ) {
+				setApiUrl( Redirectioni10n.api.routes[ api ] );
+			}
+		} else if ( stage === STEP_IMPORTING ) {
+			if ( this.state.importers.length > 0 ) {
+				// Process the importers
+				this.props.onImport( this.state.importers );
+			} else {
+				// Nothing to import - just finish
+				this.props.onFinishInstall();
+			}
+		}
 	}
 
 	onChange = ev => {
@@ -112,7 +171,7 @@ class WelcomeWizard extends React.Component {
 					</tbody>
 				</table>
 
-				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect." ) }</p>
+				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example." ) }</p>
 				<p>{ __( 'Full documentation can be found on the {{link}}Redirection website.{{/link}}', {
 					components: {
 						link: <ExternalLink url="https://redirection.me/support/" />,
@@ -248,7 +307,7 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'You will need at least one working REST API to continue.' ) }</p>
 
 				<div className="wizard-buttons">
-					<button className="button-primary button" onClick={ this.finishSetup }>{ __( 'Finish Setup' ) }</button> &nbsp;
+					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Finish Setup' ) }</button> &nbsp;
 					<button className="button" onClick={ this.prevStep }>{ __( 'Go back' ) }</button>
 				</div>
 			</React.Fragment>
@@ -259,37 +318,82 @@ class WelcomeWizard extends React.Component {
 		return <Database onFinished={ this.afterFinishInstall } manual={ this.state.manual } />;
 	}
 
-	startManual = ev => {
-		ev.preventDefault();
-		this.afterFinishInstall();
-		this.setState( { step: 3, manual: true } );
+	renderStep4() {
+		const { importers } = this.state;
+		const wpImport = this.props.importers.find( item => item.id === IMPORTER_WP );
+		const otherImporters = this.props.importers.filter( item => item.id !== IMPORTER_WP );
+
+		return (
+			<div>
+				<h2>{ __( 'Import Existing Redirects' ) }</h2>
+
+				<p>{ __( 'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.' ) }</p>
+
+				{ wpImport && (
+					<React.Fragment>
+						<p>{ __( 'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.' ) }</p>
+						<ul>
+							<li>
+								<label><input type="checkbox" name={ IMPORTER_WP } onChange={ this.onImporter } checked={ importers.indexOf( IMPORTER_WP ) !== -1 } /> { wpImport.name } ({ wpImport.total })</label>
+							</li>
+						</ul>
+					</React.Fragment>
+				) }
+
+				{ otherImporters.length > 0 && (
+					<React.Fragment>
+						<p>{ __( 'The following plugins have been detected.' ) }</p>
+						<ul>
+							{ otherImporters.map( item => (
+								<li key={ item.id }>
+									<label>
+										<input type="checkbox" name={ item.id } onChange={ this.onImporter } checked={ importers.indexOf( item.id ) !== -1 } /> { item.name } ({ item.total })
+									</label>
+								</li>
+							) ) }
+						</ul>
+					</React.Fragment>
+				) }
+
+				<div className="wizard-buttons">
+					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Continue' ) }</button>
+				</div>
+			</div>
+		);
 	}
 
-	stopManual = ev => {
-		ev.preventDefault();
-		this.setState( { step: 3, manual: false } );
+	renderStep5() {
+		return (
+			<div>
+				<h2>{ __( 'Import Existing Redirects' ) }</h2>
+
+				<p>{ __( 'Please wait, importing.' ) }</p>
+
+				<div className="loader-wrapper loader-textarea">
+					<div className="placeholder-loading"></div>
+				</div>
+			</div>
+		);
 	}
 
-	afterFinishInstall = () => {
-		const { ip, log, monitor } = this.state;
+	onImporter = ( { target } ) => {
+		const { importers } = this.state;
+		const changed = target.checked ? importers.concat( target.name ) : importers.filter( item => item !== target.name );
 
-		this.props.onSaveSettings( {
-			expire_redirect: log ? 7 : -1,
-			expire_404: log ? 7 : -1,
-			ip_logging: ip ? 1 : 0,
-			rest_api: this.getFirstApi(),
-			monitor_types: monitor ? [ 'post', 'page' ] : undefined,
-			monitor_post: monitor ? 1 : 0,
-		} );
+		this.setState( { importers: changed } );
 	}
 
 	getContentForStep( step ) {
-		if ( step === 3 ) {
+		if ( step === STEP_IMPORT ) {
+			return this.renderStep4();
+		} else if ( step === STEP_DATABASE ) {
 			return this.renderStep3();
-		} if ( step === 2 ) {
+		} else if ( step === STEP_API ) {
 			return this.renderStep2();
-		} else if ( step === 1 ) {
+		} else if ( step === STEP_BASIC ) {
 			return this.renderStep1();
+		} else if ( step === STEP_IMPORTING ) {
+			return this.renderStep5();
 		}
 
 		return this.renderStep0();
@@ -325,10 +429,13 @@ class WelcomeWizard extends React.Component {
 function mapStateToProps( state ) {
 	const { result } = state.settings.database;
 	const { apiTest } = state.settings;
+	const { importers, importingStatus } = state.io;
 
 	return {
 		result,
 		apiTest,
+		importers,
+		importingStatus,
 	};
 }
 
@@ -336,6 +443,12 @@ function mapDispatchToProps( dispatch ) {
 	return {
 		onSaveSettings: settings => {
 			dispatch( saveSettings( settings ) );
+		},
+		onImport: importers => {
+			dispatch( pluginImport( importers ) );
+		},
+		onFinishInstall: () => {
+			dispatch( finishUpgrade() );
 		},
 	};
 }

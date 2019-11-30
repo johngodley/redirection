@@ -169,7 +169,7 @@
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
  * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
  * @apiParam (Query Parameter) {Integer} page Current page of results
-  */
+ */
 class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'last_count', 'last_access', 'position', 'id' ];

@@ -70,7 +70,9 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 	}
 
 	private function create_for_item( $group_id, $redirect ) {
+		// phpcs:ignore
 		$sources = unserialize( $redirect->sources );
+		$items = [];
 
 		foreach ( $sources as $source ) {
 			$url = $source['pattern'];
@@ -102,7 +104,7 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 		}
 
 		if ( ! function_exists( 'is_plugin_active' ) ) {
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
 		$total = 0;
