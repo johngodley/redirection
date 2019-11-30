@@ -45,7 +45,9 @@ const SVN_SOURCE_FILES = [
 	'!.DS_Store',
 	'!api-doc/**',
 	'!api/*.md',
-	'!api/api.php',
+	'!vendor/**',
+	'!vendor',
+	'!phpcs.xml.dist',
 ];
 const versionHeader = md5 => `<?php
 
