@@ -15,6 +15,7 @@ import {
 import { getInitialIO } from 'state/io/initial';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 
+global.Redirectioni10n = {};
 const DEFAULT_STATE = getInitialIO();
 
 jest.mock( 'lib/store' );
