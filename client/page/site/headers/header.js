@@ -16,7 +16,7 @@ import {
 	HeaderCustom,
 	HeaderPlainValue,
 	HeaderMultiChoice,
-} from './headers';
+} from './types';
 
 const arrayToSelect = array => array.map( header => ( { label: header, value: header } ) );
 
