@@ -82,18 +82,16 @@ class Redirection_Canonical {
 			'/wp-json/',
 		] );
 
-		if ( $domain !== red_parse_domain_only( $relocate ) && count( array_filter( $protected, [ $this, 'url_not_base' ] ) ) === 0 ) {
+		$not_protected = array_filter( $protected, function( $base ) use ( $request ) {
+			if ( substr( $request, 0, strlen( $base ) ) === $base ) {
+				return true;
+			}
+
+			return false;
+		} );
+
+		if ( $domain !== red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
 			return apply_filters( 'redirect_relocate_target', $relocate . $request );
-		}
-
-		return false;
-	}
-
-	public function url_not_base( $base ) {
-		$request = Redirection_Request::get_request_url();
-
-		if ( substr( $request, 0, strlen( $base ) ) === $base ) {
-			return true;
 		}
 
 		return false;

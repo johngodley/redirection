@@ -194,7 +194,52 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 
 		$data = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Good' ] ];
 
-		$result = $this->callApi( 'setting', array( 'headers' => $data ), 'POST' );
+		$result = $this->callApi( 'setting', [ 'headers' => $data ], 'POST' );
 		$this->assertEquals( $data, $result->data['settings']['headers'] );
+	}
+
+	public function testAliases() {
+		$this->setNonce();
+
+		$data = [ 'good.com', '', 'http://domain.com', 'bad com' ];
+		$expected = [ 'good.com', 'domain.com', 'badcom' ];
+
+		$result = $this->callApi( 'setting', [ 'aliases' => $data ], 'POST' );
+		$this->assertEquals( $expected, $result->data['settings']['aliases'] );
+
+		$result = $this->callApi( 'setting', [ 'aliases' => [] ], 'POST' );
+		$this->assertEquals( [], $result->data['settings']['aliases'] );
+	}
+
+	public function testPreferredDomain() {
+		$this->setNonce();
+
+		$result = $this->callApi( 'setting', [ 'preferred_domain' => 'bad' ], 'POST' );
+		$this->assertEquals( '', $result->data['settings']['preferred_domain'] );
+
+		$result = $this->callApi( 'setting', [ 'preferred_domain' => 'www' ], 'POST' );
+		$this->assertEquals( 'www', $result->data['settings']['preferred_domain'] );
+
+		$result = $this->callApi( 'setting', [ 'preferred_domain' => 'nowww' ], 'POST' );
+		$this->assertEquals( 'nowww', $result->data['settings']['preferred_domain'] );
+
+		$result = $this->callApi( 'setting', array( 'preferred_domain' => '' ), 'POST' );
+		$this->assertEquals( '', $result->data['settings']['preferred_domain'] );
+	}
+
+	public function testRelocate() {
+		$this->setNonce();
+
+		$result = $this->callApi( 'setting', [ 'relocate' => 'domain.com', 'https' => true, 'preferred_domain' => 'www', 'aliases' => [ 'test.com' ] ], 'POST' );
+		$this->assertEquals( 'http://domain.com', $result->data['settings']['relocate'] );
+		$this->assertEquals( [], $result->data['settings']['aliases'] );
+		$this->assertEquals( '', $result->data['settings']['preferred_domain'] );
+		$this->assertEquals( false, $result->data['settings']['https'] );
+
+		$result = $this->callApi( 'setting', [ 'relocate' => 'https://domain.com/path' ], 'POST' );
+		$this->assertEquals( 'https://domain.com/path', $result->data['settings']['relocate'] );
+
+		$result = $this->callApi( 'setting', [ 'relocate' => '' ], 'POST' );
+		$this->assertEquals( '', $result->data['settings']['relocate'] );
 	}
 }
