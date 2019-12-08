@@ -198,6 +198,7 @@ function red_set_options( array $settings = array() ) {
 
 	if ( isset( $settings['aliases'] ) && is_array( $settings['aliases'] ) ) {
 		$options['aliases'] = array_values( array_filter( array_map( 'red_parse_domain_only', $settings['aliases'] ) ) );
+		$options['aliases'] = array_slice( $options['aliases'], 0, 10 ); // Max 10 aliases
 	}
 
 	if ( isset( $settings['preferred_domain'] ) && in_array( $settings['preferred_domain'], [ '', 'www', 'nowww' ], true ) ) {

@@ -18,7 +18,7 @@ const ALIAS_MAX = 10;
 const addAlias = ( aliases, onChange, ev ) => {
 	ev.preventDefault();
 
-	onChange( { aliases: aliases.concat( '' ).slice( 0, ALIAS_MAX ) } ); // XXX implement in API
+	onChange( { aliases: aliases.concat( '' ).slice( 0, ALIAS_MAX ) } );
 }
 
 const removeAlias = ( pos, aliases, onChange ) => {
