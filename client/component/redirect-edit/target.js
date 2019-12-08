@@ -5,7 +5,7 @@
 import React from 'react';
 import { translate as __ } from 'lib/locale';
 import debounce from 'debounce-promise';
-import enhanceWithClickOutside from 'react-click-outside';
+import onClickOutside from 'lib/click-outside';
 
 import { RedirectionApi, getApi } from 'lib/api';
 import LoadingDots from 'component/loading-dots';
@@ -41,7 +41,7 @@ class UrlChoices extends React.Component {
 	}
 }
 
-const UrlChoicesClick = enhanceWithClickOutside( UrlChoices );
+const UrlChoicesClick = onClickOutside( UrlChoices );
 
 export default class TargetUrl extends React.Component {
 	constructor( props ) {
