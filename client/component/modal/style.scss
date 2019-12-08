@@ -38,6 +38,13 @@ body.redirection-modal_shown {
 	flex-direction: row;
 	justify-content: center;
 
+	.redirect-click-outside {
+		min-height: 100px;
+		max-width: 90%;
+		max-height: 90%;
+		min-width: 60%;
+	}
+
 	.redirection-modal_content {
 		position: relative;
 		background: $white;
