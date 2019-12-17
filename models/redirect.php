@@ -576,6 +576,8 @@ class Red_Item_Filters {
 				} else {
 					$this->filters[] = 'regex=0';
 				}
+			} elseif ( $filter_by === 'id' ) {
+				$this->filters[] = $wpdb->prepare( 'id=%d', intval( $filter, 10 ) );
 			} elseif ( $filter_by === 'match' && in_array( $filter, array_keys( Red_Match::available() ), true ) ) {
 				$this->filters[] = $wpdb->prepare( 'match_type=%s', $filter );
 			} elseif ( $filter_by === 'action' && in_array( $filter, array_keys( Red_Action::available() ), true ) ) {
