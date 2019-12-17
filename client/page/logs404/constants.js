@@ -53,9 +53,21 @@ export const getHeaders = groupBy => {
 			title: __( 'Date' ),
 		},
 		{
+			name: 'method',
+			title: __( 'Method' ),
+		},
+		{
+			name: 'domain',
+			title: __( 'Domain' ),
+		},
+		{
 			name: 'url',
 			title: __( 'Source URL' ),
 			primary: true,
+		},
+		{
+			name: 'code',
+			title: __( 'HTTP code' ),
 		},
 		{
 			name: 'referrer',
@@ -146,7 +158,10 @@ export const getDisplayGroups = () => [
 
 export const getDisplayOptions = () => [
 	{ value: 'date', label: __( 'Date' ) },
+	{ value: 'method', label: __( 'Method' ) },
+	{ value: 'domain', label: __( 'Domain' ) },
 	{ value: 'url', label: __( 'URL' ) },
+	{ value: 'code', label: __( 'HTTP code' ) },
 	{ value: 'referrer', label: __( 'Referrer' ) },
 	{ value: 'agent', label: __( 'User Agent' ) },
 	{ value: 'ip', label: __( 'IP' ) },
@@ -170,5 +185,9 @@ export const getSearchOptions = () => [
 	{
 		name: 'ip',
 		title: __( 'Search IP' ),
+	},
+	{
+		name: 'domain',
+		title: __( 'Search domain' ),
 	},
 ];

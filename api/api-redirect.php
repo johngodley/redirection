@@ -157,6 +157,7 @@
  * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
  * @apiParam (Query Parameter) {String} filterBy[title] Filter the results by the supplied redirect title
  * @apiParam (Query Parameter) {Integer} filterBy[group] Filter the results by the supplied redirect group ID
+ * @apiParam (Query Parameter) {Integer} filterBy[id] Filter the results to the redirect ID
  * @apiParam (Query Parameter) {Integer="1","2","3"} filterBy[module] Filter the results by the supplied module ID
  * @apiParam (Query Parameter) {String="url","last_count","last_access","position","id"} orderby Order in which results are returned
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
@@ -166,7 +167,7 @@
 class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'last_count', 'last_access', 'position', 'id' ];
-		$filters = [ 'status', 'url-match', 'match', 'action', 'http', 'access', 'url', 'target', 'title', 'group' ];
+		$filters = [ 'status', 'url-match', 'match', 'action', 'http', 'access', 'url', 'target', 'title', 'group', 'id' ];
 
 		register_rest_route( $namespace, '/redirect', array(
 			'args' => $this->get_filter_args( $orders, $filters ),

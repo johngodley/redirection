@@ -16,10 +16,9 @@ import RowActions from 'component/table/row-action';
 import Spinner from 'component/spinner';
 import Modal from 'component/modal';
 import GeoMap from 'component/geo-map';
-import { setUngroupedFilter, setSelected, performTableAction } from 'state/error/action';
+import { setUngroupedFilter, setSelected, performTableAction } from 'state/log/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
-import { ACTION_URL, MATCH_IP, ACTION_ERROR } from 'state/redirect/selector';
-import { has_capability, CAP_404_DELETE, CAP_REDIRECT_ADD, CAP_404_MANAGE } from 'lib/capabilities';
+import { has_capability, CAP_LOG_DELETE, CAP_LOG_MANAGE } from 'lib/capabilities';
 
 class LogRowIp extends React.Component {
 	static propTypes = {
@@ -55,20 +54,6 @@ class LogRowIp extends React.Component {
 		this.props.setFilter( { ip: this.props.item.ip } );
 	}
 
-	onAdd = ev => {
-		const redirect = { regex: true, match_type: MATCH_IP, action_type: ACTION_URL, action_data: { ip: [ this.props.item.ip ] } };
-
-		ev.preventDefault();
-		this.props.onCreate( [ this.props.item.ip ], redirect );
-	}
-
-	onBlock = ev => {
-		const block = { regex: true, match_type: MATCH_IP, action_type: ACTION_ERROR, action_data: { ip: [ this.props.item.ip ] }, action_code: 403 };
-
-		ev.preventDefault();
-		this.props.onCreate( [ this.props.item.ip ], block );
-	}
-
 	renderMap() {
 		return (
 			<Modal onClose={ this.closeMap } padding={ false }>
@@ -94,20 +79,15 @@ class LogRowIp extends React.Component {
 		const hideRow = isLoading || isSaving;
 		const menu = [];
 
-		if ( has_capability( CAP_404_DELETE ) ) {
+		if ( has_capability( CAP_LOG_DELETE ) ) {
 			menu.push( <a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete All' ) }</a> );
 		}
 
-		if ( has_capability( CAP_REDIRECT_ADD ) ) {
-			menu.push( <a href="#" onClick={ this.onAdd } key="1">{ __( 'Redirect All' ) }</a> );
-		}
-
-		if ( has_capability( CAP_404_MANAGE ) ) {
+		if ( has_capability( CAP_LOG_MANAGE ) ) {
 			menu.push( <a href="#" onClick={ this.onShow } key="2">{ __( 'Show All' ) }</a> );
 		}
 
 		menu.push( <a href="#" onClick={ this.onGeo } key="3">{ __( 'Geo Info' ) }</a> );
-		menu.push( <a href="#" onClick={ this.onBlock } key="3">{ __( 'Block IP' ) }</a> );
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>

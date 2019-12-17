@@ -14,6 +14,7 @@ export function getInitialError() {
 		referrer: true,
 		agent: true,
 		'url-exact': true,
+		domain: true,
 	};
 	const query = getPageUrl();
 	let defaultOrder = 'date';

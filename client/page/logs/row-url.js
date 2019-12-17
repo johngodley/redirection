@@ -14,31 +14,19 @@ import Highlighter from 'react-highlight-words';
 
 import RowActions from 'component/table/row-action';
 import Spinner from 'component/spinner';
-import Modal from 'component/modal';
-import GeoMap from 'component/geo-map';
-import { setUngroupedFilter, setSelected, performTableAction } from 'state/error/action';
+import ExternalLink from 'component/external-link';
+import { setUngroupedFilter, setSelected, performTableAction } from 'state/log/action';
 import { STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
-import { ACTION_URL, MATCH_IP, ACTION_ERROR } from 'state/redirect/selector';
-import { has_capability, CAP_404_DELETE, CAP_REDIRECT_ADD, CAP_404_MANAGE } from 'lib/capabilities';
+import { has_capability, CAP_LOG_DELETE, CAP_LOG_MANAGE } from 'lib/capabilities';
 
-class LogRowIp extends React.Component {
+class LogRowUrl extends React.Component {
 	static propTypes = {
 		item: PropTypes.object.isRequired,
-		onCreate: PropTypes.func.isRequired,
 		selected: PropTypes.oneOfType( [
 			PropTypes.bool,
 			PropTypes.array,
 		] ).isRequired,
 	};
-
-	constructor( props ) {
-		super( props );
-
-		this.state = {
-			showMap: false,
-			showAgent: false,
-		};
-	}
 
 	onSelect = () => {
 		this.props.onSetSelected( [ this.props.item.id ] );
@@ -51,63 +39,24 @@ class LogRowIp extends React.Component {
 
 	onShow = ev => {
 		ev.preventDefault();
-
-		this.props.setFilter( { ip: this.props.item.ip } );
-	}
-
-	onAdd = ev => {
-		const redirect = { regex: true, match_type: MATCH_IP, action_type: ACTION_URL, action_data: { ip: [ this.props.item.ip ] } };
-
-		ev.preventDefault();
-		this.props.onCreate( [ this.props.item.ip ], redirect );
-	}
-
-	onBlock = ev => {
-		const block = { regex: true, match_type: MATCH_IP, action_type: ACTION_ERROR, action_data: { ip: [ this.props.item.ip ] }, action_code: 403 };
-
-		ev.preventDefault();
-		this.props.onCreate( [ this.props.item.ip ], block );
-	}
-
-	renderMap() {
-		return (
-			<Modal onClose={ this.closeMap } padding={ false }>
-				<GeoMap ip={ this.props.item.ip } />
-			</Modal>
-		);
-	}
-
-	onGeo = ev => {
-		ev.preventDefault();
-		this.setState( { showMap: true } );
-	}
-
-	closeMap = () => {
-		this.setState( { showMap: false } );
+		this.props.setFilter( { 'url-exact': this.props.item.id } );
 	}
 
 	render() {
-		const { ip, id, count } = this.props.item;
+		const { url, id, count } = this.props.item;
 		const { selected, status } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
 		const hideRow = isLoading || isSaving;
 		const menu = [];
 
-		if ( has_capability( CAP_404_DELETE ) ) {
+		if ( has_capability( CAP_LOG_DELETE ) ) {
 			menu.push( <a href="#" onClick={ this.onDelete } key="0">{ __( 'Delete All' ) }</a> );
 		}
 
-		if ( has_capability( CAP_REDIRECT_ADD ) ) {
-			menu.push( <a href="#" onClick={ this.onAdd } key="1">{ __( 'Redirect All' ) }</a> );
-		}
-
-		if ( has_capability( CAP_404_MANAGE ) ) {
+		if ( has_capability( CAP_LOG_MANAGE ) ) {
 			menu.push( <a href="#" onClick={ this.onShow } key="2">{ __( 'Show All' ) }</a> );
 		}
-
-		menu.push( <a href="#" onClick={ this.onGeo } key="3">{ __( 'Geo Info' ) }</a> );
-		menu.push( <a href="#" onClick={ this.onBlock } key="3">{ __( 'Block IP' ) }</a> );
 
 		return (
 			<tr className={ hideRow ? 'disabled' : '' }>
@@ -115,16 +64,14 @@ class LogRowIp extends React.Component {
 					{ ! isSaving && <input type="checkbox" name="item[]" value={ id } disabled={ isLoading } checked={ selected } onChange={ this.onSelect } /> }
 					{ isSaving && <Spinner size="small" /> }
 				</th>
-				<td className="column-ipx column-primary">
-					<a href="#" onClick={ this.onGeo }>
-						<Highlighter searchWords={ [ this.props.filters.ip ] } textToHighlight={ ip } autoEscape />
-					</a>
+				<td className="column-url column-primary">
+					<ExternalLink url={ url }>
+						<Highlighter searchWords={ [ this.props.filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
+					</ExternalLink>
 
 					{ menu.length > 0 && <RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
 					</RowActions> }
-
-					{ this.state.showMap && this.renderMap() }
 				</td>
 				<td className="column-total">
 					{ numberFormat( count ) }
@@ -143,7 +90,6 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( performTableAction( 'delete', item ) );
 		},
 		setFilter: filters => {
-			debugger;
 			dispatch( setUngroupedFilter( filters ) );
 		},
 	};
@@ -160,4 +106,4 @@ function mapStateToProps( state ) {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)( LogRowIp );
+)( LogRowUrl );

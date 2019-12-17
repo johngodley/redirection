@@ -12,6 +12,7 @@ export function getInitialRedirect() {
 		target: true,
 		title: true,
 		group: true,
+		id: true,
 	};
 
 	return {

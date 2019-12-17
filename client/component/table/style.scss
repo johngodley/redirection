@@ -28,6 +28,7 @@
 		width: 110px;
 	}
 
+	.column-method,
 	.column-redirects {
 		width: 100px;
 		text-align: left;
@@ -39,7 +40,7 @@
 	}
 
 	.column-code {
-		width: 50px;
+		width: 110px;
 		text-align: left;
 	}
 
@@ -225,6 +226,11 @@
 .redirect-table__actions .actions {
 	.button {
 		height: 28px;
+	}
+}
+
+.redirect-searchbox {
+	.redirect-popover__toggle button {
 		margin-top: 1px;
 	}
 }

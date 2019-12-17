@@ -58,10 +58,12 @@
  * @apiParam (Query Parameter) {String} filterBy[referrer] Filter the results by the supplied referrer
  * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
  * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
+ * @apiParam (Query Parameter) {String} filterBy[domain] Filter the results by the supplied domain name
  * @apiParam (Query Parameter) {string="ip","url"} orderby Order by IP or URL
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
  * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
  * @apiParam (Query Parameter) {Integer} page Current page of results
+ * @apiParam (Query Parameter) {String="ip","url"} groupBy Group by IP or URL
  */
 
 /**
@@ -95,8 +97,8 @@
 
 class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
-		$orders = [ 'url', 'ip' ];
-		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target' ];
+		$orders = [ 'url', 'ip', 'total' ];
+		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain' ];
 
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
@@ -120,21 +122,44 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_bulk( WP_REST_Request $request ) {
+		$params = $request->get_params();
 		$items = $request['items'];
 
-		$items = array_map( 'intval', $items );
-		array_map( array( 'RE_Log', 'delete' ), $items );
-		return $this->route_log( $request );
+		if ( is_array( $items ) ) {
+			foreach ( $items as $item ) {
+				if ( is_numeric( $item ) ) {
+					Red_Redirect_Log::delete( intval( $item, 10 ) );
+				} else {
+					Red_Redirect_Log::delete_all( $this->get_delete_group( $params ), $item );
+				}
+			}
+
+			return $this->route_log( $request );
+		}
+
+		return $this->add_error_details( new WP_Error( 'redirect_log_invalid_items', 'Invalid array of items' ), __LINE__ );
+	}
+
+	private function get_delete_group( array $params ) {
+		if ( isset( $params['groupBy'] ) && $params['groupBy'] === 'ip' ) {
+			return 'ip';
+		}
+
+		return 'url-exact';
 	}
 
 	public function route_delete_all( WP_REST_Request $request ) {
 		$params = $request->get_params();
 
-		RE_Log::delete_all( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		Red_Redirect_Log::delete_all( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		return $this->route_log( $request );
 	}
 
 	private function get_logs( array $params ) {
-		return RE_Filter_Log::get( 'redirection_logs', 'RE_Log', $params );
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], array( 'ip', 'url' ), true ) ) {
+			return Red_Redirect_Log::get_grouped( $params['groupBy'], $params );
+		}
+
+		return Red_Redirect_Log::get_filtered( $params );
 	}
 }

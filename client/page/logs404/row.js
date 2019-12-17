@@ -146,7 +146,7 @@ class LogRow404 extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip, referrer, url, agent, id } = this.props.item;
+		const { created, created_time, ip, referrer, url, agent, id, request_method, http_code, domain = '' } = this.props.item;
 		const { selected, status, currentDisplaySelected, filters } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
 		const isSaving = status === STATUS_SAVING;
@@ -180,10 +180,18 @@ class LogRow404 extends React.Component {
 					{ created }<br />{ created_time }
 				</Column>
 
+				<Column enabled="method" className="column-method" selected={ currentDisplaySelected }>
+					{ request_method }
+				</Column>
+
+				<Column enabled="domain" className="column-domain" selected={ currentDisplaySelected }>
+					<Highlighter searchWords={ [ filters.domain ] } textToHighlight={ domain ? domain : '' } autoEscape />
+				</Column>
+
 				<Column enabled="url" className="column-url column-primary" selected={ currentDisplaySelected }>
-					<ExternalLink url={ url }>
-						<Highlighter searchWords={ [ filters.url ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
-					</ExternalLink>
+					{ url && <ExternalLink url={ url }>
+						<Highlighter searchWords={ [ filters.url || filters['url-exact'] ] } textToHighlight={ url.substring( 0, 100 ) } autoEscape />
+					</ExternalLink> }
 
 					<RowActions disabled={ isSaving }>
 						{ menu.reduce( ( prev, curr ) => [ prev, ' | ', curr ] ) }
@@ -194,8 +202,12 @@ class LogRow404 extends React.Component {
 					{ this.state.showAgent && this.renderAgent() }
 				</Column>
 
+				<Column enabled="code" className="column-code" selected={ currentDisplaySelected }>
+					{ http_code > 0 ? http_code : '' }
+				</Column>
+
 				<Column enabled="referrer" className="column-referrer" selected={ currentDisplaySelected }>
-					<Referrer url={ referrer } search={ filters.referrer } />
+					<Referrer url={ referrer } search={ filters.referrer ? filters.referrer : '' } />
 				</Column>
 
 				<Column enabled="agent" className="column-agent" selected={ currentDisplaySelected }>

@@ -57,6 +57,7 @@
  * @apiParam (Query Parameter) {String} filterBy[referrer] Filter the results by the supplied referrer
  * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
  * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
+ * @apiParam (Query Parameter) {String} filterBy[domain] Filter the results by the supplied domain name
  * @apiParam (Query Parameter) {string="ip","url"} orderby Order by IP or URL
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
  * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
@@ -95,7 +96,7 @@
 class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'ip', 'total' ];
-		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url' ];
+		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'domain' ];
 
 		register_rest_route( $namespace, '/404', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
@@ -160,12 +161,12 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 
 		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
 			foreach ( $params['items'] as $url ) {
-				RE_404::delete_all( $this->get_delete_group( $params ), $url );
+				Red_404_Log::delete_all( $this->get_delete_group( $params ), $url );
 			}
 		} else {
 			$first_filter = isset( $params['filterBy'] ) ? array_keys( $params['filterBy'] )[0] : false;
 
-			RE_404::delete_all( $first_filter ? $first_filter : false, $first_filter ? $params['filterBy'][ $first_filter ] : false );
+			Red_404_Log::delete_all( $first_filter ? $first_filter : false, $first_filter ? $params['filterBy'][ $first_filter ] : false );
 
 			unset( $params['filterBy'] );
 		}
@@ -177,9 +178,9 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 
 	private function get_404( array $params ) {
 		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], array( 'ip', 'url' ), true ) ) {
-			return RE_Filter_Log::get_grouped( 'redirection_404', $params['groupBy'], $params );
+			return Red_404_Log::get_grouped( $params['groupBy'], $params );
 		}
 
-		return RE_Filter_Log::get( 'redirection_404', 'RE_404', $params );
+		return Red_404_Log::get_filtered( $params );
 	}
 }

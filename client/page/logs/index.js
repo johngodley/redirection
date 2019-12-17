@@ -12,9 +12,12 @@ import { connect } from 'react-redux';
 import Table from 'component/table';
 import TableNav from 'component/table/navigation';
 import SearchBox from 'component/search-box';
+import TableGroup from 'component/table/group';
 import DeleteAll from 'page/logs/delete-all';
 import TableDisplay from 'component/table/table-display';
 import LogRow from './row';
+import RowUrl from './row-url';
+import RowIp from './row-ip';
 import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getOption } from 'state/settings/selector';
 import {
@@ -24,15 +27,17 @@ import {
 	performTableAction,
 	setAllSelected,
 	setOrderBy,
+	setGroupBy,
 	setFilter,
 	setDisplay,
 } from 'state/log/action';
 import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
-import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions } from './constants';
+import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions, getGroupBy } from './constants';
 import { isEnabled } from 'component/table/utils';
 import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
 
+// XXX try and merge with 404
 class Logs extends React.Component {
 	componentDidMount() {
 		this.props.onLoad( this.props.log.table );
@@ -43,18 +48,29 @@ class Logs extends React.Component {
 		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
 		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
 
-		return (
-			<LogRow
-				item={ row }
-				key={ key }
-				selected={ status.isSelected }
-				status={ rowStatus }
-				currentDisplayType={ currentDisplayType }
-				currentDisplaySelected={ currentDisplaySelected }
-				filters={ table.filterBy }
-				setFilter={ this.setFilter }
-			/>
-		);
+		if ( status.isLoading ) {
+			return null;
+		}
+
+		const props = {
+			item: row,
+			key,
+			selected: status.isSelected,
+			status: rowStatus,
+			onCreate: this.onCreate,
+			currentDisplayType,
+			currentDisplaySelected,
+			filters: this.props.log.table.filterBy,
+			setFilter: this.setFilter,
+		};
+
+		if ( table.groupBy === 'url' ) {
+			return <RowUrl { ...props } />;
+		} else if ( table.groupBy === 'ip' ) {
+			return <RowIp { ...props } />;
+		}
+
+		return <LogRow { ...props } />;
 	}
 
 	setFilter = ( filterName, filterValue ) => {
@@ -75,8 +91,8 @@ class Logs extends React.Component {
 		this.props.onFilter( filterBy );
 	}
 
-	getHeaders( selected ) {
-		return getHeaders().filter( header => isEnabled( selected, header.name ) || header.name === 'cb' || header.name === 'url' );
+	getHeaders( selected, groupBy ) {
+		return getHeaders( groupBy ).filter( header => isEnabled( selected, header.name ) || [ 'cb', 'url', 'total', 'ipx' ].indexOf( header.name ) !== -1 );
 	}
 
 	validateDisplay( selected ) {
@@ -113,9 +129,18 @@ class Logs extends React.Component {
 					/>
 				</div>
 
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() } />
+				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() }>
+					<TableGroup
+						selected={ table.groupBy ? table.groupBy : '0' }
+						options={ getGroupBy( this.props.settings.values.ip_logging ) }
+						isEnabled={ status !== STATUS_IN_PROGRESS }
+						onGroup={ this.props.onGroup }
+						key={ table.groupBy }
+					/>
+				</TableNav>
+
 				<Table
-					headers={ this.getHeaders( table.displaySelected ) }
+					headers={ this.getHeaders( table.displaySelected, table.groupBy ) }
 					rows={ rows }
 					total={ total }
 					row={ this.renderRow }
@@ -141,10 +166,11 @@ class Logs extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { log } = state;
+	const { log, settings } = state;
 
 	return {
 		log,
+		settings,
 		token: getOption( state, 'token' ),
 	};
 }
@@ -162,6 +188,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onTableAction: action => {
 			dispatch( performTableAction( action ) );
+		},
+		onGroup: groupBy => {
+			dispatch( setGroupBy( groupBy ) );
 		},
 		onSetAllSelected: onoff => {
 			dispatch( setAllSelected( onoff ) );
