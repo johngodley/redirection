@@ -223,9 +223,14 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `created` datetime NOT NULL,
 		  `url` mediumtext NOT NULL,
+		  `domain` VARCHAR(255) NULL DEFAULT NULL,
 		  `sent_to` mediumtext,
 		  `agent` mediumtext NOT NULL,
 		  `referrer` mediumtext,
+		  `http_code` INT(11) unsigned NOT NULL DEFAULT 0,
+		  `request_method` VARCHAR(10) NULL DEFAULT NULL,
+		  `request_data` MEDIUMTEXT NULL DEFAULT NULL,
+		  `redirect_by` VARCHAR(50) NULL DEFAULT NULL,
 		  `redirection_id` int(11) unsigned DEFAULT NULL,
   		  `ip` varchar(45) DEFAULT NULL,
 		  `module_id` int(11) unsigned NOT NULL,
@@ -236,6 +241,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		  KEY `ip` (`ip`),
 		  KEY `group_id` (`group_id`),
 		  KEY `module_id` (`module_id`)
+		  KEY `domain` (`domain`)
 	  	) $charset_collate";
 	}
 
@@ -244,14 +250,19 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 		  `created` datetime NOT NULL,
 		  `url` varchar(255) NOT NULL DEFAULT '',
+		  `domain` VARCHAR(255) DEFAULT NULL,
 		  `agent` varchar(255) DEFAULT NULL,
 		  `referrer` varchar(255) DEFAULT NULL,
+		  `http_code` INT(11) unsigned NOT NULL DEFAULT 0,
+		  `request_method` VARCHAR(10) NULL DEFAULT NULL,
+		  `request_data` MEDIUMTEXT NULL DEFAULT NULL,
 		  `ip` varchar(45) DEFAULT NULL,
 		  PRIMARY KEY (`id`),
 		  KEY `created` (`created`),
 		  KEY `url` (`url`(191)),
 		  KEY `referrer` (`referrer`(191)),
 		  KEY `ip` (`ip`)
+		  KEY `domain` (`domain`)
 	  	) $charset_collate";
 	}
 }
