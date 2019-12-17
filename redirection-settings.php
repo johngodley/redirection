@@ -47,6 +47,9 @@ function red_get_default_options() {
 		'auto_target'         => '',
 		'expire_redirect'     => 7,   // Expire in 7 days
 		'expire_404'          => 7,   // Expire in 7 days
+		'log_external'        => false,
+		'log_header'          => false,
+		'track_hits'          => true,
 		'modules'             => [],
 		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour
@@ -126,24 +129,19 @@ function red_set_options( array $settings = array() ) {
 		}
 	}
 
-	if ( isset( $settings['support'] ) ) {
-		$options['support'] = $settings['support'] ? true : false;
-	}
-
 	if ( isset( $settings['token'] ) ) {
 		$options['token'] = $settings['token'];
-	}
-
-	if ( isset( $settings['https'] ) ) {
-		$options['https'] = $settings['https'] ? true : false;
 	}
 
 	if ( isset( $settings['token'] ) && trim( $options['token'] ) === '' ) {
 		$options['token'] = md5( uniqid() );
 	}
 
-	if ( isset( $settings['newsletter'] ) ) {
-		$options['newsletter'] = $settings['newsletter'] ? true : false;
+	// Boolean settings
+	foreach ( [ 'support', 'https', 'newsletter', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+		if ( isset( $settings[ $name ] ) ) {
+			$options[ $name ] = $settings[ $name ] ? true : false;
+		}
 	}
 
 	if ( isset( $settings['expire_redirect'] ) ) {
