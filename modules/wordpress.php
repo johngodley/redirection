@@ -39,6 +39,22 @@ class WordPress_Module extends Red_Module {
 
 		// Log 404s and perform 'URL and WordPress page type' redirects
 		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
+
+		// Back-compat for < database 4.2
+		add_filter( 'redirection_404_data', [ $this, 'log_back_compat' ] );
+		add_filter( 'redirection_log_data', [ $this, 'log_back_compat' ] );
+	}
+
+	public function log_back_compat( $insert ) {
+		// Remove columns not supported in older versions
+		$status = new Red_Database_Status();
+		if ( ! $status->does_support( '4.2' ) ) {
+			foreach ( [ 'request_data', 'request_method', 'http_code', 'domain' ] as $ignore ) {
+				unset( $insert[ $ignore ] );
+			}
+		}
+
+		return $insert;
 	}
 
 	/*
@@ -66,7 +82,20 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
-			RE_404::create( Redirection_Request::get_request_url(), Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer() );
+			$details = [
+				'agent' => Redirection_Request::get_user_agent(),
+				'referrer' => Redirection_Request::get_referrer(),
+				'request_method' => Redirection_Request::get_request_method(),
+				'http_code' => 404,
+			];
+
+			if ( $options['log_header'] ) {
+				$details['request_data'] = [
+					'headers' => Redirection_Request::get_request_headers(),
+				];
+			}
+
+			Red_404_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_ip(), $details );
 		}
 	}
 
@@ -189,18 +218,18 @@ class WordPress_Module extends Red_Module {
 		return 'HTTP/1.1 410 Gone';
 	}
 
-	public function wp_redirect( $url, $status = 302 ) {
-		global $wp_version, $is_IIS;
-
-		$options = red_get_options();
-		$headers = new Red_Http_Headers( $options['headers'] );
-		$headers->run( $headers->get_redirect_headers() );
+	// Don't know if this is still needed
+	private function iis_fix( $url ) {
+		global $is_IIS;
 
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );
 			return $url;
 		}
+	}
 
+	// Don't know if this is still needed
+	private function cgi_fix( $url, $status ) {
 		if ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = [ 'lighttpd', 'nginx' ];
 
@@ -211,6 +240,47 @@ class WordPress_Module extends Red_Module {
 					exit( 0 );
 				}
 			}
+		}
+	}
+
+	private function record_all_redirects( $url, $status, $headers ) {
+		// Have we already redirected with Redirection?
+		$source = apply_filters( 'x_redirect_by', 'check' );
+		if ( $this->matched || $source === 'redirection' ) {
+			return;
+		}
+
+		$details = [
+			'target' => $url,
+			'agent' => Redirection_Request::get_user_agent(),
+			'referrer' => Redirection_Request::get_referrer(),
+			'request_method' => Redirection_Request::get_request_method(),
+			'http_code' => $status,
+			'request_data' => [
+				// phpcs:ignore
+				'source' => wp_debug_backtrace_summary( null, 5, false ),
+			],
+		];
+
+		if ( $headers ) {
+			$details['request_data']['headers'] = Redirection_Request::get_request_headers();
+		}
+
+		Red_Redirect_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_ip(), $details );
+	}
+
+	public function wp_redirect( $url, $status = 302 ) {
+		global $wp_version;
+
+		$options = red_get_options();
+		$headers = new Red_Http_Headers( $options['headers'] );
+		$headers->run( $headers->get_redirect_headers() );
+
+		$this->iis_fix( $url );
+		$this->cgi_fix( $url, $status );
+
+		if ( $options['log_external'] ) {
+			$this->record_all_redirects( $url, $status, $options['log_header'] );
 		}
 
 		if ( intval( $status, 10 ) === 307 ) {

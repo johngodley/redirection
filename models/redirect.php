@@ -356,21 +356,32 @@ class Red_Item {
 		// Update the counters
 		$this->last_count++;
 
-		if ( apply_filters( 'redirection_redirect_counter', true ) ) {
+		if ( apply_filters( 'redirection_redirect_counter', $options['track_hits'], $url ) ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 		}
 
 		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 && $target ) {
-			$details = array(
-				'redirect_id' => $this->id,
-				'group_id' => $this->group_id,
-			);
-
 			if ( $target === true ) {
 				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
 			}
 
-			RE_Log::create( $url, $target, Redirection_Request::get_user_agent(), Redirection_Request::get_ip(), Redirection_Request::get_referrer(), $details );
+			$details = [
+				'target' => $target,
+				'agent' => Redirection_Request::get_user_agent(),
+				'referrer' => Redirection_Request::get_referrer(),
+				'request_method' => Redirection_Request::get_request_method(),
+				'http_code' => $this->get_action_code(),
+				'redirect_id' => $this->id,
+				'group_id' => $this->group_id,
+			];
+
+			if ( $options['log_header'] ) {
+				$details['request_data'] = [
+					'headers' => Redirection_Request::get_request_headers(),
+				];
+			}
+
+			Red_Redirect_Log::create( Redirection_Request::get_server(), $url, Redirection_Request::get_ip(), $details );
 		}
 	}
 

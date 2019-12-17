@@ -221,17 +221,12 @@ abstract class Red_Log {
 			'request_method' => 'request_method',
 			'http_code' => 'http_code',
 			'request_data' => 'request_data',
-			'ip_host' => 'ip_host',
 		];
 
 		foreach ( $allowed as $name => $replace ) {
 			if ( ! empty( $details[ $name ] ) ) {
 				$insert[ $replace ] = $details[ $name ];
 			}
-		}
-
-		if ( isset( $insert['ip_host'] ) ) {
-			$insert['ip_host'] = substr( $insert['ip_host'], 0, 255 );
 		}
 
 		if ( isset( $insert['agent'] ) ) {
