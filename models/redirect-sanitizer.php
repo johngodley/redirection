@@ -105,13 +105,13 @@ class Red_Item_Sanitize {
 
 		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
 		if ( ! $matcher ) {
-			return new WP_Error( 'redirect', __( 'Invalid redirect matcher', 'redirection' ) );
+			return new WP_Error( 'redirect', 'Invalid redirect matcher' );
 		}
 
 		$action_code = isset( $details['action_code'] ) ? intval( $details['action_code'], 10 ) : 0;
 		$action = Red_Action::create( isset( $details['action_type'] ) ? $details['action_type'] : false, $action_code );
 		if ( ! $action ) {
-			return new WP_Error( 'redirect', __( 'Invalid redirect action', 'redirection' ) );
+			return new WP_Error( 'redirect', 'Invalid redirect action' );
 		}
 
 		$data['action_type'] = $details['action_type'];
@@ -180,7 +180,7 @@ class Red_Item_Sanitize {
 		$group_id = intval( $group_id, 10 );
 
 		if ( ! Red_Group::get( $group_id ) ) {
-			return new WP_Error( 'redirect', __( 'Invalid group when creating redirect', 'redirection' ) );
+			return new WP_Error( 'redirect', 'Invalid group when creating redirect' );
 		}
 
 		return $group_id;
@@ -190,7 +190,7 @@ class Red_Item_Sanitize {
 		$url = self::sanitize_url( $url, $regex );
 
 		if ( $url === '' ) {
-			return new WP_Error( 'redirect', __( 'Invalid source URL', 'redirection' ) );
+			return new WP_Error( 'redirect', 'Invalid source URL' );
 		}
 
 		return $url;

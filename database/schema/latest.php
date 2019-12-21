@@ -6,7 +6,9 @@
 class Red_Latest_Database extends Red_Database_Upgrader {
 	public function get_stages() {
 		return [
+			/* translators: displayed when installing the plugin */
 			'create_tables' => __( 'Install Redirection tables', 'redirection' ),
+			/* translators: displayed when installing the plugin */
 			'create_groups' => __( 'Create basic data', 'redirection' ),
 		];
 	}
