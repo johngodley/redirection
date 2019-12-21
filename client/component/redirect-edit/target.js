@@ -55,7 +55,7 @@ export default class TargetUrl extends React.Component {
 		this.setState( { makingRequest: true } );
 
 		// Ignore errors - we just don't show anything
-		getApi( RedirectionApi.plugin.matchPost( this.props.url ) )
+		getApi( RedirectionApi.redirect.matchPost( this.props.url ) )
 			.then( options => {
 				this.setState( { options, makingRequest: false } );
 			} );

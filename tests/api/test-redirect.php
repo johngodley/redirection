@@ -42,6 +42,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 			[ 'redirect', 'GET', [] ],
 			[ 'redirect', 'POST', [] ],
 			[ 'redirect/1', 'POST', [] ],
+			[ 'redirect/post', 'GET', [] ],
 			[ 'bulk/redirect/delete', 'POST', [ 'items' => '1' ] ],
 			[ 'bulk/redirect/enable', 'POST', [ 'items' => '1' ] ],
 			[ 'bulk/redirect/disable', 'POST', [ 'items' => '1' ] ],
@@ -61,6 +62,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		$working = [
 			Redirection_Capabilities::CAP_REDIRECT_MANAGE => [
 				[ 'redirect', 'GET' ],
+				[ 'redirect/post', 'GET' ],
 			],
 			Redirection_Capabilities::CAP_REDIRECT_DELETE => [ [ 'bulk/redirect/delete', 'POST' ] ],
 			Redirection_Capabilities::CAP_REDIRECT_ADD => [

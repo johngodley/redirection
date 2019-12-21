@@ -185,6 +185,16 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_update', [ $this, 'permission_callback_add' ] ),
 		) );
 
+		register_rest_route( $namespace, '/redirect/post', array(
+			$this->get_route( WP_REST_Server::READABLE, 'route_match_post', [ $this, 'permission_callback_manage' ] ),
+			'args' => [
+				'text' => [
+					'description' => 'Text to match',
+					'type' => 'string',
+				],
+			],
+		) );
+
 		$this->register_bulk( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', $orders, 'route_bulk', [ $this, 'permission_callback_bulk' ] );
 	}
 
@@ -274,5 +284,33 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 		}
 
 		return $this->add_error_details( new WP_Error( 'redirect_invalid_items', 'Invalid array of items' ), __LINE__ );
+	}
+
+	public function route_match_post( WP_REST_Request $request ) {
+		$params = $request->get_params();
+		$search = isset( $params['text'] ) ? $params['text'] : false;
+		$results = [];
+
+		if ( $search ) {
+			global $wpdb;
+
+			$posts = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
+					"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
+					'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
+				)
+			);
+
+			foreach ( (array) $posts as $post ) {
+				$results[] = [
+					'title' => $post->post_title,
+					'slug' => $post->post_name,
+					'url' => get_permalink( $post->ID ),
+				];
+			}
+		}
+
+		return $results;
 	}
 }

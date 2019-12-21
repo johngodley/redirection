@@ -144,8 +144,8 @@ class LogRow extends React.Component {
 				</Column>
 
 				<Column enabled="target" className="column-primary column-target" selected={ currentDisplaySelected }>
-					<ExternalLink url={ sent_to }>
-						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to.substring( 0, 100 ) } autoEscape />
+					<ExternalLink url={ sent_to ? sent_to : '' }>
+						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to ? sent_to.substring( 0, 100 ) : '' } autoEscape />
 					</ExternalLink>
 				</Column>
 

@@ -31,16 +31,6 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 			$this->get_route( WP_REST_Server::ALLMETHODS, 'route_test', [ $this, 'permission_callback_manage' ] ),
 		) );
 
-		register_rest_route( $namespace, '/plugin/post', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_match_post', [ $this, 'permission_callback_manage' ] ),
-			'args' => [
-				'text' => [
-					'description' => 'Text to match',
-					'type' => 'string',
-				],
-			],
-		) );
-
 		register_rest_route( $namespace, '/plugin/database', array(
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_database', [ $this, 'permission_callback_manage' ] ),
 			'args' => array(
@@ -56,34 +46,6 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SUPPORT_MANAGE );
-	}
-
-	public function route_match_post( WP_REST_Request $request ) {
-		$params = $request->get_params();
-		$search = isset( $params['text'] ) ? $params['text'] : false;
-		$results = [];
-
-		if ( $search ) {
-			global $wpdb;
-
-			$posts = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
-					"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
-					'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
-				)
-			);
-
-			foreach ( (array) $posts as $post ) {
-				$results[] = [
-					'title' => $post->post_title,
-					'slug' => $post->post_name,
-					'url' => get_permalink( $post->ID ),
-				];
-			}
-		}
-
-		return $results;
 	}
 
 	public function route_status( WP_REST_Request $request ) {

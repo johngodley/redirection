@@ -106,6 +106,7 @@ export const RedirectionApi = {
 		list: data => getApiRequest( 'redirect', data ),
 		update: ( id, data ) => postApiRequest( 'redirect/' + id, data ),
 		create: data => postApiRequest( 'redirect', data ),
+		matchPost: text => getApiRequest( 'redirect/post', { text } ),
 	},
 	group: {
 		list: data => getApiRequest( 'group', data ),
@@ -143,7 +144,6 @@ export const RedirectionApi = {
 
 			return request;
 		},
-		matchPost: text => getApiRequest( 'plugin/post', { text } ),
 	},
 	bulk: {
 		redirect: ( action, data, table ) => postApiRequest( 'bulk/redirect/' + action, data, table ),
