@@ -10,7 +10,6 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			[ 'plugin/delete', 'POST', [] ],
 			[ 'plugin/test', 'GET', [] ],
 			[ 'plugin/test', 'POST', [] ],
-			[ 'plugin/post', 'GET', [] ],
 			[ 'plugin/database', 'POST', [] ],
 		];
 	}
@@ -31,7 +30,6 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 				[ 'plugin/delete', 'POST' ],
 				[ 'plugin/test', 'GET' ],
 				[ 'plugin/test', 'POST' ],
-				[ 'plugin/post', 'GET' ],
 				[ 'plugin/database', 'POST' ],
 			],
 		];
@@ -99,14 +97,14 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 	public function testMatchPost() {
 		$this->setNonce();
 
-		$results = $this->callApi( 'plugin/post', [ 'text' => 'e' ] );
+		$results = $this->callApi( 'redirect/post', [ 'text' => 'e' ] );
 		$this->assertTrue( count( $results->data ) > 0 );
 	}
 
 	public function testNoMatchPost() {
 		$this->setNonce();
 
-		$results = $this->callApi( 'plugin/post', [ 'text' => 'z' ] );
+		$results = $this->callApi( 'redirect/post', [ 'text' => 'z' ] );
 		$this->assertTrue( count( $results->data ) === 0 );
 	}
 }
