@@ -221,7 +221,7 @@ class Logs404 extends React.Component {
 					onChangePage={ this.props.onChangePage }
 					onAction={ this.props.onTableAction }
 				>
-					{ has_capability( CAP_404_DELETE ) && (
+					{ has_capability( CAP_404_DELETE ) && Object.keys( table.filterBy ).length === 0 && (
 						<TableButtons enabled={ rows.length > 0 }>
 							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 						</TableButtons>

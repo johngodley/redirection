@@ -130,7 +130,7 @@ class Logs extends React.Component {
 				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
 					<TableButtons enabled={ rows.length > 0 }>
 						{ this.props.token && <div className="table-button-item"><a href={ getRssUrl( this.props.token ) } className="button-secondary">RSS</a></div> }
-						{ has_capability( CAP_LOG_DELETE ) && (
+						{ has_capability( CAP_LOG_DELETE ) && Object.keys( table.filterBy ).length === 0 && (
 							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 						) }
 					</TableButtons>
