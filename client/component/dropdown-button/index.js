@@ -48,7 +48,10 @@ class DropdownButton extends React.Component {
 				renderContent={ ( toggle ) => (
 					<ul>
 						{ options.map( ( { title, name } ) => (
-							<li key={ name } className={ selectedItem.name === name ? 'redirect-dropdownbutton__selected' : null }>
+							<li key={ name } className={ classnames( {
+								'redirect-dropdownbutton__selected': selectedItem.name === name,
+								[ 'redirect-dropdownbutton__' + name ]: true,
+							} ) }>
 								<a href="#" onClick={ ev => this.onChange( ev, name, toggle ) }>
 									<span className="redirect-dropdownbutton__check">{ selectedItem.name === name && '✓' }</span>
 									{ title }
