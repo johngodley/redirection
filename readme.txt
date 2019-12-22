@@ -162,7 +162,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-= 4.6 = ???
+= 4.6 - 22nd December 2019 =
 * Add fine-grained permissions allowing greater customisation of the plugin, and removal of functionality
 * Add an import step to the install wizard
 * Remove overriding of default WordPress 'old slugs'
