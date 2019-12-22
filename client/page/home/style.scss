@@ -29,8 +29,8 @@
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 	margin: 5px 15px 2px;
 	padding: 1px 12px;
-    margin: 5px 0 15px;
-    border-left-color: #ffb900;
+	margin: 5px 0 15px;
+	border-left-color: #ffb900;
 
 	&.inline-general {
 		border-left-color: #46b450;
@@ -50,17 +50,17 @@
  */
 @media screen and (max-width: 782px) {
 	.newsletter form {
-		input[type=email] {
+		input[type="email"] {
 			display: block;
 			width: 100%;
-			margin: 5px 0px;
+			margin: 5px 0;
 		}
 	}
 
 	.import {
 		select {
 			width: 100%;
-			margin: 5px 0px;
+			margin: 5px 0;
 		}
 	}
 
