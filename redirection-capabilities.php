@@ -109,9 +109,9 @@ class Redirection_Capabilities {
 			self::CAP_SITE_MANAGE => 'site',
 		];
 
-		$pages = array_filter( $pages, function( $cap ) {
+		$pages = array_filter( array_keys( $pages ), function( $cap ) {
 			return self::has_access( $cap );
-		}, ARRAY_FILTER_USE_KEY );
+		} );
 
 		return array_values( apply_filters( self::FILTER_PAGES, $pages ) );
 	}
