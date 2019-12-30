@@ -148,9 +148,14 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 					'description' => 'Comma separated list of item IDs to perform action on',
 					'type' => 'string|integer',
 					'required' => true,
+					'sanitize_callback' => [ $this, 'sanitize_csv' ],
 				),
 			) ),
 		) );
+	}
+
+	public function sanitize_csv( $param ) {
+		return array_values( array_filter( array_map( 'intval', explode( ',', $param ) ) ) );
 	}
 }
 

@@ -47,13 +47,6 @@
  * @apiUse 401Error
  * @apiUse 404Error
  * @apiUse 400MissingError
- * @apiError (Error 400) redirect_log_invalid_items Invalid array of items
- * @apiErrorExample {json} 404 Error Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "code": "redirect_log_invalid_items",
- *       "message": "Invalid array of items"
- *     }
  */
 
 /**
@@ -127,15 +120,11 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_bulk( WP_REST_Request $request ) {
-		$items = explode( ',', $request['items'] );
+		$items = $request['items'];
 
-		if ( is_array( $items ) ) {
-			$items = array_map( 'intval', $items );
-			array_map( array( 'RE_Log', 'delete' ), $items );
-			return $this->route_log( $request );
-		}
-
-		return $this->add_error_details( new WP_Error( 'redirect_log_invalid_items', 'Invalid array of items' ), __LINE__ );
+		$items = array_map( 'intval', $items );
+		array_map( array( 'RE_Log', 'delete' ), $items );
+		return $this->route_log( $request );
 	}
 
 	public function route_delete_all( WP_REST_Request $request ) {
