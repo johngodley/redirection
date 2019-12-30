@@ -575,7 +575,11 @@ class Redirection_Admin {
 
 	private function try_export_redirects() {
 		// phpcs:ignore
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && $_GET['sub'] === 'io' && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
+		if ( ! isset( $_GET['sub'] ) || $_GET['sub'] !== 'io' ) {
+			return;
+		}
+
+		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
 			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
 
 			if ( $export !== false ) {

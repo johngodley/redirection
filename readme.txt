@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.3.2
-Stable tag: 4.6
+Stable tag: 4.6.1
 Requires PHP: 5.4
 License: GPLv3
 
@@ -161,6 +161,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
 
 == Changelog ==
+
+= 4.6.1 - 30th December 2019 =
+* Back-compatibility fix for old PHP versions
 
 = 4.6 - 27th December 2019 =
 * Add fine-grained permissions allowing greater customisation of the plugin, and removal of functionality
