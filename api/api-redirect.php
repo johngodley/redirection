@@ -184,6 +184,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 				'text' => [
 					'description' => 'Text to match',
 					'type' => 'string',
+					'required' => true,
 				],
 			],
 		) );
@@ -276,28 +277,26 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	}
 
 	public function route_match_post( WP_REST_Request $request ) {
+		global $wpdb;
+
 		$params = $request->get_params();
-		$search = isset( $params['text'] ) ? $params['text'] : false;
+		$search = $params['text'];
 		$results = [];
 
-		if ( $search ) {
-			global $wpdb;
+		$posts = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
+				"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
+				'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
+			)
+		);
 
-			$posts = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
-					"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
-					'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
-				)
-			);
-
-			foreach ( (array) $posts as $post ) {
-				$results[] = [
-					'title' => $post->post_title,
-					'slug' => $post->post_name,
-					'url' => get_permalink( $post->ID ),
-				];
-			}
+		foreach ( (array) $posts as $post ) {
+			$results[] = [
+				'title' => $post->post_title,
+				'slug' => $post->post_name,
+				'url' => get_permalink( $post->ID ),
+			];
 		}
 
 		return $results;
