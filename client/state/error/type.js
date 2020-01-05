@@ -13,4 +13,4 @@ export const ERROR_ITEM_FAILED = 'ERROR_ITEM_FAILED';
 export const ERROR_DISPLAY_SET = 'LOG_DISPLAY_SET';
 
 export const LOGS_TYPE_REDIRECT = 'log';
-export const LOGS_TYPE_404 = '404';
+export const LOGS_TYPE_404 = '404s';
