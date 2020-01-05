@@ -387,7 +387,7 @@ class Redirection_Admin {
 	}
 
 	public function admin_screen() {
-		if ( empty( Redirection_Capabilities::get_all_capabilities() ) ) {
+		if ( count( Redirection_Capabilities::get_all_capabilities() ) === 0 ) {
 			die( 'You do not have sufficient permissions to access this page.' );
 		}
 
