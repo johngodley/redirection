@@ -65,7 +65,7 @@ class Site extends React.Component {
 		props.onLoadSettings();
 
 		this.state = {
-			https: false,
+			https: props.values.https,
 			headers: props.values.headers ? props.values.headers : [],
 			preset: 'header',
 		};
