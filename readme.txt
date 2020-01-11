@@ -165,6 +165,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is
 purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 4.7 - ??? =
+* Relocate entire site to another domain, with exceptions
+* Site aliases to map another site to current site
+* Canonical settings for www/no-www
+* Change content-type for API requests to help with mod_security
+
 = 4.6.2 - 6th January 2020 =
 * Fix 404 log export button
 * Fix HTTPS option not appearing enabled
