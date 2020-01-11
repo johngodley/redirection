@@ -177,7 +177,7 @@ class EditRedirect extends React.Component {
 	onFlagChange = flags => {
 		const changed = {};
 
-		Object.keys( this.props.flags ).forEach( key => {
+		Object.keys( this.props.flags ).filter( key => key !== 'flag_query' ).forEach( key => {
 			changed[ key ] = false;
 		} );
 

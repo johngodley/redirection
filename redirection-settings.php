@@ -56,6 +56,9 @@ function red_get_default_options() {
 		'https'               => false,
 		'headers'             => [],
 		'database'            => '',
+		'relocate'            => '',
+		'preferred_domain'    => '',
+		'aliases'             => [],
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
@@ -193,8 +196,56 @@ function red_set_options( array $settings = array() ) {
 		$options['headers'] = $headers->get_json();
 	}
 
+	if ( isset( $settings['aliases'] ) && is_array( $settings['aliases'] ) ) {
+		$options['aliases'] = array_values( array_filter( array_map( 'red_parse_domain_only', $settings['aliases'] ) ) );
+		$options['aliases'] = array_slice( $options['aliases'], 0, 10 ); // Max 10 aliases
+	}
+
+	if ( isset( $settings['preferred_domain'] ) && in_array( $settings['preferred_domain'], [ '', 'www', 'nowww' ], true ) ) {
+		$options['preferred_domain'] = $settings['preferred_domain'];
+	}
+
+	if ( isset( $settings['relocate'] ) ) {
+		$options['relocate'] = red_parse_domain_path( $settings['relocate'] );
+
+		if ( strlen( $options['relocate'] ) > 0 ) {
+			$options['preferred_domain'] = '';
+			$options['aliases'] = [];
+			$options['https'] = false;
+		}
+	}
+
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );
 	return $options;
+}
+
+function red_parse_url( $url ) {
+	$domain = filter_var( $url, FILTER_SANITIZE_URL );
+	if ( substr( $domain, 0, 5 ) !== 'http:' && substr( $domain, 0, 6 ) !== 'https:' ) {
+		$domain = ( is_ssl() ? 'https://' : 'http://' ) . $domain;
+	}
+
+	return wp_parse_url( $domain );
+}
+
+function red_parse_domain_only( $domain ) {
+	$parsed = red_parse_url( $domain );
+
+	if ( $parsed && isset( $parsed['host'] ) ) {
+		return $parsed['host'];
+	}
+
+	return '';
+}
+
+function red_parse_domain_path( $domain ) {
+	$parsed = red_parse_url( $domain );
+
+	if ( $parsed && isset( $parsed['host'] ) ) {
+		return $parsed['scheme'] . '://' . $parsed['host'] . ( isset( $parsed['path'] ) ? $parsed['path'] : '' );
+	}
+
+	return '';
 }
 
 function red_is_disabled() {

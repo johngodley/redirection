@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import enhanceWithClickOutside from 'react-click-outside';
+import onClickOutside from 'lib/click-outside';
 
 class ModalContent extends React.Component {
 	handleClickOutside = () => {
@@ -25,4 +25,4 @@ class ModalContent extends React.Component {
 	}
 }
 
-export default enhanceWithClickOutside( ModalContent );
+export default onClickOutside( ModalContent );

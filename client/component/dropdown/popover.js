@@ -4,7 +4,12 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import enhanceWithClickOutside from 'react-click-outside';
+
+/**
+ * Local dependencies
+ */
+
+import onClickOutside from 'lib/click-outside';
 
 const POPOVER_MIN = 100;
 const POPOVER_MAX = 250;
@@ -93,4 +98,4 @@ class Popover extends React.Component {
 	}
 }
 
-export default enhanceWithClickOutside( Popover );
+export default onClickOutside( Popover );

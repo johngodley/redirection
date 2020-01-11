@@ -41,6 +41,19 @@
 	width: 100px;
 }
 
+.redirect-alias__item input[type="text"] {
+	width: 100%;
+}
+
+td.redirect-alias__item__asdomain {
+	vertical-align: middle;
+}
+
+.redirect-alias__delete {
+	width: 20px;
+}
+
+.redirect-alias__delete,
 .redirect-headers__delete {
 	width: 35px;
 

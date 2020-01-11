@@ -17,11 +17,11 @@ class WordPress_Module extends Red_Module {
 	public function start() {
 		// Only run redirect rules if we're not disabled
 		if ( ! red_is_disabled() ) {
+			// Canonical site settings - https, www, relocate, and aliases
+			add_action( 'init', [ $this, 'canonical_domain' ] );
+
 			// The main redirect loop
 			add_action( 'init', [ $this, 'init' ] );
-
-			// Force HTTPs code
-			add_action( 'init', [ $this, 'force_https' ] );
 
 			// Send site HTTP headers as well as 410 error codes
 			add_action( 'send_headers', [ $this, 'send_headers' ] );
@@ -104,13 +104,25 @@ class WordPress_Module extends Red_Module {
 		$redirect->visit( $url, $target );
 	}
 
-	public function force_https() {
+	public function canonical_domain() {
 		$options = red_get_options();
+		$canonical = new Redirection_Canonical( $options['https'], $options['preferred_domain'], $options['aliases'] );
 
-		if ( $options['https'] && ! is_ssl() ) {
-			$target = rtrim( parse_url( home_url(), PHP_URL_HOST ), '/' ) . esc_url_raw( Redirection_Request::get_request_url() );
+		// Relocate domain?
+		$target = false;
+		if ( $options['relocate'] ) {
+			$target = $canonical->relocate_request( $options['relocate'], Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+		}
+
+		// Force HTTPS or www
+		if ( ! $target ) {
+			$target = $canonical->get_redirect( Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+		}
+
+		if ( $target ) {
 			add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
-			wp_safe_redirect( 'https://' . $target, 301 );
+			// phpcs:ignore
+			wp_redirect( $target, 301 );
 			die();
 		}
 	}

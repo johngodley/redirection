@@ -122,7 +122,7 @@ export const getWarningFromState = ( item ) => {
 
 	// Redirect everything
 	if ( url === '/(.*)' || url === '^/(.*)' ) {
-		warnings.push( __( 'This will redirect everything, including the login pages. Please be sure you want to do this.' ) );
+		warnings.push( __( 'If you want to redirect everything please use a site relocation or alias from the Site page.' ) );
 	}
 
 	// If matched/unmatched that is the same as the source URL

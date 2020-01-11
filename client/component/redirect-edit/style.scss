@@ -99,6 +99,7 @@
 .redirection-url-autocomplete {
 	display: flex;
 	position: relative;
+	z-index: 10000;
 
 	svg {
 		width: 28px;
@@ -114,7 +115,7 @@
 
 	.redirection-url-autocomplete__options {
 		position: absolute;
-		top: 30px;
+		top: 31px;
 		left: 1px;
 		width: 400px;
 		height: 150px;
