@@ -5,7 +5,7 @@ Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.3.2
 Stable tag: 4.6.2
-Requires PHP: 5.5
+Requires PHP: 5.6
 License: GPLv3
 
 Manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.
@@ -20,7 +20,7 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
-Redirection is compatible with PHP from 5.4 and upwards (including 7.2).
+Redirection is compatible with PHP from 5.6 and upwards (including 7.4).
 
 = Redirect manager =
 
@@ -159,6 +159,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 = 4.0 =
 * Alters database to support case insensitivity, trailing slashes, and query params. Please backup your data
+
+= 4.7 =
+* Requires minimum PHP 5.6+. Do not upgrade if you are still using PHP < 5.6
 
 == Changelog ==
 
