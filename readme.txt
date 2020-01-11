@@ -162,6 +162,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
+An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is
+purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
 = 4.6.2 - 6th January 2020 =
 * Fix 404 log export button
 * Fix HTTPS option not appearing enabled
