@@ -72,13 +72,6 @@
  * @apiUse 401Error
  * @apiUse 404Error
  * @apiUse 400MissingError
- * @apiError (Error 400) redirect_invalid_items Invalid array of items
- * @apiErrorExample {json} 404 Error Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "code": "redirect_invalid_items",
- *       "message": "Invalid array of items"
- *     }
  */
 
 /**
@@ -191,6 +184,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 				'text' => [
 					'description' => 'Text to match',
 					'type' => 'string',
+					'required' => true,
 				],
 			],
 		) );
@@ -253,7 +247,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 				return $this->add_error_details( $result, __LINE__ );
 			}
 
-			return array( 'item' => $redirect->to_json() );
+			return [ 'item' => $redirect->to_json() ];
 		}
 
 		return $this->add_error_details( new WP_Error( 'redirect_update_failed', 'Invalid redirect details' ), __LINE__ );
@@ -261,54 +255,48 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 
 	public function route_bulk( WP_REST_Request $request ) {
 		$action = $request['bulk'];
-		$items = explode( ',', $request['items'] );
+		$items = $request['items'];
 
-		if ( is_array( $items ) ) {
-			foreach ( $items as $item ) {
-				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
+		foreach ( $items as $item ) {
+			$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
 
-				if ( $redirect ) {
-					if ( $action === 'delete' ) {
-						$redirect->delete();
-					} elseif ( $action === 'disable' ) {
-						$redirect->disable();
-					} elseif ( $action === 'enable' ) {
-						$redirect->enable();
-					} elseif ( $action === 'reset' ) {
-						$redirect->reset();
-					}
+			if ( $redirect ) {
+				if ( $action === 'delete' ) {
+					$redirect->delete();
+				} elseif ( $action === 'disable' ) {
+					$redirect->disable();
+				} elseif ( $action === 'enable' ) {
+					$redirect->enable();
+				} elseif ( $action === 'reset' ) {
+					$redirect->reset();
 				}
 			}
-
-			return $this->route_list( $request );
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect_invalid_items', 'Invalid array of items' ), __LINE__ );
+		return $this->route_list( $request );
 	}
 
 	public function route_match_post( WP_REST_Request $request ) {
+		global $wpdb;
+
 		$params = $request->get_params();
-		$search = isset( $params['text'] ) ? $params['text'] : false;
+		$search = $params['text'];
 		$results = [];
 
-		if ( $search ) {
-			global $wpdb;
+		$posts = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
+				"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
+				'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
+			)
+		);
 
-			$posts = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
-					"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
-					'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
-				)
-			);
-
-			foreach ( (array) $posts as $post ) {
-				$results[] = [
-					'title' => $post->post_title,
-					'slug' => $post->post_name,
-					'url' => get_permalink( $post->ID ),
-				];
-			}
+		foreach ( (array) $posts as $post ) {
+			$results[] = [
+				'title' => $post->post_title,
+				'slug' => $post->post_name,
+				'url' => get_permalink( $post->ID ),
+			];
 		}
 
 		return $results;

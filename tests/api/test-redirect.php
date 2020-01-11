@@ -42,7 +42,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 			[ 'redirect', 'GET', [] ],
 			[ 'redirect', 'POST', [] ],
 			[ 'redirect/1', 'POST', [] ],
-			[ 'redirect/post', 'GET', [] ],
+			[ 'redirect/post', 'GET', [ 'text' => 'test' ] ],
 			[ 'bulk/redirect/delete', 'POST', [ 'items' => '1' ] ],
 			[ 'bulk/redirect/enable', 'POST', [ 'items' => '1' ] ],
 			[ 'bulk/redirect/disable', 'POST', [ 'items' => '1' ] ],

@@ -77,13 +77,6 @@
  * @apiUse 401Error
  * @apiUse 404Error
  * @apiUse 400MissingError
- * @apiError (Error 400) redirect_group_invalid_items Invalid array of items
- * @apiErrorExample {json} 404 Error Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "code": "redirect_group_invalid_items",
- *       "message": "Invalid array of items"
- *     }
  */
 
 /**
@@ -221,26 +214,22 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 
 	public function route_bulk( WP_REST_Request $request ) {
 		$action = $request['bulk'];
-		$items = explode( ',', $request['items'] );
+		$items = $request['items'];
 
-		if ( is_array( $items ) ) {
-			foreach ( $items as $item ) {
-				$group = Red_Group::get( intval( $item, 10 ) );
+		foreach ( $items as $item ) {
+			$group = Red_Group::get( intval( $item, 10 ) );
 
-				if ( $group ) {
-					if ( $action === 'delete' ) {
-						$group->delete();
-					} elseif ( $action === 'disable' ) {
-						$group->disable();
-					} elseif ( $action === 'enable' ) {
-						$group->enable();
-					}
+			if ( $group ) {
+				if ( $action === 'delete' ) {
+					$group->delete();
+				} elseif ( $action === 'disable' ) {
+					$group->disable();
+				} elseif ( $action === 'enable' ) {
+					$group->enable();
 				}
 			}
-
-			return $this->route_list( $request );
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect_group_invalid_items', 'Invalid array of items' ), __LINE__ );
+		return $this->route_list( $request );
 	}
 }
