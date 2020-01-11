@@ -123,47 +123,34 @@ class WordPress_Module extends Red_Module {
 	 * This is the key to Redirection and where requests are matched to redirects
 	 */
 	public function init() {
-		$url = Redirection_Request::get_request_url();
-		$url = apply_filters( 'redirection_url_source', $url );
-		$url = rawurldecode( $url );
+		if ( $this->matched ) {
+			return;
+		}
+
+		$request = new Red_Url_Request( Redirection_Request::get_request_url() );
 
 		// Make sure we don't try and redirect something essential
-		if ( $url && ! $this->protected_url( $url ) && $this->matched === false ) {
-			do_action( 'redirection_first', $url, $this );
+		if ( $request->is_valid() && ! $request->is_protected_url() ) {
+			do_action( 'redirection_first', $request->get_decoded_url(), $this );
 
 			// Get all redirects that match the URL
-			$redirects = Red_Item::get_for_url( $url );
+			$redirects = Red_Item::get_for_url( $request->get_decoded_url() );
 
 			// Redirects will be ordered by position. Run through the list until one fires
 			foreach ( (array) $redirects as $item ) {
-				if ( $item->is_match( $url ) ) {
+				if ( $item->is_match( $request->get_decoded_url(), $request->get_original_url() ) ) {
 					$this->matched = $item;
 					break;
 				}
 			}
 
-			do_action( 'redirection_last', $url, $this );
+			do_action( 'redirection_last', $request->get_decoded_url(), $this );
 
 			if ( ! $this->matched ) {
 				// Keep them for later
 				$this->redirects = $redirects;
 			}
 		}
-	}
-
-	/*
-	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
-	 */
-	private function protected_url( $url ) {
-		$rest = wp_parse_url( red_get_rest_api() );
-		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
-
-		if ( substr( $url, 0, strlen( $rest_api ) ) === $rest_api ) {
-			// Never redirect the REST API
-			return true;
-		}
-
-		return false;
 	}
 
 	public function status_header( $status ) {

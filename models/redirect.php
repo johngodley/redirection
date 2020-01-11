@@ -308,12 +308,16 @@ class Red_Item {
 	/**
 	 * Determine if a requested URL matches this URL
 	 *
-	 * @param string $requested_url
+	 * @param string $requested_url The URL being requested.
 	 * @return bool true if matched, false otherwise
 	 */
-	public function is_match( $requested_url ) {
+	public function is_match( $requested_url, $original_url = false ) {
 		if ( ! $this->is_enabled() ) {
 			return false;
+		}
+
+		if ( $original_url === false ) {
+			$original_url = $requested_url;
 		}
 
 		$url = new Red_Url( $this->url );
@@ -324,8 +328,8 @@ class Red_Item {
 			// Check if our action wants a URL
 			if ( $this->action->needs_target() ) {
 				// Our action requires a target URL - get this, using our type match result
-				$target = $this->match->get_target_url( $requested_url, $url->get_url(), $this->source_flags, $target );
-				$target = Red_Url_Query::add_to_target( $target, $requested_url, $this->source_flags );
+				$target = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $target );
+				$target = Red_Url_Query::add_to_target( $target, $original_url, $this->source_flags );
 				$target = apply_filters( 'redirection_url_target', $target, $this->url );
 			}
 

@@ -399,5 +399,31 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test regex query param URL with an encoded +",
+		{
+			"source": {
+				"url": "/app/?param=2r8b%2B6h"
+			},
+			"target": {
+				"location": "/plain-redirect?param=2r8b%2B6h",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test plain 301 redirect pass encoded query to target",
+		{
+			"source": {
+				"url": "/plain-query-pass?random=2r8b%2B6h"
+			},
+			"target": {
+				"location": "/plain-redirect?random=2r8b%2B6h",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
