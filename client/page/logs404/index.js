@@ -154,6 +154,18 @@ class Logs404 extends React.Component {
 		return selected;
 	}
 
+	canDeleteAll( filters, groupBy ) {
+		if ( filters.url !== undefined ) {
+			return true;
+		}
+
+		if ( groupBy ) {
+			return false;
+		}
+
+		return Object.keys( filters ).length === 0 ;
+	}
+
 	render() {
 		const { status, total, table, rows } = this.props.error;
 		const { create } = this.state;
@@ -221,7 +233,7 @@ class Logs404 extends React.Component {
 					onChangePage={ this.props.onChangePage }
 					onAction={ this.props.onTableAction }
 				>
-					{ has_capability( CAP_404_DELETE ) && Object.keys( table.filterBy ).length === 0 && (
+					{ has_capability( CAP_404_DELETE ) && this.canDeleteAll( table.filterBy, table.groupBy ) && (
 						<TableButtons enabled={ rows.length > 0 }>
 							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
 						</TableButtons>
