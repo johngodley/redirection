@@ -44,7 +44,14 @@ const getRedirectionUrl = ( path, params = {} ) => {
 	return base;
 };
 
-const apiHeaders = () => {
+const getApiHeaders = () => {
+	return new Headers( {
+		// 'X-WP-Nonce': Redirectioni10n.api.WP_API_nonce,
+		Accept: 'application/json, */*;q=0.1',
+	} );
+};
+
+const postApiheaders = () => {
 	return new Headers( {
 		// 'X-WP-Nonce': Redirectioni10n.api.WP_API_nonce,
 		'Content-Type': 'application/json; charset=utf-8',
@@ -53,7 +60,6 @@ const apiHeaders = () => {
 
 const apiRequest = url => ( {
 	url,
-	headers: apiHeaders( url ),
 	credentials: 'same-origin',
 } );
 
@@ -67,17 +73,21 @@ const deleteApiRequest = ( path, params ) => {
 	}
 
 	return {
-		... apiRequest( getRedirectionUrl( path, query ) ),
+		headers: postApiheaders(),
+		...apiRequest( getRedirectionUrl( path, query ) ),
 		method: 'post',
 		body: body.items ? JSON.stringify( body ) : '{}',
 	};
 };
+
 const getApiRequest = ( path, params = {} ) => ( {
+	headers: getApiHeaders(),
 	...apiRequest( getRedirectionUrl( path, params ) ),
 	method: 'get',
 } );
+
 const uploadApiRequest = ( path, file ) => {
-	const request = { ...apiRequest( getRedirectionUrl( path ) ), method: 'post' };
+	const request = { headers: postApiheaders(), ...apiRequest( getRedirectionUrl( path ) ), method: 'post' };
 
 	request.headers.delete( 'Content-Type' );
 	request.body = new FormData();
@@ -87,7 +97,7 @@ const uploadApiRequest = ( path, file ) => {
 };
 
 const postApiRequest = ( path, params = {}, query = {} ) => {
-	const request = { ...apiRequest( getRedirectionUrl( path, query ) ), method: 'post', params };
+	const request = { headers: postApiheaders(), ...apiRequest( getRedirectionUrl( path, query ) ), method: 'post', params };
 
 	request.body = '{}';
 	if ( Object.keys( params ).length > 0 ) {
