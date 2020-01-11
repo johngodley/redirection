@@ -3,7 +3,7 @@
 	<description>Coding standard for Redirection plugin. Based on WordPress coding standards, but without the annoying Yoda and alignment options</description>
 
 	<rule ref="PHPCompatibility"/>
-	<config name="testVersion" value="5.6-"/>
+	<config name="testVersion" value="5.5-"/>
 
 	<rule ref="WordPress-Core">
 		<!-- these I dont like -->

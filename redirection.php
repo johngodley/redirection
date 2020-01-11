@@ -4,7 +4,7 @@
 Plugin Name: Redirection
 Plugin URI: https://redirection.me/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 4.6.2
+Version: 4.7-beta-1
 Author: John Godley
 Author URI: https://johngodley.com
 Text Domain: redirection
@@ -30,8 +30,8 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 	define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
 }
 
-// This file must support PHP < 5.4 so as not to crash
-if ( version_compare( phpversion(), '5.4' ) < 0 ) {
+// This file must support PHP < 5.6 so as not to crash
+if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 	add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php', 10, 4 );
 
 	function red_deprecated_php( $links ) {
