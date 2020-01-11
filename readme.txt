@@ -5,7 +5,7 @@ Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.3.2
 Stable tag: 4.6.2
-Requires PHP: 5.4
+Requires PHP: 5.5
 License: GPLv3
 
 Manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.
