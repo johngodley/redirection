@@ -183,6 +183,8 @@ class Redirection_Api {
 		$this->routes[] = new Redirection_Api_Settings( REDIRECTION_API_NAMESPACE );
 		$this->routes[] = new Redirection_Api_Plugin( REDIRECTION_API_NAMESPACE );
 		$this->routes[] = new Redirection_Api_Import( REDIRECTION_API_NAMESPACE );
-		$this->routes[] = new Redirection_Api_Export( REDIRECTION_API_NAMESPACE );
+		$this->routes[] = new Redirection_Api_Export( REDIRECTION_API_NAMESPACE );		
+		$this->routes[] = new Redirection_Api_Stats( REDIRECTION_API_NAMESPACE );
+
 	}
 }
