@@ -386,3 +386,110 @@ class RE_Filter_Log {
 		return $query;
 	}
 }
+
+class RE_Stats {
+	public $date;
+	public $daily_hits;
+	public $url;
+	public $sent_to;
+
+	function __construct( $values ) {
+		foreach ( $values as $key => $value ) {
+			$this->$key = $value;
+		}
+	}
+
+	static public function get( $table, $construct, array $params ) {
+		global $wpdb;
+
+		$group = 'DATE(created), url';
+
+		$query = self::get_query( $params );
+
+		$rows = $wpdb->get_results(
+			"SELECT DATE(created) AS date, COUNT(*) AS daily_hits, url, sent_to FROM {$wpdb->prefix}$table {$query['where']}" . $wpdb->prepare( ' GROUP BY ' . $group . ' ORDER BY ' . $group . ' ' . $query['direction'] . ' LIMIT %d,%d', $query['offset'], $query['limit'] )
+		);
+		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT DATE(created), url) FROM {$wpdb->prefix}$table " . $query['where'] );
+
+		$items = array();
+
+		foreach ( $rows as $row ) {
+			$item = new $construct( $row );
+			$items[] = array_merge( $item->to_json(), array(
+				'date' => date_i18n( get_option( 'date_format' ), strtotime($item->date) ),
+				'daily_hits' => intval( $item->daily_hits, 10 ),
+				'url' => $item->url,
+				'sent_to' => $item->sent_to,
+			) );
+		}
+
+		return array(
+			'items' => $items,
+			'total' => intval( $total_items, 10 ),
+		);
+	}
+
+	static private function get_query( array $params ) {
+		global $wpdb;
+
+		$query = array(
+			'orderby' => 'id',
+			'direction' => 'DESC',
+			'limit' => RED_DEFAULT_PER_PAGE,
+			'offset' => 0,
+			'where' => '',
+		);
+
+		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
+			$query['direction'] = strtoupper( $params['direction'] );
+		}
+
+		if ( isset( $params['dateRange'] ) && is_array( $params['dateRange'] ) ) {
+			$start_date = date('Y-m-d', strtotime('-8 days'));
+			$end_date = date('Y-m-d', strtotime('+1 days'));
+
+			if ( isset( $params['dateRange']['startDate'] ) ) {
+				$start_date = date('Y-m-d', strtotime($params['dateRange']['startDate']));
+			}
+			if ( isset( $params['dateRange']['endDate'] ) ) {
+				$end_date = date('Y-m-d', strtotime($params['dateRange']['endDate']));
+			}
+
+			$query['where'] = $wpdb->prepare( 'WHERE DATE(created) BETWEEN DATE("%s") AND DATE("%s")', $start_date, $end_date );
+		} else {
+			//Default dateRange
+			$query['where'] = $wpdb->prepare( 'WHERE DATE(created) BETWEEN DATE("%s") AND DATE("%s")', date('Y-m-d', strtotime('-8 days')), date('Y-m-d', strtotime('+1 days')) );
+		}
+
+		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+			if ( isset( $params['filterBy']['url-exact'] ) ) {
+				$query['where'] .= $wpdb->prepare( 'AND url=%s', $params['filterBy']['url-exact'] );
+			} elseif ( isset( $params['filterBy']['url'] ) ) {
+				$query['where'] .= $wpdb->prepare( 'AND url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['url'] ) ) . '%' );
+			}
+		}
+
+		if ( isset( $params['per_page'] ) ) {
+			$query['limit'] = intval( $params['per_page'], 10 );
+			$query['limit'] = min( RED_MAX_PER_PAGE, $query['limit'] );
+			$query['limit'] = max( 5, $query['limit'] );
+		}
+
+		if ( isset( $params['page'] ) ) {
+			$query['offset'] = intval( $params['page'], 10 );
+			$query['offset'] = max( 0, $query['offset'] );
+			$query['offset'] *= $query['limit'];
+		}
+
+		return $query;
+	}
+
+	public function to_json() {
+		return array(
+			'date' => $this->date,
+			'daily_hits' => $this->daily_hits,
+			'url' => $this->url,
+			'sent_to' => $this->sent_to
+		);
+	}
+}
