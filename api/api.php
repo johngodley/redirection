@@ -8,6 +8,8 @@ require_once __DIR__ . '/api-settings.php';
 require_once __DIR__ . '/api-plugin.php';
 require_once __DIR__ . '/api-import.php';
 require_once __DIR__ . '/api-export.php';
+require_once __DIR__ . '/api-stats.php';
+
 
 define( 'REDIRECTION_API_NAMESPACE', 'redirection/v1' );
 
