@@ -107,50 +107,50 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 	}
 
 	protected function get_filter_args( $order_fields, $filters = [] ) {
-		return array(
-			'filterBy' => array(
+		return [
+			'filterBy' => [
 				'description' => 'Field to filter by',
 				'validate_callback' => [ $this, 'validate_filter' ],
 				'filter_fields' => $filters,
-			),
-			'orderby' => array(
+			],
+			'orderby' => [
 				'description' => 'Field to order results by',
-				'type' => 'enum',
+				'type' => 'string',
 				'enum' => $order_fields,
-			),
-			'direction' => array(
+			],
+			'direction' => [
 				'description' => 'Direction of ordered results',
-				'type'        => 'enum',
+				'type'        => 'string',
 				'default' => 'desc',
-				'enum' => array( 'asc', 'desc' ),
-			),
-			'per_page' => array(
+				'enum' => [ 'asc', 'desc' ],
+			],
+			'per_page' => [
 				'description' => 'Number of results per page',
 				'type'        => 'integer',
 				'default'     => 25,
 				'minimum'     => 5,
 				'maximum'     => RED_MAX_PER_PAGE,
-			),
-			'page' => array(
+			],
+			'page' => [
 				'description' => 'Page offset',
 				'type'        => 'integer',
 				'minimum'     => 0,
 				'default'     => 0,
-			),
-		);
+			],
+		];
 	}
 
 	public function register_bulk( $namespace, $route, $orders, $callback, $permissions = false ) {
 		register_rest_route( $namespace, $route, array(
 			$this->get_route( WP_REST_Server::EDITABLE, $callback, $permissions ),
-			'args' => array_merge( $this->get_filter_args( $orders ), array(
-				'items' => array(
+			'args' => array_merge( $this->get_filter_args( $orders ), [
+				'items' => [
 					'description' => 'Comma separated list of item IDs to perform action on',
-					'type' => 'string|integer',
+					'type' => 'string',
 					'required' => true,
 					'sanitize_callback' => [ $this, 'sanitize_csv' ],
-				),
-			) ),
+				],
+			] ),
 		) );
 	}
 

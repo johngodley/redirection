@@ -33,14 +33,16 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 		register_rest_route( $namespace, '/plugin/database', array(
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_database', [ $this, 'permission_callback_manage' ] ),
-			'args' => array(
-				'description' => 'Upgrade parameter',
-				'type' => 'enum',
-				'enum' => array(
-					'stop',
-					'skip',
-				),
-			),
+			'args' => [
+				'upgrade' => [
+					'description' => 'Upgrade parameter',
+					'type' => 'string',
+					'enum' => array(
+						'stop',
+						'skip',
+					),
+				],
+			],
 		) );
 	}
 
