@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-15 18:45:54+0000\n"
+"PO-Revision-Date: 2020-01-14 18:07:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,80 +13,80 @@ msgstr ""
 
 #: redirection-strings.php:657
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: redirection-strings.php:656
 msgid "Values"
-msgstr ""
+msgstr "Valores"
 
 #: redirection-strings.php:655
 msgid "All"
-msgstr ""
+msgstr "Tudo"
 
 #: redirection-strings.php:574
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "Alguns cabeçalhos HTTP são gerados pelo servidor e não podem ser alterados."
 
 #: redirection-strings.php:573
 msgid "No headers"
-msgstr ""
+msgstr "Sem cabeçalhos"
 
 #: redirection-strings.php:572
 msgid "Header"
-msgstr ""
+msgstr "Cabeçalho"
 
 #: redirection-strings.php:571
 msgid "Location"
-msgstr ""
+msgstr "Localização"
 
 #: redirection-strings.php:570
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
+msgstr "Os cabeçalhos do site são adicionados por todo o site, inclusive por redirecionamentos. Os cabeçalhos de redirecionamento são adicionados somente aos redirecionamentos."
 
 #: redirection-strings.php:569
 msgid "HTTP Headers"
-msgstr ""
+msgstr "Cabeçalhos HTTP"
 
 #: redirection-strings.php:568
 msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr ""
+msgstr "Se o seu site parar de funcionar, você precisará {{link}}desativar o plugin{{/link}} e fazer alterações."
 
 #: redirection-strings.php:567
 msgid "Ensure that you update your site URL settings."
-msgstr ""
+msgstr "Assegure-se de que atualizou as configurações de URL do seu site."
 
 #: redirection-strings.php:566
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr ""
+msgstr "{{strong}}Atenção{{/strong}}: assegure-se de que o HTTPS esteja funcionando, senão o seu site pode parar de funcionar."
 
 #: redirection-strings.php:565
 msgid "Force a redirect from HTTP to HTTPS"
-msgstr ""
+msgstr "Forçar o redirecionamento de HTTP para HTTPS"
 
 #: redirection-strings.php:563
 msgid "Custom Header"
-msgstr ""
+msgstr "Cabeçalho personalizado"
 
 #: redirection-strings.php:562
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: redirection-strings.php:561
 msgid "Redirect"
-msgstr ""
+msgstr "Redirecionamento"
 
 #: redirection-strings.php:155
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
-msgstr ""
+msgstr "Alguns servidores podem estar configurados para servir arquivos diretamente, o que impede a realização de um redirecionamento."
 
 #: redirection-strings.php:77 redirection-strings.php:330
 #: redirection-strings.php:560
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: redirection-strings.php:34
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
-msgstr ""
+msgstr "Não foi possível fazer a solicitação devido à segurança do navegador. Isso geralmente acontece porque as configurações de URL do WordPress e URL do Site são inconsistentes, ou a solicitação foi bloqueada por uma política CORS do seu site."
 
 #: redirection-strings.php:559
 msgid "Ignore & Pass Query"

@@ -62,14 +62,6 @@ __( "City", "redirection" ), // client/component/geo-map/index.js:81
 __( "Area", "redirection" ), // client/component/geo-map/index.js:85
 __( "Timezone", "redirection" ), // client/component/geo-map/index.js:89
 __( "Geo Location", "redirection" ), // client/component/geo-map/index.js:93
-__( "Redirects", "redirection" ), // client/component/menu/index.js:19
-__( "Groups", "redirection" ), // client/component/menu/index.js:23
-__( "Site", "redirection" ), // client/component/menu/index.js:27
-__( "Log", "redirection" ), // client/component/menu/index.js:31
-__( "404s", "redirection" ), // client/component/menu/index.js:35
-__( "Import/Export", "redirection" ), // client/component/menu/index.js:39
-__( "Options", "redirection" ), // client/component/menu/index.js:43
-__( "Support", "redirection" ), // client/component/menu/index.js:47
 __( "Expected", "redirection" ), // client/component/http-check/details.js:31
 __( "{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}", "redirection" ), // client/component/http-check/details.js:34
 __( "Found", "redirection" ), // client/component/http-check/details.js:46
@@ -81,8 +73,18 @@ __( "What does this mean?", "redirection" ), // client/component/http-check/deta
 __( "Error", "redirection" ), // client/component/http-check/index.js:43
 __( "Something went wrong obtaining this information", "redirection" ), // client/component/http-check/index.js:44
 __( "Check redirect for: {{code}}%s{{/code}}", "redirection" ), // client/component/http-check/index.js:67
+__( "Redirects", "redirection" ), // client/component/menu/index.js:19
+__( "Groups", "redirection" ), // client/component/menu/index.js:23
+__( "Site", "redirection" ), // client/component/menu/index.js:27
+__( "Log", "redirection" ), // client/component/menu/index.js:31
+__( "404s", "redirection" ), // client/component/menu/index.js:35
+__( "Import/Export", "redirection" ), // client/component/menu/index.js:39
+__( "Options", "redirection" ), // client/component/menu/index.js:43
+__( "Support", "redirection" ), // client/component/menu/index.js:47
 __( "View notice", "redirection" ), // client/component/notice/index.js:76
 __( "Powered by {{link}}redirect.li{{/link}}", "redirection" ), // client/component/powered-by/index.js:16
+__( "Saving...", "redirection" ), // client/component/progress/index.js:23
+__( "Saving...", "redirection" ), // client/component/progress/index.js:26
 __( "with HTTP code", "redirection" ), // client/component/redirect-edit/action-code.js:42
 __( "URL only", "redirection" ), // client/component/redirect-edit/constants.js:30
 __( "URL and login status", "redirection" ), // client/component/redirect-edit/constants.js:34
@@ -132,13 +134,15 @@ __( "Cancel", "redirection" ), // client/component/redirect-edit/index.js:307
 __( "Close", "redirection" ), // client/component/redirect-edit/index.js:308
 __( "Show advanced options", "redirection" ), // client/component/redirect-edit/index.js:311
 __( "Match", "redirection" ), // client/component/redirect-edit/match-type.js:19
-__( "Query Parameters", "redirection" ), // client/component/redirect-edit/source-query.js:23
 __( "Position", "redirection" ), // client/component/redirect-edit/position.js:12
-__( "The target URL you want to redirect, or auto-complete on post name or permalink.", "redirection" ), // client/component/redirect-edit/target.js:84
+__( "Query Parameters", "redirection" ), // client/component/redirect-edit/source-query.js:23
 __( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:27
 __( "Source URL", "redirection" ), // client/component/redirect-edit/source-url.js:34
 __( "The relative URL you want to redirect from", "redirection" ), // client/component/redirect-edit/source-url.js:42
 __( "URL options / Regex", "redirection" ), // client/component/redirect-edit/source-url.js:49
+__( "The target URL you want to redirect, or auto-complete on post name or permalink.", "redirection" ), // client/component/redirect-edit/target.js:84
+__( "Title", "redirection" ), // client/component/redirect-edit/title.js:17
+__( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:23
 __( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:52
 __( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:60
 __( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:74
@@ -151,8 +155,6 @@ __( "Your target URL should be an absolute URL like {{code}}https://domain.com/%
 __( "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:150
 __( "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?", "redirection" ), // client/component/redirect-edit/warning.js:166
 __( "Some servers may be configured to serve file resources directly, preventing a redirect occurring.", "redirection" ), // client/component/redirect-edit/warning.js:182
-__( "Title", "redirection" ), // client/component/redirect-edit/title.js:17
-__( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:23
 __( "Working!", "redirection" ), // client/component/rest-api-status/api-result-pass.js:15
 __( "Show Full", "redirection" ), // client/component/rest-api-status/api-result-raw.js:41
 __( "Hide", "redirection" ), // client/component/rest-api-status/api-result-raw.js:42
@@ -169,8 +171,6 @@ __( "Summary", "redirection" ), // client/component/rest-api-status/index.js:132
 __( "Show Problems", "redirection" ), // client/component/rest-api-status/index.js:134
 __( "Testing - %s\$", "redirection" ), // client/component/rest-api-status/index.js:160
 __( "Check Again", "redirection" ), // client/component/rest-api-status/index.js:167
-__( "Saving...", "redirection" ), // client/component/progress/index.js:23
-__( "Saving...", "redirection" ), // client/component/progress/index.js:26
 __( "Apply", "redirection" ), // client/component/table/group.js:39
 __( "First page", "redirection" ), // client/component/table/navigation-pages.js:74
 __( "Prev page", "redirection" ), // client/component/table/navigation-pages.js:75
@@ -251,36 +251,11 @@ __( "I need support!", "redirection" ), // client/component/welcome-wizard/index
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:421
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:422
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:20
-__( "A database upgrade is in progress. Please continue to finish.", "redirection" ), // client/page/home/database-update.js:25
-__( "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.", "redirection" ), // client/page/home/database-update.js:30
-__( "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.", "redirection" ), // client/page/home/database-update.js:63
-__( "Click \"Complete Upgrade\" when finished.", "redirection" ), // client/page/home/database-update.js:63
-__( "Complete Upgrade", "redirection" ), // client/page/home/database-update.js:65
-__( "Click the \"Upgrade Database\" button to automatically upgrade the database.", "redirection" ), // client/page/home/database-update.js:75
-__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:77
-__( "Upgrade Required", "redirection" ), // client/page/home/database-update.js:103
-__( "Redirection database needs upgrading", "redirection" ), // client/page/home/database-update.js:106
-__( "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection.", "redirection" ), // client/page/home/database-update.js:109
-__( "Manual Upgrade", "redirection" ), // client/page/home/database-update.js:121
-__( "Automatic Upgrade", "redirection" ), // client/page/home/database-update.js:122
-__( "Redirections", "redirection" ), // client/page/home/index.js:44
-__( "Site", "redirection" ), // client/page/home/index.js:45
-__( "Groups", "redirection" ), // client/page/home/index.js:46
-__( "Import/Export", "redirection" ), // client/page/home/index.js:47
-__( "Logs", "redirection" ), // client/page/home/index.js:48
-__( "404 errors", "redirection" ), // client/page/home/index.js:49
-__( "Options", "redirection" ), // client/page/home/index.js:50
-__( "Support", "redirection" ), // client/page/home/index.js:51
-__( "Cached Redirection detected", "redirection" ), // client/page/home/index.js:165
-__( "Please clear your browser cache and reload this page.", "redirection" ), // client/page/home/index.js:166
-__( "If you are using a caching system such as Cloudflare then please read this: ", "redirection" ), // client/page/home/index.js:168
-__( "clearing your cache.", "redirection" ), // client/page/home/index.js:169
-__( "Something went wrong 🙁", "redirection" ), // client/page/home/index.js:178
-__( "Redirection is not working. Try clearing your browser cache and reloading this page.", "redirection" ), // client/page/home/index.js:181
-__( "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.", "redirection" ), // client/page/home/index.js:182
-__( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", "redirection" ), // client/page/home/index.js:186
-__( "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time", "redirection" ), // client/page/home/index.js:193
-__( "Add New", "redirection" ), // client/page/home/index.js:236
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -315,6 +290,36 @@ __( "Save", "redirection" ), // client/page/groups/row.js:143
 __( "Cancel", "redirection" ), // client/page/groups/row.js:144
 __( "Note that you will need to set the Apache module path in your Redirection options.", "redirection" ), // client/page/groups/row.js:147
 __( "Filter on: %(type)s", "redirection" ), // client/page/groups/row.js:206
+__( "A database upgrade is in progress. Please continue to finish.", "redirection" ), // client/page/home/database-update.js:25
+__( "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.", "redirection" ), // client/page/home/database-update.js:30
+__( "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.", "redirection" ), // client/page/home/database-update.js:63
+__( "Click \"Complete Upgrade\" when finished.", "redirection" ), // client/page/home/database-update.js:63
+__( "Complete Upgrade", "redirection" ), // client/page/home/database-update.js:65
+__( "Click the \"Upgrade Database\" button to automatically upgrade the database.", "redirection" ), // client/page/home/database-update.js:75
+__( "Upgrade Database", "redirection" ), // client/page/home/database-update.js:77
+__( "Upgrade Required", "redirection" ), // client/page/home/database-update.js:103
+__( "Redirection database needs upgrading", "redirection" ), // client/page/home/database-update.js:106
+__( "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection.", "redirection" ), // client/page/home/database-update.js:109
+__( "Manual Upgrade", "redirection" ), // client/page/home/database-update.js:121
+__( "Automatic Upgrade", "redirection" ), // client/page/home/database-update.js:122
+__( "Redirections", "redirection" ), // client/page/home/index.js:44
+__( "Site", "redirection" ), // client/page/home/index.js:45
+__( "Groups", "redirection" ), // client/page/home/index.js:46
+__( "Import/Export", "redirection" ), // client/page/home/index.js:47
+__( "Logs", "redirection" ), // client/page/home/index.js:48
+__( "404 errors", "redirection" ), // client/page/home/index.js:49
+__( "Options", "redirection" ), // client/page/home/index.js:50
+__( "Support", "redirection" ), // client/page/home/index.js:51
+__( "Cached Redirection detected", "redirection" ), // client/page/home/index.js:165
+__( "Please clear your browser cache and reload this page.", "redirection" ), // client/page/home/index.js:166
+__( "If you are using a caching system such as Cloudflare then please read this: ", "redirection" ), // client/page/home/index.js:168
+__( "clearing your cache.", "redirection" ), // client/page/home/index.js:169
+__( "Something went wrong 🙁", "redirection" ), // client/page/home/index.js:178
+__( "Redirection is not working. Try clearing your browser cache and reloading this page.", "redirection" ), // client/page/home/index.js:181
+__( "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.", "redirection" ), // client/page/home/index.js:182
+__( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", "redirection" ), // client/page/home/index.js:186
+__( "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time", "redirection" ), // client/page/home/index.js:193
+__( "Add New", "redirection" ), // client/page/home/index.js:236
 __( "total = ", "redirection" ), // client/page/io/importer.js:17
 __( "Import from %s", "redirection" ), // client/page/io/importer.js:20
 __( "Import to group", "redirection" ), // client/page/io/index.js:97
@@ -594,11 +599,6 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
-__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Logged In", "redirection" ), // client/component/redirect-edit/action/login.js:20
 __( "Target URL when matched (empty to ignore)", "redirection" ), // client/component/redirect-edit/action/login.js:21
 __( "Logged Out", "redirection" ), // client/component/redirect-edit/action/login.js:23
@@ -676,8 +676,8 @@ __( "Note that some HTTP headers are set by your server and cannot be changed.",
 __( "Relocate Site", "redirection" ), // client/page/site/relocate/index.js:31
 __( "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.", "redirection" ), // client/page/site/relocate/index.js:32
 __( "Relocate to domain", "redirection" ), // client/page/site/relocate/index.js:34
-__( "Value", "redirection" ), // client/page/site/headers/types/plain-value.js:11
 __( "All", "redirection" ), // client/page/site/headers/types/multi-choice.js:34
 __( "Values", "redirection" ), // client/page/site/headers/types/multi-choice.js:37
+__( "Value", "redirection" ), // client/page/site/headers/types/plain-value.js:11
 );
 /* THIS IS THE END OF THE GENERATED FILE */

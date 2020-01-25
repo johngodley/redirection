@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-12-18 16:33:54+0000\n"
+"PO-Revision-Date: 2020-01-24 19:22:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1297,7 +1297,7 @@ msgstr "Anonimizar IP (enmascarar la última parte)"
 
 #: redirection-strings.php:472
 msgid "Monitor changes to %(type)s"
-msgstr "Monitorizar cambios de %(type)s"
+msgstr "Supervisar cambios de %(type)s"
 
 #: redirection-strings.php:478
 msgid "IP Logging"
@@ -1475,7 +1475,7 @@ msgstr "Bibliotecas"
 
 #: redirection-strings.php:468
 msgid "URL Monitor Changes"
-msgstr "Monitorizar el cambio de URL"
+msgstr "Supervisar cambios de URL"
 
 #: redirection-strings.php:469
 msgid "Save changes to this group"
@@ -1523,15 +1523,15 @@ msgstr "No fue posible crear el grupo"
 
 #: models/fixer.php:74
 msgid "Post monitor group is valid"
-msgstr "El grupo de monitoreo de entradas es válido"
+msgstr "El grupo de supervisión de entradas es válido"
 
 #: models/fixer.php:74
 msgid "Post monitor group is invalid"
-msgstr "El grupo de monitoreo de entradas no es válido"
+msgstr "El grupo de supervisión de entradas no es válido"
 
 #: models/fixer.php:72
 msgid "Post monitor group"
-msgstr "Grupo de monitoreo de entradas"
+msgstr "Grupo de supervisión de entradas"
 
 #: models/fixer.php:68
 msgid "All redirects have a valid group"
@@ -1980,7 +1980,7 @@ msgstr "John Godley"
 
 #. Description of the plugin
 msgid "Manage all your 301 redirects and monitor 404 errors"
-msgstr "Gestiona todas tus redirecciones 301 y monitoriza tus errores 404"
+msgstr "Gestiona todas tus redirecciones 301 y supervisa tus errores 404"
 
 #: redirection-strings.php:438
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
