@@ -21,7 +21,8 @@
     "export": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
     "release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
     "doc": "apidoc -v -i api/ -o ./api-doc/",
-    "phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php"
+    "phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
+    "phpunit": "WP_TESTS_DIR=./../../../../test/trunk phpunit"
   },
   "repository": {
     "type": "git",

@@ -25,6 +25,7 @@ class DatabaseTester {
 			$actual = $this->get_create_table( $table );
 			$actual = preg_replace( '/^\s+/m', '', $actual );
 			$actual = preg_replace( '/\s?COLLATE \w*/', '', $actual );
+			$actual = preg_replace( '/\s?CHARACTER SET \w*/', '', $actual );
 			$actual = preg_replace( '/\).*?$/', ') ' . $database->get_charset(), $actual );
 
 			// 'massage' all the SQL so we can try and match it
