@@ -120,13 +120,15 @@ class Red_Apache_File extends Red_FileIO {
 	private function is_str_regex( $url ) {
 		$regex  = '()[]$^?+.';
 		$escape = false;
+		$len = strlen( $url );
 
-		for ( $x = 0; $x < strlen( $url ); $x++ ) {
+		for ( $x = 0; $x < $len; $x++ ) {
 			$escape = false;
+			$char = substr( $url, $x, 1 );
 
-			if ( $url{$x} === '\\' ) {
+			if ( $char === '\\' ) {
 				$escape = true;
-			} elseif ( strpos( $regex, $url{$x} ) !== false && ! $escape ) {
+			} elseif ( strpos( $regex, $char ) !== false && ! $escape ) {
 				return true;
 			}
 		}

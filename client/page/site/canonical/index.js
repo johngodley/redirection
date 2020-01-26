@@ -31,7 +31,7 @@ const getWWW = ( site ) => [
 		value: 'nowww',
 	},
 	{
-		label: __( 'Add www to domain - {{code}}%(site)s{{/code}} to {{code}}%(siteWWW)s{{/code}}', {
+		label: __( 'Add www to domain - {{code}}%(site)s{{/code}} → {{code}}%(siteWWW)s{{/code}}', {
 			components: {
 				code: <code />,
 			},
