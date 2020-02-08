@@ -117,7 +117,7 @@ const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) =
 			) ) }
 
 			{ alert && <div className="inline-notice inline-error">
-				<p>{ __( 'Please update your site URL settings to reflect your canonical settings: {{code}}%(current)s{{/code}} → {{code}}%(site)s{{/code}}', {
+				<p>{ __( 'You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} → {{code}}%(site)s{{/code}}', {
 					components: {
 						code: <code />,
 					},

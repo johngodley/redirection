@@ -4,11 +4,13 @@ class Redirection_Canonical {
 	private $aliases = [];
 	private $force_https = false;
 	private $preferred_domain = '';
+	private $actual_domain = '';
 
-	public function __construct( $force_https, $preferred_domain, $aliases ) {
+	public function __construct( $force_https, $preferred_domain, $aliases, $configured_domain ) {
 		$this->force_https = $force_https;
 		$this->aliases = $aliases;
 		$this->preferred_domain = $preferred_domain;
+		$this->actual_domain = $configured_domain;
 	}
 
 	public function get_redirect( $server, $request ) {
@@ -27,7 +29,11 @@ class Redirection_Canonical {
 				if ( $server === $alias ) {
 					// Redirect this to the WP url
 					$target = $this->get_canonical_target( get_bloginfo( 'url' ) );
-					$target .= esc_url_raw( $request );
+					if ( ! $target ) {
+						return false;
+					}
+
+					$target = esc_url_raw( $target ) . $request;
 
 					return apply_filters( 'redirect_canonical_target', $target );
 				}
@@ -45,6 +51,11 @@ class Redirection_Canonical {
 		return [];
 	}
 
+	// A final check to prevent obvious site errors.
+	private function is_configured_domain( $server ) {
+		return $server === $this->actual_domain;
+	}
+
 	private function get_canonical_target( $server ) {
 		$canonical = rtrim( red_parse_domain_only( $server ), '/' );
 
@@ -60,7 +71,11 @@ class Redirection_Canonical {
 			$canonical = str_replace( 'http://', 'https://', $canonical );
 		}
 
-		return $canonical;
+		if ( $this->is_configured_domain( $canonical ) ) {
+			return $canonical;
+		}
+
+		return false;
 	}
 
 	private function need_force_www( $server ) {
@@ -76,6 +91,8 @@ class Redirection_Canonical {
 	}
 
 	public function relocate_request( $relocate, $domain, $request ) {
+		$relocate = rtrim( $relocate, '/' );
+
 		$protected = apply_filters( 'redirect_relocate_protected', [
 			'/wp-admin',
 			'/wp-login.php',
