@@ -202,7 +202,7 @@ class Redirection_Admin {
 		$this->inject();
 
 		// Add contextual help to some pages
-		if ( in_array( $this->get_current_page(), [ 'redirects', 'log', '404s', 'groups' ], true ) ) {
+		if ( in_array( $this->get_current_page(), [ 'redirect', 'log', '404s', 'groups' ], true ) ) {
 			add_screen_option( 'per_page', array(
 				/* translators: maximum number of log entries */
 				'label' => sprintf( __( 'Log entries (%d max)', 'redirection' ), RED_MAX_PER_PAGE ),

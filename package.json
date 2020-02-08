@@ -1,6 +1,6 @@
 {
   "name": "redirection",
-  "version": "4.7-beta-2",
+  "version": "4.7-beta-3",
   "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
   "main": "redirection.php",
   "sideEffects": true,
@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/johngodley/redirection",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
+    "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.8.3",
@@ -57,7 +57,7 @@
     "@babel/plugin-proposal-throw-expressions": "^7.8.3",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@hot-loader/react-dom": "^16.11.0",
     "apidoc": "^0.20.0",
@@ -74,7 +74,7 @@
     "eslint-config-wpcalypso": "^5.0.0",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-wpcalypso": "^4.1.0",
     "exports-loader": "^0.7.0",
     "extract-text-webpack-plugin": "3.0.2",
@@ -91,7 +91,7 @@
     "imports-loader": "^0.8.0",
     "jest": "^25.1.0",
     "json-loader": "^0.5.7",
-    "mocha": "^7.0.0",
+    "mocha": "^7.0.1",
     "node-fetch": "^2.6.0",
     "node-sass": "^4.13.1",
     "null-loader": "^3.0.0",
@@ -117,7 +117,7 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-bundle-size-analyzer": "^3.1.0",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
+    "webpack-dev-server": "^3.10.3",
     "webpack-remove-debug": "^0.1.0"
   },
   "dependencies": {

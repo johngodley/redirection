@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.3.2
-Stable tag: 4.6.2
+Stable tag: 4.7
 Requires PHP: 5.6
 License: GPLv3
 
@@ -168,7 +168,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is
 purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 4.7 - ??? =
+= 4.7 - 8th February 2020 =
 * Relocate entire site to another domain, with exceptions
 * Site aliases to map another site to current site
 * Canonical settings for www/no-www
