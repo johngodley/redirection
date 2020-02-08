@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-10-25 11:45:42+0000\n"
+"PO-Revision-Date: 2020-01-30 13:56:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -301,7 +301,7 @@ msgstr "Votre URL cible contient le caractère invalide {{code}}%(invalid)s{{/co
 
 #: redirection-strings.php:52
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr "Si vous utilisez WordPress 5.2 ou une version plus récente, consultez la {{link}}santé du site{{link}} et résolvez tous les problèmes."
+msgstr "Si vous utilisez WordPress 5.2 ou une version plus récente, consultez la {{link}}santé du site{{/link}} et résolvez tous les problèmes."
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
@@ -373,7 +373,7 @@ msgstr "Mise à niveau manuelle"
 
 #: redirection-strings.php:326
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
-msgstr "Veuillez faire une mise à jour de vos données de Redirection : {{download}}télécharger une sauvegarde {{/download}}. En cas de problèmes vous pouvez la ré-importer dans Redirection."
+msgstr "Veuillez faire une mise à jour de vos données de Redirection : {{download}}télécharger une sauvegarde{{/download}}. En cas de problèmes, vous pouvez la ré-importer dans Redirection."
 
 #: redirection-strings.php:322
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
@@ -878,7 +878,7 @@ msgstr "Veuillez mettre à niveau votre base de données"
 
 #: redirection-admin.php:142 redirection-strings.php:323
 msgid "Upgrade Database"
-msgstr "Mise à niveau de la base de données"
+msgstr "Mettre à niveau la base de données"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:79

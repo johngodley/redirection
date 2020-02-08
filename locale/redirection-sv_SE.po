@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-13 13:11:07+0000\n"
+"PO-Revision-Date: 2020-01-27 16:58:34+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,7 +49,7 @@ msgstr "HTTP-sidhuvuden"
 
 #: redirection-strings.php:568
 msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr ""
+msgstr "Om din webbplats slutar fungera måste du {{link}}inaktivera tillägget{{/link}} och göra ändringar."
 
 #: redirection-strings.php:567
 msgid "Ensure that you update your site URL settings."
@@ -57,7 +57,7 @@ msgstr ""
 
 #: redirection-strings.php:566
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr ""
+msgstr "{{strong}}Varning{{/strong}}: se till att din HTTPS fungerar annars kan du krascha din webbplats."
 
 #: redirection-strings.php:565
 msgid "Force a redirect from HTTP to HTTPS"
@@ -465,7 +465,7 @@ msgstr ""
 
 #: redirection-strings.php:151
 msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
-msgstr ""
+msgstr "Din källa är densamma som ett mål och det skapar en loop. Lämna ett mål tomt om du inte vill vidta åtgärder."
 
 #: redirection-strings.php:141
 msgid "The target URL you want to redirect, or auto-complete on post name or permalink."

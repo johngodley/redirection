@@ -251,11 +251,6 @@ __( "I need support!", "redirection" ), // client/component/welcome-wizard/index
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:421
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:422
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:20
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
-__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -599,6 +594,11 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Logged In", "redirection" ), // client/component/redirect-edit/action/login.js:20
 __( "Target URL when matched (empty to ignore)", "redirection" ), // client/component/redirect-edit/action/login.js:21
 __( "Logged Out", "redirection" ), // client/component/redirect-edit/action/login.js:23
@@ -654,12 +654,12 @@ __( "No aliases", "redirection" ), // client/page/site/aliases/index.js:64
 __( "Add Alias", "redirection" ), // client/page/site/aliases/index.js:68
 __( "Don't set a preferred domain - {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:11
 __( "Remove www from domain - {{code}}%(siteWWW)s{{/code}} → {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:22
-__( "Add www to domain - {{code}}%(site)s{{/code}} to {{code}}%(siteWWW)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:34
+__( "Add www to domain - {{code}}%(site)s{{/code}} → {{code}}%(siteWWW)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:34
 __( "Canonical Settings", "redirection" ), // client/page/site/canonical/index.js:86
 __( "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} → {{code}}%(siteHTTPS)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:90
 __( "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.", "redirection" ), // client/page/site/canonical/index.js:103
 __( "Preferred domain", "redirection" ), // client/page/site/canonical/index.js:110
-__( "Please update your site URL settings to reflect your canonical settings: {{code}}%(current)s{{/code}} → {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:120
+__( "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} → {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:120
 __( "Site", "redirection" ), // client/page/site/headers/header.js:25
 __( "Redirect", "redirection" ), // client/page/site/headers/header.js:29
 __( "General", "redirection" ), // client/page/site/headers/header.js:226
