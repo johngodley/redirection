@@ -273,7 +273,7 @@ const Header = ( { header, onChange, onDelete } ) => {
 
 		if ( name === 'type' && value === 'Custom' ) {
 			hName = '';
-		} else if ( name === 'headerName' ) {
+		} else if ( name === 'type' ) {
 			hName = value;
 		}
 
