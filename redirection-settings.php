@@ -166,7 +166,7 @@ function red_set_options( array $settings = array() ) {
 		}
 	}
 
-	if ( isset( $settings['location'] ) && strlen( $settings['location'] ) > 0 ) {
+	if ( isset( $settings['location'] ) && ( ! isset( $options['location'] ) || $options['location'] !== $settings['location'] ) ) {
 		$module = Red_Module::get( 2 );
 		$options['modules'][2] = $module->update( $settings );
 	}
