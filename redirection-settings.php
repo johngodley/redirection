@@ -26,7 +26,7 @@ function red_get_post_types( $full = true ) {
 			continue;
 		}
 
-		if ( $full ) {
+		if ( $full && strlen( $type->label ) > 0 ) {
 			$post_types[ $type->name ] = $type->label;
 		} else {
 			$post_types[] = $type->name;

@@ -149,6 +149,10 @@ class OptionsForm extends React.Component {
 			const existing = monitor_types.find( item => item === key );
 			const value = existing ? true : false;
 
+			if ( ! label ) {
+				continue;
+			}
+
 			types.push(
 				<p key={ key }>
 					<label>
