@@ -40,7 +40,7 @@ export const loadLogs = ( params = {} ) => getLogs( params );
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = page => getLogs( { page } );
 export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
-export const setFilter = filterBy => getLogs( { filterBy, orderby: '', page: 0 } );
+export const setFilter = filterBy => getLogs( { filterBy, orderby: '', page: 0, groupBy: '' } );
 export const setSelected = items => ( { type: ERROR_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: ERROR_SET_ALL_SELECTED, onoff } );
 export const setGroupBy = groupBy => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: {} } );
