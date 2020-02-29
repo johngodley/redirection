@@ -103,7 +103,21 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all', [ $this, 'permission_callback_delete' ] ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/404/(?P<bulk>delete)', $orders, 'route_bulk', [ $this, 'permission_callback_delete' ] );
+		register_rest_route( $namespace, '/bulk/404/(?P<bulk>delete)', array(
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_delete' ] ),
+			'args' => array_merge( $this->get_filter_args( $orders ), [
+				'items' => [
+					'description' => 'Comma separated list of item IDs to perform action on',
+					'type' => 'string',
+					'required' => true,
+					'sanitize_callback' => [ $this, 'sanitize_bulk' ],
+				],
+			] ),
+		) );
+	}
+
+	public function sanitize_bulk( $param ) {
+		return explode( ',', $param );
 	}
 
 	public function permission_callback_manage( WP_REST_Request $request ) {
