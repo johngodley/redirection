@@ -82,7 +82,7 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 
 			$data = array(
 				'url'         => $url,
-				'action_data' => array( 'url' => $redirect->url_to ),
+				'action_data' => array( 'url' => str_replace( '\\\\', '\\', $redirect->url_to ) ),
 				'regex'       => $source['comparison'] === 'regex' ? true : false,
 				'group_id'    => $group_id,
 				'match_type'  => 'url',
