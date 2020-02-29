@@ -106,7 +106,7 @@ class WordPress_Module extends Red_Module {
 
 	public function canonical_domain() {
 		$options = red_get_options();
-		$canonical = new Redirection_Canonical( $options['https'], $options['preferred_domain'], $options['aliases'], get_option( 'siteurl' ) );
+		$canonical = new Redirection_Canonical( $options['https'], $options['preferred_domain'], $options['aliases'], get_home_url() );
 
 		// Relocate domain?
 		$target = false;
