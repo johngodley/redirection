@@ -21,8 +21,8 @@ class Red_Http_Headers {
 		$settings = [];
 
 		if ( isset( $header['headerSettings'] ) && is_array( $header['headerSettings'] ) ) {
-			foreach ( $header['headerSettings'] as $key => $value ) {
-				$settings[ $this->sanitize( $key ) ] = $this->sanitize( $value );
+			foreach ( $header['headerSettings'] as $key => $setting_value ) {
+				$settings[ $this->sanitize( $key ) ] = $this->sanitize( $setting_value );
 			}
 		}
 

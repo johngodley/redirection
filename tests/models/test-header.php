@@ -30,28 +30,28 @@ class HeaderTest extends WP_UnitTestCase {
 		$headers = [ [ 'headerName' => 'Good', 'location' => 'bad', 'type' => 'Custom' ] ];
 		$expected = [ [ 'type' => 'Custom', 'location' => 'site', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( $expected, $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json() );
 	}
 
 	public function testHeaderLocation() {
 		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'type' => 'Custom' ] ];
 		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => '', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( $expected, $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json() );
 	}
 
 	public function testHeaderSanitizeValue() {
 		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => "this\nthing", 'type' => 'Custom' ] ];
 		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'this', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( $expected, $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json() );
 	}
 
 	public function testGoodHeader() {
-		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value', 'type' => 'Custom' ] ];
-		$expected = [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'value', 'headerSettings' => [], 'type' => 'Custom' ] ];
+		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => 'value', 'type' => 'Custom', 'headerSettings' => [ 'thing' => 'test' ] ] ];
+		$expected = [ [ 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'value', 'headerSettings' => [ 'thing' => 'test' ], 'type' => 'Custom' ] ];
 		$http = new Red_Http_Headers( $headers );
-		$this->assertEquals( $expected, $http->get_json( $headers ) );
+		$this->assertEquals( $expected, $http->get_json() );
 	}
 
 	public function testSiteHeaders() {

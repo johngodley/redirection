@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
 
@@ -80,7 +80,7 @@ const HttpHeaders = ( { headers, onChange } ) => {
 	const [ preset, setPreset ] = useState( 'header' );
 
 	return (
-		<Fragment>
+		<>
 			<h3>{ __( 'HTTP Headers' ) }</h3>
 			<p>{ __( 'Site headers are added across your site, including redirects. Redirect headers are only added to redirects.' ) }</p>
 
@@ -115,7 +115,7 @@ const HttpHeaders = ( { headers, onChange } ) => {
 			/>
 
 			<p>{ __( 'Note that some HTTP headers are set by your server and cannot be changed.' ) }</p>
-		</Fragment>
+		</>
 	);
 };
 

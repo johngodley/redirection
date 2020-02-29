@@ -35,6 +35,14 @@
 	align-items: center;
 	justify-content: left;
 	flex-wrap: wrap;
+
+	select {
+		max-width: 250px;
+	}
+
+	input[type="text"] {
+		width: auto;
+	}
 }
 
 .redirect-headers__type {
