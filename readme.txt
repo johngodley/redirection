@@ -168,6 +168,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is
 purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 4.7.1 - ??? =
+* Fix HTTP header over-sanitizing the value
+* Fix inability to remove .htaccess location
+* Fix 404 group by 'delete all'
+* Fix import of empty 'old slugs'
+
 = 4.7 - 15th February 2020 =
 * Relocate entire site to another domain, with exceptions
 * Site aliases to map another site to current site
