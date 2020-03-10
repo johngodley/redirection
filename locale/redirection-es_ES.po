@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-24 19:22:27+0000\n"
+"PO-Revision-Date: 2020-02-20 11:14:38+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -543,7 +543,7 @@ msgstr "No ha sido posible actualizar la redirección"
 
 #: redirection-strings.php:492
 msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr "Pasar - como ignorar, peo también copia los parámetros de consulta al destino"
+msgstr "Pasar - como ignorar, pero también copia los parámetros de consulta al destino"
 
 #: redirection-strings.php:491
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
@@ -2224,7 +2224,7 @@ msgstr "Desactivar"
 #: redirection-strings.php:423 redirection-strings.php:435
 #: redirection-strings.php:512 redirection-strings.php:552
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Borrar"
 
 #: redirection-strings.php:270 redirection-strings.php:551
 msgid "Edit"

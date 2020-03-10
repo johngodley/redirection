@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-23 21:44:43+0000\n"
+"PO-Revision-Date: 2020-02-15 21:16:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,7 +41,7 @@ msgstr "Ubicación"
 
 #: redirection-strings.php:570
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr "Las cabeceras del sitio se añaden a todo el sitio, incluidos los redireccionamientos. Las cabeceras de redireccionamiento solo se añaden a los redireccionamientos."
+msgstr "Las cabeceras del sitio se añaden a todo el sitio, incluidas las redirecciones. Las cabeceras de redirección solo se añaden a las redirecciones."
 
 #: redirection-strings.php:569
 msgid "HTTP Headers"

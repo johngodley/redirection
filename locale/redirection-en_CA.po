@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-23 23:26:08+0000\n"
+"PO-Revision-Date: 2020-02-20 10:11:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,187 +13,187 @@ msgstr ""
 
 #: redirection-strings.php:657
 msgid "Value"
-msgstr ""
+msgstr "Value"
 
 #: redirection-strings.php:656
 msgid "Values"
-msgstr ""
+msgstr "Values"
 
 #: redirection-strings.php:655
 msgid "All"
-msgstr ""
+msgstr "All"
 
 #: redirection-strings.php:574
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "Note that some HTTP headers are set by your server and cannot be changed."
 
 #: redirection-strings.php:573
 msgid "No headers"
-msgstr ""
+msgstr "No headers"
 
 #: redirection-strings.php:572
 msgid "Header"
-msgstr ""
+msgstr "Header"
 
 #: redirection-strings.php:571
 msgid "Location"
-msgstr ""
+msgstr "Location"
 
 #: redirection-strings.php:570
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
+msgstr "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
 
 #: redirection-strings.php:569
 msgid "HTTP Headers"
-msgstr ""
+msgstr "HTTP Headers"
 
 #: redirection-strings.php:568
 msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr ""
+msgstr "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
 
 #: redirection-strings.php:567
 msgid "Ensure that you update your site URL settings."
-msgstr ""
+msgstr "Ensure that you update your site URL settings."
 
 #: redirection-strings.php:566
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr ""
+msgstr "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
 
 #: redirection-strings.php:565
 msgid "Force a redirect from HTTP to HTTPS"
-msgstr ""
+msgstr "Force a redirect from HTTP to HTTPS"
 
 #: redirection-strings.php:563
 msgid "Custom Header"
-msgstr ""
+msgstr "Custom Header"
 
 #: redirection-strings.php:562
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: redirection-strings.php:561
 msgid "Redirect"
-msgstr ""
+msgstr "Redirect"
 
 #: redirection-strings.php:155
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
-msgstr ""
+msgstr "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
 
 #: redirection-strings.php:77 redirection-strings.php:330
 #: redirection-strings.php:560
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: redirection-strings.php:34
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
-msgstr ""
+msgstr "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
 
 #: redirection-strings.php:559
 msgid "Ignore & Pass Query"
-msgstr ""
+msgstr "Ignore & Pass Query"
 
 #: redirection-strings.php:558
 msgid "Ignore Query"
-msgstr ""
+msgstr "Ignore Query"
 
 #: redirection-strings.php:557
 msgid "Exact Query"
-msgstr ""
+msgstr "Exact Query"
 
 #: redirection-strings.php:546
 msgid "Search title"
-msgstr ""
+msgstr "Search title"
 
 #: redirection-strings.php:543
 msgid "Not accessed in last year"
-msgstr ""
+msgstr "Not accessed in last year"
 
 #: redirection-strings.php:542
 msgid "Not accessed in last month"
-msgstr ""
+msgstr "Not accessed in last month"
 
 #: redirection-strings.php:541
 msgid "Never accessed"
-msgstr ""
+msgstr "Never accessed"
 
 #: redirection-strings.php:540
 msgid "Last Accessed"
-msgstr ""
+msgstr "Last Accessed"
 
 #: redirection-strings.php:539
 msgid "HTTP Status Code"
-msgstr ""
+msgstr "HTTP Status Code"
 
 #: redirection-strings.php:536
 msgid "Plain"
-msgstr ""
+msgstr "Plain"
 
 #: redirection-strings.php:516
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: redirection-strings.php:507
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: redirection-strings.php:506 redirection-strings.php:527
 #: redirection-strings.php:538
 msgid "Action Type"
-msgstr ""
+msgstr "Action Type"
 
 #: redirection-strings.php:505 redirection-strings.php:522
 #: redirection-strings.php:537
 msgid "Match Type"
-msgstr ""
+msgstr "Match Type"
 
 #: redirection-strings.php:366 redirection-strings.php:545
 msgid "Search target URL"
-msgstr ""
+msgstr "Search target URL"
 
 #: redirection-strings.php:365 redirection-strings.php:406
 msgid "Search IP"
-msgstr ""
+msgstr "Search IP"
 
 #: redirection-strings.php:364 redirection-strings.php:405
 msgid "Search user agent"
-msgstr ""
+msgstr "Search user agent"
 
 #: redirection-strings.php:363 redirection-strings.php:404
 msgid "Search referrer"
-msgstr ""
+msgstr "Search referrer"
 
 #: redirection-strings.php:362 redirection-strings.php:403
 #: redirection-strings.php:544
 msgid "Search URL"
-msgstr ""
+msgstr "Search URL"
 
 #: redirection-strings.php:280
 msgid "Filter on: %(type)s"
-msgstr ""
+msgstr "Filter on: %(type)s"
 
 #: redirection-strings.php:255 redirection-strings.php:533
 msgid "Disabled"
-msgstr ""
+msgstr "Disabled"
 
 #: redirection-strings.php:254 redirection-strings.php:532
 msgid "Enabled"
-msgstr ""
+msgstr "Enabled"
 
 #: redirection-strings.php:252 redirection-strings.php:355
 #: redirection-strings.php:397 redirection-strings.php:530
 msgid "Compact Display"
-msgstr ""
+msgstr "Compact Display"
 
 #: redirection-strings.php:251 redirection-strings.php:354
 #: redirection-strings.php:396 redirection-strings.php:529
 msgid "Standard Display"
-msgstr ""
+msgstr "Standard Display"
 
 #: redirection-strings.php:249 redirection-strings.php:253
 #: redirection-strings.php:257 redirection-strings.php:503
 #: redirection-strings.php:526 redirection-strings.php:531
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: redirection-strings.php:196
 msgid "Pre-defined"
@@ -201,127 +201,127 @@ msgstr "Predefined"
 
 #: redirection-strings.php:195
 msgid "Custom Display"
-msgstr ""
+msgstr "Custom Display"
 
 #: redirection-strings.php:194
 msgid "Display All"
-msgstr ""
+msgstr "Display All"
 
 #: redirection-strings.php:154
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
-msgstr ""
+msgstr "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
 
 #: redirection-strings.php:641
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "Comma separated list of languages to match against (i.e. da, en-GB)"
 
 #: redirection-strings.php:640
 msgid "Language"
-msgstr ""
+msgstr "Language"
 
 #: redirection-strings.php:121
 msgid "504 - Gateway Timeout"
-msgstr ""
+msgstr "504 - Gateway Timeout"
 
 #: redirection-strings.php:120
 msgid "503 - Service Unavailable"
-msgstr ""
+msgstr "503 - Service Unavailable"
 
 #: redirection-strings.php:119
 msgid "502 - Bad Gateway"
-msgstr ""
+msgstr "502 - Bad Gateway"
 
 #: redirection-strings.php:118
 msgid "501 - Not implemented"
-msgstr ""
+msgstr "501 - Not implemented"
 
 #: redirection-strings.php:117
 msgid "500 - Internal Server Error"
-msgstr ""
+msgstr "500 - Internal Server Error"
 
 #: redirection-strings.php:116
 msgid "451 - Unavailable For Legal Reasons"
-msgstr ""
+msgstr "451 - Unavailable For Legal Reasons"
 
 #: matches/language.php:9 redirection-strings.php:98
 msgid "URL and language"
-msgstr ""
+msgstr "URL and language"
 
 #: redirection-strings.php:45
 msgid "The problem is almost certainly caused by one of the above."
-msgstr ""
+msgstr "The problem is almost certainly caused by one of the above."
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "Your admin pages are being cached. Clear this cache and try again."
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
-msgstr ""
+msgstr "Log out, clear your browser cache, and log in again - your browser has cached an old session."
 
 #: redirection-strings.php:42
 msgid "Reload the page - your current session is old."
-msgstr ""
+msgstr "Reload the page - your current session is old."
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "This is usually fixed by doing one of these:"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
+msgstr "You are not authorised to access this site"
 
 #: redirection-strings.php:534
 msgid "URL match"
-msgstr ""
+msgstr "URL match"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
-msgstr ""
+msgstr "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
 
 #: redirection-strings.php:497
 msgid "Unable to save .htaccess file"
-msgstr ""
+msgstr "Unable to save .htaccess file"
 
 #: redirection-strings.php:496
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
-msgstr ""
+msgstr "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
 
 #: redirection-strings.php:320
 msgid "Click \"Complete Upgrade\" when finished."
-msgstr ""
+msgstr "Click \"Complete Upgrade\" when finished."
 
 #: redirection-strings.php:245
 msgid "Automatic Install"
-msgstr ""
+msgstr "Automatic Install"
 
 #: redirection-strings.php:153
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
-msgstr ""
+msgstr "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
 
 #: redirection-strings.php:52
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr ""
+msgstr "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
-msgstr ""
+msgstr "If you do not complete the manual install you will be returned here."
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
-msgstr ""
+msgstr "Click \"Finished! 🎉\" when finished."
 
 #: redirection-strings.php:14 redirection-strings.php:319
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr ""
+msgstr "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
 
 #: redirection-strings.php:13 redirection-strings.php:244
 msgid "Manual Install"
-msgstr ""
+msgstr "Manual Install"
 
 #: database/database-status.php:145
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
-msgstr ""
+msgstr "Insufficient database permissions detected. Please give your database user appropriate permissions."
 
 #: redirection-strings.php:603
 msgid "This information is provided for debugging purposes. Be careful making any changes."
@@ -1293,7 +1293,7 @@ msgstr "Full IP logging"
 
 #: redirection-strings.php:461
 msgid "Anonymize IP (mask last part)"
-msgstr "Anonymize IP (mask last part)"
+msgstr "Anonymise IP (mask last part)"
 
 #: redirection-strings.php:472
 msgid "Monitor changes to %(type)s"
@@ -1430,7 +1430,7 @@ msgstr "Import from %s"
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
 #: redirection-admin.php:384
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
-msgstr "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
+msgstr "Redirection requires WordPress v%1$s, you are using v%2$s - please update your WordPress"
 
 #: models/importer.php:224
 msgid "Default WordPress \"old slugs\""
@@ -1789,7 +1789,7 @@ msgstr "308 - Permanent Redirect"
 
 #: redirection-strings.php:111
 msgid "401 - Unauthorized"
-msgstr "401 - Unauthorized"
+msgstr "401 - Unauthorised"
 
 #: redirection-strings.php:113
 msgid "404 - Not Found"

@@ -476,37 +476,37 @@ __( "URL Monitor Changes", "redirection" ), // client/page/options/options-form.
 __( "Save changes to this group", "redirection" ), // client/page/options/options-form.js:135
 __( "For example \"/amp\"", "redirection" ), // client/page/options/options-form.js:137
 __( "Create associated redirect (added to end of URL)", "redirection" ), // client/page/options/options-form.js:137
-__( "Monitor changes to %(type)s", "redirection" ), // client/page/options/options-form.js:157
-__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/page/options/options-form.js:184
-__( "Redirect Logs", "redirection" ), // client/page/options/options-form.js:188
-__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:189
-__( "404 Logs", "redirection" ), // client/page/options/options-form.js:192
+__( "Monitor changes to %(type)s", "redirection" ), // client/page/options/options-form.js:161
+__( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/page/options/options-form.js:188
+__( "Redirect Logs", "redirection" ), // client/page/options/options-form.js:192
 __( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:193
-__( "IP Logging", "redirection" ), // client/page/options/options-form.js:196
-__( "(select IP logging level)", "redirection" ), // client/page/options/options-form.js:197
-__( "GDPR / Privacy information", "redirection" ), // client/page/options/options-form.js:199
-__( "URL Monitor", "redirection" ), // client/page/options/options-form.js:202
-__( "RSS Token", "redirection" ), // client/page/options/options-form.js:208
-__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/page/options/options-form.js:210
-__( "Default URL settings", "redirection" ), // client/page/options/options-form.js:213
-__( "Applies to all redirections unless you configure them otherwise.", "redirection" ), // client/page/options/options-form.js:214
-__( "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})", "redirection" ), // client/page/options/options-form.js:218
-__( "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})", "redirection" ), // client/page/options/options-form.js:229
-__( "Default query matching", "redirection" ), // client/page/options/options-form.js:238
-__( "Applies to all redirections unless you configure them otherwise.", "redirection" ), // client/page/options/options-form.js:239
-__( "Exact - matches the query parameters exactly defined in your source, in any order", "redirection" ), // client/page/options/options-form.js:244
-__( "Ignore - as exact, but ignores any query parameters not in your source", "redirection" ), // client/page/options/options-form.js:245
-__( "Pass - as ignore, but also copies the query parameters to the target", "redirection" ), // client/page/options/options-form.js:246
-__( "Auto-generate URL", "redirection" ), // client/page/options/options-form.js:250
-__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/page/options/options-form.js:253
-__( "Apache .htaccess", "redirection" ), // client/page/options/options-form.js:261
-__( "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}.", "redirection" ), // client/page/options/options-form.js:266
-__( "Unable to save .htaccess file", "redirection" ), // client/page/options/options-form.js:276
-__( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:280
-__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:282
-__( "REST API", "redirection" ), // client/page/options/options-form.js:285
-__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/page/options/options-form.js:287
-__( "Update", "redirection" ), // client/page/options/options-form.js:291
+__( "404 Logs", "redirection" ), // client/page/options/options-form.js:196
+__( "(time to keep logs for)", "redirection" ), // client/page/options/options-form.js:197
+__( "IP Logging", "redirection" ), // client/page/options/options-form.js:200
+__( "(select IP logging level)", "redirection" ), // client/page/options/options-form.js:201
+__( "GDPR / Privacy information", "redirection" ), // client/page/options/options-form.js:203
+__( "URL Monitor", "redirection" ), // client/page/options/options-form.js:206
+__( "RSS Token", "redirection" ), // client/page/options/options-form.js:212
+__( "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)", "redirection" ), // client/page/options/options-form.js:214
+__( "Default URL settings", "redirection" ), // client/page/options/options-form.js:217
+__( "Applies to all redirections unless you configure them otherwise.", "redirection" ), // client/page/options/options-form.js:218
+__( "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})", "redirection" ), // client/page/options/options-form.js:222
+__( "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})", "redirection" ), // client/page/options/options-form.js:233
+__( "Default query matching", "redirection" ), // client/page/options/options-form.js:242
+__( "Applies to all redirections unless you configure them otherwise.", "redirection" ), // client/page/options/options-form.js:243
+__( "Exact - matches the query parameters exactly defined in your source, in any order", "redirection" ), // client/page/options/options-form.js:248
+__( "Ignore - as exact, but ignores any query parameters not in your source", "redirection" ), // client/page/options/options-form.js:249
+__( "Pass - as ignore, but also copies the query parameters to the target", "redirection" ), // client/page/options/options-form.js:250
+__( "Auto-generate URL", "redirection" ), // client/page/options/options-form.js:254
+__( "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}\$dec\${{/code}} or {{code}}\$hex\${{/code}} to insert a unique ID instead", "redirection" ), // client/page/options/options-form.js:257
+__( "Apache .htaccess", "redirection" ), // client/page/options/options-form.js:265
+__( "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}.", "redirection" ), // client/page/options/options-form.js:270
+__( "Unable to save .htaccess file", "redirection" ), // client/page/options/options-form.js:280
+__( "Redirect Cache", "redirection" ), // client/page/options/options-form.js:284
+__( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form.js:286
+__( "REST API", "redirection" ), // client/page/options/options-form.js:289
+__( "How Redirection uses the REST API - don't change unless necessary", "redirection" ), // client/page/options/options-form.js:291
+__( "Update", "redirection" ), // client/page/options/options-form.js:295
 __( "Status", "redirection" ), // client/page/redirects/constants.js:15
 __( "URL", "redirection" ), // client/page/redirects/constants.js:20
 __( "Match Type", "redirection" ), // client/page/redirects/constants.js:25
@@ -678,6 +678,6 @@ __( "Want to redirect the entire site? Enter a domain to redirect everything, ex
 __( "Relocate to domain", "redirection" ), // client/page/site/relocate/index.js:34
 __( "All", "redirection" ), // client/page/site/headers/types/multi-choice.js:34
 __( "Values", "redirection" ), // client/page/site/headers/types/multi-choice.js:37
-__( "Value", "redirection" ), // client/page/site/headers/types/plain-value.js:11
+__( "Value", "redirection" ), // client/page/site/headers/types/plain-value.js:10
 );
 /* THIS IS THE END OF THE GENERATED FILE */

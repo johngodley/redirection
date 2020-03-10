@@ -2282,7 +2282,7 @@ msgstr ""
 msgid "Site and home protocol"
 msgstr ""
 
-#: models/importer.php:226
+#: models/importer.php:227
 msgid "Default WordPress \"old slugs\""
 msgstr ""
 
