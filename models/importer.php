@@ -176,7 +176,7 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		$count = 0;
 		$redirects = $wpdb->get_results(
 			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id " .
-			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
 		);
 
 		foreach ( $redirects as $redirect ) {
@@ -199,6 +199,7 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		$new_path = wp_parse_url( $new, PHP_URL_PATH );
 		$old = rtrim( dirname( $new_path ), '/' ) . '/' . rtrim( $redirect->meta_value, '/' ) . '/';
 		$old = str_replace( '\\', '', $old );
+		$old = str_replace( '//', '/', $old );
 
 		$data = array(
 			'url'         => $old,
@@ -217,7 +218,7 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		global $wpdb;
 
 		$total = $wpdb->get_var(
-			"SELECT COUNT(*) FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+			"SELECT COUNT(*) FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
 		);
 
 		if ( $total ) {
