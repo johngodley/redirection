@@ -17,7 +17,7 @@ const Alias = ( { domain, asDomain, onChange, onDelete, site } ) => {
 			<td className="redirect-alias__item__asdomain">
 				{ domain.length > 0 && (
 					<Fragment>
-						<code>{ asDomain }</code> → <code>{ site }</code>
+						<code>{ asDomain }</code> ⇒ <code>{ site }</code>
 					</Fragment>
 				) }
 			</td>

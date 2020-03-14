@@ -17,7 +17,7 @@ const getExample = ( siteDomain, relocate ) => {
 		const asDomain = getDomainAndPathOnly( relocate );
 
 		if ( asDomain.length > 0 ) {
-			return <p><code>{ siteDomain }</code> → <code>{ asDomain }</code></p>;
+			return <p><code>{ siteDomain }</code> ⇒ <code>{ asDomain }</code></p>;
 		}
 	}
 	return null;

@@ -19,7 +19,7 @@ const getWWW = ( site ) => [
 		value: '',
 	},
 	{
-		label: __( 'Remove www from domain - {{code}}%(siteWWW)s{{/code}} → {{code}}%(site)s{{/code}}', {
+		label: __( 'Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', {
 			components: {
 				code: <code />,
 			},
@@ -31,7 +31,7 @@ const getWWW = ( site ) => [
 		value: 'nowww',
 	},
 	{
-		label: __( 'Add www to domain - {{code}}%(site)s{{/code}} → {{code}}%(siteWWW)s{{/code}}', {
+		label: __( 'Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}', {
 			components: {
 				code: <code />,
 			},
@@ -87,7 +87,7 @@ const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) =
 			<p>
 				<label>
 					<input type="checkbox" name="https" onChange={ changeHttps } checked={ https } />&nbsp;
-					{ __( 'Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} → {{code}}%(siteHTTPS)s{{/code}}', {
+					{ __( 'Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}', {
 						components: {
 							code: <code />,
 						},
@@ -117,7 +117,7 @@ const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) =
 			) ) }
 
 			{ alert && <div className="inline-notice inline-error">
-				<p>{ __( 'You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} → {{code}}%(site)s{{/code}}', {
+				<p>{ __( 'You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', {
 					components: {
 						code: <code />,
 					},
