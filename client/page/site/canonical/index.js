@@ -25,7 +25,7 @@ const getWWW = ( site ) => [
 			},
 			args: {
 				site: site.replace( 'www.', '' ),
-				siteWWW: site.replace( 'www', '' ).replace( '://', '://www.' ),
+				siteWWW: site.replace( 'www.', '' ).replace( '://', '://www.' ),
 			},
 		} ),
 		value: 'nowww',
@@ -37,7 +37,7 @@ const getWWW = ( site ) => [
 			},
 			args: {
 				site: site.replace( 'www.', '' ),
-				siteWWW: site.replace( 'www', '' ).replace( '://', '://www.' ),
+				siteWWW: site.replace( 'www.', '' ).replace( '://', '://www.' ),
 			},
 		} ),
 		value: 'www',
