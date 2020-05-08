@@ -25,7 +25,9 @@ class Red_Url_Request {
 		if ( count( $decoded ) > 1 ) {
 			$original = explode( '?', $original_url );
 
-			return $decoded[0] . '?' . $original[1];
+			if ( count( $original ) > 1 ) {
+				return $decoded[0] . '?' . $original[1];
+			}
 		}
 
 		return $decoded_url;
