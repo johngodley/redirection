@@ -180,4 +180,17 @@ and a line at the end';
 		$lines = $this->getOutput( $htaccess );
 		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L,QSA]', trim( $lines[5] ) );
 	}
+
+	public function testServerRedirect() {
+		$action_data = serialize( [ 'server' => 'https://otherdomain.com', 'url_notfrom' => '/target', 'url_from' => '/target' ] );
+		$item = new Red_Item( (object) [ 'match_type' => 'server', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => $action_data, 'action_code' => 301 ] );
+
+		$htaccess = new Red_Htaccess();
+		$htaccess->add( $item );
+
+		$lines = $this->getOutput( $htaccess );
+
+		$this->assertEquals( 'RewriteCond %{HTTP_HOST} ^otherdomain\.com$ [NC]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L]', trim( $lines[6] ) );
+	}
 }
