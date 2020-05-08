@@ -2,26 +2,26 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-13 14:30:01+0000\n"
+"PO-Revision-Date: 2020-04-18 15:47:58+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:657
 msgid "Value"
-msgstr ""
+msgstr "値"
 
 #: redirection-strings.php:656
 msgid "Values"
-msgstr ""
+msgstr "値"
 
 #: redirection-strings.php:655
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: redirection-strings.php:574
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
@@ -261,19 +261,19 @@ msgstr ""
 
 #: redirection-strings.php:42
 msgid "Reload the page - your current session is old."
-msgstr ""
+msgstr "このページを再読み込みしてください。古いセッションが表示されています。"
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "この問題は次のうちの一つを行うことで解決する場合があります:"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
+msgstr "このページにアクセスする権限がありません。"
 
 #: redirection-strings.php:534
 msgid "URL match"
-msgstr ""
+msgstr "URL 一致"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -325,15 +325,15 @@ msgstr ""
 
 #: redirection-strings.php:603
 msgid "This information is provided for debugging purposes. Be careful making any changes."
-msgstr ""
+msgstr "次の情報はデバッグ目的で表示しています。変更を加える際には注意してください。"
 
 #: redirection-strings.php:602
 msgid "Plugin Debug"
-msgstr ""
+msgstr "プラグインをデバッグ"
 
 #: redirection-strings.php:600
 msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
-msgstr ""
+msgstr "Redirection は WordPress と WordPress REST API を介してやり取りを行います。WordPress が提供する標準機能を使用しているため、利用できない場合は不具合が生じます。"
 
 #: redirection-strings.php:579
 msgid "IP Headers"
@@ -341,7 +341,7 @@ msgstr "IP ヘッダー"
 
 #: redirection-strings.php:577
 msgid "Do not change unless advised to do so!"
-msgstr ""
+msgstr "指示があるまで変更しないでください !"
 
 #: redirection-strings.php:576
 msgid "Database version"
@@ -349,7 +349,7 @@ msgstr "データベースバージョン"
 
 #: redirection-strings.php:309
 msgid "Complete data (JSON)"
-msgstr ""
+msgstr "すべてのデータ (JSON 形式)"
 
 #: redirection-strings.php:304
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
@@ -357,7 +357,7 @@ msgstr ""
 
 #: redirection-strings.php:302
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
-msgstr ""
+msgstr "CSV には一部の情報しか含まれず、すべてのインポート/エクスポートは「URL のみ」一致として扱われます。もしすべての情報を含んでいる形式を望む場合は JSON を利用してください。"
 
 #: redirection-strings.php:300
 msgid "All imports will be appended to the current database - nothing is merged."
@@ -377,7 +377,7 @@ msgstr ""
 
 #: redirection-strings.php:322
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
-msgstr ""
+msgstr "「データベースのアップグレード」ボタンを押すと自動的にデータベースのアップグレードが行われます。"
 
 #: redirection-strings.php:321
 msgid "Complete Upgrade"
@@ -401,15 +401,15 @@ msgstr ""
 
 #: redirection-strings.php:173
 msgid "Check Again"
-msgstr ""
+msgstr "再確認"
 
 #: redirection-strings.php:172
 msgid "Testing - %s$"
-msgstr ""
+msgstr "テスト中 - %s$"
 
 #: redirection-strings.php:171
 msgid "Show Problems"
-msgstr ""
+msgstr "問題点を表示"
 
 #: redirection-strings.php:170
 msgid "Summary"
@@ -429,7 +429,7 @@ msgstr ""
 
 #: redirection-strings.php:166
 msgid "Unavailable"
-msgstr ""
+msgstr "利用できません"
 
 #: redirection-strings.php:165
 msgid "Not working but fixable"
@@ -477,11 +477,11 @@ msgstr ""
 
 #: redirection-strings.php:37
 msgid "Create An Issue"
-msgstr ""
+msgstr "問題点を報告する"
 
 #: redirection-strings.php:36
 msgid "Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
-msgstr ""
+msgstr "{{strong}} 問題点を報告する {{/strong}} か {{strong}} メールを送ってください {{/strong}}"
 
 #: redirection-strings.php:46 redirection-strings.php:53
 msgid "That didn't help"
@@ -615,11 +615,11 @@ msgstr ""
 
 #: redirection-strings.php:124
 msgid "Ignore Case"
-msgstr ""
+msgstr "大文字と小文字を区別しない"
 
 #: redirection-strings.php:123
 msgid "Ignore Slash"
-msgstr ""
+msgstr "スラッシュを無視する"
 
 #: redirection-strings.php:464
 msgid "Relative REST API"
@@ -661,7 +661,7 @@ msgstr ""
 
 #: redirection-strings.php:325
 msgid "Redirection database needs upgrading"
-msgstr ""
+msgstr "Redirection データベースのアップグレードが必要"
 
 #: redirection-strings.php:324
 msgid "Upgrade Required"
@@ -713,7 +713,7 @@ msgstr ""
 
 #: redirection-strings.php:223
 msgid "Keep a log of all redirects and 404 errors."
-msgstr ""
+msgstr "すべてのリダイレクトと 404 エラーのログを保存する。"
 
 #: redirection-strings.php:222 redirection-strings.php:225
 #: redirection-strings.php:228
@@ -838,11 +838,11 @@ msgstr ""
 
 #: redirection-strings.php:12
 msgid "Setting up Redirection"
-msgstr ""
+msgstr "Redirection を設定"
 
 #: redirection-strings.php:11
 msgid "Upgrading Redirection"
-msgstr ""
+msgstr "Redirection のアップグレードが必要"
 
 #: redirection-strings.php:10
 msgid "Please remain on this page until complete."
@@ -854,19 +854,19 @@ msgstr ""
 
 #: redirection-strings.php:8
 msgid "Stop upgrade"
-msgstr ""
+msgstr "アップグレードを中止する"
 
 #: redirection-strings.php:7
 msgid "Skip this stage"
-msgstr ""
+msgstr "この操作を飛ばす"
 
 #: redirection-strings.php:6
 msgid "Try again"
-msgstr ""
+msgstr "もう一度試す"
 
 #: redirection-strings.php:5
 msgid "Database problem"
-msgstr ""
+msgstr "データベースに問題発生"
 
 #: redirection-admin.php:423
 msgid "Please enable JavaScript"
@@ -893,12 +893,12 @@ msgstr ""
 #. translators: 1: SQL string
 #: database/database-upgrader.php:104
 msgid "Failed to perform query \"%s\""
-msgstr ""
+msgstr "次の SQL クエリーの実行に失敗しました: \"%s\""
 
 #. translators: 1: table name
 #: database/schema/latest.php:102
 msgid "Table \"%s\" is missing"
-msgstr ""
+msgstr "テーブル \"%s\" が見つかりません"
 
 #: database/schema/latest.php:10
 msgid "Create basic data"
@@ -927,7 +927,7 @@ msgstr "ページ種別"
 
 #: redirection-strings.php:639
 msgid "Enter IP addresses (one per line)"
-msgstr ""
+msgstr "IP アドレスを入力してください (1行ごとに1つずつ)"
 
 #: redirection-strings.php:143
 msgid "Describe the purpose of this redirect (optional)"
@@ -967,7 +967,7 @@ msgstr ""
 
 #: redirection-strings.php:413 redirection-strings.php:418
 msgid "Show All"
-msgstr ""
+msgstr "すべて表示"
 
 #: redirection-strings.php:410
 msgid "Delete all logs for these entries"
@@ -979,7 +979,7 @@ msgstr ""
 
 #: redirection-strings.php:408
 msgid "Delete Log Entries"
-msgstr ""
+msgstr "ログを削除する"
 
 #: redirection-strings.php:395
 msgid "Group by IP"
@@ -999,12 +999,12 @@ msgstr ""
 
 #: redirection-strings.php:389 redirection-strings.php:415
 msgid "Block IP"
-msgstr ""
+msgstr "IP をブロック"
 
 #: redirection-strings.php:388 redirection-strings.php:391
 #: redirection-strings.php:412 redirection-strings.php:417
 msgid "Redirect All"
-msgstr ""
+msgstr "すべて転送"
 
 #: redirection-strings.php:379 redirection-strings.php:381
 msgid "Count"
@@ -1016,7 +1016,7 @@ msgstr ""
 
 #: matches/ip.php:9 redirection-strings.php:93
 msgid "URL and IP"
-msgstr ""
+msgstr "URL と IP"
 
 #: redirection-strings.php:598
 msgid "Problem"
@@ -1052,7 +1052,7 @@ msgstr ""
 
 #: redirection-strings.php:67
 msgid "Found"
-msgstr ""
+msgstr "見つかりました"
 
 #: redirection-strings.php:68
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
@@ -2111,7 +2111,7 @@ msgstr "グループ"
 
 #: redirection-strings.php:535
 msgid "Regular Expression"
-msgstr ""
+msgstr "正規表現"
 
 #: redirection-strings.php:134
 msgid "Match"
@@ -2202,7 +2202,7 @@ msgstr "名称"
 
 #: redirection-strings.php:265 redirection-strings.php:550
 msgid "Filters"
-msgstr ""
+msgstr "フィルター"
 
 #: redirection-strings.php:515
 msgid "Reset hits"

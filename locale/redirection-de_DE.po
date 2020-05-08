@@ -2,42 +2,42 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-21 20:12:05+0000\n"
+"PO-Revision-Date: 2020-03-29 20:31:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:657
 msgid "Value"
-msgstr ""
+msgstr "Wert"
 
 #: redirection-strings.php:656
 msgid "Values"
-msgstr ""
+msgstr "Werte"
 
 #: redirection-strings.php:655
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: redirection-strings.php:574
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "Beachte, dass einige HTTP Header durch deinen Server gesetzt werden und nicht geändert werden können."
 
 #: redirection-strings.php:573
 msgid "No headers"
-msgstr ""
+msgstr "Keine Header"
 
 #: redirection-strings.php:572
 msgid "Header"
-msgstr ""
+msgstr "Header"
 
 #: redirection-strings.php:571
 msgid "Location"
-msgstr ""
+msgstr "Position"
 
 #: redirection-strings.php:570
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
@@ -45,11 +45,11 @@ msgstr ""
 
 #: redirection-strings.php:569
 msgid "HTTP Headers"
-msgstr ""
+msgstr "HTTP Header"
 
 #: redirection-strings.php:568
 msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr ""
+msgstr "Wenn deine Website nicht mehr funktioniert, musst du {{link}}das Plugin deaktivieren{{/link}} und Änderungen vornehmen."
 
 #: redirection-strings.php:567
 msgid "Ensure that you update your site URL settings."
@@ -57,19 +57,19 @@ msgstr ""
 
 #: redirection-strings.php:566
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr ""
+msgstr "{{strong}}Warnung{{/strong}}: Stelle sicher, dass dein HTTPS arbeitet - anderenfalls kann dies dazu führen, dass deine Website nicht mehr funktioniert."
 
 #: redirection-strings.php:565
 msgid "Force a redirect from HTTP to HTTPS"
-msgstr ""
+msgstr "Erzwinge eine Umleitung von HTTP zu HTTPS"
 
 #: redirection-strings.php:563
 msgid "Custom Header"
-msgstr ""
+msgstr "Individuelle Header"
 
 #: redirection-strings.php:562
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: redirection-strings.php:561
 msgid "Redirect"

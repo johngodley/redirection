@@ -2,174 +2,174 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-30 13:56:18+0000\n"
+"PO-Revision-Date: 2020-04-17 15:18:54+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha\n"
 "Language: fr\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:657
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 #: redirection-strings.php:656
 msgid "Values"
-msgstr ""
+msgstr "Valeurs"
 
 #: redirection-strings.php:655
 msgid "All"
-msgstr ""
+msgstr "Toutes"
 
 #: redirection-strings.php:574
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "Notez que certains en-têtes HTTP sont définis par votre serveur et ne peuvent pas être modifiés."
 
 #: redirection-strings.php:573
 msgid "No headers"
-msgstr ""
+msgstr "Aucun en-tête"
 
 #: redirection-strings.php:572
 msgid "Header"
-msgstr ""
+msgstr "En-tête"
 
 #: redirection-strings.php:571
 msgid "Location"
-msgstr ""
+msgstr "Emplacement"
 
 #: redirection-strings.php:570
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
+msgstr "Les en-têtes de site sont ajoutés sur l’ensemble de votre site, y compris les redirections. Les en-têtes de redirection sont ajoutés uniquement aux redirections."
 
 #: redirection-strings.php:569
 msgid "HTTP Headers"
-msgstr ""
+msgstr "En-têtes HTTP"
 
 #: redirection-strings.php:568
 msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr ""
+msgstr "Si votre site arrête de fonctionner, vous aurez besoin de {{link}}désactiver l’extension{{/link}} et réaliser vos modifications."
 
 #: redirection-strings.php:567
 msgid "Ensure that you update your site URL settings."
-msgstr ""
+msgstr "Assurez-vous de mettre à jour les réglages d’URL de votre site."
 
 #: redirection-strings.php:566
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr ""
+msgstr "{{strong}}Avertissement{{/strong}} : assurez-vous que votre HTTPS fonctionne sinon vous pouvez casser votre site."
 
 #: redirection-strings.php:565
 msgid "Force a redirect from HTTP to HTTPS"
-msgstr ""
+msgstr "Forcer une redirection de HTTP à HTTPS"
 
 #: redirection-strings.php:563
 msgid "Custom Header"
-msgstr ""
+msgstr "En-tête personnalisé"
 
 #: redirection-strings.php:562
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: redirection-strings.php:561
 msgid "Redirect"
-msgstr ""
+msgstr "Redirection"
 
 #: redirection-strings.php:155
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
-msgstr ""
+msgstr "Quelques serveurs peuvent être configurés pour servir directement les ressources de fichiers, empêchant une redirection de se produire."
 
 #: redirection-strings.php:77 redirection-strings.php:330
 #: redirection-strings.php:560
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: redirection-strings.php:34
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
-msgstr ""
+msgstr "Impossible de faire une demande en raison de la sécurité du navigateur. C’est généralement parce que vos réglages WordPress et URL de site sont incohérents ou qu’une demande a été bloquée par votre politique de partage de ressources entre origines multiples CORS."
 
 #: redirection-strings.php:559
 msgid "Ignore & Pass Query"
-msgstr ""
+msgstr "Ignorer et passer la requête"
 
 #: redirection-strings.php:558
 msgid "Ignore Query"
-msgstr ""
+msgstr "Ignorer la requête"
 
 #: redirection-strings.php:557
 msgid "Exact Query"
-msgstr ""
+msgstr "Requête exacte"
 
 #: redirection-strings.php:546
 msgid "Search title"
-msgstr ""
+msgstr "Rechercher le titre"
 
 #: redirection-strings.php:543
 msgid "Not accessed in last year"
-msgstr ""
+msgstr "Non consulté l’année dernière"
 
 #: redirection-strings.php:542
 msgid "Not accessed in last month"
-msgstr ""
+msgstr "Non consulté le mois dernier"
 
 #: redirection-strings.php:541
 msgid "Never accessed"
-msgstr ""
+msgstr "Jamais consulté"
 
 #: redirection-strings.php:540
 msgid "Last Accessed"
-msgstr ""
+msgstr "Dernière consultation"
 
 #: redirection-strings.php:539
 msgid "HTTP Status Code"
-msgstr ""
+msgstr "Code d’état HTTP"
 
 #: redirection-strings.php:536
 msgid "Plain"
-msgstr ""
+msgstr "Plein"
 
 #: redirection-strings.php:516
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: redirection-strings.php:507
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: redirection-strings.php:506 redirection-strings.php:527
 #: redirection-strings.php:538
 msgid "Action Type"
-msgstr ""
+msgstr "Type d’action"
 
 #: redirection-strings.php:505 redirection-strings.php:522
 #: redirection-strings.php:537
 msgid "Match Type"
-msgstr ""
+msgstr "Type correspondant"
 
 #: redirection-strings.php:366 redirection-strings.php:545
 msgid "Search target URL"
-msgstr ""
+msgstr "Rechercher l’URL cible"
 
 #: redirection-strings.php:365 redirection-strings.php:406
 msgid "Search IP"
-msgstr ""
+msgstr "Rechercher l’IP"
 
 #: redirection-strings.php:364 redirection-strings.php:405
 msgid "Search user agent"
-msgstr ""
+msgstr "Rechercher l’agent utilisateur"
 
 #: redirection-strings.php:363 redirection-strings.php:404
 msgid "Search referrer"
-msgstr ""
+msgstr "Rechercher le référent"
 
 #: redirection-strings.php:362 redirection-strings.php:403
 #: redirection-strings.php:544
 msgid "Search URL"
-msgstr ""
+msgstr "Rechercher l’URL"
 
 #: redirection-strings.php:280
 msgid "Filter on: %(type)s"
-msgstr ""
+msgstr "Filtre : %(type)s"
 
 #: redirection-strings.php:255 redirection-strings.php:533
 msgid "Disabled"
@@ -182,12 +182,12 @@ msgstr "Activé"
 #: redirection-strings.php:252 redirection-strings.php:355
 #: redirection-strings.php:397 redirection-strings.php:530
 msgid "Compact Display"
-msgstr ""
+msgstr "Affichage compact"
 
 #: redirection-strings.php:251 redirection-strings.php:354
 #: redirection-strings.php:396 redirection-strings.php:529
 msgid "Standard Display"
-msgstr ""
+msgstr "Affichage standard"
 
 #: redirection-strings.php:249 redirection-strings.php:253
 #: redirection-strings.php:257 redirection-strings.php:503
@@ -197,23 +197,23 @@ msgstr "État"
 
 #: redirection-strings.php:196
 msgid "Pre-defined"
-msgstr ""
+msgstr "Prédéfini"
 
 #: redirection-strings.php:195
 msgid "Custom Display"
-msgstr ""
+msgstr "Affichage personnalisé"
 
 #: redirection-strings.php:194
 msgid "Display All"
-msgstr ""
+msgstr "Tout afficher"
 
 #: redirection-strings.php:154
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
-msgstr ""
+msgstr "Votre URL semble contenir un domaine à l’intérieur du chemin : {{code}}%(relative)s{{/code}}. Avez-vous voulu utiliser {{code}}%(absolute)s{{/code}} à la place ?"
 
 #: redirection-strings.php:641
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "Liste des langues à comparer, séparées par des virgules (ex : da, en-GB)"
 
 #: redirection-strings.php:640
 msgid "Language"
@@ -221,51 +221,51 @@ msgstr "Langue"
 
 #: redirection-strings.php:121
 msgid "504 - Gateway Timeout"
-msgstr ""
+msgstr "504 - Temps d’attente de la passerelle écoulé"
 
 #: redirection-strings.php:120
 msgid "503 - Service Unavailable"
-msgstr ""
+msgstr "503 - Service temporairement indisponible"
 
 #: redirection-strings.php:119
 msgid "502 - Bad Gateway"
-msgstr ""
+msgstr "502 - Mauvaise passerelle"
 
 #: redirection-strings.php:118
 msgid "501 - Not implemented"
-msgstr ""
+msgstr "501 - Non supporté par le serveur"
 
 #: redirection-strings.php:117
 msgid "500 - Internal Server Error"
-msgstr ""
+msgstr "500 - Erreur interne du serveur"
 
 #: redirection-strings.php:116
 msgid "451 - Unavailable For Legal Reasons"
-msgstr ""
+msgstr "451 - Indisponible pour des raisons légales"
 
 #: matches/language.php:9 redirection-strings.php:98
 msgid "URL and language"
-msgstr ""
+msgstr "URL et langue"
 
 #: redirection-strings.php:45
 msgid "The problem is almost certainly caused by one of the above."
-msgstr ""
+msgstr "Le problème est certainement causé par l’un des éléments ci-dessus."
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "Vos pages d’administration sont mises en cache. Veuillez vider le cache et réessayez."
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
-msgstr ""
+msgstr "Déconnectez-vous, videz le cache de votre navigateur et reconnectez-vous. Votre navigateur a mis en cache une session expirée."
 
 #: redirection-strings.php:42
 msgid "Reload the page - your current session is old."
-msgstr ""
+msgstr "Veuillez recharger la page. Votre session actuelle est expirée."
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "Ce problème est généralement corrigé par l’une de ces mesures :"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
@@ -273,7 +273,7 @@ msgstr "Vous n’êtes pas autorisé à accéder à cette page."
 
 #: redirection-strings.php:534
 msgid "URL match"
-msgstr ""
+msgstr "Correspondance URL"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -289,7 +289,7 @@ msgstr "Les redirections ajoutées à un groupe Apache peuvent être enregistré
 
 #: redirection-strings.php:320
 msgid "Click \"Complete Upgrade\" when finished."
-msgstr ""
+msgstr "Cliquez sur «Finir la mise à jour» quand fini."
 
 #: redirection-strings.php:245
 msgid "Automatic Install"
@@ -309,11 +309,11 @@ msgstr "Si vous ne terminez pas l’installation manuelle, vous serez renvoyé i
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
-msgstr ""
+msgstr "Cliquez sur «Fini !  🎉» quand ça a fini."
 
 #: redirection-strings.php:14 redirection-strings.php:319
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr ""
+msgstr "Si votre site a besoin de permissions spéciales pour les bases de données, ou si vous préférez le faire vous même, vous pouvez exécuter manuellement le SQL suivant."
 
 #: redirection-strings.php:13 redirection-strings.php:244
 msgid "Manual Install"
@@ -473,7 +473,7 @@ msgstr "URL de destination de la redirection, ou auto-complétion basée sur le 
 
 #: redirection-strings.php:39
 msgid "Include these details in your report along with a description of what you were doing and a screenshot."
-msgstr ""
+msgstr "Inclure ces détails dans votre rapport avec une description de ce que vous faisiez ainsi qu’une copie d’écran."
 
 #: redirection-strings.php:37
 msgid "Create An Issue"
@@ -643,12 +643,12 @@ msgstr "(Exemple) L’URL cible est la nouvelle URL."
 
 #: redirection-strings.php:204
 msgid "(Example) The source URL is your old or original URL"
-msgstr "(Exemple) L’URL source est votre ancienne URL ou votre URL d'origine."
+msgstr "(Exemple) L’URL source est votre ancienne URL ou votre URL d’origine."
 
 #. translators: 1: server PHP version. 2: required PHP version.
 #: redirection.php:38
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
-msgstr ""
+msgstr "Désactivé ! Version PHP détectée : %s - nécessite PHP 5.4 au minimum"
 
 #: redirection-strings.php:317
 msgid "A database upgrade is in progress. Please continue to finish."
@@ -1972,7 +1972,7 @@ msgstr "Oui ! Supprimer l’extension"
 
 #: redirection-strings.php:432
 msgid "No! Don't delete the plugin"
-msgstr "Non ! Ne pas supprimer l’extension"
+msgstr "Non ! Ne supprimez pas l’extension"
 
 #. Author of the plugin
 msgid "John Godley"
@@ -2111,7 +2111,7 @@ msgstr "Groupe"
 
 #: redirection-strings.php:535
 msgid "Regular Expression"
-msgstr ""
+msgstr "Expression régulière"
 
 #: redirection-strings.php:134
 msgid "Match"
@@ -2202,7 +2202,7 @@ msgstr "Nom"
 
 #: redirection-strings.php:265 redirection-strings.php:550
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: redirection-strings.php:515
 msgid "Reset hits"
@@ -2273,7 +2273,7 @@ msgstr "URL uniquement"
 
 #: redirection-strings.php:521
 msgid "HTTP code"
-msgstr ""
+msgstr "Code HTTP"
 
 #: redirection-strings.php:122 redirection-strings.php:624
 #: redirection-strings.php:628 redirection-strings.php:636
