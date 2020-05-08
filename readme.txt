@@ -3,8 +3,8 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
-Tested up to: 5.3.2
-Stable tag: 4.7.1
+Tested up to: 5.4.1
+Stable tag: 4.7.2
 Requires PHP: 5.6
 License: GPLv3
 
@@ -97,6 +97,10 @@ You can also import from the following plugins:
 - Rank Math
 - WordPress old slug redirects
 
+= Search Regex compatible =
+
+Redirection is compatible with [Search Regex](https://searchregex.com), allowing you to bulk update your redirects.
+
 = Wait, it's free? =
 
 Yes, it's really free. There's no premium version and no need to pay money to get access to features. This is a dedicated redirect management plugin.
@@ -119,11 +123,11 @@ The plugin is simple to install:
 1. Unzip
 1. Upload `redirection` directory to your `/wp-content/plugins` directory
 1. Go to the plugin management page and enable the plugin
-1. Configure the options from the `Manage/Redirection` page
+1. Configure the options from the `Tools/Redirection` page
 
 You can find full details of installing a plugin on the [plugin installation page](https://redirection.me/support/installation/).
 
-Full documentation can be found on the [Redirection](https://redirection.me/support/) page.
+Full documentation can be found on the [Redirection](https://redirection.me/support/) site.
 
 == Screenshots ==
 
@@ -165,8 +169,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 == Changelog ==
 
-An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is
-purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 4.7.2 - 8th May 2020 =
+* Fix PHP warning decoding an encoded question mark
+* Fix site adding an extra period in a domain name
+* Fix protocol appearing in .htaccess file server redirect
 
 = 4.7.1 - 14th March 2020 =
 * Fix HTTP header over-sanitizing the value
@@ -703,15 +711,12 @@ purely a bug fix and introduces no new features, and can be considered as contai
 * Fix XSS in admin menu
 * Update Russian translation, thanks to Alexey Pazdnikov
 
-= 2.2.8 and earlier
+= 2.2.8 and earlier =
 * Add Romanian translation, thanks to Alina
 * Add Greek, thanks to Stefanos Kofopoulos
 * Better database compatibility
 * Remove warning from VaultPress
 * Add Turkish translation, thanks to Fatih Cevik
-* Fix search box
-* Fix 410 error code
-* Fix DB errors when MySQL doesn't auto-convert data types
 * Remove debug from htaccess module
 * Fix encoding of JS strings
 * Use fgetcsv for CSV importer - better handling
@@ -724,33 +729,20 @@ purely a bug fix and introduces no new features, and can be considered as contai
 * Change to jQuery
 * Nonce protection
 * Disable category monitor in 2.7
-* Fix small issues in display with WP 2.7
-* Fix delete redirects
 * Refix log delete
-* Fix incorrect automatic redirection with static home pages
-* Support for wp-load.php
 * get_home_path seems not be available for some people
 * Update plugin.php to better handle odd directories
 * Correct DB install
-* Fix IIS problem
 * Install defaults when no existing redirection setup
 * Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
 * WP 3.0 compatibility
-* Fix deep slashes
 * Database optimization
 * Add patch to disable logs (thanks to Simon Wheatley!)
 * Pre WP2.8 compatibility fix
 * Fix for some users with problems deleting redirections
-* Fix some ajax
-* Fix module deletion
-* Log JS fixes
 * Fix group edit and log add entry
-* Use WP Ajax
 * WP2.8 compatibility
 * Disable category monitoring
 * Fix 'you do not permissions' error on some non-English sites
 * Fix category change 'quick edit'
-* Redirection loops
 * RSS feed token
-* Re-enable import feature
-* Fix log deletion

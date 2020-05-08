@@ -42,6 +42,8 @@ const Help = () => {
 				},
 			} ) }
 			</p>
+			<h2>{ __( 'Need to search and replace?' ) }</h2>
+			<p>{ __( 'The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects.' ) }</p>
 		</div>
 	);
 };
