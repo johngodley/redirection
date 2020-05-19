@@ -123,7 +123,7 @@ class LogRow extends React.Component {
 	}
 
 	render() {
-		const { created, created_time, ip = '', referrer = '', url = '', agent = '', sent_to = '', id } = this.props.item;
+		const { created, created_time, ip = '', referrer = '', url = '', agent = '', sent_to = '', id, redirect_by = null } = this.props.item;
 		const { request_method = '', domain = '', http_code = '', request_data = '', redirection_id } = this.props.item;
 		const { selected, status, currentDisplaySelected } = this.props;
 		const isLoading = status === STATUS_IN_PROGRESS;
@@ -188,6 +188,10 @@ class LogRow extends React.Component {
 					{ sent_to && <ExternalLink url={ sent_to }>
 						<Highlighter searchWords={ [ this.props.filters.target ] } textToHighlight={ sent_to.substring( 0, 100 ) } autoEscape />
 					</ExternalLink> }
+				</Column>
+
+				<Column enabled="redirect_by" className="column-redirect_by" selected={ currentDisplaySelected }>
+					{ redirect_by ? redirect_by : __( 'Redirection' ) }
 				</Column>
 
 				<Column enabled="code" className="column-code" selected={ currentDisplaySelected }>

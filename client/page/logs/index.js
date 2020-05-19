@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { translate as __ } from 'lib/locale';
 
 /**
  * Internal dependencies
@@ -15,6 +16,8 @@ import SearchBox from 'component/search-box';
 import TableGroup from 'component/table/group';
 import DeleteAll from 'page/logs/delete-all';
 import TableDisplay from 'component/table/table-display';
+import BulkAction from 'component/table/bulk-action';
+import MultiOptionDropdown from 'component/multi-option-dropdown';
 import LogRow from './row';
 import RowUrl from './row-url';
 import RowIp from './row-ip';
@@ -33,7 +36,7 @@ import {
 } from 'state/log/action';
 import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
-import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions, getGroupBy } from './constants';
+import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions, getFilterOptions, getGroupBy } from './constants';
 import { isEnabled } from 'component/table/utils';
 import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
 
@@ -137,6 +140,17 @@ class Logs extends React.Component {
 						onGroup={ this.props.onGroup }
 						key={ table.groupBy }
 					/>
+
+					<BulkAction>
+						<MultiOptionDropdown
+							options={ getFilterOptions() }
+							selected={ table.filterBy ? table.filterBy : {} }
+							onApply={ this.props.onFilter }
+							title={ __( 'Filters' ) }
+							isEnabled={ status !== STATUS_IN_PROGRESS }
+							badges
+						/>
+					</BulkAction>
 				</TableNav>
 
 				<Table

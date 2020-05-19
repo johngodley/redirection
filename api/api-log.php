@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @api {get} /redirection/v1/group Get logs
+ * @api {get} /redirection/v1/log Get logs
  * @apiName GetLogs
  * @apiDescription Get a paged list of redirect logs after applying a set of filters and result ordering.
  * @apiGroup Log
@@ -59,7 +59,9 @@
  * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
  * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
  * @apiParam (Query Parameter) {String} filterBy[domain] Filter the results by the supplied domain name
- * @apiParam (Query Parameter) {string="ip","url"} orderby Order by IP or URL
+ * @apiParam (Query Parameter) {String} filterBy[redirect_by] Filter the results by the redirect agent
+ * @apiParam (Query Parameter) {String="head","get"} filterBy[method] Filter the results by the supplied HTTP request method
+ * @apiParam (Query Parameter) {String="ip","url"} orderby Order by IP or URL
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
  * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
  * @apiParam (Query Parameter) {Integer} page Current page of results
@@ -98,7 +100,7 @@
 class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'ip', 'total' ];
-		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain' ];
+		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain', 'method', 'redirect_by' ];
 
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $orders, $filters ),

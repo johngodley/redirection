@@ -55,10 +55,12 @@ export const getHeaders = groupBy => {
 		{
 			name: 'method',
 			title: __( 'Method' ),
+			sortable: false,
 		},
 		{
 			name: 'domain',
 			title: __( 'Domain' ),
+			sortable: false,
 		},
 		{
 			name: 'url',
@@ -68,6 +70,11 @@ export const getHeaders = groupBy => {
 		{
 			name: 'target',
 			title: __( 'Target URL' ),
+			sortable: false,
+		},
+		{
+			name: 'redirect_by',
+			title: __( 'Redirect By' ),
 			sortable: false,
 		},
 		{
@@ -117,14 +124,13 @@ export const getDisplayOptions = () => [
 	{ value: 'method', label: __( 'Method' ) },
 	{ value: 'domain', label: __( 'Domain' ) },
 	{ value: 'url', label: __( 'URL' ) },
+	{ value: 'redirect_by', label: __( 'Redirect By' ) },
 	{ value: 'code', label: __( 'HTTP code' ) },
 	{ value: 'referrer', label: __( 'Referrer' ) },
 	{ value: 'agent', label: __( 'User Agent' ) },
 	{ value: 'target', label: __( 'Target' ) },
 	{ value: 'ip', label: __( 'IP' ) },
 ];
-
-export const getFilterOptions = () => [];
 
 export const getSearchOptions = () => [
 	{
@@ -174,3 +180,34 @@ export const getGroupBy = ( ipLogging ) => {
 
 	return values;
 };
+
+export const getFilterOptions = () => [
+	{
+		label: __( 'Method' ),
+		value: 'method',
+		options: [
+			{
+				label: 'GET',
+				value: 'get',
+			},
+			{
+				label: 'HEAD',
+				value: 'head',
+			},
+		],
+	},
+	{
+		label: __( 'Redirect By' ),
+		value: 'redirect_by',
+		options: [
+			{
+				label: __( 'WordPress' ),
+				value: 'wordpress',
+			},
+			{
+				label: __( 'Redirection' ),
+				value: 'redirection',
+			},
+		],
+	},
+];
