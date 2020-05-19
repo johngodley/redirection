@@ -323,7 +323,7 @@ class RedirectRow extends React.Component {
 		const { currentDisplaySelected } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<Column enabled="status" className="column-status" selected={ currentDisplaySelected }>
 					{ this.getStatus() }
 				</Column>
@@ -357,7 +357,7 @@ class RedirectRow extends React.Component {
 				<Column enabled="last_access" className="column-last_access" selected={ currentDisplaySelected }>
 					{ last_access }
 				</Column>
-			</React.Fragment>
+			</>
 		);
 	}
 

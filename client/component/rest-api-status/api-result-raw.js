@@ -37,11 +37,11 @@ class ApiResultRaw extends React.Component {
 
 		if ( request && request.raw ) {
 			return (
-				<React.Fragment>
+				<>
 					{ needToHide && hide && <a className="api-result-hide" onClick={ this.onShow } href="#">{ __( 'Show Full' ) }</a> }
 					{ needToHide && ! hide && <a className="api-result-hide" onClick={ this.onHide } href="#">{ __( 'Hide' ) }</a> }
 					<pre>{ hide ? request.raw.substr( 0, RAW_HIDE_LENGTH ) + ' ...' : request.raw }</pre>
-				</React.Fragment>
+				</>
 			);
 		}
 

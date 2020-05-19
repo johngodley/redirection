@@ -61,7 +61,7 @@ class HttpCheck extends React.Component {
 				{ status === STATUS_FAILED && this.renderError() }
 
 				{ status === STATUS_COMPLETE && http &&
-					<React.Fragment>
+					<>
 						<h2>
 							{
 								__( 'Check redirect for: {{code}}%s{{/code}}', {
@@ -75,7 +75,7 @@ class HttpCheck extends React.Component {
 
 						<HttpDetails http={ http } item={ item } />
 						<PoweredBy />
-					</React.Fragment>
+					</>
 				}
 			</div>
 		);

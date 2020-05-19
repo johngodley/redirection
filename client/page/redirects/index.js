@@ -78,7 +78,7 @@ class Redirects extends React.Component {
 		} );
 
 		return (
-			<React.Fragment>
+			<>
 				{ ! addTop && has_capability( CAP_REDIRECT_ADD ) && <h2>{ __( 'Add new redirection' ) }</h2> }
 				<div className={ classes }>
 					<EditRedirect
@@ -87,7 +87,7 @@ class Redirects extends React.Component {
 						autoFocus={ addTop }
 					/>
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 

@@ -46,7 +46,7 @@ const HeaderReplaceSimpleChoice = ( { headerValue, headerSettings, options, onCh
 	};
 
 	return (
-		<React.Fragment>
+		<>
 			<Select items={ choices } name="headerValue" value={ selected } onChange={ onChangeHeader } />
 
 			{ hasReplace( selected, replace ) && (
@@ -56,7 +56,7 @@ const HeaderReplaceSimpleChoice = ( { headerValue, headerSettings, options, onCh
 					<input type="text" className="regular-text" name="replaceValue" value={ replaceValue } onChange={ onChangeReplace } />
 				</label>
 			) }
-		</React.Fragment>
+		</>
 	);
 };
 

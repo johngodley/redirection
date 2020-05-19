@@ -111,7 +111,7 @@ class Logs extends React.Component {
 		const { status, total, table, rows } = this.props.log;
 
 		return (
-			<React.Fragment>
+			<>
 				<div className="redirect-table-display">
 					<TableDisplay
 						disable={ status === STATUS_IN_PROGRESS }
@@ -174,7 +174,7 @@ class Logs extends React.Component {
 						) }
 					</TableButtons>
 				</TableNav>
-			</React.Fragment>
+			</>
 		);
 	}
 }

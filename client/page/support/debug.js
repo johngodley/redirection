@@ -66,10 +66,10 @@ class Debug extends React.Component {
 							<Select items={ getVersions() } value={ version } name="database_version" onChange={ this.onChange } /> &nbsp;
 
 							{ version !== database.current &&
-								<React.Fragment>
+								<>
 									<strong>{ __( 'Do not change unless advised to do so!' ) }</strong> &nbsp;
 									<button className="button-secondary button" onClick={ this.onSave }>{ __( 'Save' ) }</button>
-								</React.Fragment>
+								</>
 							}
 						</td>
 					</tr>
@@ -80,7 +80,7 @@ class Debug extends React.Component {
 								.keys( ip_header )
 								.filter( key => ip_header[ key ] )
 								.map( ( key, pos ) =>
-									<React.Fragment key={ pos }><code>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }</code>&nbsp;</React.Fragment>
+									<code key={ pos }>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }&nbsp;</code>
 								)
 							}
 						</td>

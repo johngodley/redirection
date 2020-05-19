@@ -38,11 +38,11 @@ const ActionCode = ( { actionType, actionCode, onChange } ) => {
 
 	if ( codes ) {
 		return (
-			<React.Fragment>
+			<>
 				<strong className="small-flex">{ __( 'with HTTP code' ) }</strong>
 
 				<Select name="action_code" value={ actionCode } items={ codes } onChange={ onChange } />
-			</React.Fragment>
+			</>
 		);
 	}
 

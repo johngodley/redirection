@@ -40,7 +40,7 @@ const PluginStatus = ( props ) => {
 	const hasProblem = status.filter( item => item.status !== 'good' );
 
 	return (
-		<React.Fragment>
+		<>
 			<table className="plugin-status">
 				<tbody>
 					{ status.map( ( item, pos ) => <PluginStatusItem item={ item } key={ pos } /> ) }
@@ -48,7 +48,7 @@ const PluginStatus = ( props ) => {
 			</table>
 
 			{ hasProblem.length > 0 && <Fixit /> }
-		</React.Fragment>
+		</>
 	);
 };
 

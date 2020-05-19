@@ -26,7 +26,7 @@ function getUpgradeNotice() {
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			<p>{ __( 'Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.', {
 				args: {
 					current: Redirectioni10n.database.current,
@@ -37,7 +37,7 @@ function getUpgradeNotice() {
 				},
 			} ) }
 			</p>
-		</React.Fragment>
+		</>
 	);
 }
 
@@ -59,11 +59,11 @@ class NeedUpdate extends React.Component {
 
 	renderManual() {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Complete Upgrade" when finished.' ) }</p>
 				<p><TextareaAutosize readOnly={ true } cols="120" value={ Redirectioni10n.database.manual.join( ';\n' ) + ';' } spellCheck={ false } /></p>
 				<p><button className="button-primary" onClick={ this.onComplete }>{ __( 'Complete Upgrade' ) }</button></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -71,12 +71,12 @@ class NeedUpdate extends React.Component {
 		const { onShowUpgrade } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<p>{ __( 'Click the "Upgrade Database" button to automatically upgrade the database.' ) }</p>
 				<p>
 					<input className="button-primary" type="submit" value={ __( 'Upgrade Database' ) } onClick={ onShowUpgrade } />
 				</p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -86,7 +86,7 @@ class NeedUpdate extends React.Component {
 
 		if ( showDatabase ) {
 			return (
-				<React.Fragment>
+				<>
 					{ result === STATUS_FAILED && <Error /> }
 
 					<div className="wizard-wrapper">
@@ -94,7 +94,7 @@ class NeedUpdate extends React.Component {
 							<Database />
 						</div>
 					</div>
-				</React.Fragment>
+				</>
 			);
 		}
 

@@ -143,7 +143,7 @@ class WelcomeWizard extends React.Component {
 
 	renderStep0() {
 		return (
-			<React.Fragment>
+			<>
 				<h2>{ __( 'Welcome to Redirection 🚀🎉' ) }</h2>
 
 				<p>{ __( 'Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.', {
@@ -211,7 +211,7 @@ class WelcomeWizard extends React.Component {
 				<div className="wizard-buttons">
 					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Start Setup' ) }</button>
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -219,7 +219,7 @@ class WelcomeWizard extends React.Component {
 		const { monitor, log, ip } = this.state;
 
 		return (
-			<React.Fragment>
+			<>
 				<h2>{ __( 'Basic Setup' ) }</h2>
 
 				<p>{ __( 'These are some options you may want to enable now. They can be changed at any time.' ) }</p>
@@ -264,7 +264,7 @@ class WelcomeWizard extends React.Component {
 					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Continue Setup' ) }</button> &nbsp;
 					<button className="button" onClick={ this.prevStep }>{ __( 'Go back' ) }</button>
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -274,7 +274,7 @@ class WelcomeWizard extends React.Component {
 		const warning = api.protocol !== home.protocol || api.host !== home.host;
 
 		return (
-			<React.Fragment>
+			<>
 				<h2>{ __( 'REST API' ) }</h2>
 
 				<p>
@@ -312,7 +312,7 @@ class WelcomeWizard extends React.Component {
 					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Finish Setup' ) }</button> &nbsp;
 					<button className="button" onClick={ this.prevStep }>{ __( 'Go back' ) }</button>
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -332,18 +332,18 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.' ) }</p>
 
 				{ wpImport && (
-					<React.Fragment>
+					<>
 						<p>{ __( 'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.' ) }</p>
 						<ul>
 							<li>
 								<label><input type="checkbox" name={ IMPORTER_WP } onChange={ this.onImporter } checked={ importers.indexOf( IMPORTER_WP ) !== -1 } /> { wpImport.name } ({ wpImport.total })</label>
 							</li>
 						</ul>
-					</React.Fragment>
+					</>
 				) }
 
 				{ otherImporters.length > 0 && (
-					<React.Fragment>
+					<>
 						<p>{ __( 'The following plugins have been detected.' ) }</p>
 						<ul>
 							{ otherImporters.map( item => (
@@ -354,7 +354,7 @@ class WelcomeWizard extends React.Component {
 								</li>
 							) ) }
 						</ul>
-					</React.Fragment>
+					</>
 				) }
 
 				<div className="wizard-buttons">
@@ -407,7 +407,7 @@ class WelcomeWizard extends React.Component {
 		const content = this.getContentForStep( step );
 
 		return (
-			<React.Fragment>
+			<>
 				{ result === STATUS_FAILED && <Error /> }
 
 				<div className="wizard-wrapper">
@@ -420,10 +420,10 @@ class WelcomeWizard extends React.Component {
 
 				<div className="wizard-support">
 					<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!' ) }</ExternalLink>
-					{ step === 2 && <React.Fragment> | <a href="#" onClick={ this.startManual }>{ __( 'Manual Install' ) }</a></React.Fragment>}
-					{ step === 3 && manual && <React.Fragment> | <a href="#" onClick={ this.stopManual }>{ __( 'Automatic Install' ) }</a></React.Fragment>}
+					{ step === 2 && <> | <a href="#" onClick={ this.startManual }>{ __( 'Manual Install' ) }</a></>}
+					{ step === 3 && manual && <> | <a href="#" onClick={ this.stopManual }>{ __( 'Automatic Install' ) }</a></>}
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 }

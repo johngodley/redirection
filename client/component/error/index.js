@@ -95,7 +95,7 @@ class Error extends React.Component {
 		const github = 'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' + encodeURIComponent( '```\n' + debug.join( '\n' ) + '\n```\n\n' );
 
 		return (
-			<React.Fragment>
+			<>
 				<p>
 					{ __( 'Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.', {
 						components: {
@@ -108,7 +108,7 @@ class Error extends React.Component {
 				<p>{ __( 'Include these details in your report along with a description of what you were doing and a screenshot.' ) }</p>
 
 				<p><TextareaAutosize readOnly={ true } cols="120" value={ debug.join( '\n' ) } spellCheck={ false } /></p>
-			</React.Fragment>
+			</>
 		);
 	}
 

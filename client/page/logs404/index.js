@@ -169,7 +169,7 @@ class Logs404 extends React.Component {
 		const { create } = this.state;
 
 		return (
-			<React.Fragment>
+			<>
 				{ create && <CreateRedirect onClose={ this.onClose } create={ create } transform={ this.transformRow } /> }
 
 				<div className="redirect-table-display">
@@ -237,7 +237,7 @@ class Logs404 extends React.Component {
 						</TableButtons>
 					) }
 				</TableNav>
-			</React.Fragment>
+			</>
 		);
 	}
 }

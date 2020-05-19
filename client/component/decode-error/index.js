@@ -35,9 +35,9 @@ function getErrorDetails( error ) {
 
 	if ( error.code ) {
 		return (
-			<React.Fragment>
+			<>
 				{ error.message } (<code>{ error.code }</code>)
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -51,31 +51,31 @@ const DecodeError = ( { error } ) => {
 
 	if ( error.code === 'rest_cookie_invalid_nonce' ) {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again.' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/cloudflare/">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
 	if ( error.request && isSecurityPlugin( error.request.status, error.code ) ) {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests.' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/rest-api/">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
 	if ( error.request && error.request.status === 404 ) {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'Your REST API is returning a 404 page. This may be caused by a security plugin, or your server may be misconfigured' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/rest-api/">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -85,11 +85,11 @@ const DecodeError = ( { error } ) => {
 
 	if ( error.request && isServerError( error.request.status ) ) {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/rest-api/#http">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -101,22 +101,22 @@ const DecodeError = ( { error } ) => {
 		const php = extractPhpError( error.request );
 
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'WordPress returned an unexpected message. This is probably a PHP error from another plugin.' ) }</p>
 				{ php.length > 1 && <p><strong>{ __( 'Possible cause' ) }:</strong> <code>{ php.substr( 0, 1000 ) }</code></p>}
-			</React.Fragment>
+			</>
 		);
 	}
 
 	const message = error.message.toLowerCase();
 	if ( message === 'failed to fetch' || message === 'not allowed to request resource' || message.indexOf( 'networkerror' ) !== -1 ) {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ getErrorDetails( error ) }</p>
 				<p>{ __( 'Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy.' ) }</p>
 				<p><ExternalLink url="https://redirection.me/support/problems/rest-api/#url">{ __( 'Read this REST API guide for more information.' ) }</ExternalLink></p>
-			</React.Fragment>
+			</>
 		);
 	}
 

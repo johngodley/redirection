@@ -25,7 +25,7 @@ class Status extends React.Component {
 		const { status = [], debug = false } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<h2>{ __( 'WordPress REST API' ) }</h2>
 				<p>{ __( 'Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it.' ) }</p>
 				<RestApiStatus />
@@ -40,7 +40,7 @@ class Status extends React.Component {
 
 				{ debug && <Debug debug={ debug } /> }
 				{ ! debug === 0 && <div className="placeholder-inline"><div className="placeholder-loading"></div></div> }
-			</React.Fragment>
+			</>
 		);
 	}
 }

@@ -46,7 +46,7 @@ class MatchHeader extends React.Component {
 		const { name, value, regex } = data;
 
 		return (
-			<React.Fragment>
+			<>
 				<TableRow title={ __( 'HTTP Header' ) } className="redirect-edit__match">
 					<input type="text" name="name" value={ name } onChange={ onChange } className="regular-text" placeholder={ __( 'Header name' ) } />
 					<input type="text" name="value" value={ value } onChange={ onChange } className="regular-text" placeholder={ __( 'Header value' ) } />
@@ -66,7 +66,7 @@ class MatchHeader extends React.Component {
 				<TableRow>
 					{ __( 'Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this.' ) }
 				</TableRow>
-			</React.Fragment>
+			</>
 		);
 	}
 }

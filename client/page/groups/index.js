@@ -106,7 +106,7 @@ class Groups extends React.Component {
 		const isSaving = saving.indexOf( 0 ) !== -1;
 
 		return (
-			<React.Fragment>
+			<>
 				<div className="redirect-table-display">
 					<TableDisplay
 						disable={ status === STATUS_IN_PROGRESS }
@@ -155,7 +155,7 @@ class Groups extends React.Component {
 				<TableNav total={ total } selected={ table.selected } table={ table } onChangePage={ this.props.onChangePage } onAction={ this.props.onAction } status={ status } />
 
 				{ has_capability( CAP_GROUP_ADD ) && (
-					<React.Fragment>
+					<>
 						<h2>{ __( 'Add Group' ) }</h2>
 						<p>{ __( 'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.' ) }</p>
 
@@ -178,9 +178,9 @@ class Groups extends React.Component {
 
 							{ parseInt( this.state.moduleId, 10 ) === 2 && <p>{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }</p> }
 						</form>
-					</React.Fragment>
+					</>
 				) }
-			</React.Fragment>
+			</>
 		);
 	}
 }
