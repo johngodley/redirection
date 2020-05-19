@@ -36,6 +36,10 @@ class Red_Redirect_Log extends Red_Log {
 			$insert['sent_to'] = $details['target'];
 		}
 
+		if ( isset( $details['redirect_by'] ) ) {
+			$insert['redirect_by'] = strtolower( substr( $details['redirect_by'], 0, 50 ) );
+		}
+
 		$insert = apply_filters( 'redirection_log_data', $insert );
 		if ( $insert ) {
 			do_action( 'redirection_log', $insert );
@@ -78,11 +82,22 @@ class Red_Redirect_Log extends Red_Log {
 		];
 	}
 
+	private function get_redirect_name( $agent ) {
+		// phpcs:ignore
+		if ( $agent === 'wordpress' ) {
+			return 'WordPress';
+		}
+
+		return ucwords( $agent );
+	}
+
 	public function to_json() {
 		return array_merge( parent::to_json(), [
 			'sent_to' => $this->sent_to,
 			'redirection_id' => intval( $this->redirection_id, 10 ),
 			'group_id' => intval( $this->group_id, 10 ),
+			'redirect_by_slug' => $this->redirect_by,
+			'redirect_by' => $this->get_redirect_name( $this->redirect_by ),
 		] );
 	}
 }

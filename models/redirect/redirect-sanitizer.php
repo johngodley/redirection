@@ -70,6 +70,11 @@ class Red_Item_Sanitize {
 			$data['match_data']['source'] = [];
 		}
 
+		if ( isset( $details['match_data']['options'] ) && is_array( $details['match_data']['options'] ) ) {
+			$source = new Red_Source_Options( $details['match_data']['options'] );
+			$data['match_data']['options'] = $source->get_json();
+		}
+
 		$data['match_data'] = array_filter( $data['match_data'] );
 
 		if ( empty( $data['match_data'] ) ) {

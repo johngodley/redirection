@@ -191,6 +191,14 @@ abstract class Red_Log {
 			}
 		}
 
+		if ( isset( $params['filterBy']['method'] ) ) {
+			$query['where'] = $wpdb->prepare( 'WHERE request_method = %s', $params['filterBy']['method'] );
+		}
+
+		if ( isset( $params['filterBy']['redirect_by'] ) ) {
+			$query['where'] = $wpdb->prepare( 'WHERE redirect_by = %s', $params['filterBy']['redirect_by'] );
+		}
+
 		if ( isset( $params['per_page'] ) ) {
 			$query['limit'] = intval( $params['per_page'], 10 );
 			$query['limit'] = min( RED_MAX_PER_PAGE, $query['limit'] );
@@ -238,7 +246,7 @@ abstract class Red_Log {
 		}
 
 		if ( isset( $insert['request_data'] ) ) {
-			$insert['request_data'] = wp_json_encode( $insert['request_data'] );
+			$insert['request_data'] = wp_json_encode( $insert['request_data'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK );
 		}
 
 		return $insert;

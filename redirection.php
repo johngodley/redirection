@@ -21,7 +21,7 @@ For full license details see license.txt
 ============================================================================================================
 */
 
-define( 'REDIRECTION_DB_VERSION', '4.1' );     // DB schema version. Only change if DB needs changing
+define( 'REDIRECTION_DB_VERSION', '4.2' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
 define( 'REDIRECTION_DEV_MODE', false );
 
@@ -44,9 +44,11 @@ if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 
 require_once __DIR__ . '/redirection-version.php';
 require_once __DIR__ . '/redirection-settings.php';
-require_once __DIR__ . '/models/redirect.php';
+require_once __DIR__ . '/models/redirect/redirect.php';
+require_once __DIR__ . '/models/url/url.php';
+require_once __DIR__ . '/models/regex.php';
 require_once __DIR__ . '/models/module.php';
-require_once __DIR__ . '/models/log.php';
+require_once __DIR__ . '/models/log/log.php';
 require_once __DIR__ . '/models/flusher.php';
 require_once __DIR__ . '/models/match.php';
 require_once __DIR__ . '/models/action.php';

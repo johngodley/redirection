@@ -3,7 +3,7 @@
 class Redirection_Request {
 	public static function get_request_headers() {
 		$ignore = apply_filters( 'redirection_request_headers_ignore', [
-			'cookies',
+			'cookie',
 			'host',
 		] );
 		$headers = [];
@@ -86,16 +86,30 @@ class Redirection_Request {
 		return apply_filters( 'redirection_request_referrer', $referrer );
 	}
 
+	public static function get_ip_headers() {
+		return [
+			'HTTP_CF_CONNECTING_IP',
+			'HTTP_CLIENT_IP',
+			'HTTP_X_FORWARDED_FOR',
+			'HTTP_X_FORWARDED',
+			'HTTP_X_CLUSTER_CLIENT_IP',
+			'HTTP_FORWARDED_FOR',
+			'HTTP_FORWARDED',
+			'HTTP_VIA',
+			'REMOTE_ADDR',
+		];
+	}
+
 	public static function get_ip() {
 		$ip = '';
 
-		if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
-			$ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			$ip = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
-			$ip = array_shift( $ip );
-		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-			$ip = $_SERVER['REMOTE_ADDR'];
+		foreach ( self::get_ip_headers() as $var ) {
+			if ( ! empty( $_SERVER[ $var ] ) ) {
+				$ip = $_SERVER[ $var ];
+				$ip = explode( ',', $ip );
+				$ip = array_shift( $ip );
+				break;
+			}
 		}
 
 		// Convert to binary

@@ -365,7 +365,6 @@ class Red_Item {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 		}
 
-		// XXX do we need to do anything spcial for other action types? 404?
 		if ( $target && $this->source_options->can_log() ) {
 			if ( $target === true ) {
 				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
