@@ -10,7 +10,7 @@
  * Post 4.6
  * ========
  * Hook `redirection_role` and return a capability for access to the plugin menu. For example `edit_pages` will allow an editor
- * Hook `redirection_capability` and return a different capability for each check that needs specific permissions.
+ * Hook `redirection_capability_check` and return a different capability for each check that needs specific permissions.
  *
  * For example, if you want to give editors access to create redirects, but nothing else:
  *

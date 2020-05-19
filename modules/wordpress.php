@@ -5,6 +5,8 @@ class WordPress_Module extends Red_Module {
 
 	private $matched = false;
 	private $can_log = true;
+	private $redirect_url = false;
+	private $redirect_code = 0;
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -43,6 +45,9 @@ class WordPress_Module extends Red_Module {
 		// Back-compat for < database 4.2
 		add_filter( 'redirection_404_data', [ $this, 'log_back_compat' ] );
 		add_filter( 'redirection_log_data', [ $this, 'log_back_compat' ] );
+
+		// Record the redirect agent
+		add_filter( 'x_redirect_by', [ $this, 'record_redirect_by' ], 90 );
 	}
 
 	public function log_back_compat( $insert ) {
@@ -243,53 +248,79 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	private function record_all_redirects( $url, $status, $headers ) {
+	private function get_redirect_source() {
+		$ignore = [
+			'WP_Hook',
+			'template-loader.php',
+			'wp-blog-header.php',
+		];
+
+		// phpcs:ignore
+		$source = wp_debug_backtrace_summary( null, 5, false );
+
+		return array_filter( $source, function( $item ) use ( $ignore ) {
+			foreach ( $ignore as $ignore_item ) {
+				if ( strpos( $item, $ignore_item ) !== false ) {
+					return false;
+				}
+			}
+
+			return true;
+		} );
+	}
+
+	public function record_redirect_by( $agent ) {
 		// Have we already redirected with Redirection?
-		$source = apply_filters( 'x_redirect_by', 'check' );
-		if ( $this->matched || $source === 'redirection' ) {
+		if ( $this->matched || $agent === 'redirection' ) {
 			return;
 		}
 
+		$options = red_get_options();
+
+		if ( ! $options['log_external'] ) {
+			return $agent;
+		}
+
 		$details = [
-			'target' => $url,
+			'target' => $this->redirect_url,
 			'agent' => Redirection_Request::get_user_agent(),
 			'referrer' => Redirection_Request::get_referrer(),
 			'request_method' => Redirection_Request::get_request_method(),
-			'http_code' => $status,
+			'redirect_by' => $agent ? $agent : 'wordpress',
+			'http_code' => $this->redirect_code,
 			'request_data' => [
-				// phpcs:ignore
-				'source' => wp_debug_backtrace_summary( null, 5, false ),
+				'source' => array_values( $this->get_redirect_source() ),
 			],
 		];
 
-		if ( $headers ) {
+		if ( $options['log_header'] ) {
+			$headers = new Red_Http_Headers( $options['headers'] );
+			$headers->run( $headers->get_redirect_headers() );
+
 			$details['request_data']['headers'] = Redirection_Request::get_request_headers();
 		}
 
 		Red_Redirect_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_ip(), $details );
+
+		return $agent;
 	}
 
 	public function wp_redirect( $url, $status = 302 ) {
 		global $wp_version;
 
+		$this->redirect_url = $url;
+		$this->redirect_code = $status;
+
 		$options = red_get_options();
-		$headers = new Red_Http_Headers( $options['headers'] );
-		$headers->run( $headers->get_redirect_headers() );
 
 		$this->iis_fix( $url );
 		$this->cgi_fix( $url, $status );
-
-		if ( $options['log_external'] ) {
-			$this->record_all_redirects( $url, $status, $options['log_header'] );
-		}
 
 		if ( intval( $status, 10 ) === 307 ) {
 			status_header( $status );
 			nocache_headers();
 			return $url;
 		}
-
-		$options = red_get_options();
 
 		// Do we need to set the cache header?
 		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 && intval( $status, 10 ) === 301 ) {
