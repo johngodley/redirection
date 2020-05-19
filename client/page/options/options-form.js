@@ -191,6 +191,7 @@ class OptionsForm extends React.Component {
 					</TableRow>
 
 					<tr className="redirect-option__row"><td colSpan="2"><h2 className="title">{ __( 'Logs' ) }</h2></td></tr>
+
 					<TableRow title={ __( 'Redirect Logs' ) + ':' } url={ this.supportLink( 'logs' ) }>
 						<Select items={ timeToKeep() } name="expire_redirect" value={ parseInt( expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
@@ -201,15 +202,24 @@ class OptionsForm extends React.Component {
 
 					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
 						<Select items={ ipLogging() } name="ip_logging" value={ parseInt( ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(IP logging level)' ) }
-
-						&nbsp;- <ExternalLink url={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</ExternalLink>
 					</TableRow>
 
 					<TableRow title={ __( 'Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
-						<p><label><input type="checkbox" name="log_external" onChange={ this.onChange } checked={ log_external } /> { __( 'Log external redirects (all redirects not from Redirection). This can increase your log size.' ) }</label></p>
-						<p><label><input type="checkbox" name="track_hits" onChange={ this.onChange } checked={ track_hits } /> { __( 'Track redirect hits.' ) }</label></p>
-						<p><label><input type="checkbox" name="log_header" onChange={ this.onChange } checked={ log_header } /> { __( 'Capture HTTP header information, except cookies. This can increase your log size.' ) }</label></p>
+						<p><label><input type="checkbox" disabled={ parseInt( expire_redirect, 10 ) === -1 } name="log_external" onChange={ this.onChange } checked={ parseInt( expire_redirect, 10 ) === -1 ? false : log_external } /> { __( 'Log "external" redirects - those not from Redirection. This can increase your log size and contains no user information.' ) }</label></p>
+						<p><label><input type="checkbox" name="track_hits" onChange={ this.onChange } checked={ track_hits } /> { __( 'Track redirect hits and date of last access. Contains no user information.' ) }</label></p>
+						<p><label><input type="checkbox" name="log_header" onChange={ this.onChange } checked={ log_header } /> { __( 'Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size.' ) }</label></p>
 					</TableRow>
+
+					<tr>
+						<th />
+						<td>
+							{ __( 'Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}.', {
+								components: {
+									link: <ExternalLink url={ this.supportLink( 'privacy-gdpr' ) } />,
+								},
+							} ) }
+						</td>
+					</tr>
 
 					<tr className="redirect-option__row"><td colSpan="2"><h2 className="title">{ __( 'URL' ) }</h2></td></tr>
 
