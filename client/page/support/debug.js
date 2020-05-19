@@ -35,6 +35,10 @@ const getVersions = () => ( [
 		value: '4.1',
 		label: '4.1',
 	},
+	{
+		value: '4.2',
+		label: '4.2',
+	},
 ] );
 
 class Debug extends React.Component {
