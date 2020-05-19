@@ -3,7 +3,7 @@
 class Red_Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
-	const DELETE_MAX = 3000;
+	const DELETE_MAX = 10000;
 	const DELETE_KEEP_ON = 10;  // 10 minutes
 
 	public function flush() {
@@ -40,9 +40,13 @@ class Red_Flusher {
 		global $wpdb;
 
 		if ( $expiry_time > 0 ) {
+			// Known values
+			// phpcs:ignore
 			$logs = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY)", $expiry_time ) );
 
 			if ( $logs > 0 ) {
+				// Known values
+				// phpcs:ignore
 				$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d", $expiry_time, self::DELETE_MAX ) );
 				return min( self::DELETE_MAX, $logs );
 			}
@@ -59,7 +63,7 @@ class Red_Flusher {
 				wp_schedule_event( time(), self::DELETE_FREQ, self::DELETE_HOOK );
 			}
 		} else {
-			Red_Flusher::clear();
+			self::clear();
 		}
 	}
 
