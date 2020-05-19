@@ -564,9 +564,9 @@ class Redirection_Admin {
 	private function try_export_logs() {
 		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
 			if ( $this->get_current_page() === 'log' ) {
-				RE_Log::export_to_csv();
+				Red_Redirect_Log::export_to_csv();
 			} elseif ( $this->get_current_page() === '404s' ) {
-				RE_404::export_to_csv();
+				Red_404_Log::export_to_csv();
 			}
 
 			die();
