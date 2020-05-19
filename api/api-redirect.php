@@ -86,6 +86,8 @@
  * @apiParam {String="ignore","exact","pass"} match_data.source.flag_query Which query parameter matching to use
  * @apiParam {Boolean} match_data.source.flag_case] `true` for case insensitive matches, `false` otherwise
  * @apiParam {Boolean} match_data.source.flag_trailing] `true` to ignore trailing slashes, `false` otherwise
+ * @apiParam {Object} match_data.options Options for the redirect match
+ * @apiParam {Boolean} match_data.options.log_exclude `true` to exclude this from any logs, `false` otherwise (default)
  * @apiParam {Boolean} regex True for regular expression, `false` otherwise
  * @apiParam {String} url The source URL
  * @apiParam {String="url","referrer","agent","login","header","custom","cookie","role","server","ip","page","language"} match_type What URL matching to use

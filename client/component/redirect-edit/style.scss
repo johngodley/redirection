@@ -17,6 +17,7 @@
 	tbody tr td {
 		display: flex;
 		padding: 0;
+		align-items: center;
 
 		> *,
 		.redirection-url-autocomplete input {
@@ -38,6 +39,10 @@
 			flex-grow: 0;
 			padding-top: 5px;
 		}
+	}
+
+	tbody tr.redirect-edit__options td p {
+		padding-top: 4px;
 	}
 
 	tbody td.edit-left > * {
