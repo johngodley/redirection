@@ -88,8 +88,11 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		$plugin->plugin_uninstall();
 
 		$current = get_option( 'active_plugins' );
-		array_splice( $current, array_search( basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), $current ), 1 );
-		update_option( 'active_plugins', $current );
+		$plugin_position = array_search( basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), $current );
+		if ( false !== $plugin_position ) {
+			array_splice( $current, $plugin_position, 1 );
+			update_option( 'active_plugins', $current );
+		}
 
 		return array( 'location' => admin_url() . 'plugins.php' );
 	}
