@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 4.9
 Tested up to: 5.4.1
-Stable tag: 4.7.2
+Stable tag: 4.8
 Requires PHP: 5.6
 License: GPLv3
 
@@ -96,6 +96,7 @@ You can also import from the following plugins:
 - Safe Redirect Manager
 - Rank Math
 - WordPress old slug redirects
+- Quick Post/Pages redirects
 
 = Search Regex compatible =
 
@@ -170,6 +171,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 4.8 - May 23 2020 =
+* Add importer for Quick Post/Page Redirects plugin
+* Add plugin imports to WP CLI
+* Fix install wizard using wrong relative API
+* Fix sub menu outputting invalid HTML
 
 = 4.7.2 - 8th May 2020 =
 * Fix PHP warning decoding an encoded question mark
