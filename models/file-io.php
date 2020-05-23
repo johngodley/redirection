@@ -29,7 +29,7 @@ abstract class Red_FileIO {
 		$extension = isset( $parts['extension'] ) ? $parts['extension'] : '';
 		$extension = strtolower( $extension );
 
-		if ( $extension === 'csv' ) {
+		if ( $extension === 'csv' || $extension === 'txt' ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/fileio/csv.php';
 			$importer = new Red_Csv_File();
 			$data = '';

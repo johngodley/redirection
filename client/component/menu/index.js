@@ -63,11 +63,14 @@ const Menu = props => {
 	return (
 		<div className="subsubsub-container">
 			<ul className="subsubsub">
-				{
-					menu
-						.map( ( item, pos ) => <MenuItem key={ pos } item={ item } isCurrent={ isCurrent( page, item ) } onClick={ onChangePage } /> )
-						.reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
-				}
+				{ menu.map( ( item, pos ) => (
+					<MenuItem
+						key={ pos }
+						item={ item }
+						isCurrent={ isCurrent( page, item ) }
+						isLast={ pos === menu.length - 1 }
+						onClick={ onChangePage } />
+				) ) }
 			</ul>
 		</div>
 	);

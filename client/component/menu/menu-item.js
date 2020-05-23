@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const MenuItem = props => {
-	const { item, isCurrent, onClick } = props;
+	const { item, isCurrent, onClick, isLast } = props;
 	const url = Redirectioni10n.pluginRoot + ( item.value === '' ? '' : '&sub=' + item.value );
 	const clicker = ev => {
 		ev.preventDefault();
@@ -18,7 +18,7 @@ const MenuItem = props => {
 		<li>
 			<a className={ isCurrent ? 'current' : '' } href={ url } onClick={ clicker }>
 				{ item.name }
-			</a>
+			</a> { ! isLast && '|'  }&nbsp;
 		</li>
 	);
 };
