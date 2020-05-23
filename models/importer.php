@@ -10,6 +10,7 @@ class Red_Plugin_Importer {
 			'safe-redirect-manager',
 			'wordpress-old-slugs',
 			'rank-math',
+			'quick-redirects',
 		);
 
 		foreach ( $importers as $importer ) {
@@ -41,6 +42,10 @@ class Red_Plugin_Importer {
 			return new Red_RankMath_Importer();
 		}
 
+		if ( $id === 'quick-redirects' ) {
+			return new Red_QuickRedirect_Importer();
+		}
+
 		return false;
 	}
 
@@ -51,6 +56,51 @@ class Red_Plugin_Importer {
 		}
 
 		return 0;
+	}
+}
+
+class Red_QuickRedirect_Importer extends Red_Plugin_Importer {
+	public function import_plugin( $group_id ) {
+		$redirects = get_option( 'quickppr_redirects' );
+		$count = 0;
+
+		foreach ( $redirects as $source => $target ) {
+			$item = $this->create_for_item( $group_id, $source, $target );
+
+			if ( $item ) {
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	private function create_for_item( $group_id, $source, $target ) {
+		$item = array(
+			'url'         => $source,
+			'action_data' => array( 'url' => $target ),
+			'regex'       => false,
+			'group_id'    => $group_id,
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+		);
+
+		return Red_Item::create( $item );
+	}
+
+	public function get_data() {
+		$data = get_option( 'quickppr_redirects' );
+
+		if ( $data ) {
+			return array(
+				'id' => 'quick-redirects',
+				'name' => 'Quick Page/Post Redirects',
+				'total' => count( $data ),
+			);
+		}
+
+		return false;
 	}
 }
 
