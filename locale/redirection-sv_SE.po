@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-04-20 17:06:36+0000\n"
+"PO-Revision-Date: 2020-05-21 08:22:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,76 +11,188 @@ msgstr ""
 "Language: sv_SE\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
+#: redirection-strings.php:680
+msgid "Relocate to domain"
+msgstr "Flytta till domänen"
+
+#: redirection-strings.php:679
+msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
+msgstr "Vill du omdirigera hela webbplatsen? Skriv in ett domännamn för att omdirigera allt utom inloggningssidan och adminpanelen för WordPress. Om detta alternativ aktiveras kommer alla eventuella alias och kanoniska inställningar för webbplatsen att inaktiveras."
+
+#: redirection-strings.php:678
+msgid "Relocate Site"
+msgstr "Flytta webbplatsen"
+
+#: redirection-strings.php:671
+msgid "Add CORS Presets"
+msgstr "Lägg till standardvärden för CORS"
+
+#: redirection-strings.php:670
+msgid "Add Security Presets"
+msgstr "Lägg till standardvärden för säkerhet"
+
+#: redirection-strings.php:669
+msgid "Add Header"
+msgstr "Lägg till header"
+
+#: redirection-strings.php:664
+msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+msgstr ""
+
+#: redirection-strings.php:663
+msgid "Preferred domain"
+msgstr "Föredragen domän"
+
+#: redirection-strings.php:662
+msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
+msgstr "{{strong}}Varning{{/strong}}: kontrollera att HTTPS fungerar innan du tvingar omdirigering dit."
+
+#: redirection-strings.php:661
+msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
+msgstr "Tvinga en omdirigering från HTTP till HTTPS – {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
+
+#: redirection-strings.php:660
+msgid "Canonical Settings"
+msgstr ""
+
+#: redirection-strings.php:659
+msgid "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
+msgstr "Lägg till www till domän – {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
+
+#: redirection-strings.php:658
+msgid "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+msgstr "Ta bort www från domän – {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+
 #: redirection-strings.php:657
+msgid "Don't set a preferred domain - {{code}}%(site)s{{/code}}"
+msgstr "Ange inte en föredragen domän – {{code}}%(site)s{{/code}}"
+
+#: redirection-strings.php:656
+msgid "Add Alias"
+msgstr "Lägg till alias"
+
+#: redirection-strings.php:655
+msgid "No aliases"
+msgstr "Inga alias"
+
+#: redirection-strings.php:654
+msgid "Alias"
+msgstr "Alias"
+
+#: redirection-strings.php:653
+msgid "Aliased Domain"
+msgstr "Domännamn tillagt som alias"
+
+#: redirection-strings.php:652
+msgid "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install."
+msgstr "Du behöver konfigurera ditt system (DNS och webbservern) så att de skickar förfrågningar för dessa domännamn till denna WordPress-installation."
+
+#: redirection-strings.php:651
+msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
+msgstr "Ett webbplats-alias är ett annat domännamn som du vill ska omdirigeras till denna webbplats. Exempelvis ett gammalt domännamn eller en subdomän. Detta kommer att omdirigera alla URL:er, inklusive inloggningssidan och adminpanelen för WordPress."
+
+#: redirection-strings.php:650
+msgid "Site Aliases"
+msgstr "Alias-namn för webbplatsen"
+
+#: redirection-strings.php:579
+msgid "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects."
+msgstr ""
+
+#: redirection-strings.php:578
+msgid "Need to search and replace?"
+msgstr "Behöver du söka och ersätta?"
+
+#: redirection-strings.php:567
+msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
+msgstr "Inställningarna på denna sida kan orsaka problem om de används på fel sätt. Du kan {{link}}inaktivera dem tillfälligt{{/link}} för att göra ändringar."
+
+#: redirection-strings.php:248
+msgid "Please wait, importing."
+msgstr "Vänta, importerar."
+
+#: redirection-strings.php:246
+msgid "Continue"
+msgstr "Fortsätt"
+
+#: redirection-strings.php:245
+msgid "The following plugins have been detected."
+msgstr "Följande tillägg har upptäckts."
+
+#: redirection-strings.php:244
+msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
+msgstr ""
+
+#: redirection-strings.php:243
+msgid "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import."
+msgstr ""
+
+#: redirection-strings.php:242 redirection-strings.php:247
+msgid "Import Existing Redirects"
+msgstr "Importera befintliga omdirigeringar"
+
+#: redirection-strings.php:207
+msgid "That's all there is to it - you are now redirecting! Note that the above is just an example."
+msgstr "Det är allt du behöver – du omdirigerar nu! Observera att det endast är ett exempel här ovan."
+
+#: redirection-strings.php:152
+msgid "If you want to redirect everything please use a site relocation or alias from the Site page."
+msgstr "Om du vill omdirigera allt ska du använda omdirigering av webbplats eller av alias på sidan för webbplatsen."
+
+#: redirection-strings.php:683
 msgid "Value"
 msgstr "Värde"
 
-#: redirection-strings.php:656
+#: redirection-strings.php:682
 msgid "Values"
 msgstr "Värden"
 
-#: redirection-strings.php:655
+#: redirection-strings.php:681
 msgid "All"
 msgstr "Alla"
 
-#: redirection-strings.php:574
+#: redirection-strings.php:677
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
 msgstr "Observera att vissa HTTP-fält definieras av din server och inte går att ändra."
 
-#: redirection-strings.php:573
+#: redirection-strings.php:676
 msgid "No headers"
 msgstr "Inga sidhuvuden"
 
-#: redirection-strings.php:572
+#: redirection-strings.php:675
 msgid "Header"
 msgstr "Sidhuvud"
 
-#: redirection-strings.php:571
+#: redirection-strings.php:674
 msgid "Location"
 msgstr "Plats"
 
-#: redirection-strings.php:570
+#: redirection-strings.php:673
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
 msgstr "HTTP-headers läggs för hela webbplatsen, inklusive omdirigering. Headers för omdirigering läggs till endast vid omdirigering."
 
-#: redirection-strings.php:569
+#: redirection-strings.php:672
 msgid "HTTP Headers"
 msgstr "HTTP-sidhuvuden"
 
-#: redirection-strings.php:568
-msgid "If your site stops working you will need to {{link}}disable the plugin{{/link}} and make changes."
-msgstr "Om din webbplats slutar fungera måste du {{link}}inaktivera tillägget{{/link}} och göra ändringar."
-
-#: redirection-strings.php:567
-msgid "Ensure that you update your site URL settings."
-msgstr "Se till att du uppdaterar webbplatsen URL-inställningar."
-
-#: redirection-strings.php:566
-msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working otherwise you can break your site."
-msgstr "{{strong}}Varning{{/strong}}: se till att din HTTPS fungerar annars kan du krascha din webbplats."
-
-#: redirection-strings.php:565
-msgid "Force a redirect from HTTP to HTTPS"
-msgstr "Tvinga omdirigering från HTTP till HTTPS"
-
-#: redirection-strings.php:563
+#: redirection-strings.php:668
 msgid "Custom Header"
 msgstr "Anpassat sidhuvud"
 
-#: redirection-strings.php:562
+#: redirection-strings.php:667
 msgid "General"
 msgstr "Allmänt"
 
-#: redirection-strings.php:561
+#: redirection-strings.php:666
 msgid "Redirect"
 msgstr "Omdirigera"
 
-#: redirection-strings.php:155
+#: redirection-strings.php:157
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
 msgstr "Vissa servrar kan konfigureras för att leverera filresurser direkt, för att förhindra omdirigering."
 
-#: redirection-strings.php:77 redirection-strings.php:330
-#: redirection-strings.php:560
+#: redirection-strings.php:78 redirection-strings.php:301
+#: redirection-strings.php:665
 msgid "Site"
 msgstr "Webbplats"
 
@@ -88,162 +200,162 @@ msgstr "Webbplats"
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
 msgstr "Det gick inte att utföra begäran på grund av webbläsarens säkerhetsfunktioner. Detta beror vanligtvis på att inställningarna URL till WordPress och webbplatsen inte stämmer överens eller är blockerade på grund av webbplatsens CORS-policy."
 
-#: redirection-strings.php:559
+#: redirection-strings.php:566
 msgid "Ignore & Pass Query"
 msgstr "Ignorera och skicka frågan"
 
-#: redirection-strings.php:558
+#: redirection-strings.php:565
 msgid "Ignore Query"
 msgstr "Ignorera fråga"
 
-#: redirection-strings.php:557
+#: redirection-strings.php:564
 msgid "Exact Query"
 msgstr "Exakt fråga"
 
-#: redirection-strings.php:546
+#: redirection-strings.php:553
 msgid "Search title"
 msgstr "Sök rubrik"
 
-#: redirection-strings.php:543
+#: redirection-strings.php:550
 msgid "Not accessed in last year"
 msgstr "Inte besökt senaste året"
 
-#: redirection-strings.php:542
+#: redirection-strings.php:549
 msgid "Not accessed in last month"
 msgstr "Inte besökt senaste månaden"
 
-#: redirection-strings.php:541
+#: redirection-strings.php:548
 msgid "Never accessed"
 msgstr "Aldrig besökt"
 
-#: redirection-strings.php:540
+#: redirection-strings.php:547
 msgid "Last Accessed"
 msgstr "Senast besökt"
 
-#: redirection-strings.php:539
+#: redirection-strings.php:546
 msgid "HTTP Status Code"
 msgstr "HTTP-statuskod"
 
-#: redirection-strings.php:536
+#: redirection-strings.php:543
 msgid "Plain"
 msgstr "Enkel"
 
-#: redirection-strings.php:516
+#: redirection-strings.php:523
 msgid "Source"
 msgstr "Källa"
 
-#: redirection-strings.php:507
+#: redirection-strings.php:514
 msgid "Code"
 msgstr "Kod"
 
-#: redirection-strings.php:506 redirection-strings.php:527
-#: redirection-strings.php:538
+#: redirection-strings.php:513 redirection-strings.php:534
+#: redirection-strings.php:545
 msgid "Action Type"
 msgstr "Åtgärdstyp"
 
-#: redirection-strings.php:505 redirection-strings.php:522
-#: redirection-strings.php:537
+#: redirection-strings.php:512 redirection-strings.php:529
+#: redirection-strings.php:544
 msgid "Match Type"
 msgstr "Matchningstyp"
 
-#: redirection-strings.php:366 redirection-strings.php:545
+#: redirection-strings.php:373 redirection-strings.php:552
 msgid "Search target URL"
 msgstr "Sök mål-URL"
 
-#: redirection-strings.php:365 redirection-strings.php:406
+#: redirection-strings.php:372 redirection-strings.php:413
 msgid "Search IP"
 msgstr "Sök IP"
 
-#: redirection-strings.php:364 redirection-strings.php:405
+#: redirection-strings.php:371 redirection-strings.php:412
 msgid "Search user agent"
 msgstr "Användaragent för sökning"
 
-#: redirection-strings.php:363 redirection-strings.php:404
+#: redirection-strings.php:370 redirection-strings.php:411
 msgid "Search referrer"
 msgstr "Sök referrer"
 
-#: redirection-strings.php:362 redirection-strings.php:403
-#: redirection-strings.php:544
+#: redirection-strings.php:369 redirection-strings.php:410
+#: redirection-strings.php:551
 msgid "Search URL"
 msgstr "Sök-URL"
 
-#: redirection-strings.php:280
+#: redirection-strings.php:287
 msgid "Filter on: %(type)s"
 msgstr "Filtrera på: % (typ)er"
 
-#: redirection-strings.php:255 redirection-strings.php:533
+#: redirection-strings.php:262 redirection-strings.php:540
 msgid "Disabled"
 msgstr "Inaktiverad"
 
-#: redirection-strings.php:254 redirection-strings.php:532
+#: redirection-strings.php:261 redirection-strings.php:539
 msgid "Enabled"
 msgstr "Aktiverad"
 
-#: redirection-strings.php:252 redirection-strings.php:355
-#: redirection-strings.php:397 redirection-strings.php:530
+#: redirection-strings.php:259 redirection-strings.php:362
+#: redirection-strings.php:404 redirection-strings.php:537
 msgid "Compact Display"
 msgstr "Kompakt vy"
 
-#: redirection-strings.php:251 redirection-strings.php:354
-#: redirection-strings.php:396 redirection-strings.php:529
+#: redirection-strings.php:258 redirection-strings.php:361
+#: redirection-strings.php:403 redirection-strings.php:536
 msgid "Standard Display"
 msgstr "Standardvy"
 
-#: redirection-strings.php:249 redirection-strings.php:253
-#: redirection-strings.php:257 redirection-strings.php:503
-#: redirection-strings.php:526 redirection-strings.php:531
+#: redirection-strings.php:256 redirection-strings.php:260
+#: redirection-strings.php:264 redirection-strings.php:510
+#: redirection-strings.php:533 redirection-strings.php:538
 msgid "Status"
 msgstr "Status"
 
-#: redirection-strings.php:196
+#: redirection-strings.php:187
 msgid "Pre-defined"
 msgstr "Fördefinierad"
 
-#: redirection-strings.php:195
+#: redirection-strings.php:186
 msgid "Custom Display"
 msgstr "Anpassad vy"
 
-#: redirection-strings.php:194
+#: redirection-strings.php:185
 msgid "Display All"
 msgstr "Visa alla"
 
-#: redirection-strings.php:154
+#: redirection-strings.php:156
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
 msgstr "Det verkar som om din URL innehåller ett domännamn i adressen: {{code}}%(relative)s{{/code}}. Avsåg du att använda {{code}}%(absolute)s{{/code}} i stället?"
 
-#: redirection-strings.php:641
+#: redirection-strings.php:636
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
 msgstr "Kommaseparerad lista över språk att matcha mot (dvs. da, en-GB)"
 
-#: redirection-strings.php:640
+#: redirection-strings.php:635
 msgid "Language"
 msgstr "Språk"
 
-#: redirection-strings.php:121
+#: redirection-strings.php:123
 msgid "504 - Gateway Timeout"
 msgstr "504 – Timeout för gateway"
 
-#: redirection-strings.php:120
+#: redirection-strings.php:122
 msgid "503 - Service Unavailable"
 msgstr "503 – Tjänsten är otillgänglig"
 
-#: redirection-strings.php:119
+#: redirection-strings.php:121
 msgid "502 - Bad Gateway"
 msgstr "502 – Felaktig gateway"
 
-#: redirection-strings.php:118
+#: redirection-strings.php:120
 msgid "501 - Not implemented"
 msgstr "501 – Ej implementerad"
 
-#: redirection-strings.php:117
+#: redirection-strings.php:119
 msgid "500 - Internal Server Error"
 msgstr "500 – Internt serverfel"
 
-#: redirection-strings.php:116
+#: redirection-strings.php:118
 msgid "451 - Unavailable For Legal Reasons"
 msgstr "451 – Otillgänglig av juridiska skäl"
 
-#: matches/language.php:9 redirection-strings.php:98
+#: matches/language.php:9 redirection-strings.php:100
 msgid "URL and language"
 msgstr "URL och språk"
 
@@ -271,7 +383,7 @@ msgstr "Detta åtgärdas vanligtvis genom att göra något av detta:"
 msgid "You are not authorised to access this page."
 msgstr "Du är inte behörig att komma åt denna sida."
 
-#: redirection-strings.php:534
+#: redirection-strings.php:541
 msgid "URL match"
 msgstr "URL-matchning"
 
@@ -279,23 +391,23 @@ msgstr "URL-matchning"
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
 msgstr "Uppgraderingen har avbrutits eftersom en loop detekterades. Detta innebär oftast att {{support}}webbplatsen cachelagras{{/support}} så att ändringar inte sparas till databasen."
 
-#: redirection-strings.php:497
+#: redirection-strings.php:504
 msgid "Unable to save .htaccess file"
 msgstr "Kan inte spara .htaccess-filen"
 
-#: redirection-strings.php:496
+#: redirection-strings.php:503
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
 msgstr "Omdirigeringar som läggs till i en Apache-grupp kan sparas i filen {{code}}.htaccess{{/code}} om man lägger in hela URL:en här. För referens är WordPress installerat i {{code}}%(installed)s{{/code}}."
 
-#: redirection-strings.php:320
+#: redirection-strings.php:291
 msgid "Click \"Complete Upgrade\" when finished."
 msgstr "Klicka på ”Slutför uppgradering” när du är klar."
 
-#: redirection-strings.php:245
+#: redirection-strings.php:252
 msgid "Automatic Install"
 msgstr "Automatisk installation"
 
-#: redirection-strings.php:153
+#: redirection-strings.php:155
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
 msgstr "Din mål-URL innehåller det ogiltiga tecknet {{code}}%(invalid)s{{/code}}"
 
@@ -311,11 +423,11 @@ msgstr "Om du inte slutför den manuella installationen kommer du att komma till
 msgid "Click \"Finished! 🎉\" when finished."
 msgstr "Klicka på ”Klart! 🎉 \" när du är klar."
 
-#: redirection-strings.php:14 redirection-strings.php:319
+#: redirection-strings.php:14 redirection-strings.php:290
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
 msgstr "Om din webbplats behöver speciella databasbehörigheter, eller om du hellre vill göra det själv, kan du köra följande SQL manuellt."
 
-#: redirection-strings.php:13 redirection-strings.php:244
+#: redirection-strings.php:13 redirection-strings.php:251
 msgid "Manual Install"
 msgstr "Manuell installation"
 
@@ -323,75 +435,75 @@ msgstr "Manuell installation"
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
 msgstr "Otillräckliga databasbehörigheter upptäcktes. Ge din databasanvändare lämpliga behörigheter."
 
-#: redirection-strings.php:603
+#: redirection-strings.php:598
 msgid "This information is provided for debugging purposes. Be careful making any changes."
 msgstr "Denna information tillhandahålls för felsökningsändamål. Var försiktig med att göra några ändringar."
 
-#: redirection-strings.php:602
+#: redirection-strings.php:597
 msgid "Plugin Debug"
 msgstr "Felsökning av tillägg"
 
-#: redirection-strings.php:600
+#: redirection-strings.php:595
 msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
 msgstr "Redirection kommunicerar med WordPress via WordPress REST API. Detta är en standarddel av WordPress, och du kommer att få problem om du inte kan använda det."
 
-#: redirection-strings.php:579
+#: redirection-strings.php:572
 msgid "IP Headers"
 msgstr "IP-headers"
 
-#: redirection-strings.php:577
+#: redirection-strings.php:570
 msgid "Do not change unless advised to do so!"
 msgstr "Ändra inte om du inte uppmanas att göra det!"
 
-#: redirection-strings.php:576
+#: redirection-strings.php:569
 msgid "Database version"
 msgstr "Databasversion"
 
-#: redirection-strings.php:309
+#: redirection-strings.php:346
 msgid "Complete data (JSON)"
 msgstr "Fullständiga data (JSON)"
 
-#: redirection-strings.php:304
+#: redirection-strings.php:341
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
 msgstr "Exportera till CSV, Apache .htaccess, Nginx eller Redirection-JSON. JSON-formatet innehåller fullständig information medan de andra formaten endast täcker viss information, beroende på valt format."
 
-#: redirection-strings.php:302
+#: redirection-strings.php:339
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
 msgstr "CSV-filen innehåller inte all information. Allt importeras och exporteras enbart som matchning av ”URL”. För att använda den kompletta datauppsättningen ska du använda JSON-formatet."
 
-#: redirection-strings.php:300
+#: redirection-strings.php:337
 msgid "All imports will be appended to the current database - nothing is merged."
 msgstr "Allt som importera kommer att läggas till den aktuella databasen – ingenting kombineras med det befintliga."
 
-#: redirection-strings.php:328
+#: redirection-strings.php:299
 msgid "Automatic Upgrade"
 msgstr "Automatisk uppgradering"
 
-#: redirection-strings.php:327
+#: redirection-strings.php:298
 msgid "Manual Upgrade"
 msgstr "Manuell uppgradering"
 
-#: redirection-strings.php:326
+#: redirection-strings.php:297
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
 msgstr "Säkerhetskopiera dina omdirigeringsdata: {{download}}Ladda ned säkerhetskopia{{/download}}. Om några problem uppstår kan du senare importera säkerhetskopian till tillägget Redirection."
 
-#: redirection-strings.php:322
+#: redirection-strings.php:293
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
 msgstr "Klicka på knappen ”Uppgradera databas” för att automatiskt uppgradera databasen."
 
-#: redirection-strings.php:321
+#: redirection-strings.php:292
 msgid "Complete Upgrade"
 msgstr "Slutför uppgradering"
 
-#: redirection-strings.php:318
+#: redirection-strings.php:289
 msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
 msgstr "Redirection lagrar data i din databas och ibland måste detta uppgraderas. Din databas är i version {{strong}}%(current)s{{/strong}} och den senaste är {{strong}}%(latest)s{{/strong}}."
 
-#: redirection-strings.php:269 redirection-strings.php:279
+#: redirection-strings.php:276 redirection-strings.php:286
 msgid "Note that you will need to set the Apache module path in your Redirection options."
 msgstr "Observera att du måste ställa in Apache-modulens sökväg i dina alternativ för Redirection."
 
-#: redirection-strings.php:243
+#: redirection-strings.php:250
 msgid "I need support!"
 msgstr "Jag behöver hjälp!"
 
@@ -459,15 +571,15 @@ msgstr "Visa fullständig"
 msgid "Working!"
 msgstr "Fungerar!"
 
-#: redirection-strings.php:152
+#: redirection-strings.php:154
 msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
 msgstr "Måladressen ska vara en absolut URL, såsom {{code}}https://mindomaen.com/%(url)s{{/code}} eller inledas med ett snedstreck {{code}}/%(url)s{{/code}}."
 
-#: redirection-strings.php:151
+#: redirection-strings.php:153
 msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
 msgstr "Din källa är densamma som ett mål och det skapar en loop. Lämna ett mål tomt om du inte vill vidta åtgärder."
 
-#: redirection-strings.php:141
+#: redirection-strings.php:143
 msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
 msgstr "Måladressen dit du vill omdirigera eller automatisk komplettering mot inläggsrubrik eller permalänk."
 
@@ -521,67 +633,63 @@ msgstr "Läs denna REST API-guide för mer information."
 msgid "Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again."
 msgstr "REST-API:et cachelagras. Rensa alla tillägg för cachelagring och eventuell server-cache, logga ut, töm webbläsarens cache-minne och försök sedan igen."
 
-#: redirection-strings.php:140
+#: redirection-strings.php:142
 msgid "URL options / Regex"
 msgstr "URL-alternativ / Regex"
 
-#: redirection-strings.php:316
+#: redirection-strings.php:353
 msgid "Export 404"
 msgstr "Exportera 404"
 
-#: redirection-strings.php:315
+#: redirection-strings.php:352
 msgid "Export redirect"
 msgstr "Exportera omdirigering"
 
-#: redirection-strings.php:148
+#: redirection-strings.php:150
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
 msgstr "WordPress-permalänkstrukturer fungerar inte i vanliga URL:er. Använd ett vanligt uttryck."
 
-#: models/redirect.php:305
-msgid "Unable to update redirect"
-msgstr "Kan inte uppdatera omdirigering"
-
-#: redirection-strings.php:492
+#: redirection-strings.php:499
 msgid "Pass - as ignore, but also copies the query parameters to the target"
 msgstr "Skicka vidare – samma som Ignorera, men kopierar dessutom över parametrarna i förfrågan till måladressen"
 
-#: redirection-strings.php:491
+#: redirection-strings.php:498
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
 msgstr "Ignorera – samma som exakt matchning, men ignorerar eventuella parametrar i förfrågan som saknas i din källadress"
 
-#: redirection-strings.php:490
+#: redirection-strings.php:497
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
 msgstr "Exakt – matchar parametrarna i förfrågan exakt som de angivits i källadressen, i valfri ordning"
 
-#: redirection-strings.php:488
+#: redirection-strings.php:495
 msgid "Default query matching"
 msgstr "Standardmatchning av förfrågan"
 
-#: redirection-strings.php:487
+#: redirection-strings.php:494
 msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
 msgstr "Ignorera snedstreck på slutet (t.ex. kommer {{code}}/exciting-post/{{/code}} att matcha {{code}}/exciting-post{{/code}})"
 
-#: redirection-strings.php:486
+#: redirection-strings.php:493
 msgid "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})"
 msgstr "Matchning utan kontroll av skiftläge (t.ex. kommer {{code}}/Exciting-Post{{/code}} att matcha {{code}}/exciting-post{{/code}})"
 
-#: redirection-strings.php:485 redirection-strings.php:489
+#: redirection-strings.php:492 redirection-strings.php:496
 msgid "Applies to all redirections unless you configure them otherwise."
 msgstr "Tillämpas till alla omdirigeringar om du inte konfigurerar dem på annat sätt."
 
-#: redirection-strings.php:484
+#: redirection-strings.php:491
 msgid "Default URL settings"
 msgstr "Standard URL-inställningar"
 
-#: redirection-strings.php:467
+#: redirection-strings.php:474
 msgid "Ignore and pass all query parameters"
 msgstr "Ignorera och skicka alla parametrar i förfrågan vidare"
 
-#: redirection-strings.php:466
+#: redirection-strings.php:473
 msgid "Ignore all query parameters"
 msgstr "Ignorera alla parametrar i förfrågan"
 
-#: redirection-strings.php:465
+#: redirection-strings.php:472
 msgid "Exact match"
 msgstr "Exakt matchning"
 
@@ -593,49 +701,45 @@ msgstr "Programvara för cachehantering (t.ex. Cloudflare)"
 msgid "A security plugin (e.g Wordfence)"
 msgstr "Ett säkerhetstillägg (t.ex. Wordfence)"
 
-#: redirection-strings.php:517
+#: redirection-strings.php:524
 msgid "URL options"
 msgstr "URL-alternativ"
 
-#: redirection-strings.php:136 redirection-strings.php:518
+#: redirection-strings.php:138 redirection-strings.php:525
 msgid "Query Parameters"
 msgstr "Parametrar i förfrågan"
 
-#: redirection-strings.php:127
+#: redirection-strings.php:129
 msgid "Ignore & pass parameters to the target"
 msgstr "Ignorera och skicka parametrarna vidare till måladressen"
 
-#: redirection-strings.php:126
+#: redirection-strings.php:128
 msgid "Ignore all parameters"
 msgstr "Ignorera alla parametrar"
 
-#: redirection-strings.php:125
+#: redirection-strings.php:127
 msgid "Exact match all parameters in any order"
 msgstr "Exakt matchning av alla parametrar i valfri ordning"
 
-#: redirection-strings.php:124
+#: redirection-strings.php:126
 msgid "Ignore Case"
 msgstr "Ignorera skillnad mellan stor och liten bokstav"
 
-#: redirection-strings.php:123
+#: redirection-strings.php:125
 msgid "Ignore Slash"
 msgstr "Ignorera snedstreck"
 
-#: redirection-strings.php:464
+#: redirection-strings.php:471
 msgid "Relative REST API"
 msgstr "Relativ REST API"
 
-#: redirection-strings.php:463
+#: redirection-strings.php:470
 msgid "Raw REST API"
 msgstr "Obearbetat REST-API"
 
-#: redirection-strings.php:462
+#: redirection-strings.php:469
 msgid "Default REST API"
 msgstr "Standard REST API"
-
-#: redirection-strings.php:207
-msgid "That's all there is to it - you are now redirecting! Note that the above is just an example - you can now enter a redirect."
-msgstr "Det är allt du behöver – du omdirigerar nu! Observera att ovanstående bara är ett exempel – du kan nu ange en omdirigering."
 
 #: redirection-strings.php:206
 msgid "(Example) The target URL is the new URL"
@@ -650,7 +754,7 @@ msgstr "(Exempel) Käll-URL:en är din gamla eller ursprungliga URL"
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
 msgstr "Inaktiverad! Upptäckte PHP %1$s, behöver PHP %2$s+"
 
-#: redirection-strings.php:317
+#: redirection-strings.php:288
 msgid "A database upgrade is in progress. Please continue to finish."
 msgstr "En databasuppgradering pågår. Fortsätt att slutföra."
 
@@ -659,11 +763,11 @@ msgstr "En databasuppgradering pågår. Fortsätt att slutföra."
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
 msgstr "Redirections databas måste uppdateras – <a href=\"%1$1s\">klicka för att uppdatera</a>."
 
-#: redirection-strings.php:325
+#: redirection-strings.php:296
 msgid "Redirection database needs upgrading"
 msgstr "Redirections databas behöver uppgraderas"
 
-#: redirection-strings.php:324
+#: redirection-strings.php:295
 msgid "Upgrade Required"
 msgstr "Uppgradering krävs"
 
@@ -705,7 +809,7 @@ msgstr "Genom att lagra IP-adresser kan du använda loggen till fler åtgärder.
 
 #: redirection-strings.php:226
 msgid "Store IP information for redirects and 404 errors."
-msgstr "Spara IP-information för omdirigeringar och 404 fel."
+msgstr "Spara IP-information för omdirigeringar och 404-fel."
 
 #: redirection-strings.php:224
 msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
@@ -713,7 +817,7 @@ msgstr "Genom att lagra loggar över omdirigeringar och fel av typen 404 kan du 
 
 #: redirection-strings.php:223
 msgid "Keep a log of all redirects and 404 errors."
-msgstr "Behåll en logg över alla omdirigeringar och 404 fel."
+msgstr "Behåll en logg över alla omdirigeringar och 404-fel."
 
 #: redirection-strings.php:222 redirection-strings.php:225
 #: redirection-strings.php:228
@@ -778,7 +882,7 @@ msgstr "Fullständig dokumentation finns på {{link}}webbplatsen för Redirectio
 
 #: redirection-strings.php:202
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
-msgstr "En enkel omdirigering innebär att du anger en {{strong}}-käll-URL{{/strong}} (den gamla webbadressen) och en {{strong}}-mål-URL{{/strong}} (den nya webbadressen). Här är ett exempel:"
+msgstr "En enkel omdirigering innebär att du anger en {{strong}}käll-URL{{/strong}} (den gamla webbadressen) och en {{strong}}mål-URL{{/strong}} (den nya webbadressen). Här är ett exempel:"
 
 #: redirection-strings.php:201
 msgid "How do I use this plugin?"
@@ -786,37 +890,33 @@ msgstr "Hur använder jag detta tillägg?"
 
 #: redirection-strings.php:200
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
-msgstr "Redirection är utformad för att användas på webbplatser med allt från några få omdirigeringar till webbplatser med tusentals omdirigeringar."
+msgstr "Redirection är utformat för att användas på webbplatser med allt från några få omdirigeringar till webbplatser med tusentals omdirigeringar."
 
 #: redirection-strings.php:199
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
-msgstr "Tack för att du installerar och använder Redirection v%(version)s. Detta tillägg låter dig hantera omdirigering av typen 301, hålla reda på fel av typen 404 och förbättra din webbplats, utan krav på kunskaper i Apache eller Nginx behövs."
+msgstr "Tack för att du installerar och använder Redirection v%(version)s. Detta tillägg låter dig hantera omdirigering av typen 301, hålla reda på 404-fel och förbättra din webbplats, utan att ha någon kunskap om Apache eller Nginx."
 
 #: redirection-strings.php:198
 msgid "Welcome to Redirection 🚀🎉"
 msgstr "Välkommen till Redirection 🚀🎉"
 
-#: redirection-strings.php:150
-msgid "This will redirect everything, including the login pages. Please be sure you want to do this."
-msgstr "Detta kommer att omdirigera allt, inklusive inloggningssidorna. Kontrollera en gång till att det är vad du verkligen vill göra."
-
-#: redirection-strings.php:149
+#: redirection-strings.php:151
 msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
 msgstr "För att förhindra ett alltför aggressivt reguljärt uttryck kan du använda {{code}}^{{/code}} för att låsa det till början av URL:en. Till exempel: {{code}}%(example)s{{/code}}"
 
-#: redirection-strings.php:147
+#: redirection-strings.php:149
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
 msgstr "Kom ihåg att aktivera alternativet ”regex” om detta är ett reguljärt uttryck."
 
-#: redirection-strings.php:146
+#: redirection-strings.php:148
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
 msgstr "Käll-URL:en bör antagligen börja med en {{code}}/{{/code}}"
 
-#: redirection-strings.php:145
+#: redirection-strings.php:147
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
 msgstr "Detta konverteras till en serveromdirigering för domänen {{code}}%(server)s{{/code}}."
 
-#: redirection-strings.php:144
+#: redirection-strings.php:146
 msgid "Anchor values are not sent to the server and cannot be redirected."
 msgstr "Ankarvärden skickas inte till servern och kan inte omdirigeras."
 
@@ -868,15 +968,15 @@ msgstr "Försök igen"
 msgid "Database problem"
 msgstr "Databasproblem"
 
-#: redirection-admin.php:423
+#: redirection-admin.php:459
 msgid "Please enable JavaScript"
 msgstr "Aktivera JavaScript"
 
-#: redirection-admin.php:151
+#: redirection-admin.php:152
 msgid "Please upgrade your database"
 msgstr "Uppgradera din databas"
 
-#: redirection-admin.php:142 redirection-strings.php:323
+#: redirection-admin.php:143 redirection-strings.php:294
 msgid "Upgrade Database"
 msgstr "Uppgradera databas"
 
@@ -886,25 +986,22 @@ msgid "Please complete your <a href=\"%s\">Redirection setup</a> to activate the
 msgstr "Slutför din <a href=\"%s\">Redirection-inställning</a> för att aktivera tillägget."
 
 #. translators: version number
-#: api/api-plugin.php:147
+#: api/api-plugin.php:115
 msgid "Your database does not need updating to %s."
 msgstr "Din databas behöver inte uppdateras till %s."
 
-#. translators: 1: SQL string
-#: database/database-upgrader.php:104
-msgid "Failed to perform query \"%s\""
-msgstr "Misslyckades att utföra fråga ”%s”"
-
 #. translators: 1: table name
-#: database/schema/latest.php:102
+#: database/schema/latest.php:104
 msgid "Table \"%s\" is missing"
 msgstr "Tabell ”%s” saknas"
 
-#: database/schema/latest.php:10
+#. translators: displayed when installing the plugin
+#: database/schema/latest.php:12
 msgid "Create basic data"
 msgstr "Skapa grundläggande data"
 
-#: database/schema/latest.php:9
+#. translators: displayed when installing the plugin
+#: database/schema/latest.php:10
 msgid "Install Redirection tables"
 msgstr "Installera Redirection-tabeller"
 
@@ -913,124 +1010,124 @@ msgstr "Installera Redirection-tabeller"
 msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
 msgstr "Webbplats och hem-URL är inkonsekventa. Korrigera från dina Inställningar > Allmän sida: %1$1s är inte %2$2s"
 
-#: redirection-strings.php:644
+#: redirection-strings.php:639
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
 msgstr "Försök inte att omdirigera alla status 404 som inträffar – det är ingen lyckad idé."
 
-#: redirection-strings.php:643
+#: redirection-strings.php:638
 msgid "Only the 404 page type is currently supported."
 msgstr "För närvarande stöds endast sidtypen 404."
 
-#: redirection-strings.php:642
+#: redirection-strings.php:637
 msgid "Page Type"
 msgstr "Sidtyp"
 
-#: redirection-strings.php:639
+#: redirection-strings.php:634
 msgid "Enter IP addresses (one per line)"
 msgstr "Ange IP-adresser (en per rad)"
 
-#: redirection-strings.php:143
+#: redirection-strings.php:145
 msgid "Describe the purpose of this redirect (optional)"
 msgstr "Beskriv syftet med denna omdirigering (valfritt)"
 
-#: redirection-strings.php:115
+#: redirection-strings.php:117
 msgid "418 - I'm a teapot"
 msgstr "418 – Jag är en tekanna"
 
-#: redirection-strings.php:112
+#: redirection-strings.php:114
 msgid "403 - Forbidden"
 msgstr "403 – Förbjuden"
 
-#: redirection-strings.php:110
+#: redirection-strings.php:112
 msgid "400 - Bad Request"
 msgstr "400 – Felaktig begäran"
 
-#: redirection-strings.php:107
+#: redirection-strings.php:109
 msgid "304 - Not Modified"
 msgstr "304 – Inte modifierad"
 
-#: redirection-strings.php:106
+#: redirection-strings.php:108
 msgid "303 - See Other"
 msgstr "303 – Se annat"
 
-#: redirection-strings.php:103
+#: redirection-strings.php:105
 msgid "Do nothing (ignore)"
 msgstr "Gör ingenting (ignorera)"
 
-#: redirection-strings.php:612 redirection-strings.php:616
+#: redirection-strings.php:607 redirection-strings.php:611
 msgid "Target URL when not matched (empty to ignore)"
 msgstr "URL-mål när den inte matchas (tom för att ignorera)"
 
-#: redirection-strings.php:610 redirection-strings.php:614
+#: redirection-strings.php:605 redirection-strings.php:609
 msgid "Target URL when matched (empty to ignore)"
 msgstr "URL-mål vid matchning (tom för att ignorera)"
 
-#: redirection-strings.php:413 redirection-strings.php:418
+#: redirection-strings.php:420 redirection-strings.php:425
 msgid "Show All"
 msgstr "Visa alla"
 
-#: redirection-strings.php:410
+#: redirection-strings.php:417
 msgid "Delete all logs for these entries"
 msgstr "Ta bort alla loggar för dessa poster"
 
-#: redirection-strings.php:409 redirection-strings.php:422
+#: redirection-strings.php:416 redirection-strings.php:429
 msgid "Delete all logs for this entry"
 msgstr "Ta bort alla loggar för denna post"
 
-#: redirection-strings.php:408
+#: redirection-strings.php:415
 msgid "Delete Log Entries"
 msgstr "Ta bort loggposter"
 
-#: redirection-strings.php:395
+#: redirection-strings.php:402
 msgid "Group by IP"
 msgstr "Grupp efter IP"
 
-#: redirection-strings.php:394
+#: redirection-strings.php:401
 msgid "Group by URL"
 msgstr "Grupp efter URL"
 
-#: redirection-strings.php:393
+#: redirection-strings.php:400
 msgid "No grouping"
 msgstr "Ingen gruppering"
 
-#: redirection-strings.php:392 redirection-strings.php:419
+#: redirection-strings.php:399 redirection-strings.php:426
 msgid "Ignore URL"
 msgstr "Ignorera URL"
 
-#: redirection-strings.php:389 redirection-strings.php:415
+#: redirection-strings.php:396 redirection-strings.php:422
 msgid "Block IP"
 msgstr "Blockera IP"
 
-#: redirection-strings.php:388 redirection-strings.php:391
-#: redirection-strings.php:412 redirection-strings.php:417
+#: redirection-strings.php:395 redirection-strings.php:398
+#: redirection-strings.php:419 redirection-strings.php:424
 msgid "Redirect All"
 msgstr "Omdirigera alla"
 
-#: redirection-strings.php:379 redirection-strings.php:381
+#: redirection-strings.php:386 redirection-strings.php:388
 msgid "Count"
 msgstr "Antal"
 
-#: matches/page.php:9 redirection-strings.php:97
+#: matches/page.php:9 redirection-strings.php:99
 msgid "URL and WordPress page type"
 msgstr "URL och WordPress sidtyp"
 
-#: matches/ip.php:9 redirection-strings.php:93
+#: matches/ip.php:9 redirection-strings.php:95
 msgid "URL and IP"
 msgstr "URL och IP"
 
-#: redirection-strings.php:598
+#: redirection-strings.php:593
 msgid "Problem"
 msgstr "Problem"
 
-#: redirection-strings.php:163 redirection-strings.php:597
+#: redirection-strings.php:163 redirection-strings.php:592
 msgid "Good"
 msgstr "Bra"
 
-#: redirection-strings.php:593
+#: redirection-strings.php:588
 msgid "Check"
 msgstr "Kontrollera"
 
-#: redirection-strings.php:554
+#: redirection-strings.php:562
 msgid "Check Redirect"
 msgstr "Kontrollera omdirigering"
 
@@ -1066,76 +1163,76 @@ msgstr "Förväntad"
 msgid "Error"
 msgstr "Fel"
 
-#: redirection-strings.php:592
+#: redirection-strings.php:587
 msgid "Enter full URL, including http:// or https://"
 msgstr "Ange fullständig URL, inklusive http:// eller https://"
 
-#: redirection-strings.php:590
+#: redirection-strings.php:585
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
 msgstr "Ibland kan din webbläsare sparade en URL i cache-minnet, vilket kan göra det svårt att se om allt fungerar som tänkt. Använd detta för att kontrollera hur en URL faktiskt omdirigeras."
 
-#: redirection-strings.php:589
+#: redirection-strings.php:584
 msgid "Redirect Tester"
 msgstr "Omdirigeringstestare"
 
-#: redirection-strings.php:360 redirection-strings.php:520
-#: redirection-strings.php:588
+#: redirection-strings.php:367 redirection-strings.php:527
+#: redirection-strings.php:583
 msgid "Target"
 msgstr "Mål"
 
-#: redirection-strings.php:587
+#: redirection-strings.php:582
 msgid "URL is not being redirected with Redirection"
 msgstr "URL omdirigeras inte med Redirection"
 
-#: redirection-strings.php:586
+#: redirection-strings.php:581
 msgid "URL is being redirected with Redirection"
 msgstr "URL omdirigeras med Redirection"
 
-#: redirection-strings.php:585 redirection-strings.php:594
+#: redirection-strings.php:580 redirection-strings.php:589
 msgid "Unable to load details"
 msgstr "Kan inte att ladda detaljer"
 
-#: redirection-strings.php:651
+#: redirection-strings.php:646
 msgid "Enter server URL to match against"
 msgstr "Ange server-URL för att matcha mot"
 
-#: redirection-strings.php:650
+#: redirection-strings.php:645
 msgid "Server"
 msgstr "Server"
 
-#: redirection-strings.php:649
+#: redirection-strings.php:644
 msgid "Enter role or capability value"
 msgstr "Ange roll eller behörighetsvärde"
 
-#: redirection-strings.php:648
+#: redirection-strings.php:643
 msgid "Role"
 msgstr "Roll"
 
-#: redirection-strings.php:646
+#: redirection-strings.php:641
 msgid "Match against this browser referrer text"
 msgstr "Matcha mot denna referrer-sträng från webbläsaren"
 
-#: redirection-strings.php:619
+#: redirection-strings.php:614
 msgid "Match against this browser user agent"
 msgstr "Matcha mot denna user-agent-sträng från webbläsaren"
 
-#: redirection-strings.php:139
+#: redirection-strings.php:141
 msgid "The relative URL you want to redirect from"
 msgstr "Den relativa URL du vill omdirigera från"
 
-#: redirection-strings.php:480
+#: redirection-strings.php:487
 msgid "GDPR / Privacy information"
 msgstr "GDPR/integritetsinformation"
 
-#: redirection-strings.php:346
+#: redirection-strings.php:317
 msgid "Add New"
 msgstr "Lägg till ny"
 
-#: matches/user-role.php:9 redirection-strings.php:89
+#: matches/user-role.php:9 redirection-strings.php:91
 msgid "URL and role/capability"
 msgstr "URL och roll/behörighet"
 
-#: matches/server.php:9 redirection-strings.php:94
+#: matches/server.php:9 redirection-strings.php:96
 msgid "URL and server"
 msgstr "URL och server"
 
@@ -1147,75 +1244,75 @@ msgstr "Webbplats och hemprotokoll"
 msgid "Site and home are consistent"
 msgstr "Webbplats och hem är konsekventa"
 
-#: redirection-strings.php:637
+#: redirection-strings.php:632
 msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
 msgstr "Observera att du ansvarar för att skicka HTTP-headers vidare till PHP. Kontakta ditt webbhotell om du behöver hjälp med detta."
 
-#: redirection-strings.php:635
+#: redirection-strings.php:630
 msgid "Accept Language"
 msgstr "Acceptera språk"
 
-#: redirection-strings.php:633
+#: redirection-strings.php:628
 msgid "Header value"
 msgstr "Värde för sidhuvud"
 
-#: redirection-strings.php:632
+#: redirection-strings.php:627
 msgid "Header name"
 msgstr "Namn på sidhuvud"
 
-#: redirection-strings.php:631
+#: redirection-strings.php:626
 msgid "HTTP Header"
 msgstr "HTTP-sidhuvud"
 
-#: redirection-strings.php:630
+#: redirection-strings.php:625
 msgid "WordPress filter name"
 msgstr "WordPress-filternamn"
 
-#: redirection-strings.php:629
+#: redirection-strings.php:624
 msgid "Filter Name"
 msgstr "Filternamn"
 
-#: redirection-strings.php:627
+#: redirection-strings.php:622
 msgid "Cookie value"
 msgstr "Cookie-värde"
 
-#: redirection-strings.php:626
+#: redirection-strings.php:621
 msgid "Cookie name"
 msgstr "Cookie-namn"
 
-#: redirection-strings.php:625
+#: redirection-strings.php:620
 msgid "Cookie"
 msgstr "Cookie"
 
-#: redirection-strings.php:340
+#: redirection-strings.php:311
 msgid "clearing your cache."
 msgstr "rensar cacheminnet."
 
-#: redirection-strings.php:339
+#: redirection-strings.php:310
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "Om du använder ett caching-system som Cloudflare, läs det här: "
 
-#: matches/http-header.php:11 redirection-strings.php:95
+#: matches/http-header.php:11 redirection-strings.php:97
 msgid "URL and HTTP header"
 msgstr "URL- och HTTP-sidhuvuden"
 
-#: matches/custom-filter.php:9 redirection-strings.php:96
+#: matches/custom-filter.php:9 redirection-strings.php:98
 msgid "URL and custom filter"
 msgstr "URL och anpassat filter"
 
-#: matches/cookie.php:7 redirection-strings.php:92
+#: matches/cookie.php:7 redirection-strings.php:94
 msgid "URL and cookie"
 msgstr "URL och cookie"
 
-#: redirection-strings.php:608
+#: redirection-strings.php:603
 msgid "404 deleted"
 msgstr "404 borttagen"
 
-#: redirection-strings.php:231 redirection-strings.php:500
+#: redirection-strings.php:231 redirection-strings.php:507
 msgid "REST API"
 msgstr "REST API"
 
-#: redirection-strings.php:501
+#: redirection-strings.php:508
 msgid "How Redirection uses the REST API - don't change unless necessary"
 msgstr "Hur Redirection använder REST API &ndash; ändra inte om inte nödvändigt"
 
@@ -1231,15 +1328,15 @@ msgstr "{{link}}Cachelagrings-program{{/link}}, i synnerhet Cloudflare, kan cach
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 msgstr "{{link}}Inaktivera andra tillägg tillfälligt!{{/link}} Detta fixar så många problem."
 
-#: redirection-admin.php:402
+#: redirection-admin.php:438
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr "Läs <a href=\"https://redirection.me/support/problems/\">listan med kända problem</a>."
 
-#: redirection-admin.php:396
+#: redirection-admin.php:432
 msgid "Unable to load Redirection ☹️"
 msgstr "Kan inte ladda Redirection ☹️"
 
-#: redirection-strings.php:599
+#: redirection-strings.php:594
 msgid "WordPress REST API"
 msgstr "WordPress REST API"
 
@@ -1247,76 +1344,72 @@ msgstr "WordPress REST API"
 msgid "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
 msgstr "Ditt WordPress REST API har inaktiverats. Du måste aktivera det för att Redirection ska fortsätta att fungera"
 
-#. Author URI of the plugin
-msgid "https://johngodley.com"
-msgstr "https://johngodley.com"
-
-#: redirection-strings.php:174
+#: redirection-strings.php:189
 msgid "Useragent Error"
 msgstr "Användaragentfel"
 
-#: redirection-strings.php:176
+#: redirection-strings.php:191
 msgid "Unknown Useragent"
 msgstr "Okänd användaragent"
 
-#: redirection-strings.php:177
+#: redirection-strings.php:192
 msgid "Device"
 msgstr "Enhet"
 
-#: redirection-strings.php:178
+#: redirection-strings.php:193
 msgid "Operating System"
 msgstr "Operativsystem"
 
-#: redirection-strings.php:179
+#: redirection-strings.php:194
 msgid "Browser"
 msgstr "Webbläsare"
 
-#: redirection-strings.php:180
+#: redirection-strings.php:195
 msgid "Engine"
 msgstr "Motor"
 
-#: redirection-strings.php:181
+#: redirection-strings.php:196
 msgid "Useragent"
 msgstr "Useragent"
 
-#: redirection-strings.php:69 redirection-strings.php:182
+#: redirection-strings.php:69 redirection-strings.php:197
 msgid "Agent"
 msgstr "Agent"
 
-#: redirection-strings.php:459
+#: redirection-strings.php:466
 msgid "No IP logging"
 msgstr "Ingen IP-loggning"
 
-#: redirection-strings.php:460
+#: redirection-strings.php:467
 msgid "Full IP logging"
 msgstr "Fullständig IP-loggning"
 
-#: redirection-strings.php:461
+#: redirection-strings.php:468
 msgid "Anonymize IP (mask last part)"
 msgstr "Anonymisera IP (maska sista delen)"
 
-#: redirection-strings.php:472
+#: redirection-strings.php:479
 msgid "Monitor changes to %(type)s"
 msgstr "Övervaka ändringar till %(type)s"
 
-#: redirection-strings.php:478
+#: redirection-strings.php:485
 msgid "IP Logging"
 msgstr "IP-loggning"
 
-#: redirection-strings.php:479
+#: redirection-strings.php:486
 msgid "(select IP logging level)"
 msgstr "(välj loggningsnivå för IP)"
 
-#: redirection-strings.php:375 redirection-strings.php:414
-#: redirection-strings.php:425
+#: redirection-strings.php:382 redirection-strings.php:421
+#: redirection-strings.php:432
 msgid "Geo Info"
 msgstr "Geo-info"
 
-#: redirection-strings.php:376 redirection-strings.php:426
+#: redirection-strings.php:383 redirection-strings.php:433
 msgid "Agent Info"
 msgstr "Agentinfo"
 
-#: redirection-strings.php:377 redirection-strings.php:427
+#: redirection-strings.php:384 redirection-strings.php:434
 msgid "Filter by IP"
 msgstr "Filtrera efter IP"
 
@@ -1325,7 +1418,7 @@ msgid "Geo IP Error"
 msgstr "Geo-IP-fel"
 
 #: redirection-strings.php:55 redirection-strings.php:74
-#: redirection-strings.php:175
+#: redirection-strings.php:190
 msgid "Something went wrong obtaining this information"
 msgstr "Något gick fel när denna information skulle hämtas"
 
@@ -1366,12 +1459,12 @@ msgstr "Drivs med {{link}}redirect.li{{/link}}"
 msgid "Trash"
 msgstr "Släng"
 
-#: redirection-admin.php:401
+#: redirection-admin.php:437
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr "Observera att Redirection kräver att WordPress REST API ska vara aktiverat. Om du har inaktiverat det kommer du inte kunna använda Redirection"
 
 #. translators: URL
-#: redirection-admin.php:293
+#: redirection-admin.php:330
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr "Fullständig dokumentation för Redirection finns på support-sidan <a href=\"%s\" target=\"_blank\">redirection.me</a>."
 
@@ -1379,125 +1472,125 @@ msgstr "Fullständig dokumentation för Redirection finns på support-sidan <a h
 msgid "https://redirection.me/"
 msgstr "https://redirection.me/"
 
-#: redirection-strings.php:581
+#: redirection-strings.php:574
 msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
 msgstr "Fullständig dokumentation för Redirection kan hittas på {{site}}https://redirection.me{{/site}}. Om du har problem, kolla {{faq}}vanliga frågor{{/faq}} först."
 
-#: redirection-strings.php:582
+#: redirection-strings.php:575
 msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
 msgstr "Om du vill rapportera ett fel, läs guiden {{report}}rapportera fel{{/report}}."
 
-#: redirection-strings.php:584
+#: redirection-strings.php:577
 msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
 msgstr "Om du vill skicka information som du inte vill ska synas publikt, så kan du skicka det direkt via {{email}}e-post{{/email}} &mdash; inkludera så mycket information som du kan!"
 
-#: redirection-strings.php:454
+#: redirection-strings.php:461
 msgid "Never cache"
 msgstr "Använd aldrig cache"
 
-#: redirection-strings.php:455
+#: redirection-strings.php:462
 msgid "An hour"
 msgstr "En timma"
 
-#: redirection-strings.php:498
+#: redirection-strings.php:505
 msgid "Redirect Cache"
 msgstr "Omdirigera cache"
 
-#: redirection-strings.php:499
+#: redirection-strings.php:506
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 msgstr "Hur länge omdirigerade 301-URL:er ska cachas (via HTTP-sidhuvudet ”Expires”)"
 
-#: redirection-strings.php:296
+#: redirection-strings.php:333
 msgid "Are you sure you want to import from %s?"
 msgstr "Är du säker på att du vill importera från %s?"
 
-#: redirection-strings.php:297
+#: redirection-strings.php:334
 msgid "Plugin Importers"
 msgstr "Tilläggsimporterare"
 
-#: redirection-strings.php:298
+#: redirection-strings.php:335
 msgid "The following redirect plugins were detected on your site and can be imported from."
 msgstr "Följande omdirigeringstillägg hittades på din webbplats och kan importeras från."
 
-#: redirection-strings.php:281
+#: redirection-strings.php:318
 msgid "total = "
 msgstr "totalt = "
 
-#: redirection-strings.php:282
+#: redirection-strings.php:319
 msgid "Import from %s"
 msgstr "Importera från %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:384
+#: redirection-admin.php:420
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr "Redirection kräver WordPress v%1$1s, du använder v%2$2s – uppdatera WordPress"
 
-#: models/importer.php:224
+#: models/importer.php:227
 msgid "Default WordPress \"old slugs\""
 msgstr "WordPress standard ”gamla permalänkar”"
 
-#: redirection-strings.php:471
+#: redirection-strings.php:478
 msgid "Create associated redirect (added to end of URL)"
 msgstr "Skapa associerad omdirigering (läggs till i slutet på URL:en)"
 
-#: redirection-admin.php:404
+#: redirection-admin.php:440
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr "<code>Redirectioni10n</code> är inte definierat. Detta betyder vanligtvis att ett annat tillägg blockerar Redirection från att laddas. Inaktivera alla tillägg och försök igen."
 
-#: redirection-strings.php:595
+#: redirection-strings.php:590
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
 msgstr "Om knappen inte fungerar bör du läsa felmeddelande och se om du kan fixa felet manuellt, annars kan du kolla i avsnittet ”Behöver du hjälp?” längre ner."
 
-#: redirection-strings.php:596
+#: redirection-strings.php:591
 msgid "⚡️ Magic fix ⚡️"
 msgstr "⚡️ Magisk fix ⚡️"
 
-#: redirection-strings.php:601
+#: redirection-strings.php:596
 msgid "Plugin Status"
 msgstr "Tilläggsstatus"
 
-#: redirection-strings.php:197 redirection-strings.php:620
-#: redirection-strings.php:634
+#: redirection-strings.php:188 redirection-strings.php:615
+#: redirection-strings.php:629
 msgid "Custom"
 msgstr "Anpassad"
 
-#: redirection-strings.php:621
+#: redirection-strings.php:616
 msgid "Mobile"
 msgstr "Mobil"
 
-#: redirection-strings.php:622
+#: redirection-strings.php:617
 msgid "Feed Readers"
 msgstr "Feedläsare"
 
-#: redirection-strings.php:623
+#: redirection-strings.php:618
 msgid "Libraries"
 msgstr "Bibliotek"
 
-#: redirection-strings.php:468
+#: redirection-strings.php:475
 msgid "URL Monitor Changes"
 msgstr "Övervaka URL-ändringar"
 
-#: redirection-strings.php:469
+#: redirection-strings.php:476
 msgid "Save changes to this group"
 msgstr "Spara ändringar till den här gruppen"
 
-#: redirection-strings.php:470
+#: redirection-strings.php:477
 msgid "For example \"/amp\""
 msgstr "Till exempel ”/amp”"
 
-#: redirection-strings.php:481
+#: redirection-strings.php:488
 msgid "URL Monitor"
 msgstr "URL-övervakning"
 
-#: redirection-strings.php:421
+#: redirection-strings.php:428
 msgid "Delete 404s"
 msgstr "Ta bort 404:or"
 
-#: redirection-strings.php:367
+#: redirection-strings.php:374
 msgid "Delete all from IP %s"
 msgstr "Ta bort allt från IP %s"
 
-#: redirection-strings.php:368
+#: redirection-strings.php:375
 msgid "Delete all matching \"%s\""
 msgstr "Ta bort allt som matchar ”%s”"
 
@@ -1505,21 +1598,17 @@ msgstr "Ta bort allt som matchar ”%s”"
 msgid "Your server has rejected the request for being too big. You will need to change it to continue."
 msgstr "Din server har nekat begäran för att den var för stor. Du måste ändra den innan du fortsätter."
 
-#: redirection-admin.php:399
+#: redirection-admin.php:435
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr "Kontrollera också att din webbläsare kan ladda <code>redirection.js</code>:"
 
-#: redirection-admin.php:398 redirection-strings.php:343
+#: redirection-admin.php:434 redirection-strings.php:314
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr "Om du använder ett tillägg eller en tjänst för att cachelagra sidor (CloudFlare, OVH m.m.) så kan du också prova att rensa den cachen."
 
-#: redirection-admin.php:387
+#: redirection-admin.php:423
 msgid "Unable to load Redirection"
 msgstr "Kan inte att ladda Redirection"
-
-#: models/fixer.php:139
-msgid "Unable to create group"
-msgstr "Kan inte att skapa grupp"
 
 #: models/fixer.php:74
 msgid "Post monitor group is valid"
@@ -1569,11 +1658,11 @@ msgstr "Följande tabeller saknas:"
 msgid "All tables present"
 msgstr "Alla tabeller närvarande"
 
-#: redirection-strings.php:337
+#: redirection-strings.php:308
 msgid "Cached Redirection detected"
 msgstr "En cachad version av Redirection upptäcktes"
 
-#: redirection-strings.php:338
+#: redirection-strings.php:309
 msgid "Please clear your browser cache and reload this page."
 msgstr "Rensa din webbläsares cache och ladda om denna sida."
 
@@ -1581,31 +1670,31 @@ msgstr "Rensa din webbläsares cache och ladda om denna sida."
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr "WordPress returnerade inte ett svar. Det kan innebära att ett fel inträffade eller att begäran blockerades. Kontrollera din servers error_log."
 
-#: redirection-admin.php:403
+#: redirection-admin.php:439
 msgid "If you think Redirection is at fault then create an issue."
 msgstr "Om du tror att Redirection orsakar felet, skapa en felrapport."
 
-#: redirection-admin.php:397
+#: redirection-admin.php:433
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr "Detta kan ha orsakats av ett annat tillägg – kolla i din webbläsares fel-konsol för mer information."
 
-#: redirection-admin.php:419
+#: redirection-admin.php:455
 msgid "Loading, please wait..."
 msgstr "Laddar, vänta &hellip;"
 
-#: redirection-strings.php:301
+#: redirection-strings.php:338
 msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
 msgstr "{{strong}}CSV filformat{{/strong}}: {{code}}Käll-URL, Mål-URL{{/code}} – som valfritt kan följas av {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} – 0 för nej, 1 för ja)."
 
-#: redirection-strings.php:342
+#: redirection-strings.php:313
 msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
 msgstr "Redirection fungerar inte. Prova att rensa din webbläsares cache och ladda om den här sidan."
 
-#: redirection-strings.php:344
+#: redirection-strings.php:315
 msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
 msgstr "Om det inte hjälper, öppna din webbläsares fel-konsol och skapa en {{link}}ny felrapport{{/link}} med informationen."
 
-#: redirection-admin.php:407
+#: redirection-admin.php:443
 msgid "Create Issue"
 msgstr "Skapa felrapport"
 
@@ -1613,213 +1702,213 @@ msgstr "Skapa felrapport"
 msgid "Email"
 msgstr "E-post"
 
-#: redirection-strings.php:580
+#: redirection-strings.php:573
 msgid "Need help?"
 msgstr "Behöver du hjälp?"
 
-#: redirection-strings.php:583
+#: redirection-strings.php:576
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
 msgstr "Observera att eventuell support tillhandahålls vart efter tid finns och hjälp kan inte garanteras. Jag ger inte betald support."
 
-#: redirection-strings.php:509
+#: redirection-strings.php:516
 msgid "Pos"
 msgstr "Pos"
 
-#: redirection-strings.php:114
+#: redirection-strings.php:116
 msgid "410 - Gone"
 msgstr "410 – Borttagen"
 
-#: redirection-strings.php:135 redirection-strings.php:523
+#: redirection-strings.php:137 redirection-strings.php:530
 msgid "Position"
 msgstr "Position"
 
-#: redirection-strings.php:494
+#: redirection-strings.php:501
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Används för att automatiskt generera en URL om ingen URL anges. Använd specialkoderna {{code}}$dec${{/code}} eller {{code}}$hex${{/code}} för att infoga ett unikt ID istället"
 
-#: redirection-strings.php:283
+#: redirection-strings.php:320
 msgid "Import to group"
 msgstr "Importera till grupp"
 
-#: redirection-strings.php:284
+#: redirection-strings.php:321
 msgid "Import a CSV, .htaccess, or JSON file."
 msgstr "Importera en CSV-fil, .htaccess-fil eller JSON-fil."
 
-#: redirection-strings.php:285
+#: redirection-strings.php:322
 msgid "Click 'Add File' or drag and drop here."
 msgstr "Klicka på ”Lägg till fil” eller dra och släpp en fil här."
 
-#: redirection-strings.php:286
+#: redirection-strings.php:323
 msgid "Add File"
 msgstr "Lägg till fil"
 
-#: redirection-strings.php:287
+#: redirection-strings.php:324
 msgid "File selected"
 msgstr "Fil vald"
 
-#: redirection-strings.php:290
+#: redirection-strings.php:327
 msgid "Importing"
 msgstr "Importerar"
 
-#: redirection-strings.php:291
+#: redirection-strings.php:328
 msgid "Finished importing"
 msgstr "Importering klar"
 
-#: redirection-strings.php:292
+#: redirection-strings.php:329
 msgid "Total redirects imported:"
 msgstr "Antal omdirigeringar importerade:"
 
-#: redirection-strings.php:293
+#: redirection-strings.php:330
 msgid "Double-check the file is the correct format!"
 msgstr "Dubbelkolla att filen är i rätt format!"
 
-#: redirection-strings.php:294
+#: redirection-strings.php:331
 msgid "OK"
 msgstr "OK"
 
-#: redirection-strings.php:132 redirection-strings.php:295
+#: redirection-strings.php:134 redirection-strings.php:332
 msgid "Close"
 msgstr "Stäng"
 
-#: redirection-strings.php:303
+#: redirection-strings.php:340
 msgid "Export"
 msgstr "Exportera"
 
-#: redirection-strings.php:305
+#: redirection-strings.php:342
 msgid "Everything"
 msgstr "Allt"
 
-#: redirection-strings.php:306
+#: redirection-strings.php:343
 msgid "WordPress redirects"
 msgstr "WordPress omdirigeringar"
 
-#: redirection-strings.php:307
+#: redirection-strings.php:344
 msgid "Apache redirects"
 msgstr "Apache omdirigeringar"
 
-#: redirection-strings.php:308
+#: redirection-strings.php:345
 msgid "Nginx redirects"
 msgstr "Nginx omdirigeringar"
 
-#: redirection-strings.php:310
+#: redirection-strings.php:347
 msgid "CSV"
 msgstr "CSV"
 
-#: redirection-strings.php:311 redirection-strings.php:495
+#: redirection-strings.php:348 redirection-strings.php:502
 msgid "Apache .htaccess"
 msgstr "Apache .htaccess"
 
-#: redirection-strings.php:312
+#: redirection-strings.php:349
 msgid "Nginx rewrite rules"
 msgstr "Nginx omskrivningsregler"
 
-#: redirection-strings.php:313
+#: redirection-strings.php:350
 msgid "View"
 msgstr "Visa"
 
-#: redirection-strings.php:81 redirection-strings.php:332
+#: redirection-strings.php:81 redirection-strings.php:303
 msgid "Import/Export"
 msgstr "Importera/Exportera"
 
-#: redirection-strings.php:333
+#: redirection-strings.php:304
 msgid "Logs"
 msgstr "Loggar"
 
-#: redirection-strings.php:334
+#: redirection-strings.php:305
 msgid "404 errors"
 msgstr "404-fel"
 
-#: redirection-strings.php:345
+#: redirection-strings.php:316
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
 msgstr "Nämn {{code}}%s{{/code}} och förklara vad du gjorde vid tidpunkten"
 
-#: redirection-strings.php:437
+#: redirection-strings.php:444
 msgid "I'd like to support some more."
 msgstr "Jag skulle vilja stödja lite till."
 
-#: redirection-strings.php:440
+#: redirection-strings.php:447
 msgid "Support 💰"
 msgstr "Support 💰"
 
-#: redirection-strings.php:604
+#: redirection-strings.php:599
 msgid "Redirection saved"
 msgstr "Omdirigering sparad"
 
-#: redirection-strings.php:605
+#: redirection-strings.php:600
 msgid "Log deleted"
 msgstr "Logg borttagen"
 
-#: redirection-strings.php:606
+#: redirection-strings.php:601
 msgid "Settings saved"
 msgstr "Inställning sparad"
 
-#: redirection-strings.php:607
+#: redirection-strings.php:602
 msgid "Group saved"
 msgstr "Grupp sparad"
 
-#: redirection-strings.php:246
+#: redirection-strings.php:253
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the selected items?"
 msgstr[0] "Är du säker på att du vill ta bort detta objekt?"
 msgstr[1] "Är du säker på att du vill ta bort dessa objekt?"
 
-#: redirection-strings.php:556
+#: redirection-strings.php:563
 msgid "pass"
 msgstr "lösen"
 
-#: redirection-strings.php:549
+#: redirection-strings.php:556
 msgid "All groups"
 msgstr "Alla grupper"
 
-#: redirection-strings.php:104
+#: redirection-strings.php:106
 msgid "301 - Moved Permanently"
 msgstr "301 – Flyttad permanent"
 
-#: redirection-strings.php:105
+#: redirection-strings.php:107
 msgid "302 - Found"
 msgstr "302 – Hittad"
 
-#: redirection-strings.php:108
+#: redirection-strings.php:110
 msgid "307 - Temporary Redirect"
 msgstr "307 – Tillfällig omdirigering"
 
-#: redirection-strings.php:109
+#: redirection-strings.php:111
 msgid "308 - Permanent Redirect"
 msgstr "308 – Permanent omdirigering"
 
-#: redirection-strings.php:111
+#: redirection-strings.php:113
 msgid "401 - Unauthorized"
 msgstr "401 – Obehörig"
 
-#: redirection-strings.php:113
+#: redirection-strings.php:115
 msgid "404 - Not Found"
 msgstr "404 – Hittades inte"
 
-#: redirection-strings.php:142 redirection-strings.php:519
+#: redirection-strings.php:144 redirection-strings.php:526
 msgid "Title"
 msgstr "Rubrik"
 
-#: redirection-strings.php:128
+#: redirection-strings.php:130
 msgid "When matched"
 msgstr "När matchning sker"
 
-#: redirection-strings.php:86
+#: redirection-strings.php:88
 msgid "with HTTP code"
 msgstr "med HTTP-kod"
 
-#: redirection-strings.php:133
+#: redirection-strings.php:135
 msgid "Show advanced options"
 msgstr "Visa avancerande alternativ"
 
-#: redirection-strings.php:613
+#: redirection-strings.php:608
 msgid "Matched Target"
 msgstr "Matchande mål"
 
-#: redirection-strings.php:615
+#: redirection-strings.php:610
 msgid "Unmatched Target"
 msgstr "Ej matchande mål"
 
-#: redirection-strings.php:156 redirection-strings.php:157
+#: redirection-strings.php:86 redirection-strings.php:87
 msgid "Saving..."
 msgstr "Sparar..."
 
@@ -1827,150 +1916,134 @@ msgstr "Sparar..."
 msgid "View notice"
 msgstr "Visa meddelande"
 
-#: models/redirect-sanitizer.php:193
-msgid "Invalid source URL"
-msgstr "Ogiltig URL-källa"
-
-#: models/redirect-sanitizer.php:114
-msgid "Invalid redirect action"
-msgstr "Ogiltig omdirigeringsåtgärd"
-
-#: models/redirect-sanitizer.php:108
-msgid "Invalid redirect matcher"
-msgstr "Ogiltig omdirigeringsmatchning"
-
-#: models/redirect.php:267
-msgid "Unable to add new redirect"
-msgstr "Det går inte att lägga till en ny omdirigering"
-
-#: redirection-strings.php:47 redirection-strings.php:341
+#: redirection-strings.php:47 redirection-strings.php:312
 msgid "Something went wrong 🙁"
 msgstr "Något gick fel 🙁"
 
 #. translators: maximum number of log entries
-#: redirection-admin.php:185
+#: redirection-admin.php:208
 msgid "Log entries (%d max)"
 msgstr "Antal logginlägg per sida (max %d)"
 
-#: redirection-strings.php:191
+#: redirection-strings.php:182
 msgid "Select bulk action"
 msgstr "Välj massåtgärd"
 
-#: redirection-strings.php:192
+#: redirection-strings.php:183
 msgid "Bulk Actions"
 msgstr "Massåtgärder"
 
-#: redirection-strings.php:183 redirection-strings.php:193
+#: redirection-strings.php:174 redirection-strings.php:184
 msgid "Apply"
 msgstr "Tillämpa"
 
-#: redirection-strings.php:184
+#: redirection-strings.php:175
 msgid "First page"
 msgstr "Första sidan"
 
-#: redirection-strings.php:185
+#: redirection-strings.php:176
 msgid "Prev page"
 msgstr "Föregående sida"
 
-#: redirection-strings.php:186
+#: redirection-strings.php:177
 msgid "Current Page"
 msgstr "Nuvarande sida"
 
-#: redirection-strings.php:187
+#: redirection-strings.php:178
 msgid "of %(page)s"
 msgstr "av %(sidor)"
 
-#: redirection-strings.php:188
+#: redirection-strings.php:179
 msgid "Next page"
 msgstr "Nästa sida"
 
-#: redirection-strings.php:189
+#: redirection-strings.php:180
 msgid "Last page"
 msgstr "Sista sidan"
 
-#: redirection-strings.php:190
+#: redirection-strings.php:181
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] "%s objekt"
 msgstr[1] "%s objekt"
 
-#: redirection-strings.php:652
+#: redirection-strings.php:647
 msgid "Select All"
 msgstr "Välj allt"
 
-#: redirection-strings.php:654
+#: redirection-strings.php:649
 msgid "Sorry, something went wrong loading the data - please try again"
 msgstr "Något gick fel när data laddades – försök igen"
 
-#: redirection-strings.php:653
+#: redirection-strings.php:648
 msgid "No results"
 msgstr "Inga resultat"
 
-#: redirection-strings.php:370
+#: redirection-strings.php:377
 msgid "Delete the logs - are you sure?"
 msgstr "Är du säker på att du vill ta bort loggarna?"
 
-#: redirection-strings.php:371
+#: redirection-strings.php:378
 msgid "Once deleted your current logs will no longer be available. You can set a delete schedule from the Redirection options if you want to do this automatically."
 msgstr "När du har tagit bort dina nuvarande loggar kommer de inte längre att vara tillgängliga. Du kan ställa in ett schema för borttagning från Redirections-alternativen om du vill göra detta automatiskt."
 
-#: redirection-strings.php:372
+#: redirection-strings.php:379
 msgid "Yes! Delete the logs"
 msgstr "Ja! Ta bort loggarna"
 
-#: redirection-strings.php:373
+#: redirection-strings.php:380
 msgid "No! Don't delete the logs"
 msgstr "Nej! Ta inte bort loggarna"
 
-#: redirection-strings.php:443
+#: redirection-strings.php:450
 msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
 msgstr "Tack för att du prenumererar! {{a}}Klicka här{{/a}} om du behöver gå tillbaka till din prenumeration."
 
-#: redirection-strings.php:442 redirection-strings.php:444
+#: redirection-strings.php:449 redirection-strings.php:451
 msgid "Newsletter"
 msgstr "Nyhetsbrev"
 
-#: redirection-strings.php:445
+#: redirection-strings.php:452
 msgid "Want to keep up to date with changes to Redirection?"
 msgstr "Vill du bli uppdaterad om ändringar i Redirection?"
 
-#: redirection-strings.php:446
+#: redirection-strings.php:453
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
 msgstr "Prenumerera på vårt lilla nyhetsbrev om Redirection – ett lågfrekvent nyhetsbrev om nya funktioner och förändringar i tillägget. Utmärkt om du vill testa beta-versioner innan release."
 
-#: redirection-strings.php:447
+#: redirection-strings.php:454
 msgid "Your email address:"
 msgstr "Din e-postadress:"
 
-#: redirection-strings.php:436
+#: redirection-strings.php:443
 msgid "You've supported this plugin - thank you!"
 msgstr "Du har stöttat detta tillägg – tack!"
 
-#: redirection-strings.php:439
+#: redirection-strings.php:446
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Du får en användbar mjukvara och jag kan fortsätta göra den bättre."
 
-#: redirection-strings.php:453 redirection-strings.php:458
+#: redirection-strings.php:460 redirection-strings.php:465
 msgid "Forever"
 msgstr "För evigt"
 
-#: redirection-strings.php:428
+#: redirection-strings.php:435
 msgid "Delete the plugin - are you sure?"
 msgstr "Är du säker på att du vill ta bort tillägget?"
 
-#: redirection-strings.php:429
+#: redirection-strings.php:436
 msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
 msgstr "Tar du bort tillägget tar du även bort alla omdirigeringar, loggar och inställningar. Gör detta om du vill ta bort tillägget helt och hållet, eller om du vill återställa tillägget."
 
-#: redirection-strings.php:430
+#: redirection-strings.php:437
 msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
 msgstr "När du har tagit bort tillägget kommer dina omdirigeringar att sluta fungera. Om de verkar fortsätta att fungera, rensa din webbläsares cache."
 
-#: redirection-strings.php:431
+#: redirection-strings.php:438
 msgid "Yes! Delete the plugin"
 msgstr "Ja! Ta bort tillägget"
 
-#: redirection-strings.php:432
+#: redirection-strings.php:439
 msgid "No! Don't delete the plugin"
 msgstr "Nej! Ta inte bort detta tillägg"
 
@@ -1982,15 +2055,15 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Hantera alla dina 301-omdirigeringar och övervaka 404-fel"
 
-#: redirection-strings.php:438
+#: redirection-strings.php:445
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection är gratis att använda – livet är underbart och ljuvligt! Det har krävts mycket tid och ansträngningar för att utveckla tillägget och du kan hjälpa till med att stödja denna utveckling genom att {{strong}}göra en liten donation{{/ strong}}."
 
-#: redirection-admin.php:294
+#: redirection-admin.php:331
 msgid "Redirection Support"
 msgstr "Support för Redirection"
 
-#: redirection-strings.php:83 redirection-strings.php:336
+#: redirection-strings.php:83 redirection-strings.php:307
 msgid "Support"
 msgstr "Support"
 
@@ -2002,303 +2075,299 @@ msgstr "404:or"
 msgid "Log"
 msgstr "Logg"
 
-#: redirection-strings.php:434
+#: redirection-strings.php:441
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
 msgstr "Väljer du detta alternativ tas alla omdirigeringar, loggar och inställningar som associeras till tillägget Redirection bort. Försäkra dig om att det är det du vill göra."
 
-#: redirection-strings.php:433
+#: redirection-strings.php:440
 msgid "Delete Redirection"
 msgstr "Ta bort Redirection"
 
-#: redirection-strings.php:288
+#: redirection-strings.php:325
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: redirection-strings.php:299
+#: redirection-strings.php:336
 msgid "Import"
 msgstr "Importera"
 
-#: redirection-strings.php:502 redirection-strings.php:575
+#: redirection-strings.php:509 redirection-strings.php:568
 msgid "Update"
 msgstr "Uppdatera"
 
-#: redirection-strings.php:493
+#: redirection-strings.php:500
 msgid "Auto-generate URL"
 msgstr "Autogenerera URL"
 
-#: redirection-strings.php:483
+#: redirection-strings.php:490
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
 msgstr "En unik nyckel som ger feed-läsare åtkomst till Redirection logg via RSS (lämna tomt för att autogenerera)"
 
-#: redirection-strings.php:482
+#: redirection-strings.php:489
 msgid "RSS Token"
 msgstr "RSS-token"
 
-#: redirection-strings.php:476
+#: redirection-strings.php:483
 msgid "404 Logs"
 msgstr "404-loggar"
 
-#: redirection-strings.php:475 redirection-strings.php:477
+#: redirection-strings.php:482 redirection-strings.php:484
 msgid "(time to keep logs for)"
 msgstr "(hur länge loggar ska sparas)"
 
-#: redirection-strings.php:474
+#: redirection-strings.php:481
 msgid "Redirect Logs"
 msgstr "Redirection-loggar"
 
-#: redirection-strings.php:473
+#: redirection-strings.php:480
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Jag är en trevlig person och jag har hjälpt till att stödja skaparen av detta tillägg"
 
-#: redirection-strings.php:441
+#: redirection-strings.php:448
 msgid "Plugin Support"
 msgstr "Support för tillägg"
 
-#: redirection-strings.php:82 redirection-strings.php:335
+#: redirection-strings.php:82 redirection-strings.php:306
 msgid "Options"
 msgstr "Alternativ"
 
-#: redirection-strings.php:452
+#: redirection-strings.php:459
 msgid "Two months"
 msgstr "Två månader"
 
-#: redirection-strings.php:451
+#: redirection-strings.php:458
 msgid "A month"
 msgstr "En månad"
 
-#: redirection-strings.php:450 redirection-strings.php:457
+#: redirection-strings.php:457 redirection-strings.php:464
 msgid "A week"
 msgstr "En vecka"
 
-#: redirection-strings.php:449 redirection-strings.php:456
+#: redirection-strings.php:456 redirection-strings.php:463
 msgid "A day"
 msgstr "En dag"
 
-#: redirection-strings.php:448
+#: redirection-strings.php:455
 msgid "No logs"
 msgstr "Inga loggar"
 
-#: redirection-strings.php:369 redirection-strings.php:411
-#: redirection-strings.php:416
+#: redirection-strings.php:376 redirection-strings.php:418
+#: redirection-strings.php:423
 msgid "Delete All"
 msgstr "Ta bort alla"
 
-#: redirection-strings.php:267
+#: redirection-strings.php:274
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
 msgstr "Använd grupper för att organisera dina omdirigeringar. Grupper tillämpas på en modul, vilken påverkar hur omdirigeringar i den gruppen funkar. Behåll bara WordPress-modulen om du känner dig osäker."
 
-#: redirection-strings.php:266
+#: redirection-strings.php:273
 msgid "Add Group"
 msgstr "Lägg till grupp"
 
-#: redirection-strings.php:264
+#: redirection-strings.php:271
 msgid "Search"
 msgstr "Sök"
 
-#: redirection-strings.php:78 redirection-strings.php:331
+#: redirection-strings.php:77 redirection-strings.php:302
 msgid "Groups"
 msgstr "Grupper"
 
-#: redirection-strings.php:130 redirection-strings.php:277
-#: redirection-strings.php:578
+#: redirection-strings.php:132 redirection-strings.php:284
+#: redirection-strings.php:571
 msgid "Save"
 msgstr "Spara"
 
-#: redirection-strings.php:129 redirection-strings.php:508
-#: redirection-strings.php:528
+#: redirection-strings.php:131 redirection-strings.php:515
+#: redirection-strings.php:535
 msgid "Group"
 msgstr "Grupp"
 
-#: redirection-strings.php:535
+#: redirection-strings.php:542
 msgid "Regular Expression"
 msgstr "Vanligt uttryck"
 
-#: redirection-strings.php:134
+#: redirection-strings.php:136
 msgid "Match"
 msgstr "Matcha"
 
-#: redirection-strings.php:547
+#: redirection-strings.php:554
 msgid "Add new redirection"
 msgstr "Lägg till ny omdirigering"
 
-#: redirection-strings.php:131 redirection-strings.php:278
-#: redirection-strings.php:289
+#: redirection-strings.php:133 redirection-strings.php:285
+#: redirection-strings.php:326
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: redirection-strings.php:314
+#: redirection-strings.php:351
 msgid "Download"
 msgstr "Ladda ner"
 
 #. Plugin Name of the plugin
-#: redirection-strings.php:242
+#: redirection-strings.php:249
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:145 redirection-strings.php:564
+#: redirection-admin.php:146
 msgid "Settings"
 msgstr "Inställningar"
 
-#: redirection-strings.php:102
+#: redirection-strings.php:104
 msgid "Error (404)"
 msgstr "Fel (404)"
 
-#: redirection-strings.php:101
+#: redirection-strings.php:103
 msgid "Pass-through"
 msgstr "Passera"
 
-#: redirection-strings.php:100
+#: redirection-strings.php:102
 msgid "Redirect to random post"
 msgstr "Omdirigering till slumpmässigt inlägg"
 
-#: redirection-strings.php:99
+#: redirection-strings.php:101
 msgid "Redirect to URL"
 msgstr "Omdirigera till URL"
 
-#: models/redirect-sanitizer.php:183
-msgid "Invalid group when creating redirect"
-msgstr "Gruppen är ogiltig när omdirigering skapas"
-
-#: redirection-strings.php:352 redirection-strings.php:361
-#: redirection-strings.php:380 redirection-strings.php:386
-#: redirection-strings.php:402 redirection-strings.php:638
+#: redirection-strings.php:359 redirection-strings.php:368
+#: redirection-strings.php:387 redirection-strings.php:393
+#: redirection-strings.php:409 redirection-strings.php:633
 msgid "IP"
 msgstr "IP"
 
-#: redirection-strings.php:137 redirection-strings.php:138
-#: redirection-strings.php:203 redirection-strings.php:348
-#: redirection-strings.php:378 redirection-strings.php:383
+#: redirection-strings.php:139 redirection-strings.php:140
+#: redirection-strings.php:203 redirection-strings.php:355
+#: redirection-strings.php:385 redirection-strings.php:390
 msgid "Source URL"
 msgstr "URL-källa"
 
-#: redirection-strings.php:347 redirection-strings.php:356
-#: redirection-strings.php:382 redirection-strings.php:398
+#: redirection-strings.php:354 redirection-strings.php:363
+#: redirection-strings.php:389 redirection-strings.php:405
 msgid "Date"
 msgstr "Datum"
 
-#: redirection-strings.php:407 redirection-strings.php:420
-#: redirection-strings.php:424 redirection-strings.php:548
+#: redirection-strings.php:414 redirection-strings.php:427
+#: redirection-strings.php:431 redirection-strings.php:555
 msgid "Add Redirect"
 msgstr "Lägg till omdirigering"
 
-#: redirection-strings.php:272
+#: redirection-strings.php:279
 msgid "View Redirects"
 msgstr "Visa omdirigeringar"
 
-#: redirection-strings.php:248 redirection-strings.php:256
-#: redirection-strings.php:260 redirection-strings.php:276
+#: redirection-strings.php:255 redirection-strings.php:263
+#: redirection-strings.php:267 redirection-strings.php:283
 msgid "Module"
 msgstr "Modul"
 
-#: redirection-strings.php:76 redirection-strings.php:250
-#: redirection-strings.php:259
+#: redirection-strings.php:76 redirection-strings.php:257
+#: redirection-strings.php:266
 msgid "Redirects"
 msgstr "Omdirigering"
 
-#: redirection-strings.php:247 redirection-strings.php:258
-#: redirection-strings.php:268 redirection-strings.php:275
+#: redirection-strings.php:254 redirection-strings.php:265
+#: redirection-strings.php:275 redirection-strings.php:282
 msgid "Name"
 msgstr "Namn"
 
-#: redirection-strings.php:265 redirection-strings.php:550
+#: redirection-strings.php:272 redirection-strings.php:557
 msgid "Filters"
 msgstr "Filter"
 
-#: redirection-strings.php:515
+#: redirection-strings.php:522
 msgid "Reset hits"
 msgstr "Återställ träffar"
 
-#: redirection-strings.php:262 redirection-strings.php:274
-#: redirection-strings.php:513 redirection-strings.php:555
+#: redirection-strings.php:269 redirection-strings.php:281
+#: redirection-strings.php:520 redirection-strings.php:561
 msgid "Enable"
 msgstr "Aktivera"
 
-#: redirection-strings.php:263 redirection-strings.php:273
-#: redirection-strings.php:514 redirection-strings.php:553
+#: redirection-strings.php:270 redirection-strings.php:280
+#: redirection-strings.php:521 redirection-strings.php:560
 msgid "Disable"
 msgstr "Inaktivera"
 
-#: redirection-strings.php:261 redirection-strings.php:271
-#: redirection-strings.php:353 redirection-strings.php:374
-#: redirection-strings.php:387 redirection-strings.php:390
-#: redirection-strings.php:423 redirection-strings.php:435
-#: redirection-strings.php:512 redirection-strings.php:552
+#: redirection-strings.php:268 redirection-strings.php:278
+#: redirection-strings.php:360 redirection-strings.php:381
+#: redirection-strings.php:394 redirection-strings.php:397
+#: redirection-strings.php:430 redirection-strings.php:442
+#: redirection-strings.php:519 redirection-strings.php:559
 msgid "Delete"
 msgstr "Ta bort"
 
-#: redirection-strings.php:270 redirection-strings.php:551
+#: redirection-strings.php:277 redirection-strings.php:558
 msgid "Edit"
 msgstr "Redigera"
 
-#: redirection-strings.php:511 redirection-strings.php:525
+#: redirection-strings.php:518 redirection-strings.php:532
 msgid "Last Access"
 msgstr "Senast använd"
 
-#: redirection-strings.php:510 redirection-strings.php:524
+#: redirection-strings.php:517 redirection-strings.php:531
 msgid "Hits"
 msgstr "Träffar"
 
-#: redirection-strings.php:357 redirection-strings.php:399
-#: redirection-strings.php:504 redirection-strings.php:591
+#: redirection-strings.php:364 redirection-strings.php:406
+#: redirection-strings.php:511 redirection-strings.php:586
 msgid "URL"
 msgstr "URL"
 
-#: database/schema/latest.php:142
+#: database/schema/latest.php:144
 msgid "Modified Posts"
 msgstr "Modifierade inlägg"
 
-#: database/schema/latest.php:137 models/group.php:149
-#: redirection-strings.php:329
+#: database/schema/latest.php:139 models/group.php:149
+#: redirection-strings.php:300
 msgid "Redirections"
 msgstr "Omdirigeringar"
 
-#: redirection-strings.php:351 redirection-strings.php:359
-#: redirection-strings.php:385 redirection-strings.php:401
-#: redirection-strings.php:618
+#: redirection-strings.php:358 redirection-strings.php:366
+#: redirection-strings.php:392 redirection-strings.php:408
+#: redirection-strings.php:613
 msgid "User Agent"
 msgstr "Användaragent"
 
-#: matches/user-agent.php:10 redirection-strings.php:91
+#: matches/user-agent.php:10 redirection-strings.php:93
 msgid "URL and user agent"
 msgstr "URL och användaragent"
 
-#: redirection-strings.php:205 redirection-strings.php:349
-#: redirection-strings.php:617
+#: redirection-strings.php:205 redirection-strings.php:356
+#: redirection-strings.php:612
 msgid "Target URL"
 msgstr "Mål-URL"
 
-#: matches/url.php:7 redirection-strings.php:87
+#: matches/url.php:7 redirection-strings.php:89
 msgid "URL only"
 msgstr "Endast URL"
 
-#: redirection-strings.php:521
+#: redirection-strings.php:528
 msgid "HTTP code"
 msgstr "HTTP-kod"
 
-#: redirection-strings.php:122 redirection-strings.php:624
-#: redirection-strings.php:628 redirection-strings.php:636
-#: redirection-strings.php:647
+#: redirection-strings.php:124 redirection-strings.php:619
+#: redirection-strings.php:623 redirection-strings.php:631
+#: redirection-strings.php:642
 msgid "Regex"
 msgstr "Reguljärt uttryck"
 
-#: redirection-strings.php:350 redirection-strings.php:358
-#: redirection-strings.php:384 redirection-strings.php:400
-#: redirection-strings.php:645
+#: redirection-strings.php:357 redirection-strings.php:365
+#: redirection-strings.php:391 redirection-strings.php:407
+#: redirection-strings.php:640
 msgid "Referrer"
 msgstr "Hänvisningsadress"
 
-#: matches/referrer.php:10 redirection-strings.php:90
+#: matches/referrer.php:10 redirection-strings.php:92
 msgid "URL and referrer"
 msgstr "URL och hänvisande webbplats"
 
-#: redirection-strings.php:611
+#: redirection-strings.php:606
 msgid "Logged Out"
 msgstr "Utloggad"
 
-#: redirection-strings.php:609
+#: redirection-strings.php:604
 msgid "Logged In"
 msgstr "Inloggad"
 
-#: matches/login.php:8 redirection-strings.php:88
+#: matches/login.php:8 redirection-strings.php:90
 msgid "URL and login status"
 msgstr "URL och inloggnings-status"

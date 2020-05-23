@@ -195,62 +195,67 @@ __( "Browser", "redirection" ), // client/component/useragent/index.js:106
 __( "Engine", "redirection" ), // client/component/useragent/index.js:110
 __( "Useragent", "redirection" ), // client/component/useragent/index.js:115
 __( "Agent", "redirection" ), // client/component/useragent/index.js:119
-__( "Welcome to Redirection 🚀🎉", "redirection" ), // client/component/welcome-wizard/index.js:145
-__( "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.", "redirection" ), // client/component/welcome-wizard/index.js:147
-__( "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.", "redirection" ), // client/component/welcome-wizard/index.js:152
-__( "How do I use this plugin?", "redirection" ), // client/component/welcome-wizard/index.js:154
-__( "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:", "redirection" ), // client/component/welcome-wizard/index.js:155
-__( "Source URL", "redirection" ), // client/component/welcome-wizard/index.js:164
-__( "(Example) The source URL is your old or original URL", "redirection" ), // client/component/welcome-wizard/index.js:165
-__( "Target URL", "redirection" ), // client/component/welcome-wizard/index.js:168
-__( "(Example) The target URL is the new URL", "redirection" ), // client/component/welcome-wizard/index.js:169
-__( "That's all there is to it - you are now redirecting! Note that the above is just an example.", "redirection" ), // client/component/welcome-wizard/index.js:174
-__( "Full documentation can be found on the {{link}}Redirection website.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:175
-__( "Some features you may find useful are", "redirection" ), // client/component/welcome-wizard/index.js:181
-__( "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems", "redirection" ), // client/component/welcome-wizard/index.js:184
-__( "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins", "redirection" ), // client/component/welcome-wizard/index.js:190
-__( "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}", "redirection" ), // client/component/welcome-wizard/index.js:195
-__( "Check a URL is being redirected", "redirection" ), // client/component/welcome-wizard/index.js:202
-__( "What's next?", "redirection" ), // client/component/welcome-wizard/index.js:205
-__( "First you will be asked a few questions, and then Redirection will set up your database.", "redirection" ), // client/component/welcome-wizard/index.js:206
-__( "When ready please press the button to continue.", "redirection" ), // client/component/welcome-wizard/index.js:207
-__( "Start Setup", "redirection" ), // client/component/welcome-wizard/index.js:210
-__( "Basic Setup", "redirection" ), // client/component/welcome-wizard/index.js:221
-__( "These are some options you may want to enable now. They can be changed at any time.", "redirection" ), // client/component/welcome-wizard/index.js:223
-__( "Monitor permalink changes in WordPress posts and pages", "redirection" ), // client/component/welcome-wizard/index.js:226
-__( "If you change the permalink in a post or page then Redirection can automatically create a redirect for you.", "redirection" ), // client/component/welcome-wizard/index.js:228
-__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:229
-__( "Keep a log of all redirects and 404 errors.", "redirection" ), // client/component/welcome-wizard/index.js:238
-__( "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements.", "redirection" ), // client/component/welcome-wizard/index.js:240
-__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:241
-__( "Store IP information for redirects and 404 errors.", "redirection" ), // client/component/welcome-wizard/index.js:250
-__( "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR).", "redirection" ), // client/component/welcome-wizard/index.js:252
-__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:253
-__( "Continue Setup", "redirection" ), // client/component/welcome-wizard/index.js:262
-__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:263
-__( "REST API", "redirection" ), // client/component/welcome-wizard/index.js:276
-__( "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:", "redirection" ), // client/component/welcome-wizard/index.js:279
-__( "A security plugin (e.g Wordfence)", "redirection" ), // client/component/welcome-wizard/index.js:287
-__( "A server firewall or other server configuration (e.g OVH)", "redirection" ), // client/component/welcome-wizard/index.js:288
-__( "Caching software (e.g Cloudflare)", "redirection" ), // client/component/welcome-wizard/index.js:289
-__( "Some other plugin that blocks the REST API", "redirection" ), // client/component/welcome-wizard/index.js:290
-__( "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}.", "redirection" ), // client/component/welcome-wizard/index.js:293
-__( "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.", "redirection" ), // client/component/welcome-wizard/index.js:300
-__( "You will need at least one working REST API to continue.", "redirection" ), // client/component/welcome-wizard/index.js:307
-__( "Finish Setup", "redirection" ), // client/component/welcome-wizard/index.js:310
-__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:311
-__( "Import Existing Redirects", "redirection" ), // client/component/welcome-wizard/index.js:328
-__( "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.", "redirection" ), // client/component/welcome-wizard/index.js:330
-__( "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.", "redirection" ), // client/component/welcome-wizard/index.js:334
-__( "The following plugins have been detected.", "redirection" ), // client/component/welcome-wizard/index.js:345
-__( "Continue", "redirection" ), // client/component/welcome-wizard/index.js:359
-__( "Import Existing Redirects", "redirection" ), // client/component/welcome-wizard/index.js:368
-__( "Please wait, importing.", "redirection" ), // client/component/welcome-wizard/index.js:370
-__( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:412
-__( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:420
-__( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:421
-__( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:422
+__( "Welcome to Redirection 🚀🎉", "redirection" ), // client/component/welcome-wizard/index.js:147
+__( "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.", "redirection" ), // client/component/welcome-wizard/index.js:149
+__( "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.", "redirection" ), // client/component/welcome-wizard/index.js:154
+__( "How do I use this plugin?", "redirection" ), // client/component/welcome-wizard/index.js:156
+__( "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:", "redirection" ), // client/component/welcome-wizard/index.js:157
+__( "Source URL", "redirection" ), // client/component/welcome-wizard/index.js:166
+__( "(Example) The source URL is your old or original URL", "redirection" ), // client/component/welcome-wizard/index.js:167
+__( "Target URL", "redirection" ), // client/component/welcome-wizard/index.js:170
+__( "(Example) The target URL is the new URL", "redirection" ), // client/component/welcome-wizard/index.js:171
+__( "That's all there is to it - you are now redirecting! Note that the above is just an example.", "redirection" ), // client/component/welcome-wizard/index.js:176
+__( "Full documentation can be found on the {{link}}Redirection website.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:177
+__( "Some features you may find useful are", "redirection" ), // client/component/welcome-wizard/index.js:183
+__( "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems", "redirection" ), // client/component/welcome-wizard/index.js:186
+__( "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins", "redirection" ), // client/component/welcome-wizard/index.js:192
+__( "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}", "redirection" ), // client/component/welcome-wizard/index.js:197
+__( "Check a URL is being redirected", "redirection" ), // client/component/welcome-wizard/index.js:204
+__( "What's next?", "redirection" ), // client/component/welcome-wizard/index.js:207
+__( "First you will be asked a few questions, and then Redirection will set up your database.", "redirection" ), // client/component/welcome-wizard/index.js:208
+__( "When ready please press the button to continue.", "redirection" ), // client/component/welcome-wizard/index.js:209
+__( "Start Setup", "redirection" ), // client/component/welcome-wizard/index.js:212
+__( "Basic Setup", "redirection" ), // client/component/welcome-wizard/index.js:223
+__( "These are some options you may want to enable now. They can be changed at any time.", "redirection" ), // client/component/welcome-wizard/index.js:225
+__( "Monitor permalink changes in WordPress posts and pages", "redirection" ), // client/component/welcome-wizard/index.js:228
+__( "If you change the permalink in a post or page then Redirection can automatically create a redirect for you.", "redirection" ), // client/component/welcome-wizard/index.js:230
+__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:231
+__( "Keep a log of all redirects and 404 errors.", "redirection" ), // client/component/welcome-wizard/index.js:240
+__( "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements.", "redirection" ), // client/component/welcome-wizard/index.js:242
+__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:243
+__( "Store IP information for redirects and 404 errors.", "redirection" ), // client/component/welcome-wizard/index.js:252
+__( "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR).", "redirection" ), // client/component/welcome-wizard/index.js:254
+__( "{{link}}Read more about this.{{/link}}", "redirection" ), // client/component/welcome-wizard/index.js:255
+__( "Continue Setup", "redirection" ), // client/component/welcome-wizard/index.js:264
+__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:265
+__( "REST API", "redirection" ), // client/component/welcome-wizard/index.js:278
+__( "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:", "redirection" ), // client/component/welcome-wizard/index.js:281
+__( "A security plugin (e.g Wordfence)", "redirection" ), // client/component/welcome-wizard/index.js:289
+__( "A server firewall or other server configuration (e.g OVH)", "redirection" ), // client/component/welcome-wizard/index.js:290
+__( "Caching software (e.g Cloudflare)", "redirection" ), // client/component/welcome-wizard/index.js:291
+__( "Some other plugin that blocks the REST API", "redirection" ), // client/component/welcome-wizard/index.js:292
+__( "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}.", "redirection" ), // client/component/welcome-wizard/index.js:295
+__( "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.", "redirection" ), // client/component/welcome-wizard/index.js:302
+__( "You will need at least one working REST API to continue.", "redirection" ), // client/component/welcome-wizard/index.js:309
+__( "Finish Setup", "redirection" ), // client/component/welcome-wizard/index.js:312
+__( "Go back", "redirection" ), // client/component/welcome-wizard/index.js:313
+__( "Import Existing Redirects", "redirection" ), // client/component/welcome-wizard/index.js:330
+__( "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.", "redirection" ), // client/component/welcome-wizard/index.js:332
+__( "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.", "redirection" ), // client/component/welcome-wizard/index.js:336
+__( "The following plugins have been detected.", "redirection" ), // client/component/welcome-wizard/index.js:347
+__( "Continue", "redirection" ), // client/component/welcome-wizard/index.js:361
+__( "Import Existing Redirects", "redirection" ), // client/component/welcome-wizard/index.js:370
+__( "Please wait, importing.", "redirection" ), // client/component/welcome-wizard/index.js:372
+__( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:414
+__( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:422
+__( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:423
+__( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:424
 _n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:20
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -596,11 +601,6 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
-__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Logged In", "redirection" ), // client/component/redirect-edit/action/login.js:20
 __( "Target URL when matched (empty to ignore)", "redirection" ), // client/component/redirect-edit/action/login.js:21
 __( "Logged Out", "redirection" ), // client/component/redirect-edit/action/login.js:23
