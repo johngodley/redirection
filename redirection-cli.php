@@ -22,6 +22,45 @@ class Redirection_Cli extends WP_CLI_Command {
 	}
 
 	/**
+	 * Import from another plugin to Redirection.
+	 *
+	 * Supports:
+	 *   - wp-simple-redirect
+	 *   - seo-redirection
+	 *   - safe-redirect-manager
+	 *   - wordpress-old-slugs
+	 *   - rank-math
+	 *   - quick-redirects
+	 *
+	 * ## OPTIONS
+	 *
+	 * <name>
+	 * : The plugin name to import from (see above)
+	 *
+	 * [--group=<groupid>]
+	 * : The group ID to import into. Defaults to the first available group.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp redirection plugin quick-redirects
+	 */
+	public function plugin( $args, $extra ) {
+		include_once __DIR__ . '/models/importer.php';
+
+		$name = $args[0];
+		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
+
+		$importer = Red_Plugin_Importer::get_importer( $name );
+		if ( $importer ) {
+			$count = $importer->import_plugin( $group );
+			WP_CLI::success( sprintf( 'Imported %d redirects from plugin %s', $count, $name ) );
+			return;
+		}
+
+		WP_CLI::error( 'Invalid plugin name' );
+	}
+
+	/**
 	 * Get or set a Redirection setting
 	 *
 	 * ## OPTIONS
@@ -244,6 +283,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	WP_CLI::add_command( 'redirection export', [ 'Redirection_Cli', 'export' ] );
 	WP_CLI::add_command( 'redirection database', [ 'Redirection_Cli', 'database' ] );
 	WP_CLI::add_command( 'redirection setting', [ 'Redirection_Cli', 'setting' ] );
+	WP_CLI::add_command( 'redirection plugin', [ 'Redirection_Cli', 'plugin' ] );
 
 	add_action( Red_Flusher::DELETE_HOOK, function() {
 		$flusher = new Red_Flusher();
