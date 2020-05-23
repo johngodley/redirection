@@ -89,7 +89,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 		$current = get_option( 'active_plugins' );
 		$plugin_position = array_search( basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), $current );
-		if ( false !== $plugin_position ) {
+		if ( $plugin_position !== false ) {
 			array_splice( $current, $plugin_position, 1 );
 			update_option( 'active_plugins', $current );
 		}
