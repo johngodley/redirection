@@ -66,8 +66,10 @@ class WelcomeWizard extends React.Component {
 		const keys = Object.keys( apiTest );
 
 		for ( let index = 0; index < keys.length; index++ ) {
-			if ( apiTest[ index ] && apiTest[ index ].GET.status === 'ok' && apiTest[ index ].POST.status === 'ok' ) {
-				return index;
+			const key = keys[ index ];
+
+			if ( apiTest[ key ] && apiTest[ key ].GET.status === 'ok' && apiTest[ key ].POST.status === 'ok' ) {
+				return key;
 			}
 		}
 
