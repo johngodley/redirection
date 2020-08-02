@@ -3,9 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
-import classnames from 'classnames';
 
 /**
  * Internal dependencies
@@ -14,6 +12,10 @@ import classnames from 'classnames';
 import './style.scss';
 
 const RequestHeaders = ( { headers } ) => {
+	if ( ! headers || headers.length === 0 ) {
+		return null;
+	}
+
 	return (
 		<Fragment>
 			<h3>{ __( 'Request Headers' ) }</h3>
@@ -33,6 +35,10 @@ const RequestHeaders = ( { headers } ) => {
 };
 
 const RequestSource = ( { source } ) => {
+	if ( ! source || source.length === 0 ) {
+		return null;
+	}
+
 	return (
 		<Fragment>
 			<h3>{ __( 'Redirect Source' ) }</h3>
@@ -49,8 +55,8 @@ const RequestData = ( { data } ) => {
 
 	return (
 		<div className="redirect-requestdata">
-			{ headers && <RequestHeaders headers={ headers } /> }
-			{ source && <RequestSource source={ source } /> }
+			<RequestHeaders headers={ headers } />
+			<RequestSource source={ source } />
 		</div>
 	);
  };

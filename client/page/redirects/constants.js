@@ -7,16 +7,12 @@ import { getMatches, getActions, getAllHttpCodes } from 'component/redirect-edit
 
 export const getHeaders = () => [
 	{
-		name: 'cb',
-		check: true,
-	},
-	{
 		name: 'status',
 		title: __( 'Status' ),
 		sortable: false,
 	},
 	{
-		name: 'url',
+		name: 'source',
 		title: __( 'URL' ),
 		primary: true,
 	},
@@ -98,7 +94,12 @@ export const getDisplayGroups = () => [
 	{
 		value: 'minimal',
 		label: __( 'Compact Display' ),
-		grouping: [ 'last_count', 'last_access', 'target' ],
+		grouping: [ 'source', 'last_count', 'last_access', 'target' ],
+	},
+	{
+		value: 'all',
+		label: __( 'Display All' ),
+		grouping: getDisplayOptions().map( ( item ) => item.value ),
 	},
 ];
 

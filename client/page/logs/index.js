@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { translate as __ } from 'lib/locale';
 
@@ -11,17 +11,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import Table from 'component/table';
-import TableNav from 'component/table/navigation';
-import SearchBox from 'component/search-box';
-import TableGroup from 'component/table/group';
 import DeleteAll from 'page/logs/delete-all';
-import TableDisplay from 'component/table/table-display';
-import BulkAction from 'component/table/bulk-action';
-import MultiOptionDropdown from 'component/multi-option-dropdown';
-import LogRow from './row';
-import RowUrl from './row-url';
-import RowIp from './row-ip';
-import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
 import { getOption } from 'state/settings/selector';
 import {
 	loadLogs,
@@ -33,150 +23,111 @@ import {
 	setGroupBy,
 	setFilter,
 	setDisplay,
+	setSelected,
 } from 'state/log/action';
-import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
-import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions, getFilterOptions, getGroupBy } from './constants';
-import { isEnabled } from 'component/table/utils';
+import {
+	getHeaders,
+	getBulk,
+	getDisplayOptions,
+	getDisplayGroups,
+	getSearchOptions,
+	getFilterOptions,
+	getGroupBy,
+} from './constants';
 import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
+import LogPage from 'component/log-page';
+import getColumns from 'component/log-page/log-columns';
+import LogRowActions from './row-actions';
 
-// XXX try and merge with 404
-class Logs extends React.Component {
-	componentDidMount() {
-		this.props.onLoad( this.props.log.table );
+function validateDisplay( selected ) {
+	// Ensure we have at least source or title
+	if ( selected.indexOf( 'url' ) === -1 ) {
+		return selected.concat( [ 'url' ] );
 	}
 
-	renderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {
-		const { saving, table } = this.props.log;
-		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
-		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
+	return selected;
+}
 
-		if ( status.isLoading ) {
-			return null;
-		}
+function canDeleteAll( { filterBy } ) {
+	return Object.keys( filterBy ).length === 0;
+}
 
-		const props = {
-			item: row,
-			key,
-			selected: status.isSelected,
-			status: rowStatus,
-			onCreate: this.onCreate,
-			currentDisplayType,
-			currentDisplaySelected,
-			filters: this.props.log.table.filterBy,
-			setFilter: this.setFilter,
+function getGroupByTable( groupBy ) {
+	if ( groupBy ) {
+		return {
+			displayOptions: getDisplayOptions( groupBy ),
+			displaySelected: getDisplayGroups( groupBy )[ 0 ].grouping,
 		};
-
-		if ( table.groupBy === 'url' ) {
-			return <RowUrl { ...props } />;
-		} else if ( table.groupBy === 'ip' ) {
-			return <RowIp { ...props } />;
-		}
-
-		return <LogRow { ...props } />;
 	}
 
-	setFilter = ( filterName, filterValue ) => {
-		const { filterBy } = this.props.log.table;
+	return {};
+}
 
-		this.props.onFilter( { ...filterBy, [ filterName ]: filterValue ? filterValue : undefined } );
-	}
+/**
+ * @param {string} item
+ * @param {Table} table - Table params
+ **/
+function isAvailable( item, table ) {
+	return table.displaySelected.indexOf( item ) !== -1;
+}
 
-	onSearch = ( search, type ) => {
-		const filterBy = { ...this.props.log.table.filterBy };
+function Logs( props ) {
+	const { onFilter, onDelete, onDeleteAll, token } = props;
+	const { status, total, table, rows, saving } = props.log;
 
-		getSearchOptions().map( item => delete filterBy[ item.name ] );
+	useEffect(() => {
+		props.onLoad();
+	}, []);
 
-		if ( search ) {
-			filterBy[ type ] = search;
-		}
+	const groupedTable = { ...table, ...getGroupByTable( table.groupBy ) };
+	const logOptions = {
+		displayFilters: getDisplayOptions( groupedTable.groupBy ),
+		displayGroups: getDisplayGroups( groupedTable.groupBy ),
+		searchOptions: getSearchOptions(),
+		groupBy: getGroupBy( props.settings.values.ip_logging ),
+		bulk: getBulk(),
+		rowFilters: groupedTable.groupBy ? [] : getFilterOptions(),
+		headers: getHeaders( groupedTable.groupBy ).filter( ( item ) => isAvailable( item.name, groupedTable ) ),
+		validateDisplay,
+	};
 
-		this.props.onFilter( filterBy );
-	}
-
-	getHeaders( selected, groupBy ) {
-		return getHeaders( groupBy ).filter( header => isEnabled( selected, header.name ) || [ 'cb', 'url', 'total', 'ipx' ].indexOf( header.name ) !== -1 );
-	}
-
-	validateDisplay( selected ) {
-		// Ensure we have at least source
-		if ( selected.indexOf( 'url' ) === -1 ) {
-			return selected.concat( [ 'url' ] );
-		}
-
-		return selected;
-	}
-
-	render() {
-		const { status, total, table, rows } = this.props.log;
-
-		return (
-			<>
-				<div className="redirect-table-display">
-					<TableDisplay
-						disable={ status === STATUS_IN_PROGRESS }
-						options={ getDisplayOptions() }
-						groups={ getDisplayGroups() }
-						store="log"
-						currentDisplayType={ table.displayType }
-						currentDisplaySelected={ table.displaySelected }
-						setDisplay={ this.props.onSetDisplay }
-						validation={ this.validateDisplay }
-					/>
-					<SearchBox
-						status={ status }
-						table={ table }
-						onSearch={ this.onSearch }
-						selected={ table.filterBy }
-						searchTypes={ getSearchOptions() }
-					/>
-				</div>
-
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() }>
-					<TableGroup
-						selected={ table.groupBy ? table.groupBy : '0' }
-						options={ getGroupBy( this.props.settings.values.ip_logging ) }
-						isEnabled={ status !== STATUS_IN_PROGRESS }
-						onGroup={ this.props.onGroup }
-						key={ table.groupBy }
-					/>
-
-					<BulkAction>
-						<MultiOptionDropdown
-							options={ getFilterOptions() }
-							selected={ table.filterBy ? table.filterBy : {} }
-							onApply={ this.props.onFilter }
-							title={ __( 'Filters' ) }
-							isEnabled={ status !== STATUS_IN_PROGRESS }
-							badges
-						/>
-					</BulkAction>
-				</TableNav>
-
-				<Table
-					headers={ this.getHeaders( table.displaySelected, table.groupBy ) }
-					rows={ rows }
-					total={ total }
-					row={ this.renderRow }
-					table={ table }
-					status={ status }
-					onSetAllSelected={ this.props.onSetAllSelected }
-					onSetOrderBy={ this.props.onSetOrderBy }
-					currentDisplayType={ table.displayType }
-					currentDisplaySelected={ table.displaySelected }
+	return (
+		<LogPage
+			logOptions={ logOptions }
+			logActions={ props }
+			table={ groupedTable }
+			status={ status }
+			total={ total }
+			rows={ rows }
+			saving={ saving }
+			getRow={ ( row, rowParams ) =>
+				getColumns( row, rowParams, onFilter, onDelete, () => {}, saving.indexOf( row.id ) !== -1 )
+			}
+			getRowActions={ ( row, rowParams ) => (
+				<LogRowActions
+					disabled={ saving.indexOf( row.id ) !== -1 }
+					row={ row }
+					onDelete={ onDelete }
+					table={ rowParams.table }
 				/>
-
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
-					<TableButtons enabled={ rows.length > 0 }>
-						{ this.props.token && <div className="table-button-item"><a href={ getRssUrl( this.props.token ) } className="button-secondary">RSS</a></div> }
-						{ has_capability( CAP_LOG_DELETE ) && Object.keys( table.filterBy ).length === 0 && (
-							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
-						) }
-					</TableButtons>
-				</TableNav>
-			</>
-		);
-	}
+			) }
+			renderTableActions={ () => (
+				<>
+					{ token && (
+						<div className="table-button-item">
+							<a href={ getRssUrl( token ) } className="button-secondary">
+								RSS
+							</a>
+						</div>
+					) }
+					{ has_capability( CAP_LOG_DELETE ) && canDeleteAll( table ) && (
+						<DeleteAll onDelete={ onDeleteAll } table={ table } />
+					) }
+				</>
+			) }
+		/>
+	);
 }
 
 function mapStateToProps( state ) {
@@ -191,22 +142,22 @@ function mapStateToProps( state ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: params => {
+		onLoad: ( params ) => {
 			dispatch( loadLogs( params ) );
 		},
 		onDeleteAll: ( filterBy ) => {
 			dispatch( deleteAll( filterBy ) );
 		},
-		onChangePage: page => {
+		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onTableAction: action => {
+		onTableAction: ( action ) => {
 			dispatch( performTableAction( action ) );
 		},
-		onGroup: groupBy => {
+		onGroup: ( groupBy ) => {
 			dispatch( setGroupBy( groupBy ) );
 		},
-		onSetAllSelected: onoff => {
+		onSetAll: ( onoff ) => {
 			dispatch( setAllSelected( onoff ) );
 		},
 		onSetOrderBy: ( column, direction ) => {
@@ -216,7 +167,10 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setFilter( filterBy ) );
 		},
 		onSetDisplay: ( displayType, displaySelected ) => {
-			dispatch( setDisplay( displayType, displaySelected ) );
+			dispatch( setDisplay( displayType, displaySelected, 'log' ) );
+		},
+		onSelect: ( items ) => {
+			dispatch( setSelected( items ) );
 		},
 	};
 }

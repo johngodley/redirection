@@ -4,20 +4,34 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 
-const SortableColumn = props => {
-	const { name, text, table, primary } = props;
+/** @typedef {import('../index.js').Table} Table */
+/** @typedef {import('../index.js').SetOrderBy} SetOrderBy */
+
+/**
+ * Sortable column
+ *
+ * @param {object} props - Component props
+ * @param {string} props.name - Column ID name
+ * @param {string} props.title - Column title
+ * @param {Table} props.table - Table params
+ * @param {boolean} props.primary - Is a primary column
+ * @param {SetOrderBy} props.onSetOrderBy - When clicking on a sortable header
+ */
+const SortableColumn = ( props ) => {
+	const { name, title, table, primary, onSetOrderBy } = props;
 	const { direction, orderby } = table;
-	const click = ev => {
+
+	/** @param {Event} ev */
+	const click = ( ev ) => {
 		ev.preventDefault();
-		props.onSetOrderBy( name, orderby === name && direction === 'desc' ? 'asc' : 'desc' );
+		onSetOrderBy( name, orderby === name && direction === 'desc' ? 'asc' : 'desc' );
 	};
 	const classes = classnames( {
 		'manage-column': true,
 		sortable: true,
 		asc: orderby === name && direction === 'asc',
-		desc: orderby === name && direction === 'desc' || orderby !== name,
+		desc: ( orderby === name && direction === 'desc' ) || orderby !== name,
 		'column-primary': primary,
 		[ 'column-' + name ]: true,
 	} );
@@ -25,18 +39,11 @@ const SortableColumn = props => {
 	return (
 		<th scope="col" className={ classes } onClick={ click }>
 			<a href="#">
-				<span>{ text }</span>
-				<span className="sorting-indicator"></span>
+				<span>{ title }</span>
+				<span className="sorting-indicator" />
 			</a>
 		</th>
 	);
-};
-
-SortableColumn.propTypes = {
-	table: PropTypes.object.isRequired,
-	name: PropTypes.string.isRequired,
-	text: PropTypes.string.isRequired,
-	onSetOrderBy: PropTypes.func.isRequired,
 };
 
 export default SortableColumn;

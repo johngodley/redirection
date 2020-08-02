@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { translate as __ } from 'lib/locale';
-import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
@@ -52,15 +51,6 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 			/>
 		</TableRow>
 	);
-};
-
-RedirectSourceUrl.propTypes = {
-	url: PropTypes.string.isRequired,
-	flags: PropTypes.object.isRequired,
-	onFlagChange: PropTypes.func.isRequired,
-	onChange: PropTypes.func.isRequired,
-	autoFocus: PropTypes.bool,
-	defaultFlags: PropTypes.object.isRequired,
 };
 
 export default RedirectSourceUrl;

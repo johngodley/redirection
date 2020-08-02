@@ -45,4 +45,8 @@ export const setSelected = items => ( { type: ERROR_SET_SELECTED, items } );
 export const setAllSelected = onoff => ( { type: ERROR_SET_ALL_SELECTED, onoff } );
 export const setGroupBy = groupBy => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: {} } );
 export const setTable = table => getLogs( table );
-export const setDisplay = ( displayType, displaySelected ) => ( { type: ERROR_DISPLAY_SET, displayType, displaySelected } );
+export const setDisplay = ( displayType, displaySelected ) => ( {
+			type: ERROR_DISPLAY_SET,
+			displayType,
+			displaySelected,
+		} );

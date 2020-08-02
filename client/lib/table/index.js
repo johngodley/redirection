@@ -58,11 +58,13 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedG
 	let displaySelected = displayGroups.length > 0 ? displayGroups[ 0 ].grouping : [];
 
 	if ( localStorage.getItem( displayName + '_displayType' ) ) {
-		displayType = localStorage.getItem( displayName + '_displayType' );
+		displayType = localStorage.getItem( displayName + '_displayType' ) || '';
 	}
 
-	if ( localStorage.getItem( displayName + '_displaySelected' ) ) {
+	if ( displayType === 'custom' && localStorage.getItem( displayName + '_displaySelected' ) ) {
 		displaySelected = localStorage.getItem( displayName + '_displaySelected' ).split( ',' );
+	} else if ( displayGroups.find( item => item.value === displayType ) ) {
+		displaySelected = displayGroups.find( item => item.value === displayType ).grouping;
 	}
 
 	return {

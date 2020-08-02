@@ -43,6 +43,7 @@ body.redirection-modal_shown {
 		max-width: 90%;
 		max-height: 90%;
 		min-width: 60%;
+		position: absolute;
 	}
 
 	.redirection-modal_content {
@@ -88,7 +89,7 @@ body.redirection-modal_shown {
 }
 
 .redirection-modal_wrapper-padding .redirection-modal_content {
-	padding: 10px;
+	padding: 15px;
 }
 
 /**

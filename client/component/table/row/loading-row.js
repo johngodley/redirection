@@ -3,33 +3,37 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Row = props => {
+const Row = ( props ) => {
 	const { columns } = props;
 
 	return (
 		<tr className="is-placeholder">
-			{ columns.map( ( item, pos ) => <td key={ pos }><div className="placeholder-loading"></div></td> ) }
+			{ columns.map( ( item, pos ) => (
+				<td key={ pos }>
+					<div className="placeholder-loading" />
+				</td>
+			) ) }
+
+			<td>
+				<div className="placeholder-loading" />
+			</td>
 		</tr>
 	);
 };
 
-const LoadingRow = props => {
+const LoadingRow = ( props ) => {
 	const { headers, rows } = props;
 
 	return (
-		<tbody>
+		<>
 			<Row columns={ headers } />
 
-			{ rows.slice( 0, -1 ).map( ( item, pos ) => <Row columns={ headers } key={ pos } /> ) }
-		</tbody>
+			{ rows.slice( 0, -1 ).map( ( item, pos ) => (
+				<Row columns={ headers } key={ pos } />
+			) ) }
+		</>
 	);
-};
-
-LoadingRow.propTypes = {
-	headers: PropTypes.array.isRequired,
-	rows: PropTypes.array.isRequired,
 };
 
 export default LoadingRow;

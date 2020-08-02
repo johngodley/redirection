@@ -4,7 +4,7 @@
 
 import { translate as __ } from 'lib/locale';
 
-export const getHeaders = groupBy => {
+export const getHeaders = ( groupBy ) => {
 	if ( groupBy === 'url' ) {
 		return [
 			{
@@ -96,7 +96,7 @@ export const getHeaders = groupBy => {
 			title: __( 'IP' ),
 			sortable: false,
 		},
-	]
+	];
 };
 
 export const getBulk = () => [
@@ -106,31 +106,55 @@ export const getBulk = () => [
 	},
 ];
 
-export const getDisplayGroups = () => [
-	{
-		value: 'standard',
-		label: __( 'Standard Display' ),
-		grouping: [ 'date', 'url', 'target', 'agent', 'ip' ],
-	},
-	{
-		value: 'minimal',
-		label: __( 'Compact Display' ),
-		grouping: [ 'date', 'url' ],
-	},
-];
+export const getDisplayGroups = ( groupBy ) => {
+	if ( groupBy ) {
+		return [ { value: 'group', label: __( 'Group' ), grouping: [ groupBy, 'count' ] } ];
+	}
+	return [
+		{
+			value: 'standard',
+			label: __( 'Standard Display' ),
+			grouping: [ 'date', 'url', 'target', 'agent', 'ip' ],
+		},
+		{
+			value: 'minimal',
+			label: __( 'Compact Display' ),
+			grouping: [ 'date', 'url' ],
+		},
+		{
+			value: 'all',
+			label: __( 'Display All' ),
+			grouping: getDisplayOptions( groupBy ).map( ( item ) => item.value ),
+		},
+	];
+};
 
-export const getDisplayOptions = () => [
-	{ value: 'date', label: __( 'Date' ) },
-	{ value: 'method', label: __( 'Method' ) },
-	{ value: 'domain', label: __( 'Domain' ) },
-	{ value: 'url', label: __( 'URL' ) },
-	{ value: 'redirect_by', label: __( 'Redirect By' ) },
-	{ value: 'code', label: __( 'HTTP code' ) },
-	{ value: 'referrer', label: __( 'Referrer' ) },
-	{ value: 'agent', label: __( 'User Agent' ) },
-	{ value: 'target', label: __( 'Target' ) },
-	{ value: 'ip', label: __( 'IP' ) },
-];
+export const getDisplayOptions = ( groupBy ) => {
+	if ( groupBy === 'url' ) {
+		return [ { value: 'url', label: __( 'URL' ) }, { value: 'count', label: __( 'Count' ) } ];
+	}
+
+	if ( groupBy === 'agent' ) {
+		return [ { value: 'agent', label: __( 'User Agent' ) }, { value: 'count', label: __( 'Count' ) } ];
+	}
+
+	if ( groupBy === 'ip' ) {
+		return [ { value: 'ip', label: __( 'IP' ) }, { value: 'count', label: __( 'Count' ) } ];
+	}
+
+	return [
+		{ value: 'date', label: __( 'Date' ) },
+		{ value: 'method', label: __( 'Method' ) },
+		{ value: 'domain', label: __( 'Domain' ) },
+		{ value: 'url', label: __( 'URL' ) },
+		{ value: 'redirect_by', label: __( 'Redirect By' ) },
+		{ value: 'code', label: __( 'HTTP code' ) },
+		{ value: 'referrer', label: __( 'Referrer' ) },
+		{ value: 'agent', label: __( 'User Agent' ) },
+		{ value: 'target', label: __( 'Target' ) },
+		{ value: 'ip', label: __( 'IP' ) },
+	];
+};
 
 export const getSearchOptions = () => [
 	{
@@ -169,10 +193,14 @@ export const getGroupBy = ( ipLogging ) => {
 			value: 'url',
 			label: __( 'Group by URL' ),
 		},
+		{
+			value: 'agent',
+			label: __( 'Group by user agent' ),
+		},
 	];
 
 	if ( ipLogging > 0 ) {
-		values.push( 	{
+		values.push( {
 			value: 'ip',
 			label: __( 'Group by IP' ),
 		} );
@@ -189,6 +217,10 @@ export const getFilterOptions = () => [
 			{
 				label: 'GET',
 				value: 'get',
+			},
+			{
+				label: 'POST',
+				value: 'post',
 			},
 			{
 				label: 'HEAD',

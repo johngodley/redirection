@@ -22,6 +22,11 @@ export const getDisplayGroups = () => [
 		label: __( 'Compact Display' ),
 		grouping: [ 'name' ],
 	},
+		{
+		value: 'all',
+		label: __( 'Display All' ),
+		grouping: getDisplayOptions().map( ( item ) => item.value ),
+	},
 ];
 
 export const getFilterOptions = ( options ) => [
@@ -47,10 +52,6 @@ export const getFilterOptions = ( options ) => [
 ];
 
 export const getHeaders = () => [
-	{
-		name: 'cb',
-		check: true,
-	},
 	{
 		name: 'status',
 		title: __( 'Status' ),

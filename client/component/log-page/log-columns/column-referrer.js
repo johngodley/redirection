@@ -11,7 +11,7 @@ import Highlighter from 'react-highlight-words';
  */
 import ExternalLink from 'component/external-link';
 
-const Referrer = props => {
+const Referrer = ( props ) => {
 	const { url, search } = props;
 
 	if ( url ) {

@@ -28,7 +28,7 @@ export function getInitialError() {
 		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'ip', 'url', 'total' ], toFilter( getFilterOptions(), extra ), [ 'url', 'ip' ], defaultOrder, [ '404s' ], '404s', getDisplayGroups() ),
+		table: getDefaultTable( [ 'ip', 'url', 'total' ], toFilter( getFilterOptions(), extra ), [ 'url', 'ip', 'agent' ], defaultOrder, [ '404s' ], '404s', getDisplayGroups() ),
 		requestCount: 0,
 	};
 }

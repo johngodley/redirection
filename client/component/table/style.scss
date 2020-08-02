@@ -69,6 +69,16 @@
 	}
 }
 
+.redirection .wp-list-table.redirect-log__group__ip {
+	.column-count {
+		width: 200px;
+	}
+
+	.column-ip {
+		width: 90%;
+	}
+}
+
 .edit-groups {
 	width: 100%;
 
@@ -221,6 +231,19 @@
 
 .tablenav .actions {
 	overflow: visible;
+}
+
+.tablenav.bottom {
+	display: flex;
+	justify-content: space-between;
+}
+
+.tablenav.bottom .redirect-table__actions {
+	display: flex;
+
+	.table-button-item {
+		margin-right: 10px;
+	}
 }
 
 .redirect-table__actions .actions {
