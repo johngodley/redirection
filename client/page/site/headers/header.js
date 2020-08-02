@@ -8,7 +8,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import ExternalLink from 'wp-plugin-components/external-link';
 import {
 	HeaderSimpleChoice,

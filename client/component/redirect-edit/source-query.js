@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import TableRow from './table-row';
 import { getSourceQuery } from './constants';
 

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/form-table';
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import ExternalLink from 'wp-plugin-components/external-link';
 
 const timeToKeep = () => [

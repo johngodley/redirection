@@ -5,7 +5,7 @@
 import React from 'react';
 import { translate as __ } from 'lib/locale';
 import PropTypes from 'prop-types';
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 
 class TableGroup extends React.Component {
 	static propTypes = {
