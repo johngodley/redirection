@@ -95,7 +95,7 @@ class Red_Item_Sanitize {
 			$data['match_url'] = $data['match_url']->get_url();
 		}
 
-		$data['title'] = isset( $details['title'] ) ? $details['title'] : null;
+		$data['title'] = ! empty( $details['title'] ) ? $details['title'] : null;
 		$data['group_id'] = $this->get_group( isset( $details['group_id'] ) ? $details['group_id'] : 0 );
 		$data['position'] = $this->get_position( $details );
 
@@ -105,7 +105,11 @@ class Red_Item_Sanitize {
 		}
 
 		if ( $data['title'] ) {
-			$data['title'] = substr( $data['title'], 0, 500 );
+			$data['title'] = trim( substr( $data['title'], 0, 500 ) );
+
+			if ( strlen( $data['title'] ) === 0 ) {
+				$data['title'] = null;
+			}
 		}
 
 		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
