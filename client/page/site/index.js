@@ -11,7 +11,7 @@ import { translate as __ } from 'lib/locale';
  */
 import { loadSettings, saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
-import Placeholder from 'component/placeholder';
+import Placeholder from 'wp-plugin-components/placeholder';
 import ExternalLink from 'wp-plugin-components/external-link';
 import SiteAliases from './aliases';
 import RelocateSite from './relocate';

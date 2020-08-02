@@ -12,7 +12,7 @@ import { loadSettings, deletePlugin } from 'state/settings/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'page/options/delete-plugin';
-import Placeholder from 'component/placeholder';
+import Placeholder from 'wp-plugin-components/placeholder';
 import Donation from './donation';
 import Newsletter from './newsletter';
 
