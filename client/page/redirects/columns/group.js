@@ -7,7 +7,7 @@ import React from 'react';
 /**
  * Internal dependencies
  */
-import Badge from 'component/badge';
+import Badge from 'wp-plugin-components/badge';
 
 function GroupColumnn( props ) {
 	const { row, group } = props;

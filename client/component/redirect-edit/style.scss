@@ -91,7 +91,7 @@
 		margin-top: 1px;
 	}
 
-	.wpl-multioption__button .redirect-badge {
+	.wpl-multioption__button .wpl-badge {
 		background-color: #ffb900;
 	}
 }
@@ -190,13 +190,13 @@
 	padding: 0 6px 3px 6px;
 }
 
-.redirect-badge.redirect-source__flag_regex {
+.wpl-badge.redirect-source__flag_regex {
 	background-color: #ffb900;
 	color: black;
 }
 
 .redirect-source__flags {
-	.redirect-badge {
+	.wpl-badge {
 		margin-bottom: 2px;
 	}
 }

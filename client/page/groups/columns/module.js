@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import Badge from 'component/badge';
+import Badge from 'wp-plugin-components/badge';
 import { getModuleName } from 'state/io/selector';
 import { setFilter } from 'state/group/action';
 

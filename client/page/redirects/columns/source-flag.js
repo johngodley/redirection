@@ -9,7 +9,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 
-import Badge from 'component/badge';
+import Badge from 'wp-plugin-components/badge';
 
 /**
  * A redirect flag
