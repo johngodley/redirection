@@ -119,7 +119,7 @@ abstract class Red_Log {
 		$table = static::get_table_name( $wpdb );
 		$query = self::get_query( $params );
 
-		if ( ! in_array( $group, array( 'ip', 'url' ), true ) ) {
+		if ( ! in_array( $group, [ 'ip', 'url', 'agent' ], true ) ) {
 			$group = 'url';
 		}
 
@@ -137,7 +137,14 @@ abstract class Red_Log {
 
 		foreach ( $rows as $row ) {
 			$row->count = intval( $row->count, 10 );
-			$row->id = isset( $row->url ) ? $row->url : $row->ip;
+
+			if ( isset( $row->url ) ) {
+				$row->id = $row->url;
+			} elseif ( isset( $row->ip ) ) {
+				$row->id = $row->ip;
+			} elseif ( isset( $row->agent ) ) {
+				$row->id = $row->agent;
+			}
 		}
 
 		return array(

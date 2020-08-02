@@ -41,6 +41,7 @@
  * @apiGroup Group
  *
  * @apiParam (URL) {Integer} :id Group ID to update
+ * @apiUse GroupList
  *
  * @apiSuccess {String} item The updated group
  * @apiSuccess {Integer} item.id ID of group
@@ -49,8 +50,10 @@
  * @apiSuccess {Integer} item.redirects Number of redirects in this group
  * @apiSuccess {String} item.moduleName Name of the module this group belongs to
  * @apiSuccess {Integer} item.module_id ID of the module this group belongs to
+ *
  * @apiUse 401Error
  * @apiUse 404Error
+ *
  * @apiError (Error 400) redirect_group_invalid Invalid group or parameters
  * @apiErrorExample {json} 404 Error Response:
  *     HTTP/1.1 400 Bad Request
@@ -179,6 +182,10 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 				'type' => 'string',
 				'required' => true,
 			),
+			'status' => [
+				'description' => 'Status of the group',
+
+			]
 		);
 	}
 

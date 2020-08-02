@@ -60,7 +60,7 @@
  * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
  * @apiParam (Query Parameter) {String} filterBy[domain] Filter the results by the supplied domain name
  * @apiParam (Query Parameter) {String} filterBy[redirect_by] Filter the results by the redirect agent
- * @apiParam (Query Parameter) {String="head","get"} filterBy[method] Filter the results by the supplied HTTP request method
+ * @apiParam (Query Parameter) {String="head","get","post"} filterBy[method] Filter the results by the supplied HTTP request method
  * @apiParam (Query Parameter) {String="ip","url"} orderby Order by IP or URL
  * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
  * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
@@ -100,7 +100,7 @@
 class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'ip', 'total' ];
-		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain', 'method', 'redirect_by' ];
+		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain', 'method', 'http', 'redirect_by' ];
 
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
@@ -158,7 +158,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	}
 
 	private function get_logs( array $params ) {
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], array( 'ip', 'url' ), true ) ) {
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
 			return Red_Redirect_Log::get_grouped( $params['groupBy'], $params );
 		}
 
