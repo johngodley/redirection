@@ -1,5 +1,5 @@
 /* global document, Redirectioni10n */
-import 'lib/polyfill';
+import 'wp-plugin-lib/polyfill';
 
 /**
  * External dependencies

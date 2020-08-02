@@ -180,7 +180,7 @@ function potDownload( cb ) {
 }
 
 function potExtract( cb ) {
-	globby( [ 'client/**/*.js', '!client/lib/polyfill/index.js' ] )
+	globby( [ 'client/**/*.js', '!client/wp-plugin-lib/polyfill/index.js' ] )
 		.then( files => {
 			let result = i18n_calypso( {
 				projectName: 'Redirection',
