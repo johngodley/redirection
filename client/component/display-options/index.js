@@ -74,20 +74,6 @@ function DisplayOptions( props ) {
 	];
 
 	/**
-	 * @param {*} stored
-	 */
-	function getSelected( stored ) {
-		const obj = {
-			custom: [],
-			pre: displayType,
-		};
-
-		stored.map( ( item ) => obj.custom.push( item ) );
-
-		return obj;
-	}
-
-	/**
 	 * @param {*} selected
 	 * @param {*} optionValue
 	 */
@@ -98,7 +84,7 @@ function DisplayOptions( props ) {
 		if ( preset ) {
 			setDisplay( optionValue, preset.grouping );
 		} else {
-			setDisplay( 'custom', validation ? validation( selected.custom ) : selected.custom );
+			setDisplay( 'custom', validation ? validation( selected ) : selected );
 		}
 	}
 
@@ -106,7 +92,7 @@ function DisplayOptions( props ) {
 		<MultiOptionDropdown
 			className="redirect-table-display__filter"
 			options={ groupedOptions }
-			selected={ getSelected( displaySelected ) }
+			selected={ displaySelected.concat( [ displayType ] ) }
 			onApply={ onChange }
 			title={ getPlaceholder( displayType, groupedOptions ) }
 			isEnabled={ ! disabled }
