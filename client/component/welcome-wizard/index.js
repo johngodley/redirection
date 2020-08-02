@@ -11,7 +11,7 @@ import * as parseUrl from 'url';
 /**
  * Internal dependencies
  */
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import Database from 'component/database';
 import Error from 'component/error';
 import RestApiStatus from 'component/rest-api-status';

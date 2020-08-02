@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
  */
 import { getExportUrl } from 'state/io/selector';
 import Database from 'component/database';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import Error from 'component/error';
 import { STATUS_FAILED } from 'state/settings/type';
 import { fixStatus } from 'state/settings/action';

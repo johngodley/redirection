@@ -10,7 +10,7 @@ import * as parseUrl from 'url';
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import TableRow from './table-row';
 
 export const isRegex = ( text ) => {

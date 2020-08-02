@@ -11,7 +11,7 @@ import Highlighter from 'react-highlight-words';
 
 import { isEnabled } from 'component/table/utils';
 import { MATCH_SERVER } from 'state/redirect/selector';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 /**
  * Get the full server URL

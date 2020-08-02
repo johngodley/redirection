@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 import Select from 'component/select';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import {
 	HeaderSimpleChoice,
 	HeaderReplaceSimpleChoice,

@@ -13,7 +13,7 @@ import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/form-table';
 import Select from 'component/select';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 const timeToKeep = () => [
 	{ value: -1, label: __( 'No logs' ) },

@@ -9,7 +9,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 const isSecurityPlugin = ( status, code ) => ( [ 400, 401, 403, 405 ].indexOf( status ) !== -1 || code === 'rest_no_route' ) && parseInt( code, 10 ) === 0;
 const isServerError = status => [ 500, 502, 503 ].indexOf( status ) !== -1;

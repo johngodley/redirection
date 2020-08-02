@@ -26,7 +26,7 @@ import Progress from 'component/progress';
 import Menu from 'component/menu';
 import WelcomeWizard from 'component/welcome-wizard';
 import DatabaseUpdate from './database-update';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { clearErrors } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
 import { setTable as setErrorTable } from 'state/error/action';

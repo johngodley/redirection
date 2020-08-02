@@ -12,7 +12,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import RestApiStatus from 'component/rest-api-status';
 import DecodeError from 'component/decode-error';
 import { clearErrors } from 'state/message/action';

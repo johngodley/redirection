@@ -12,7 +12,7 @@ import classnames from 'classnames';
  */
 import Spinner from 'component/spinner';
 import PoweredBy from 'component/powered-by';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { getMap } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';

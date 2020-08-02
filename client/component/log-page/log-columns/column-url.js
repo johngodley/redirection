@@ -10,7 +10,7 @@ import Highlighter from 'react-highlight-words';
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 function ColumnUrl( props ) {
 	const { row, table } = props;
