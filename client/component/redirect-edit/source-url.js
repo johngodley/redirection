@@ -10,7 +10,7 @@ import { translate as __ } from 'lib/locale';
  */
 import { getSourceFlags } from './constants';
 import TableRow from './table-row';
-import MultiOptionDropdown from 'component/multi-option-dropdown';
+import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
 
 const getUrlFlags = ( { flag_case, flag_regex, flag_trailing } ) => ( {
 	flag_case,

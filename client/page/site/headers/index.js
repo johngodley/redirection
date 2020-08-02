@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Local dependencies
  */
-import DropdownButton from 'component/dropdown-button';
+import DropdownButton from 'wp-plugin-components/dropdown-button';
 import Header from './header';
 
 const getPresets = () => [

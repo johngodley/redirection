@@ -26,7 +26,7 @@ class GeoMap extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Geo IP Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p><code>{ error.message }</code></p>
@@ -127,7 +127,7 @@ class GeoMap extends React.Component {
 		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );
 		const klass = classnames( {
 			'redirection-geomap': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 			'redirection-geomap_small': status === STATUS_FAILED || isPrivate,
 		} );
 

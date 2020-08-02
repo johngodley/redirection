@@ -27,7 +27,7 @@ class Useragent extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Useragent Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p><code>{ error.message }</code></p>
@@ -140,7 +140,7 @@ class Useragent extends React.Component {
 		const { status } = this.props;
 		const klass = classnames( {
 			'redirection-useragent': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 		} );
 
 		return (

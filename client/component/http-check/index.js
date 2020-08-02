@@ -39,7 +39,7 @@ class HttpCheck extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p><code>{ error.message }</code></p>
@@ -51,7 +51,7 @@ class HttpCheck extends React.Component {
 		const { status, http, item } = this.props;
 		const klass = classnames( {
 			'redirection-httpcheck': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 			'redirection-httpcheck_small': status === STATUS_FAILED,
 		} );
 

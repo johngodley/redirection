@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import DropdownButton from 'component/dropdown-button';
+import DropdownButton from 'wp-plugin-components/dropdown-button';
 import './style.scss';
 
 class SearchBox extends React.Component {

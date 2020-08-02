@@ -8,7 +8,7 @@ import { translate as __ } from 'lib/locale';
 /**
  * Internal dependencies
  */
-import MultiOptionDropdown from 'component/multi-option-dropdown';
+import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
 
 const arrayToObject = array => {
 	const obj = {};

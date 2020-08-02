@@ -10,7 +10,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import BulkAction from 'component/table/bulk-action';
-import MultiOptionDropdown from 'component/multi-option-dropdown';
+import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
 import TableGroup from 'component/table/group';
 
 /** @typedef {import('component/table').Table} Table */

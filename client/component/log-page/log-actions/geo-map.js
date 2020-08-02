@@ -10,7 +10,7 @@ import { translate as __ } from 'lib/locale';
  */
 
 import { RowAction } from 'component/table/row-action';
-import Modal from 'component/modal';
+import Modal from 'wp-plugin-components/modal';
 import GeoMap from 'component/geo-map';
 
 /**
