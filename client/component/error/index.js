@@ -6,7 +6,7 @@
 import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 
 /**
  * Internal dependencies

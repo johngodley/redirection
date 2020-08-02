@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 import { getAllHttpCodes } from 'component/redirect-edit/constants';
 
 export const getHeaders = ( groupBy ) => {

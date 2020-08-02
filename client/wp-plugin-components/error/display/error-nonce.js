@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'wp-plugin-wp-plugin-lib/locale';
 
 /**
  * Internal dependencies

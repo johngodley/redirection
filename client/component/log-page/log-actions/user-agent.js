@@ -3,14 +3,14 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 
 /**
  * Internal dependencies
  */
 
 import { RowAction } from 'component/table/row-action';
-import Modal from 'component/modal';
+import Modal from 'wp-plugin-components/modal';
 import Useragent from 'component/useragent';
 
 /**

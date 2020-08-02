@@ -3,14 +3,14 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 import Highlighter from 'react-highlight-words';
 
 /**
  * Internal dependencies
  */
 import { RowActions, RowAction } from 'component/table/row-action';
-import Modal from 'component/modal';
+import Modal from 'wp-plugin-components/modal';
 import GeoMap from 'component/geo-map';
 
 /** @typedef {import('component/table').Table} Table */

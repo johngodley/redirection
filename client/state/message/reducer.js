@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 
 /**
  * Internal dependencies

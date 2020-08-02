@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-var debug = require( 'debug' )( 'wp-plugin-library/lib/locale' ),
+var debug = require( 'debug' )( 'wp-plugin-lib/wp-plugin-lib/locale' ),
 	Jed = require( 'jed' ),
 	EventEmitter = require( 'events' ).EventEmitter,
 	interpolateComponents = require( 'interpolate-components' ).default,

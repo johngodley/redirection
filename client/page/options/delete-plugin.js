@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
-import Modal from 'component/modal';
+import { translate as __ } from 'wp-plugin-lib/locale';
+import Modal from 'wp-plugin-components/modal';
 
 class DeletePlugin extends React.Component {
 	constructor( props ) {

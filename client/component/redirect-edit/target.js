@@ -3,9 +3,9 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 import debounce from 'debounce-promise';
-import onClickOutside from 'lib/click-outside';
+import onClickOutside from 'wp-plugin-components/click-outside';
 
 import { RedirectionApi, getApi } from 'lib/api';
 import LoadingDots from 'component/loading-dots';

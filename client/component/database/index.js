@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
 import PropTypes from 'prop-types';

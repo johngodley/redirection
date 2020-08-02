@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'wp-plugin-lib/locale';
 import { connect } from 'react-redux';
 
 /**
@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
  */
 
 import EditRedirect from 'component/redirect-edit';
-import Modal from 'component/modal';
+import Modal from 'wp-plugin-components/modal';
 import { getDefaultItem } from 'state/redirect/selector';
 import { getFlags } from 'state/settings/selector';
 import { deleteExact } from 'state/error/action';

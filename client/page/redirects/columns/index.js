@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { numberFormat } from 'lib/locale';
+import { numberFormat } from 'wp-plugin-lib/locale';
 
 /**
  * Internal dependencies

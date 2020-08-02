@@ -4,7 +4,7 @@
 
 import React from 'react';
 import Highlighter from 'react-highlight-words';
-import { numberFormat, translate as __ } from 'lib/locale';
+import { numberFormat, translate as __ } from 'wp-plugin-lib/locale';
 
 /**
  * Internal dependencies
