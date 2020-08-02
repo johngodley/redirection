@@ -10,7 +10,7 @@ import { translate as __ } from 'lib/locale';
  * Internal dependencies
  */
 
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import './style.scss';
 
 class Progress extends React.Component {

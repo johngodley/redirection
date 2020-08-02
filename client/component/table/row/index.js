@@ -12,7 +12,7 @@ import LoadingRow from './loading-row';
 import EmptyRow from './empty-row';
 import FailedRow from './failed-row';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE, STATUS_SAVING } from 'state/settings/type';
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 
 /** @typedef {import('../index.js').Table} Table */
 /** @typedef {import('../index.js').TableStatus} TableStatus */

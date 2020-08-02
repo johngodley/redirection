@@ -15,7 +15,7 @@ import TextareaAutosize from 'react-textarea-autosize';
  */
 
 import PreventLeaveWarning from 'component/prevent-leave';
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import { upgradeDatabase, finishUpgrade, fixStatus } from 'state/settings/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';

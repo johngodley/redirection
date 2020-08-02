@@ -10,7 +10,7 @@ import classnames from 'classnames';
 /**
  * Internal dependencies
  */
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import PoweredBy from 'component/powered-by';
 import ExternalLink from 'wp-plugin-components/external-link';
 import { getMap } from 'state/info/action';
