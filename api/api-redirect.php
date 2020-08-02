@@ -226,7 +226,13 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 				$urls = $params['url'];
 			}
 
+			// Remove duplicates
+			$unique = [];
 			foreach ( $urls as $url ) {
+				$unique[ $url ] = $url;
+			}
+
+			foreach ( $unique as $url ) {
 				$params['url'] = $url;
 				$redirect = Red_Item::create( $params );
 
