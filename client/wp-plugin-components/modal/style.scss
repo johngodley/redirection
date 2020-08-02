@@ -1,0 +1,126 @@
+@import "node_modules/@wordpress/base-styles/colors";
+
+body.wpl-modal_shown {
+	overflow: hidden;
+}
+
+.wpl-modal_wrapper {
+	width: 100%;
+}
+
+/**
+ * Modal background
+ */
+.wpl-modal_backdrop {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	background-color: $gray-700;
+	opacity: 0.5;
+}
+
+/**
+ * The base modal dialog
+ */
+.wpl-modal_main {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 20000;
+
+	align-items: center;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+
+	.wpl-click-outside {
+		min-height: 100px;
+		max-width: 90%;
+		max-height: 90%;
+		min-width: 60%;
+	}
+
+	.wpl-modal_content {
+		position: relative;
+		background: $white;
+		opacity: 1;
+
+		border: 1px solid #e2e4e7;
+		box-shadow: 0 3px 30px rgba(25, 30, 35, 0.2);
+
+		transition: height 0.05s ease;
+
+		min-height: 100px;
+		max-width: 90%;
+		max-height: 90%;
+		min-width: 60%;
+		margin: 0 auto;
+
+		h1 {
+			margin: 0 !important;
+			color: $dark-gray-700 !important;
+		}
+	}
+
+	.wpl-modal_close button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding-top: 10px;
+		padding-right: 10px;
+		border: none;
+		background-color: $white;
+		border-radius: 2px;
+		cursor: pointer;
+		z-index: 10001;
+	}
+}
+
+.wpl-modal_wrapper.wpl-modal_wrapper-padless {
+	.wpl-modal_content {
+		padding: 20px;
+	}
+}
+
+.wpl-modal_wrapper-padding .wpl-modal_content {
+	padding: 10px;
+}
+
+/**
+ * If an error occurred while loading the modal content
+ */
+.wpl-modal_error {
+	h2 {
+		text-align: center;
+	}
+}
+
+/**
+ * Centres the CSS spinner
+ */
+.wpl-modal_loading {
+	display: flex;
+	height: 100px;
+
+	> * {
+		justify-content: center;
+		align-self: center;
+		margin-left: calc(50% - 30px);
+		margin-top: 40px;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.wpl-modal_main {
+		.wpl-modal_content {
+			width: 80%;
+			margin-right: 10%;
+		}
+	}
+}

@@ -1,0 +1,37 @@
+/**
+ * The little popup notice
+ */
+.wpl-notice {
+	position: fixed;
+	bottom: 25px;
+	right: 0;
+	font-weight: bold;
+	box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+	border-top: 1px solid #eee;
+	cursor: pointer;
+	transition: width 1s ease-in-out;
+
+	p {
+		padding-right: 20px;
+	}
+
+	.closer {
+		position: absolute;
+		right: 5px;
+		top: 10px;
+		font-size: 16px;
+		opacity: 0.8;
+	}
+}
+
+.wpl-notice.notice-shrunk {
+	width: 20px;
+
+	p {
+		font-size: 16px;
+	}
+
+	.closer {
+		display: none;
+	}
+}
