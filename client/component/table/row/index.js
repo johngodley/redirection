@@ -73,11 +73,6 @@ function RowColumns( props ) {
 	const actions = getRowActions( row, data );
 
 	if ( Array.isArray( columns ) ) {
-		console.log(
-			columns.filter(
-				( column ) => displaySelected.indexOf( column.name ) !== -1 || column.alwaysDisplay === true
-			)
-		);
 		return columns
 			.filter( ( column ) => displaySelected.indexOf( column.name ) !== -1 || column.alwaysDisplay === true )
 			.map( ( column ) => (

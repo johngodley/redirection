@@ -17,6 +17,10 @@ import TableGroup from 'component/table/group';
 /** @typedef {import('./index.js').GroupCallback} GroupCallback */
 /** @typedef {import('./index.js').FilterCallback} FilterCallback */
 
+function findGroup( group, item ) {
+	return group.options.find( ( groupItem ) => groupItem.value === item );
+}
+
 /**
  *
  * @param {object} props Component props
@@ -29,6 +33,20 @@ import TableGroup from 'component/table/group';
  */
 function LogFilters( props ) {
 	const { table, disabled, groupOptions, filterOptions, onGroup, onFilter } = props;
+
+	function onChange( selected ) {
+		const filter = {};
+
+		for ( let index = 0; index < selected.length; index++ ) {
+			const group = filterOptions.find( ( groupItem ) => findGroup( groupItem, selected[ index ] ) );
+
+			if ( group ) {
+				filter[ group.value ] = selected[ index ];
+			}
+		}
+
+		onFilter( filter );
+	}
 
 	return (
 		<>
@@ -46,10 +64,11 @@ function LogFilters( props ) {
 				<BulkAction>
 					<MultiOptionDropdown
 						options={ filterOptions }
-						selected={ table.filterBy ? table.filterBy : {} }
-						onApply={ onFilter }
+						selected={ Object.keys( table.filterBy ).map( ( item ) => table.filterBy[ item ] ) }
+						onApply={ onChange }
 						title={ __( 'Filters' ) }
 						isEnabled={ ! disabled }
+						multiple
 						badges
 					/>
 				</BulkAction>

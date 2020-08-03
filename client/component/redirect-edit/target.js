@@ -41,8 +41,6 @@ class UrlChoices extends React.Component {
 	}
 }
 
-const UrlChoicesClick = onClickOutside( UrlChoices );
-
 export default class TargetUrl extends React.Component {
 	constructor( props ) {
 		super( props );
@@ -81,10 +79,25 @@ export default class TargetUrl extends React.Component {
 
 		return (
 			<div className="redirection-url-autocomplete redirection-fullflex">
-				<input type="text" className="regular-text" name="url" value={ url } onChange={ this.onChange } placeholder={ __( 'The target URL you want to redirect, or auto-complete on post name or permalink.' ) } />
+				<input
+					type="text"
+					className="regular-text"
+					name="url"
+					value={ url }
+					onChange={ this.onChange }
+					placeholder={ __(
+						'The target URL you want to redirect, or auto-complete on post name or permalink.'
+					) }
+				/>
 
-				{ makingRequest && <div className="redirection-url-autocomplete__loading"><LoadingDots /></div> }
-				{ options.length > 0 && <UrlChoicesClick options={ options } onSelect={ this.onSelect } onClose={ this.onClose } /> }
+				{ makingRequest && (
+					<div className="redirection-url-autocomplete__loading">
+						<LoadingDots />
+					</div>
+				) }
+				{ options.length > 0 && (
+					<UrlChoices options={ options } onSelect={ this.onSelect } onClose={ this.onClose } />
+				) }
 			</div>
 		);
 	}

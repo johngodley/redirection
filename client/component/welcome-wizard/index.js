@@ -372,7 +372,7 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'Please wait, importing.' ) }</p>
 
 				<div className="loader-wrapper loader-textarea">
-					<div className="placeholder-loading"></div>
+					<div className="wpl-placeholder__loading"></div>
 				</div>
 			</div>
 		);

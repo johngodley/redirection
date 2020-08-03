@@ -33,13 +33,13 @@ class Status extends React.Component {
 				<h2>{ __( 'Plugin Status' ) }</h2>
 
 				{ status.length > 0 && <PluginStatus status={ status } /> }
-				{ status.length === 0 && <div className="placeholder-inline"><div className="placeholder-loading"></div></div> }
+				{ status.length === 0 && <div className="placeholder-inline"><div className="wpl-placeholder__loading"></div></div> }
 
 				<h2>{ __( 'Plugin Debug' ) }</h2>
 				<p>{ __( 'This information is provided for debugging purposes. Be careful making any changes.' ) }</p>
 
 				{ debug && <Debug debug={ debug } /> }
-				{ ! debug === 0 && <div className="placeholder-inline"><div className="placeholder-loading"></div></div> }
+				{ ! debug === 0 && <div className="placeholder-inline"><div className="wpl-placeholder__loading"></div></div> }
 			</>
 		);
 	}

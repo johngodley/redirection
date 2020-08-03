@@ -138,7 +138,7 @@ class ImportExport extends React.Component {
 				<p><code>{ file.name }</code></p>
 
 				<div className="is-placeholder">
-					<div className="placeholder-loading"></div>
+					<div className="wpl-placeholder__loading"></div>
 				</div>
 			</>
 		);
@@ -211,7 +211,7 @@ class ImportExport extends React.Component {
 	renderExporting() {
 		return (
 			<div className="loader-wrapper loader-textarea">
-				<div className="placeholder-loading"></div>
+				<div className="wpl-placeholder__loading"></div>
 			</div>
 		);
 	}

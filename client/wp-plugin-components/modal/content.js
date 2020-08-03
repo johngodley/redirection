@@ -19,8 +19,14 @@ import classnames from 'classnames';
  * @param {{onClose: requestCallback}} props - Provide the URL and child components
  */
 function ModalContent( { onClose, children, className } ) {
+	function onOutside( ev ) {
+		if ( ev.target.classList.contains( 'wpl-modal_main' ) ) {
+			onClose();
+		}
+	}
+
 	return (
-		<ClickOutside className="wpl-click-outside" onOutside={ onClose }>
+		<ClickOutside className="wpl-click-outside" onOutside={ onOutside }>
 			<div className={ classnames( 'wpl-modal_content', className ) }>
 				<div className="wpl-modal_close">
 					<button type="button" onClick={ onClose }>&#x2716;</button>

@@ -11,12 +11,12 @@ const Row = ( props ) => {
 		<tr className="is-placeholder">
 			{ columns.map( ( item, pos ) => (
 				<td key={ pos }>
-					<div className="placeholder-loading" />
+					<div className="wpl-placeholder__loading" />
 				</td>
 			) ) }
 
 			<td>
-				<div className="placeholder-loading" />
+				<div className="wpl-placeholder__loading" />
 			</td>
 		</tr>
 	);
