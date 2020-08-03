@@ -1,7 +1,10 @@
+@import '../style.scss';
+
 .wpl-multioption .wpl-popover__content {
 	padding: 10px 10px;
 	white-space: nowrap;
 	box-sizing: border-box;
+	z-index: $popover_zindex;
 
 	h4 {
 		margin-top: 5px;

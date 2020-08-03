@@ -1,4 +1,5 @@
 @import "node_modules/@wordpress/base-styles/colors";
+@import '../style.scss';
 
 body.wpl-modal_shown {
 	overflow: hidden;
@@ -17,7 +18,7 @@ body.wpl-modal_shown {
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 10000;
+	z-index: $modal_zindex;
 	background-color: $gray-700;
 	opacity: 0.5;
 }
@@ -31,7 +32,7 @@ body.wpl-modal_shown {
 	left: 0;
 	height: 100%;
 	width: 100%;
-	z-index: 20000;
+	z-index: $modal_content_zindex;
 
 	align-items: center;
 	flex-grow: 1;
