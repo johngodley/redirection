@@ -10,14 +10,6 @@ import { translate as __ } from 'wp-plugin-lib/locale';
  */
 import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
 
-const arrayToObject = array => {
-	const obj = {};
-
-	array.map( item => obj[ item ] = true );
-
-	return obj;
-};
-
 const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 	const { choices, implode, wildCard } = options;
 	const selected = headerValue.split( implode );
@@ -25,17 +17,18 @@ const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 		if ( added === wildCard ) {
 			onChange( { headerValue: selected.length === 1 && selected[ 0 ] === wildCard ? '' : wildCard } );
 		} else {
-			onChange( { headerValue: Object.keys( items ).filter( item => item !== wildCard ).filter( item => item ).join( implode ) } );
+			onChange( { headerValue: items.filter( item => item !== wildCard ).filter( item => item ).join( implode ) } );
 		}
 	};
 
 	return (
 		<MultiOptionDropdown
 			options={ wildCard ? choices.concat( [ { value: wildCard, label: __( 'All' ) } ] ) : choices }
-			selected={ arrayToObject( selected ) }
+			selected={ selected }
 			onApply={ applyItem }
 			title={ __( 'Values' ) }
 			hideTitle
+			multiple
 			badges
 		/>
 	);

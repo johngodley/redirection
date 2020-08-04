@@ -1,11 +1,6 @@
 .redirect-headers {
 	margin-bottom: 20px;
 	table-layout: auto !important;
-
-	.wpl-multioption__button {
-		height: 28px;
-		margin-top: 1px;
-	}
 }
 
 .redirect-headers__name {
@@ -22,11 +17,6 @@
 
 	select + input[type="text"] {
 		margin-left: 0;
-	}
-
-	.wpl-multioption__button .wpl-badge,
-	.wpl-multioption {
-		margin-top: -1px;
 	}
 }
 
