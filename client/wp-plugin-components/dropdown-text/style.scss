@@ -1,0 +1,46 @@
+.wpl-dropdowntext {
+	display: flex;
+	position: relative;
+
+	input {
+		width: 100%;
+	}
+
+	.wpl-dropdowntext__loading {
+		position: absolute;
+		right: 7px;
+		top: 2px;
+
+		svg {
+			width: 28px;
+			height: 28px;
+			opacity: 0.7;
+		}
+	}
+}
+
+.wpl-dropdowntext__suggestions .wpl-popover__content {
+	padding: 5px;
+	line-height: 1.8;
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	ul li {
+		margin: 0;
+	}
+
+	a {
+		display: block;
+		padding: 2px 3px;
+		text-decoration: none;
+		color: #333;
+	}
+
+	a:hover {
+		background-color: #deebff;
+	}
+}
