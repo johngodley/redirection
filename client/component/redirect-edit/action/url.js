@@ -18,7 +18,10 @@ const ActionUrl = ( { onChange, data } ) => {
 
 	return (
 		<TableRow title={ __( 'Target URL' ) } className="redirect-edit__target">
-			<TargetUrl url={ url } onChange={ onChange } />
+			<TargetUrl
+				url={ url }
+				onChange={ ( value ) => onChange( { target: { name: 'url', value, type: 'input' } } ) }
+			/>
 		</TableRow>
 	);
 };
