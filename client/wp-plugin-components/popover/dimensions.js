@@ -1,5 +1,3 @@
-import { WORDPRESS_WRAP } from '../constant';
-
 /** @const {number} */
 const OFFSET_MAX = 20;
 
@@ -15,7 +13,7 @@ const OFFSET_ARROW = 5;
  */
 
 /**
- * @typedef TogglePosition
+ * @typedef PopoverPosition
  * @type
  * @property {number} parentWidth - Width of the parent
  * @property {number} left - Left offset
@@ -75,51 +73,22 @@ export function getAdjustedPosition( position, togglePosition, align, popoverRef
 }
 
 /**
- * Get the dimensions of the node.
- *
- * @param {HTMLElement|null} ref - The dom node.
- */
-export function getDimensions( ref ) {
-	const parentNode = document.getElementById( WORDPRESS_WRAP );
-	if ( ref === null || parentNode === null ) {
-		return {};
-	}
-
-	const parentRect = parentNode.getBoundingClientRect();
-	const { height, width, left, top } = ref.getBoundingClientRect();
-
-	return {
-		left: left - parentRect.left,
-		top: top - parentRect.top + 1,
-		width,
-		height,
-		parentWidth: parentRect.width,
-		parentHeight: parentRect.height,
-	};
-}
-
-/**
  * Get the dropdown position.
  *
  * @param {ClientRect|null} togglePosition - Toggle client rect.
- * @param {boolean} matchToggle - Match the toggle width
  * @returns {DropdownPosition|null} Position
  */
-export function getPosition( togglePosition, matchToggle ) {
+export function getPosition( togglePosition ) {
 	if ( togglePosition === null ) {
 		return null;
 	}
 
-	const { left, top, width, height } = togglePosition;
+	const { left, top, height } = togglePosition;
 	/** @type DropdownPosition */
 	const position = {
 		left: left,
 		top: top + height,
 	};
-
-	if ( matchToggle ) {
-		position.width = width;
-	}
 
 	return position;
 }

@@ -12,28 +12,10 @@ import classnames from 'classnames';
 import Dropdown from '../dropdown';
 import MultiOption from './multi-option';
 import getBadgeList from './badge-list';
+import DropdownIcon from '../dropdown-menu/icon';
 import './style.scss';
 
 /** @typedef {import('./multi-option/index.js').applyCallback} applyCallback */
-
-/**
- * Get the dropdown width adjustment value. This changes as the number of displayed badges changes, causing the dropdown
- * to update in width.
- *
- * @param {boolean} showBadges - Do we need to show badges?
- * @param {Element[]|null} badges - Array of badge values
- */
-function getWidthAdjust( badges, showBadges ) {
-	if ( showBadges ) {
-		if ( badges === null ) {
-			return 1;
-		}
-
-		return badges.length + 1;
-	}
-
-	return 0;
-}
 
 /**
  * Should we show a title?
@@ -82,7 +64,7 @@ function MultiOptionDropdown( props ) {
 	return (
 		<Dropdown
 			renderToggle={ ( isOpen, toggle ) => (
-				<button
+				<div
 					className={ classnames(
 						'button',
 						'action',
@@ -92,22 +74,24 @@ function MultiOptionDropdown( props ) {
 					) }
 					onClick={ toggle }
 					disabled={ disabled }
-					type="button"
 				>
 					{ shouldShowTitle( selected, hideTitle ) && title.length > 0 && <h5>{ title }</h5> }
 					{ badges && badgeList }
 
-					<svg height="20" width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-						<path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z" />
-					</svg>
-				</button>
+					<DropdownIcon />
+				</div>
 			) }
-			widthAdjust={ getWidthAdjust( badgeList, badges ) }
 			align="right"
 			renderContent={ () => (
 				<div className={ classnames( 'wpl-multioption', className ) }>
 					{ options.map( ( option, key ) => (
-						<MultiOption option={ option } selected={ selected } key={ key } onApply={ onApply } multiple={ multiple || option.multiple } />
+						<MultiOption
+							option={ option }
+							selected={ selected }
+							key={ key }
+							onApply={ onApply }
+							multiple={ multiple || option.multiple }
+						/>
 					) ) }
 				</div>
 			) }

@@ -8,7 +8,7 @@ import React, { useState, useCallback } from 'react';
  * Local dependencies
  */
 
-import { getAdjustedPosition, adjustArrowStyle, TogglePosition, DropdownPosition } from './dimensions';
+import { getAdjustedPosition, adjustArrowStyle, PopoverPosition, DropdownPosition } from './dimensions';
 import PopoverArrow from './arrow';
 
 /**
@@ -17,17 +17,17 @@ import PopoverArrow from './arrow';
  * @param {object} props - Component props.
  * @param {string} props.align - Our alignment.
  * @param {boolean} props.hasArrow - Show an arrow or not
- * @param {TogglePosition|null} props.togglePosition - The toggle position.
+ * @param {PopoverPosition|null} props.popoverPosition - The popover position, based on an existing DOM element
  * @param {DropdownPosition|null} props.position - Our position.
  * @param {object} props.children - Child components to show inside the popover.
  */
-function Popover( props ) {
-	const { position, children, togglePosition, align, hasArrow } = props;
+function PopoverContainer( props ) {
+	const { position, children, popoverPosition, align, hasArrow } = props;
 	const [ style, setStyle ] = useState( { arrow: {}, content: { visibility: 'none', ...position } } );
 	const popoverRef = useCallback(
 		( node ) => {
 			if ( node ) {
-				const content = getAdjustedPosition( position, togglePosition, align, node, hasArrow );
+				const content = getAdjustedPosition( position, popoverPosition, align, node, hasArrow );
 
 				setStyle( {
 					content,
@@ -35,7 +35,7 @@ function Popover( props ) {
 				} );
 			}
 		},
-		[ position  ]
+		[ position ]
 	);
 
 	return (
@@ -53,4 +53,4 @@ function Popover( props ) {
 	);
 }
 
-export default Popover;
+export default PopoverContainer;

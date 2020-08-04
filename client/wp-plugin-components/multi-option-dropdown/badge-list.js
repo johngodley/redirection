@@ -85,12 +85,15 @@ export default function getBadgeList( props ) {
 			 * @param {MultiOptionGroupValue|MultiOptionValue} optionValue - Option
 			 */
 			( optionValue ) => {
-			const found = findOption( options, optionValue );
+				const found = findOption( options, optionValue );
+				if ( found === null ) {
+					return null;
+				}
 
-			return (
-				null ?? (
+				return (
 					<Badge
 						key={ optionValue }
+						small
 						onCancel={
 							/**
 							 * @param {Event} ev
@@ -107,8 +110,8 @@ export default function getBadgeList( props ) {
 					>
 						{ found.label }
 					</Badge>
-				)
-			);
-		} )
+				);
+			}
+		)
 		.concat( [ keys.length > MAX_BADGES ? <span key="end">...</span> : null ] );
 }

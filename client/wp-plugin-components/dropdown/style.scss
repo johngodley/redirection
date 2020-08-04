@@ -1,70 +1,7 @@
 @import "node_modules/@wordpress/base-styles/colors";
-@import '../style.scss';
 
 .wpl-popover__toggle {
 	display: inline-block;
 	flex: none !important;
 	cursor: pointer;
-}
-
-.wpl-popover__content {
-	box-shadow: 0 3px 30px rgba($dark-gray-700, 0.1);
-	border: 1px solid $light-gray-600;
-	background: $white;
-	min-width: 150px;
-	max-height: 400px;
-	position: absolute;
-	z-index: $modal_content_zindex;
-	height: auto;
-	overflow-y: auto;
-}
-
-.wpl-popover__arrows {
-	position: absolute;
-	width: 100%;
-
-	&::after,
-	&::before {
-		content: "";
-		box-shadow: 0 3px 30px rgba($dark-gray-700, 0.1);
-		position: absolute;
-		height: 0;
-		width: 0;
-		line-height: 0;
-		margin-left: 10px;
-	}
-
-	&::before {
-		border: 8px solid $light-gray-600;
-		border-bottom-style: solid;
-		border-left-color: transparent;
-		border-right-color: transparent;
-		border-top: none;
-		top: -8px;
-	}
-
-	&::after {
-		border: 8px solid $white;
-		border-bottom-style: solid;
-		border-left-color: transparent;
-		border-right-color: transparent;
-		border-top: none;
-		top: -6px;
-		z-index: 10003;
-	}
-
-	&.wpl-popover__arrows__right {
-		&::after,
-		&::before {
-			right: 0;
-			margin-right: 10px;
-		}
-	}
-
-	&.wpl-popover__arrows__centre {
-		&::after,
-		&::before {
-			left: calc(50% - 16px);
-		}
-	}
 }

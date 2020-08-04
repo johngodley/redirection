@@ -68,16 +68,13 @@
 		font-size: 13px;
 		font-weight: normal;
 	}
-
-	.wpl-badge {
-		line-height: 1.3;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
 }
 
 .wpl-multioption__group {
+	&:first-child {
+		padding-top: 7px;
+	}
+
 	h5 {
 		margin: 0;
 	}
@@ -89,10 +86,6 @@
 
 .actions .button.wpl-multioption__button {
 	height: 28px;
-}
-
-.actions .wpl-multioption__button .wpl-badge {
-	margin-top: -1px;
 }
 
 .wpl-multioption__button.wpl-multioption__button_enabled {

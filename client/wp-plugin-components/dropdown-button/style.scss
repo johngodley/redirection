@@ -73,11 +73,13 @@
 }
 
 .wpl-dropdownbutton .wpl-dropdownbutton__button_enabled {
+	background-color: #fff;
+
 	svg {
 		transform: rotate(180deg);
 		border-right: 1px solid #ddd;
 		border-left: 1px solid transparent;
-		padding-right: 5px;
+		padding-right: 4px;
 		padding-left: 0;
 	}
 }
