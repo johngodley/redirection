@@ -7,7 +7,7 @@ import React from 'react';
 /**
  * Internal dependencies
  */
-import { getPluginPage } from 'lib/plugin';
+// XXX import { getPluginPage } from 'lib/plugin';
 import MenuItem from './menu-item';
 import './style.scss';
 
