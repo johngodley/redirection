@@ -295,16 +295,20 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 		$posts = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT ID,post_title,post_name FROM $wpdb->posts WHERE post_status='publish' AND (post_title LIKE %s OR post_name LIKE %s) " .
-				"AND post_type NOT IN ('nav_menu_item','wp_block','oembed_cache')",
+				"AND post_type IN ('post','page')",
 				'%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%'
 			)
 		);
 
 		foreach ( (array) $posts as $post ) {
+			$title = $post->post_name;
+			if ( strpos( $post->post_title, $search ) ) {
+				$title = $post->post_title;
+			}
+
 			$results[] = [
-				'title' => $post->post_title,
-				'slug' => $post->post_name,
-				'url' => get_permalink( $post->ID ),
+				'title' => $title,
+				'value' => get_permalink( $post->ID ),
 			];
 		}
 
