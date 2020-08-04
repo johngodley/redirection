@@ -1,49 +1,52 @@
-@import "node_modules/@wordpress/base-styles/colors";
+@import 'node_modules/@wordpress/base-styles/colors';
 
 .wpl-badge {
-	display: inline-block;
-
-	> div {
-		display: flex;
-		align-items: center;
-	}
-
-	padding: 0 5px 0 6px;
+	display: inline-flex;
+	align-items: center;
+	line-height: 1.4;
 	font-size: 12px;
 	background-color: $light-gray-600;
 	border-radius: 3px;
 	font-variant: small-caps;
 	white-space: nowrap;
 	color: $black;
+	padding: 3px 4px;
 
 	&.wpl-badge__click {
 		cursor: pointer;
 		border: 1px solid transparent;
 
 		&:hover {
-			border: 1px solid $black;
+			color: $white;
+			background-color: $dark-gray-200;
 		}
 	}
 
-	span {
+	.wpl-badge__close {
 		background-color: transparent;
 		border: none;
 		width: 15px;
 		text-align: center;
-		padding: 0;
-		margin-left: 4px;
 		font-size: 20px;
+		height: 100%;
+		line-height: 1;
 		vertical-align: middle;
-		margin-top: -5px;
-		margin-right: -3px;
+		margin-top: -6px;
+		margin-left: 2px;
+
+		&:hover {
+			color: white;
+		}
 	}
 
-	span:hover {
-		color: $white;
-		background-color: $dark-gray-600;
+	&.wpl-badge__small .wpl-badge__content {
+		max-width: 100px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 
-.wpl-badge:not(:last-child) {
+.wpl-badge:not( :last-child ) {
 	margin-right: 5px;
 }

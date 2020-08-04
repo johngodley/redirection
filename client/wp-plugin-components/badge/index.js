@@ -34,9 +34,10 @@ import './style.scss';
  * @param {cancelCallback} [props.onCancel] - Callback when close button is clicked
  * @param {string} [props.title] - HTML title
  * @param {boolean} [props.disabled=false] - Badge is disabled
+ * @param {boolean} [props.small=false]
  */
 const Badge = ( props ) => {
-	const { children, className, onClick = null, title = '', onCancel, disabled = false } = props;
+	const { children, className, onClick = null, title = '', onCancel, disabled = false, small = false } = props;
 	const extra = {
 		title,
 		onClick,
@@ -51,11 +52,15 @@ const Badge = ( props ) => {
 	};
 
 	return (
-		<div className={ classnames( 'wpl-badge', className, onClick && 'wpl-badge__click' ) } { ...extra }>
-			<div>
-				{ children }
-				{ onCancel && <span onClick={ cancel }>⨯</span> }
-			</div>
+		<div
+			className={ classnames( 'wpl-badge', className, {
+				'wpl-badge__click': onClick,
+				'wpl-badge__small': small,
+			} ) }
+			{ ...extra }
+		>
+			<div className="wpl-badge__content">{ children }</div>
+			{ onCancel && <div className="wpl-badge__close" onClick={ cancel }>⨯</div> }
 		</div>
 	);
 };
