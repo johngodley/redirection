@@ -79,7 +79,9 @@ class Red_Url_Query {
 			$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
 
 			if ( $query ) {
-				return $target_url . ( strpos( $target_url, '?' ) === false ? '?' : '&' ) . $query;
+				$target_fragment = parse_url( $target_url, PHP_URL_FRAGMENT );
+				$target_url = str_replace( '#' . $target_fragment, '', $target_url );
+				return $target_url . ( strpos( $target_url, '?' ) === false ? '?' : '&' ) . $query . ( $target_fragment ? '#'. $target_fragment : '' );				
 			}
 		}
 
