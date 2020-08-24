@@ -1,0 +1,6 @@
+[submodule "client/wp-plugin-lib"]
+	path = client/wp-plugin-lib
+	url = git@github.com:johngodley/wp-plugin-lib.git
+[submodule "client/wp-plugin-components"]
+	path = client/wp-plugin-components
+	url = git@github.com:johngodley/wp-plugin-components.git
