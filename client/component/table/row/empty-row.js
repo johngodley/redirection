@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 const EmptyRow = ( props ) => {
 	const { headers } = props;

@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import {
 	ACTION_URL,
 	ACTION_PASS,

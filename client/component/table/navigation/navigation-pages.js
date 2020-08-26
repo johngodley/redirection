@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __, numberFormat } from 'wp-plugin-lib/locale';
+import { translate as __, numberFormat } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**

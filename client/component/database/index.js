@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 import { Line } from 'rc-progress';
 import PropTypes from 'prop-types';
@@ -121,7 +121,7 @@ class Database extends React.Component {
 		const recovery = this.getErrorMessage();
 
 		return (
-			<div className="redirection-database_error red-error">
+			<div className="redirection-database_error wpl-error">
 				<h3>{ __( 'Database problem' ) }</h3>
 				<p>{ error }</p>
 				<p>

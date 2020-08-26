@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { numberFormat } from 'wp-plugin-lib/locale';
+import { numberFormat } from 'i18n-calypso';
 
 /**
  * Internal dependencies

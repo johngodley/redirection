@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**

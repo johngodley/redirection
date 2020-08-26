@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**
@@ -29,7 +29,9 @@ class GeoMap extends React.Component {
 			<div className="wpl-modal_error">
 				<h2>{ __( 'Geo IP Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
-				<p><code>{ error.message }</code></p>
+				<p>
+					<code>{ error.message }</code>
+				</p>
 			</div>
 		);
 	}

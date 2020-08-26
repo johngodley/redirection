@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import TextareaAutosize from 'react-textarea-autosize';
 import { connect } from 'react-redux';
 

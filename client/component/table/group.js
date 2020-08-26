@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'wp-plugin-lib/locale';
 import PropTypes from 'prop-types';
+import { translate as __ } from 'i18n-calypso';
 import Select from 'wp-plugin-components/select';
 
 class TableGroup extends React.Component {

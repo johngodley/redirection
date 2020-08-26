@@ -4,7 +4,7 @@
 
 import { getApi } from 'lib/api';
 import { mergeWithTable, removeDefaults } from 'lib/table';
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
 	const { table, total } = getState()[ status.store ];

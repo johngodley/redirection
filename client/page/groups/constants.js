@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'wp-plugin-lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 export const getDisplayOptions = () => [
 	{ value: 'name', label: __( 'Name' ) },
