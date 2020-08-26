@@ -40,9 +40,10 @@ import ColumnReferrer from './column-referrer';
  * @param {{table: Table}} rowParams
  * @returns {RenderedRow[]}
  */
-function getColumns( row, rowParams, onFilter, onDelete, onCreate, isSaving ) {
+function getColumns( row, rowParams, actions, isSaving ) {
 	const { created, created_time, referrer, agent, request_method, http_code, domain = '', redirect_by } = row;
 	const { table } = rowParams;
+	const { onCreate, onDelete, onFilter } = actions;
 
 	return [
 		{
@@ -97,7 +98,7 @@ function getColumns( row, rowParams, onFilter, onDelete, onCreate, isSaving ) {
 		},
 		{
 			name: 'count',
-			content: numberFormat( row.count ),
+			content: numberFormat( row.count, 0 ),
 		},
 	];
 }

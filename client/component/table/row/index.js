@@ -57,8 +57,8 @@ function CheckColumn( props ) {
 					name="item[]"
 					value={ id }
 					disabled={ disabled }
-					checked={ selected.indexOf( id ) !== -1 }
-					onChange={ ( ev ) => onSelect( [ parseInt( ev.target.value, 10 ) ] ) }
+					checked={ selected.indexOf( `${ id }` ) !== -1 || selected.indexOf( id ) !== -1 }
+					onChange={ ( ev ) => onSelect( [ ev.target.value ] ) }
 				/>
 			) }
 		</th>

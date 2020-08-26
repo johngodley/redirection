@@ -10,16 +10,22 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import { getApiNonce } from 'lib/api';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 const Fixit = () => {
 	return (
 		<form action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-			<input type="hidden" name="_wpnonce" value={ getApiNonce() } />
+			<input type="hidden" name="_wpnonce" value={ apiFetch.nonceMiddleware.nonce } />
 			<input type="hidden" name="action" value="fixit" />
 
-			<p>{ __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below." ) }</p>
-			<p><input type="submit" className="button-primary" value={ __( '⚡️ Magic fix ⚡️' ) } /></p>
+			<p>
+				{ __(
+					"If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
+				) }
+			</p>
+			<p>
+				<input type="submit" className="button-primary" value={ __( '⚡️ Magic fix ⚡️' ) } />
+			</p>
 		</form>
 	);
 };

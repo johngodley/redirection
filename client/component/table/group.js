@@ -3,18 +3,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { translate as __ } from 'i18n-calypso';
 import Select from 'wp-plugin-components/select';
 
 class TableGroup extends React.Component {
-	static propTypes = {
-		options: PropTypes.array.isRequired,
-		selected: PropTypes.string.isRequired,
-		isEnabled: PropTypes.bool.isRequired,
-		onGroup: PropTypes.func.isRequired,
-	};
-
 	constructor( props ) {
 		super( props );
 

@@ -9,11 +9,10 @@ import {
 	LOG_ITEM_SAVED,
 	LOG_ITEM_FAILED,
 	LOG_SET_SELECTED,
-	LOG_SET_ALL_SELECTED,
 	LOG_DISPLAY_SET,
 } from './type';
-import { tableAction, processRequest, directApi } from 'lib/store';
-import { RedirectionApi } from 'lib/api';
+import { tableAction, processRequest } from 'lib/store';
+import { RedirectionApi } from 'lib/api-request';
 
 const STATUS_LOG_ITEM = {
 	saving: LOG_ITEM_SAVING,
@@ -30,20 +29,22 @@ const STATUS_LOG = {
 	store: 'log',
 };
 
-export const deleteExact = ( filterBy ) => ( dispatch, getState ) => directApi( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filterBy }, getState().log );
-export const deleteAll = ( filterBy ) => ( dispatch, getState ) => processRequest( RedirectionApi.log.deleteAll, dispatch, STATUS_LOG, { page: 0, filterBy }, getState().log, table => {
-	return { ... table, filterBy: {} };
-} );
-export const performTableAction = ( action, ids, extra ) => tableAction( RedirectionApi.bulk.log, action, ids, STATUS_LOG_ITEM, extra );
-export const getLogs = args => ( dispatch, getState ) => processRequest( RedirectionApi.log.list, dispatch, STATUS_LOG, args, getState().log );
+export const performTableAction = ( action, ids, extra ) =>
+	tableAction( RedirectionApi.bulk.log, action, ids, STATUS_LOG_ITEM, extra );
+export const getLogs = ( args ) => ( dispatch, getState ) =>
+	processRequest( RedirectionApi.log.list, dispatch, STATUS_LOG, args, getState().log );
 export const loadLogs = ( params = {} ) => getLogs( params );
 
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
-export const setPage = page => getLogs( { page } );
+export const setPage = ( page ) => getLogs( { page } );
 export const setFilter = ( filterBy ) => getLogs( { filterBy, orderby: '', page: 0 } );
 export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
-export const setSelected = items => ( { type: LOG_SET_SELECTED, items: items.map( parseInt ) } );
-export const setAllSelected = onoff => ( { type: LOG_SET_ALL_SELECTED, onoff } );
-export const setTable = table => getLogs( table );
-export const setGroupBy = groupBy => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: {} } );
-export const setDisplay = ( displayType, displaySelected ) => ( { type: LOG_DISPLAY_SET, displayType, displaySelected } );
+export const setSelected = ( items ) => ( { type: LOG_SET_SELECTED, items } );
+export const setTable = ( table ) => getLogs( table );
+export const setGroupBy = ( groupBy ) =>
+	getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: {} } );
+export const setDisplay = ( displayType, displaySelected ) => ( {
+	type: LOG_DISPLAY_SET,
+	displayType,
+	displaySelected,
+} );

@@ -8,17 +8,13 @@ export const getHeaders = ( groupBy ) => {
 	if ( groupBy === 'url' ) {
 		return [
 			{
-				name: 'cb',
-				check: true,
-			},
-			{
 				name: 'url',
 				title: __( 'Source URL' ),
 				primary: true,
 				sortable: false,
 			},
 			{
-				name: 'total',
+				name: 'count',
 				title: __( 'Count' ),
 				sortable: true,
 			},
@@ -26,28 +22,33 @@ export const getHeaders = ( groupBy ) => {
 	} else if ( groupBy === 'ip' ) {
 		return [
 			{
-				name: 'cb',
-				check: true,
-			},
-			{
-				name: 'ipx',
+				name: 'ip',
 				title: __( 'IP' ),
 				primary: true,
 				sortable: false,
 			},
 			{
-				name: 'total',
+				name: 'count',
+				title: __( 'Count' ),
+				sortable: true,
+			},
+		];
+	} else if ( groupBy === 'agent' ) {
+		return [
+			{
+				name: 'agent',
+				title: __( 'User Agent' ),
+				primary: true,
+				sortable: false,
+			},
+			{
+				name: 'count',
 				title: __( 'Count' ),
 				sortable: true,
 			},
 		];
 	}
-
 	return [
-		{
-			name: 'cb',
-			check: true,
-		},
 		{
 			name: 'date',
 			title: __( 'Date' ),

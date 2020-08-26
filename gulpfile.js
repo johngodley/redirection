@@ -135,6 +135,8 @@ function potJson( done ) {
 			const json = JSON.parse( String( file.contents ) );
 			const keys = Object.keys( json );
 
+			json[ 'plural-forms' ] = json[ '' ][ 'plural-forms' ];
+
 			for ( let x = 0; x < keys.length; x++ ) {
 				const key = keys[ x ];
 				const newObj = [];
@@ -146,6 +148,7 @@ function potJson( done ) {
 				json[ key ] = newObj;
 			}
 
+			delete json[''];
 			file.contents = new Buffer( he.decode( JSON.stringify( json ) ) );
 			cb( null, file );
 		} ) )
@@ -218,4 +221,4 @@ function potGenerate() {
 exports.svn = svn;
 exports.version = version;
 exports.plugin = plugin;
-exports.pot = series( potDownload, potExtract, potGenerate, potJson );
+exports.pot = series( potJson );

@@ -14,11 +14,11 @@ import EditRedirect from 'component/redirect-edit';
 import Modal from 'wp-plugin-components/modal';
 import { getDefaultItem } from 'state/redirect/selector';
 import { getFlags } from 'state/settings/selector';
-import { deleteExact } from 'state/error/action';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
+import { performTableAction } from 'state/error/action';
 
 function getRowForId( url, rows ) {
-	const rowUrl = rows.find( ( row ) => row.id === url );
+	const rowUrl = rows.find( ( row ) => row.id === url || row.id === parseInt( url, 10 ) );
 
 	if ( rowUrl ) {
 		return rowUrl.url;
@@ -52,7 +52,8 @@ function CreateRedirect( props ) {
 					item={ item }
 					saveButton={ __( 'Add Redirect' ) }
 					onCancel={ onClose }
-					childSave={ () => deleteLog && onDelete( uniqueUrls ) }
+					childSave={ () => deleteLog && onDelete( Array.isArray( uniqueUrls ) ? uniqueUrls : [ uniqueUrls ] ) }
+					canSave={ ( multi ) => deleteLog && confirm( multi ? __( 'Are you sure you want to delete the selected items?' ) : __( 'Are you sure you want to delete this item?' ) ) }
 					autoFocus
 				>
 					{ has_capability( CAP_404_DELETE ) && (
@@ -81,8 +82,8 @@ function CreateRedirect( props ) {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onDelete: ( selected ) => {
-			dispatch( deleteExact( selected ) );
+		onDelete: ( urls ) => {
+			dispatch( performTableAction( 'delete', urls, { groupBy: 'url-exact', deleteConfirm: true } ) );
 		},
 	};
 }

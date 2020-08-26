@@ -42,7 +42,7 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 						defaultFlags={ defaultFlags }
 					/>
 					{ rowMode === 'check' && (
-						<Modal onClose={ () => setRowMode( null ) } padding={ false }>
+						<Modal onClose={ () => setRowMode( null ) }>
 							<HttpCheck item={ row } />
 						</Modal>
 					) }
@@ -68,11 +68,11 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 		},
 		{
 			name: 'position',
-			content: numberFormat( position ),
+			content: numberFormat( position, 0 ),
 		},
 		{
 			name: 'last_count',
-			content: numberFormat( hits ),
+			content: numberFormat( hits, 0 ),
 		},
 		{
 			name: 'last_access',

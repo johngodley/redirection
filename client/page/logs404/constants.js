@@ -98,14 +98,18 @@ export const getHeaders = ( groupBy ) => {
  * Get bulk options
  *
  * @param {string} groupBy
+ * @param {boolean} hasFilters
  */
-export const getBulk = ( groupBy ) => {
+export const getBulk = ( groupBy, hasFilters ) => {
+	const bulk = [
+		{
+			id: 'delete',
+			name: __( 'Delete' ),
+		},
+	];
+
 	if ( groupBy === 'ip' ) {
-		return [
-			{
-				id: 'delete',
-				name: __( 'Delete' ),
-			},
+		return bulk.concat( [
 			{
 				id: 'redirect-ip',
 				name: __( 'Redirect All' ),
@@ -114,32 +118,25 @@ export const getBulk = ( groupBy ) => {
 				id: 'block',
 				name: __( 'Block IP' ),
 			},
-		];
+		] );
 	}
 
 	if ( groupBy === 'agent' ) {
-		return [
-			{
-				id: 'delete',
-				name: __( 'Delete' ),
-			},
-		];
+		return bulk;
 	}
 
-	return [
-		{
-			id: 'delete',
-			name: __( 'Delete' ),
-		},
+	return bulk.concat( [
 		{
 			id: 'redirect-url',
 			name: __( 'Redirect All' ),
+			isEverything: false,
 		},
 		{
 			id: 'ignore',
 			name: __( 'Ignore URL' ),
+			isEverything: false,
 		},
-	];
+	] );
 };
 
 export const getGroupBy = ( ipLogging ) => {

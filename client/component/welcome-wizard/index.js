@@ -13,9 +13,9 @@ import * as parseUrl from 'url';
  */
 import ExternalLink from 'wp-plugin-components/external-link';
 import Database from 'component/database';
-import Error from 'component/error';
 import RestApiStatus from 'component/rest-api-status';
-import { getApiUrl, setApiUrl } from 'lib/api';
+import getErrorLinks from 'lib/error-links';
+//import { getApiUrl, setApiUrl } from 'lib/api';
 import { saveSettings, finishUpgrade } from 'state/settings/action';
 import { pluginImport } from 'state/io/action';
 import { STATUS_FAILED } from 'state/settings/type';
@@ -298,7 +298,7 @@ class WelcomeWizard extends React.Component {
 					},
 				} ) }</p>
 
-				{ warning && <div className="red-error">
+				{ warning && <div className="wpl-error">
 					{ __( 'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.' ) }
 					<p><code>{ api.protocol + '//' + api.host }</code></p>
 					<p><code>{ home.protocol + '//' + home.host }</code></p>
@@ -408,7 +408,7 @@ class WelcomeWizard extends React.Component {
 
 		return (
 			<>
-				{ result === STATUS_FAILED && <Error /> }
+				{ result === STATUS_FAILED && <Error links={ getErrorLinks() } /> }
 
 				<div className="wizard-wrapper">
 					{ step !== 0 && step !== 3 && <h1>{ __( 'Redirection' ) }</h1> }

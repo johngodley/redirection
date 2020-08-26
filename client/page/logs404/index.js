@@ -9,17 +9,14 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import DeleteAll from 'page/logs/delete-all';
 import TableButtons from 'component/table/table-buttons';
 import CreateRedirect from './create-redirect';
 import { getGroup } from 'state/group/action';
 import {
 	loadLogs,
-	deleteAll,
 	setFilter,
 	setPage,
 	performTableAction,
-	setAllSelected,
 	setOrderBy,
 	setGroupBy,
 	setSelected,
@@ -90,18 +87,18 @@ function getGroupByTable( groupBy ) {
  * @param {*} props
  */
 function Logs404( props ) {
-	const { onFilter, onSetAll, onDelete, onDeleteAll } = props;
-	const { status, total, table, rows, saving } = props.error;
+	const { onSelect, error } = props;
+	const { status, total, table, rows, saving } = error;
 	const [ showCreate, setShowCreate ] = useState( null );
 
 	function onCreate( create ) {
-		onSetAll( false );
+		onSelect( false );
 		setShowCreate( create );
 	}
 
 	function onBulk( action ) {
 		if ( action === 'delete' ) {
-			props.onTableAction( action );
+			props.onBulk( action );
 		} else {
 			setShowCreate( getCreateAction( action, table.selected ) );
 		}
@@ -118,7 +115,7 @@ function Logs404( props ) {
 		displayGroups: getDisplayGroups( groupedTable.groupBy ),
 		searchOptions: getSearchOptions(),
 		groupBy: getGroupBy( props.settings.values.ip_logging ),
-		bulk: getBulk( groupedTable.groupBy ),
+		bulk: getBulk( groupedTable.groupBy, Object.keys( groupedTable.filterBy ).length > 0 ),
 		rowFilters: groupedTable.groupBy ? [] : getFilterOptions(),
 		headers: getHeaders( groupedTable.groupBy ).filter( ( item ) => isAvailable( item.name, groupedTable ) ),
 		validateDisplay,
@@ -126,9 +123,7 @@ function Logs404( props ) {
 
 	return (
 		<>
-			{ showCreate && (
-				<CreateRedirect onClose={ () => setShowCreate( null ) } redirect={ showCreate } />
-			) }
+			{ showCreate && <CreateRedirect onClose={ () => setShowCreate( null ) } redirect={ showCreate } /> }
 
 			<LogPage
 				logOptions={ logOptions }
@@ -139,24 +134,20 @@ function Logs404( props ) {
 				rows={ rows }
 				saving={ saving }
 				getRow={ ( row, rowParams ) =>
-					getColumns( row, rowParams, onFilter, onDelete, onCreate, saving.indexOf( row.id ) !== -1 )
+					getColumns( row, rowParams, props, saving.indexOf( row.id ) !== -1 )
 				}
 				getRowActions={ ( row, rowParams ) => (
 					<ErrorRowActions
 						disabled={ saving.indexOf( row.id ) !== -1 }
 						row={ row }
 						onCreate={ onCreate }
-						onDelete={ onDelete }
+						onDelete={ ( id ) => onBulk( 'delete', [ id ] ) }
 						table={ rowParams.table }
 					/>
 				) }
 				renderTableActions={ () =>
 					has_capability( CAP_404_DELETE ) &&
-					canDeleteAll( groupedTable ) && (
-						<TableButtons enabled={ rows.length > 0 }>
-							<DeleteAll onDelete={ onDeleteAll } table={ groupedTable } />
-						</TableButtons>
-					)
+					canDeleteAll( groupedTable ) && <TableButtons enabled={ rows.length > 0 } />
 				}
 			/>
 		</>
@@ -181,20 +172,11 @@ function mapDispatchToProps( dispatch ) {
 		onLoadGroups: () => {
 			dispatch( getGroup() );
 		},
-		onDeleteAll: ( filterBy, filter ) => {
-			dispatch( deleteAll( filterBy, filter ) );
-		},
-		onDelete: ( items ) => {
-			dispatch( performTableAction( 'delete', items ) );
-		},
 		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onTableAction: ( action ) => {
-			dispatch( performTableAction( action, null ) );
-		},
-		onSetAll: ( onoff ) => {
-			dispatch( setAllSelected( onoff ) );
+		onBulk: ( action, ids ) => {
+			dispatch( performTableAction( action, ids ) );
 		},
 		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );

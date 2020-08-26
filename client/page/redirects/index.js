@@ -14,7 +14,6 @@ import {
 	getRedirect,
 	setPage,
 	performTableAction,
-	setAllSelected,
 	setOrderBy,
 	setFilter,
 	setDisplay,
@@ -37,10 +36,11 @@ import CreateRedirect from './create';
 import RedirectRowActions from './row-actions';
 import getColumns from './columns';
 import { nestedGroups } from 'state/group/selector';
+import './style.scss';
 
 function alwaysHasSource( selected ) {
 	if ( selected.indexOf( 'source' ) === -1 ) {
-		return selected.concat( [ 'source'] );
+		return selected.concat( [ 'source' ] );
 	}
 
 	return selected;
@@ -95,8 +95,22 @@ function Redirects( props ) {
 
 			<LogPage
 				logOptions={ logOptions }
-				logActions={ props }
-				table={ table }
+				logActions={ {
+					...props,
+					onGroup: ( group ) => {
+						props.onFilter( {
+							...table.filterBy,
+							...( parseInt( group, 10 ) > 0 ? { group } : {} ),
+						} );
+					},
+					onFilter: ( filter ) => {
+						props.onFilter( {
+							...filter,
+							...( table.filterBy.group ? { group: table.filterBy.group } : {} ),
+						} );
+					},
+				} }
+				table={ { ...table, groupBy: table.filterBy.group ? table.filterBy.group : 0 } }
 				status={ status }
 				total={ total }
 				rows={ rows }
@@ -140,19 +154,13 @@ function mapDispatchToProps( dispatch ) {
 		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onBulk: ( action ) => {
-			dispatch( performTableAction( action ) );
-		},
-		onSetAll: ( onoff ) => {
-			dispatch( setAllSelected( onoff ) );
-		},
-		onGroup: ( group ) => {
-			dispatch( setFilter( parseInt( group, 10 ) > 0 ? { group } : {} ) );
+		onBulk: ( action, ids ) => {
+			dispatch( performTableAction( action, ids ) );
 		},
 		onSelect: ( items ) => {
 			dispatch( setSelected( items ) );
 		},
-		onSetOrderBy: ( column, direction ) => {
+		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
 		onFilter: ( filterBy ) => {

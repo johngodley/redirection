@@ -14,19 +14,17 @@ import PaginationLinks from './pagination-links';
 
 function NavigationPages( props ) {
 	const { total, perPage, page, onChangePage, disabled } = props;
-	const onePage = total <= perPage;
 	const classes = classnames( {
 		'tablenav-pages': true,
-		'one-page': onePage,
 	} );
 
 	return (
 		<div className={ classes }>
 			<span className="displaying-num">
-				{ __( '%s item', '%s items', { count: total, args: numberFormat( total ) } ) }
+				{ __( '%s item', '%s items', { count: total, args: numberFormat( total, 0 ) } ) }
 			</span>
 
-			{ ! onePage && (
+			<span className="pagination-links">
 				<PaginationLinks
 					onChangePage={ onChangePage }
 					total={ total }
@@ -35,7 +33,7 @@ function NavigationPages( props ) {
 					disabled={ disabled }
 					key={ page }
 				/>
-			) }
+			</span>
 		</div>
 	);
 }

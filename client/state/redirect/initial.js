@@ -21,6 +21,14 @@ export function getInitialRedirect() {
 		total: 0,
 		addTop: false,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'url', 'position', 'last_count', 'id', 'last_access' ], toFilter( getFilterOptions(), extra ), [], 'id', [ '' ], 'redirect', getDisplayGroups() ),
+		table: getDefaultTable(
+			[ 'url', 'position', 'last_count', 'id', 'last_access' ],
+			toFilter( getFilterOptions(), extra ),
+			[],
+			'id',
+			[ '' ],
+			'redirect',
+			getDisplayGroups()
+		),
 	};
 }

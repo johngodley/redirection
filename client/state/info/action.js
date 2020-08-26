@@ -9,7 +9,8 @@ import {
 	INFO_CLEAR_HTTP,
 	INFO_FAILED,
 } from './type';
-import { getApi, RedirectLiApi } from 'lib/api';
+import { RedirectLiApi } from 'lib/api-request';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 export const getMap = ip => ( dispatch, getState ) => {
 	const { maps } = getState().info;
@@ -18,7 +19,7 @@ export const getMap = ip => ( dispatch, getState ) => {
 		return;
 	}
 
-	getApi( RedirectLiApi.ip.getGeo( ip ) )
+	apiFetch( RedirectLiApi.ip.getGeo( ip ) )
 		.then( map => {
 			dispatch( { type: INFO_LOADED_GEO, map } );
 		} )
@@ -36,7 +37,7 @@ export const getAgent = ua => ( dispatch, getState ) => {
 		return;
 	}
 
-	getApi( RedirectLiApi.agent.get( ua ) )
+	apiFetch( RedirectLiApi.agent.get( ua ) )
 		.then( agent => {
 			dispatch( { type: INFO_LOADED_AGENT, agent } );
 		} )
@@ -48,7 +49,7 @@ export const getAgent = ua => ( dispatch, getState ) => {
 };
 
 export const getHttp = url => dispatch => {
-	getApi( RedirectLiApi.http.get( url ) )
+	apiFetch( RedirectLiApi.http.get( url ) )
 		.then( http => {
 			dispatch( { type: INFO_LOADED_HTTP, http } );
 		} )

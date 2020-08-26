@@ -21,15 +21,20 @@ function getTotalPages( total, perPage ) {
 
 function PaginationLinks( props ) {
 	const { page, total, perPage, onChangePage } = props;
-	const [ currentPage, setPage ] = useState( page );
+	const [ currentPage, setPage ] = useState( page + 1 );
 	const max = getTotalPages( total, perPage );
+	const onePage = total <= perPage;
 
 	useEffect( () => {
-		setPage( page );
+		setPage( page + 1 );
 	}, [ page ] );
 
+	if ( onePage ) {
+		return null;
+	}
+
 	return (
-		<span className="pagination-links">
+		<>
 			<NavigationButton
 				title={ __( 'First page' ) }
 				button="«"
@@ -56,10 +61,10 @@ function PaginationLinks( props ) {
 					min="1"
 					max={ max }
 					name="paged"
-					value={ currentPage + 1 }
+					value={ currentPage }
 					size={ 2 }
 					aria-describedby="table-paging"
-					onBlur={ () => onChangePage( currentPage ) }
+					onBlur={ () => onChangePage( Math.min( max - 1, Math.max( 0, currentPage - 1 ) ) ) }
 					onChange={ ( ev ) => setPage( ev.target.value ) }
 				/>
 
@@ -69,7 +74,7 @@ function PaginationLinks( props ) {
 							total: <span className="total-pages" />,
 						},
 						args: {
-							page: numberFormat( max ),
+							page: numberFormat( max, 0 ),
 						},
 					} ) }
 				</span>
@@ -90,7 +95,7 @@ function PaginationLinks( props ) {
 				disabled={ page >= max - 1 }
 				onClick={ () => onChangePage( max - 1 ) }
 			/>
-		</span>
+		</>
 	);
 }
 

@@ -23,17 +23,17 @@ import CheckColumn from './check-column';
  * @param {Table} props.table - Table params
  * @param {TableHeader[]} props.headers - Headers
  * @param {SetOrderBy} props.onSetOrderBy - When clicking on a sortable header
- * @param {SetAllSelected} props.onSetAllSelected - When clicking the 'set all'
+ * @param {SetAllSelected} props.onSelect - When clicking the 'set all'
  * @param {boolean} props.hasBulk - Has bulk actions
  * @param {boolean} props.allSelected - All items are selected
  */
 const TableHeader = ( props ) => {
-	const { disabled, onSetAllSelected, onSetOrderBy, headers, table, hasBulk, allSelected } = props;
+	const { disabled, onSelect, onSetOrderBy, headers, table, hasBulk, allSelected } = props;
 
 	return (
 		<tr>
 			{ hasBulk && (
-				<CheckColumn onSetAllSelected={ onSetAllSelected } disabled={ disabled } selected={ allSelected } />
+				<CheckColumn onSelect={ onSelect } disabled={ disabled } selected={ allSelected } />
 			) }
 
 			{ headers

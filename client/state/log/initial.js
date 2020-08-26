@@ -29,7 +29,7 @@ export function getInitialLog() {
 		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'ip', 'url', 'total' ], toFilter( getFilterOptions(), extra ), [ 'url', 'ip' ], defaultOrder, [ 'log' ], 'log', getDisplayGroups() ),
+		table: getDefaultTable( [ 'ip', 'url', 'total' ], toFilter( getFilterOptions(), extra ), [ 'url', 'ip', 'agent' ], defaultOrder, [ 'log' ], 'log', getDisplayGroups() ),
 		requestCount: 0,
 	};
 }

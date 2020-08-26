@@ -107,7 +107,6 @@
  */
 .table-buttons {
 	float: left;
-	padding-top: 2px;
 
 	> button, > form, > div.table-button-item {
 		margin-right: 5px !important;
@@ -250,4 +249,19 @@
 	.button {
 		height: 28px;
 	}
+}
+
+.tablenav .tablenav-pages {
+	.tablenav-paging-text,
+	.pagination-links .button {
+		margin-right: 4px;
+	}
+
+	.pagination-links .button:last-of-type {
+		margin-right: 0;
+	}
+}
+
+.redirect-table__actions .bulkactions {
+	margin-bottom: 9px;
 }

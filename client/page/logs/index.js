@@ -11,14 +11,12 @@ import { translate as __ } from 'i18n-calypso';
  */
 
 import Table from 'component/table';
-import DeleteAll from 'page/logs/delete-all';
+import TableButtons from 'component/table/table-buttons';
 import { getOption } from 'state/settings/selector';
 import {
 	loadLogs,
-	deleteAll,
 	setPage,
 	performTableAction,
-	setAllSelected,
 	setOrderBy,
 	setGroupBy,
 	setFilter,
@@ -35,7 +33,6 @@ import {
 	getFilterOptions,
 	getGroupBy,
 } from './constants';
-import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
 import LogPage from 'component/log-page';
 import getColumns from 'component/log-page/log-columns';
 import LogRowActions from './row-actions';
@@ -47,10 +44,6 @@ function validateDisplay( selected ) {
 	}
 
 	return selected;
-}
-
-function canDeleteAll( { filterBy } ) {
-	return Object.keys( filterBy ).length === 0;
 }
 
 function getGroupByTable( groupBy ) {
@@ -73,7 +66,7 @@ function isAvailable( item, table ) {
 }
 
 function Logs( props ) {
-	const { onFilter, onDelete, onDeleteAll, token } = props;
+	const { onBulk, token } = props;
 	const { status, total, table, rows, saving } = props.log;
 
 	useEffect(() => {
@@ -101,29 +94,26 @@ function Logs( props ) {
 			total={ total }
 			rows={ rows }
 			saving={ saving }
-			getRow={ ( row, rowParams ) =>
-				getColumns( row, rowParams, onFilter, onDelete, () => {}, saving.indexOf( row.id ) !== -1 )
-			}
+			getRow={ ( row, rowParams ) => getColumns( row, rowParams, props, saving.indexOf( row.id ) !== -1 ) }
 			getRowActions={ ( row, rowParams ) => (
 				<LogRowActions
 					disabled={ saving.indexOf( row.id ) !== -1 }
 					row={ row }
-					onDelete={ onDelete }
+					onDelete={ ( id ) => onBulk( 'delete', [ id ] ) }
 					table={ rowParams.table }
 				/>
 			) }
 			renderTableActions={ () => (
 				<>
-					{ token && (
-						<div className="table-button-item">
-							<a href={ getRssUrl( token ) } className="button-secondary">
-								RSS
-							</a>
-						</div>
-					) }
-					{ has_capability( CAP_LOG_DELETE ) && canDeleteAll( table ) && (
-						<DeleteAll onDelete={ onDeleteAll } table={ table } />
-					) }
+					<TableButtons enabled={ rows.length > 0 }>
+						{ token && (
+							<div className="table-button-item">
+								<a href={ getRssUrl( token ) } className="button-secondary">
+									{ __( 'RSS' ) }
+								</a>
+							</div>
+						) }
+					</TableButtons>
 				</>
 			) }
 		/>
@@ -145,22 +135,16 @@ function mapDispatchToProps( dispatch ) {
 		onLoad: ( params ) => {
 			dispatch( loadLogs( params ) );
 		},
-		onDeleteAll: ( filterBy ) => {
-			dispatch( deleteAll( filterBy ) );
-		},
 		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onTableAction: ( action ) => {
-			dispatch( performTableAction( action ) );
+		onBulk: ( action, items ) => {
+			dispatch( performTableAction( action, items ) );
 		},
 		onGroup: ( groupBy ) => {
 			dispatch( setGroupBy( groupBy ) );
 		},
-		onSetAll: ( onoff ) => {
-			dispatch( setAllSelected( onoff ) );
-		},
-		onSetOrderBy: ( column, direction ) => {
+		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
 		onFilter: ( filterBy ) => {

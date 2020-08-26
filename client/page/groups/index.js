@@ -14,7 +14,6 @@ import {
 	getGroup,
 	setPage,
 	performTableAction,
-	setAllSelected,
 	setOrderBy,
 	setFilter,
 	setDisplay,
@@ -58,13 +57,15 @@ function Groups( props ) {
 	}, []);
 
 	const logOptions = {
-		displayFilters: getDisplayOptions( table.groupBy ),
-		displayGroups: getDisplayGroups( table.groupBy ),
+		displayFilters: getDisplayOptions(),
+		displayGroups: getDisplayGroups(),
 		searchOptions: getSearchOptions(),
 		groupBy: [],
 		bulk: getBulk(),
-		rowFilters: getFilterOptions( getModules() ),
-		headers: getHeaders( table.groupBy ).filter( ( item ) => isAvailable( item.name, table ) ),
+		rowFilters: getFilterOptions(
+			getModules().map( ( module ) => ( { label: module.label, value: `${ module.value }` } ) )
+		),
+		headers: getHeaders().filter( ( item ) => isAvailable( item.name, table ) ),
 		validateDisplay,
 	};
 
@@ -110,16 +111,13 @@ function mapDispatchToProps( dispatch ) {
 		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onBulk: ( action ) => {
-			dispatch( performTableAction( action ) );
-		},
-		onSetAll: ( onoff ) => {
-			dispatch( setAllSelected( onoff ) );
+		onBulk: ( action, ids ) => {
+			dispatch( performTableAction( action, ids ) );
 		},
 		onSelect: ( items ) => {
 			dispatch( setSelected( items ) );
 		},
-		onSetOrderBy: ( column, direction ) => {
+		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
 		onFilter: ( filterBy ) => {

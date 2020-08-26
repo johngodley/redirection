@@ -170,6 +170,7 @@ function LogPage( props ) {
 				onChangePage={ onChangePage }
 				className="bottom"
 			>
+				{ total >= rows.length && ! table.groupBy && <BulkActions bulk={ bulk } disabled={ disabled } onBulk={ onBulk } isEverything /> }
 				{ renderTableActions && renderTableActions() }
 			</TableNav>
 		</>

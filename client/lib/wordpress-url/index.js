@@ -7,14 +7,6 @@ import * as qs from 'qs';
 
 const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support', 'site' ];
 
-export function setPageUrl( query, defaults ) {
-	const url = getWordPressUrl( query, defaults );
-
-	if ( document.location.search !== url ) {
-		history.pushState( {}, null, url );
-	}
-}
-
 export function getPageUrl( query ) {
 	return qs.parse( query ? query.slice( 1 ) : document.location.search.slice( 1 ) );
 }

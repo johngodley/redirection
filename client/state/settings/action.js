@@ -19,14 +19,15 @@ import {
 	SETTING_API_FAILED,
 	SETTING_API_TRY,
 } from './type';
-import { getApi, RedirectionApi } from 'lib/api';
+import { RedirectionApi } from 'lib/api-request';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 export const loadSettings = () => ( dispatch, getState ) => {
 	if ( getState().settings.loadStatus === STATUS_COMPLETE ) {
 		return null;
 	}
 
-	getApi( RedirectionApi.setting.get() )
+	apiFetch( RedirectionApi.setting.get() )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_SUCCESS, values: json.settings, groups: json.groups, postTypes: json.post_types, installed: json.installed, canDelete: json.canDelete } );
 		} )
@@ -38,7 +39,7 @@ export const loadSettings = () => ( dispatch, getState ) => {
 };
 
 export const saveSettings = settings => dispatch => {
-	getApi( RedirectionApi.setting.update( settings ) )
+	apiFetch( RedirectionApi.setting.update( settings ) )
 		.then( json => {
 			dispatch( { type: SETTING_SAVED, values: json.settings, groups: json.groups, installed: json.installed, warning: json.warning } );
 		} )
@@ -50,7 +51,7 @@ export const saveSettings = settings => dispatch => {
 };
 
 export const deletePlugin = () => dispatch => {
-	getApi( RedirectionApi.plugin.delete() )
+	apiFetch( RedirectionApi.plugin.delete() )
 		.then( json => {
 			document.location.href = json.location;
 		} )
@@ -62,7 +63,7 @@ export const deletePlugin = () => dispatch => {
 };
 
 export const loadStatus = () => dispatch => {
-	getApi( RedirectionApi.plugin.status() )
+	apiFetch( RedirectionApi.plugin.status() )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
 		} )
@@ -74,7 +75,7 @@ export const loadStatus = () => dispatch => {
 };
 
 export const fixStatus = ( name, value ) => dispatch => {
-	getApi( RedirectionApi.plugin.fix( name, value ) )
+	apiFetch( RedirectionApi.plugin.fix( name, value ) )
 		.then( json => {
 			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
 			document.location.reload();
@@ -89,7 +90,7 @@ export const fixStatus = ( name, value ) => dispatch => {
 export const showUpgrade = () => ( { type: SETTING_DATABASE_SHOW } );
 
 export const upgradeDatabase = ( arg ) => dispatch => {
-	getApi( RedirectionApi.plugin.upgradeDatabase( arg ) )
+	apiFetch( RedirectionApi.plugin.upgradeDatabase( arg ) )
 		.then( json => {
 			dispatch( { type: SETTING_DATABASE_SUCCESS, database: json } );
 		} )
@@ -112,7 +113,7 @@ export const checkApi = api => dispatch => {
 		// Bit of a delay otherwise it can seem too fast...
 		setTimeout( () => {
 			// GET test
-			getApi( RedirectionApi.plugin.checkApi( url ) )
+			apiFetch( RedirectionApi.plugin.checkApi( url ) )
 				.then( () => {
 					dispatch( { type: SETTING_API_SUCCESS, id, method: 'GET' } );
 				} )
@@ -121,7 +122,7 @@ export const checkApi = api => dispatch => {
 				} );
 
 			// POST test
-			getApi( RedirectionApi.plugin.checkApi( url, true ) )
+			apiFetch( RedirectionApi.plugin.checkApi( url, true ) )
 				.then( () => {
 					dispatch( { type: SETTING_API_SUCCESS, id, method: 'POST' } );
 				} )

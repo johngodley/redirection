@@ -13,6 +13,14 @@ export function getInitialGroup() {
 		saving: [],
 		total: 0,
 		status: STATUS_IN_PROGRESS,
-		table: getDefaultTable( [ 'name' ], toFilter( getFilterOptions( getModules() ), { name: true } ), [], 'name', [ 'groups' ], 'group', getDisplayGroups() ),
+		table: getDefaultTable(
+			[ 'name' ],
+			toFilter( getFilterOptions( getModules() ), { name: true } ),
+			[],
+			'name',
+			[ 'groups' ],
+			'group',
+			getDisplayGroups()
+		),
 	};
 }

@@ -155,6 +155,10 @@ class EditRedirect extends React.Component {
 			action_data: getMatchState( match_type, action_data ),
 		};
 
+		if ( this.props.canSave && ! this.props.canSave( Array.isArray( url ) ) ) {
+			return;
+		}
+
 		if ( redirect.id ) {
 			this.props.onSave( redirect.id, redirect );
 		} else {

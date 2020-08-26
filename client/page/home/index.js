@@ -3,7 +3,7 @@
  * External dependencies
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
@@ -11,23 +11,18 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import { getPluginPage } from 'lib/wordpress-url';
-import Options from 'page/options';
-import Support from 'page/support';
-import Site from 'page/site';
-import Logs from 'page/logs';
-import Logs404 from 'page/logs404';
-import ImportExport from 'page/io';
-import Groups from 'page/groups';
-import Redirects from 'page/redirects';
-import Error from 'component/error';
-import Notice from 'component/notice';
-import Progress from 'component/progress';
-import Menu from 'component/menu';
 import WelcomeWizard from 'component/welcome-wizard';
 import DatabaseUpdate from './database-update';
-import ExternalLink from 'wp-plugin-components/external-link';
-import { clearErrors } from 'state/message/action';
+import { Snackbar, Menu, ErrorBoundary, Error } from 'wp-plugin-components';
+import PageRouter from 'wp-plugin-lib/page-router';
+import { getPluginPage } from 'wp-plugin-lib/wordpress-url';
+import DebugReport from './debug';
+import ErrorDetails from './error-details';
+import CrashHandler from './crash-handler';
+import PageContent from './page-content';
+import getErrorLinks from 'lib/error-links';
+import CacheDetect from './cache-detect';
+import { clearErrors, clearNotices } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
 import { setTable as setErrorTable } from 'state/error/action';
 import { setTable as setGroupTable } from 'state/group/action';
@@ -37,7 +32,7 @@ import { getInitialLog } from 'state/log/initial';
 import { getInitialGroup } from 'state/group/initial';
 import { getInitialRedirect } from 'state/redirect/initial';
 import { showUpgrade } from 'state/settings/action';
-import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
+import { has_capability, has_page_access, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import './style.scss';
 
 const getTitles = () => ( {
@@ -51,235 +46,169 @@ const getTitles = () => ( {
 	support: __( 'Support' ),
 } );
 
-class Home extends React.Component {
-	constructor( props ) {
-		super( props );
+const getMenu = () =>
+	[
+		{
+			name: __( 'Redirects' ),
+			value: '',
+		},
+		{
+			name: __( 'Groups' ),
+			value: 'groups',
+		},
+		{
+			name: __( 'Site' ),
+			value: 'site',
+		},
+		{
+			name: __( 'Log' ),
+			value: 'log',
+		},
+		{
+			name: __( '404s' ),
+			value: '404s',
+		},
+		{
+			name: __( 'Import/Export' ),
+			value: 'io',
+		},
+		{
+			name: __( 'Options' ),
+			value: 'options',
+		},
+		{
+			name: __( 'Support' ),
+			value: 'support',
+		},
+	].filter(
+		( option ) => has_page_access( option.value ) || ( option.value === '' && has_page_access( 'redirect' ) )
+	);
 
-		this.state = {
-			page: getPluginPage(),
-			clicked: 0,
-			stack: false,
-			error: REDIRECTION_VERSION !== Redirectioni10n.version,
-			info: false,
-		};
+const ALLOWED_PAGES = [ 'redirect' ].concat( getMenu().slice( 1 ).map( ( page ) => ( page.value ) ) );
 
-		window.addEventListener( 'popstate', this.onPageChanged );
-	}
+function Home( props ) {
+	const { onClearErrors, errors, onClearNotices, notices, onAdd, databaseStatus, onShowUpgrade, showDatabase, result } = props;
+	const [ page, setPage ] = useState( getPluginPage( ALLOWED_PAGES ) );
 
-	componentDidCatch( error, info ) {
-		this.setState( { error: true, stack: error, info } );
-	}
+	function changePage( page ) {
+		const { onSet404Table, onSetLogTable, onSetRedirectTable, onSetGroupTable } = props;
 
-	componentWillUnmount() {
-		window.removeEventListener( 'popstate', this.onPageChanged );
-	}
-
-	onPageChanged = () => {
-		const page = getPluginPage();
-
-		this.changePage( page );
-		this.setState( { page, clicked: this.state.clicked + 1 } );
-	}
-
-	onChangePage = ( page, url ) => {
-		const { errors } = this.props;
-
-		if ( page === '' ) {
-			page = 'redirect';
-		}
-
-		if ( page === 'support' && errors.length > 0 ) {
-			document.location.href = url;
-			return;
-		}
-
-		this.props.onClear();
-
-		history.pushState( {}, null, url );
-
-		this.changePage( page );
-		this.setState( {
-			page,
-			clicked: this.state.clicked + 1,
-		} );
-	}
-
-	changePage( page ) {
-		const { onSet404Table, onSetLogTable, onSetRedirectTable, onSetGroupTable } = this.props;
+		setPage( page === '' ? 'redirect' : page );
 
 		if ( page === '404s' ) {
 			onSet404Table( getInitialError().table );
 		} else if ( page === 'log' ) {
 			onSetLogTable( getInitialLog().table );
-		} else if ( page === 'redirect' ) {
+		} else if ( page === '' ) {
 			onSetRedirectTable( getInitialRedirect().table );
 		} else if ( page === 'groups' ) {
 			onSetGroupTable( getInitialGroup().table );
 		}
 	}
 
-	getContent( page ) {
-		const { clicked } = this.state;
-
-		switch ( page ) {
-			case 'support':
-				return <Support />;
-
-			case '404s':
-				return <Logs404 key={ clicked } />;
-
-			case 'log':
-				return <Logs key={ clicked } />;
-
-			case 'io':
-				return <ImportExport />;
-
-			case 'groups':
-				return <Groups key={ clicked } />;
-
-			case 'options':
-				return <Options />;
-
-			case 'site':
-				return <Site />;
-		}
-
-		return <Redirects key={ clicked } />;
+	if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
+		return <CacheDetect />;
 	}
 
-	renderError() {
-		const debug = [
-			Redirectioni10n.versions,
-			'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
-			'',
-			this.state.stack,
-		];
+	if ( databaseStatus === 'need-install' || databaseStatus === 'finish-install' ) {
+		return <WelcomeWizard />;
+	}
 
-		if ( this.state.info && this.state.info.componentStack ) {
-			debug.push( this.state.info.componentStack );
-		}
-
-		if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
-			return (
-				<div className="red-error">
-					<h2>{ __( 'Cached Redirection detected' ) }</h2>
-					<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
-					<p>
-						{ __( 'If you are using a caching system such as Cloudflare then please read this: ' ) }
-						<ExternalLink url="https://redirection.me/support/problems/cloudflare/?utm_source=redirection&utm_medium=plugin&utm_campaign=support">{ __( 'clearing your cache.' ) }</ExternalLink>
-					</p>
-					<p><textarea readOnly={ true } rows={ debug.length + 3 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
-				</div>
-			);
-		}
-
+	if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
 		return (
-			<div className="red-error">
-				<h2>{ __( 'Something went wrong 🙁' ) }</h2>
+			<DatabaseUpdate
+				onShowUpgrade={ onShowUpgrade }
+				showDatabase={ showDatabase }
+				result={ result }
+			/>
+		);
+	}
 
-				<p>
-					{ __( 'Redirection is not working. Try clearing your browser cache and reloading this page.' ) } &nbsp;
-					{ __( 'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.' ) }
-				</p>
+	return (
+		<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
+			<div className="wrap redirection">
+				<PageRouter
+					page={ page }
+					setPage={ setPage }
+					onPageChange={ onClearErrors }
+					allowedPages={ ALLOWED_PAGES }
+					baseUrl="?page=redirection.php"
+					defaultPage="redirect"
+				>
+					<h1 className="wp-heading-inline">{ getTitles()[ page ] }</h1>
 
-				<p>
-					{ __( "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details.", {
-						components: {
-							link: <ExternalLink url="https://github.com/johngodley/redirection/issues" />,
-						},
-					} ) }
-				</p>
-				<p>
-					{ __( 'Please mention {{code}}%s{{/code}}, and explain what you were doing at the time', {
-						components: {
-							code: <code />,
-						},
-						args: this.state.page,
-					} ) }
-				</p>
-				<p><textarea readOnly={ true } rows={ debug.length + 8 } cols="120" value={ debug.join( '\n' ) } spellCheck={ false }></textarea></p>
+					{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
+						<button type="button" onClick={ onAdd } className="page-title-action">
+							{ __( 'Add New' ) }
+						</button>
+					) }
+
+					<Menu
+						onChangePage={ changePage }
+						currentPage={ page }
+						menu={ getMenu() }
+						home="redirect"
+						urlBase={ Redirectioni10n.pluginRoot }
+					/>
+
+					<Error
+						errors={ errors }
+						onClear={ onClearErrors }
+						renderDebug={ DebugReport }
+						versions={ Redirectioni10n.versions + '\nQuery: ' + document.location.search }
+						links={ getErrorLinks() }
+					>
+						<ErrorDetails />
+					</Error>
+
+					<PageContent page={ page } />
+
+					<Snackbar notices={ notices } onClear={ onClearNotices } />
+				</PageRouter>
 			</div>
-		);
-	}
-
-	onAdd = ev => {
-		ev.preventDefault();
-		this.props.onAdd();
-	}
-
-	onShowUpgrade = ev => {
-		ev.preventDefault();
-		this.props.onShowUpgrade();
-	}
-
-	render() {
-		const { error, page } = this.state;
-		const { databaseStatus, showDatabase, result } = this.props;
-		const title = getTitles()[ page ];
-
-		if ( error ) {
-			return this.renderError();
-		}
-
-		if ( databaseStatus === 'need-install' || databaseStatus === 'finish-install' ) {
-			return <WelcomeWizard />;
-		}
-
-		if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
-			return <DatabaseUpdate onShowUpgrade={ this.props.onShowUpgrade } showDatabase={ showDatabase } result={ result } />;
-		}
-
-		return (
-			<React.StrictMode>
-				<div className="wrap redirection">
-					<h1 className="wp-heading-inline">{ title }</h1>
-					{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && <a href="#" onClick={ this.onAdd } className="page-title-action">{ __( 'Add New' ) }</a> }
-
-					<Menu onChangePage={ this.onChangePage } />
-					<Error />
-
-					{ this.getContent( page ) }
-
-					<Progress />
-					<Notice />
-				</div>
-			</React.StrictMode>
-		);
-	}
+		</ErrorBoundary>
+	);
 }
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onClear: () => {
+		onClearErrors: () => {
 			dispatch( clearErrors() );
 		},
 		onAdd: () => {
 			dispatch( addToTop( true ) );
 		},
-		onSet404Table: table => {
+		onSet404Table: ( table ) => {
 			dispatch( setErrorTable( table ) );
 		},
-		onSetLogTable: table => {
+		onSetLogTable: ( table ) => {
 			dispatch( setLogTable( table ) );
 		},
-		onSetGroupTable: table => {
+		onSetGroupTable: ( table ) => {
 			dispatch( setGroupTable( table ) );
 		},
-		onSetRedirectTable: table => {
+		onSetRedirectTable: ( table ) => {
 			dispatch( setRedirectTable( table ) );
 		},
 		onShowUpgrade: () => {
 			dispatch( showUpgrade() );
 		},
+		onClearNotices: () => {
+			dispatch( clearNotices() );
+		},
 	};
 }
 
 function mapStateToProps( state ) {
-	const { message: { errors }, settings: { showDatabase } } = state;
+	const {
+		message: { errors, notices },
+		settings: { showDatabase },
+	} = state;
 	const { status: databaseStatus, result } = state.settings.database;
 
 	return {
 		errors,
+		notices,
 		showDatabase,
 		databaseStatus,
 		result,
@@ -288,5 +217,5 @@ function mapStateToProps( state ) {
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps,
+	mapDispatchToProps
 )( Home );

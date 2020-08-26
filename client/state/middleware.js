@@ -8,7 +8,8 @@ import { GROUP_LOADING, GROUP_DISPLAY_SET, GROUP_ITEM_SAVING } from 'state/group
 import { ERROR_DISPLAY_SET } from 'state/error/type';
 import { LOG_LOADING, LOG_DISPLAY_SET } from 'state/log/type';
 import { ERROR_LOADING } from 'state/error/type';
-import { getPluginPage, setPageUrl } from 'lib/wordpress-url';
+import { getPluginPage } from 'lib/wordpress-url';
+import { setPageUrl } from 'wp-plugin-lib/wordpress-url';
 
 function storeDisplay( storeName, action ) {
 	localStorage.setItem( storeName + '_displayType', action.displayType );
@@ -31,7 +32,16 @@ const setUrlForPage = ( action, table ) => {
 
 	if ( currentPage[ pluginPage ] && action === currentPage[ pluginPage ][ 0 ].find( ( item ) => item === action ) ) {
 		const { orderby, direction, page, per_page, filterBy, groupBy } = table;
-		const query = { orderby, direction, offset: page, per_page, filterBy, groupBy };
+		const query = {
+			page: 'redirection.php',
+			sub: pluginPage,
+			orderby,
+			direction,
+			per_page,
+			filterBy,
+			groupBy,
+			offset: page,
+		};
 		const defaults = {
 			orderby: currentPage[ pluginPage ][ 1 ],
 			direction: 'desc',
@@ -39,6 +49,7 @@ const setUrlForPage = ( action, table ) => {
 			filterBy: {},
 			per_page: parseInt( Redirectioni10n.per_page, 10 ),
 			groupBy: '',
+			sub: 'redirect',
 		};
 
 		if ( groupBy ) {

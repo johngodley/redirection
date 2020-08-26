@@ -3,7 +3,7 @@
 		[
 			"@babel/preset-env",
 			{
-				"modules": false
+				"modules": "auto",
 			}
 		],
 		"@babel/preset-react"
@@ -28,14 +28,7 @@
 	],
 	"env": {
 		"test": {
-			"presets": [
-				"@babel/preset-env"
-			]
-		},
-		"production": {
-			"plugins": [
-				"transform-react-remove-prop-types"
-			]
+			"presets": [ "@babel/preset-env" ]
 		}
 	}
 }

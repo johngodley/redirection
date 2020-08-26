@@ -9,13 +9,14 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 import { DropdownText } from 'wp-plugin-components';
-import { RedirectionApi, getApi } from 'lib/api';
+import { RedirectionApi } from 'lib/api-request';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 function TargetUrl( props ) {
 	const { onChange, url } = props;
 
 	function getSuggestedUrls( url ) {
-		return getApi( RedirectionApi.redirect.matchPost( url ) );
+		return apiFetch( RedirectionApi.redirect.matchPost( url ) );
 	}
 
 	return (

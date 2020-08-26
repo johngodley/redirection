@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { getExportUrl } from 'state/io/selector';
 import Database from 'component/database';
 import ExternalLink from 'wp-plugin-components/external-link';
-import Error from 'component/error';
 import { STATUS_FAILED } from 'state/settings/type';
 import { fixStatus } from 'state/settings/action';
 
@@ -102,7 +101,7 @@ class NeedUpdate extends React.Component {
 			<div className="wrap redirection">
 				<h1 className="wp-heading-inline">{ __( 'Upgrade Required' ) }</h1>
 
-				<div className="red-error">
+				<div className="wpl-error">
 					<h3>{ __( 'Redirection database needs upgrading' ) }</h3>
 					{ getUpgradeNotice() }
 

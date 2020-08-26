@@ -93,7 +93,6 @@ import './style.scss';
  * @param {TableHeader[]} props.headers - Table headers
  * @param {TableRow[]} props.rows - Table rows
  * @param {number[]} props.saving
- * @param {SetAllSelected} props.onSetAllSelected
  * @param {SetOrderBy} props.onSetOrderBy
  * @param {SetSelected} [props.onSelect]
  */
@@ -107,7 +106,6 @@ const Table = ( props ) => {
 		status,
 		saving,
 		onSelect,
-		onSetAllSelected,
 		onSetOrderBy,
 	} = props;
 
@@ -117,7 +115,7 @@ const Table = ( props ) => {
 			disabled={ status !== STATUS_COMPLETE || rows.length === 0 }
 			headers={ headers }
 			onSetOrderBy={ onSetOrderBy }
-			onSetAllSelected={ onSetAllSelected }
+			onSelect={ onSelect }
 			hasBulk={ !! onSelect }
 			allSelected={ table.selected.length === rows.length && rows.length !== 0 }
 		/>
