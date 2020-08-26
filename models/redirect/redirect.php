@@ -403,7 +403,7 @@ class Red_Item {
 
 		$update = [
 			'last_count' => 0,
-			'lastaccess' => $this->last_access,
+			'last_access' => $this->last_access,
 		];
 		$where = [
 			'id' => $this->id,
@@ -499,6 +499,33 @@ class Red_Item {
 		return $this->action_data ? $this->action_data : '';
 	}
 
+	public static function delete_all( array $params ) {
+		global $wpdb;
+
+		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$where = $filters->get_as_sql();
+
+		return $wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_items $where" );
+	}
+
+	public static function reset_all( array $params ) {
+		global $wpdb;
+
+		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$where = $filters->get_as_sql();
+
+		return $wpdb->query( "UPDATE {$wpdb->prefix}redirection_items SET last_count=0, last_access='0000-00-00 00:00:00' $where" );
+	}
+
+	public static function set_status_all( $status, array $params ) {
+		global $wpdb;
+
+		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$where = $filters->get_as_sql();
+
+		return $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET status=%s $where", $status === 'enable' ? 'enabled' : 'disabled' ) );
+	}
+
 	public static function get_filtered( array $params ) {
 		global $wpdb;
 
@@ -508,8 +535,12 @@ class Red_Item {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'url', 'last_count', 'last_access', 'position' ), true ) ) {
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'source', 'last_count', 'last_access', 'position' ), true ) ) {
 			$orderby = $params['orderby'];
+
+			if ( $orderby === 'source' ) {
+				$orderby = 'url';
+			}
 		}
 
 		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {

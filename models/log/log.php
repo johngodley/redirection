@@ -43,26 +43,16 @@ abstract class Red_Log {
 		$wpdb->delete( static::get_table_name( $wpdb ), [ 'id' => $id ] );
 	}
 
-	public static function delete_all( $filter_by, $filter_value ) {
+	public static function delete_all( $params ) {
 		global $wpdb;
 
-		$where = [];
+		$query = self::get_query( $params );
+		$table = static::get_table_name( $wpdb );
 
-		if ( $filter_by === 'url-exact' ) {
-			$where[] = $wpdb->prepare( 'url=%s', $filter_value );
-		} elseif ( $filter_by === 'url' ) {
-			$where[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter_value ) . '%' );
-		} elseif ( $filter_by === 'ip' ) {
-			$where[] = $wpdb->prepare( 'ip=%s', $filter_value );
-		}
-
-		$where_cond = '';
-		if ( count( $where ) > 0 ) {
-			$where_cond = ' WHERE ' . implode( ' AND ', $where );
-		}
+		$sql = "DELETE FROM {$table} {$query['where']}";
 
 		// phpcs:ignore
-		$wpdb->query( "DELETE FROM " . static::get_table_name( $wpdb ) . $where_cond );
+		$wpdb->query( $sql );
 	}
 
 	public function to_json() {
@@ -133,7 +123,7 @@ abstract class Red_Log {
 
 		// Already escaped
 		// phpcs:ignore
-		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM {$table}" );
+		$total_items = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM {$table} {$query['where']}" );
 
 		foreach ( $rows as $row ) {
 			$row->count = intval( $row->count, 10 );
@@ -195,6 +185,8 @@ abstract class Red_Log {
 				$query['where'] = $wpdb->prepare( 'WHERE sent_to LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['target'] ) ) . '%' );
 			} elseif ( isset( $params['filterBy']['url'] ) ) {
 				$query['where'] = $wpdb->prepare( 'WHERE url LIKE %s', '%' . $wpdb->esc_like( trim( $params['filterBy']['url'] ) ) . '%' );
+			} elseif ( isset( $params['filterBy']['http'] ) ) {
+				$query['where'] = $wpdb->prepare( 'WHERE http_code = %d', $params['filterBy']['http'] );
 			}
 		}
 
