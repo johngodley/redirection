@@ -140,22 +140,30 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 		];
 	}
 
-	public function register_bulk( $namespace, $route, $orders, $callback, $permissions = false ) {
+	/**
+	 * Register a bulk action route
+	 *
+	 * @param String  $namespace Namespace.
+	 * @param String  $route Route.
+	 * @param Array   $orders
+	 * @param Array   $filters
+	 * @param Object  $callback
+	 * @param boolean $permissions
+	 * @return void
+	 */
+	public function register_bulk( $namespace, $route, $orders, $filters, $callback, $permissions = false ) {
 		register_rest_route( $namespace, $route, array(
 			$this->get_route( WP_REST_Server::EDITABLE, $callback, $permissions ),
-			'args' => array_merge( $this->get_filter_args( $orders ), [
+			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
 				'items' => [
 					'description' => 'Comma separated list of item IDs to perform action on',
-					'type' => 'string',
-					'required' => true,
-					'sanitize_callback' => [ $this, 'sanitize_csv' ],
+					'type' => 'array',
+					'items' => [
+						'type' => 'string',
+					],
 				],
 			] ),
 		) );
-	}
-
-	public function sanitize_csv( $param ) {
-		return array_values( array_filter( array_map( 'intval', explode( ',', $param ) ) ) );
 	}
 }
 
