@@ -1,14 +1,14 @@
-# Translation of Plugins - Redirection - Stable (latest release) in Greek
+# Translation of Plugins - Redirection - Stable (latest release) in French (Canada)
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-04-11 12:37:49+0000\n"
+"PO-Revision-Date: 2020-06-07 23:33:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
-"Language: el_GR\n"
+"Language: fr_CA\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection-strings.php:680
@@ -141,435 +141,435 @@ msgstr ""
 
 #: redirection-strings.php:683
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 #: redirection-strings.php:682
 msgid "Values"
-msgstr ""
+msgstr "Valeurs"
 
 #: redirection-strings.php:681
 msgid "All"
-msgstr ""
+msgstr "Toutes"
 
 #: redirection-strings.php:677
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "Notez que certaines en-têtes HTTP sont définies par votre serveur et ne peuvent pas être modifiés."
 
 #: redirection-strings.php:676
 msgid "No headers"
-msgstr ""
+msgstr "Pas d’En-tête"
 
 #: redirection-strings.php:675
 msgid "Header"
-msgstr ""
+msgstr "En-tête"
 
 #: redirection-strings.php:674
 msgid "Location"
-msgstr ""
+msgstr "Emplacement"
 
 #: redirection-strings.php:673
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
+msgstr "Les en-têtes de site sont ajoutés sur l’ensemble de votre site, y compris les redirections. Les en-têtes de redirection sont ajoutés uniquement aux redirections."
 
 #: redirection-strings.php:672
 msgid "HTTP Headers"
-msgstr ""
+msgstr "En-têtes HTTP"
 
 #: redirection-strings.php:668
 msgid "Custom Header"
-msgstr ""
+msgstr "En-tête personnalisée"
 
 #: redirection-strings.php:667
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: redirection-strings.php:666
 msgid "Redirect"
-msgstr ""
+msgstr "Redirection"
 
 #: redirection-strings.php:157
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
-msgstr ""
+msgstr "Quelques serveurs peuvent être configurés pour servir directement les ressources de fichiers, empêchant une redirection de se produire."
 
 #: redirection-strings.php:78 redirection-strings.php:306
 #: redirection-strings.php:665
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: redirection-strings.php:34
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
-msgstr ""
+msgstr "Impossible de faire une demande en raison de la sécurité du navigateur. C’est généralement parce que vos réglages WordPress et URL de site sont incohérents ou qu’une demande a été bloquée par votre politique de partage de ressources entre origines multiples CORS."
 
 #: redirection-strings.php:571
 msgid "Ignore & Pass Query"
-msgstr ""
+msgstr "Ignorer et passer la requête"
 
 #: redirection-strings.php:570
 msgid "Ignore Query"
-msgstr ""
+msgstr "Ignorer la requête"
 
 #: redirection-strings.php:569
 msgid "Exact Query"
-msgstr ""
+msgstr "Requête exacte"
 
 #: redirection-strings.php:558
 msgid "Search title"
-msgstr ""
+msgstr "Rechercher le titre"
 
 #: redirection-strings.php:555
 msgid "Not accessed in last year"
-msgstr ""
+msgstr "Non consulté l’année dernière"
 
 #: redirection-strings.php:554
 msgid "Not accessed in last month"
-msgstr ""
+msgstr "Non consulté le mois dernier"
 
 #: redirection-strings.php:553
 msgid "Never accessed"
-msgstr ""
+msgstr "Jamais consulté"
 
 #: redirection-strings.php:552
 msgid "Last Accessed"
-msgstr ""
+msgstr "Dernière consultation"
 
 #: redirection-strings.php:551
 msgid "HTTP Status Code"
-msgstr ""
+msgstr "Code d’état HTTP"
 
 #: redirection-strings.php:548
 msgid "Plain"
-msgstr ""
+msgstr "Plein"
 
 #: redirection-strings.php:528
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: redirection-strings.php:519
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 #: redirection-strings.php:518 redirection-strings.php:539
 #: redirection-strings.php:550
 msgid "Action Type"
-msgstr ""
+msgstr "Type d’action"
 
 #: redirection-strings.php:517 redirection-strings.php:534
 #: redirection-strings.php:549
 msgid "Match Type"
-msgstr ""
+msgstr "Type correspondant"
 
 #: redirection-strings.php:378 redirection-strings.php:557
 msgid "Search target URL"
-msgstr ""
+msgstr "Rechercher l’URL cible"
 
 #: redirection-strings.php:377 redirection-strings.php:418
 msgid "Search IP"
-msgstr ""
+msgstr "Rechercher l’IP"
 
 #: redirection-strings.php:376 redirection-strings.php:417
 msgid "Search user agent"
-msgstr ""
+msgstr "Rechercher l’agent utilisateur"
 
 #: redirection-strings.php:375 redirection-strings.php:416
 msgid "Search referrer"
-msgstr ""
+msgstr "Rechercher le référent"
 
 #: redirection-strings.php:374 redirection-strings.php:415
 #: redirection-strings.php:556
 msgid "Search URL"
-msgstr ""
+msgstr "Rechercher l’URL"
 
 #: redirection-strings.php:292
 msgid "Filter on: %(type)s"
-msgstr ""
+msgstr "Filtre : %(type)s"
 
 #: redirection-strings.php:267 redirection-strings.php:545
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
 #: redirection-strings.php:266 redirection-strings.php:544
 msgid "Enabled"
-msgstr ""
+msgstr "Activé"
 
 #: redirection-strings.php:264 redirection-strings.php:367
 #: redirection-strings.php:409 redirection-strings.php:542
 msgid "Compact Display"
-msgstr ""
+msgstr "Affichage compact"
 
 #: redirection-strings.php:263 redirection-strings.php:366
 #: redirection-strings.php:408 redirection-strings.php:541
 msgid "Standard Display"
-msgstr ""
+msgstr "Affichage standard"
 
 #: redirection-strings.php:261 redirection-strings.php:265
 #: redirection-strings.php:269 redirection-strings.php:515
 #: redirection-strings.php:538 redirection-strings.php:543
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: redirection-strings.php:187
 msgid "Pre-defined"
-msgstr ""
+msgstr "Prédéfini"
 
 #: redirection-strings.php:186
 msgid "Custom Display"
-msgstr ""
+msgstr "Affichage personnalisé"
 
 #: redirection-strings.php:185
 msgid "Display All"
-msgstr ""
+msgstr "Tout afficher"
 
 #: redirection-strings.php:156
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
-msgstr ""
+msgstr "Votre URL semble contenir un domaine à l’intérieur du chemin : {{code}}%(relative)s{{/code}}. Avez-vous voulu utiliser {{code}}%(absolute)s{{/code}} à la place ?"
 
 #: redirection-strings.php:636
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "Liste des langues à comparer, séparées par des virgules (ex : da, en-GB)"
 
 #: redirection-strings.php:635
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: redirection-strings.php:123
 msgid "504 - Gateway Timeout"
-msgstr ""
+msgstr "504 - Temps d’attente de la passerelle écoulé"
 
 #: redirection-strings.php:122
 msgid "503 - Service Unavailable"
-msgstr ""
+msgstr "503 - Service temporairement indisponible"
 
 #: redirection-strings.php:121
 msgid "502 - Bad Gateway"
-msgstr ""
+msgstr "502 - Mauvaise passerelle"
 
 #: redirection-strings.php:120
 msgid "501 - Not implemented"
-msgstr ""
+msgstr "501 - Non supporté par le serveur"
 
 #: redirection-strings.php:119
 msgid "500 - Internal Server Error"
-msgstr ""
+msgstr "500 - Erreur interne du serveur"
 
 #: redirection-strings.php:118
 msgid "451 - Unavailable For Legal Reasons"
-msgstr ""
+msgstr "451 - Indisponible pour des raisons légales"
 
 #: redirection-strings.php:100 matches/language.php:9
 msgid "URL and language"
-msgstr ""
+msgstr "URL et langue"
 
 #: redirection-strings.php:45
 msgid "The problem is almost certainly caused by one of the above."
-msgstr ""
+msgstr "Le problème est certainement causé par l’un des éléments ci-dessus."
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "Vos pages d’administration sont mises en cache. Veuillez vider le cache et réessayez."
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
-msgstr ""
+msgstr "Déconnectez-vous, videz le cache de votre navigateur et reconnectez-vous. Votre navigateur a mis en cache une session expirée."
 
 #: redirection-strings.php:42
 msgid "Reload the page - your current session is old."
-msgstr ""
+msgstr "Veuillez recharger la page. Votre session actuelle est expirée."
 
 #: redirection-strings.php:41
 msgid "This is usually fixed by doing one of these:"
-msgstr ""
+msgstr "Ce problème est généralement corrigé par l’une de ces mesures :"
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
+msgstr "Vous n’êtes pas autorisé à accéder à cette page."
 
 #: redirection-strings.php:546
 msgid "URL match"
-msgstr ""
+msgstr "Correspondance URL"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
-msgstr "Ένας βρόχος εντοπίστηκε και η αναβάθμιση έχει διακοπεί. Αυτό συνήθως υποδεικνύει ότι {{support}}ο ιστότοπός σας είναι cached{{/support}} και οι αλλαγές στη βάση δεδομένων δεν αποθηκεύονται."
+msgstr "Une boucle a été détectée et la mise à niveau a été arrêtée. Ceci indique généralement que {{{support}}}votre site est mis en cache{{{support}}} et que les modifications de la base de données ne sont pas enregistrées."
 
 #: redirection-strings.php:509
 msgid "Unable to save .htaccess file"
-msgstr "Αδύνατη η αποθήκευση του .htaccess αρχείου"
+msgstr "Impossible d’enregistrer le fichier .htaccess"
 
 #: redirection-strings.php:508
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
-msgstr "Οι ανακατευθύνσεις που προστέθηκαν σε μία ομάδα του Apache μπορούν να αποθηκευτούν σε ένα {{code}}.htaccess{{/code}} αρχείο, προσθέτοντας την πλήρη διαδρομή εδώ. Ως σημείο αναφοράς, το WordPress σας είναι εγκατεστημένο στο {{code}}%(installed)s{{/code}}. "
+msgstr "Les redirections ajoutées à un groupe Apache peuvent être enregistrées dans un fichier {{code}}.htaccess{{/code}} en ajoutant le chemin complet ici. Pour information, votre WordPress est installé dans {{code}}%(installed)s{{/code}}."
 
 #: redirection-strings.php:296
 msgid "Click \"Complete Upgrade\" when finished."
-msgstr "Κάντε κλικ στο \"Ολοκλήρωση Αναβάθμισης\" όταν ολοκληρωθεί."
+msgstr "Cliquez sur «Finir la mise à jour» quand fini."
 
 #: redirection-strings.php:252
 msgid "Automatic Install"
-msgstr "Αυτόματη Εγκατάσταση"
+msgstr "Installation automatique"
 
 #: redirection-strings.php:155
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
-msgstr "Η στοχευμένη σας διεύθυνση URL περιέχει έναν μη έγκυρο χαρακτήρα {{code}}%(invalid)s{{/code}}"
+msgstr "Votre URL cible contient le caractère invalide {{code}}%(invalid)s{{/code}}"
 
 #: redirection-strings.php:52
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr "Αν χρησιμοποιείτε το WordPress 5.2 ή νεότερο, κοιτάξτε την {{link}}Υγεία Ιστοτόπου{{/link}} και επιλύστε οποιαδήποτε θέματα."
+msgstr "Si vous utilisez WordPress 5.2 ou une version plus récente, consultez la {{link}}santé du site{{/link}} et résolvez tous les problèmes."
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
-msgstr "Αν δεν ολοκληρώσετε την χειροκίνητη εγκατάσταση θα επιστρέψετε εδώ."
+msgstr "Si vous ne terminez pas l’installation manuelle, vous serez renvoyé ici."
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
-msgstr "Κάντε κλικ στο \"Ολοκληρώθηκε! 🎉\" όταν ολοκληρωθεί."
+msgstr "Cliquez sur «Fini !  🎉» quand ça a fini."
 
 #: redirection-strings.php:14 redirection-strings.php:295
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr "Αν ο ιστότοπός σας χρειάζεται ειδικά δικαιώματα για τη βάση δεδομένων, ή αν προτιμάτε να το κάνετε ο ίδιος, μπορείτε να τρέξετε χειροκίνητα την ακόλουθη SQL."
+msgstr "Si votre site a besoin de permissions spéciales pour les bases de données, ou si vous préférez le faire vous même, vous pouvez exécuter manuellement le SQL suivant."
 
 #: redirection-strings.php:13 redirection-strings.php:251
 msgid "Manual Install"
-msgstr "Χειροκίνητη Εγκατάσταση"
+msgstr "Installation manuelle"
 
 #: database/database-status.php:145
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
-msgstr "Εντοπίστηκαν ανεπαρκή δικαιώματα για τη βάση δεδομένων. Παρακαλούμε δώστε τα κατάλληλα δικαιώματα στον χρήστη της βάσης δεδομένων σας."
+msgstr "Autorisations de base de données insuffisantes. Veuillez donner à l’utilisateur de votre base de données les droits appropriés."
 
 #: redirection-strings.php:603
 msgid "This information is provided for debugging purposes. Be careful making any changes."
-msgstr "Αυτές οι πληροφορίες παρέχονται για σκοπούς αποσφαλμάτωσης. Να είστε προσεκτικοί κάνοντας οποιεσδήποτε αλλαγές."
+msgstr "Cette information est fournie pour le débogage. Soyez prudent en faisant des modifications."
 
 #: redirection-strings.php:602
 msgid "Plugin Debug"
-msgstr "Αποσφαλμάτωση Προσθέτου"
+msgstr "Débogage de l’extension"
 
 #: redirection-strings.php:600
 msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
-msgstr "Το Redirection επικοινωνεί με το WordPress μέσω του WordPress REST API. Αυτό είναι ένα κανονικό κομμάτι του WordPress, και θα αντιμετωπίσετε προβλήματα αν δεν μπορείτε να το χρησιμοποιήσετε."
+msgstr "La redirection communique avec WordPress à travers l’API REST WordPress. C’est une partie standard de WordPress, vous encourez des problèmes si vous ne l’utilisez pas."
 
 #: redirection-strings.php:577
 msgid "IP Headers"
-msgstr "Κεφαλίδες IP"
+msgstr "En-têtes IP"
 
 #: redirection-strings.php:575
 msgid "Do not change unless advised to do so!"
-msgstr ""
+msgstr "Ne pas modifier sauf avis contraire !"
 
 #: redirection-strings.php:574
 msgid "Database version"
-msgstr "Έκδοση βάσης δεδομένων"
+msgstr "Version de la base de données"
 
 #: redirection-strings.php:351
 msgid "Complete data (JSON)"
-msgstr "Ολόκληρα δεδομένα (JSON)"
+msgstr "Données complètes (JSON)"
 
 #: redirection-strings.php:346
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
-msgstr "Εξαγωγή σε CSV, Apache .htaccess, Nginx, ή Redirection JSON. Η μορφή JSON περιέχει πλήρεις πληροφορίες, και οι άλλες μορφές περιέχουν μερικές πληροφορίες αναλόγως με τη μορφή."
+msgstr "Export en CVS, Apache .htaccess, Nginx ou JSON Redirection. Le format JSON contient toutes les informations. Les autres formats contiennent des informations partielles appropriées au format."
 
 #: redirection-strings.php:344
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
-msgstr "Το CSV δεν περιέχει όλες τις πληροφορίες, και όλα εισάγονται/εξάγονται ως \"μόνο  URL\" αντιστοιχίες. Χρησιμοποιήστε τη μορφή JSON για μία πλήρη συλλογή δεδομένων."
+msgstr "CVS n’inclut pas toutes les informations, et tout est importé/exporté en « URL uniquement ». Utilisez le format JSON pour un ensemble complet de données."
 
 #: redirection-strings.php:342
 msgid "All imports will be appended to the current database - nothing is merged."
-msgstr ""
+msgstr "Tous les imports seront annexés à la base de données actuelle - rien n’est fusionné."
 
 #: redirection-strings.php:304
 msgid "Automatic Upgrade"
-msgstr "Αυτόματη Αναβάθμιση"
+msgstr "Mise à niveau automatique"
 
 #: redirection-strings.php:303
 msgid "Manual Upgrade"
-msgstr "Χειροκίνητη Αναβάθμιση"
+msgstr "Mise à niveau manuelle"
 
 #: redirection-strings.php:302
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
-msgstr ""
+msgstr "Veuillez faire une mise à jour de vos données de Redirection : {{download}}télécharger une sauvegarde{{/download}}. En cas de problèmes, vous pouvez la ré-importer dans Redirection."
 
 #: redirection-strings.php:298
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
-msgstr "Κάντε κλικ στο κουμπί \"Αναβάθμιση Βάσης Δεδομένων\" για να αναβαθμίσετε αυτόματα τη βάση δεδομένων."
+msgstr "Le clic sur le bouton « Mettre à niveau la base des données » met à niveau la base de données automatiquement."
 
 #: redirection-strings.php:297
 msgid "Complete Upgrade"
-msgstr "Ολοκληρωμένη Αναβάθμιση"
+msgstr "Finir la mise à niveau"
 
 #: redirection-strings.php:294
 msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
-msgstr ""
+msgstr "Redirection stocke vos données dans votre base de données et a parfois besoin d’être mis à niveau. Votre base de données est en version {{strong}}%(current)s{{/strong}} et la dernière est {{strong}}%(latest)s{{/strong}}."
 
 #: redirection-strings.php:281 redirection-strings.php:291
 msgid "Note that you will need to set the Apache module path in your Redirection options."
-msgstr ""
+msgstr "Notez que vous allez devoir saisir le chemin du module Apache dans vos options Redirection."
 
 #: redirection-strings.php:250
 msgid "I need support!"
-msgstr "Χρειάζομαι υποστήριξη!"
+msgstr "J’ai besoin de soutien !"
 
 #: redirection-strings.php:239
 msgid "You will need at least one working REST API to continue."
-msgstr "Θα χρειαστείτε τουλάχιστον ένα λειτουργικό REST API για να συνεχίσετε."
+msgstr ""
 
 #: redirection-strings.php:173
 msgid "Check Again"
-msgstr "Ελέγξτε Πάλι"
+msgstr "Vérifier à nouveau"
 
 #: redirection-strings.php:172
 msgid "Testing - %s$"
-msgstr "Γίνεται δοκιμή - %s$"
+msgstr "Test en cours - %s$"
 
 #: redirection-strings.php:171
 msgid "Show Problems"
-msgstr "Εμφάνιση Προβλημάτων"
+msgstr "Afficher les problèmes"
 
 #: redirection-strings.php:170
 msgid "Summary"
-msgstr "Σύνοψη"
+msgstr "Résumé"
 
 #: redirection-strings.php:169
 msgid "You are using a broken REST API route. Changing to a working API should fix the problem."
-msgstr "Χρησιμοποιείτε μία χαλασμένη διαδρομή του REST API. Η αλλαγή σε ένα λειτουργικό API θα πρέπει να διορθώσει το πρόβλημα."
+msgstr ""
 
 #: redirection-strings.php:168
 msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
-msgstr "Το REST API σας δεν λειτουργεί και το πρόσθετο δεν θα μπορεί να συνεχίσει μέχρι αυτό να διορθωθεί."
+msgstr ""
 
 #: redirection-strings.php:167
 msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
-msgstr "Υπάρχουν κάποια προβλήματα με την επικοινωνία με το REST API σας. Δεν είναι απαραίτητο να διορθώσετε αυτά τα προβλήματα και το πρόσθετο μπορεί να λειτουργήσει."
+msgstr ""
 
 #: redirection-strings.php:166
 msgid "Unavailable"
-msgstr "Μη Διαθέσιμο"
+msgstr "Non disponible"
 
 #: redirection-strings.php:165
 msgid "Not working but fixable"
-msgstr "Δεν λειτουργεί αλλά επιλύσιμο"
+msgstr "Ça ne marche pas mais c’est réparable"
 
 #: redirection-strings.php:164
 msgid "Working but some issues"
-msgstr "Λειτουργεί αλλά υπάρχουν κάποια θέματα"
+msgstr "Ça fonctionne mais il y a quelques problèmes "
 
 #: redirection-strings.php:162
 msgid "Current API"
-msgstr "Τρέχον API"
+msgstr "API active"
 
 #: redirection-strings.php:161
 msgid "Switch to this API"
-msgstr "Αλλαγή σε αυτό το API"
+msgstr "Basculez vers cette API"
 
 #: redirection-strings.php:160
 msgid "Hide"
-msgstr "Απόκρυψη"
+msgstr "Masquer"
 
 #: redirection-strings.php:159
 msgid "Show Full"
-msgstr "Εμφάνιση Πλήρους"
+msgstr "Afficher en entier"
 
 #: redirection-strings.php:158
 msgid "Working!"
-msgstr "Λειτουργεί!"
+msgstr "Ça marche !"
 
 #: redirection-strings.php:154
 msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
@@ -589,7 +589,7 @@ msgstr ""
 
 #: redirection-strings.php:37
 msgid "Create An Issue"
-msgstr ""
+msgstr "Reporter un problème"
 
 #: redirection-strings.php:36
 msgid "Please {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
@@ -597,19 +597,19 @@ msgstr ""
 
 #: redirection-strings.php:46 redirection-strings.php:53
 msgid "That didn't help"
-msgstr "Αυτό δεν βοήθησε"
+msgstr "Cela n’a pas aidé"
 
 #: redirection-strings.php:48
 msgid "What do I do next?"
-msgstr "Τι κάνω στη συνέχεια;"
+msgstr "Que faire ensuite ?"
 
 #: redirection-strings.php:33
 msgid "Possible cause"
-msgstr "Πιθανή αιτία"
+msgstr "Cause possible"
 
 #: redirection-strings.php:32
 msgid "WordPress returned an unexpected message. This is probably a PHP error from another plugin."
-msgstr "Το WordPress επέστρεψε ένα απροσδόκητο μήνυμα. Αυτό είναι πιθανώς ένα σφάλμα της PHP ή κάποιου άλλου πρόσθετου."
+msgstr ""
 
 #: redirection-strings.php:29
 msgid "This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log"
@@ -627,47 +627,47 @@ msgstr ""
 #: redirection-strings.php:27 redirection-strings.php:30
 #: redirection-strings.php:35
 msgid "Read this REST API guide for more information."
-msgstr "Διάβαστε αυτόν τον οδηγό του REST API για περισσότερες πληροφορίες."
+msgstr ""
 
 #: redirection-strings.php:22
 msgid "Your REST API is being cached. Please clear any caching plugin and any server cache, logout, clear your browser cache, and try again."
-msgstr "Το REST API σας αποθηκεύεται στη μνήμη cache. Παρακαλούμε αδειάστε οποιοδήποτε πρόσθετο μνήμης cache και τη μνήμη cache του διακομιστή, αποσυνδεθείτε, αδειάστε τη μνήμη cache του περιηγητή σας, και προσπαθήστε πάλι."
+msgstr ""
 
 #: redirection-strings.php:142
 msgid "URL options / Regex"
-msgstr "Επιλογές URL / Regex"
+msgstr "Options d’URL / Regex"
 
 #: redirection-strings.php:358
 msgid "Export 404"
-msgstr "Εξαγωγή 404"
+msgstr "Exporter la 404"
 
 #: redirection-strings.php:357
 msgid "Export redirect"
-msgstr "Εξαγωγή ανακατεύθυνσης"
+msgstr ""
 
 #: redirection-strings.php:150
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
-msgstr "Η δομή των μόνιμων συνδέσμων του WordPress δεν λειτουργεί στα κανονικά URLs. Παρακαλούμε χρησιμοποιήστε ένα regular expression."
+msgstr ""
 
 #: redirection-strings.php:504
 msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr "Πέρασμα - όπως η αγνόηση, αλλά επίσης αντιγράφει τις παραμέτρους του ερωτήματος στον στόχο"
+msgstr ""
 
 #: redirection-strings.php:503
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr "Αγνόηση - όπως η ακριβής, αλλά αγνοεί οποιεσδήποτε παραμέτρους του ερωτήματος δεν υπάρχουν στην προέλευσή σας"
+msgstr ""
 
 #: redirection-strings.php:502
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
-msgstr "Ακριβής - αντιστοιχεί στις παραμέτρους του ερωτήματος ακριβώς όπως ορίστηκαν στην προέλευσή σας, σε οποιαδήποτε σειρά"
+msgstr ""
 
 #: redirection-strings.php:500
 msgid "Default query matching"
-msgstr "Προεπιλεγμένη αντιστοίχιση ερωτήματος"
+msgstr "Correspondance de requête par défaut"
 
 #: redirection-strings.php:499
 msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
-msgstr "Αγνόηση των καθέτων στο τέλος (π.χ. το {{code}}/συναρπαστικό-άρθρο/{{/code}} θα αντιστοιχίσει στο {{code}}/συναρπαστικό-άρθρο{{/code}})"
+msgstr ""
 
 #: redirection-strings.php:498
 msgid "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})"
@@ -679,7 +679,7 @@ msgstr ""
 
 #: redirection-strings.php:496
 msgid "Default URL settings"
-msgstr ""
+msgstr "Réglages d’URL par défaut"
 
 #: redirection-strings.php:479
 msgid "Ignore and pass all query parameters"
@@ -703,11 +703,11 @@ msgstr ""
 
 #: redirection-strings.php:529
 msgid "URL options"
-msgstr "Επιλογές URL"
+msgstr "Options d’URL"
 
 #: redirection-strings.php:138 redirection-strings.php:530
 msgid "Query Parameters"
-msgstr "Παράμετροι Ερωτήματος"
+msgstr "Paramètres de requête"
 
 #: redirection-strings.php:129
 msgid "Ignore & pass parameters to the target"
@@ -723,85 +723,85 @@ msgstr ""
 
 #: redirection-strings.php:126
 msgid "Ignore Case"
-msgstr ""
+msgstr "Ignorer la casse"
 
 #: redirection-strings.php:125
 msgid "Ignore Slash"
-msgstr ""
+msgstr "Ignorer la barre oblique"
 
 #: redirection-strings.php:476
 msgid "Relative REST API"
-msgstr ""
+msgstr "API REST relative"
 
 #: redirection-strings.php:475
 msgid "Raw REST API"
-msgstr "Ακατέργαστο REST API"
+msgstr "API REST brute"
 
 #: redirection-strings.php:474
 msgid "Default REST API"
-msgstr "Προεπιλεγμένο REST API"
+msgstr "API REST par défaut"
 
 #: redirection-strings.php:206
 msgid "(Example) The target URL is the new URL"
-msgstr "(Παράδειγμα) Το στοχευμένο URL είναι το νέο URL"
+msgstr ""
 
 #: redirection-strings.php:204
 msgid "(Example) The source URL is your old or original URL"
-msgstr "(Παράδειγμα) Το URL προέλευσης είναι το παλιό σας ή το αρχικό URL"
+msgstr ""
 
 #. translators: 1: server PHP version. 2: required PHP version.
 #: redirection.php:38
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
-msgstr "Απενεργοποιημένο! Εντοπίστηκε PHP έκδοση %1$s, χρειάζεται PHP %2$s+"
+msgstr ""
 
 #: redirection-strings.php:293
 msgid "A database upgrade is in progress. Please continue to finish."
-msgstr "Πραγματοποιείται μία αναβάθμιση της βάσης δεδομένων. Παρακαλούμε συνεχίστε για να ολοκληρωθεί."
+msgstr ""
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:82
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
-msgstr "Η βάση δεδομένων του Redirection χρειάζεται να ενημερωθεί - <a href=\"%1$1s\">κάντε κλικ για ενημέρωση</a>."
+msgstr ""
 
 #: redirection-strings.php:301
 msgid "Redirection database needs upgrading"
-msgstr "Η βάση δεδομένων του Redirection χρειάζεται να αναβαθμιστεί"
+msgstr ""
 
 #: redirection-strings.php:300
 msgid "Upgrade Required"
-msgstr "Απαιτείται ενημέρωση"
+msgstr "Mise à niveau nécessaire"
 
 #: redirection-strings.php:240
 msgid "Finish Setup"
-msgstr "Ολοκλήρωση εγκατάστασης"
+msgstr "Terminer la configuration"
 
 #: redirection-strings.php:238
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
-msgstr "Έχετε διαφορετικά URLs ρυθμισμένα στη σελίδα Ρυθμίσεις WordPress > Γενικά, το οποίο συνήθως είναι ένδειξη λάθος ρυθμίσεων, και μπορεί να προκαλέσει προβλήματα με το REST API. Παρακαλούμε κοιτάξτε πάλι τις ρυθμίσεις σας."
+msgstr ""
 
 #: redirection-strings.php:237
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
-msgstr "Αν αντιμετωπίζετε κάποιο πρόβλημα παρακαλούμε συμβουλευτείτε την τεκμηρίωση του προσθέτου, ή επικοινωνήστε με την υποστήριξη της υπηρεσίας φιλοξενίας. Αυτό γενικά {{link}}δεν είναι κάποιο πρόβλημα που προκλήθηκε από το Redirection{{/link}}."
+msgstr ""
 
 #: redirection-strings.php:236
 msgid "Some other plugin that blocks the REST API"
-msgstr "Κάποιο άλλο πρόσθετο μπλοκάρει το REST API"
+msgstr ""
 
 #: redirection-strings.php:234
 msgid "A server firewall or other server configuration (e.g OVH)"
-msgstr "Ένα firewall του διακομιστή ή κάποια άλλη ρύθμιση στον διακομιστή (π.χ. OVH)"
+msgstr ""
 
 #: redirection-strings.php:232
 msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
-msgstr "Το Redirection χρησιμοποιεί το {{link}}WordPress REST API{{/link}} για να επικοινωνήσει με το WordPress. Αυτό είναι ενεργοποιημένο και λειτουργικό από προεπιλογή. Μερικές φορές το REST API μπλοκάρεται από:"
+msgstr ""
 
 #: redirection-strings.php:230 redirection-strings.php:241
 msgid "Go back"
-msgstr "Επιστροφή"
+msgstr "Revenir en arrière"
 
 #: redirection-strings.php:229
 msgid "Continue Setup"
-msgstr "Συνέχεια Εγκατάστασης"
+msgstr "Continuer la configuration"
 
 #: redirection-strings.php:227
 msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
@@ -838,11 +838,11 @@ msgstr ""
 
 #: redirection-strings.php:218
 msgid "Basic Setup"
-msgstr "Βασική εγκατάσταση"
+msgstr "Configuration de base"
 
 #: redirection-strings.php:217
 msgid "Start Setup"
-msgstr "Έναρξη εγκατάστασης"
+msgstr "Démarrer la configuration"
 
 #: redirection-strings.php:216
 msgid "When ready please press the button to continue."
@@ -854,7 +854,7 @@ msgstr ""
 
 #: redirection-strings.php:214
 msgid "What's next?"
-msgstr "Τι ακολουθεί;"
+msgstr "Et après ?"
 
 #: redirection-strings.php:213
 msgid "Check a URL is being redirected"
@@ -874,63 +874,63 @@ msgstr ""
 
 #: redirection-strings.php:209
 msgid "Some features you may find useful are"
-msgstr ""
+msgstr "Certaines fonctionnalités que vous pouvez trouver utiles sont"
 
 #: redirection-strings.php:208
 msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
-msgstr "Μπορείτε να βρείτε την πλήρη τεκμηρίωση στον {{link}}ιστότοπο του Redirection.{{/link}}"
+msgstr ""
 
 #: redirection-strings.php:202
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
-msgstr "Μία απλή ανακατεύθυνση περιλαμβάνει τη ρύθμιση ενός {{strong}}URL προέλευσης{{/strong}} (το παλιό URL) και ενός {{strong}}στοχευμένου URL{{/strong}} (το νέο URL). Ορίστε ένα παράδειγμα:"
+msgstr ""
 
 #: redirection-strings.php:201
 msgid "How do I use this plugin?"
-msgstr "Πώς χρησιμοποιώ αυτό το πρόσθετο;"
+msgstr "Comment utiliser cette extension ?"
 
 #: redirection-strings.php:200
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
-msgstr "Το Redirection είναι σχεδιασμένο για να χρησιμοποιείται από ιστοτόπους με λίγες ανακατευθύνσεις μέχρι και ιστοτόπους με χιλιάδες ανακατευθύνσεις."
+msgstr ""
 
 #: redirection-strings.php:199
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
-msgstr "Ευχαριστούμε που εγκαταστήσατε και χρησιμοποείτε το Redirection v%(version)s. Αυτό το πρόσθετο θα σας επιτρέπει να διαχειρίζεστε τις ανακατευθύνσεις 301, να παρακολουθείτε τα σφάλματα 404, και να βελτιώσετε τον ιστότοπό σας, χωρίς να χρειάζεται γνώση των Apache και Nginx."
+msgstr ""
 
 #: redirection-strings.php:198
 msgid "Welcome to Redirection 🚀🎉"
-msgstr "Καλώς ήρθατε στο Redirection  🚀🎉"
+msgstr "Bienvenue dans Redirection 🚀🎉"
 
 #: redirection-strings.php:151
 msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
-msgstr "Προς αποφυγήν κάποιου άπληστου regular expression μπορείτε να χρησιμοποιήσετε το {{code}}^{{/code}} για να το αγκυρώσετε στην αρχή του URL. Για παράδειγμα: {{code}}%(example)s{{/code}}"
+msgstr ""
 
 #: redirection-strings.php:149
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
-msgstr "Θυμηθείτε να ενεργοποιήσετε την επιλογή \"regex\" αν αυτό είναι regular expression."
+msgstr ""
 
 #: redirection-strings.php:148
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
-msgstr "Το URL προέλευσης μάλλον πρέπει να ξεκινάει με {{code}}/{{/code}}"
+msgstr ""
 
 #: redirection-strings.php:147
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
-msgstr "Αυτό θα μετατραπεί σε ανακατεύθυνση του διακομιστή για τον τομέα {{code}}%(server)s{{/code}}."
+msgstr ""
 
 #: redirection-strings.php:146
 msgid "Anchor values are not sent to the server and cannot be redirected."
-msgstr "Οι αγκυρωμένες τιμές δεν αποστέλλονται στον διακομιστή και δεν μπορούν να ανακατευθυνθούν."
+msgstr ""
 
 #: redirection-strings.php:66
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}"
-msgstr "{{code}}%(status)d{{/code}} σε {{code}}%(target)s{{/code}}"
+msgstr ""
 
 #: redirection-strings.php:16 redirection-strings.php:20
 msgid "Finished! 🎉"
-msgstr "Ολοκληρώθηκε! 🎉"
+msgstr "Terminé ! 🎉"
 
 #: redirection-strings.php:19
 msgid "Progress: %(complete)d$"
-msgstr "Πρόοδος: %(complete)d$"
+msgstr ""
 
 #: redirection-strings.php:18
 msgid "Leaving before the process has completed may cause problems."
@@ -938,11 +938,11 @@ msgstr ""
 
 #: redirection-strings.php:12
 msgid "Setting up Redirection"
-msgstr ""
+msgstr "Configuration de Redirection"
 
 #: redirection-strings.php:11
 msgid "Upgrading Redirection"
-msgstr ""
+msgstr "Mise à niveau de Redirection"
 
 #: redirection-strings.php:10
 msgid "Please remain on this page until complete."
@@ -954,23 +954,23 @@ msgstr ""
 
 #: redirection-strings.php:8
 msgid "Stop upgrade"
-msgstr "Διακοπή αναβάθμισης"
+msgstr "Arrêter la mise à niveau"
 
 #: redirection-strings.php:7
 msgid "Skip this stage"
-msgstr "Παράλειψη αυτού του σταδίου"
+msgstr "Passer cette étape"
 
 #: redirection-strings.php:6
 msgid "Try again"
-msgstr "Προσπαθήστε ξανά"
+msgstr "Réessayer"
 
 #: redirection-strings.php:5
 msgid "Database problem"
-msgstr "Πρόβλημα με τη βάση δεδομένων"
+msgstr "Problème de base de données"
 
 #: redirection-admin.php:459
 msgid "Please enable JavaScript"
-msgstr ""
+msgstr "Veuillez activer JavaScript"
 
 #: redirection-admin.php:152
 msgid "Please upgrade your database"
@@ -993,17 +993,17 @@ msgstr ""
 #. translators: 1: table name
 #: database/schema/latest.php:104
 msgid "Table \"%s\" is missing"
-msgstr ""
+msgstr "La table « %s » est manquante"
 
 #. translators: displayed when installing the plugin
 #: database/schema/latest.php:12
 msgid "Create basic data"
-msgstr ""
+msgstr "Création des données de base"
 
 #. translators: displayed when installing the plugin
 #: database/schema/latest.php:10
 msgid "Install Redirection tables"
-msgstr ""
+msgstr "Installer les tables de Redirection"
 
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
@@ -1012,47 +1012,47 @@ msgstr ""
 
 #: redirection-strings.php:639
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
-msgstr "Παρακαλούμε μην προσπαθήσετε να ακατευθύνετε όλα τα 404 σας - αυτό δεν είναι καλό."
+msgstr ""
 
 #: redirection-strings.php:638
 msgid "Only the 404 page type is currently supported."
-msgstr "Μόνο ο τύπος σελίδων 404 υποστηρίζεται προς το παρόν."
+msgstr ""
 
 #: redirection-strings.php:637
 msgid "Page Type"
-msgstr "Είδος Σελίδας"
+msgstr "Type de page"
 
 #: redirection-strings.php:634
 msgid "Enter IP addresses (one per line)"
-msgstr "Εισάγετε τις διευθύνσεις IP (μία ανά σειρά)"
+msgstr ""
 
 #: redirection-strings.php:145
 msgid "Describe the purpose of this redirect (optional)"
-msgstr "Περιγράψτε τον σκοπό της κάθε ανακατεύθυνσης (προαιρετικό)"
+msgstr ""
 
 #: redirection-strings.php:117
 msgid "418 - I'm a teapot"
-msgstr "418 - I'm a teapot"
+msgstr "418 - Je suis une théière"
 
 #: redirection-strings.php:114
 msgid "403 - Forbidden"
-msgstr "403 - Forbidden"
+msgstr "403 - Interdit"
 
 #: redirection-strings.php:112
 msgid "400 - Bad Request"
-msgstr "400 - Bad Request"
+msgstr "400 - mauvaise requête"
 
 #: redirection-strings.php:109
 msgid "304 - Not Modified"
-msgstr ""
+msgstr "304 - Non modifié"
 
 #: redirection-strings.php:108
 msgid "303 - See Other"
-msgstr ""
+msgstr "303 - Voir ailleurs"
 
 #: redirection-strings.php:105
 msgid "Do nothing (ignore)"
-msgstr "Μην κάνετε τίποτα (αγνοήστε)"
+msgstr "Ne rien faire (ignorer)"
 
 #: redirection-strings.php:607 redirection-strings.php:611
 msgid "Target URL when not matched (empty to ignore)"
@@ -1064,108 +1064,108 @@ msgstr ""
 
 #: redirection-strings.php:425 redirection-strings.php:430
 msgid "Show All"
-msgstr "Εμφάνιση όλων"
+msgstr "Tout afficher"
 
 #: redirection-strings.php:422
 msgid "Delete all logs for these entries"
-msgstr "Διαγραφή όλων των αρχείων καταγραφής για αυτές τις καταχωρήσεις"
+msgstr "Supprimer les journaux pour ces entrées"
 
 #: redirection-strings.php:421 redirection-strings.php:434
 msgid "Delete all logs for this entry"
-msgstr "Διαγραφή όλων των αρχείων καταγραφής για αυτήν την καταχώρηση"
+msgstr "Supprimer les journaux pour cet entrée"
 
 #: redirection-strings.php:420
 msgid "Delete Log Entries"
-msgstr ""
+msgstr "Supprimer les entrées du journal"
 
 #: redirection-strings.php:407
 msgid "Group by IP"
-msgstr ""
+msgstr "Grouper par IP"
 
 #: redirection-strings.php:406
 msgid "Group by URL"
-msgstr ""
+msgstr "Grouper par URL"
 
 #: redirection-strings.php:405
 msgid "No grouping"
-msgstr ""
+msgstr "Aucun regroupement"
 
 #: redirection-strings.php:404 redirection-strings.php:431
 msgid "Ignore URL"
-msgstr ""
+msgstr "Ignorer l’URL"
 
 #: redirection-strings.php:401 redirection-strings.php:427
 msgid "Block IP"
-msgstr "Αποκλεισμός IP"
+msgstr "Bloquer l’IP"
 
 #: redirection-strings.php:400 redirection-strings.php:403
 #: redirection-strings.php:424 redirection-strings.php:429
 msgid "Redirect All"
-msgstr ""
+msgstr "Tout rediriger"
 
 #: redirection-strings.php:391 redirection-strings.php:393
 msgid "Count"
-msgstr "Αρίθμηση"
+msgstr "Compter"
 
 #: redirection-strings.php:99 matches/page.php:9
 msgid "URL and WordPress page type"
-msgstr ""
+msgstr "URL et type de page WordPress"
 
 #: redirection-strings.php:95 matches/ip.php:9
 msgid "URL and IP"
-msgstr "URL και IP"
+msgstr "URL et IP"
 
 #: redirection-strings.php:598
 msgid "Problem"
-msgstr "Πρόβλημα"
+msgstr "Problème"
 
 #: redirection-strings.php:163 redirection-strings.php:597
 msgid "Good"
-msgstr "Καλό"
+msgstr "Bon"
 
 #: redirection-strings.php:593
 msgid "Check"
-msgstr "Έλεγχος"
+msgstr "Vérifier"
 
 #: redirection-strings.php:567
 msgid "Check Redirect"
-msgstr ""
+msgstr "Vérifier la redirection"
 
 #: redirection-strings.php:75
 msgid "Check redirect for: {{code}}%s{{/code}}"
-msgstr ""
+msgstr "Vérifier la redirection pour : {{code}}%s{{/code}}"
 
 #: redirection-strings.php:72
 msgid "What does this mean?"
-msgstr ""
+msgstr "Qu’est-ce que cela veut dire ?"
 
 #: redirection-strings.php:71
 msgid "Not using Redirection"
-msgstr ""
+msgstr "N’utilisant pas Redirection"
 
 #: redirection-strings.php:70
 msgid "Using Redirection"
-msgstr ""
+msgstr "Utilisant Redirection"
 
 #: redirection-strings.php:67
 msgid "Found"
-msgstr "Βρέθηκε"
+msgstr "Trouvé"
 
 #: redirection-strings.php:68
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
-msgstr ""
+msgstr "{{code}}%(code)d{{/code}} vers {{code}}%(url)s{{/code}}"
 
 #: redirection-strings.php:65
 msgid "Expected"
-msgstr ""
+msgstr "Attendu"
 
 #: redirection-strings.php:73
 msgid "Error"
-msgstr "Σφάλμα"
+msgstr "Erreur"
 
 #: redirection-strings.php:592
 msgid "Enter full URL, including http:// or https://"
-msgstr ""
+msgstr "Saisissez l’URL complète, avec http:// ou https://"
 
 #: redirection-strings.php:590
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
@@ -1173,12 +1173,12 @@ msgstr ""
 
 #: redirection-strings.php:589
 msgid "Redirect Tester"
-msgstr ""
+msgstr "Testeur de redirection"
 
 #: redirection-strings.php:372 redirection-strings.php:532
 #: redirection-strings.php:588
 msgid "Target"
-msgstr "Στόχος"
+msgstr "Cible"
 
 #: redirection-strings.php:587
 msgid "URL is not being redirected with Redirection"
@@ -1198,7 +1198,7 @@ msgstr ""
 
 #: redirection-strings.php:645
 msgid "Server"
-msgstr "Διακομιστής"
+msgstr "Serveur"
 
 #: redirection-strings.php:644
 msgid "Enter role or capability value"
@@ -1206,7 +1206,7 @@ msgstr ""
 
 #: redirection-strings.php:643
 msgid "Role"
-msgstr "Ρόλος"
+msgstr "Rôle"
 
 #: redirection-strings.php:641
 msgid "Match against this browser referrer text"
@@ -1222,23 +1222,23 @@ msgstr ""
 
 #: redirection-strings.php:492
 msgid "GDPR / Privacy information"
-msgstr ""
+msgstr "RGPD/information de confidentialité"
 
 #: redirection-strings.php:322
 msgid "Add New"
-msgstr "Νέο άρθρο"
+msgstr "Ajouter une redirection"
 
 #: redirection-strings.php:91 matches/user-role.php:9
 msgid "URL and role/capability"
-msgstr ""
+msgstr "URL et rôle/capacité"
 
 #: redirection-strings.php:96 matches/server.php:9
 msgid "URL and server"
-msgstr ""
+msgstr "URL et serveur"
 
 #: models/fixer.php:101
 msgid "Site and home protocol"
-msgstr ""
+msgstr "Protocole du site et de l’accueil"
 
 #: models/fixer.php:94
 msgid "Site and home are consistent"
@@ -1250,27 +1250,27 @@ msgstr ""
 
 #: redirection-strings.php:630
 msgid "Accept Language"
-msgstr "Αποδοχή γλώσσας"
+msgstr "Accepter la langue"
 
 #: redirection-strings.php:628
 msgid "Header value"
-msgstr ""
+msgstr "Valeur de l’en-tête"
 
 #: redirection-strings.php:627
 msgid "Header name"
-msgstr ""
+msgstr "Nom de l’en-tête"
 
 #: redirection-strings.php:626
 msgid "HTTP Header"
-msgstr ""
+msgstr "En-tête HTTP"
 
 #: redirection-strings.php:625
 msgid "WordPress filter name"
-msgstr ""
+msgstr "Nom de filtre WordPress"
 
 #: redirection-strings.php:624
 msgid "Filter Name"
-msgstr "Όνομα φίλτρου"
+msgstr "Nom du filtre"
 
 #: redirection-strings.php:622
 msgid "Cookie value"
@@ -1282,11 +1282,11 @@ msgstr ""
 
 #: redirection-strings.php:620
 msgid "Cookie"
-msgstr "Cookie"
+msgstr ""
 
 #: redirection-strings.php:316
 msgid "clearing your cache."
-msgstr ""
+msgstr "vider votre cache."
 
 #: redirection-strings.php:315
 msgid "If you are using a caching system such as Cloudflare then please read this: "
@@ -1294,23 +1294,23 @@ msgstr ""
 
 #: redirection-strings.php:97 matches/http-header.php:11
 msgid "URL and HTTP header"
-msgstr ""
+msgstr "URL et en-tête HTTP"
 
 #: redirection-strings.php:98 matches/custom-filter.php:9
 msgid "URL and custom filter"
-msgstr ""
+msgstr "URL et filtre personnalisé"
 
 #: redirection-strings.php:94 matches/cookie.php:7
 msgid "URL and cookie"
-msgstr "URL και cookie"
+msgstr ""
 
 #: redirection-strings.php:258
 msgid "404 deleted"
-msgstr "404 διαγράφηκε"
+msgstr "404 supprimée"
 
 #: redirection-strings.php:231 redirection-strings.php:512
 msgid "REST API"
-msgstr "REST API"
+msgstr "API REST"
 
 #: redirection-strings.php:513
 msgid "How Redirection uses the REST API - don't change unless necessary"
@@ -1338,7 +1338,7 @@ msgstr ""
 
 #: redirection-strings.php:599
 msgid "WordPress REST API"
-msgstr "WordPress REST API"
+msgstr "API REST WordPress"
 
 #: redirection-strings.php:31
 msgid "Your WordPress REST API has been disabled. You will need to enable it for Redirection to continue working"
@@ -1346,31 +1346,31 @@ msgstr ""
 
 #: redirection-strings.php:189
 msgid "Useragent Error"
-msgstr ""
+msgstr "Erreur de l’agent utilisateur"
 
 #: redirection-strings.php:191
 msgid "Unknown Useragent"
-msgstr ""
+msgstr "Agent utilisateur inconnu"
 
 #: redirection-strings.php:192
 msgid "Device"
-msgstr "Συσκευή"
+msgstr "Appareil"
 
 #: redirection-strings.php:193
 msgid "Operating System"
-msgstr "Λειτουργικό Σύστημα"
+msgstr "Système d’exploitation"
 
 #: redirection-strings.php:194
 msgid "Browser"
-msgstr "Περιηγητής"
+msgstr "Navigateur"
 
 #: redirection-strings.php:195
 msgid "Engine"
-msgstr ""
+msgstr "Moteur"
 
 #: redirection-strings.php:196
 msgid "Useragent"
-msgstr ""
+msgstr "Agent utilisateur"
 
 #: redirection-strings.php:69 redirection-strings.php:197
 msgid "Agent"
@@ -1378,23 +1378,23 @@ msgstr "Agent"
 
 #: redirection-strings.php:471
 msgid "No IP logging"
-msgstr ""
+msgstr "Aucune IP journalisée"
 
 #: redirection-strings.php:472
 msgid "Full IP logging"
-msgstr ""
+msgstr "Connexion avec IP complète"
 
 #: redirection-strings.php:473
 msgid "Anonymize IP (mask last part)"
-msgstr ""
+msgstr "Anonymiser l’IP (masquer la dernière partie)"
 
 #: redirection-strings.php:484
 msgid "Monitor changes to %(type)s"
-msgstr ""
+msgstr "Surveiller les modifications de(s) %(type)s"
 
 #: redirection-strings.php:490
 msgid "IP Logging"
-msgstr ""
+msgstr "Journalisation d’IP"
 
 #: redirection-strings.php:491
 msgid "(select IP logging level)"
@@ -1403,19 +1403,19 @@ msgstr ""
 #: redirection-strings.php:387 redirection-strings.php:426
 #: redirection-strings.php:437
 msgid "Geo Info"
-msgstr "Geo Info"
+msgstr "Informations géographiques"
 
 #: redirection-strings.php:388 redirection-strings.php:438
 msgid "Agent Info"
-msgstr ""
+msgstr "Informations sur l’agent"
 
 #: redirection-strings.php:389 redirection-strings.php:439
 msgid "Filter by IP"
-msgstr "Φιλτράρισμα κατά IP"
+msgstr "Filtrer par IP"
 
 #: redirection-strings.php:54
 msgid "Geo IP Error"
-msgstr ""
+msgstr "Erreur de l’IP géographique"
 
 #: redirection-strings.php:55 redirection-strings.php:74
 #: redirection-strings.php:190
@@ -1433,23 +1433,23 @@ msgstr ""
 #: redirection-strings.php:56 redirection-strings.php:58
 #: redirection-strings.php:60
 msgid "Geo IP"
-msgstr "Geo IP"
+msgstr "IP géographique"
 
 #: redirection-strings.php:61
 msgid "City"
-msgstr "Πόλη"
+msgstr "Ville"
 
 #: redirection-strings.php:62
 msgid "Area"
-msgstr "Περιοχή"
+msgstr "Zone"
 
 #: redirection-strings.php:63
 msgid "Timezone"
-msgstr "Ζώνη ώρας"
+msgstr "Fuseau horaire"
 
 #: redirection-strings.php:64
 msgid "Geo Location"
-msgstr "Γεω τοποθεσία"
+msgstr "Emplacement géographique"
 
 #: redirection-strings.php:85
 msgid "Powered by {{link}}redirect.li{{/link}}"
@@ -1457,7 +1457,7 @@ msgstr ""
 
 #: redirection-settings.php:20
 msgid "Trash"
-msgstr "Διεγραμμένα"
+msgstr "Corbeille"
 
 #: redirection-admin.php:437
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
@@ -1486,15 +1486,15 @@ msgstr ""
 
 #: redirection-strings.php:466
 msgid "Never cache"
-msgstr ""
+msgstr "Jamais de cache"
 
 #: redirection-strings.php:467
 msgid "An hour"
-msgstr "Mια ώρα"
+msgstr "Une heure"
 
 #: redirection-strings.php:510
 msgid "Redirect Cache"
-msgstr ""
+msgstr "Cache de redirection"
 
 #: redirection-strings.php:511
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -1506,7 +1506,7 @@ msgstr ""
 
 #: redirection-strings.php:339
 msgid "Plugin Importers"
-msgstr ""
+msgstr "Importeurs d’extensions"
 
 #: redirection-strings.php:340
 msgid "The following redirect plugins were detected on your site and can be imported from."
@@ -1514,11 +1514,11 @@ msgstr ""
 
 #: redirection-strings.php:323
 msgid "total = "
-msgstr "σύνολο = "
+msgstr "total = "
 
 #: redirection-strings.php:324
 msgid "Import from %s"
-msgstr ""
+msgstr "Importer depuis %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
 #: redirection-admin.php:420
@@ -1543,56 +1543,56 @@ msgstr ""
 
 #: redirection-strings.php:596
 msgid "⚡️ Magic fix ⚡️"
-msgstr ""
+msgstr "⚡️ Correction magique ⚡️"
 
 #: redirection-strings.php:601
 msgid "Plugin Status"
-msgstr "Κατάσταση πρόσθετου"
+msgstr "Statut de l’extension"
 
 #: redirection-strings.php:188 redirection-strings.php:615
 #: redirection-strings.php:629
 msgid "Custom"
-msgstr "Προσαρμοσμένη"
+msgstr "Personnalisé"
 
 #: redirection-strings.php:616
 msgid "Mobile"
-msgstr "Κινητό"
+msgstr "Mobile"
 
 #: redirection-strings.php:617
 msgid "Feed Readers"
-msgstr ""
+msgstr "Lecteurs de flux"
 
 #: redirection-strings.php:618
 msgid "Libraries"
-msgstr "Βιβλιοθήκες"
+msgstr "Librairies"
 
 #: redirection-strings.php:480
 msgid "URL Monitor Changes"
-msgstr ""
+msgstr "Surveiller la modification des URL"
 
 #: redirection-strings.php:481
 msgid "Save changes to this group"
-msgstr "Αποθήκευση αλλαγών σε αυτήν την ομάδα"
+msgstr "Enregistrer les modifications apportées à ce groupe"
 
 #: redirection-strings.php:482
 msgid "For example \"/amp\""
-msgstr ""
+msgstr "Par exemple « /amp »"
 
 #: redirection-strings.php:493
 msgid "URL Monitor"
-msgstr ""
+msgstr "URL à surveiller"
 
 #: redirection-strings.php:433
 msgid "Delete 404s"
-msgstr "Διαγραφή 404s"
+msgstr "Supprimer les pages 404"
 
 #: redirection-strings.php:379
 msgid "Delete all from IP %s"
-msgstr "Διαγραφή όλων από τηνIP %s"
+msgstr "Tout supprimer depuis l’IP %s"
 
 #: redirection-strings.php:380
 msgid "Delete all matching \"%s\""
-msgstr ""
+msgstr "Supprimer toutes les correspondances « %s »"
 
 #: redirection-strings.php:28
 msgid "Your server has rejected the request for being too big. You will need to change it to continue."
@@ -1608,11 +1608,11 @@ msgstr ""
 
 #: redirection-admin.php:423
 msgid "Unable to load Redirection"
-msgstr ""
+msgstr "Impossible de charger Redirection"
 
 #: models/fixer.php:74
 msgid "Post monitor group is valid"
-msgstr ""
+msgstr "Le groupe de surveillance d’articles est valide"
 
 #: models/fixer.php:74
 msgid "Post monitor group is invalid"
@@ -1620,7 +1620,7 @@ msgstr ""
 
 #: models/fixer.php:72
 msgid "Post monitor group"
-msgstr ""
+msgstr "Groupe de surveillance d’article"
 
 #: models/fixer.php:68
 msgid "All redirects have a valid group"
@@ -1636,7 +1636,7 @@ msgstr ""
 
 #: models/fixer.php:62
 msgid "Valid groups detected"
-msgstr ""
+msgstr "Groupes valides détectés"
 
 #: models/fixer.php:62
 msgid "No valid groups, so you will not be able to create any redirects"
@@ -1644,11 +1644,11 @@ msgstr ""
 
 #: models/fixer.php:60
 msgid "Valid groups"
-msgstr ""
+msgstr "Groupes valides"
 
 #: models/fixer.php:57
 msgid "Database tables"
-msgstr "Πίνακες βάσης δεδομένων"
+msgstr "Tables de la base de données"
 
 #: models/fixer.php:86
 msgid "The following tables are missing:"
@@ -1656,7 +1656,7 @@ msgstr ""
 
 #: models/fixer.php:86
 msgid "All tables present"
-msgstr ""
+msgstr "Toutes les tables présentes"
 
 #: redirection-strings.php:313
 msgid "Cached Redirection detected"
@@ -1680,7 +1680,7 @@ msgstr ""
 
 #: redirection-admin.php:455
 msgid "Loading, please wait..."
-msgstr "Φόρτωση, παρακαλώ περιμένετε..."
+msgstr "Veuillez patienter pendant le chargement…"
 
 #: redirection-strings.php:343
 msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
@@ -1700,11 +1700,11 @@ msgstr ""
 
 #: redirection-strings.php:38
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: redirection-strings.php:578
 msgid "Need help?"
-msgstr "Χρειάζεστε βοήθεια;"
+msgstr "Besoin d’aide ?"
 
 #: redirection-strings.php:581
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
@@ -1712,15 +1712,15 @@ msgstr ""
 
 #: redirection-strings.php:521
 msgid "Pos"
-msgstr "Θέση"
+msgstr "Pos"
 
 #: redirection-strings.php:116
 msgid "410 - Gone"
-msgstr ""
+msgstr "410 – Gone"
 
 #: redirection-strings.php:137 redirection-strings.php:535
 msgid "Position"
-msgstr "Θέση"
+msgstr "Position"
 
 #: redirection-strings.php:506
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
@@ -1728,35 +1728,35 @@ msgstr ""
 
 #: redirection-strings.php:325
 msgid "Import to group"
-msgstr ""
+msgstr "Importer dans le groupe"
 
 #: redirection-strings.php:326
 msgid "Import a CSV, .htaccess, or JSON file."
-msgstr ""
+msgstr "Importer un fichier CSV, .htaccess ou JSON."
 
 #: redirection-strings.php:327
 msgid "Click 'Add File' or drag and drop here."
-msgstr ""
+msgstr "Cliquer sur « ajouter un fichier » ou glisser-déposer ici."
 
 #: redirection-strings.php:328
 msgid "Add File"
-msgstr "Προσθήκη Αρχείου"
+msgstr "Ajouter un fichier"
 
 #: redirection-strings.php:329
 msgid "File selected"
-msgstr "Επιλεγμένο αρχείο"
+msgstr "Fichier sélectionné"
 
 #: redirection-strings.php:332
 msgid "Importing"
-msgstr "Εισαγωγή σε εξέλιξη"
+msgstr ""
 
 #: redirection-strings.php:333
 msgid "Finished importing"
-msgstr ""
+msgstr "Import terminé"
 
 #: redirection-strings.php:334
 msgid "Total redirects imported:"
-msgstr ""
+msgstr "Total des redirections importées :"
 
 #: redirection-strings.php:335
 msgid "Double-check the file is the correct format!"
@@ -1768,27 +1768,27 @@ msgstr "OK"
 
 #: redirection-strings.php:134 redirection-strings.php:337
 msgid "Close"
-msgstr "Κλείσιμο"
+msgstr "Fermer"
 
 #: redirection-strings.php:345
 msgid "Export"
-msgstr "Εξαγωγή"
+msgstr "Exporter"
 
 #: redirection-strings.php:347
 msgid "Everything"
-msgstr "Όλα"
+msgstr "Tout"
 
 #: redirection-strings.php:348
 msgid "WordPress redirects"
-msgstr ""
+msgstr "Redirections WordPress"
 
 #: redirection-strings.php:349
 msgid "Apache redirects"
-msgstr "Apache redirects"
+msgstr "Redirections Apache"
 
 #: redirection-strings.php:350
 msgid "Nginx redirects"
-msgstr ""
+msgstr "Redirections Nginx"
 
 #: redirection-strings.php:352
 msgid "CSV"
@@ -1796,27 +1796,27 @@ msgstr "CSV"
 
 #: redirection-strings.php:353 redirection-strings.php:507
 msgid "Apache .htaccess"
-msgstr "Apache .htaccess"
+msgstr ".htaccess Apache"
 
 #: redirection-strings.php:354
 msgid "Nginx rewrite rules"
-msgstr "Nginx rewrite rules"
+msgstr ""
 
 #: redirection-strings.php:355
 msgid "View"
-msgstr "Προβολή"
+msgstr ""
 
 #: redirection-strings.php:81 redirection-strings.php:308
 msgid "Import/Export"
-msgstr "Εισαγωγή/Εξαγωγή"
+msgstr ""
 
 #: redirection-strings.php:309
 msgid "Logs"
-msgstr "Αρχεία καταγραφής"
+msgstr "Journaux"
 
 #: redirection-strings.php:310
 msgid "404 errors"
-msgstr ""
+msgstr "Erreurs 404"
 
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
@@ -1824,152 +1824,152 @@ msgstr ""
 
 #: redirection-strings.php:449
 msgid "I'd like to support some more."
-msgstr ""
+msgstr "Je voudrais soutenir un peu plus."
 
 #: redirection-strings.php:452
 msgid "Support 💰"
-msgstr "Υποστήριξη 💰"
+msgstr ""
 
 #: redirection-strings.php:254
 msgid "Redirection saved"
-msgstr ""
+msgstr "Redirection sauvegardée"
 
 #: redirection-strings.php:255
 msgid "Log deleted"
-msgstr "Το αρχείο καταγραφής διαγράφηκε"
+msgstr "Journal supprimé"
 
 #: redirection-strings.php:256
 msgid "Settings saved"
-msgstr "Οι ρυθμίσεις αποθηκεύτηκαν"
+msgstr "Réglages sauvegardés"
 
 #: redirection-strings.php:257
 msgid "Group saved"
-msgstr "Η ομάδα αποθηκεύτηκε"
+msgstr "Groupe sauvegardé"
 
 #: redirection-strings.php:253
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the selected items?"
-msgstr[0] "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το αντικείμενο;"
-msgstr[1] "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτά τα αντικείμενα;"
+msgstr[0] ""
+msgstr[1] ""
 
 #: redirection-strings.php:568
 msgid "pass"
-msgstr ""
+msgstr "Passer"
 
 #: redirection-strings.php:561
 msgid "All groups"
-msgstr "Όλες οι ομάδες"
+msgstr "Tous les groupes"
 
 #: redirection-strings.php:106
 msgid "301 - Moved Permanently"
-msgstr "301-Μετακινήθηκε μόνιμα"
+msgstr "301 - déplacé de façon permanente"
 
 #: redirection-strings.php:107
 msgid "302 - Found"
-msgstr ""
+msgstr "302 – trouvé"
 
 #: redirection-strings.php:110
 msgid "307 - Temporary Redirect"
-msgstr "307-προσωρινή ανακατεύθυνση"
+msgstr "307 – Redirigé temporairement"
 
 #: redirection-strings.php:111
 msgid "308 - Permanent Redirect"
-msgstr "308-μόνιμη ανακατεύθυνση"
+msgstr "308 – Redirigé de façon permanente"
 
 #: redirection-strings.php:113
 msgid "401 - Unauthorized"
-msgstr "401-μη εξουσιοδοτημένη"
+msgstr "401 – Non-autorisé"
 
 #: redirection-strings.php:115
 msgid "404 - Not Found"
-msgstr "404-δεν βρέθηκε"
+msgstr "404 – Introuvable"
 
 #: redirection-strings.php:144 redirection-strings.php:531
 msgid "Title"
-msgstr "Τίτλος"
+msgstr "Titre"
 
 #: redirection-strings.php:130
 msgid "When matched"
-msgstr ""
+msgstr "Quand cela correspond"
 
 #: redirection-strings.php:88
 msgid "with HTTP code"
-msgstr "με κωδικό HTTP"
+msgstr "avec code HTTP"
 
 #: redirection-strings.php:135
 msgid "Show advanced options"
-msgstr ""
+msgstr "Afficher les options avancées"
 
 #: redirection-strings.php:608
 msgid "Matched Target"
-msgstr ""
+msgstr "Cible correspondant"
 
 #: redirection-strings.php:610
 msgid "Unmatched Target"
-msgstr ""
+msgstr "Cible ne correspondant pas"
 
 #: redirection-strings.php:86 redirection-strings.php:87
 msgid "Saving..."
-msgstr "Αποθήκευση..."
+msgstr "Sauvegarde…"
 
 #: redirection-strings.php:84
 msgid "View notice"
-msgstr "Προβολή ειδοποίησης"
+msgstr "Voir la notification"
 
 #: redirection-strings.php:47 redirection-strings.php:317
 msgid "Something went wrong 🙁"
-msgstr ""
+msgstr "Quelque chose s’est mal passé 🙁"
 
 #. translators: maximum number of log entries
 #: redirection-admin.php:208
 msgid "Log entries (%d max)"
-msgstr ""
+msgstr "Entrées du journal (%d max.)"
 
 #: redirection-strings.php:182
 msgid "Select bulk action"
-msgstr "Επιλέξτε μαζική ενέργεια"
+msgstr "Sélectionner l’action groupée"
 
 #: redirection-strings.php:183
 msgid "Bulk Actions"
-msgstr "Μαζική επεξ/σία"
+msgstr "Actions groupées"
 
 #: redirection-strings.php:174 redirection-strings.php:184
 msgid "Apply"
-msgstr "Εκτέλεση"
+msgstr "Appliquer"
 
 #: redirection-strings.php:175
 msgid "First page"
-msgstr "Αρχική σελίδα"
+msgstr "Première page"
 
 #: redirection-strings.php:176
 msgid "Prev page"
-msgstr "Προηγούμενη σελίδα"
+msgstr "Page précédente"
 
 #: redirection-strings.php:177
 msgid "Current Page"
-msgstr "Τρέχουσα σελίδα"
+msgstr "Page courante"
 
 #: redirection-strings.php:178
 msgid "of %(page)s"
-msgstr ""
+msgstr "de %(page)s"
 
 #: redirection-strings.php:179
 msgid "Next page"
-msgstr "Επόμενη σελίδα"
+msgstr "Page suivante"
 
 #: redirection-strings.php:180
 msgid "Last page"
-msgstr "Τελευταία σελίδα"
+msgstr "Dernière page"
 
 #: redirection-strings.php:181
 msgid "%s item"
 msgid_plural "%s items"
-msgstr[0] "%s στοιχείο"
-msgstr[1] "%s στοιχεία"
+msgstr[0] "%s élément"
+msgstr[1] "%s éléments"
 
 #: redirection-strings.php:647
 msgid "Select All"
-msgstr "Επιλογή όλων"
+msgstr "Tout sélectionner"
 
 #: redirection-strings.php:649
 msgid "Sorry, something went wrong loading the data - please try again"
@@ -1977,7 +1977,7 @@ msgstr ""
 
 #: redirection-strings.php:648
 msgid "No results"
-msgstr "Κανένα αποτέλεσμα"
+msgstr "Aucun résultat"
 
 #: redirection-strings.php:382
 msgid "Delete the logs - are you sure?"
@@ -1989,11 +1989,11 @@ msgstr ""
 
 #: redirection-strings.php:384
 msgid "Yes! Delete the logs"
-msgstr "Ναι! Διαγραφή των αρχείων καταγραφής"
+msgstr "Oui ! Supprimer les journaux"
 
 #: redirection-strings.php:385
 msgid "No! Don't delete the logs"
-msgstr "Όχι! Να μην διαγραφούν τα αρχεία καταγραφής"
+msgstr "Non ! Ne pas supprimer les journaux"
 
 #: redirection-strings.php:455
 msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
@@ -2001,7 +2001,7 @@ msgstr ""
 
 #: redirection-strings.php:454 redirection-strings.php:456
 msgid "Newsletter"
-msgstr "Ενημερωτικό Δελτίο"
+msgstr ""
 
 #: redirection-strings.php:457
 msgid "Want to keep up to date with changes to Redirection?"
@@ -2013,11 +2013,11 @@ msgstr ""
 
 #: redirection-strings.php:459
 msgid "Your email address:"
-msgstr "Η διεύθυνση email σας:"
+msgstr ""
 
 #: redirection-strings.php:448
 msgid "You've supported this plugin - thank you!"
-msgstr "Έχετε υποστηρίξει αυτό το πρόσθετο - σας ευχαριστώ!"
+msgstr "Vous avez apporté votre soutien à l’extension. Merci !"
 
 #: redirection-strings.php:451
 msgid "You get useful software and I get to carry on making it better."
@@ -2025,11 +2025,11 @@ msgstr ""
 
 #: redirection-strings.php:465 redirection-strings.php:470
 msgid "Forever"
-msgstr "Πάντα"
+msgstr "Indéfiniment"
 
 #: redirection-strings.php:440
 msgid "Delete the plugin - are you sure?"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το πρόσθετο;"
+msgstr ""
 
 #: redirection-strings.php:441
 msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
@@ -2041,11 +2041,11 @@ msgstr ""
 
 #: redirection-strings.php:443
 msgid "Yes! Delete the plugin"
-msgstr "Ναι! Διαγραφή του πρόσθετου"
+msgstr ""
 
 #: redirection-strings.php:444
 msgid "No! Don't delete the plugin"
-msgstr "Όχι! Να μην διαγραφεί το πρόσθετο"
+msgstr ""
 
 #. Author of the plugin
 msgid "John Godley"
@@ -2061,19 +2061,19 @@ msgstr ""
 
 #: redirection-admin.php:331
 msgid "Redirection Support"
-msgstr "Υποστήριξη Redirection"
+msgstr ""
 
 #: redirection-strings.php:83 redirection-strings.php:312
 msgid "Support"
-msgstr "Υποστήριξη"
+msgstr "Modifier le formulaire"
 
 #: redirection-strings.php:80
 msgid "404s"
-msgstr "404s"
+msgstr "404"
 
 #: redirection-strings.php:79
 msgid "Log"
-msgstr "Αρχείο καταγραφής"
+msgstr "Journaux"
 
 #: redirection-strings.php:446
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
@@ -2081,19 +2081,19 @@ msgstr ""
 
 #: redirection-strings.php:445
 msgid "Delete Redirection"
-msgstr "Διαγραφή ανακατεύθυνσης"
+msgstr "Supprimer Redirection"
 
 #: redirection-strings.php:330
 msgid "Upload"
-msgstr "Μεταφόρτωση"
+msgstr ""
 
 #: redirection-strings.php:341
 msgid "Import"
-msgstr "Εισαγωγή"
+msgstr "Importer"
 
 #: redirection-strings.php:514 redirection-strings.php:573
 msgid "Update"
-msgstr "Ενημέρωση"
+msgstr "Mettre à jour"
 
 #: redirection-strings.php:505
 msgid "Auto-generate URL"
@@ -2105,11 +2105,11 @@ msgstr ""
 
 #: redirection-strings.php:494
 msgid "RSS Token"
-msgstr "RSS Token"
+msgstr "Jeton RSS "
 
 #: redirection-strings.php:488
 msgid "404 Logs"
-msgstr ""
+msgstr "Journaux des 404 "
 
 #: redirection-strings.php:487 redirection-strings.php:489
 msgid "(time to keep logs for)"
@@ -2125,36 +2125,36 @@ msgstr ""
 
 #: redirection-strings.php:453
 msgid "Plugin Support"
-msgstr "Υποστήριξη πρόσθετου"
+msgstr ""
 
 #: redirection-strings.php:82 redirection-strings.php:311
 msgid "Options"
-msgstr "Επιλογές"
+msgstr "Options"
 
 #: redirection-strings.php:464
 msgid "Two months"
-msgstr "Δύο μήνες"
+msgstr "Deux mois"
 
 #: redirection-strings.php:463
 msgid "A month"
-msgstr "Ένας μήνας"
+msgstr "Un mois"
 
 #: redirection-strings.php:462 redirection-strings.php:469
 msgid "A week"
-msgstr "Μία βδομάδα"
+msgstr "Une semaine"
 
 #: redirection-strings.php:461 redirection-strings.php:468
 msgid "A day"
-msgstr "Μια ημέρα"
+msgstr "Un jour"
 
 #: redirection-strings.php:460
 msgid "No logs"
-msgstr ""
+msgstr "Aucun journal"
 
 #: redirection-strings.php:381 redirection-strings.php:423
 #: redirection-strings.php:428
 msgid "Delete All"
-msgstr "Διαγραφή όλων"
+msgstr "Tout supprimer"
 
 #: redirection-strings.php:279
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
@@ -2162,59 +2162,59 @@ msgstr ""
 
 #: redirection-strings.php:278
 msgid "Add Group"
-msgstr "Προσθήκη Ομάδας"
+msgstr "﻿Ajouter un groupe"
 
 #: redirection-strings.php:276
 msgid "Search"
-msgstr "Αναζήτηση"
+msgstr "Rechercher"
 
 #: redirection-strings.php:77 redirection-strings.php:307
 msgid "Groups"
-msgstr "Ομάδες"
+msgstr "Groupes"
 
 #: redirection-strings.php:132 redirection-strings.php:289
 #: redirection-strings.php:576
 msgid "Save"
-msgstr "Αποθήκευση"
+msgstr "Sauvegarder"
 
 #: redirection-strings.php:131 redirection-strings.php:520
 #: redirection-strings.php:540
 msgid "Group"
-msgstr "Ομάδα"
+msgstr "Groupe"
 
 #: redirection-strings.php:547
 msgid "Regular Expression"
-msgstr ""
+msgstr "Expression régulière"
 
 #: redirection-strings.php:136
 msgid "Match"
-msgstr "Ταίριασμα"
+msgstr "Correspondant"
 
 #: redirection-strings.php:559
 msgid "Add new redirection"
-msgstr ""
+msgstr "Ajouter une nouvelle redirection"
 
 #: redirection-strings.php:133 redirection-strings.php:290
 #: redirection-strings.php:331
 msgid "Cancel"
-msgstr "Άκυρο"
+msgstr "Annuler"
 
 #: redirection-strings.php:356
 msgid "Download"
-msgstr "Λήψη"
+msgstr "Télécharger"
 
 #. Plugin Name of the plugin
 #: redirection-strings.php:249
 msgid "Redirection"
-msgstr ""
+msgstr "Redirection"
 
 #: redirection-admin.php:146
 msgid "Settings"
-msgstr "Ρυθμίσεις"
+msgstr "Réglages"
 
 #: redirection-strings.php:104
 msgid "Error (404)"
-msgstr ""
+msgstr "Erreur (404)"
 
 #: redirection-strings.php:103
 msgid "Pass-through"
@@ -2226,29 +2226,29 @@ msgstr ""
 
 #: redirection-strings.php:101
 msgid "Redirect to URL"
-msgstr "Ανακατεύθυνση σε URL"
+msgstr ""
 
 #: redirection-strings.php:364 redirection-strings.php:373
 #: redirection-strings.php:392 redirection-strings.php:398
 #: redirection-strings.php:414 redirection-strings.php:633
 msgid "IP"
-msgstr "IP"
+msgstr ""
 
 #: redirection-strings.php:139 redirection-strings.php:140
 #: redirection-strings.php:203 redirection-strings.php:360
 #: redirection-strings.php:390 redirection-strings.php:395
 msgid "Source URL"
-msgstr "URL προέλευσης"
+msgstr ""
 
 #: redirection-strings.php:359 redirection-strings.php:368
 #: redirection-strings.php:394 redirection-strings.php:410
 msgid "Date"
-msgstr "Ημερομηνία"
+msgstr "Date"
 
 #: redirection-strings.php:419 redirection-strings.php:432
 #: redirection-strings.php:436 redirection-strings.php:560
 msgid "Add Redirect"
-msgstr "Προσθήκη ανακατεύθυνσης"
+msgstr ""
 
 #: redirection-strings.php:284
 msgid "View Redirects"
@@ -2257,21 +2257,21 @@ msgstr ""
 #: redirection-strings.php:260 redirection-strings.php:268
 #: redirection-strings.php:272 redirection-strings.php:288
 msgid "Module"
-msgstr "Άρθρωμα"
+msgstr ""
 
 #: redirection-strings.php:76 redirection-strings.php:262
 #: redirection-strings.php:271
 msgid "Redirects"
-msgstr "Redirects"
+msgstr ""
 
 #: redirection-strings.php:259 redirection-strings.php:270
 #: redirection-strings.php:280 redirection-strings.php:287
 msgid "Name"
-msgstr "Όνομα"
+msgstr "Nom"
 
 #: redirection-strings.php:277 redirection-strings.php:562
 msgid "Filters"
-msgstr "Φίλτρα"
+msgstr "Filtres"
 
 #: redirection-strings.php:527
 msgid "Reset hits"
@@ -2280,12 +2280,12 @@ msgstr ""
 #: redirection-strings.php:274 redirection-strings.php:286
 #: redirection-strings.php:525 redirection-strings.php:566
 msgid "Enable"
-msgstr "Ενεργοποίηση"
+msgstr ""
 
 #: redirection-strings.php:275 redirection-strings.php:285
 #: redirection-strings.php:526 redirection-strings.php:565
 msgid "Disable"
-msgstr "Απενεργοποίηση"
+msgstr ""
 
 #: redirection-strings.php:273 redirection-strings.php:283
 #: redirection-strings.php:365 redirection-strings.php:386
@@ -2293,15 +2293,15 @@ msgstr "Απενεργοποίηση"
 #: redirection-strings.php:435 redirection-strings.php:447
 #: redirection-strings.php:524 redirection-strings.php:564
 msgid "Delete"
-msgstr "Διαγραφή"
+msgstr "Supprimer"
 
 #: redirection-strings.php:282 redirection-strings.php:563
 msgid "Edit"
-msgstr "Επεξεργασία"
+msgstr "Modifier"
 
 #: redirection-strings.php:523 redirection-strings.php:537
 msgid "Last Access"
-msgstr "Τελευταία Πρόσβαση"
+msgstr ""
 
 #: redirection-strings.php:522 redirection-strings.php:536
 msgid "Hits"
@@ -2310,7 +2310,7 @@ msgstr ""
 #: redirection-strings.php:369 redirection-strings.php:411
 #: redirection-strings.php:516 redirection-strings.php:591
 msgid "URL"
-msgstr "Διεύθυνση URL"
+msgstr "Adresse web"
 
 #: database/schema/latest.php:144
 msgid "Modified Posts"
@@ -2319,13 +2319,13 @@ msgstr ""
 #: models/group.php:149 redirection-strings.php:305
 #: database/schema/latest.php:139
 msgid "Redirections"
-msgstr "Redirections"
+msgstr ""
 
 #: redirection-strings.php:363 redirection-strings.php:371
 #: redirection-strings.php:397 redirection-strings.php:413
 #: redirection-strings.php:613
 msgid "User Agent"
-msgstr "User Agent"
+msgstr ""
 
 #: redirection-strings.php:93 matches/user-agent.php:10
 msgid "URL and user agent"
@@ -2334,11 +2334,11 @@ msgstr ""
 #: redirection-strings.php:205 redirection-strings.php:361
 #: redirection-strings.php:612
 msgid "Target URL"
-msgstr "URL προορισμού"
+msgstr ""
 
 #: redirection-strings.php:89 matches/url.php:7
 msgid "URL only"
-msgstr "Μόνο URL"
+msgstr ""
 
 #: redirection-strings.php:533
 msgid "HTTP code"
@@ -2348,13 +2348,13 @@ msgstr ""
 #: redirection-strings.php:623 redirection-strings.php:631
 #: redirection-strings.php:642
 msgid "Regex"
-msgstr "Regex"
+msgstr ""
 
 #: redirection-strings.php:362 redirection-strings.php:370
 #: redirection-strings.php:396 redirection-strings.php:412
 #: redirection-strings.php:640
 msgid "Referrer"
-msgstr "Αναφορέας"
+msgstr ""
 
 #: redirection-strings.php:92 matches/referrer.php:10
 msgid "URL and referrer"
@@ -2362,12 +2362,12 @@ msgstr ""
 
 #: redirection-strings.php:606
 msgid "Logged Out"
-msgstr "Αποσύνδεση"
+msgstr ""
 
 #: redirection-strings.php:604
 msgid "Logged In"
-msgstr "Συνδέθηκε"
+msgstr ""
 
 #: redirection-strings.php:90 matches/login.php:8
 msgid "URL and login status"
-msgstr "URL και κατάσταση σύνδεσης"
+msgstr ""
