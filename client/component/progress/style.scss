@@ -11,12 +11,12 @@
 		animation: loading-fade 1.2s ease-in-out infinite;
 	}
 
-	.spinner-container {
+	.wpl-spinner-container {
 		position: absolute;
 		left: 5px;
 		top: 39px;
 
-		.css-spinner {
+		.wpl-spinner__item {
 			width: 26px;
 			height: 26px;
 		}

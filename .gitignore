@@ -4,3 +4,5 @@ node_modules
 /yarn-error.log
 /api-doc
 /vendor
+/redirection.js.LICENSE.txt
+/.DS_Store

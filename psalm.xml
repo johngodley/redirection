@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<psalm
+    totallyTyped="false"
+    errorLevel="3"
+    phpVersion="5.6"
+    resolveFromConfigFile="true"
+    findUnusedVariablesAndParams="true"
+    strictBinaryOperands="true"
+    ensureArrayStringOffsetsExist="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <file name="redirection-settings.php" />
+        <file name="redirection-version.php" />
+        <file name="redirection-admin.php" />
+        <file name="redirection-capabilities.php" />
+        <file name="redirection-cli.php" />
+        <file name="redirection.php" />
+        <directory name="api" />
+        <directory name="models" />
+        <directory name="modules" />
+        <directory name="matches" />
+        <directory name="fileio" />
+		<directory name="database" />
+
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <globals>
+        <var name="wpdb" type="object" />
+    </globals>
+    <stubs>
+        <file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
+        <file name="bin/stubs.php" />
+    </stubs>
+    <issueHandlers>
+        <MissingClosureReturnType errorLevel="suppress" />
+        <MissingClosureParamType errorLevel="suppress" />
+    </issueHandlers>
+</psalm>

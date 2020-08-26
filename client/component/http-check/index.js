@@ -4,13 +4,13 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import PoweredBy from 'component/powered-by';
 import HttpDetails from './details';
 import { getHttp, clearHttp } from 'state/info/action';
@@ -39,7 +39,7 @@ class HttpCheck extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p><code>{ error.message }</code></p>
@@ -51,7 +51,7 @@ class HttpCheck extends React.Component {
 		const { status, http, item } = this.props;
 		const klass = classnames( {
 			'redirection-httpcheck': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 			'redirection-httpcheck_small': status === STATUS_FAILED,
 		} );
 
@@ -61,7 +61,7 @@ class HttpCheck extends React.Component {
 				{ status === STATUS_FAILED && this.renderError() }
 
 				{ status === STATUS_COMPLETE && http &&
-					<React.Fragment>
+					<>
 						<h2>
 							{
 								__( 'Check redirect for: {{code}}%s{{/code}}', {
@@ -75,7 +75,7 @@ class HttpCheck extends React.Component {
 
 						<HttpDetails http={ http } item={ item } />
 						<PoweredBy />
-					</React.Fragment>
+					</>
 				}
 			</div>
 		);

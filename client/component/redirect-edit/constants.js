@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import {
 	ACTION_URL,
 	ACTION_PASS,
@@ -100,78 +100,78 @@ export const getActions = () => [
 
 export const getHttpCodes = () => [
 	{
-		value: 301,
+		value: '301',
 		label: __( '301 - Moved Permanently' ),
 	},
 	{
-		value: 302,
+		value: '302',
 		label: __( '302 - Found' ),
 	},
 	{
-		value: 303,
+		value: '303',
 		label: __( '303 - See Other' ),
 	},
 	{
-		value: 304,
+		value: '304',
 		label: __( '304 - Not Modified' ),
 	},
 	{
-		value: 307,
+		value: '307',
 		label: __( '307 - Temporary Redirect' ),
 	},
 	{
-		value: 308,
+		value: '308',
 		label: __( '308 - Permanent Redirect' ),
 	},
 ];
 
 export const getHttpError = () => [
 	{
-		value: 400,
+		value: '400',
 		label: __( '400 - Bad Request' ),
 	},
 	{
-		value: 401,
+		value: '401',
 		label: __( '401 - Unauthorized' ),
 	},
 	{
-		value: 403,
+		value: '403',
 		label: __( '403 - Forbidden' ),
 	},
 	{
-		value: 404,
+		value: '404',
 		label: __( '404 - Not Found' ),
 	},
 	{
-		value: 410,
+		value: '410',
 		label: __( '410 - Gone' ),
 	},
 	{
-		value: 418,
+		value: '418',
 		label: __( "418 - I'm a teapot" ),
 	},
 	{
-		value: 451,
+		value: '451',
 		label: __( '451 - Unavailable For Legal Reasons' ),
 	},
 	{
-		value: 500,
+		value: '500',
 		label: __( '500 - Internal Server Error' ),
 	},
 	{
-		value: 501,
+		value: '501',
 		label: __( '501 - Not implemented' ),
 	},
 	{
-		value: 502,
+		value: '502',
 		label: __( '502 - Bad Gateway' ),
 	},
 	{
-		value: 503,
+		value: '503',
 		label: __( '503 - Service Unavailable' ),
 	},
 	{
-		value: 504,
+		value: '504',
 		label: __( '504 - Gateway Timeout' ),
 	},
 ];

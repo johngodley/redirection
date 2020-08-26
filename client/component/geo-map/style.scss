@@ -49,11 +49,16 @@
 		line-height: 1;
 		margin: 0;
 		padding-bottom: 10px;
+		text-align: left;
+	}
+
+	.wpl-modal_error {
+		padding-left: 10px;
 	}
 }
 
 @media screen and (max-width: 782px) {
-	.redirection-modal_main .redirection-geomap {
+	.wpl-modal_main .redirection-geomap {
 		iframe {
 			height: 255px;
 		}

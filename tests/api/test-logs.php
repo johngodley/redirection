@@ -19,7 +19,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			RE_Log::create( 'test' . ( $i + 1 ), 'target' . $i, 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
+			Red_Redirect_Log::create( 'test' . ( $i + 1 ), 'target' . $i, 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
 		}
 
 		$this->setNonce();
@@ -192,8 +192,8 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	public function testDeleteBulk() {
 		$this->setNonce();
-		RE_log::create( 'test1', 'target', 'agent', '192.168.1.1', 'referrer' );
-		$last = RE_log::create( 'test2', 'target', 'agent', '192.168.1.2', 'referrer' );
+		Red_Redirect_Log::create( 'test1', 'target', 'agent', '192.168.1.1', 'referrer' );
+		$last = Red_Redirect_Log::create( 'test2', 'target', 'agent', '192.168.1.2', 'referrer' );
 
 		$result = $this->callApi( 'bulk/log/delete', array( 'items' => $last ), 'POST' );
 		$this->assertEquals( 1, count( $result->data['items'] ) );

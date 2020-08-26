@@ -29,6 +29,9 @@ class Redirection_Admin {
 		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 4 );
 		add_filter( 'redirection_save_options', [ $this, 'flush_schedule' ] );
 		add_filter( 'set-screen-option', [ $this, 'set_per_page' ], 10, 3 );
+		add_filter( 'set_screen_option_redirection_log_per_page', function( $ignore, $option, $value ) {
+			return $value;
+		}, 10, 3 );
 		add_action( 'redirection_redirect_updated', [ $this, 'set_default_group' ], 10, 2 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
@@ -131,7 +134,8 @@ class Redirection_Admin {
 
 	public function set_per_page( $status, $option, $value ) {
 		if ( $option === 'redirection_log_per_page' ) {
-			return max( 1, min( intval( $value, 10 ), RED_MAX_PER_PAGE ) );
+			$value = max( 1, min( intval( $value, 10 ), RED_MAX_PER_PAGE ) );
+			return $value;
 		}
 
 		return $status;
@@ -222,10 +226,13 @@ class Redirection_Admin {
 		$status = new Red_Database_Status();
 		$status->check_tables_exist();
 
+		$translations = $this->get_i18n_data();
+
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'api' => [
 				'WP_API_root' => esc_url_raw( red_get_rest_api() ),
 				'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
+				'site_health' => admin_url( 'site-health.php' ),
 				'current' => $options['rest_api'],
 				'routes' => [
 					REDIRECTION_API_JSON => red_get_rest_api( REDIRECTION_API_JSON ),
@@ -236,8 +243,11 @@ class Redirection_Admin {
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
 			'pluginRoot' => $this->get_plugin_url(),
 			'per_page' => $this->get_per_page(),
-			'locale' => $this->get_i18n_data(),
-			'localeSlug' => get_locale(),
+			'locale' => [
+				'translations' => $translations,
+				'localeSlug' => get_locale(),
+				'plurals' => isset( $translations['plural-forms'] ) ? $translations['plural-forms'] : 'nplurals=2; plural=n != 1;',
+			],
 			'settings' => $options,
 			'preload' => $preload,
 			'versions' => implode( "\n", $versions ),
@@ -564,9 +574,9 @@ class Redirection_Admin {
 	private function try_export_logs() {
 		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
 			if ( $this->get_current_page() === 'log' ) {
-				RE_Log::export_to_csv();
+				Red_Redirect_Log::export_to_csv();
 			} elseif ( $this->get_current_page() === '404s' ) {
-				RE_404::export_to_csv();
+				Red_404_Log::export_to_csv();
 			}
 
 			die();

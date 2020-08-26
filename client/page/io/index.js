@@ -3,10 +3,10 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import classnames from 'classnames';
 
 /**
@@ -101,12 +101,12 @@ class ImportExport extends React.Component {
 
 	renderInitialDrop( open ) {
 		return (
-			<React.Fragment>
+			<>
 				<h3>{ __( 'Import a CSV, .htaccess, or JSON file.' ) }</h3>
 				<p>{ __( "Click 'Add File' or drag and drop here." ) }</p>
 
 				<button type="button" className="button-secondary" onClick={ open }>{ __( 'Add File' ) }</button>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -115,7 +115,7 @@ class ImportExport extends React.Component {
 		const isJson = file.type === 'application/json';
 
 		return (
-			<React.Fragment>
+			<>
 				<h3>{ __( 'File selected' ) }</h3>
 
 				<p><code>{ file.name }</code></p>
@@ -124,7 +124,7 @@ class ImportExport extends React.Component {
 
 				<button className="button-primary" onClick={ this.onImport }>{ __( 'Upload' ) }</button> &nbsp;
 				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'Cancel' ) }</button>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -132,15 +132,15 @@ class ImportExport extends React.Component {
 		const { file } = this.props.io;
 
 		return (
-			<React.Fragment>
+			<>
 				<h3>{ __( 'Importing' ) }</h3>
 
 				<p><code>{ file.name }</code></p>
 
 				<div className="is-placeholder">
-					<div className="placeholder-loading"></div>
+					<div className="wpl-placeholder__loading"></div>
 				</div>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -148,14 +148,14 @@ class ImportExport extends React.Component {
 		const { lastImport } = this.props.io;
 
 		return (
-			<React.Fragment>
+			<>
 				<h3>{ __( 'Finished importing' ) }</h3>
 
 				<p>{ __( 'Total redirects imported:' ) } { lastImport }</p>
 				{ lastImport === 0 && <p>{ __( 'Double-check the file is the correct format!' ) }</p> }
 
 				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'OK' ) }</button>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -211,7 +211,7 @@ class ImportExport extends React.Component {
 	renderExporting() {
 		return (
 			<div className="loader-wrapper loader-textarea">
-				<div className="placeholder-loading"></div>
+				<div className="wpl-placeholder__loading"></div>
 			</div>
 		);
 	}

@@ -11,10 +11,11 @@ import {
 	IO_ADD_FILE,
 	IO_IMPORTERS,
 } from './type';
-import { getApi, RedirectionApi } from 'lib/api';
+import { RedirectionApi } from 'lib/api-request';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 export const exportFile = ( module, format ) => dispatch => {
-	getApi( RedirectionApi.export.file( module, format ) )
+	apiFetch( RedirectionApi.export.file( module, format ) )
 		.then( resp => {
 			dispatch( { type: IO_EXPORTED, data: resp.data } );
 		} )
@@ -34,7 +35,7 @@ export const downloadFile = url => {
 };
 
 export const importFile = ( file, group ) => dispatch => {
-	getApi( RedirectionApi.import.upload( group, file ) )
+	apiFetch( RedirectionApi.import.upload( group, file ) )
 		.then( resp => {
 			dispatch( { type: IO_IMPORTED, total: resp.imported } );
 		} )
@@ -48,7 +49,7 @@ export const importFile = ( file, group ) => dispatch => {
 export const clearFile = () => ( { type: IO_CLEAR } );
 export const addFile = file => ( { type: IO_ADD_FILE, file } );
 export const loadImporters = () => dispatch => {
-	getApi( RedirectionApi.import.pluginList() )
+	apiFetch( RedirectionApi.import.pluginList() )
 		.then( resp => {
 			dispatch( { type: IO_IMPORTERS, importers: resp.importers } );
 		} )
@@ -58,7 +59,7 @@ export const loadImporters = () => dispatch => {
 };
 
 export const pluginImport = plugin => dispatch => {
-	getApi( RedirectionApi.import.pluginImport( plugin ) )
+	apiFetch( RedirectionApi.import.pluginImport( plugin ) )
 		.then( resp => {
 			dispatch( { type: IO_IMPORTED, total: resp.imported } );
 		} )

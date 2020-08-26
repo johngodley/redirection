@@ -5,7 +5,17 @@
 
 import { getPageUrl } from 'lib/wordpress-url';
 
-const tableParams = [ 'orderby', 'direction', 'page', 'per_page', 'filterBy', 'groupBy', 'group', 'displayType', 'displaySelected' ];
+const tableParams = [
+	'orderby',
+	'direction',
+	'page',
+	'per_page',
+	'filterBy',
+	'groupBy',
+	'group',
+	'displayType',
+	'displaySelected',
+];
 
 const removeIfExists = ( current, newItems ) => {
 	const newArray = [];
@@ -19,13 +29,17 @@ const removeIfExists = ( current, newItems ) => {
 	return newArray;
 };
 
-const strOrInt = value => parseInt( value, 10 ) > 0 || value === '0' ? parseInt( value, 10 ) : value;
+const strOrInt = ( value ) => ( parseInt( value, 10 ) > 0 || value === '0' ? parseInt( value, 10 ) : value );
 
 function filterFilters( query, filters ) {
 	const filteredQuery = {};
 
-	Object.keys( query ).map( key => {
-		if ( filters[ key ] && Array.isArray( filters[ key ] ) && filters[ key ].indexOf( strOrInt( query[ key ] ) ) !== -1 ) {
+	Object.keys( query ).map( ( key ) => {
+		if (
+			filters[ key ] &&
+			Array.isArray( filters[ key ] ) &&
+			filters[ key ].indexOf( strOrInt( query[ key ] ) ) !== -1
+		) {
 			filteredQuery[ key ] = strOrInt( query[ key ] );
 		} else if ( filters[ key ] && ! Array.isArray( filters[ key ] ) ) {
 			filteredQuery[ key ] = query[ key ];
@@ -35,7 +49,26 @@ function filterFilters( query, filters ) {
 	return filteredQuery;
 }
 
-export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedGroup = [], defaultOrder = '', subParams = [], displayName = '', displayGroups = [] ) => {
+/**
+ * Get default table parameters
+ *
+ * @param {*} allowedOrder Allowed orders
+ * @param {*} allowedFilter Allowed filters
+ * @param {*} allowedGroup Allowed group by
+ * @param {*} defaultOrder Default order
+ * @param {*} subParams
+ * @param {*} displayName
+ * @param {*} displayGroups
+ */
+export const getDefaultTable = (
+	allowedOrder = [],
+	allowedFilter = [],
+	allowedGroup = [],
+	defaultOrder = '',
+	subParams = [],
+	displayName = '',
+	displayGroups = []
+) => {
 	const query = getPageUrl();
 	const defaults = {
 		orderby: defaultOrder,
@@ -45,28 +78,34 @@ export const getDefaultTable = ( allowedOrder = [], allowedFilter = [], allowedG
 		selected: [],
 		filterBy: {},
 		groupBy: '',
-		displayType: '',
+		displayType: 'standard',
 		displaySelected: [],
 	};
 	const sub = query.sub === undefined ? '' : query.sub;
-
-	if ( subParams.indexOf( sub ) === -1 ) {
-		return defaults;
-	}
 
 	let displayType = 'standard';
 	let displaySelected = displayGroups.length > 0 ? displayGroups[ 0 ].grouping : [];
 
 	if ( localStorage.getItem( displayName + '_displayType' ) ) {
-		displayType = localStorage.getItem( displayName + '_displayType' );
+		displayType = localStorage.getItem( displayName + '_displayType' ) || '';
 	}
 
-	if ( localStorage.getItem( displayName + '_displaySelected' ) ) {
+	if ( displayType === 'custom' && localStorage.getItem( displayName + '_displaySelected' ) ) {
 		displaySelected = localStorage.getItem( displayName + '_displaySelected' ).split( ',' );
+	} else if ( displayGroups.find( ( item ) => item.value === displayType ) ) {
+		displaySelected = displayGroups.find( ( item ) => item.value === displayType ).grouping;
+	}
+
+	if ( subParams.indexOf( sub ) === -1 && sub !== displayName ) {
+		return {
+			...defaults,
+			displayType,
+			displaySelected,
+		};
 	}
 
 	return {
-		... defaults,
+		...defaults,
 		orderby: query.orderby && allowedOrder.indexOf( query.orderby ) !== -1 ? query.orderby : defaults.orderby,
 		direction: query.direction && query.direction === 'asc' ? 'asc' : defaults.direction,
 		page: query.offset && parseInt( query.offset, 10 ) > 0 ? parseInt( query.offset, 10 ) : defaults.page,
@@ -112,7 +151,7 @@ export const removeDefaults = ( table, defaultOrder ) => {
 		delete table.filter;
 	}
 
-	if ( table.groupBy === '' && table.group === '' ) {
+	if ( table.groupBy === '' ) {
 		delete table.groupBy;
 		delete table.group;
 	}
@@ -122,23 +161,44 @@ export const removeDefaults = ( table, defaultOrder ) => {
 	}
 
 	delete table.selected;
+	delete table.displaySelected;
+	delete table.displayType;
 
 	return table;
 };
 
-export const clearSelected = state => {
+export const clearSelected = ( state ) => {
 	return Object.assign( {}, state, { selected: [] } );
 };
 
-export const setTableSelected = ( table, newItems ) => ( { ... table, selected: removeIfExists( table.selected, newItems ).concat( removeIfExists( newItems, table.selected ) ) } );
-export const setTableAllSelected = ( table, rows, onoff ) => ( { ... table, selected: onoff ? rows.map( item => item.id ) : [] } );
+export function setTableSelected( table, items, rows ) {
+	if ( items === true ) {
+		return {
+			...table,
+			selected: rows.map( ( item ) => `${ item.id }` ),
+		};
+	}
+
+	if ( items === false ) {
+		return {
+			...table,
+			selected: [],
+		};
+	}
+
+	return {
+		...table,
+		selected: removeIfExists( table.selected, items ).concat( removeIfExists( items, table.selected ) ),
+	};
+}
+
 export const tableKey = ( { filterBy, filter } ) => [ filterBy, filter ].join( '-' );
 
 export const toFilter = ( filter, extra ) => {
 	const filtered = {};
 
 	filter.map( ( { value, options } ) => {
-		filtered[ value ] = Array.isArray( options ) ? options.map( item => item.value ) : value;
+		filtered[ value ] = Array.isArray( options ) ? options.map( ( item ) => item.value ) : value;
 	} );
 
 	return { ...filtered, ...extra };

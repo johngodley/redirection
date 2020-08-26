@@ -4,13 +4,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import {
 	ACTION_URL,
 	ACTION_ERROR,
@@ -38,13 +38,11 @@ const ActionCode = ( { actionType, actionCode, onChange } ) => {
 
 	if ( codes ) {
 		return (
-			<React.Fragment>
+			<>
 				<strong className="small-flex">{ __( 'with HTTP code' ) }</strong>
 
-				<span>
-					<Select name="action_code" value={ actionCode } items={ codes } onChange={ onChange } />
-				</span>
-			</React.Fragment>
+				<Select name="action_code" value={ actionCode } items={ codes } onChange={ onChange } />
+			</>
 		);
 	}
 

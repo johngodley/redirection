@@ -28,6 +28,7 @@
 		width: 110px;
 	}
 
+	.column-method,
 	.column-redirects {
 		width: 100px;
 		text-align: left;
@@ -39,7 +40,7 @@
 	}
 
 	.column-code {
-		width: 50px;
+		width: 110px;
 		text-align: left;
 	}
 
@@ -65,6 +66,16 @@
 
 	strike {
 		opacity: 0.7;
+	}
+}
+
+.redirection .wp-list-table.redirect-log__group__ip {
+	.column-count {
+		width: 200px;
+	}
+
+	.column-ip {
+		width: 90%;
 	}
 }
 
@@ -96,14 +107,13 @@
  */
 .table-buttons {
 	float: left;
-	padding-top: 2px;
 
 	> button, > form, > div.table-button-item {
 		margin-right: 5px !important;
 		display: inline;
 	}
 
-	.redirection-modal_wrapper {
+	.wpl-modal_wrapper {
 		display: inline;
 	}
 }
@@ -184,7 +194,7 @@
 		min-width: 200px;
 	}
 
-	.redirect-popover__content {
+	.wpl-popover__content {
 		min-width: 180px;
 	}
 }
@@ -222,9 +232,36 @@
 	overflow: visible;
 }
 
+.tablenav.bottom {
+	display: flex;
+	justify-content: space-between;
+}
+
+.tablenav.bottom .redirect-table__actions {
+	display: flex;
+
+	.table-button-item {
+		margin-right: 10px;
+	}
+}
+
 .redirect-table__actions .actions {
 	.button {
 		height: 28px;
-		margin-top: 1px;
 	}
+}
+
+.tablenav .tablenav-pages {
+	.tablenav-paging-text,
+	.pagination-links .button {
+		margin-right: 4px;
+	}
+
+	.pagination-links .button:last-of-type {
+		margin-right: 0;
+	}
+}
+
+.redirect-table__actions .bulkactions {
+	margin-bottom: 9px;
 }

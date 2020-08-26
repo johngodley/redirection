@@ -19,7 +19,7 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			RE_404::create( 'test' . ( $i + 1 ), 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
+			Red_404_Log::create( 'test' . ( $i + 1 ), 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
 		}
 
 		$this->setNonce();
@@ -185,8 +185,8 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 	public function testDeleteBulk() {
 		$this->setNonce();
-		RE_404::create( 'test1', 'agent', '192.168.1.1', 'referrer' );
-		$last = RE_404::create( 'test2', 'agent', '192.168.1.2', 'referrer' );
+		Red_404_Log::create( 'test1', 'agent', '192.168.1.1', 'referrer' );
+		$last = Red_404_Log::create( 'test2', 'agent', '192.168.1.2', 'referrer' );
 
 		$result = $this->callApi( 'bulk/404/delete', array( 'items' => $last ), 'POST' );
 		$this->assertEquals( 1, count( $result->data['items'] ) );

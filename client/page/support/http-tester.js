@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
 /**
@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import { getHttp } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import './style.scss';
 import { isRedirection } from 'lib/wordpress-url';
 

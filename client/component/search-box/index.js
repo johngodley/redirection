@@ -9,14 +9,12 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import DropdownButton from 'component/dropdown-button';
-import { STATUS_IN_PROGRESS } from 'state/settings/type';
+import DropdownButton from 'wp-plugin-components/dropdown-button';
 import './style.scss';
 
 class SearchBox extends React.Component {
 	static propTypes = {
 		table: PropTypes.object.isRequired,
-		status: PropTypes.string.isRequired,
 		onSearch: PropTypes.func.isRequired,
 		searchType: PropTypes.array,
 	};
@@ -77,8 +75,8 @@ class SearchBox extends React.Component {
 	}
 
 	render() {
-		const { status, searchTypes, name = '' } = this.props;
-		const disabled = status === STATUS_IN_PROGRESS || ( this.state.search === '' && this.props.table.filter === '' );
+		const { searchTypes, name = '' } = this.props;
+		const disabled = this.props.disabled || ( this.state.search === '' && this.props.table.filter === '' );
 
 		return (
 			<form onSubmit={ this.onSubmit } className="redirect-searchbox">

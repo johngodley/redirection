@@ -3,7 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import PropTypes from 'prop-types';
 
 const getWWW = ( site ) => [

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import TextareaAutosize from 'react-textarea-autosize';
 import { connect } from 'react-redux';
 
@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
  */
 import { getExportUrl } from 'state/io/selector';
 import Database from 'component/database';
-import ExternalLink from 'component/external-link';
-import Error from 'component/error';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { STATUS_FAILED } from 'state/settings/type';
 import { fixStatus } from 'state/settings/action';
 
@@ -26,7 +25,7 @@ function getUpgradeNotice() {
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			<p>{ __( 'Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.', {
 				args: {
 					current: Redirectioni10n.database.current,
@@ -37,7 +36,7 @@ function getUpgradeNotice() {
 				},
 			} ) }
 			</p>
-		</React.Fragment>
+		</>
 	);
 }
 
@@ -59,11 +58,11 @@ class NeedUpdate extends React.Component {
 
 	renderManual() {
 		return (
-			<React.Fragment>
+			<>
 				<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Complete Upgrade" when finished.' ) }</p>
 				<p><TextareaAutosize readOnly={ true } cols="120" value={ Redirectioni10n.database.manual.join( ';\n' ) + ';' } spellCheck={ false } /></p>
 				<p><button className="button-primary" onClick={ this.onComplete }>{ __( 'Complete Upgrade' ) }</button></p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -71,12 +70,12 @@ class NeedUpdate extends React.Component {
 		const { onShowUpgrade } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<p>{ __( 'Click the "Upgrade Database" button to automatically upgrade the database.' ) }</p>
 				<p>
 					<input className="button-primary" type="submit" value={ __( 'Upgrade Database' ) } onClick={ onShowUpgrade } />
 				</p>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -86,7 +85,7 @@ class NeedUpdate extends React.Component {
 
 		if ( showDatabase ) {
 			return (
-				<React.Fragment>
+				<>
 					{ result === STATUS_FAILED && <Error /> }
 
 					<div className="wizard-wrapper">
@@ -94,7 +93,7 @@ class NeedUpdate extends React.Component {
 							<Database />
 						</div>
 					</div>
-				</React.Fragment>
+				</>
 			);
 		}
 
@@ -102,7 +101,7 @@ class NeedUpdate extends React.Component {
 			<div className="wrap redirection">
 				<h1 className="wp-heading-inline">{ __( 'Upgrade Required' ) }</h1>
 
-				<div className="red-error">
+				<div className="wpl-error">
 					<h3>{ __( 'Redirection database needs upgrading' ) }</h3>
 					{ getUpgradeNotice() }
 

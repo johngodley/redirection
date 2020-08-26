@@ -2,9 +2,8 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'lib/locale';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
 /**
@@ -12,101 +11,89 @@ import { connect } from 'react-redux';
  */
 
 import EditRedirect from 'component/redirect-edit';
-import Modal from 'component/modal';
-import { getDefaultItem, MATCH_IP } from 'state/redirect/selector';
+import Modal from 'wp-plugin-components/modal';
+import { getDefaultItem } from 'state/redirect/selector';
 import { getFlags } from 'state/settings/selector';
-import { deleteExact } from 'state/error/action';
+import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
+import { performTableAction } from 'state/error/action';
 
-class CreateRedirect extends React.Component {
-	static propTypes = {
-		onClose: PropTypes.func.isRequired,
-		create: PropTypes.object.isRequired,
-		transform: PropTypes.func,
-	};
+function getRowForId( url, rows ) {
+	const rowUrl = rows.find( ( row ) => row.id === url || row.id === parseInt( url, 10 ) );
 
-	static defaultProps = {
-		transform: null,
-	};
-
-	constructor( props ) {
-		super( props );
-
-		this.state = {
-			deleteLog: false,
-			height: 0,
-		};
+	if ( rowUrl ) {
+		return rowUrl.url;
 	}
 
-	onDeleteLog = ev => {
-		this.setState( { deleteLog: ev.target.checked } );
+	return url;
+}
+
+function getUniqueUrls( urls, rows ) {
+	if ( ! urls ) {
+		return '';
 	}
 
-	onDelete = () => {
-		const selected = this.getSelected();
-		const { deleteLog } = this.state;
-
-		if ( deleteLog ) {
-			this.props.onDelete( selected );
-		}
+	if ( ! Array.isArray( urls ) ) {
+		return urls;
 	}
 
-	setHeight = height => {
-		this.setState( { height } );
-	}
+	return [ ...new Set( urls.map( ( url ) => getRowForId( url, rows ) ) ) ];
+}
 
-	getSelected() {
-		const { transform } = this.props;
+function CreateRedirect( props ) {
+	const { onClose, redirect, defaultFlags, onDelete, rows } = props;
+	const uniqueUrls = getUniqueUrls( redirect.url, rows );
+	const [ deleteLog, setDeleteLog ] = useState( false );
+	const item = { ...getDefaultItem( uniqueUrls, 0, defaultFlags ), ...redirect, url: uniqueUrls };
 
-		return transform ? this.props.selected.map( transform ) : this.props.selected;
-	}
-
-	render() {
-		const { onClose, create, defaultFlags } = this.props;
-		const selected = this.getSelected();
-		const item = { ... getDefaultItem( selected[ 0 ], 0, defaultFlags ), ... create };
-
-		if ( item.match_type === MATCH_IP ) {
-			item.url = '^/.*$';
-			item.match_data.source.flag_regex = true;
-		} else if ( selected.length > 1 ) {
-			item.url = selected;
-		}
-
-		return (
-			<Modal onClose={ onClose }>
-				<div className="add-new">
-					<EditRedirect item={ item } saveButton={ __( 'Add Redirect' ) } onCancel={ onClose } childSave={ this.onDelete } autoFocus callback={ this.setHeight }>
+	return (
+		<Modal onClose={ onClose } padding>
+			<div className="add-new">
+				<EditRedirect
+					item={ item }
+					saveButton={ __( 'Add Redirect' ) }
+					onCancel={ onClose }
+					childSave={ () => deleteLog && onDelete( Array.isArray( uniqueUrls ) ? uniqueUrls : [ uniqueUrls ] ) }
+					canSave={ ( multi ) => deleteLog && confirm( multi ? __( 'Are you sure you want to delete the selected items?' ) : __( 'Are you sure you want to delete this item?' ) ) }
+					autoFocus
+				>
+					{ has_capability( CAP_404_DELETE ) && (
 						<tr>
 							<th>{ __( 'Delete Log Entries' ) }</th>
 							<td className="edit-left" style={ { padding: '7px 0px' } }>
 								<label>
-									<input type="checkbox" name="delete_log" checked={ this.state.deleteLog } onChange={ this.onDeleteLog } />
+									<input
+										type="checkbox"
+										checked={ deleteLog }
+										onChange={ ( ev ) => setDeleteLog( ev.target.checked ) }
+									/>
 
-									{ selected.length === 1 ? __( 'Delete all logs for this entry' ) : __( 'Delete all logs for these entries' ) }
+									{ uniqueUrls.length <= 1
+										? __( 'Delete logs for this entry' )
+										: __( 'Delete logs for these entries' ) }
 								</label>
 							</td>
 						</tr>
-					</EditRedirect>
-				</div>
-			</Modal>
-		);
-	}
+					) }
+				</EditRedirect>
+			</div>
+		</Modal>
+	);
 }
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onDelete: selected => {
-			dispatch( deleteExact( selected ) );
+		onDelete: ( urls ) => {
+			dispatch( performTableAction( 'delete', urls, { groupBy: 'url-exact', deleteConfirm: true } ) );
 		},
 	};
 }
 
 function mapStateToProps( state ) {
-	const { selected } = state.error.table;
+	const { rows } = state.error;
 
 	return {
-		selected,
 		defaultFlags: getFlags( state ),
+		rows,
 	};
 }
 

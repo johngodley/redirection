@@ -301,7 +301,7 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testMatch() {
 		global $wpdb;
 
-		RE_Log::delete_all();
+		Red_Redirect_Log::delete_all();
 		$this->capturedRedirect();
 		$action = new MockAction();
 

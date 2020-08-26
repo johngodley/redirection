@@ -3,14 +3,13 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
-import PropTypes from 'prop-types';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import TableRow from './table-row';
 import { getSourceQuery } from './constants';
 
@@ -24,11 +23,6 @@ const RedirectSourceQuery = ( { query, regex, onChange } ) => {
 			<Select name="flag_query" items={ getSourceQuery() } value={ query } onChange={ onChange } />
 		</TableRow>
 	);
-};
-
-RedirectSourceQuery.propTypes = {
-	query: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
 };
 
 export default RedirectSourceQuery;

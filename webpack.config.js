@@ -2,6 +2,7 @@
 
 const path = require( 'path' );
 const webpack = require( 'webpack' );
+const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin;
 
 // PostCSS plugins
 const postcssPresetEnv = require( 'postcss-preset-env' );
@@ -24,7 +25,7 @@ const config = {
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel-loader?cacheDirectory',
+				loader: 'babel-loader',
 			},
 			{
 				test: /\.json$/,
@@ -51,6 +52,7 @@ const config = {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
+//		new BundleAnalyzerPlugin(),
 		new webpack.LoaderOptionsPlugin( {
 			options: {
 				postcss: [
@@ -66,16 +68,19 @@ const config = {
 		} ),
 	],
 	watchOptions: {
-		ignored: [ /node_modules/ ],
+		ignored: [ 'node_modules/**' ],
 	},
 	performance: {
 		hints: false,
+	},
+	optimization: {
+		minimize: isProduction(),
 	},
 };
 
 if ( isProduction() ) {
 	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
-	config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
+	//config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
 } else {
 	config.output.publicPath = getDevUrl;
 	config.devtool = 'inline-source-map';

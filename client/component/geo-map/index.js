@@ -4,15 +4,15 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import PoweredBy from 'component/powered-by';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { getMap } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -26,10 +26,12 @@ class GeoMap extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Geo IP Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
-				<p><code>{ error.message }</code></p>
+				<p>
+					<code>{ error.message }</code>
+				</p>
 			</div>
 		);
 	}
@@ -127,7 +129,7 @@ class GeoMap extends React.Component {
 		const isPrivate = ( status === STATUS_COMPLETE && this.props.maps[ this.props.ip ] && this.props.maps[ this.props.ip ].code !== 'geoip' );
 		const klass = classnames( {
 			'redirection-geomap': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 			'redirection-geomap_small': status === STATUS_FAILED || isPrivate,
 		} );
 

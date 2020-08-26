@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import { getActions } from './constants';
 import { hasUrlTarget, MATCH_LOGIN } from 'state/redirect/selector';
 

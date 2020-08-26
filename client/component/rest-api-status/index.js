@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**
@@ -13,7 +13,7 @@ import classnames from 'classnames';
  */
 
 import ApiResult from './api-result';
-import Spinner from 'component/spinner';
+import Spinner from 'wp-plugin-components/spinner';
 import { restApi } from 'page/options/options-form';
 import { checkApi } from 'state/settings/action';
 import './style.scss';

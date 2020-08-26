@@ -1,7 +1,7 @@
 <?php
 
-include_once dirname( __FILE__ ) . '/database-status.php';
-include_once dirname( __FILE__ ) . '/database-upgrader.php';
+require_once __DIR__ . '/database-status.php';
+require_once __DIR__ . '/database-upgrader.php';
 
 class Red_Database {
 	/**
@@ -159,6 +159,11 @@ class Red_Database {
 				'version' => '4.1',
 				'file' => '410.php',
 				'class' => 'Red_Database_410',
+			],
+			[
+				'version' => '4.2',
+				'file' => '420.php',
+				'class' => 'Red_Database_420',
 			],
 		];
 	}

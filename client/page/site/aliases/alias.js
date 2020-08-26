@@ -3,7 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 const Alias = ( { domain, asDomain, onChange, onDelete, site } ) => {
 	const deleteIt = ev => {

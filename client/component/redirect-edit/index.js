@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
 /**
@@ -67,6 +67,8 @@ class EditRedirect extends React.Component {
 			action_code,
 			action_data: getMatchState( match_type, action_data ),
 
+			options: match_data.options || {},
+
 			group_id: this.getValidGroup( group_id ),
 			position,
 		};
@@ -128,7 +130,7 @@ class EditRedirect extends React.Component {
 	onSave = ev => {
 		ev.preventDefault();
 
-		const { url, title, flag_regex, flag_trailing, flag_case, flag_query, match_type, action_type, group_id, action_code, position, action_data } = this.state;
+		const { url, title, flag_regex, flag_trailing, flag_case, flag_query, match_type, action_type, group_id, action_code, position, action_data, options } = this.state;
 		const groups = this.props.group.rows;
 		const group_value = group_id > 0 || ! groups ? group_id : groups[ 0 ].id;
 
@@ -143,6 +145,7 @@ class EditRedirect extends React.Component {
 					flag_case,
 					flag_query,
 				},
+				options,
 			},
 			match_type,
 			action_type,
@@ -151,6 +154,10 @@ class EditRedirect extends React.Component {
 			action_code: parseInt( action_code, 10 ),
 			action_data: getMatchState( match_type, action_data ),
 		};
+
+		if ( this.props.canSave && ! this.props.canSave( Array.isArray( url ) ) ) {
+			return;
+		}
 
 		if ( redirect.id ) {
 			this.props.onSave( redirect.id, redirect );
@@ -211,6 +218,14 @@ class EditRedirect extends React.Component {
 		this.onUpdateState( this.getInputState( ev ) );
 	}
 
+	onChangeOption = ev => {
+		if ( ev.target.checked !== undefined ) {
+			this.setState( { options: { ...this.state.options, [ ev.target.name ]: ev.target.checked } } );
+		} else {
+			this.setState( { options: { ...this.state.options, [ ev.target.name ]: ev.target.value } } );
+		}
+	}
+
 	onChangeActionType = ev => {
 		const action_type = this.getInputState( ev ).action_type;
 
@@ -223,8 +238,8 @@ class EditRedirect extends React.Component {
 	onChangeActionData = ev => {
 		const state = {
 			action_data: {
-				... this.state.action_data,
-				... this.getInputState( ev ),
+				...this.state.action_data,
+				...this.getInputState( ev ),
 			},
 		};
 
@@ -258,17 +273,29 @@ class EditRedirect extends React.Component {
 		return true;
 	}
 
+	renderOptions() {
+		const { options, action_type, advanced } = this.state;
+
+		if ( ! advanced || [ 'url', 'random' ].indexOf( action_type ) === -1 ) {
+			return null;
+		}
+
+		return (
+			<label><input type="checkbox" name="log_exclude" checked={ options.log_exclude || false } onChange={ this.onChangeOption } /> { __( 'Exclude from logs' ) }</label>
+		);
+	}
+
 	renderItem() {
 		const { url, advanced, flag_regex, action_type, match_type, action_data, flag_query, group_id, position, title, action_code } = this.state;
 		const { autoFocus, group, flags } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<RedirectSourceUrl url={ url } flags={ this.state } defaultFlags={ flags } autoFocus={ autoFocus } onFlagChange={ this.onFlagChange } onChange={ this.onChange } />
 				<RedirectSourceQuery query={ flag_query } regex={ flag_regex } onChange={ this.onChange } />
 				{ advanced &&
 
-					<React.Fragment>
+					<>
 						<RedirectTitle title={ title } onChange={ this.onChange } />
 						<MatchType matchType={ match_type } onChange={ this.onChangeMatch } />
 						<MatchTarget matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
@@ -276,8 +303,10 @@ class EditRedirect extends React.Component {
 						<TableRow title={ __( 'When matched' ) } className="redirect-edit__action">
 							<ActionType actionType={ action_type } matchType={ match_type } onChange={ this.onChangeActionType } />
 							<ActionCode actionType={ action_type } actionCode={ action_code } onChange={ this.onChange } />
+
+							{ this.renderOptions() }
 						</TableRow>
-					</React.Fragment>
+					</>
 				}
 
 				<ActionTarget actionType={ action_type } matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
@@ -286,7 +315,7 @@ class EditRedirect extends React.Component {
 					<RedirectGroup groups={ group.rows } currentGroup={ group_id } onChange={ this.onSetGroup } />
 					{ advanced && <RedirectPosition position={ position } onChange={ this.onChange } /> }
 				</TableRow>
-			</React.Fragment>
+			</>
 		);
 	}
 
@@ -304,8 +333,8 @@ class EditRedirect extends React.Component {
 						<TableRow>
 							<div className="table-actions">
 								<input className="button-primary" type="submit" name="save" value={ saveButton } disabled={ ! this.canSave() } /> &nbsp;
-								{ onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Cancel' ) } onClick={ onCancel } /> }
-								{ addTop && ! onCancel && <input className="button-secondary" type="submit" name="cancel" value={ __( 'Close' ) } onClick={ onClose } /> }
+								{ onCancel && <button type="button" className="button-secondary" onClick={ onCancel }>{ __( 'Cancel' ) }</button> }
+								{ addTop && ! onCancel && <button className="button-secondary" type="button"  onClick={ onClose }>{ __( 'Close' ) }</button> }
 								&nbsp;
 
 								{ this.canShowAdvanced() && <a href="#" onClick={ this.onToggleAdvanced } className="redirection-edit_advanced" title={ __( 'Show advanced options' ) }><svg aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M18 12h-2.18c-.17.7-.44 1.35-.81 1.93l1.54 1.54-2.1 2.1-1.54-1.54c-.58.36-1.23.63-1.91.79V19H8v-2.18c-.68-.16-1.33-.43-1.91-.79l-1.54 1.54-2.12-2.12 1.54-1.54c-.36-.58-.63-1.23-.79-1.91H1V9.03h2.17c.16-.7.44-1.35.8-1.94L2.43 5.55l2.1-2.1 1.54 1.54c.58-.37 1.24-.64 1.93-.81V2h3v2.18c.68.16 1.33.43 1.91.79l1.54-1.54 2.12 2.12-1.54 1.54c.36.59.64 1.24.8 1.94H18V12zm-8.5 1.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"></path></svg></a> }

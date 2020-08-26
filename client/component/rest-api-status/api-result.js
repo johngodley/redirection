@@ -4,15 +4,15 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import ApiResultItem from './api-result-item';
-import { getApiNonce } from 'lib/api';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 
 const isLoading = result => Object.keys( result ).length === 0 || result.GET.status === 'loading' || result.POST.status === 'loading';
 
@@ -23,20 +23,29 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 
 	return (
 		<div className="api-result-log">
-			<form className="api-result-select" action={ Redirectioni10n.pluginRoot + '&sub=support' } method="POST">
-				{ allowChange && ! isCurrent && <input type="submit" className="button button-secondary" value={ __( 'Switch to this API' ) } /> }
+			<form
+				className="api-result-select"
+				action={ Redirectioni10n.pluginRoot + '&sub=support' }
+				method="POST"
+			>
+				{ allowChange && ! isCurrent && (
+					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API' ) } />
+				) }
 				{ allowChange && isCurrent && <span>{ __( 'Current API' ) }</span> }
 
 				<input type="hidden" name="rest_api" value={ item.value } />
-				<input type="hidden" name="_wpnonce" value={ getApiNonce() } />
+				<input type="hidden" name="_wpnonce" value={ apiFetch.nonceMiddleware.nonce } />
 				<input type="hidden" name="action" value="rest_api" />
 			</form>
 
-			<h4>
-				{ item.text }
-			</h4>
+			<h4>{ item.text }</h4>
 
-			<p>URL: <code><ExternalLink url={ routes[ item.value ] }>{ routes[ item.value ] }</ExternalLink></code></p>
+			<p>
+				URL:{' '}
+				<code>
+					<ExternalLink url={ routes[ item.value ] }>{ routes[ item.value ] }</ExternalLink>
+				</code>
+			</p>
 
 			<ApiResultItem result={ result } />
 		</div>

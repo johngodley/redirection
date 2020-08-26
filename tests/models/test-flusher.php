@@ -62,7 +62,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 	public function testFlush() {
 		Red_Flusher::clear();
-		RE_Log::delete_all();
+		Red_Redirect_Log::delete_all();
 
 		$this->addLog( 5 );
 		$this->addLog( 8 );
@@ -77,7 +77,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 	public function testBigFlush() {
 		Red_Flusher::clear();
-		RE_Log::delete_all();
+		Red_Redirect_Log::delete_all();
 
 		for ( $i = 0; $i < Red_Flusher::DELETE_MAX + 2; $i++ ) {
 			$this->addLog( 8 );   // Will get flushed

@@ -8,7 +8,6 @@ import React from 'react';
  * External dependencies
  */
 
-import DecodeError from 'component/decode-error';
 import ApiResultRaw from './api-result-raw';
 
 const getApiErrorName = error => {

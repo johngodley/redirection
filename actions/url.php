@@ -4,6 +4,8 @@ class Url_Action extends Red_Action {
 	protected function redirect_to( $code, $target ) {
 		add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
 
+		// This is a known redirect, possibly extenal
+		// phpcs:ignore
 		$redirect = wp_redirect( $target, $code );
 
 		if ( $redirect ) {

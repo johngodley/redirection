@@ -1,12 +1,49 @@
 <?php
 
+/**
+ * A group of redirects
+ */
 class Red_Group {
-	private $items = 0;
-	private $name;
-	private $module_id;
-	private $status;
-	private $position;
+	/**
+	 * Group ID
+	 *
+	 * @var integer
+	 */
+	private $id = 0;
 
+	/**
+	 * Group name
+	 *
+	 * @var String
+	 */
+	private $name = '';
+
+	/**
+	 * Module ID
+	 *
+	 * @var integer
+	 */
+	private $module_id = 0;
+
+	/**
+	 * Group status - 'enabled' or 'disabled'
+	 *
+	 * @var String
+	 */
+	private $status = 'enabled';
+
+	/**
+	 * Group position. Currently not used
+	 *
+	 * @var integer
+	 */
+	private $position = 0;
+
+	/**
+	 * Constructor
+	 *
+	 * @param String|Object $values Values.
+	 */
 	public function __construct( $values = '' ) {
 		if ( is_object( $values ) ) {
 			$this->name = $values->name;
@@ -17,19 +54,40 @@ class Red_Group {
 		}
 	}
 
+	/**
+	 * Get group name
+	 *
+	 * @return string
+	 */
 	public function get_name() {
 		return $this->name;
 	}
 
+	/**
+	 * Get group ID
+	 *
+	 * @return integer
+	 */
 	public function get_id() {
 		return $this->id;
 	}
 
+	/**
+	 * Is the group enabled or disabled?
+	 *
+	 * @return boolean
+	 */
 	public function is_enabled() {
 		return $this->status === 'enabled' ? true : false;
 	}
 
-	static function get( $id ) {
+	/**
+	 * Get a group given an ID
+	 *
+	 * @param integer $id Group ID.
+	 * @return Red_Group|boolean
+	 */
+	public static function get( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_groups.*,COUNT( {$wpdb->prefix}redirection_items.id ) AS items,SUM( {$wpdb->prefix}redirection_items.last_count ) AS redirects FROM {$wpdb->prefix}redirection_groups LEFT JOIN {$wpdb->prefix}redirection_items ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id=%d GROUP BY {$wpdb->prefix}redirection_groups.id", $id ) );
@@ -40,11 +98,22 @@ class Red_Group {
 		return false;
 	}
 
-	static function get_all() {
+	/**
+	 * Get all groups
+	 *
+	 * @return Red_Group[]
+	 */
+	public static function get_all( $params = [] ) {
 		global $wpdb;
 
-		$data = array();
-		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
+		$where = '';
+		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+			$filters = new Red_Group_Filters( $params['filterBy'] );
+			$where = $filters->get_as_sql();
+		}
+
+		$data = [];
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups $where" );
 
 		if ( $rows ) {
 			foreach ( $rows as $row ) {
@@ -56,7 +125,7 @@ class Red_Group {
 		return $data;
 	}
 
-	static function get_all_for_module( $module_id ) {
+	public static function get_all_for_module( $module_id ) {
 		global $wpdb;
 
 		$data = array();
@@ -72,7 +141,7 @@ class Red_Group {
 		return $data;
 	}
 
-	static function get_for_select() {
+	public static function get_for_select() {
 		global $wpdb;
 
 		$data = array();
@@ -90,7 +159,7 @@ class Red_Group {
 		return $data;
 	}
 
-	static function create( $name, $module_id, $enabled = true ) {
+	public static function create( $name, $module_id, $enabled = true ) {
 		global $wpdb;
 
 		$name = trim( substr( $name, 0, 50 ) );
@@ -146,7 +215,7 @@ class Red_Group {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_groups WHERE id=%d", $this->id ) );
 
 		if ( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ) === 0 ) {
-			$wpdb->insert( $wpdb->prefix . 'redirection_groups', array( 'name' => __( 'Redirections' ), 'module_id' => 1, 'position' => 0 ) );
+			$wpdb->insert( $wpdb->prefix . 'redirection_groups', array( 'name' => __( 'Redirections', 'redirection' ), 'module_id' => 1, 'position' => 0 ) );
 		}
 	}
 
@@ -187,7 +256,7 @@ class Red_Group {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'name' ), true ) ) {
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'name', 'id' ), true ) ) {
 			$orderby = $params['orderby'];
 		}
 
@@ -248,6 +317,30 @@ class Red_Group {
 			'moduleName' => $module ? $module->get_name() : '',
 			'enabled' => $this->is_enabled(),
 		);
+	}
+
+	public static function delete_all( array $params ) {
+		global $wpdb;
+
+		$filters = new Red_Group_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$query = $filters->get_as_sql();
+
+		$sql = "DELETE FROM {$wpdb->prefix}redirection_groups {$query}";
+
+		// phpcs:ignore
+		$wpdb->query( $sql );
+	}
+
+	public static function set_status_all( $action, array $params ) {
+		global $wpdb;
+
+		$filters = new Red_Group_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$query = $filters->get_as_sql();
+
+		$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_groups SET status=%s {$query}", $action === 'enable' ? 'enable' : 'disable' );
+
+		// phpcs:ignore
+		$wpdb->query( $sql );
 	}
 }
 

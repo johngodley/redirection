@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
@@ -12,38 +11,52 @@ import SortableColumn from './sortable-column';
 import Column from './column';
 import CheckColumn from './check-column';
 
-const TableHeader = props => {
-	const { isDisabled, onSetAllSelected, onSetOrderBy, isSelected, headers, table } = props;
-	const setSelected = ev => {
-		onSetAllSelected( ev.target.checked );
-	};
+/** @typedef {import('../index.js').Table} Table */
+/** @typedef {import('../index.js').TableHeader} TableHeader */
+/** @typedef {import('../index.js').SetAllSelected} SetAllSelected */
+/** @typedef {import('../index.js').SetOrderBy} SetOrderBy */
+
+/**
+ *
+ * @param {object} props - Component props
+ * @param {boolean} props.disabled - Is the table disabled?
+ * @param {Table} props.table - Table params
+ * @param {TableHeader[]} props.headers - Headers
+ * @param {SetOrderBy} props.onSetOrderBy - When clicking on a sortable header
+ * @param {SetAllSelected} props.onSelect - When clicking the 'set all'
+ * @param {boolean} props.hasBulk - Has bulk actions
+ * @param {boolean} props.allSelected - All items are selected
+ */
+const TableHeader = ( props ) => {
+	const { disabled, onSelect, onSetOrderBy, headers, table, hasBulk, allSelected } = props;
 
 	return (
 		<tr>
-			{ headers.map( item => {
-				const { primary = false, check = false, sortable = true } = item;
+			{ hasBulk && (
+				<CheckColumn onSelect={ onSelect } disabled={ disabled } selected={ allSelected } />
+			) }
 
-				if ( check === true ) {
-					return <CheckColumn onSetAllSelected={ setSelected } isDisabled={ isDisabled } isSelected={ isSelected } key={ item.name } />;
-				}
+			{ headers
+				.map( ( item ) => {
+					const { primary = false, sortable = true } = item;
 
-				if ( sortable === false ) {
-					return <Column name={ item.name } text={ item.title } key={ item.name } primary={ primary } />;
-				}
+					if ( sortable ) {
+						return (
+							<SortableColumn
+								table={ table }
+								name={ item.name }
+								title={ item.title }
+								key={ item.name }
+								onSetOrderBy={ onSetOrderBy }
+								primary={ primary }
+							/>
+						);
+					}
 
-				return <SortableColumn table={ table } name={ item.name } text={ item.title } key={ item.name } onSetOrderBy={ onSetOrderBy } primary={ primary } />;
-			} ) }
+					return <Column name={ item.name } title={ item.title } key={ item.name } primary={ primary } />;
+				} ) }
 		</tr>
 	);
-};
-
-TableHeader.propTypes = {
-	table: PropTypes.object.isRequired,
-	isDisabled: PropTypes.bool.isRequired,
-	isSelected: PropTypes.bool.isRequired,
-	headers: PropTypes.array.isRequired,
-	onSetAllSelected: PropTypes.func,
-	onSetOrderBy: PropTypes.func,
 };
 
 export default TableHeader;

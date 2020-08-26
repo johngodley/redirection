@@ -4,15 +4,15 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 import { loadSettings, saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
-import Placeholder from 'component/placeholder';
-import ExternalLink from 'component/external-link';
+import Placeholder from 'wp-plugin-components/placeholder';
+import ExternalLink from 'wp-plugin-components/external-link';
 import SiteAliases from './aliases';
 import RelocateSite from './relocate';
 import CanonicalSettings from './canonical';

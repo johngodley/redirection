@@ -14,11 +14,11 @@ import Status from './status';
 
 const Support = () => {
 	return (
-		<React.Fragment>
+		<>
 			<Status />
 			<HttpTester />
 			<Help />
-		</React.Fragment>
+		</>
 	);
 };
 

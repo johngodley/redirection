@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
 /**
@@ -12,8 +12,8 @@ import { connect } from 'react-redux';
 import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/form-table';
-import Select from 'component/select';
-import ExternalLink from 'component/external-link';
+import Select from 'wp-plugin-components/select';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 const timeToKeep = () => [
 	{ value: -1, label: __( 'No logs' ) },
@@ -177,6 +177,7 @@ class OptionsForm extends React.Component {
 
 	render() {
 		const { groups, saveStatus, installed, warning } = this.props;
+		const { expire_redirect, expire_404, ip_logging, log_external, track_hits, log_header } = this.state;
 		const canMonitor = this.state.monitor_types.length > 0;
 
 		return (
@@ -189,30 +190,44 @@ class OptionsForm extends React.Component {
 						</label>
 					</TableRow>
 
+					<tr className="redirect-option__row"><td colSpan="2"><h2 className="title">{ __( 'Logs' ) }</h2></td></tr>
+
 					<TableRow title={ __( 'Redirect Logs' ) + ':' } url={ this.supportLink( 'logs' ) }>
-						<Select items={ timeToKeep() } name="expire_redirect" value={ parseInt( this.state.expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
+						<Select items={ timeToKeep() } name="expire_redirect" value={ parseInt( expire_redirect, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
 					<TableRow title={ __( '404 Logs' ) + ':' } url={ this.supportLink( 'tracking-404-errors' ) }>
-						<Select items={ timeToKeep() } name="expire_404" value={ parseInt( this.state.expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
+						<Select items={ timeToKeep() } name="expire_404" value={ parseInt( expire_404, 10 ) } onChange={ this.onChange } /> { __( '(time to keep logs for)' ) }
 					</TableRow>
 
 					<TableRow title={ __( 'IP Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
-						<Select items={ ipLogging() } name="ip_logging" value={ parseInt( this.state.ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(select IP logging level)' ) }
-
-						&nbsp;- <ExternalLink url={ this.supportLink( 'privacy-gdpr' ) }>{ __( 'GDPR / Privacy information' ) }</ExternalLink>
+						<Select items={ ipLogging() } name="ip_logging" value={ parseInt( ip_logging, 10 ) } onChange={ this.onChange } /> { __( '(IP logging level)' ) }
 					</TableRow>
+
+					<TableRow title={ __( 'Logging' ) + ':' } url={ this.supportLink( 'options', 'iplogging' ) }>
+						<p><label><input type="checkbox" disabled={ parseInt( expire_redirect, 10 ) === -1 } name="log_external" onChange={ this.onChange } checked={ parseInt( expire_redirect, 10 ) === -1 ? false : log_external } /> { __( 'Log "external" redirects - those not from Redirection. This can increase your log size and contains no user information.' ) }</label></p>
+						<p><label><input type="checkbox" name="track_hits" onChange={ this.onChange } checked={ track_hits } /> { __( 'Track redirect hits and date of last access. Contains no user information.' ) }</label></p>
+						<p><label><input type="checkbox" name="log_header" onChange={ this.onChange } checked={ log_header } /> { __( 'Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size.' ) }</label></p>
+					</TableRow>
+
+					<tr>
+						<th />
+						<td>
+							{ __( 'Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}.', {
+								components: {
+									link: <ExternalLink url={ this.supportLink( 'privacy-gdpr' ) } />,
+								},
+							} ) }
+						</td>
+					</tr>
+
+					<tr className="redirect-option__row"><td colSpan="2"><h2 className="title">{ __( 'URL' ) }</h2></td></tr>
 
 					<TableRow title={ __( 'URL Monitor' ) + ':' } url={ this.supportLink( 'options', 'monitor' ) }>
 						{ this.renderPostTypes() }
 					</TableRow>
 
 					{ canMonitor && this.renderMonitor( groups ) }
-
-					<TableRow title={ __( 'RSS Token' ) + ':' } url={ this.supportLink( 'options', 'rsstoken' ) }>
-						<input className="regular-text" type="text" value={ this.state.token } name="token" onChange={ this.onChange } /><br />
-						<span className="sub">{ __( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)' ) }</span>
-					</TableRow>
 
 					<TableRow title={ __( 'Default URL settings' ) + ':' } url={ this.supportLink( 'options', 'urlsettings' ) }>
 						<p>{ __( 'Applies to all redirections unless you configure them otherwise.' ) }</p>
@@ -262,6 +277,17 @@ class OptionsForm extends React.Component {
 						</span>
 					</TableRow>
 
+					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
+						<Select items={ expireTimes() } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
+						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
+					</TableRow>
+
+					<tr className="redirect-option__row"><td colSpan="2"><h2 className="title">{ __( 'Other' ) }</h2></td></tr>
+					<TableRow title={ __( 'RSS Token' ) + ':' } url={ this.supportLink( 'options', 'rsstoken' ) }>
+						<input className="regular-text" type="text" value={ this.state.token } name="token" onChange={ this.onChange } /><br />
+						<span className="sub">{ __( 'A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)' ) }</span>
+					</TableRow>
+
 					<TableRow title={ __( 'Apache .htaccess' ) } url={ this.supportLink( 'options', 'apache' ) }>
 						<label>
 							<p><input type="text" className="regular-text" name="location" value={ this.state.location } onChange={ this.onChange } /></p>
@@ -279,11 +305,6 @@ class OptionsForm extends React.Component {
 
 							{ warning && <p className="inline-notice">{ __( 'Unable to save .htaccess file' ) } <code>{ warning }</code></p>}
 						</label>
-					</TableRow>
-
-					<TableRow title={ __( 'Redirect Cache' ) } url={ this.supportLink( 'options', 'cache' ) }>
-						<Select items={ expireTimes() } name="redirect_cache" value={ parseInt( this.state.redirect_cache, 10 ) } onChange={ this.onChange } /> &nbsp;
-						<span className="sub">{ __( 'How long to cache redirected 301 URLs (via "Expires" HTTP header)' ) }</span>
 					</TableRow>
 
 					<TableRow title={ __( 'REST API' ) } url={ this.supportLink( 'options', 'restapi' ) }>

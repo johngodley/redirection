@@ -3,21 +3,19 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
-import PropTypes from 'prop-types';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 import { getSourceFlags } from './constants';
 import TableRow from './table-row';
-import MultiOptionDropdown from 'component/multi-option-dropdown';
+import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
 
-const getUrlFlags = ( { flag_case, flag_regex, flag_trailing } ) => ( {
-	flag_case,
-	flag_regex,
-	flag_trailing,
-} );
+const getUrlFlags = ( { flag_case, flag_regex, flag_trailing } ) =>
+	[ flag_case ? 'flag_case' : null, flag_regex ? 'flag_regex' : null, flag_trailing ? 'flag_trailing' : null ].filter(
+		( item ) => item
+	);
 
 const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, autoFocus = false } ) => {
 	const flagOptions = getSourceFlags();
@@ -25,9 +23,17 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 	if ( Array.isArray( url ) ) {
 		return (
 			<TableRow title={ __( 'Source URL' ) } className="top">
-				<textarea value={ url.join( '\n' ) } readOnly></textarea>
+				<textarea value={ url.join( '\n' ) } readOnly />
 			</TableRow>
 		);
+	}
+
+	function changeFlag( selected ) {
+		onFlagChange( {
+			flag_case: selected.indexOf( 'flag_case' ) !== -1,
+			flag_trailing: selected.indexOf( 'flag_trailing' ) !== -1,
+			flag_regex: selected.indexOf( 'flag_regex' ) !== -1,
+		} );
 	}
 
 	return (
@@ -45,22 +51,14 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 			<MultiOptionDropdown
 				options={ flagOptions }
 				selected={ getUrlFlags( flags ) }
-				onApply={ onFlagChange }
+				onApply={ changeFlag }
 				title={ __( 'URL options / Regex' ) }
 				badges
+				multiple
 				hideTitle
 			/>
 		</TableRow>
 	);
-};
-
-RedirectSourceUrl.propTypes = {
-	url: PropTypes.string.isRequired,
-	flags: PropTypes.object.isRequired,
-	onFlagChange: PropTypes.func.isRequired,
-	onChange: PropTypes.func.isRequired,
-	autoFocus: PropTypes.bool,
-	defaultFlags: PropTypes.object.isRequired,
 };
 
 export default RedirectSourceUrl;

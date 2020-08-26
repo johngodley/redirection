@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import classnames from 'classnames';
 
 /**
@@ -12,8 +12,8 @@ import classnames from 'classnames';
  */
 
 import PoweredBy from 'component/powered-by';
-import Spinner from 'component/spinner';
-import ExternalLink from 'component/external-link';
+import Spinner from 'wp-plugin-components/spinner';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { getAgent } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -27,7 +27,7 @@ class Useragent extends React.Component {
 		const { error } = this.props;
 
 		return (
-			<div className="redirection-modal_error">
+			<div className="wpl-modal_error">
 				<h2>{ __( 'Useragent Error' ) }</h2>
 				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
 				<p><code>{ error.message }</code></p>
@@ -140,7 +140,7 @@ class Useragent extends React.Component {
 		const { status } = this.props;
 		const klass = classnames( {
 			'redirection-useragent': true,
-			'redirection-modal_loading': status === STATUS_IN_PROGRESS,
+			'wpl-modal_loading': status === STATUS_IN_PROGRESS,
 		} );
 
 		return (

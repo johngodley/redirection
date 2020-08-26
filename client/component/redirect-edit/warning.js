@@ -3,14 +3,14 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import * as parseUrl from 'url';
 
 /**
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import TableRow from './table-row';
 
 export const isRegex = ( text ) => {

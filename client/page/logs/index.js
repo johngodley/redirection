@@ -2,178 +2,159 @@
  * External dependencies
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 
 import Table from 'component/table';
-import TableNav from 'component/table/navigation';
-import SearchBox from 'component/search-box';
-import DeleteAll from 'page/logs/delete-all';
-import TableDisplay from 'component/table/table-display';
-import LogRow from './row';
-import { STATUS_COMPLETE, STATUS_IN_PROGRESS, STATUS_SAVING } from 'state/settings/type';
+import TableButtons from 'component/table/table-buttons';
 import { getOption } from 'state/settings/selector';
 import {
 	loadLogs,
-	deleteAll,
 	setPage,
 	performTableAction,
-	setAllSelected,
 	setOrderBy,
+	setGroupBy,
 	setFilter,
 	setDisplay,
+	setSelected,
 } from 'state/log/action';
-import TableButtons from 'component/table/table-buttons';
 import { getRssUrl } from 'lib/wordpress-url';
-import { getHeaders, getBulk, getDisplayOptions, getDisplayGroups, getSearchOptions } from './constants';
-import { isEnabled } from 'component/table/utils';
-import { has_capability, CAP_LOG_DELETE } from 'lib/capabilities';
+import {
+	getHeaders,
+	getBulk,
+	getDisplayOptions,
+	getDisplayGroups,
+	getSearchOptions,
+	getFilterOptions,
+	getGroupBy,
+} from './constants';
+import LogPage from 'component/log-page';
+import getColumns from 'component/log-page/log-columns';
+import LogRowActions from './row-actions';
 
-class Logs extends React.Component {
-	componentDidMount() {
-		this.props.onLoad( this.props.log.table );
+function validateDisplay( selected ) {
+	// Ensure we have at least source or title
+	if ( selected.indexOf( 'url' ) === -1 ) {
+		return selected.concat( [ 'url' ] );
 	}
 
-	renderRow = ( row, key, status, currentDisplayType, currentDisplaySelected ) => {
-		const { saving, table } = this.props.log;
-		const loadingStatus = status.isLoading ? STATUS_IN_PROGRESS : STATUS_COMPLETE;
-		const rowStatus = saving.indexOf( row.id ) !== -1 ? STATUS_SAVING : loadingStatus;
+	return selected;
+}
 
-		return (
-			<LogRow
-				item={ row }
-				key={ key }
-				selected={ status.isSelected }
-				status={ rowStatus }
-				currentDisplayType={ currentDisplayType }
-				currentDisplaySelected={ currentDisplaySelected }
-				filters={ table.filterBy }
-				setFilter={ this.setFilter }
-			/>
-		);
+function getGroupByTable( groupBy ) {
+	if ( groupBy ) {
+		return {
+			displayOptions: getDisplayOptions( groupBy ),
+			displaySelected: getDisplayGroups( groupBy )[ 0 ].grouping,
+		};
 	}
 
-	setFilter = ( filterName, filterValue ) => {
-		const { filterBy } = this.props.log.table;
+	return {};
+}
 
-		this.props.onFilter( { ...filterBy, [ filterName ]: filterValue ? filterValue : undefined } );
-	}
+/**
+ * @param {string} item
+ * @param {Table} table - Table params
+ **/
+function isAvailable( item, table ) {
+	return table.displaySelected.indexOf( item ) !== -1;
+}
 
-	onSearch = ( search, type ) => {
-		const filterBy = { ...this.props.log.table.filterBy };
+function Logs( props ) {
+	const { onBulk, token } = props;
+	const { status, total, table, rows, saving } = props.log;
 
-		getSearchOptions().map( item => delete filterBy[ item.name ] );
+	useEffect(() => {
+		props.onLoad();
+	}, []);
 
-		if ( search ) {
-			filterBy[ type ] = search;
-		}
+	const groupedTable = { ...table, ...getGroupByTable( table.groupBy ) };
+	const logOptions = {
+		displayFilters: getDisplayOptions( groupedTable.groupBy ),
+		displayGroups: getDisplayGroups( groupedTable.groupBy ),
+		searchOptions: getSearchOptions(),
+		groupBy: getGroupBy( props.settings.values.ip_logging ),
+		bulk: getBulk(),
+		rowFilters: groupedTable.groupBy ? [] : getFilterOptions(),
+		headers: getHeaders( groupedTable.groupBy ).filter( ( item ) => isAvailable( item.name, groupedTable ) ),
+		validateDisplay,
+	};
 
-		this.props.onFilter( filterBy );
-	}
-
-	getHeaders( selected ) {
-		return getHeaders().filter( header => isEnabled( selected, header.name ) || header.name === 'cb' || header.name === 'url' );
-	}
-
-	validateDisplay( selected ) {
-		// Ensure we have at least source
-		if ( selected.indexOf( 'url' ) === -1 ) {
-			return selected.concat( [ 'url' ] );
-		}
-
-		return selected;
-	}
-
-	render() {
-		const { status, total, table, rows } = this.props.log;
-
-		return (
-			<React.Fragment>
-				<div className="redirect-table-display">
-					<TableDisplay
-						disable={ status === STATUS_IN_PROGRESS }
-						options={ getDisplayOptions() }
-						groups={ getDisplayGroups() }
-						store="log"
-						currentDisplayType={ table.displayType }
-						currentDisplaySelected={ table.displaySelected }
-						setDisplay={ this.props.onSetDisplay }
-						validation={ this.validateDisplay }
-					/>
-					<SearchBox
-						status={ status }
-						table={ table }
-						onSearch={ this.onSearch }
-						selected={ table.filterBy }
-						searchTypes={ getSearchOptions() }
-					/>
-				</div>
-
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction } bulk={ getBulk() } />
-				<Table
-					headers={ this.getHeaders( table.displaySelected ) }
-					rows={ rows }
-					total={ total }
-					row={ this.renderRow }
-					table={ table }
-					status={ status }
-					onSetAllSelected={ this.props.onSetAllSelected }
-					onSetOrderBy={ this.props.onSetOrderBy }
-					currentDisplayType={ table.displayType }
-					currentDisplaySelected={ table.displaySelected }
+	return (
+		<LogPage
+			logOptions={ logOptions }
+			logActions={ props }
+			table={ groupedTable }
+			status={ status }
+			total={ total }
+			rows={ rows }
+			saving={ saving }
+			getRow={ ( row, rowParams ) => getColumns( row, rowParams, props, saving.indexOf( row.id ) !== -1 ) }
+			getRowActions={ ( row, rowParams ) => (
+				<LogRowActions
+					disabled={ saving.indexOf( row.id ) !== -1 }
+					row={ row }
+					onDelete={ ( id ) => onBulk( 'delete', [ id ] ) }
+					table={ rowParams.table }
 				/>
-
-				<TableNav total={ total } selected={ table.selected } table={ table } status={ status } onChangePage={ this.props.onChangePage } onAction={ this.props.onTableAction }>
+			) }
+			renderTableActions={ () => (
+				<>
 					<TableButtons enabled={ rows.length > 0 }>
-						{ this.props.token && <div className="table-button-item"><a href={ getRssUrl( this.props.token ) } className="button-secondary">RSS</a></div> }
-						{ has_capability( CAP_LOG_DELETE ) && Object.keys( table.filterBy ).length === 0 && (
-							<DeleteAll onDelete={ this.props.onDeleteAll } table={ table } />
+						{ token && (
+							<div className="table-button-item">
+								<a href={ getRssUrl( token ) } className="button-secondary">
+									{ __( 'RSS' ) }
+								</a>
+							</div>
 						) }
 					</TableButtons>
-				</TableNav>
-			</React.Fragment>
-		);
-	}
+				</>
+			) }
+		/>
+	);
 }
 
 function mapStateToProps( state ) {
-	const { log } = state;
+	const { log, settings } = state;
 
 	return {
 		log,
+		settings,
 		token: getOption( state, 'token' ),
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onLoad: params => {
+		onLoad: ( params ) => {
 			dispatch( loadLogs( params ) );
 		},
-		onDeleteAll: ( filterBy ) => {
-			dispatch( deleteAll( filterBy ) );
-		},
-		onChangePage: page => {
+		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onTableAction: action => {
-			dispatch( performTableAction( action ) );
+		onBulk: ( action, items ) => {
+			dispatch( performTableAction( action, items ) );
 		},
-		onSetAllSelected: onoff => {
-			dispatch( setAllSelected( onoff ) );
+		onGroup: ( groupBy ) => {
+			dispatch( setGroupBy( groupBy ) );
 		},
-		onSetOrderBy: ( column, direction ) => {
+		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
 		},
 		onFilter: ( filterBy ) => {
 			dispatch( setFilter( filterBy ) );
 		},
 		onSetDisplay: ( displayType, displaySelected ) => {
-			dispatch( setDisplay( displayType, displaySelected ) );
+			dispatch( setDisplay( displayType, displaySelected, 'log' ) );
+		},
+		onSelect: ( items ) => {
+			dispatch( setSelected( items ) );
 		},
 	};
 }

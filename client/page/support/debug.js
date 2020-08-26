@@ -4,14 +4,14 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import { connect } from 'react-redux';
 
 /**
  * Internal dependencies
  */
 
-import Select from 'component/select';
+import Select from 'wp-plugin-components/select';
 import { fixStatus } from 'state/settings/action';
 
 const getVersions = () => ( [
@@ -34,6 +34,10 @@ const getVersions = () => ( [
 	{
 		value: '4.1',
 		label: '4.1',
+	},
+	{
+		value: '4.2',
+		label: '4.2',
 	},
 ] );
 
@@ -66,10 +70,10 @@ class Debug extends React.Component {
 							<Select items={ getVersions() } value={ version } name="database_version" onChange={ this.onChange } /> &nbsp;
 
 							{ version !== database.current &&
-								<React.Fragment>
+								<>
 									<strong>{ __( 'Do not change unless advised to do so!' ) }</strong> &nbsp;
 									<button className="button-secondary button" onClick={ this.onSave }>{ __( 'Save' ) }</button>
-								</React.Fragment>
+								</>
 							}
 						</td>
 					</tr>
@@ -80,7 +84,7 @@ class Debug extends React.Component {
 								.keys( ip_header )
 								.filter( key => ip_header[ key ] )
 								.map( ( key, pos ) =>
-									<React.Fragment key={ pos }><code>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }</code>&nbsp;</React.Fragment>
+									<code key={ pos }>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }&nbsp;</code>
 								)
 							}
 						</td>

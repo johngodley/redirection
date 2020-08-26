@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
  */
 
 import { saveSettings } from 'state/settings/action';
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 const Newsletter = props => {
 	const { newsletter } = props;

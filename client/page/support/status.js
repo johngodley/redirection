@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -25,7 +25,7 @@ class Status extends React.Component {
 		const { status = [], debug = false } = this.props;
 
 		return (
-			<React.Fragment>
+			<>
 				<h2>{ __( 'WordPress REST API' ) }</h2>
 				<p>{ __( 'Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it.' ) }</p>
 				<RestApiStatus />
@@ -33,14 +33,14 @@ class Status extends React.Component {
 				<h2>{ __( 'Plugin Status' ) }</h2>
 
 				{ status.length > 0 && <PluginStatus status={ status } /> }
-				{ status.length === 0 && <div className="placeholder-inline"><div className="placeholder-loading"></div></div> }
+				{ status.length === 0 && <div className="placeholder-inline"><div className="wpl-placeholder__loading"></div></div> }
 
 				<h2>{ __( 'Plugin Debug' ) }</h2>
 				<p>{ __( 'This information is provided for debugging purposes. Be careful making any changes.' ) }</p>
 
 				{ debug && <Debug debug={ debug } /> }
-				{ ! debug === 0 && <div className="placeholder-inline"><div className="placeholder-loading"></div></div> }
-			</React.Fragment>
+				{ ! debug === 0 && <div className="placeholder-inline"><div className="wpl-placeholder__loading"></div></div> }
+			</>
 		);
 	}
 }

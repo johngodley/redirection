@@ -5,8 +5,16 @@
 import React from 'react';
 import classnames from 'classnames';
 
-const Column = props => {
-	const { name, text, primary } = props;
+/**
+ * Table header column
+ *
+ * @param {object} props - Component props
+ * @param {string} props.name - Column ID name
+ * @param {string} props.title - Column title
+ * @param {boolean} props.primary - Is the column 'primary'?
+ */
+const Column = ( props ) => {
+	const { name, title, primary } = props;
 	const classes = classnames( {
 		'manage-column': true,
 		'column-primary': primary,
@@ -15,7 +23,7 @@ const Column = props => {
 
 	return (
 		<th scope="col" className={ classes }>
-			<span>{ text }</span>
+			<span>{ title }</span>
 		</th>
 	);
 };

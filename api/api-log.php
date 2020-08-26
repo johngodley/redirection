@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @api {get} /redirection/v1/group Get logs
+ * @api {get} /redirection/v1/log Get logs
  * @apiName GetLogs
  * @apiDescription Get a paged list of redirect logs after applying a set of filters and result ordering.
  * @apiGroup Log
@@ -33,14 +33,14 @@
  */
 
 /**
- * @api {post} /redirection/v1/bulk/log/:type Bulk log action
+ * @api {post} /redirection/v1/bulk/log/:type Bulk action
  * @apiName BulkAction
  * @apiDescription Delete logs by ID
  * @apiGroup Log
  *
  * @apiParam (URL) {String="delete"} :type Type of bulk action that is applied to every log ID.
- *
- * @apiParam (Query Parameter) {Integer[]} items Array of group IDs to perform the action on
+ * @apiParam (Query Parameter) {String[]} [items] Array of group IDs to perform the action on
+ * @apiParam (Query Parameter) {Boolean=false} [global] Perform action globally using the filter parameters
  * @apiUse LogQueryParams
  *
  * @apiUse LogList
@@ -52,16 +52,20 @@
 /**
  * @apiDefine LogQueryParams Log query parameters
  *
- * @apiParam (Query Parameter) {String} filterBy[ip] Filter the results by the supplied IP
- * @apiParam (Query Parameter) {String} filterBy[url] Filter the results by the supplied URL
- * @apiParam (Query Parameter) {String} filterBy[url-exact] Filter the results by the exact URL (not a substring match, as per `url`)
- * @apiParam (Query Parameter) {String} filterBy[referrer] Filter the results by the supplied referrer
- * @apiParam (Query Parameter) {String} filterBy[agent] Filter the results by the supplied user agent
- * @apiParam (Query Parameter) {String} filterBy[target] Filter the results by the supplied redirect target
- * @apiParam (Query Parameter) {string="ip","url"} orderby Order by IP or URL
- * @apiParam (Query Parameter) {String="asc","desc"} direction Direction to order the results by (ascending or descending)
- * @apiParam (Query Parameter) {Integer{1...200}} per_page Number of results per request
- * @apiParam (Query Parameter) {Integer} page Current page of results
+ * @apiParam (Query Parameter) {String} [filterBy[ip]] Filter the results by the supplied IP
+ * @apiParam (Query Parameter) {String} [filterBy[url]] Filter the results by the supplied URL
+ * @apiParam (Query Parameter) {String} [filterBy[url-]exact] Filter the results by the exact URL (not a substring match, as per `url`)
+ * @apiParam (Query Parameter) {String} [filterBy[referrer]] Filter the results by the supplied referrer
+ * @apiParam (Query Parameter) {String} [filterBy[agent]] Filter the results by the supplied user agent
+ * @apiParam (Query Parameter) {String} [filterBy[target]] Filter the results by the supplied redirect target
+ * @apiParam (Query Parameter) {String} [filterBy[domain]] Filter the results by the supplied domain name
+ * @apiParam (Query Parameter) {String} [filterBy[redirect_by]] Filter the results by the redirect agent
+ * @apiParam (Query Parameter) {String="head","get","post"} [filterBy[method]] Filter the results by the supplied HTTP request method
+ * @apiParam (Query Parameter) {String="ip","url"} [orderby] Order by IP or URL
+ * @apiParam (Query Parameter) {String="asc","desc"} [direction=desc] Direction to order the results by (ascending or descending)
+ * @apiParam (Query Parameter) {Integer{1...200}} [per_page=25] Number of results per request
+ * @apiParam (Query Parameter) {Integer} [page=0] Current page of results
+ * @apiParam (Query Parameter) {String="ip","url"} [groupBy] Group by IP or URL
  */
 
 /**
@@ -93,48 +97,107 @@
  *     }
  */
 
+/**
+ * Log API endpoint
+ */
 class Redirection_Api_Log extends Redirection_Api_Filter_Route {
+	/**
+	 * Log API endpoint constructor
+	 *
+	 * @param String $namespace Namespace.
+	 */
 	public function __construct( $namespace ) {
-		$orders = [ 'url', 'ip' ];
-		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target' ];
+		$orders = [ 'url', 'ip', 'total', '' ];
+		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain', 'method', 'http', 'redirect_by' ];
 
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
 			$this->get_route( WP_REST_Server::READABLE, 'route_log', [ $this, 'permission_callback_manage' ] ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_delete_all', [ $this, 'permission_callback_delete' ] ),
 		) );
 
-		$this->register_bulk( $namespace, '/bulk/log/(?P<bulk>delete)', $orders, 'route_bulk', [ $this, 'permission_callback_delete' ] );
+		register_rest_route( $namespace, '/bulk/log/(?P<bulk>delete)', [
+			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_delete' ] ),
+			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
+				'items' => [
+					'description' => 'Comma separated list of item IDs to perform action on',
+					'type' => 'array',
+					'items' => [
+						'type' => 'string|number',
+					],
+				],
+			] ),
+		] );
 	}
 
+	/**
+	 * Checks a manage capability
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return Bool
+	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE );
 	}
 
+	/**
+	 * Checks a delete capability
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return Bool
+	 */
 	public function permission_callback_delete( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_DELETE );
 	}
 
+	/**
+	 * Get log list
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 */
 	public function route_log( WP_REST_Request $request ) {
 		return $this->get_logs( $request->get_params() );
 	}
 
+	/**
+	 * Perform bulk action on logs
+	 *
+	 * @param WP_REST_Request $request The request.
+	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 */
 	public function route_bulk( WP_REST_Request $request ) {
-		$items = $request['items'];
-
-		$items = array_map( 'intval', $items );
-		array_map( array( 'RE_Log', 'delete' ), $items );
-		return $this->route_log( $request );
-	}
-
-	public function route_delete_all( WP_REST_Request $request ) {
 		$params = $request->get_params();
 
-		RE_Log::delete_all( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
+			$items = $params['items'];
+
+			foreach ( $items as $item ) {
+				$id = intval( $item, 10 );
+
+				if ( $id === $item ) {
+					Red_Redirect_Log::delete( $id );
+				} else {
+					$delete_by = 'url-exact';
+
+					if ( in_array( $params['groupBy'], [ 'ip', 'agent' ], true ) ) {
+						$delete_by = $params['groupBy'];
+					}
+
+					Red_Redirect_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
+				}
+			}
+		} elseif ( isset( $params['global'] ) && $params['global'] ) {
+			Red_Redirect_Log::delete_all( $params );
+		}
+
 		return $this->route_log( $request );
 	}
 
 	private function get_logs( array $params ) {
-		return RE_Filter_Log::get( 'redirection_logs', 'RE_Log', $params );
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
+			return Red_Redirect_Log::get_grouped( $params['groupBy'], $params );
+		}
+
+		return Red_Redirect_Log::get_filtered( $params );
 	}
 }

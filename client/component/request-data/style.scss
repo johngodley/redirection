@@ -1,0 +1,20 @@
+.redirect-requestdata {
+	th {
+		text-align: left;
+		padding-right: 10px;
+		min-width: 120px;
+		vertical-align: top;
+	}
+
+	td {
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		word-break: break-all;
+		hyphens: auto;
+	}
+
+	ul {
+		list-style-type: square;
+		padding-left: 20px;
+	}
+}

@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 
 const Help = () => {
 	return (

@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 export const getDisplayOptions = () => [
 	{ value: 'name', label: __( 'Name' ) },
@@ -21,6 +21,11 @@ export const getDisplayGroups = () => [
 		value: 'minimal',
 		label: __( 'Compact Display' ),
 		grouping: [ 'name' ],
+	},
+		{
+		value: 'all',
+		label: __( 'Display All' ),
+		grouping: getDisplayOptions().map( ( item ) => item.value ),
 	},
 ];
 
@@ -47,10 +52,6 @@ export const getFilterOptions = ( options ) => [
 ];
 
 export const getHeaders = () => [
-	{
-		name: 'cb',
-		check: true,
-	},
 	{
 		name: 'status',
 		title: __( 'Status' ),

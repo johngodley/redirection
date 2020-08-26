@@ -3,13 +3,13 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
-import Select from 'component/select';
-import ExternalLink from 'component/external-link';
+import Select from 'wp-plugin-components/select';
+import ExternalLink from 'wp-plugin-components/external-link';
 import {
 	HeaderSimpleChoice,
 	HeaderReplaceSimpleChoice,

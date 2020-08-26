@@ -3,13 +3,13 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'lib/locale';
+import { translate as __ } from 'i18n-calypso';
 
 /**
  * Internal dependencies
  */
 
-import ExternalLink from 'component/external-link';
+import ExternalLink from 'wp-plugin-components/external-link';
 import { isRedirection } from 'lib/wordpress-url';
 
 const HttpDetails = props => {

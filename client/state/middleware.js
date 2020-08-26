@@ -3,36 +3,45 @@
  * Internal dependencies
  */
 
-import { REDIRECT_LOADING, REDIRECT_ITEM_SAVING } from 'state/redirect/type';
-import { GROUP_LOADING, GROUP_ITEM_SAVING } from 'state/group/type';
-import { LOG_LOADING } from 'state/log/type';
+import { REDIRECT_LOADING, REDIRECT_DISPLAY_SET, REDIRECT_ITEM_SAVING } from 'state/redirect/type';
+import { GROUP_LOADING, GROUP_DISPLAY_SET, GROUP_ITEM_SAVING } from 'state/group/type';
+import { ERROR_DISPLAY_SET } from 'state/error/type';
+import { LOG_LOADING, LOG_DISPLAY_SET } from 'state/log/type';
 import { ERROR_LOADING } from 'state/error/type';
-import { getPluginPage, setPageUrl } from 'lib/wordpress-url';
+import { getPluginPage } from 'lib/wordpress-url';
+import { setPageUrl } from 'wp-plugin-lib/wordpress-url';
+
+function storeDisplay( storeName, action ) {
+	localStorage.setItem( storeName + '_displayType', action.displayType );
+
+	if ( action.displayType === 'custom' ) {
+		localStorage.setItem( storeName + '_displaySelected', action.displaySelected.join( ',' ) );
+	} else {
+		localStorage.removeItem( storeName + '_displaySelected' );
+	}
+}
 
 const setUrlForPage = ( action, table ) => {
 	const pluginPage = getPluginPage();
 	const currentPage = {
-		redirect: [
-			[ REDIRECT_LOADING, REDIRECT_ITEM_SAVING ],
-			'id',
-		],
-		groups: [
-			[ GROUP_LOADING, GROUP_ITEM_SAVING ],
-			'name',
-		],
-		log: [
-			[ LOG_LOADING ],
-			'date',
-		],
-		'404s': [
-			[ ERROR_LOADING ],
-			'date',
-		],
+		redirect: [ [ REDIRECT_LOADING, REDIRECT_ITEM_SAVING ], 'id' ],
+		groups: [ [ GROUP_LOADING, GROUP_ITEM_SAVING ], 'name' ],
+		log: [ [ LOG_LOADING ], 'date' ],
+		'404s': [ [ ERROR_LOADING ], 'date' ],
 	};
 
-	if ( currentPage[ pluginPage ] && action === currentPage[ pluginPage ][ 0 ].find( item => item === action ) ) {
+	if ( currentPage[ pluginPage ] && action === currentPage[ pluginPage ][ 0 ].find( ( item ) => item === action ) ) {
 		const { orderby, direction, page, per_page, filterBy, groupBy } = table;
-		const query = { orderby, direction, offset: page, per_page, filterBy, groupBy };
+		const query = {
+			page: 'redirection.php',
+			sub: pluginPage,
+			orderby,
+			direction,
+			per_page,
+			filterBy,
+			groupBy,
+			offset: page,
+		};
 		const defaults = {
 			orderby: currentPage[ pluginPage ][ 1 ],
 			direction: 'desc',
@@ -40,6 +49,7 @@ const setUrlForPage = ( action, table ) => {
 			filterBy: {},
 			per_page: parseInt( Redirectioni10n.per_page, 10 ),
 			groupBy: '',
+			sub: 'redirect',
 		};
 
 		if ( groupBy ) {
@@ -50,7 +60,7 @@ const setUrlForPage = ( action, table ) => {
 	}
 };
 
-export const urlMiddleware = () => next => action => {
+export const urlMiddleware = () => ( next ) => ( action ) => {
 	switch ( action.type ) {
 		case REDIRECT_ITEM_SAVING:
 		case GROUP_ITEM_SAVING:
@@ -59,6 +69,22 @@ export const urlMiddleware = () => next => action => {
 		case LOG_LOADING:
 		case ERROR_LOADING:
 			setUrlForPage( action.type, action.table ? action.table : action );
+			break;
+
+		case REDIRECT_DISPLAY_SET:
+			storeDisplay( 'redirect', action );
+			break;
+
+		case LOG_DISPLAY_SET:
+			storeDisplay( 'log', action );
+			break;
+
+		case ERROR_DISPLAY_SET:
+			storeDisplay( '404s', action );
+			break;
+
+		case GROUP_DISPLAY_SET:
+			storeDisplay( 'group', action );
 			break;
 	}
 
