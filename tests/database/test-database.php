@@ -154,6 +154,8 @@ class DatabaseTest extends WP_UnitTestCase {
 
 		$this->assertTrue( $status->does_support( '1.2' ) );
 		$this->assertTrue( $status->does_support( '1.5' ) );
+
+		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
 	}
 
 	public function testDoesntSupport() {
@@ -162,12 +164,14 @@ class DatabaseTest extends WP_UnitTestCase {
 		$status = new Red_Database_Status();
 
 		$this->assertFalse( $status->does_support( '1.8' ) );
+
+		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
 	}
 
 	public function testGetUpgradesForSameVersion() {
 		$database = new Red_Database();
 		$upgrades = $database->get_upgrades_for_version( '2.2', false );
-		$this->assertEquals( 6, count( $upgrades ) );
+		$this->assertEquals( 7, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
