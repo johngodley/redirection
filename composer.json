@@ -1,7 +1,8 @@
 {
     "require-dev": {
-        "vimeo/psalm": "^3.12",
-        "php-stubs/wordpress-stubs": "^5.4",
-        "giacocorsiglia/wordpress-stubs": "^5.1"
+        "vimeo/psalm": "^3.14.2"
+    },
+    "require": {
+        "humanmade/psalm-plugin-wordpress": "^1.0"
     }
 }
