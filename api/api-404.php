@@ -153,11 +153,9 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 			$items = $params['items'];
 
 			foreach ( $items as $item ) {
-				$id = intval( $item, 10 );
-
-				if ( $id === $item ) {
-					Red_404_Log::delete( $id );
-				} else {
+				if ( is_numeric( $item ) ) {
+					Red_404_Log::delete( intval( $item, 10 ) );
+				} elseif ( isset( $params['groupBy'] ) ) {
 					$delete_by = 'url-exact';
 
 					if ( in_array( $params['groupBy'], [ 'ip', 'agent' ], true ) ) {

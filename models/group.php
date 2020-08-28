@@ -47,10 +47,19 @@ class Red_Group {
 	public function __construct( $values = '' ) {
 		if ( is_object( $values ) ) {
 			$this->name = $values->name;
-			$this->module_id = intval( $values->module_id, 10 );
-			$this->status = $values->status;
 			$this->id = intval( $values->id, 10 );
-			$this->position = intval( $values->position, 10 );
+
+			if ( isset( $values->module_id ) ) {
+				$this->module_id = intval( $values->module_id, 10 );
+			}
+
+			if ( isset( $values->status ) ) {
+				$this->status = $values->status;
+			}
+
+			if ( isset( $values->position ) ) {
+				$this->position = intval( $values->position, 10 );
+			}
 		}
 	}
 

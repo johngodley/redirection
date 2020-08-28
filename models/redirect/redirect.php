@@ -203,6 +203,12 @@ class Red_Item {
 		return ( $first['position'] < $second['position'] ) ? -1 : 1;
 	}
 
+	/**
+	 * Get a redirect by ID
+	 *
+	 * @param integer $id Redirect ID.
+	 * @return Red_Item|false
+	 */
 	public static function get_by_id( $id ) {
 		global $wpdb;
 
