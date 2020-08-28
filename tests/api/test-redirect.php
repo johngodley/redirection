@@ -97,7 +97,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListOrderBy() {
 		$this->createAB();
-		$result = $this->callApi( 'redirect', [ 'orderby' => 'url' ] );
+		$result = $this->callApi( 'redirect', [ 'orderby' => 'source' ] );
 		$this->isBthenA( $result );
 	}
 
