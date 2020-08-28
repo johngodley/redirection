@@ -91,7 +91,7 @@ class Redirection_Admin {
 
 		// Known HTML and so isn't escaped
 		// phpcs:ignore
-		echo '<div class="update-nag">' . $message . '</div>';
+		echo '<div class="update-nag notice notice-warning" style="width: 95%">' . $message . '</div>';
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
