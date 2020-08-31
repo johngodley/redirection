@@ -147,8 +147,9 @@ class WordPress_Module extends Red_Module {
 			return;
 		}
 
-		if ( $this->match_404_type() ) {
-			// Don't log an intentionally redirected 404
+		// We are on a 404. Check if we have a 'URL and page type' match in any of the matched redirects.
+		if ( $this->is_url_and_page_type() ) {
+			// Don't log an intentionally redirected 404 as part of the 'url and page type'
 			return;
 		}
 
@@ -172,28 +173,21 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	private function match_404_type() {
-		if ( ! property_exists( $this, 'redirects' ) || count( $this->redirects ) === 0 ) {
-			return false;
-		}
-
-		$page_types = array_values( array_filter( $this->redirects, [ $this, 'only_404' ] ) );
+	/**
+	 * Return `true` if any of the matched redirects is a 'url and page type', `false` otherwise
+	 *
+	 * @return boolean
+	 */
+	private function is_url_and_page_type() {
+		$page_types = array_values( array_filter( $this->redirects, function( Red_Item $redirect ) {
+			return $redirect->match->get_type() === 'page';
+		} ) );
 
 		if ( count( $page_types ) > 0 ) {
-			$url = apply_filters( 'redirection_url_source', Redirection_Request::get_request_url() );
-
-			foreach ( $page_types as $page_type ) {
-				if ( $page_type->is_match( $url ) ) {
-					return true;
-				}
-			}
+			return true;
 		}
 
 		return false;
-	}
-
-	private function only_404( $redirect ) {
-		return $redirect->match->get_type() === 'page';
 	}
 
 	/**
