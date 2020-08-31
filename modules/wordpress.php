@@ -387,7 +387,7 @@ class WordPress_Module extends Red_Module {
 	public function record_redirect_by( $agent ) {
 		// Have we already redirected with Redirection?
 		if ( $this->matched || $agent === 'redirection' ) {
-			return;
+			return $agent;
 		}
 
 		$options = red_get_options();
