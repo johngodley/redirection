@@ -228,15 +228,10 @@ class WordPress_Module extends Red_Module {
 		}
 
 		if ( $target ) {
-			add_filter( 'x_redirect_by', [ $this, 'x_redirect_by' ] );
 			// phpcs:ignore
-			wp_redirect( $target, 301 );
+			wp_redirect( $target, 301, 'redirection' );
 			die();
 		}
-	}
-
-	public function x_redirect_by() {
-		return 'redirection';
 	}
 
 	/**
@@ -326,7 +321,6 @@ class WordPress_Module extends Red_Module {
 
 		if ( $is_IIS ) {
 			header( "Refresh: 0;url=$url" );
-			return $url;
 		}
 	}
 
