@@ -212,20 +212,31 @@ class WordPress_Module extends Red_Module {
 		$redirect->visit( $url, $target );
 	}
 
-	public function canonical_domain() {
+	/**
+	 * Get canonical target
+	 *
+	 * @return string|false
+	 */
+	public function get_canonical_target() {
 		$options = red_get_options();
 		$canonical = new Redirection_Canonical( $options['https'], $options['preferred_domain'], $options['aliases'], get_home_url() );
 
 		// Relocate domain?
-		$target = false;
 		if ( $options['relocate'] ) {
-			$target = $canonical->relocate_request( $options['relocate'], Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+			return $canonical->relocate_request( $options['relocate'], Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
 		}
 
 		// Force HTTPS or www
-		if ( ! $target ) {
-			$target = $canonical->get_redirect( Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
-		}
+		return $canonical->get_redirect( Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+	}
+
+	/**
+	 * Checks for canonical domain requests
+	 *
+	 * @return void
+	 */
+	public function canonical_domain() {
+		$target = $this->get_canonical_target();
 
 		if ( $target ) {
 			// phpcs:ignore
