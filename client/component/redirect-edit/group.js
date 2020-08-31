@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  */
 
 import { nestedGroups } from 'state/group/selector';
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 
 const RedirectGroup = ( { groups, currentGroup, onChange } ) => {
 	return (

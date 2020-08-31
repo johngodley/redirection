@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { translate as __ } from 'i18n-calypso';
-import Modal from 'wp-plugin-components/modal';
+import { Modal } from 'wp-plugin-components';
 
 class DeletePlugin extends React.Component {
 	constructor( props ) {

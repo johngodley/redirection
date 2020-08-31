@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  */
 
 import BulkAction from 'component/table/bulk-action';
-import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
+import { MultiOptionDropdown } from 'wp-plugin-components';
 import TableGroup from 'component/table/group';
 
 /** @typedef {import('component/table').Table} Table */

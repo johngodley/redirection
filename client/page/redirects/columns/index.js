@@ -13,7 +13,7 @@ import SourceColumn from './source';
 import getCode from './code';
 import GroupColumn from './group';
 import EditRedirect from 'component/redirect-edit';
-import Modal from 'wp-plugin-components/modal';
+import { Modal } from 'wp-plugin-components';
 import getMatchType from './match-type';
 import HttpCheck from 'component/http-check';
 import { getMatches, getActions } from 'component/redirect-edit/constants';

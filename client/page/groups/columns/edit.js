@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 /**
  * Internal dependencies
  */
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 import { updateGroup } from 'state/group/action';
 import { getModules } from 'state/io/selector';
 

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { translate as __ } from 'i18n-calypso';
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 
 class TableGroup extends React.Component {
 	constructor( props ) {

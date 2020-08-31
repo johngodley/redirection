@@ -9,7 +9,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 import TableRow from './table-row';
 import { getSourceQuery } from './constants';
 

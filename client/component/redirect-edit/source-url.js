@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  */
 import { getSourceFlags } from './constants';
 import TableRow from './table-row';
-import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
+import { MultiOptionDropdown } from 'wp-plugin-components';
 
 const getUrlFlags = ( { flag_case, flag_regex, flag_trailing } ) =>
 	[ flag_case ? 'flag_case' : null, flag_regex ? 'flag_regex' : null, flag_trailing ? 'flag_trailing' : null ].filter(

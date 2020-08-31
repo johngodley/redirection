@@ -10,7 +10,7 @@ import Highlighter from 'react-highlight-words';
  * Internal dependencies
  */
 import { RowActions, RowAction } from 'component/table/row-action';
-import Modal from 'wp-plugin-components/modal';
+import { Modal } from 'wp-plugin-components';
 import GeoMap from 'component/geo-map';
 
 /** @typedef {import('component/table').Table} Table */

@@ -13,7 +13,7 @@ import classnames from 'classnames';
  */
 
 import ApiResult from './api-result';
-import Spinner from 'wp-plugin-components/spinner';
+import { Spinner } from 'wp-plugin-components';
 import { restApi } from 'page/options/options-form';
 import { checkApi } from 'state/settings/action';
 import './style.scss';

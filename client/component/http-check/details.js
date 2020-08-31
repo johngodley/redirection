@@ -9,7 +9,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 import { isRedirection, isCached } from 'lib/wordpress-url';
 
 function HttpStatus( props ) {

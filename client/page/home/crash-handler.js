@@ -9,7 +9,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 import { ExternalLink, Error } from 'wp-plugin-components';
-import getErrorLinks from 'lib/error-links';
+import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from './debug';
 
 function CrashHandler( stack, errorInfo, extra ) {

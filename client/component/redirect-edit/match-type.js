@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 import TableRow from './table-row';
 import { getMatches } from './constants';
 

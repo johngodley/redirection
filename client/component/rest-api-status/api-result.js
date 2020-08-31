@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 import ApiResultItem from './api-result-item';
 import apiFetch from 'wp-plugin-lib/api-fetch';
 

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 import TableRow from '../table-row';
 
 const MatchReferrer = ( { data, onChange } ) => {

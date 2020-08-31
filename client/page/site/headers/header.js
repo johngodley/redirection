@@ -8,8 +8,7 @@ import { translate as __ } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import Select from 'wp-plugin-components/select';
-import ExternalLink from 'wp-plugin-components/external-link';
+import { Select, ExternalLink } from 'wp-plugin-components';
 import {
 	HeaderSimpleChoice,
 	HeaderReplaceSimpleChoice,
