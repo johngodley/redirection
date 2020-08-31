@@ -1,11 +1,45 @@
 <?php
 
+/**
+ * Canonical redirects.
+ */
 class Redirection_Canonical {
+	/**
+	 * Aliased domains. These are domains that should be redirected to the WP domain.
+	 *
+	 * @var string[]
+	 */
 	private $aliases = [];
+
+	/**
+	 * Force HTTPS.
+	 *
+	 * @var boolean
+	 */
 	private $force_https = false;
+
+	/**
+	 * Preferred domain. WWW or no WWW.
+	 *
+	 * @var string
+	 */
 	private $preferred_domain = '';
+
+	/**
+	 * Current WP domain.
+	 *
+	 * @var string
+	 */
 	private $actual_domain = '';
 
+	/**
+	 * Constructor
+	 *
+	 * @param boolean  $force_https `true` to force https, `false` otherwise.
+	 * @param string   $preferred_domain `www`, `nowww`, or empty string.
+	 * @param string[] $aliases Array of domain aliases.
+	 * @param string   $configured_domain Current domain.
+	 */
 	public function __construct( $force_https, $preferred_domain, $aliases, $configured_domain ) {
 		$this->force_https = $force_https;
 		$this->aliases = $aliases;
@@ -13,6 +47,13 @@ class Redirection_Canonical {
 		$this->actual_domain = $configured_domain;
 	}
 
+	/**
+	 * Get the canonical redirect.
+	 *
+	 * @param string $server Current server URL.
+	 * @param string $request Current request.
+	 * @return string|false
+	 */
 	public function get_redirect( $server, $request ) {
 		$aliases = array_merge(
 			$this->get_preferred_aliases( $server ),
@@ -43,6 +84,12 @@ class Redirection_Canonical {
 		return false;
 	}
 
+	/**
+	 * Get the preferred alias
+	 *
+	 * @param string $server Current server.
+	 * @return string[]
+	 */
 	private function get_preferred_aliases( $server ) {
 		if ( $this->need_force_www( $server ) || $this->need_remove_www( $server ) ) {
 			return [ $server ];
@@ -51,11 +98,22 @@ class Redirection_Canonical {
 		return [];
 	}
 
-	// A final check to prevent obvious site errors.
+	/**
+	 * A final check to prevent obvious site errors.
+	 *
+	 * @param string $server Current server.
+	 * @return boolean
+	 */
 	private function is_configured_domain( $server ) {
 		return $server === $this->actual_domain;
 	}
 
+	/**
+	 * Get the canonical target
+	 *
+	 * @param string $server Current server.
+	 * @return string|false
+	 */
 	private function get_canonical_target( $server ) {
 		$canonical = rtrim( red_parse_domain_only( $server ), '/' );
 
@@ -78,18 +136,38 @@ class Redirection_Canonical {
 		return false;
 	}
 
+	/**
+	 * Do we need to force WWW?
+	 *
+	 * @param string $server Current server.
+	 * @return boolean
+	 */
 	private function need_force_www( $server ) {
 		$has_www = substr( $server, 0, 4 ) === 'www.';
 
 		return $this->preferred_domain === 'www' && ! $has_www;
 	}
 
+	/**
+	 * Do we need to remove WWW?
+	 *
+	 * @param string $server Current server.
+	 * @return boolean
+	 */
 	private function need_remove_www( $server ) {
 		$has_www = substr( $server, 0, 4 ) === 'www.';
 
 		return $this->preferred_domain === 'nowww' && $has_www;
 	}
 
+	/**
+	 * Return the full URL relocated to another domain. Certain URLs are protected from this.
+	 *
+	 * @param string $relocate Target domain.
+	 * @param string $domain Current domain.
+	 * @param string $request Current request.
+	 * @return string|false
+	 */
 	public function relocate_request( $relocate, $domain, $request ) {
 		$relocate = rtrim( $relocate, '/' );
 

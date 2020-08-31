@@ -384,7 +384,6 @@ class Red_Item {
 				'http_code' => $this->get_action_code(),
 				'redirect_id' => $this->id,
 				'redirect_by' => 'redirection',
-				'group_id' => $this->group_id,
 			];
 
 			if ( $options['log_header'] ) {
