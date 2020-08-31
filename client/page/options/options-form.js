@@ -12,8 +12,7 @@ import { connect } from 'react-redux';
 import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import { FormTable, TableRow } from 'component/form-table';
-import Select from 'wp-plugin-components/select';
-import ExternalLink from 'wp-plugin-components/external-link';
+import { Select, ExternalLink } from 'wp-plugin-components';
 
 const timeToKeep = () => [
 	{ value: -1, label: __( 'No logs' ) },

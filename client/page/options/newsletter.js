@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
  */
 
 import { saveSettings } from 'state/settings/action';
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 
 const Newsletter = props => {
 	const { newsletter } = props;

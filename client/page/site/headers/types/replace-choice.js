@@ -7,7 +7,7 @@ import React from 'react';
 /**
  * Internal dependencies
  */
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 
 const getReplace = name => '<' + name + '>';
 const hasReplace = ( value, replace ) => value.indexOf( getReplace( replace ) ) !== -1;

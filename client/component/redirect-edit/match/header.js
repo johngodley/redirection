@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * Internal dependencies
  */
 
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 import TableRow from '../table-row';
 
 class MatchHeader extends React.Component {

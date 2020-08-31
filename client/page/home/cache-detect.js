@@ -9,16 +9,16 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 import { ExternalLink, Error } from 'wp-plugin-components';
+import { getErrorLinks, getErrorDetails, getCacheBuster } from 'lib/error-links';
 
 function CacheDetect() {
 	return (
 		<Error
-			errors={ [
-				Redirectioni10n.versions + '\nServer: ' + Redirectioni10n.version + ' !== ' + REDIRECTION_VERSION,
-			] }
-			versions={ Redirectioni10n.versions }
+			errors={ '' }
+			details={ getErrorDetails().concat( [ getCacheBuster() ] ) }
 			type="fixed"
 			title={ __( 'Cached Redirection detected' ) }
+			links={ getErrorLinks() }
 		>
 			<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
 			<p>

@@ -15,7 +15,7 @@ import TextareaAutosize from 'react-textarea-autosize';
  */
 
 import PreventLeaveWarning from 'component/prevent-leave';
-import Spinner from 'wp-plugin-components/spinner';
+import { Spinner } from 'wp-plugin-components';
 import { upgradeDatabase, finishUpgrade, fixStatus } from 'state/settings/action';
 import { STATUS_FAILED } from 'state/settings/type';
 import './style.scss';
@@ -29,7 +29,7 @@ class Database extends React.Component {
 	static defaultProps = {
 		manual: false,
 		onFinished: null,
-	}
+	};
 
 	constructor( props ) {
 		super( props );
@@ -57,22 +57,22 @@ class Database extends React.Component {
 		return status === 'finish-install' || status === 'finish-update';
 	}
 
-	onRetry = ev => {
+	onRetry = ( ev ) => {
 		ev.preventDefault();
 		this.props.onUpgrade();
-	}
+	};
 
-	onSkip = ev => {
+	onSkip = ( ev ) => {
 		ev.preventDefault();
 		this.props.onUpgrade( 'skip' );
-	}
+	};
 
-	onStop = ev => {
+	onStop = ( ev ) => {
 		ev.preventDefault();
 		this.props.onUpgrade( 'stop' );
-	}
+	};
 
-	onFinish = ev => {
+	onFinish = ( ev ) => {
 		ev.preventDefault();
 
 		if ( this.props.onFinished ) {
@@ -80,7 +80,7 @@ class Database extends React.Component {
 		} else {
 			this.props.onFinish();
 		}
-	}
+	};
 
 	componentDidUpdate( prevProps ) {
 		if ( prevProps.time !== this.props.time && this.hasWork( this.props ) ) {
@@ -92,6 +92,8 @@ class Database extends React.Component {
 					this.props.onUpgrade();
 				}, 1000 );
 			}
+		} else if ( prevProps.manual === true && this.props.manual === false && this.hasWork( this.props ) ) {
+			this.props.onUpgrade();
 		}
 	}
 
@@ -104,16 +106,34 @@ class Database extends React.Component {
 			debug.length > 0 ? 'Debug: ' + debug.join( '\n' ) : null,
 		];
 
-		return message.filter( item => item ).join( '\n' );
+		return message.filter( ( item ) => item ).join( '\n' );
 	}
 
 	renderLoopError() {
 		return this.renderError(
-			__( 'A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved.', {
-				components: {
-					support: <a href="https://redirection.me/support/problems/data-is-not-saved/" />,
-				},
-			} ), false );
+			__(
+				'A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved.',
+				{
+					components: {
+						support: <a href="https://redirection.me/support/problems/data-is-not-saved/" />,
+					},
+				}
+			),
+			false
+		);
+	}
+
+	renderApiError( error ) {
+		return (
+			<div className="redirection-database_error wpl-error">
+				<h3>{ __( 'Database problem' ) }</h3>
+				<p>
+					<button className="button button-primary" onClick={ this.onSkip }>
+						{ __( 'Try again' ) }
+					</button>
+				</p>
+			</div>
+		);
 	}
 
 	renderError( error ) {
@@ -123,17 +143,35 @@ class Database extends React.Component {
 		return (
 			<div className="redirection-database_error wpl-error">
 				<h3>{ __( 'Database problem' ) }</h3>
-				<p>{ error }</p>
 				<p>
-					<button className="button button-primary" onClick={ this.onRetry }>{ __( 'Try again' ) }</button>&nbsp;
-					{ current !== '-' && <button className="button button-secondary" onClick={ this.onSkip }>{ __( 'Skip this stage' ) }</button> }&nbsp;
-					{ current !== '-' && <button className="button button-secondary" onClick={ this.onStop }>{ __( 'Stop upgrade' ) }</button> }
+					<button className="button button-primary" onClick={ this.onRetry }>
+						{ __( 'Try again' ) }
+					</button>
+					&nbsp;
+					{ current !== '-' && (
+						<button className="button button-secondary" onClick={ this.onSkip }>
+							{ __( 'Skip this stage' ) }
+						</button>
+					) }
+					&nbsp;
+					{ current !== '-' && (
+						<button className="button button-secondary" onClick={ this.onStop }>
+							{ __( 'Stop upgrade' ) }
+						</button>
+					) }
 				</p>
 
 				<p>
 					{ __( 'If you want to {{support}}ask for support{{/support}} please include these details:', {
 						components: {
-							support: <a href={ 'mailto:john@redirection.me?subject=Redirection%20Database&body=' + encodeURIComponent( 'Redirection: ' + Redirectioni10n.versions ) } />,
+							support: (
+								<a
+									href={
+										'mailto:john@redirection.me?subject=Redirection%20Database&body=' +
+										encodeURIComponent( 'Redirection: ' + Redirectioni10n.versions )
+									}
+								/>
+							),
 						},
 					} ) }
 				</p>
@@ -148,9 +186,7 @@ class Database extends React.Component {
 			return null;
 		}
 
-		return (
-			<p>{ __( 'Please remain on this page until complete.' ) }</p>
-		);
+		return <p>{ __( 'Please remain on this page until complete.' ) }</p>;
 	}
 
 	getTitle() {
@@ -165,7 +201,7 @@ class Database extends React.Component {
 
 	onComplete = () => {
 		this.props.onComplete( Redirectioni10n.database.next );
-	}
+	};
 
 	render() {
 		const { status, complete = 0, reason, result, manual } = this.props;
@@ -177,9 +213,23 @@ class Database extends React.Component {
 				<div className="redirection-database">
 					<h1>{ __( 'Manual Install' ) }</h1>
 
-					<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Finished! 🎉" when finished.' ) }</p>
-					<p><TextareaAutosize readOnly cols="120" value={ Redirectioni10n.database.manual.join( ';\n\n' ) + ';' } spellCheck={ false } /></p>
-					<button className="button button-primary" onClick={ this.onComplete }>{ __( 'Finished! 🎉' ) }</button>
+					<p>
+						{ __(
+							'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.'
+						) }{' '}
+						{ __( 'Click "Finished! 🎉" when finished.' ) }
+					</p>
+					<p>
+						<TextareaAutosize
+							readOnly
+							cols="120"
+							value={ Redirectioni10n.database.manual.join( ';\n\n' ) + ';' }
+							spellCheck={ false }
+						/>
+					</p>
+					<button className="button button-primary" onClick={ this.onComplete }>
+						{ __( 'Finished! 🎉' ) }
+					</button>
 					<p>{ __( 'If you do not complete the manual install you will be returned here.' ) }</p>
 				</div>
 			);
@@ -187,7 +237,10 @@ class Database extends React.Component {
 
 		return (
 			<div className="redirection-database">
-				<PreventLeaveWarning message={ __( 'Leaving before the process has completed may cause problems.' ) } prevent={ result !== 'error' && result !== STATUS_FAILED } />
+				<PreventLeaveWarning
+					message={ __( 'Leaving before the process has completed may cause problems.' ) }
+					prevent={ result !== 'error' && result !== STATUS_FAILED }
+				/>
 
 				<h1>{ this.getTitle() }</h1>
 
@@ -206,10 +259,19 @@ class Database extends React.Component {
 
 					{ reason && result === 'ok' && <p>{ reason }</p> }
 
-					{ showLoading && <div className="redirection-database_spinner"><Spinner /></div> }
+					{ showLoading && (
+						<div className="redirection-database_spinner">
+							<Spinner />
+						</div>
+					) }
 					{ result === 'error' && this.renderError( reason ) }
+					{ result === STATUS_FAILED && this.renderApiError( reason ) }
 					{ looped && this.renderLoopError() }
-					{ this.hasFinished( status ) && <button className="button button-primary" onClick={ this.onFinish }>{ __( 'Finished! 🎉' ) }</button> }
+					{ this.hasFinished( status ) && (
+						<button className="button button-primary" onClick={ this.onFinish }>
+							{ __( 'Finished! 🎉' ) }
+						</button>
+					) }
 				</div>
 			</div>
 		);
@@ -248,5 +310,5 @@ function mapStateToProps( state ) {
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps,
+	mapDispatchToProps
 )( Database );

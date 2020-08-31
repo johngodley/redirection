@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
  */
 
 import EditRedirect from 'component/redirect-edit';
-import Modal from 'wp-plugin-components/modal';
+import { Modal } from 'wp-plugin-components';
 import { getDefaultItem } from 'state/redirect/selector';
 import { getFlags } from 'state/settings/selector';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';

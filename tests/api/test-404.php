@@ -19,7 +19,14 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 	private function createAB( $total = 2 ) {
 		for ( $i = 0; $i < $total; $i++ ) {
-			Red_404_Log::create( 'test' . ( $i + 1 ), 'agent' . $i, '192.168.1.' . ( $i + 1 ), 'referrer' . $i );
+			$details = [
+				'agent' => 'agent' . $i,
+				'referrer' => 'referrer' . $i,
+				'request_method' => 'get',
+				'request_data' => 'data ' . $i,
+				'http_code' => 404 + $i,
+			];
+			Red_404_Log::create( 'domain', 'test' . ( $i + 1 ), '192.168.1.' . ( $i + 1 ), $details );
 		}
 
 		$this->setNonce();
@@ -28,8 +35,8 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
 			[ '404', 'GET', [] ],
-			[ '404', 'POST', [] ],
 			[ 'bulk/404/delete', 'POST', [ 'items' => [] ] ],
+			[ 'bulk/404/delete', 'POST', [] ],
 		];
 	}
 
@@ -45,7 +52,6 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 		$working = [
 			Redirection_Capabilities::CAP_404_MANAGE => [ [ '404', 'GET' ] ],
 			Redirection_Capabilities::CAP_404_DELETE => [
-				[ '404', 'POST' ],
 				[ 'bulk/404/delete', 'POST' ],
 			],
 		];
@@ -155,40 +161,34 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 		$this->assertEquals( 1, count( $result->data['items'] ) );
 	}
 
-	public function testDeleteAll() {
-		$this->createAB( 5 );
-
-		$result = $this->callApi( '404', array( 'filterBy' => 'cat' ), 'POST' );
-		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
-	}
-
-	public function testDeleteFilter() {
-		$this->createAB( 5 );
-
-		// Create 5 log entries, delete 1 of them, 4 are left
-		$result = $this->callApi( '404', [ 'filterBy' => [ 'ip' => '192.168.1.1' ] ], 'POST' );
-		$result = $this->callApi( '404' );
-
-		$this->assertEquals( 4, count( $result->data['items'] ) );
-	}
-
 	public function testBadBulk() {
+		$this->setNonce();
 		$this->createAB();
 		$group = Red_Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/404/cats', array( 'items' => '1' ), 'POST' );
 		$this->assertEquals( 'rest_no_route', $result->data['code'] );
-
-		// $result = $this->callApi( 'bulk/404/delete', array( 'items' => 'x' ), 'POST' );
-		// $this->assertEquals( 'rest_invalid_param', $result->data['code'] );
 	}
 
-	public function testDeleteBulk() {
+	public function testDeleteBulkItem() {
 		$this->setNonce();
-		Red_404_Log::create( 'test1', 'agent', '192.168.1.1', 'referrer' );
-		$last = Red_404_Log::create( 'test2', 'agent', '192.168.1.2', 'referrer' );
+		Red_404_Log::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer' ] );
+		$last = Red_404_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer' ] );
 
 		$result = $this->callApi( 'bulk/404/delete', array( 'items' => $last ), 'POST' );
 		$this->assertEquals( 1, count( $result->data['items'] ) );
+	}
+
+	public function testDeleteBulkFilter() {
+		$this->setNonce();
+
+		Red_404_Log::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer1' ] );
+		Red_404_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer2' ] );
+		Red_404_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer3' ] );
+
+		$result = $this->callApi( 'bulk/404/delete', [ 'global' => true, 'filterBy' => [ 'referrer' => 'referrer2' ] ], 'POST' );
+		$result = $this->callApi( '404' );
+
+		$this->assertEquals( 2, count( $result->data['items'] ) );
 	}
 }

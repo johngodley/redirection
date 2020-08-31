@@ -91,7 +91,7 @@ class Redirection_Admin {
 
 		// Known HTML and so isn't escaped
 		// phpcs:ignore
-		echo '<div class="update-nag">' . $message . '</div>';
+		echo '<div class="update-nag notice notice-warning" style="width: 95%">' . $message . '</div>';
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error
@@ -199,7 +199,7 @@ class Redirection_Admin {
 			'WordPress: ' . $wp_version . ' (' . ( is_multisite() ? 'multi' : 'single' ) . ')',
 			'PHP: ' . phpversion(),
 			'Browser: ' . Redirection_Request::get_user_agent(),
-			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js',
+			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . $build,
 			'REST API: ' . red_get_rest_api(),
 		);
 
@@ -611,7 +611,7 @@ add_action( 'init', array( 'Redirection_Admin', 'init' ) );
 add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {
 	$url = Redirection_Request::get_request_url();
 
-	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, 'index.php?rest_route' ) !== false ) {
+	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, '?rest_route' ) !== false ) {
 		return false;
 	}
 

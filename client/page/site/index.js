@@ -12,7 +12,7 @@ import { translate as __ } from 'i18n-calypso';
 import { loadSettings, saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import Placeholder from 'wp-plugin-components/placeholder';
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink } from 'wp-plugin-components';
 import SiteAliases from './aliases';
 import RelocateSite from './relocate';
 import CanonicalSettings from './canonical';

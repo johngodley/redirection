@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
  * Internal dependencies
  */
 
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 import { fixStatus } from 'state/settings/action';
 
 const getVersions = () => ( [

@@ -113,8 +113,10 @@ class Redirection_Request {
 		}
 
 		// Convert to binary
+		// phpcs:ignore
 		$ip = @inet_pton( trim( $ip ) );
 		if ( $ip !== false ) {
+			// phpcs:ignore
 			$ip = @inet_ntop( $ip );  // Convert back to string
 		}
 

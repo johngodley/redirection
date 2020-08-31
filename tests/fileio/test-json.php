@@ -14,10 +14,11 @@ class JsonTest extends WP_UnitTestCase {
 
 	public function testExportNew() {
 		$json = new Red_Json_File();
-		$redirects = array( new Red_Item( (object)array( 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ) ) );
-		$groups = array( new Red_Group( (object)array( 'name' => 'group', 'id' => 1 ) ) );
+		$redirects = [ new Red_Item( (object)[ 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ] ) ];
+		$groups = [ (new Red_Group( (object)[ 'name' => 'group', 'id' => 1 ] ) )->to_json() ];
 
 		$data = json_decode( $json->get_data( $redirects, $groups ) );
+
 		$this->assertEquals( 'source', $data->redirects[ 0 ]->url );
 		$this->assertEquals( 1, $data->groups[ 0 ]->id );
 	}
@@ -37,6 +38,7 @@ class JsonTest extends WP_UnitTestCase {
 					'name' => 'groupx',
 					'id' => 5,
 					'module_id' => 1,
+					'enabled' => true,
 				),
 			),
 			'redirects' => array(
@@ -52,7 +54,7 @@ class JsonTest extends WP_UnitTestCase {
 		);
 
 		$json = new Red_Json_File();
-		$data = $json->load( 0, 'thing', json_encode( $import ) );
+		$data = $json->load( 0, 'thing', wp_json_encode( $import ) );
 		$this->assertEquals( 1, $data );
 
 		$group = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_groups ORDER BY id DESC LIMIT 1" );

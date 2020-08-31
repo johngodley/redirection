@@ -246,10 +246,20 @@ function red_parse_domain_path( $domain ) {
 	return '';
 }
 
+/**
+ * Have redirects been disabled?
+ *
+ * @return boolean
+ */
 function red_is_disabled() {
 	return ( defined( 'REDIRECTION_DISABLE' ) && REDIRECTION_DISABLE ) || file_exists( __DIR__ . '/redirection-disable.txt' );
 }
 
+/**
+ * Get Redirection options
+ *
+ * @return array
+ */
 function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
 
@@ -302,7 +312,7 @@ function red_get_rest_api( $type = false ) {
 	$url = get_rest_url();  // REDIRECTION_API_JSON
 
 	if ( $type === REDIRECTION_API_JSON_INDEX ) {
-		$url = home_url( '/index.php?rest_route=/' );
+		$url = home_url( '/?rest_route=/' );
 	} elseif ( $type === REDIRECTION_API_JSON_RELATIVE ) {
 		$relative = wp_parse_url( $url, PHP_URL_PATH );
 

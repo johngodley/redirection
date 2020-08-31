@@ -7,7 +7,7 @@ import React from 'react';
 /**
  * Internal dependencies
  */
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 
 const HeaderSimpleChoice = ( { headerValue, options, onChange } ) => {
 	return (

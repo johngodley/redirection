@@ -12,8 +12,7 @@ import classnames from 'classnames';
  */
 
 import PoweredBy from 'component/powered-by';
-import Spinner from 'wp-plugin-components/spinner';
-import ExternalLink from 'wp-plugin-components/external-link';
+import { Spinner, ExternalLink } from 'wp-plugin-components';
 import { getAgent } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';

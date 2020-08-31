@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import Spinner from 'wp-plugin-components/spinner';
+import { Spinner } from 'wp-plugin-components';
 import './style.scss';
 
 class Progress extends React.Component {

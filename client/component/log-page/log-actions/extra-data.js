@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  */
 
 import { RowAction } from 'component/table/row-action';
-import Modal from 'wp-plugin-components/modal';
+import { Modal } from 'wp-plugin-components';
 import RequestData from 'component/request-data';
 
 /**

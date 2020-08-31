@@ -10,7 +10,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import Select from 'wp-plugin-components/select';
+import { Select } from 'wp-plugin-components';
 import {
 	ACTION_URL,
 	ACTION_ERROR,

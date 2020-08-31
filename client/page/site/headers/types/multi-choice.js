@@ -8,7 +8,7 @@ import { translate as __ } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
-import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
+import { MultiOptionDropdown } from 'wp-plugin-components';
 
 const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 	const { choices, implode, wildCard } = options;

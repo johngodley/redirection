@@ -9,7 +9,7 @@ import { translate as __ } from 'i18n-calypso';
  * Internal dependencies
  */
 
-import MultiOptionDropdown from 'wp-plugin-components/multi-option-dropdown';
+import { MultiOptionDropdown } from 'wp-plugin-components';
 
 /** @typedef {import('component/table').Table} Table */
 /** @typedef {import('component/log-page').LabelValueGrouping} LabelValueGrouping */

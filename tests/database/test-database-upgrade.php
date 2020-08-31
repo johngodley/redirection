@@ -32,6 +32,9 @@ class DatabaseTester {
 			$expected = preg_replace( '/^\s+/m', '', $expected );
 			$expected = str_replace( 'IF NOT EXISTS ', '', $expected );
 
+			$expected = strtolower( $expected );
+			$actual = strtolower( $actual );
+
 			$unit->assertEquals( $expected, $actual, 'Database table for ' . $version . ' ' . $table . ' does not match' );
 		}
 
@@ -295,7 +298,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	public function testGetUpgradesForSameVersion() {
 		$database = new Red_Database();
 		$upgrades = $database->get_upgrades_for_version( '2.2', false );
-		$this->assertEquals( 6, count( $upgrades ) );
+		$this->assertEquals( 7, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
@@ -312,6 +315,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$tester = new DatabaseTester();
 
 		$versions = array(
+			'4.2', // => 4.3
 			'4.0', // => 4.1
 			'3.9', // => 4.0
 			'2.3.4', // => 2.4
