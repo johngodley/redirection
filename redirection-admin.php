@@ -199,7 +199,7 @@ class Redirection_Admin {
 			'WordPress: ' . $wp_version . ' (' . ( is_multisite() ? 'multi' : 'single' ) . ')',
 			'PHP: ' . phpversion(),
 			'Browser: ' . Redirection_Request::get_user_agent(),
-			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js',
+			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . $build,
 			'REST API: ' . red_get_rest_api(),
 		);
 
