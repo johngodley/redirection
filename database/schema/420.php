@@ -44,6 +44,8 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	}
 
 	protected function convert_404_url_to_text( $wpdb ) {
+		// Same as log table
+		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` DROP INDEX `url`" );
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` CHANGE COLUMN `url` `url` MEDIUMTEXT NOT NULL" );
 	}
 }

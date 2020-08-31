@@ -254,7 +254,6 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 			`ip` VARCHAR(45) DEFAULT NULL,
 			PRIMARY KEY (`id`),
 			KEY `created` (`created`),
-			KEY `url` (`url`(191)),
 			KEY `referrer` (`referrer`(191)),
 			KEY `ip` (`ip`)
 	  	) $charset_collate";
