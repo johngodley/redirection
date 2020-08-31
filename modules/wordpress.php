@@ -1,21 +1,74 @@
 <?php
 
+/**
+ * WordPress redirect module.
+ *
+ * Provides PHP controlled redirects and monitoring and is the core of the front-end redirection.
+ */
 class WordPress_Module extends Red_Module {
+	/**
+	 * @var integer
+	 */
 	const MODULE_ID = 1;
 
-	private $matched = false;
+	/**
+	 * Can we log?
+	 *
+	 * @var boolean
+	 */
 	private $can_log = true;
+
+	/**
+	 * The target redirect URL
+	 *
+	 * @var string|false
+	 */
 	private $redirect_url = false;
+
+	/**
+	 * The target redirect code
+	 *
+	 * @var integer
+	 */
 	private $redirect_code = 0;
 
+	/**
+	 * Copy of redirects that match the requested URL
+	 *
+	 * @var Red_Item[]
+	 */
+	private $redirects = [];
+
+	/**
+	 * Matched redirect
+	 *
+	 * @var Red_Item|null
+	 */
+	private $matched = null;
+
+	/**
+	 * Return the module ID
+	 *
+	 * @return integer
+	 */
 	public function get_id() {
 		return self::MODULE_ID;
 	}
 
+	/**
+	 * Return the module name
+	 *
+	 * @return string
+	 */
 	public function get_name() {
 		return 'WordPress';
 	}
 
+	/**
+	 * Start the module. Hooks any filters and actions
+	 *
+	 * @return void
+	 */
 	public function start() {
 		// Only run redirect rules if we're not disabled
 		if ( ! red_is_disabled() ) {
@@ -50,6 +103,12 @@ class WordPress_Module extends Red_Module {
 		add_filter( 'x_redirect_by', [ $this, 'record_redirect_by' ], 90 );
 	}
 
+	/**
+	 * Back-compatability for Redirection databases older than 4.2. Prevents errors from storing data that has no DB column
+	 *
+	 * @param array $insert Data to log.
+	 * @return array
+	 */
 	public function log_back_compat( $insert ) {
 		// Remove columns not supported in older versions
 		$status = new Red_Database_Status();
@@ -62,9 +121,13 @@ class WordPress_Module extends Red_Module {
 		return $insert;
 	}
 
-	/*
+	/**
 	 * This ensures that a matched URL is not overriddden by WordPress, if the URL happens to be a WordPress URL of some kind
 	 * For example: /?author=1 will be redirected to /author/name unless this returns false
+	 *
+	 * @param String $redirect_url The redirected URL.
+	 * @param String $requested_url The requested URL.
+	 * @return String|false
 	 */
 	public function redirect_canonical( $redirect_url, $requested_url ) {
 		if ( $this->matched ) {
@@ -74,6 +137,11 @@ class WordPress_Module extends Red_Module {
 		return $redirect_url;
 	}
 
+	/**
+	 * WordPress 'template_redirect' hook. Used to check for 404s
+	 *
+	 * @return void
+	 */
 	public function template_redirect() {
 		if ( ! is_404() || $this->matched ) {
 			return;
@@ -128,12 +196,24 @@ class WordPress_Module extends Red_Module {
 		return $redirect->match->get_type() === 'page';
 	}
 
-	// Return true to stop further processing of the 'do nothing'
+	/**
+	 * Called by a 'do nothing' action. Return true to stop further processing of the 'do nothing'
+	 *
+	 * @return boolean
+	 */
 	public function redirection_do_nothing() {
 		$this->can_log = false;
 		return true;
 	}
 
+	/**
+	 * Action fired when a redirect is performed, and used to log the data
+	 *
+	 * @param Red_Item $redirect The redirect.
+	 * @param String   $url The source URL.
+	 * @param String   $target The target URL.
+	 * @return void
+	 */
 	public function redirection_visit( $redirect, $url, $target ) {
 		$redirect->visit( $url, $target );
 	}
@@ -166,7 +246,9 @@ class WordPress_Module extends Red_Module {
 	}
 
 	/**
-	 * This is the key to Redirection and where requests are matched to redirects
+	 * Redirection 'main loop'. Checks the currently requested URL against the database and perform a redirect, if necessary.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		if ( $this->matched ) {
@@ -199,6 +281,12 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
+	/**
+	 * Fix for incorrect headers sent when using FastCGI/IIS
+	 *
+	 * @param String $status HTTP status line.
+	 * @return String
+	 */
 	public function status_header( $status ) {
 		// Fix for incorrect headers sent when using FastCGI/IIS
 		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' ) {
@@ -208,6 +296,12 @@ class WordPress_Module extends Red_Module {
 		return $status;
 	}
 
+	/**
+	 * Add any custom HTTP headers to the response.
+	 *
+	 * @param array $obj Some object.
+	 * @return void
+	 */
 	public function send_headers( $obj ) {
 		if ( ! empty( $this->matched ) && $this->matched->action->get_code() === 410 ) {
 			add_filter( 'status_header', [ $this, 'set_header_410' ] );
@@ -219,11 +313,21 @@ class WordPress_Module extends Red_Module {
 		$headers->run( $headers->get_site_headers() );
 	}
 
+	/**
+	 * Add support for a 410 response.
+	 *
+	 * @return String
+	 */
 	public function set_header_410() {
 		return 'HTTP/1.1 410 Gone';
 	}
 
-	// Don't know if this is still needed
+	/**
+	 * IIS fix. Don't know if this is still needed
+	 *
+	 * @param String $url URL.
+	 * @return void
+	 */
 	private function iis_fix( $url ) {
 		global $is_IIS;
 
@@ -233,7 +337,13 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
-	// Don't know if this is still needed
+	/**
+	 * Don't know if this is still needed
+	 *
+	 * @param String  $url URL.
+	 * @param integer $status HTTP status code.
+	 * @return void
+	 */
 	private function cgi_fix( $url, $status ) {
 		if ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = [ 'lighttpd', 'nginx' ];
@@ -248,6 +358,11 @@ class WordPress_Module extends Red_Module {
 		}
 	}
 
+	/**
+	 * Get a 'source' for a redirect by digging through the backtrace.
+	 *
+	 * @return string[]
+	 */
 	private function get_redirect_source() {
 		$ignore = [
 			'WP_Hook',
@@ -269,6 +384,12 @@ class WordPress_Module extends Red_Module {
 		} );
 	}
 
+	/**
+	 * Record a redirect.
+	 *
+	 * @param String $agent Redirect agent.
+	 * @return string
+	 */
 	public function record_redirect_by( $agent ) {
 		// Have we already redirected with Redirection?
 		if ( $this->matched || $agent === 'redirection' ) {
