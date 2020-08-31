@@ -98,10 +98,8 @@ class RestApiStatus extends React.Component {
 	getApiStatusText( status ) {
 		if ( status === STATUS_OK ) {
 			return __( 'Good' );
-		} else if ( status === STATUS_WARNING_CURRENT ) {
+		} else if ( status === STATUS_WARNING || status === STATUS_WARNING_CURRENT ) {
 			return __( 'Working but some issues' );
-		} else if ( status === STATUS_WARNING ) {
-			return __( 'Not working but fixable' );
 		}
 
 		return __( 'Unavailable' );
@@ -114,7 +112,7 @@ class RestApiStatus extends React.Component {
 	canShowProblem( status ) {
 		const { showing } = this.state;
 
-		return showing || status === STATUS_FAIL || status === STATUS_WARNING;
+		return showing || status === STATUS_FAIL;
 	}
 
 	renderError( status ) {
@@ -123,8 +121,6 @@ class RestApiStatus extends React.Component {
 
 		if ( status === STATUS_FAIL ) {
 			message = __( 'Your REST API is not working and the plugin will not be able to continue until this is fixed.' );
-		} else if ( status === STATUS_WARNING ) {
-			message = __( 'You are using a broken REST API route. Changing to a working API should fix the problem.' );
 		}
 
 		return (
@@ -146,8 +142,8 @@ class RestApiStatus extends React.Component {
 		const statusClass = classnames( {
 			'api-result-status': true,
 			'api-result-status_good': status === STATUS_OK && percent >= 100,
-			'api-result-status_problem': status === STATUS_WARNING_CURRENT && percent >= 100,
-			'api-result-status_failed': ( status === STATUS_FAIL || status === STATUS_WARNING ) && percent >= 100,
+			'api-result-status_problem': ( status === STATUS_WARNING_CURRENT && STATUS_WARNING ) && percent >= 100,
+			'api-result-status_failed': status === STATUS_FAIL && percent >= 100,
 		} );
 
 		return (

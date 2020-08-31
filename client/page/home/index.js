@@ -20,7 +20,7 @@ import DebugReport from './debug';
 import ErrorDetails from './error-details';
 import CrashHandler from './crash-handler';
 import PageContent from './page-content';
-import getErrorLinks from 'lib/error-links';
+import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import CacheDetect from './cache-detect';
 import { clearErrors, clearNotices } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
@@ -84,10 +84,24 @@ const getMenu = () =>
 		( option ) => has_page_access( option.value ) || ( option.value === '' && has_page_access( 'redirect' ) )
 	);
 
-const ALLOWED_PAGES = [ 'redirect' ].concat( getMenu().slice( 1 ).map( ( page ) => ( page.value ) ) );
+const ALLOWED_PAGES = [ 'redirect' ].concat(
+	getMenu()
+		.slice( 1 )
+		.map( ( page ) => page.value )
+);
 
 function Home( props ) {
-	const { onClearErrors, errors, onClearNotices, notices, onAdd, databaseStatus, onShowUpgrade, showDatabase, result } = props;
+	const {
+		onClearErrors,
+		errors,
+		onClearNotices,
+		notices,
+		onAdd,
+		databaseStatus,
+		onShowUpgrade,
+		showDatabase,
+		result,
+	} = props;
 	const [ page, setPage ] = useState( getPluginPage( ALLOWED_PAGES ) );
 
 	function changePage( page ) {
@@ -115,13 +129,7 @@ function Home( props ) {
 	}
 
 	if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
-		return (
-			<DatabaseUpdate
-				onShowUpgrade={ onShowUpgrade }
-				showDatabase={ showDatabase }
-				result={ result }
-			/>
-		);
+		return <DatabaseUpdate onShowUpgrade={ onShowUpgrade } showDatabase={ showDatabase } result={ result } />;
 	}
 
 	return (
@@ -155,7 +163,7 @@ function Home( props ) {
 						errors={ errors }
 						onClear={ onClearErrors }
 						renderDebug={ DebugReport }
-						versions={ Redirectioni10n.versions + '\nQuery: ' + document.location.search }
+						details={ getErrorDetails() }
 						links={ getErrorLinks() }
 					>
 						<ErrorDetails />

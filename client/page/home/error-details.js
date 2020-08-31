@@ -11,7 +11,7 @@ import { translate as __ } from 'i18n-calypso';
 
 import { ExternalLink } from 'wp-plugin-components';
 import RestApiStatus from 'component/rest-api-status';
-import getErrorLinks from 'lib/error-links';
+import { getErrorLinks } from 'lib/error-links';
 
 function ErrorDetails() {
 	return (

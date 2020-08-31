@@ -11,14 +11,15 @@ import * as parseUrl from 'url';
 /**
  * Internal dependencies
  */
-import ExternalLink from 'wp-plugin-components/external-link';
+import { ExternalLink, Error } from 'wp-plugin-components';
 import Database from 'component/database';
 import RestApiStatus from 'component/rest-api-status';
-import getErrorLinks from 'lib/error-links';
-//import { getApiUrl, setApiUrl } from 'lib/api';
+import { getErrorLinks, getErrorDetails } from 'lib/error-links';
+import DebugReport from 'page/home/debug';
 import { saveSettings, finishUpgrade } from 'state/settings/action';
 import { pluginImport } from 'state/io/action';
 import { STATUS_FAILED } from 'state/settings/type';
+import apiFetch from 'wp-plugin-lib/api-fetch';
 import './style.scss';
 
 const IMPORTER_WP = 'wordpress-old-slugs';
@@ -40,25 +41,25 @@ class WelcomeWizard extends React.Component {
 			log: false,
 			ip: false,
 			manual: false,
-			importers: props.importers.find( item => item.id === IMPORTER_WP ) ? [ IMPORTER_WP ] : [],
+			importers: props.importers.find( ( item ) => item.id === IMPORTER_WP ) ? [ IMPORTER_WP ] : [],
 		};
 	}
 
-	nextStep = ev => {
+	nextStep = ( ev ) => {
 		const nextStage = this.state.step + 1;
 
 		ev.preventDefault();
 		this.performActionForStep( nextStage );
 		this.setState( { step: nextStage } );
-	}
+	};
 
-	prevStep = ev => {
+	prevStep = ( ev ) => {
 		const nextStage = this.state.step - 1;
 
 		ev.preventDefault();
 		this.performActionForStep( nextStage );
 		this.setState( { step: nextStage } );
-	}
+	};
 
 	// Returns the best API route (the one with a valid GET and POST), in order they are defined. If nothing is valid, return the default
 	getFirstApi() {
@@ -76,16 +77,22 @@ class WelcomeWizard extends React.Component {
 		return 0;
 	}
 
-	startManual = ev => {
+	startManual = ( ev ) => {
 		ev.preventDefault();
-		this.saveSettings();
-		this.setState( { manual: true } );
-	}
 
-	stopManual = ev => {
+		const api = this.getFirstApi();
+		if ( Redirectioni10n.api.routes[ api ] ) {
+			apiFetch.replaceRootURLMiddleware( Redirectioni10n.api.routes[ api ] );
+		}
+
+		this.saveSettings();
+		this.setState( { manual: true, step: STEP_DATABASE } );
+	};
+
+	stopManual = ( ev ) => {
 		ev.preventDefault();
 		this.setState( { manual: false } );
-	}
+	};
 
 	saveSettings() {
 		const { ip, log, monitor } = this.state;
@@ -109,16 +116,16 @@ class WelcomeWizard extends React.Component {
 		} else {
 			this.props.onFinishInstall();
 		}
-	}
+	};
 
-	performActionForStep = stage => {
+	performActionForStep = ( stage ) => {
 		if ( stage === STEP_DATABASE ) {
 			// Set the API to the best
 			const api = this.getFirstApi();
 
 			// Set our REST API route
 			if ( Redirectioni10n.api.routes[ api ] ) {
-				setApiUrl( Redirectioni10n.api.routes[ api ] );
+				apiFetch.replaceRootURLMiddleware( Redirectioni10n.api.routes[ api ] );
 			}
 		} else if ( stage === STEP_IMPORTING ) {
 			if ( this.state.importers.length > 0 ) {
@@ -129,9 +136,9 @@ class WelcomeWizard extends React.Component {
 				this.props.onFinishInstall();
 			}
 		}
-	}
+	};
 
-	onChange = ev => {
+	onChange = ( ev ) => {
 		const state = { [ ev.target.name ]: ev.target.checked };
 
 		if ( ev.target.name === 'log' && ! ev.target.checked ) {
@@ -139,77 +146,127 @@ class WelcomeWizard extends React.Component {
 		}
 
 		this.setState( state );
-	}
+	};
 
 	renderStep0() {
 		return (
 			<>
 				<h2>{ __( 'Welcome to Redirection 🚀🎉' ) }</h2>
 
-				<p>{ __( 'Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.', {
-					args: {
-						version: Redirectioni10n.version,
-					},
-				} ) }</p>
-				<p>{ __( 'Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.' ) }</p>
+				<p>
+					{ __(
+						'Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.',
+						{
+							args: {
+								version: Redirectioni10n.version,
+							},
+						}
+					) }
+				</p>
+				<p>
+					{ __(
+						'Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects.'
+					) }
+				</p>
 
 				<h3>{ __( 'How do I use this plugin?' ) }</h3>
-				<p>{ __( 'A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here\'s an example:', {
-					components: {
-						strong: <strong />,
-					},
-				} ) }</p>
+				<p>
+					{ __(
+						"A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:",
+						{
+							components: {
+								strong: <strong />,
+							},
+						}
+					) }
+				</p>
 
 				<table className="redirect-edit">
 					<tbody>
 						<tr>
 							<th>{ __( 'Source URL' ) }:</th>
-							<td><input type="text" className="regular-text" readOnly value={ __( '(Example) The source URL is your old or original URL' ) } /></td>
+							<td>
+								<input
+									type="text"
+									className="regular-text"
+									readOnly
+									value={ __( '(Example) The source URL is your old or original URL' ) }
+								/>
+							</td>
 						</tr>
 						<tr>
 							<th>{ __( 'Target URL' ) }:</th>
-							<td><input type="text" className="regular-text" readOnly value={ __( '(Example) The target URL is the new URL' ) } /></td>
+							<td>
+								<input
+									type="text"
+									className="regular-text"
+									readOnly
+									value={ __( '(Example) The target URL is the new URL' ) }
+								/>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 
-				<p>{ __( "That's all there is to it - you are now redirecting! Note that the above is just an example." ) }</p>
-				<p>{ __( 'Full documentation can be found on the {{link}}Redirection website.{{/link}}', {
-					components: {
-						link: <ExternalLink url="https://redirection.me/support/" />,
-					},
-				} ) }</p>
+				<p>
+					{ __(
+						"That's all there is to it - you are now redirecting! Note that the above is just an example."
+					) }
+				</p>
+				<p>
+					{ __( 'Full documentation can be found on the {{link}}Redirection website.{{/link}}', {
+						components: {
+							link: <ExternalLink url="https://redirection.me/support/" />,
+						},
+					} ) }
+				</p>
 
 				<h3>{ __( 'Some features you may find useful are' ) }:</h3>
 
 				<ul>
-					<li>{ __( '{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems', {
-						components: {
-							link: <ExternalLink url="https://redirection.me/support/tracking-404-errors/" />,
-						},
-					} ) }
+					<li>
+						{ __(
+							'{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems',
+							{
+								components: {
+									link: <ExternalLink url="https://redirection.me/support/tracking-404-errors/" />,
+								},
+							}
+						) }
 					</li>
-					<li>{ __( '{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins', {
-						components: {
-							link: <ExternalLink url="https://redirection.me/support/import-export-redirects/" />,
-						},
-					} ) }</li>
-					<li>{ __( 'More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}', {
-						components: {
-							regular: <ExternalLink url="https://redirection.me/support/redirect-regular-expressions/" />,
-							other: <ExternalLink url="https://redirection.me/support/matching-redirects/" />,
-						},
-					} ) }
+					<li>
+						{ __( '{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins', {
+							components: {
+								link: <ExternalLink url="https://redirection.me/support/import-export-redirects/" />,
+							},
+						} ) }
+					</li>
+					<li>
+						{ __(
+							'More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}',
+							{
+								components: {
+									regular: (
+										<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/" />
+									),
+									other: <ExternalLink url="https://redirection.me/support/matching-redirects/" />,
+								},
+							}
+						) }
 					</li>
 					<li>{ __( 'Check a URL is being redirected' ) }</li>
 				</ul>
 
 				<h3>{ __( "What's next?" ) }</h3>
-				<p>{ __( 'First you will be asked a few questions, and then Redirection will set up your database.' ) }</p>
+				<p>
+					{ __( 'First you will be asked a few questions, and then Redirection will set up your database.' ) }
+				</p>
 				<p>{ __( 'When ready please press the button to continue.' ) }</p>
 
 				<div className="wizard-buttons">
-					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Start Setup' ) }</button>
+					<button className="button-primary button" onClick={ this.nextStep }>
+						{ __( 'Start Setup' ) }
+					</button>
 				</div>
 			</>
 		);
@@ -225,9 +282,17 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'These are some options you may want to enable now. They can be changed at any time.' ) }</p>
 
 				<div className="wizard-option">
-					<p><label><input name="monitor" type="checkbox" checked={ monitor } onChange={ this.onChange } /> { __( 'Monitor permalink changes in WordPress posts and pages' ) }.</label></p>
 					<p>
-						{ __( 'If you change the permalink in a post or page then Redirection can automatically create a redirect for you.' ) }&nbsp;
+						<label>
+							<input name="monitor" type="checkbox" checked={ monitor } onChange={ this.onChange } />{' '}
+							{ __( 'Monitor permalink changes in WordPress posts and pages' ) }.
+						</label>
+					</p>
+					<p>
+						{ __(
+							'If you change the permalink in a post or page then Redirection can automatically create a redirect for you.'
+						) }
+						&nbsp;
 						{ __( '{{link}}Read more about this.{{/link}}', {
 							components: {
 								link: <ExternalLink url="https://redirection.me/support/options/#monitor" />,
@@ -237,9 +302,17 @@ class WelcomeWizard extends React.Component {
 				</div>
 
 				<div className="wizard-option">
-					<p><label><input name="log" type="checkbox" checked={ log } onChange={ this.onChange } /> { __( 'Keep a log of all redirects and 404 errors.' ) }</label></p>
 					<p>
-						{ __( 'Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements.' ) }&nbsp;
+						<label>
+							<input name="log" type="checkbox" checked={ log } onChange={ this.onChange } />{' '}
+							{ __( 'Keep a log of all redirects and 404 errors.' ) }
+						</label>
+					</p>
+					<p>
+						{ __(
+							'Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements.'
+						) }
+						&nbsp;
 						{ __( '{{link}}Read more about this.{{/link}}', {
 							components: {
 								link: <ExternalLink url="https://redirection.me/support/logs/" />,
@@ -249,9 +322,23 @@ class WelcomeWizard extends React.Component {
 				</div>
 
 				<div className={ log ? 'wizard-option' : 'wizard-option wizard-option_disabled' }>
-					<p><label><input name="ip" type="checkbox" disabled={ ! log } checked={ ip } onChange={ this.onChange } /> { __( 'Store IP information for redirects and 404 errors.' ) }</label></p>
 					<p>
-						{ __( 'Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR).' ) }&nbsp;
+						<label>
+							<input
+								name="ip"
+								type="checkbox"
+								disabled={ ! log }
+								checked={ ip }
+								onChange={ this.onChange }
+							/>{' '}
+							{ __( 'Store IP information for redirects and 404 errors.' ) }
+						</label>
+					</p>
+					<p>
+						{ __(
+							'Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR).'
+						) }
+						&nbsp;
 						{ __( '{{link}}Read more about this.{{/link}}', {
 							components: {
 								link: <ExternalLink url="https://redirection.me/support/privacy-gdpr/" />,
@@ -261,15 +348,20 @@ class WelcomeWizard extends React.Component {
 				</div>
 
 				<div className="wizard-buttons">
-					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Continue Setup' ) }</button> &nbsp;
-					<button className="button" onClick={ this.prevStep }>{ __( 'Go back' ) }</button>
+					<button className="button-primary button" onClick={ this.nextStep }>
+						{ __( 'Continue Setup' ) }
+					</button>{' '}
+					&nbsp;
+					<button className="button" onClick={ this.prevStep }>
+						{ __( 'Go back' ) }
+					</button>
 				</div>
 			</>
 		);
 	}
 
 	renderStep2() {
-		const api = parseUrl.parse( getApiUrl() );
+		const api = parseUrl.parse( Redirectioni10n.api.WP_API_root );
 		const home = parseUrl.parse( Redirectioni10n.pluginBaseUrl );
 		const warning = api.protocol !== home.protocol || api.host !== home.host;
 
@@ -278,11 +370,14 @@ class WelcomeWizard extends React.Component {
 				<h2>{ __( 'REST API' ) }</h2>
 
 				<p>
-					{ __( 'Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:', {
-						components: {
-							link: <ExternalLink url="https://developer.wordpress.org/rest-api/" />,
-						},
-					} ) }
+					{ __(
+						'Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:',
+						{
+							components: {
+								link: <ExternalLink url="https://developer.wordpress.org/rest-api/" />,
+							},
+						}
+					) }
 				</p>
 
 				<ul>
@@ -292,25 +387,43 @@ class WelcomeWizard extends React.Component {
 					<li>{ __( 'Some other plugin that blocks the REST API' ) }</li>
 				</ul>
 
-				<p>{ __( 'If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}.', {
-					components: {
-						link: <ExternalLink url="https://redirection.me/support/problems/rest-api/" />,
-					},
-				} ) }</p>
+				<p>
+					{ __(
+						'If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}.',
+						{
+							components: {
+								link: <ExternalLink url="https://redirection.me/support/problems/rest-api/" />,
+							},
+						}
+					) }
+				</p>
 
-				{ warning && <div className="wpl-error">
-					{ __( 'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.' ) }
-					<p><code>{ api.protocol + '//' + api.host }</code></p>
-					<p><code>{ home.protocol + '//' + home.host }</code></p>
-				</div> }
+				{ warning && (
+					<div className="wpl-error">
+						{ __(
+							'You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings.'
+						) }
+						<p>
+							<code>{ api.protocol + '//' + api.host }</code>
+						</p>
+						<p>
+							<code>{ home.protocol + '//' + home.host }</code>
+						</p>
+					</div>
+				) }
 
 				<RestApiStatus allowChange={ false } />
 
 				<p>{ __( 'You will need at least one working REST API to continue.' ) }</p>
 
 				<div className="wizard-buttons">
-					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Finish Setup' ) }</button> &nbsp;
-					<button className="button" onClick={ this.prevStep }>{ __( 'Go back' ) }</button>
+					<button className="button-primary button" onClick={ this.nextStep }>
+						{ __( 'Finish Setup' ) }
+					</button>{' '}
+					&nbsp;
+					<button className="button" onClick={ this.prevStep }>
+						{ __( 'Go back' ) }
+					</button>
 				</div>
 			</>
 		);
@@ -322,21 +435,37 @@ class WelcomeWizard extends React.Component {
 
 	renderStep4() {
 		const { importers } = this.state;
-		const wpImport = this.props.importers.find( item => item.id === IMPORTER_WP );
-		const otherImporters = this.props.importers.filter( item => item.id !== IMPORTER_WP );
+		const wpImport = this.props.importers.find( ( item ) => item.id === IMPORTER_WP );
+		const otherImporters = this.props.importers.filter( ( item ) => item.id !== IMPORTER_WP );
 
 		return (
 			<div>
 				<h2>{ __( 'Import Existing Redirects' ) }</h2>
 
-				<p>{ __( 'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.' ) }</p>
+				<p>
+					{ __(
+						'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.'
+					) }
+				</p>
 
 				{ wpImport && (
 					<>
-						<p>{ __( 'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.' ) }</p>
+						<p>
+							{ __(
+								'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.'
+							) }
+						</p>
 						<ul>
 							<li>
-								<label><input type="checkbox" name={ IMPORTER_WP } onChange={ this.onImporter } checked={ importers.indexOf( IMPORTER_WP ) !== -1 } /> { wpImport.name } ({ wpImport.total })</label>
+								<label>
+									<input
+										type="checkbox"
+										name={ IMPORTER_WP }
+										onChange={ this.onImporter }
+										checked={ importers.indexOf( IMPORTER_WP ) !== -1 }
+									/>{' '}
+									{ wpImport.name } ({ wpImport.total })
+								</label>
 							</li>
 						</ul>
 					</>
@@ -346,10 +475,16 @@ class WelcomeWizard extends React.Component {
 					<>
 						<p>{ __( 'The following plugins have been detected.' ) }</p>
 						<ul>
-							{ otherImporters.map( item => (
+							{ otherImporters.map( ( item ) => (
 								<li key={ item.id }>
 									<label>
-										<input type="checkbox" name={ item.id } onChange={ this.onImporter } checked={ importers.indexOf( item.id ) !== -1 } /> { item.name } ({ item.total })
+										<input
+											type="checkbox"
+											name={ item.id }
+											onChange={ this.onImporter }
+											checked={ importers.indexOf( item.id ) !== -1 }
+										/>{' '}
+										{ item.name } ({ item.total })
 									</label>
 								</li>
 							) ) }
@@ -358,7 +493,9 @@ class WelcomeWizard extends React.Component {
 				) }
 
 				<div className="wizard-buttons">
-					<button className="button-primary button" onClick={ this.nextStep }>{ __( 'Continue' ) }</button>
+					<button className="button-primary button" onClick={ this.nextStep }>
+						{ __( 'Continue' ) }
+					</button>
 				</div>
 			</div>
 		);
@@ -372,7 +509,7 @@ class WelcomeWizard extends React.Component {
 				<p>{ __( 'Please wait, importing.' ) }</p>
 
 				<div className="loader-wrapper loader-textarea">
-					<div className="wpl-placeholder__loading"></div>
+					<div className="wpl-placeholder__loading" />
 				</div>
 			</div>
 		);
@@ -380,10 +517,12 @@ class WelcomeWizard extends React.Component {
 
 	onImporter = ( { target } ) => {
 		const { importers } = this.state;
-		const changed = target.checked ? importers.concat( target.name ) : importers.filter( item => item !== target.name );
+		const changed = target.checked
+			? importers.concat( target.name )
+			: importers.filter( ( item ) => item !== target.name );
 
 		this.setState( { importers: changed } );
-	}
+	};
 
 	getContentForStep( step ) {
 		if ( step === STEP_IMPORT ) {
@@ -403,25 +542,51 @@ class WelcomeWizard extends React.Component {
 
 	render() {
 		const { step, manual } = this.state;
-		const { result } = this.props;
+		const { result, reason } = this.props;
 		const content = this.getContentForStep( step );
 
 		return (
 			<>
-				{ result === STATUS_FAILED && <Error links={ getErrorLinks() } /> }
+				{ result === STATUS_FAILED && (
+					<Error
+						details={ getErrorDetails() }
+						errors={ reason }
+						renderDebug={ DebugReport }
+						links={ getErrorLinks() }
+					>
+						{ __( 'Something went wrong when installing Redirection.' ) }
+					</Error>
+				) }
 
 				<div className="wizard-wrapper">
 					{ step !== 0 && step !== 3 && <h1>{ __( 'Redirection' ) }</h1> }
 
-					<div className="wizard">
-						{ content }
-					</div>
+					<div className="wizard">{ content }</div>
 				</div>
 
 				<div className="wizard-support">
-					<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!' ) }</ExternalLink>
-					{ step === 2 && <> | <a href="#" onClick={ this.startManual }>{ __( 'Manual Install' ) }</a></>}
-					{ step === 3 && manual && <> | <a href="#" onClick={ this.stopManual }>{ __( 'Automatic Install' ) }</a></>}
+					<ExternalLink url="https://redirection.me/contact/">
+						{ __( 'I need support!' ) }
+					</ExternalLink>
+
+					{ step === 2 && (
+						<>
+							{' '}
+							|{' '}
+							<a href="#" onClick={ this.startManual }>
+								{ __( 'Manual Install' ) }
+							</a>
+						</>
+					) }
+					{ step === 3 && manual && (
+						<>
+							{' '}
+							|{' '}
+							<a href="#" onClick={ this.stopManual }>
+								{ __( 'Automatic Install' ) }
+							</a>
+						</>
+					) }
 				</div>
 			</>
 		);
@@ -429,8 +594,8 @@ class WelcomeWizard extends React.Component {
 }
 
 function mapStateToProps( state ) {
+	const { apiTest, database } = state.settings;
 	const { result } = state.settings.database;
-	const { apiTest } = state.settings;
 	const { importers, importingStatus } = state.io;
 
 	return {
@@ -438,15 +603,16 @@ function mapStateToProps( state ) {
 		apiTest,
 		importers,
 		importingStatus,
+		reason: database.reason,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onSaveSettings: settings => {
+		onSaveSettings: ( settings ) => {
 			dispatch( saveSettings( settings ) );
 		},
-		onImport: importers => {
+		onImport: ( importers ) => {
 			dispatch( pluginImport( importers ) );
 		},
 		onFinishInstall: () => {

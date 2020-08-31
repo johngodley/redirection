@@ -13,27 +13,17 @@ import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from './debug';
 
 function CrashHandler( stack, errorInfo, extra ) {
-	const debug = [
-		Redirectioni10n.versions,
-		'Query: ' + document.location.search,
-		'Buster: ' + REDIRECTION_VERSION + ' === ' + Redirectioni10n.version,
-		'',
-		stack ? stack : '',
-	];
-
-	if ( errorInfo ) {
-		debug.push( errorInfo.componentStack );
-	}
-
 	return (
 		<Error
-			errors={ [ debug.join( '\n' ) ] }
+			errors={ '' }
 			renderDebug={ DebugReport }
 			type="fixed"
 			links={ getErrorLinks() }
+			details={ getErrorDetails().concat( [ stack, errorInfo ? errorInfo.componentStack : '' ] ) }
 		>
 			<p>
-				{ __( 'Redirection is not working. Try clearing your browser cache and reloading this page.' ) } &nbsp;
+				{ __( 'Redirection is not working. Try clearing your browser cache and reloading this page.' ) }{' '}
+				&nbsp;
 				{ __(
 					'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.'
 				) }

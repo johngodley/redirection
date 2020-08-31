@@ -16,6 +16,8 @@ import Database from 'component/database';
 import { ExternalLink, Error } from 'wp-plugin-components';
 import { STATUS_FAILED } from 'state/settings/type';
 import { fixStatus } from 'state/settings/action';
+import { getErrorLinks, getErrorDetails } from 'lib/error-links';
+import DebugReport from 'page/home/debug';
 
 function getUpgradeNotice() {
 	const { current, next } = Redirectioni10n.database;
@@ -80,13 +82,22 @@ class NeedUpdate extends React.Component {
 	}
 
 	render() {
-		const { showDatabase, result } = this.props;
+		const { showDatabase, result, reason } = this.props;
 		const { showManual } = this.state;
 
 		if ( showDatabase ) {
 			return (
 				<>
-					{ result === STATUS_FAILED && <Error /> }
+					{ result === STATUS_FAILED && (
+						<Error
+							details={ getErrorDetails() }
+							errors={ reason }
+							renderDebug={ DebugReport }
+							links={ getErrorLinks() }
+						>
+							{ __( 'Something went wrong when upgrading Redirection.' ) }
+						</Error>
+					) }
 
 					<div className="wizard-wrapper">
 						<div className="wizard">
@@ -132,7 +143,16 @@ function mapDispatchToProps( dispatch ) {
 		},
 	};
 }
+
+function mapStateToProps( state ) {
+	const { database } = state.settings;
+
+	return {
+		reason: database.reason,
+	};
+}
+
 export default connect(
-	null,
-	mapDispatchToProps,
+	mapStateToProps,
+	mapDispatchToProps
 )( NeedUpdate );
