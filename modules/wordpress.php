@@ -155,7 +155,7 @@ class WordPress_Module extends Red_Module {
 
 		$options = red_get_options();
 
-		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && apply_filters( 'redirection_log_404', $this->can_log ) ) {
+		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && $this->can_log() ) {
 			$details = [
 				'agent' => Redirection_Request::get_user_agent(),
 				'referrer' => Redirection_Request::get_referrer(),
@@ -282,7 +282,6 @@ class WordPress_Module extends Red_Module {
 	 * @return String
 	 */
 	public function status_header( $status ) {
-		// Fix for incorrect headers sent when using FastCGI/IIS
 		if ( substr( php_sapi_name(), 0, 3 ) === 'cgi' ) {
 			return str_replace( 'HTTP/1.1', 'Status:', $status );
 		}
@@ -420,13 +419,18 @@ class WordPress_Module extends Red_Module {
 		return $agent;
 	}
 
+	/**
+	 * Perform any pre-redirect processing, such as logging and header fixing.
+	 *
+	 * @param String  $url Target URL.
+	 * @param integer $status HTTP status.
+	 * @return string
+	 */
 	public function wp_redirect( $url, $status = 302 ) {
 		global $wp_version;
 
 		$this->redirect_url = $url;
 		$this->redirect_code = $status;
-
-		$options = red_get_options();
 
 		$this->iis_fix( $url );
 		$this->cgi_fix( $url, $status );
@@ -436,6 +440,8 @@ class WordPress_Module extends Red_Module {
 			nocache_headers();
 			return $url;
 		}
+
+		$options = red_get_options();
 
 		// Do we need to set the cache header?
 		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 && intval( $status, 10 ) === 301 ) {
@@ -453,17 +459,23 @@ class WordPress_Module extends Red_Module {
 		return $url;
 	}
 
-	public function update( array $data ) {
-		return false;
-	}
-
-	protected function load( $options ) {
-	}
-
-	protected function flush_module() {
-	}
-
-	public function reset() {
+	/**
+	 * Reset the module. Used for unit tests
+	 *
+	 * @param Red_Item|null $matched Set the `matched` var.
+	 * @return void
+	 */
+	public function reset( $matched = null ) {
 		$this->can_log = true;
+		$this->matched = $matched;
+	}
+
+	/**
+	 * Can we log a redirect?
+	 *
+	 * @return boolean
+	 */
+	public function can_log() {
+		return apply_filters( 'redirection_log_404', $this->can_log );
 	}
 }
