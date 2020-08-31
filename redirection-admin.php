@@ -611,7 +611,7 @@ add_action( 'init', array( 'Redirection_Admin', 'init' ) );
 add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {
 	$url = Redirection_Request::get_request_url();
 
-	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, 'index.php?rest_route' ) !== false ) {
+	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, '?rest_route' ) !== false ) {
 		return false;
 	}
 
