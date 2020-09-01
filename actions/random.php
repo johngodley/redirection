@@ -8,7 +8,7 @@ class Random_Action extends Url_Action {
 		global $wpdb;
 
 		$id = $wpdb->get_var( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_status='publish' AND post_password='' AND post_type='post' ORDER BY RAND() LIMIT 0,1" );
-		return str_replace( get_bloginfo( 'url' ), '', get_permalink( $id ) );
+		return get_permalink( $id );
 	}
 
 	public function process_after( $code, $target ) {
@@ -16,6 +16,6 @@ class Random_Action extends Url_Action {
 	}
 
 	public function needs_target() {
-		return true;
+		return false;
 	}
 }
