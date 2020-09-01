@@ -37,7 +37,7 @@ export const getGroup = ( args ) => ( dispatch, getState ) =>
 	processRequest( RedirectionApi.group.list, dispatch, STATUS_GROUP, args, getState().group );
 export const setOrderBy = ( orderby, direction ) => getGroup( { orderby, direction } );
 export const setPage = ( page ) => getGroup( { page } );
-export const setFilter = ( filterBy ) => getGroup( { filterBy, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getGroup( { filterBy, page: 0 } );
 export const setSelected = ( items ) => ( { type: GROUP_SET_SELECTED, items } );
 export const setTable = ( table ) => getGroup( table );
 export const setDisplay = ( displayType, displaySelected ) => ( {
