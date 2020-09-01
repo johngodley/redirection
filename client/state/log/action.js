@@ -37,7 +37,7 @@ export const loadLogs = ( params = {} ) => getLogs( params );
 
 export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, direction } );
 export const setPage = ( page ) => getLogs( { page } );
-export const setFilter = ( filterBy ) => getLogs( { filterBy, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getLogs( { filterBy, page: 0 } );
 export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
 export const setSelected = ( items ) => ( { type: LOG_SET_SELECTED, items } );
 export const setTable = ( table ) => getLogs( table );

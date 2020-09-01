@@ -39,7 +39,7 @@ export const getRedirect = ( args ) => ( dispatch, getState ) =>
 	processRequest( RedirectionApi.redirect.list, dispatch, STATUS_REDIRECT, args, getState().redirect );
 export const setOrderBy = ( orderby, direction ) => getRedirect( { orderby, direction } );
 export const setPage = ( page ) => getRedirect( { page } );
-export const setFilter = ( filterBy ) => getRedirect( { filterBy, orderby: '', page: 0 } );
+export const setFilter = ( filterBy ) => getRedirect( { filterBy, page: 0 } );
 export const setSelected = ( items ) => ( { type: REDIRECT_SET_SELECTED, items } );
 export const addToTop = ( onoff ) => ( { type: REDIRECT_ADD_TOP, onoff } );
 export const setTable = ( table ) => getRedirect( table );
