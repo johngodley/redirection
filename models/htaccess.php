@@ -237,7 +237,7 @@ class Red_Htaccess {
 		$options = red_get_options();
 		if ( $options['https'] ) {
 			$text[] = 'RewriteCond %{HTTPS} off';
-			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}';
+			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 		}
 
 		// Add redirects
