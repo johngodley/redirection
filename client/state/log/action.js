@@ -42,7 +42,7 @@ export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, 
 export const setSelected = ( items ) => ( { type: LOG_SET_SELECTED, items } );
 export const setTable = ( table ) => getLogs( table );
 export const setGroupBy = ( groupBy ) =>
-	getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc', filterBy: {} } );
+	getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc' } );
 export const setDisplay = ( displayType, displaySelected ) => ( {
 	type: LOG_DISPLAY_SET,
 	displayType,
