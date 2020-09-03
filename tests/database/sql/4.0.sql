@@ -6,7 +6,7 @@ CREATE TABLE `{$prefix}redirection_items` (
 	`regex` int(11) unsigned NOT NULL DEFAULT '0',
 	`position` int(11) unsigned NOT NULL DEFAULT '0',
 	`last_count` int(10) unsigned NOT NULL DEFAULT '0',
-	`last_access` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`last_access` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
 	`group_id` int(11) NOT NULL DEFAULT '0',
 	`status` enum('enabled','disabled') COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'enabled',
 	`action_type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL,
