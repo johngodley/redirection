@@ -1,11 +1,11 @@
 /* global Redirectioni10n */
 
 export function has_capability( cap ) {
-	return Redirectioni10n.caps.capabilities.indexOf( cap ) !== -1;
+	return Redirectioni10n?.caps?.capabilities.indexOf( cap ) !== -1;
 }
 
 export function has_page_access( page ) {
-	return Redirectioni10n.caps.pages.indexOf( page ) !== -1;
+	return Redirectioni10n?.caps?.pages.indexOf( page ) !== -1;
 }
 
 export const CAP_REDIRECT_MANAGE = 'redirection_cap_redirect_manage';

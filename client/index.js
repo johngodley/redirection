@@ -27,8 +27,7 @@ const show = ( dom ) => {
 	ReactDOM.render( <App />, document.getElementById( dom ) );
 };
 
-if ( document.querySelector( '#react-ui' ) ) {
+if ( document.querySelector( '#react-ui' ) && Redirectioni10n ) {
 	show( 'react-ui' );
+	window.redirection = Redirectioni10n.version;
 }
-
-window.redirection = Redirectioni10n.version;
