@@ -37,7 +37,7 @@ class Red_Item {
 		}
 
 		$this->regex = (bool) $this->regex;
-		$this->last_access = $this->last_access === '0000-00-00 00:00:00' ? 0 : mysql2date( 'U', $this->last_access );
+		$this->last_access = ( $this->last_access === '1970-01-01 00:00:00' || $this->last_access === '0000-00-00 00:00:00' ) ? 0 : mysql2date( 'U', $this->last_access );
 
 		$this->load_matcher();
 		$this->load_action();
@@ -404,7 +404,7 @@ class Red_Item {
 		global $wpdb;
 
 		$this->last_count  = 0;
-		$this->last_access = '0000-00-00 00:00:00';
+		$this->last_access = '1970-01-01 00:00:00';
 
 		$update = [
 			'last_count' => 0,
@@ -519,7 +519,7 @@ class Red_Item {
 		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
-		return $wpdb->query( "UPDATE {$wpdb->prefix}redirection_items SET last_count=0, last_access='0000-00-00 00:00:00' $where" );
+		return $wpdb->query( "UPDATE {$wpdb->prefix}redirection_items SET last_count=0, last_access='1970-01-01 00:00:00' $where" );
 	}
 
 	public static function set_status_all( $status, array $params ) {

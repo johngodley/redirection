@@ -40,7 +40,7 @@ class Red_Item_Filters {
 				} elseif ( $filter === 'month' ) {
 					$this->filters[] = 'last_access < DATE_SUB(NOW(),INTERVAL 1 MONTH)';
 				} else {
-					$this->filters[] = "last_access = '0000-00-00 00:00:00'";
+					$this->filters[] = "( last_access < '1970-01-01 00:00:01' )";
 				}
 			} elseif ( $filter_by === 'url' ) {
 				$this->filters[] = $wpdb->prepare( 'url LIKE %s', '%' . $wpdb->esc_like( $filter ) . '%' );

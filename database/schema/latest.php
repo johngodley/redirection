@@ -186,7 +186,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 			`regex` INT(11) unsigned NOT NULL DEFAULT '0',
 			`position` INT(11) unsigned NOT NULL DEFAULT '0',
 			`last_count` INT(10) unsigned NOT NULL DEFAULT '0',
-			`last_access` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			`last_access` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
 			`group_id` INT(11) NOT NULL DEFAULT '0',
 			`status` enum('enabled','disabled') NOT NULL DEFAULT 'enabled',
 			`action_type` VARCHAR(20) NOT NULL,
