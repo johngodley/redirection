@@ -240,6 +240,10 @@ msgstr "Código HTTP de estado"
 msgid "Plain"
 msgstr "Plano"
 
+#: redirection-strings.php:546
+msgid "URL match"
+msgstr "Coincidencia de URL"
+
 #: redirection-strings.php:528
 msgid "Source"
 msgstr "Fuente"
@@ -382,10 +386,6 @@ msgstr "Normalmente, esto es corregido haciendo algo de lo siguiente:"
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
 msgstr "No estás autorizado para acceder a esta página."
-
-#: redirection-strings.php:546
-msgid "URL match"
-msgstr "Coincidencia de URL"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -1726,6 +1726,14 @@ msgstr "Posición"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Se usa para generar automáticamente una URL si no se ofrece una URL. Utiliza las etiquetas especiales {{code}}$dec${{/code}} o {{code}}$hex${{/code}} para insertar un ID único insertado"
 
+#: redirection-strings.php:449
+msgid "I'd like to support some more."
+msgstr "Me gustaría dar algo más de apoyo."
+
+#: redirection-strings.php:452
+msgid "Support 💰"
+msgstr "Soporte 💰"
+
 #: redirection-strings.php:325
 msgid "Import to group"
 msgstr "Importar a grupo"
@@ -1821,14 +1829,6 @@ msgstr "Errores 404"
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
 msgstr "Por favor, menciona {{code}}%s{{/code}}, y explica lo que estabas haciendo en ese momento"
-
-#: redirection-strings.php:449
-msgid "I'd like to support some more."
-msgstr "Me gustaría dar algo más de apoyo."
-
-#: redirection-strings.php:452
-msgid "Support 💰"
-msgstr "Soporte 💰"
 
 #: redirection-strings.php:254
 msgid "Redirection saved"

@@ -221,4 +221,4 @@ function potGenerate() {
 exports.svn = svn;
 exports.version = version;
 exports.plugin = plugin;
-exports.pot = series( potJson );
+exports.pot = series( potDownload, potExtract, potGenerate, potJson );

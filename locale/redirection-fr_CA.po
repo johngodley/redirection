@@ -240,6 +240,10 @@ msgstr "Code d’état HTTP"
 msgid "Plain"
 msgstr "Plein"
 
+#: redirection-strings.php:546
+msgid "URL match"
+msgstr "Correspondance URL"
+
 #: redirection-strings.php:528
 msgid "Source"
 msgstr "Source"
@@ -382,10 +386,6 @@ msgstr "Ce problème est généralement corrigé par l’une de ces mesures :"
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
 msgstr "Vous n’êtes pas autorisé à accéder à cette page."
-
-#: redirection-strings.php:546
-msgid "URL match"
-msgstr "Correspondance URL"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -1726,6 +1726,14 @@ msgstr "Position"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr ""
 
+#: redirection-strings.php:449
+msgid "I'd like to support some more."
+msgstr "Je voudrais soutenir un peu plus."
+
+#: redirection-strings.php:452
+msgid "Support 💰"
+msgstr ""
+
 #: redirection-strings.php:325
 msgid "Import to group"
 msgstr "Importer dans le groupe"
@@ -1820,14 +1828,6 @@ msgstr "Erreurs 404"
 
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
-msgstr ""
-
-#: redirection-strings.php:449
-msgid "I'd like to support some more."
-msgstr "Je voudrais soutenir un peu plus."
-
-#: redirection-strings.php:452
-msgid "Support 💰"
 msgstr ""
 
 #: redirection-strings.php:254

@@ -240,6 +240,10 @@ msgstr ""
 msgid "Plain"
 msgstr ""
 
+#: redirection-strings.php:546
+msgid "URL match"
+msgstr ""
+
 #: redirection-strings.php:528
 msgid "Source"
 msgstr ""
@@ -381,10 +385,6 @@ msgstr ""
 
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
-msgstr ""
-
-#: redirection-strings.php:546
-msgid "URL match"
 msgstr ""
 
 #: redirection-strings.php:4
@@ -1726,6 +1726,14 @@ msgstr "Позиция"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Используется для автоматического создания URL-адреса, если URL-адрес не указан. Используйте специальные теги {{code}} $ dec $ {{code}} или {{code}} $ hex $ {{/ code}}, чтобы вместо этого вставить уникальный идентификатор"
 
+#: redirection-strings.php:449
+msgid "I'd like to support some more."
+msgstr "Мне хотелось бы поддержать чуть больше."
+
+#: redirection-strings.php:452
+msgid "Support 💰"
+msgstr "Поддержка 💰"
+
 #: redirection-strings.php:325
 msgid "Import to group"
 msgstr "Импорт в группу"
@@ -1821,14 +1829,6 @@ msgstr "404 ошибки"
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
 msgstr "Пожалуйста, укажите {{code}} %s {{/code}}, и объясните, что вы делали в то время"
-
-#: redirection-strings.php:449
-msgid "I'd like to support some more."
-msgstr "Мне хотелось бы поддержать чуть больше."
-
-#: redirection-strings.php:452
-msgid "Support 💰"
-msgstr "Поддержка 💰"
 
 #: redirection-strings.php:254
 msgid "Redirection saved"

@@ -240,6 +240,10 @@ msgstr "HTTP statusni kôd"
 msgid "Plain"
 msgstr "Obična"
 
+#: redirection-strings.php:546
+msgid "URL match"
+msgstr "Usporedba URL-a"
+
 #: redirection-strings.php:528
 msgid "Source"
 msgstr "Izvor"
@@ -382,10 +386,6 @@ msgstr "Ovo je obično moguće popraviti na jedan od ovih načina:"
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
 msgstr "NIste ovlašteni za pristup ovoj stranici."
-
-#: redirection-strings.php:546
-msgid "URL match"
-msgstr "Usporedba URL-a"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -1726,6 +1726,14 @@ msgstr "Pozicija"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr ""
 
+#: redirection-strings.php:449
+msgid "I'd like to support some more."
+msgstr "Želim dodatno podržati."
+
+#: redirection-strings.php:452
+msgid "Support 💰"
+msgstr "Podrška 💰"
+
 #: redirection-strings.php:325
 msgid "Import to group"
 msgstr "Importirajte u grupu"
@@ -1821,14 +1829,6 @@ msgstr "404 pogreške"
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
 msgstr "Navedite {{code}}%s{{/code}}, i pojasnite što ste točno radili"
-
-#: redirection-strings.php:449
-msgid "I'd like to support some more."
-msgstr "Želim dodatno podržati."
-
-#: redirection-strings.php:452
-msgid "Support 💰"
-msgstr "Podrška 💰"
 
 #: redirection-strings.php:254
 msgid "Redirection saved"

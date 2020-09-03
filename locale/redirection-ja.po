@@ -240,6 +240,10 @@ msgstr "HTTP ステータスコード"
 msgid "Plain"
 msgstr "基本"
 
+#: redirection-strings.php:546
+msgid "URL match"
+msgstr "URL 一致"
+
 #: redirection-strings.php:528
 msgid "Source"
 msgstr "ソース"
@@ -382,10 +386,6 @@ msgstr "この問題は次のうちの一つを行うことで解決する場合
 #: redirection-strings.php:40
 msgid "You are not authorised to access this page."
 msgstr "このページにアクセスする権限がありません。"
-
-#: redirection-strings.php:546
-msgid "URL match"
-msgstr "URL 一致"
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
@@ -1728,6 +1728,14 @@ msgstr "位置"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "URL が指定されていない場合に URL を自動生成するために使用されます。{{code}}$dec${{/code}} もしくは {{code}}$hex${{/code}} のような特別なタグが一意の ID を作るために挿入されます。"
 
+#: redirection-strings.php:449
+msgid "I'd like to support some more."
+msgstr "もっとサポートがしたいです。"
+
+#: redirection-strings.php:452
+msgid "Support 💰"
+msgstr "サポート💰"
+
 #: redirection-strings.php:325
 msgid "Import to group"
 msgstr "グループにインポート"
@@ -1823,14 +1831,6 @@ msgstr "404 エラー"
 #: redirection-strings.php:321
 msgid "Please mention {{code}}%s{{/code}}, and explain what you were doing at the time"
 msgstr "{{code}}%s{{/code}} をメンションし、何をしたかの説明をお願いします"
-
-#: redirection-strings.php:449
-msgid "I'd like to support some more."
-msgstr "もっとサポートがしたいです。"
-
-#: redirection-strings.php:452
-msgid "Support 💰"
-msgstr "サポート💰"
 
 #: redirection-strings.php:254
 msgid "Redirection saved"
