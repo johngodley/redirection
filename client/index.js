@@ -17,7 +17,7 @@ import App from './app';
 
 const show = ( dom ) => {
 	// sigh
-	document.querySelector( '.jquery-migrate-deprecation-notice' ).remove();
+	document.querySelector( '.jquery-migrate-deprecation-notice' ) && document.querySelector( '.jquery-migrate-deprecation-notice' ).remove();
 
 	i18n.setLocale( {
 		'': { localeSlug: Redirectioni10n.locale.localeSlug, 'Plural-Forms': Redirectioni10n.locale.plurals },
