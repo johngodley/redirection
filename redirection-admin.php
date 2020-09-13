@@ -246,7 +246,7 @@ class Redirection_Admin {
 			'locale' => [
 				'translations' => $translations,
 				'localeSlug' => get_locale(),
-				'plurals' => isset( $translations['plural-forms'] ) ? $translations['plural-forms'] : 'nplurals=2; plural=n != 1;',
+				'Plural-Forms' => isset( $translations['plural-forms'] ) ? $translations['plural-forms'] : 'nplurals=2; plural=n != 1;',
 			],
 			'settings' => $options,
 			'preload' => $preload,
@@ -369,7 +369,7 @@ class Redirection_Admin {
 			$locale_data = @file_get_contents( $i18n_json );
 
 			if ( $locale_data ) {
-				return json_decode( $locale_data );
+				return json_decode( $locale_data, true );
 			}
 		}
 

@@ -17,11 +17,10 @@ import App from './app';
 
 const show = ( dom ) => {
 	// sigh
-	document.querySelector( '.jquery-migrate-deprecation-notice' ) && document.querySelector( '.jquery-migrate-deprecation-notice' ).remove();
+	document.querySelector( '.jquery-migrate-deprecation-notice' ) &&
+		document.querySelector( '.jquery-migrate-deprecation-notice' ).remove();
 
-	i18n.setLocale( {
-		'': { localeSlug: Redirectioni10n.locale.localeSlug, 'Plural-Forms': Redirectioni10n.locale.plurals },
-	} );
+	i18n.setLocale( { '': Redirectioni10n.locale } );
 	i18n.addTranslations( Redirectioni10n.locale.translations );
 
 	ReactDOM.render( <App />, document.getElementById( dom ) );
