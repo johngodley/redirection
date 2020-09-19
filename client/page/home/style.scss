@@ -112,7 +112,7 @@
 }
 
 /* Some plugins hide .notice - ensure our stuff always shows */
-.notice {
+.notice:not(.hidden) {
 	display: block !important;
 }
 
