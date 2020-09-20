@@ -228,7 +228,7 @@ class WordPress_Module extends Red_Module {
 		}
 
 		// Force HTTPS or www
-		return $canonical->get_redirect( Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+		return $canonical->get_redirect( Redirection_Request::get_request_server_name(), Redirection_Request::get_request_url() );
 	}
 
 	/**

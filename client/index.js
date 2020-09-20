@@ -16,10 +16,6 @@ import i18n from 'i18n-calypso';
 import App from './app';
 
 const show = ( dom ) => {
-	// sigh
-	document.querySelector( '.jquery-migrate-deprecation-notice' ) &&
-		document.querySelector( '.jquery-migrate-deprecation-notice' ).remove();
-
 	i18n.setLocale( { '': Redirectioni10n.locale } );
 	i18n.addTranslations( Redirectioni10n.locale.translations );
 

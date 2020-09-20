@@ -34,18 +34,34 @@ class Redirection_Request {
 		return apply_filters( 'redirection_request_method', $method );
 	}
 
+	/**
+	 * Get the server name (from $_SERVER['SERVER_NAME]), or use the request name ($_SERVER['HTTP_HOST']) if not present
+	 *
+	 * @return string
+	 */
 	public static function get_server_name() {
-		$host = '';
-
-		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-			$host = $_SERVER['HTTP_HOST'];
-		}
+		$host = self::get_request_server_name();
 
 		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
 			$host = $_SERVER['SERVER_NAME'];
 		}
 
 		return apply_filters( 'redirection_request_server', $host );
+	}
+
+	/**
+	 * Get the request server name (from $_SERVER['HTTP_HOST])
+	 *
+	 * @return string
+	 */
+	public static function get_request_server_name() {
+		$host = '';
+
+		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+			$host = $_SERVER['HTTP_HOST'];
+		}
+
+		return apply_filters( 'redirection_request_server_host', $host );
 	}
 
 	public static function get_server() {
