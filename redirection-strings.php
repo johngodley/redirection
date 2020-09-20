@@ -733,7 +733,7 @@ __( "Unable to make request due to browser security. This is typically because y
 __( "Read this REST API guide for more information.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:217
 __( "Bad data", "redirection" ), // client/wp-plugin-components/error/display/error-api.js:17
 __( "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request.", "redirection" ), // client/wp-plugin-components/error/display/error-api.js:19
-__( "Plrease review your data and try again.", "redirection" ), // client/wp-plugin-components/error/display/error-api.js:20
+__( "Please review your data and try again.", "redirection" ), // client/wp-plugin-components/error/display/error-api.js:20
 __( "Something went wrong 🙁", "redirection" ), // client/wp-plugin-components/error/display/error-default.js:22
 __( "Something went wrong 🙁", "redirection" ), // client/wp-plugin-components/error/display/error-fixed.js:19
 __( "Something went wrong 🙁", "redirection" ), // client/wp-plugin-components/error/display/error-known.js:26

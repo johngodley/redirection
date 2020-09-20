@@ -53,11 +53,13 @@ Logs can be exported for external viewing, and can be searched and filtered for 
 
 Display geographic information about an IP address, as well as a full user agent information, to try and understand who the visitor is.
 
-You are able to disable or reduce IP collection to meet the legal requirements of your geographic region.
+You are able to disable or reduce IP collection to meet the legal requirements of your geographic region, and can change the amount of information captured from the bare minimum to HTTP headers.
+
+You can also log any redirect happening on your site, including those performed outside of Redirection.
 
 = Add HTTP headers =
 
-HTTP headers can be adder to redirects or your entire site that help reduce the impact of redirects or help increase security. You can also add your own custom headers.
+HTTP headers can be added to redirects or your entire site that help reduce the impact of redirects or help increase security. You can also add your own custom headers.
 
 = Track 404 errors =
 
@@ -168,6 +170,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 4.7 =
 * Requires minimum PHP 5.6+. Do not upgrade if you are still using PHP < 5.6
 
+= 4.9 =
+* Alters database to support enhanced logging. Please backup your data
+
 == Changelog ==
 
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
@@ -180,6 +185,7 @@ An x.1 version increase introduces new or updated features and can be considered
 * Logging is now optional per redirect rule
 * Fix random action on a site with non-root URL
 * Fix group and search being reset when searching
+* Fix canonical alias not using request server name
 
 = 4.8 - May 23 2020 =
 * Add importer for Quick Post/Page Redirects plugin
@@ -721,13 +727,8 @@ An x.1 version increase introduces new or updated features and can be considered
 * Fix order of redirects, thanks to Nicolas Hatier
 
 = 2.2.10 =
-* Fix XSS in referrers log
-
-= 2.2.9 =
-* Fix XSS in admin menu
+* Fix XSS in admin menu & referrers log
 * Update Russian translation, thanks to Alexey Pazdnikov
-
-= 2.2.8 and earlier =
 * Add Romanian translation, thanks to Alina
 * Add Greek, thanks to Stefanos Kofopoulos
 * Better database compatibility
@@ -751,13 +752,10 @@ An x.1 version increase introduces new or updated features and can be considered
 * Correct DB install
 * Install defaults when no existing redirection setup
 * Fix problem with custom post types auto-redirecting (click on 'groups' and then 'modified posts' and clear any entries for '/' from your list)
-* WP 3.0 compatibility
 * Database optimization
 * Add patch to disable logs (thanks to Simon Wheatley!)
-* Pre WP2.8 compatibility fix
 * Fix for some users with problems deleting redirections
 * Fix group edit and log add entry
-* WP2.8 compatibility
 * Disable category monitoring
 * Fix 'you do not permissions' error on some non-English sites
 * Fix category change 'quick edit'

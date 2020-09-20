@@ -2267,7 +2267,7 @@ msgid "There was a problem making a request to your site. This could indicate yo
 msgstr ""
 
 #: redirection-strings.php:736
-msgid "Plrease review your data and try again."
+msgid "Please review your data and try again."
 msgstr ""
 
 #: redirection-strings.php:737, redirection-strings.php:738, redirection-strings.php:739

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-08-01 18:22:41+0000\n"
+"PO-Revision-Date: 2020-09-07 15:20:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -276,7 +276,7 @@ msgstr "Användaragent för sökning"
 
 #: redirection-strings.php:375 redirection-strings.php:416
 msgid "Search referrer"
-msgstr "Sök referrer"
+msgstr "Sök hänvisningsadress"
 
 #: redirection-strings.php:374 redirection-strings.php:415
 #: redirection-strings.php:556
@@ -421,7 +421,7 @@ msgstr "Om du inte slutför den manuella installationen kommer du att komma till
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
-msgstr "Klicka på ”Klart! 🎉 \" när du är klar."
+msgstr "Klicka på ”Klart! 🎉” när du är klar."
 
 #: redirection-strings.php:14 redirection-strings.php:295
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
@@ -635,7 +635,7 @@ msgstr "REST-API:et cachelagras. Rensa alla tillägg för cachelagring och event
 
 #: redirection-strings.php:142
 msgid "URL options / Regex"
-msgstr "URL-alternativ / Regex"
+msgstr "URL-alternativ/Regex"
 
 #: redirection-strings.php:358
 msgid "Export 404"
@@ -647,7 +647,7 @@ msgstr "Exportera omdirigering"
 
 #: redirection-strings.php:150
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
-msgstr "WordPress-permalänkstrukturer fungerar inte i vanliga URL:er. Använd ett vanligt uttryck."
+msgstr "WordPress-permalänkstrukturer fungerar inte i vanliga URL:er. Använd ett reguljärt uttryck (regex)."
 
 #: redirection-strings.php:504
 msgid "Pass - as ignore, but also copies the query parameters to the target"
@@ -777,7 +777,7 @@ msgstr "Slutför inställning"
 
 #: redirection-strings.php:238
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
-msgstr "Du har olika webbadresser konfigurerade på sidan WordPress-inställningar > Allmänt, något som vanligtvis pekar på en felkonfiguration, och även kan orsaka problem med REST-API:et. Konrollera dina inställningar."
+msgstr "Du har olika webbadresser konfigurerade på sidan WordPress-inställningar > Allmänt, något som vanligtvis pekar på en felkonfiguration, och även kan orsaka problem med REST-API:et. Kontrollera dina inställningar."
 
 #: redirection-strings.php:237
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
@@ -906,7 +906,7 @@ msgstr "För att förhindra ett alltför aggressivt reguljärt uttryck kan du an
 
 #: redirection-strings.php:149
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
-msgstr "Kom ihåg att aktivera alternativet ”regex” om detta är ett reguljärt uttryck."
+msgstr "Kom ihåg att aktivera alternativet ”Reguljärt uttryck” om detta är ett reguljärt uttryck."
 
 #: redirection-strings.php:148
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
@@ -1056,11 +1056,11 @@ msgstr "Gör ingenting (ignorera)"
 
 #: redirection-strings.php:607 redirection-strings.php:611
 msgid "Target URL when not matched (empty to ignore)"
-msgstr "URL-mål när den inte matchas (tom för att ignorera)"
+msgstr "Mål-URL när den inte matchas (tom för att ignorera)"
 
 #: redirection-strings.php:605 redirection-strings.php:609
 msgid "Target URL when matched (empty to ignore)"
-msgstr "URL-mål vid matchning (tom för att ignorera)"
+msgstr "Mål-URL vid matchning (tom för att ignorera)"
 
 #: redirection-strings.php:425 redirection-strings.php:430
 msgid "Show All"
@@ -1080,11 +1080,11 @@ msgstr "Ta bort loggposter"
 
 #: redirection-strings.php:407
 msgid "Group by IP"
-msgstr "Grupp efter IP"
+msgstr "Gruppera efter IP"
 
 #: redirection-strings.php:406
 msgid "Group by URL"
-msgstr "Grupp efter URL"
+msgstr "Gruppera efter URL"
 
 #: redirection-strings.php:405
 msgid "No grouping"
@@ -1210,7 +1210,7 @@ msgstr "Roll"
 
 #: redirection-strings.php:641
 msgid "Match against this browser referrer text"
-msgstr "Matcha mot denna referrer-sträng från webbläsaren"
+msgstr "Matcha mot denna hänvisnings-sträng från webbläsaren"
 
 #: redirection-strings.php:614
 msgid "Match against this browser user agent"
@@ -1918,7 +1918,7 @@ msgstr "Visa meddelande"
 
 #: redirection-strings.php:47 redirection-strings.php:317
 msgid "Something went wrong 🙁"
-msgstr "Något gick fel 🙁"
+msgstr "Något gick snett 🙁"
 
 #. translators: maximum number of log entries
 #: redirection-admin.php:208
@@ -2184,7 +2184,7 @@ msgstr "Grupp"
 
 #: redirection-strings.php:547
 msgid "Regular Expression"
-msgstr "Vanligt uttryck"
+msgstr "Reguljärt uttryck (Regex)"
 
 #: redirection-strings.php:136
 msgid "Match"
