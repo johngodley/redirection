@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-07-27 08:26:08+0000\n"
+"PO-Revision-Date: 2020-10-02 13:57:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr ""
 
 #: redirection-strings.php:680
 msgid "Relocate to domain"
-msgstr ""
+msgstr "ドメインに引っ越し"
 
 #: redirection-strings.php:679
 msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
@@ -21,19 +21,19 @@ msgstr ""
 
 #: redirection-strings.php:678
 msgid "Relocate Site"
-msgstr ""
+msgstr "サイトを引っ越し"
 
 #: redirection-strings.php:671
 msgid "Add CORS Presets"
-msgstr ""
+msgstr "CORS プリセットを追加"
 
 #: redirection-strings.php:670
 msgid "Add Security Presets"
-msgstr ""
+msgstr "セキュリティプリセットを追加"
 
 #: redirection-strings.php:669
 msgid "Add Header"
-msgstr ""
+msgstr "ヘッダーを追加"
 
 #: redirection-strings.php:664
 msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: redirection-strings.php:663
 msgid "Preferred domain"
-msgstr ""
+msgstr "優先ドメイン"
 
 #: redirection-strings.php:662
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
@@ -49,7 +49,7 @@ msgstr ""
 
 #: redirection-strings.php:661
 msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
-msgstr ""
+msgstr "HTTP から HTTPS へのリダイレクトを強制 - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
 
 #: redirection-strings.php:660
 msgid "Canonical Settings"
@@ -57,7 +57,7 @@ msgstr "カノニカル設定"
 
 #: redirection-strings.php:659
 msgid "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
-msgstr ""
+msgstr "www をドメインに追加 - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
 
 #: redirection-strings.php:658
 msgid "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
@@ -65,11 +65,11 @@ msgstr ""
 
 #: redirection-strings.php:657
 msgid "Don't set a preferred domain - {{code}}%(site)s{{/code}}"
-msgstr ""
+msgstr "優先ドメインを設定しない - {{code}}%(site)s{{/code}}"
 
 #: redirection-strings.php:656
 msgid "Add Alias"
-msgstr ""
+msgstr "エイリアスを追加"
 
 #: redirection-strings.php:655
 msgid "No aliases"
@@ -81,11 +81,11 @@ msgstr "エイリアス"
 
 #: redirection-strings.php:653
 msgid "Aliased Domain"
-msgstr ""
+msgstr "エイリアスされたドメイン"
 
 #: redirection-strings.php:652
 msgid "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install."
-msgstr ""
+msgstr "この WordPress のインストールにこれらのドメインの要求を渡すシステム (DNS とサーバー) を構成する必要があります。"
 
 #: redirection-strings.php:651
 msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
@@ -109,7 +109,7 @@ msgstr ""
 
 #: redirection-strings.php:248
 msgid "Please wait, importing."
-msgstr ""
+msgstr "お待ち下さい。インポート中です。"
 
 #: redirection-strings.php:246
 msgid "Continue"
@@ -117,7 +117,7 @@ msgstr "次へ"
 
 #: redirection-strings.php:245
 msgid "The following plugins have been detected."
-msgstr ""
+msgstr "次のプラグインが検出されました。"
 
 #: redirection-strings.php:244
 msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
@@ -165,7 +165,7 @@ msgstr "ヘッダー"
 
 #: redirection-strings.php:674
 msgid "Location"
-msgstr "場所"
+msgstr "地域"
 
 #: redirection-strings.php:673
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
@@ -210,11 +210,11 @@ msgstr "クエリーを無視"
 
 #: redirection-strings.php:569
 msgid "Exact Query"
-msgstr ""
+msgstr "完全一致クエリー"
 
 #: redirection-strings.php:558
 msgid "Search title"
-msgstr ""
+msgstr "タイトル検索"
 
 #: redirection-strings.php:555
 msgid "Not accessed in last year"
@@ -255,16 +255,16 @@ msgstr "コード"
 #: redirection-strings.php:518 redirection-strings.php:539
 #: redirection-strings.php:550
 msgid "Action Type"
-msgstr ""
+msgstr "操作タイプ"
 
 #: redirection-strings.php:517 redirection-strings.php:534
 #: redirection-strings.php:549
 msgid "Match Type"
-msgstr ""
+msgstr "一致タイプ"
 
 #: redirection-strings.php:378 redirection-strings.php:557
 msgid "Search target URL"
-msgstr ""
+msgstr "検索対象 URL"
 
 #: redirection-strings.php:377 redirection-strings.php:418
 msgid "Search IP"
@@ -317,7 +317,7 @@ msgstr "事前定義済み"
 
 #: redirection-strings.php:186
 msgid "Custom Display"
-msgstr "カスタム表示"
+msgstr "手動インストール"
 
 #: redirection-strings.php:185
 msgid "Display All"
@@ -329,7 +329,7 @@ msgstr ""
 
 #: redirection-strings.php:636
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
+msgstr "一致させる言語のコンマ区切りリスト (例: da, en-GB)"
 
 #: redirection-strings.php:635
 msgid "Language"
@@ -369,7 +369,7 @@ msgstr ""
 
 #: redirection-strings.php:44
 msgid "Your admin pages are being cached. Clear this cache and try again."
-msgstr ""
+msgstr "管理ページがキャッシュされています。このキャッシュをクリアして、もう一度やり直してください。"
 
 #: redirection-strings.php:43
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
@@ -393,7 +393,7 @@ msgstr ""
 
 #: redirection-strings.php:509
 msgid "Unable to save .htaccess file"
-msgstr ""
+msgstr ".htaccess ファイルを保存できません"
 
 #: redirection-strings.php:508
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
@@ -401,15 +401,15 @@ msgstr ""
 
 #: redirection-strings.php:296
 msgid "Click \"Complete Upgrade\" when finished."
-msgstr ""
+msgstr "終了後、「アップグレード完了」をクリックしてください。"
 
 #: redirection-strings.php:252
 msgid "Automatic Install"
-msgstr ""
+msgstr "自動インストール"
 
 #: redirection-strings.php:155
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
-msgstr ""
+msgstr "ターゲット URL に無効な文字 {{code}}%(invalid)s{{/code}} が含まれています"
 
 #: redirection-strings.php:52
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
@@ -417,11 +417,11 @@ msgstr ""
 
 #: redirection-strings.php:17
 msgid "If you do not complete the manual install you will be returned here."
-msgstr ""
+msgstr "手動インストールを完了しない場合は、ここに戻ります。"
 
 #: redirection-strings.php:15
 msgid "Click \"Finished! 🎉\" when finished."
-msgstr ""
+msgstr "完了後、「完了 !🎉”」をクリックしてください。"
 
 #: redirection-strings.php:14 redirection-strings.php:295
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
@@ -473,7 +473,7 @@ msgstr "CSV には一部の情報しか含まれず、すべてのインポー�
 
 #: redirection-strings.php:342
 msgid "All imports will be appended to the current database - nothing is merged."
-msgstr ""
+msgstr "すべてのインポートは現在のデータベースに追加されます。何もマージはされません。"
 
 #: redirection-strings.php:304
 msgid "Automatic Upgrade"
@@ -509,7 +509,7 @@ msgstr "サポートが必要です。"
 
 #: redirection-strings.php:239
 msgid "You will need at least one working REST API to continue."
-msgstr ""
+msgstr "続行するには、少なくとも1つの動作している REST API が必要です。"
 
 #: redirection-strings.php:173
 msgid "Check Again"
@@ -533,7 +533,7 @@ msgstr ""
 
 #: redirection-strings.php:168
 msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
-msgstr ""
+msgstr "REST API が動作していないため、この問題が修正されるまでプラグインを続行できません。"
 
 #: redirection-strings.php:167
 msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
@@ -557,7 +557,7 @@ msgstr "現在の API"
 
 #: redirection-strings.php:161
 msgid "Switch to this API"
-msgstr ""
+msgstr "この API に切り替える"
 
 #: redirection-strings.php:160
 msgid "Hide"
@@ -597,7 +597,7 @@ msgstr "{{strong}} 問題点を報告する {{/strong}} か {{strong}} メール
 
 #: redirection-strings.php:46 redirection-strings.php:53
 msgid "That didn't help"
-msgstr ""
+msgstr "役に立ちませんでした"
 
 #: redirection-strings.php:48
 msgid "What do I do next?"
@@ -605,7 +605,7 @@ msgstr "次はどうすればいいですか ?"
 
 #: redirection-strings.php:33
 msgid "Possible cause"
-msgstr ""
+msgstr "考えられる原因"
 
 #: redirection-strings.php:32
 msgid "WordPress returned an unexpected message. This is probably a PHP error from another plugin."
@@ -621,7 +621,7 @@ msgstr ""
 
 #: redirection-strings.php:24
 msgid "Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests."
-msgstr ""
+msgstr "REST API がセキュリティプラグインによってブロックされている可能性があります。無効化するか、REST API 要求を許可するように設定してください。"
 
 #: redirection-strings.php:23 redirection-strings.php:25
 #: redirection-strings.php:27 redirection-strings.php:30
@@ -639,11 +639,11 @@ msgstr "URL オプション / 正規表現"
 
 #: redirection-strings.php:358
 msgid "Export 404"
-msgstr ""
+msgstr "エクスポート404"
 
 #: redirection-strings.php:357
 msgid "Export redirect"
-msgstr ""
+msgstr "リダイレクトをエクスポート"
 
 #: redirection-strings.php:150
 msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
@@ -651,19 +651,19 @@ msgstr ""
 
 #: redirection-strings.php:504
 msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr ""
+msgstr "パス - 無視する。ただし、クエリーパラメータをターゲットにコピーもする"
 
 #: redirection-strings.php:503
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr ""
+msgstr "無視 - 完全一致。ただしソースにないクエリーパラメータは無視"
 
 #: redirection-strings.php:502
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
-msgstr ""
+msgstr "完全 - ソースで定義されたクエリーパラメータと任意の順序で一致させる"
 
 #: redirection-strings.php:500
 msgid "Default query matching"
-msgstr "デフォルトのクエリーマッチ"
+msgstr "デフォルトのクエリー一致"
 
 #: redirection-strings.php:499
 msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
@@ -675,7 +675,7 @@ msgstr ""
 
 #: redirection-strings.php:497 redirection-strings.php:501
 msgid "Applies to all redirections unless you configure them otherwise."
-msgstr ""
+msgstr "特に設定しない限り、すべてのリダイレクトに適用されます。"
 
 #: redirection-strings.php:496
 msgid "Default URL settings"
@@ -695,11 +695,11 @@ msgstr "完全一致"
 
 #: redirection-strings.php:235
 msgid "Caching software (e.g Cloudflare)"
-msgstr ""
+msgstr "キャッシュソフトウェア (例: Cloudflare)"
 
 #: redirection-strings.php:233
 msgid "A security plugin (e.g Wordfence)"
-msgstr ""
+msgstr "セキュリティプラグイン (例: Wordfence)"
 
 #: redirection-strings.php:529
 msgid "URL options"
@@ -719,7 +719,7 @@ msgstr "すべてのパラメータを無視"
 
 #: redirection-strings.php:127
 msgid "Exact match all parameters in any order"
-msgstr ""
+msgstr "すべてのパラメータを任意の順序で完全に一致させる"
 
 #: redirection-strings.php:126
 msgid "Ignore Case"
@@ -727,11 +727,11 @@ msgstr "大文字と小文字を区別しない"
 
 #: redirection-strings.php:125
 msgid "Ignore Slash"
-msgstr "スラッシュを無視する"
+msgstr "スラッシュを無視"
 
 #: redirection-strings.php:476
 msgid "Relative REST API"
-msgstr ""
+msgstr "相対 REST API"
 
 #: redirection-strings.php:475
 msgid "Raw REST API"
@@ -743,25 +743,25 @@ msgstr "デフォルト REST API"
 
 #: redirection-strings.php:206
 msgid "(Example) The target URL is the new URL"
-msgstr ""
+msgstr "(例) ターゲット URL は URL です"
 
 #: redirection-strings.php:204
 msgid "(Example) The source URL is your old or original URL"
-msgstr ""
+msgstr "(例)ソース URL は旧 URL または元の URL です"
 
 #. translators: 1: server PHP version. 2: required PHP version.
 #: redirection.php:38
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
-msgstr ""
+msgstr "無効化しました ! PHP %1$sが検出されましたが、PHP %2$s以降が必要です"
 
 #: redirection-strings.php:293
 msgid "A database upgrade is in progress. Please continue to finish."
-msgstr ""
+msgstr "データベースのアップグレードが進行中です。完了するには続けてください。"
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:82
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
-msgstr ""
+msgstr "Redirection のデータベースを更新する必要があります- <a href=\"%1$1s\">クリックして更新</a>します。"
 
 #: redirection-strings.php:301
 msgid "Redirection database needs upgrading"
@@ -781,19 +781,19 @@ msgstr ""
 
 #: redirection-strings.php:237
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
-msgstr ""
+msgstr "問題が発生した場合はプラグインのマニュアルを参照するか、ホスティングサービスのサポートに連絡してください。これは一般的に {{link}}Redirection プラグインによって引き起こされる問題ではありません{{/link}}。"
 
 #: redirection-strings.php:236
 msgid "Some other plugin that blocks the REST API"
-msgstr ""
+msgstr "REST API をブロックするその他のプラグイン"
 
 #: redirection-strings.php:234
 msgid "A server firewall or other server configuration (e.g OVH)"
-msgstr ""
+msgstr "サーバーファイアウォールまたはその他のサーバー構成 (例: OVH)"
 
 #: redirection-strings.php:232
 msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
-msgstr ""
+msgstr "Redirection は、{{link}}WordPress REST API{{/link}} を使用して通信します。これはデフォルトで有効化されており、動作します。時々、REST API が次によりブロックされることがあります:"
 
 #: redirection-strings.php:230 redirection-strings.php:241
 msgid "Go back"
@@ -830,11 +830,11 @@ msgstr ""
 
 #: redirection-strings.php:220
 msgid "Monitor permalink changes in WordPress posts and pages"
-msgstr ""
+msgstr "WordPress の投稿と固定ページのパーマリンクの変更を監視"
 
 #: redirection-strings.php:219
 msgid "These are some options you may want to enable now. They can be changed at any time."
-msgstr ""
+msgstr "これらは、今すぐ有効にするとよいオプションです。これらはいつでも変更できます。"
 
 #: redirection-strings.php:218
 msgid "Basic Setup"
@@ -846,7 +846,7 @@ msgstr "セットアップを開始"
 
 #: redirection-strings.php:216
 msgid "When ready please press the button to continue."
-msgstr ""
+msgstr "準備ができたら、ボタンを押して続行してください。"
 
 #: redirection-strings.php:215
 msgid "First you will be asked a few questions, and then Redirection will set up your database."
@@ -858,19 +858,19 @@ msgstr "次のステップ"
 
 #: redirection-strings.php:213
 msgid "Check a URL is being redirected"
-msgstr ""
+msgstr "URL がリダイレクトされていることを確認"
 
 #: redirection-strings.php:212
 msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
-msgstr ""
+msgstr "{{regular}}正規表現{{/regular}}を含む、より強力な URL 一致や{{other}}その他の条件{{/other}}"
 
 #: redirection-strings.php:211
 msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
-msgstr ""
+msgstr "htaccess、CSV、およびその他のさまざまなプラグインから{{link}}インポート{{/link}}"
 
 #: redirection-strings.php:210
 msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
-msgstr ""
+msgstr "{{link}}404エラー{{/link}}を監視し、訪問者に関する詳細情報を取得し、問題を修正"
 
 #: redirection-strings.php:209
 msgid "Some features you may find useful are"
@@ -882,7 +882,7 @@ msgstr ""
 
 #: redirection-strings.php:202
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
-msgstr ""
+msgstr "単純リダイレクトでは{{strong}}ソース URL{{/strong}} (旧 URL) と{{strong}}ターゲット URL{{/strong}} (新 URL) を指定する必要があります。こちらが例です:"
 
 #: redirection-strings.php:201
 msgid "How do I use this plugin?"
@@ -906,23 +906,23 @@ msgstr ""
 
 #: redirection-strings.php:149
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
-msgstr ""
+msgstr "正規表現の場合は、必ず \"regex\" オプションを有効化してください。"
 
 #: redirection-strings.php:148
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
-msgstr ""
+msgstr "ソース URL は、おそらく {{code}}/{{/code}} から始まる必要があります"
 
 #: redirection-strings.php:147
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
-msgstr ""
+msgstr "これは、ドメイン {{code}}%(server)s{{/code}} のサーバーリダイレクトに変換されます。"
 
 #: redirection-strings.php:146
 msgid "Anchor values are not sent to the server and cannot be redirected."
-msgstr ""
+msgstr "アンカー値はサーバーに送信されないため、リダイレクトできません。"
 
 #: redirection-strings.php:66
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}"
-msgstr ""
+msgstr "{{code}}%(status)d{{/code}}から{{code}}%(target)s{{/code}}"
 
 #: redirection-strings.php:16 redirection-strings.php:20
 msgid "Finished! 🎉"
@@ -930,7 +930,7 @@ msgstr "完了 ! 🎉"
 
 #: redirection-strings.php:19
 msgid "Progress: %(complete)d$"
-msgstr ""
+msgstr "進捗: %(complete)d$"
 
 #: redirection-strings.php:18
 msgid "Leaving before the process has completed may cause problems."
@@ -946,15 +946,15 @@ msgstr "Redirection のアップグレードが必要"
 
 #: redirection-strings.php:10
 msgid "Please remain on this page until complete."
-msgstr ""
+msgstr "このページは完了するまでそのままにしてください。"
 
 #: redirection-strings.php:9
 msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
-msgstr ""
+msgstr "{{support}}サポートを依頼{{/support}}したい場合は、次の詳細を含めてください。"
 
 #: redirection-strings.php:8
 msgid "Stop upgrade"
-msgstr "アップグレードを中止する"
+msgstr "アップグレードを中断"
 
 #: redirection-strings.php:7
 msgid "Skip this stage"
@@ -978,7 +978,7 @@ msgstr "データベースをアップグレードしてください"
 
 #: redirection-admin.php:143 redirection-strings.php:299
 msgid "Upgrade Database"
-msgstr "データベースをアップグレード"
+msgstr "データベースを更新"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:79
@@ -988,7 +988,7 @@ msgstr ""
 #. translators: version number
 #: api/api-plugin.php:118
 msgid "Your database does not need updating to %s."
-msgstr ""
+msgstr "データベースを %s に更新する必要はありません。"
 
 #. translators: 1: table name
 #: database/schema/latest.php:104
@@ -1008,7 +1008,7 @@ msgstr "Redirection テーブルをインストール"
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:97
 msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
-msgstr ""
+msgstr "サイトとホームの URL が一致しません。設定 > 一般ページから修正してください: %1$1s は %2$2s ではありません"
 
 #: redirection-strings.php:639
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
@@ -1028,7 +1028,7 @@ msgstr "IP アドレスを入力してください (1行ごとに1つずつ)"
 
 #: redirection-strings.php:145
 msgid "Describe the purpose of this redirect (optional)"
-msgstr ""
+msgstr "このリダイレクトの目的を説明 (省略可)"
 
 #: redirection-strings.php:117
 msgid "418 - I'm a teapot"
@@ -1052,15 +1052,15 @@ msgstr "303 - See Other"
 
 #: redirection-strings.php:105
 msgid "Do nothing (ignore)"
-msgstr ""
+msgstr "何もしない (無視)"
 
 #: redirection-strings.php:607 redirection-strings.php:611
 msgid "Target URL when not matched (empty to ignore)"
-msgstr ""
+msgstr "一致しない場合のターゲット URL (無視する場合は空)"
 
 #: redirection-strings.php:605 redirection-strings.php:609
 msgid "Target URL when matched (empty to ignore)"
-msgstr ""
+msgstr "一致した場合のターゲット URL (無視する場合は空)"
 
 #: redirection-strings.php:425 redirection-strings.php:430
 msgid "Show All"
@@ -1068,15 +1068,15 @@ msgstr "すべて表示"
 
 #: redirection-strings.php:422
 msgid "Delete all logs for these entries"
-msgstr ""
+msgstr "これらの項目のログをすべて削除"
 
 #: redirection-strings.php:421 redirection-strings.php:434
 msgid "Delete all logs for this entry"
-msgstr ""
+msgstr "この項目のログをすべて削除"
 
 #: redirection-strings.php:420
 msgid "Delete Log Entries"
-msgstr "ログを削除する"
+msgstr "ログを削除"
 
 #: redirection-strings.php:407
 msgid "Group by IP"
@@ -1109,7 +1109,7 @@ msgstr "カウント"
 
 #: redirection-strings.php:99 matches/page.php:9
 msgid "URL and WordPress page type"
-msgstr ""
+msgstr "URL と WordPress ページタイプ"
 
 #: redirection-strings.php:95 matches/ip.php:9
 msgid "URL and IP"
@@ -1133,7 +1133,7 @@ msgstr "リダイレクトを確認"
 
 #: redirection-strings.php:75
 msgid "Check redirect for: {{code}}%s{{/code}}"
-msgstr ""
+msgstr "このリダイレクトを確認: {{code}}%s{{/code}}"
 
 #: redirection-strings.php:72
 msgid "What does this mean?"
@@ -1153,11 +1153,11 @@ msgstr "見つかりました"
 
 #: redirection-strings.php:68
 msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
-msgstr ""
+msgstr "{{code}}%(status)d{{/code}}から{{code}}%(url)s{{/code}}"
 
 #: redirection-strings.php:65
 msgid "Expected"
-msgstr ""
+msgstr "期待値"
 
 #: redirection-strings.php:73
 msgid "Error"
@@ -1178,7 +1178,7 @@ msgstr "リダイレクトテスター"
 #: redirection-strings.php:372 redirection-strings.php:532
 #: redirection-strings.php:588
 msgid "Target"
-msgstr "ターゲット"
+msgstr "リンクターゲット"
 
 #: redirection-strings.php:587
 msgid "URL is not being redirected with Redirection"
@@ -1286,11 +1286,11 @@ msgstr "Cookie"
 
 #: redirection-strings.php:316
 msgid "clearing your cache."
-msgstr "キャッシュを削除"
+msgstr "キャッシュを削除します。"
 
 #: redirection-strings.php:315
 msgid "If you are using a caching system such as Cloudflare then please read this: "
-msgstr "Cloudflare などのキャッシュシステムをお使いの場合こちらをお読みください :"
+msgstr "Cloudflare などのキャッシュシステムをお使いの場合、こちらをお読みください: "
 
 #: redirection-strings.php:97 matches/http-header.php:11
 msgid "URL and HTTP header"
@@ -1428,7 +1428,7 @@ msgstr "これはプライベートネットワーク内からの IP です。�
 
 #: redirection-strings.php:59
 msgid "No details are known for this address."
-msgstr "このアドレスには詳細がありません"
+msgstr "このアドレスには詳細がありません。"
 
 #: redirection-strings.php:56 redirection-strings.php:58
 #: redirection-strings.php:60
@@ -1514,7 +1514,7 @@ msgstr "サイト上より今プラグインにインポートできる以下の
 
 #: redirection-strings.php:323
 msgid "total = "
-msgstr "全数 ="
+msgstr "合計 = "
 
 #: redirection-strings.php:324
 msgid "Import from %s"
@@ -1640,7 +1640,7 @@ msgstr "有効なグループが検出されました"
 
 #: models/fixer.php:62
 msgid "No valid groups, so you will not be able to create any redirects"
-msgstr "有効なグループがない場合、新規のリダイレクトを追加することはできません。"
+msgstr "有効なグループがないため、新規リダイレクトを追加することはできません"
 
 #: models/fixer.php:60
 msgid "Valid groups"
@@ -1706,7 +1706,7 @@ msgstr "メール"
 
 #: redirection-strings.php:578
 msgid "Need help?"
-msgstr "サポートが必要ですか ?"
+msgstr "お困りですか ?"
 
 #: redirection-strings.php:581
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
@@ -1742,7 +1742,7 @@ msgstr "グループにインポート"
 
 #: redirection-strings.php:326
 msgid "Import a CSV, .htaccess, or JSON file."
-msgstr "CSV や .htaccess、JSON ファイルをインポート"
+msgstr "CSV や .htaccess、JSON ファイルをインポートする。"
 
 #: redirection-strings.php:327
 msgid "Click 'Add File' or drag and drop here."
@@ -1766,7 +1766,7 @@ msgstr "インポートが完了しました"
 
 #: redirection-strings.php:334
 msgid "Total redirects imported:"
-msgstr "インポートされたリダイレクト数: "
+msgstr "インポートされたリダイレクト数:"
 
 #: redirection-strings.php:335
 msgid "Double-check the file is the correct format!"
@@ -1851,7 +1851,7 @@ msgstr "グループが保存されました"
 #: redirection-strings.php:253
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the selected items?"
-msgstr[0] "本当に削除してもよろしいですか?"
+msgstr[0] "本当にこの項目を削除してもよいですか ?"
 
 #: redirection-strings.php:568
 msgid "pass"
@@ -1891,7 +1891,7 @@ msgstr "タイトル"
 
 #: redirection-strings.php:130
 msgid "When matched"
-msgstr "マッチした時"
+msgstr "一致した時"
 
 #: redirection-strings.php:88
 msgid "with HTTP code"
@@ -1899,7 +1899,7 @@ msgstr "次の HTTP コードと共に"
 
 #: redirection-strings.php:135
 msgid "Show advanced options"
-msgstr "高度な設定を表示"
+msgstr "高度なオプションを表示"
 
 #: redirection-strings.php:608
 msgid "Matched Target"
@@ -1915,7 +1915,7 @@ msgstr "保存中…"
 
 #: redirection-strings.php:84
 msgid "View notice"
-msgstr "通知を見る"
+msgstr "通知を表示"
 
 #: redirection-strings.php:47 redirection-strings.php:317
 msgid "Something went wrong 🙁"
@@ -1940,7 +1940,7 @@ msgstr "適用"
 
 #: redirection-strings.php:175
 msgid "First page"
-msgstr "最初のページ"
+msgstr "最初の固定ページ"
 
 #: redirection-strings.php:176
 msgid "Prev page"
@@ -2013,7 +2013,7 @@ msgstr "Redirection ニュースレターにサインアップ - このプラグ
 
 #: redirection-strings.php:459
 msgid "Your email address:"
-msgstr "メールアドレス: "
+msgstr "メールアドレス:"
 
 #: redirection-strings.php:448
 msgid "You've supported this plugin - thank you!"
@@ -2025,7 +2025,7 @@ msgstr "あなたはいくつかの便利なソフトウェアを手に入れ、
 
 #: redirection-strings.php:465 redirection-strings.php:470
 msgid "Forever"
-msgstr "永久に"
+msgstr "永久"
 
 #: redirection-strings.php:440
 msgid "Delete the plugin - are you sure?"
@@ -2097,7 +2097,7 @@ msgstr "更新"
 
 #: redirection-strings.php:505
 msgid "Auto-generate URL"
-msgstr "URL を自動生成 "
+msgstr "URL を自動生成"
 
 #: redirection-strings.php:495
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
@@ -2129,7 +2129,7 @@ msgstr "プラグインサポート"
 
 #: redirection-strings.php:82 redirection-strings.php:311
 msgid "Options"
-msgstr "設定"
+msgstr "オプション"
 
 #: redirection-strings.php:464
 msgid "Two months"

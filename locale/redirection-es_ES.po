@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-05-08 16:31:38+0000\n"
+"PO-Revision-Date: 2020-09-28 12:05:52+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -809,7 +809,7 @@ msgstr "El almacenamiento de la dirección IP te permite realizar acciones de re
 
 #: redirection-strings.php:226
 msgid "Store IP information for redirects and 404 errors."
-msgstr "Almacena información IP para redirecciones y errores 404."
+msgstr "Almacenar información de IPs de las redirecciones y errores 404."
 
 #: redirection-strings.php:224
 msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
@@ -817,7 +817,7 @@ msgstr "Almacena registros de redirecciones y 404s te permitirá ver lo que est�
 
 #: redirection-strings.php:223
 msgid "Keep a log of all redirects and 404 errors."
-msgstr "Guarda un registro de todas las redirecciones y errores 404."
+msgstr "Guardar un registro de todas las redirecciones y errores 404."
 
 #: redirection-strings.php:222 redirection-strings.php:225
 #: redirection-strings.php:228
@@ -1222,7 +1222,7 @@ msgstr "La URL relativa desde la que quieres redirigir"
 
 #: redirection-strings.php:492
 msgid "GDPR / Privacy information"
-msgstr "Información de RGPD / Provacidad"
+msgstr "Información de RGPD / Privacidad"
 
 #: redirection-strings.php:322
 msgid "Add New"
