@@ -185,6 +185,8 @@ class WordPress_Module extends Red_Module {
 		} ) );
 
 		if ( count( $page_types ) > 0 ) {
+			$request = new Red_Url_Request( Redirection_Request::get_request_url() );
+			$page_types[0]->is_match( $request->get_decoded_url(), $request->get_original_url() );
 			return true;
 		}
 
@@ -414,9 +416,6 @@ class WordPress_Module extends Red_Module {
 		];
 
 		if ( $options['log_header'] ) {
-			$headers = new Red_Http_Headers( $options['headers'] );
-			$headers->run( $headers->get_redirect_headers() );
-
 			$details['request_data']['headers'] = Redirection_Request::get_request_headers();
 		}
 
@@ -448,6 +447,8 @@ class WordPress_Module extends Red_Module {
 		}
 
 		$options = red_get_options();
+		$headers = new Red_Http_Headers( $options['headers'] );
+		$headers->run( $headers->get_redirect_headers() );
 
 		// Do we need to set the cache header?
 		if ( ! headers_sent() && isset( $options['redirect_cache'] ) && $options['redirect_cache'] !== 0 && intval( $status, 10 ) === 301 ) {
