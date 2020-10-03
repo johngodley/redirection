@@ -18,7 +18,7 @@ abstract class Red_Log {
 	 *
 	 * @var array
 	 */
-	private static $supported_methods = [ 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH' ];
+	protected static $supported_methods = [ 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH' ];
 
 	/**
 	 * Log ID

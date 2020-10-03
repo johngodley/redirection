@@ -68,7 +68,6 @@ CREATE TABLE `{$prefix}redirection_404` (
 	`ip` VARCHAR(45) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `created` (`created`),
-	KEY `url` (`url`(191)),
 	KEY `referrer` (`referrer`(191)),
 	KEY `ip` (`ip`)
 );
