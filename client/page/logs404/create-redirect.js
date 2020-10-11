@@ -52,8 +52,18 @@ function CreateRedirect( props ) {
 					item={ item }
 					saveButton={ __( 'Add Redirect' ) }
 					onCancel={ onClose }
-					childSave={ () => deleteLog && onDelete( Array.isArray( uniqueUrls ) ? uniqueUrls : [ uniqueUrls ] ) }
-					canSave={ ( multi ) => deleteLog && confirm( multi ? __( 'Are you sure you want to delete the selected items?' ) : __( 'Are you sure you want to delete this item?' ) ) }
+					childSave={ () =>
+						deleteLog && onDelete( Array.isArray( uniqueUrls ) ? uniqueUrls : [ uniqueUrls ] )
+					}
+					canSave={ ( multi ) =>
+						( deleteLog &&
+							confirm(
+								multi
+									? __( 'Are you sure you want to delete the selected items?' )
+									: __( 'Are you sure you want to delete this item?' )
+							) ) ||
+						! deleteLog
+					}
 					autoFocus
 				>
 					{ has_capability( CAP_404_DELETE ) && (

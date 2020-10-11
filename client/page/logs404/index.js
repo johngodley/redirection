@@ -96,9 +96,9 @@ function Logs404( props ) {
 		setShowCreate( create );
 	}
 
-	function onBulk( action ) {
+	function onBulk( action, items ) {
 		if ( action === 'delete' ) {
-			props.onBulk( action );
+			props.onBulk( action, items );
 		} else {
 			setShowCreate( getCreateAction( action, table.selected ) );
 		}
@@ -175,8 +175,8 @@ function mapDispatchToProps( dispatch ) {
 		onChangePage: ( page ) => {
 			dispatch( setPage( page ) );
 		},
-		onBulk: ( action, ids ) => {
-			dispatch( performTableAction( action, ids ) );
+		onBulk: ( action, items ) => {
+			dispatch( performTableAction( action, items ) );
 		},
 		onSetOrder: ( column, direction ) => {
 			dispatch( setOrderBy( column, direction ) );
