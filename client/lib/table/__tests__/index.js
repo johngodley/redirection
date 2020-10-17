@@ -5,7 +5,6 @@
 import {
 	mergeWithTable,
 	setTableSelected,
-	setTableAllSelected,
 	clearSelected,
 	removeDefaults,
 	getDefaultTable,
@@ -77,18 +76,6 @@ describe( 'tables', () => {
 		expect( table.selected ).toEqual( [ 1, 2 ] );
 	} );
 
-	test( 'setTableAllSelected sets all items', () => {
-		const table = setTableAllSelected( NEW_TABLE, DEFAULT_ROWS, true );
-
-		expect( table.selected ).toEqual( [ 1, 2, 3 ] );
-	} );
-
-	test( 'setTableAllSelected clears all items', () => {
-		const table = setTableAllSelected( Object.assign( {}, NEW_TABLE, { selected: [ 1, 2, 3 ] } ), false );
-
-		expect( table.selected ).toEqual( [] );
-	} );
-
 	test( 'clearSelected resets the selected items', () => {
 		const table = clearSelected( { dummy: true, selected: [ 1, 2, 3, 4 ] } );
 
@@ -106,14 +93,6 @@ describe( 'tables', () => {
 		const table = removeDefaults( { direction: 'desc', page: 0, orderby: 'test', per_page: 25, dummy: true }, 'test' );
 
 		expect( table ).toEqual( { dummy: true } );
-	} );
-
-	test( 'getDefaultTable doesnt allow overriding when not on query page', () => {
-		getPageUrl.mockReturnValueOnce( { sub: 'notpage', orderby: 'other', direction: 'asc', offset: 5, filterby: {}, displayType: '', displaySelected: [] } );
-
-		const table = getDefaultTable( [], [], [], 'name', 'page', 'name', 'groups' );
-
-		expect( table ).toEqual( NEW_TABLE );
 	} );
 
 	test( 'getDefaultTable returns default with query override when on page', () => {

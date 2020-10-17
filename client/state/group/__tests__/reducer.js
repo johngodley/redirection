@@ -8,14 +8,13 @@ import {
 	GROUP_LOADING,
 	GROUP_FAILED,
 	GROUP_SET_SELECTED,
-	GROUP_SET_ALL_SELECTED,
 	GROUP_ITEM_SAVING,
 	GROUP_ITEM_SAVED,
 	GROUP_ITEM_FAILED,
 } from 'state/group/type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from 'lib/store';
-import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { setTableSelected, clearSelected } from 'lib/table';
 
 const NEW_TABLE = {
 	orderby: 'name',
@@ -82,15 +81,6 @@ describe( 'groups reducer', () => {
 		reducer( STATE, action );
 
 		isCalled( setTableSelected, STATE.table, STATE.rows );
-	} );
-
-	test( 'GROUP_SET_ALL_SELECTED', () => {
-		const action = { type: GROUP_SET_ALL_SELECTED, onoff: true };
-
-		reducer( STATE, action );
-
-		isCalled( setTableAllSelected, STATE.table, STATE.rows );
-		expect( setTableAllSelected.mock.calls[ 0 ][ 2 ] ).toBe( true );
 	} );
 
 	test( 'GROUP_ITEM_SAVING', () => {

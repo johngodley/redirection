@@ -6,12 +6,11 @@ import {
 	LOG_LOADING,
 	LOG_FAILED,
 	LOG_SET_SELECTED,
-	LOG_SET_ALL_SELECTED,
 } from 'state/log/type';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import reducer from 'state/log/reducer';
 import { getInitialLog } from 'state/log/initial';
-import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { setTableSelected, clearSelected } from 'lib/table';
 import { setTable, setRows, setTotal } from 'lib/store';
 
 global.Redirectioni10n = {};
@@ -61,14 +60,5 @@ describe( 'log reducer', () => {
 		reducer( DEFAULT_STATE, action );
 
 		isCalled( setTableSelected, DEFAULT_STATE.table, DEFAULT_STATE.rows );
-	} );
-
-	test( 'LOG_SET_ALL_SELECTED', () => {
-		const action = { type: LOG_SET_ALL_SELECTED, onoff: true };
-
-		reducer( DEFAULT_STATE, action );
-
-		isCalled( setTableAllSelected, DEFAULT_STATE.table, DEFAULT_STATE.rows );
-		expect( setTableAllSelected.mock.calls[ 0 ][ 2 ] ).toBe( true );
 	} );
 } );

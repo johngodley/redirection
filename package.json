@@ -1,200 +1,203 @@
 {
-  "name": "redirection",
-  "version": "4.9-beta-5",
-  "description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
-  "main": "redirection.php",
-  "sideEffects": true,
-  "scripts": {
-    "test": "jest",
-    "watch": "jest --watch",
-    "testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
-    "start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
-    "build": "NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
-    "localbuild": "NODE_ENV=production webpack serve --progress --color --hot --config ./webpack.config.js --port 3312 --mode production",
-    "lint": "eslint --cache --ext=.js src",
-    "stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
-    "e2e": "NODE_ENV=e2e jest e2e",
-    "up": "docker-compose up",
-    "down": "docker-compose down",
-    "clean": "docker-compose down && docker-compose rm && docker volume prune",
-    "cli": "docker-compose run cli sh",
-    "export": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
-    "release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
-    "doc": "apidoc -v -i api/ -o ./api-doc/",
-    "phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
-    "phpunit": "WP_TESTS_DIR=./../../../../test/trunk phpunit",
-    "psalm": "./vendor/vimeo/psalm/psalm --show-info=true"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/johngodley/redirection.git"
-  },
-  "keywords": [
-    "post",
-    "admin",
-    "seo",
-    "pages",
-    "manage",
-    "301",
-    "404",
-    "redirect",
-    "permalink"
-  ],
-  "author": "John Godley",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/johngodley/redirection/issues"
-  },
-  "homepage": "https://github.com/johngodley/redirection",
-  "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-decorators": "^7.12.1",
-    "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
-    "@babel/plugin-proposal-function-sent": "^7.12.1",
-    "@babel/plugin-proposal-json-strings": "^7.12.1",
-    "@babel/plugin-proposal-numeric-separator": "^7.12.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/plugin-proposal-throw-expressions": "^7.12.1",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.12.1",
-    "@hot-loader/react-dom": "^16.13.0",
-    "@types/classnames": "^2.2.10",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-highlight-words": "^0.16.1",
-    "@types/react-redux": "^7.1.9",
-    "@wordpress/base-styles": "^3.1.0",
-    "@wordpress/prettier-config": "^0.4.0",
-    "apidoc": "^0.25.0",
-    "autoprefixer": "^9.8.6",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.5.2",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "chai": "^4.2.0",
-    "css-loader": "^5.0.0",
-    "download": "^8.0.0",
-    "eslint": "^7.11.0",
-    "eslint-config-wpcalypso": "^6.1.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-react": "^7.21.4",
-    "eslint-plugin-wpcalypso": "^5.0.0",
-    "exports-loader": "^1.1.1",
-    "extract-text-webpack-plugin": "3.0.2",
-    "glob-all": "^3.2.1",
-    "gulp": "^4.0.2",
-    "gulp-deleted": "1.0.0",
-    "gulp-po2json": "^1.0.0",
-    "gulp-sort": "^2.0.0",
-    "gulp-wp-pot": "^2.5.0",
-    "gulp-zip": "^5.0.2",
-    "he": "^1.2.0",
-    "html-webpack-plugin": "^4.5.0",
-    "i18n-calypso-cli": "^1.0.0",
-    "imports-loader": "^1.2.0",
-    "jest": "^26.5.3",
-    "json-loader": "^0.5.7",
-    "mocha": "^8.2.0",
-    "node-fetch": "^2.6.1",
-    "node-sass": "^4.14.1",
-    "null-loader": "^4.0.1",
-    "path": "^0.12.7",
-    "postcss-focus": "^5.0.1",
-    "postcss-loader": "^4.0.4",
-    "postcss-preset-env": "^6.7.0",
-    "postcss-reporter": "^7.0.1",
-    "precss": "^4.0.0",
-    "prettier": "https://github.com/Automattic/wp-prettier/releases/download/wp-1.16.4/wp-prettier-1.16.4.tgz",
-    "react-hot-loader": "^4.13.0",
-    "redux-devtools-extension": "^2.13.8",
-    "request-promise": "^4.2.6",
-    "sass-loader": "^10.0.3",
-    "shared-git-hooks": "^1.2.1",
-    "style-loader": "2.0.0",
-    "stylelint": "^13.7.2",
-    "stylelint-config-wordpress": "^17.0.0",
-    "through": "^2.3.8",
-    "through2": "^4.0.2",
-    "underscore": "^1.11.0",
-    "webpack": "^5.1.3",
-    "webpack-bundle-analyzer": "^3.9.0",
-    "webpack-bundle-size-analyzer": "^3.1.0",
-    "webpack-cli": "^4.0.0",
-    "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "debounce-promise": "^3.1.2",
-    "i18n-calypso": "^5.0.0",
-    "interpolate-components": "^1.1.1",
-    "jed": "^1.1.1",
-    "lru": "^3.1.0",
-    "plite": "^0.0.5",
-    "prop-types": "^15.7.2",
-    "qs": "^6.9.4",
-    "rc-progress": "^3.1.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-dropzone": "^11.2.0",
-    "react-highlight-words": "^0.16.0",
-    "react-redux": "^7.2.1",
-    "react-textarea-autosize": "^8.2.0",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "url": "^0.11.0",
-    "whatwg-fetch": "^3.4.1"
-  },
-  "eslintConfig": {
-    "env": {
-      "mocha": true,
-      "node": true
-    },
-    "extends": [
-      "wpcalypso/react",
-      "plugin:flowtype/recommended"
-    ],
-    "plugins": [
-      "flowtype"
-    ],
-    "rules": {
-      "max-len": 0,
-      "wpcalypso/jsx-classname-namespace": 0,
-      "wpcalypso/import-no-redux-combine-reducers": 0
-    },
-    "parserOptions": {
-      "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
-      }
-    }
-  },
-  "jest": {
-    "modulePaths": [
-      "./client"
-    ]
-  },
-  "apidoc": {
-    "name": "Redirection REST API",
-    "version": "0.1.0",
-    "description": "WordPress REST API documentation for Redirection",
-    "title": "Redirection REST API",
-    "url": "https://redirection.me/wp-json",
-    "header": {
-      "title": "Introduction",
-      "filename": "./api/header.md"
-    },
-    "footer": {
-      "filename": "./api/footer.md"
-    },
-    "template": {
-      "withCompare": false
-    }
-  },
-  "wordpress": {
-    "supported": "4.6"
-  }
+	"name": "redirection",
+	"version": "4.9-beta-5",
+	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
+	"main": "redirection.php",
+	"sideEffects": true,
+	"scripts": {
+		"test": "jest",
+		"watch": "jest --watch",
+		"testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
+		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
+		"build": "NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
+		"localbuild": "NODE_ENV=production webpack serve --progress --color --hot --config ./webpack.config.js --port 3312 --mode production",
+		"lint": "eslint --cache --ext=.js src",
+		"stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
+		"e2e": "NODE_ENV=e2e jest e2e",
+		"up": "docker-compose up",
+		"down": "docker-compose down",
+		"clean": "docker-compose down && docker-compose rm && docker volume prune",
+		"cli": "docker-compose run cli sh",
+		"export": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
+		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
+		"doc": "apidoc -v -i api/ -o ./api-doc/",
+		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
+		"phpunit": "WP_TESTS_DIR=./../../../../test/trunk phpunit",
+		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/johngodley/redirection.git"
+	},
+	"keywords": [
+		"post",
+		"admin",
+		"seo",
+		"pages",
+		"manage",
+		"301",
+		"404",
+		"redirect",
+		"permalink"
+	],
+	"author": "John Godley",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/johngodley/redirection/issues"
+	},
+	"homepage": "https://github.com/johngodley/redirection",
+	"devDependencies": {
+		"@babel/core": "^7.12.3",
+		"@babel/plugin-proposal-class-properties": "^7.12.1",
+		"@babel/plugin-proposal-decorators": "^7.12.1",
+		"@babel/plugin-proposal-export-namespace-from": "^7.12.1",
+		"@babel/plugin-proposal-function-sent": "^7.12.1",
+		"@babel/plugin-proposal-json-strings": "^7.12.1",
+		"@babel/plugin-proposal-numeric-separator": "^7.12.1",
+		"@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+		"@babel/plugin-proposal-throw-expressions": "^7.12.1",
+		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
+		"@babel/plugin-syntax-import-meta": "^7.10.4",
+		"@babel/preset-env": "^7.12.1",
+		"@babel/preset-react": "^7.12.1",
+		"@hot-loader/react-dom": "^16.13.0",
+		"@types/classnames": "^2.2.10",
+		"@types/react": "^16.9.53",
+		"@types/react-dom": "^16.9.8",
+		"@types/react-highlight-words": "^0.16.1",
+		"@types/react-redux": "^7.1.9",
+		"@wordpress/base-styles": "^3.1.0",
+		"@wordpress/prettier-config": "^0.4.0",
+		"apidoc": "^0.25.0",
+		"autoprefixer": "^9.8.6",
+		"babel-core": "^7.0.0-bridge.0",
+		"babel-eslint": "^10.1.0",
+		"babel-jest": "^26.5.2",
+		"babel-loader": "^8.1.0",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+		"chai": "^4.2.0",
+		"css-loader": "^5.0.0",
+		"download": "^8.0.0",
+		"eslint": "^7.11.0",
+		"eslint-config-wpcalypso": "^6.1.0",
+		"eslint-loader": "^4.0.2",
+		"eslint-plugin-flowtype": "^5.2.0",
+		"eslint-plugin-react": "^7.21.4",
+		"eslint-plugin-wpcalypso": "^5.0.0",
+		"exports-loader": "^1.1.1",
+		"extract-text-webpack-plugin": "3.0.2",
+		"glob-all": "^3.2.1",
+		"gulp": "^4.0.2",
+		"gulp-deleted": "1.0.0",
+		"gulp-po2json": "^1.0.0",
+		"gulp-sort": "^2.0.0",
+		"gulp-wp-pot": "^2.5.0",
+		"gulp-zip": "^5.0.2",
+		"he": "^1.2.0",
+		"html-webpack-plugin": "^4.5.0",
+		"i18n-calypso-cli": "^1.0.0",
+		"imports-loader": "^1.2.0",
+		"jest": "^26.5.3",
+		"json-loader": "^0.5.7",
+		"mocha": "^8.2.0",
+		"node-fetch": "^2.6.1",
+		"node-sass": "^4.14.1",
+		"null-loader": "^4.0.1",
+		"path": "^0.12.7",
+		"postcss-focus": "^5.0.1",
+		"postcss-loader": "^4.0.4",
+		"postcss-preset-env": "^6.7.0",
+		"postcss-reporter": "^7.0.1",
+		"precss": "^4.0.0",
+		"prettier": "https://github.com/Automattic/wp-prettier/releases/download/wp-1.16.4/wp-prettier-1.16.4.tgz",
+		"react-hot-loader": "^4.13.0",
+		"redux-devtools-extension": "^2.13.8",
+		"request-promise": "^4.2.6",
+		"sass-loader": "^10.0.3",
+		"shared-git-hooks": "^1.2.1",
+		"style-loader": "2.0.0",
+		"stylelint": "^13.7.2",
+		"stylelint-config-wordpress": "^17.0.0",
+		"through": "^2.3.8",
+		"through2": "^4.0.2",
+		"underscore": "^1.11.0",
+		"webpack": "^5.1.3",
+		"webpack-bundle-analyzer": "^3.9.0",
+		"webpack-bundle-size-analyzer": "^3.1.0",
+		"webpack-cli": "^4.0.0",
+		"webpack-dev-server": "^3.11.0"
+	},
+	"dependencies": {
+		"classnames": "^2.2.6",
+		"debounce-promise": "^3.1.2",
+		"i18n-calypso": "^5.0.0",
+		"interpolate-components": "^1.1.1",
+		"jed": "^1.1.1",
+		"lru": "^3.1.0",
+		"plite": "^0.0.5",
+		"prop-types": "^15.7.2",
+		"qs": "^6.9.4",
+		"rc-progress": "^3.1.0",
+		"react": "^16.14.0",
+		"react-dom": "^16.14.0",
+		"react-dropzone": "^11.2.0",
+		"react-highlight-words": "^0.16.0",
+		"react-redux": "^7.2.1",
+		"react-textarea-autosize": "^8.2.0",
+		"redux": "^4.0.5",
+		"redux-thunk": "^2.3.0",
+		"url": "^0.11.0",
+		"whatwg-fetch": "^3.4.1"
+	},
+	"eslintConfig": {
+		"env": {
+			"mocha": true,
+			"node": true
+		},
+		"extends": [
+			"wpcalypso/react",
+			"plugin:flowtype/recommended"
+		],
+		"plugins": [
+			"flowtype"
+		],
+		"rules": {
+			"max-len": 0,
+			"wpcalypso/jsx-classname-namespace": 0,
+			"wpcalypso/import-no-redux-combine-reducers": 0
+		},
+		"parserOptions": {
+			"ecmaFeatures": {
+				"experimentalObjectRestSpread": true
+			}
+		}
+	},
+	"jest": {
+		"modulePaths": [
+			"./client"
+		],
+		"moduleNameMapper": {
+			"^.+\\.(css|less|scss)$": "babel-jest"
+		}
+	},
+	"apidoc": {
+		"name": "Redirection REST API",
+		"version": "0.1.0",
+		"description": "WordPress REST API documentation for Redirection",
+		"title": "Redirection REST API",
+		"url": "https://redirection.me/wp-json",
+		"header": {
+			"title": "Introduction",
+			"filename": "./api/header.md"
+		},
+		"footer": {
+			"filename": "./api/footer.md"
+		},
+		"template": {
+			"withCompare": false
+		}
+	},
+	"wordpress": {
+		"supported": "4.6"
+	}
 }
