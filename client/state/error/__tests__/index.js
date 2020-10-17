@@ -11,7 +11,7 @@ import {
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import reducer from 'state/error/reducer';
 import { getInitialError } from 'state/error/initial';
-import { setTableSelected, setTableAllSelected, clearSelected } from 'lib/table';
+import { setTableSelected, clearSelected } from 'lib/table';
 import { setTable, setRows, setTotal } from 'lib/store';
 
 global.Redirectioni10n = {};
@@ -61,14 +61,5 @@ describe( 'log reducer', () => {
 		reducer( DEFAULT_STATE, action );
 
 		isCalled( setTableSelected, DEFAULT_STATE.table, DEFAULT_STATE.rows );
-	} );
-
-	test( 'ERROR_SET_ALL_SELECTED', () => {
-		const action = { type: ERROR_SET_ALL_SELECTED, onoff: true };
-
-		reducer( DEFAULT_STATE, action );
-
-		isCalled( setTableAllSelected, DEFAULT_STATE.table, DEFAULT_STATE.rows );
-		expect( setTableAllSelected.mock.calls[ 0 ][ 2 ] ).toBe( true );
 	} );
 } );

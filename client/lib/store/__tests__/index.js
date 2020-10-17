@@ -12,8 +12,6 @@ import {
 	removeSaving,
 } from 'lib/store';
 
-jest.mock( 'lib/api' );
-
 describe( 'Store Reducer', () => {
 	test( 'setTable returns existing table if non provided', () => {
 		expect( setTable( { table: 1 }, {} ) ).toEqual( 1 );
