@@ -199,5 +199,9 @@
 	},
 	"wordpress": {
 		"supported": "4.6"
-	}
+	},
+  "engines": {
+    "node": ">=12.14.0",
+    "npm": ">=6.14.8"
+  }
 }
