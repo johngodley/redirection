@@ -210,34 +210,7 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:569
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:577
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:586
-__( "Name", "redirection" ), // client/page/groups/constants.js:8
-__( "Module", "redirection" ), // client/page/groups/constants.js:9
-__( "Status", "redirection" ), // client/page/groups/constants.js:10
-__( "Redirects", "redirection" ), // client/page/groups/constants.js:11
-__( "Standard Display", "redirection" ), // client/page/groups/constants.js:17
-__( "Compact Display", "redirection" ), // client/page/groups/constants.js:22
-__( "Display All", "redirection" ), // client/page/groups/constants.js:27
-__( "Status", "redirection" ), // client/page/groups/constants.js:34
-__( "Enabled", "redirection" ), // client/page/groups/constants.js:38
-__( "Disabled", "redirection" ), // client/page/groups/constants.js:42
-__( "Module", "redirection" ), // client/page/groups/constants.js:48
-__( "Status", "redirection" ), // client/page/groups/constants.js:57
-__( "Name", "redirection" ), // client/page/groups/constants.js:62
-__( "Redirects", "redirection" ), // client/page/groups/constants.js:67
-__( "Module", "redirection" ), // client/page/groups/constants.js:72
-__( "Delete", "redirection" ), // client/page/groups/constants.js:80
-__( "Enable", "redirection" ), // client/page/groups/constants.js:84
-__( "Disable", "redirection" ), // client/page/groups/constants.js:88
-__( "Search", "redirection" ), // client/page/groups/constants.js:95
-__( "Add Group", "redirection" ), // client/page/groups/create-group.js:29
-__( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/page/groups/create-group.js:31
-__( "Name", "redirection" ), // client/page/groups/create-group.js:40
-__( "Note that you will need to set the Apache module path in your Redirection options.", "redirection" ), // client/page/groups/create-group.js:73
-__( "Edit", "redirection" ), // client/page/groups/row-actions.js:30
-__( "Delete", "redirection" ), // client/page/groups/row-actions.js:38
-__( "View Redirects", "redirection" ), // client/page/groups/row-actions.js:49
-__( "Disable", "redirection" ), // client/page/groups/row-actions.js:58
-__( "Enable", "redirection" ), // client/page/groups/row-actions.js:64
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:27
 __( "Cached Redirection detected", "redirection" ), // client/page/home/cache-detect.js:20
 __( "Please clear your browser cache and reload this page.", "redirection" ), // client/page/home/cache-detect.js:23
 __( "If you are using a caching system such as Cloudflare then please read this: ", "redirection" ), // client/page/home/cache-detect.js:25
@@ -285,6 +258,34 @@ __( "Import/Export", "redirection" ), // client/page/home/index.js:72
 __( "Options", "redirection" ), // client/page/home/index.js:76
 __( "Support", "redirection" ), // client/page/home/index.js:80
 __( "Add New", "redirection" ), // client/page/home/index.js:150
+__( "Name", "redirection" ), // client/page/groups/constants.js:8
+__( "Module", "redirection" ), // client/page/groups/constants.js:9
+__( "Status", "redirection" ), // client/page/groups/constants.js:10
+__( "Redirects", "redirection" ), // client/page/groups/constants.js:11
+__( "Standard Display", "redirection" ), // client/page/groups/constants.js:17
+__( "Compact Display", "redirection" ), // client/page/groups/constants.js:22
+__( "Display All", "redirection" ), // client/page/groups/constants.js:27
+__( "Status", "redirection" ), // client/page/groups/constants.js:34
+__( "Enabled", "redirection" ), // client/page/groups/constants.js:38
+__( "Disabled", "redirection" ), // client/page/groups/constants.js:42
+__( "Module", "redirection" ), // client/page/groups/constants.js:48
+__( "Status", "redirection" ), // client/page/groups/constants.js:57
+__( "Name", "redirection" ), // client/page/groups/constants.js:62
+__( "Redirects", "redirection" ), // client/page/groups/constants.js:67
+__( "Module", "redirection" ), // client/page/groups/constants.js:72
+__( "Delete", "redirection" ), // client/page/groups/constants.js:80
+__( "Enable", "redirection" ), // client/page/groups/constants.js:84
+__( "Disable", "redirection" ), // client/page/groups/constants.js:88
+__( "Search", "redirection" ), // client/page/groups/constants.js:95
+__( "Add Group", "redirection" ), // client/page/groups/create-group.js:29
+__( "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.", "redirection" ), // client/page/groups/create-group.js:31
+__( "Name", "redirection" ), // client/page/groups/create-group.js:40
+__( "Note that you will need to set the Apache module path in your Redirection options.", "redirection" ), // client/page/groups/create-group.js:73
+__( "Edit", "redirection" ), // client/page/groups/row-actions.js:30
+__( "Delete", "redirection" ), // client/page/groups/row-actions.js:38
+__( "View Redirects", "redirection" ), // client/page/groups/row-actions.js:49
+__( "Disable", "redirection" ), // client/page/groups/row-actions.js:58
+__( "Enable", "redirection" ), // client/page/groups/row-actions.js:64
 __( "total = ", "redirection" ), // client/page/io/importer.js:17
 __( "Import from %s", "redirection" ), // client/page/io/importer.js:20
 __( "Import to group", "redirection" ), // client/page/io/index.js:97
@@ -424,11 +425,11 @@ __( "Search user agent", "redirection" ), // client/page/logs404/constants.js:25
 __( "Search IP", "redirection" ), // client/page/logs404/constants.js:262
 __( "Search domain", "redirection" ), // client/page/logs404/constants.js:266
 __( "Add Redirect", "redirection" ), // client/page/logs404/create-redirect.js:53
-__( "Are you sure you want to delete the selected items?", "redirection" ), // client/page/logs404/create-redirect.js:56
-__( "Are you sure you want to delete this item?", "redirection" ), // client/page/logs404/create-redirect.js:56
-__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:61
-__( "Delete logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:71
-__( "Delete logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:72
+__( "Are you sure you want to delete the selected items?", "redirection" ), // client/page/logs404/create-redirect.js:62
+__( "Are you sure you want to delete this item?", "redirection" ), // client/page/logs404/create-redirect.js:63
+__( "Delete Log Entries", "redirection" ), // client/page/logs404/create-redirect.js:71
+__( "Delete logs for this entry", "redirection" ), // client/page/logs404/create-redirect.js:81
+__( "Delete logs for these entries", "redirection" ), // client/page/logs404/create-redirect.js:82
 __( "Delete", "redirection" ), // client/page/logs404/row-actions.js:42
 __( "Add Redirect", "redirection" ), // client/page/logs404/row-actions.js:52
 __( "Show All", "redirection" ), // client/page/logs404/row-actions.js:70
@@ -601,7 +602,6 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the selected items?", 1, "redirection" ), // client/lib/store/index.js:27
 __( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
 __( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
 __( "Settings saved", "redirection" ), // client/state/message/reducer.js:51

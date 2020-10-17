@@ -52,7 +52,7 @@ const config = {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
-//		new BundleAnalyzerPlugin(),
+		//		new BundleAnalyzerPlugin(),
 		new webpack.LoaderOptionsPlugin( {
 			options: {
 				postcss: [
