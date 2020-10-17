@@ -122,7 +122,8 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 					'description' => 'Comma separated list of item IDs to perform action on',
 					'type' => 'array',
 					'items' => [
-						'type' => 'string|number',
+						'description' => 'Item ID',
+						'type' => [ 'string', 'number' ],
 					],
 				],
 			] ),

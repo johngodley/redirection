@@ -212,7 +212,8 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 					'description' => 'Array of IDs to perform action on',
 					'type' => 'array',
 					'items' => [
-						'type' => 'string|number',
+						'description' => 'Item ID',
+						'type' => [ 'string', 'number' ],
 					],
 				],
 			] ),
