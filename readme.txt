@@ -177,7 +177,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 4.9 - 4th October 2020 =
+= 4.9 - 24th October 2020 =
 * Expand log information to capture HTTP headers, domain, HTTP code, and HTTP method
 * Allow non-Redirection redirects to be logged - allows tracking of all redirects on a site
 * Expand log and 404 pages with greatly improved filters
