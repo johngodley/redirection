@@ -11,7 +11,7 @@ function DebugReport( debug ) {
 		'mailto:john@redirection.me?subject=Redirection%20Error&body=' + encodeURIComponent( debug );
 	const github =
 		'https://github.com/johngodley/redirection/issues/new?title=Redirection%20Error&body=' +
-		encodeURIComponent( '```\n' + debug + '\n```\n\n' );
+		encodeURIComponent( '```\n' + debug.trim() + '\n```\n\n' );
 
 	return (
 		<>

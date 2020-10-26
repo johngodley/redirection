@@ -15,11 +15,9 @@ const Referrer = ( props ) => {
 	const { url, search } = props;
 
 	if ( url ) {
-		const domain = parseUrl.parse( url ).hostname;
-
 		return (
 			<ExternalLink url={ url }>
-				<Highlighter searchWords={ [ search ] } textToHighlight={ domain || '' } autoEscape />
+				<Highlighter searchWords={ [ search ] } textToHighlight={ url || '' } autoEscape />
 			</ExternalLink>
 		);
 	}

@@ -11,13 +11,13 @@ import React from 'react';
  * @param {TableRow & Row404} row
  */
 export default function ColumnDate( row ) {
-	const { created, created_time } = row;
+	const { created, createdTime } = row;
 
 	return (
 		<>
 			{ created }
 			<br />
-			{ created_time }
+			{ createdTime }
 		</>
 	)
 }
