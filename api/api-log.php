@@ -107,7 +107,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	 * @param String $namespace Namespace.
 	 */
 	public function __construct( $namespace ) {
-		$orders = [ 'url', 'ip', 'total', '' ];
+		$orders = [ 'url', 'ip', 'total', 'count', '' ];
 		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'target', 'domain', 'method', 'http', 'redirect_by' ];
 
 		register_rest_route( $namespace, '/log', array(

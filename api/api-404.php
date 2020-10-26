@@ -88,7 +88,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	 * @param String $namespace Namespace.
 	 */
 	public function __construct( $namespace ) {
-		$orders = [ 'url', 'ip', 'total', '' ];
+		$orders = [ 'url', 'ip', 'total', 'count', '' ];
 		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'domain', 'method', 'http' ];
 
 		register_rest_route( $namespace, '/404', array(
