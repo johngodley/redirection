@@ -48,6 +48,11 @@ const SVN_SOURCE_FILES = [
 	'!vendor/**',
 	'!vendor',
 	'!phpcs.xml.dist',
+	'!composer.*',
+	'!jsconfig.json',
+	'!psalm.xml',
+	'!redirection.js.LICENSE.txt',
+	'!tsconfig.json',
 ];
 const versionHeader = md5 => `<?php
 
