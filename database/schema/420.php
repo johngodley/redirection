@@ -7,8 +7,6 @@ class Red_Database_420 extends Red_Database_Upgrader {
 			'remove_module_id' => 'Remove module ID from logs',
 			'remove_group_id' => 'Remove group ID from logs',
 			'add_extra_404' => 'Add extra 404 logging support',
-			'allow_null_agent' => 'Allow null log agent',
-			'convert_404_url_to_text' => 'Convert 404 url to text',
 		];
 	}
 
@@ -21,7 +19,7 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	}
 
 	protected function remove_group_id( $wpdb ) {
-		if ( ! $this->has_module_id( $wpdb ) ) {
+		if ( ! $this->has_group_id( $wpdb ) ) {
 			return true;
 		}
 
@@ -32,6 +30,16 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'module_id' ) !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function has_group_id( $wpdb ) {
+		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
+
+		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'group_id' ) !== false ) {
 			return true;
 		}
 
@@ -68,14 +76,7 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `http_code` INT(11) unsigned NOT NULL DEFAULT 0 AFTER `referrer`" );
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `request_method` VARCHAR(10) NULL DEFAULT NULL AFTER `http_code`" );
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `redirect_by` VARCHAR(50) NULL DEFAULT NULL AFTER `request_method`" );
-
-		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `request_data` MEDIUMTEXT NULL DEFAULT NULL AFTER `request_method`" );
-	}
-
-	protected function allow_null_agent( $wpdb ) {
-		if ( $this->has_log_domain( $wpdb ) ) {
-			return true;
-		}
+		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` ADD `request_data` MEDIUMTEXT NULL DEFAULT NULL AFTER `request_method`" );
 
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` CHANGE COLUMN `agent` `agent` MEDIUMTEXT NULL" );
 	}
@@ -89,14 +90,7 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `domain` VARCHAR(255) NULL DEFAULT NULL AFTER `url`" );
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `http_code` INT(11) unsigned NOT NULL DEFAULT 0 AFTER `referrer`" );
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `request_method` VARCHAR(10) NULL DEFAULT NULL AFTER `http_code`" );
-
-		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `request_data` MEDIUMTEXT NULL DEFAULT NULL AFTER `request_method`" );
-	}
-
-	protected function convert_404_url_to_text( $wpdb ) {
-		if ( $this->has_404_domain( $wpdb ) ) {
-			return true;
-		}
+		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` ADD `request_data` MEDIUMTEXT NULL DEFAULT NULL AFTER `request_method`" );
 
 		// Same as log table
 		$this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_404` DROP INDEX `url`" );
