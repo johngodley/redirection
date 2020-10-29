@@ -48,6 +48,11 @@ class UrlPathTest extends WP_UnitTestCase {
 		$this->assertEquals( '/thing', $url->get() );
 	}
 
+	public function testEscapedQuery() {
+		$url = new Red_Url_Path( '/thing\\?this=query&more?another' );
+		$this->assertEquals( '/thing', $url->get() );
+	}
+
 	public function testRootQueryDouble() {
 		$url = new Red_Url_Path( '//?this=query&more' );
 		$this->assertEquals( '//', $url->get() );

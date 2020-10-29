@@ -19,7 +19,7 @@ class Red_Url_Query {
 	/**
 	 * Is this an exact match?
 	 *
-	 * @var boolean
+	 * @var boolean|string
 	 */
 	private $match_exact = false;
 
@@ -99,21 +99,44 @@ class Red_Url_Query {
 
 			// Remove any params from $source that are present in $request - we dont allow
 			// predefined params to be overridden
-			foreach ( $query_diff as $key => $value ) {
+			foreach ( array_keys( $query_diff ) as $key ) {
 				if ( isset( $source_query->query[ $key ] ) ) {
 					unset( $query_diff[ $key ] );
 				}
 			}
 
-			$query = http_build_query( $query_diff );
-			$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
-
-			if ( $query ) {
-				return $target_url . ( strpos( $target_url, '?' ) === false ? '?' : '&' ) . $query;
-			}
+			return self::build_url( $target_url, $query_diff );
 		}
 
 		return $target_url;
+	}
+
+	/**
+	 * Build a URL from a base and query parameters
+	 *
+	 * @param String $url Base URL.
+	 * @param Array  $query Query parameters.
+	 * @return String
+	 */
+	public static function build_url( $url, $query ) {
+		$query = http_build_query( $query );
+		$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
+
+		if ( $query ) {
+			return $url . ( strpos( $url, '?' ) === false ? '?' : '&' ) . $query;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Get a URL with the given base and query parameters from this Url_Query
+	 *
+	 * @param String $url Base URL.
+	 * @return String
+	 */
+	public function get_url_with_query( $url ) {
+		return self::build_url( $url, $this->query );
 	}
 
 	/**
@@ -191,10 +214,12 @@ class Red_Url_Query {
 			return '';
 		}
 
+		// Found an escaped ? and it comes before the non-escaped ?
 		if ( $qrpos !== false && $qrpos < $qpos ) {
-			return substr( $url, $qrpos + strlen( $qrpos ) );
+			return substr( $url, $qrpos + 2 );
 		}
 
+		// Standard query param
 		return substr( $url, $qpos + 1 );
 	}
 

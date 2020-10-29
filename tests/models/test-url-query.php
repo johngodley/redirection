@@ -178,4 +178,27 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertEquals( [], $url->get_query_diff( [ 'a' => [ 'a' => 'a' ] ], [ 'a' => [ 'a' => 'a' ] ] ) );
 		$this->assertEquals( [ 'a' => [ 'a' => 'a' ] ], $url->get_query_diff( [ 'a' => [ 'a' => 'a' ] ], [ 'a' => [ 'a' => 'b' ] ] ) );
 	}
+
+	public function testQueryAfterNone() {
+		$url = new Red_Url_Query( '', new Red_Source_Flags() );
+		$this->assertEquals( '', $url->get_query_after( '/no-query' ) );
+	}
+
+	public function testQueryAfterSingle() {
+		$url = new Red_Url_Query( '', new Red_Source_Flags() );
+		$this->assertEquals( 'cat', $url->get_query_after( '/query?cat' ) );
+	}
+
+	public function testQueryAfterEscaped() {
+		$url = new Red_Url_Query( '', new Red_Source_Flags() );
+		$this->assertEquals( 'cat', $url->get_query_after( '/query\\?cat' ) );
+	}
+
+	public function testQueryAfterBoth() {
+		$url = new Red_Url_Query( '', new Red_Source_Flags() );
+		$this->assertEquals( 'dog\\?cat', $url->get_query_after( '/query?dog\\?cat' ) );
+
+		$url = new Red_Url_Query( '', new Red_Source_Flags() );
+		$this->assertEquals( 'cat?cat', $url->get_query_after( '/query\\?cat?cat' ) );
+	}
 }

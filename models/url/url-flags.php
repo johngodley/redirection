@@ -7,6 +7,7 @@ class Red_Source_Flags {
 	const QUERY_IGNORE = 'ignore';
 	const QUERY_EXACT = 'exact';
 	const QUERY_PASS = 'pass';
+	const QUERY_EXACT_ORDER = 'exactorder';
 
 	const FLAG_QUERY = 'flag_query';
 	const FLAG_CASE = 'flag_case';
@@ -33,6 +34,12 @@ class Red_Source_Flags {
 	 * @var boolean
 	 */
 	private $flag_regex = false;
+
+	/**
+	 * Query parameter matching
+	 *
+	 * @var self::QUERY_EXACT|self::QUERY_IGNORE|self::QUERY_PASS|self::QUERY_EXACT_ORDER
+	 */
 	private $flag_query = self::QUERY_EXACT;
 
 	/**
@@ -63,6 +70,7 @@ class Red_Source_Flags {
 			self::QUERY_IGNORE,
 			self::QUERY_EXACT,
 			self::QUERY_PASS,
+			self::QUERY_EXACT_ORDER,
 		];
 	}
 
@@ -132,6 +140,15 @@ class Red_Source_Flags {
 	 */
 	public function is_query_exact() {
 		return $this->flag_query === self::QUERY_EXACT;
+	}
+
+	/**
+	 * Return `true` if exact query match in set order, `false` otherwise
+	 *
+	 * @return boolean
+	 */
+	public function is_query_exact_order() {
+		return $this->flag_query === self::QUERY_EXACT_ORDER;
 	}
 
 	/**

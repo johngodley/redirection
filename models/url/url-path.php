@@ -118,14 +118,18 @@ class Red_Url_Path {
 		$qpos = strpos( $url, '?' );
 		$qrpos = strpos( $url, '\\?' );
 
+		// Have we found an escaped query and it occurs before a normal query?
 		if ( $qrpos !== false && $qrpos < $qpos ) {
-			return substr( $url, 0, $qrpos + strlen( $qrpos ) - 1 );
+			// Yes, the path is everything up to the escaped query
+			return substr( $url, 0, $qrpos );
 		}
 
+		// No query - return everything as path
 		if ( $qpos === false ) {
 			return $url;
 		}
 
+		// Query found - return everything up to it
 		return substr( $url, 0, $qpos );
 	}
 }
