@@ -191,6 +191,7 @@ class Red_Database_Status {
 	 * Move current stage on to the next
 	 */
 	public function set_next_stage() {
+		$this->debug = [];
 		$stage = $this->get_current_stage();
 
 		if ( $stage ) {
