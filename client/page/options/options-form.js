@@ -40,7 +40,7 @@ export const restApi = () => [
 	{ value: 3, label: __( 'Relative REST API' ) },
 ];
 export const queryMatch = () => [
-	{ value: 'exact', label: __( 'Exact match' ) },
+	{ value: 'exact', label: __( 'Exact match in any order' ) },
 	{ value: 'ignore', label: __( 'Ignore all query parameters' ) },
 	{ value: 'pass', label: __( 'Ignore and pass all query parameters' ) },
 ];

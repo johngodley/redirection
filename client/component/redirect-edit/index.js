@@ -292,7 +292,7 @@ class EditRedirect extends React.Component {
 		return (
 			<>
 				<RedirectSourceUrl url={ url } flags={ this.state } defaultFlags={ flags } autoFocus={ autoFocus } onFlagChange={ this.onFlagChange } onChange={ this.onChange } />
-				<RedirectSourceQuery query={ flag_query } regex={ flag_regex } onChange={ this.onChange } />
+				<RedirectSourceQuery query={ flag_query } regex={ flag_regex } onChange={ this.onChange } url={ url } />
 				{ advanced &&
 
 					<>

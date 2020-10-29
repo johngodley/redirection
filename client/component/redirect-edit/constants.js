@@ -199,8 +199,12 @@ export const FLAG_CASE = 2;
 
 export const getSourceQuery = () => [
 	{
+		value: 'exactorder',
+		label: __( 'Exact match' ),
+	},
+	{
 		value: 'exact',
-		label: __( 'Exact match all parameters in any order' ),
+		label: __( 'Exact match in any order' ),
 	},
 	{
 		value: 'ignore',
