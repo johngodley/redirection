@@ -119,7 +119,8 @@ class DatabaseTester {
 			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items" );
 
 			$unit->assertEquals( '/TEST/?thing=cat', $rows[0]->url );
-			$unit->assertEquals( '/test', $rows[0]->match_url );
+			$unit->assertEquals( '/test?thing=cat', $rows[0]->match_url );
+			$unit->assertEquals( '{"source":{"flag_query":"exactorder"}}', $rows[0]->match_data );
 
 			$unit->assertEquals( '/', $rows[1]->url );
 			$unit->assertEquals( '/', $rows[1]->match_url );
