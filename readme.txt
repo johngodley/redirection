@@ -177,6 +177,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 An x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 4.9.2 - ??? =
+* Improve display of long URLs
+
 = 4.9.1 - 26th October 2020 =
 * Restore missing time and referrer URL from log pages
 * Restore missing client information from debug reports

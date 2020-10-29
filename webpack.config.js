@@ -3,6 +3,7 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin;
+const TerserPlugin = require( 'terser-webpack-plugin' );
 
 // PostCSS plugins
 const postcssPresetEnv = require( 'postcss-preset-env' );
@@ -75,6 +76,17 @@ const config = {
 	},
 	optimization: {
 		minimize: isProduction(),
+		minimizer: [
+			new TerserPlugin( {
+				parallel: true,
+				extractComments: {
+					condition: true,
+					banner: () => {
+						return 'Redirection v' + pkg.version + ' - please refer to license.txt for license information';
+					},
+				},
+			} ),
+		],
 	},
 };
 
