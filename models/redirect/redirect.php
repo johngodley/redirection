@@ -249,9 +249,10 @@ class Red_Item {
 			$wpdb->prepare(
 				"SELECT {$wpdb->prefix}redirection_items.* FROM {$wpdb->prefix}redirection_items
 				INNER JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id
-				AND {$wpdb->prefix}redirection_groups.status='enabled' AND {$wpdb->prefix}redirection_groups.module_id=%d
+				AND {$wpdb->prefix}redirection_groups.module_id=%d
+				AND {$wpdb->prefix}redirection_groups.status='enabled'
 				WHERE {$wpdb->prefix}redirection_items.status='enabled'
-				ORDER BY {$wpdb->prefix}redirection_groups.position,{$wpdb->prefix}redirection_items.position",
+				ORDER BY {$wpdb->prefix}redirection_items.position",
 				$module
 			)
 		);
@@ -291,7 +292,11 @@ class Red_Item {
 		global $wpdb;
 
 		$url = new Red_Url_Match( $url );
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE match_url=%s OR match_url='regex'", $url->get_url() ) );
+
+		$url_without = $url->get_url();
+		$url_with = $url->get_url_with_params();
+
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE match_url IN (%s, %s, 'regex') AND status='enabled' LIMIT %d", $url_without, $url_with, self::MAX_REDIRECTS ) );
 
 		$items = array();
 		if ( count( $rows ) > 0 ) {
@@ -300,7 +305,12 @@ class Red_Item {
 			}
 		}
 
-		usort( $items, array( 'Red_Item', 'sort_urls' ) );
+		usort( $items, [ 'Red_Item', 'sort_urls' ] );
+
+		if ( count( $items ) === self::MAX_REDIRECTS ) {
+			// Something has gone pretty wrong at this point
+			error_log( 'Redirection: maximum redirect limit exceeded' );
+		}
 
 		return $items;
 	}

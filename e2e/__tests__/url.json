@@ -425,5 +425,18 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test an exact order redirect",
+		{
+			"source": {
+				"url": "/exact-order?thing=1"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
