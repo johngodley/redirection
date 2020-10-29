@@ -422,12 +422,23 @@ class Red_Item {
 		return false;
 	}
 
+	/**
+	 * Disable all redirects that match the URL
+	 *
+	 * @param String $url URL to match.
+	 * @return void
+	 */
 	public static function disable_where_matches( $url ) {
 		global $wpdb;
 
 		$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'status' => 'disabled' ), array( 'url' => $url ) );
 	}
 
+	/**
+	 * Delete this redirect
+	 *
+	 * @return void
+	 */
 	public function delete() {
 		global $wpdb;
 
@@ -437,6 +448,12 @@ class Red_Item {
 		Red_Module::flush( $this->group_id );
 	}
 
+	/**
+	 * Create a redirect with new details
+	 *
+	 * @param array $details Redirect details.
+	 * @return WP_Error|Red_Item
+	 */
 	public static function create( array $details ) {
 		global $wpdb;
 
@@ -527,7 +544,8 @@ class Red_Item {
 	/**
 	 * Determine if a requested URL matches this URL
 	 *
-	 * @param string $requested_url The URL being requested.
+	 * @param string       $requested_url The URL being requested.
+	 * @param string|false $original_url The original URL.
 	 * @return bool true if matched, false otherwise
 	 */
 	public function is_match( $requested_url, $original_url = false ) {
@@ -629,11 +647,11 @@ class Red_Item {
 		global $wpdb;
 
 		$this->last_count  = 0;
-		$this->last_access = '1970-01-01 00:00:00';
+		$this->last_access = 0;
 
 		$update = [
 			'last_count' => 0,
-			'last_access' => $this->last_access,
+			'last_access' => '1970-01-01 00:00:00',
 		];
 		$where = [
 			'id' => $this->id,
