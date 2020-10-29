@@ -4,31 +4,167 @@ require_once dirname( __FILE__ ) . '/redirect-sanitizer.php';
 require_once dirname( __FILE__ ) . '/redirect-filter.php';
 require_once dirname( __FILE__ ) . '/redirect-options.php';
 
+/**
+ * Redirect class
+ */
 class Red_Item {
-	private $id  = null;
-	private $url = null;
-	private $match_url = null;
-	private $match_data = null;
+	/**
+	 * Maximum number of redirects to get from the database in one request.
+	 *
+	 * @var integer
+	 */
+	const MAX_REDIRECTS = 3000;
+
+	/**
+	 * Redirect ID
+	 *
+	 * @var integer
+	 */
+	private $id = 0;
+
+	/**
+	 * Source URL (full)
+	 *
+	 * @var String
+	 */
+	private $url = '';
+
+	/**
+	 * Source URL (match)
+	 *
+	 * @var String
+	 */
+	private $match_url = '';
+
+	/**
+	 * Undocumented variable
+	 *
+	 * @var String
+	 */
+	private $match_data = '';
+
+	/**
+	 * Is regular expression?
+	 *
+	 * @var boolean
+	 */
 	private $regex = false;
-	private $action_data = null;
+
+	/**
+	 * Action data
+	 *
+	 * @var String
+	 */
+	private $action_data = '';
+
+	/**
+	 * HTTP code
+	 *
+	 * @var integer
+	 */
 	private $action_code = 0;
-	private $action_type;
-	private $match_type;
-	private $title;
-	private $last_access = null;
+
+	/**
+	 * Action type
+	 *
+	 * @var String
+	 */
+	private $action_type = '';
+
+	/**
+	 * Match type
+	 *
+	 * @var String
+	 */
+	private $match_type = '';
+
+	/**
+	 * Redirect title
+	 *
+	 * @var String
+	 */
+	private $title = '';
+
+	/**
+	 * Last time the redirect was accessed
+	 *
+	 * @var integer
+	 */
+	private $last_access = 0;
+
+	/**
+	 * Number of hits
+	 *
+	 * @var integer
+	 */
 	private $last_count = 0;
+
+	/**
+	 * Status of the redirect
+	 *
+	 * @var string
+	 */
 	private $status = 'enabled';
-	private $position;
-	private $group_id;
 
-	public $source_flags = false;
+	/**
+	 * Position value
+	 *
+	 * @var integer
+	 */
+	private $position = 0;
 
+	/**
+	 * Group ID
+	 *
+	 * @var integer
+	 */
+	private $group_id = 0;
+
+	/**
+	 * Source flags
+	 *
+	 * @var Red_Source_Flags|null
+	 */
+	public $source_flags = null;
+
+	/**
+	 * Source options
+	 *
+	 * @var Red_Source_Options|null
+	 */
+	public $source_options = null;
+
+	/**
+	 * Match object
+	 *
+	 * @var Red_Match|null
+	 */
+	public $match = null;
+
+	/**
+	 * Action object
+	 *
+	 * @var Red_Action|null
+	 */
+	public $action = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @param stdClass|null $values Values.
+	 */
 	public function __construct( $values = null ) {
 		if ( is_object( $values ) ) {
 			$this->load_from_data( $values );
 		}
 	}
 
+	/**
+	 * Load values into the object
+	 *
+	 * @param stdClass $values Values.
+	 * @return void
+	 */
 	private function load_from_data( stdClass $values ) {
 		foreach ( $values as $key => $value ) {
 			if ( property_exists( $this, $key ) ) {
@@ -44,7 +180,13 @@ class Red_Item {
 		$this->load_source();
 	}
 
-	// v4 JSON
+	/**
+	 * Load the Red_Source_Flags and Red_Source_Options.
+	 *
+	 * Requires a v4 database
+	 *
+	 * @return void
+	 */
 	private function load_source() {
 		// Default regex flag to regex column. This will be removed once the regex column has been migrated
 		// todo: deprecate
@@ -65,6 +207,11 @@ class Red_Item {
 		}
 	}
 
+	/**
+	 * Load the Red_Match object
+	 *
+	 * @return void
+	 */
 	private function load_matcher() {
 		if ( empty( $this->match_type ) ) {
 			$this->match_type = 'url';
@@ -73,6 +220,11 @@ class Red_Item {
 		$this->match = Red_Match::create( $this->match_type, $this->action_data );
 	}
 
+	/**
+	 * Load the Red_Action object
+	 *
+	 * @return void
+	 */
 	private function load_action() {
 		if ( empty( $this->action_type ) ) {
 			$this->action_type = 'nothing';
@@ -84,6 +236,12 @@ class Red_Item {
 		}
 	}
 
+	/**
+	 * Get all redirects for a module. No paging.
+	 *
+	 * @param integer $module Module ID.
+	 * @return Red_Item[]
+	 */
 	public static function get_all_for_module( $module ) {
 		global $wpdb;
 
@@ -106,6 +264,12 @@ class Red_Item {
 		return $items;
 	}
 
+	/**
+	 * Get a list of redirects that match a URL. This is a helper function that calls the appropriate method for the current database version.
+	 *
+	 * @param string $url URL to match.
+	 * @return array
+	 */
 	public static function get_for_url( $url ) {
 		$status = new Red_Database_Status();
 
@@ -117,6 +281,12 @@ class Red_Item {
 		return self::get_old_url( $url );
 	}
 
+	/**
+	 * Get a redirect that matches a URL
+	 *
+	 * @param string $url URL to match.
+	 * @return Red_Item[]
+	 */
 	public static function get_for_matched_url( $url ) {
 		global $wpdb;
 
@@ -135,10 +305,17 @@ class Red_Item {
 		return $items;
 	}
 
-	// deprecate
+	/**
+	 * Get a redirect that matches a URL
+	 *
+	 * @deprecated 3.7.3
+	 * @param string $url URL to match.
+	 * @return array
+	 */
 	public static function get_old_url( $url ) {
 		global $wpdb;
 
+		// Yeah I know
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT {$wpdb->prefix}redirection_items.*,{$wpdb->prefix}redirection_groups.position AS group_pos
@@ -170,10 +347,21 @@ class Red_Item {
 		return $items;
 	}
 
+	/**
+	 * Return only the 'item' element
+	 *
+	 * @param array $item Item.
+	 * @return String
+	 */
 	public static function reduce_sorted_items( $item ) {
 		return $item['item'];
 	}
 
+	/**
+	 * Get all redirects. No paging, and it could be too large for memory
+	 *
+	 * @return Red_Item[]
+	 */
 	public static function get_all() {
 		global $wpdb;
 
@@ -187,6 +375,13 @@ class Red_Item {
 		return $items;
 	}
 
+	/**
+	 * Sort URLs
+	 *
+	 * @param object $first First URL.
+	 * @param object $second Second URL.
+	 * @return integer
+	 */
 	public static function sort_urls( $first, $second ) {
 		if ( $first->position === $second->position ) {
 			return 0;
@@ -195,6 +390,13 @@ class Red_Item {
 		return ( $first->position < $second->position ) ? -1 : 1;
 	}
 
+	/**
+	 * Sort URLs (deprecated)
+	 *
+	 * @param array $first First URL.
+	 * @param array $second Second URL.
+	 * @return integer
+	 */
 	public static function sort_urls_old( $first, $second ) {
 		if ( $first['position'] === $second['position'] ) {
 			return 0;
@@ -278,6 +480,12 @@ class Red_Item {
 		return new WP_Error( 'redirect_create_failed', 'Unable to add new redirect' );
 	}
 
+	/**
+	 * Update the redirect with new details
+	 *
+	 * @param array $details Redirect details.
+	 * @return WP_Error|true
+	 */
 	public function update( $details ) {
 		global $wpdb;
 
@@ -359,6 +567,13 @@ class Red_Item {
 		return false;
 	}
 
+	/**
+	 * Register a vist against this redirect
+	 *
+	 * @param String      $url Full URL that is visited, including query parameters.
+	 * @param String|true $target Target URL, if appropriate.
+	 * @return void
+	 */
 	public function visit( $url, $target ) {
 		global $wpdb;
 
@@ -396,10 +611,20 @@ class Red_Item {
 		}
 	}
 
+	/**
+	 * Is this redirect enabled?
+	 *
+	 * @return boolean
+	 */
 	public function is_enabled() {
 		return $this->status === 'enabled';
 	}
 
+	/**
+	 * Reset this redirect
+	 *
+	 * @return void
+	 */
 	public function reset() {
 		global $wpdb;
 
@@ -417,6 +642,11 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix . 'redirection_items', $update, $where );
 	}
 
+	/**
+	 * Enable this redirect
+	 *
+	 * @return void
+	 */
 	public function enable() {
 		global $wpdb;
 
@@ -424,6 +654,11 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => $this->status ], [ 'id' => $this->id ] );
 	}
 
+	/**
+	 * Disable this redirect
+	 *
+	 * @return void
+	 */
 	public function disable() {
 		global $wpdb;
 
@@ -431,26 +666,56 @@ class Red_Item {
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => $this->status ], [ 'id' => $this->id ] );
 	}
 
+	/**
+	 * Get the redirect ID
+	 *
+	 * @return integer
+	 */
 	public function get_id() {
 		return intval( $this->id, 10 );
 	}
 
+	/**
+	 * Get the redirect position
+	 *
+	 * @return integer
+	 */
 	public function get_position() {
 		return intval( $this->position, 10 );
 	}
 
+	/**
+	 * Get the redirect group ID
+	 *
+	 * @return integer
+	 */
 	public function get_group_id() {
 		return intval( $this->group_id, 10 );
 	}
 
+	/**
+	 * Get the redirect URL
+	 *
+	 * @return string
+	 */
 	public function get_url() {
 		return $this->url;
 	}
 
+	/**
+	 * Get the match URL
+	 *
+	 * @return string
+	 */
 	public function get_match_url() {
 		return $this->match_url;
 	}
 
+	/**
+	 * Get match data
+	 *
+	 * @return array|null
+	 */
 	public function get_match_data() {
 		$source = $this->source_flags->get_json_with_defaults();
 		$options = $this->source_options->get_json();
@@ -472,38 +737,84 @@ class Red_Item {
 		return null;
 	}
 
+	/**
+	 * Get title
+	 *
+	 * @return string
+	 */
 	public function get_title() {
 		return $this->title ? $this->title : '';
 	}
 
+	/**
+	 * Get number of hits
+	 *
+	 * @return integer
+	 */
 	public function get_hits() {
 		return intval( $this->last_count, 10 );
 	}
 
+	/**
+	 * Get time of last hit
+	 *
+	 * @return integer
+	 */
 	public function get_last_hit() {
 		return intval( $this->last_access, 10 );
 	}
 
+	/**
+	 * Is this a regular expression?
+	 *
+	 * @return boolean
+	 */
 	public function is_regex() {
 		return $this->regex ? true : false;
 	}
 
+	/**
+	 * Get match type
+	 *
+	 * @return string
+	 */
 	public function get_match_type() {
 		return $this->match_type;
 	}
 
+	/**
+	 * Get action type
+	 *
+	 * @return string
+	 */
 	public function get_action_type() {
 		return $this->action_type;
 	}
 
+	/**
+	 * Get action code
+	 *
+	 * @return integer
+	 */
 	public function get_action_code() {
 		return intval( $this->action_code, 10 );
 	}
 
+	/**
+	 * Get action data
+	 *
+	 * @return String
+	 */
 	public function get_action_data() {
 		return $this->action_data ? $this->action_data : '';
 	}
 
+	/**
+	 * Delete all redirects that match a filter
+	 *
+	 * @param array $params Filter parameters.
+	 * @return boolean
+	 */
 	public static function delete_all( array $params ) {
 		global $wpdb;
 
@@ -513,6 +824,12 @@ class Red_Item {
 		return $wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_items $where" );
 	}
 
+	/**
+	 * Reset all redirects that match a filter
+	 *
+	 * @param array $params Filter parameters.
+	 * @return boolean
+	 */
 	public static function reset_all( array $params ) {
 		global $wpdb;
 
@@ -522,6 +839,13 @@ class Red_Item {
 		return $wpdb->query( "UPDATE {$wpdb->prefix}redirection_items SET last_count=0, last_access='1970-01-01 00:00:00' $where" );
 	}
 
+	/**
+	 * Set the status of all redirects that match the filter
+	 *
+	 * @param 'enable'|'disable' $status Status to set.
+	 * @param array              $params Filter parameters.
+	 * @return boolean
+	 */
 	public static function set_status_all( $status, array $params ) {
 		global $wpdb;
 
@@ -531,6 +855,12 @@ class Red_Item {
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET status=%s $where", $status === 'enable' ? 'enabled' : 'disabled' ) );
 	}
 
+	/**
+	 * Get a filtered list of redirects
+	 *
+	 * @param array $params Filter parameters.
+	 * @return array<total: integer, items: Red_Item[]>
+	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
 
@@ -588,6 +918,11 @@ class Red_Item {
 		);
 	}
 
+	/**
+	 * Convert the redirect to JSON
+	 *
+	 * @return array
+	 */
 	public function to_json() {
 		return array(
 			'id' => $this->get_id(),

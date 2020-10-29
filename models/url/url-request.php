@@ -1,9 +1,28 @@
 <?php
 
+/**
+ * Decode request URLs
+ */
 class Red_Url_Request {
+	/**
+	 * Original URL
+	 *
+	 * @var String
+	 */
 	private $original_url;
+
+	/**
+	 * Decoded URL
+	 *
+	 * @var String
+	 */
 	private $decoded_url;
 
+	/**
+	 * Constructor
+	 *
+	 * @param String $url URL.
+	 */
 	public function __construct( $url ) {
 		$this->original_url = apply_filters( 'redirection_url_source', $url );
 		$this->decoded_url = rawurldecode( $this->original_url );
@@ -33,20 +52,37 @@ class Red_Url_Request {
 		return $decoded_url;
 	}
 
+	/**
+	 * Get the original URL
+	 *
+	 * @return String
+	 */
 	public function get_original_url() {
 		return $this->original_url;
 	}
 
+	/**
+	 * Get the decoded URL
+	 *
+	 * @return String
+	 */
 	public function get_decoded_url() {
 		return $this->decoded_url;
 	}
 
+	/**
+	 * Is this a valid URL?
+	 *
+	 * @return boolean
+	 */
 	public function is_valid() {
 		return strlen( $this->get_decoded_url() ) > 0;
 	}
 
-	/*
+	/**
 	 * Protect certain URLs from being redirected. Note we don't need to protect wp-admin, as this code doesn't run there
+	 *
+	 * @return boolean
 	 */
 	public function is_protected_url() {
 		$rest = wp_parse_url( red_get_rest_api() );

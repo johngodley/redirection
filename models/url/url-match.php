@@ -1,8 +1,21 @@
 <?php
 
+/**
+ * Get a URL suitable for matching in the database
+ */
 class Red_Url_Match {
+	/**
+	 * URL
+	 *
+	 * @var String
+	 */
 	private $url;
 
+	/**
+	 * Constructor
+	 *
+	 * @param String $url The URL to match.
+	 */
 	public function __construct( $url ) {
 		$this->url = $url;
 	}
@@ -46,5 +59,16 @@ class Red_Url_Match {
 		$path = Red_Url_Path::to_lower( $path );
 
 		return $path ? $path : '/';
+	}
+
+	/**
+	 * Get the URL with parameters re-ordered into alphabetical order
+	 *
+	 * @return String
+	 */
+	public function get_url_with_params() {
+		$query = new Red_Url_Query( $this->url, new Red_Source_Flags( [ Red_Source_Flags::FLAG_CASE => true ] ) );
+
+		return $query->get_url_with_query( $this->get_url() );
 	}
 }
