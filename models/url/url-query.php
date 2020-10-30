@@ -1,11 +1,34 @@
 <?php
 
+/**
+ * Query parameter martching
+ */
 class Red_Url_Query {
+	/**
+	 * @type Integer
+	 */
 	const RECURSION_LIMIT = 10;
 
+	/**
+	 * Query parameters
+	 *
+	 * @var array
+	 */
 	private $query = [];
+
+	/**
+	 * Is this an exact match?
+	 *
+	 * @var boolean|string
+	 */
 	private $match_exact = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @param String           $url URL.
+	 * @param Red_Source_Flags $flags URL flags.
+	 */
 	public function __construct( $url, $flags ) {
 		if ( $flags->is_ignore_case() ) {
 			$url = Red_Url_Path::to_lower( $url );
@@ -14,6 +37,13 @@ class Red_Url_Query {
 		$this->query = $this->get_url_query( $url );
 	}
 
+	/**
+	 * Does this object match the URL?
+	 *
+	 * @param String           $url URL to match.
+	 * @param Red_Source_Flags $flags Source flags.
+	 * @return boolean
+	 */
 	public function is_match( $url, Red_Source_Flags $flags ) {
 		if ( $flags->is_ignore_case() ) {
 			$url = Red_Url_Path::to_lower( $url );
@@ -49,8 +79,8 @@ class Red_Url_Query {
 	/**
 	 * Pass query params from one URL to another URL, ignoring any params that already exist on the target.
 	 *
-	 * @param string $target_url The target URL to add params to.
-	 * @param string $requested_url The source URL to pass params from.
+	 * @param string           $target_url The target URL to add params to.
+	 * @param string           $requested_url The source URL to pass params from.
 	 * @param Red_Source_Flags $flags Any URL flags.
 	 * @return string URL, modified or not.
 	 */
@@ -69,27 +99,62 @@ class Red_Url_Query {
 
 			// Remove any params from $source that are present in $request - we dont allow
 			// predefined params to be overridden
-			foreach ( $query_diff as $key => $value ) {
+			foreach ( array_keys( $query_diff ) as $key ) {
 				if ( isset( $source_query->query[ $key ] ) ) {
 					unset( $query_diff[ $key ] );
 				}
 			}
 
-			$query = http_build_query( $query_diff );
-			$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
-
-			if ( $query ) {
-				return $target_url . ( strpos( $target_url, '?' ) === false ? '?' : '&' ) . $query;
-			}
+			return self::build_url( $target_url, $query_diff );
 		}
 
 		return $target_url;
 	}
 
+	/**
+	 * Build a URL from a base and query parameters
+	 *
+	 * @param String $url Base URL.
+	 * @param Array  $query Query parameters.
+	 * @return String
+	 */
+	public static function build_url( $url, $query ) {
+		$query = http_build_query( $query );
+		$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
+
+		if ( $query ) {
+			return $url . ( strpos( $url, '?' ) === false ? '?' : '&' ) . $query;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Get a URL with the given base and query parameters from this Url_Query
+	 *
+	 * @param String $url Base URL.
+	 * @return String
+	 */
+	public function get_url_with_query( $url ) {
+		return self::build_url( $url, $this->query );
+	}
+
+	/**
+	 * Get the query parameters
+	 *
+	 * @return Array
+	 */
 	public function get() {
 		return $this->query;
 	}
 
+	/**
+	 * Does the URL and the query params contain no parameters?
+	 *
+	 * @param String $url URL.
+	 * @param Array  $params Query params.
+	 * @return boolean
+	 */
 	private function is_exact_match( $url, $params ) {
 		// No parsed query params but we have query params on the URL - some parsing error with wp_parse_str
 		if ( count( $params ) === 0 && $this->has_query_params( $url ) ) {
@@ -99,6 +164,12 @@ class Red_Url_Query {
 		return false;
 	}
 
+	/**
+	 * Get query parameters from a URL
+	 *
+	 * @param String $url URL.
+	 * @return array
+	 */
 	private function get_url_query( $url ) {
 		$params = [];
 		$query = $this->get_query_after( $url );
@@ -112,6 +183,12 @@ class Red_Url_Query {
 		return $params;
 	}
 
+	/**
+	 * Does the URL contain query parameters?
+	 *
+	 * @param String $url URL.
+	 * @return boolean
+	 */
 	public function has_query_params( $url ) {
 		$qpos = strpos( $url, '?' );
 
@@ -122,21 +199,38 @@ class Red_Url_Query {
 		return true;
 	}
 
+	/**
+	 * Get parameters after the ?
+	 *
+	 * @param String $url URL.
+	 * @return String
+	 */
 	public function get_query_after( $url ) {
 		$qpos = strpos( $url, '?' );
 		$qrpos = strpos( $url, '\\?' );
 
+		// No ? anywhere - no query
 		if ( $qpos === false ) {
 			return '';
 		}
 
+		// Found an escaped ? and it comes before the non-escaped ?
 		if ( $qrpos !== false && $qrpos < $qpos ) {
-			return substr( $url, $qrpos + strlen( $qrpos ) );
+			return substr( $url, $qrpos + 2 );
 		}
 
+		// Standard query param
 		return substr( $url, $qpos + 1 );
 	}
 
+	/**
+	 * Get query parameters that are the same in both query arrays
+	 *
+	 * @param array   $source_query Source query params.
+	 * @param array   $target_query Target query params.
+	 * @param integer $depth Current recursion depth.
+	 * @return array
+	 */
 	public function get_query_same( array $source_query, array $target_query, $depth = 0 ) {
 		if ( $depth > self::RECURSION_LIMIT ) {
 			return [];
@@ -166,6 +260,14 @@ class Red_Url_Query {
 		return $same;
 	}
 
+	/**
+	 * Get the difference in query parameters
+	 *
+	 * @param array   $source_query Source query params.
+	 * @param array   $target_query Target query params.
+	 * @param integer $depth Current recursion depth.
+	 * @return array
+	 */
 	public function get_query_diff( array $source_query, array $target_query, $depth = 0 ) {
 		if ( $depth > self::RECURSION_LIMIT ) {
 			return [];
@@ -173,8 +275,6 @@ class Red_Url_Query {
 
 		$diff = [];
 		foreach ( $source_query as $key => $value ) {
-			$found = false;
-
 			if ( isset( $target_query[ $key ] ) && is_array( $value ) && is_array( $target_query[ $key ] ) ) {
 				$add = $this->get_query_diff( $source_query[ $key ], $target_query[ $key ], $depth + 1 );
 

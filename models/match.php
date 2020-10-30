@@ -1,20 +1,61 @@
 <?php
 
+/**
+ * Matches a URL and some other condition
+ */
 abstract class Red_Match {
+	/**
+	 * Match type
+	 *
+	 * @var string
+	 */
 	protected $type;
 
+	/**
+	 * Constructor
+	 *
+	 * @param array|string $values Initial values.
+	 */
 	public function __construct( $values = '' ) {
 		if ( $values ) {
 			$this->load( $values );
 		}
 	}
 
+	/**
+	 * Get match type
+	 *
+	 * @return string
+	 */
 	public function get_type() {
 		return $this->type;
 	}
 
+	/**
+	 * Save the match
+	 *
+	 * @param array   $details Details to save.
+	 * @param boolean $no_target_url The URL when no target.
+	 * @return array
+	 */
 	abstract public function save( array $details, $no_target_url = false );
+
+	/**
+	 * Get the match name
+	 *
+	 * @return String
+	 */
 	abstract public function name();
+
+	/**
+	 * Get the target URL
+	 *
+	 * @param String           $url URL of this redirect.
+	 * @param String           $matched_url URL that was matched from the client.
+	 * @param Red_Source_Flags $flag Flags.
+	 * @param boolean          $is_matched Is this matched.
+	 * @return String
+	 */
 	abstract public function get_target_url( $url, $matched_url, Red_Source_Flags $flag, $is_matched );
 	abstract public function is_match( $url );
 	abstract public function get_data();
@@ -30,12 +71,28 @@ abstract class Red_Match {
 		return $url;
 	}
 
+	/**
+	 * Get a regular expression target URL
+	 *
+	 * @param [type] $source_url
+	 * @param [type] $target_url
+	 * @param [type] $requested_url
+	 * @param Red_Source_Flags $flags
+	 * @return void
+	 */
 	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
 		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
 
 		return $regex->replace( $target_url, $requested_url );
 	}
 
+	/**
+	 * Create a Red_Match object, given a type
+	 *
+	 * @param string $name Match type.
+	 * @param string $data Match data.
+	 * @return Red_Match|false
+	 */
 	public static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
@@ -53,6 +110,11 @@ abstract class Red_Match {
 		return false;
 	}
 
+	/**
+	 * Get all Red_Match objects
+	 *
+	 * @return Red_Match[]
+	 */
 	public static function all() {
 		$data = array();
 
@@ -65,6 +127,11 @@ abstract class Red_Match {
 		return $data;
 	}
 
+	/**
+	 * Get list of available matches
+	 *
+	 * @return array
+	 */
 	public static function available() {
 		return array(
 			'url'      => 'url.php',
@@ -83,9 +150,25 @@ abstract class Red_Match {
 	}
 }
 
+/**
+ * Trait to add redirect matching
+ */
 trait FromUrl_Match {
+	/**
+	 * URL to match against
+	 *
+	 * @var string
+	 */
 	public $url;
 
+	/**
+	 * Save match data
+	 *
+	 * @param array  $details Match data.
+	 * @param string $no_target_url
+	 * @param array  $data
+	 * @return array
+	 */
 	private function save_data( array $details, $no_target_url, array $data ) {
 		if ( $no_target_url === false ) {
 			return array_merge( array(
@@ -96,6 +179,15 @@ trait FromUrl_Match {
 		return $data;
 	}
 
+	/**
+	 * Get target URL for this match, depending on whether we match or not
+	 *
+	 * @param string           $requested_url Request URL.
+	 * @param string           $source_url Redirect source URL.
+	 * @param Red_Source_Flags $flags Redirect flags.
+	 * @param [type] $matched
+	 * @return string
+	 */
 	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
 		$target = $this->get_matched_target( $matched );
 
@@ -183,6 +275,11 @@ trait FromNotFrom_Match {
 		return $values;
 	}
 
+	/**
+	 * Get the match data
+	 *
+	 * @return array<url_from: string, url_notfrom: string>
+	 */
 	private function get_from_data() {
 		return array(
 			'url_from' => $this->url_from,

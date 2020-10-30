@@ -214,12 +214,16 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * <action>
 	 * : The database action to perform: install, remove, upgrade
 	 *
+	 * [--skip-errors]
+	 * : Skip errors and keep on upgrading
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp redirection database install
 	 */
 	public function database( $args, $extra ) {
 		$action = false;
+		$skip = isset( $extra['skip-errors'] ) ? true : false;
 
 		if ( count( $args ) === 0 || ! in_array( $args[0], array( 'install', 'remove', 'upgrade' ), true ) ) {
 			WP_CLI::error( 'Invalid database action - please use install, remove, or upgrade' );
@@ -236,6 +240,10 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			WP_CLI::success( 'Database install finished' );
 		} elseif ( $args[0] === 'upgrade' ) {
+			global $wpdb;
+
+			$wpdb->show_errors( false );
+
 			Red_Database::apply_to_sites( function() {
 				$database = new Red_Database();
 				$status = new Red_Database_Status();
@@ -255,9 +263,14 @@ class Redirection_Cli extends WP_CLI_Command {
 						break;
 					}
 
-					if ( $info['status'] === 'error' ) {
-						WP_CLI::error( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] );
-						return;
+					if ( $info['result'] === 'error' ) {
+						if ( $skip === false ) {
+							WP_CLI::error( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] . ' - ' . $info['debug'][0] );
+							return;
+						}
+
+						WP_CLI::warning( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] . ' - ' . $info['debug'][0] );
+						$status->set_next_stage();
 					}
 
 					$loop++;
