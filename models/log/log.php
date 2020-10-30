@@ -115,7 +115,9 @@ abstract class Red_Log {
 	 * @param Object $wpdb WPDB object.
 	 * @return String
 	 */
-	abstract protected static function get_table_name( $wpdb );
+	protected static function get_table_name( $wpdb ) {
+		return '';
+	}
 
 	/**
 	 * Get a log item by ID
@@ -442,14 +444,18 @@ abstract class Red_Log {
 	 *
 	 * @return string
 	 */
-	abstract public static function get_csv_filename();
+	public static function get_csv_filename() {
+		return '';
+	}
 
 	/**
 	 * Get the CSV headers for this log object
 	 *
 	 * @return array
 	 */
-	abstract public static function get_csv_header();
+	public static function get_csv_header() {
+		return [];
+	}
 
 	/**
 	 * Get the CSV headers for this log object
@@ -457,7 +463,9 @@ abstract class Red_Log {
 	 * @param object $row Log row.
 	 * @return array
 	 */
-	abstract public static function get_csv_row( $row );
+	public static function get_csv_row( $row ) {
+		return [];
+	}
 
 	/**
 	 * Export the log entry to CSV
