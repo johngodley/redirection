@@ -14,6 +14,8 @@ if ! $(wp core is-installed); then
 	wp redirection database install
 	wp redirection import /opt/redirection/redirects.json
 	wp redirection setting headers --set='[{"type":"custom","location":"site","headerName":"X-Custom-Header","headerValue":"custom"},{"type":"X-Robots-Tag","location":"site","headerName":"X-Robots-Tag","headerValue":"nofollow"},{"type":"X-Robots-Tag","location":"redirect","headerName":"X-Robots-Tag","headerValue":"nofollow,noindex"}]'
+	wp redirection setting permalinks --set='["/%year%/%monthnum%/%day%/%postname%/"]'
+	wp post create --post_date='2020-01-01 07:00:00' --post_title='A post' --post_content='Just a small post.' --post_name='migrated-permalink' --post_status='publish' --post_author=1
 
 	echo "CLI: Setup finished"
 else

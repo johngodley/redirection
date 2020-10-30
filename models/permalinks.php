@@ -56,7 +56,7 @@ class Red_Permalinks {
 				$wp->query_posts();
 
 				// A single post?
-				if ( is_single() ) {
+				if ( is_single() && count( $query->posts ) > 0 ) {
 					// Restore permalinks
 					$this->release_permalinks();
 
