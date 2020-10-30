@@ -25,7 +25,7 @@ export const isRegex = ( text ) => {
 	return false;
 };
 
-const getRelativeAbsolute = url => {
+const getRelativeAbsolute = ( url ) => {
 	const matched = url.match( /^\/([a-zA-Z0-9_\-%]*\..*)\// );
 
 	if ( matched ) {
@@ -49,7 +49,9 @@ export const getWarningFromState = ( item ) => {
 	// Anchor value
 	if ( url.indexOf( '#' ) !== -1 ) {
 		warnings.push(
-			<ExternalLink url="https://redirection.me/support/faq/#anchor">{ __( 'Anchor values are not sent to the server and cannot be redirected.' ) }</ExternalLink>,
+			<ExternalLink url="https://redirection.me/support/faq/#anchor">
+				{ __( 'Anchor values are not sent to the server and cannot be redirected.' ) }
+			</ExternalLink>
 		);
 	}
 
@@ -71,11 +73,13 @@ export const getWarningFromState = ( item ) => {
 
 	// Relative URL without leading slash
 	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 && flag_regex === false ) {
-		warnings.push( __( 'The source URL should probably start with a {{code}}/{{/code}}', {
-			components: {
-				code: <code />,
-			},
-		} ) );
+		warnings.push(
+			__( 'The source URL should probably start with a {{code}}/{{/code}}', {
+				components: {
+					code: <code />,
+				},
+			} )
+		);
 	}
 
 	// Regex without checkbox
@@ -88,10 +92,12 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	// Permalink
-	if ( url.indexOf( '%postname%' ) !== -1 ) {
+	if ( url.match( /%\w+%/ ) ) {
 		warnings.push(
-			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
-				{ __( 'WordPress permalink structures do not work in normal URLs. Please use a regular expression.' ) }
+			<ExternalLink url="tools.php?page=redirection.php&sub=site">
+				{ __(
+					'Please add migrated permalinks to the Site page under the "Permalink Migration" section.'
+				) }
 			</ExternalLink>
 		);
 	}
@@ -109,69 +115,104 @@ export const getWarningFromState = ( item ) => {
 	// Anchor
 	if ( url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 && flag_regex ) {
 		warnings.push(
-			__( 'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}', {
-				components: {
-					code: <code />,
-				},
-				args: {
-					example: '^' + url,
-				},
-			} ),
+			__(
+				'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}',
+				{
+					components: {
+						code: <code />,
+					},
+					args: {
+						example: '^' + url,
+					},
+				}
+			)
 		);
 	}
 
 	// Redirect everything
 	if ( url === '/(.*)' || url === '^/(.*)' ) {
-		warnings.push( __( 'If you want to redirect everything please use a site relocation or alias from the Site page.' ) );
+		warnings.push(
+			__( 'If you want to redirect everything please use a site relocation or alias from the Site page.' )
+		);
 	}
 
 	// If matched/unmatched that is the same as the source URL
-	if ( url.length > 0 && ( url_from === url || url_notfrom === url || logged_in === url || logged_out === url || targetUrl === url ) ) {
-		warnings.push( __( 'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.' ) );
+	if (
+		url.length > 0 &&
+		( url_from === url || url_notfrom === url || logged_in === url || logged_out === url || targetUrl === url )
+	) {
+		warnings.push(
+			__(
+				'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.'
+			)
+		);
 	}
 
-	const targets = [ action_data.url, action_data.url_from, action_data.url_notfrom, action_data.logged_in, action_data.logged_out ].filter( filt => filt );
+	const targets = [
+		action_data.url,
+		action_data.url_from,
+		action_data.url_notfrom,
+		action_data.logged_in,
+		action_data.logged_out,
+	].filter( ( filt ) => filt );
 
-	if ( targetUrl && ! beginsWith( targetUrl, 'https://' ) && ! beginsWith( targetUrl, 'http://' ) && targetUrl.substr( 0, 1 ) !== '/' ) {
-		warnings.push( __( 'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.', {
-			components: {
-				code: <code />,
-			},
-			args: {
-				url: action_data.url,
-			},
-		} ) );
+	if (
+		targetUrl &&
+		! beginsWith( targetUrl, 'https://' ) &&
+		! beginsWith( targetUrl, 'http://' ) &&
+		targetUrl.substr( 0, 1 ) !== '/'
+	) {
+		warnings.push(
+			__(
+				'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.',
+				{
+					components: {
+						code: <code />,
+					},
+					args: {
+						url: action_data.url,
+					},
+				}
+			)
+		);
 	}
 
-	targets.forEach( target => {
+	targets.forEach( ( target ) => {
 		const matches = target.match( /[|\\]/g );
 
 		if ( matches !== null ) {
-			warnings.push( __( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
-				components: {
-					code: <code />,
-				},
-				args: {
-					invalid: matches,
-				},
-			} ) );
+			warnings.push(
+				__( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
+					components: {
+						code: <code />,
+					},
+					args: {
+						invalid: matches,
+					},
+				} )
+			);
 		}
 	} );
 
 	// People often try and use a relative absolute domain - /something.com/
-	[ url, ... targets ].forEach( target => {
+	[ url, ...targets ].forEach( ( target ) => {
 		const relative = getRelativeAbsolute( target );
 
 		if ( relative ) {
-			warnings.push( __( 'Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?', {
-				components: {
-					code: <code />,
-				},
-				args: {
-					relative,
-					absolute: 'https://' + relative,
-				},
-			} ) );
+			warnings.push(
+				__(
+					'Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?',
+					{
+						components: {
+							code: <code />,
+						},
+						args: {
+							relative,
+							absolute: 'https://' + relative,
+						},
+					}
+				)
+			);
 		}
 	} );
 
@@ -179,7 +220,9 @@ export const getWarningFromState = ( item ) => {
 	if ( url.match( /(\.html|\.htm|\.php|\.pdf|\.jpg)$/ ) !== null ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
-				{ __( 'Some servers may be configured to serve file resources directly, preventing a redirect occurring.' ) }
+				{ __(
+					'Some servers may be configured to serve file resources directly, preventing a redirect occurring.'
+				) }
 			</ExternalLink>
 		);
 	}
@@ -195,7 +238,12 @@ export const Warnings = ( { warnings } ) => {
 	return (
 		<TableRow>
 			<div className="redirect-edit_warning notice notice-warning">
-				{ warnings.map( ( text, pos ) => <p key={ pos }><span className="dashicons dashicons-info"></span>{ text }</p> ) }
+				{ warnings.map( ( text, pos ) => (
+					<p key={ pos }>
+						<span className="dashicons dashicons-info" />
+						{ text }
+					</p>
+				) ) }
 			</div>
 		</TableRow>
 	);
