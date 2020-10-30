@@ -438,5 +438,18 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test a migrated permalink",
+		{
+			"source": {
+				"url": "/2020/01/01/migrated-permalink/"
+			},
+			"target": {
+				"location": "/migrated-permalink/",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]

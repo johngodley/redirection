@@ -62,6 +62,7 @@ function red_get_default_options() {
 		'relocate'            => '',
 		'preferred_domain'    => '',
 		'aliases'             => [],
+		'permalinks'          => [],
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
@@ -196,7 +197,12 @@ function red_set_options( array $settings = array() ) {
 
 	if ( isset( $settings['aliases'] ) && is_array( $settings['aliases'] ) ) {
 		$options['aliases'] = array_values( array_filter( array_map( 'red_parse_domain_only', $settings['aliases'] ) ) );
-		$options['aliases'] = array_slice( $options['aliases'], 0, 10 ); // Max 10 aliases
+		$options['aliases'] = array_slice( $options['aliases'], 0, 10 ); // Max 10
+	}
+
+	if ( isset( $settings['permalinks'] ) && is_array( $settings['permalinks'] ) ) {
+		$options['permalinks'] = array_values( array_filter( array_map( 'trim', $settings['permalinks'] ) ) );
+		$options['permalinks'] = array_slice( $options['permalinks'], 0, 10 ); // Max 10
 	}
 
 	if ( isset( $settings['preferred_domain'] ) && in_array( $settings['preferred_domain'], [ '', 'www', 'nowww' ], true ) ) {

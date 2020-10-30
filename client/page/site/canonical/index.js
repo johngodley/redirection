@@ -2,9 +2,8 @@
  * External dependencies
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { translate as __ } from 'i18n-calypso';
-import PropTypes from 'prop-types';
 
 const getWWW = ( site ) => [
 	{
@@ -72,7 +71,7 @@ function getCanonical( domain, https, preferred ) {
 	return ( https ? 'https://' : 'http://' ) + domain;
 }
 
-const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) => {
+function CanonicalSettings( { https, preferredDomain, siteDomain, onChange } ) {
 	const alert = showAlert( siteDomain, https, preferredDomain );
 	const changePreferred = ev => {
 		onChange( { [ ev.target.name ]: ev.target.value } );
@@ -82,7 +81,7 @@ const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) =
 	};
 
 	return (
-		<Fragment>
+		<>
 			<h3>{ __( 'Canonical Settings' ) }</h3>
 			<p>
 				<label>
@@ -127,15 +126,8 @@ const CanonicalSettings = ( { https, preferredDomain, siteDomain, onChange } ) =
 					},
 				} ) }</p>
 			</div> }
-		</Fragment>
+		</>
 	);
-}
-
-CanonicalSettings.propTypes = {
-	https: PropTypes.bool.isRequired,
-	preferredDomain: PropTypes.string.isRequired,
-	siteDomain: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
 }
 
 export default CanonicalSettings;
