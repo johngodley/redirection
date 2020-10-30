@@ -19,6 +19,7 @@ import CanonicalSettings from './canonical';
 import HttpHeaders from './headers';
 import { getDomainOnly, getDomainAndPathOnly } from 'lib/url';
 import './style.scss';
+import PermalinkSettings from './permalink';
 
 class Site extends React.Component {
 	constructor( props ) {
@@ -26,7 +27,7 @@ class Site extends React.Component {
 
 		props.onLoadSettings();
 
-		const { headers = [], relocate = '', preferred_domain = '', https = false, aliases = [] } = props.values ? props.values : {};
+		const { headers = [], relocate = '', preferred_domain = '', https = false, aliases = [], permalinks = [] } = props.values ? props.values : {};
 
 		this.state = {
 			https,
@@ -34,11 +35,12 @@ class Site extends React.Component {
 			headers,
 			relocate,
 			aliases,
+			permalinks,
 		};
 	}
 
 	onSubmit = ev => {
-		const { https, headers, preferred_domain, aliases, relocate } = this.state;
+		const { https, headers, preferred_domain, aliases, relocate, permalinks } = this.state;
 
 		ev.preventDefault();
 		this.props.onSaveSettings( {
@@ -46,7 +48,8 @@ class Site extends React.Component {
 			headers,
 			preferred_domain,
 			aliases: aliases.filter( item => item ).map( getDomainOnly ),
-			relocate: getDomainAndPathOnly( relocate )
+			relocate: getDomainAndPathOnly( relocate ),
+			permalinks,
 		} );
 	}
 
@@ -56,7 +59,7 @@ class Site extends React.Component {
 
 	render() {
 		const { loadStatus, values, saveStatus, siteDomain } = this.props;
-		const { headers, relocate, aliases, https, preferred_domain } = this.state;
+		const { headers, relocate, aliases, https, preferred_domain, permalinks } = this.state;
 
 		if ( loadStatus === STATUS_IN_PROGRESS || ! values ) {
 			return <Placeholder />;
@@ -65,20 +68,45 @@ class Site extends React.Component {
 		return (
 			<form onSubmit={ this.onSubmit }>
 				<div className="inline-notice inline-warning">
-					<p>{ __( 'Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes.', {
-						components: {
-							link: <ExternalLink url="https://redirection.me/support/disable-redirection/" />,
-						},
-					} ) }</p>
+					<p>
+						{ __(
+							'Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes.',
+							{
+								components: {
+									link: (
+										<ExternalLink url="https://redirection.me/support/disable-redirection/" />
+									),
+								},
+							}
+						) }
+					</p>
 				</div>
 
 				<RelocateSite relocate={ relocate } siteDomain={ siteDomain } onChange={ this.onChange } />
-				{ relocate.length === 0 && <SiteAliases aliases={ aliases } siteDomain={ siteDomain } onChange={ this.onChange } /> }
-				{ relocate.length === 0 && <CanonicalSettings https={ https } siteDomain={ siteDomain } preferredDomain={ preferred_domain } onChange={ this.onChange } /> }
+				{ relocate.length === 0 && (
+					<SiteAliases aliases={ aliases } siteDomain={ siteDomain } onChange={ this.onChange } />
+				) }
+				{ relocate.length === 0 && (
+					<CanonicalSettings
+						https={ https }
+						siteDomain={ siteDomain }
+						preferredDomain={ preferred_domain }
+						onChange={ this.onChange }
+					/>
+				) }
+				{ relocate.length === 0 && (
+					<PermalinkSettings permalinks={ permalinks } onChange={ this.onChange } />
+				) }
 
 				<HttpHeaders headers={ headers } onChange={ this.onChange } />
 
-				<input className="button-primary" type="submit" name="update" value={ __( 'Update' ) } disabled={ saveStatus === STATUS_IN_PROGRESS } />
+				<input
+					className="button-primary"
+					type="submit"
+					name="update"
+					value={ __( 'Update' ) }
+					disabled={ saveStatus === STATUS_IN_PROGRESS }
+				/>
 			</form>
 		);
 	}

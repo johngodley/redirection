@@ -71,6 +71,10 @@ Errors can be grouped to show where you should focus your attention, and can be 
 
 You can match query parameters exactly, ignore them, and even pass them through to your target.
 
+= Migrate Permalinks =
+
+Changed your permalink structure? You can migrate old permalinks simply by entering the old permalink structure. Multiple migrations are supported.
+
 = Apache & Nginx support =
 
 By default Redirection will manage all redirects using WordPress. However you can configure it so redirects are automatically saved to a .htaccess file and handled by Apache itself.
@@ -179,6 +183,7 @@ An x.1 version increase introduces new or updated features and can be considered
 
 = 4.10 - ??? =
 * Improve performance when many redirects have the same path
+* Add support for migrated permalink structures
 
 = 4.9.2 - ??? =
 * Improve display of long URLs

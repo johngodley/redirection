@@ -83,6 +83,9 @@ class WordPress_Module extends Red_Module {
 
 			// Redirect HTTP headers and server-specific overrides
 			add_filter( 'wp_redirect', [ $this, 'wp_redirect' ], 1, 2 );
+
+			// Allow permalinks to be redirected
+			add_filter( 'pre_handle_404', [ $this, 'pre_handle_404' ], 10, 2 );
 		}
 
 		// Setup the various filters and actions that allow Redirection to happen
@@ -101,6 +104,26 @@ class WordPress_Module extends Red_Module {
 
 		// Record the redirect agent
 		add_filter( 'x_redirect_by', [ $this, 'record_redirect_by' ], 90 );
+	}
+
+	/**
+	 * If we have a 404 then check for any permalink migrations
+	 *
+	 * @param boolean  $result Return result.
+	 * @param WP_Query $query WP_Query object.
+	 * @return boolean
+	 */
+	public function pre_handle_404( $result, WP_Query $query ) {
+		$options = red_get_options();
+
+		if ( is_404() && count( $options['permalinks'] ) > 0 ) {
+			include_once dirname( dirname( __FILE__ ) ) . '/models/permalinks.php';
+
+			$permalinks = new Red_Permalinks( $options['permalinks'] );
+			$permalinks->migrate( $query );
+		}
+
+		return $result;
 	}
 
 	/**
