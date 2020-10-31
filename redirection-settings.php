@@ -36,6 +36,11 @@ function red_get_post_types( $full = true ) {
 	return apply_filters( 'redirection_post_types', $post_types );
 }
 
+/**
+ * Get default options. Contains all valid options
+ *
+ * @return array
+ */
 function red_get_default_options() {
 	$flags = new Red_Source_Flags();
 	$defaults = [
@@ -63,12 +68,19 @@ function red_get_default_options() {
 		'preferred_domain'    => '',
 		'aliases'             => [],
 		'permalinks'          => [],
+		'cache_key'            => 0,
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
 	return apply_filters( 'red_default_options', $defaults );
 }
 
+/**
+ * Set options
+ *
+ * @param array $settings Partial settings.
+ * @return array
+ */
 function red_set_options( array $settings = array() ) {
 	$options = red_get_options();
 	$monitor_types = array();
@@ -219,6 +231,18 @@ function red_set_options( array $settings = array() ) {
 		}
 	}
 
+	if ( isset( $settings['cache_key'] ) ) {
+		$key = intval( $settings['cache_key'], 10 );
+
+		if ( $settings['cache_key'] === true ) {
+			$key = time();
+		} elseif ( $settings['cache_key'] === false ) {
+			$key = 0;
+		}
+
+		$options['cache_key'] = $key;
+	}
+
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );
 	return $options;
 }
@@ -309,6 +333,12 @@ function red_get_options() {
 	return $options;
 }
 
+/**
+ * Get the current REST API
+ *
+ * @param boolean $type Override with a specific API type.
+ * @return string
+ */
 function red_get_rest_api( $type = false ) {
 	if ( $type === false ) {
 		$options = red_get_options();
