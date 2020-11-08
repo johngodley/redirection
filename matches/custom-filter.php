@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Perform a check against the results of a custom filter
+ */
 class Custom_Match extends Red_Match {
 	use FromNotFrom_Match;
 
+	/**
+	 * Filter name
+	 *
+	 * @var string
+	 */
 	public $filter = '';
 
 	public function name() {
@@ -10,9 +18,9 @@ class Custom_Match extends Red_Match {
 	}
 
 	public function save( array $details, $no_target_url = false ) {
-		$data = array(
+		$data = [
 			'filter' => isset( $details['filter'] ) ? $this->sanitize_filter( $details['filter'] ) : '',
-		);
+		];
 
 		return $this->save_data( $details, $no_target_url, $data );
 	}
@@ -28,9 +36,9 @@ class Custom_Match extends Red_Match {
 	}
 
 	public function get_data() {
-		return array_merge( array(
+		return array_merge( [
 			'filter' => $this->filter,
-		), $this->get_from_data() );
+		], $this->get_from_data() );
 	}
 
 	public function load( $values ) {

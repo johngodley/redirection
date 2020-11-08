@@ -139,7 +139,7 @@ export const getDefaultItem = ( url, group_id, source ) => ( {
 } );
 
 export function getMatchState( matchType, actionData ) {
-	if ( MATCH_MAP[ matchType ] ) {
+	if ( MATCH_MAP[ matchType ] && actionData ) {
 		return MATCH_MAP[ matchType ]( actionData );
 	}
 

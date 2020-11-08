@@ -6,12 +6,6 @@ class NothingTest extends WP_UnitTestCase {
 		$module->reset();
 	}
 
-	public function testNothingAction() {
-		$action = Red_Action::create( 'nothing', 1 );
-
-		$this->assertTrue( $action->process_before( 1, 'test' ) );
-	}
-
 	public function test404Logs() {
 		global $wp_query, $wpdb;
 
@@ -34,7 +28,7 @@ class NothingTest extends WP_UnitTestCase {
 		$module = Redirection::init()->get_module();
 		$action = Red_Action::create( 'nothing', 1 );
 
-		$action->process_before( 1, 'test' );
+		$action->run();
 		$module->template_redirect();
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );

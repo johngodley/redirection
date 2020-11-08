@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Check the request IP
+ */
 class IP_Match extends Red_Match {
 	use FromNotFrom_Match;
 
+	/**
+	 * Array of IP addresses
+	 *
+	 * @var string[]
+	 */
 	public $ip = [];
 
 	public function name() {
@@ -15,6 +23,12 @@ class IP_Match extends Red_Match {
 		return $this->save_data( $details, $no_target_url, $data );
 	}
 
+	/**
+	 * Sanitize a single IP
+	 *
+	 * @param String $ip IP.
+	 * @return String|false
+	 */
 	private function sanitize_single_ip( $ip ) {
 		$ip = @inet_pton( trim( $ip ) );
 		if ( $ip !== false ) {
@@ -24,15 +38,23 @@ class IP_Match extends Red_Match {
 		return false;
 	}
 
-	private function sanitize_ips( $ips ) {
-		if ( is_array( $ips ) ) {
-			$ips = array_map( array( $this, 'sanitize_single_ip' ), $ips );
-			return array_values( array_filter( array_unique( $ips ) ) );
-		}
-
-		return array();
+	/**
+	 * Sanitize a list of IPs
+	 *
+	 * @param string[] $ips List of IPs.
+	 * @return string[]
+	 */
+	private function sanitize_ips( array $ips ) {
+		$ips = array_map( array( $this, 'sanitize_single_ip' ), $ips );
+		return array_values( array_filter( array_unique( $ips ) ) );
 	}
 
+	/**
+	 * Get a list of IPs that match.
+	 *
+	 * @param String $match_ip IP to match.
+	 * @return string[]
+	 */
 	private function get_matching_ips( $match_ip ) {
 		$current_ip = @inet_pton( $match_ip );
 

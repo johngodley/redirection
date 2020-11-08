@@ -1,64 +1,72 @@
 <?php
 
-class Pass_Action extends Red_Action {
+require_once dirname( __FILE__ ) . '/url.php';
+
+/**
+ * A 'pass through' action. Matches a rewrite rather than a redirect, and uses PHP to fetch data from a remote URL.
+ */
+class Pass_Action extends Url_Action {
+	/**
+	 * Process an external passthrough - a URL that lives external to this server.
+	 *
+	 * @param String $url Target URL.
+	 * @return void
+	 */
 	public function process_external( $url ) {
-		echo @wp_remote_fopen( $url );
+		// This is entirely at the user's risk. The $url is set by the user
+		// phpcs:ignore
+		echo wp_remote_fopen( $url );
 	}
 
 	/**
-	 * This is deprecated and will be removed in a future version
+	 * Process an internal passthrough - a URL that lives on the same server. Here we change the request URI and continue without making a remote request.
+	 *
+	 * @param String $target Target URL.
+	 * @return void
 	 */
-	public function process_file( $url ) {
-		$parts = explode( '?', substr( $url, 7 ) );
-
-		if ( count( $parts ) > 1 ) {
-			// Put parameters into the environment
-			$args = explode( '&', $parts[1] );
-
-			if ( count( $args ) > 0 ) {
-				foreach ( $args as $arg ) {
-					$tmp = explode( '=', $arg );
-
-					if ( count( $tmp ) === 1 ) {
-						$_GET[ $arg ] = '';
-					} else {
-						$_GET[ $tmp[0] ] = $tmp[1];
-					}
-				}
-			}
-		}
-
-		@include $parts[0];
-	}
-
 	public function process_internal( $target ) {
 		// Another URL on the server
+		$pos = strpos( $target, '?' );
 		$_SERVER['REQUEST_URI'] = $target;
 		$_SERVER['PATH_INFO'] = $target;
 
-		if ( strpos( $target, '?' ) ) {
-			$_SERVER['QUERY_STRING'] = substr( $target, strpos( $target, '?' ) + 1 );
+		if ( $pos ) {
+			$_SERVER['QUERY_STRING'] = substr( $target, $pos + 1 );
+			$_SERVER['PATH_INFO'] = $target;
+
 			parse_str( $_SERVER['QUERY_STRING'], $_GET );
 		}
-
-		return true;
 	}
 
+	/**
+	 * Is a URL external?
+	 *
+	 * @param String $target URL to test.
+	 * @return boolean
+	 */
 	public function is_external( $target ) {
 		return substr( $target, 0, 7 ) === 'http://' || substr( $target, 0, 8 ) === 'https://';
 	}
 
-	public function process_before( $code, $target ) {
+	/**
+	 * Pass the data from the target
+	 *
+	 * @return void
+	 */
+	public function run() {
 		// External target
+		$target = $this->get_target();
+		if ( $target === null ) {
+			return;
+		}
+
 		if ( $this->is_external( $target ) ) {
+			// Pass on to an external request, echo the results, and then stop
 			$this->process_external( $target );
 			exit();
 		}
 
-		return $this->process_internal( $target );
-	}
-
-	public function needs_target() {
-		return true;
+		// Change the request and carry on
+		$this->process_internal( $target );
 	}
 }

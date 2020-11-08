@@ -1,8 +1,21 @@
 <?php
 
+/**
+ * Filter the redirects
+ */
 class Red_Item_Filters {
+	/**
+	 * List of filters
+	 *
+	 * @var array
+	 */
 	private $filters = [];
 
+	/**
+	 * Constructor
+	 *
+	 * @param Array $filter_params Filters.
+	 */
 	public function __construct( $filter_params ) {
 		global $wpdb;
 
@@ -54,6 +67,11 @@ class Red_Item_Filters {
 		}
 	}
 
+	/**
+	 * Get the filters as sanitized SQL.
+	 *
+	 * @return string
+	 */
 	public function get_as_sql() {
 		if ( count( $this->filters ) > 0 ) {
 			return 'WHERE ' . implode( ' AND ', $this->filters );

@@ -1,24 +1,26 @@
 <?php
 
 class RandomTest extends WP_UnitTestCase {
+	private $target = null;
+	private $code = 0;
+
+	public function hook_redirect( $target, $code ) {
+		$this->target = $target;
+		$this->code = $code;
+
+		return false;
+	}
+
 	public function testRandomPost() {
-		$post1 = $this->factory->post->create( array( 'post_title' => 'trash me1' ) );
-		$post1 = $this->factory->post->create( array( 'post_title' => 'trash me2' ) );
+		add_filter( 'wp_redirect', array( $this, 'hook_redirect' ), 10, 2 );
 
-		$action = Red_Action::create( 'random', 1 );
-		$found = array();
+		$post1 = $this->factory->post->create( [ 'post_title' => 'trash me1', 'post_name' => 'post-1' ] );
+		$post1 = $this->factory->post->create( [ 'post_title' => 'trash me2', 'post_name' => 'post-2' ] );
 
-		for ( $i = 0; $i < 10; $i++ ) {
-			$url = $action->process_before( 301, '/url' );
-			if ( $url ) {
-				$found[$url] = true;
-			}
+		$action = Red_Action::create( 'random', 301 );
+		$action->run();
 
-			if ( count( $found ) > 1 ) {
-				break;
-			}
-		}
-
-		$this->assertEquals( 2, count( $found ) );
+		$this->assertEquals( 301, $this->code );
+		$this->assertTrue( $this->target !== null );
 	}
 }

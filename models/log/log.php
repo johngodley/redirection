@@ -391,7 +391,7 @@ abstract class Red_Log {
 	 */
 	protected static function sanitize_create( $domain, $url, $ip, array $details = [] ) {
 		$insert = [
-			'url' => substr( $url, 0, self::MAX_URL_LENGTH ), // XXX max length needs updating in SQL
+			'url' => substr( $url, 0, self::MAX_URL_LENGTH ),
 			'domain' => substr( $domain, 0, self::MAX_DOMAIN_LENGTH ),
 			'ip' => substr( $ip, 0, self::MAX_IP_LENGTH ),
 			'created' => current_time( 'mysql' ),

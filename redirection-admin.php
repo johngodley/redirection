@@ -33,6 +33,7 @@ class Redirection_Admin {
 			return $value;
 		}, 10, 3 );
 		add_action( 'redirection_redirect_updated', [ $this, 'set_default_group' ], 10, 2 );
+		add_action( 'redirection_redirect_updated', [ $this, 'clear_cache' ], 10, 2 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', [ $this, 'flying_solo' ], 10, 2 );
@@ -390,6 +391,19 @@ class Redirection_Admin {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Update the cache key when updating or creating a redirect
+	 *
+	 * @return void
+	 */
+	public function clear_cache() {
+		$settings = red_get_options();
+
+		if ( $settings['cache_key'] > 0 ) {
+			red_set_options( [ 'cache_key' => time() ] );
+		}
 	}
 
 	public function set_default_group( $id, $redirect ) {

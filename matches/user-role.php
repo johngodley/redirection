@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * Match a particular role or capability
+ */
 class Role_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	public $role;
+	/**
+	 * WordPress role or capability
+	 *
+	 * @var String
+	 */
+	public $role = '';
 
 	public function name() {
 		return __( 'URL and role/capability', 'redirection' );
@@ -25,6 +33,12 @@ class Role_Match extends Red_Match {
 		), $this->get_from_data() );
 	}
 
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param String $values Match values, as read from the database (plain text or serialized PHP).
+	 * @return void
+	 */
 	public function load( $values ) {
 		$values = $this->load_data( $values );
 		$this->role = isset( $values['role'] ) ? $values['role'] : '';

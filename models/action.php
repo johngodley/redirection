@@ -9,21 +9,28 @@ abstract class Red_Action {
 	 *
 	 * @var integer
 	 */
-	protected $code;
+	protected $code = 0;
 
 	/**
 	 * The action type
 	 *
 	 * @var string
 	 */
-	protected $type;
+	protected $type = '';
+
+	/**
+	 * Target URL, if any
+	 *
+	 * @var String|null
+	 */
+	protected $target = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @param array $values Values.
 	 */
-	public function __construct( $values ) {
+	public function __construct( $values = [] ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
 				$this->$key = $value;
@@ -34,9 +41,9 @@ abstract class Red_Action {
 	/**
 	 * Create an action object
 	 *
-	 * @param string $name Action type.
-	 * @param string $code Action code.
-	 * @return Red_Action|false
+	 * @param string  $name Action type.
+	 * @param integer $code Action code.
+	 * @return Red_Action|null
 	 */
 	public static function create( $name, $code ) {
 		$avail = self::available();
@@ -46,12 +53,15 @@ abstract class Red_Action {
 				include_once dirname( __FILE__ ) . '/../actions/' . $avail[ $name ][0];
 			}
 
-			$obj = new $avail[ $name ][1]( array( 'code' => $code ) );
+			/**
+			 * @var Red_Action
+			 */
+			$obj = new $avail[ $name ][1]( [ 'code' => $code ] );
 			$obj->type = $name;
 			return $obj;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -60,35 +70,13 @@ abstract class Red_Action {
 	 * @return array
 	 */
 	public static function available() {
-		return array(
-			'url'     => array( 'url.php', 'Url_Action' ),
-			'error'   => array( 'error.php', 'Error_Action' ),
-			'nothing' => array( 'nothing.php', 'Nothing_Action' ),
-			'random'  => array( 'random.php', 'Random_Action' ),
-			'pass'    => array( 'pass.php', 'Pass_Action' ),
-		);
-	}
-
-	/**
-	 * Perform any processing before the action
-	 *
-	 * @param integer $code Target HTTP code.
-	 * @param string  $target Target URL.
-	 * @return string
-	 */
-	public function process_before( $code, $target ) {
-		return $target;
-	}
-
-	/**
-	 * Perform any processing after the action
-	 *
-	 * @param integer $code Target HTTP code.
-	 * @param string  $target Target URL.
-	 * @return boolean
-	 */
-	public function process_after( $code, $target ) {
-		return true;
+		return [
+			'url'     => [ 'url.php', 'Url_Action' ],
+			'error'   => [ 'error.php', 'Error_Action' ],
+			'nothing' => [ 'nothing.php', 'Nothing_Action' ],
+			'random'  => [ 'random.php', 'Random_Action' ],
+			'pass'    => [ 'pass.php', 'Pass_Action' ],
+		];
 	}
 
 	/**
@@ -110,9 +98,37 @@ abstract class Red_Action {
 	}
 
 	/**
+	 * Set the target for this action
+	 *
+	 * @param String $target_url The original URL from the client.
+	 * @return void
+	 */
+	public function set_target( $target_url ) {
+		$this->target = $target_url;
+	}
+
+	/**
+	 * Get the target for this action
+	 *
+	 * @return String|null
+	 */
+	public function get_target() {
+		return $this->target;
+	}
+
+	/**
 	 * Does this action need a target?
 	 *
 	 * @return boolean
 	 */
-	abstract public function needs_target();
+	public function needs_target() {
+		return false;
+	}
+
+	/**
+	 * Run this action. May not return from this function.
+	 *
+	 * @return void
+	 */
+	abstract public function run();
 }

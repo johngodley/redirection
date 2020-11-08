@@ -23,6 +23,8 @@
         <directory name="matches"/>
         <directory name="fileio"/>
 		<directory name="database"/>
+        <file name="redirection-settings.php" />
+        <file name="redirection-admin.php" />
 
         <ignoreFiles>
             <directory name="vendor"/>
@@ -30,6 +32,7 @@
     </projectFiles>
     <globals>
         <var name="wpdb" type="object"/>
+        <var name="RED_MAX_PER_PAGE" type="integer" />
     </globals>
     <issueHandlers>
         <MissingClosureReturnType errorLevel="suppress"/>

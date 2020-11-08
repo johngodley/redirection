@@ -14,7 +14,7 @@ import classnames from 'classnames';
 
 import ApiResult from './api-result';
 import { Spinner } from 'wp-plugin-components';
-import { restApi } from 'page/options/options-form';
+import { restApi } from 'page/options/options-form/other-options';
 import { checkApi } from 'state/settings/action';
 import './style.scss';
 
@@ -24,9 +24,11 @@ const STATUS_LOADING = 'loading';
 const STATUS_WARNING_CURRENT = 'warning-current';
 const STATUS_WARNING = 'warning-not-selected';
 
-const getApiResult = ( results, name ) => results && results[ name ] ? results[ name ] : {};
-const isError = result => result.GET && result.POST && ( result.GET.status === STATUS_FAIL || result.POST.status === STATUS_FAIL );
-const isWorking = result => result.GET && result.POST && ( result.GET.status === STATUS_OK && result.POST.status === STATUS_OK );
+const getApiResult = ( results, name ) => ( results && results[ name ] ? results[ name ] : {} );
+const isError = ( result ) =>
+	result.GET && result.POST && ( result.GET.status === STATUS_FAIL || result.POST.status === STATUS_FAIL );
+const isWorking = ( result ) =>
+	result.GET && result.POST && ( result.GET.status === STATUS_OK && result.POST.status === STATUS_OK );
 
 class RestApiStatus extends React.Component {
 	static propTypes = {
@@ -49,16 +51,16 @@ class RestApiStatus extends React.Component {
 
 	onTry() {
 		const { routes } = this.props;
-		const untested = Object.keys( routes ).map( id => ( { id, url: routes[ id ] } ) );
+		const untested = Object.keys( routes ).map( ( id ) => ( { id, url: routes[ id ] } ) );
 
 		this.props.onCheckApi( untested.filter( item => item ) );
 	}
 
-	onRetry = ev => {
+	onRetry = ( ev ) => {
 		ev.preventDefault;
 		this.setState( { showing: false } );
 		this.onTry();
-	}
+	};
 
 	getPercent( apiTest, routes ) {
 		if ( Object.keys( apiTest ).length === 0 ) {
@@ -84,7 +86,7 @@ class RestApiStatus extends React.Component {
 	}
 
 	getApiStatus( results, routes, current ) {
-		const failed = Object.keys( results ).filter( key => isError( results[ key ] ) ).length;
+		const failed = Object.keys( results ).filter( ( key ) => isError( results[ key ] ) ).length;
 
 		if ( failed === 0 ) {
 			return 'ok';
@@ -107,7 +109,7 @@ class RestApiStatus extends React.Component {
 
 	onShow = () => {
 		this.setState( { showing: true } );
-	}
+	};
 
 	canShowProblem( status ) {
 		const { showing } = this.state;
@@ -117,17 +119,29 @@ class RestApiStatus extends React.Component {
 
 	renderError( status ) {
 		const showing = this.canShowProblem( status );
-		let message = __( 'There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work.' );
+		let message = __(
+			'There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work.'
+		);
 
 		if ( status === STATUS_FAIL ) {
-			message = __( 'Your REST API is not working and the plugin will not be able to continue until this is fixed.' );
+			message = __(
+				'Your REST API is not working and the plugin will not be able to continue until this is fixed.'
+			);
 		}
 
 		return (
 			<div className="api-result-log">
-				<p><strong>{ __( 'Summary' ) }</strong>: { message }</p>
+				<p>
+					<strong>{ __( 'Summary' ) }</strong>: { message }
+				</p>
 
-				{ ! showing && <p><button className="button-secondary" onClick={ this.onShow }>{ __( 'Show Problems' ) }</button></p> }
+				{ ! showing && (
+					<p>
+						<button className="button-secondary" onClick={ this.onShow }>
+							{ __( 'Show Problems' ) }
+						</button>
+					</p>
+				) }
 			</div>
 		);
 	}
@@ -138,11 +152,11 @@ class RestApiStatus extends React.Component {
 		const { showing } = this.state;
 		const percent = this.getPercent( apiTest, routeNames );
 		const status = this.getApiStatus( apiTest, routeNames, current );
-		const showProblem = percent >= 100 && this.canShowProblem( status ) || showing;
+		const showProblem = ( percent >= 100 && this.canShowProblem( status ) ) || showing;
 		const statusClass = classnames( {
 			'api-result-status': true,
 			'api-result-status_good': status === STATUS_OK && percent >= 100,
-			'api-result-status_problem': ( status === STATUS_WARNING_CURRENT && STATUS_WARNING ) && percent >= 100,
+			'api-result-status_problem': status === STATUS_WARNING_CURRENT && STATUS_WARNING && percent >= 100,
 			'api-result-status_failed': status === STATUS_FAIL && percent >= 100,
 		} );
 
@@ -160,14 +174,26 @@ class RestApiStatus extends React.Component {
 						{ percent < 100 && <Spinner /> }
 					</div>
 
-					{ percent >= 100 && status !== STATUS_OK && <button className="button button-secondary api-result-retry" onClick={ this.onRetry }>{ __( 'Check Again' ) }</button> }
+					{ percent >= 100 && status !== STATUS_OK && (
+						<button className="button button-secondary api-result-retry" onClick={ this.onRetry }>
+							{ __( 'Check Again' ) }
+						</button>
+					) }
 				</div>
 
 				{ percent >= 100 && status !== STATUS_OK && this.renderError( status ) }
 
-				{ showProblem && routeNames.map( ( item, pos ) =>
-					<ApiResult item={ item } result={ getApiResult( apiTest, item.value ) } routes={ routes } key={ pos } isCurrent={ current === item.value } allowChange={ allowChange } />
-				) }
+				{ showProblem &&
+					routeNames.map( ( item, pos ) => (
+						<ApiResult
+							item={ item }
+							result={ getApiResult( apiTest, item.value ) }
+							routes={ routes }
+							key={ pos }
+							isCurrent={ current === item.value }
+							allowChange={ allowChange }
+						/>
+					) ) }
 			</div>
 		);
 	}
@@ -175,14 +201,17 @@ class RestApiStatus extends React.Component {
 
 function mapDispatchToProps( dispatch ) {
 	return {
-		onCheckApi: api => {
+		onCheckApi: ( api ) => {
 			dispatch( checkApi( api ) );
 		},
 	};
 }
 
 function mapStateToProps( state ) {
-	const { api: { routes, current }, apiTest } = state.settings;
+	const {
+		api: { routes, current },
+		apiTest,
+	} = state.settings;
 
 	return {
 		apiTest,

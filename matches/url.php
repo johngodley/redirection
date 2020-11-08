@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Match the URL only.
+ */
 class URL_Match extends Red_Match {
-	public $url = false;
+	/**
+	 * URL
+	 *
+	 * @var String
+	 */
+	public $url = '';
 
 	public function name() {
 		return __( 'URL only', 'redirection' );
@@ -25,11 +33,11 @@ class URL_Match extends Red_Match {
 		return true;
 	}
 
-	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
+	public function get_target_url( $original_url, $matched_url, Red_Source_Flags $flag, $is_matched ) {
 		$target = $this->url;
 
-		if ( $flags->is_regex() ) {
-			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
+		if ( $flag->is_regex() ) {
+			$target = $this->get_target_regex_url( $matched_url, $target, $original_url, $flag );
 		}
 
 		return $target;
@@ -37,12 +45,12 @@ class URL_Match extends Red_Match {
 
 	public function get_data() {
 		if ( $this->url ) {
-			return array(
+			return [
 				'url' => $this->url,
-			);
+			];
 		}
 
-		return '';
+		return null;
 	}
 
 	public function load( $values ) {

@@ -3,6 +3,7 @@
 require_once dirname( __FILE__ ) . '/redirect-sanitizer.php';
 require_once dirname( __FILE__ ) . '/redirect-filter.php';
 require_once dirname( __FILE__ ) . '/redirect-options.php';
+require_once dirname( __FILE__ ) . '/redirect-cache.php';
 
 /**
  * Redirect class
@@ -151,10 +152,12 @@ class Red_Item {
 	/**
 	 * Constructor
 	 *
-	 * @param stdClass|null $values Values.
+	 * @param stdClass|array|null $values Values.
 	 */
 	public function __construct( $values = null ) {
 		if ( is_object( $values ) ) {
+			$this->load_from_data( (array) $values );
+		} elseif ( is_array( $values ) ) {
 			$this->load_from_data( $values );
 		}
 	}
@@ -162,10 +165,10 @@ class Red_Item {
 	/**
 	 * Load values into the object
 	 *
-	 * @param stdClass $values Values.
+	 * @param array $values Values.
 	 * @return void
 	 */
-	private function load_from_data( stdClass $values ) {
+	private function load_from_data( array $values ) {
 		foreach ( $values as $key => $value ) {
 			if ( property_exists( $this, $key ) ) {
 				$this->$key = $value;
@@ -231,9 +234,6 @@ class Red_Item {
 		}
 
 		$this->action = Red_Action::create( $this->action_type, $this->action_code );
-		if ( $this->match ) {
-			$this->match->action = $this->action;
-		}
 	}
 
 	/**
@@ -291,25 +291,32 @@ class Red_Item {
 	public static function get_for_matched_url( $url ) {
 		global $wpdb;
 
-		$url = new Red_Url_Match( $url );
+		// Anything in the cache?
+		$cache = Redirect_Cache::init();
+		$rows = $cache->get( $url );
 
+		$url = new Red_Url_Match( $url );
 		$url_without = $url->get_url();
 		$url_with = $url->get_url_with_params();
 
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE match_url IN (%s, %s, 'regex') AND status='enabled' LIMIT %d", $url_without, $url_with, self::MAX_REDIRECTS ) );
+		if ( $rows === false ) {
+			// Nothing in cache, get from DB
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE match_url IN (%s, %s, 'regex') AND status='enabled' LIMIT %d", $url_without, $url_with, self::MAX_REDIRECTS ) );
+		}
 
-		$items = array();
-		if ( count( $rows ) > 0 ) {
+		$items = [];
+
+		if ( is_array( $rows ) ) {
 			foreach ( $rows as $row ) {
 				$items[] = new Red_Item( $row );
 			}
-		}
 
-		usort( $items, [ 'Red_Item', 'sort_urls' ] );
+			usort( $items, [ 'Red_Item', 'sort_urls' ] );
 
-		if ( count( $items ) === self::MAX_REDIRECTS ) {
-			// Something has gone pretty wrong at this point
-			error_log( 'Redirection: maximum redirect limit exceeded' );
+			if ( count( $items ) >= self::MAX_REDIRECTS ) {
+				// Something has gone pretty wrong at this point
+				error_log( 'Redirection: maximum redirect limit exceeded' );
+			}
 		}
 
 		return $items;
@@ -394,7 +401,8 @@ class Red_Item {
 	 */
 	public static function sort_urls( $first, $second ) {
 		if ( $first->position === $second->position ) {
-			return 0;
+			// Fall back to which redirect was created first
+			return ( $first->id < $second->id ) ? -1 : 1;
 		}
 
 		return ( $first->position < $second->position ) ? -1 : 1;
@@ -487,7 +495,7 @@ class Red_Item {
 		$data = apply_filters( 'redirection_create_redirect', $data );
 
 		if ( ! empty( $data['match_data'] ) ) {
-			$data['match_data'] = wp_json_encode( $data['match_data'] );
+			$data['match_data'] = wp_json_encode( $data['match_data'], JSON_UNESCAPED_SLASHES );
 		}
 
 		// Create
@@ -537,11 +545,11 @@ class Red_Item {
 		$result = $wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
 		if ( $result !== false ) {
 			do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
-			$this->load_from_data( (object) $data );
+			$this->load_from_data( $data );
 
 			Red_Module::flush( $this->group_id );
 
-			if ( $old_group !== $this->group_id ) {
+			if ( $old_group !== $this->group_id && $old_group !== false ) {
 				Red_Module::flush( $old_group );
 			}
 
@@ -554,12 +562,13 @@ class Red_Item {
 	/**
 	 * Determine if a requested URL matches this URL
 	 *
-	 * @param string       $requested_url The URL being requested.
-	 * @param string|false $original_url The original URL.
-	 * @return bool true if matched, false otherwise
+	 * @param string       $requested_url The URL being requested (decoded).
+	 * @param string|false $original_url The URL being requested (not decoded).
+	 * @return Red_Action|false true if matched, false otherwise
 	 */
-	public function is_match( $requested_url, $original_url = false ) {
-		if ( ! $this->is_enabled() ) {
+	public function get_match( $requested_url, $original_url = false ) {
+		if ( ! $this->is_enabled() || ! $this->match || ! $this->source_flags || ! $this->action ) {
+			// Don't do anything if Redirection is disabled or we don't have any of the objects
 			return false;
 		}
 
@@ -568,35 +577,50 @@ class Red_Item {
 		}
 
 		$url = new Red_Url( $this->url );
-		if ( $url->is_match( $requested_url, $this->source_flags ) ) {
-			// URL is matched, now match the redirect type (i.e. login status, IP address)
-			$target = $this->match->is_match( $requested_url );
 
-			// Check if our action wants a URL
-			if ( $this->action->needs_target() ) {
-				// Our action requires a target URL - get this, using our type match result
-				$target = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $target );
-				$target = Red_Url_Query::add_to_target( $target, $original_url, $this->source_flags );
-				$target = apply_filters( 'redirection_url_target', $target, $this->url );
+		// Does the URL match? This may not be the case for regular expressions
+		if ( ! $url->is_match( $requested_url, $this->source_flags ) ) {
+			return false;
+		}
+
+		// Does the additional Red_Match logic also match? This provides dynamic checking of things like IP, cookies, etc
+		$matched = $this->match->is_match( $requested_url );
+		$target_url = false;
+
+		// Does the action need a target (URL)?
+		if ( $this->action->needs_target() ) {
+			// Get the target from the action and the match status - some matches have a matched/unmatched target
+			$target_url = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $matched );
+			if ( $target_url ) {
+				$target_url = Red_Url_Query::add_to_target( $target_url, $original_url, $this->source_flags );
 			}
 
-			// Fire any early actions
-			if ( $target ) {
-				$target = $this->action->process_before( $this->action_code, $target );
+			// Allow plugins a look
+			$target_url = apply_filters( 'redirection_url_target', $target_url, $url->get_url() );
+
+			// Do we have still have a target?
+			if ( ! $target_url ) {
+				// No, return early and move on to the next redirect. This could be a matched/unmatched target that has no value
+				return false;
 			}
 
-			if ( $target ) {
-				// We still have a target, so log it and carry on with the action
-				do_action( 'redirection_visit', $this, $requested_url, $target );
-				return $this->action->process_after( $this->action_code, $target );
-			}
+			// Set this in the action
+			$this->action->set_target( $target_url );
+
+			// Fire an action to let people know
+			do_action( 'redirection_visit', $this, $original_url, $target_url );
+		}
+
+		// Return the action for processing if we have either matched or we have a target URL (possibly from an 'not matched' condition)
+		if ( $matched || $target_url ) {
+			return $this->action;
 		}
 
 		return false;
 	}
 
 	/**
-	 * Register a vist against this redirect
+	 * Register a visit against this redirect
 	 *
 	 * @param String      $url Full URL that is visited, including query parameters.
 	 * @param String|true $target Target URL, if appropriate.
@@ -614,8 +638,8 @@ class Red_Item {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 		}
 
-		if ( $target && $this->source_options->can_log() ) {
-			if ( $target === true ) {
+		if ( $target && $this->source_options && $this->source_options->can_log() ) {
+			if ( $target === true && $this->match ) {
 				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
 			}
 
@@ -745,6 +769,10 @@ class Red_Item {
 	 * @return array|null
 	 */
 	public function get_match_data() {
+		if ( ! $this->source_flags || ! $this->source_options ) {
+			return null;
+		}
+
 		$source = $this->source_flags->get_json_with_defaults();
 		$options = $this->source_options->get_json();
 
@@ -802,6 +830,19 @@ class Red_Item {
 	}
 
 	/**
+	 * Does this redirect depend on dynamic match data? For example, it is checking a cookie or IP
+	 *
+	 * @return boolean
+	 */
+	public function is_dynamic() {
+		if ( $this->match ) {
+			return $this->match->get_type() !== 'url';
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get match type
 	 *
 	 * @return string
@@ -849,6 +890,8 @@ class Red_Item {
 		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
+		// where is known
+		// phpcs:ignore
 		return $wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_items $where" );
 	}
 
@@ -864,6 +907,8 @@ class Red_Item {
 		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
+		// where is known
+		// phpcs:ignore
 		return $wpdb->query( "UPDATE {$wpdb->prefix}redirection_items SET last_count=0, last_access='1970-01-01 00:00:00' $where" );
 	}
 
@@ -880,6 +925,8 @@ class Red_Item {
 		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
+		// where is known
+		// phpcs:ignore
 		return $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET status=%s $where", $status === 'enable' ? 'enabled' : 'disabled' ) );
 	}
 
@@ -898,7 +945,7 @@ class Red_Item {
 		$offset = 0;
 		$where = '';
 
-		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], array( 'source', 'last_count', 'last_access', 'position' ), true ) ) {
+		if ( isset( $params['orderby'] ) && in_array( $params['orderby'], [ 'source', 'last_count', 'last_access', 'position' ], true ) ) {
 			$orderby = $params['orderby'];
 
 			if ( $orderby === 'source' ) {
@@ -906,7 +953,7 @@ class Red_Item {
 			}
 		}
 
-		if ( isset( $params['direction'] ) && in_array( $params['direction'], array( 'asc', 'desc' ), true ) ) {
+		if ( isset( $params['direction'] ) && in_array( $params['direction'], [ 'asc', 'desc' ], true ) ) {
 			$direction = strtoupper( $params['direction'] );
 		}
 
@@ -933,17 +980,17 @@ class Red_Item {
 
 		// phpcs:ignore
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items " . $where ) );
-		$items = array();
+		$items = [];
 
 		foreach ( $rows as $row ) {
 			$group = new Red_Item( $row );
 			$items[] = $group->to_json();
 		}
 
-		return array(
+		return [
 			'items' => $items,
 			'total' => intval( $total_items, 10 ),
-		);
+		];
 	}
 
 	/**
@@ -952,7 +999,7 @@ class Red_Item {
 	 * @return array
 	 */
 	public function to_json() {
-		return array(
+		return [
 			'id' => $this->get_id(),
 			'url' => $this->get_url(),
 			'match_url' => $this->get_match_url(),
@@ -968,6 +1015,36 @@ class Red_Item {
 			'position' => $this->get_position(),
 			'last_access' => $this->get_last_hit() > 0 ? date_i18n( get_option( 'date_format' ), $this->get_last_hit() ) : '-',
 			'enabled' => $this->is_enabled(),
-		);
+		];
+	}
+
+	/**
+	 * Convert the redirect to SQL
+	 *
+	 * @return array
+	 */
+	public function to_sql() {
+		$json = $this->to_json();
+		$action_data = null;
+
+		if ( $this->match ) {
+			$data = $this->match->get_data();
+
+			if ( $data ) {
+				$action_data = $this->match->save( $data, false );
+
+				if ( is_array( $action_data ) ) {
+					// phpcs:ignore
+					$action_data = serialize( $action_data );
+				}
+			}
+		}
+
+		return array_merge( $json, [
+			'match_data'  => wp_json_encode( $this->get_match_data(), JSON_UNESCAPED_SLASHES ),
+			'action_data' => $action_data,
+			'last_access' => date( 'Y-m-d H:i:s', $this->last_access ),
+			'status'      => $this->is_enabled() ? 'enabled' : 'disabled',
+		] );
 	}
 }

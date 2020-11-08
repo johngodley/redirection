@@ -42,9 +42,9 @@ class WordPress_Module extends Red_Module {
 	/**
 	 * Matched redirect
 	 *
-	 * @var Red_Item|null
+	 * @var Red_Item|false
 	 */
-	private $matched = null;
+	private $matched = false;
 
 	/**
 	 * Return the module ID
@@ -86,6 +86,10 @@ class WordPress_Module extends Red_Module {
 
 			// Allow permalinks to be redirected
 			add_filter( 'pre_handle_404', [ $this, 'pre_handle_404' ], 10, 2 );
+
+			// Cache support
+			add_action( 'redirection_matched', [ $this, 'cache_redirects' ], 10, 3 );
+			add_action( 'redirection_last', [ $this, 'cache_unmatched_redirects' ], 10, 3 );
 		}
 
 		// Setup the various filters and actions that allow Redirection to happen
@@ -104,6 +108,35 @@ class WordPress_Module extends Red_Module {
 
 		// Record the redirect agent
 		add_filter( 'x_redirect_by', [ $this, 'record_redirect_by' ], 90 );
+	}
+
+	/**
+	 * Called after no redirect is matched. This allows us to cache a negative result/
+	 *
+	 * @param String           $url URL.
+	 * @param WordPress_Module $wp This.
+	 * @param array            $redirects Array of redirects.
+	 * @return void
+	 */
+	public function cache_unmatched_redirects( $url, $wp, $redirects ) {
+		if ( $this->matched ) {
+			return;
+		}
+
+		$this->cache_redirects( $url, $this->matched, $redirects );
+	}
+
+	/**
+	 * Called when a redirect is matched. This allows us to cache a positive result.
+	 *
+	 * @param String         $url URL.
+	 * @param Red_Item|false $matched_redirect Matched redirect.
+	 * @param array          $redirects Array of redirects.
+	 * @return void
+	 */
+	public function cache_redirects( $url, $matched_redirect, $redirects ) {
+		$cache = Redirect_Cache::init();
+		$cache->set( $url, $matched_redirect, $redirects );
 	}
 
 	/**
@@ -204,12 +237,16 @@ class WordPress_Module extends Red_Module {
 	 */
 	private function is_url_and_page_type() {
 		$page_types = array_values( array_filter( $this->redirects, function( Red_Item $redirect ) {
-			return $redirect->match->get_type() === 'page';
+			return $redirect->match && $redirect->match->get_type() === 'page';
 		} ) );
 
 		if ( count( $page_types ) > 0 ) {
 			$request = new Red_Url_Request( Redirection_Request::get_request_url() );
-			$page_types[0]->is_match( $request->get_decoded_url(), $request->get_original_url() );
+			$action = $page_types[0]->get_match( $request->get_decoded_url(), $request->get_original_url() );
+			if ( $action ) {
+				$action->run();
+			}
+
 			return true;
 		}
 
@@ -292,13 +329,20 @@ class WordPress_Module extends Red_Module {
 
 			// Redirects will be ordered by position. Run through the list until one fires
 			foreach ( (array) $redirects as $item ) {
-				if ( $item->is_match( $request->get_decoded_url(), $request->get_original_url() ) ) {
+				$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+
+				if ( $action ) {
 					$this->matched = $item;
+
+					do_action( 'redirection_matched', $request->get_decoded_url(), $item, $redirects );
+
+					$action->run();
 					break;
 				}
 			}
 
-			do_action( 'redirection_last', $request->get_decoded_url(), $this );
+			// We will only get here if there is no match (check $this->matched) or the action does not result in redirecting away
+			do_action( 'redirection_last', $request->get_decoded_url(), $this, $redirects );
 
 			if ( ! $this->matched ) {
 				// Keep them for later
@@ -328,7 +372,7 @@ class WordPress_Module extends Red_Module {
 	 * @return void
 	 */
 	public function send_headers( $obj ) {
-		if ( ! empty( $this->matched ) && $this->matched->action->get_code() === 410 ) {
+		if ( ! empty( $this->matched ) && $this->matched->action && $this->matched->action->get_code() === 410 ) {
 			add_filter( 'status_header', [ $this, 'set_header_410' ] );
 		}
 
@@ -492,10 +536,10 @@ class WordPress_Module extends Red_Module {
 	/**
 	 * Reset the module. Used for unit tests
 	 *
-	 * @param Red_Item|null $matched Set the `matched` var.
+	 * @param Red_Item|false $matched Set the `matched` var.
 	 * @return void
 	 */
-	public function reset( $matched = null ) {
+	public function reset( $matched = false ) {
 		$this->can_log = true;
 		$this->matched = $matched;
 	}

@@ -1,5 +1,8 @@
 <?php
 
+require_once dirname( __DIR__ ) . '/matches/from-notfrom.php';
+require_once dirname( __DIR__ ) . '/matches/from-url.php';
+
 /**
  * Matches a URL and some other condition
  */
@@ -9,12 +12,12 @@ abstract class Red_Match {
 	 *
 	 * @var string
 	 */
-	protected $type;
+	protected $type = '';
 
 	/**
 	 * Constructor
 	 *
-	 * @param array|string $values Initial values.
+	 * @param string $values Initial values.
 	 */
 	public function __construct( $values = '' ) {
 		if ( $values ) {
@@ -36,7 +39,7 @@ abstract class Red_Match {
 	 *
 	 * @param array   $details Details to save.
 	 * @param boolean $no_target_url The URL when no target.
-	 * @return array
+	 * @return array|null
 	 */
 	abstract public function save( array $details, $no_target_url = false );
 
@@ -48,19 +51,45 @@ abstract class Red_Match {
 	abstract public function name();
 
 	/**
-	 * Get the target URL
+	 * Match the URL against the specific matcher conditions
 	 *
-	 * @param String           $url URL of this redirect.
-	 * @param String           $matched_url URL that was matched from the client.
-	 * @param Red_Source_Flags $flag Flags.
-	 * @param boolean          $is_matched Is this matched.
-	 * @return String
+	 * @param String $url Requested URL.
+	 * @return boolean
 	 */
-	abstract public function get_target_url( $url, $matched_url, Red_Source_Flags $flag, $is_matched );
 	abstract public function is_match( $url );
+
+	/**
+	 * Get the target URL for this match. Some matches may have a matched/unmatched target.
+	 *
+	 * @param String           $original_url The client URL (not decoded).
+	 * @param String           $matched_url The URL in the redirect.
+	 * @param Red_Source_Flags $flag Source flags.
+	 * @param boolean          $is_matched Was the match successful.
+	 * @return String|false
+	 */
+	abstract public function get_target_url( $original_url, $matched_url, Red_Source_Flags $flag, $is_matched );
+
+	/**
+	 * Get the match data
+	 *
+	 * @return array|null
+	 */
 	abstract public function get_data();
+
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param String $values Match values, as read from the database (plain text or serialized PHP).
+	 * @return void
+	 */
 	abstract public function load( $values );
 
+	/**
+	 * Sanitize a match URL
+	 *
+	 * @param String $url URL.
+	 * @return String
+	 */
 	public function sanitize_url( $url ) {
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
@@ -72,13 +101,13 @@ abstract class Red_Match {
 	}
 
 	/**
-	 * Get a regular expression target URL
+	 * Apply a regular expression to the target URL, replacing any values.
 	 *
-	 * @param [type] $source_url
-	 * @param [type] $target_url
-	 * @param [type] $requested_url
-	 * @param Red_Source_Flags $flags
-	 * @return void
+	 * @param string           $source_url Redirect source URL.
+	 * @param string           $target_url Target URL.
+	 * @param string           $requested_url The URL being requested (decoded).
+	 * @param Red_Source_Flags $flags Source URL flags.
+	 * @return string
 	 */
 	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
 		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
@@ -91,7 +120,7 @@ abstract class Red_Match {
 	 *
 	 * @param string $name Match type.
 	 * @param string $data Match data.
-	 * @return Red_Match|false
+	 * @return Red_Match|null
 	 */
 	public static function create( $name, $data = '' ) {
 		$avail = self::available();
@@ -102,24 +131,30 @@ abstract class Red_Match {
 				include dirname( __FILE__ ) . '/../matches/' . $avail[ strtolower( $name ) ];
 			}
 
+			/**
+			 * @var Red_Match
+			 */
 			$class = new $classname( $data );
 			$class->type = $name;
 			return $class;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
 	 * Get all Red_Match objects
 	 *
-	 * @return Red_Match[]
+	 * @return String[]
 	 */
 	public static function all() {
-		$data = array();
+		$data = [];
 
 		$avail = self::available();
-		foreach ( $avail as $name => $file ) {
+		foreach ( array_keys( $avail ) as $name ) {
+			/**
+			 * @var Red_Match
+			 */
 			$obj = self::create( $name );
 			$data[ $name ] = $obj->name();
 		}
@@ -133,7 +168,7 @@ abstract class Red_Match {
 	 * @return array
 	 */
 	public static function available() {
-		return array(
+		return [
 			'url'      => 'url.php',
 			'referrer' => 'referrer.php',
 			'agent'    => 'user-agent.php',
@@ -146,144 +181,6 @@ abstract class Red_Match {
 			'ip'       => 'ip.php',
 			'page'     => 'page.php',
 			'language' => 'language.php',
-		);
-	}
-}
-
-/**
- * Trait to add redirect matching
- */
-trait FromUrl_Match {
-	/**
-	 * URL to match against
-	 *
-	 * @var string
-	 */
-	public $url;
-
-	/**
-	 * Save match data
-	 *
-	 * @param array  $details Match data.
-	 * @param string $no_target_url
-	 * @param array  $data
-	 * @return array
-	 */
-	private function save_data( array $details, $no_target_url, array $data ) {
-		if ( $no_target_url === false ) {
-			return array_merge( array(
-				'url' => isset( $details['url'] ) ? $this->sanitize_url( $details['url'] ) : '',
-			), $data );
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Get target URL for this match, depending on whether we match or not
-	 *
-	 * @param string           $requested_url Request URL.
-	 * @param string           $source_url Redirect source URL.
-	 * @param Red_Source_Flags $flags Redirect flags.
-	 * @param [type] $matched
-	 * @return string
-	 */
-	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
-		$target = $this->get_matched_target( $matched );
-
-		if ( $flags->is_regex() && $target ) {
-			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
-		}
-
-		return $target;
-	}
-
-	private function get_matched_target( $matched ) {
-		if ( $matched ) {
-			return $this->url;
-		}
-
-		return false;
-	}
-
-	private function load_data( $values ) {
-		$values = unserialize( $values );
-
-		if ( isset( $values['url'] ) ) {
-			$this->url = $values['url'];
-		}
-
-		return $values;
-	}
-
-	private function get_from_data() {
-		return array(
-			'url' => $this->url,
-		);
-	}
-}
-
-trait FromNotFrom_Match {
-	public $url_from = '';
-	public $url_notfrom = '';
-
-	private function save_data( array $details, $no_target_url, array $data ) {
-		if ( $no_target_url === false ) {
-			return array_merge( array(
-				'url_from' => isset( $details['url_from'] ) ? $this->sanitize_url( $details['url_from'] ) : '',
-				'url_notfrom' => isset( $details['url_notfrom'] ) ? $this->sanitize_url( $details['url_notfrom'] ) : '',
-			), $data );
-		}
-
-		return $data;
-	}
-
-	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
-		// Action needs a target URL based on whether we matched or not
-		$target = $this->get_matched_target( $matched );
-
-		if ( $flags->is_regex() && $target ) {
-			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
-		}
-
-		return $target;
-	}
-
-	private function get_matched_target( $matched ) {
-		if ( $this->url_from !== '' && $matched ) {
-			return $this->url_from;
-		}
-
-		if ( $this->url_notfrom !== '' && ! $matched ) {
-			return $this->url_notfrom;
-		}
-
-		return false;
-	}
-
-	private function load_data( $values ) {
-		$values = @unserialize( $values );
-
-		if ( isset( $values['url_from'] ) ) {
-			$this->url_from = $values['url_from'];
-		}
-
-		if ( isset( $values['url_notfrom'] ) ) {
-			$this->url_notfrom = $values['url_notfrom'];
-		}
-
-		return $values;
-	}
-
-	/**
-	 * Get the match data
-	 *
-	 * @return array<url_from: string, url_notfrom: string>
-	 */
-	private function get_from_data() {
-		return array(
-			'url_from' => $this->url_from,
-			'url_notfrom' => $this->url_notfrom,
-		);
+		];
 	}
 }

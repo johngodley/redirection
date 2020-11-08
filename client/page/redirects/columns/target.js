@@ -15,7 +15,7 @@ function Target( props ) {
 	const { row, filters } = props;
 	const { match_type, action_data } = row;
 
-	if ( match_type === MATCH_URL ) {
+	if ( match_type === MATCH_URL && action_data ) {
 		return (
 			<span className="target">
 				<Highlighter searchWords={ [ filters.target ] } textToHighlight={ action_data.url || '' } autoEscape />

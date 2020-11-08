@@ -15,7 +15,8 @@ class ActionUrlTest extends WP_UnitTestCase {
 		add_filter( 'wp_redirect', array( $this, 'hook_redirect' ), 10, 2 );
 
 		$action = Red_Action::create( 'url', 301 );
-		$action->process_after( 301, '/new' );
+		$action->set_target( '/new' );
+		$action->run();
 
 		$this->assertEquals( 301, $this->code );
 		$this->assertEquals( '/new', $this->target );

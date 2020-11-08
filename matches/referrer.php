@@ -1,10 +1,24 @@
 <?php
 
+/**
+ * Match the referrer
+ */
 class Referrer_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	public $referrer;
-	public $regex;
+	/**
+	 * Referrer
+	 *
+	 * @var String
+	 */
+	public $referrer = '';
+
+	/**
+	 * Regex match?
+	 *
+	 * @var boolean
+	 */
+	public $regex = false;
 
 	public function name() {
 		return __( 'URL and referrer', 'redirection' );
@@ -39,6 +53,12 @@ class Referrer_Match extends Red_Match {
 		), $this->get_from_data() );
 	}
 
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param String $values Match values, as read from the database (plain text or serialized PHP).
+	 * @return void
+	 */
 	public function load( $values ) {
 		$values = $this->load_data( $values );
 		$this->regex = isset( $values['regex'] ) ? $values['regex'] : false;
