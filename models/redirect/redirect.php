@@ -549,7 +549,7 @@ class Red_Item {
 
 			Red_Module::flush( $this->group_id );
 
-			if ( $old_group !== $this->group_id ) {
+			if ( $old_group !== $this->group_id && $old_group !== false ) {
 				Red_Module::flush( $old_group );
 			}
 
@@ -638,8 +638,8 @@ class Red_Item {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 		}
 
-		if ( $target && $this->source_options->can_log() ) {
-			if ( $target === true ) {
+		if ( $target && $this->source_options && $this->source_options->can_log() ) {
+			if ( $target === true && $this->match ) {
 				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
 			}
 
@@ -769,6 +769,10 @@ class Red_Item {
 	 * @return array|null
 	 */
 	public function get_match_data() {
+		if ( ! $this->source_flags || ! $this->source_options ) {
+			return null;
+		}
+
 		$source = $this->source_flags->get_json_with_defaults();
 		$options = $this->source_options->get_json();
 
@@ -1030,6 +1034,7 @@ class Red_Item {
 				$action_data = $this->match->save( $data, false );
 
 				if ( is_array( $action_data ) ) {
+					// phpcs:ignore
 					$action_data = serialize( $action_data );
 				}
 			}

@@ -536,10 +536,10 @@ class WordPress_Module extends Red_Module {
 	/**
 	 * Reset the module. Used for unit tests
 	 *
-	 * @param Red_Item|null $matched Set the `matched` var.
+	 * @param Red_Item|false $matched Set the `matched` var.
 	 * @return void
 	 */
-	public function reset( $matched = null ) {
+	public function reset( $matched = false ) {
 		$this->can_log = true;
 		$this->matched = $matched;
 	}

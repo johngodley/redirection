@@ -9,11 +9,12 @@ class Pass_Action extends Url_Action {
 	/**
 	 * Process an external passthrough - a URL that lives external to this server.
 	 *
-	 * @param String $target Target URL.
+	 * @param String $url Target URL.
 	 * @return void
 	 */
 	public function process_external( $url ) {
 		// This is entirely at the user's risk. The $url is set by the user
+		// phpcs:ignore
 		echo wp_remote_fopen( $url );
 	}
 
@@ -25,14 +26,15 @@ class Pass_Action extends Url_Action {
 	 */
 	public function process_internal( $target ) {
 		// Another URL on the server
+		$pos = strpos( $target, '?' );
 		$_SERVER['REQUEST_URI'] = $target;
 
-		if ( strpos( $target, '?' ) ) {
-			$_SERVER['QUERY_STRING'] = substr( $target, strpos( $target, '?' ) + 1 );
+		if ( $pos ) {
+			$_SERVER['QUERY_STRING'] = substr( $target, $pos + 1 );
+			$_SERVER['PATH_INFO'] = $target;
+
 			parse_str( $_SERVER['QUERY_STRING'], $_GET );
 		}
-
-		return true;
 	}
 
 	/**
@@ -52,11 +54,18 @@ class Pass_Action extends Url_Action {
 	 */
 	public function run() {
 		// External target
-		if ( $this->is_external( $this->get_target() ) ) {
-			$this->process_external( $this->get_target() );
+		$target = $this->get_target();
+		if ( $target === null ) {
+			return;
+		}
+
+		if ( $this->is_external( $target ) ) {
+			// Pass on to an external request, echo the results, and then stop
+			$this->process_external( $target );
 			exit();
 		}
 
-		return $this->process_internal( $this->get_target() );
+		// Change the request and carry on
+		$this->process_internal( $target );
 	}
 }
