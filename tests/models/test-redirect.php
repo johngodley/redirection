@@ -313,7 +313,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 	// Test an action with an empty match target returns false
 	public function testMatchWithEmptyTarget() {
-		$item = new Red_Item( [ 'match_type' => 'agent', 'id' => 1, 'action_data' => serialize( [ 'agent' => 'agent', 'url_notfrom' => '' ] ), 'action_type' => 'error', 'url' => '/cat', 'action_code' => 301 ] );
+		$item = new Red_Item( [ 'match_type' => 'agent', 'id' => 1, 'action_data' => serialize( [ 'agent' => 'agent', 'url_notfrom' => '' ] ), 'action_type' => 'url', 'url' => '/cat', 'action_code' => 301 ] );
 		$this->assertFalse( $item->get_match( '/cat' ) );
 	}
 
