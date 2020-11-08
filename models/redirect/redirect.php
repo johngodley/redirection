@@ -802,6 +802,19 @@ class Red_Item {
 	}
 
 	/**
+	 * Does this redirect depend on dynamic match data? For example, it is checking a cookie or IP
+	 *
+	 * @return boolean
+	 */
+	public function is_dynamic() {
+		if ( $this->match ) {
+			return $this->match->get_type() !== 'url';
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get match type
 	 *
 	 * @return string
