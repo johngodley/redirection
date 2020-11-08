@@ -355,6 +355,11 @@ function red_get_rest_api( $type = false ) {
 		if ( $relative ) {
 			$url = $relative;
 		}
+
+		if ( $url === '/index.php' ) {
+			// No permalinks. Default to normal REST API
+			$url = home_url( '/?rest_route=/' );
+		}
 	}
 
 	return $url;
