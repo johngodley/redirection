@@ -38,8 +38,13 @@ const getRelativeAbsolute = ( url ) => {
 const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0, match.length ) === match;
 
 export const getWarningFromState = ( item ) => {
-	const warnings = [];
 	const { url, flag_regex, action_data = {} } = item;
+
+	if ( action_data === null ) {
+		return [];
+	}
+
+	const warnings = [];
 	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = action_data;
 
 	if ( Array.isArray( url ) || url.length === 0 ) {
