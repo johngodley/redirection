@@ -583,14 +583,17 @@ class Red_Item {
 			return false;
 		}
 
+		// Does the additional Red_Match logic also match? This provides dynamic checking of things like IP, cookies, etc
+		$matched = $this->match->is_match( $requested_url );
+		$target_url = false;
+
 		// Does the action need a target (URL)?
 		if ( $this->action->needs_target() ) {
-			// Does the additional Red_Match logic also match? This provides dynamic checking of things like IP, cookies, etc
-			$matched = $this->match->is_match( $requested_url );
-
 			// Get the target from the action and the match status - some matches have a matched/unmatched target
 			$target_url = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $matched );
-			$target_url = Red_Url_Query::add_to_target( $target_url, $original_url, $this->source_flags );
+			if ( $target_url ) {
+				$target_url = Red_Url_Query::add_to_target( $target_url, $original_url, $this->source_flags );
+			}
 
 			// Allow plugins a look
 			$target_url = apply_filters( 'redirection_url_target', $target_url, $url->get_url() );
@@ -608,8 +611,12 @@ class Red_Item {
 			do_action( 'redirection_visit', $this, $original_url, $target_url );
 		}
 
-		// Return the action for processing
-		return $this->action;
+		// Return the action for processing if we have either matched or we have a target URL (possibly from an 'not matched' condition)
+		if ( $matched || $target_url ) {
+			return $this->action;
+		}
+
+		return false;
 	}
 
 	/**

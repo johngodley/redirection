@@ -6,12 +6,6 @@ class NothingTest extends WP_UnitTestCase {
 		$module->reset();
 	}
 
-	public function testNothingAction() {
-		$action = Red_Action::create( 'nothing', 1 );
-
-		$this->assertTrue( $action->run() );
-	}
-
 	public function test404Logs() {
 		global $wp_query, $wpdb;
 

@@ -1,6 +1,6 @@
 <?php
 
-class RedirectTest extends WP_UnitTestCase {
+class RedirectCacheTest extends WP_UnitTestCase {
 	private function get_cache( $onoff = true ) {
 		red_set_options( [ 'cache_key' => $onoff ? 1 : 0 ] );
 		$cache = Redirect_Cache::init();

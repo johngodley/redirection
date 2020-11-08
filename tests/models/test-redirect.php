@@ -298,6 +298,25 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->assertFalse( $item->get_match( '/source' ) );
 	}
 
+	public function testMatchWithoutTargetMiss() {
+		// A match with an extra check (useragent) that doesn't hit, and an action with no target, should return false
+		$item = new Red_Item( [ 'match_type' => 'agent', 'id' => 1, 'action_data' => serialize( [ 'agent' => 'agent' ] ), 'action_type' => 'error', 'url' => '/cat', 'action_code' => 301 ] );
+		$this->assertFalse( $item->get_match( '/cat' ) );
+	}
+
+	public function testMatchWithoutTargetHit() {
+		// A match with an extra check (useragent) that does hit, and an action with no target, should return an action
+		$item = new Red_Item( [ 'match_type' => 'agent', 'id' => 1, 'action_data' => serialize( [ 'agent' => 'agent' ] ), 'action_type' => 'error', 'url' => '/cat', 'action_code' => 301 ] );
+		$_SERVER['HTTP_USER_AGENT'] = 'agent';
+		$this->assertTrue( $item->get_match( '/cat' ) !== false );
+	}
+
+	// Test an action with an empty match target returns false
+	public function testMatchWithEmptyTarget() {
+		$item = new Red_Item( [ 'match_type' => 'agent', 'id' => 1, 'action_data' => serialize( [ 'agent' => 'agent', 'url_notfrom' => '' ] ), 'action_type' => 'error', 'url' => '/cat', 'action_code' => 301 ] );
+		$this->assertFalse( $item->get_match( '/cat' ) );
+	}
+
 	public function testMatch() {
 		global $wpdb;
 
@@ -553,7 +572,7 @@ class RedirectTest extends WP_UnitTestCase {
 		// This returns with defaults
 		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
 
-		$item = new Red_Item( (object) [ 'match_data' => json_encode( [ 'source' => [ 'flag_case' => true ] ] ) ] );
+		$item = new Red_Item( (object) [ 'match_data' => wp_json_encode( [ 'source' => [ 'flag_case' => true ] ] ) ] );
 		$data = $item->get_match_data();
 
 		$this->assertEquals( [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] ], $data );
@@ -572,7 +591,7 @@ class RedirectTest extends WP_UnitTestCase {
 		] );
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT match_data FROM {$wpdb->prefix}redirection_items WHERE id=%d", $item->get_id() ) );
-		$expected = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
+		$expected = wp_json_encode( [ 'source' => [ 'flag_case' => true ] ] );
 
 		$this->assertEquals( $expected, $row->match_data );
 	}
