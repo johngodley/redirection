@@ -237,12 +237,16 @@ class WordPress_Module extends Red_Module {
 	 */
 	private function is_url_and_page_type() {
 		$page_types = array_values( array_filter( $this->redirects, function( Red_Item $redirect ) {
-			return $redirect->match->get_type() === 'page';
+			return $redirect->match && $redirect->match->get_type() === 'page';
 		} ) );
 
 		if ( count( $page_types ) > 0 ) {
 			$request = new Red_Url_Request( Redirection_Request::get_request_url() );
-			$page_types[0]->is_match( $request->get_decoded_url(), $request->get_original_url() );
+			$action = $page_types[0]->get_match( $request->get_decoded_url(), $request->get_original_url() );
+			if ( $action ) {
+				$action->run();
+			}
+
 			return true;
 		}
 
