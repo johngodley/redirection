@@ -22,9 +22,8 @@ class ErrorTest extends WP_UnitTestCase {
 		$this->set_404( false );
 
 		$action = Red_Action::create( 'error', 1 );
-		$result = $action->process_before( 410, 'test' );
+		$action->run( 410, 'test' );
 
-		$this->assertTrue( $result );
 		$this->assertTrue( get_query_var( 'is_404' ) );
 		$this->assertEquals( get_404_template(), $action->template_include() );
 		$this->assertFalse( $action->pre_handle_404() );

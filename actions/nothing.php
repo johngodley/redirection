@@ -1,11 +1,15 @@
 <?php
 
+/**
+ * The 'do nothing' action. This really does nothing, and is used to short-circuit Redirection so that it doesn't trigger other redirects.
+ */
 class Nothing_Action extends Red_Action {
-	public function process_before( $code, $target ) {
-		return apply_filters( 'redirection_do_nothing', false, $target );
-	}
-
-	public function needs_target() {
-		return false;
+	/**
+	 * Issue an action when nothing happens. This stops further processing.
+	 *
+	 * @return void
+	 */
+	public function run() {
+		do_action( 'redirection_do_nothing', $this->get_target() );
 	}
 }

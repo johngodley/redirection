@@ -51,16 +51,29 @@ abstract class Red_Match {
 	abstract public function name();
 
 	/**
-	 * Get the target URL
+	 * Match the URL against the specific matcher conditions
 	 *
-	 * @param String           $url URL of this redirect.
-	 * @param String           $matched_url URL that was matched from the client.
-	 * @param Red_Source_Flags $flag Flags.
-	 * @param boolean          $is_matched Is this matched.
-	 * @return String
+	 * @param String $url Requested URL.
+	 * @return boolean
 	 */
-	abstract public function get_target_url( $url, $matched_url, Red_Source_Flags $flag, $is_matched );
 	abstract public function is_match( $url );
+
+	/**
+	 * Get the target URL for this match. Some matches may have a matched/unmatched target.
+	 *
+	 * @param String           $original_url The client URL (not decoded).
+	 * @param String           $matched_url The URL in the redirect.
+	 * @param Red_Source_Flags $flag Source flags.
+	 * @param boolean          $is_matched Was the match successful.
+	 * @return String|false
+	 */
+	abstract public function get_target_url( $original_url, $matched_url, Red_Source_Flags $flag, $is_matched );
+
+	/**
+	 * Get the match data
+	 *
+	 * @return array|null
+	 */
 	abstract public function get_data();
 
 	/**
