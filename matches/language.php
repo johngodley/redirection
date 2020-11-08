@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * Check the client language
+ */
 class Language_Match extends Red_Match {
 	use FromNotFrom_Match;
 
-	public $language;
+	/**
+	 * Language to check.
+	 *
+	 * @var String
+	 */
+	public $language = '';
 
 	public function name() {
 		return __( 'URL and language', 'redirection' );
@@ -15,6 +23,12 @@ class Language_Match extends Red_Match {
 		return $this->save_data( $details, $no_target_url, $data );
 	}
 
+	/**
+	 * Sanitize the language value to a CSV string
+	 *
+	 * @param String $language User supplied language strings.
+	 * @return String
+	 */
 	private function sanitize_language( $language ) {
 		$parts = explode( ',', str_replace( ' ', '', $language ) );
 		return implode( ',', $parts );
@@ -39,6 +53,12 @@ class Language_Match extends Red_Match {
 		), $this->get_from_data() );
 	}
 
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param String $values Match values, as read from the database (plain text or serialized PHP).
+	 * @return void
+	 */
 	public function load( $values ) {
 		$values = $this->load_data( $values );
 		$this->language = isset( $values['language'] ) ? $values['language'] : '';
