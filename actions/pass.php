@@ -34,6 +34,7 @@ class Pass_Action extends Red_Action {
 	public function process_internal( $target ) {
 		// Another URL on the server
 		$_SERVER['REQUEST_URI'] = $target;
+		$_SERVER['PATH_INFO'] = $target;
 
 		if ( strpos( $target, '?' ) ) {
 			$_SERVER['QUERY_STRING'] = substr( $target, strpos( $target, '?' ) + 1 );
