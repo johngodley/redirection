@@ -5,6 +5,7 @@ require_once __DIR__ . '/url-path.php';
 require_once __DIR__ . '/url-match.php';
 require_once __DIR__ . '/url-flags.php';
 require_once __DIR__ . '/url-request.php';
+require_once __DIR__ . '/url-transform.php';
 
 class Red_Url {
 	/**
