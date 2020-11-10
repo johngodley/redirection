@@ -49,7 +49,7 @@ class Redirection {
 		}
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
-		add_filter( 'redirection_url_target', array( $this, 'replace_special_tags' ) );
+		add_filter( 'redirection_url_target', [ $this, 'transform_url' ] );
 
 		$options = red_get_options();
 		if ( $options['ip_logging'] === 0 ) {
@@ -57,6 +57,12 @@ class Redirection {
 		} elseif ( $options['ip_logging'] === 2 ) {
 			add_filter( 'redirection_request_ip', array( $this, 'mask_ip' ) );
 		}
+	}
+
+	public function transform_url( $url ) {
+		$transformer = new Red_Url_Transform();
+
+		return $transformer->transform( $url );
 	}
 
 	/**
@@ -120,30 +126,6 @@ class Redirection {
 	public function clean_redirection_logs() {
 		$flusher = new Red_Flusher();
 		$flusher->flush();
-	}
-
-	/**
-	 * Replace special tags in the target URL.
-	 *
-	 * From the distant Redirection past. Undecided whether to keep
-	 *
-	 * @param String $url Target URL.
-	 * @return String
-	 */
-	public function replace_special_tags( $url ) {
-		if ( is_numeric( $url ) ) {
-			$url = get_permalink( $url );
-		} else {
-			$user = wp_get_current_user();
-
-			if ( ! empty( $user ) ) {
-				$url = str_replace( '%userid%', $user->ID, $url );
-				$url = str_replace( '%userlogin%', isset( $user->user_login ) ? $user->user_login : '', $url );
-				$url = str_replace( '%userurl%', isset( $user->user_url ) ? $user->user_url : '', $url );
-			}
-		}
-
-		return $url;
 	}
 
 	/**
