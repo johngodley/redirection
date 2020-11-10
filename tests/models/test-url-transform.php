@@ -37,10 +37,10 @@ class UrlTransformTest extends WP_UnitTestCase {
 		wp_set_current_user( $this->admin_user_id );
 
 		$before = 'hello [userlogin]';
-		$after = 'hello User 0';
+		$after = 'hello user 0';
 		$transform = new Red_Url_Transform();
 
-		$this->assertEquals( $after, substr( $transform->transform( $before ), 0, strlen( $after ) ) );
+		$this->assertEquals( $after, strtolower( substr( $transform->transform( $before ), 0, strlen( $after ) ) ) );
 	}
 
 	public function testUnixTime() {
