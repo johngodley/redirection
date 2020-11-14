@@ -163,6 +163,10 @@ export const getSearchOptions = () => [
 		title: __( 'Search URL' ),
 	},
 	{
+		name: 'url-exact',
+		title: __( 'Search exact URL' ),
+	},
+	{
 		name: 'referrer',
 		title: __( 'Search referrer' ),
 	},
