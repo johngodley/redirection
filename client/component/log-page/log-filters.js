@@ -21,6 +21,24 @@ function findGroup( group, item ) {
 	return group.options.find( ( groupItem ) => groupItem.value === item );
 }
 
+function getSelectedFilters( enabled, filters ) {
+	const selectedFilters = [];
+
+	Object.keys( enabled ).forEach( ( key ) => {
+		const group = filters.find( ( item ) => item.value === key );
+
+		if ( group ) {
+			const filter = group.options.find( ( item ) => item.value === enabled[ key ] );
+
+			if ( filter ) {
+				selectedFilters.push( enabled[ key ] );
+			}
+		}
+	} );
+
+	return selectedFilters;
+}
+
 /**
  *
  * @param {object} props Component props
@@ -64,7 +82,7 @@ function LogFilters( props ) {
 				<BulkAction>
 					<MultiOptionDropdown
 						options={ filterOptions }
-						selected={ Object.keys( table.filterBy ).map( ( item ) => table.filterBy[ item ] ) }
+						selected={ getSelectedFilters( table.filterBy, filterOptions ) }
 						onApply={ onChange }
 						title={ __( 'Filters' ) }
 						isEnabled={ ! disabled }
