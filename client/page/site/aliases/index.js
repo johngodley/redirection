@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { getDomainOnly } from 'lib/url';
 import Alias from './alias';
 
-const ALIAS_MAX = 10;
+const ALIAS_MAX = 20;
 
 const addAlias = ( aliases, onChange, ev ) => {
 	ev.preventDefault();
