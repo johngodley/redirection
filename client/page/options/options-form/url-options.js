@@ -132,7 +132,7 @@ function UrlOptions( props ) {
 					&nbsp;
 					<span className="sub">
 						{ __(
-							'(beta) Enable caching of redirects via WordPress object cache. Can improve performance, but requires a working object cache.'
+							'(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache.'
 						) }
 					</span>
 				</label>

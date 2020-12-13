@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Select } from 'wp-plugin-components';
 import { fixStatus } from 'state/settings/action';
 
-const getVersions = () => ( [
+const getVersions = () => [
 	{
 		value: '2.3.1',
 		label: '2.3.1',
@@ -39,23 +39,23 @@ const getVersions = () => ( [
 		value: '4.2',
 		label: '4.2',
 	},
-] );
+];
 
 class Debug extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = { version: Redirectioni10n.database.next || props.debug.database.current };
+		this.state = { version: props.debug.database.current };
 	}
 
-	onChange = ev => {
+	onChange = ( ev ) => {
 		this.setState( { version: ev.target.value } );
-	}
+	};
 
-	onSave = ev => {
+	onSave = ( ev ) => {
 		ev.preventDefault();
 		this.props.onSave( 'database', this.state.version );
-	}
+	};
 
 	render() {
 		const { ip_header, database } = this.props.debug;
@@ -67,26 +67,33 @@ class Debug extends React.Component {
 					<tr>
 						<th>{ __( 'Database version' ) }</th>
 						<td>
-							<Select items={ getVersions() } value={ version } name="database_version" onChange={ this.onChange } /> &nbsp;
-
-							{ version !== database.current &&
+							<Select
+								items={ getVersions() }
+								value={ version }
+								name="database_version"
+								onChange={ this.onChange }
+							/>{' '}
+							&nbsp;
+							{ version !== database.current && (
 								<>
 									<strong>{ __( 'Do not change unless advised to do so!' ) }</strong> &nbsp;
-									<button className="button-secondary button" onClick={ this.onSave }>{ __( 'Save' ) }</button>
+									<button className="button-secondary button" onClick={ this.onSave }>
+										{ __( 'Save' ) }
+									</button>
 								</>
-							}
+							) }
 						</td>
 					</tr>
 					<tr>
 						<th>{ __( 'IP Headers' ) }</th>
 						<td>
-							{ Object
-								.keys( ip_header )
-								.filter( key => ip_header[ key ] )
-								.map( ( key, pos ) =>
-									<code key={ pos }>{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }&nbsp;</code>
-								)
-							}
+							{ Object.keys( ip_header )
+								.filter( ( key ) => ip_header[ key ] )
+								.map( ( key, pos ) => (
+									<code key={ pos }>
+										{ key } = { ip_header[ key ] ? ip_header[ key ] : '-' }&nbsp;
+									</code>
+								) ) }
 						</td>
 					</tr>
 				</tbody>
@@ -105,5 +112,5 @@ function mapDispatchToProps( dispatch ) {
 
 export default connect(
 	null,
-	mapDispatchToProps,
+	mapDispatchToProps
 )( Debug );

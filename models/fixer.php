@@ -38,6 +38,9 @@ class Red_Fixer {
 				if ( $value === $upgrade['version'] ) {
 					$status->finish();
 					$status->save_db_version( $value );
+
+					// Switch to prompt mode
+					red_set_options( [ 'plugin_update' => 'prompt' ] );
 					break;
 				}
 			}

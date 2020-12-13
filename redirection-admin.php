@@ -70,11 +70,26 @@ class Redirection_Admin {
 		} );
 	}
 
+	/**
+	 * Show the database upgrade nag
+	 *
+	 * @return void
+	 */
 	public function update_nag() {
+		$options = red_get_options();
+
+		// Is the site configured to upgrade automatically?
+		if ( $options['plugin_update'] === 'admin' ) {
+			$this->automatic_upgrade();
+			return;
+		}
+
+		// Can the user perform a manual database upgrade?
 		if ( ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ) {
 			return;
 		}
 
+		// Default manual update, with nag
 		$status = new Red_Database_Status();
 
 		$message = false;
@@ -93,6 +108,32 @@ class Redirection_Admin {
 		// Known HTML and so isn't escaped
 		// phpcs:ignore
 		echo '<div class="update-nag notice notice-warning" style="width: 95%">' . $message . '</div>';
+	}
+
+	/**
+	 * Perform an automatic DB upgrade
+	 *
+	 * @return void
+	 */
+	private function automatic_upgrade() {
+		$loop = 0;
+		$status = new Red_Database_Status();
+		$database = new Red_Database();
+
+		// Loop until the DB is upgraded, or until a max is exceeded (just in case)
+		while ( $loop < 20 ) {
+			if ( ! $status->needs_updating() ) {
+				break;
+			}
+
+			$database->apply_upgrade( $status );
+
+			if ( $status->is_error() ) {
+				// If an error occurs then switch to 'prompt' mode and let the user deal with it.
+				red_set_options( [ 'plugin_update' => 'prompt' ] );
+				return;
+			}
+		}
 	}
 
 	// So it finally came to this... some plugins include their JS in all pages, whether they are needed or not. If there is an error

@@ -101,6 +101,8 @@ function Home( props ) {
 		onShowUpgrade,
 		showDatabase,
 		result,
+		inProgress,
+		pluginUpdate,
 	} = props;
 	const [ page, setPage ] = useState( getPluginPage( ALLOWED_PAGES ) );
 
@@ -128,13 +130,22 @@ function Home( props ) {
 		return <WelcomeWizard />;
 	}
 
-	if ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) {
+	if ( inProgress && ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) ) {
 		return <DatabaseUpdate onShowUpgrade={ onShowUpgrade } showDatabase={ showDatabase } result={ result } />;
 	}
 
 	return (
 		<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
 			<div className="wrap redirection">
+				{ ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) &&
+					pluginUpdate === 'prompt' && (
+						<DatabaseUpdate
+							onShowUpgrade={ onShowUpgrade }
+							showDatabase={ showDatabase }
+							result={ result }
+						/>
+					) }
+
 				<PageRouter
 					page={ page }
 					setPage={ setPage }
@@ -210,9 +221,9 @@ function mapDispatchToProps( dispatch ) {
 function mapStateToProps( state ) {
 	const {
 		message: { errors, notices },
-		settings: { showDatabase },
+		settings: { showDatabase, values },
 	} = state;
-	const { status: databaseStatus, result } = state.settings.database;
+	const { status: databaseStatus, result, inProgress } = state.settings.database;
 
 	return {
 		errors,
@@ -220,6 +231,8 @@ function mapStateToProps( state ) {
 		showDatabase,
 		databaseStatus,
 		result,
+		inProgress,
+		pluginUpdate: values.plugin_update,
 	};
 }
 

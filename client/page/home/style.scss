@@ -118,6 +118,8 @@
 
 .database-switch {
 	float: right;
+	margin-right: 10px;
+	margin-top: -5px;
 
 	a {
 		color: #444;
@@ -127,4 +129,8 @@
 	a:hover {
 		text-decoration: underline;
 	}
+}
+
+.red-upgrade {
+	margin-bottom: 50px;
 }
