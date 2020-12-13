@@ -28,15 +28,19 @@ function getUpgradeNotice() {
 
 	return (
 		<>
-			<p>{ __( 'Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.', {
-				args: {
-					current: Redirectioni10n.database.current,
-					latest: Redirectioni10n.database.next,
-				},
-				components: {
-					strong: <strong />,
-				},
-			} ) }
+			<p>
+				{ __(
+					'Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.',
+					{
+						args: {
+							current: Redirectioni10n.database.current,
+							latest: Redirectioni10n.database.next,
+						},
+						components: {
+							strong: <strong />,
+						},
+					}
+				) }
 			</p>
 		</>
 	);
@@ -49,21 +53,54 @@ class NeedUpdate extends React.Component {
 		this.state = { showManual: false };
 	}
 
-	onToggle = ev => {
+	onToggle = ( ev ) => {
 		ev.preventDefault();
 		this.setState( { showManual: ! this.state.showManual } );
-	}
+	};
 
 	onComplete = () => {
 		this.props.onComplete( Redirectioni10n.database.next );
-	}
+	};
 
 	renderManual() {
+		if ( Redirectioni10n.database.manual.length === 0 ) {
+			return (
+				<>
+					<p>
+						{ __( 'Your site already has the latest SQL.' ) +
+							' ' +
+							__( 'Click "Complete Upgrade" when finished.' ) }
+					</p>
+					<p>
+						<button className="button-primary" onClick={ this.onComplete }>
+							{ __( 'Complete Upgrade' ) }
+						</button>
+					</p>
+				</>
+			);
+		}
+
 		return (
 			<>
-				<p>{ __( 'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.' ) } { __( 'Click "Complete Upgrade" when finished.' ) }</p>
-				<p><TextareaAutosize readOnly={ true } cols="120" value={ Redirectioni10n.database.manual.join( ';\n' ) + ';' } spellCheck={ false } /></p>
-				<p><button className="button-primary" onClick={ this.onComplete }>{ __( 'Complete Upgrade' ) }</button></p>
+				<p>
+					{ __(
+						'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.'
+					) }{' '}
+					{ __( 'Click "Complete Upgrade" when finished.' ) }
+				</p>
+				<p>
+					<TextareaAutosize
+						readOnly={ true }
+						cols="120"
+						value={ Redirectioni10n.database.manual.join( ';\n' ) + ';' }
+						spellCheck={ false }
+					/>
+				</p>
+				<p>
+					<button className="button-primary" onClick={ this.onComplete }>
+						{ __( 'Complete Upgrade' ) }
+					</button>
+				</p>
 			</>
 		);
 	}
@@ -75,7 +112,12 @@ class NeedUpdate extends React.Component {
 			<>
 				<p>{ __( 'Click the "Upgrade Database" button to automatically upgrade the database.' ) }</p>
 				<p>
-					<input className="button-primary" type="submit" value={ __( 'Upgrade Database' ) } onClick={ onShowUpgrade } />
+					<input
+						className="button-primary"
+						type="submit"
+						value={ __( 'Upgrade Database' ) }
+						onClick={ onShowUpgrade }
+					/>
 				</p>
 			</>
 		);
@@ -109,27 +151,42 @@ class NeedUpdate extends React.Component {
 		}
 
 		return (
-			<div className="wrap redirection">
+			<div className="wrap redirection red-upgrade">
 				<h1 className="wp-heading-inline">{ __( 'Upgrade Required' ) }</h1>
 
 				<div className="wpl-error">
 					<h3>{ __( 'Redirection database needs upgrading' ) }</h3>
 					{ getUpgradeNotice() }
 
-					<p>{ __( 'Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection.', {
-						components: {
-							download: <ExternalLink url={ getExportUrl( 'all', 'json' ) } />,
-							import: <ExternalLink url="https://redirection.me/support/import-export-redirects/" />,
-						},
-					} ) }</p>
+					<p>
+						{ __(
+							'Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection.',
+							{
+								components: {
+									download: <ExternalLink url={ getExportUrl( 'all', 'json' ) } />,
+									import: (
+										<ExternalLink url="https://redirection.me/support/import-export-redirects/" />
+									),
+								},
+							}
+						) }
+					</p>
 
 					{ showManual && this.renderManual() }
 					{ ! showManual && this.renderStandard() }
 				</div>
 
 				<div className="database-switch">
-					{ ! showManual && <a href="#" onClick={ this.onToggle }>{ __( 'Manual Upgrade' ) }</a> }
-					{ showManual && <a href="#" onClick={ this.onToggle }>{ __( 'Automatic Upgrade' ) }</a> }
+					{ ! showManual && (
+						<a href="#" onClick={ this.onToggle }>
+							{ __( 'Manual Upgrade' ) }
+						</a>
+					) }
+					{ showManual && (
+						<a href="#" onClick={ this.onToggle }>
+							{ __( 'Automatic Upgrade' ) }
+						</a>
+					) }
 				</div>
 			</div>
 		);

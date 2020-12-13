@@ -68,7 +68,8 @@ function red_get_default_options() {
 		'preferred_domain'    => '',
 		'aliases'             => [],
 		'permalinks'          => [],
-		'cache_key'            => 0,
+		'cache_key'           => 0,
+		'plugin_update'       => 'prompt',
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
@@ -188,6 +189,10 @@ function red_set_options( array $settings = array() ) {
 		$options['associated_redirect'] = '';
 	}
 
+	if ( isset( $settings['plugin_update'] ) && in_array( $settings['plugin_update'], [ 'prompt', 'admin' ], true ) ) {
+		$options['plugin_update'] = $settings['plugin_update'];
+	}
+
 	$flags = new Red_Source_Flags();
 	$flags_present = [];
 
@@ -302,6 +307,7 @@ function red_get_options() {
 		$options = [
 			'flags_case' => true,
 			'flags_trailing' => true,
+			'plugin_update' => 'admin',
 		];
 	}
 

@@ -6,6 +6,18 @@ import apiFetch from 'wp-plugin-lib/api-fetch';
 import { mergeWithTable, removeDefaults } from 'lib/table';
 import { translate as __ } from 'i18n-calypso';
 
+function getConfirmMessage( count, isArray ) {
+	if ( isArray ) {
+		return __(
+			'Are you sure you want to delete this item?',
+			'Are you sure you want to delete the selected items?',
+			{ count }
+		);
+	}
+
+	return __( 'Are you sure want to delete all matching items?' );
+}
+
 export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
 	const { table, total } = getState()[ status.store ];
 	const params = {
@@ -23,8 +35,9 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 	}
 
 	const count = params.items ? params.items.length : total;
+	const confirmMessage = getConfirmMessage( count, Array.isArray( params.items ) );
 
-	if ( bulk === 'delete' && ! extra.deleteConfirm && ! confirm( __( 'Are you sure you want to delete this item?', 'Are you sure you want to delete the selected items?', { count } ) ) ) {
+	if ( bulk === 'delete' && ! extra.deleteConfirm && ! confirm( confirmMessage ) ) {
 		return;
 	}
 

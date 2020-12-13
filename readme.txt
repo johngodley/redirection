@@ -185,6 +185,7 @@ An x.1 version increase introduces new or updated features and can be considered
 * Add caching support
 * Add support for migrated permalink structures
 * Add dynamic URL variables
+* Add fully automatic database upgrade option
 * Improve performance when many redirects have the same path
 
 = 4.9.2 - 30th October =

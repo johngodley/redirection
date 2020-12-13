@@ -17,19 +17,28 @@ export const restApi = () => [
 	{ value: 3, label: __( 'Relative REST API' ) },
 ];
 
+function getPluginUpdateOptions() {
+	return [
+		{
+			value: 'prompt',
+			label: __( 'Upgrade manually when prompted' ),
+		},
+		{
+			value: 'admin',
+			label: __( 'Automatically upgrade on admin pages' ),
+		},
+	];
+}
+
 function OtherOptions( props ) {
 	const { settings, onChange, getLink, installed, warning } = props;
-	const {
-		location,
-		token,
-		rest_api,
-	} = settings;
+	const { location, token, rest_api, plugin_update } = settings;
 
 	return (
 		<>
 			<tr className="redirect-option__row">
 				<td colSpan={ 2 }>
-					<h2 className="title">{ __( 'Other' ) }</h2>
+					<h2 className="title">{ __( 'Advanced' ) }</h2>
 				</td>
 			</tr>
 			<TableRow title={ __( 'RSS Token' ) + ':' } url={ getLink( 'options', 'rsstoken' ) }>
@@ -75,15 +84,22 @@ function OtherOptions( props ) {
 				</label>
 			</TableRow>
 			<TableRow title={ __( 'REST API' ) } url={ getLink( 'options', 'restapi' ) }>
+				<Select items={ restApi() } name="rest_api" value={ parseInt( rest_api, 10 ) } onChange={ onChange } />{' '}
+				&nbsp;
+				<span className="sub">
+					{ __( "How Redirection uses the REST API - don't change unless necessary" ) }
+				</span>
+			</TableRow>
+			<TableRow title={ __( 'Data Upgrade' ) }>
 				<Select
-					items={ restApi() }
-					name="rest_api"
-					value={ parseInt( rest_api, 10 ) }
+					items={ getPluginUpdateOptions() }
+					name="plugin_update"
+					value={ plugin_update }
 					onChange={ onChange }
 				/>{' '}
 				&nbsp;
 				<span className="sub">
-					{ __( "How Redirection uses the REST API - don't change unless necessary" ) }
+					{ __( "Decide how Redirection updates itself, if needed." ) }
 				</span>
 			</TableRow>
 		</>

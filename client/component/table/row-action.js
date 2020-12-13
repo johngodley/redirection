@@ -19,7 +19,7 @@ export function RowActions( props ) {
 			{ disabled ? (
 				<span>&nbsp;</span>
 			) : (
-				actions.filter( ( item ) => item ).reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
+				actions.length > 0 && actions.filter( ( item ) => item ).reduce( ( prev, curr ) => [ prev, ' | ', curr ] )
 			) }
 		</div>
 	);
