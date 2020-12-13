@@ -3,7 +3,7 @@
 class Red_Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
-	const DELETE_MAX = 10000;
+	const DELETE_MAX = 20000;
 	const DELETE_KEEP_ON = 10;  // 10 minutes
 
 	public function flush() {
