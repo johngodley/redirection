@@ -118,6 +118,7 @@ const Table = ( props ) => {
 			onSelect={ onSelect }
 			hasBulk={ !! onSelect }
 			allSelected={ table.selected.length === rows.length && rows.length !== 0 }
+			isSaving={ saving.length > 0 }
 		/>
 	);
 

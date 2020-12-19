@@ -38,7 +38,11 @@ export const getGroup = ( args ) => ( dispatch, getState ) =>
 export const setOrderBy = ( orderby, direction ) => getGroup( { orderby, direction } );
 export const setPage = ( page ) => getGroup( { page } );
 export const setFilter = ( filterBy ) => getGroup( { filterBy, page: 0 } );
-export const setSelected = ( items ) => ( { type: GROUP_SET_SELECTED, items } );
+export const setSelected = ( items, isEverything = false ) => ( {
+	type: GROUP_SET_SELECTED,
+	items,
+	isEverything,
+} );
 export const setTable = ( table ) => getGroup( table );
 export const setDisplay = ( displayType, displaySelected ) => ( {
 	type: GROUP_DISPLAY_SET,

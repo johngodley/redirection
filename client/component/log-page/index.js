@@ -114,7 +114,16 @@ function LogPage( props ) {
 		status,
 		saving,
 	} = props;
-	const { displayFilters, displayGroups, searchOptions, groupBy, rowFilters, bulk, headers, validateDisplay } = logOptions;
+	const {
+		displayFilters,
+		displayGroups,
+		searchOptions,
+		groupBy,
+		rowFilters,
+		bulk,
+		headers,
+		validateDisplay,
+	} = logOptions;
 	const { onChangePage, onFilter, onSetDisplay, onBulk, onGroup, onSetOrder, onSetAll, onSelect } = logActions;
 	const disabled = status === STATUS_IN_PROGRESS;
 
@@ -137,6 +146,7 @@ function LogPage( props ) {
 				disabled={ disabled }
 				onChangePage={ onChangePage }
 				className="top"
+				onSelectAll={ onSetAll }
 			>
 				<BulkActions bulk={ bulk } disabled={ disabled || table.selected.length === 0 } onBulk={ onBulk } />
 
@@ -158,7 +168,6 @@ function LogPage( props ) {
 				table={ table }
 				status={ status }
 				onSelect={ onSelect }
-				onSetAllSelected={ onSetAll }
 				onSetOrderBy={ onSetOrder }
 				saving={ saving }
 			/>
@@ -169,15 +178,9 @@ function LogPage( props ) {
 				disabled={ disabled }
 				onChangePage={ onChangePage }
 				className="bottom"
+				onSelectAll={ onSetAll }
 			>
-				{ total >= rows.length && ! table.groupBy && (
-					<BulkActions
-						bulk={ bulk }
-						disabled={ disabled || table.selected.length > 0 }
-						onBulk={ onBulk }
-						isEverything
-					/>
-				) }
+				<BulkActions bulk={ bulk } disabled={ disabled || table.selected.length === 0 } onBulk={ onBulk } />
 				{ renderTableActions && renderTableActions() }
 			</TableNav>
 		</>

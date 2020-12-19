@@ -39,10 +39,13 @@ export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, directio
 export const setPage = ( page ) => getLogs( { page } );
 export const setFilter = ( filterBy ) => getLogs( { filterBy, page: 0 } );
 export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
-export const setSelected = ( items ) => ( { type: LOG_SET_SELECTED, items } );
+export const setSelected = ( items, isEverything = false ) => ( {
+	type: LOG_SET_SELECTED,
+	items,
+	isEverything,
+} );
 export const setTable = ( table ) => getLogs( table );
-export const setGroupBy = ( groupBy ) =>
-	getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc' } );
+export const setGroupBy = ( groupBy ) => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc' } );
 export const setDisplay = ( displayType, displaySelected ) => ( {
 	type: LOG_DISPLAY_SET,
 	displayType,

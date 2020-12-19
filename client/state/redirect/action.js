@@ -40,7 +40,11 @@ export const getRedirect = ( args ) => ( dispatch, getState ) =>
 export const setOrderBy = ( orderby, direction ) => getRedirect( { orderby, direction } );
 export const setPage = ( page ) => getRedirect( { page } );
 export const setFilter = ( filterBy ) => getRedirect( { filterBy, page: 0 } );
-export const setSelected = ( items ) => ( { type: REDIRECT_SET_SELECTED, items } );
+export const setSelected = ( items, isEverything = false ) => ( {
+	type: REDIRECT_SET_SELECTED,
+	items,
+	isEverything,
+} );
 export const addToTop = ( onoff ) => ( { type: REDIRECT_ADD_TOP, onoff } );
 export const setTable = ( table ) => getRedirect( table );
 export const setDisplay = ( displayType, displaySelected ) => ( {

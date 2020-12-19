@@ -155,7 +155,7 @@ function mapDispatchToProps( dispatch ) {
 			dispatch( setPage( page ) );
 		},
 		onBulk: ( action, ids ) => {
-			dispatch( performTableAction( action, ids ) );
+			dispatch( performTableAction( action ) );
 		},
 		onSelect: ( items ) => {
 			dispatch( setSelected( items ) );
@@ -168,6 +168,9 @@ function mapDispatchToProps( dispatch ) {
 		},
 		onSetDisplay: ( displayType, displaySelected ) => {
 			dispatch( setDisplay( displayType, displaySelected ) );
+		},
+		onSetAll: ( allOrClear ) => {
+			dispatch( setSelected( allOrClear, allOrClear ) );
 		},
 	};
 }
