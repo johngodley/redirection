@@ -27,7 +27,14 @@
 	</rule>
 	<rule ref="WordPress-Docs"/>
 	<rule ref="WordPress-Extra"/>
-	<rule ref="WordPress.WP.I18n"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="redirection"/>
+			</property>
+		</properties>
+	</rule>
 	<config name="text_domain" value="redirection,default"/>
 
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis"/>
@@ -407,11 +414,11 @@
 
 
 	<file>./models</file>
-	<!-- <file>./modules</file>
+	<file>./modules</file>
 	<file>./matches</file>
 	<file>./fileio</file>
 	<file>./database</file>
-	<file>./api</file> -->
+	<file>./api</file>
 	<file>./redirection-admin.php</file>
 	<file>./redirection-capabilities.php</file>
 	<file>./redirection-front.php</file>
