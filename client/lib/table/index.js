@@ -80,6 +80,7 @@ export const getDefaultTable = (
 		groupBy: '',
 		displayType: 'standard',
 		displaySelected: [],
+		selectAll: false,
 	};
 	const sub = query.sub === undefined ? '' : query.sub;
 
@@ -163,19 +164,21 @@ export const removeDefaults = ( table, defaultOrder ) => {
 	delete table.selected;
 	delete table.displaySelected;
 	delete table.displayType;
+	delete table.selectAll;
 
 	return table;
 };
 
 export const clearSelected = ( state ) => {
-	return Object.assign( {}, state, { selected: [] } );
+	return Object.assign( {}, state, { selected: [], selectAll: false } );
 };
 
-export function setTableSelected( table, items, rows ) {
+export function setTableSelected( table, items, selectAll, rows ) {
 	if ( items === true ) {
 		return {
 			...table,
 			selected: rows.map( ( item ) => `${ item.id }` ),
+			selectAll,
 		};
 	}
 
@@ -183,12 +186,14 @@ export function setTableSelected( table, items, rows ) {
 		return {
 			...table,
 			selected: [],
+			selectAll,
 		};
 	}
 
 	return {
 		...table,
 		selected: removeIfExists( table.selected, items ).concat( removeIfExists( items, table.selected ) ),
+		selectAll,
 	};
 }
 

@@ -35,7 +35,7 @@ export default function redirects( state = {}, action ) {
 			return { ... state, rows: setRows( state, action ), total: setTotal( state, action ), saving: removeSaving( state, action ) };
 
 		case REDIRECT_SET_SELECTED:
-			return { ... state, table: setTableSelected( state.table, action.items, state.rows ) };
+			return { ... state, table: setTableSelected( state.table, action.items, action.isEverything, state.rows ) };
 
 		case REDIRECT_FAILED:
 			return { ... state, status: STATUS_FAILED, saving: [] };

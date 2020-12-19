@@ -28,12 +28,12 @@ import CheckColumn from './check-column';
  * @param {boolean} props.allSelected - All items are selected
  */
 const TableHeader = ( props ) => {
-	const { disabled, onSelect, onSetOrderBy, headers, table, hasBulk, allSelected } = props;
+	const { disabled, onSelect, onSetOrderBy, headers, table, hasBulk, allSelected, isSaving } = props;
 
 	return (
 		<tr>
 			{ hasBulk && (
-				<CheckColumn onSelect={ onSelect } disabled={ disabled } selected={ allSelected } />
+				<CheckColumn onSelect={ onSelect } disabled={ disabled || isSaving } selected={ allSelected } />
 			) }
 
 			{ headers

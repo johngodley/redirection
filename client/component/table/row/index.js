@@ -123,7 +123,7 @@ function TableRows( props ) {
 		<tr
 			className={ classnames( {
 				disabled: status === STATUS_IN_PROGRESS || status === STATUS_SAVING,
-				saving: saving.indexOf( row.id ) !== -1,
+				saving: saving.indexOf( row.id ) !== -1 || saving.indexOf( -1 ) !== -1,
 			} ) }
 			key={ row.id }
 		>
@@ -133,7 +133,7 @@ function TableRows( props ) {
 					onSelect={ onSelect }
 					disabled={ status === STATUS_IN_PROGRESS }
 					selected={ selected }
-					isSaving={ saving.indexOf( row.id ) !== -1 }
+					isSaving={ saving.indexOf( row.id ) !== -1 || saving.indexOf( -1 ) !== -1 }
 				/>
 			) }
 

@@ -156,6 +156,9 @@ function mapDispatchToProps( dispatch ) {
 		onSelect: ( items ) => {
 			dispatch( setSelected( items ) );
 		},
+		onSetAll: ( allOrClear ) => {
+			dispatch( setSelected( allOrClear, allOrClear ) );
+		},
 	};
 }
 

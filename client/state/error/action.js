@@ -38,9 +38,12 @@ export const setOrderBy = ( orderby, direction ) => getLogs( { orderby, directio
 export const setPage = ( page ) => getLogs( { page } );
 export const setUngroupedFilter = ( filterBy ) => getLogs( { filterBy, page: 0, orderby: '', groupBy: '' } );
 export const setFilter = ( filterBy ) => getLogs( { filterBy, page: 0 } );
-export const setSelected = ( items ) => ( { type: ERROR_SET_SELECTED, items } );
-export const setGroupBy = ( groupBy ) =>
-	getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc' } );
+export const setSelected = ( items, isEverything = false ) => ( {
+	type: ERROR_SET_SELECTED,
+	items,
+	isEverything,
+} );
+export const setGroupBy = ( groupBy ) => getLogs( { groupBy, page: 0, orderby: 'total', direction: 'desc' } );
 export const setTable = ( table ) => getLogs( table );
 export const setDisplay = ( displayType, displaySelected ) => ( {
 	type: ERROR_DISPLAY_SET,

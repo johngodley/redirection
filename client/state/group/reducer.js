@@ -47,7 +47,7 @@ export default function redirects( state = {}, action ) {
 			};
 
 		case GROUP_SET_SELECTED:
-			return { ...state, table: setTableSelected( state.table, action.items, state.rows ) };
+			return { ... state, table: setTableSelected( state.table, action.items, action.isEverything, state.rows ) };
 
 		case GROUP_FAILED:
 			return { ...state, status: STATUS_FAILED, saving: [] };

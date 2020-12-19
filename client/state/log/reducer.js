@@ -19,7 +19,7 @@ import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreT
 export default function log( state = {}, action ) {
 	switch ( action.type ) {
 		case LOG_SET_SELECTED:
-			return { ... state, table: setTableSelected( state.table, action.items, state.rows ) };
+			return { ... state, table: setTableSelected( state.table, action.items, action.isEverything, state.rows ) };
 
 		case LOG_ITEM_SAVING:
 			return { ... state, table: clearSelected( setTable( state, action ) ), saving: setSaving( state, action ), rows: setItem( state, action ) };

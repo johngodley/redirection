@@ -10,12 +10,14 @@ function getConfirmMessage( count, isArray ) {
 	if ( isArray ) {
 		return __(
 			'Are you sure you want to delete this item?',
-			'Are you sure you want to delete the selected items?',
-			{ count }
+			'Are you sure you want to delete the %d selected items?',
+			{ count, args: count }
 		);
 	}
 
-	return __( 'Are you sure want to delete all matching items?' );
+	return __( 'Are you sure want to delete all %d matching items?', {
+		args: count,
+	} );
 }
 
 export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
@@ -26,7 +28,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 
 	if ( Array.isArray( ids ) ) {
 		params.items = ids;
-	} else if ( ids === false ) {
+	} else if ( ! table.selectAll ) {
 		params.items = table.selected;
 	}
 
@@ -34,7 +36,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 		table.page -= 1;
 	}
 
-	const count = params.items ? params.items.length : total;
+	const count = params.items && params.items !== true ? params.items.length : total;
 	const confirmMessage = getConfirmMessage( count, Array.isArray( params.items ) );
 
 	if ( bulk === 'delete' && ! extra.deleteConfirm && ! confirm( confirmMessage ) ) {
@@ -42,31 +44,39 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 	}
 
 	const tableData = mergeWithTable( table, params );
-	const data = { items: params.items, ... extra };
+	const data = { items: params.items, ...extra };
 
 	delete extra.deleteConfirm;
 
-	if ( ids === true ) {
+	if ( table.selectAll ) {
 		data.global = true;
 	}
 
+	const saving = params.items ? params.items.map( ( value ) => parseInt( value, 10 ) ) : [ -1 ];
+
 	apiFetch( endpoint( bulk, data, removeDefaults( table, status.order ) ) )
 		.then( json => {
-			dispatch( { type: status.saved, ... json, saving: params.items ? params.items : [] } );
+			dispatch( { type: status.saved, ... json, saving } );
 		} )
 		.catch( error => {
-			dispatch( { type: status.failed, error, saving: params.items ? params.items : [] } );
+			dispatch( { type: status.failed, error, saving } );
 		} );
 
-	return dispatch( { type: status.saving, table: tableData, saving: params.items ? params.items : [] } );
+	return dispatch( { type: status.saving, table: tableData, saving } );
 };
 
 const doAction = ( endpoint, table, item, status, dispatch ) => {
 	apiFetch( endpoint )
-		.then( json => {
-			dispatch( { type: status.saved, item: json.item, items: json.items, total: json.total, saving: [ item.id ] } );
+		.then( ( json ) => {
+			dispatch( {
+				type: status.saved,
+				item: json.item,
+				items: json.items,
+				total: json.total,
+				saving: [ item.id ],
+			} );
 		} )
-		.catch( error => {
+		.catch( ( error ) => {
 			dispatch( { type: status.failed, error, item, saving: [ item.id ] } );
 		} );
 
@@ -83,7 +93,13 @@ export const createAction = ( endpoint, item, status, defaultOrder = 'id' ) => (
 	table.filterBy = {};
 	table.groupBy = '';
 
-	return doAction( endpoint( item, { orderby: 'id', direction: 'desc', per_page: table.per_page } ), table, item, status, dispatch );
+	return doAction(
+		endpoint( item, { orderby: 'id', direction: 'desc', per_page: table.per_page } ),
+		table,
+		item,
+		status,
+		dispatch
+	);
 };
 
 export const updateAction = ( endpoint, id, item, status ) => ( dispatch, getState ) => {
@@ -106,7 +122,7 @@ const objectDiff = ( source, extra ) => {
 
 const deepCompare = ( first, second ) => {
 	for ( const name in first ) {
-		if ( first [ name ] !== second[ name ] ) {
+		if ( first[ name ] !== second[ name ] ) {
 			return false;
 		}
 	}
@@ -122,10 +138,10 @@ const removeEmpty = ( item ) =>
 			return newObj;
 		}, {} );
 
-export const processRequest = ( endpoint, dispatch, status, params = {}, state = {}, reduxer = s => s ) => {
+export const processRequest = ( endpoint, dispatch, status, params = {}, state = {}, reduxer = ( s ) => s ) => {
 	const { table = {}, rows } = state;
 	const tableData = reduxer( mergeWithTable( table, params ) );
-	const data = removeEmpty( removeDefaults( { ... table, ... params }, status.order ) );
+	const data = removeEmpty( removeDefaults( { ...table, ...params }, status.order ) );
 
 	// If it's the same as our current store then ignore
 	if ( deepCompare( tableData, table ) && rows.length > 0 && deepCompare( params, {} ) ) {
@@ -133,25 +149,25 @@ export const processRequest = ( endpoint, dispatch, status, params = {}, state =
 	}
 
 	apiFetch( endpoint( data ) )
-		.then( json => {
-			dispatch( { type: status.saved, ... json } );
+		.then( ( json ) => {
+			dispatch( { type: status.saved, ...json } );
 		} )
-		.catch( error => {
+		.catch( ( error ) => {
 			dispatch( { type: status.failed, error } );
 		} );
 
-	return dispatch( { table: tableData, type: status.saving, ... objectDiff( tableData, params ) } );
+	return dispatch( { table: tableData, type: status.saving, ...objectDiff( tableData, params ) } );
 };
 
 export const directApi = ( endpoint, dispatch, status, params, state ) => {
 	const { table } = state;
-	const data = removeDefaults( { ... table, ... params }, status.order );
+	const data = removeDefaults( { ...table, ...params }, status.order );
 
 	apiFetch( endpoint( data ) )
-		.then( json => {
-			dispatch( { type: status.saved, ... json } );
+		.then( ( json ) => {
+			dispatch( { type: status.saved, ...json } );
 		} )
-		.catch( error => {
+		.catch( ( error ) => {
 			dispatch( { type: status.failed, error } );
 		} );
 };
@@ -168,8 +184,16 @@ const copyReplace = ( data, item, cb ) => {
 	return dupe;
 };
 
-export const setItem = ( state, action ) => action.item ? copyReplace( state.rows, action.item, existing => ( { ... existing, ... action.item, original: existing } ) ) : state.rows;
-export const restoreToOriginal = ( state, action ) => action.item ? copyReplace( state.rows, action.item, existing => existing.original ) : state.rows;
+export const setItem = ( state, action ) =>
+	action.item
+		? copyReplace( state.rows, action.item, ( existing ) => ( {
+				...existing,
+				...action.item,
+				original: existing,
+		  } ) )
+		: state.rows;
+export const restoreToOriginal = ( state, action ) =>
+	action.item ? copyReplace( state.rows, action.item, ( existing ) => existing.original ) : state.rows;
 
 export const setRows = ( state, action ) => {
 	if ( action.item ) {
@@ -183,7 +207,8 @@ export const setRows = ( state, action ) => {
 	return state.rows;
 };
 
-export const setTable = ( state, action ) => action.table ? { ... state.table, ... action.table } : state.table;
-export const setTotal = ( state, action ) => action.total !== undefined ? action.total : state.total;
-export const setSaving = ( state, action ) => [ ... state.saving, ... action.saving ];
-export const removeSaving = ( state, action ) => state.saving.filter( item => action.saving.indexOf( item ) === -1 );
+export const setTable = ( state, action ) => ( action.table ? { ...state.table, ...action.table } : state.table );
+export const setTotal = ( state, action ) => ( action.total !== undefined ? action.total : state.total );
+export const setSaving = ( state, action ) => [ ...state.saving, ...action.saving ];
+export const removeSaving = ( state, action ) =>
+	state.saving.filter( ( item ) => action.saving.indexOf( item ) === -1 );

@@ -193,6 +193,9 @@ function mapDispatchToProps( dispatch ) {
 		onSetDisplay: ( displayType, displaySelected ) => {
 			dispatch( setDisplay( displayType, displaySelected ) );
 		},
+		onSetAll: ( allOrClear ) => {
+			dispatch( setSelected( allOrClear, allOrClear ) );
+		},
 	};
 }
 

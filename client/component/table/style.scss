@@ -1,3 +1,5 @@
+@import "../../global";
+
 .redirection .wp-list-table {
 	table-layout: fixed;
 
@@ -66,6 +68,10 @@
 
 	strike {
 		opacity: 0.7;
+	}
+
+	.saving {
+		opacity: 0.8;
 	}
 }
 
@@ -232,9 +238,16 @@
 	overflow: visible;
 }
 
+.tablenav.top,
 .tablenav.bottom {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+}
+
+.tablenav .tablenav-pages {
+	margin: 0;
+	padding-bottom: 8px;
 }
 
 .tablenav.bottom .redirect-table__actions {
@@ -264,4 +277,9 @@
 
 .redirect-table__actions .bulkactions {
 	margin-bottom: 9px;
+}
+
+.displaying-num-all {
+	background-color: $yellow;
+	padding: 3px;
 }
