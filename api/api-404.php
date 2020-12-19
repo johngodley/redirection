@@ -180,8 +180,13 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	 * @return WP_Error|array Return an array of results, or a WP_Error
 	 */
 	private function get_404( array $params ) {
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
-			return Red_404_Log::get_grouped( $params['groupBy'], $params );
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent', 'url-exact' ], true ) ) {
+			$group_by = $params['groupBy'];
+			if ( $group_by === 'url-exact' ) {
+				$group_by = 'url';
+			}
+
+			return Red_404_Log::get_grouped( $group_by, $params );
 		}
 
 		return Red_404_Log::get_filtered( $params );
