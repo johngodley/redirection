@@ -84,11 +84,7 @@ const getMenu = () =>
 		( option ) => has_page_access( option.value ) || ( option.value === '' && has_page_access( 'redirect' ) )
 	);
 
-const ALLOWED_PAGES = [ 'redirect' ].concat(
-	getMenu()
-		.slice( 1 )
-		.map( ( page ) => page.value )
-);
+const ALLOWED_PAGES = Redirectioni10n?.caps?.pages || [];
 
 function Home( props ) {
 	const {

@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import { numberFormat } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -32,7 +33,7 @@ export default function getColumns( row, rowParams, disabled ) {
 		},
 		{
 			name: 'redirects',
-			content: redirects,
+			content: numberFormat( redirects, 0 ),
 		},
 		{
 			name: 'module',
