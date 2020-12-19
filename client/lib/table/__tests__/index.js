@@ -21,6 +21,7 @@ const NEW_TABLE = {
 	filterBy: {},
 	displaySelected: [],
 	displayType: '',
+	selectAll: false,
 };
 const DEFAULT_ROWS = [
 	{

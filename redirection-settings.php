@@ -307,7 +307,6 @@ function red_get_options() {
 		$options = [
 			'flags_case' => true,
 			'flags_trailing' => true,
-			'plugin_update' => 'admin',
 		];
 	}
 
