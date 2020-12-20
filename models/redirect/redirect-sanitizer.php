@@ -241,17 +241,37 @@ class Red_Item_Sanitize {
 			$url = '/' . $url;
 		}
 
-		// Ensure we URL decode any i10n characters
-		$url = rawurldecode( $url );
+		// Try and URL decode any i10n characters
+		$decoded = $this->remove_bad_encoding( rawurldecode( $url ) );
 
-		// Try and remove bad decoding
-		if ( function_exists( 'iconv' ) ) {
-			$converted = @iconv( 'UTF-8', 'UTF-8//IGNORE', $url );
-			if ( $converted !== false ) {
-				$url = $converted;
+		// Was there any invalid characters?
+		if ( $decoded === false ) {
+			// Yes. Use the url as an undecoded URL, and check for invalid characters
+			$decoded = $this->remove_bad_encoding( $url );
+
+			// Was there any invalid characters?
+			if ( $decoded === false ) {
+				// Yes, it's still a problem. Use the URL as-is and hope for the best
+				return $url;
 			}
 		}
 
-		return $url;
+		// Return the URL
+		return $decoded;
+	}
+
+	/**
+	 * Remove any bad encoding, where possible
+	 *
+	 * @param string $text Text.
+	 * @return string|false
+	 */
+	private function remove_bad_encoding( $text ) {
+		// Try and remove bad decoding
+		if ( function_exists( 'iconv' ) ) {
+			return @iconv( 'UTF-8', 'UTF-8//IGNORE', $text );
+		}
+
+		return $text;
 	}
 }
