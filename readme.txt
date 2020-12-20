@@ -189,6 +189,7 @@ An x.1 version increase introduces new or updated features and can be considered
 * Improve performance when many redirects have the same path
 * Move bulk all action to a seperate button after selecting all
 * Fix error in display with restricted capabilities
+* Avoid problems with 7G Firewall
 
 = 4.9.2 - 30th October =
 * Fix warning with PHP 5.6

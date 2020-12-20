@@ -126,60 +126,61 @@ function Home( props ) {
 		return <WelcomeWizard />;
 	}
 
-	if ( inProgress && ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) ) {
-		return <DatabaseUpdate onShowUpgrade={ onShowUpgrade } showDatabase={ showDatabase } result={ result } />;
-	}
+	const needsUpgrader =
+		pluginUpdate === 'prompt' && ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' );
 
 	return (
 		<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
 			<div className="wrap redirection">
-				{ ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' ) &&
-					pluginUpdate === 'prompt' && (
-						<DatabaseUpdate
-							onShowUpgrade={ onShowUpgrade }
-							showDatabase={ showDatabase }
-							result={ result }
-						/>
-					) }
-
-				<PageRouter
-					page={ page }
-					setPage={ setPage }
-					onPageChange={ onClearErrors }
-					allowedPages={ ALLOWED_PAGES }
-					baseUrl="?page=redirection.php"
-					defaultPage="redirect"
-				>
-					<h1 className="wp-heading-inline">{ getTitles()[ page ] }</h1>
-
-					{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
-						<button type="button" onClick={ onAdd } className="page-title-action">
-							{ __( 'Add New' ) }
-						</button>
-					) }
-
-					<Menu
-						onChangePage={ changePage }
-						currentPage={ page }
-						menu={ getMenu() }
-						home="redirect"
-						urlBase={ Redirectioni10n.pluginRoot }
+				{ needsUpgrader && (
+					<DatabaseUpdate
+						onShowUpgrade={ onShowUpgrade }
+						showDatabase={ showDatabase }
+						result={ result }
+						name="2"
 					/>
+				) }
 
-					<Error
-						errors={ errors }
-						onClear={ onClearErrors }
-						renderDebug={ DebugReport }
-						details={ getErrorDetails() }
-						links={ getErrorLinks() }
+				{ ! inProgress && databaseStatus !== 'finish-update' && (
+					<PageRouter
+						page={ page }
+						setPage={ setPage }
+						onPageChange={ onClearErrors }
+						allowedPages={ ALLOWED_PAGES }
+						baseUrl="?page=redirection.php"
+						defaultPage="redirect"
 					>
-						<ErrorDetails />
-					</Error>
+						<h1 className="wp-heading-inline">{ getTitles()[ page ] }</h1>
 
-					<PageContent page={ page } />
+						{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
+							<button type="button" onClick={ onAdd } className="page-title-action">
+								{ __( 'Add New' ) }
+							</button>
+						) }
 
-					<Snackbar notices={ notices } onClear={ onClearNotices } />
-				</PageRouter>
+						<Menu
+							onChangePage={ changePage }
+							currentPage={ page }
+							menu={ getMenu() }
+							home="redirect"
+							urlBase={ Redirectioni10n.pluginRoot }
+						/>
+
+						<Error
+							errors={ errors }
+							onClear={ onClearErrors }
+							renderDebug={ DebugReport }
+							details={ getErrorDetails() }
+							links={ getErrorLinks() }
+						>
+							<ErrorDetails />
+						</Error>
+
+						<PageContent page={ page } />
+
+						<Snackbar notices={ notices } onClear={ onClearNotices } />
+					</PageRouter>
+				) }
 			</div>
 		</ErrorBoundary>
 	);

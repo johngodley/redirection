@@ -151,7 +151,7 @@ class NeedUpdate extends React.Component {
 		}
 
 		return (
-			<div className="wrap redirection red-upgrade">
+			<>
 				<h1 className="wp-heading-inline">{ __( 'Upgrade Required' ) }</h1>
 
 				<div className="wpl-error">
@@ -188,7 +188,7 @@ class NeedUpdate extends React.Component {
 						</a>
 					) }
 				</div>
-			</div>
+			</>
 		);
 	}
 }

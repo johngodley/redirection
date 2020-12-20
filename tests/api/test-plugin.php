@@ -10,7 +10,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			[ 'plugin/delete', 'POST', [] ],
 			[ 'plugin/test', 'GET', [] ],
 			[ 'plugin/test', 'POST', [] ],
-			[ 'plugin/database', 'POST', [] ],
+			[ 'plugin/data', 'POST', [] ],
 		];
 	}
 
@@ -30,7 +30,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 				[ 'plugin/delete', 'POST' ],
 				[ 'plugin/test', 'GET' ],
 				[ 'plugin/test', 'POST' ],
-				[ 'plugin/database', 'POST' ],
+				[ 'plugin/data', 'POST' ],
 			],
 		];
 
