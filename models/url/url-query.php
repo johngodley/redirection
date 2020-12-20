@@ -123,6 +123,18 @@ class Red_Url_Query {
 		$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
 
 		if ( $query ) {
+			// Get any fragment
+			$target_fragment = wp_parse_url( $url, PHP_URL_FRAGMENT );
+
+			// If we have a fragment we need to ensure it comes after the query parameters, not before
+			if ( $target_fragment ) {
+				// Remove fragment
+				$url = str_replace( '#' . $target_fragment, '', $url );
+
+				// Add to the end of the query
+				$query .= '#' . $target_fragment;
+			}
+
 			return $url . ( strpos( $url, '?' ) === false ? '?' : '&' ) . $query;
 		}
 

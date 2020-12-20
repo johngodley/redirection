@@ -108,6 +108,10 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertEquals( '/?arrs1[]=1&arrs1[]=2&arrs1[]=3&arrs2[]=1&arrs2[]=2&arrs2[]=3', Red_Url_Query::add_to_target( '/', '/?arrs1[]=1&arrs1[]=2&arrs1[]=3&arrs2[]=1&arrs2[]=2&arrs2[]=3', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}
 
+	public function testFragment() {
+		$this->assertEquals( '/?arrs1[]=1&arrs1[]=2&stuff=1#fragment', Red_Url_Query::add_to_target( '/#fragment', '/?arrs1[]=1&arrs1[]=2&stuff=1', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
+	}
+
 	public function testQueryDoubleSlash() {
 		$url = new Red_Url_Query( '//?this=query&more', new Red_Source_Flags() );
 		$this->assertEquals( [
