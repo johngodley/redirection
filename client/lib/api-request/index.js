@@ -43,7 +43,7 @@ export const RedirectionApi = {
 		status: () => getApiRequest( 'redirection/v1/plugin' ),
 		fix: ( name, value ) => postApiRequest( 'redirection/v1/plugin', { name, value } ),
 		delete: () => deleteApiRequest( 'redirection/v1/plugin/delete' ),
-		upgradeDatabase: ( upgrade ) => postApiRequest( 'redirection/v1/plugin/database', upgrade ? { upgrade } : {} ),
+		upgradeDatabase: ( upgrade ) => postApiRequest( 'redirection/v1/plugin/data', upgrade ? { upgrade } : {} ),
 		checkApi: ( url, post = false ) => {
 			const request = post
 				? postApiRequest( 'redirection/v1/plugin/test', { test: 'ping' } )

@@ -31,7 +31,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 			$this->get_route( WP_REST_Server::ALLMETHODS, 'route_test', [ $this, 'permission_callback_manage' ] ),
 		) );
 
-		register_rest_route( $namespace, '/plugin/database', array(
+		register_rest_route( $namespace, '/plugin/data', array(
 			$this->get_route( WP_REST_Server::EDITABLE, 'route_database', [ $this, 'permission_callback_manage' ] ),
 			'args' => [
 				'upgrade' => [
