@@ -118,8 +118,7 @@ class Database extends React.Component {
 						support: <a href="https://redirection.me/support/problems/data-is-not-saved/" />,
 					},
 				}
-			),
-			false
+			)
 		);
 	}
 
@@ -127,6 +126,9 @@ class Database extends React.Component {
 		return (
 			<div className="redirection-database_error wpl-error">
 				<h3>{ __( 'Database problem' ) }</h3>
+
+				<p>{ error }</p>
+
 				<p>
 					<button className="button button-primary" onClick={ this.onSkip }>
 						{ __( 'Try again' ) }
@@ -143,6 +145,7 @@ class Database extends React.Component {
 		return (
 			<div className="redirection-database_error wpl-error">
 				<h3>{ __( 'Database problem' ) }</h3>
+				<p>{ error }</p>
 				<p>
 					<button className="button button-primary" onClick={ this.onRetry }>
 						{ __( 'Try again' ) }
@@ -254,7 +257,6 @@ class Database extends React.Component {
 							},
 						} ) }
 					</h3>
-
 					<Line percent={ complete } strokeWidth="4" trailWidth="4" strokeLinecap="square" />
 
 					{ reason && result === 'ok' && <p>{ reason }</p> }
@@ -264,9 +266,11 @@ class Database extends React.Component {
 							<Spinner />
 						</div>
 					) }
+
 					{ result === 'error' && this.renderError( reason ) }
 					{ result === STATUS_FAILED && this.renderApiError( reason ) }
 					{ looped && this.renderLoopError() }
+
 					{ this.hasFinished( status ) && (
 						<button className="button button-primary" onClick={ this.onFinish }>
 							{ __( 'Finished! 🎉' ) }
