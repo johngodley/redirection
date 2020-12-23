@@ -183,7 +183,7 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	targets.forEach( ( target ) => {
-		const matches = target.match( /[|\\]/g );
+		const matches = target.match( /[|\\\$]/g );
 
 		if ( matches !== null ) {
 			warnings.push(

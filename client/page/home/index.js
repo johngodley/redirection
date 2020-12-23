@@ -22,6 +22,7 @@ import CrashHandler from './crash-handler';
 import PageContent from './page-content';
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import CacheDetect from './cache-detect';
+import UpdateNotice from './update-notice';
 import { clearErrors, clearNotices } from 'state/message/action';
 import { addToTop, setTable as setRedirectTable } from 'state/redirect/action';
 import { setTable as setErrorTable } from 'state/error/action';
@@ -157,6 +158,8 @@ function Home( props ) {
 								{ __( 'Add New' ) }
 							</button>
 						) }
+
+						<UpdateNotice />
 
 						<Menu
 							onChangePage={ changePage }

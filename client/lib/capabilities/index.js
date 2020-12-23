@@ -1,9 +1,19 @@
 /* global Redirectioni10n */
 
+/**
+ * Does the user have the capability?
+ * @param {string} cap Capability
+ * @returns {boolean}
+ */
 export function has_capability( cap ) {
 	return Redirectioni10n?.caps?.capabilities.indexOf( cap ) !== -1;
 }
 
+/**
+ * Does the user have access to the page?
+ * @param {string} page Page
+ * @returns {boolean}
+ */
 export function has_page_access( page ) {
 	return Redirectioni10n?.caps?.pages.indexOf( page ) !== -1;
 }
