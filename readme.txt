@@ -186,6 +186,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 * Add support for migrated permalink structures
 * Add dynamic URL variables
 * Add fully automatic database upgrade option
+* Add a new version release information prompt
 * Improve performance when many redirects have the same path
 * Move bulk all action to a seperate button after selecting all
 * Fix error in display with restricted capabilities
