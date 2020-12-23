@@ -70,6 +70,7 @@ function red_get_default_options() {
 		'permalinks'          => [],
 		'cache_key'           => 0,
 		'plugin_update'       => 'prompt',
+		'update_notice'       => 0,
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
@@ -246,6 +247,12 @@ function red_set_options( array $settings = array() ) {
 		}
 
 		$options['cache_key'] = $key;
+	}
+
+	if ( isset( $settings['update_notice'] ) ) {
+		$major_version = explode( '-', REDIRECTION_VERSION )[0];   // Remove any beta suffix
+		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
+		$options['update_notice'] = $major_version;
 	}
 
 	update_option( REDIRECTION_OPTION, apply_filters( 'redirection_save_options', $options ) );

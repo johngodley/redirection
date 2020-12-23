@@ -265,6 +265,14 @@ class Redirection_Admin {
 
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.css', array(), $build );
 
+		$is_new = false;
+
+		// phpcs:ignore
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' && strpos( REDIRECTION_VERSION, '-beta' ) === false ) {
+			$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
+			$is_new = version_compare( $options['update_notice'], $major_version ) < 0;
+		}
+
 		$status = new Red_Database_Status();
 		$status->check_tables_exist();
 
@@ -299,6 +307,7 @@ class Redirection_Admin {
 				'pages' => Redirection_Capabilities::get_available_pages(),
 				'capabilities' => Redirection_Capabilities::get_all_capabilities(),
 			],
+			'update_notice' => $is_new ? $major_version : false,
 		) );
 
 		$this->add_help_tab();
