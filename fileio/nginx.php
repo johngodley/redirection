@@ -56,6 +56,10 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function add_url( Red_Item $item, array $match_data ) {
+		if ( $item->get_action_type() === 'error' ) {
+			return $this->get_error( $item->get_url(), $item->get_action_code(), $match_data['source'] );
+		}
+
 		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $match_data['source'] );
 	}
 
@@ -108,5 +112,30 @@ class Red_Nginx_File extends Red_FileIO {
 		$target = preg_replace( '/[^\PC\s]/u', '', $target );
 
 		return 'rewrite ' . $line . '$ ' . $target . ' ' . $code . ';';
+	}
+
+	private function get_error( $line, $code, $source ) {
+		// Remove any existing start/end from a regex
+		$line = ltrim( $line, '^' );
+		$line = rtrim( $line, '$' );
+		$line = preg_replace( "/[\r\n\t].*?$/s", '', $line );
+		$line = preg_replace( '/[^\PC\s]/u', '', $line );
+
+		// For regex...
+		if ( isset( $source['flag_regex'] ) && $source['flag_regex'] ) {
+			// Vary modifier for case in/sensitivity
+			if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
+				$modifier = '~*';
+			} else {
+				$modifier = '~';
+			}
+			// And re-anchor url
+			$line = '^' . $line . '$';
+		// For exact match...
+		} else {
+			$modifier = '=';
+		}
+
+		return 'location ' . $modifier . ' ' . $line . ' { return ' . $code . '; }';
 	}
 }
