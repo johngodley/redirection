@@ -131,9 +131,16 @@ class Red_Nginx_File extends Red_FileIO {
 			}
 			// And re-anchor url
 			$line = '^' . $line . '$';
-		// For exact match...
+		// For non-regex...
 		} else {
-			$modifier = '=';
+			// Escape and use as regex for case insensitivity
+			if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
+				$modifier = '~*';
+				$line = '^' . preg_quote($line) . '$';
+			// Otherwise use exact match
+			} else {
+				$modifier = '=';
+			}
 		}
 
 		return 'location ' . $modifier . ' ' . $line . ' { return ' . $code . '; }';
