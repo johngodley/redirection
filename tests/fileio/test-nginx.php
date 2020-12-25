@@ -100,7 +100,7 @@ class NginxTest extends WP_UnitTestCase {
 	}
 
 	public function testErrorRegexCaseInsensitive() {
-		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
+		$match_data = json_encode( [ 'source' => [ 'flag_case' => true, 'flag_regex' => true ] ] );
 		$nginx = new Red_Nginx_File();
 		$redirects = array( new Red_Item( ( object )array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'error', 'url' => '^/test.*', 'action_code' => 403, 'match_data' => $match_data, 'status' => 'enabled' ) ) );
 
