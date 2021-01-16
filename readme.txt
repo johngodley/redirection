@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 5.0
+Requires at least: 5.1
 Tested up to: 5.5.2
 Stable tag: trunk
 Requires PHP: 5.6
@@ -181,14 +181,14 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.0 - ??? =
+= 5.0 - 16th Jan 2021 =
 * Add caching support
 * Add support for migrated permalink structures
 * Add dynamic URL variables
 * Add fully automatic database upgrade option
 * Add a new version release information prompt
 * Improve performance when many redirects have the same path
-* Move bulk all action to a seperate button after selecting all
+* Move bulk all action to a separate button after selecting all
 * Fix error in display with restricted capabilities
 * Avoid problems with 7G Firewall
 * Improve handling of invalid encoded characters
