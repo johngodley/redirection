@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-18 17:42:13+0000\n"
+"PO-Revision-Date: 2020-12-28 17:26:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -468,7 +468,7 @@ msgstr "Cerca user agent"
 
 #: redirection-strings.php:363 redirection-strings.php:423
 msgid "Search referrer"
-msgstr ""
+msgstr "Ricerca referrer"
 
 #: redirection-strings.php:362 redirection-strings.php:422
 #: redirection-strings.php:562
@@ -803,7 +803,7 @@ msgstr "Passa - come Ignora, ma copia anche i parametri della query sull'indiriz
 
 #: redirection-strings.php:505
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr ""
+msgstr "Ignora - tale e quale, ma ignora ogni parametro della query non presente all'origine"
 
 #: redirection-strings.php:504
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
@@ -926,6 +926,8 @@ msgstr "Completa la configurazione"
 #: redirection-strings.php:197
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
 msgstr ""
+"Ci sono URL differenti in WordPress > Impostazioni > Generali, il che indica solitamente un errore di configurazione e può causare problemi con la REST API. \n"
+"Controlla le impostazioni."
 
 #: redirection-strings.php:196
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
@@ -1126,7 +1128,7 @@ msgstr "Aggiorna il database"
 
 #: redirection-admin.php:147 redirection-strings.php:255
 msgid "Upgrade Database"
-msgstr ""
+msgstr "Aggiorna il database"
 
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:82
@@ -1151,7 +1153,7 @@ msgstr "Crea dati di base"
 #. translators: displayed when installing the plugin
 #: database/schema/latest.php:10
 msgid "Install Redirection tables"
-msgstr ""
+msgstr "Installa le tabelle di Redirection"
 
 #. translators: 1: Site URL, 2: Home URL
 #: models/fixer.php:98
@@ -1216,15 +1218,15 @@ msgstr "Mostra tutto"
 
 #: redirection-strings.php:432
 msgid "Delete logs for these entries"
-msgstr ""
+msgstr "Elimina i log per queste voci"
 
 #: redirection-strings.php:431
 msgid "Delete logs for this entry"
-msgstr ""
+msgstr "Elimita i log per questa voce"
 
 #: redirection-strings.php:430
 msgid "Delete Log Entries"
-msgstr ""
+msgstr "Elimina le voci dei log"
 
 #: redirection-strings.php:371 redirection-strings.php:401
 msgid "Group by IP"
@@ -1317,11 +1319,11 @@ msgstr "Immetti l'URL completo, incluso http:// o https://"
 
 #: redirection-strings.php:591
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
-msgstr ""
+msgstr "A volte, un browser può memorizzare un URL e rendere difficile capire se funziona come previsto. Usa questo per controllare come l'URL redireziona effettivamente."
 
 #: redirection-strings.php:590
 msgid "Redirect Tester"
-msgstr ""
+msgstr "Tester di reindirizzamento"
 
 #: redirection-strings.php:360 redirection-strings.php:537
 #: redirection-strings.php:589
@@ -1338,11 +1340,11 @@ msgstr "L'URL è reindirizzato con Redirection"
 
 #: redirection-strings.php:586 redirection-strings.php:595
 msgid "Unable to load details"
-msgstr ""
+msgstr "Impossibile caricare i dettagli"
 
 #: redirection-strings.php:661
 msgid "Enter server URL to match against"
-msgstr ""
+msgstr "Inserire l'URL del server da confrontare"
 
 #: redirection-strings.php:660
 msgid "Server"
@@ -1350,7 +1352,7 @@ msgstr "Server"
 
 #: redirection-strings.php:659
 msgid "Enter role or capability value"
-msgstr ""
+msgstr "Inserire il ruolo o la capacità"
 
 #: redirection-strings.php:658
 msgid "Role"
@@ -1358,7 +1360,7 @@ msgstr "Ruolo"
 
 #: redirection-strings.php:656
 msgid "Match against this browser referrer text"
-msgstr ""
+msgstr "Confronta con il testo di referrer del browser"
 
 #: redirection-strings.php:629
 msgid "Match against this browser user agent"

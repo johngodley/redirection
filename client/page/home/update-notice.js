@@ -34,7 +34,7 @@ function UpdateNotice() {
 					components: {
 						url: (
 							<ExternalLink
-								url={ 'https://redirection.me/blog/redirection-version-' + update_notice }
+								url={ 'https://redirection.me/blog/redirection-version-' + update_notice.replace( '.', '-' ) + '/' }
 							/>
 						),
 					},

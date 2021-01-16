@@ -1,9 +1,6 @@
 <?php
 /* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */
 $redirection_strings = array(
-__( "Custom Display", "redirection" ), // client/component/display-options/index.js:30
-__( "Pre-defined", "redirection" ), // client/component/display-options/index.js:64
-__( "Custom", "redirection" ), // client/component/display-options/index.js:69
 __( "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved.", "redirection" ), // client/component/database/index.js:114
 __( "Database problem", "redirection" ), // client/component/database/index.js:128
 __( "Try again", "redirection" ), // client/component/database/index.js:134
@@ -23,6 +20,9 @@ __( "If you do not complete the manual install you will be returned here.", "red
 __( "Leaving before the process has completed may cause problems.", "redirection" ), // client/component/database/index.js:244
 __( "Progress: %(complete)d\$", "redirection" ), // client/component/database/index.js:254
 __( "Finished! 🎉", "redirection" ), // client/component/database/index.js:276
+__( "Custom Display", "redirection" ), // client/component/display-options/index.js:30
+__( "Pre-defined", "redirection" ), // client/component/display-options/index.js:64
+__( "Custom", "redirection" ), // client/component/display-options/index.js:69
 __( "Geo IP Error", "redirection" ), // client/component/geo-map/index.js:29
 __( "Something went wrong obtaining this information", "redirection" ), // client/component/geo-map/index.js:30
 __( "Geo IP", "redirection" ), // client/component/geo-map/index.js:43
@@ -207,6 +207,13 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:569
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:577
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:586
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
+__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -268,23 +275,25 @@ __( "Take a look at the {{link}}plugin status{{/link}}. It may be able to identi
 __( "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches.", "redirection" ), // client/page/home/error-details.js:35
 __( "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems.", "redirection" ), // client/page/home/error-details.js:45
 __( "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues.", "redirection" ), // client/page/home/error-details.js:52
-__( "Redirections", "redirection" ), // client/page/home/index.js:39
-__( "Site", "redirection" ), // client/page/home/index.js:40
-__( "Groups", "redirection" ), // client/page/home/index.js:41
-__( "Import/Export", "redirection" ), // client/page/home/index.js:42
-__( "Logs", "redirection" ), // client/page/home/index.js:43
-__( "404 errors", "redirection" ), // client/page/home/index.js:44
-__( "Options", "redirection" ), // client/page/home/index.js:45
-__( "Support", "redirection" ), // client/page/home/index.js:46
-__( "Redirects", "redirection" ), // client/page/home/index.js:52
-__( "Groups", "redirection" ), // client/page/home/index.js:56
-__( "Site", "redirection" ), // client/page/home/index.js:60
-__( "Log", "redirection" ), // client/page/home/index.js:64
-__( "404s", "redirection" ), // client/page/home/index.js:68
-__( "Import/Export", "redirection" ), // client/page/home/index.js:72
-__( "Options", "redirection" ), // client/page/home/index.js:76
-__( "Support", "redirection" ), // client/page/home/index.js:80
-__( "Add New", "redirection" ), // client/page/home/index.js:157
+__( "Redirections", "redirection" ), // client/page/home/index.js:40
+__( "Site", "redirection" ), // client/page/home/index.js:41
+__( "Groups", "redirection" ), // client/page/home/index.js:42
+__( "Import/Export", "redirection" ), // client/page/home/index.js:43
+__( "Logs", "redirection" ), // client/page/home/index.js:44
+__( "404 errors", "redirection" ), // client/page/home/index.js:45
+__( "Options", "redirection" ), // client/page/home/index.js:46
+__( "Support", "redirection" ), // client/page/home/index.js:47
+__( "Redirects", "redirection" ), // client/page/home/index.js:53
+__( "Groups", "redirection" ), // client/page/home/index.js:57
+__( "Site", "redirection" ), // client/page/home/index.js:61
+__( "Log", "redirection" ), // client/page/home/index.js:65
+__( "404s", "redirection" ), // client/page/home/index.js:69
+__( "Import/Export", "redirection" ), // client/page/home/index.js:73
+__( "Options", "redirection" ), // client/page/home/index.js:77
+__( "Support", "redirection" ), // client/page/home/index.js:81
+__( "Add New", "redirection" ), // client/page/home/index.js:158
+__( "Version %s installed! Please read the {{url}}release notes{{/url}} for details.", "redirection" ), // client/page/home/update-notice.js:32
+__( "OK", "redirection" ), // client/page/home/update-notice.js:43
 __( "total = ", "redirection" ), // client/page/io/importer.js:17
 __( "Import from %s", "redirection" ), // client/page/io/importer.js:20
 __( "Import to group", "redirection" ), // client/page/io/index.js:97
@@ -541,13 +550,6 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
-__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
-__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "View notice", "redirection" ), // client/wp-plugin-components/snackbar/index.js:75
 __( "Add File", "redirection" ), // client/wp-plugin-components/uploader/content.js:45
 __( "Upload", "redirection" ), // client/wp-plugin-components/uploader/content.js:54
