@@ -127,8 +127,6 @@ class Database extends React.Component {
 			<div className="redirection-database_error wpl-error">
 				<h3>{ __( 'Database problem' ) }</h3>
 
-				<p>{ error }</p>
-
 				<p>
 					<button className="button button-primary" onClick={ this.onSkip }>
 						{ __( 'Try again' ) }
