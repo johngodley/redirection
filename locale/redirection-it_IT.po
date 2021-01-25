@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-28 17:26:48+0000\n"
+"PO-Revision-Date: 2021-01-23 11:11:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1548,7 +1548,7 @@ msgstr ""
 
 #: redirection-strings.php:617
 msgid "Filter by IP"
-msgstr ""
+msgstr "Filtra per IP"
 
 #: redirection-strings.php:26
 msgid "Geo IP Error"
@@ -1590,7 +1590,7 @@ msgstr ""
 
 #: redirection-strings.php:51
 msgid "Powered by {{link}}redirect.li{{/link}}"
-msgstr ""
+msgstr "Powered by {{link}}redirect.li{{/link}}"
 
 #: redirection-settings.php:20
 msgid "Trash"
@@ -1627,7 +1627,7 @@ msgstr ""
 
 #: redirection-strings.php:465
 msgid "An hour"
-msgstr ""
+msgstr "Un'ora"
 
 #: redirection-strings.php:509
 msgid "Redirect Cache"
@@ -1639,7 +1639,7 @@ msgstr ""
 
 #: redirection-strings.php:304
 msgid "Are you sure you want to import from %s?"
-msgstr ""
+msgstr "Vuoi davvero importare da %s?"
 
 #: redirection-strings.php:305
 msgid "Plugin Importers"
@@ -1655,12 +1655,12 @@ msgstr ""
 
 #: redirection-strings.php:290
 msgid "Import from %s"
-msgstr ""
+msgstr "Importa da %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
 #: redirection-admin.php:430
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
-msgstr ""
+msgstr "Redirection richiede WordPress v%1$1s, tu stai usando v%2$2s - aggiorna il tuo WordPress"
 
 #: models/importer.php:277
 msgid "Default WordPress \"old slugs\""
@@ -1701,7 +1701,7 @@ msgstr ""
 
 #: redirection-strings.php:633
 msgid "Libraries"
-msgstr ""
+msgstr "Librerie"
 
 #: redirection-strings.php:478
 msgid "URL Monitor Changes"
@@ -1713,7 +1713,7 @@ msgstr ""
 
 #: redirection-strings.php:480
 msgid "For example \"/amp\""
-msgstr ""
+msgstr "Per esempio \"/amp\""
 
 #: redirection-strings.php:497
 msgid "URL Monitor"
@@ -1777,7 +1777,7 @@ msgstr ""
 
 #: models/fixer.php:87
 msgid "The following tables are missing:"
-msgstr ""
+msgstr "Mancano le seguenti tabelle:"
 
 #: models/fixer.php:87
 msgid "All tables present"
@@ -1833,7 +1833,7 @@ msgstr "Hai bisogno di aiuto?"
 
 #: redirection-strings.php:582
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
-msgstr ""
+msgstr "Tieni presente che qualsiasi supporto è fornito quando è possibile e non è garantito. Non fornisco supporto a pagamento."
 
 #: redirection-strings.php:526
 msgid "Pos"
@@ -1945,7 +1945,7 @@ msgstr "Importa/Esporta"
 
 #: redirection-strings.php:276 redirection-strings.php:484
 msgid "Logs"
-msgstr ""
+msgstr "Log"
 
 #: redirection-strings.php:277
 msgid "404 errors"
@@ -2123,7 +2123,7 @@ msgstr "Hai già supportato questo plugin - grazie!"
 
 #: redirection-strings.php:449
 msgid "You get useful software and I get to carry on making it better."
-msgstr ""
+msgstr "Tu ricevi software utile e io posso continuare a migliorarlo."
 
 #: redirection-strings.php:463 redirection-strings.php:468
 msgid "Forever"
