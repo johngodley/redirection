@@ -100,9 +100,7 @@ export const getWarningFromState = ( item ) => {
 	if ( url.match( /%\w+%/ ) ) {
 		warnings.push(
 			<ExternalLink url="tools.php?page=redirection.php&sub=site">
-				{ __(
-					'Please add migrated permalinks to the Site page under the "Permalink Migration" section.'
-				) }
+				{ __( 'Please add migrated permalinks to the Site page under the "Permalink Migration" section.' ) }
 			</ExternalLink>
 		);
 	}
@@ -128,6 +126,22 @@ export const getWarningFromState = ( item ) => {
 					},
 					args: {
 						example: '^' + url,
+					},
+				}
+			)
+		);
+	}
+
+	if ( flag_regex && url.indexOf( '^' ) > 0 ) {
+		warnings.push(
+			__(
+				'The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}',
+				{
+					components: {
+						code: <code />,
+					},
+					args: {
+						example: '^' + url.replace( '^', '' ),
 					},
 				}
 			)
@@ -182,22 +196,24 @@ export const getWarningFromState = ( item ) => {
 		);
 	}
 
-	targets.forEach( ( target ) => {
-		const matches = target.match( /[|\\\$]/g );
+	if ( flag_regex === false ) {
+		targets.forEach( ( target ) => {
+			const matches = target.match( /[|\\\$]/g );
 
-		if ( matches !== null ) {
-			warnings.push(
-				__( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
-					components: {
-						code: <code />,
-					},
-					args: {
-						invalid: matches,
-					},
-				} )
-			);
-		}
-	} );
+			if ( matches !== null ) {
+				warnings.push(
+					__( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
+						components: {
+							code: <code />,
+						},
+						args: {
+							invalid: matches,
+						},
+					} )
+				);
+			}
+		} );
+	}
 
 	// People often try and use a relative absolute domain - /something.com/
 	[ url, ...targets ].forEach( ( target ) => {
