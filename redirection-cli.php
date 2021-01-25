@@ -292,11 +292,9 @@ class Redirection_Cli extends WP_CLI_Command {
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	WP_CLI::add_command( 'redirection import', [ 'Redirection_Cli', 'import' ] );
-	WP_CLI::add_command( 'redirection export', [ 'Redirection_Cli', 'export' ] );
-	WP_CLI::add_command( 'redirection database', [ 'Redirection_Cli', 'database' ] );
-	WP_CLI::add_command( 'redirection setting', [ 'Redirection_Cli', 'setting' ] );
-	WP_CLI::add_command( 'redirection plugin', [ 'Redirection_Cli', 'plugin' ] );
+
+	// Register "redirection" as top-level command, and all public methods as sub-commands
+	WP_CLI::add_command( 'redirection', 'Redirection_Cli' );
 
 	add_action( Red_Flusher::DELETE_HOOK, function() {
 		$flusher = new Red_Flusher();
