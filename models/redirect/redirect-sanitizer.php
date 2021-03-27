@@ -92,6 +92,14 @@ class Red_Item_Sanitize {
 		$data['match_type'] = isset( $details['match_type'] ) ? $details['match_type'] : 'url';
 		$data['url'] = $this->get_url( $url, $data['regex'] );
 
+		if ( isset( $details['hits'] ) ) {
+			$data['last_count'] = intval( $details['hits'], 10 );
+		}
+
+		if ( isset( $details['last_access'] ) ) {
+			$data['last_access'] = date( 'Y-m-d H:i:s', strtotime( $details['last_access'] ) );
+		}
+
 		if ( ! is_wp_error( $data['url'] ) ) {
 			$matcher = new Red_Url_Match( $data['url'] );
 			$data['match_url'] = $matcher->get_url();

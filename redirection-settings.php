@@ -342,6 +342,10 @@ function red_get_options() {
 		$options['rest_api'] = REDIRECTION_API_JSON;
 	}
 
+	if ( isset( $options['modules'] ) && isset( $options['modules']['2'] ) && isset( $options['modules']['2']['location'] ) ) {
+		$options['location'] = $options['modules']['2']['location'];
+	}
+
 	return $options;
 }
 

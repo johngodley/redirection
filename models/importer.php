@@ -11,6 +11,7 @@ class Red_Plugin_Importer {
 			'wordpress-old-slugs',
 			'rank-math',
 			'quick-redirects',
+			'pretty-links',
 		);
 
 		foreach ( $importers as $importer ) {
@@ -46,6 +47,10 @@ class Red_Plugin_Importer {
 			return new Red_QuickRedirect_Importer();
 		}
 
+		if ( $id === 'pretty-links' ) {
+			return new Red_PrettyLinks_Importer();
+		}
+
 		return false;
 	}
 
@@ -56,6 +61,56 @@ class Red_Plugin_Importer {
 		}
 
 		return 0;
+	}
+}
+
+class Red_PrettyLinks_Importer extends Red_Plugin_Importer {
+	public function import_plugin( $group_id ) {
+		global $wpdb;
+
+		$count = 0;
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}prli_links" );
+
+		foreach ( $redirects as $redirect ) {
+			$created = $this->create_for_item( $group_id, $redirect );
+
+			if ( $created ) {
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	private function create_for_item( $group_id, $link ) {
+		$item = array(
+			'url'         => '/' . $link->slug,
+			'action_data' => array( 'url' => $link->url ),
+			'regex'       => false,
+			'group_id'    => $group_id,
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'title'       => $link->name,
+			'action_code' => $link->redirect_type,
+		);
+
+		return Red_Item::create( $item );
+	}
+
+	public function get_data() {
+		$data = get_option( 'prli_db_version' );
+
+		if ( $data ) {
+			global $wpdb;
+
+			return [
+				'id' => 'pretty-links',
+				'name' => 'PrettyLinks',
+				'total' => $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}prli_links" ),
+			];
+		}
+
+		return false;
 	}
 }
 

@@ -31,7 +31,7 @@ class Apache_Module extends Red_Module {
 		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
 
 		if ( empty( $this->location ) ) {
-			return;
+			return false;
 		}
 
 		$items = Red_Item::get_all_for_module( $this->get_id() );
@@ -69,11 +69,16 @@ class Apache_Module extends Red_Module {
 	public function update( array $data ) {
 		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
 
+		$new_location = isset( $data['location'] ) ? $data['location'] : '';
+		if ( strlen( $new_location ) > 0 ) {
+			$new_location = $this->sanitize_location( trim( $data['location'] ) );
+		}
+
 		$save = [
-			'location' => isset( $data['location'] ) ? $this->sanitize_location( trim( $data['location'] ) ) : '',
+			'location' => $new_location,
 		];
 
-		if ( ! empty( $this->location ) && $save['location'] !== $this->location ) {
+		if ( ! empty( $this->location ) && $save['location'] !== $this->location && $save['location'] !== '' ) {
 			// Location has moved. Remove from old location
 			$htaccess = new Red_Htaccess();
 			$htaccess->save( $this->location, '' );
