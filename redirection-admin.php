@@ -237,7 +237,7 @@ class Redirection_Admin {
 		$preload = $this->get_preload_data();
 		$options = red_get_options();
 		$versions = array(
-			'Plugin: ' . REDIRECTION_VERSION,
+			'Plugin: ' . REDIRECTION_VERSION . ' ' . REDIRECTION_DB_VERSION,
 			'WordPress: ' . $wp_version . ' (' . ( is_multisite() ? 'multi' : 'single' ) . ')',
 			'PHP: ' . phpversion(),
 			'Browser: ' . Redirection_Request::get_user_agent(),
