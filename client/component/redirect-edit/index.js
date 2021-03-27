@@ -232,6 +232,7 @@ class EditRedirect extends React.Component {
 		this.onUpdateState( {
 			action_type,
 			action_code: getCodeForActionType( action_type ),
+			action_data: getMatchState( this.state.match_type, this.state.action_data || {} ),
 		} );
 	}
 
