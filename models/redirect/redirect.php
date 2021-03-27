@@ -14,7 +14,7 @@ class Red_Item {
 	 *
 	 * @var integer
 	 */
-	const MAX_REDIRECTS = 10000;
+	const MAX_REDIRECTS = 20000;
 
 	/**
 	 * Redirect ID
