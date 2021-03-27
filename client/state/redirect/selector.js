@@ -147,6 +147,10 @@ export function getMatchState( matchType, actionData ) {
 }
 
 export function hasTargetData( matchType, actionData ) {
+	if ( ! actionData ) {
+		return false;
+	}
+
 	if ( matchType === MATCH_URL || matchType === MATCH_PAGE ) {
 		return actionData.url !== '';
 	}
