@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-30 09:00:36+0000\n"
+"PO-Revision-Date: 2021-01-27 10:47:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +29,7 @@ msgstr "Granska dina data och försök igen."
 
 #: redirection-strings.php:735
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
-msgstr ""
+msgstr "Det gick inte att göra en begäran till din webbplats. Detta kan indikera att du tillhandahöll data som inte matchade kraven eller att tillägget skickade en dålig begäran."
 
 #: redirection-strings.php:734
 msgid "Bad data"
@@ -65,11 +65,11 @@ msgstr "Kontrollera din {{link}}Hälsostatus för webbplats{{/ link}} och åtgä
 
 #: redirection-strings.php:719
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting? If not then you will need to fix any issues."
-msgstr ""
+msgstr "Kan du komma åt ditt {{api}}REST API{{/api}} utan att det omdirigeras? Om inte måste du åtgärda eventuella problem."
 
 #: redirection-strings.php:718
 msgid "Your REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr ""
+msgstr "Ditt REST API returnerar en 404-sida. Detta är nästan helt säkert ett externt tilläggs- eller serverkonfigurationsproblem."
 
 #: redirection-strings.php:714
 msgid "Debug Information"
@@ -1362,7 +1362,7 @@ msgstr "Matcha mot denna hänvisnings-sträng från webbläsaren"
 
 #: redirection-strings.php:629
 msgid "Match against this browser user agent"
-msgstr "Matcha mot denna user-agent-sträng från webbläsaren"
+msgstr "Matcha mot denna användaragent-sträng från webbläsaren"
 
 #: redirection-strings.php:108
 msgid "The relative URL you want to redirect from"
@@ -1510,7 +1510,7 @@ msgstr "Motor"
 
 #: redirection-strings.php:155
 msgid "Useragent"
-msgstr "Useragent"
+msgstr "Användaragent"
 
 #: redirection-strings.php:41 redirection-strings.php:156
 msgid "Agent"
