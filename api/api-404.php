@@ -166,6 +166,10 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 					Red_404_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
 				}
 			}
+
+			if ( isset( $params['groupBy'] ) && $params['groupBy'] === 'url-exact' ) {
+				unset( $params['groupBy'] );
+			}
 		} elseif ( isset( $params['global'] ) && $params['global'] ) {
 			Red_404_Log::delete_all( $params );
 		}
