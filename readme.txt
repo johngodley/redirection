@@ -181,6 +181,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.1 - 27th Mar 2021 =
+* Add importer for PrettyLinks
+* Fix crash converting a 'do nothing' to 'redirect to URL'
+* Improve warning messages
+* Improve permalink migration when is_404 is not set
+* Fix 'delete log entries' returning blank data
+* Fix missing .htaccess location
+* Fix hits & date not imported with JSON format
+
 = 5.0.1 - 26th Jan 2021 =
 * Fix incorrect warning when creating a regular expression with captured data
 * Fix JS error when upgrading a database with a broken REST API
