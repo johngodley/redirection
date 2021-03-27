@@ -28,7 +28,7 @@ export const isRegex = ( text ) => {
 const getRelativeAbsolute = ( url ) => {
 	const matched = url.match( /^\/([a-zA-Z0-9_\-%]*\..*)\// );
 
-	if ( matched ) {
+	if ( matched && url.indexOf( 'index.php' ) === -1 ) {
 		return matched[ 0 ];
 	}
 
