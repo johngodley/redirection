@@ -5,6 +5,9 @@ class Red_Csv_File extends Red_FileIO {
 	const CSV_TARGET = 1;
 	const CSV_REGEX = 2;
 	const CSV_CODE = 3;
+	const CSV_TYPE = 4;
+	const CSV_MATCH = 5;
+	const CSV_TITLE = 6;
 
 	public function force_download() {
 		parent::force_download();
@@ -14,7 +17,7 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title' ) ) ];
+		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'match', 'title', 'hits' ) ) ];
 
 		foreach ( $items as $line ) {
 			$lines[] = $this->item_as_csv( $line );
@@ -31,11 +34,11 @@ class Red_Csv_File extends Red_FileIO {
 			$item->get_url(),
 			$data,
 			$item->is_regex() ? 1 : 0,
-			$item->get_action_type(),
 			$item->get_action_code(),
 			$item->get_action_type(),
-			$item->get_hits(),
+			$item->get_match_type(),
 			$item->get_title(),
+			$item->get_hits(),
 		);
 
 		$csv = array_map( array( $this, 'escape_csv' ), $csv );
@@ -92,24 +95,30 @@ class Red_Csv_File extends Red_FileIO {
 		return $count;
 	}
 
-	private function get_valid_code( $code ) {
-		if ( get_status_header_desc( $code ) !== '' ) {
+	private function get_valid_code( $action_type, $code = null ) {
+		if ( $code && get_status_header_desc( $code ) !== '' ) {
 			return intval( $code, 10 );
 		}
 
-		return 301;
+		return $action_type === 'error' ? 404 : 301;
 	}
 
 	public function csv_as_item( $csv, $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
+			$action_type = isset( $csv[ self::CSV_TYPE ] ) ? $csv[ self::CSV_TYPE ] : 'url';
+			$action_data = null;
+			if( $action_type === 'url' || $action_type === 'pass'){
+				$action_data = array( 'url' => trim( $csv[ self::CSV_TARGET ] ) );
+			}
 			return array(
 				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
+				'action_data' => $action_data,
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
-				'match_type'  => 'url',
-				'action_type' => 'url',
-				'action_code' => isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301,
+				'match_type'  => isset( $csv[ self::CSV_MATCH ] ) ? $csv[ self::CSV_MATCH ] : 'url',
+				'action_type' => $action_type,
+				'action_code' => $this->get_valid_code( $action_type , isset( $csv[ self::CSV_CODE ] ) ? $csv[ self::CSV_CODE ] : null ),
+				'title'       => isset( $csv[ self::CSV_TITLE ] ) ? $csv[ self::CSV_TITLE ] : '',
 			);
 		}
 
