@@ -208,8 +208,6 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:569
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:577
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:586
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
-__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -441,26 +439,6 @@ __( "Add Redirect", "redirection" ), // client/page/logs404/row-actions.js:52
 __( "Show All", "redirection" ), // client/page/logs404/row-actions.js:70
 __( "Block IP", "redirection" ), // client/page/logs404/row-actions.js:77
 __( "Ignore URL", "redirection" ), // client/page/logs404/row-actions.js:87
-__( "Delete the plugin - are you sure?", "redirection" ), // client/page/options/delete-plugin.js:37
-__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/page/options/delete-plugin.js:38
-__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/page/options/delete-plugin.js:39
-__( "Yes! Delete the plugin", "redirection" ), // client/page/options/delete-plugin.js:41
-__( "No! Don't delete the plugin", "redirection" ), // client/page/options/delete-plugin.js:41
-__( "Delete Redirection", "redirection" ), // client/page/options/delete-plugin.js:52
-__( "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.", "redirection" ), // client/page/options/delete-plugin.js:54
-__( "Delete", "redirection" ), // client/page/options/delete-plugin.js:55
-__( "You've supported this plugin - thank you!", "redirection" ), // client/page/options/donation.js:82
-__( "I'd like to support some more.", "redirection" ), // client/page/options/donation.js:83
-__( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/page/options/donation.js:99
-__( "You get useful software and I get to carry on making it better.", "redirection" ), // client/page/options/donation.js:104
-__( "Support 💰", "redirection" ), // client/page/options/donation.js:127
-__( "Plugin Support", "redirection" ), // client/page/options/donation.js:139
-__( "Newsletter", "redirection" ), // client/page/options/newsletter.js:23
-__( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/page/options/newsletter.js:25
-__( "Newsletter", "redirection" ), // client/page/options/newsletter.js:36
-__( "Want to keep up to date with changes to Redirection?", "redirection" ), // client/page/options/newsletter.js:38
-__( "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release.", "redirection" ), // client/page/options/newsletter.js:39
-__( "Your email address:", "redirection" ), // client/page/options/newsletter.js:43
 __( "Status", "redirection" ), // client/page/redirects/constants.js:11
 __( "URL", "redirection" ), // client/page/redirects/constants.js:16
 __( "Match Type", "redirection" ), // client/page/redirects/constants.js:21
@@ -546,6 +524,28 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
+__( "Delete the plugin - are you sure?", "redirection" ), // client/page/options/delete-plugin.js:37
+__( "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.", "redirection" ), // client/page/options/delete-plugin.js:38
+__( "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.", "redirection" ), // client/page/options/delete-plugin.js:39
+__( "Yes! Delete the plugin", "redirection" ), // client/page/options/delete-plugin.js:41
+__( "No! Don't delete the plugin", "redirection" ), // client/page/options/delete-plugin.js:41
+__( "Delete Redirection", "redirection" ), // client/page/options/delete-plugin.js:52
+__( "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.", "redirection" ), // client/page/options/delete-plugin.js:54
+__( "Delete", "redirection" ), // client/page/options/delete-plugin.js:55
+__( "You've supported this plugin - thank you!", "redirection" ), // client/page/options/donation.js:82
+__( "I'd like to support some more.", "redirection" ), // client/page/options/donation.js:83
+__( "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.", "redirection" ), // client/page/options/donation.js:99
+__( "You get useful software and I get to carry on making it better.", "redirection" ), // client/page/options/donation.js:104
+__( "Support 💰", "redirection" ), // client/page/options/donation.js:127
+__( "Plugin Support", "redirection" ), // client/page/options/donation.js:139
+__( "Newsletter", "redirection" ), // client/page/options/newsletter.js:23
+__( "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription.", "redirection" ), // client/page/options/newsletter.js:25
+__( "Newsletter", "redirection" ), // client/page/options/newsletter.js:36
+__( "Want to keep up to date with changes to Redirection?", "redirection" ), // client/page/options/newsletter.js:38
+__( "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release.", "redirection" ), // client/page/options/newsletter.js:39
+__( "Your email address:", "redirection" ), // client/page/options/newsletter.js:43
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
+__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
 __( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
 __( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
 __( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
@@ -621,6 +621,47 @@ __( "Save", "redirection" ), // client/page/groups/columns/edit.js:71
 __( "Cancel", "redirection" ), // client/page/groups/columns/edit.js:78
 __( "Note that you will need to set the Apache module path in your Redirection options.", "redirection" ), // client/page/groups/columns/edit.js:86
 __( "Filter on: %(type)s", "redirection" ), // client/page/groups/columns/module.js:24
+__( "pass", "redirection" ), // client/page/redirects/columns/code.js:16
+__( "Exact Query", "redirection" ), // client/page/redirects/columns/source-query.js:21
+__( "Ignore Query", "redirection" ), // client/page/redirects/columns/source-query.js:24
+__( "Ignore & Pass Query", "redirection" ), // client/page/redirects/columns/source-query.js:26
+__( "Site Aliases", "redirection" ), // client/page/site/aliases/index.js:39
+__( "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin.", "redirection" ), // client/page/site/aliases/index.js:41
+__( "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install.", "redirection" ), // client/page/site/aliases/index.js:42
+__( "Aliased Domain", "redirection" ), // client/page/site/aliases/index.js:47
+__( "Alias", "redirection" ), // client/page/site/aliases/index.js:48
+__( "No aliases", "redirection" ), // client/page/site/aliases/index.js:64
+__( "Add Alias", "redirection" ), // client/page/site/aliases/index.js:68
+__( "Don't set a preferred domain - {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:10
+__( "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:21
+__( "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:33
+__( "Canonical Settings", "redirection" ), // client/page/site/canonical/index.js:85
+__( "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:89
+__( "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.", "redirection" ), // client/page/site/canonical/index.js:102
+__( "Preferred domain", "redirection" ), // client/page/site/canonical/index.js:109
+__( "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:119
+__( "Site", "redirection" ), // client/page/site/headers/header.js:24
+__( "Redirect", "redirection" ), // client/page/site/headers/header.js:28
+__( "General", "redirection" ), // client/page/site/headers/header.js:225
+__( "Custom Header", "redirection" ), // client/page/site/headers/header.js:258
+__( "Add Header", "redirection" ), // client/page/site/headers/index.js:17
+__( "Add Security Presets", "redirection" ), // client/page/site/headers/index.js:21
+__( "Add CORS Presets", "redirection" ), // client/page/site/headers/index.js:25
+__( "HTTP Headers", "redirection" ), // client/page/site/headers/index.js:84
+__( "Site headers are added across your site, including redirects. Redirect headers are only added to redirects.", "redirection" ), // client/page/site/headers/index.js:85
+__( "Location", "redirection" ), // client/page/site/headers/index.js:90
+__( "Header", "redirection" ), // client/page/site/headers/index.js:91
+__( "No headers", "redirection" ), // client/page/site/headers/index.js:106
+__( "Note that some HTTP headers are set by your server and cannot be changed.", "redirection" ), // client/page/site/headers/index.js:117
+__( "Permalink Migration", "redirection" ), // client/page/site/permalink/index.js:39
+__( "Enter old permalinks structures to automatically migrate them to your current one.", "redirection" ), // client/page/site/permalink/index.js:40
+__( "Note: this is beta and will only migrate posts.", "redirection" ), // client/page/site/permalink/index.js:41
+__( "Permalinks", "redirection" ), // client/page/site/permalink/index.js:46
+__( "No migrated permalinkss", "redirection" ), // client/page/site/permalink/index.js:62
+__( "Add Permalink", "redirection" ), // client/page/site/permalink/index.js:70
+__( "Relocate Site", "redirection" ), // client/page/site/relocate/index.js:31
+__( "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.", "redirection" ), // client/page/site/relocate/index.js:32
+__( "Relocate to domain", "redirection" ), // client/page/site/relocate/index.js:34
 __( "I'm a nice person and I have helped support the author of this plugin", "redirection" ), // client/page/options/options-form/index.js:57
 __( "Update", "redirection" ), // client/page/options/options-form/index.js:75
 __( "No logs", "redirection" ), // client/page/options/options-form/log-options.js:15
@@ -689,47 +730,6 @@ __( "HTTP Cache Header", "redirection" ), // client/page/options/options-form/ur
 __( "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)", "redirection" ), // client/page/options/options-form/url-options.js:126
 __( "Redirect Caching", "redirection" ), // client/page/options/options-form/url-options.js:129
 __( "(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache.", "redirection" ), // client/page/options/options-form/url-options.js:134
-__( "pass", "redirection" ), // client/page/redirects/columns/code.js:16
-__( "Exact Query", "redirection" ), // client/page/redirects/columns/source-query.js:21
-__( "Ignore Query", "redirection" ), // client/page/redirects/columns/source-query.js:24
-__( "Ignore & Pass Query", "redirection" ), // client/page/redirects/columns/source-query.js:26
-__( "Site Aliases", "redirection" ), // client/page/site/aliases/index.js:39
-__( "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin.", "redirection" ), // client/page/site/aliases/index.js:41
-__( "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install.", "redirection" ), // client/page/site/aliases/index.js:42
-__( "Aliased Domain", "redirection" ), // client/page/site/aliases/index.js:47
-__( "Alias", "redirection" ), // client/page/site/aliases/index.js:48
-__( "No aliases", "redirection" ), // client/page/site/aliases/index.js:64
-__( "Add Alias", "redirection" ), // client/page/site/aliases/index.js:68
-__( "Don't set a preferred domain - {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:10
-__( "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:21
-__( "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:33
-__( "Canonical Settings", "redirection" ), // client/page/site/canonical/index.js:85
-__( "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:89
-__( "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.", "redirection" ), // client/page/site/canonical/index.js:102
-__( "Preferred domain", "redirection" ), // client/page/site/canonical/index.js:109
-__( "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}", "redirection" ), // client/page/site/canonical/index.js:119
-__( "Site", "redirection" ), // client/page/site/headers/header.js:24
-__( "Redirect", "redirection" ), // client/page/site/headers/header.js:28
-__( "General", "redirection" ), // client/page/site/headers/header.js:225
-__( "Custom Header", "redirection" ), // client/page/site/headers/header.js:258
-__( "Add Header", "redirection" ), // client/page/site/headers/index.js:17
-__( "Add Security Presets", "redirection" ), // client/page/site/headers/index.js:21
-__( "Add CORS Presets", "redirection" ), // client/page/site/headers/index.js:25
-__( "HTTP Headers", "redirection" ), // client/page/site/headers/index.js:84
-__( "Site headers are added across your site, including redirects. Redirect headers are only added to redirects.", "redirection" ), // client/page/site/headers/index.js:85
-__( "Location", "redirection" ), // client/page/site/headers/index.js:90
-__( "Header", "redirection" ), // client/page/site/headers/index.js:91
-__( "No headers", "redirection" ), // client/page/site/headers/index.js:106
-__( "Note that some HTTP headers are set by your server and cannot be changed.", "redirection" ), // client/page/site/headers/index.js:117
-__( "Permalink Migration", "redirection" ), // client/page/site/permalink/index.js:39
-__( "Enter old permalinks structures to automatically migrate them to your current one.", "redirection" ), // client/page/site/permalink/index.js:40
-__( "Note: this is beta and will only migrate posts.", "redirection" ), // client/page/site/permalink/index.js:41
-__( "Permalinks", "redirection" ), // client/page/site/permalink/index.js:46
-__( "No migrated permalinkss", "redirection" ), // client/page/site/permalink/index.js:62
-__( "Add Permalink", "redirection" ), // client/page/site/permalink/index.js:70
-__( "Relocate Site", "redirection" ), // client/page/site/relocate/index.js:31
-__( "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.", "redirection" ), // client/page/site/relocate/index.js:32
-__( "Relocate to domain", "redirection" ), // client/page/site/relocate/index.js:34
 __( "Show debug", "redirection" ), // client/wp-plugin-components/error/debug/index.js:66
 __( "Debug Information", "redirection" ), // client/wp-plugin-components/error/debug/index.js:76
 __( "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:76

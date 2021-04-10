@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 5.1
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv3
@@ -181,7 +181,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.1 - 27th Mar 2021 =
+= 5.1 - 10th April 2021 =
 * Add importer for PrettyLinks
 * Fix crash converting a 'do nothing' to 'redirect to URL'
 * Improve warning messages
