@@ -39,4 +39,8 @@ class Random_Action extends Url_Action {
 			$this->redirect_to( $target );
 		}
 	}
+
+	public function name() {
+		return __( 'Redirect to random post', 'redirection' );
+	}
 }

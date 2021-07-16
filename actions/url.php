@@ -48,4 +48,8 @@ class Url_Action extends Red_Action {
 	public function needs_target() {
 		return true;
 	}
+
+	public function name() {
+		return __( 'Redirect to URL', 'redirection' );
+	}
 }

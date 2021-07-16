@@ -12,4 +12,8 @@ class Nothing_Action extends Red_Action {
 	public function run() {
 		do_action( 'redirection_do_nothing', $this->get_target() );
 	}
+
+	public function name() {
+		return __( 'Do nothing (ignore)', 'redirection' );
+	}
 }
