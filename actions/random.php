@@ -40,6 +40,10 @@ class Random_Action extends Url_Action {
 		}
 	}
 
+	public function needs_target() {
+		return false;
+	}
+
 	public function name() {
 		return __( 'Redirect to random post', 'redirection' );
 	}
