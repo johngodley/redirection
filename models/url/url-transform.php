@@ -69,10 +69,10 @@ class Red_Url_Transform {
 
 		switch ( $tag ) {
 			case 'userid':
-				return (string) ( $user->ID || 0 );
+				return (string) $user->ID;
 
 			case 'userlogin':
-				return $user->ID ? $user->user_login : '';
+				return $user->ID > 0 ? $user->user_login : '';
 
 			case 'unixtime':
 				return (string) time();
