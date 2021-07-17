@@ -38,6 +38,8 @@ abstract class Red_Action {
 		}
 	}
 
+	abstract public function name();
+
 	/**
 	 * Create an action object
 	 *

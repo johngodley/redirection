@@ -25,7 +25,7 @@ class Redirection_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_notices', [ $this, 'update_nag' ] );
-		add_action( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), [ $this, 'plugin_settings' ], 10, 4 );
+		add_filter( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), [ $this, 'plugin_settings' ], 10, 4 );
 		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 4 );
 		add_filter( 'redirection_save_options', [ $this, 'flush_schedule' ] );
 		add_filter( 'set-screen-option', [ $this, 'set_per_page' ], 10, 3 );
@@ -133,6 +133,8 @@ class Redirection_Admin {
 				red_set_options( [ 'plugin_update' => 'prompt' ] );
 				return;
 			}
+
+			$loop++;
 		}
 	}
 
@@ -266,10 +268,10 @@ class Redirection_Admin {
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.css', array(), $build );
 
 		$is_new = false;
+		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
 
 		// phpcs:ignore
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' && strpos( REDIRECTION_VERSION, '-beta' ) === false ) {
-			$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
 			$is_new = version_compare( $options['update_notice'], $major_version ) < 0;
 		}
 

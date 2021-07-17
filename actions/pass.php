@@ -69,4 +69,8 @@ class Pass_Action extends Url_Action {
 		// Change the request and carry on
 		$this->process_internal( $target );
 	}
+
+	public function name() {
+		return __( 'Pass-through', 'redirection' );
+	}
 }
