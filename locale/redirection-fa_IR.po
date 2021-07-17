@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-01-19 05:31:31+0000\n"
+"PO-Revision-Date: 2021-05-21 07:37:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,19 +13,19 @@ msgstr ""
 
 #: redirection-strings.php:744
 msgid "Your admin pages are being cached. Clear this cache and try again. There may be multiple caches involved."
-msgstr ""
+msgstr "برگه‌های مدیر شما در حافظه پنهان ذخیره شده است.این حافظه را پاک کرده و دوباره تلاش کنید. ممکن است چند نسخه در این حافظه وجود داشته باشند."
 
 #: redirection-strings.php:741
 msgid "This is usually fixed by doing one of the following:"
-msgstr "این معمولاً با انجام یکی از موارد زیر درست می شود:"
+msgstr "این مورد معمولاً با انجام یکی از موارد زیر درست می‌شود:"
 
 #: redirection-strings.php:740
 msgid "You are using an old or cached session"
-msgstr "شما از یک سشن قدیمی یا حافظه پنهان استفاده می کنید"
+msgstr "شما از یک جلسه قدیمی یا حافظه پنهان استفاده می‌کنید"
 
 #: redirection-strings.php:736
 msgid "Please review your data and try again."
-msgstr "لطفاً داده های خود را مرور کرده و دوباره امتحان کنید."
+msgstr "لطفاً داده‌های خود را بررسی کرده و دوباره امتحان کنید."
 
 #: redirection-strings.php:735
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
@@ -81,11 +81,11 @@ msgstr ""
 
 #: redirection-strings.php:614
 msgid "View Data"
-msgstr ""
+msgstr "مشاهده داده‌ها"
 
 #: redirection-strings.php:511
 msgid "Other"
-msgstr ""
+msgstr "سایر موارد"
 
 #: redirection-strings.php:495
 msgid "Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}."
@@ -105,19 +105,19 @@ msgstr ""
 
 #: redirection-strings.php:491
 msgid "Logging"
-msgstr ""
+msgstr "ثبت وقایع"
 
 #: redirection-strings.php:490
 msgid "(IP logging level)"
-msgstr ""
+msgstr "(سطح ثبت IP)"
 
 #: redirection-strings.php:428
 msgid "Are you sure you want to delete the selected items?"
-msgstr ""
+msgstr "آیا از حذف این مورد انتخابی مطمئن هستید؟"
 
 #: redirection-strings.php:378
 msgid "View Redirect"
-msgstr ""
+msgstr "مشاهده تغییر مسیرها"
 
 #: redirection-strings.php:376
 msgid "RSS"
