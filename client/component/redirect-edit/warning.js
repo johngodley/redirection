@@ -40,7 +40,7 @@ const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0
 export const getWarningFromState = ( item ) => {
 	const { url, flag_regex, action_data = {} } = item;
 
-	if ( action_data === null ) {
+	if ( action_data === null || ! url || ! item ) {
 		return [];
 	}
 
