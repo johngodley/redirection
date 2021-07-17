@@ -2,8 +2,8 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 5.1
-Tested up to: 5.7
+Requires at least: 5.2
+Tested up to: 5.8
 Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv3
@@ -180,6 +180,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.1.2 - 17th July 2021 =
+* Fix random redirect not working
+* Fix [userid] shortcode returning 1
 
 = 5.1.1 - 11th April 2021 =
 * Revert the permalink migration improvement from 5.1 as it's causing problems on some sites
