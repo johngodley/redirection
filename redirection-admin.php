@@ -133,6 +133,8 @@ class Redirection_Admin {
 				red_set_options( [ 'plugin_update' => 'prompt' ] );
 				return;
 			}
+
+			$loop++;
 		}
 	}
 
