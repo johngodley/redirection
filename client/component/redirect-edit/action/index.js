@@ -35,8 +35,9 @@ function getComponentForType( type ) {
 const ActionTarget = ( { actionType, matchType, actionData, onChange } ) => {
 	if ( hasUrlTarget( actionType ) ) {
 		const Component = getComponentForType( matchType );
+		const state = getMatchState( matchType, actionData );
 
-		return <Component data={ getMatchState( matchType, actionData ) } onChange={ onChange } />;
+		return <Component data={ state === null ? {} : state } onChange={ onChange } />;
 	}
 
 	return null;
