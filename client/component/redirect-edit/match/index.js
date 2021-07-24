@@ -46,8 +46,7 @@ const Match = ( { matchType, actionData, onChange } ) => {
 
 	if ( map[ matchType ] ) {
 		const Component = map[ matchType ];
-
-		return <Component data={ actionData } onChange={ onChange } />;
+		return <Component data={ actionData === null ? {} : actionData } onChange={ onChange } />;
 	}
 
 	return null;

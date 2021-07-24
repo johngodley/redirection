@@ -725,7 +725,7 @@ __( "Permalink Migration", "redirection" ), // client/page/site/permalink/index.
 __( "Enter old permalinks structures to automatically migrate them to your current one.", "redirection" ), // client/page/site/permalink/index.js:40
 __( "Note: this is beta and will only migrate posts.", "redirection" ), // client/page/site/permalink/index.js:41
 __( "Permalinks", "redirection" ), // client/page/site/permalink/index.js:46
-__( "No migrated permalinkss", "redirection" ), // client/page/site/permalink/index.js:62
+__( "No migrated permalinks", "redirection" ), // client/page/site/permalink/index.js:62
 __( "Add Permalink", "redirection" ), // client/page/site/permalink/index.js:70
 __( "Relocate Site", "redirection" ), // client/page/site/relocate/index.js:31
 __( "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.", "redirection" ), // client/page/site/relocate/index.js:32

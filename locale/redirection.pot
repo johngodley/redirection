@@ -2227,7 +2227,7 @@ msgid "Permalinks"
 msgstr ""
 
 #: redirection-strings.php:728
-msgid "No migrated permalinkss"
+msgid "No migrated permalinks"
 msgstr ""
 
 #: redirection-strings.php:729

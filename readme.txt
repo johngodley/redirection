@@ -181,6 +181,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.1.3 - 24th July 2021 =
+* Fix geo IP on log pages showing an API redirected error
+* Fix crash when changing match type in edit dialog
+
 = 5.1.2 - 17th July 2021 =
 * Fix random redirect not working
 * Fix [userid] shortcode returning 1

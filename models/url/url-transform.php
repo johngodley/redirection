@@ -28,7 +28,7 @@ class Red_Url_Transform {
 
 		remove_all_shortcodes();
 
-		$shortcodes = [
+		$shortcodes = apply_filters( 'redirection_shortcodes', [
 			'userid',
 			'userlogin',
 			'unixtime',  // Also replaces $dec$
@@ -39,7 +39,7 @@ class Red_Url_Transform {
 			'lower',
 			'dashes',
 			'underscores',
-		];
+		] );
 
 		foreach ( $shortcodes as $code ) {
 			add_shortcode( $code, [ $this, 'do_shortcode' ] );
