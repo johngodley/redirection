@@ -92,7 +92,6 @@ const config = {
 
 if ( isProduction() ) {
 	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
-	//config.module.rules.push( { test: /\.js$/, loader: 'webpack-remove-debug' } );
 } else {
 	config.output.publicPath = getDevUrl;
 	config.devtool = 'inline-source-map';
@@ -103,26 +102,9 @@ if ( isProduction() ) {
 		historyApiFallback: {
 			index: '/',
 		},
-		contentBase: path.resolve( __dirname ),
-		publicPath: getDevUrl,
+		//disableHostCheck: true,
+		host: "latest.local",
 		headers: { 'Access-Control-Allow-Origin': '*' },
-		stats: {
-			colors: true,
-			hash: false,
-			version: true,
-			timings: true,
-			assets: true,
-			chunks: false,
-			modules: false,
-			reasons: false,
-			children: false,
-			source: false,
-			errors: true,
-			errorDetails: true,
-			warnings: false,
-			publicPath: false,
-		},
-		disableHostCheck: true,
 	};
 }
 

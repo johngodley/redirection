@@ -1,6 +1,7 @@
 {
     "require-dev": {
-        "vimeo/psalm": "^3.14.2"
+        "vimeo/psalm": "^3.14.2",
+        "yoast/phpunit-polyfills": "^1.0"
     },
     "require": {
         "humanmade/psalm-plugin-wordpress": "^1.0"
