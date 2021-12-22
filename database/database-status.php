@@ -29,13 +29,13 @@ class Red_Database_Status {
 			$this->status = self::STATUS_NEED_INSTALL;
 		} elseif ( $this->needs_updating() ) {
 			$this->status = self::STATUS_NEED_UPDATING;
-		}
 
-		$info = get_option( self::DB_UPGRADE_STAGE );
-		if ( $info ) {
-			$this->stage = isset( $info['stage'] ) ? $info['stage'] : false;
-			$this->stages = isset( $info['stages'] ) ? $info['stages'] : [];
-			$this->status = isset( $info['status'] ) ? $info['status'] : false;
+			$info = get_option( self::DB_UPGRADE_STAGE );
+			if ( $info ) {
+				$this->stage = isset( $info['stage'] ) ? $info['stage'] : false;
+				$this->stages = isset( $info['stages'] ) ? $info['stages'] : [];
+				$this->status = isset( $info['status'] ) ? $info['status'] : false;
+			}
 		}
 	}
 
