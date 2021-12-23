@@ -5,7 +5,7 @@
 	"main": "redirection.php",
 	"sideEffects": true,
 	"scripts": {
-		"test": "jest",
+		"test": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
 		"watch": "jest --watch",
 		"testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
 		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
@@ -13,12 +13,12 @@
 		"localbuild": "NODE_ENV=production webpack serve --progress --color --hot --config ./webpack.config.js --port 3312 --mode production",
 		"lint": "eslint --cache --ext=.js src",
 		"stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
-		"e2e": "NODE_ENV=e2e jest e2e",
-		"up": "docker-compose up",
-		"down": "docker-compose down",
-		"clean": "docker-compose down && docker-compose rm && docker volume prune",
-		"cli": "docker-compose run cli sh",
-		"export": "docker-compose run cli wp redirection export all /opt/redirection/redirects.json",
+		"e2e": "NODE_ENV=e2e jest --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
+		"up": "docker compose up",
+		"down": "docker compose down",
+		"clean": "docker compose down && docker compose rm && docker volume prune",
+		"cli": "docker compose run cli sh",
+		"export": "docker compose run cli wp redirection export all /opt/redirection/redirects.json",
 		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
 		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
@@ -100,7 +100,7 @@
 		"jest": "^27.4.5",
 		"json-loader": "^0.5.7",
 		"mocha": "^9.1.3",
-		"node-fetch": "^3.1.0",
+		"node-fetch": "^2.6.1",
 		"node-sass": "^7.0.0",
 		"null-loader": "^4.0.1",
 		"path": "^0.12.7",
@@ -180,7 +180,8 @@
 		],
 		"moduleNameMapper": {
 			"^.+\\.(css|less|scss)$": "babel-jest"
-		}
+		},
+		"testEnvironment": "jsdom"
 	},
 	"apidoc": {
 		"name": "Redirection REST API",

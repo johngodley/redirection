@@ -130,7 +130,7 @@ export const mergeWithTable = ( state, params ) => {
 	return newState;
 };
 
-export const removeDefaults = ( table, defaultOrder ) => {
+export function removeDefaults( table, defaultOrder ) {
 	if ( table.direction === 'desc' ) {
 		delete table.direction;
 	}

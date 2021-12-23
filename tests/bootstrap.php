@@ -8,6 +8,7 @@ if ( ! $_tests_dir ) {
 
 define( 'REDIRECTION_TESTS', true );
 
+require_once './vendor/autoload.php';
 require_once $_tests_dir . '/includes/functions.php';
 
 function _manually_load_plugin() {

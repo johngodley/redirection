@@ -23,17 +23,7 @@ const NEW_TABLE = {
 	displayType: '',
 	selectAll: false,
 };
-const DEFAULT_ROWS = [
-	{
-		id: 1,
-	},
-	{
-		id: 2,
-	},
-	{
-		id: 3,
-	},
-];
+
 global.Redirectioni10n = {
 	per_page: 25,
 };
