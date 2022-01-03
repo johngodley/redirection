@@ -22,7 +22,7 @@
 		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
 		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
-		"phpunit": "WP_TESTS_DIR=./../../../../test/trunk phpunit",
+		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
 		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
 		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis"
 	},
@@ -139,6 +139,7 @@
 		"prop-types": "^15.7.2",
 		"qs": "^6.10.2",
 		"rc-progress": "^3.1.4",
+		"rc-util": "^5.16.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-dropzone": "^11.4.2",
