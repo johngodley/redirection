@@ -62,7 +62,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
 		add_option( Red_Database_Status::OLD_DB_VERSION, 'test' );
-		add_option( Red_Database_Status::DB_UPGRADE_STAGE, 'something' );
+		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => 'something' ] );
 
 		$database = new Red_Latest_Database();
 		$database->install();

@@ -42,7 +42,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testNeedDatabaseAfterInstall() {
 		delete_option( REDIRECTION_OPTION );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
-		delete_option( Red_Database_Status::DB_UPGRADE_STAGE );
+		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => false ] );
 
 		$status = new Red_Database_Status();
 
@@ -114,7 +114,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
 		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
-		update_option( Red_Database_Status::DB_UPGRADE_STAGE, array( 'stage' => 'some_stage' ) );
+		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
 
 		$status = new Red_Database_Status();
 		$this->assertTrue( $status->needs_updating() );
