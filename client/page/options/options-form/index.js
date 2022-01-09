@@ -18,7 +18,7 @@ import OtherOptions from './other-options';
 import UrlOptions from './url-options';
 
 function supportLink( rel, anchor ) {
-	return 'https://redirection.me/support/' + rel + ( anchor ? '#' + anchor : '' );
+	return 'https://redirection.me/support/' + rel + ( anchor ? '/#' + anchor : '' );
 }
 
 function OptionsForm( props ) {

@@ -50,7 +50,7 @@ export const RedirectionApi = {
 				: getApiRequest( 'redirection/v1/plugin/test' );
 
 			// Replace normal request URL with the URL to check
-			request.url = url + request.url;
+			request.url = url.substr( 0, 4 ) === 'http' ? url + request.url : request.url;
 
 			return request;
 		},
@@ -63,9 +63,10 @@ export const RedirectionApi = {
 	},
 };
 
-const getRedirectLiUrl = ( url ) => {
-	const base = 'https://api.redirect.li/v1/';
-	return base + url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'ref=redirection';
+const getRedirectLiUrl = ( url, version = 1 ) => {
+	const base = `https://api.redirect.li/v${ version }/`;
+
+	return base + url;
 };
 
 export const RedirectLiApi = {
@@ -83,7 +84,7 @@ export const RedirectLiApi = {
 	},
 	http: {
 		get: ( url ) => ( {
-			url: getRedirectLiUrl( 'http?url=' + encodeURIComponent( url ) ),
+			url: getRedirectLiUrl( 'http?url=' + encodeURIComponent( url ), 2 ),
 			method: 'get',
 		} ),
 	},
