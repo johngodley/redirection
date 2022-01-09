@@ -1,6 +1,6 @@
 {
 	"name": "redirection",
-	"version": "5.1.3",
+	"version": "5.2-beta-1",
 	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
 	"main": "redirection.php",
 	"sideEffects": true,
@@ -9,7 +9,7 @@
 		"watch": "jest --watch",
 		"testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
 		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
-		"build": "NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
+		"build": "gulp version && NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
 		"localbuild": "NODE_ENV=production webpack serve --progress --color --hot --config ./webpack.config.js --port 3312 --mode production",
 		"lint": "eslint --cache --ext=.js src",
 		"stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
@@ -24,7 +24,9 @@
 		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
 		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
 		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
-		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis"
+		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis",
+		"pot": "gulp pot",
+		"svn": "gulp svn"
 	},
 	"repository": {
 		"type": "git",
