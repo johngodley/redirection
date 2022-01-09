@@ -17,6 +17,12 @@ import ImportExport from 'page/io';
 import Groups from 'page/groups';
 import Redirects from 'page/redirects';
 
+/**
+ * Display page content
+ * @param {object} props Props
+ * @param {string} props.page Page ID
+ * @returns object
+ */
 function PageContent( { page } ) {
 	switch ( page ) {
 		case 'support':

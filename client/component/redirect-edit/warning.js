@@ -14,7 +14,7 @@ import { ExternalLink } from 'wp-plugin-components';
 import TableRow from './table-row';
 
 export const isRegex = ( text ) => {
-	if ( text.match( /[\*\\\(\)\[\]\^\$]/ ) !== null ) {
+	if ( text.match( /[\*\\\(\)\^\$]/ ) !== null ) {
 		return true;
 	}
 
@@ -47,7 +47,7 @@ export const getWarningFromState = ( item ) => {
 	const warnings = [];
 	const { url: targetUrl = '', logged_in = '', logged_out = '', url_from = '', url_notfrom = '' } = action_data;
 
-	if ( Array.isArray( url ) || url.length === 0 ) {
+	if ( Array.isArray( url ) || url.length === 0 || url === undefined ) {
 		return warnings;
 	}
 
@@ -77,7 +77,13 @@ export const getWarningFromState = ( item ) => {
 	}
 
 	// Relative URL without leading slash
-	if ( url.substr( 0, 4 ) !== 'http' && url.substr( 0, 1 ) !== '/' && url.length > 0 && flag_regex === false ) {
+	if (
+		url.substr( 0, 4 ) !== 'http' &&
+		url.substr( 0, 1 ) !== '/' &&
+		url.length > 0 &&
+		flag_regex === false &&
+		url.indexOf( '[source]' ) === -1
+	) {
 		warnings.push(
 			__( 'The source URL should probably start with a {{code}}/{{/code}}', {
 				components: {
@@ -134,17 +140,14 @@ export const getWarningFromState = ( item ) => {
 
 	if ( flag_regex && url.indexOf( '^' ) > 0 ) {
 		warnings.push(
-			__(
-				'The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}',
-				{
-					components: {
-						code: <code />,
-					},
-					args: {
-						example: '^' + url.replace( '^', '' ),
-					},
-				}
-			)
+			__( 'The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}', {
+				components: {
+					code: <code />,
+				},
+				args: {
+					example: '^' + url.replace( '^', '' ),
+				},
+			} )
 		);
 	}
 
