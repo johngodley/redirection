@@ -8,7 +8,7 @@ Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv3
 
-Manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.
+Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
 
 == Description ==
 

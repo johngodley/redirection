@@ -26,7 +26,8 @@
 		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
 		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis",
 		"pot": "gulp pot",
-		"svn": "gulp svn"
+		"svn": "gulp svn",
+		"plugin": "gulp plugin"
 	},
 	"repository": {
 		"type": "git",
