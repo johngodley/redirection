@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux'
  */
 import { ExternalLink, Notice, Button } from 'wp-plugin-components';
 import { saveSettings } from 'state/settings/action';
-import { CAP_REDIRECT_MANAGE, has_capability } from 'lib/capabilities';
+import { CAP_OPTION_MANAGE, has_capability } from 'lib/capabilities';
 
 function UpdateNotice() {
 	const { update_notice = false } = Redirectioni10n;
@@ -22,7 +22,7 @@ function UpdateNotice() {
 		Redirectioni10n.update_notice = false;
 	}
 
-	if ( ! update_notice || ! has_capability( CAP_REDIRECT_MANAGE ) ) {
+	if ( ! update_notice || ! has_capability( CAP_OPTION_MANAGE ) ) {
 		return null;
 	}
 
