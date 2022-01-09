@@ -25,7 +25,6 @@ function HttpTester( props ) {
 	const shouldShow = status === STATUS_COMPLETE && ! http ? false : true;
 
 	useEffect(() => {
-		console.log( 'clear' );
 		dispatch( clearHttp() );
 	}, [ url ]);
 
@@ -33,7 +32,6 @@ function HttpTester( props ) {
 		ev.preventDefault();
 
 		if ( url.length > 0 ) {
-			console.log( 'dispatch' );
 			dispatch( getHttp( url ) );
 		}
 	}

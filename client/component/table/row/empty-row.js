@@ -10,7 +10,7 @@ const EmptyRow = ( props ) => {
 
 	return (
 		<tr>
-			<td colSpan={ headers.length }>{ __( 'Nothing to display.' ) }</td>
+			<td colSpan={ headers.length + 1 }>{ __( 'Nothing to display.' ) }</td>
 		</tr>
 	);
 };
