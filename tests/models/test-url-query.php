@@ -155,17 +155,25 @@ class UrlQueryTest extends WP_UnitTestCase {
 
 	public function testArraySame() {
 		$url = new Red_Url_Query( '', new Red_Source_Flags() );
-		$this->assertEquals( [], $url->get_query_same( [], [] ) );
-		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a' ], [ 'a' => 'a' ] ) );
-		$this->assertEquals( [ 'a' => '' ], $url->get_query_same( [ 'a' => '' ], [ 'a' => '' ] ) );
-		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a', 'b' => 'b' ], [ 'a' => 'a' ] ) );
-		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a' ], [ 'a' => 'a', 'b' => 'b' ] ) );
+		$this->assertEquals( [], $url->get_query_same( [], [], false ) );
+		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a' ], [ 'a' => 'a' ], false ) );
+		$this->assertEquals( [ 'a' => '' ], $url->get_query_same( [ 'a' => '' ], [ 'a' => '' ], false ) );
+		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a', 'b' => 'b' ], [ 'a' => 'a' ], false ) );
+		$this->assertEquals( [ 'a' => 'a' ], $url->get_query_same( [ 'a' => 'a' ], [ 'a' => 'a', 'b' => 'b' ], false ) );
+
+		// Test case insensitive
+		$this->assertEquals( [ 'a' => 'A' ], $url->get_query_same( [ 'a' => 'A' ], [ 'a' => 'a' ], true ) );
+		$this->assertEquals( [ 'A' => 'a' ], $url->get_query_same( [ 'A' => 'a' ], [ 'a' => 'a' ], true ) );
+		$this->assertEquals( [ 'A' => 'A' ], $url->get_query_same( [ 'A' => 'A' ], [ 'a' => 'a' ], true ) );
+		$this->assertEquals( [ 'a' => 'A' ], $url->get_query_same( [ 'a' => 'A' ], [ 'a' => 'A' ], true ) );
+		$this->assertEquals( [ 'A' => 'a' ], $url->get_query_same( [ 'A' => 'a' ], [ 'A' => 'a' ], true ) );
+		$this->assertEquals( [ 'A' => 'A' ], $url->get_query_same( [ 'A' => 'A' ], [ 'A' => 'A' ], true ) );
 	}
 
 	public function testArraySameDeep() {
 		$url = new Red_Url_Query( '', new Red_Source_Flags() );
-		$this->assertEquals( [ 'a' => [ '1' => '1', '2' => '2' ] ], $url->get_query_same( [ 'a' => [ '1' => '1', '2' => '2' ] ], [ 'a' => [ '1' => '1', '2' => '2' ] ] ) );
-		$this->assertEquals( [], $url->get_query_same( [ 'a' => [ '1' => '1', '2' => '2' ] ], [ 'a' => [ '1' => '1' ] ] ) );
+		$this->assertEquals( [ 'a' => [ '1' => '1', '2' => '2' ] ], $url->get_query_same( [ 'a' => [ '1' => '1', '2' => '2' ] ], [ 'a' => [ '1' => '1', '2' => '2' ] ], false ) );
+		$this->assertEquals( [], $url->get_query_same( [ 'a' => [ '1' => '1', '2' => '2' ] ], [ 'a' => [ '1' => '1' ] ], false ) );
 	}
 
 	public function testArrayDiff() {

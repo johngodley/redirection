@@ -3,7 +3,7 @@
 class Red_Database_Status {
 	// Used in < 3.7 versions of Redirection, but since migrated to general settings
 	const OLD_DB_VERSION = 'redirection_version';
-	const DB_UPGRADE_STAGE = 'redirection_database_stage';
+	const DB_UPGRADE_STAGE = 'database_stage';
 
 	const RESULT_OK = 'ok';
 	const RESULT_ERROR = 'error';
@@ -27,15 +27,22 @@ class Red_Database_Status {
 
 		if ( $this->needs_installing() ) {
 			$this->status = self::STATUS_NEED_INSTALL;
-		} elseif ( $this->needs_updating() ) {
-			$this->status = self::STATUS_NEED_UPDATING;
 		}
 
-		$info = get_option( self::DB_UPGRADE_STAGE );
-		if ( $info ) {
-			$this->stage = isset( $info['stage'] ) ? $info['stage'] : false;
-			$this->stages = isset( $info['stages'] ) ? $info['stages'] : [];
-			$this->status = isset( $info['status'] ) ? $info['status'] : false;
+		$this->load_stage();
+
+		if ( $this->needs_updating() ) {
+			$this->status = self::STATUS_NEED_UPDATING;
+		}
+	}
+
+	public function load_stage() {
+		$settings = red_get_options();
+
+		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
+			$this->stage = isset( $settings[ self::DB_UPGRADE_STAGE ]['stage'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stage'] : false;
+			$this->stages = isset( $settings[ self::DB_UPGRADE_STAGE ]['stages'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stages'] : [];
+			$this->status = isset( $settings[ self::DB_UPGRADE_STAGE ]['status'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['status'] : false;
 		}
 	}
 
@@ -165,7 +172,7 @@ class Red_Database_Status {
 		$this->stages = [];
 		$this->debug = [];
 
-		delete_option( self::DB_UPGRADE_STAGE );
+		red_set_options( [ self::DB_UPGRADE_STAGE => false ] );
 		$this->clear_cache();
 	}
 
@@ -302,11 +309,15 @@ class Red_Database_Status {
 	}
 
 	private function save_details() {
-		update_option( self::DB_UPGRADE_STAGE, [
-			'stage' => $this->stage,
-			'stages' => $this->stages,
-			'status' => $this->status,
-		] );
+		$stages = [
+			self::DB_UPGRADE_STAGE => [
+				'stage' => $this->stage,
+				'stages' => $this->stages,
+				'status' => $this->status,
+			],
+		];
+
+		red_set_options( $stages );
 
 		$this->clear_cache();
 	}

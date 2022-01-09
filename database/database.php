@@ -28,7 +28,7 @@ class Red_Database {
 				$upgrader = Red_Database_Upgrader::get( $upgrade );
 
 				$stage_present = in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
-				$same_version = $current_stage === false && version_compare( $upgrade['version'], $current_version, 'g' );
+				$same_version = $current_stage === false && version_compare( $upgrade['version'], $current_version, 'gt' );
 
 				if ( $stage_present || $same_version ) {
 					$found = true;

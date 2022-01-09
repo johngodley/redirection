@@ -30,10 +30,6 @@ class Red_Url_Query {
 	 * @param Red_Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
-		if ( $flags->is_ignore_case() ) {
-			$url = Red_Url_Path::to_lower( $url );
-		}
-
 		$this->query = $this->get_url_query( $url );
 	}
 
@@ -51,13 +47,13 @@ class Red_Url_Query {
 
 		// If we can't parse the query params then match the params exactly
 		if ( $this->match_exact !== false ) {
-			return $this->get_query_after( $url ) === $this->match_exact;
+			return $this->is_string_match( $this->get_query_after( $url ), $this->match_exact, $flags->is_ignore_case() );
 		}
 
 		$target = $this->get_url_query( $url );
 
 		// All params in the source have to exist in the request, but in any order
-		$matched = $this->get_query_same( $this->query, $target );
+		$matched = $this->get_query_same( $this->query, $target, $flags->is_ignore_case() );
 
 		if ( count( $matched ) !== count( $this->query ) ) {
 			// Source params arent matched exactly
@@ -74,6 +70,22 @@ class Red_Url_Query {
 
 		// In an exact match there shouldn't be any more params
 		return count( $query_diff ) === 0;
+	}
+
+	/**
+	 * Return true if the two strings match, false otherwise. Pays attention to case sensitivity
+	 *
+	 * @param string  $first First string.
+	 * @param string  $second Second string.
+	 * @param boolean $case Case sensitivity.
+	 * @return boolean
+	 */
+	private function is_string_match( $first, $second, $case ) {
+		if ( $case ) {
+			return Red_Url_Path::to_lower( $first ) === Red_Url_Path::to_lower( $second );
+		}
+
+		return $first === $second;
 	}
 
 	/**
@@ -240,31 +252,46 @@ class Red_Url_Query {
 	 *
 	 * @param array   $source_query Source query params.
 	 * @param array   $target_query Target query params.
+	 * @param bool    $is_ignore_case Ignore case.
 	 * @param integer $depth Current recursion depth.
 	 * @return array
 	 */
-	public function get_query_same( array $source_query, array $target_query, $depth = 0 ) {
+	public function get_query_same( array $source_query, array $target_query, $is_ignore_case, $depth = 0 ) {
 		if ( $depth > self::RECURSION_LIMIT ) {
 			return [];
 		}
 
+		$source_keys = [];
+		foreach ( array_keys( $source_query ) as $key ) {
+			$source_keys[ Red_Url_Path::to_lower( $key ) ] = $key;
+		}
+
+		$target_keys = [];
+		foreach ( array_keys( $target_query ) as $key ) {
+			$target_keys[ Red_Url_Path::to_lower( $key ) ] = $key;
+		}
+
 		$same = [];
-		foreach ( $source_query as $key => $value ) {
-			if ( isset( $target_query[ $key ] ) ) {
+		foreach ( $source_keys as $key => $original_key ) {
+			// Does the key exist in the target
+			if ( isset( $target_keys[ $key ] ) ) {
+				// Key exists. Now match the value
+				$source_value = $source_query[ $original_key ];
+				$target_value = $target_query[ $target_keys[ $key ] ];
 				$add = false;
 
-				if ( is_array( $value ) && is_array( $target_query[ $key ] ) ) {
-					$add = $this->get_query_same( $source_query[ $key ], $target_query[ $key ], $depth + 1 );
+				if ( is_array( $source_value ) && is_array( $target_value ) ) {
+					$add = $this->get_query_same( $source_query[ $key ], $target_value, $is_ignore_case, $depth + 1 );
 
 					if ( count( $add ) !== count( $source_query[ $key ] ) ) {
 						$add = false;
 					}
-				} elseif ( is_string( $value ) && is_string( $target_query[ $key ] ) ) {
-					$add = $value === $target_query[ $key ] ? $value : false;
+				} elseif ( is_string( $source_value ) && is_string( $target_value ) ) {
+					$add = $this->is_string_match( $source_value, $target_value, $is_ignore_case ) ? $source_value : false;
 				}
 
 				if ( ! empty( $add ) || is_numeric( $add ) || $add === '' ) {
-					$same[ $key ] = $add;
+					$same[ $original_key ] = $add;
 				}
 			}
 		}

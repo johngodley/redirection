@@ -4,98 +4,74 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { translate as __ } from 'i18n-calypso';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 /**
  * Internal dependencies
  */
 
-import { getHttp } from 'state/info/action';
-import { STATUS_IN_PROGRESS, STATUS_FAILED } from 'state/settings/type';
-import { Spinner } from 'wp-plugin-components';
+import { clearHttp, getHttp } from 'state/info/action';
+import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
+import HttpCheck from 'component/http-check/response';
 import './style.scss';
-import { isRedirection } from 'lib/wordpress-url';
+import { ExternalLink } from 'wp-plugin-components';
 
-class HttpTester extends React.Component {
-	constructor( props ) {
-		super( props );
+function HttpTester( props ) {
+	const dispatch = useDispatch();
+	const [ url, setUrl ] = useState( '' );
+	const { status, http } = useSelector( ( state ) => state.info );
+	const shouldShow = status === STATUS_COMPLETE && ! http ? false : true;
 
-		this.state = { url: '' };
-	}
+	useEffect(() => {
+		dispatch( clearHttp() );
+	}, [ url ]);
 
-	onChange = ev => {
-		this.setState( { url: ev.target.value } );
-	}
+	function submit( ev ) {
+		ev.preventDefault();
 
-	onSubmit = () => {
-		this.props.onRequest( this.state.url );
-	}
-
-	renderResults( http ) {
-		const { status, statusMessage, statusDescription, headers } = http;
-
-		if ( status === 500 || ! statusMessage ) {
-			return (
-				<div className="inline-notice">
-					<p>{ __( 'Unable to load details' ) }</p>
-				</div>
-			);
-		}
-
-		const location = headers.find( item => item.name === 'location' );
-		const xredirection = isRedirection( headers );
-		return (
-			<div className="inline-notice">
-				<p><strong>HTTP { status + ' ' + statusMessage }</strong> - { statusDescription }</p>
-				{ xredirection && <p>{ __( 'URL is being redirected with Redirection' ) }</p> }
-				{ location && ! xredirection && <p>{ __( 'URL is not being redirected with Redirection' ) }</p> }
-				{ location && <p>{ __( 'Target' ) }: <code>{ location.value }</code></p> }
-			</div>
-		);
-	}
-
-	render() {
-		const { url } = this.state;
-		const { http, status } = this.props;
-
-		return (
-			<div className="http-tester">
-				<h3>{ __( 'Redirect Tester' ) }</h3>
-
-				<p>
-					{ __( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting." ) }
-				</p>
-				<p>
-					{ __( 'URL' ) }: <input className="regular-text" type="text" value={ url } onChange={ this.onChange } disabled={ status === STATUS_IN_PROGRESS } placeholder={ __( 'Enter full URL, including http:// or https://' ) } />
-					<input type="submit" className="button-secondary" onClick={ this.onSubmit } disabled={ status === STATUS_IN_PROGRESS } value={ __( 'Check' ) } />
-				</p>
-
-				{ status === STATUS_IN_PROGRESS && <Spinner /> }
-				{ status === STATUS_FAILED && <div className="inline-notice"><p>{ __( 'Unable to load details' ) }</p></div> }
-
-				{ http && this.renderResults( http ) }
-			</div>
-		);
-	}
-}
-
-function mapDispatchToProps( dispatch ) {
-	return {
-		onRequest: url => {
+		if ( url.length > 0 ) {
 			dispatch( getHttp( url ) );
-		},
-	};
+		}
+	}
+
+	return (
+		<form className="http-tester" onSubmit={ submit }>
+			<h3>{ __( 'Redirect Tester' ) }</h3>
+
+			<p>
+				{ __(
+					"Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results.",
+					{ components: { link: <ExternalLink url="https://redirect.li" /> } }
+				) }
+			</p>
+			<div className="redirection-httptest__input">
+				<span>{ __( 'URL' ) }:</span>
+
+				<input
+					className="regular-text"
+					type="text"
+					value={ url }
+					onChange={ ( ev ) => setUrl( ev.target.value ) }
+					disabled={ status === STATUS_IN_PROGRESS }
+					placeholder={ __( 'Enter full URL, including http:// or https://' ) }
+				/>
+				<input
+					type="submit"
+					className="button-secondary"
+					disabled={ status === STATUS_IN_PROGRESS || url.length === 0 }
+					value={ __( 'Check' ) }
+				/>
+			</div>
+
+			{ shouldShow && (
+				<div className="redirection-httptest">
+					<HttpCheck url={ url } />
+				</div>
+			) }
+		</form>
+	);
 }
 
-function mapStateToProps( state ) {
-	const { http, status } = state.info;
-
-	return {
-		http,
-		status,
-	};
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( HttpTester );
+export default HttpTester;

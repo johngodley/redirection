@@ -2,7 +2,7 @@
 
 class DatabaseStatusTest extends WP_UnitTestCase {
 	private function clearStage() {
-		delete_option( Red_Database_Status::DB_UPGRADE_STAGE );
+		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => false ] );
 	}
 
 	public function setUp() {
@@ -41,7 +41,8 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 'add_title_201', $stage );
 
-		$option = get_option( Red_Database_Status::DB_UPGRADE_STAGE );
+		$settings = red_get_options();
+		$option = $settings[ Red_Database_Status::DB_UPGRADE_STAGE ];
 
 		$this->assertEquals( 'add_title_201', $option['stage'] );
 		$this->assertEquals( 'add_title_201', $option['stages'][0] );

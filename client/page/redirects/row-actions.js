@@ -17,7 +17,7 @@ import { has_capability, CAP_REDIRECT_ADD, CAP_REDIRECT_DELETE } from 'lib/capab
 function RedirectRowActions( props ) {
 	const { disabled, rowParams, onDelete, onEnable, onDisable, row } = props;
 	const { setRowMode, rowMode } = rowParams;
-	const { id, enabled, regex, action_type } = row;
+	const { id, enabled, regex, action_type, match_type } = row;
 	const menu = [];
 
 	if ( rowMode === 'edit' ) {
@@ -40,7 +40,7 @@ function RedirectRowActions( props ) {
 		}
 	}
 
-	if ( enabled && ! regex && action_type === 'url' ) {
+	if ( enabled && ! regex && action_type === 'url' && ( match_type === 'url' || match_type === 'server' ) ) {
 		menu.push( <RowAction key="5" onClick={ () => setRowMode( 'check' ) }>{ __( 'Check Redirect' ) }</RowAction> );
 	}
 

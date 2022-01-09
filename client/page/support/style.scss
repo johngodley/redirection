@@ -1,14 +1,4 @@
 .http-tester {
-	input[type="text"] {
-		width: 80%;
-		margin-right: 5px;
-	}
-
-	input[type="submit"] {
-		margin-top: 1px;
-		min-height: 30px;
-	}
-
 	table {
 		width: 95%;
 
@@ -53,5 +43,29 @@
 			list-style-type: disc;
 			margin-left: 20px;
 		}
+	}
+}
+
+.redirection-httptest {
+	background-color: white;
+	border: 1px solid #999;
+	margin-bottom: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+
+	h2 {
+		margin-top: 10px;
+	}
+}
+
+.redirection-httptest__input {
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+
+	input[type="text"] {
+		width: 100%;
 	}
 }

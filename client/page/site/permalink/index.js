@@ -38,7 +38,7 @@ function PermalinkSettings( props ) {
 		<>
 			<h3>{ __( 'Permalink Migration' ) }</h3>
 			<p>{ __( 'Enter old permalinks structures to automatically migrate them to your current one.' ) }</p>
-			<p>{ __( 'Note: this is beta and will only migrate posts.' ) }</p>
+			<p>{ __( 'Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta.' ) }</p>
 
 			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto">
 				<thead>

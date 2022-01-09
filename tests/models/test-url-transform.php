@@ -27,7 +27,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 		wp_set_current_user( $this->admin_user_id );
 
 		$before = 'hello [userid]';
-		$after = 'hello 1';
+		$after = 'hello ' . $this->admin_user_id;
 		$transform = new Red_Url_Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );

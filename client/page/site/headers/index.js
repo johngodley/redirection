@@ -48,7 +48,7 @@ const createSecurityHeaders = () => ( [
 	createHeader( 'X-Frame-Options', 'deny' ),
 	createHeader( 'X-XSS-Protection', '1; mode=block' ),
 	createHeader( 'X-Content-Type-Options', 'nosniff' ),
-	createHeader( 'Content-Security-Policy', "default-src 'self'; script-src 'unsafe-inline' 'unsafe-eval' http:; style-src 'unsafe-inline' http:; img-src http: data:; font-src http: data:; sandbox allow-forms allow-scripts" ),
+	createHeader( 'Content-Security-Policy', "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self'" ),
 	document.location.protocol === 'https' ? createHeader( 'Strict-Transport-Security', 'max-age: 31536000; includeSubDomains' ) : null,
 	createHeader( 'Referrer-Policy', 'no-referrer-when-downgrade' ),
 ].filter( item => item ) );

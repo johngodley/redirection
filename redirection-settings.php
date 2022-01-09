@@ -91,6 +91,14 @@ function red_set_options( array $settings = array() ) {
 		$options['database'] = $settings['database'];
 	}
 
+	if ( array_key_exists( 'database_stage', $settings ) ) {
+		if ( $settings['database_stage'] === false ) {
+			unset( $options['database_stage'] );
+		} else {
+			$options['database_stage'] = $settings['database_stage'];
+		}
+	}
+
 	if ( isset( $settings['rest_api'] ) && in_array( intval( $settings['rest_api'], 10 ), array( 0, 1, 2, 3, 4 ), true ) ) {
 		$options['rest_api'] = intval( $settings['rest_api'], 10 );
 	}
@@ -332,7 +340,7 @@ function red_get_options() {
 
 	// Remove old options not in red_get_default_options()
 	foreach ( $options as $key => $value ) {
-		if ( ! isset( $defaults[ $key ] ) ) {
+		if ( ! isset( $defaults[ $key ] ) && $key !== 'database_stage' ) {
 			unset( $options[ $key ] );
 		}
 	}

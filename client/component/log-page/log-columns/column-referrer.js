@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import * as parseUrl from 'url';
 import Highlighter from 'react-highlight-words';
 
 /**

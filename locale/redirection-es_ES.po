@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-06 07:50:29+0000\n"
+"PO-Revision-Date: 2021-12-01 05:23:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +29,7 @@ msgstr "Por favor, revisa tus datos e inténtalo de nuevo."
 
 #: redirection-strings.php:735
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
-msgstr "Ocurrió un problema al hacer una solicitud a tu sitio. Esto podría indciar que has facilitado datos que no coinciden con los requisitos, o que plugin envió una mala solicitud."
+msgstr "Ha habido un problema al hacer una solicitud a tu sitio. Esto podría indicar que has proporcionado datos que no cumplen con los requisitos o que plugin ha enviado una solicitud errónea."
 
 #: redirection-strings.php:734
 msgid "Bad data"
@@ -69,7 +69,7 @@ msgstr "¿Puedes acceder a tu {{api}}API REST{{/api}} sin redireccionar? En caso
 
 #: redirection-strings.php:718
 msgid "Your REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr "Tu API REST está devolviendo una página 404. esto es casi con certeza debido a un problema con un plugin externo o con la configuración del servidor. "
+msgstr "Tu API REST está devolviendo una página 404. Es casi seguro que es un problema de un plugin externo o de la configuración del servidor."
 
 #: redirection-strings.php:714
 msgid "Debug Information"
@@ -477,7 +477,7 @@ msgstr "Buscar URL"
 
 #: redirection-strings.php:677
 msgid "Filter on: %(type)s"
-msgstr "Filtrar en: %(tipo)s"
+msgstr "Filtrar en: %(type)s"
 
 #: redirection-strings.php:223 redirection-strings.php:551
 msgid "Disabled"
@@ -1018,7 +1018,7 @@ msgstr "{{link}}Importar{{/link}} desde .htaccess, CSV, y una gran variedad de o
 
 #: redirection-strings.php:169
 msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
-msgstr "{{link}}Supervisar errores 404{{/link}}, obtener información detallada sobre el visitante y corregir cualquier problema"
+msgstr "{{link}}Supervisar errores 404{{/link}}, obtiene información detallada sobre el visitante y corrige cualquier problema"
 
 #: redirection-strings.php:168
 msgid "Some features you may find useful are"
@@ -1658,7 +1658,7 @@ msgstr "Importar de %s"
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
 #: redirection-admin.php:430
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
-msgstr "Redirection requiere WordPress v%1s, estás  usando v%2s - por favor, actualiza tu WordPress"
+msgstr "Redirection requiere WordPress v%1$1s, estás  usando v%2$2s - por favor, actualiza tu WordPress"
 
 #: models/importer.php:277
 msgid "Default WordPress \"old slugs\""
@@ -2225,7 +2225,7 @@ msgstr "Soy una buena persona y he apoyado al autor de este plugin"
 
 #: redirection-strings.php:451
 msgid "Plugin Support"
-msgstr "Soporte del plugin"
+msgstr "Apoya el plugin"
 
 #: redirection-strings.php:278 redirection-strings.php:286
 msgid "Options"

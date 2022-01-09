@@ -18,8 +18,16 @@ import getMatchType from './match-type';
 import HttpCheck from 'component/http-check';
 import { getMatches, getActions } from 'component/redirect-edit/constants';
 
+function getServer( item ) {
+	if ( item.match_type === 'server' ) {
+		return item.action_data.server;
+	}
+
+	return document.location.origin;
+}
+
 export default function getColumns( row, rowParams, disabled, defaultFlags, group ) {
-	const { last_access, hits, position, match_type, action_type } = row;
+	const { last_access, hits, position, match_type, action_type, action_code, action_data } = row;
 	const { rowMode, setRowMode } = rowParams;
 
 	if ( rowMode === 'edit' ) {
@@ -43,7 +51,7 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 					/>
 					{ rowMode === 'check' && (
 						<Modal onClose={ () => setRowMode( null ) }>
-							<HttpCheck item={ row } />
+							<HttpCheck url={ getServer( row ) } desiredCode={ action_code } desiredTarget={ action_data } />
 						</Modal>
 					) }
 				</>

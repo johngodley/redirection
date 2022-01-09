@@ -10,101 +10,145 @@ import { translate as __ } from 'i18n-calypso';
  */
 
 import { ExternalLink } from 'wp-plugin-components';
-import { isRedirection, isCached } from 'lib/wordpress-url';
 
-function HttpStatus( props ) {
-	const { status, headers, code, target } = props;
-	const location = headers.find( ( item ) => item.name === 'location' );
-	const redirection = isRedirection( headers );
-
-	if ( code === status && location && location.value === target && redirection ) {
-		return <span className="dashicons dashicons-yes" />;
+function Details( { status, headers } ) {
+	if ( status >= 500 ) {
+		return 'Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself.';
 	}
 
-	if ( status === 500 || isCached( headers ) ) {
-		return <span className="dashicons dashicons-warning" />;
+	if ( status >= 400 && status < 500 ) {
+		return __( 'An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}.', {
+			components: { support: <ExternalLink url="https://redirection.me/support/problems/redirect-returning-404/" /> },
+		} );
 	}
 
-	return <span className="dashicons dashicons-no" />;
+	if ( status >= 300 && status < 400 ) {
+		const agent =
+			headers.find( ( item ) => item.name === 'x-redirect-agent' || item.name === 'x-redirect-by' ) || '';
+
+		if ( agent ) {
+			if ( agent.value.toLowerCase() === 'redirection' ) {
+				return __( 'Redirected by Redirection.' );
+			}
+
+			return __( 'Redirected by %1s. {{support}}What does this mean?{{/support}}.', {
+				args: [ agent.value ],
+				components: { support: <ExternalLink url="https://redirection.me/support/problems/redirected-by-another-agent/" /> },
+			} );
+		}
+
+		return __( 'Redirected by an unknown agent. {{support}}What does this mean?{{/support}}.', {
+			components: { support: <ExternalLink url="https://redirection.me/support/problems/redirected-by-another-agent/" /> },
+		} );
+	}
+
+	if ( status >= 200 && status < 300 ) {
+		return __( 'Page was loaded.' );
+	}
+
+	return null;
 }
 
-function HttpDetails( props ) {
-	const { action_code, action_data } = props.item;
-	const { status, headers = [] } = props.http;
-	const location = headers.find( item => item.name === 'location' );
-	const redirection = isRedirection( headers );
-	const target = action_data.url_from ? action_data.url_from : action_data.url;
+function Step( { step, isLast } ) {
+	const { request, status, statusMessage, headers } = step;
+	const statusGroup = Math.floor( status / 100 ) * 100;
 
 	return (
-		<div className="redirection-httpcheck_results">
-			<div className="redirection-httpcheck_status">
-				<HttpStatus status={ status } headers={ headers } code={ action_code } target={ target } />
+		<>
+			<div className="redirection-httpstep">
+				<div className={ `redirection-httpstep__status redirection-httpstep__${ statusGroup }` }>
+					<ExternalLink url={ `https://redirect.li/http/status/code/${ status }/` } title={ statusMessage }>
+						{ status }
+					</ExternalLink>
+				</div>
+
+				<div className="redirection-httpstep__details">
+					<p>
+						<code>{ request.url }</code>
+					</p>
+					<p>
+						<Details status={ status } headers={ headers } />
+					</p>
+				</div>
 			</div>
-			<div className="redirection-httpcheck_info">
-				<p>
-					<strong>{ __( 'Expected' ) }: </strong>
 
-					<span>
-						{ __( '{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}', {
-							args: {
-								status: action_code,
-								target,
-							},
-							components: {
-								code: <code />,
-							},
-						} ) }
-					</span>
-				</p>
-				<p>
-					<strong>{ __( 'Found' ) }: </strong>
+			{ ! isLast && (
+				<div>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+						<path
+							fillRule="evenodd"
+							d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</div>
+			) }
+		</>
+	);
+}
 
-					<span>
-						{ location
-							? __( '{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}', {
-									args: {
-										status,
-										url: location.value,
-									},
-									components: {
-										code: <code />,
-									},
-							  } )
-							: status }
-					</span>
-				</p>
-				<p>
-					<strong>{ __( 'Agent' ) }: </strong>
+function Conclusion( { steps, desiredCode, desiredTarget } ) {
+	// Check desired code
+	if ( steps.length === 2 && steps[ 0 ].status === desiredCode && steps[ 1 ].request.url === desiredTarget ) {
+		return <p>{ __( 'Everything is working great.' ) }</p>;
+	}
 
-					<span>{ redirection ? __( 'Using Redirection' ) : __( 'Not using Redirection' ) }</span>
-				</p>
+	return (
+		<p>
+			{ __(
+				"It's not working and it's likely not the fault of Redirection. You can find more details on this {{support}}support page{{/support}}.",
+				{
+					components: {
+						support: <ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/" />,
+					},
+				}
+			) }
+		</p>
+	);
+}
 
-				{ location && ! redirection && (
-					<p>
-						<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
-							{ __( 'Something else other than Redirection is redirecting this URL.' ) }
-						</ExternalLink>
-					</p>
-				) }
+function HttpDetails( { desiredTarget, desiredCode, http, url } ) {
+	const { steps, status } = http;
 
-				{ isCached( headers ) && (
-					<p>
-						<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
-							{ __( 'Your URL is cached and the cache may need to be cleared.' ) }
-						</ExternalLink>
-					</p>
-				) }
+	if ( status !== 'ok' ) {
+		// TODO: this should also be status=fail but the API doesn't return it
+		if ( http && http.status === 'fail' ) {
+			return <div>{ __( 'Unable to check that URL. It may not be valid.' ) }</div>;
+		}
 
-				{ ( status >= 500 ) && (
-					<p>
-						<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
-							{ __( 'Cannot connect to the server to determine the redirect status.' ) }
-						</ExternalLink>
-					</p>
+		return (
+			<div>
+				{ __(
+					'The external URL checker returned an error. This may indicate a problem with the service and you can check again in the future.'
 				) }
 			</div>
+		);
+	}
+
+	return (
+		<div>
+			{ steps.map( ( item, key ) => (
+				<Step key={ key } step={ item } isLast={ key === steps.length - 1 } />
+			) ) }
+
+			{ desiredTarget && desiredCode && (
+				<>
+					<h3>{ __( 'Conclusion' ) }</h3>
+					<Conclusion steps={ steps } desiredCode={ desiredCode } desiredTarget={ desiredTarget } />
+
+					<p>
+						{ __( 'If your browser is not behaving the same then you need to clear your browser cache.' ) }
+					</p>
+				</>
+			) }
+
+			<p>
+				<ExternalLink url={ `https://redirect.li/http/?url=${ encodeURIComponent( url ) }` } className="button">
+					{ __( 'View full redirect.li results.' ) }
+				</ExternalLink>{' '}
+			</p>
 		</div>
 	);
-};
+}
 
 export default HttpDetails;
