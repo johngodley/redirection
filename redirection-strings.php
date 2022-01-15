@@ -210,13 +210,6 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:569
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:577
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:586
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
-__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
-__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
-__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
-__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
-__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
-__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -534,11 +527,11 @@ __( "Please note that any support is provide on as-time-is-available basis and i
 __( "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!", "redirection" ), // client/page/support/help.js:55
 __( "Need to search and replace?", "redirection" ), // client/page/support/help.js:71
 __( "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects.", "redirection" ), // client/page/support/help.js:73
-__( "Redirect Tester", "redirection" ), // client/page/support/http-tester.js:43
-__( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results.", "redirection" ), // client/page/support/http-tester.js:46
-__( "URL", "redirection" ), // client/page/support/http-tester.js:52
-__( "Enter full URL, including http:// or https://", "redirection" ), // client/page/support/http-tester.js:60
-__( "Check", "redirection" ), // client/page/support/http-tester.js:66
+__( "Redirect Tester", "redirection" ), // client/page/support/http-tester.js:41
+__( "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results.", "redirection" ), // client/page/support/http-tester.js:44
+__( "URL", "redirection" ), // client/page/support/http-tester.js:50
+__( "Enter full URL, including http:// or https://", "redirection" ), // client/page/support/http-tester.js:58
+__( "Check", "redirection" ), // client/page/support/http-tester.js:64
 __( "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below.", "redirection" ), // client/page/support/plugin-status.js:22
 __( "⚡️ Magic fix ⚡️", "redirection" ), // client/page/support/plugin-status.js:27
 __( "Good", "redirection" ), // client/page/support/plugin-status.js:39
@@ -548,6 +541,13 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
+__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
+__( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
+__( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
+__( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
+__( "Group saved", "redirection" ), // client/state/message/reducer.js:52
+__( "404 deleted", "redirection" ), // client/state/message/reducer.js:53
 __( "View notice", "redirection" ), // client/wp-plugin-components/snackbar/index.js:75
 __( "Add File", "redirection" ), // client/wp-plugin-components/uploader/content.js:45
 __( "Upload", "redirection" ), // client/wp-plugin-components/uploader/content.js:54
@@ -566,6 +566,7 @@ __( "Target URL when matched (empty to ignore)", "redirection" ), // client/comp
 __( "Unmatched Target", "redirection" ), // client/component/redirect-edit/action/url-from.js:23
 __( "Target URL when not matched (empty to ignore)", "redirection" ), // client/component/redirect-edit/action/url-from.js:24
 __( "Target URL", "redirection" ), // client/component/redirect-edit/action/url.js:20
+__( "Select All", "redirection" ), // client/component/table/header/check-column.js:23
 __( "User Agent", "redirection" ), // client/component/redirect-edit/match/agent.js:51
 __( "Match against this browser user agent", "redirection" ), // client/component/redirect-edit/match/agent.js:52
 __( "Custom", "redirection" ), // client/component/redirect-edit/match/agent.js:55
@@ -600,7 +601,6 @@ __( "Role", "redirection" ), // client/component/redirect-edit/match/role.js:18
 __( "Enter role or capability value", "redirection" ), // client/component/redirect-edit/match/role.js:19
 __( "Server", "redirection" ), // client/component/redirect-edit/match/server.js:18
 __( "Enter server URL to match against", "redirection" ), // client/component/redirect-edit/match/server.js:19
-__( "Select All", "redirection" ), // client/component/table/header/check-column.js:23
 _n( "%s item", "%s items", 1, "redirection" ), // client/component/table/navigation/navigation-pages.js:33
 __( "%1d of %1d selected. {{all}}Select All.{{/all}}", "redirection" ), // client/component/table/navigation/navigation-pages.js:36
 __( "%1d of %1d selected. {{all}}Clear All.{{/all}}", "redirection" ), // client/component/table/navigation/navigation-pages.js:43
