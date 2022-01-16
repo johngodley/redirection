@@ -19,7 +19,7 @@ function HttpError( { error } ) {
 	return (
 		<div className="wpl-modal_error">
 			<h2>{ __( 'Error' ) }</h2>
-			<p>{ __( 'Something went wrong obtaining this information' ) }</p>
+			<p>{ __( 'Something went wrong obtaining this information. It may work in the future.' ) }</p>
 			<p>
 				<code>{ error.message }</code>
 			</p>

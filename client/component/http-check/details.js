@@ -111,9 +111,8 @@ function HttpDetails( { desiredTarget, desiredCode, http, url } ) {
 	const { steps, status } = http;
 
 	if ( status !== 'ok' ) {
-		// TODO: this should also be status=fail but the API doesn't return it
-		if ( http && http.status === 'fail' ) {
-			return <div>{ __( 'Unable to check that URL. It may not be valid.' ) }</div>;
+		if ( http && ( http.status === 'error' || http.status === 'fail' ) ) {
+			return <div>{ __( 'Unable to check that URL. It may not be valid or accessible.' ) }</div>;
 		}
 
 		return (
