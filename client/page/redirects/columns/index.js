@@ -17,6 +17,7 @@ import { Modal } from 'wp-plugin-components';
 import getMatchType from './match-type';
 import HttpCheck from 'component/http-check';
 import { getMatches, getActions } from 'component/redirect-edit/constants';
+import { getServerUrl } from 'lib/wordpress-url';
 
 function getServer( item ) {
 	if ( item.match_type === 'server' ) {
@@ -51,7 +52,7 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 					/>
 					{ rowMode === 'check' && (
 						<Modal onClose={ () => setRowMode( null ) }>
-							<HttpCheck url={ getServer( row ) } desiredCode={ action_code } desiredTarget={ action_data } />
+							<HttpCheck url={ getServerUrl( getServer( row ), row.url ) } desiredCode={ action_code } desiredTarget={ action_data } />
 						</Modal>
 					) }
 				</>
