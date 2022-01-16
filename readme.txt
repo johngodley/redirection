@@ -181,6 +181,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.2.1 - 16th January 2022 =
+* Include path with inline URL checker
+
 = 5.2 - 15th January 2022 =
 * Improve URL checker and show more details
 * Retain query parameter case when passing to target URL
