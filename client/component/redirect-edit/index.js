@@ -50,7 +50,17 @@ class EditRedirect extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		const { url, match_data, match_type, action_type, action_data, group_id = 0, title, action_code, position = 0 } = props.item;
+		const {
+			url,
+			match_data,
+			match_type,
+			action_type,
+			action_data,
+			group_id = 0,
+			title,
+			action_code,
+			position = 0,
+		} = props.item;
 		const { flag_regex, flag_trailing, flag_case, flag_query } = match_data.source;
 
 		this.state = {
@@ -80,7 +90,7 @@ class EditRedirect extends React.Component {
 	}
 
 	getWarning( newState ) {
-		return getWarningFromState( { ... this.state, ... newState } );
+		return getWarningFromState( { ...this.state, ...newState } );
 	}
 
 	getValidGroup( group_id ) {
@@ -99,7 +109,7 @@ class EditRedirect extends React.Component {
 
 		if ( groups.length > 0 ) {
 			// todo: Not sure what this is
-			const def = groups.find( item => item.default );
+			const def = groups.find( ( item ) => item.default );
 			if ( def ) {
 				return def.id;
 			}
@@ -115,7 +125,7 @@ class EditRedirect extends React.Component {
 		const source = this.props.flags;
 
 		this.setState( {
-			... getDefaultItem( '', this.state.group_id, source ),
+			...getDefaultItem( '', this.state.group_id, source ),
 			warning: [],
 			id: this.state.id,
 		} );
@@ -127,10 +137,24 @@ class EditRedirect extends React.Component {
 		return match_type === MATCH_URL && action_type === ACTION_URL && title === '' && action_code === 301;
 	}
 
-	onSave = ev => {
+	onSave = ( ev ) => {
 		ev.preventDefault();
 
-		const { url, title, flag_regex, flag_trailing, flag_case, flag_query, match_type, action_type, group_id, action_code, position, action_data, options } = this.state;
+		const {
+			url,
+			title,
+			flag_regex,
+			flag_trailing,
+			flag_case,
+			flag_query,
+			match_type,
+			action_type,
+			group_id,
+			action_code,
+			position,
+			action_data,
+			options,
+		} = this.state;
 		const groups = this.props.group.rows;
 		const group_value = group_id > 0 || ! groups ? group_id : groups[ 0 ].id;
 
@@ -170,26 +194,28 @@ class EditRedirect extends React.Component {
 		if ( this.props.childSave ) {
 			this.props.childSave();
 		}
-	}
+	};
 
-	onToggleAdvanced = ev => {
+	onToggleAdvanced = ( ev ) => {
 		ev.preventDefault();
 		this.onUpdateState( { advanced: ! this.state.advanced } );
-	}
+	};
 
-	onSetGroup = ev => {
+	onSetGroup = ( ev ) => {
 		this.setState( { group_id: parseInt( ev.target.value, 10 ) } );
-	}
+	};
 
-	onFlagChange = flags => {
+	onFlagChange = ( flags ) => {
 		const changed = {};
 
-		Object.keys( this.props.flags ).filter( key => key !== 'flag_query' ).forEach( key => {
-			changed[ key ] = false;
-		} );
+		Object.keys( this.props.flags )
+			.filter( ( key ) => key !== 'flag_query' )
+			.forEach( ( key ) => {
+				changed[ key ] = false;
+			} );
 
 		this.onUpdateState( { ...changed, ...flags } );
-	}
+	};
 
 	getInputState( ev ) {
 		const { target } = ev;
@@ -200,7 +226,7 @@ class EditRedirect extends React.Component {
 		};
 	}
 
-	onChangeMatch = ev => {
+	onChangeMatch = ( ev ) => {
 		const newState = this.getInputState( ev );
 
 		// Reset action data for match type
@@ -212,21 +238,21 @@ class EditRedirect extends React.Component {
 		}
 
 		this.onUpdateState( newState );
-	}
+	};
 
-	onChange = ev => {
+	onChange = ( ev ) => {
 		this.onUpdateState( this.getInputState( ev ) );
-	}
+	};
 
-	onChangeOption = ev => {
+	onChangeOption = ( ev ) => {
 		if ( ev.target.checked !== undefined ) {
 			this.setState( { options: { ...this.state.options, [ ev.target.name ]: ev.target.checked } } );
 		} else {
 			this.setState( { options: { ...this.state.options, [ ev.target.name ]: ev.target.value } } );
 		}
-	}
+	};
 
-	onChangeActionType = ev => {
+	onChangeActionType = ( ev ) => {
 		const action_type = this.getInputState( ev ).action_type;
 
 		this.onUpdateState( {
@@ -234,9 +260,9 @@ class EditRedirect extends React.Component {
 			action_code: getCodeForActionType( action_type ),
 			action_data: getMatchState( this.state.match_type, this.state.action_data || {} ),
 		} );
-	}
+	};
 
-	onChangeActionData = ev => {
+	onChangeActionData = ( ev ) => {
 		const state = {
 			action_data: {
 				...this.state.action_data,
@@ -245,7 +271,7 @@ class EditRedirect extends React.Component {
 		};
 
 		this.onUpdateState( state );
-	}
+	};
 
 	onUpdateState( newState ) {
 		// Update warning
@@ -282,35 +308,78 @@ class EditRedirect extends React.Component {
 		}
 
 		return (
-			<label><input type="checkbox" name="log_exclude" checked={ options.log_exclude || false } onChange={ this.onChangeOption } /> { __( 'Exclude from logs' ) }</label>
+			<label>
+				<input
+					type="checkbox"
+					name="log_exclude"
+					checked={ options.log_exclude || false }
+					onChange={ this.onChangeOption }
+				/>{' '}
+				{ __( 'Exclude from logs' ) }
+			</label>
 		);
 	}
 
 	renderItem() {
-		const { url, advanced, flag_regex, action_type, match_type, action_data, flag_query, group_id, position, title, action_code } = this.state;
+		const {
+			url,
+			advanced,
+			flag_regex,
+			action_type,
+			match_type,
+			action_data,
+			flag_query,
+			group_id,
+			position,
+			title,
+			action_code,
+		} = this.state;
 		const { autoFocus, group, flags } = this.props;
 
 		return (
 			<>
-				<RedirectSourceUrl url={ url } flags={ this.state } defaultFlags={ flags } autoFocus={ autoFocus } onFlagChange={ this.onFlagChange } onChange={ this.onChange } />
+				<RedirectSourceUrl
+					url={ url }
+					flags={ this.state }
+					defaultFlags={ flags }
+					autoFocus={ autoFocus }
+					onFlagChange={ this.onFlagChange }
+					onChange={ this.onChange }
+				/>
 				<RedirectSourceQuery query={ flag_query } regex={ flag_regex } onChange={ this.onChange } url={ url } />
-				{ advanced &&
-
+				{ advanced && (
 					<>
-						<RedirectTitle title={ title } onChange={ this.onChange } />
+						<RedirectTitle title={ title } onChange={ ( title ) => this.onUpdateState( title ) } />
 						<MatchType matchType={ match_type } onChange={ this.onChangeMatch } />
-						<MatchTarget matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
+						<MatchTarget
+							matchType={ match_type }
+							actionData={ action_data }
+							onChange={ this.onChangeActionData }
+						/>
 
 						<TableRow title={ __( 'When matched' ) } className="redirect-edit__action">
-							<ActionType actionType={ action_type } matchType={ match_type } onChange={ this.onChangeActionType } />
-							<ActionCode actionType={ action_type } actionCode={ action_code } onChange={ this.onChange } />
+							<ActionType
+								actionType={ action_type }
+								matchType={ match_type }
+								onChange={ this.onChangeActionType }
+							/>
+							<ActionCode
+								actionType={ action_type }
+								actionCode={ action_code }
+								onChange={ this.onChange }
+							/>
 
 							{ this.renderOptions() }
 						</TableRow>
 					</>
-				}
+				) }
 
-				<ActionTarget actionType={ action_type } matchType={ match_type } actionData={ action_data } onChange={ this.onChangeActionData } />
+				<ActionTarget
+					actionType={ action_type }
+					matchType={ match_type }
+					actionData={ action_data }
+					onChange={ this.onChangeActionData }
+				/>
 
 				<TableRow title={ __( 'Group' ) } className="redirect-edit__group">
 					<RedirectGroup groups={ group.rows } currentGroup={ group_id } onChange={ this.onSetGroup } />
@@ -333,12 +402,45 @@ class EditRedirect extends React.Component {
 
 						<TableRow>
 							<div className="table-actions">
-								<input className="button-primary" type="submit" name="save" value={ saveButton } disabled={ ! this.canSave() } /> &nbsp;
-								{ onCancel && <button type="button" className="button-secondary" onClick={ onCancel }>{ __( 'Cancel' ) }</button> }
-								{ addTop && ! onCancel && <button className="button-secondary" type="button"  onClick={ onClose }>{ __( 'Close' ) }</button> }
+								<input
+									className="button-primary"
+									type="submit"
+									name="save"
+									value={ saveButton }
+									disabled={ ! this.canSave() }
+								/>{' '}
 								&nbsp;
-
-								{ this.canShowAdvanced() && <a href="#" onClick={ this.onToggleAdvanced } className="redirection-edit_advanced" title={ __( 'Show advanced options' ) }><svg aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M18 12h-2.18c-.17.7-.44 1.35-.81 1.93l1.54 1.54-2.1 2.1-1.54-1.54c-.58.36-1.23.63-1.91.79V19H8v-2.18c-.68-.16-1.33-.43-1.91-.79l-1.54 1.54-2.12-2.12 1.54-1.54c-.36-.58-.63-1.23-.79-1.91H1V9.03h2.17c.16-.7.44-1.35.8-1.94L2.43 5.55l2.1-2.1 1.54 1.54c.58-.37 1.24-.64 1.93-.81V2h3v2.18c.68.16 1.33.43 1.91.79l1.54-1.54 2.12 2.12-1.54 1.54c.36.59.64 1.24.8 1.94H18V12zm-8.5 1.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"></path></svg></a> }
+								{ onCancel && (
+									<button type="button" className="button-secondary" onClick={ onCancel }>
+										{ __( 'Cancel' ) }
+									</button>
+								) }
+								{ addTop && ! onCancel && (
+									<button className="button-secondary" type="button" onClick={ onClose }>
+										{ __( 'Close' ) }
+									</button>
+								) }
+								&nbsp;
+								{ this.canShowAdvanced() && (
+									<a
+										href="#"
+										onClick={ this.onToggleAdvanced }
+										className="redirection-edit_advanced"
+										title={ __( 'Show advanced options' ) }
+									>
+										<svg
+											aria-hidden="true"
+											role="img"
+											focusable="false"
+											xmlns="http://www.w3.org/2000/svg"
+											width="20"
+											height="20"
+											viewBox="0 0 20 20"
+										>
+											<path d="M18 12h-2.18c-.17.7-.44 1.35-.81 1.93l1.54 1.54-2.1 2.1-1.54-1.54c-.58.36-1.23.63-1.91.79V19H8v-2.18c-.68-.16-1.33-.43-1.91-.79l-1.54 1.54-2.12-2.12 1.54-1.54c-.36-.58-.63-1.23-.79-1.91H1V9.03h2.17c.16-.7.44-1.35.8-1.94L2.43 5.55l2.1-2.1 1.54 1.54c.58-.37 1.24-.64 1.93-.81V2h3v2.18c.68.16 1.33.43 1.91.79l1.54-1.54 2.12 2.12-1.54 1.54c.36.59.64 1.24.8 1.94H18V12zm-8.5 1.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" />
+										</svg>
+									</a>
+								) }
 							</div>
 						</TableRow>
 
@@ -351,7 +453,10 @@ class EditRedirect extends React.Component {
 }
 
 function mapStateToProps( state ) {
-	const { group, redirect: { addTop, table } } = state;
+	const {
+		group,
+		redirect: { addTop, table },
+	} = state;
 
 	return {
 		group,
@@ -367,10 +472,10 @@ function mapDispatchToProps( dispatch ) {
 		onSave: ( id, redirect ) => {
 			dispatch( updateRedirect( id, redirect ) );
 		},
-		onCreate: redirect => {
+		onCreate: ( redirect ) => {
 			dispatch( createRedirect( redirect ) );
 		},
-		onClose: ev => {
+		onClose: ( ev ) => {
 			ev.preventDefault();
 			dispatch( addToTop( false ) );
 		},
@@ -379,5 +484,5 @@ function mapDispatchToProps( dispatch ) {
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps,
+	mapDispatchToProps
 )( EditRedirect );
