@@ -34,20 +34,21 @@ __( "City", "redirection" ), // client/component/geo-map/index.js:82
 __( "Area", "redirection" ), // client/component/geo-map/index.js:86
 __( "Timezone", "redirection" ), // client/component/geo-map/index.js:90
 __( "Geo Location", "redirection" ), // client/component/geo-map/index.js:94
-__( "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:20
-__( "Redirected by Redirection.", "redirection" ), // client/component/http-check/details.js:31
-__( "Redirected by %1s. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:34
-__( "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:40
-__( "Page was loaded.", "redirection" ), // client/component/http-check/details.js:46
-__( "Everything is working great.", "redirection" ), // client/component/http-check/details.js:93
-__( "It's not working and it's likely not the fault of Redirection. You can find more details on this {{support}}support page{{/support}}.", "redirection" ), // client/component/http-check/details.js:98
-__( "Unable to check that URL. It may not be valid.", "redirection" ), // client/component/http-check/details.js:116
-__( "The external URL checker returned an error. This may indicate a problem with the service and you can check again in the future.", "redirection" ), // client/component/http-check/details.js:121
-__( "Conclusion", "redirection" ), // client/component/http-check/details.js:136
-__( "If your browser is not behaving the same then you need to clear your browser cache.", "redirection" ), // client/component/http-check/details.js:140
-__( "View full redirect.li results.", "redirection" ), // client/component/http-check/details.js:147
+__( "An unknown errorm", "redirection" ), // client/component/http-check/details.js:37
+__( "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself.", "redirection" ), // client/component/http-check/details.js:41
+__( "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:47
+__( "Redirected by Redirection.", "redirection" ), // client/component/http-check/details.js:61
+__( "Matches your redirect", "redirection" ), // client/component/http-check/details.js:63
+__( "Redirected by Redirection.", "redirection" ), // client/component/http-check/details.js:74
+__( "Redirected by %1s. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:77
+__( "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:87
+__( "Page was loaded.", "redirection" ), // client/component/http-check/details.js:95
+__( "Unable to check that URL. It may not be valid or accessible.", "redirection" ), // client/component/http-check/details.js:188
+__( "If this is not expected then this {{support}}support page{{/support}} may help.", "redirection" ), // client/component/http-check/details.js:206
+__( "If your browser is behaving differently then you should clear your browser cache.", "redirection" ), // client/component/http-check/details.js:219
+__( "View full redirect.li results.", "redirection" ), // client/component/http-check/details.js:223
 __( "Error", "redirection" ), // client/component/http-check/response.js:21
-__( "Something went wrong obtaining this information", "redirection" ), // client/component/http-check/response.js:22
+__( "Something went wrong obtaining this information. It may work in the future.", "redirection" ), // client/component/http-check/response.js:22
 __( "Check redirect for: {{code}}%s{{/code}}", "redirection" ), // client/component/http-check/response.js:50
 __( "Filters", "redirection" ), // client/component/log-page/log-filters.js:87
 __( "Powered by {{link}}redirect.li{{/link}}", "redirection" ), // client/component/powered-by/index.js:16
@@ -96,13 +97,13 @@ __( "Exact match", "redirection" ), // client/component/redirect-edit/constants.
 __( "Exact match in any order", "redirection" ), // client/component/redirect-edit/constants.js:207
 __( "Ignore all parameters", "redirection" ), // client/component/redirect-edit/constants.js:211
 __( "Ignore & pass parameters to the target", "redirection" ), // client/component/redirect-edit/constants.js:215
-__( "Exclude from logs", "redirection" ), // client/component/redirect-edit/index.js:285
-__( "When matched", "redirection" ), // client/component/redirect-edit/index.js:304
-__( "Group", "redirection" ), // client/component/redirect-edit/index.js:315
-__( "Save", "redirection" ), // client/component/redirect-edit/index.js:325
-__( "Cancel", "redirection" ), // client/component/redirect-edit/index.js:337
-__( "Close", "redirection" ), // client/component/redirect-edit/index.js:338
-__( "Show advanced options", "redirection" ), // client/component/redirect-edit/index.js:341
+__( "Exclude from logs", "redirection" ), // client/component/redirect-edit/index.js:318
+__( "When matched", "redirection" ), // client/component/redirect-edit/index.js:360
+__( "Group", "redirection" ), // client/component/redirect-edit/index.js:384
+__( "Save", "redirection" ), // client/component/redirect-edit/index.js:394
+__( "Cancel", "redirection" ), // client/component/redirect-edit/index.js:415
+__( "Close", "redirection" ), // client/component/redirect-edit/index.js:420
+__( "Show advanced options", "redirection" ), // client/component/redirect-edit/index.js:429
 __( "Match", "redirection" ), // client/component/redirect-edit/match-type.js:19
 __( "Position", "redirection" ), // client/component/redirect-edit/position.js:12
 __( "Query Parameters", "redirection" ), // client/component/redirect-edit/source-query.js:25
@@ -210,6 +211,8 @@ __( "Redirection", "redirection" ), // client/component/welcome-wizard/index.js:
 __( "I need support!", "redirection" ), // client/component/welcome-wizard/index.js:569
 __( "Manual Install", "redirection" ), // client/component/welcome-wizard/index.js:577
 __( "Automatic Install", "redirection" ), // client/component/welcome-wizard/index.js:586
+_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
+__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
 __( "Name", "redirection" ), // client/page/groups/constants.js:8
 __( "Module", "redirection" ), // client/page/groups/constants.js:9
 __( "Status", "redirection" ), // client/page/groups/constants.js:10
@@ -541,8 +544,6 @@ __( "Redirection communicates with WordPress through the WordPress REST API. Thi
 __( "Plugin Status", "redirection" ), // client/page/support/status.js:33
 __( "Plugin Debug", "redirection" ), // client/page/support/status.js:38
 __( "This information is provided for debugging purposes. Be careful making any changes.", "redirection" ), // client/page/support/status.js:39
-_n( "Are you sure you want to delete this item?", "Are you sure you want to delete the %d selected items?", 1, "redirection" ), // client/lib/store/index.js:11
-__( "Are you sure want to delete all %d matching items?", "redirection" ), // client/lib/store/index.js:18
 __( "Redirection saved", "redirection" ), // client/state/message/reducer.js:49
 __( "Log deleted", "redirection" ), // client/state/message/reducer.js:50
 __( "Settings saved", "redirection" ), // client/state/message/reducer.js:51
@@ -566,7 +567,6 @@ __( "Target URL when matched (empty to ignore)", "redirection" ), // client/comp
 __( "Unmatched Target", "redirection" ), // client/component/redirect-edit/action/url-from.js:23
 __( "Target URL when not matched (empty to ignore)", "redirection" ), // client/component/redirect-edit/action/url-from.js:24
 __( "Target URL", "redirection" ), // client/component/redirect-edit/action/url.js:20
-__( "Select All", "redirection" ), // client/component/table/header/check-column.js:23
 __( "User Agent", "redirection" ), // client/component/redirect-edit/match/agent.js:51
 __( "Match against this browser user agent", "redirection" ), // client/component/redirect-edit/match/agent.js:52
 __( "Custom", "redirection" ), // client/component/redirect-edit/match/agent.js:55
@@ -601,6 +601,7 @@ __( "Role", "redirection" ), // client/component/redirect-edit/match/role.js:18
 __( "Enter role or capability value", "redirection" ), // client/component/redirect-edit/match/role.js:19
 __( "Server", "redirection" ), // client/component/redirect-edit/match/server.js:18
 __( "Enter server URL to match against", "redirection" ), // client/component/redirect-edit/match/server.js:19
+__( "Select All", "redirection" ), // client/component/table/header/check-column.js:23
 _n( "%s item", "%s items", 1, "redirection" ), // client/component/table/navigation/navigation-pages.js:33
 __( "%1d of %1d selected. {{all}}Select All.{{/all}}", "redirection" ), // client/component/table/navigation/navigation-pages.js:36
 __( "%1d of %1d selected. {{all}}Clear All.{{/all}}", "redirection" ), // client/component/table/navigation/navigation-pages.js:43

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-12-01 05:23:43+0000\n"
+"PO-Revision-Date: 2022-01-15 11:46:49+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -205,7 +205,7 @@ msgstr "Algo que no es Redirection está redirigiendo esta URL."
 
 #: redirection-strings.php:712
 msgid "Relocate to domain"
-msgstr "Reubicar a dominio"
+msgstr "Trasladar al dominio"
 
 #: redirection-strings.php:711
 msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
@@ -213,7 +213,7 @@ msgstr "¿Quieres redirigir todo el sitio? Introduce un dominio para redirigir t
 
 #: redirection-strings.php:710
 msgid "Relocate Site"
-msgstr "Reubicar el sitio"
+msgstr "Trasladar el sitio"
 
 #: redirection-strings.php:703
 msgid "Add CORS Presets"
