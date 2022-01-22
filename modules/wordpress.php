@@ -204,11 +204,7 @@ class WordPress_Module extends Red_Module {
 			return;
 		}
 
-		// We are on a 404. Check if we have a 'URL and page type' match in any of the matched redirects.
-		if ( $this->is_url_and_page_type() ) {
-			// Don't log an intentionally redirected 404 as part of the 'url and page type'
-			return;
-		}
+		$this->is_url_and_page_type();
 
 		$options = red_get_options();
 
