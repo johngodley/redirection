@@ -31,7 +31,6 @@ class Red_Csv_File extends Red_FileIO {
 			$item->get_url(),
 			$data,
 			$item->is_regex() ? 1 : 0,
-			$item->get_action_type(),
 			$item->get_action_code(),
 			$item->get_action_type(),
 			$item->get_hits(),
@@ -53,7 +52,6 @@ class Red_Csv_File extends Red_FileIO {
 
 		ini_set( 'auto_detect_line_endings', false );
 
-		$count = 0;
 		if ( $file ) {
 			$separators = [
 				',',
