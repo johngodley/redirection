@@ -73,6 +73,13 @@
 .redirection-httpstep {
 	display: flex;
 
+	.redirection-httpstep__match {
+		background-color: $green;
+		color: white;
+		padding: 3px 2px 3px 5px;
+		font-weight: bold;
+	}
+
 	.redirection-httpstep__status {
 		height: fit-content;
 		border-radius: 0.375rem;
@@ -101,6 +108,7 @@
 
 	.redirection-httpstep__500 {
 		background-color: $error;
+		color: white;
 	}
 
 	button {
