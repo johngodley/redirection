@@ -181,6 +181,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.2.2 =
+* Further improve URL checker response to clarify responsability
+* Fix WordPress and pagetype match preventing the logging of 404s
+* Fix title field being inactive
+* Fix CSV export having duplicate column
+
 = 5.2.1 - 16th January 2022 =
 * Include path with inline URL checker
 
