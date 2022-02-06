@@ -39,8 +39,7 @@ const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0
 
 export const getWarningFromState = ( item ) => {
 	const { url, flag_regex, action_data = {} } = item;
-
-	if ( action_data === null || ! url || ! item ) {
+	if ( action_data === null || ! url || ! item || typeof url !== 'string' ) {
 		return [];
 	}
 
@@ -149,6 +148,24 @@ export const getWarningFromState = ( item ) => {
 				},
 			} )
 		);
+	}
+
+	if ( flag_regex && url.match( /[a-zA-Z0-9\/]\?/ ) ) {
+		warnings.push(
+			__( 'To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}', {
+				components: {
+					code: <code />,
+				},
+			} )
+		);
+	}
+
+	if ( flag_regex && url.match( /[a-zA-Z0-9 ]\*/ ) ) {
+		warnings.push( __( 'Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}.', {
+			components: {
+				link: <ExternalLink url="https://redirection.me/support/redirect-regular-expressions/" />
+			}
+		} ) );
 	}
 
 	// Redirect everything

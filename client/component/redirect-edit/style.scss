@@ -70,6 +70,14 @@
 			color: #444;
 			margin: auto;
 			line-height: 2;
+			display: flex;
+			align-items: center;
+		}
+
+		code {
+			padding: 0px 4px;
+			margin-left: 4px;
+			margin-right: 4px;
 		}
 
 		a {
