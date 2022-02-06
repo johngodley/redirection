@@ -2,7 +2,6 @@
 
 .redirect-edit {
 	width: 100%;
-	padding-right: 15px;
 
 	p {
 		margin: 5px;
@@ -70,10 +69,19 @@
 		p {
 			color: #444;
 			margin: auto;
+			line-height: 2;
+			display: flex;
+			align-items: center;
+		}
+
+		code {
+			padding: 0px 4px;
+			margin-left: 4px;
+			margin-right: 4px;
 		}
 
 		a {
-			color: #444;
+			color: #2271b1;
 			text-decoration: none;
 		}
 

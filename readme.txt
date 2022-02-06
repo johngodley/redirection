@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 5.3
-Tested up to: 5.8.3
+Tested up to: 5.9
 Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv3
