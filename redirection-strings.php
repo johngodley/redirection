@@ -114,19 +114,21 @@ __( "URL options / Regex", "redirection" ), // client/component/redirect-edit/so
 __( "The target URL you want to redirect, or auto-complete on post name or permalink.", "redirection" ), // client/component/redirect-edit/target.js:24
 __( "Title", "redirection" ), // client/component/redirect-edit/title.js:23
 __( "Describe the purpose of this redirect (optional)", "redirection" ), // client/component/redirect-edit/title.js:29
-__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:58
-__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:67
-__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:88
-__( "Remember to enable the \"regex\" option if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:100
-__( "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section.", "redirection" ), // client/component/redirect-edit/warning.js:109
-__( "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:127
-__( "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:143
-__( "If you want to redirect everything please use a site relocation or alias from the Site page.", "redirection" ), // client/component/redirect-edit/warning.js:157
-__( "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.", "redirection" ), // client/component/redirect-edit/warning.js:167
-__( "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:188
-__( "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:208
-__( "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?", "redirection" ), // client/component/redirect-edit/warning.js:227
-__( "Some servers may be configured to serve file resources directly, preventing a redirect occurring.", "redirection" ), // client/component/redirect-edit/warning.js:247
+__( "Anchor values are not sent to the server and cannot be redirected.", "redirection" ), // client/component/redirect-edit/warning.js:57
+__( "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:66
+__( "The source URL should probably start with a {{code}}/{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:87
+__( "Remember to enable the \"regex\" option if this is a regular expression.", "redirection" ), // client/component/redirect-edit/warning.js:99
+__( "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section.", "redirection" ), // client/component/redirect-edit/warning.js:108
+__( "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:126
+__( "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:142
+__( "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:155
+__( "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}.", "redirection" ), // client/component/redirect-edit/warning.js:164
+__( "If you want to redirect everything please use a site relocation or alias from the Site page.", "redirection" ), // client/component/redirect-edit/warning.js:174
+__( "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.", "redirection" ), // client/component/redirect-edit/warning.js:184
+__( "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.", "redirection" ), // client/component/redirect-edit/warning.js:205
+__( "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}", "redirection" ), // client/component/redirect-edit/warning.js:225
+__( "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?", "redirection" ), // client/component/redirect-edit/warning.js:244
+__( "Some servers may be configured to serve file resources directly, preventing a redirect occurring.", "redirection" ), // client/component/redirect-edit/warning.js:264
 __( "Request Headers", "redirection" ), // client/component/request-data/index.js:21
 __( "Redirect Source", "redirection" ), // client/component/request-data/index.js:44
 __( "Working!", "redirection" ), // client/component/rest-api-status/api-result-pass.js:15

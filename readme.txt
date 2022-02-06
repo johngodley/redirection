@@ -181,6 +181,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.2.3 =
+* Fix error when grouping by URL, adding redirect, and then adding another redirect
+* Add a warning for unescaped ? regex
+
 = 5.2.2 =
 * Further improve URL checker response to clarify responsibility
 * Fix WordPress and pagetype match preventing the logging of 404s

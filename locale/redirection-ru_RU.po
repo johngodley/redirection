@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-09-28 16:26:26+0000\n"
+"PO-Revision-Date: 2022-01-26 13:31:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -783,7 +783,7 @@ msgstr "Прочтите это руководство по REST API для по
 
 #: redirection-strings.php:109
 msgid "URL options / Regex"
-msgstr "URL options / Regex"
+msgstr "Параметры URL / Регулярное выражение"
 
 #: redirection-strings.php:324
 msgid "Export 404"
@@ -2460,7 +2460,7 @@ msgstr "Код HTTP"
 #: redirection-strings.php:638 redirection-strings.php:646
 #: redirection-strings.php:657
 msgid "Regex"
-msgstr "Regex"
+msgstr "Регулярное выражение"
 
 #: redirection-strings.php:338 redirection-strings.php:358
 #: redirection-strings.php:390 redirection-strings.php:417
