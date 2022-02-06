@@ -93,7 +93,7 @@ function CreateRedirect( props ) {
 function mapDispatchToProps( dispatch ) {
 	return {
 		onDelete: ( urls ) => {
-			dispatch( performTableAction( 'delete', urls, { groupBy: 'url-exact', deleteConfirm: true } ) );
+			dispatch( performTableAction( 'delete', urls, { groupBy: 'url', deleteConfirm: true } ) );
 		},
 	};
 }
