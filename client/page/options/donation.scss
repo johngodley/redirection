@@ -3,13 +3,14 @@
  */
 .donation {
 	.donation-amount {
-		float: left;
+		display: flex;
+		align-items: center;
 		margin-top: 10px;
 
 		span {
 			font-size: 28px;
-			margin-top: 4px;
 			vertical-align: bottom;
+			margin-left: 4px;
 		}
 
 		img {
