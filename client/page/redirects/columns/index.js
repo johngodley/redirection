@@ -27,6 +27,10 @@ function getServer( item ) {
 	return document.location.origin;
 }
 
+function escapeUrl( url ) {
+	return encodeURIComponent( url ).replace( /%2F/gi, '/' );
+}
+
 export default function getColumns( row, rowParams, disabled, defaultFlags, group ) {
 	const { last_access, hits, position, match_type, action_type, action_code, action_data } = row;
 	const { rowMode, setRowMode } = rowParams;
@@ -52,7 +56,7 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 					/>
 					{ rowMode === 'check' && (
 						<Modal onClose={ () => setRowMode( null ) }>
-							<HttpCheck url={ getServerUrl( getServer( row ), row.url ) } desiredCode={ action_code } desiredTarget={ action_data } />
+							<HttpCheck url={ getServerUrl( getServer( row ), escapeUrl( row.url ) ) } desiredCode={ action_code } desiredTarget={ action_data } />
 						</Modal>
 					) }
 				</>
