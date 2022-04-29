@@ -281,9 +281,9 @@ class Red_Url_Query {
 				$add = false;
 
 				if ( is_array( $source_value ) && is_array( $target_value ) ) {
-					$add = $this->get_query_same( $source_query[ $key ], $target_value, $is_ignore_case, $depth + 1 );
+					$add = $this->get_query_same( $source_value, $target_value, $is_ignore_case, $depth + 1 );
 
-					if ( count( $add ) !== count( $source_query[ $key ] ) ) {
+					if ( count( $add ) !== count( $source_value ) ) {
 						$add = false;
 					}
 				} elseif ( is_string( $source_value ) && is_string( $target_value ) ) {
