@@ -311,13 +311,13 @@ function red_is_disabled() {
  * @return array
  */
 function red_get_options() {
-	$options = get_option( REDIRECTION_OPTION );
+	$options = (array) get_option( REDIRECTION_OPTION );
 
 	if ( is_array( $options ) && red_is_disabled() ) {
 		$options['https'] = false;
 	}
 
-	if ( $options === false ) {
+	if ( empty( $options ) ) {
 		// Default flags for new installs - ignore case and trailing slashes
 		$options = [
 			'flags_case' => true,
