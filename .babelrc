@@ -3,10 +3,16 @@
 		[
 			"@babel/preset-env",
 			{
-				"modules": "auto",
+				"modules": "auto"
 			}
 		],
-		"@babel/preset-react"
+		[
+			"@babel/preset-react",
+			{
+				"runtime": "automatic"
+			}
+		],
+		"@babel/preset-typescript"
 	],
 	"plugins": [
 		"@babel/plugin-proposal-object-rest-spread",
@@ -28,7 +34,7 @@
 	],
 	"env": {
 		"test": {
-			"presets": [ "@babel/preset-env" ]
+			"presets": ["@babel/preset-env"]
 		}
 	}
 }

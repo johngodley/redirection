@@ -7,6 +7,9 @@ module.exports = {
 		node: true,
 		jest: true
 	},
+	plugins: [
+		"@typescript-eslint"
+	],
 	globals: {
 		asyncRequire: true,
 		PROJECT_NAME: true

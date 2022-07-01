@@ -15,7 +15,7 @@ const getDevUrl = 'http://localhost:3312/';
 const pkg = require( './package.json' );
 
 const config = {
-	entry: [ path.join( __dirname, 'client', 'index.js' ) ],
+	entry: [ path.join( __dirname, 'client', 'index.tsx' ) ],
 	output: {
 		path: path.join( __dirname ),
 		filename: 'redirection.js',
@@ -24,7 +24,7 @@ const config = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(ts|js|tsx)$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
 			},
@@ -44,7 +44,7 @@ const config = {
 		],
 	},
 	resolve: {
-		extensions: [ '.js', '.jsx', '.json', '.scss', '.css' ],
+		extensions: [ '.js', '.ts', '.tsx', '.json', '.scss', '.css' ],
 		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
 	},
 	plugins: [

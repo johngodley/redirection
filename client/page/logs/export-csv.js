@@ -1,10 +1,3 @@
-/* global Redirectioni10n */
-/**
- * External dependencies
- */
-
-import React from 'react';
-
 import apiFetch from 'wp-plugin-lib/api-fetch';
 
 const ExportCSV = ( { logType, title } ) => {
