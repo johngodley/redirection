@@ -73,7 +73,7 @@ class Red_Database_Status {
 		}
 
 		// Also if we're still in the process of upgrading
-		if ( $this->get_current_stage() ) {
+		if ( $this->get_current_stage() && $this->status !== self::STATUS_NEED_INSTALL ) {
 			return true;
 		}
 

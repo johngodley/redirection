@@ -138,11 +138,10 @@ function Home( props ) {
 						onShowUpgrade={ onShowUpgrade }
 						showDatabase={ showDatabase }
 						result={ result }
-						name="2"
 					/>
 				) }
 
-				{ ! inProgress && databaseStatus !== 'finish-update' && (
+				{ ! inProgress && databaseStatus !== 'finish-update' && ! showDatabase && (
 					<PageRouter
 						page={ page }
 						setPage={ setPage }

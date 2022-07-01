@@ -1,9 +1,7 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
 
-import React from 'react';
 import { translate as __ } from 'i18n-calypso';
 
 /**
@@ -25,7 +23,7 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 		<div className="api-result-log">
 			<form
 				className="api-result-select"
-				action={ Redirectioni10n.pluginRoot + '&sub=support' }
+				action={ window.Redirectioni10n.pluginRoot + '&sub=support' }
 				method="POST"
 			>
 				{ allowChange && ! isCurrent && (
