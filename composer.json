@@ -1,9 +1,12 @@
 {
     "require-dev": {
         "vimeo/psalm": "^3.14.2",
-        "yoast/phpunit-polyfills": "^1.0"
-    },
-    "require": {
+        "yoast/phpunit-polyfills": "^1.0",
+        "wp-cli/wp-cli-bundle": "*",
         "humanmade/psalm-plugin-wordpress": "^1.0"
+    },
+    "scripts": {
+        "pot": "wp i18n make-pot . locale/redirection.pot",
+        "json": "wp i18n make-json locale locale/json"
     }
 }
