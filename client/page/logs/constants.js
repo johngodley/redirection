@@ -81,6 +81,7 @@ export const getHeaders = ( groupBy ) => {
 		{
 			name: 'code',
 			title: __( 'HTTP code' ),
+			sortable: false,
 		},
 		{
 			name: 'referrer',
