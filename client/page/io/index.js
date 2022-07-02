@@ -40,6 +40,10 @@ class ImportExport extends React.Component {
 		this.props.onLoadImport();
 	}
 
+	componentWillUnmount() {
+		this.props.onClearFile();
+	}
+
 	onView = () => {
 		this.props.onExport( this.state.module, this.state.format );
 	}
