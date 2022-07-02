@@ -42,7 +42,8 @@ class Red_Regex {
 	 * @return string Replaced text
 	 */
 	public function replace( $replace_pattern, $target ) {
-		$result = @preg_replace( $this->get_regex(), $replace_pattern, $target );
+		$regex = $this->get_regex();
+		$result = @preg_replace( $regex, $replace_pattern, $target );
 
 		if ( is_null( $result ) ) {
 			return $target;

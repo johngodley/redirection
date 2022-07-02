@@ -561,12 +561,17 @@ class Redirection_Admin {
 			}
 
 			resetAll();
-			document.querySelector( '.react-loading' ).style.display = 'none';
-			document.querySelector( '.react-error' ).style.display = 'block';
 
-			if ( typeof Redirectioni10n !== 'undefined' && Redirectioni10n ) {
-				document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
-				document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( errorText ) + encodeURIComponent( Redirectioni10n.versions );
+			if ( document.querySelector( '.react-loading' ) ) {
+				document.querySelector( '.react-loading' ).style.display = 'none';
+				document.querySelector( '.react-error' ).style.display = 'block';
+
+				if ( typeof Redirectioni10n !== 'undefined' && Redirectioni10n ) {
+					document.querySelector( '.versions' ).innerHTML = Redirectioni10n.versions.replace( /\n/g, '<br />' );
+					document.querySelector( '.react-error .button-primary' ).href += '&body=' + encodeURIComponent( errorText ) + encodeURIComponent( Redirectioni10n.versions );
+				}
+			} else {
+				document.querySelector( '#react-ui' ).innerHTML = '<p>Sorry something went very wrong.</p>';
 			}
 		}
 

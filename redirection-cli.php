@@ -69,7 +69,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * : The setting name to get or set
 	 *
 	 * [--set=<value>]
-	 * : The value to set
+	 * : The value to set (JSON)
 	 *
 	 * ## EXAMPLES
 	 *
