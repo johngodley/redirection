@@ -59,7 +59,7 @@ function red_get_default_options() {
 		'modules'             => [],
 		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour
-		'ip_logging'          => 1,   // Full IP logging
+		'ip_logging'          => 0,   // No IP logging
 		'last_group_id'       => 0,
 		'rest_api'            => REDIRECTION_API_JSON,
 		'https'               => false,
