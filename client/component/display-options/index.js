@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -27,7 +27,7 @@ import { MultiOptionDropdown } from 'wp-plugin-components';
  */
 function getPlaceholder( currentDisplayType, groups ) {
 	if ( currentDisplayType === 'custom' ) {
-		return __( 'Custom Display' );
+		return __( 'Custom Display', 'redirection' );
 	}
 
 	for ( let index = 0; index < groups.length; index++ ) {
@@ -61,12 +61,12 @@ function DisplayOptions( props ) {
 	const { displayType, displaySelected } = table;
 	const groupedOptions = [
 		{
-			label: __( 'Pre-defined' ),
+			label: __( 'Pre-defined', 'redirection' ),
 			value: 'pre',
 			options: predefinedGroups,
 		},
 		{
-			label: __( 'Custom' ),
+			label: __( 'Custom', 'redirection' ),
 			value: 'custom',
 			multiple: true,
 			options: customOptions,

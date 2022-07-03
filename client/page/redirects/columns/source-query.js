@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -18,12 +18,12 @@ function SourceQuery( props ) {
 	} = row;
 
 	if ( defaultFlags.flag_query !== source.flag_query ) {
-		let name = __( 'Exact Query' );
+		let name = __( 'Exact Query', 'redirection' );
 
 		if ( source.flag_query === 'ignore' ) {
-			name = __( 'Ignore Query' );
+			name = __( 'Ignore Query', 'redirection' );
 		} else if ( source.flag_query === 'pass' ) {
-			name = __( 'Ignore & Pass Query' );
+			name = __( 'Ignore & Pass Query', 'redirection' );
 		}
 
 		return <RedirectFlag name={ name } />;

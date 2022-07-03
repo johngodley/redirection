@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -15,8 +15,8 @@ const MatchRole = ( { data, onChange } ) => {
 	const { role } = data;
 
 	return (
-		<TableRow title={ __( 'Role' ) } className="redirect-edit__match">
-			<input type="text" className="regular-text" value={ role } name="role" placeholder={ __( 'Enter role or capability value' ) } onChange={ onChange } />
+		<TableRow title={ __( 'Role', 'redirection' ) } className="redirect-edit__match">
+			<input type="text" className="regular-text" value={ role } name="role" placeholder={ __( 'Enter role or capability value', 'redirection' ) } onChange={ onChange } />
 		</TableRow>
 	);
 };

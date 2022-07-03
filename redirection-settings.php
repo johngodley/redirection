@@ -7,6 +7,7 @@ define( 'REDIRECTION_API_JSON_RELATIVE', 3 );
 
 function red_get_plugin_data( $plugin ) {
 	if ( ! function_exists( 'get_plugin_data' ) ) {
+		/** @psalm-suppress MissingFile */
 		include_once ABSPATH . '/wp-admin/includes/plugin.php';
 	}
 
@@ -58,7 +59,7 @@ function red_get_default_options() {
 		'modules'             => [],
 		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour
-		'ip_logging'          => 1,   // Full IP logging
+		'ip_logging'          => 0,   // No IP logging
 		'last_group_id'       => 0,
 		'rest_api'            => REDIRECTION_API_JSON,
 		'https'               => false,
@@ -189,7 +190,9 @@ function red_set_options( array $settings = array() ) {
 
 	if ( isset( $settings['location'] ) && ( ! isset( $options['location'] ) || $options['location'] !== $settings['location'] ) ) {
 		$module = Red_Module::get( 2 );
-		$options['modules'][2] = $module->update( $settings );
+		if ( $module ) {
+			$options['modules'][2] = $module->update( $settings );
+		}
 	}
 
 	if ( ! empty( $options['monitor_post'] ) && count( $options['monitor_types'] ) === 0 ) {
@@ -339,7 +342,7 @@ function red_get_options() {
 	}
 
 	// Remove old options not in red_get_default_options()
-	foreach ( $options as $key => $value ) {
+	foreach ( array_keys( $options ) as $key ) {
 		if ( ! isset( $defaults[ $key ] ) && $key !== 'database_stage' ) {
 			unset( $options[ $key ] );
 		}
@@ -374,7 +377,8 @@ function red_get_rest_api( $type = false ) {
 	if ( $type === REDIRECTION_API_JSON_INDEX ) {
 		$url = home_url( '/?rest_route=/' );
 	} elseif ( $type === REDIRECTION_API_JSON_RELATIVE ) {
-		$relative = wp_parse_url( $url, PHP_URL_PATH );
+		/** @psalm-suppress TooManyArguments, InvalidCast */
+		$relative = (string) wp_parse_url( $url, PHP_URL_PATH );
 
 		if ( $relative ) {
 			$url = $relative;

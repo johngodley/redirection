@@ -73,7 +73,7 @@ class Red_Database_Status {
 		}
 
 		// Also if we're still in the process of upgrading
-		if ( $this->get_current_stage() ) {
+		if ( $this->get_current_stage() && $this->status !== self::STATUS_NEED_INSTALL ) {
 			return true;
 		}
 
@@ -88,16 +88,20 @@ class Red_Database_Status {
 	public function get_current_version() {
 		$settings = red_get_options();
 
-		if ( $settings['database'] !== '' ) {
+		if ( $settings['database'] !== '' && is_string( $settings['database'] ) ) {
 			return $settings['database'];
-		} elseif ( $this->get_old_version() !== false ) {
+		}
+
+		if ( $this->get_old_version() !== false ) {
 			$version = $this->get_old_version();
 
 			// Upgrade the old value
-			red_set_options( array( 'database' => $version ) );
-			delete_option( self::OLD_DB_VERSION );
-			$this->clear_cache();
-			return $version;
+			if ( $version ) {
+				red_set_options( array( 'database' => $version ) );
+				delete_option( self::OLD_DB_VERSION );
+				$this->clear_cache();
+				return $version;
+			}
 		}
 
 		return '';

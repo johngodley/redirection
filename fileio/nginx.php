@@ -41,7 +41,7 @@ class Red_Nginx_File extends Red_FileIO {
 		return 'redirect';
 	}
 
-	function load( $group, $data, $filename = '' ) {
+	public function load( $group, $data, $filename = '' ) {
 		return 0;
 	}
 
@@ -92,21 +92,20 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function get_redirect( $line, $target, $code, $source ) {
+		$source_url = new Red_Url_Encode( $line );
+		$target_url = new Red_Url_Encode( $target );
+
 		// Remove any existing start/end from a regex
-		$line = ltrim( $line, '^' );
-		$line = rtrim( $line, '$' );
+		$from = $source_url->get_as_source();
+		$from = ltrim( $from, '^' );
+		$from = rtrim( $from, '$' );
 
 		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
-			$line = '(?i)^' . $line;
+			$from = '(?i)^' . $from;
 		} else {
-			$line = '^' . $line;
+			$from = '^' . $from;
 		}
 
-		$line = preg_replace( "/[\r\n\t].*?$/s", '', $line );
-		$line = preg_replace( '/[^\PC\s]/u', '', $line );
-		$target = preg_replace( "/[\r\n\t].*?$/s", '', $target );
-		$target = preg_replace( '/[^\PC\s]/u', '', $target );
-
-		return 'rewrite ' . $line . '$ ' . $target . ' ' . $code . ';';
+		return 'rewrite ' . $from . '$ ' . $target_url->get_as_target() . ' ' . $code . ';';
 	}
 }

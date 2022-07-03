@@ -3,7 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -28,10 +28,10 @@ const RelocateSite = ( { relocate, siteDomain, onChange } ) => {
 
 	return (
 		<Fragment>
-			<h3>{ __( 'Relocate Site' ) }</h3>
-			<p>{ __( 'Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.' ) }</p>
+			<h3>{ __( 'Relocate Site', 'redirection' ) }</h3>
+			<p>{ __( 'Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings.', 'redirection' ) }</p>
 
-			<p><strong>{ __( 'Relocate to domain' ) }:</strong> <input type="text" className="regular-text" name="relocate" value={ relocate ? relocate : '' } onChange={ ev => onChange( { relocate: ev.target.value } ) } /></p>
+			<p><strong>{ __( 'Relocate to domain', 'redirection' ) }:</strong> <input type="text" className="regular-text" name="relocate" value={ relocate ? relocate : '' } onChange={ ev => onChange( { relocate: ev.target.value } ) } /></p>
 
 			{ relocateExample }
 		</Fragment>

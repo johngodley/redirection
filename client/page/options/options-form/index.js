@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -54,7 +54,7 @@ function OptionsForm( props ) {
 					<label>
 						<input type="checkbox" checked={ support } name="support" onChange={ onChange } />
 						<span className="sub">
-							{ __( "I'm a nice person and I have helped support the author of this plugin" ) }
+							{ __( "I'm a nice person and I have helped support the author of this plugin", 'redirection' ) }
 						</span>
 					</label>
 				</TableRow>
@@ -72,7 +72,7 @@ function OptionsForm( props ) {
 			</FormTable>
 
 			<Button isPrimary isSubmit disabled={ saveStatus === STATUS_IN_PROGRESS }>
-				{ __( 'Update' ) }
+				{ __( 'Update', 'redirection' ) }
 			</Button>
 		</form>
 	);

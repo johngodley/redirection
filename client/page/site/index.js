@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -12,7 +12,7 @@ import { translate as __ } from 'i18n-calypso';
 import { loadSettings, saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
 import Placeholder from 'wp-plugin-components/placeholder';
-import { ExternalLink } from 'wp-plugin-components';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 import SiteAliases from './aliases';
 import RelocateSite from './relocate';
 import CanonicalSettings from './canonical';
@@ -22,7 +22,7 @@ import './style.scss';
 import PermalinkSettings from './permalink';
 
 class Site extends React.Component {
-	constructor( props ) {
+	constructor ( props ) {
 		super( props );
 
 		props.onLoadSettings();
@@ -61,7 +61,7 @@ class Site extends React.Component {
 		const { loadStatus, values, saveStatus, siteDomain } = this.props;
 		const { headers, relocate, aliases, https, preferred_domain, permalinks } = this.state;
 
-		if ( loadStatus === STATUS_IN_PROGRESS || ! values ) {
+		if ( loadStatus === STATUS_IN_PROGRESS || !values ) {
 			return <Placeholder />;
 		}
 
@@ -69,14 +69,10 @@ class Site extends React.Component {
 			<form onSubmit={ this.onSubmit }>
 				<div className="inline-notice inline-warning">
 					<p>
-						{ __(
-							'Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes.',
+						{ createInterpolateElement(
+							__( 'Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes.', 'redirection' ),
 							{
-								components: {
-									link: (
-										<ExternalLink url="https://redirection.me/support/disable-redirection/" />
-									),
-								},
+								link: <ExternalLink url="https://redirection.me/support/disable-redirection/" />,
 							}
 						) }
 					</p>
@@ -104,7 +100,7 @@ class Site extends React.Component {
 					className="button-primary"
 					type="submit"
 					name="update"
-					value={ __( 'Update' ) }
+					value={ __( 'Update', 'redirection' ) }
 					disabled={ saveStatus === STATUS_IN_PROGRESS }
 				/>
 			</form>

@@ -3,14 +3,19 @@
 		[
 			"@babel/preset-env",
 			{
-				"modules": "auto",
+				"modules": "auto"
 			}
 		],
-		"@babel/preset-react"
+		[
+			"@babel/preset-react",
+			{
+				"runtime": "automatic"
+			}
+		],
+		"@babel/preset-typescript"
 	],
 	"plugins": [
 		"@babel/plugin-proposal-object-rest-spread",
-		"react-hot-loader/babel",
 		"@babel/plugin-syntax-dynamic-import",
 		"@babel/plugin-syntax-import-meta",
 		"@babel/plugin-proposal-class-properties",
@@ -28,7 +33,7 @@
 	],
 	"env": {
 		"test": {
-			"presets": [ "@babel/preset-env" ]
+			"presets": ["@babel/preset-env"]
 		}
 	}
 }

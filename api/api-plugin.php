@@ -40,6 +40,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 					'enum' => array(
 						'stop',
 						'skip',
+						'retry',
 					),
 				],
 			],

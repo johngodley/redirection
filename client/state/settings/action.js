@@ -77,8 +77,12 @@ export const loadStatus = () => dispatch => {
 export const fixStatus = ( name, value ) => dispatch => {
 	apiFetch( RedirectionApi.plugin.fix( name, value ) )
 		.then( json => {
-			dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
-			document.location.reload();
+			if ( json.status.filter( item => item.status === 'error' ).length > 0 ) {
+				dispatch( { type: SETTING_LOAD_FAILED, error: 'failed' } );
+			} else {
+				dispatch( { type: SETTING_LOAD_STATUS, pluginStatus: json } );
+				document.location.reload();
+			}
 		} )
 		.catch( error => {
 			dispatch( { type: SETTING_LOAD_FAILED, error } );

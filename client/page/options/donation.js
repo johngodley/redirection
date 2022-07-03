@@ -3,13 +3,14 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
  */
 import { FormTable, TableRow } from 'component/form-table';
+import { createInterpolateElement } from 'wp-plugin-components';
 import './donation.scss';
 
 const MIN = 16;
@@ -79,8 +80,8 @@ class Donation extends React.Component {
 	renderSupported() {
 		return (
 			<div>
-				{ __( "You've supported this plugin - thank you!" ) } &nbsp;
-				<a href="#" onClick={ this.onDonate }>{ __( "I'd like to support some more." ) }</a>
+				{ __( "You've supported this plugin - thank you!", 'redirection' ) } &nbsp;
+				<a href="#" onClick={ this.onDonate }>{ __( "I'd like to support some more.", 'redirection' ) }</a>
 			</div>
 		);
 	}
@@ -96,12 +97,13 @@ class Donation extends React.Component {
 			<div>
 				<label>
 					<p>
-						{ __( 'Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.', {
-							components: {
+						{ createInterpolateElement(
+							__( 'Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}.', 'redirection' ),
+							{
 								strong: <strong />,
 							},
-						} ) }
-						&nbsp;{ __( 'You get useful software and I get to carry on making it better.' ) }
+						) }
+						&nbsp;{ __( 'You get useful software and I get to carry on making it better.', 'redirection' ) }
 					</p>
 				</label>
 
@@ -124,7 +126,7 @@ class Donation extends React.Component {
 					$<input type="number" name="amount" min={ MIN } value={ this.state.amount } onChange={ this.onInput } onBlur={ this.onBlur } />
 
 					<span>{ this.getAmountoji( this.state.amount ) }</span>
-					<input type="submit" className="button-primary" value={ __( 'Support 💰' ) } />
+					<input type="submit" className="button-primary" value={ __( 'Support 💰', 'redirection' ) } />
 				</div>
 			</div>
 		);
@@ -136,7 +138,7 @@ class Donation extends React.Component {
 		return (
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" className="donation">
 				<FormTable>
-					<TableRow title={ __( 'Plugin Support' ) + ':' }>
+					<TableRow title={ __( 'Plugin Support', 'redirection' ) + ':' }>
 						{ support ? this.renderSupported() : this.renderUnsupported() }
 					</TableRow>
 				</FormTable>

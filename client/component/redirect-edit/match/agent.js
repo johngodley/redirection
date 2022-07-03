@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -48,18 +48,18 @@ class MatchAgent extends React.Component {
 		const { agent, regex } = data;
 
 		return (
-			<TableRow title={ __( 'User Agent' ) } className="redirect-edit__match">
-				<input type="text" name="agent" value={ agent } onChange={ onChange } className="regular-text" placeholder={ __( 'Match against this browser user agent' ) } />
+			<TableRow title={ __( 'User Agent', 'redirection' ) } className="redirect-edit__match">
+				<input type="text" name="agent" value={ agent } onChange={ onChange } className="regular-text" placeholder={ __( 'Match against this browser user agent', 'redirection' ) } />
 
 				<select name="agent_dropdown" onChange={ this.onDropdown } value={ this.state.dropdown } className="medium">
-					<option value="">{ __( 'Custom' ) }</option>
-					<option value="mobile">{ __( 'Mobile' ) }</option>
-					<option value="feed">{ __( 'Feed Readers' ) } </option>
-					<option value="lib">{ __( 'Libraries' ) }</option>
+					<option value="">{ __( 'Custom', 'redirection' ) }</option>
+					<option value="mobile">{ __( 'Mobile', 'redirection' ) }</option>
+					<option value="feed">{ __( 'Feed Readers', 'redirection' ) } </option>
+					<option value="lib">{ __( 'Libraries', 'redirection' ) }</option>
 				</select>
 
 				<label className="redirect-edit-regex">
-					{ __( 'Regex' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
+					{ __( 'Regex', 'redirection' ) } <sup><ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">?</ExternalLink></sup>
 					&nbsp;
 					<input type="checkbox" name="regex" checked={ regex } onChange={ onChange } />
 				</label>

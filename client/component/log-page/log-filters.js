@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -84,7 +84,7 @@ function LogFilters( props ) {
 						options={ filterOptions }
 						selected={ getSelectedFilters( table.filterBy, filterOptions ) }
 						onApply={ onChange }
-						title={ __( 'Filters' ) }
+						title={ __( 'Filters', 'redirection' ) }
 						isEnabled={ ! disabled }
 						multiple
 						badges

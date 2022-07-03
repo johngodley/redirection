@@ -1,11 +1,4 @@
 /**
- * External dependencies
- */
-
-import React from 'react';
-import { numberFormat } from 'i18n-calypso';
-
-/**
  * Internal dependencies
  */
 import StatusColumn from './status';
@@ -25,6 +18,10 @@ function getServer( item ) {
 	}
 
 	return document.location.origin;
+}
+
+function escapeUrl( url ) {
+	return encodeURIComponent( url ).replace( /%2F/gi, '/' );
 }
 
 export default function getColumns( row, rowParams, disabled, defaultFlags, group ) {
@@ -52,7 +49,7 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 					/>
 					{ rowMode === 'check' && (
 						<Modal onClose={ () => setRowMode( null ) }>
-							<HttpCheck url={ getServerUrl( getServer( row ), row.url ) } desiredCode={ action_code } desiredTarget={ action_data } />
+							<HttpCheck url={ getServerUrl( getServer( row ), escapeUrl( row.url ) ) } desiredCode={ action_code } desiredTarget={ action_data } />
 						</Modal>
 					) }
 				</>
@@ -77,11 +74,11 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 		},
 		{
 			name: 'position',
-			content: numberFormat( position, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( position ),
 		},
 		{
 			name: 'last_count',
-			content: numberFormat( hits, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( hits ),
 		},
 		{
 			name: 'last_access',

@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const RAW_HIDE_LENGTH = 500;
 
@@ -38,8 +38,8 @@ class ApiResultRaw extends React.Component {
 		if ( request && request.raw ) {
 			return (
 				<>
-					{ needToHide && hide && <a className="api-result-hide" onClick={ this.onShow } href="#">{ __( 'Show Full' ) }</a> }
-					{ needToHide && ! hide && <a className="api-result-hide" onClick={ this.onHide } href="#">{ __( 'Hide' ) }</a> }
+					{ needToHide && hide && <a className="api-result-hide" onClick={ this.onShow } href="#">{ __( 'Show Full', 'redirection' ) }</a> }
+					{ needToHide && ! hide && <a className="api-result-hide" onClick={ this.onHide } href="#">{ __( 'Hide', 'redirection' ) }</a> }
 					<pre>{ hide ? request.raw.substr( 0, RAW_HIDE_LENGTH ) + ' ...' : request.raw }</pre>
 				</>
 			);

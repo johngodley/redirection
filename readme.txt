@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 5.3
+Requires at least: 5.4
 Tested up to: 5.9
 Stable tag: trunk
 Requires PHP: 5.6
@@ -181,11 +181,18 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.2.3 =
+= 5.3 - Unreleased =
+* Improve installation process
+* Improve permalink migration so it works with more permalinks
+* Prevent ordering columns by HTTP code
+* Better encode URLs in Nginx export
+* Allow escaped characters to work in the redirect checker
+
+= 5.2.3 - 6th February 2022 =
 * Fix error when grouping by URL, adding redirect, and then adding another redirect
 * Add a warning for unescaped ? regex
 
-= 5.2.2 =
+= 5.2.2 - 22nd January 2022 =
 * Further improve URL checker response to clarify responsibility
 * Fix WordPress and pagetype match preventing the logging of 404s
 * Fix title field being inactive
@@ -777,34 +784,14 @@ A x.1 version increase introduces new or updated features and can be considered 
 * WP 3.5 compatibility
 * Fix export
 
-= 2.3.0 =
+= 2.3.0 and earlier =
 * Remove 404 module and move 404 logs into a separate option
-* Add Danish translation, thanks to Rasmus Himmelstrup
-
-= 2.2.14 =
 * Clean up log code, using WP_List_Table to power it
-* Update Hungarian translation
-
-= 2.2.13 =
 * Fix some broken links in admin pages
-
-= 2.2.12 =
-* Cleanup some XSS issues
-
-= 2.2.11 =
-* Add Lithuanian
-* Add Belarusian
-* Add Czech
 * Fix order of redirects, thanks to Nicolas Hatier
-
-= 2.2.10 =
 * Fix XSS in admin menu & referrers log
-* Update Russian translation, thanks to Alexey Pazdnikov
-* Add Romanian translation, thanks to Alina
-* Add Greek, thanks to Stefanos Kofopoulos
 * Better database compatibility
 * Remove warning from VaultPress
-* Add Turkish translation, thanks to Fatih Cevik
 * Remove debug from htaccess module
 * Fix encoding of JS strings
 * Use fgetcsv for CSV importer - better handling

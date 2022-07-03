@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-05-21 07:37:09+0000\n"
+"PO-Revision-Date: 2022-02-11 06:29:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: fa\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -121,7 +121,7 @@ msgstr "مشاهده تغییر مسیرها"
 
 #: redirection-strings.php:376
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: redirection-strings.php:370 redirection-strings.php:400
 msgid "Group by user agent"
@@ -129,7 +129,7 @@ msgstr ""
 
 #: redirection-strings.php:367 redirection-strings.php:426
 msgid "Search domain"
-msgstr ""
+msgstr "جستجوی دامنه‌"
 
 #: redirection-strings.php:336 redirection-strings.php:356
 #: redirection-strings.php:373
@@ -139,7 +139,7 @@ msgstr ""
 #: redirection-strings.php:333 redirection-strings.php:354
 #: redirection-strings.php:387 redirection-strings.php:414
 msgid "Domain"
-msgstr ""
+msgstr "دامنه"
 
 #: redirection-strings.php:332 redirection-strings.php:353
 #: redirection-strings.php:372 redirection-strings.php:386

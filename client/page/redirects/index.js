@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -59,7 +59,7 @@ function getGroups( groups ) {
 	return [
 		{
 			value: 0,
-			label: __( 'All groups' ),
+			label: __( 'All groups', 'redirection' ),
 		},
 	].concat( nestedGroups( groups ) );
 }

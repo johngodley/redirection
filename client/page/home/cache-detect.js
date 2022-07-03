@@ -2,8 +2,7 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -17,14 +16,15 @@ function CacheDetect() {
 			errors={ '' }
 			details={ getErrorDetails().concat( [ getCacheBuster() ] ) }
 			type="fixed"
-			title={ __( 'Cached Redirection detected' ) }
+			title={ __( 'Cached Redirection detected', 'redirection' ) }
 			links={ getErrorLinks() }
+			locale="redirection"
 		>
-			<p>{ __( 'Please clear your browser cache and reload this page.' ) }</p>
+			<p>{ __( 'Please clear your browser cache and reload this page.', 'redirection' ) }</p>
 			<p>
-				{ __( 'If you are using a caching system such as Cloudflare then please read this: ' ) }
+				{ __( 'If you are using a caching system such as Cloudflare then please read this: ', 'redirection' ) }
 				<ExternalLink url="https://redirection.me/support/problems/cloudflare/">
-					{ __( 'clearing your cache.' ) }
+					{ __( 'clearing your cache.', 'redirection' ) }
 				</ExternalLink>
 			</p>
 		</Error>

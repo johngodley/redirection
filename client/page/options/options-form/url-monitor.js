@@ -2,8 +2,7 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -25,7 +24,7 @@ function getPostTypes( postTypes, monitor_types, onChangeMonitor ) {
 		const existing = monitor_types.find( ( item ) => item === key );
 		const value = existing ? true : false;
 
-		if ( ! label ) {
+		if ( !label ) {
 			continue;
 		}
 
@@ -39,11 +38,7 @@ function getPostTypes( postTypes, monitor_types, onChangeMonitor ) {
 						checked={ value }
 					/>
 
-					{ __( 'Monitor changes to %(type)s', {
-						args: {
-							type: label.toLowerCase(),
-						},
-					} ) }
+					{ sprintf( __( 'Monitor changes to %(type)s', 'redirection' ), { type: label.toLowerCase() } ) }
 				</label>
 			</p>
 		);
@@ -95,25 +90,25 @@ function UrlMonitoring( props ) {
 
 	return (
 		<>
-			<TableRow title={ __( 'URL Monitor' ) + ':' } url={ getLink( 'options', 'monitor' ) }>
+			<TableRow title={ __( 'URL Monitor', 'redirection' ) + ':' } url={ getLink( 'options', 'monitor' ) }>
 				{ getPostTypes( postTypes, monitor_types, onChangeMonitor ) }
 			</TableRow>
 
 			{ canMonitor && (
-				<TableRow title={ __( 'URL Monitor Changes' ) + ':' } url={ getLink( 'options', 'monitor' ) }>
+				<TableRow title={ __( 'URL Monitor Changes', 'redirection' ) + ':' } url={ getLink( 'options', 'monitor' ) }>
 					<Select items={ groups } name="monitor_post" value={ monitor_post } onChange={ onChange } />
 					&nbsp;
-					{ __( 'Save changes to this group' ) }
+					{ __( 'Save changes to this group', 'redirection' ) }
 					<p>
 						<input
 							type="text"
 							className="regular-text"
 							name="associated_redirect"
 							onChange={ onChange }
-							placeholder={ __( 'For example "/amp"' ) }
+							placeholder={ __( 'For example "/amp"', 'redirection' ) }
 							value={ associated_redirect }
 						/>&nbsp;
-						{ __( 'Create associated redirect (added to end of URL)' ) }
+						{ __( 'Create associated redirect (added to end of URL)', 'redirection' ) }
 					</p>
 				</TableRow>
 			) }

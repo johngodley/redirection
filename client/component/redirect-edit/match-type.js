@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -16,7 +16,7 @@ import { getMatches } from './constants';
 
 const MatchType = ( { matchType, onChange } ) => {
 	return (
-		<TableRow title={ __( 'Match' ) }>
+		<TableRow title={ __( 'Match', 'redirection' ) }>
 			<Select name="match_type" value={ matchType } items={ getMatches() } onChange={ onChange } />
 		</TableRow>
 	);

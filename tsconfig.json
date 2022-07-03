@@ -3,13 +3,10 @@
 		"allowJs": true,
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
-		"jsx": "preserve",
+		"jsx": "react-jsx",
 		"target": "esnext",
 		"module": "esnext",
-		"lib": [
-			"dom",
-			"esnext"
-		],
+		"lib": ["dom", "esnext"],
 		"declaration": true,
 		"declarationMap": true,
 		"composite": true,
@@ -29,24 +26,12 @@
 		/* This needs to be false so our types are possible to consume without setting this */
 		"esModuleInterop": false,
 		"resolveJsonModule": true,
-		"typeRoots": [
-			"./node_modules/@types"
-		],
 		"baseUrl": "./client",
 		"paths": {
-			"wp-plugin-library": [
-				"wp-plugin-library"
-			],
+			"wp-plugin-library": ["wp-plugin-library"]
 		},
-		"rootDirs": [
-			"client",
-		]
+		"rootDirs": ["client"]
 	},
-	"include": [
-		"client/**/*"
-	],
-	"exclude": [
-		"node_modules",
-		"**/*.spec.ts"
-	]
+	"include": ["client/**/*"],
+	"exclude": ["node_modules", "**/*.spec.ts"]
 }

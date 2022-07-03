@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-08-07 11:47:25+0000\n"
+"PO-Revision-Date: 2022-06-02 13:18:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -2366,7 +2366,7 @@ msgstr "Module"
 #: redirection-strings.php:217 redirection-strings.php:227
 #: redirection-strings.php:280
 msgid "Redirects"
-msgstr "Umleitungen"
+msgstr "Weiterleitungen"
 
 #: redirection-strings.php:214 redirection-strings.php:226
 #: redirection-strings.php:235 redirection-strings.php:672

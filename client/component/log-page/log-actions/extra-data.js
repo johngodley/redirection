@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -25,7 +25,7 @@ function ExtraDataAction( props ) {
 
 	return (
 		<>
-			<RowAction onClick={ () => setShowModal( true ) }>{ __( 'View Data' ) }</RowAction>
+			<RowAction onClick={ () => setShowModal( true ) }>{ __( 'View Data', 'redirection' ) }</RowAction>
 
 			{ showModal && (
 				<Modal onClose={ () => setShowModal( false ) }>

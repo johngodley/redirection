@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -38,7 +38,7 @@ function EditColumn( props ) {
 			<table className="edit-groups">
 				<tbody>
 					<tr>
-						<th>{ __( 'Name' ) }</th>
+						<th>{ __( 'Name', 'redirection' ) }</th>
 						<td>
 							<input
 								type="text"
@@ -50,7 +50,7 @@ function EditColumn( props ) {
 						</td>
 					</tr>
 					<tr>
-						<th>{ __( 'Module' ) }</th>
+						<th>{ __( 'Module', 'redirection' ) }</th>
 						<td>
 							<Select
 								name="module_id"
@@ -68,14 +68,14 @@ function EditColumn( props ) {
 									className="button-primary"
 									type="submit"
 									name="save"
-									value={ __( 'Save' ) }
+									value={ __( 'Save', 'redirection' ) }
 								/>
 								&nbsp;
 								<input
 									className="button-secondary"
 									type="button"
 									name="cancel"
-									value={ __( 'Cancel' ) }
+									value={ __( 'Cancel', 'redirection' ) }
 									onClick={ onCancel }
 								/>
 							</div>
@@ -84,7 +84,7 @@ function EditColumn( props ) {
 								<p>
 									<br />
 									{ __(
-										'Note that you will need to set the Apache module path in your Redirection options.'
+										'Note that you will need to set the Apache module path in your Redirection options.', 'redirection'
 									) }
 								</p>
 							) }

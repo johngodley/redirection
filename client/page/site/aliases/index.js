@@ -3,7 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -36,16 +36,16 @@ const updateAlias = ( pos, aliases, onChange, ev ) => {
 const SiteAliases = ( { aliases, siteDomain, onChange } ) => {
 	return (
 		<Fragment>
-			<h3>{ __( 'Site Aliases' ) }</h3>
+			<h3>{ __( 'Site Aliases', 'redirection' ) }</h3>
 
-			<p>{ __( 'A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin.' ) }</p>
-			<p>{ __( 'You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install.' ) }</p>
+			<p>{ __( 'A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin.', 'redirection' ) }</p>
+			<p>{ __( 'You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install.', 'redirection' ) }</p>
 
 			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto">
 				<thead>
 					<tr>
-						<th>{ __( 'Aliased Domain' ) }</th>
-						<th className="redirect-alias__item__asdomain">{ __( 'Alias' ) }</th>
+						<th>{ __( 'Aliased Domain', 'redirection' ) }</th>
+						<th className="redirect-alias__item__asdomain">{ __( 'Alias', 'redirection' ) }</th>
 						<th className="redirect-alias__delete"></th>
 					</tr>
 				</thead>
@@ -61,11 +61,11 @@ const SiteAliases = ( { aliases, siteDomain, onChange } ) => {
 							site={ siteDomain }
 						/>
 					) ) }
-					{ aliases.length === 0 && <tr><td colSpan="3">{ __( 'No aliases' ) }</td></tr> }
+					{ aliases.length === 0 && <tr><td colSpan="3">{ __( 'No aliases', 'redirection' ) }</td></tr> }
 				</tbody>
 			</table>
 
-			<p><button className="button-secondary" onClick={ ( ev ) => addAlias( aliases, onChange, ev ) }>{ __( 'Add Alias' ) }</button></p>
+			<p><button className="button-secondary" onClick={ ( ev ) => addAlias( aliases, onChange, ev ) }>{ __( 'Add Alias', 'redirection' ) }</button></p>
 		</Fragment>
 	)
 };

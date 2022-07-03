@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { hot } from 'react-hot-loader/root';
 
 /**
  * Internal dependencies
@@ -17,8 +16,8 @@ import apiFetch from 'wp-plugin-lib/api-fetch';
 
 // Set API nonce and root URL
 apiFetch.resetMiddlewares();
-apiFetch.use( apiFetch.createRootURLMiddleware( Redirectioni10n?.api?.WP_API_root ?? '/wp-json/' ) );
-apiFetch.use( apiFetch.createNonceMiddleware( Redirectioni10n?.api?.WP_API_nonce ?? '' ) );
+apiFetch.use( apiFetch.createRootURLMiddleware( window.Redirectioni10n?.api?.WP_API_root ?? '/wp-json/' ) );
+apiFetch.use( apiFetch.createNonceMiddleware( window.Redirectioni10n?.api?.WP_API_nonce ?? '' ) );
 
 const App = () => (
 	<Provider store={ createReduxStore( getInitialState() ) }>
@@ -28,4 +27,4 @@ const App = () => (
 	</Provider>
 );
 
-export default hot( App );
+export default App;

@@ -1,12 +1,8 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
-    errorLevel="3"
     phpVersion="5.6"
-    resolveFromConfigFile="true"
     findUnusedVariablesAndParams="true"
     strictBinaryOperands="true"
-    ensureArrayStringOffsetsExist="false"
     runTaintAnalysis="true"
     findUnusedCode="true"
     findUnusedPsalmSuppress="true"
@@ -18,13 +14,18 @@
     <projectFiles>
         <directory name="."/>
         <directory name="api"/>
+        <directory name="actions"/>
         <directory name="models"/>
         <directory name="modules"/>
         <directory name="matches"/>
         <directory name="fileio"/>
 		<directory name="database"/>
+        <file name="redirection.php" />
         <file name="redirection-settings.php" />
+        <file name="redirection-capabilities.php" />
+        <file name="redirection-front.php" />
         <file name="redirection-admin.php" />
+        <file name="redirection-version.php" />
 
         <ignoreFiles>
             <directory name="vendor"/>
@@ -33,9 +34,38 @@
     <globals>
         <var name="wpdb" type="object"/>
         <var name="RED_MAX_PER_PAGE" type="integer" />
+        <var name="REDIRECTION_VERSION" type="string" />
     </globals>
     <issueHandlers>
-        <MissingClosureReturnType errorLevel="suppress"/>
-        <MissingClosureParamType errorLevel="suppress"/>
+		<LessSpecificReturnType errorLevel="info"/>
+		<DeprecatedMethod errorLevel="info"/>
+		<DeprecatedProperty errorLevel="info"/>
+		<DeprecatedClass errorLevel="info"/>
+		<DeprecatedConstant errorLevel="info"/>
+		<DeprecatedFunction errorLevel="info"/>
+		<DeprecatedInterface errorLevel="info"/>
+		<DeprecatedTrait errorLevel="info"/>
+		<InternalMethod errorLevel="info"/>
+		<InternalProperty errorLevel="info"/>
+		<InternalClass errorLevel="info"/>
+		<MissingClosureReturnType errorLevel="info"/>
+		<MissingReturnType errorLevel="info"/>
+		<MissingPropertyType errorLevel="info"/>
+		<InvalidDocblock errorLevel="info"/>
+		<PropertyNotSetInConstructor errorLevel="info"/>
+		<MissingConstructor errorLevel="info"/>
+		<MissingClosureParamType errorLevel="info"/>
+		<RedundantCondition errorLevel="info"/>
+		<DocblockTypeContradiction errorLevel="info"/>
+		<RedundantConditionGivenDocblockType errorLevel="info"/>
+		<UnresolvableInclude errorLevel="info"/>
+		<RawObjectIteration errorLevel="info"/>
+		<InvalidStringClass errorLevel="info"/>
+
+		<TooManyArguments>
+			<errorLevel type="suppress">
+				<referencedFunction name="apply_filters" />
+			</errorLevel>
+		</TooManyArguments>
     </issueHandlers>
 <plugins><pluginClass class="PsalmWordPress\Plugin"/></plugins></psalm>

@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -22,7 +22,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 
 	if ( Array.isArray( url ) ) {
 		return (
-			<TableRow title={ __( 'Source URL' ) } className="top">
+			<TableRow title={ __( 'Source URL', 'redirection' ) } className="top">
 				<textarea value={ url.join( '\n' ) } readOnly />
 			</TableRow>
 		);
@@ -37,7 +37,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 	}
 
 	return (
-		<TableRow title={ __( 'Source URL' ) } className="redirect-edit__source">
+		<TableRow title={ __( 'Source URL', 'redirection' ) } className="redirect-edit__source">
 			<input
 				type="text"
 				name="url"
@@ -45,14 +45,14 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 				onChange={ onChange }
 				autoFocus={ autoFocus }
 				className="regular-text"
-				placeholder={ __( 'The relative URL you want to redirect from' ) }
+				placeholder={ __( 'The relative URL you want to redirect from', 'redirection' ) }
 			/>
 
 			<MultiOptionDropdown
 				options={ flagOptions }
 				selected={ getUrlFlags( flags ) }
 				onApply={ changeFlag }
-				title={ __( 'URL options / Regex' ) }
+				title={ __( 'URL options / Regex', 'redirection' ) }
 				badges
 				multiple
 				hideTitle

@@ -3,10 +3,10 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
-import { Select } from 'wp-plugin-components';
+import { Select, createInterpolateElement } from 'wp-plugin-components';
 import classnames from 'classnames';
 
 /**
@@ -24,7 +24,7 @@ import { LOGS_TYPE_404, LOGS_TYPE_REDIRECT } from 'state/error/type';
 import './style.scss';
 
 class ImportExport extends React.Component {
-	constructor( props ) {
+	constructor ( props ) {
 		super( props );
 
 		this.state = {
@@ -38,6 +38,10 @@ class ImportExport extends React.Component {
 	componentDidMount() {
 		this.props.onLoadGroups();
 		this.props.onLoadImport();
+	}
+
+	componentWillUnmount() {
+		this.props.onClearFile();
 	}
 
 	onView = () => {
@@ -94,7 +98,7 @@ class ImportExport extends React.Component {
 
 		return (
 			<div className="groups">
-				{ __( 'Import to group' ) }	<Select items={ nestedGroups( rows ) } name="group" value={ this.state.group } onChange={ this.onInput } />
+				{ __( 'Import to group', 'redirection' ) }	<Select items={ nestedGroups( rows ) } name="group" value={ this.state.group } onChange={ this.onInput } />
 			</div>
 		);
 	}
@@ -102,10 +106,10 @@ class ImportExport extends React.Component {
 	renderInitialDrop( open ) {
 		return (
 			<>
-				<h3>{ __( 'Import a CSV, .htaccess, or JSON file.' ) }</h3>
-				<p>{ __( "Click 'Add File' or drag and drop here." ) }</p>
+				<h3>{ __( 'Import a CSV, .htaccess, or JSON file.', 'redirection' ) }</h3>
+				<p>{ __( "Click 'Add File' or drag and drop here.", 'redirection' ) }</p>
 
-				<button type="button" className="button-secondary" onClick={ open }>{ __( 'Add File' ) }</button>
+				<button type="button" className="button-secondary" onClick={ open }>{ __( 'Add File', 'redirection' ) }</button>
 			</>
 		);
 	}
@@ -116,14 +120,14 @@ class ImportExport extends React.Component {
 
 		return (
 			<>
-				<h3>{ __( 'File selected' ) }</h3>
+				<h3>{ __( 'File selected', 'redirection' ) }</h3>
 
 				<p><code>{ file.name }</code></p>
 
-				{ ! isJson && this.renderGroupSelect() }
+				{ !isJson && this.renderGroupSelect() }
 
-				<button className="button-primary" onClick={ this.onImport }>{ __( 'Upload' ) }</button> &nbsp;
-				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'Cancel' ) }</button>
+				<button className="button-primary" onClick={ this.onImport }>{ __( 'Upload', 'redirection' ) }</button> &nbsp;
+				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'Cancel', 'redirection' ) }</button>
 			</>
 		);
 	}
@@ -133,7 +137,7 @@ class ImportExport extends React.Component {
 
 		return (
 			<>
-				<h3>{ __( 'Importing' ) }</h3>
+				<h3>{ __( 'Importing', 'redirection' ) }</h3>
 
 				<p><code>{ file.name }</code></p>
 
@@ -149,12 +153,12 @@ class ImportExport extends React.Component {
 
 		return (
 			<>
-				<h3>{ __( 'Finished importing' ) }</h3>
+				<h3>{ __( 'Finished importing', 'redirection' ) }</h3>
 
-				<p>{ __( 'Total redirects imported:' ) } { lastImport }</p>
-				{ lastImport === 0 && <p>{ __( 'Double-check the file is the correct format!' ) }</p> }
+				<p>{ __( 'Total redirects imported:', 'redirection' ) } { lastImport }</p>
+				{ lastImport === 0 && <p>{ __( 'Double-check the file is the correct format!', 'redirection' ) }</p> }
 
-				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'OK' ) }</button>
+				<button className="button-secondary" onClick={ this.onCancel }>{ __( 'OK', 'redirection' ) }</button>
 			</>
 		);
 	}
@@ -192,8 +196,8 @@ class ImportExport extends React.Component {
 		}
 
 		return (
-			<div className={ classes } { ... rootProps }>
-				<input { ... getInputProps() } />
+			<div className={ classes } { ...rootProps }>
+				<input { ...getInputProps() } />
 				{ content }
 			</div>
 		);
@@ -202,8 +206,8 @@ class ImportExport extends React.Component {
 	renderExport( data ) {
 		return (
 			<div>
-				<textarea className="module-export" rows="14" readOnly={ true } value={ data } />
-				<input className="button-secondary" type="submit" value={ __( 'Close' ) } onClick={ this.onCancel } />
+				<textarea className="module-export" rows={ 14 } readOnly={ true } value={ data } />
+				<input className="button-secondary" type="submit" value={ __( 'Close', 'redirection' ) } onClick={ this.onCancel } />
 			</div>
 		);
 	}
@@ -217,7 +221,7 @@ class ImportExport extends React.Component {
 	}
 
 	doImport = plugin => {
-		if ( confirm( __( 'Are you sure you want to import from %s?', { args: plugin.name } ) ) ) {
+		if ( confirm( sprintf( __( 'Are you sure you want to import from %s?', 'redirection' ), plugin.name ) ) ) {
 			this.props.pluginImport( plugin.id );
 		}
 	}
@@ -225,9 +229,9 @@ class ImportExport extends React.Component {
 	renderImporters( importers ) {
 		return (
 			<div>
-				<h3>{ __( 'Plugin Importers' ) }</h3>
+				<h3>{ __( 'Plugin Importers', 'redirection' ) }</h3>
 
-				<p>{ __( 'The following redirect plugins were detected on your site and can be imported from.' ) }</p>
+				<p>{ __( 'The following redirect plugins were detected on your site and can be imported from.', 'redirection' ) }</p>
 
 				{ importers.map( ( item, pos ) => <Importer plugin={ item } key={ pos } doImport={ this.doImport } /> ) }
 			</div>
@@ -239,7 +243,7 @@ class ImportExport extends React.Component {
 
 		return (
 			<div className="import">
-				<h2>{ __( 'Import' ) }</h2>
+				<h2>{ __( 'Import', 'redirection' ) }</h2>
 
 				<Dropzone
 					multiple={ false }
@@ -250,47 +254,48 @@ class ImportExport extends React.Component {
 					{ props => this.renderDropzoneContent( props ) }
 				</Dropzone>
 
-				<p>{ __( 'All imports will be appended to the current database - nothing is merged.' ) }</p>
+				<p>{ __( 'All imports will be appended to the current database - nothing is merged.', 'redirection' ) }</p>
 				<div className="inline-notice notice-warning">
 					<p>
-						{ __( '{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).', {
-							components: {
+						{ createInterpolateElement(
+							__( '{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes).', 'redirection' ),
+							{
 								code: <code />,
 								strong: <strong />,
 							},
-						} ) }
+						) }
 					</p>
-					<p>{ __( 'CSV does not include all information, and everything is imported/exported as "URL only" matches. Use the JSON format for a full set of data.' ) }</p>
+					<p>{ __( 'CSV does not include all information, and everything is imported/exported as "URL only" matches. Use the JSON format for a full set of data.', 'redirection' ) }</p>
 				</div>
 
-				<h2>{ __( 'Export' ) }</h2>
-				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format.' ) }</p>
+				<h2>{ __( 'Export', 'redirection' ) }</h2>
+				<p>{ __( 'Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format.', 'redirection' ) }</p>
 
 				<p className="redirect-export_buttons">
 					<select name="module" onChange={ this.onInput } value={ this.state.module }>
-						<option value="0">{ __( 'Everything' ) }</option>
-						<option value="1">{ __( 'WordPress redirects' ) }</option>
-						<option value="2">{ __( 'Apache redirects' ) }</option>
-						<option value="3">{ __( 'Nginx redirects' ) }</option>
+						<option value="0">{ __( 'Everything', 'redirection' ) }</option>
+						<option value="1">{ __( 'WordPress redirects', 'redirection' ) }</option>
+						<option value="2">{ __( 'Apache redirects', 'redirection' ) }</option>
+						<option value="3">{ __( 'Nginx redirects', 'redirection' ) }</option>
 					</select>
 
 					<select name="format" onChange={ this.onInput } value={ this.state.format }>
-						<option value="json">{ __( 'Complete data (JSON)' ) }</option>
-						<option value="csv">{ __( 'CSV' ) }</option>
-						<option value="apache">{ __( 'Apache .htaccess' ) }</option>
-						<option value="nginx">{ __( 'Nginx rewrite rules' ) }</option>
+						<option value="json">{ __( 'Complete data (JSON)', 'redirection' ) }</option>
+						<option value="csv">{ __( 'CSV', 'redirection' ) }</option>
+						<option value="apache">{ __( 'Apache .htaccess', 'redirection' ) }</option>
+						<option value="nginx">{ __( 'Nginx rewrite rules', 'redirection' ) }</option>
 					</select>
 
-					<button className="button-primary" onClick={ this.onView }>{ __( 'View' ) }</button>
-					<button className="button-secondary" onClick={ this.onDownload }>{ __( 'Download' ) }</button>
+					<button className="button-primary" onClick={ this.onView }>{ __( 'View', 'redirection' ) }</button>
+					<button className="button-secondary" onClick={ this.onDownload }>{ __( 'Download', 'redirection' ) }</button>
 				</p>
 
 				{ exportStatus === STATUS_IN_PROGRESS && this.renderExporting() }
 				{ exportData && exportStatus !== STATUS_IN_PROGRESS && this.renderExport( exportData ) }
 
-				<h2>Export Logs</h2>
-				<ExportCSV logType={ LOGS_TYPE_REDIRECT } title={ __( 'Export redirect' ) } /><br />
-				<ExportCSV logType={ LOGS_TYPE_404 } title={ __( 'Export 404' ) } />
+				<h2>{ __( 'Export Logs', 'redirection' ) }</h2>
+				<ExportCSV logType={ LOGS_TYPE_REDIRECT } title={ __( 'Export redirect', 'redirection' ) } /><br />
+				<ExportCSV logType={ LOGS_TYPE_404 } title={ __( 'Export 404', 'redirection' ) } />
 
 				{ importers.length > 0 && this.renderImporters( importers ) }
 			</div>

@@ -4,8 +4,8 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { useEffect, useState } from 'react';
+import { __ } from '@wordpress/i18n';
 import { useSelector, useDispatch } from 'react-redux';
 
 /**
@@ -16,7 +16,7 @@ import { clearHttp, getHttp } from 'state/info/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import HttpCheck from 'component/http-check/response';
 import './style.scss';
-import { ExternalLink } from 'wp-plugin-components';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 
 function HttpTester( props ) {
 	const dispatch = useDispatch();
@@ -38,16 +38,19 @@ function HttpTester( props ) {
 
 	return (
 		<form className="http-tester" onSubmit={ submit }>
-			<h3>{ __( 'Redirect Tester' ) }</h3>
+			<h3>{ __( 'Redirect Tester', 'redirection' ) }</h3>
 
 			<p>
-				{ __(
-					"Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results.",
-					{ components: { link: <ExternalLink url="https://redirect.li" /> } }
+				{ createInterpolateElement(
+					__(
+						"Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results.",
+						'redirection'
+					),
+					{ link: <ExternalLink url="https://redirect.li" /> }
 				) }
 			</p>
 			<div className="redirection-httptest__input">
-				<span>{ __( 'URL' ) }:</span>
+				<span>{ __( 'URL', 'redirection' ) }:</span>
 
 				<input
 					className="regular-text"
@@ -55,13 +58,13 @@ function HttpTester( props ) {
 					value={ url }
 					onChange={ ( ev ) => setUrl( ev.target.value ) }
 					disabled={ status === STATUS_IN_PROGRESS }
-					placeholder={ __( 'Enter full URL, including http:// or https://' ) }
+					placeholder={ __( 'Enter full URL, including http:// or https://', 'redirection' ) }
 				/>
 				<input
 					type="submit"
 					className="button-secondary"
 					disabled={ status === STATUS_IN_PROGRESS || url.length === 0 }
-					value={ __( 'Check' ) }
+					value={ __( 'Check', 'redirection' ) }
 				/>
 			</div>
 

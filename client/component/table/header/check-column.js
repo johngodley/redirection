@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /** @typedef {import('../index.js').SetAllSelected} SetAllSelected */
 
@@ -20,7 +20,7 @@ const CheckColumn = ( props ) => {
 
 	return (
 		<td className="manage-column column-cb check-column-red">
-			<label className="screen-reader-text">{ __( 'Select All' ) }</label>
+			<label className="screen-reader-text">{ __( 'Select All', 'redirection' ) }</label>
 			<input
 				type="checkbox"
 				disabled={ disabled }

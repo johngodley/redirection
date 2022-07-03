@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -21,11 +21,11 @@ const arrayToSelect = array => array.map( header => ( { label: header, value: he
 
 const getLocations = () => [
 	{
-		label: __( 'Site' ),
+		label: __( 'Site', 'redirection' ),
 		value: 'site',
 	},
 	{
-		label: __( 'Redirect' ),
+		label: __( 'Redirect', 'redirection' ),
 		value: 'redirect',
 	},
 ];
@@ -222,7 +222,7 @@ const getHeaderComponent = ( type, headerName, headerValue, headerSettings, onCh
 const getHeaders = () => {
 	return [
 		{
-			label: __( 'General' ),
+			label: __( 'General', 'redirection' ),
 			value: arrayToSelect( [
 				'X-UA-Compatible',
 				'X-Robots-Tag',
@@ -255,7 +255,7 @@ const getHeaders = () => {
 			] ),
 		},
 		{
-			label: __( 'Custom Header' ),
+			label: __( 'Custom Header', 'redirection' ),
 			value: 'Custom',
 		},
 	];

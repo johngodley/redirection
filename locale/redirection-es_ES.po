@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-01-15 11:46:49+0000\n"
+"PO-Revision-Date: 2022-02-08 19:57:59+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: es\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -2379,7 +2379,7 @@ msgstr "Filtros"
 
 #: redirection-strings.php:532
 msgid "Reset hits"
-msgstr "Restablecer aciertos"
+msgstr "Restablecer visitas"
 
 #: redirection-strings.php:230 redirection-strings.php:241
 #: redirection-strings.php:530 redirection-strings.php:571
@@ -2409,7 +2409,7 @@ msgstr "Último acceso"
 
 #: redirection-strings.php:527 redirection-strings.php:541
 msgid "Hits"
-msgstr "Hits"
+msgstr "Visitas"
 
 #: redirection-strings.php:346 redirection-strings.php:355
 #: redirection-strings.php:406 redirection-strings.php:415
