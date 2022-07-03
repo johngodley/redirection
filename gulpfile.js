@@ -61,7 +61,7 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 
 function downloadLocale( locale, wpName, type ) {
 	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
-console.log( url );
+
 	download( url, 'locale', {
 		filename: 'redirection-' + wpName + '.' + type,
 	} )
@@ -156,7 +156,7 @@ function potJson( done ) {
 				"domain": "redirection",
 				"generator": "Redirection",
 			};
-			file.contents = new Buffer( he.decode( JSON.stringify( translation, null, 5 ) ) );
+			file.contents = new Buffer( he.decode( JSON.stringify( translation ) ) );
 			cb( null, file );
 		} ) )
 		.pipe( dest( 'locale/json/' ) )

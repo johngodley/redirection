@@ -73,6 +73,7 @@ function Details( { status, headers, statusMessage, isFirst, isMatch } ) {
 			}
 
 			return createInterpolateElement(
+				/* translators: %1s: who performed the redirect */
 				sprintf( __( 'Redirected by %1s. {{support}}What does this mean?{{/support}}.', 'redirection' ), agent.value ),
 				{
 					support: (

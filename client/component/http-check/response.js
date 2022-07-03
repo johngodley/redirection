@@ -3,7 +3,7 @@
  */
 
 import { useSelector } from 'react-redux';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -47,7 +47,10 @@ export default function HttpCheckResponse( { url, desiredCode = 0, desiredTarget
 				<>
 					<h2>
 						{ createInterpolateElement(
-							sprintf( __( 'Check redirect for: {{code}}%s{{/code}}', 'redirection' ), url ),
+							sprintf(
+								/* translators: %s: URL being checked */
+								__( 'Check redirect for: {{code}}%s{{/code}}', 'redirection' ), url
+							),
 							{
 								code: <code />,
 							},

@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-05-17 07:11:00+0000\n"
+"PO-Revision-Date: 2022-06-17 12:07:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: el_GR\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -145,7 +145,7 @@ msgstr ""
 #: redirection-strings.php:372 redirection-strings.php:386
 #: redirection-strings.php:413 redirection-strings.php:420
 msgid "Method"
-msgstr ""
+msgstr "Μέθοδος"
 
 #: redirection-strings.php:263
 msgid "If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
@@ -225,7 +225,7 @@ msgstr ""
 
 #: redirection-strings.php:701
 msgid "Add Header"
-msgstr ""
+msgstr "Προσθήκη Κεφαλίδας"
 
 #: redirection-strings.php:696
 msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
@@ -261,7 +261,7 @@ msgstr ""
 
 #: redirection-strings.php:688
 msgid "Add Alias"
-msgstr ""
+msgstr "Προσθήκη Alias"
 
 #: redirection-strings.php:687
 msgid "No aliases"
@@ -1947,7 +1947,7 @@ msgstr "Αρχεία καταγραφής"
 
 #: redirection-strings.php:277
 msgid "404 errors"
-msgstr ""
+msgstr "Σφάλματα 404"
 
 #: redirection-strings.php:605
 msgid "Redirection saved"
@@ -2209,7 +2209,7 @@ msgstr "RSS Token"
 
 #: redirection-strings.php:487
 msgid "404 Logs"
-msgstr ""
+msgstr "Αρχεία καταγραφής σφαλμάτων 404"
 
 #: redirection-strings.php:486 redirection-strings.php:488
 msgid "(time to keep logs for)"
@@ -2288,7 +2288,7 @@ msgstr "Ταίριασμα"
 
 #: redirection-strings.php:565
 msgid "Add new redirection"
-msgstr ""
+msgstr "Προσθήκη νέας ανακατεύθυνσης "
 
 #: redirection-strings.php:100 redirection-strings.php:297
 #: redirection-strings.php:613 redirection-strings.php:675
@@ -2303,7 +2303,7 @@ msgstr "Λήψη"
 #: redirection-strings.php:209 redirection-strings.php:375
 #: redirection-strings.php:618
 msgid "Redirection"
-msgstr ""
+msgstr "Ανακατεύθυνση"
 
 #: redirection-admin.php:150
 msgid "Settings"
@@ -2315,7 +2315,7 @@ msgstr "WordPress"
 
 #: redirection-strings.php:70
 msgid "Error (404)"
-msgstr ""
+msgstr "Σφάλμα (404)"
 
 #: redirection-strings.php:69
 msgid "Pass-through"
@@ -2327,7 +2327,7 @@ msgstr ""
 
 #: redirection-strings.php:67
 msgid "Redirect to URL"
-msgstr "Ανακατεύθυνση σε URL"
+msgstr "Ανακατεύθυνση σε διεύθυνση URL "
 
 #: redirection-strings.php:327 redirection-strings.php:340
 #: redirection-strings.php:350 redirection-strings.php:361
@@ -2342,7 +2342,7 @@ msgstr "IP"
 #: redirection-strings.php:334 redirection-strings.php:379
 #: redirection-strings.php:388
 msgid "Source URL"
-msgstr "URL προέλευσης"
+msgstr "Διεύθυνση URL προέλευσης"
 
 #: redirection-strings.php:331 redirection-strings.php:352
 #: redirection-strings.php:385 redirection-strings.php:412
@@ -2356,7 +2356,7 @@ msgstr "Προσθήκη ανακατεύθυνσης"
 
 #: redirection-strings.php:239
 msgid "View Redirects"
-msgstr ""
+msgstr "Προβολή Ανακατευθύνσεων"
 
 #: redirection-strings.php:215 redirection-strings.php:224
 #: redirection-strings.php:228 redirection-strings.php:673
@@ -2366,7 +2366,7 @@ msgstr "Άρθρωμα"
 #: redirection-strings.php:217 redirection-strings.php:227
 #: redirection-strings.php:280
 msgid "Redirects"
-msgstr "Redirects"
+msgstr "Ανακατευθύνσεις "
 
 #: redirection-strings.php:214 redirection-strings.php:226
 #: redirection-strings.php:235 redirection-strings.php:672
@@ -2420,7 +2420,7 @@ msgstr "Διεύθυνση URL"
 
 #: database/schema/latest.php:144
 msgid "Modified Posts"
-msgstr ""
+msgstr "Επεξεργασμένα άρθρα"
 
 #: models/group.php:227 redirection-strings.php:272
 #: database/schema/latest.php:139
@@ -2452,7 +2452,7 @@ msgstr "Μόνο URL"
 #: redirection-strings.php:389 redirection-strings.php:416
 #: redirection-strings.php:538
 msgid "HTTP code"
-msgstr ""
+msgstr "Κώδικας HTTP"
 
 #: redirection-strings.php:90 redirection-strings.php:634
 #: redirection-strings.php:638 redirection-strings.php:646
