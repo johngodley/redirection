@@ -1,16 +1,13 @@
 /* eslint-disable no-console */
-const { src, dest, series } = require( 'gulp' );
+const { src, dest } = require( 'gulp' );
 const fs = require( 'fs' );
 const crypto = require( 'crypto' );
 const globby = require( 'globby' );
 const path = require( 'path' );
 const zip = require( 'gulp-zip' );
-const sort = require( 'gulp-sort' );
-const wpPot = require( 'gulp-wp-pot' );
 const request = require( 'request' );
 const po2json = require( 'gulp-po2json' );
 const through = require( 'through2' );
-const i18n_calypso = require( 'i18n-calypso-cli' );
 const he = require( 'he' );
 const download = require( 'download' );
 const pkg = require( './package.json' );
@@ -18,7 +15,8 @@ const config = require( './.config.json' ); // Local config
 
 const LOCALE_PERCENT_COMPLETE = 40;
 const AVAILABLE_LANGUAGES_URL = 'https://translate.wordpress.org/api/projects/wp-plugins/redirection/stable';
-const LOCALE_URL = 'https://translate.wordpress.org/projects/wp-plugins/redirection/stable/$LOCALE/default/export-translations?format=';
+const LOCALE_URL = 'https://translate.wordpress.org/projects/wp-plugins/redirection/stable/$LOCALE/default/export-translations/?format=';
+
 const SVN_SOURCE_FILES = [
 	'./**',
 	'!node_modules/**',
@@ -63,7 +61,7 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 
 function downloadLocale( locale, wpName, type ) {
 	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
-
+console.log( url );
 	download( url, 'locale', {
 		filename: 'redirection-' + wpName + '.' + type,
 	} )
@@ -77,7 +75,7 @@ const removeFromTarget = ( paths, rootPath ) => {
 		.map( item => {
 			const relative = path.resolve( '..', path.relative( path.join( rootPath, '..' ), item ) );
 
-			if ( ! fs.existsSync( relative ) ) {
+			if ( !fs.existsSync( relative ) ) {
 				return relative;
 			}
 
@@ -138,27 +136,31 @@ function potJson( done ) {
 		.pipe( po2json() )
 		.pipe( through.obj( ( file, enc, cb ) => {
 			const json = JSON.parse( String( file.contents ) );
-			const keys = Object.keys( json );
 
-			json[ 'plural-forms' ] = json[ '' ][ 'plural-forms' ];
+			json[ '' ] = {
+				'plural-forms': json[ '' ][ 'plural-forms' ]
+			};
 
-			for ( let x = 0; x < keys.length; x++ ) {
-				const key = keys[ x ];
-				const newObj = [];
-
-				for ( let z = 1; z < json[ key ].length; z++ ) {
-					newObj.push( json[ key ][ z ] );
+			Object.keys( json ).forEach( key => {
+				if ( Array.isArray( json[ key ] ) ) {
+					json[ key ] = json[ key ].filter( Boolean );
 				}
+			} );
 
-				json[ key ] = newObj;
-			}
-
-			delete json[''];
-			file.contents = new Buffer( he.decode( JSON.stringify( json ) ) );
+			const translation = {
+				"locale_data": {
+					"redirection": json,
+				},
+				"translation-revision-date": new Date().toISOString(),
+				"source": "redirection",
+				"domain": "redirection",
+				"generator": "Redirection",
+			};
+			file.contents = new Buffer( he.decode( JSON.stringify( translation, null, 5 ) ) );
 			cb( null, file );
 		} ) )
 		.pipe( dest( 'locale/json/' ) )
-		.on( 'end', function() {
+		.on( 'end', function () {
 			done();
 		} );
 }
@@ -176,7 +178,7 @@ function potDownload( cb ) {
 			const locale = json.translation_sets[ x ];
 
 			if ( parseInt( locale.percent_translated, 10 ) > LOCALE_PERCENT_COMPLETE ) {
-				console.log( 'Downloading ' + locale.locale );
+				console.log( 'Downloading ' + locale.locale + ' - ' + locale.percent_translated + '%' );
 
 				downloadLocale( locale.locale, locale.wp_locale, 'po' );
 				downloadLocale( locale.locale, locale.wp_locale, 'mo' );
@@ -187,43 +189,8 @@ function potDownload( cb ) {
 	} );
 }
 
-function potExtract( cb ) {
-	globby( [ 'client/**/*.js', '!client/wp-plugin-lib/polyfill/index.js' ] )
-		.then( files => {
-			let result = i18n_calypso( {
-				projectName: 'Redirection',
-				inputPaths: files,
-				phpArrayName: 'redirection_strings',
-				format: 'PHP',
-				textdomain: 'redirection',
-				keywords: [ 'translate', '__' ],
-			} );
-
-			// There's a bug where it doesnt escape $ correctly - do it here
-			result = result.replace( /\$(.*?)\$/g, '%%$1%%' );
-			result = result.replace( /%%/g, '\\$' );
-			result = result.replace( /\\\\/g, '\\' );
-
-			fs.writeFileSync( 'redirection-strings.php', result, 'utf8' );
-			cb();
-		} );
-}
-
-function potGenerate() {
-	const pot = {
-		domain: 'redirection',
-		destFile: 'redirection.pot',
-		package: 'Redirection',
-		bugReport: 'https://wordpress.org/plugins/redirection/',
-	};
-
-	return src( [ '**/*.php' ] )
-		.pipe( sort() )
-		.pipe( wpPot( pot ) )
-		.pipe( dest( 'locale/redirection.pot' ) );
-}
-
 exports.svn = svn;
 exports.version = version;
 exports.plugin = plugin;
-exports.pot = series( potDownload, potExtract, potGenerate, potJson );
+exports.potDownload = potDownload;
+exports.potJson = potJson;

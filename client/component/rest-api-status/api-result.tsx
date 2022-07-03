@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -27,9 +27,9 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 				method="POST"
 			>
 				{ allowChange && ! isCurrent && (
-					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API' ) } />
+					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API', 'redirection' ) } />
 				) }
-				{ allowChange && isCurrent && <span>{ __( 'Current API' ) }</span> }
+				{ allowChange && isCurrent && <span>{ __( 'Current API', 'redirection' ) }</span> }
 
 				<input type="hidden" name="rest_api" value={ item.value } />
 				<input type="hidden" name="_wpnonce" value={ apiFetch.nonceMiddleware.nonce } />

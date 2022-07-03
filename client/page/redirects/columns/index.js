@@ -1,11 +1,4 @@
 /**
- * External dependencies
- */
-
-import React from 'react';
-import { numberFormat } from 'i18n-calypso';
-
-/**
  * Internal dependencies
  */
 import StatusColumn from './status';
@@ -81,11 +74,11 @@ export default function getColumns( row, rowParams, disabled, defaultFlags, grou
 		},
 		{
 			name: 'position',
-			content: numberFormat( position, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( position ),
 		},
 		{
 			name: 'last_count',
-			content: numberFormat( hits, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( hits ),
 		},
 		{
 			name: 'last_access',

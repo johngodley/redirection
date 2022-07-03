@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -24,12 +24,12 @@ function CreateRedirect( props ) {
 
 	return (
 		<>
-			{ ! addTop && has_capability( CAP_REDIRECT_ADD ) && <h2>{ __( 'Add new redirection' ) }</h2> }
+			{ ! addTop && has_capability( CAP_REDIRECT_ADD ) && <h2>{ __( 'Add new redirection', 'redirection' ) }</h2> }
 
 			<div className={ classes }>
 				<EditRedirect
 					item={ getDefaultItem( '', 0, props.defaultFlags ) }
-					saveButton={ __( 'Add Redirect' ) }
+					saveButton={ __( 'Add Redirect', 'redirection' ) }
 					autoFocus={ addTop }
 				/>
 			</div>

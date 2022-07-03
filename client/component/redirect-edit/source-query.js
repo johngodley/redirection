@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -22,7 +22,7 @@ const RedirectSourceQuery = ( { query, regex, onChange, url } ) => {
 		url.indexOf( '?' ) === -1 ? getSourceQuery().filter( ( item ) => item.value !== 'exactorder' ) : getSourceQuery();
 
 	return (
-		<TableRow title={ __( 'Query Parameters' ) } className="redirect-edit__sourcequery">
+		<TableRow title={ __( 'Query Parameters', 'redirection' ) } className="redirect-edit__sourcequery">
 			<Select name="flag_query" items={ items } value={ query } onChange={ onChange } />
 		</TableRow>
 	);

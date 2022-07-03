@@ -3,16 +3,16 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 export default function DatabaseApiError( { onRetry } ) {
 	return (
 		<div className="redirection-database_error wpl-error">
-			<h3>{ __( 'Database problem' ) }</h3>
+			<h3>{ __( 'Database problem', 'redirection' ) }</h3>
 
 			<p>
 				<button className="button button-primary" onClick={ onRetry }>
-					{ __( 'Try again' ) }
+					{ __( 'Try again', 'redirection' ) }
 				</button>
 			</p>
 		</div>

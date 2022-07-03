@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -27,7 +27,7 @@ export default function StepDatabase( { step, setStep, options, setOptions } ) {
 		<Database>
 			<div className="wizard-buttons">
 				<button className="button-primary button" onClick={ () => setStep( step + 1 ) }>
-					{ __( 'Continue' ) }
+					{ __( 'Continue', 'redirection' ) }
 				</button>
 			</div>
 		</Database>

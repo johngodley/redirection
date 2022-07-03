@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { Select } from 'wp-plugin-components';
 
 class TableGroup extends React.Component {
@@ -28,7 +28,7 @@ class TableGroup extends React.Component {
 			<div className="alignleft actions">
 				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.onChange } isEnabled={ isEnabled } />
 
-				<button className="button" onClick={ this.onSubmit } disabled={ ! isEnabled }>{ __( 'Apply' ) }</button>
+				<button className="button" onClick={ this.onSubmit } disabled={ ! isEnabled }>{ __( 'Apply', 'redirection' ) }</button>
 			</div>
 		);
 	}

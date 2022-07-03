@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -315,7 +315,7 @@ class EditRedirect extends React.Component {
 					checked={ options.log_exclude || false }
 					onChange={ this.onChangeOption }
 				/>{' '}
-				{ __( 'Exclude from logs' ) }
+				{ __( 'Exclude from logs', 'redirection' ) }
 			</label>
 		);
 	}
@@ -357,7 +357,7 @@ class EditRedirect extends React.Component {
 							onChange={ this.onChangeActionData }
 						/>
 
-						<TableRow title={ __( 'When matched' ) } className="redirect-edit__action">
+						<TableRow title={ __( 'When matched', 'redirection' ) } className="redirect-edit__action">
 							<ActionType
 								actionType={ action_type }
 								matchType={ match_type }
@@ -381,7 +381,7 @@ class EditRedirect extends React.Component {
 					onChange={ this.onChangeActionData }
 				/>
 
-				<TableRow title={ __( 'Group' ) } className="redirect-edit__group">
+				<TableRow title={ __( 'Group', 'redirection' ) } className="redirect-edit__group">
 					<RedirectGroup groups={ group.rows } currentGroup={ group_id } onChange={ this.onSetGroup } />
 					{ advanced && <RedirectPosition position={ position } onChange={ this.onChange } /> }
 				</TableRow>
@@ -391,7 +391,7 @@ class EditRedirect extends React.Component {
 
 	render() {
 		const { warning } = this.state;
-		const { saveButton = __( 'Save' ), onCancel, addTop, onClose } = this.props;
+		const { saveButton = __( 'Save', 'redirection' ), onCancel, addTop, onClose } = this.props;
 
 		return (
 			<form onSubmit={ this.onSave } ref={ this.ref }>
@@ -412,12 +412,12 @@ class EditRedirect extends React.Component {
 								&nbsp;
 								{ onCancel && (
 									<button type="button" className="button-secondary" onClick={ onCancel }>
-										{ __( 'Cancel' ) }
+										{ __( 'Cancel', 'redirection' ) }
 									</button>
 								) }
 								{ addTop && ! onCancel && (
 									<button className="button-secondary" type="button" onClick={ onClose }>
-										{ __( 'Close' ) }
+										{ __( 'Close', 'redirection' ) }
 									</button>
 								) }
 								&nbsp;
@@ -426,7 +426,7 @@ class EditRedirect extends React.Component {
 										href="#"
 										onClick={ this.onToggleAdvanced }
 										className="redirection-edit_advanced"
-										title={ __( 'Show advanced options' ) }
+										title={ __( 'Show advanced options', 'redirection' ) }
 									>
 										<svg
 											aria-hidden="true"

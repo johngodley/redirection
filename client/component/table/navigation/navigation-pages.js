@@ -2,8 +2,7 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __, numberFormat } from 'i18n-calypso';
+import { sprintf, __, _n } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -11,6 +10,7 @@ import classnames from 'classnames';
  */
 
 import PaginationLinks from './pagination-links';
+import { createInterpolateElement } from 'wp-plugin-components';
 
 function NavigationPages( props ) {
 	const { total, perPage, page, onChangePage, disabled, selected, onSelectAll, isEverything } = props;
@@ -30,22 +30,22 @@ function NavigationPages( props ) {
 	return (
 		<div className={ classes }>
 			<span className={ classnames( 'displaying-num', isEverything ? 'displaying-num-all' : null ) }>
-				{ selected === 0 && __( '%s item', '%s items', { count: total, args: numberFormat( total, 0 ) } ) }
+				{ selected === 0 && sprintf( _n( '%s item', '%s items', total, 'redirection' ), new Intl.NumberFormat( window.Redirectioni10n.locale ).format( total ) ) }
 				{ selected > 0 &&
-					! isEverything &&
-					__( '%1d of %1d selected. {{all}}Select All.{{/all}}', {
-						args: [ selected, total ],
-						components: {
+					!isEverything &&
+					createInterpolateElement(
+						sprintf( __( '%1d of %1d selected. {{all}}Select All.{{/all}}' ), selected, total ),
+						{
 							all: <a href="#" onClick={ selectAll } />,
 						},
-					} ) }
+					) }
 				{ isEverything &&
-					__( '%1d of %1d selected. {{all}}Clear All.{{/all}}', {
-						args: [ selected, total ],
-						components: {
+					createInterpolateElement(
+						sprintf( __( '%1d of %1d selected. {{all}}Clear All.{{/all}}' ), selected, total ),
+						{
 							all: <a href="#" onClick={ clearAll } />,
 						},
-					} ) }
+					) }
 			</span>
 
 			<span className="pagination-links">

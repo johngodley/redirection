@@ -2,7 +2,6 @@
 
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin;
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 // PostCSS plugins
@@ -46,6 +45,9 @@ const config = {
 	resolve: {
 		extensions: [ '.js', '.ts', '.tsx', '.json', '.scss', '.css' ],
 		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
+	},
+	externals: {
+		'@wordpress/i18n': 'wp.i18n'
 	},
 	plugins: [
 		new webpack.BannerPlugin( 'Redirection v' + pkg.version ),

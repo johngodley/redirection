@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import { pluginImport } from 'state/io/action';
 import { STATUS_IN_PROGRESS, STATUS_COMPLETE, STATUS_FAILED } from 'state/settings/type';
@@ -29,11 +29,11 @@ export default function StepImporting( { step, setStep, options } ) {
 
 	return (
 		<div>
-			<h2>{ __( 'Import Existing Redirects' ) }</h2>
+			<h2>{ __( 'Import Existing Redirects', 'redirection' ) }</h2>
 
 			{ importingStatus === STATUS_IN_PROGRESS &&
 				<>
-					<p>{ __( 'Please wait, importing.' ) }</p>
+					<p>{ __( 'Please wait, importing.', 'redirection' ) }</p>
 
 					<div className="loader-wrapper loader-textarea">
 						<div className="wpl-placeholder__loading" />
@@ -43,17 +43,17 @@ export default function StepImporting( { step, setStep, options } ) {
 
 			{ ( importingStatus === STATUS_COMPLETE || importingStatus == STATUS_FAILED ) &&
 				<>
-					<p>{ importingStatus === STATUS_COMPLETE ? __( 'Import finished.' ) : __( 'Importing failed.' ) }</p>
+					<p>{ importingStatus === STATUS_COMPLETE ? __( 'Import finished.', 'redirection' ) : __( 'Importing failed.', 'redirection' ) }</p>
 
 					<div className="wizard-buttons">
 						{ importingStatus === STATUS_FAILED &&
 							<button className="button-secondary button" onClick={ doImport }>
-								{ __( 'Retry' ) }
+								{ __( 'Retry', 'redirection' ) }
 							</button>
 						}
 
 						<button className="button-primary button" onClick={ () => setStep( step + 1 ) }>
-							{ __( 'Continue' ) }
+							{ __( 'Continue', 'redirection' ) }
 						</button>
 					</div>
 				</>

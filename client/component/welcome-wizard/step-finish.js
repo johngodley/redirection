@@ -2,8 +2,7 @@
  * External dependencies
  */
 
-import React, { useEffect } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 
 /**
@@ -11,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
  */
 import getFirstApi from './first-api';
 import { saveSettings, finishUpgrade } from 'state/settings/action';
-import { ExternalLink } from 'wp-plugin-components';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 
 const WEEK = 7;
 const NEVER = -1;
@@ -39,18 +38,19 @@ export default function StepFinish( { step, setStep, options, setOptions } ) {
 
 	return (
 		<div>
-			<h2>{ __( 'Installation Complete' ) }</h2>
+			<h2>{ __( 'Installation Complete', 'redirection' ) }</h2>
 
-			<p>{ __( 'Redirection is now installed!' ) }</p>
+			<p>{ __( 'Redirection is now installed!', 'redirection' ) }</p>
 
-			<p>{ __( 'Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection.', {
-				components: {
+			<p>{ createInterpolateElement(
+				__( 'Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection.', 'redirection' ),
+				{
 					support: <ExternalLink url="https://redirection.me" />
 				}
-			} ) }</p>
+			) }</p>
 
 			<button className="button button-primary" onClick={ onFinish } type="button">
-				{ __( 'Ready to begin! 🎉' ) }
+				{ __( 'Ready to begin! 🎉', 'redirection' ) }
 			</button>
 		</div>
 	);

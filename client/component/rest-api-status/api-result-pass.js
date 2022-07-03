@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const ApiResultPass = ( methods ) => {
 	return (
@@ -12,7 +12,7 @@ const ApiResultPass = ( methods ) => {
 
 			{ methods.map( ( method, key ) => <span key={ key } className="api-result-method_pass">{ method }</span> ) }
 
-			{ __( 'Working!' ) }
+			{ __( 'Working!', 'redirection' ) }
 		</p>
 	);
 };

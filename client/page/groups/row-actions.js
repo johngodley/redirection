@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -27,7 +27,7 @@ function GroupRowActions( props ) {
 	if ( has_capability( CAP_GROUP_ADD ) ) {
 		menu.push(
 			<RowAction onClick={ () => setRowMode( rowMode === 'edit' ? false : 'edit' ) } key="0">
-				{ __( 'Edit' ) }
+				{ __( 'Edit', 'redirection' ) }
 			</RowAction>
 		);
 	}
@@ -35,7 +35,7 @@ function GroupRowActions( props ) {
 	if ( has_capability( CAP_GROUP_DELETE ) ) {
 		menu.push(
 			<RowAction onClick={ () => onDelete( id ) } key="1">
-				{ __( 'Delete' ) }
+				{ __( 'Delete', 'redirection' ) }
 			</RowAction>
 		);
 	}
@@ -46,7 +46,7 @@ function GroupRowActions( props ) {
 				key="2"
 				href={ Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[group]' ) + '=' + id }
 			>
-				{ __( 'View Redirects' ) }
+				{ __( 'View Redirects', 'redirection' ) }
 			</RowAction>
 		);
 	}
@@ -55,13 +55,13 @@ function GroupRowActions( props ) {
 		if ( enabled ) {
 			menu.push(
 				<RowAction key="3" onClick={ () => onDisable( id ) }>
-					{ __( 'Disable' ) }
+					{ __( 'Disable', 'redirection' ) }
 				</RowAction>
 			);
 		} else {
 			menu.push(
 				<RowAction key="3" onClick={ () => onEnable( id ) }>
-					{ __( 'Enable' ) }
+					{ __( 'Enable', 'redirection' ) }
 				</RowAction>
 			);
 		}

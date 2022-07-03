@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -37,48 +37,48 @@ import { has_capability, has_page_access, CAP_REDIRECT_ADD } from 'lib/capabilit
 import './style.scss';
 
 const getTitles = () => ( {
-	redirect: __( 'Redirections' ),
-	site: __( 'Site' ),
-	groups: __( 'Groups' ),
-	io: __( 'Import/Export' ),
-	log: __( 'Logs' ),
-	'404s': __( '404 errors' ),
-	options: __( 'Options' ),
-	support: __( 'Support' ),
+	redirect: __( 'Redirections', 'redirection' ),
+	site: __( 'Site', 'redirection' ),
+	groups: __( 'Groups', 'redirection' ),
+	io: __( 'Import/Export', 'redirection' ),
+	log: __( 'Logs', 'redirection' ),
+	'404s': __( '404 errors', 'redirection' ),
+	options: __( 'Options', 'redirection' ),
+	support: __( 'Support', 'redirection' ),
 } );
 
 const getMenu = () =>
 	[
 		{
-			name: __( 'Redirects' ),
+			name: __( 'Redirects', 'redirection' ),
 			value: '',
 		},
 		{
-			name: __( 'Groups' ),
+			name: __( 'Groups', 'redirection' ),
 			value: 'groups',
 		},
 		{
-			name: __( 'Site' ),
+			name: __( 'Site', 'redirection' ),
 			value: 'site',
 		},
 		{
-			name: __( 'Log' ),
+			name: __( 'Log', 'redirection' ),
 			value: 'log',
 		},
 		{
-			name: __( '404s' ),
+			name: __( '404s', 'redirection' ),
 			value: '404s',
 		},
 		{
-			name: __( 'Import/Export' ),
+			name: __( 'Import/Export', 'redirection' ),
 			value: 'io',
 		},
 		{
-			name: __( 'Options' ),
+			name: __( 'Options', 'redirection' ),
 			value: 'options',
 		},
 		{
-			name: __( 'Support' ),
+			name: __( 'Support', 'redirection' ),
 			value: 'support',
 		},
 	].filter(
@@ -154,7 +154,7 @@ function Home( props ) {
 
 						{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
 							<button type="button" onClick={ onAdd } className="page-title-action">
-								{ __( 'Add New' ) }
+								{ __( 'Add New', 'redirection' ) }
 							</button>
 						) }
 
@@ -174,13 +174,14 @@ function Home( props ) {
 							renderDebug={ DebugReport }
 							details={ getErrorDetails() }
 							links={ getErrorLinks() }
+							locale="redirection"
 						>
 							<ErrorDetails />
 						</Error>
 
 						<PageContent page={ page } />
 
-						<Snackbar notices={ notices } onClear={ onClearNotices } />
+						<Snackbar notices={ notices } onClear={ onClearNotices } snackBarViewText={ __( 'View notice', 'redirection' ) } />
 					</PageRouter>
 				) }
 			</div>

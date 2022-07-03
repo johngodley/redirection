@@ -2,15 +2,14 @@
  * External dependencies
  */
 
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
-import { Spinner } from 'wp-plugin-components';
+import { Spinner, createInterpolateElement } from 'wp-plugin-components';
 import HttpDetails from './details';
 import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
 import './style.scss';
@@ -18,8 +17,8 @@ import './style.scss';
 function HttpError( { error } ) {
 	return (
 		<div className="wpl-modal_error">
-			<h2>{ __( 'Error' ) }</h2>
-			<p>{ __( 'Something went wrong obtaining this information. It may work in the future.' ) }</p>
+			<h2>{ __( 'Error', 'redirection' ) }</h2>
+			<p>{ __( 'Something went wrong obtaining this information. It may work in the future.', 'redirection' ) }</p>
 			<p>
 				<code>{ error.message }</code>
 			</p>
@@ -35,7 +34,7 @@ export default function HttpCheckResponse( { url, desiredCode = 0, desiredTarget
 		'redirection-httpcheck_small': status === STATUS_FAILED,
 	} );
 
-	if ( status === STATUS_COMPLETE && ! http ) {
+	if ( status === STATUS_COMPLETE && !http ) {
 		return null;
 	}
 
@@ -47,12 +46,12 @@ export default function HttpCheckResponse( { url, desiredCode = 0, desiredTarget
 			{ status === STATUS_COMPLETE && http && (
 				<>
 					<h2>
-						{ __( 'Check redirect for: {{code}}%s{{/code}}', {
-							args: [ url ],
-							components: {
+						{ createInterpolateElement(
+							sprintf( __( 'Check redirect for: {{code}}%s{{/code}}', 'redirection' ), url ),
+							{
 								code: <code />,
 							},
-						} ) }
+						) }
 					</h2>
 
 					<HttpDetails

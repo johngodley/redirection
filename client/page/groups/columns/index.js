@@ -1,11 +1,4 @@
 /**
- * External dependencies
- */
-
-import React from 'react';
-import { numberFormat } from 'i18n-calypso';
-
-/**
  * Internal dependencies
  */
 import StatusColumn from './status';
@@ -33,7 +26,7 @@ export default function getColumns( row, rowParams, disabled ) {
 		},
 		{
 			name: 'redirects',
-			content: numberFormat( redirects, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( redirects ),
 		},
 		{
 			name: 'module',

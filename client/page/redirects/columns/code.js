@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -13,7 +13,7 @@ function getCode( row ) {
 	const { action_code, action_type } = row;
 
 	if ( action_type === CODE_PASS ) {
-		return __( 'pass' );
+		return __( 'pass', 'redirection' );
 	}
 
 	if ( action_type === CODE_NOTHING ) {

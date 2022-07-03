@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -27,7 +27,7 @@ function LogRowActions( props ) {
 
 	menu.push(
 		<RowAction onClick={ () => onDelete( id ) } capability={ CAP_LOG_DELETE } key="0">
-			{ __( 'Delete' ) }
+			{ __( 'Delete', 'redirection' ) }
 		</RowAction>
 	);
 
@@ -49,7 +49,7 @@ function LogRowActions( props ) {
 				href={ Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[id]' ) + '=' + redirection_id }
 				key="5"
 			>
-				{ __( 'View Redirect' ) }
+				{ __( 'View Redirect', 'redirection' ) }
 			</RowAction>
 		);
 	}

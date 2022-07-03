@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -24,13 +24,13 @@ export default function ManualInstall( { onCancel } ) {
 
 	return (
 		<div className="redirection-database">
-			<h1>{ __( 'Manual Install' ) }</h1>
+			<h1>{ __( 'Manual Install', 'redirection' ) }</h1>
 
 			<p>
 				{ __(
-					'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.'
+					'If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL.', 'redirection'
 				) }{ ' ' }
-				{ __( 'Click "Finished! 🎉" when finished.' ) }
+				{ __( 'Click "Finished! 🎉" when finished.', 'redirection' ) }
 			</p>
 			<p>
 				<TextareaAutosize
@@ -44,18 +44,18 @@ export default function ManualInstall( { onCancel } ) {
 
 			{ loadStatus === STATUS_FAILED &&
 				<div className="redirection-database_error wpl-error">
-					<h3>{ __( 'Database problem' ) }</h3>
-					<p>{ __( 'The Redirection database does not appear to exist. Have you run the above SQL?' ) }</p>
+					<h3>{ __( 'Database problem', 'redirection' ) }</h3>
+					<p>{ __( 'The Redirection database does not appear to exist. Have you run the above SQL?', 'redirection' ) }</p>
 				</div>
 			}
 
 			<button className="button button-primary" onClick={ onComplete } type="button">
-				{ __( 'Finished! 🎉' ) }
+				{ __( 'Finished! 🎉', 'redirection' ) }
 			</button>{ ' ' }
 			<button className="button button-secondary" onClick={ onCancel } type="button">
-				{ __( 'Go back' ) }
+				{ __( 'Go back', 'redirection' ) }
 			</button>
-			<p>{ __( 'If you do not complete the manual install you will be returned here.' ) }</p>
+			<p>{ __( 'If you do not complete the manual install you will be returned here.', 'redirection' ) }</p>
 		</div>
 	);
 }

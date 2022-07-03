@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -19,8 +19,8 @@ const MatchIp = ( { data, onChange } ) => {
 	};
 
 	return (
-		<TableRow title={ __( 'IP' ) } className="redirect-edit__match">
-			<textarea value={ ip.join( '\n' ) } name="ip" placeholder={ __( 'Enter IP addresses (one per line)' ) } onChange={ changer } />
+		<TableRow title={ __( 'IP', 'redirection' ) } className="redirect-edit__match">
+			<textarea value={ ip.join( '\n' ) } name="ip" placeholder={ __( 'Enter IP addresses (one per line)', 'redirection' ) } onChange={ changer } />
 		</TableRow>
 	);
 };

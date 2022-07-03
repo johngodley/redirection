@@ -2,9 +2,8 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
-import { ExternalLink } from 'wp-plugin-components';
+import { __ } from '@wordpress/i18n';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 
 function DebugReport( debug ) {
 	const email =
@@ -16,33 +15,36 @@ function DebugReport( debug ) {
 	return (
 		<>
 			<p className="wpl-error__highlight">
-				{ __( 'Please check the {{link}}support site{{/link}} before proceeding further.', {
-					components: {
+				{ createInterpolateElement(
+					__( 'Please check the {{link}}support site{{/link}} before proceeding further.', 'redirection' ),
+					{
 						link: <ExternalLink url="https://redirection.me/support/" />,
 					},
-				} ) }
+				) }
 			</p>
 			<p>
-				{ __(
-					'If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.',
+				{ createInterpolateElement(
+					__(
+						'If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}.',
+						'redirection'
+					),
 					{
-						components: {
-							strong: <strong />,
-						},
+						strong: <strong />,
 					}
 				) }
 			</p>
 			<p>
 				<a href={ github } className="button-primary">
-					{ __( 'Create An Issue' ) }
-				</a>{' '}
+					{ __( 'Create An Issue', 'redirection' ) }
+				</a>{ ' ' }
 				<a href={ email } className="button-secondary">
-					{ __( 'Email' ) }
+					{ __( 'Email', 'redirection' ) }
 				</a>
 			</p>
 			<p>
 				{ __(
-					'Include these details in your report along with a description of what you were doing and a screenshot.'
+					'Include these details in your report along with a description of what you were doing and a screenshot.',
+					'redirection'
 				) }
 			</p>
 		</>

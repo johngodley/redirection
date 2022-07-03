@@ -2,24 +2,23 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
 import { useDispatch } from 'react-redux'
 
 /**
  * Internal dependencies
  */
-import { ExternalLink, Notice, Button } from 'wp-plugin-components';
+import { ExternalLink, Notice, Button, createInterpolateElement } from 'wp-plugin-components';
 import { saveSettings } from 'state/settings/action';
 import { CAP_OPTION_MANAGE, has_capability } from 'lib/capabilities';
 
 function UpdateNotice() {
-	const { update_notice = false } = Redirectioni10n;
+	const { update_notice = false } = window.Redirectioni10n;
 	const dispatch = useDispatch();
 
 	function dismiss() {
-		dispatch( saveSettings( { update_notice: Redirectioni10n.update_notice } ) );
-		Redirectioni10n.update_notice = false;
+		dispatch( saveSettings( { update_notice: window.Redirectioni10n.update_notice } ) );
+		window.Redirectioni10n.update_notice = false;
 	}
 
 	if ( ! update_notice || ! has_capability( CAP_OPTION_MANAGE ) ) {
@@ -29,18 +28,21 @@ function UpdateNotice() {
 	return (
 		<Notice>
 			<p>
-				{ __( 'Version %s installed! Please read the {{url}}release notes{{/url}} for details.', {
-					args: update_notice,
-					components: {
+				{ createInterpolateElement(
+					sprintf(
+						__( 'Version %s installed! Please read the {{url}}release notes{{/url}} for details.', 'redirection' ),
+						update_notice
+					),
+					{
 						url: (
 							<ExternalLink
 								url={ 'https://redirection.me/blog/redirection-version-' + update_notice.replace( '.', '-' ) + '/' }
 							/>
 						),
 					},
-				} ) }
+				) }
 				&nbsp;
-				<Button onClick={ dismiss }>{ __( 'OK' ) }</Button>
+				<Button onClick={ dismiss }>{ __( 'OK', 'redirection' ) }</Button>
 			</p>
 		</Notice>
 	);

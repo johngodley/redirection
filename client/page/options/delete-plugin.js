@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { Modal } from 'wp-plugin-components';
 
 class DeletePlugin extends React.Component {
@@ -34,11 +34,11 @@ class DeletePlugin extends React.Component {
 		return (
 			<Modal onClose={ this.onClose }>
 				<div style={ { padding: '15px 10px 5px 15px' } }>
-					<h1>{ __( 'Delete the plugin - are you sure?' ) }</h1>
-					<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.' ) }</p>
-					<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.' ) }</p>
+					<h1>{ __( 'Delete the plugin - are you sure?', 'redirection' ) }</h1>
+					<p>{ __( 'Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin.', 'redirection' ) }</p>
+					<p>{ __( 'Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache.', 'redirection' ) }</p>
 					<p>
-						<button className="button-primary button-delete" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
+						<button className="button-primary button-delete" onClick={ this.onDelete }>{ __( 'Yes! Delete the plugin', 'redirection' ) }</button> <button className="button-secondary" onClick={ this.onClose }>{ __( "No! Don't delete the plugin" ) }</button>
 					</p>
 				</div>
 			</Modal>
@@ -49,10 +49,10 @@ class DeletePlugin extends React.Component {
 		return (
 			<div className="wrap">
 				<form action="" method="post" onSubmit={ this.onSubmit }>
-					<h2>{ __( 'Delete Redirection' ) }</h2>
+					<h2>{ __( 'Delete Redirection', 'redirection' ) }</h2>
 
-					<p>{ __( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.' ) }</p>
-					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete' ) } />
+					<p>{ __( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.', 'redirection' ) }</p>
+					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete', 'redirection' ) } />
 				</form>
 
 				{ this.state.isModal && this.showModal() }

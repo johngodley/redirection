@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -50,7 +50,7 @@ function CreateRedirect( props ) {
 			<div className="add-new">
 				<EditRedirect
 					item={ item }
-					saveButton={ __( 'Add Redirect' ) }
+					saveButton={ __( 'Add Redirect', 'redirection' ) }
 					onCancel={ onClose }
 					childSave={ () =>
 						deleteLog && onDelete( Array.isArray( uniqueUrls ) ? uniqueUrls : [ uniqueUrls ] )
@@ -59,8 +59,8 @@ function CreateRedirect( props ) {
 						( deleteLog &&
 							confirm(
 								multi
-									? __( 'Are you sure you want to delete the selected items?' )
-									: __( 'Are you sure you want to delete this item?' )
+									? __( 'Are you sure you want to delete the selected items?', 'redirection' )
+									: __( 'Are you sure you want to delete this item?', 'redirection' )
 							) ) ||
 						! deleteLog
 					}
@@ -68,7 +68,7 @@ function CreateRedirect( props ) {
 				>
 					{ has_capability( CAP_404_DELETE ) && (
 						<tr>
-							<th>{ __( 'Delete Log Entries' ) }</th>
+							<th>{ __( 'Delete Log Entries', 'redirection' ) }</th>
 							<td className="edit-left" style={ { padding: '7px 0px' } }>
 								<label>
 									<input
@@ -78,8 +78,8 @@ function CreateRedirect( props ) {
 									/>
 
 									{ uniqueUrls.length <= 1
-										? __( 'Delete logs for this entry' )
-										: __( 'Delete logs for these entries' ) }
+										? __( 'Delete logs for this entry', 'redirection' )
+										: __( 'Delete logs for these entries', 'redirection' ) }
 								</label>
 							</td>
 						</tr>

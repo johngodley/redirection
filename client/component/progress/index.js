@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -20,10 +20,10 @@ class Progress extends React.Component {
 
 	getMessage( inProgress ) {
 		if ( inProgress > 1 ) {
-			return __( 'Saving...' ) + ' (' + inProgress + ')';
+			return __( 'Saving...', 'redirection' ) + ' (' + inProgress + ')';
 		}
 
-		return __( 'Saving...' );
+		return __( 'Saving...', 'redirection' );
 	}
 
 	renderProgress( inProgress ) {

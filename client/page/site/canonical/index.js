@@ -2,43 +2,47 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
+import { createInterpolateElement } from 'wp-plugin-components';
 
 const getWWW = ( site ) => [
 	{
-		label: __( "Don't set a preferred domain - {{code}}%(site)s{{/code}}", {
-			components: {
-				code: <code />,
-			},
-			args: {
-				site,
-			},
-		} ),
+		label:
+			createInterpolateElement(
+				sprintf( __( "Don't set a preferred domain - {{code}}%(site)s{{/code}}", 'redirection' ), { site } ),
+				{
+					code: <code />,
+				}
+			)
+		,
 		value: '',
 	},
 	{
-		label: __( 'Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', {
-			components: {
-				code: <code />,
-			},
-			args: {
-				site: site.replace( 'www.', '' ),
-				siteWWW: site.replace( 'www.', '' ).replace( '://', '://www.' ),
-			},
-		} ),
+		label:
+			createInterpolateElement(
+				sprintf(
+					__( 'Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', 'redirection' ),
+					{
+						site: site.replace( 'www.', '' ),
+						siteWWW: site.replace( 'www.', '' ).replace( '://', '://www.' ),
+					}
+				),
+				{
+					code: <code />,
+				},
+			),
 		value: 'nowww',
 	},
 	{
-		label: __( 'Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}', {
-			components: {
-				code: <code />,
-			},
-			args: {
+		label: createInterpolateElement(
+			sprintf( __( 'Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}', 'redirection' ), {
 				site: site.replace( 'www.', '' ),
 				siteWWW: site.replace( 'www.', '' ).replace( '://', '://www.' ),
+			} ),
+			{
+				code: <code />,
 			},
-		} ),
+		),
 		value: 'www',
 	}
 ];
@@ -82,49 +86,56 @@ function CanonicalSettings( { https, preferredDomain, siteDomain, onChange } ) {
 
 	return (
 		<>
-			<h3>{ __( 'Canonical Settings' ) }</h3>
+			<h3>{ __( 'Canonical Settings', 'redirection' ) }</h3>
 			<p>
 				<label>
 					<input type="checkbox" name="https" onChange={ changeHttps } checked={ https } />&nbsp;
-					{ __( 'Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}', {
-						components: {
+					{ createInterpolateElement(
+						sprintf(
+							__( 'Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}', 'redirection' ),
+							{
+								site: siteDomain.replace( 'https', 'http' ),
+								siteHTTPS: siteDomain.replace( 'http:', 'https:' ),
+							},
+						),
+						{
 							code: <code />,
 						},
-						args: {
-							site: siteDomain.replace( 'https', 'http' ),
-							siteHTTPS: siteDomain.replace( 'http:', 'https:' ),
-						},
-					} ) }
+					) }
 				</label>
 			</p>
 
 			{ https && <div className="inline-notice inline-warning">
-				<p>{ __( '{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.', {
-					components: {
+				<p>{ createInterpolateElement(
+					__( '{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.', 'redirection' ),
+					{
 						strong: <strong />,
 					},
-				} ) }</p>
+				) }</p>
 			</div> }
 
-			<p>{ __( 'Preferred domain' ) }:</p>
+			<p>{ __( 'Preferred domain', 'redirection' ) }:</p>
 			{ getWWW( siteDomain ).map( ( preferred ) => (
 				<p key={ preferred.value }>
 					<label>
-					<input type="radio" name="preferred_domain" value={ preferred.value } onChange={ changePreferred } checked={ preferred.value === preferredDomain } /> { preferred.label }
+						<input type="radio" name="preferred_domain" value={ preferred.value } onChange={ changePreferred } checked={ preferred.value === preferredDomain } /> { preferred.label }
 					</label>
 				</p>
 			) ) }
 
 			{ alert && <div className="inline-notice inline-error">
-				<p>{ __( 'You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', {
-					components: {
+				<p>{ createInterpolateElement(
+					sprintf(
+						__( 'You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}', 'redirection' ),
+						{
+							current: siteDomain,
+							site: getCanonical( siteDomain, https, preferredDomain ),
+						}
+					),
+					{
 						code: <code />,
 					},
-					args: {
-						current: siteDomain,
-						site: getCanonical( siteDomain, https, preferredDomain ),
-					},
-				} ) }</p>
+				) }</p>
 			</div> }
 		</>
 	);

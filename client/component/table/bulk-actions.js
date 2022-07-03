@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * @callback BulkCallback
@@ -42,7 +42,7 @@ function BulkActions( props ) {
 				disabled={ disabled }
 				onChange={ ( ev ) => setAction( ev.target.value ) }
 			>
-				<option value="-1">{ __( 'Bulk Actions' ) }</option>
+				<option value="-1">{ __( 'Bulk Actions', 'redirection' ) }</option>
 
 				{ bulk
 					.map( ( item ) => (
@@ -58,7 +58,7 @@ function BulkActions( props ) {
 				disabled={ disabled || parseInt( action, 10 ) === -1 }
 				onClick={ doAction }
 			>
-				{ __( 'Apply' ) }
+				{ __( 'Apply', 'redirection' ) }
 			</button>
 		</div>
 	);

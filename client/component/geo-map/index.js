@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -26,8 +26,8 @@ class GeoMap extends React.Component {
 
 		return (
 			<div className="wpl-modal_error">
-				<h2>{ __( 'Geo IP Error' ) }</h2>
-				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
+				<h2>{ __( 'Geo IP Error', 'redirection' ) }</h2>
+				<p>{ __( 'Something went wrong obtaining this information', 'redirection' ) }</p>
 				<p>
 					<code>{ error.message }</code>
 				</p>
@@ -40,10 +40,10 @@ class GeoMap extends React.Component {
 
 		return (
 			<div className="redirection-geomap_simple">
-				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
+				<h2>{ __( 'Geo IP', 'redirection' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
-					{ __( 'This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed.' ) }
+					{ __( 'This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed.', 'redirection' ) }
 				</p>
 			</div>
 		);
@@ -54,10 +54,10 @@ class GeoMap extends React.Component {
 
 		return (
 			<div className="redirection-geomap_simple">
-				<h2>{ __( 'Geo IP' ) }: { ip } - IPv{ ipType }</h2>
+				<h2>{ __( 'Geo IP', 'redirection' ) }: { ip } - IPv{ ipType }</h2>
 
 				<p>
-					{ __( 'No details are known for this address.' ) }
+					{ __( 'No details are known for this address.', 'redirection' ) }
 				</p>
 			</div>
 		);
@@ -74,24 +74,24 @@ class GeoMap extends React.Component {
 					<tbody>
 						<tr>
 							<th colSpan="2">
-								<h2>{ __( 'Geo IP' ) }: <ExternalLink url={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } >{ ip }</ExternalLink> - IPv{ ipType }
+								<h2>{ __( 'Geo IP', 'redirection' ) }: <ExternalLink url={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) } >{ ip }</ExternalLink> - IPv{ ipType }
 								</h2>
 							</th>
 						</tr>
 						<tr>
-							<th>{ __( 'City' ) }</th>
+							<th>{ __( 'City', 'redirection' ) }</th>
 							<td>{ city }</td>
 						</tr>
 						<tr>
-							<th>{ __( 'Area' ) }</th>
+							<th>{ __( 'Area', 'redirection' ) }</th>
 							<td>{ area.join( ', ' ) }</td>
 						</tr>
 						<tr>
-							<th>{ __( 'Timezone' ) }</th>
+							<th>{ __( 'Timezone', 'redirection' ) }</th>
 							<td>{ timeZone }</td>
 						</tr>
 						<tr>
-							<th>{ __( 'Geo Location' ) }</th>
+							<th>{ __( 'Geo Location', 'redirection' ) }</th>
 							<td>{ latitude + ',' + longitude + ' (~' + accuracyRadius + 'm)' }</td>
 						</tr>
 					</tbody>

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -27,8 +27,8 @@ class Useragent extends React.Component {
 
 		return (
 			<div className="wpl-modal_error">
-				<h2>{ __( 'Useragent Error' ) }</h2>
-				<p>{ __( 'Something went wrong obtaining this information' ) }</p>
+				<h2>{ __( 'Useragent Error', 'redirection' ) }</h2>
+				<p>{ __( 'Something went wrong obtaining this information', 'redirection' ) }</p>
 				<p><code>{ error.message }</code></p>
 			</div>
 		);
@@ -39,7 +39,7 @@ class Useragent extends React.Component {
 
 		return (
 			<div className="redirection-useragent_unknown">
-				<h2>{ __( 'Unknown Useragent' ) }</h2>
+				<h2>{ __( 'Unknown Useragent', 'redirection' ) }</h2>
 				<br />
 				<p>{ agent }</p>
 			</div>
@@ -94,28 +94,28 @@ class Useragent extends React.Component {
 		const parts = [];
 
 		if ( device ) {
-			parts.push( [ __( 'Device' ), device ] );
+			parts.push( [ __( 'Device', 'redirection' ), device ] );
 		}
 
 		if ( os ) {
-			parts.push( [ __( 'Operating System' ), os ] );
+			parts.push( [ __( 'Operating System', 'redirection' ), os ] );
 		}
 
 		if ( browser ) {
-			parts.push( [ __( 'Browser' ), browser ] );
+			parts.push( [ __( 'Browser', 'redirection' ), browser ] );
 		}
 
 		if ( engine ) {
-			parts.push( [ __( 'Engine' ), engine ] );
+			parts.push( [ __( 'Engine', 'redirection' ), engine ] );
 		}
 
 		return (
 			<div>
-				<h2>{ __( 'Useragent' ) }: { type }</h2>
+				<h2>{ __( 'Useragent', 'redirection' ) }: { type }</h2>
 				<table>
 					<tbody>
 						<tr>
-							<th>{ __( 'Agent' ) }</th>
+							<th>{ __( 'Agent', 'redirection' ) }</th>
 							<td className="redirection-useragent_agent">{ agent }</td>
 						</tr>
 

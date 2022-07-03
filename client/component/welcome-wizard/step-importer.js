@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { useSelector } from 'react-redux';
 
 const IMPORTER_WP = 'wordpress-old-slugs';
@@ -31,11 +31,11 @@ export default function StepImporter( { setOptions, options, setStep, step } ) {
 
 	return (
 		<div>
-			<h2>{ __( 'Import Existing Redirects' ) }</h2>
+			<h2>{ __( 'Import Existing Redirects', 'redirection' ) }</h2>
 
 			<p>
 				{ __(
-					'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.'
+					'Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import.', 'redirection'
 				) }
 			</p>
 
@@ -43,7 +43,7 @@ export default function StepImporter( { setOptions, options, setStep, step } ) {
 				<>
 					<p>
 						{ __(
-							'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.'
+							'WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them.', 'redirection'
 						) }
 					</p>
 					<ul>
@@ -64,7 +64,7 @@ export default function StepImporter( { setOptions, options, setStep, step } ) {
 
 			{ otherImporters.length > 0 && (
 				<>
-					<p>{ __( 'The following plugins have been detected.' ) }</p>
+					<p>{ __( 'The following plugins have been detected.', 'redirection' ) }</p>
 					<ul>
 						{ otherImporters.map( ( item ) => (
 							<li key={ item.id }>
@@ -85,11 +85,11 @@ export default function StepImporter( { setOptions, options, setStep, step } ) {
 
 			<div className="wizard-buttons">
 				<button className="button-primary button" onClick={ () => setStep( step + 1 ) }>
-					{ __( 'Continue' ) }
+					{ __( 'Continue', 'redirection' ) }
 				</button>
 				&nbsp;
 				<button className="button" onClick={ () => setStep( step - 1 ) }>
-					{ __( 'Go back' ) }
+					{ __( 'Go back', 'redirection' ) }
 				</button>
 			</div>
 		</div>

@@ -2,9 +2,8 @@
  * External dependencies
  */
 
-import React from 'react';
 import Highlighter from 'react-highlight-words';
-import { numberFormat, translate as __ } from 'i18n-calypso';
+import { _n, __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -74,7 +73,7 @@ function getColumns( row, rowParams, actions, isSaving ) {
 		},
 		{
 			name: 'redirect_by',
-			content: redirect_by ? redirect_by : __( 'Redirection' ),
+			content: redirect_by ? redirect_by : __( 'Redirection', 'redirection' ),
 		},
 		{
 			name: 'code',
@@ -98,7 +97,7 @@ function getColumns( row, rowParams, actions, isSaving ) {
 		},
 		{
 			name: 'count',
-			content: numberFormat( row.count, 0 ),
+			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( row.count ),
 		},
 	];
 }

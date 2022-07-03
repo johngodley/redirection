@@ -4,7 +4,7 @@
  */
 
 import { useEffect } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { sprintf, __ } from '@wordpress/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import { Line } from 'rc-progress';
 
@@ -24,10 +24,10 @@ const DELAY = 1000;
 
 function getTitle( status ) {
 	if ( status === 'need-update' ) {
-		return __( 'Upgrading Redirection' );
+		return __( 'Upgrading Redirection', 'redirection' );
 	}
 
-	return __( 'Setting up Redirection' );
+	return __( 'Setting up Redirection', 'redirection' );
 }
 
 function hasWork( status, result ) {
@@ -68,21 +68,17 @@ export default function Database( { children } ) {
 	return (
 		<div className="redirection-database">
 			<PreventLeaveWarning
-				message={ __( 'Leaving before the process has completed may cause problems.' ) }
+				message={ __( 'Leaving before the process has completed may cause problems.', 'redirection' ) }
 				prevent={ result !== 'error' && result !== STATUS_FAILED }
 			/>
 
 			<h1>{ getTitle( status ) }</h1>
 
-			<p>{ __( 'Please remain on this page until complete.' ) }</p>
+			<p>{ __( 'Please remain on this page until complete.', 'redirection' ) }</p>
 
 			<div className="redirection-database_progress">
 				<h3>
-					{ __( 'Progress: %(complete)d%%', {
-						args: {
-							complete,
-						},
-					} ) }
+					{ sprintf( __( 'Progress: %(complete)d%%', 'redirection' ), complete ) }
 				</h3>
 				<Line percent={ complete } strokeWidth={ 4 } trailWidth={ 4 } strokeLinecap="square" />
 

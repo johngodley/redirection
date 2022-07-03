@@ -3,8 +3,8 @@
  * External dependencies
  */
 
-import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { useState } from 'react';
+import { __ } from '@wordpress/i18n';
 import { useSelector } from 'react-redux';
 
 /**
@@ -85,13 +85,14 @@ function WelcomeWizard( props ) {
 					errors={ reason }
 					renderDebug={ DebugReport }
 					links={ getErrorLinks() }
+					locale="redirection"
 				>
-					{ __( 'Something went wrong when installing Redirection.' ) }
+					{ __( 'Something went wrong when installing Redirection.', 'redirection' ) }
 				</Error>
 			) }
 
 			<div className="wizard-wrapper">
-				{ step !== 0 && step !== 3 && <h1>{ __( 'Redirection' ) }</h1> }
+				{ step !== 0 && step !== 3 && <h1>{ __( 'Redirection', 'redirection' ) }</h1> }
 
 				<div className="wizard">
 					<Content
@@ -104,7 +105,7 @@ function WelcomeWizard( props ) {
 			</div>
 
 			<div className="wizard-support">
-				<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!' ) }</ExternalLink>
+				<ExternalLink url="https://redirection.me/contact/">{ __( 'I need support!', 'redirection' ) }</ExternalLink>
 			</div>
 		</>
 	);

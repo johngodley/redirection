@@ -2,50 +2,50 @@
  * External dependencies
  */
 
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 export const getDisplayOptions = () => [
-	{ value: 'name', label: __( 'Name' ) },
-	{ value: 'module', label: __( 'Module' ) },
-	{ value: 'status', label: __( 'Status' ) },
-	{ value: 'redirects', label: __( 'Redirects' ) },
+	{ value: 'name', label: __( 'Name', 'redirection' ) },
+	{ value: 'module', label: __( 'Module', 'redirection' ) },
+	{ value: 'status', label: __( 'Status', 'redirection' ) },
+	{ value: 'redirects', label: __( 'Redirects', 'redirection' ) },
 ];
 
 export const getDisplayGroups = () => [
 	{
 		value: 'standard',
-		label: __( 'Standard Display' ),
+		label: __( 'Standard Display', 'redirection' ),
 		grouping: [ 'name', 'module', 'redirects' ],
 	},
 	{
 		value: 'minimal',
-		label: __( 'Compact Display' ),
+		label: __( 'Compact Display', 'redirection' ),
 		grouping: [ 'name' ],
 	},
 		{
 		value: 'all',
-		label: __( 'Display All' ),
+		label: __( 'Display All', 'redirection' ),
 		grouping: getDisplayOptions().map( ( item ) => item.value ),
 	},
 ];
 
 export const getFilterOptions = ( options ) => [
 	{
-		label: __( 'Status' ),
+		label: __( 'Status', 'redirection' ),
 		value: 'status',
 		options: [
 			{
-				label: __( 'Enabled' ),
+				label: __( 'Enabled', 'redirection' ),
 				value: 'enabled',
 			},
 			{
-				label: __( 'Disabled' ),
+				label: __( 'Disabled', 'redirection' ),
 				value: 'disabled',
 			},
 		],
 	},
 	{
-		label: __( 'Module' ),
+		label: __( 'Module', 'redirection' ),
 		value: 'module',
 		options,
 	},
@@ -54,22 +54,22 @@ export const getFilterOptions = ( options ) => [
 export const getHeaders = () => [
 	{
 		name: 'status',
-		title: __( 'Status' ),
+		title: __( 'Status', 'redirection' ),
 		sortable: false,
 	},
 	{
 		name: 'name',
-		title: __( 'Name' ),
+		title: __( 'Name', 'redirection' ),
 		primary: true,
 	},
 	{
 		name: 'redirects',
-		title: __( 'Redirects' ),
+		title: __( 'Redirects', 'redirection' ),
 		sortable: false,
 	},
 	{
 		name: 'module',
-		title: __( 'Module' ),
+		title: __( 'Module', 'redirection' ),
 		sortable: false,
 	},
 ];
@@ -77,21 +77,21 @@ export const getHeaders = () => [
 export const getBulk = () => [
 	{
 		id: 'delete',
-		name: __( 'Delete' ),
+		name: __( 'Delete', 'redirection' ),
 	},
 	{
 		id: 'enable',
-		name: __( 'Enable' ),
+		name: __( 'Enable', 'redirection' ),
 	},
 	{
 		id: 'disable',
-		name: __( 'Disable' ),
+		name: __( 'Disable', 'redirection' ),
 	},
 ];
 
 export const getSearchOptions = () => [
 	{
 		name: 'name',
-		title: __( 'Search' ),
+		title: __( 'Search', 'redirection' ),
 	},
 ];

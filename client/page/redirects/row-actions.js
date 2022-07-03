@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -25,23 +25,23 @@ function RedirectRowActions( props ) {
 	}
 
 	if ( enabled && has_capability( CAP_REDIRECT_ADD ) ) {
-		menu.push( <RowAction key="1" onClick={ () => setRowMode( 'edit' ) }>{ __( 'Edit' ) }</RowAction> );
+		menu.push( <RowAction key="1" onClick={ () => setRowMode( 'edit' ) }>{ __( 'Edit', 'redirection' ) }</RowAction> );
 	}
 
 	if ( has_capability( CAP_REDIRECT_DELETE ) ) {
-		menu.push( <RowAction key="2" onClick={ () => onDelete( id ) }>{ __( 'Delete' ) }</RowAction> );
+		menu.push( <RowAction key="2" onClick={ () => onDelete( id ) }>{ __( 'Delete', 'redirection' ) }</RowAction> );
 	}
 
 	if ( has_capability( CAP_REDIRECT_ADD ) ) {
 		if ( enabled ) {
-			menu.push( <RowAction key="3" onClick={ () => onDisable( id ) }>{ __( 'Disable' ) }</RowAction> );
+			menu.push( <RowAction key="3" onClick={ () => onDisable( id ) }>{ __( 'Disable', 'redirection' ) }</RowAction> );
 		} else {
-			menu.push( <RowAction key="4" onClick={ () => onEnable( id ) }>{ __( 'Enable' ) }</RowAction> );
+			menu.push( <RowAction key="4" onClick={ () => onEnable( id ) }>{ __( 'Enable', 'redirection' ) }</RowAction> );
 		}
 	}
 
 	if ( enabled && ! regex && action_type === 'url' && ( match_type === 'url' || match_type === 'server' ) ) {
-		menu.push( <RowAction key="5" onClick={ () => setRowMode( 'check' ) }>{ __( 'Check Redirect' ) }</RowAction> );
+		menu.push( <RowAction key="5" onClick={ () => setRowMode( 'check' ) }>{ __( 'Check Redirect', 'redirection' ) }</RowAction> );
 	}
 
 	return <RowActions disabled={ disabled } actions={ menu } />;

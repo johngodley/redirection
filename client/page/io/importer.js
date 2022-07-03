@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const Importer = props => {
 	const { plugin, doImport } = props;
@@ -14,7 +14,7 @@ const Importer = props => {
 
 	return (
 		<div className="plugin-importer">
-			<p><strong>{ name }</strong> ({ __( 'total = ' ) + total } )</p>
+			<p><strong>{ name }</strong> ({ __( 'total = ', 'redirection' ) + total } )</p>
 
 			<button onClick={ clicker } className="button-secondary">
 				{ __( 'Import from %s', { args: name } ) }

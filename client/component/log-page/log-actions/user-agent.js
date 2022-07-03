@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -29,7 +29,7 @@ function UseragentAction( props ) {
 				href={ 'https://redirect.li/agent/?agent=' + encodeURIComponent( agent ) }
 				onClick={ () => setShowModal( true ) }
 			>
-				{ __( 'Agent Info' ) }
+				{ __( 'Agent Info', 'redirection' ) }
 			</RowAction>
 
 			{ showModal && (
