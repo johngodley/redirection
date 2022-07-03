@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 /**
  * Internal dependencies
@@ -9,8 +9,13 @@ import ReactDOM from 'react-dom';
 
 import App from './app';
 
-function show( dom ) {
-	ReactDOM.render( <App />, document.getElementById( dom ) );
+function show( dom: string ) {
+	const element = document.getElementById( dom );
+	if ( element ) {
+		const root = createRoot( element );
+
+		root.render( <App /> );
+	}
 }
 
 if ( document.querySelector( '#react-ui' ) && window.Redirectioni10n ) {

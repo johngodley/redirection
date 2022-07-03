@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { hot } from 'react-hot-loader/root';
 
 /**
  * Internal dependencies
@@ -28,4 +27,4 @@ const App = () => (
 	</Provider>
 );
 
-export default hot( App );
+export default App;
