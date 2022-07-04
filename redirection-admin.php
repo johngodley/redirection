@@ -290,8 +290,6 @@ class Redirection_Admin {
 		$status = new Red_Database_Status();
 		$status->check_tables_exist();
 
-		$translations = $this->get_i18n_data();
-
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'api' => [
 				'WP_API_root' => esc_url_raw( red_get_rest_api() ),
@@ -415,29 +413,6 @@ class Redirection_Admin {
 		$per_page = intval( get_user_meta( get_current_user_id(), 'redirection_log_per_page', true ), 10 );
 
 		return $per_page > 0 ? max( 5, min( $per_page, RED_MAX_PER_PAGE ) ) : RED_DEFAULT_PER_PAGE;
-	}
-
-	private function get_i18n_data() {
-		$locale = get_locale();
-
-		// WP 4.7
-		if ( function_exists( 'get_user_locale' ) ) {
-			$locale = get_user_locale();
-		}
-
-		$i18n_json = dirname( REDIRECTION_FILE ) . '/languages/json/redirection-' . $locale . '.json';
-
-		if ( is_file( $i18n_json ) && is_readable( $i18n_json ) ) {
-			// phpcs:ignore
-			$locale_data = @file_get_contents( $i18n_json );
-
-			if ( $locale_data ) {
-				return json_decode( $locale_data, true );
-			}
-		}
-
-		// Return empty if we have nothing to return so it doesn't fail when parsed in JS
-		return array();
 	}
 
 	public function admin_menu() {
