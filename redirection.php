@@ -74,7 +74,7 @@ function red_start_rest() {
 	require_once __DIR__ . '/includes/api/api.php';
 
 	Redirection\Api\Api::init();
-	Redirection_Admin::init();
+	Redirection\Admin\Admin::init();
 
 	remove_action( 'rest_api_init', 'red_start_rest' );
 }

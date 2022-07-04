@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Admin;
+
 use Redirection\Plugin;
 use Redirection\Database;
 use Redirection\Site;
@@ -16,14 +18,14 @@ require_once __DIR__ . '/database/database.php';
 define( 'RED_DEFAULT_PER_PAGE', 25 );
 define( 'RED_MAX_PER_PAGE', 200 );
 
-class Redirection_Admin {
+class Admin {
 	private static $instance = null;
 	private $monitor;
 	private $fixit_failed = false;
 
 	public static function init() {
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new Redirection_Admin();
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -47,8 +49,8 @@ class Redirection_Admin {
 			add_filter( 'script_loader_src', [ $this, 'flying_solo' ], 10, 2 );
 		}
 
-		register_deactivation_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_deactivated' ] );
-		register_uninstall_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_uninstall' ] );
+		register_deactivation_hook( REDIRECTION_FILE, [ '\Redirection\Admin\Admin', 'plugin_deactivated' ] );
+		register_uninstall_hook( REDIRECTION_FILE, [ '\Redirection\Admin\Admin', 'plugin_uninstall' ] );
 
 		$this->monitor = new Plugin\Monitor( \Redirection\Settings\red_get_options() );
 		$this->run_hacks();
@@ -666,9 +668,9 @@ class Redirection_Admin {
 	}
 }
 
-register_activation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_activated' ) );
+register_activation_hook( REDIRECTION_FILE, [ '\Redirection\Admin\Admin', 'plugin_activated' ] );
 
-add_action( 'init', array( 'Redirection_Admin', 'init' ) );
+add_action( 'init', [ '\Redirection\Admin\Admin', 'init' ] );
 
 // This is causing a lot of problems with the REST API - disable qTranslate
 add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {

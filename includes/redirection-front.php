@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Front;
+
 use Redirection\Module;
 use Redirection\Redirect;
 use Redirection\Database;
@@ -144,4 +146,4 @@ class Redirection {
 	}
 }
 
-add_action( 'plugins_loaded', array( 'Redirection', 'init' ) );
+add_action( 'plugins_loaded', [ '\Redirection\Front\Redirection', 'init' ] );
