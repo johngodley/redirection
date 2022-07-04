@@ -109,7 +109,7 @@ class Sanitize {
 		}
 
 		if ( ! is_wp_error( $data['url'] ) ) {
-			$matcher = new Match\Match( $data['url'] );
+			$matcher = new Url\Match( $data['url'] );
 			$data['match_url'] = $matcher->get_url();
 
 			// If 'exact order' then save the match URL with query params
