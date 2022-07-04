@@ -413,16 +413,7 @@
 
 
 
-	<file>./models</file>
-	<file>./modules</file>
-	<file>./matches</file>
-	<file>./fileio</file>
-	<file>./database</file>
-	<file>./api</file>
-	<file>./redirection-admin.php</file>
-	<file>./redirection-capabilities.php</file>
-	<file>./redirection-front.php</file>
-	<file>./redirection-settings.php</file>
+	<file>./includes</file>
 	<file>./redirection.php</file>
 
 	<!-- Ignore snake case error in parser -->

@@ -12,20 +12,8 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="."/>
-        <directory name="api"/>
-        <directory name="actions"/>
-        <directory name="models"/>
-        <directory name="modules"/>
-        <directory name="matches"/>
-        <directory name="fileio"/>
-		<directory name="database"/>
+        <directory name="includes"/>
         <file name="redirection.php" />
-        <file name="redirection-settings.php" />
-        <file name="redirection-capabilities.php" />
-        <file name="redirection-front.php" />
-        <file name="redirection-admin.php" />
-        <file name="redirection-version.php" />
 
         <ignoreFiles>
             <directory name="vendor"/>
