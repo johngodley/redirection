@@ -51,29 +51,30 @@ abstract class Action {
 	 */
 	public static function create( $name, $code ) {
 		$avail = self::available();
+		$code = [ 'code' => intval( $code, 10 ) ];
 
 		if ( isset( $avail[ $name ] ) ) {
 			require_once __DIR__ . '/' . $avail[ $name ];
 
 			switch ( $name ) {
 				case 'url':
-					$class = new Url();
+					$class = new Url( $code );
 					break;
 
 				case 'error':
-					$class = new Referrer();
+					$class = new Referrer( $code );
 					break;
 
 				case 'nothing':
-					$class = new User_Agent();
+					$class = new User_Agent( $code );
 					break;
 
 				case 'random':
-					$class = new Login();
+					$class = new Login( $code );
 					break;
 
 				case 'pass':
-					$class = new Header();
+					$class = new Header( $code );
 					break;
 			}
 

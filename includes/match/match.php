@@ -136,51 +136,51 @@ abstract class Match {
 
 			switch ( $name ) {
 				case 'url':
-					$class = new Url_Only();
+					$class = new Url_Only( $data );
 					break;
 
 				case 'referrer':
-					$class = new Referrer();
+					$class = new Referrer( $data );
 					break;
 
 				case 'agent':
-					$class = new User_Agent();
+					$class = new User_Agent( $data );
 					break;
 
 				case 'login':
-					$class = new Login();
+					$class = new Login( $data );
 					break;
 
 				case 'header':
-					$class = new Header();
+					$class = new Header( $data );
 					break;
 
 				case 'custom':
-					$class = new Custom();
+					$class = new Custom( $data );
 					break;
 
 				case 'cookie':
-					$class = new Cookie();
+					$class = new Cookie( $data );
 					break;
 
 				case 'role':
-					$class = new Role();
+					$class = new Role( $data );
 					break;
 
 				case 'server':
-					$class = new Server();
+					$class = new Server( $data );
 					break;
 
 				case 'ip':
-					$class = new Ip();
+					$class = new Ip( $data );
 					break;
 
 				case 'page':
-					$class = new Page();
+					$class = new Page( $data );
 					break;
 
 				case 'language':
-					$class = new Language();
+					$class = new Language( $data );
 					break;
 			}
 
