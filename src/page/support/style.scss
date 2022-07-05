@@ -16,17 +16,17 @@
 
 	.plugin-status-good {
 		background-color: $ok;
-		color: white;
+		color: $white;
 	}
 
 	.plugin-status-problem {
-		background-color: orange;
-		color: white;
+		background-color: $orange;
+		color: $white;
 	}
 
 	.plugin-status-error {
 		background-color: $error;
-		color: white;
+		color: $white;
 	}
 }
 
@@ -96,7 +96,7 @@
 }
 
 .redirection-httptest {
-	background-color: white;
+	background-color: $white;
 	border: 1px solid #999;
 	margin-bottom: 30px;
 	padding-left: 5px;

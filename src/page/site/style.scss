@@ -60,7 +60,7 @@ td.redirect-alias__item__asdomain {
 		background: none;
 
 		&:hover {
-			color: red;
+			color: $error;
 			cursor: pointer;
 		}
 	}

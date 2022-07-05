@@ -29,7 +29,7 @@
 		"baseUrl": "src",
 		"paths": {
 			"@wp-plugin-lib": ["wp-plugin-lib"],
-			"@wp-lib-components": ["wp-lib-components"],
+			"@wp-plugin-components": ["wp-plugin-components"],
 		},
 		"rootDirs": ["src"]
 	},

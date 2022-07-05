@@ -102,11 +102,10 @@
 		padding: 2px;
 	}
 
-	input[type=text] {
+	input[type="text"] {
 		width: 100%;
 	}
 }
-
 
 /**
  * The buttons at the bottom of a table to perform an action - delete logs etc
@@ -114,7 +113,9 @@
 .table-buttons {
 	float: left;
 
-	> button, > form, > div.table-button-item {
+	> button,
+	> form,
+	> div.table-button-item {
 		margin-right: 5px !important;
 		display: inline;
 	}

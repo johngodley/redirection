@@ -68,14 +68,14 @@
 
 		p {
 			color: #444;
-			margin: auto;
+			margin: 0;
 			line-height: 2;
 			display: flex;
 			align-items: center;
 		}
 
 		code {
-			padding: 0px 4px;
+			padding: 0 4px;
 			margin-left: 4px;
 			margin-right: 4px;
 		}
@@ -87,10 +87,6 @@
 
 		a:hover {
 			text-decoration: underline;
-		}
-
-		p {
-			margin: 0;
 		}
 	}
 
@@ -140,7 +136,7 @@
 
 .wpl-badge.redirect-source__flag_regex {
 	background-color: #ffb900;
-	color: black;
+	color: $black;
 }
 
 .redirect-source__flags {

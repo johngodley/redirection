@@ -34,7 +34,7 @@
 		}
 
 		.dashicons-warning {
-			color: orange;
+			color: $orange;
 		}
 	}
 
@@ -75,7 +75,7 @@
 
 	.redirection-httpstep__match {
 		background-color: $green;
-		color: white;
+		color: $white;
 		padding: 3px 2px 3px 5px;
 		font-weight: bold;
 	}
@@ -88,7 +88,7 @@
 	}
 
 	.redirection-httpstep__status a {
-		color: white;
+		color: $white;
 		font-weight: 500;
 		text-decoration: none;
 	}
@@ -98,17 +98,17 @@
 	}
 
 	.redirection-httpstep__300 {
-		background-color: rgb(96,165,250);
+		background-color: rgb(96, 165, 250);
 	}
 
 	.redirection-httpstep__400 {
 		background-color: $yellow;
-		color: black;
+		color: $black;
 	}
 
 	.redirection-httpstep__500 {
 		background-color: $error;
-		color: white;
+		color: $white;
 	}
 
 	button {
