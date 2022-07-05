@@ -3,7 +3,7 @@
  * Internal dependencies
  */
 
-import { getPageUrl } from '../../lib/wordpress-url';
+import { getPageUrl } from '@wp-plugin-lib';
 
 const tableParams = [
 	'orderby',

@@ -9,7 +9,7 @@ import {
 	removeDefaults,
 	getDefaultTable,
 } from 'lib/table';
-import { getPageUrl } from 'lib/wordpress-url';
+import { getPageUrl } from '@wp-plugin-lib';
 
 const NEW_TABLE = {
 	orderby: 'name',

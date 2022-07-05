@@ -5,7 +5,7 @@
 import { STATUS_IN_PROGRESS } from '../../state/settings/type';
 import { getDefaultTable, toFilter } from '../../lib/table';
 import { getFilterOptions, getDisplayGroups } from '../../page/logs/constants';
-import { getPageUrl } from '../../lib/wordpress-url';
+import { getPageUrl } from '@wp-plugin-lib';
 
 export function getInitialLog() {
 	const extra = {

@@ -1,9 +1,8 @@
-/* global REDIRECTION_VERSION, Redirectioni10n */
 /**
  * External dependencies
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
@@ -14,8 +13,7 @@ import { connect } from 'react-redux';
 import WelcomeWizard from '../../component/welcome-wizard';
 import DatabaseUpdate from './database-update';
 import { Snackbar, Menu, ErrorBoundary, Error } from '@wp-plugin-components';
-import { PageRouter } from '@wp-plugin-lib';
-import { getPluginPage } from '../../lib/wordpress-url';
+import { PageRouter, getPluginPage } from '@wp-plugin-lib';
 import DebugReport from './debug';
 import ErrorDetails from './error-details';
 import CrashHandler from './crash-handler';
@@ -85,7 +83,7 @@ const getMenu = () =>
 		( option ) => has_page_access( option.value ) || ( option.value === '' && has_page_access( 'redirect' ) )
 	);
 
-const ALLOWED_PAGES = Redirectioni10n?.caps?.pages || [];
+const ALLOWED_PAGES = window.Redirectioni10n?.caps?.pages || [];
 
 function Home( props ) {
 	const {
@@ -119,7 +117,7 @@ function Home( props ) {
 		}
 	}
 
-	if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
+	if ( REDIRECTION_VERSION !== window.Redirectioni10n.version ) {
 		return <CacheDetect />;
 	}
 

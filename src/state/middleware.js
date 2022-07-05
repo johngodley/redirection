@@ -8,8 +8,7 @@ import { GROUP_LOADING, GROUP_DISPLAY_SET, GROUP_ITEM_SAVING } from './group/typ
 import { ERROR_DISPLAY_SET } from './error/type';
 import { LOG_LOADING, LOG_DISPLAY_SET } from './log/type';
 import { ERROR_LOADING } from './error/type';
-import { getPluginPage } from '../lib/wordpress-url';
-import { setPageUrl } from '@wp-plugin-lib';
+import { setPageUrl, getPluginPage } from '@wp-plugin-lib';
 
 function storeDisplay( storeName, action ) {
 	localStorage.setItem( storeName + '_displayType', action.displayType );
@@ -22,7 +21,7 @@ function storeDisplay( storeName, action ) {
 }
 
 const setUrlForPage = ( action, table ) => {
-	const pluginPage = getPluginPage();
+	const pluginPage = getPluginPage( window.Redirectioni10n?.caps?.pages || [] );
 	const currentPage = {
 		redirect: [ [ REDIRECT_LOADING, REDIRECT_ITEM_SAVING ], 'id' ],
 		groups: [ [ GROUP_LOADING, GROUP_ITEM_SAVING ], 'name' ],
