@@ -1,5 +1,6 @@
 interface API {
 	WP_API_root: string;
+	WP_API_nonce: string;
 	routes: object;
 }
 

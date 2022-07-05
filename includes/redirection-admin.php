@@ -327,7 +327,7 @@ class Admin {
 			'update_notice' => $is_new ? $major_version : false,
 		) );
 
-		wp_set_script_translations( 'redirection', 'redirection', plugin_dir_path( __FILE__ ) . 'languages/json/' );
+		wp_set_script_translations( 'redirection', 'redirection', plugin_dir_path( REDIRECTION_FILE ) . 'languages/json/' );
 
 		$this->add_help_tab();
 	}
