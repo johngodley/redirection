@@ -2,6 +2,8 @@
 
 namespace Redirection\Match;
 
+use Redirection\Url as Url;
+
 /**
  * Trait to add redirect matching that adds a matched target
  */

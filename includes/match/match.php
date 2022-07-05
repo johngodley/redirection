@@ -8,6 +8,7 @@ use Redirection\Url as Redirect_Url;
 require_once __DIR__ . '/from-notfrom.php';
 require_once __DIR__ . '/from-url.php';
 require_once __DIR__ . '/url.php';
+require_once __DIR__ . '/server.php';
 
 /**
  * Matches a URL and some other condition
