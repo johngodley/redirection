@@ -6,7 +6,7 @@ use Redirection\Database;
 use Redirection\Site;
 use Redirection\Group;
 
-require_once dirname( __DIR__ ) . '/database/database.php';
+require_once dirname( __DIR__ ) . '/database/class-database.php';
 
 class Fixer {
 	const REGEX_LIMIT = 200;

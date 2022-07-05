@@ -2,8 +2,8 @@
 
 namespace Redirection\Log;
 
-require_once __DIR__ . '/log-404.php';
-require_once __DIR__ . '/log-redirect.php';
+require_once __DIR__ . '/class-log-404.php';
+require_once __DIR__ . '/class-log-redirect.php';
 
 /**
  * Base log class

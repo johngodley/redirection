@@ -43,15 +43,15 @@ if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 require_once __DIR__ . '/build/redirection-version.php';
 require_once __DIR__ . '/includes/plugin/class-settings.php';
 require_once __DIR__ . '/includes/plugin/class-flusher.php';
-require_once __DIR__ . '/includes/redirect/redirect.php';
-require_once __DIR__ . '/includes/url/url.php';
-require_once __DIR__ . '/includes/site/regex.php';
-require_once __DIR__ . '/includes/site/request.php';
-require_once __DIR__ . '/includes/site/header.php';
-require_once __DIR__ . '/includes/module/module.php';
-require_once __DIR__ . '/includes/log/log.php';
-require_once __DIR__ . '/includes/match/match.php';
-require_once __DIR__ . '/includes/action/action.php';
+require_once __DIR__ . '/includes/redirect/class-redirect.php';
+require_once __DIR__ . '/includes/url/class-url.php';
+require_once __DIR__ . '/includes/site/class-regex.php';
+require_once __DIR__ . '/includes/site/class-request.php';
+require_once __DIR__ . '/includes/site/class-header.php';
+require_once __DIR__ . '/includes/module/class-module.php';
+require_once __DIR__ . '/includes/log/class-log.php';
+require_once __DIR__ . '/includes/match/class-match.php';
+require_once __DIR__ . '/includes/action/class-action.php';
 
 function red_is_wpcli() {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -71,7 +71,7 @@ function red_is_admin() {
 
 function red_start_rest() {
 	require_once __DIR__ . '/includes/redirection-admin.php';
-	require_once __DIR__ . '/includes/api/api.php';
+	require_once __DIR__ . '/includes/api/class-api.php';
 
 	Redirection\Api\Api::init();
 	Redirection\Admin\Admin::init();
@@ -81,7 +81,7 @@ function red_start_rest() {
 
 if ( red_is_admin() || red_is_wpcli() ) {
 	require_once __DIR__ . '/includes/redirection-admin.php';
-	require_once __DIR__ . '/includes/api/api.php';
+	require_once __DIR__ . '/includes/api/class-api.php';
 } else {
 	require_once __DIR__ . '/includes/redirection-front.php';
 }

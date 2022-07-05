@@ -7,7 +7,7 @@ use Redirection\Database;
 /**
  * Latest database schema
  */
-class Latest extends Database\Upgrader {
+class Schema_Latest extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			/* translators: displayed when installing the plugin */

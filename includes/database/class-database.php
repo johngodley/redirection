@@ -2,8 +2,8 @@
 
 namespace Redirection\Database;
 
-require_once __DIR__ . '/database-status.php';
-require_once __DIR__ . '/database-upgrader.php';
+require_once __DIR__ . '/class-status.php';
+require_once __DIR__ . '/class-upgrader.php';
 
 class Database {
 	/**
@@ -105,9 +105,9 @@ class Database {
 	 * @return object Database\Schema\Latest
 	 */
 	public static function get_latest_database() {
-		include_once dirname( __FILE__ ) . '/schema/latest.php';
+		include_once dirname( __FILE__ ) . '/schema/schema-latest.php';
 
-		return new Schema\Latest();
+		return new Schema\Schema_Latest();
 	}
 
 	/**
@@ -120,52 +120,52 @@ class Database {
 			[
 				'version' => '2.0.1',
 				'file' => '201.php',
-				'class' => 'Database\Database_201',
+				'class' => '\Redirection\Database\Schema\Schema_201',
 			],
 			[
 				'version' => '2.1.16',
 				'file' => '216.php',
-				'class' => 'Database\Database_216',
+				'class' => '\Redirection\Database\Schema\Schema_216',
 			],
 			[
 				'version' => '2.2',
 				'file' => '220.php',
-				'class' => 'Database\Database_220',
+				'class' => '\Redirection\Database\Schema\Schema_220',
 			],
 			[
 				'version' => '2.3.1',
 				'file' => '231.php',
-				'class' => 'Database\Database_231',
+				'class' => '\Redirection\Database\Schema\Schema_231',
 			],
 			[
 				'version' => '2.3.2',
 				'file' => '232.php',
-				'class' => 'Database\Database_232',
+				'class' => '\Redirection\Database\Schema\Schema_232',
 			],
 			[
 				'version' => '2.3.3',
 				'file' => '233.php',
-				'class' => 'Database\Database_233',
+				'class' => '\Redirection\Database\Schema\Schema_233',
 			],
 			[
 				'version' => '2.4',
 				'file' => '240.php',
-				'class' => 'Database\Database_240',
+				'class' => '\Redirection\Database\Schema\Schema_240',
 			],
 			[
 				'version' => '4.0',
 				'file' => '400.php',
-				'class' => 'Database\Database_400',
+				'class' => '\Redirection\Database\Schema\Schema_400',
 			],
 			[
 				'version' => '4.1',
 				'file' => '410.php',
-				'class' => 'Database\Database_410',
+				'class' => '\Redirection\Database\Schema\Schema_410',
 			],
 			[
 				'version' => '4.2',
 				'file' => '420.php',
-				'class' => 'Database\Database_420',
+				'class' => '\Redirection\Database\Schema\Schema_420',
 			],
 		];
 	}

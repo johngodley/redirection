@@ -55,13 +55,13 @@ class Import extends Api\Route {
 	}
 
 	public function route_plugin_import_list( \WP_REST_Request $request ) {
-		include_once dirname( dirname( __DIR__ ) ) . '/import-plugin/importer.php';
+		include_once dirname( dirname( __DIR__ ) ) . '/import-plugin/class-importer.php';
 
 		return array( 'importers' => Importer\Plugin_Importer::get_plugins() );
 	}
 
 	public function route_plugin_import( \WP_REST_Request $request ) {
-		include_once dirname( dirname( __DIR__ ) ) . '/import-plugin/importer.php';
+		include_once dirname( dirname( __DIR__ ) ) . '/import-plugin/class-importer.php';
 
 		$params = $request->get_params( $request );
 		$groups = Group\Group::get_all();

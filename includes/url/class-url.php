@@ -2,13 +2,13 @@
 
 namespace Redirection\Url;
 
-require_once __DIR__ . '/url-query.php';
-require_once __DIR__ . '/url-path.php';
-require_once __DIR__ . '/url-match.php';
-require_once __DIR__ . '/url-flags.php';
-require_once __DIR__ . '/url-request.php';
-require_once __DIR__ . '/url-transform.php';
-require_once __DIR__ . '/url-encode.php';
+require_once __DIR__ . '/class-query.php';
+require_once __DIR__ . '/class-path.php';
+require_once __DIR__ . '/class-match.php';
+require_once __DIR__ . '/class-flags.php';
+require_once __DIR__ . '/class-request.php';
+require_once __DIR__ . '/class-transform.php';
+require_once __DIR__ . '/class-encode.php';
 
 class Url {
 	/**

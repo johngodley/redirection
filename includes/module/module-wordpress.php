@@ -158,7 +158,7 @@ class WordPress extends Module {
 		$options = \Redirection\Settings\red_get_options();
 
 		if ( count( $options['permalinks'] ) > 0 ) {
-			include_once dirname( dirname( __FILE__ ) ) . '/site/permalinks.php';
+			include_once dirname( dirname( __FILE__ ) ) . '/site/class-permalinks.php';
 
 			$permalinks = new Site\Permalinks( $options['permalinks'] );
 			$permalinks->migrate( $query );

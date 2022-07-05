@@ -2,7 +2,7 @@
 
 namespace Redirection\Group;
 
-require_once __DIR__ . '/group-filters.php';
+require_once __DIR__ . '/class-filters.php';
 
 use Redirection\Module;
 

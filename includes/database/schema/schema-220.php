@@ -5,7 +5,7 @@ namespace Redirection\Database\Schema;
 use Redirection\Database;
 
 // Note: not localised as the messages aren't important enough
-class Database_220 extends Database\Upgrader {
+class Schema_220 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'add_group_indices_220' => 'Add group indices to redirects',

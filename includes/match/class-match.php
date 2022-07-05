@@ -5,10 +5,9 @@ namespace Redirection\Match;
 use Redirection\Site;
 use Redirection\Url as Redirect_Url;
 
-require_once __DIR__ . '/from-notfrom.php';
-require_once __DIR__ . '/from-url.php';
-require_once __DIR__ . '/url.php';
-require_once __DIR__ . '/server.php';
+require_once __DIR__ . '/trait-from-notfrom.php';
+require_once __DIR__ . '/trait-from-url.php';
+require_once __DIR__ . '/match-url.php';
 
 /**
  * Matches a URL and some other condition
@@ -132,7 +131,7 @@ abstract class Match {
 	public static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
-			require_once __DIR__ . '/' . $avail[ strtolower( $name ) ];
+			require_once __DIR__ . '/match-' . $avail[ strtolower( $name ) ];
 
 			switch ( $name ) {
 				case 'url':

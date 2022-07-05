@@ -8,9 +8,9 @@ use Redirection\Database;
 use Redirection\Plugin;
 use Redirection\Url;
 
-require_once __DIR__ . '/module/wordpress.php';
-require_once __DIR__ . '/site/canonical.php';
-require_once __DIR__ . '/database/database-status.php';
+require_once __DIR__ . '/module/module-wordpress.php';
+require_once __DIR__ . '/site/class-canonical.php';
+require_once __DIR__ . '/database/class-status.php';
 
 /**
  * This powers all of the front-end redirecting

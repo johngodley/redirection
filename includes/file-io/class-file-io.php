@@ -11,19 +11,19 @@ abstract class FileIO {
 		$exporter = false;
 
 		if ( $type === 'rss' ) {
-			include_once __DIR__ . '/rss.php';
+			include_once __DIR__ . '/fileio-rss.php';
 			$exporter = new Rss();
 		} elseif ( $type === 'csv' ) {
-			include_once __DIR__ . '/csv.php';
+			include_once __DIR__ . '/fileio-csv.php';
 			$exporter = new Csv();
 		} elseif ( $type === 'apache' ) {
-			include_once __DIR__ . '/apache.php';
+			include_once __DIR__ . '/fileio-apache.php';
 			$exporter = new Apache();
 		} elseif ( $type === 'nginx' ) {
-			include_once __DIR__ . '/nginx.php';
+			include_once __DIR__ . '/fileio-nginx.php';
 			$exporter = new Nginx();
 		} elseif ( $type === 'json' ) {
-			include_once __DIR__ . '/json.php';
+			include_once __DIR__ . '/fileio-json.php';
 			$exporter = new Json();
 		}
 
@@ -36,15 +36,15 @@ abstract class FileIO {
 		$extension = strtolower( $extension );
 
 		if ( $extension === 'csv' || $extension === 'txt' ) {
-			include_once __DIR__ . '/csv.php';
+			include_once __DIR__ . '/fileio-csv.php';
 			$importer = new Csv();
 			$data = '';
 		} elseif ( $extension === 'json' ) {
-			include_once __DIR__ . '/json.php';
+			include_once __DIR__ . '/fileio-json.php';
 			$importer = new Json();
 			$data = @file_get_contents( $file['tmp_name'] );
 		} else {
-			include_once __DIR__ . '/apache.php';
+			include_once __DIR__ . '/fileio-apache.php';
 			$importer = new Apache();
 			$data = @file_get_contents( $file['tmp_name'] );
 		}

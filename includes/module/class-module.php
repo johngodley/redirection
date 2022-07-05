@@ -4,9 +4,9 @@ namespace Redirection\Module;
 
 use Redirection\Group;
 
-require_once __DIR__ . '/wordpress.php';
-require_once __DIR__ . '/apache.php';
-require_once __DIR__ . '/nginx.php';
+require_once __DIR__ . '/module-wordpress.php';
+require_once __DIR__ . '/module-apache.php';
+require_once __DIR__ . '/module-nginx.php';
 
 /**
  * Base class for redirect module.

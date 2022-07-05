@@ -26,9 +26,9 @@ abstract class Upgrader {
 	/**
 	 * Run a particular stage on the current upgrader
 	 *
-	 * @return Database\Status
+	 * @return Status
 	 */
-	public function perform_stage( Database\Status $status ) {
+	public function perform_stage( Status $status ) {
 		global $wpdb;
 
 		$stage = $status->get_current_stage();
@@ -115,7 +115,7 @@ abstract class Upgrader {
 	 * @return object Database upgrader
 	 */
 	public static function get( $version ) {
-		include_once dirname( __FILE__ ) . '/schema/' . str_replace( [ '..', '/' ], '', $version['file'] );
+		include_once dirname( __FILE__ ) . '/schema/schema-' . str_replace( [ '..', '/' ], '', $version['file'] );
 
 		return new $version['class'];
 	}

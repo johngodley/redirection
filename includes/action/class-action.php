@@ -54,7 +54,7 @@ abstract class Action {
 		$code = [ 'code' => intval( $code, 10 ) ];
 
 		if ( isset( $avail[ $name ] ) ) {
-			require_once __DIR__ . '/' . $avail[ $name ];
+			require_once __DIR__ . '/action-' . $avail[ $name ];
 
 			switch ( $name ) {
 				case 'url':

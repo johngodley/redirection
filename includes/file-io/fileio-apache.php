@@ -13,7 +13,7 @@ class Apache extends FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		include_once __DIR__ . '/htaccess.php';
+		include_once __DIR__ . '/class-htaccess.php';
 
 		$htaccess = new Htaccess();
 

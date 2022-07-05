@@ -9,7 +9,7 @@ use Redirection\Database;
  * - some sites have a misconfigured IP column
  * - some sites don't have any IP column
  */
-class Database_240 extends Database\Upgrader {
+class Schema_240 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'convert_int_ip_to_varchar_240' => 'Convert integer IP values to support IPv6',

@@ -4,14 +4,14 @@ namespace Redirection\Api;
 
 require_once __DIR__ . '/class-route.php';
 require_once __DIR__ . '/class-route-filter.php';
-require_once __DIR__ . '/route/api-group.php';
-require_once __DIR__ . '/route/api-redirect.php';
-require_once __DIR__ . '/route/api-log.php';
-require_once __DIR__ . '/route/api-404.php';
-require_once __DIR__ . '/route/api-settings.php';
-require_once __DIR__ . '/route/api-plugin.php';
-require_once __DIR__ . '/route/api-import.php';
-require_once __DIR__ . '/route/api-export.php';
+require_once __DIR__ . '/route/route-group.php';
+require_once __DIR__ . '/route/route-redirect.php';
+require_once __DIR__ . '/route/route-log.php';
+require_once __DIR__ . '/route/route-404.php';
+require_once __DIR__ . '/route/route-settings.php';
+require_once __DIR__ . '/route/route-plugin.php';
+require_once __DIR__ . '/route/route-import.php';
+require_once __DIR__ . '/route/route-export.php';
 
 /**
  * @apiDefine 401Error

@@ -9,10 +9,10 @@ use Redirection\Module;
 use Redirection\Site;
 use Redirection\Database;
 
-require_once __DIR__ . '/redirect-sanitizer.php';
-require_once __DIR__ . '/redirect-filter.php';
-require_once __DIR__ . '/redirect-options.php';
-require_once __DIR__ . '/redirect-cache.php';
+require_once __DIR__ . '/class-sanitizer.php';
+require_once __DIR__ . '/class-filter.php';
+require_once __DIR__ . '/class-options.php';
+require_once __DIR__ . '/class-cache.php';
 
 /**
  * Redirect class

@@ -9,11 +9,11 @@ use Redirection\FileIO;
 use Redirection\Log;
 use Redirection\Redirect;
 
-require_once __DIR__ . '/group/group.php';
+require_once __DIR__ . '/group/class-group.php';
 require_once __DIR__ . '/plugin/class-monitor.php';
 require_once __DIR__ . '/plugin/class-capabilities.php';
-require_once __DIR__ . '/file-io/file-io.php';
-require_once __DIR__ . '/database/database.php';
+require_once __DIR__ . '/file-io/class-file-io.php';
+require_once __DIR__ . '/database/class-database.php';
 
 define( 'RED_DEFAULT_PER_PAGE', 25 );
 define( 'RED_MAX_PER_PAGE', 200 );
@@ -364,7 +364,7 @@ class Admin {
 
 	private function run_fixit() {
 		if ( Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_SUPPORT_MANAGE ) ) {
-			require_once __DIR__ . '/site/class-fixer.php';
+			require_once __DIR__ . '/plugin/class-fixer.php';
 
 			$fixer = new Plugin\Fixer();
 			$result = $fixer->fix( $fixer->get_status() );
@@ -385,7 +385,7 @@ class Admin {
 		$status = new Database\Status();
 
 		if ( $status->needs_installing() ) {
-			include_once __DIR__ . '/file-io/importer.php';
+			include_once __DIR__ . '/file-io/class-importer.php';
 
 			return [
 				'importers' => Importer\Plugin_Importer::get_plugins(),

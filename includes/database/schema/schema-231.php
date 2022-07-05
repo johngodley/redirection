@@ -5,7 +5,7 @@ namespace Redirection\Database\Schema;
 use Redirection\Database;
 
 // Note: not localised as the messages aren't important enough
-class Database_231 extends Database\Upgrader {
+class Schema_231 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'remove_404_module_231' => 'Remove 404 module',
