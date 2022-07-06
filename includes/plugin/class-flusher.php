@@ -9,7 +9,7 @@ class Flusher {
 	const DELETE_KEEP_ON = 10;  // 10 minutes
 
 	public function flush() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		$total  = $this->expire_logs( 'redirection_logs', $options['expire_redirect'] );
 		$total += $this->expire_logs( 'redirection_404', $options['expire_404'] );
@@ -58,7 +58,7 @@ class Flusher {
 	}
 
 	public static function schedule() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( $options['expire_redirect'] > 0 || $options['expire_404'] > 0 ) {
 			if ( ! wp_next_scheduled( self::DELETE_HOOK ) ) {

@@ -79,7 +79,7 @@ class WordPress extends Module {
 	 */
 	public function start() {
 		// Only run redirect rules if we're not disabled
-		if ( ! \Redirection\Settings\red_is_disabled() ) {
+		if ( ! \Redirection\Plugin\Settings\red_is_disabled() ) {
 			// Canonical site settings - https, www, relocate, and aliases
 			add_action( 'init', [ $this, 'canonical_domain' ] );
 
@@ -155,7 +155,7 @@ class WordPress extends Module {
 	 * @return boolean
 	 */
 	public function pre_handle_404( $result, \WP_Query $query ) {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( count( $options['permalinks'] ) > 0 ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/site/class-permalinks.php';
@@ -214,7 +214,7 @@ class WordPress extends Module {
 
 		$this->is_url_and_page_type();
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( isset( $options['expire_404'] ) && $options['expire_404'] >= 0 && $this->can_log() ) {
 			$details = [
@@ -285,7 +285,7 @@ class WordPress extends Module {
 	 * @return string|false
 	 */
 	public function get_canonical_target() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		$canonical = new Site\Canonical( $options['https'], $options['preferred_domain'], $options['aliases'], get_home_url() );
 
 		// Relocate domain?
@@ -381,7 +381,7 @@ class WordPress extends Module {
 		}
 
 		// Add any custom headers
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		$headers = new Site\Http_Headers( $options['headers'] );
 		$headers->run( $headers->get_site_headers() );
 	}
@@ -468,7 +468,7 @@ class WordPress extends Module {
 			return $agent;
 		}
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( ! $options['log_external'] ) {
 			return $agent;
@@ -517,7 +517,7 @@ class WordPress extends Module {
 			return $url;
 		}
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		$headers = new Site\Http_Headers( $options['headers'] );
 		$headers->run( $headers->get_redirect_headers() );
 

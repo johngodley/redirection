@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\FileIO;
+
 /**
  * Implements example command.
  */
@@ -79,7 +81,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$name = $args[0];
 		$set = isset( $extra['set'] ) ? $extra['set'] : false;
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( ! isset( $options[ $name ] ) ) {
 			WP_CLI::error( 'Unsupported setting: ' . $name );
@@ -97,7 +99,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			$options = [];
 			$options[ $name ] = $decoded;
 
-			$options = \Redirection\Settings\red_set_options( $options );
+			$options = \Redirection\Plugin\Settings\red_set_options( $options );
 			$value = $options[ $name ];
 		}
 

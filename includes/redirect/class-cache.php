@@ -71,7 +71,7 @@ class Redirect_Cache {
 	}
 
 	public function reset() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 		$this->key = $settings['cache_key'];
 		$this->cached = [];
 	}

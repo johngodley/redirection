@@ -52,7 +52,7 @@ class Admin {
 		register_deactivation_hook( REDIRECTION_FILE, [ '\Redirection\Admin\Admin', 'plugin_deactivated' ] );
 		register_uninstall_hook( REDIRECTION_FILE, [ '\Redirection\Admin\Admin', 'plugin_uninstall' ] );
 
-		$this->monitor = new Plugin\Monitor( \Redirection\Settings\red_get_options() );
+		$this->monitor = new Plugin\Monitor( \Redirection\Plugin\Settings\red_get_options() );
 		$this->run_hacks();
 	}
 
@@ -76,7 +76,7 @@ class Admin {
 	public static function plugin_activated() {
 		Database\Database::apply_to_sites( function() {
 			Plugin\Flusher::clear();
-			\Redirection\Settings\red_set_options();
+			\Redirection\Plugin\Settings\red_set_options();
 		} );
 	}
 
@@ -102,7 +102,7 @@ class Admin {
 	 * @return void
 	 */
 	public function update_nag() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		// Is the site configured to upgrade automatically?
 		if ( $options['plugin_update'] === 'admin' ) {
@@ -156,7 +156,7 @@ class Admin {
 
 			if ( $status->is_error() ) {
 				// If an error occurs then switch to 'prompt' mode and let the user deal with it.
-				\Redirection\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
+				\Redirection\Plugin\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
 				return;
 			}
 
@@ -263,14 +263,14 @@ class Admin {
 
 		$build = REDIRECTION_VERSION . '-' . REDIRECTION_BUILD;
 		$preload = $this->get_preload_data();
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		$versions = array(
 			'Plugin: ' . REDIRECTION_VERSION . ' ' . REDIRECTION_DB_VERSION,
 			'WordPress: ' . $wp_version . ' (' . ( is_multisite() ? 'multi' : 'single' ) . ')',
 			'PHP: ' . phpversion(),
 			'Browser: ' . Site\Request::get_user_agent(),
 			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . $build,
-			'REST API: ' . \Redirection\Settings\red_get_rest_api(),
+			'REST API: ' . \Redirection\Plugin\Settings\red_get_rest_api(),
 		);
 
 		$this->inject();
@@ -301,14 +301,14 @@ class Admin {
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'api' => [
-				'WP_API_root' => esc_url_raw( \Redirection\Settings\red_get_rest_api() ),
+				'WP_API_root' => esc_url_raw( \Redirection\Plugin\Settings\red_get_rest_api() ),
 				'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
 				'site_health' => admin_url( 'site-health.php' ),
 				'current' => $options['rest_api'],
 				'routes' => [
-					REDIRECTION_API_JSON => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON ),
-					REDIRECTION_API_JSON_INDEX => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
-					REDIRECTION_API_JSON_RELATIVE => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
+					REDIRECTION_API_JSON => \Redirection\Plugin\Settings\red_get_rest_api( REDIRECTION_API_JSON ),
+					REDIRECTION_API_JSON_INDEX => \Redirection\Plugin\Settings\red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
+					REDIRECTION_API_JSON_RELATIVE => \Redirection\Plugin\Settings\red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
 				],
 			],
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
@@ -377,7 +377,7 @@ class Admin {
 
 	private function set_rest_api( $api ) {
 		if ( $api >= 0 && $api <= REDIRECTION_API_JSON_RELATIVE ) {
-			\Redirection\Settings\red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
+			\Redirection\Plugin\Settings\red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
 		}
 	}
 
@@ -445,15 +445,15 @@ class Admin {
 	 * @return void
 	 */
 	public function clear_cache() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( $settings['cache_key'] > 0 ) {
-			\Redirection\Settings\red_set_options( [ 'cache_key' => time() ] );
+			\Redirection\Plugin\Settings\red_set_options( [ 'cache_key' => time() ] );
 		}
 	}
 
 	public function set_default_group( $id, $redirect ) {
-		\Redirection\Settings\red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
 	}
 
 	public function admin_screen() {
@@ -619,7 +619,7 @@ class Admin {
 	public function try_export_rss() {
 		// phpcs:ignore
 		if ( isset( $_GET['token'] ) && isset( $_GET['sub'] ) && $_GET['sub'] === 'rss' && Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_REDIRECT_MANAGE ) ) {
-			$options = \Redirection\Settings\red_get_options();
+			$options = \Redirection\Plugin\Settings\red_get_options();
 
 			// phpcs:ignore
 			if ( $_GET['token'] === $options['token'] && ! empty( $options['token'] ) ) {

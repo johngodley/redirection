@@ -71,7 +71,7 @@ class Monitor {
 
 	public function post_trashed( $post_id ) {
 		$data = array(
-			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_Path ),
+			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
 			'action_data' => array( 'url' => '/' ),
 			'match_type'  => 'url',
 			'action_type' => 'url',
@@ -104,7 +104,7 @@ class Monitor {
 	}
 
 	private function get_site_path() {
-		$path = wp_parse_url( get_site_url(), PHP_Path );
+		$path = wp_parse_url( get_site_url(), PHP_URL_PATH );
 
 		if ( $path ) {
 			return rtrim( $path, '/' ) . '/';
@@ -114,8 +114,8 @@ class Monitor {
 	}
 
 	public function check_for_modified_slug( $post_id, $before ) {
-		$after  = wp_parse_url( get_permalink( $post_id ), PHP_Path );
-		$before = wp_parse_url( esc_url( $before ), PHP_Path );
+		$after  = wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH );
+		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
 
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );

@@ -362,7 +362,7 @@ class Htaccess {
 	 * @return string
 	 */
 	private function generate() {
-		$version = \Redirection\Settings\red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = \Redirection\Plugin\Settings\red_get_plugin_data( REDIRECTION_FILE );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
@@ -377,7 +377,7 @@ class Htaccess {
 		];
 
 		// Add http => https option
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		if ( $options['https'] ) {
 			$text[] = 'RewriteCond %{HTTPS} off';
 			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';

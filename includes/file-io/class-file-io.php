@@ -81,8 +81,8 @@ abstract class FileIO {
 			$groups = Group\Group::get_all();
 			$items = Redirect\Redirect::get_all();
 		} else {
-			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Redirect\Module\Module::get_id_for_name( $module_name_or_id );
-			$module = Redirect\Module::get( intval( $module_name_or_id, 10 ) );
+			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Module\Module::get_id_for_name( $module_name_or_id );
+			$module = Module\Module::get( intval( $module_name_or_id, 10 ) );
 
 			if ( $module ) {
 				$groups = Group\Group::get_all_for_module( $module->get_id() );

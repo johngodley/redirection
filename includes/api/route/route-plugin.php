@@ -91,7 +91,7 @@ class Plugin extends Api\Route {
 			return new \WP_Error( 'redirect_delete_multi', 'Multisite installations must delete the plugin from the network admin' );
 		}
 
-		$plugin = \Redirection_Admin::init();
+		$plugin = \Redirection\Admin\Admin::init();
 		$plugin->plugin_uninstall();
 
 		$current = get_option( 'active_plugins' );

@@ -2,6 +2,8 @@
 
 namespace Redirection\Match;
 
+use Redirection\Url as Redirect_Url;
+
 /**
  * Check whether the user is logged in or out
  */
@@ -39,7 +41,7 @@ class Login extends Match {
 		return is_user_logged_in();
 	}
 
-	public function get_target_url( $requested_url, $source_url, Url\Source_Flags $flags, $match ) {
+	public function get_target_url( $requested_url, $source_url, Redirect_Url\Source_Flags $flags, $match ) {
 		$target = false;
 
 		if ( $match && $this->logged_in !== '' ) {

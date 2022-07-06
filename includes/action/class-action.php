@@ -62,19 +62,19 @@ abstract class Action {
 					break;
 
 				case 'error':
-					$class = new Referrer( $code );
+					$class = new Error( $code );
 					break;
 
 				case 'nothing':
-					$class = new User_Agent( $code );
+					$class = new Nothing( $code );
 					break;
 
 				case 'random':
-					$class = new Login( $code );
+					$class = new Random( $code );
 					break;
 
 				case 'pass':
-					$class = new Header( $code );
+					$class = new Pass( $code );
 					break;
 			}
 

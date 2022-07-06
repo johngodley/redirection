@@ -31,7 +31,7 @@ abstract class Module {
 	 */
 	public static function get( $id ) {
 		$id = intval( $id, 10 );
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( $id === Apache::MODULE_ID ) {
 			return new Apache( isset( $options['modules'][ Apache::MODULE_ID ] ) ? $options['modules'][ Apache::MODULE_ID ] : array() );

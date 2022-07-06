@@ -4,7 +4,7 @@ namespace Redirection\Match;
 
 use Redirection\Site;
 
-require_once dirname( __FILE__ ) . '/http-header.php';
+require_once dirname( __FILE__ ) . '/match-http-header.php';
 
 /**
  * Check that a cookie value exists

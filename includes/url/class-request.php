@@ -87,7 +87,7 @@ class Request {
 	 * @return boolean
 	 */
 	public function is_protected_url() {
-		$rest = wp_parse_url( \Redirection\Settings\red_get_rest_api() );
+		$rest = wp_parse_url( \Redirection\Plugin\Settings\red_get_rest_api() );
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $this->get_decoded_url(), 0, strlen( $rest_api ) ) === $rest_api ) {

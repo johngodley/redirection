@@ -54,7 +54,7 @@ class Query {
 	 * @param Source_Flags $flags Source flags.
 	 * @return boolean
 	 */
-	public function is_match( $url, Url\Source_Flags $flags ) {
+	public function is_match( $url, Source_Flags $flags ) {
 		if ( $flags->is_ignore_case() ) {
 			$url = Path::to_lower( $url );
 		}
@@ -110,7 +110,7 @@ class Query {
 	 * @param Source_Flags $flags Any URL flags.
 	 * @return string URL, modified or not.
 	 */
-	public static function add_to_target( $target_url, $requested_url, Url\Source_Flags $flags ) {
+	public static function add_to_target( $target_url, $requested_url, Source_Flags $flags ) {
 		if ( $flags->is_query_pass() && $target_url ) {
 			$source_query = new Query( $target_url, $flags );
 			$request_query = new Query( $requested_url, $flags );

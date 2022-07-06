@@ -37,7 +37,7 @@ class Redirection {
 	 */
 	public static function init() {
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new Redirection();
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -59,7 +59,7 @@ class Redirection {
 		add_action( Plugin\Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
 		add_filter( 'redirection_url_target', [ $this, 'transform_url' ] );
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		if ( $options['ip_logging'] === 0 ) {
 			add_filter( 'redirection_request_ip', array( $this, 'no_ip_logging' ) );
 		} elseif ( $options['ip_logging'] === 2 ) {

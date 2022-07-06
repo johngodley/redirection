@@ -117,7 +117,7 @@ class Canonical {
 	 * @return string|false
 	 */
 	private function get_canonical_target( $server ) {
-		$canonical = rtrim( \Redirection\Settings\red_parse_domain_only( $server ), '/' );
+		$canonical = rtrim( \Redirection\Plugin\Settings\red_parse_domain_only( $server ), '/' );
 
 		if ( $this->need_force_www( $server ) ) {
 			$canonical = 'www.' . ltrim( $canonical, 'www.' );
@@ -187,7 +187,7 @@ class Canonical {
 			return false;
 		} );
 
-		if ( $domain !== \Redirection\Settings\red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
+		if ( $domain !== \Redirection\Plugin\Settings\red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
 			return apply_filters( 'redirect_relocate_target', $relocate . $request );
 		}
 

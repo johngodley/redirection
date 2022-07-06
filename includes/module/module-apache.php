@@ -59,7 +59,7 @@ class Apache extends Module {
 
 		if ( @fopen( $location, 'a' ) === false ) {
 			$error = error_get_last();
-			return new WP_Error( 'redirect', isset( $error['message'] ) ? $error['message'] : 'Unknown error' );
+			return new \WP_Error( 'redirect', isset( $error['message'] ) ? $error['message'] : 'Unknown error' );
 		}
 
 		return true;

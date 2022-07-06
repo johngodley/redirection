@@ -101,11 +101,11 @@ class Settings extends Api\Route {
 		}
 
 		return [
-			'settings' => \Redirection\Settings\red_get_options(),
+			'settings' => \Redirection\Plugin\Settings\red_get_options(),
 			'groups' => $this->groups_to_json( Group\Group::get_for_select() ),
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
-			'post_types' => \Redirection\Settings\red_get_post_types(),
+			'post_types' => \Redirection\Plugin\Settings\red_get_post_types(),
 		];
 	}
 
@@ -122,7 +122,7 @@ class Settings extends Api\Route {
 			$result = $module->can_save( $params['location'] );
 		}
 
-		\Redirection\Settings\red_set_options( $params );
+		\Redirection\Plugin\Settings\red_set_options( $params );
 
 		$settings = $this->route_settings( $request );
 		if ( is_wp_error( $result ) ) {

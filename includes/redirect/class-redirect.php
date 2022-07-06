@@ -8,6 +8,7 @@ use Redirection\Match;
 use Redirection\Module;
 use Redirection\Site;
 use Redirection\Database;
+use Redirection\Log;
 
 require_once __DIR__ . '/class-sanitizer.php';
 require_once __DIR__ . '/class-filter.php';
@@ -202,7 +203,7 @@ class Redirect {
 	private function load_source() {
 		// Default regex flag to regex column. This will be removed once the regex column has been migrated
 		// todo: deprecate
-		$this->source_flags = new Url\Source_Flags( array_merge( \Redirection\Settings\red_get_options(), [ 'flag_regex' => $this->regex ] ) );
+		$this->source_flags = new Url\Source_Flags( array_merge( \Redirection\Plugin\Settings\red_get_options(), [ 'flag_regex' => $this->regex ] ) );
 		$this->source_options = new Source_Options();
 
 		if ( isset( $this->match_data ) ) {
@@ -210,7 +211,7 @@ class Redirect {
 
 			if ( $json && isset( $json['source'] ) ) {
 				// Merge redirect flags with default flags
-				$this->source_flags->set_flags( array_merge( \Redirection\Settings\red_get_options(), $json['source'] ) );
+				$this->source_flags->set_flags( array_merge( \Redirection\Plugin\Settings\red_get_options(), $json['source'] ) );
 			}
 
 			if ( $json && isset( $json['options'] ) ) {
@@ -472,7 +473,7 @@ class Redirect {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $this->id ) );
 		do_action( 'redirection_redirect_deleted', $this );
 
-		Redirect\Module::flush( $this->group_id );
+		Module\Module::flush( $this->group_id );
 	}
 
 	/**
@@ -565,7 +566,7 @@ class Redirect {
 			return true;
 		}
 
-		return new WP_Error( 'redirect_create_failed', 'Unable to update redirect' );
+		return new \WP_Error( 'redirect_create_failed', 'Unable to update redirect' );
 	}
 
 	/**
@@ -638,7 +639,7 @@ class Redirect {
 	public function visit( $url, $target ) {
 		global $wpdb;
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		// Update the counters
 		$this->last_count++;

@@ -25,11 +25,11 @@ class Path {
 	/**
 	 * Is the supplied `url` a match for this object?
 	 *
-	 * @param String           $url URL to match against.
+	 * @param string       $url URL to match against.
 	 * @param Source_Flags $flags Source flags to use in match.
 	 * @return boolean
 	 */
-	public function is_match( $url, Url\Source_Flags $flags ) {
+	public function is_match( $url, Source_Flags $flags ) {
 		$target = new Path( $url );
 
 		$target_path = $target->get();

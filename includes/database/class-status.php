@@ -39,7 +39,7 @@ class Status {
 	}
 
 	public function load_stage() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
 			$this->stage = isset( $settings[ self::DB_UPGRADE_STAGE ]['stage'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stage'] : false;
@@ -54,7 +54,7 @@ class Status {
 	 * @return bool true if needs installing, false otherwise
 	 */
 	public function needs_installing() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( $settings['database'] === '' && $this->get_old_version() === false ) {
 			return true;
@@ -88,7 +88,7 @@ class Status {
 	 * @return string Current database version
 	 */
 	public function get_current_version() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( $settings['database'] !== '' && is_string( $settings['database'] ) ) {
 			return $settings['database'];
@@ -99,7 +99,7 @@ class Status {
 
 			// Upgrade the old value
 			if ( $version ) {
-				\Redirection\Settings\red_set_options( array( 'database' => $version ) );
+				\Redirection\Plugin\Settings\red_set_options( array( 'database' => $version ) );
 				delete_option( self::OLD_DB_VERSION );
 				$this->clear_cache();
 				return $version;
@@ -120,7 +120,7 @@ class Status {
 		// No tables installed - do a fresh install
 		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
 			delete_option( Status::OLD_DB_VERSION );
-			\Redirection\Settings\red_set_options( [ 'database' => '' ] );
+			\Redirection\Plugin\Settings\red_set_options( [ 'database' => '' ] );
 			$this->clear_cache();
 
 			$this->status = self::STATUS_NEED_INSTALL;
@@ -178,7 +178,7 @@ class Status {
 		$this->stages = [];
 		$this->debug = [];
 
-		\Redirection\Settings\red_set_options( [ self::DB_UPGRADE_STAGE => false ] );
+		\Redirection\Plugin\Settings\red_set_options( [ self::DB_UPGRADE_STAGE => false ] );
 		$this->clear_cache();
 	}
 
@@ -323,7 +323,7 @@ class Status {
 			],
 		];
 
-		\Redirection\Settings\red_set_options( $stages );
+		\Redirection\Plugin\Settings\red_set_options( $stages );
 
 		$this->clear_cache();
 	}
@@ -375,7 +375,7 @@ class Status {
 	}
 
 	public function save_db_version( $version ) {
-		\Redirection\Settings\red_set_options( array( 'database' => $version ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'database' => $version ) );
 		delete_option( self::OLD_DB_VERSION );
 
 		$this->clear_cache();

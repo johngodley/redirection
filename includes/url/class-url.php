@@ -2,6 +2,8 @@
 
 namespace Redirection\Url;
 
+use Redirection\Site;
+
 require_once __DIR__ . '/class-query.php';
 require_once __DIR__ . '/class-path.php';
 require_once __DIR__ . '/class-match.php';
@@ -44,7 +46,7 @@ class Url {
 	 * @param Source_Flags $flags         Match flags.
 	 * @return boolean
 	 */
-	public function is_match( $requested_url, Url\Source_Flags $flags ) {
+	public function is_match( $requested_url, Source_Flags $flags ) {
 		if ( $flags->is_regex() ) {
 			$regex = new Site\Regex( $this->url, $flags->is_ignore_case() );
 

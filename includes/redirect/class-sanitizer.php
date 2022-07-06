@@ -41,7 +41,7 @@ class Sanitize {
 				$return['action_data'] = [ 'server' => $domain ];
 			}
 
-			$url = wp_parse_url( $url, PHP_Path );
+			$url = wp_parse_url( $url, PHP_URL_PATH );
 			if ( is_wp_error( $url ) || $url === null ) {
 				$url = '/';
 			}
@@ -65,7 +65,7 @@ class Sanitize {
 
 		// Set flags
 		if ( isset( $details['match_data'] ) && isset( $details['match_data']['source'] ) ) {
-			$defaults = \Redirection\Settings\red_get_options();
+			$defaults = \Redirection\Plugin\Settings\red_get_options();
 
 			// Parse the source flags
 			$flags = new Url\Source_Flags( $details['match_data']['source'] );
@@ -212,7 +212,7 @@ class Sanitize {
 		$group_id = intval( $group_id, 10 );
 
 		if ( ! Group\Group::get( $group_id ) ) {
-			return new WP_Error( 'redirect', 'Invalid group when creating redirect' );
+			return new \WP_Error( 'redirect', 'Invalid group when creating redirect' );
 		}
 
 		return $group_id;
@@ -222,14 +222,14 @@ class Sanitize {
 		$url = self::sanitize_url( $url, $regex );
 
 		if ( $url === '' ) {
-			return new WP_Error( 'redirect', 'Invalid source URL' );
+			return new \WP_Error( 'redirect', 'Invalid source URL' );
 		}
 
 		return $url;
 	}
 
 	protected function auto_generate() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 		$url = '';
 
 		if ( isset( $options['auto_target'] ) && $options['auto_target'] ) {

@@ -211,7 +211,7 @@ class Source_Flags {
 	 * @return array
 	 */
 	public function get_json_with_defaults() {
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = \Redirection\Plugin\Settings\red_get_options();
 		$json = $this->get_json();
 		$defaults = [
 			self::FLAG_QUERY => $settings[ self::FLAG_QUERY ],

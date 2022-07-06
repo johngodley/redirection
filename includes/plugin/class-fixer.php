@@ -46,7 +46,7 @@ class Fixer {
 					$status->save_db_version( $value );
 
 					// Switch to prompt mode
-					\Redirection\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
+					\Redirection\Plugin\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
 					break;
 				}
 			}
@@ -56,7 +56,7 @@ class Fixer {
 	public function get_status() {
 		global $wpdb;
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 		$bad_group = $this->get_missing();
@@ -161,7 +161,7 @@ class Fixer {
 
 	private function fix_groups() {
 		if ( Group\Group::create( 'new group', 1 ) === false ) {
-			return new WP_Error( 'Unable to create group' );
+			return new \WP_Error( 'Unable to create group' );
 		}
 
 		return true;
@@ -178,7 +178,7 @@ class Fixer {
 	}
 
 	private function fix_monitor() {
-		\Redirection\Settings\red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
 	}
 
 	private function get_valid_group() {

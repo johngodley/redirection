@@ -17,7 +17,7 @@ class Database {
 				[
 					'version' => REDIRECTION_DB_VERSION,
 					'file' => 'latest.php',
-					'class' => 'Database\Schema\Latest',
+					'class' => '\Redirection\Database\Schema\Schema_Latest',
 				],
 			];
 		}
@@ -102,7 +102,7 @@ class Database {
 	/**
 	 * Get latest database installer
 	 *
-	 * @return object Database\Schema\Latest
+	 * @return object Database\Schema\Schema_Latest
 	 */
 	public static function get_latest_database() {
 		include_once dirname( __FILE__ ) . '/schema/schema-latest.php';

@@ -309,7 +309,7 @@ class Group {
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups " . $where ) );
 		$items = array();
 
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		foreach ( $rows as $row ) {
 			$group = new Group( $row );

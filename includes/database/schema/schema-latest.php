@@ -37,7 +37,7 @@ class Schema_Latest extends Database\Upgrader {
 			}
 		}
 
-		\Redirection\Settings\red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
 		return true;
 	}
 
@@ -160,7 +160,7 @@ class Schema_Latest extends Database\Upgrader {
 
 		$group = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_groups LIMIT 1" );
 		if ( $group ) {
-			\Redirection\Settings\red_set_options( array( 'last_group_id' => $group->id ) );
+			\Redirection\Plugin\Settings\red_set_options( array( 'last_group_id' => $group->id ) );
 		}
 
 		return true;

@@ -1,10 +1,12 @@
 <?php
 
-namespace Redirection\Settings;
+namespace Redirection\Plugin\Settings;
 
 use Redirection\Url;
 use Redirection\Group;
 use Redirection\Site;
+use Redirection\Module;
+use Redirection\Redirect;
 
 define( 'REDIRECTION_OPTION', 'redirection_options' );
 define( 'REDIRECTION_API_JSON', 0 );
@@ -91,7 +93,7 @@ function red_get_default_options() {
  * @return array
  */
 function red_set_options( array $settings = array() ) {
-	$options = \Redirection\Settings\red_get_options();
+	$options = \Redirection\Plugin\Settings\red_get_options();
 	$monitor_types = array();
 
 	if ( isset( $settings['database'] ) ) {
@@ -111,7 +113,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
-		$allowed = \Redirection\Settings\red_get_post_types( false );
+		$allowed = \Redirection\Plugin\Settings\red_get_post_types( false );
 
 		foreach ( $settings['monitor_types'] as $type ) {
 			if ( in_array( $type, $allowed, true ) ) {
@@ -195,7 +197,7 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['location'] ) && ( ! isset( $options['location'] ) || $options['location'] !== $settings['location'] ) ) {
-		$module = Redirect\Module::get( 2 );
+		$module = Module\Module::get( 2 );
 		if ( $module ) {
 			$options['modules'][2] = $module->update( $settings );
 		}

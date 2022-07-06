@@ -42,7 +42,7 @@ class Source_Options {
 	 * @return boolean
 	 */
 	public function can_log() {
-		$options = \Redirection\Settings\red_get_options();
+		$options = \Redirection\Plugin\Settings\red_get_options();
 
 		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 ) {
 			return ! $this->log_exclude;

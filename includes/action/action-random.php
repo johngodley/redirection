@@ -2,7 +2,7 @@
 
 namespace Redirection\Action;
 
-require_once dirname( __FILE__ ) . '/url.php';
+require_once __DIR__ . '/action-url.php';
 
 /**
  * URL action - redirect to a URL

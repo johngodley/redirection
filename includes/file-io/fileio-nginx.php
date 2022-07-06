@@ -15,7 +15,7 @@ class Nginx extends FileIO {
 
 	public function get_data( array $items, array $groups ) {
 		$lines   = array();
-		$version = \Redirection\Settings\red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = \Redirection\Plugin\Settings\red_get_plugin_data( REDIRECTION_FILE );
 
 		$lines[] = '# Created by Redirection';
 		$lines[] = '# ' . date( 'r' );
