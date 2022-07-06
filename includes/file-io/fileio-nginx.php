@@ -105,8 +105,6 @@ class Nginx extends FileIO {
 
 		// Remove any existing start/end from a regex
 		$from = $source_url->get_as_source();
-		$from = ltrim( $from, '^' );
-		$from = rtrim( $from, '$' );
 
 		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
 			$from = '(?i)^' . $from;
