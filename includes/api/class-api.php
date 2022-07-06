@@ -76,8 +76,6 @@ class Api {
 	public function __construct() {
 		global $wpdb;
 
-		$wpdb->hide_errors();
-
 		$this->routes[] = new Route\Redirect( self::REDIRECTION_API_NAMESPACE );
 		$this->routes[] = new Route\Group( self::REDIRECTION_API_NAMESPACE );
 		$this->routes[] = new Route\Log( self::REDIRECTION_API_NAMESPACE );

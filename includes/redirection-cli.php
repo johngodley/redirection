@@ -47,7 +47,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	 *     wp redirection plugin quick-redirects
 	 */
 	public function plugin( $args, $extra ) {
-		include_once __DIR__ . '/file-io/class-importer.php';
+		include_once __DIR__ . '/import-plugin/class-importer.php';
 
 		$name = $args[0];
 		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );

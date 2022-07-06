@@ -8,6 +8,7 @@ use Redirection\Site;
 use Redirection\FileIO;
 use Redirection\Log;
 use Redirection\Redirect;
+use Redirection\Importer;
 
 require_once __DIR__ . '/group/class-group.php';
 require_once __DIR__ . '/plugin/class-monitor.php';
@@ -385,7 +386,7 @@ class Admin {
 		$status = new Database\Status();
 
 		if ( $status->needs_installing() ) {
-			include_once __DIR__ . '/file-io/class-importer.php';
+			include_once __DIR__ . '/import-plugin/class-importer.php';
 
 			return [
 				'importers' => Importer\Plugin_Importer::get_plugins(),
