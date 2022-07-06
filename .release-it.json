@@ -1,0 +1,15 @@
+{
+	"git": {
+		"commitMessage": "Release v${version}"
+	},
+	"github": {
+		"release": true,
+		"assets": [ "redirection.zip" ]
+	},
+	"npm": {
+		"publish": false
+	},
+	"hooks": {
+		"before:github": [ "yarn plugin-zip" ]
+	}
+}

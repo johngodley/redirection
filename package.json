@@ -79,6 +79,7 @@
 		"node-fetch": "2",
 		"path": "^0.12.7",
 		"prettier": "npm:wp-prettier@2.6.2",
+		"release-it": "^15.1.1",
 		"through": "^2.3.8",
 		"through2": "^4.0.2",
 		"webpack-shell-plugin-next": "^2.2.2"
@@ -92,7 +93,8 @@
 		"lint:psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
+		"plugin-zip": "wp-scripts plugin-zip && mv redirection.zip redirection-$npm_package_version.zip",
+		"release": "release-it",
 		"start": "wp-scripts start",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"test:js": "wp-scripts test-unit-js",
