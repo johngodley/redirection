@@ -245,7 +245,7 @@ class WordPress extends Module {
 		} ) );
 
 		if ( count( $page_types ) > 0 ) {
-			$request = new Site\Request( Site\Request::get_request_url() );
+			$request = new Url\Request( Site\Request::get_request_url() );
 			$action = $page_types[0]->get_match( $request->get_decoded_url(), $request->get_original_url() );
 			if ( $action ) {
 				$action->run();
