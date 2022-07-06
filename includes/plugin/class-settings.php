@@ -233,7 +233,8 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['aliases'] ) && is_array( $settings['aliases'] ) ) {
-		$options['aliases'] = array_values( array_filter( array_map( 'red_parse_domain_only', $settings['aliases'] ) ) );
+		$aliases = array_map( 'Redirection\Plugin\Settings\red_parse_domain_only', $settings['aliases'] );
+		$options['aliases'] = array_values( array_filter( $aliases ) );
 		$options['aliases'] = array_slice( $options['aliases'], 0, 20 ); // Max 20
 	}
 
