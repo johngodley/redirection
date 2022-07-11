@@ -8,7 +8,6 @@ use Redirection\Plugin;
 use Redirection\Importer;
 use Redirection\Group;
 
-
 /**
  * @api {get} /redirection/v1/import/file/:group_id Import redirects
  * @apiName Import

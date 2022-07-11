@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const { src, dest } = require( 'gulp' );
 const fs = require( 'fs' );
-const crypto = require( 'crypto' );
 const globby = require( 'globby' );
 const path = require( 'path' );
 const zip = require( 'gulp-zip' );
