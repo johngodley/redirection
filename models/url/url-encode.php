@@ -22,6 +22,16 @@ class Red_Url_Encode {
 	 * @param boolean $is_regex Is Regex.
 	 */
 	public function __construct( $url, $is_regex = false ) {
+		// Remove any newlines
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Remove invalid characters
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+
+		// Make sure spaces are quoted
+		$url = str_replace( ' ', '%20', $url );
+		$url = str_replace( '%24', '$', $url );
+
 		$this->url = $url;
 		$this->is_regex = $is_regex;
 	}
@@ -90,25 +100,13 @@ class Red_Url_Encode {
 	 * @return string
 	 */
 	private function encode_regex( $url ) {
-		// Remove any newlines
-		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		if ( $this->is_regex ) {
+			// No leading slash
+			$url = ltrim( $url, '/' );
 
-		// Remove invalid characters
-		$url = preg_replace( '/[^\PC\s]/u', '', $url );
-
-		// Make sure spaces are quoted
-		$url = str_replace( ' ', '%20', $url );
-		$url = str_replace( '%24', '$', $url );
-
-		if ( ! $this->is_regex ) {
-			return $url;
+			// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
+			$url = preg_replace( '@^\^/@', '^', $url );
 		}
-
-		// No leading slash
-		$url = ltrim( $url, '/' );
-
-		// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
-		$url = preg_replace( '@^\^/@', '^', $url );
 
 		return $url;
 	}
