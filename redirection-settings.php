@@ -21,7 +21,7 @@ function red_get_post_types( $full = true ) {
 		'label' => __( 'Trash', 'default' ),
 	);
 
-	$post_types = array();
+	$post_types = [];
 	foreach ( $types as $type ) {
 		if ( $type->name === 'attachment' ) {
 			continue;
@@ -84,9 +84,9 @@ function red_get_default_options() {
  * @param array $settings Partial settings.
  * @return array
  */
-function red_set_options( array $settings = array() ) {
+function red_set_options( array $settings = [] ) {
 	$options = red_get_options();
-	$monitor_types = array();
+	$monitor_types = [];
 
 	if ( isset( $settings['database'] ) ) {
 		$options['database'] = $settings['database'];
@@ -315,17 +315,18 @@ function red_is_disabled() {
  */
 function red_get_options() {
 	$options = get_option( REDIRECTION_OPTION );
-
-	if ( is_array( $options ) && red_is_disabled() ) {
-		$options['https'] = false;
-	}
+	$fresh_install = false;
 
 	if ( $options === false ) {
-		// Default flags for new installs - ignore case and trailing slashes
-		$options = [
-			'flags_case' => true,
-			'flags_trailing' => true,
-		];
+		$fresh_install = true;
+	}
+
+	if ( ! is_array( $options ) ) {
+		$options = [];
+	}
+
+	if ( red_is_disabled() ) {
+		$options['https'] = false;
 	}
 
 	$defaults = red_get_default_options();
@@ -334,6 +335,12 @@ function red_get_options() {
 		if ( ! isset( $options[ $key ] ) ) {
 			$options[ $key ] = $value;
 		}
+	}
+
+	if ( $fresh_install ) {
+		// Default flags for new installs - ignore case and trailing slashes
+		$options['flag_case'] = true;
+		$options['flag_trailing'] = true;
 	}
 
 	// Back-compat. If monitor_post is set without types then it's from an older Redirection
