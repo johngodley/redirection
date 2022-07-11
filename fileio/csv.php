@@ -73,6 +73,8 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function load_from_file( $group_id, $file, $separator ) {
+		global $wpdb;
+
 		$count = 0;
 
 		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) ) {
@@ -81,11 +83,15 @@ class Red_Csv_File extends Red_FileIO {
 			if ( $item ) {
 				$created = Red_Item::create( $item );
 
+				// The query log can use up all the memory
+				$wpdb->queries = [];
+
 				if ( ! is_wp_error( $created ) ) {
 					$count++;
 				}
 			}
 		}
+
 
 		return $count;
 	}
