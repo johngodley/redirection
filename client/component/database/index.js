@@ -78,7 +78,7 @@ export default function Database( { children } ) {
 
 			<div className="redirection-database_progress">
 				<h3>
-					{ sprintf( __( 'Progress: %(complete)d%%', 'redirection' ), complete ) }
+					{ sprintf( __( 'Progress: %(complete)d%%', 'redirection' ), { complete } ) }
 				</h3>
 				<Line percent={ complete } strokeWidth={ 4 } trailWidth={ 4 } strokeLinecap="square" />
 

@@ -26,13 +26,11 @@ export default function StepWelcome( { setStep, setOptions } ) {
 			<h2>{ __( 'Welcome to Redirection 🚀🎉', 'redirection' ) }</h2>
 
 			<p>
-				{ createInterpolateElement(
-					sprintf(
-						__( 'Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.', 'redirection' ),
-					),
+				{ sprintf(
+					__( 'Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed.', 'redirection' ),
 					{
 						version: window.Redirectioni10n.version,
-					},
+					}
 				) }
 			</p>
 			<p>

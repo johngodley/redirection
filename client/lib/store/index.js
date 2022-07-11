@@ -12,13 +12,14 @@ function getConfirmMessage( count, isArray ) {
 			_n(
 				'Are you sure you want to delete this item?',
 				'Are you sure you want to delete the %d selected items?',
-				count
+				count,
+				'redirection'
 			),
 			count
 		);
 	}
 
-	return sprintf( __( 'Are you sure want to delete all %d matching items?', count ) );
+	return sprintf( __( 'Are you sure want to delete all %d matching items?', 'redirection' ), count );
 }
 
 export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
