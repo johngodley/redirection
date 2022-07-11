@@ -187,6 +187,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 * Prevent ordering columns by HTTP code
 * Better encode URLs in Nginx export
 * Allow escaped characters to work in the redirect checker
+* Reduce CSV import time
 
 = 5.2.3 - 6th February 2022 =
 * Fix error when grouping by URL, adding redirect, and then adding another redirect
