@@ -97,7 +97,7 @@ class Red_Permalinks {
 			return false;
 		}
 
-		if ( $wp_query->posts && $wp_query->is_posts_page && ! empty( $this->query_vars['page'] ) ) {
+		if ( $wp_query->posts && ! $wp_query->is_posts_page && empty( $this->query_vars['page'] ) ) {
 			return false;
 		}
 
