@@ -8,7 +8,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 
-		$this->assertEquals( '"/source","/target","0","url","301","url","0",""', $csv );
+		$this->assertEquals( '"/source","/target","0","url","301","url","0","","active"', $csv );
 	}
 
 	public function testRegex() {
@@ -16,7 +16,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 
-		$this->assertEquals( '"/source","/target","1","url","301","url","0",""', $csv );
+		$this->assertEquals( '"/source","/target","1","url","301","url","0","","active"', $csv );
 	}
 
 	public function testEscapeFormula() {
@@ -24,7 +24,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '=/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 
-		$this->assertEquals( '"=/source","/target","0","url","301","url","0",""', $csv );
+		$this->assertEquals( '"=/source","/target","0","url","301","url","0","","active"', $csv );
 	}
 
 	public function testEscapeCSVEmpty() {
@@ -50,9 +50,9 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$lines = array_filter( explode( PHP_EOL, $result ) );
 
 		$this->assertEquals( 3, count( $lines ) );
-		$this->assertEquals( 'source,target,regex,type,code,match,hits,title', $lines[0] );
-		$this->assertEquals( '"/source1","/target","0","url","301","url","0",""', $lines[1] );
-		$this->assertEquals( '"/source2","/target","0","url","301","url","0",""', $lines[2] );
+		$this->assertEquals( 'source,target,regex,type,code,match,hits,title,status', $lines[0] );
+		$this->assertEquals( '"/source1","/target","0","url","301","url","0","","active"', $lines[1] );
+		$this->assertEquals( '"/source2","/target","0","url","301","url","0","","active"', $lines[2] );
 	}
 
 	public function testExportReferrer() {
@@ -61,6 +61,25 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'referrer', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source1', 'action_data' => $target, 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 
-		$this->assertEquals( '"/source1","*","0","url","301","url","0",""', $csv );
+		$this->assertEquals( '"/source1","*","0","url","301","url","0","","active"', $csv );
 	}
+
+	public function testEnabled() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
+		$item->enable();
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"/source","/target","0","url","301","url","0","","active"', $csv );
+	}
+
+	public function testDisabled() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
+		$item->disable();
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"/source","/target","0","url","301","url","0","","disabled"', $csv );
+	}
+
 }
