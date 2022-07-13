@@ -1,21 +1,10 @@
 name: Test PHP
 
 on:
-    push:
-        branches: [master]
-        paths:
-            - '**/*.php'
-            - '**/composer.lock'
-            - '**/phpcs.xml'
-            - '**/phpunit.xml.dist'
-            - '**/psalm.xml'
-    pull_request:
-        paths:
-            - '**/*.php'
-            - '**/composer.lock'
-            - '**/phpcs.xml'
-            - '**/phpunit.xml.dist'
-            - '**/psalm.xml'
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
     build:

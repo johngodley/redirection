@@ -19,13 +19,8 @@ jobs:
         node-version: [14.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: borales/actions-yarn@v3.0.0
+    - name: Yarn setup
+      uses: DerYeger/yarn-setup-action@master
       with:
-        cmd: install
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        node-version: 16
     - run: yarn test:js
