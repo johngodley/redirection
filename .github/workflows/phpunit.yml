@@ -2,53 +2,56 @@ name: PHPUnit
 
 on:
     pull_request:
-        branches: [master]
         paths:
-                - '**/*.php'
-                - '**/composer.lock'
-                - '**/phpcs.xml'
-                - '**/phpunit.xml.dist'
-                - '**/psalm.xml'
+            - '**/*.php'
+            - '**/composer.lock'
+            - '**/phpcs.xml'
+            - '**/phpunit.xml.dist'
+            - '**/psalm.xml'
 
-    # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
 
 jobs:
-    test:
+    build:
         runs-on: ubuntu-latest
-        strategy:
-                matrix:
-                        php: [7.4]
 
-    steps:
-        - uses: actions/checkout@v3
+        steps:
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
 
-        - name: Cache dependencies
-          uses: actions/cache@v3
-          with:
-                path: ~/.composer/cache/files
-                key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+            - uses: actions/checkout@v2
 
-        - name: Setup PHP
-          uses: shivammathur/setup-php@v2
-          with:
-                php-version: ${{ matrix.php }}
-                extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-                coverage: none
+            - name: Cache Composer packages
+              id: composer-cache
+              uses: actions/cache@v2
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
 
-        - name: Start MySQL
-          run: sudo /etc/init.d/mysql start
+            - name: Install dependencies
+              if: steps.composer-cache.outputs.cache-hit != 'true'
+              run: composer install --prefer-dist --no-progress --no-suggest
 
-        - name: Install dependencies
-          run: composer update --prefer-dist --no-interaction --no-suggest
+            - name: Run unit tests
+              run: composer test
 
-        - name: Setup tests
-          run: bash bin/install-wp-tests.sh wordpress_test root root localhost latest
+            - name: Start MySQL
+              run: sudo /etc/init.d/mysql start
 
-        - name: Working Directory
-          run: pwd
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-interaction --no-suggest
 
-        - name: Execute tests
-          run: yarn test:php
-          env:
-                DB_PORT: ${{ job.services.mysql.ports[3306] }}
+            - name: Setup tests
+              run: bash bin/install-wp-tests.sh wordpress_test root root localhost latest
+
+            - name: Working Directory
+              run: pwd
+
+            - name: Execute tests
+              run: yarn test:php
+              env:
+                  DB_PORT: ${{ job.services.mysql.ports[3306] }}
