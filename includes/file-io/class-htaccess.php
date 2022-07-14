@@ -217,7 +217,7 @@ class Htaccess {
 			if ( isset( $url_parts['path'] ) ) {
 				$url = $url_parts['path'];
 				$query = isset( $url_parts['query'] ) ? $url_parts['query'] : '';
-				$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $query );
+				$this->items[] = sprintf( 'RewriteCond %%{QUERY_STRING} ^%s$', $this->encode_rewrite( $query ) );
 			}
 		}
 
@@ -231,6 +231,14 @@ class Htaccess {
 		if ( $to ) {
 			$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 		}
+	}
+
+	private function encode_rewrite( $url ) {
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Remove invalid characters
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+		return str_replace( ' ', '%20', preg_quote( $url ) );
 	}
 
 	/**

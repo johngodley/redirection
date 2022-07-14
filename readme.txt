@@ -184,6 +184,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 = 5.4 - Unreleased =
 * Fix JSON import always creating new groups
 * CSV import now supports 410 error codes and includes a status column
+* Fix query params in .htaccess
 
 = 5.3.3 - ??? =
 * Fix default HTTP header not being set when first used
