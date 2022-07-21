@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 5.4
-Tested up to: 5.9
+Tested up to: 6.0.1
 Stable tag: trunk
 Requires PHP: 5.6
 License: GPLv3
@@ -181,7 +181,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.3 - Unreleased =
+= 5.3.0 - 21st July 2022 =
 * Improve installation process
 * Improve permalink migration so it works with more permalinks
 * Prevent ordering columns by HTTP code
