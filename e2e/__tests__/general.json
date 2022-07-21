@@ -29,7 +29,7 @@
 			},
 			"target": {
 				"status": 301,
-				"location": "/author/admin"
+				"location": "/author/admin/"
 			}
 		}
 	]

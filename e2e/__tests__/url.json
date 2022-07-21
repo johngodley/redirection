@@ -443,12 +443,23 @@
 		"Test a migrated permalink",
 		{
 			"source": {
-				"url": "/2020/01/01/migrated-permalink/"
+				"url": "/2022/07/06/migrated-permalink/"
 			},
 			"target": {
 				"location": "/migrated-permalink/",
 				"status": 301,
 				"agent": true
+			}
+		}
+	],
+	[
+		"Test a existing permalink",
+		{
+			"source": {
+				"url": "/migrated-permalink/"
+			},
+			"target": {
+				"status": 200
 			}
 		}
 	]
