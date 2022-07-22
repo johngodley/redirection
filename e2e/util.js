@@ -2,8 +2,6 @@ const fetch = require( 'node-fetch' );
 
 const BASE_URL = 'http://redirection-e2e.local';
 
-jest.setTimeout( 30000 );
-
 function testItem( source, target ) {
 	return fetch( BASE_URL + source.url, {
 		redirect: 'manual',
