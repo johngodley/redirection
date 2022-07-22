@@ -1,7 +1,7 @@
 <?php
 
-require_once dirname( __DIR__ ) . '/matches/from-notfrom.php';
-require_once dirname( __DIR__ ) . '/matches/from-url.php';
+require_once __DIR__ . '/from-notfrom.php';
+require_once __DIR__ . '/from-url.php';
 
 /**
  * Matches a URL and some other condition
@@ -128,7 +128,7 @@ abstract class Red_Match {
 			$classname = $name . '_match';
 
 			if ( ! class_exists( strtolower( $classname ) ) ) {
-				include dirname( __FILE__ ) . '/../matches/' . $avail[ strtolower( $name ) ];
+				include dirname( __FILE__ ) . '/' . $avail[ strtolower( $name ) ];
 			}
 
 			/**

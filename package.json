@@ -9,18 +9,18 @@
 	"sideEffects": true,
 	"scripts": {
 		"build": "wp-scripts build",
-        "check-engines": "wp-scripts check-engines",
-        "check-licenses": "wp-scripts check-licenses",
-        "format": "wp-scripts format",
-        "lint:css": "wp-scripts lint-style",
-        "lint:js": "wp-scripts lint-js",
-        "lint:md:docs": "wp-scripts lint-md-docs",
-        "lint:pkg-json": "wp-scripts lint-pkg-json",
-        "packages-update": "wp-scripts packages-update",
-        "plugin-zip": "wp-scripts plugin-zip",
-        "start": "wp-scripts start",
-        "test:e2e": "wp-scripts test-e2e",
-        "test:unit": "wp-scripts test-unit-js",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:md:docs": "wp-scripts lint-md-docs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start",
+		"test:e2e": "wp-scripts test-e2e",
+		"test:unit": "wp-scripts test-unit-js",
 		"e2e": "NODE_ENV=e2e jest --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"up": "docker compose up",
 		"down": "docker compose down",
@@ -126,7 +126,6 @@
 		"redux-devtools-extension": "^2.13.9",
 		"request-promise": "^4.2.6",
 		"sass-loader": "^13.0.2",
-		"shared-git-hooks": "^1.2.1",
 		"style-loader": "3.3.1",
 		"stylelint": "^14.11.0",
 		"stylelint-config-wordpress": "^17.0.0",
@@ -179,10 +178,10 @@
 		"url": "https://redirection.me/wp-json",
 		"header": {
 			"title": "Introduction",
-			"filename": "./api/header.md"
+			"filename": "./api-header.md"
 		},
 		"footer": {
-			"filename": "./api/footer.md"
+			"filename": "./api-footer.md"
 		},
 		"template": {
 			"withCompare": false

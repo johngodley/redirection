@@ -52,14 +52,14 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	}
 
 	public function route_status( WP_REST_Request $request ) {
-		include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
+		include_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
 
 		$fixer = new Red_Fixer();
 		return $fixer->get_json();
 	}
 
 	public function route_fixit( WP_REST_Request $request ) {
-		include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
+		include_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
 
 		$params = $request->get_params();
 		$fixer = new Red_Fixer();

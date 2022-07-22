@@ -1,9 +1,9 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/redirect-sanitizer.php';
-require_once dirname( __FILE__ ) . '/redirect-filter.php';
-require_once dirname( __FILE__ ) . '/redirect-options.php';
-require_once dirname( __FILE__ ) . '/redirect-cache.php';
+require_once __DIR__ . '/redirect-sanitizer.php';
+require_once __DIR__ . '/redirect-filter.php';
+require_once __DIR__ . '/redirect-options.php';
+require_once __DIR__ . '/redirect-cache.php';
 
 /**
  * Redirect class

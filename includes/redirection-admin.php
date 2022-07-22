@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/models/group.php';
-require_once __DIR__ . '/models/monitor.php';
-require_once __DIR__ . '/models/file-io.php';
+require_once __DIR__ . '/redirect/group.php';
+require_once __DIR__ . '/site/monitor.php';
+require_once __DIR__ . '/file-io/file-io.php';
 require_once __DIR__ . '/database/database.php';
 require_once __DIR__ . '/redirection-capabilities.php';
 
@@ -355,7 +355,7 @@ class Redirection_Admin {
 
 	private function run_fixit() {
 		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SUPPORT_MANAGE ) ) {
-			require_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
+			require_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
 
 			$fixer = new Red_Fixer();
 			$result = $fixer->fix( $fixer->get_status() );
@@ -376,7 +376,7 @@ class Redirection_Admin {
 		$status = new Red_Database_Status();
 
 		if ( $status->needs_installing() ) {
-			include_once __DIR__ . '/models/importer.php';
+			include_once __DIR__ . '/file-io/importer.php';
 
 			return [
 				'importers' => Red_Plugin_Importer::get_plugins(),
@@ -384,7 +384,7 @@ class Redirection_Admin {
 		}
 
 		if ( $this->get_current_page() === 'support' ) {
-			require_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
+			require_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
 
 			$fixer = new Red_Fixer();
 

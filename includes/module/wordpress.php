@@ -150,7 +150,7 @@ class WordPress_Module extends Red_Module {
 		$options = red_get_options();
 
 		if ( count( $options['permalinks'] ) > 0 ) {
-			include_once dirname( dirname( __FILE__ ) ) . '/models/permalinks.php';
+			include_once dirname( dirname( __FILE__ ) ) . '/site/permalinks.php';
 
 			$permalinks = new Red_Permalinks( $options['permalinks'] );
 			$permalinks->migrate( $query );

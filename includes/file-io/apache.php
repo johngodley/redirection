@@ -9,7 +9,7 @@ class Red_Apache_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
+		include_once __DIR__ . '/htaccess.php';
 
 		$htaccess = new Red_Htaccess();
 

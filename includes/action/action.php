@@ -52,7 +52,7 @@ abstract class Red_Action {
 
 		if ( isset( $avail[ $name ] ) ) {
 			if ( ! class_exists( strtolower( $avail[ $name ][1] ) ) ) {
-				include_once dirname( __FILE__ ) . '/../actions/' . $avail[ $name ][0];
+				include_once dirname( __FILE__ ) . '/' . $avail[ $name ][0];
 			}
 
 			/**

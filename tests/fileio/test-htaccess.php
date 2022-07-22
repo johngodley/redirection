@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../models/htaccess.php';
+require dirname( __FILE__ ) . '/../../file-io/htaccess.php';
 
 class HtaccessTest extends WP_UnitTestCase {
 	private function getOutput( Red_Htaccess $htaccess ) {

@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/modules/wordpress.php';
-require_once __DIR__ . '/models/canonical.php';
+require_once __DIR__ . '/module/wordpress.php';
+require_once __DIR__ . '/site/canonical.php';
 require_once __DIR__ . '/database/database-status.php';
 
 /**

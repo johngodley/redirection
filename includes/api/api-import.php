@@ -48,13 +48,13 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	}
 
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
+		include_once dirname( __DIR__ ) . '/file-io/importer.php';
 
 		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
 	}
 
 	public function route_plugin_import( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
+		include_once dirname( __DIR__ ) . '/file-io/importer.php';
 
 		$params = $request->get_params( $request );
 		$groups = Red_Group::get_all();

@@ -42,16 +42,16 @@ if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 
 require_once __DIR__ . '/redirection-version.php';
 require_once __DIR__ . '/includes/redirection-settings.php';
-require_once __DIR__ . '/includes/models/redirect/redirect.php';
-require_once __DIR__ . '/includes/models/url/url.php';
-require_once __DIR__ . '/includes/models/regex.php';
-require_once __DIR__ . '/includes/models/module.php';
-require_once __DIR__ . '/includes/models/log/log.php';
-require_once __DIR__ . '/includes/models/flusher.php';
-require_once __DIR__ . '/includes/models/match.php';
-require_once __DIR__ . '/includes/models/action.php';
-require_once __DIR__ . '/includes/models/request.php';
-require_once __DIR__ . '/includes/models/header.php';
+require_once __DIR__ . '/includes/redirect/redirect.php';
+require_once __DIR__ . '/includes/url/url.php';
+require_once __DIR__ . '/includes/site/regex.php';
+require_once __DIR__ . '/includes/module/module.php';
+require_once __DIR__ . '/includes/log/log.php';
+require_once __DIR__ . '/includes/site/flusher.php';
+require_once __DIR__ . '/includes/match/match.php';
+require_once __DIR__ . '/includes/action/action.php';
+require_once __DIR__ . '/includes/site/request.php';
+require_once __DIR__ . '/includes/site/header.php';
 
 function red_is_wpcli() {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {

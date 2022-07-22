@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname( dirname( __FILE__ ) ) . '/modules/wordpress.php';
-require_once dirname( dirname( __FILE__ ) ) . '/modules/apache.php';
-require_once dirname( dirname( __FILE__ ) ) . '/modules/nginx.php';
+require_once __DIR__ . '/wordpress.php';
+require_once __DIR__ . '/apache.php';
+require_once __DIR__ . '/nginx.php';
 
 /**
  * Base class for redirect module.

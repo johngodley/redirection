@@ -23,8 +23,6 @@ const SVN_SOURCE_FILES = [
 	'!node_modules',
 	'!bin/**',
 	'!bin',
-	'!hooks/**',
-	'!hooks',
 	'!src/**',
 	'!src',
 	'!tests/**',

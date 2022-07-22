@@ -28,7 +28,7 @@ class Apache_Module extends Red_Module {
 	}
 
 	protected function flush_module() {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
+		include_once dirname( dirname( __FILE__ ) ) . '/file-io/htaccess.php';
 
 		if ( empty( $this->location ) ) {
 			return false;
@@ -67,7 +67,7 @@ class Apache_Module extends Red_Module {
 	}
 
 	public function update( array $data ) {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
+		include_once dirname( dirname( __FILE__ ) ) . '/file-io/htaccess.php';
 
 		$new_location = isset( $data['location'] ) ? $data['location'] : '';
 		if ( strlen( $new_location ) > 0 ) {
