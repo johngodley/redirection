@@ -2,10 +2,9 @@
  * External dependencies
  */
 
-import React from 'react';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 
-const Importer = props => {
+function Importer( props ) {
 	const { plugin, doImport } = props;
 	const { name, total } = plugin;
 	const clicker = () => {
@@ -14,10 +13,10 @@ const Importer = props => {
 
 	return (
 		<div className="plugin-importer">
-			<p><strong>{ name }</strong> ({ __( 'total = ', 'redirection' ) + total } )</p>
+			<p><strong>{ name }</strong> ({ sprintf( __( 'total = %d', 'redirection' ), total ) })</p>
 
 			<button onClick={ clicker } className="button-secondary">
-				{ __( 'Import from %s', { args: name } ) }
+				{ sprintf( __( 'Import from %s', 'redirection' ), name ) }
 			</button>
 		</div>
 	);
