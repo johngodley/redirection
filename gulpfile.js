@@ -135,7 +135,11 @@ function potJson( done ) {
 	return src( [ 'locale/*.po' ] )
 		.pipe( po2json() )
 		.pipe( through.obj( ( file, enc, cb ) => {
-			const json = JSON.parse( String( file.contents ) );
+			const json = JSON
+				.parse( String( file.contents )
+				.replace( ' {code', ' {{code' )
+				.replace( '{{{', '{{' )
+				.replace( '}}}', '}}' ) );
 
 			json[ '' ] = {
 				'plural-forms': json[ '' ][ 'plural-forms' ]
