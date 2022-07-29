@@ -1,6 +1,6 @@
 {
 	"name": "redirection",
-	"version": "5.3.0",
+	"version": "5.3.1",
 	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
 	"main": "redirection.php",
 	"browser": {
@@ -32,7 +32,8 @@
 		"locale:download": "gulp potDownload",
 		"locale:json": "gulp potJson",
 		"svn": "gulp svn",
-		"plugin": "gulp plugin"
+		"plugin": "gulp plugin",
+		"test:php": "composer run-script test"
 	},
 	"repository": {
 		"type": "git",
