@@ -30,7 +30,7 @@ class Red_Url_Query {
 	 * @param Red_Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
-		$this->query = $this->get_url_query( $url );
+		$this->query = $this->get_url_query( $flags->is_ignore_case() ? Red_Url_Path::to_lower( $url ) : $url );
 	}
 
 	/**
@@ -247,6 +247,15 @@ class Red_Url_Query {
 		return substr( $url, $qpos + 1 );
 	}
 
+	private function get_query_case( array $query ) {
+		$keys = [];
+		foreach ( array_keys( $query ) as $key ) {
+			$keys[ Red_Url_Path::to_lower( $key ) ] = $key;
+		}
+
+		return $keys;
+	}
+
 	/**
 	 * Get query parameters that are the same in both query arrays
 	 *
@@ -261,15 +270,8 @@ class Red_Url_Query {
 			return [];
 		}
 
-		$source_keys = [];
-		foreach ( array_keys( $source_query ) as $key ) {
-			$source_keys[ Red_Url_Path::to_lower( $key ) ] = $key;
-		}
-
-		$target_keys = [];
-		foreach ( array_keys( $target_query ) as $key ) {
-			$target_keys[ Red_Url_Path::to_lower( $key ) ] = $key;
-		}
+		$source_keys = $this->get_query_case( $source_query );
+		$target_keys = $this->get_query_case( $target_query );
 
 		$same = [];
 		foreach ( $source_keys as $key => $original_key ) {

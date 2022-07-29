@@ -79,6 +79,20 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertFalse( $url->is_match( '/this?arrs2[]=1&arrs2[]=2&arrs2[]=3&arrs1[]=1&arrs1[]=2&arrs1[]=3', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}
 
+	public function testQueryArrayCase() {
+		$url = new Red_Url_Query( '/?hasCase[something]=test', new Red_Source_Flags() );
+
+		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Red_Source_Flags() ) );
+		$this->assertFalse( $url->is_match( '/?hascase[something]=test', new Red_Source_Flags() ) );
+	}
+
+	public function testQueryArrayCaseInsensitive() {
+		$url = new Red_Url_Query( '/?hasCase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) );
+
+		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/?hascase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
+	}
+
 	public function testQueryPassNoParams() {
 		$this->assertEquals( '/cats', Red_Url_Query::add_to_target( '/cats', '/target', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}

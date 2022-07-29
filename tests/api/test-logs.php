@@ -1,7 +1,7 @@
 <?php
 
 class RedirectionApiLogTest extends Redirection_Api_Test {
-	public static function setupBeforeClass() {
+	public static function setupBeforeClass(): void {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );

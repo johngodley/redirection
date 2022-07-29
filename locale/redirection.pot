@@ -9,14 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-21T09:03:25+00:00\n"
+"POT-Creation-Date: 2022-07-29T06:50:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 
 #. Plugin Name of the plugin
-#: build/redirection.js:4569
-#: build/redirection.js:10182
-#: build/redirection.js:13926
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/component/log-page/log-columns/index.js:76
 #: client/component/welcome-wizard/index.js:95
 #: client/page/logs/constants.js:246
@@ -37,35 +36,35 @@ msgid "John Godley"
 msgstr ""
 
 #: actions/error.php:59
-#: build/redirection.js:5449
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:93
 #: redirection.js:2
 msgid "Error (404)"
 msgstr ""
 
 #: actions/nothing.php:17
-#: build/redirection.js:5452
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:97
 #: redirection.js:2
 msgid "Do nothing (ignore)"
 msgstr ""
 
 #: actions/pass.php:74
-#: build/redirection.js:5446
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:89
 #: redirection.js:2
 msgid "Pass-through"
 msgstr ""
 
 #: actions/random.php:48
-#: build/redirection.js:5443
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:85
 #: redirection.js:2
 msgid "Redirect to random post"
 msgstr ""
 
 #: actions/url.php:53
-#: build/redirection.js:5440
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:81
 #: redirection.js:2
 msgid "Redirect to URL"
@@ -97,7 +96,7 @@ msgstr ""
 
 #: database/schema/latest.php:138
 #: models/group.php:234
-#: build/redirection.js:12899
+#: build/redirection.js:6
 #: client/page/home/index.js:40
 #: redirection.js:2
 msgid "Redirections"
@@ -108,84 +107,84 @@ msgid "Modified Posts"
 msgstr ""
 
 #: matches/cookie.php:10
-#: build/redirection.js:5418
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:50
 #: redirection.js:2
 msgid "URL and cookie"
 msgstr ""
 
 #: matches/custom-filter.php:17
-#: build/redirection.js:5430
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:66
 #: redirection.js:2
 msgid "URL and custom filter"
 msgstr ""
 
 #: matches/http-header.php:31
-#: build/redirection.js:5427
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:62
 #: redirection.js:2
 msgid "URL and HTTP header"
 msgstr ""
 
 #: matches/ip.php:17
-#: build/redirection.js:5421
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:54
 #: redirection.js:2
 msgid "URL and IP"
 msgstr ""
 
 #: matches/language.php:17
-#: build/redirection.js:5436
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:74
 #: redirection.js:2
 msgid "URL and language"
 msgstr ""
 
 #: matches/login.php:22
-#: build/redirection.js:5406
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:34
 #: redirection.js:2
 msgid "URL and login status"
 msgstr ""
 
 #: matches/page.php:17
-#: build/redirection.js:5433
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:70
 #: redirection.js:2
 msgid "URL and WordPress page type"
 msgstr ""
 
 #: matches/referrer.php:24
-#: build/redirection.js:5412
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:42
 #: redirection.js:2
 msgid "URL and referrer"
 msgstr ""
 
 #: matches/server.php:17
-#: build/redirection.js:5424
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:58
 #: redirection.js:2
 msgid "URL and server"
 msgstr ""
 
 #: matches/url.php:15
-#: build/redirection.js:5403
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:30
 #: redirection.js:2
 msgid "URL only"
 msgstr ""
 
 #: matches/user-agent.php:24
-#: build/redirection.js:5415
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:46
 #: redirection.js:2
 msgid "URL and user agent"
 msgstr ""
 
 #: matches/user-role.php:17
-#: build/redirection.js:5409
+#: build/redirection.js:2
 #: client/component/redirect-edit/constants.js:38
 #: redirection.js:2
 msgid "URL and role/capability"
@@ -275,7 +274,7 @@ msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to u
 msgstr ""
 
 #: redirection-admin.php:208
-#: build/redirection.js:12650
+#: build/redirection.js:2
 #: redirection.js:2
 msgid "Upgrade Database"
 msgstr ""
@@ -320,7 +319,7 @@ msgid "This may be caused by another plugin - look at your browser's error conso
 msgstr ""
 
 #: redirection-admin.php:525
-#: build/redirection.js:12539
+#: build/redirection.js:2
 #: client/page/home/crash-handler.js:27
 #: redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
@@ -368,803 +367,60 @@ msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
 msgstr ""
 
 #: api-doc/main.js:280
-#: build/redirection.js:18024
+#: build/redirection.js:6
 #: client/page/site/headers/header.js:225
 #: redirection.js:2
 msgid "General"
 msgstr ""
 
-#: build/redirection.js:2828
-#: build/redirection.js:2899
-#: build/redirection.js:10260
-#: client/component/database/api-error.js:11
-#: client/component/database/database-error.js:42
-#: client/component/welcome-wizard/manual-install.js:47
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/lib/store/index.js:12
+#: client/page/logs404/create-redirect.js:63
 #: redirection.js:2
-msgid "Database problem"
-msgstr ""
-
-#: build/redirection.js:2831
-#: build/redirection.js:2902
-#: client/component/database/api-error.js:15
-#: client/component/database/database-error.js:46
-#: redirection.js:2
-msgid "Try again"
-msgstr ""
-
-#: build/redirection.js:2905
-#: client/component/database/database-error.js:51
-#: redirection.js:2
-msgid "Skip this stage"
-msgstr ""
-
-#: build/redirection.js:2908
-#: client/component/database/database-error.js:57
-#: redirection.js:2
-msgid "Stop upgrade"
-msgstr ""
-
-#: build/redirection.js:2908
-#: client/component/database/database-error.js:64
-#: redirection.js:2
-msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
-msgstr ""
-
-#: build/redirection.js:2972
-#: client/component/database/index.js:27
-#: redirection.js:2
-msgid "Upgrading Redirection"
-msgstr ""
-
-#: build/redirection.js:2975
-#: client/component/database/index.js:30
-#: redirection.js:2
-msgid "Setting up Redirection"
-msgstr ""
-
-#: build/redirection.js:3023
-#: client/component/database/index.js:71
-#: redirection.js:2
-msgid "Leaving before the process has completed may cause problems."
-msgstr ""
-
-#: build/redirection.js:3025
-#: client/component/database/index.js:77
-#: redirection.js:2
-msgid "Please remain on this page until complete."
-msgstr ""
-
-#: build/redirection.js:3027
-#: client/component/database/index.js:81
-#: redirection.js:2
-msgid "Progress: %(complete)d%%"
-msgstr ""
-
-#: build/redirection.js:3095
-#: client/component/display-options/index.js:30
-#: redirection.js:2
-msgid "Custom Display"
-msgstr ""
-
-#: build/redirection.js:3139
-#: client/component/display-options/index.js:64
-#: redirection.js:2
-msgid "Pre-defined"
-msgstr ""
-
-#: build/redirection.js:3143
-#: build/redirection.js:6272
-#: build/redirection.js:6544
-#: client/component/display-options/index.js:69
-#: client/component/redirect-edit/match/agent.js:55
-#: client/component/redirect-edit/match/header.js:55
-#: redirection.js:2
-msgid "Custom"
-msgstr ""
-
-#: build/redirection.js:3277
-#: client/component/geo-map/index.js:29
-#: redirection.js:2
-msgid "Geo IP Error"
-msgstr ""
-
-#: build/redirection.js:3277
-#: build/redirection.js:9868
-#: client/component/geo-map/index.js:30
-#: client/component/useragent/index.js:31
-#: redirection.js:2
-msgid "Something went wrong obtaining this information"
-msgstr ""
-
-#: build/redirection.js:3287
-#: build/redirection.js:3297
-#: build/redirection.js:3319
-#: client/component/geo-map/index.js:43
-#: client/component/geo-map/index.js:57
-#: client/component/geo-map/index.js:77
-#: redirection.js:2
-msgid "Geo IP"
-msgstr ""
-
-#: build/redirection.js:3287
-#: client/component/geo-map/index.js:46
-#: redirection.js:2
-msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
-msgstr ""
-
-#: build/redirection.js:3297
-#: client/component/geo-map/index.js:60
-#: redirection.js:2
-msgid "No details are known for this address."
-msgstr ""
-
-#: build/redirection.js:3321
-#: client/component/geo-map/index.js:82
-#: redirection.js:2
-msgid "City"
-msgstr ""
-
-#: build/redirection.js:3321
-#: client/component/geo-map/index.js:86
-#: redirection.js:2
-msgid "Area"
-msgstr ""
-
-#: build/redirection.js:3321
-#: client/component/geo-map/index.js:90
-#: redirection.js:2
-msgid "Timezone"
-msgstr ""
-
-#: build/redirection.js:3321
-#: client/component/geo-map/index.js:94
-#: redirection.js:2
-msgid "Geo Location"
-msgstr ""
-
-#: build/redirection.js:3455
-#: client/component/http-check/details.js:36
-#: redirection.js:2
-msgid "An unknown error"
-msgstr ""
-
-#: build/redirection.js:3459
-#: client/component/http-check/details.js:40
-#: redirection.js:2
-msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
-msgstr ""
-
-#: build/redirection.js:3463
-#: client/component/http-check/details.js:48
-#: redirection.js:2
-msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
-msgstr ""
-
-#: build/redirection.js:3472
-#: build/redirection.js:3483
-#: client/component/http-check/details.js:59
-#: client/component/http-check/details.js:72
-#: redirection.js:2
-msgid "Redirected by Redirection."
-msgstr ""
-
-#: build/redirection.js:3474
-#: client/component/http-check/details.js:61
-#: redirection.js:2
-msgid "Matches your redirect"
-msgstr ""
-
-#. translators: %1s: who performed the redirect
-#: build/redirection.js:3488
-#: client/component/http-check/details.js:77
-#: redirection.js:2
-msgid "Redirected by %1s. {{support}}What does this mean?{{/support}}."
-msgstr ""
-
-#: build/redirection.js:3495
-#: client/component/http-check/details.js:87
-#: redirection.js:2
-msgid "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}."
-msgstr ""
-
-#: build/redirection.js:3503
-#: client/component/http-check/details.js:95
-#: redirection.js:2
-msgid "Page was loaded."
-msgstr ""
-
-#: build/redirection.js:3581
-#: client/component/http-check/details.js:187
-#: redirection.js:2
-msgid "Unable to check that URL. It may not be valid or accessible."
-msgstr ""
-
-#: build/redirection.js:3590
-#: client/component/http-check/details.js:206
-#: redirection.js:2
-msgid "If this is not expected then this {{support}}support page{{/support}} may help."
-msgstr ""
-
-#: build/redirection.js:3594
-#: client/component/http-check/details.js:216
-#: redirection.js:2
-msgid "If your browser is behaving differently then you should clear your browser cache."
-msgstr ""
-
-#: build/redirection.js:3597
-#: client/component/http-check/details.js:220
-#: redirection.js:2
-msgid "View full redirect.li results."
-msgstr ""
-
-#: build/redirection.js:3705
-#: client/component/http-check/response.js:20
-#: redirection.js:2
-msgid "Error"
-msgstr ""
-
-#: build/redirection.js:3705
-#: client/component/http-check/response.js:21
-#: redirection.js:2
-msgid "Something went wrong obtaining this information. It may work in the future."
-msgstr ""
-
-#. translators: %s: URL being checked
-#: build/redirection.js:3735
-#: client/component/http-check/response.js:52
-#: redirection.js:2
-msgid "Check redirect for: {{code}}%s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:4017
-#: client/component/log-page/log-actions/extra-data.js:28
-#: redirection.js:2
-msgid "View Data"
-msgstr ""
-
-#: build/redirection.js:4076
-#: client/component/log-page/log-actions/geo-map.js:32
-#: redirection.js:2
-msgid "Geo Info"
-msgstr ""
-
-#: build/redirection.js:4136
-#: client/component/log-page/log-actions/user-agent.js:32
-#: redirection.js:2
-msgid "Agent Info"
-msgstr ""
-
-#: build/redirection.js:4274
-#: client/component/log-page/log-columns/column-ip.js:60
-#: redirection.js:2
-msgid "Filter by IP"
-msgstr ""
-
-#: build/redirection.js:4811
-#: client/component/log-page/log-filters.js:87
-#: redirection.js:2
-msgid "Filters"
-msgstr ""
-
-#: build/redirection.js:4853
-#: client/component/powered-by/index.js:16
-#: redirection.js:2
-msgid "Powered by {{link}}redirect.li{{/link}}"
-msgstr ""
-
-#: build/redirection.js:5006
-#: client/component/redirect-edit/action-code.js:42
-#: redirection.js:2
-msgid "with HTTP code"
-msgstr ""
-
-#: build/redirection.js:5204
-#: client/component/redirect-edit/action/login.js:20
-#: redirection.js:2
-msgid "Logged In"
-msgstr ""
-
-#: build/redirection.js:5212
-#: build/redirection.js:5285
-#: client/component/redirect-edit/action/login.js:21
-#: client/component/redirect-edit/action/url-from.js:21
-#: redirection.js:2
-msgid "Target URL when matched (empty to ignore)"
-msgstr ""
-
-#: build/redirection.js:5214
-#: client/component/redirect-edit/action/login.js:23
-#: redirection.js:2
-msgid "Logged Out"
-msgstr ""
-
-#: build/redirection.js:5222
-#: build/redirection.js:5295
-#: client/component/redirect-edit/action/login.js:24
-#: client/component/redirect-edit/action/url-from.js:24
-#: redirection.js:2
-msgid "Target URL when not matched (empty to ignore)"
-msgstr ""
-
-#: build/redirection.js:5277
-#: client/component/redirect-edit/action/url-from.js:20
-#: redirection.js:2
-msgid "Matched Target"
-msgstr ""
-
-#: build/redirection.js:5287
-#: client/component/redirect-edit/action/url-from.js:23
-#: redirection.js:2
-msgid "Unmatched Target"
-msgstr ""
-
-#: build/redirection.js:5351
-#: build/redirection.js:10828
-#: build/redirection.js:13749
-#: client/component/redirect-edit/action/url.js:20
-#: client/component/welcome-wizard/step-welcome.js:69
-#: client/page/logs/constants.js:73
-#: redirection.js:2
-msgid "Target URL"
-msgstr ""
-
-#: build/redirection.js:5456
-#: client/component/redirect-edit/constants.js:104
-#: redirection.js:2
-msgid "301 - Moved Permanently"
-msgstr ""
-
-#: build/redirection.js:5459
-#: client/component/redirect-edit/constants.js:108
-#: redirection.js:2
-msgid "302 - Found"
-msgstr ""
-
-#: build/redirection.js:5462
-#: client/component/redirect-edit/constants.js:112
-#: redirection.js:2
-msgid "303 - See Other"
-msgstr ""
-
-#: build/redirection.js:5465
-#: client/component/redirect-edit/constants.js:116
-#: redirection.js:2
-msgid "304 - Not Modified"
-msgstr ""
-
-#: build/redirection.js:5468
-#: client/component/redirect-edit/constants.js:120
-#: redirection.js:2
-msgid "307 - Temporary Redirect"
-msgstr ""
-
-#: build/redirection.js:5471
-#: client/component/redirect-edit/constants.js:124
-#: redirection.js:2
-msgid "308 - Permanent Redirect"
-msgstr ""
-
-#: build/redirection.js:5475
-#: client/component/redirect-edit/constants.js:131
-#: redirection.js:2
-msgid "400 - Bad Request"
-msgstr ""
-
-#: build/redirection.js:5478
-#: client/component/redirect-edit/constants.js:135
-#: redirection.js:2
-msgid "401 - Unauthorized"
-msgstr ""
-
-#: build/redirection.js:5481
-#: client/component/redirect-edit/constants.js:139
-#: redirection.js:2
-msgid "403 - Forbidden"
-msgstr ""
-
-#: build/redirection.js:5484
-#: client/component/redirect-edit/constants.js:143
-#: redirection.js:2
-msgid "404 - Not Found"
-msgstr ""
-
-#: build/redirection.js:5487
-#: client/component/redirect-edit/constants.js:147
-#: redirection.js:2
-msgid "410 - Gone"
-msgstr ""
-
-#: build/redirection.js:5490
-#: client/component/redirect-edit/constants.js:151
-#: redirection.js:2
-msgid "418 - I'm a teapot"
-msgstr ""
-
-#: build/redirection.js:5493
-#: client/component/redirect-edit/constants.js:155
-#: redirection.js:2
-msgid "451 - Unavailable For Legal Reasons"
-msgstr ""
-
-#: build/redirection.js:5496
-#: client/component/redirect-edit/constants.js:159
-#: redirection.js:2
-msgid "500 - Internal Server Error"
-msgstr ""
-
-#: build/redirection.js:5499
-#: client/component/redirect-edit/constants.js:163
-#: redirection.js:2
-msgid "501 - Not implemented"
-msgstr ""
-
-#: build/redirection.js:5502
-#: client/component/redirect-edit/constants.js:167
-#: redirection.js:2
-msgid "502 - Bad Gateway"
-msgstr ""
-
-#: build/redirection.js:5505
-#: client/component/redirect-edit/constants.js:171
-#: redirection.js:2
-msgid "503 - Service Unavailable"
-msgstr ""
-
-#: build/redirection.js:5508
-#: client/component/redirect-edit/constants.js:175
-#: redirection.js:2
-msgid "504 - Gateway Timeout"
-msgstr ""
-
-#: build/redirection.js:5513
-#: build/redirection.js:6280
-#: build/redirection.js:6365
-#: build/redirection.js:6548
-#: build/redirection.js:6886
-#: client/component/redirect-edit/constants.js:184
-#: client/component/redirect-edit/match/agent.js:62
-#: client/component/redirect-edit/match/cookie.js:25
-#: client/component/redirect-edit/match/header.js:60
-#: client/component/redirect-edit/match/referrer.js:23
-#: redirection.js:2
-msgid "Regex"
-msgstr ""
-
-#: build/redirection.js:5516
-#: client/component/redirect-edit/constants.js:188
-#: redirection.js:2
-msgid "Ignore Slash"
-msgstr ""
-
-#: build/redirection.js:5519
-#: client/component/redirect-edit/constants.js:192
-#: redirection.js:2
-msgid "Ignore Case"
-msgstr ""
-
-#: build/redirection.js:5526
-#: client/component/redirect-edit/constants.js:203
-#: redirection.js:2
-msgid "Exact match"
-msgstr ""
-
-#: build/redirection.js:5529
-#: build/redirection.js:16189
-#: client/component/redirect-edit/constants.js:207
-#: client/page/options/options-form/url-options.js:15
-#: redirection.js:2
-msgid "Exact match in any order"
-msgstr ""
-
-#: build/redirection.js:5532
-#: client/component/redirect-edit/constants.js:211
-#: redirection.js:2
-msgid "Ignore all parameters"
-msgstr ""
-
-#: build/redirection.js:5535
-#: client/component/redirect-edit/constants.js:215
-#: redirection.js:2
-msgid "Ignore & pass parameters to the target"
-msgstr ""
-
-#: build/redirection.js:5949
-#: client/component/redirect-edit/index.js:318
-#: redirection.js:2
-msgid "Exclude from logs"
-msgstr ""
-
-#: build/redirection.js:5994
-#: client/component/redirect-edit/index.js:360
-#: redirection.js:2
-msgid "When matched"
-msgstr ""
-
-#: build/redirection.js:6010
-#: build/redirection.js:13781
-#: build/redirection.js:14414
-#: build/redirection.js:17034
-#: build/redirection.js:17097
-#: client/component/redirect-edit/index.js:384
-#: client/page/logs/constants.js:113
-#: client/page/logs404/constants.js:171
-#: client/page/redirects/constants.js:36
-#: client/page/redirects/constants.js:85
-#: redirection.js:2
-msgid "Group"
-msgstr ""
-
-#: build/redirection.js:6027
-#: build/redirection.js:11758
-#: build/redirection.js:19079
-#: client/component/redirect-edit/index.js:394
-#: client/page/groups/columns/edit.js:71
-#: client/page/support/debug.js:81
-#: redirection.js:2
-msgid "Save"
-msgstr ""
-
-#: build/redirection.js:6049
-#: build/redirection.js:11763
-#: build/redirection.js:13469
-#: client/component/redirect-edit/index.js:415
-#: client/page/groups/columns/edit.js:78
-#: client/page/io/index.js:130
-#: redirection.js:2
-msgid "Cancel"
-msgstr ""
-
-#: build/redirection.js:6053
-#: build/redirection.js:13547
-#: client/component/redirect-edit/index.js:420
-#: client/page/io/index.js:210
-#: redirection.js:2
-msgid "Close"
-msgstr ""
-
-#: build/redirection.js:6057
-#: client/component/redirect-edit/index.js:429
-#: redirection.js:2
-msgid "Show advanced options"
-msgstr ""
-
-#: build/redirection.js:6162
-#: client/component/redirect-edit/match-type.js:19
-#: redirection.js:2
-msgid "Match"
-msgstr ""
-
-#: build/redirection.js:6256
-#: build/redirection.js:13722
-#: build/redirection.js:13765
-#: build/redirection.js:13814
-#: build/redirection.js:13854
-#: build/redirection.js:14298
-#: build/redirection.js:14344
-#: build/redirection.js:14452
-#: build/redirection.js:14489
-#: client/component/redirect-edit/match/agent.js:51
-#: client/page/logs/constants.js:40
-#: client/page/logs/constants.js:93
-#: client/page/logs/constants.js:140
-#: client/page/logs/constants.js:155
-#: client/page/logs404/constants.js:29
-#: client/page/logs404/constants.js:87
-#: client/page/logs404/constants.js:203
-#: client/page/logs404/constants.js:217
-#: redirection.js:2
-msgid "User Agent"
-msgstr ""
-
-#: build/redirection.js:6264
-#: client/component/redirect-edit/match/agent.js:52
-#: redirection.js:2
-msgid "Match against this browser user agent"
-msgstr ""
-
-#: build/redirection.js:6274
-#: client/component/redirect-edit/match/agent.js:56
-#: redirection.js:2
-msgid "Mobile"
-msgstr ""
-
-#: build/redirection.js:6276
-#: client/component/redirect-edit/match/agent.js:57
-#: redirection.js:2
-msgid "Feed Readers"
-msgstr ""
-
-#: build/redirection.js:6278
-#: client/component/redirect-edit/match/agent.js:58
-#: redirection.js:2
-msgid "Libraries"
-msgstr ""
-
-#: build/redirection.js:6347
-#: client/component/redirect-edit/match/cookie.js:20
-#: redirection.js:2
-msgid "Cookie"
-msgstr ""
-
-#: build/redirection.js:6355
-#: client/component/redirect-edit/match/cookie.js:21
-#: redirection.js:2
-msgid "Cookie name"
-msgstr ""
-
-#: build/redirection.js:6362
-#: client/component/redirect-edit/match/cookie.js:22
-#: redirection.js:2
-msgid "Cookie value"
-msgstr ""
-
-#: build/redirection.js:6425
-#: client/component/redirect-edit/match/custom.js:18
-#: redirection.js:2
-msgid "Filter Name"
-msgstr ""
-
-#: build/redirection.js:6433
-#: client/component/redirect-edit/match/custom.js:19
-#: redirection.js:2
-msgid "WordPress filter name"
-msgstr ""
-
-#: build/redirection.js:6521
-#: client/component/redirect-edit/match/header.js:50
-#: redirection.js:2
-msgid "HTTP Header"
-msgstr ""
-
-#: build/redirection.js:6529
-#: client/component/redirect-edit/match/header.js:51
-#: redirection.js:2
-msgid "Header name"
-msgstr ""
-
-#: build/redirection.js:6536
-#: client/component/redirect-edit/match/header.js:52
-#: redirection.js:2
-msgid "Header value"
-msgstr ""
-
-#: build/redirection.js:6546
-#: client/component/redirect-edit/match/header.js:56
-#: redirection.js:2
-msgid "Accept Language"
-msgstr ""
-
-#: build/redirection.js:6555
-#: client/component/redirect-edit/match/header.js:67
-#: redirection.js:2
-msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
-msgstr ""
-
-#: build/redirection.js:6702
-#: build/redirection.js:13711
-#: build/redirection.js:13769
-#: build/redirection.js:13824
-#: build/redirection.js:13860
-#: build/redirection.js:14311
-#: build/redirection.js:14348
-#: build/redirection.js:14462
-#: build/redirection.js:14492
-#: client/component/redirect-edit/match/ip.js:22
-#: client/page/logs/constants.js:26
-#: client/page/logs/constants.js:98
-#: client/page/logs/constants.js:144
-#: client/page/logs/constants.js:157
-#: client/page/logs404/constants.js:45
-#: client/page/logs404/constants.js:92
-#: client/page/logs404/constants.js:207
-#: client/page/logs404/constants.js:218
-#: redirection.js:2
-msgid "IP"
-msgstr ""
-
-#: build/redirection.js:6707
-#: client/component/redirect-edit/match/ip.js:23
-#: redirection.js:2
-msgid "Enter IP addresses (one per line)"
-msgstr ""
-
-#: build/redirection.js:6762
-#: client/component/redirect-edit/match/language.js:18
-#: redirection.js:2
-msgid "Language"
-msgstr ""
-
-#: build/redirection.js:6770
-#: client/component/redirect-edit/match/language.js:19
-#: redirection.js:2
-msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
-msgstr ""
-
-#: build/redirection.js:6817
-#: client/component/redirect-edit/match/page.js:17
-#: redirection.js:2
-msgid "Page Type"
-msgstr ""
-
-#: build/redirection.js:6819
-#: client/component/redirect-edit/match/page.js:19
-#: redirection.js:2
-msgid "Only the 404 page type is currently supported."
-msgstr ""
-
-#: build/redirection.js:6819
-#: client/component/redirect-edit/match/page.js:20
-#: redirection.js:2
-msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
-msgstr ""
-
-#: build/redirection.js:6875
-#: build/redirection.js:13761
-#: build/redirection.js:13851
-#: build/redirection.js:14340
-#: build/redirection.js:14486
-#: client/component/redirect-edit/match/referrer.js:19
-#: client/page/logs/constants.js:88
-#: client/page/logs/constants.js:154
-#: client/page/logs404/constants.js:82
-#: client/page/logs404/constants.js:216
-#: redirection.js:2
-msgid "Referrer"
-msgstr ""
-
-#: build/redirection.js:6883
-#: client/component/redirect-edit/match/referrer.js:20
-#: redirection.js:2
-msgid "Match against this browser referrer text"
-msgstr ""
+msgid "Are you sure you want to delete this item?"
+msgid_plural "Are you sure you want to delete the %d selected items?"
+msgstr[0] ""
+msgstr[1] ""
 
-#: build/redirection.js:6946
-#: client/component/redirect-edit/match/role.js:18
+#: build/redirection.js:2
+#: client/lib/store/index.js:22
 #: redirection.js:2
-msgid "Role"
+msgid "Are you sure want to delete all %d matching items?"
 msgstr ""
 
-#: build/redirection.js:6953
-#: client/component/redirect-edit/match/role.js:19
+#: build/redirection.js:2
+#: client/state/message/reducer.js:49
 #: redirection.js:2
-msgid "Enter role or capability value"
+msgid "Redirection saved"
 msgstr ""
 
-#: build/redirection.js:7008
-#: client/component/redirect-edit/match/server.js:18
+#: build/redirection.js:2
+#: client/state/message/reducer.js:50
 #: redirection.js:2
-msgid "Server"
+msgid "Log deleted"
 msgstr ""
 
-#: build/redirection.js:7015
-#: client/component/redirect-edit/match/server.js:19
+#: build/redirection.js:2
+#: client/state/message/reducer.js:51
 #: redirection.js:2
-msgid "Enter server URL to match against"
+msgid "Settings saved"
 msgstr ""
 
-#: build/redirection.js:7062
-#: build/redirection.js:17082
-#: client/component/redirect-edit/position.js:12
-#: client/page/redirects/constants.js:80
+#: build/redirection.js:2
+#: client/state/message/reducer.js:52
 #: redirection.js:2
-msgid "Position"
+msgid "Group saved"
 msgstr ""
 
-#: build/redirection.js:7128
-#: build/redirection.js:17067
-#: client/component/redirect-edit/source-query.js:25
-#: client/page/redirects/constants.js:75
+#: build/redirection.js:2
+#: client/state/message/reducer.js:53
 #: redirection.js:2
-msgid "Query Parameters"
+msgid "404 deleted"
 msgstr ""
 
-#: build/redirection.js:7198
-#: build/redirection.js:7215
-#: build/redirection.js:10823
-#: build/redirection.js:13700
-#: build/redirection.js:13745
-#: build/redirection.js:14285
-#: build/redirection.js:14332
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/component/redirect-edit/source-url.js:25
 #: client/component/redirect-edit/source-url.js:40
 #: client/component/welcome-wizard/step-welcome.js:58
@@ -1176,1414 +432,7 @@ msgstr ""
 msgid "Source URL"
 msgstr ""
 
-#: build/redirection.js:7224
-#: client/component/redirect-edit/source-url.js:48
-#: redirection.js:2
-msgid "The relative URL you want to redirect from"
-msgstr ""
-
-#: build/redirection.js:7229
-#: client/component/redirect-edit/source-url.js:55
-#: redirection.js:2
-msgid "URL options / Regex"
-msgstr ""
-
-#: build/redirection.js:7327
-#: client/component/redirect-edit/target.js:24
-#: redirection.js:2
-msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
-msgstr ""
-
-#: build/redirection.js:7381
-#: build/redirection.js:17070
-#: client/component/redirect-edit/title.js:23
-#: client/page/redirects/constants.js:76
-#: redirection.js:2
-msgid "Title"
-msgstr ""
-
-#: build/redirection.js:7390
-#: client/component/redirect-edit/title.js:29
-#: redirection.js:2
-msgid "Describe the purpose of this redirect (optional)"
-msgstr ""
-
-#: build/redirection.js:7482
-#: client/component/redirect-edit/warning.js:56
-#: redirection.js:2
-msgid "Anchor values are not sent to the server and cannot be redirected."
-msgstr ""
-
-#: build/redirection.js:7490
-#: client/component/redirect-edit/warning.js:68
-#: redirection.js:2
-msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
-msgstr ""
-
-#: build/redirection.js:7499
-#: client/component/redirect-edit/warning.js:88
-#: redirection.js:2
-msgid "The source URL should probably start with a {{code}}/{{/code}}"
-msgstr ""
-
-#: build/redirection.js:7508
-#: client/component/redirect-edit/warning.js:100
-#: redirection.js:2
-msgid "Remember to enable the \"regex\" option if this is a regular expression."
-msgstr ""
-
-#: build/redirection.js:7515
-#: client/component/redirect-edit/warning.js:109
-#: redirection.js:2
-msgid "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section."
-msgstr ""
-
-#: build/redirection.js:7520
-#: client/component/redirect-edit/warning.js:119
-#: redirection.js:2
-msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:7528
-#: client/component/redirect-edit/warning.js:136
-#: redirection.js:2
-msgid "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:7536
-#: client/component/redirect-edit/warning.js:149
-#: redirection.js:2
-msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
-msgstr ""
-
-#: build/redirection.js:7542
-#: client/component/redirect-edit/warning.js:160
-#: redirection.js:2
-msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
-msgstr ""
-
-#: build/redirection.js:7551
-#: client/component/redirect-edit/warning.js:171
-#: redirection.js:2
-msgid "If you want to redirect everything please use a site relocation or alias from the Site page."
-msgstr ""
-
-#: build/redirection.js:7556
-#: client/component/redirect-edit/warning.js:181
-#: redirection.js:2
-msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
-msgstr ""
-
-#: build/redirection.js:7562
-#: client/component/redirect-edit/warning.js:205
-#: redirection.js:2
-msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
-msgstr ""
-
-#: build/redirection.js:7574
-#: client/component/redirect-edit/warning.js:222
-#: redirection.js:2
-msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:7588
-#: client/component/redirect-edit/warning.js:240
-#: redirection.js:2
-msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
-msgstr ""
-
-#: build/redirection.js:7600
-#: client/component/redirect-edit/warning.js:255
-#: redirection.js:2
-msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
-msgstr ""
-
-#: build/redirection.js:7664
-#: client/component/request-data/index.js:21
-#: redirection.js:2
-msgid "Request Headers"
-msgstr ""
-
-#: build/redirection.js:7678
-#: client/component/request-data/index.js:44
-#: redirection.js:2
-msgid "Redirect Source"
-msgstr ""
-
-#: build/redirection.js:7862
-#: client/component/rest-api-status/api-result-pass.js:15
-#: redirection.js:2
-msgid "Working!"
-msgstr ""
-
-#: build/redirection.js:7940
-#: client/component/rest-api-status/api-result-raw.js:41
-#: redirection.js:2
-msgid "Show Full"
-msgstr ""
-
-#: build/redirection.js:7944
-#: client/component/rest-api-status/api-result-raw.js:42
-#: redirection.js:2
-msgid "Hide"
-msgstr ""
-
-#: build/redirection.js:8011
-#: redirection.js:2
-msgid "Switch to this API"
-msgstr ""
-
-#: build/redirection.js:8012
-#: redirection.js:2
-msgid "Current API"
-msgstr ""
-
-#: build/redirection.js:8169
-#: build/redirection.js:19346
-#: client/component/rest-api-status/index.js:102
-#: client/page/support/plugin-status.js:39
-#: redirection.js:2
-msgid "Good"
-msgstr ""
-
-#: build/redirection.js:8171
-#: client/component/rest-api-status/index.js:104
-#: redirection.js:2
-msgid "Working but some issues"
-msgstr ""
-
-#: build/redirection.js:8174
-#: client/component/rest-api-status/index.js:107
-#: redirection.js:2
-msgid "Unavailable"
-msgstr ""
-
-#: build/redirection.js:8187
-#: client/component/rest-api-status/index.js:122
-#: redirection.js:2
-msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
-msgstr ""
-
-#: build/redirection.js:8190
-#: client/component/rest-api-status/index.js:128
-#: redirection.js:2
-msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
-msgstr ""
-
-#: build/redirection.js:8195
-#: client/component/rest-api-status/index.js:137
-#: redirection.js:2
-msgid "Summary"
-msgstr ""
-
-#: build/redirection.js:8198
-#: client/component/rest-api-status/index.js:143
-#: redirection.js:2
-msgid "Show Problems"
-msgstr ""
-
-#: build/redirection.js:8229
-#: client/component/rest-api-status/index.js:172
-#: redirection.js:2
-msgid "Testing - %s%%"
-msgstr ""
-
-#: build/redirection.js:8232
-#: client/component/rest-api-status/index.js:181
-#: redirection.js:2
-msgid "Check Again"
-msgstr ""
-
-#: build/redirection.js:8514
-#: client/component/table/bulk-actions.js:45
-#: redirection.js:2
-msgid "Bulk Actions"
-msgstr ""
-
-#: build/redirection.js:8522
-#: build/redirection.js:8593
-#: client/component/table/bulk-actions.js:61
-#: client/component/table/group.js:31
-#: redirection.js:2
-msgid "Apply"
-msgstr ""
-
-#: build/redirection.js:8646
-#: client/component/table/header/check-column.js:23
-#: redirection.js:2
-msgid "Select All"
-msgstr ""
-
-#: build/redirection.js:9221
-#: client/component/table/navigation/navigation-pages.js:33
-#: redirection.js:2
-msgid "%s item"
-msgid_plural "%s items"
-msgstr[0] ""
-msgstr[1] ""
-
-#: build/redirection.js:9221
-#: client/component/table/navigation/navigation-pages.js:37
-#: redirection.js:2
-msgid "%1d of %1d selected. {{all}}Select All.{{/all}}"
-msgstr ""
-
-#: build/redirection.js:9226
-#: client/component/table/navigation/navigation-pages.js:44
-#: redirection.js:2
-msgid "%1d of %1d selected. {{all}}Clear All.{{/all}}"
-msgstr ""
-
-#: build/redirection.js:9304
-#: client/component/table/navigation/pagination-links.js:39
-#: redirection.js:2
-msgid "First page"
-msgstr ""
-
-#: build/redirection.js:9310
-#: client/component/table/navigation/pagination-links.js:47
-#: redirection.js:2
-msgid "Prev page"
-msgstr ""
-
-#: build/redirection.js:9320
-#: client/component/table/navigation/pagination-links.js:55
-#: redirection.js:2
-msgid "Current Page"
-msgstr ""
-
-#: build/redirection.js:9333
-#: client/component/table/navigation/pagination-links.js:72
-#: redirection.js:2
-msgid "of %s"
-msgstr ""
-
-#: build/redirection.js:9334
-#: client/component/table/navigation/pagination-links.js:77
-#: redirection.js:2
-msgid "Next page"
-msgstr ""
-
-#: build/redirection.js:9340
-#: client/component/table/navigation/pagination-links.js:85
-#: redirection.js:2
-msgid "Last page"
-msgstr ""
-
-#: build/redirection.js:9456
-#: client/component/table/row/empty-row.js:13
-#: redirection.js:2
-msgid "Nothing to display."
-msgstr ""
-
-#: build/redirection.js:9493
-#: client/component/table/row/failed-row.js:14
-#: redirection.js:2
-msgid "Sorry, something went wrong loading the data - please try again"
-msgstr ""
-
-#: build/redirection.js:9868
-#: client/component/useragent/index.js:30
-#: redirection.js:2
-msgid "Useragent Error"
-msgstr ""
-
-#: build/redirection.js:9877
-#: client/component/useragent/index.js:42
-#: redirection.js:2
-msgid "Unknown Useragent"
-msgstr ""
-
-#: build/redirection.js:9933
-#: client/component/useragent/index.js:97
-#: redirection.js:2
-msgid "Device"
-msgstr ""
-
-#: build/redirection.js:9937
-#: client/component/useragent/index.js:101
-#: redirection.js:2
-msgid "Operating System"
-msgstr ""
-
-#: build/redirection.js:9941
-#: client/component/useragent/index.js:105
-#: redirection.js:2
-msgid "Browser"
-msgstr ""
-
-#: build/redirection.js:9945
-#: client/component/useragent/index.js:109
-#: redirection.js:2
-msgid "Engine"
-msgstr ""
-
-#: build/redirection.js:9948
-#: client/component/useragent/index.js:114
-#: redirection.js:2
-msgid "Useragent"
-msgstr ""
-
-#: build/redirection.js:9948
-#: client/component/useragent/index.js:118
-#: redirection.js:2
-msgid "Agent"
-msgstr ""
-
-#: build/redirection.js:10180
-#: client/component/welcome-wizard/index.js:90
-#: redirection.js:2
-msgid "Something went wrong when installing Redirection."
-msgstr ""
-
-#: build/redirection.js:10195
-#: client/component/welcome-wizard/index.js:108
-#: redirection.js:2
-msgid "I need support!"
-msgstr ""
-
-#: build/redirection.js:10252
-#: client/component/welcome-wizard/manual-install.js:27
-#: redirection.js:2
-msgid "Manual Install"
-msgstr ""
-
-#: build/redirection.js:10252
-#: build/redirection.js:12632
-#: client/component/welcome-wizard/manual-install.js:30
-#: redirection.js:2
-msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr ""
-
-#: build/redirection.js:10252
-#: client/component/welcome-wizard/manual-install.js:33
-#: redirection.js:2
-msgid "Click \"Finished! 🎉\" when finished."
-msgstr ""
-
-#: build/redirection.js:10260
-#: client/component/welcome-wizard/manual-install.js:48
-#: redirection.js:2
-msgid "The Redirection database does not appear to exist. Have you run the above SQL?"
-msgstr ""
-
-#: build/redirection.js:10264
-#: build/redirection.js:12691
-#: client/component/welcome-wizard/manual-install.js:53
-#: redirection.js:2
-msgid "Finished! 🎉"
-msgstr ""
-
-#: build/redirection.js:10268
-#: build/redirection.js:10580
-#: build/redirection.js:10764
-#: client/component/welcome-wizard/manual-install.js:56
-#: client/component/welcome-wizard/step-importer.js:92
-#: client/component/welcome-wizard/step-options.js:113
-#: redirection.js:2
-msgid "Go back"
-msgstr ""
-
-#: build/redirection.js:10268
-#: client/component/welcome-wizard/manual-install.js:58
-#: redirection.js:2
-msgid "If you do not complete the manual install you will be returned here."
-msgstr ""
-
-#: build/redirection.js:10334
-#: build/redirection.js:15992
-#: client/component/welcome-wizard/step-api.js:38
-#: client/page/options/options-form/other-options.js:87
-#: redirection.js:2
-msgid "REST API"
-msgstr ""
-
-#: build/redirection.js:10334
-#: client/component/welcome-wizard/step-api.js:42
-#: redirection.js:2
-msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
-msgstr ""
-
-#: build/redirection.js:10338
-#: client/component/welcome-wizard/step-api.js:53
-#: redirection.js:2
-msgid "A security plugin (e.g Wordfence)"
-msgstr ""
-
-#: build/redirection.js:10338
-#: client/component/welcome-wizard/step-api.js:54
-#: redirection.js:2
-msgid "A server firewall or other server configuration (e.g OVH)"
-msgstr ""
-
-#: build/redirection.js:10338
-#: client/component/welcome-wizard/step-api.js:55
-#: redirection.js:2
-msgid "Caching software (e.g Cloudflare)"
-msgstr ""
-
-#: build/redirection.js:10338
-#: client/component/welcome-wizard/step-api.js:56
-#: redirection.js:2
-msgid "Some other plugin that blocks the REST API"
-msgstr ""
-
-#: build/redirection.js:10338
-#: client/component/welcome-wizard/step-api.js:61
-#: redirection.js:2
-msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
-msgstr ""
-
-#: build/redirection.js:10344
-#: client/component/welcome-wizard/step-api.js:73
-#: redirection.js:2
-msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
-msgstr ""
-
-#: build/redirection.js:10346
-#: client/component/welcome-wizard/step-api.js:88
-#: redirection.js:2
-msgid "You will need at least one working REST API to continue."
-msgstr ""
-
-#: build/redirection.js:10351
-#: client/component/welcome-wizard/step-api.js:92
-#: redirection.js:2
-msgid "Finish Setup"
-msgstr ""
-
-#: build/redirection.js:10416
-#: build/redirection.js:10577
-#: build/redirection.js:10653
-#: build/redirection.js:10761
-#: client/component/welcome-wizard/step-database.js:30
-#: client/component/welcome-wizard/step-importer.js:88
-#: client/component/welcome-wizard/step-importing.js:56
-#: client/component/welcome-wizard/step-options.js:109
-#: redirection.js:2
-msgid "Continue"
-msgstr ""
-
-#: build/redirection.js:10484
-#: client/component/welcome-wizard/step-finish.js:41
-#: redirection.js:2
-msgid "Installation Complete"
-msgstr ""
-
-#: build/redirection.js:10484
-#: client/component/welcome-wizard/step-finish.js:43
-#: redirection.js:2
-msgid "Redirection is now installed!"
-msgstr ""
-
-#: build/redirection.js:10484
-#: client/component/welcome-wizard/step-finish.js:46
-#: redirection.js:2
-msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
-msgstr ""
-
-#: build/redirection.js:10492
-#: client/component/welcome-wizard/step-finish.js:53
-#: redirection.js:2
-msgid "Ready to begin! 🎉"
-msgstr ""
-
-#: build/redirection.js:10560
-#: build/redirection.js:10641
-#: client/component/welcome-wizard/step-importer.js:34
-#: client/component/welcome-wizard/step-importing.js:32
-#: redirection.js:2
-msgid "Import Existing Redirects"
-msgstr ""
-
-#: build/redirection.js:10560
-#: client/component/welcome-wizard/step-importer.js:37
-#: redirection.js:2
-msgid "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import."
-msgstr ""
-
-#: build/redirection.js:10560
-#: client/component/welcome-wizard/step-importer.js:45
-#: redirection.js:2
-msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
-msgstr ""
-
-#: build/redirection.js:10565
-#: client/component/welcome-wizard/step-importer.js:67
-#: redirection.js:2
-msgid "The following plugins have been detected."
-msgstr ""
-
-#: build/redirection.js:10641
-#: client/component/welcome-wizard/step-importing.js:36
-#: redirection.js:2
-msgid "Please wait, importing."
-msgstr ""
-
-#: build/redirection.js:10645
-#: client/component/welcome-wizard/step-importing.js:46
-#: redirection.js:2
-msgid "Import finished."
-msgstr ""
-
-#: build/redirection.js:10645
-#: client/component/welcome-wizard/step-importing.js:46
-#: redirection.js:2
-msgid "Importing failed."
-msgstr ""
-
-#: build/redirection.js:10650
-#: client/component/welcome-wizard/step-importing.js:51
-#: redirection.js:2
-msgid "Retry"
-msgstr ""
-
-#: build/redirection.js:10722
-#: client/component/welcome-wizard/step-options.js:35
-#: redirection.js:2
-msgid "Basic Setup"
-msgstr ""
-
-#: build/redirection.js:10722
-#: client/component/welcome-wizard/step-options.js:37
-#: redirection.js:2
-msgid "These are some options you may want to enable now. They can be changed at any time."
-msgstr ""
-
-#: build/redirection.js:10729
-#: client/component/welcome-wizard/step-options.js:48
-#: redirection.js:2
-msgid "Monitor permalink changes in WordPress posts and pages"
-msgstr ""
-
-#: build/redirection.js:10729
-#: client/component/welcome-wizard/step-options.js:52
-#: redirection.js:2
-msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
-msgstr ""
-
-#: build/redirection.js:10729
-#: build/redirection.js:10740
-#: build/redirection.js:10752
-#: client/component/welcome-wizard/step-options.js:57
-#: client/component/welcome-wizard/step-options.js:78
-#: client/component/welcome-wizard/step-options.js:99
-#: redirection.js:2
-msgid "{{link}}Read more about this.{{/link}}"
-msgstr ""
-
-#: build/redirection.js:10740
-#: client/component/welcome-wizard/step-options.js:69
-#: redirection.js:2
-msgid "Keep a log of all redirects and 404 errors."
-msgstr ""
-
-#: build/redirection.js:10740
-#: client/component/welcome-wizard/step-options.js:73
-#: redirection.js:2
-msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
-msgstr ""
-
-#: build/redirection.js:10752
-#: client/component/welcome-wizard/step-options.js:90
-#: redirection.js:2
-msgid "Store IP information for redirects and 404 errors."
-msgstr ""
-
-#: build/redirection.js:10752
-#: client/component/welcome-wizard/step-options.js:94
-#: redirection.js:2
-msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
-msgstr ""
-
-#: build/redirection.js:10817
-#: client/component/welcome-wizard/step-welcome.js:26
-#: redirection.js:2
-msgid "Welcome to Redirection 🚀🎉"
-msgstr ""
-
-#: build/redirection.js:10817
-#: client/component/welcome-wizard/step-welcome.js:30
-#: redirection.js:2
-msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
-msgstr ""
-
-#: build/redirection.js:10819
-#: client/component/welcome-wizard/step-welcome.js:37
-#: redirection.js:2
-msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
-msgstr ""
-
-#: build/redirection.js:10819
-#: client/component/welcome-wizard/step-welcome.js:42
-#: redirection.js:2
-msgid "How do I use this plugin?"
-msgstr ""
-
-#: build/redirection.js:10819
-#: client/component/welcome-wizard/step-welcome.js:45
-#: redirection.js:2
-msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
-msgstr ""
-
-#: build/redirection.js:10827
-#: client/component/welcome-wizard/step-welcome.js:64
-#: redirection.js:2
-msgid "(Example) The source URL is your old or original URL"
-msgstr ""
-
-#: build/redirection.js:10832
-#: client/component/welcome-wizard/step-welcome.js:75
-#: redirection.js:2
-msgid "(Example) The target URL is the new URL"
-msgstr ""
-
-#: build/redirection.js:10833
-#: client/component/welcome-wizard/step-welcome.js:83
-#: redirection.js:2
-msgid "That's all there is to it - you are now redirecting! Note that the above is just an example."
-msgstr ""
-
-#: build/redirection.js:10833
-#: client/component/welcome-wizard/step-welcome.js:87
-#: redirection.js:2
-msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
-msgstr ""
-
-#: build/redirection.js:10837
-#: client/component/welcome-wizard/step-welcome.js:94
-#: redirection.js:2
-msgid "Some features you may find useful are"
-msgstr ""
-
-#: build/redirection.js:10837
-#: client/component/welcome-wizard/step-welcome.js:99
-#: redirection.js:2
-msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
-msgstr ""
-
-#: build/redirection.js:10841
-#: client/component/welcome-wizard/step-welcome.js:110
-#: redirection.js:2
-msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
-msgstr ""
-
-#: build/redirection.js:10845
-#: client/component/welcome-wizard/step-welcome.js:118
-#: redirection.js:2
-msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
-msgstr ""
-
-#: build/redirection.js:10852
-#: client/component/welcome-wizard/step-welcome.js:130
-#: redirection.js:2
-msgid "Check a URL is being redirected"
-msgstr ""
-
-#: build/redirection.js:10852
-#: client/component/welcome-wizard/step-welcome.js:133
-#: redirection.js:2
-msgid "What's next?"
-msgstr ""
-
-#: build/redirection.js:10852
-#: client/component/welcome-wizard/step-welcome.js:134
-#: redirection.js:2
-msgid "First you will be asked a few questions, and then Redirection will set up your database."
-msgstr ""
-
-#: build/redirection.js:10857
-#: client/component/welcome-wizard/step-welcome.js:138
-#: redirection.js:2
-msgid "Start Setup"
-msgstr ""
-
-#: build/redirection.js:10860
-#: client/component/welcome-wizard/step-welcome.js:141
-#: redirection.js:2
-msgid "Manual Setup"
-msgstr ""
-
-#: build/redirection.js:11145
-#: build/redirection.js:14705
-#: client/lib/store/index.js:12
-#: client/page/logs404/create-redirect.js:63
-#: redirection.js:2
-msgid "Are you sure you want to delete this item?"
-msgid_plural "Are you sure you want to delete the %d selected items?"
-msgstr[0] ""
-msgstr[1] ""
-
-#: build/redirection.js:11148
-#: client/lib/store/index.js:22
-#: redirection.js:2
-msgid "Are you sure want to delete all %d matching items?"
-msgstr ""
-
-#: build/redirection.js:11741
-#: build/redirection.js:12021
-#: build/redirection.js:12066
-#: build/redirection.js:12152
-#: client/page/groups/columns/edit.js:41
-#: client/page/groups/constants.js:8
-#: client/page/groups/constants.js:62
-#: client/page/groups/create-group.js:40
-#: redirection.js:2
-msgid "Name"
-msgstr ""
-
-#: build/redirection.js:11747
-#: build/redirection.js:12024
-#: build/redirection.js:12056
-#: build/redirection.js:12074
-#: client/page/groups/columns/edit.js:53
-#: client/page/groups/constants.js:9
-#: client/page/groups/constants.js:48
-#: client/page/groups/constants.js:72
-#: redirection.js:2
-msgid "Module"
-msgstr ""
-
-#: build/redirection.js:11765
-#: build/redirection.js:12172
-#: client/page/groups/columns/edit.js:86
-#: client/page/groups/create-group.js:73
-#: redirection.js:2
-msgid "Note that you will need to set the Apache module path in your Redirection options."
-msgstr ""
-
-#: build/redirection.js:11884
-#: client/page/groups/columns/module.js:23
-#: redirection.js:2
-msgid "Filter on: %(type)s"
-msgstr ""
-
-#: build/redirection.js:12027
-#: build/redirection.js:12046
-#: build/redirection.js:12062
-#: build/redirection.js:17014
-#: build/redirection.js:17091
-#: build/redirection.js:17113
-#: client/page/groups/constants.js:10
-#: client/page/groups/constants.js:34
-#: client/page/groups/constants.js:57
-#: client/page/redirects/constants.js:11
-#: client/page/redirects/constants.js:83
-#: client/page/redirects/constants.js:108
-#: redirection.js:2
-msgid "Status"
-msgstr ""
-
-#: build/redirection.js:12030
-#: build/redirection.js:12070
-#: build/redirection.js:12910
-#: client/page/groups/constants.js:11
-#: client/page/groups/constants.js:67
-#: client/page/home/index.js:53
-#: redirection.js:2
-msgid "Redirects"
-msgstr ""
-
-#: build/redirection.js:12034
-#: build/redirection.js:13788
-#: build/redirection.js:14421
-#: build/redirection.js:17101
-#: client/page/groups/constants.js:17
-#: client/page/logs/constants.js:118
-#: client/page/logs404/constants.js:177
-#: client/page/redirects/constants.js:91
-#: redirection.js:2
-msgid "Standard Display"
-msgstr ""
-
-#: build/redirection.js:12038
-#: build/redirection.js:13792
-#: build/redirection.js:14425
-#: build/redirection.js:17105
-#: client/page/groups/constants.js:22
-#: client/page/logs/constants.js:123
-#: client/page/logs404/constants.js:182
-#: client/page/redirects/constants.js:96
-#: redirection.js:2
-msgid "Compact Display"
-msgstr ""
-
-#: build/redirection.js:12042
-#: build/redirection.js:13796
-#: build/redirection.js:14429
-#: build/redirection.js:17109
-#: client/page/groups/constants.js:27
-#: client/page/logs/constants.js:128
-#: client/page/logs404/constants.js:187
-#: client/page/redirects/constants.js:101
-#: redirection.js:2
-msgid "Display All"
-msgstr ""
-
-#: build/redirection.js:12049
-#: build/redirection.js:17116
-#: client/page/groups/constants.js:38
-#: client/page/redirects/constants.js:112
-#: redirection.js:2
-msgid "Enabled"
-msgstr ""
-
-#: build/redirection.js:12052
-#: build/redirection.js:17119
-#: client/page/groups/constants.js:42
-#: client/page/redirects/constants.js:116
-#: redirection.js:2
-msgid "Disabled"
-msgstr ""
-
-#: build/redirection.js:12079
-#: build/redirection.js:12406
-#: build/redirection.js:13775
-#: build/redirection.js:14216
-#: build/redirection.js:14362
-#: build/redirection.js:15057
-#: build/redirection.js:15198
-#: build/redirection.js:17048
-#: build/redirection.js:17506
-#: client/page/groups/constants.js:80
-#: client/page/groups/row-actions.js:38
-#: client/page/logs/constants.js:107
-#: client/page/logs/row-actions.js:30
-#: client/page/logs404/constants.js:108
-#: client/page/logs404/row-actions.js:42
-#: client/page/options/delete-plugin.js:55
-#: client/page/redirects/constants.js:56
-#: client/page/redirects/row-actions.js:32
-#: redirection.js:2
-msgid "Delete"
-msgstr ""
-
-#: build/redirection.js:12082
-#: build/redirection.js:12426
-#: build/redirection.js:17051
-#: build/redirection.js:17519
-#: client/page/groups/constants.js:84
-#: client/page/groups/row-actions.js:64
-#: client/page/redirects/constants.js:60
-#: client/page/redirects/row-actions.js:39
-#: redirection.js:2
-msgid "Enable"
-msgstr ""
-
-#: build/redirection.js:12085
-#: build/redirection.js:12421
-#: build/redirection.js:17054
-#: build/redirection.js:17514
-#: client/page/groups/constants.js:88
-#: client/page/groups/row-actions.js:58
-#: client/page/redirects/constants.js:64
-#: client/page/redirects/row-actions.js:37
-#: redirection.js:2
-msgid "Disable"
-msgstr ""
-
-#: build/redirection.js:12089
-#: client/page/groups/constants.js:95
-#: redirection.js:2
-msgid "Search"
-msgstr ""
-
-#: build/redirection.js:12148
-#: client/page/groups/create-group.js:29
-#: redirection.js:2
-msgid "Add Group"
-msgstr ""
-
-#: build/redirection.js:12148
-#: client/page/groups/create-group.js:31
-#: redirection.js:2
-msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
-msgstr ""
-
-#: build/redirection.js:12399
-#: build/redirection.js:17499
-#: client/page/groups/row-actions.js:30
-#: client/page/redirects/row-actions.js:28
-#: redirection.js:2
-msgid "Edit"
-msgstr ""
-
-#: build/redirection.js:12413
-#: client/page/groups/row-actions.js:49
-#: redirection.js:2
-msgid "View Redirects"
-msgstr ""
-
-#: build/redirection.js:12488
-#: client/page/home/cache-detect.js:19
-#: redirection.js:2
-msgid "Cached Redirection detected"
-msgstr ""
-
-#: build/redirection.js:12491
-#: client/page/home/cache-detect.js:23
-#: redirection.js:2
-msgid "Please clear your browser cache and reload this page."
-msgstr ""
-
-#: build/redirection.js:12491
-#: client/page/home/cache-detect.js:25
-#: redirection.js:2
-msgid "If you are using a caching system such as Cloudflare then please read this: "
-msgstr ""
-
-#: build/redirection.js:12493
-#: client/page/home/cache-detect.js:27
-#: redirection.js:2
-msgid "clearing your cache."
-msgstr ""
-
-#: build/redirection.js:12539
-#: client/page/home/crash-handler.js:25
-#: redirection.js:2
-msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
-msgstr ""
-
-#: build/redirection.js:12539
-#: client/page/home/crash-handler.js:34
-#: redirection.js:2
-msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
-msgstr ""
-
-#: build/redirection.js:12607
-#: redirection.js:2
-msgid "A database upgrade is in progress. Please continue to finish."
-msgstr ""
-
-#: build/redirection.js:12610
-#: redirection.js:2
-msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
-msgstr ""
-
-#: build/redirection.js:12626
-#: redirection.js:2
-msgid "Your site already has the latest SQL."
-msgstr ""
-
-#: build/redirection.js:12626
-#: build/redirection.js:12632
-#: redirection.js:2
-msgid "Click \"Complete Upgrade\" when finished."
-msgstr ""
-
-#: build/redirection.js:12629
-#: build/redirection.js:12640
-#: redirection.js:2
-msgid "Complete Upgrade"
-msgstr ""
-
-#: build/redirection.js:12647
-#: redirection.js:2
-msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
-msgstr ""
-
-#: build/redirection.js:12684
-#: redirection.js:2
-msgid "Something went wrong when upgrading Redirection."
-msgstr ""
-
-#: build/redirection.js:12696
-#: redirection.js:2
-msgid "Upgrade Required"
-msgstr ""
-
-#: build/redirection.js:12698
-#: redirection.js:2
-msgid "Redirection database needs upgrading"
-msgstr ""
-
-#: build/redirection.js:12698
-#: redirection.js:2
-msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
-msgstr ""
-
-#: build/redirection.js:12712
-#: redirection.js:2
-msgid "Manual Upgrade"
-msgstr ""
-
-#: build/redirection.js:12715
-#: redirection.js:2
-msgid "Automatic Upgrade"
-msgstr ""
-
-#: build/redirection.js:12748
-#: client/page/home/debug.js:19
-#: redirection.js:2
-msgid "Please check the {{link}}support site{{/link}} before proceeding further."
-msgstr ""
-
-#: build/redirection.js:12752
-#: client/page/home/debug.js:27
-#: redirection.js:2
-msgid "If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
-msgstr ""
-
-#: build/redirection.js:12757
-#: client/page/home/debug.js:38
-#: redirection.js:2
-msgid "Create An Issue"
-msgstr ""
-
-#: build/redirection.js:12760
-#: client/page/home/debug.js:41
-#: redirection.js:2
-msgid "Email"
-msgstr ""
-
-#: build/redirection.js:12760
-#: client/page/home/debug.js:45
-#: redirection.js:2
-msgid "Include these details in your report along with a description of what you were doing and a screenshot."
-msgstr ""
-
-#: build/redirection.js:12799
-#: client/page/home/error-details.js:20
-#: redirection.js:2
-msgid "What do I do next?"
-msgstr ""
-
-#: build/redirection.js:12799
-#: client/page/home/error-details.js:25
-#: redirection.js:2
-msgid "Take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
-msgstr ""
-
-#: build/redirection.js:12803
-#: client/page/home/error-details.js:36
-#: redirection.js:2
-msgid "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
-msgstr ""
-
-#: build/redirection.js:12807
-#: client/page/home/error-details.js:47
-#: redirection.js:2
-msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
-msgstr ""
-
-#: build/redirection.js:12811
-#: client/page/home/error-details.js:55
-#: redirection.js:2
-msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr ""
-
-#: build/redirection.js:12900
-#: build/redirection.js:12916
-#: build/redirection.js:17879
-#: client/page/home/index.js:41
-#: client/page/home/index.js:61
-#: client/page/site/headers/header.js:24
-#: redirection.js:2
-msgid "Site"
-msgstr ""
-
-#: build/redirection.js:12901
-#: build/redirection.js:12913
-#: client/page/home/index.js:42
-#: client/page/home/index.js:57
-#: redirection.js:2
-msgid "Groups"
-msgstr ""
-
-#: build/redirection.js:12902
-#: build/redirection.js:12925
-#: client/page/home/index.js:43
-#: client/page/home/index.js:73
-#: redirection.js:2
-msgid "Import/Export"
-msgstr ""
-
-#: build/redirection.js:12903
-#: build/redirection.js:15841
-#: client/page/home/index.js:44
-#: client/page/options/options-form/log-options.js:35
-#: redirection.js:2
-msgid "Logs"
-msgstr ""
-
-#: build/redirection.js:12904
-#: client/page/home/index.js:45
-#: redirection.js:2
-msgid "404 errors"
-msgstr ""
-
-#: build/redirection.js:12905
-#: build/redirection.js:12928
-#: client/page/home/index.js:46
-#: client/page/home/index.js:77
-#: redirection.js:2
-msgid "Options"
-msgstr ""
-
-#: build/redirection.js:12906
-#: build/redirection.js:12931
-#: client/page/home/index.js:47
-#: client/page/home/index.js:81
-#: redirection.js:2
-msgid "Support"
-msgstr ""
-
-#: build/redirection.js:12919
-#: client/page/home/index.js:65
-#: redirection.js:2
-msgid "Log"
-msgstr ""
-
-#: build/redirection.js:12922
-#: client/page/home/index.js:69
-#: redirection.js:2
-msgid "404s"
-msgstr ""
-
-#: build/redirection.js:13006
-#: client/page/home/index.js:157
-#: redirection.js:2
-msgid "Add New"
-msgstr ""
-
-#: build/redirection.js:13024
-#: client/page/home/index.js:184
-#: redirection.js:2
-msgid "View notice"
-msgstr ""
-
-#: build/redirection.js:13223
-#: client/page/home/update-notice.js:33
-#: redirection.js:2
-msgid "Version %s installed! Please read the {{url}}release notes{{/url}} for details."
-msgstr ""
-
-#: build/redirection.js:13229
-#: build/redirection.js:13490
-#: client/page/home/update-notice.js:45
-#: client/page/io/index.js:161
-#: redirection.js:2
-msgid "OK"
-msgstr ""
-
-#: build/redirection.js:13273
-#: client/page/io/importer.js:17
-#: redirection.js:2
-msgid "total = "
-msgstr ""
-
-#: build/redirection.js:13276
-#: client/page/io/importer.js:20
-#: redirection.js:2
-msgid "Import from %s"
-msgstr ""
-
-#: build/redirection.js:13414
-#: client/page/io/index.js:224
-#: redirection.js:2
-msgid "Are you sure you want to import from %s?"
-msgstr ""
-
-#: build/redirection.js:13442
-#: client/page/io/index.js:101
-#: redirection.js:2
-msgid "Import to group"
-msgstr ""
-
-#: build/redirection.js:13451
-#: client/page/io/index.js:109
-#: redirection.js:2
-msgid "Import a CSV, .htaccess, or JSON file."
-msgstr ""
-
-#: build/redirection.js:13451
-#: client/page/io/index.js:110
-#: redirection.js:2
-msgid "Click 'Add File' or drag and drop here."
-msgstr ""
-
-#: build/redirection.js:13455
-#: client/page/io/index.js:112
-#: redirection.js:2
-msgid "Add File"
-msgstr ""
-
-#: build/redirection.js:13463
-#: client/page/io/index.js:123
-#: redirection.js:2
-msgid "File selected"
-msgstr ""
-
-#: build/redirection.js:13466
-#: client/page/io/index.js:129
-#: redirection.js:2
-msgid "Upload"
-msgstr ""
-
-#: build/redirection.js:13476
-#: client/page/io/index.js:140
-#: redirection.js:2
-msgid "Importing"
-msgstr ""
-
-#: build/redirection.js:13487
-#: client/page/io/index.js:156
-#: redirection.js:2
-msgid "Finished importing"
-msgstr ""
-
-#: build/redirection.js:13487
-#: client/page/io/index.js:158
-#: redirection.js:2
-msgid "Total redirects imported:"
-msgstr ""
-
-#: build/redirection.js:13487
-#: client/page/io/index.js:159
-#: redirection.js:2
-msgid "Double-check the file is the correct format!"
-msgstr ""
-
-#: build/redirection.js:13561
-#: client/page/io/index.js:232
-#: redirection.js:2
-msgid "Plugin Importers"
-msgstr ""
-
-#: build/redirection.js:13561
-#: client/page/io/index.js:234
-#: redirection.js:2
-msgid "The following redirect plugins were detected on your site and can be imported from."
-msgstr ""
-
-#: build/redirection.js:13576
-#: client/page/io/index.js:246
-#: redirection.js:2
-msgid "Import"
-msgstr ""
-
-#: build/redirection.js:13581
-#: client/page/io/index.js:257
-#: redirection.js:2
-msgid "All imports will be appended to the current database - nothing is merged."
-msgstr ""
-
-#: build/redirection.js:13583
-#: client/page/io/index.js:261
-#: redirection.js:2
-msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
-msgstr ""
-
-#: build/redirection.js:13586
-#: client/page/io/index.js:268
-#: redirection.js:2
-msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
-msgstr ""
-
-#: build/redirection.js:13586
-#: client/page/io/index.js:271
-#: redirection.js:2
-msgid "Export"
-msgstr ""
-
-#: build/redirection.js:13586
-#: client/page/io/index.js:272
-#: redirection.js:2
-msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
-msgstr ""
-
-#: build/redirection.js:13594
-#: client/page/io/index.js:276
-#: redirection.js:2
-msgid "Everything"
-msgstr ""
-
-#: build/redirection.js:13596
-#: client/page/io/index.js:277
-#: redirection.js:2
-msgid "WordPress redirects"
-msgstr ""
-
-#: build/redirection.js:13598
-#: client/page/io/index.js:278
-#: redirection.js:2
-msgid "Apache redirects"
-msgstr ""
-
-#: build/redirection.js:13600
-#: client/page/io/index.js:279
-#: redirection.js:2
-msgid "Nginx redirects"
-msgstr ""
-
-#: build/redirection.js:13606
-#: client/page/io/index.js:283
-#: redirection.js:2
-msgid "Complete data (JSON)"
-msgstr ""
-
-#: build/redirection.js:13608
-#: client/page/io/index.js:284
-#: redirection.js:2
-msgid "CSV"
-msgstr ""
-
-#: build/redirection.js:13610
-#: build/redirection.js:15977
-#: client/page/io/index.js:285
-#: client/page/options/options-form/other-options.js:53
-#: redirection.js:2
-msgid "Apache .htaccess"
-msgstr ""
-
-#: build/redirection.js:13612
-#: client/page/io/index.js:286
-#: redirection.js:2
-msgid "Nginx rewrite rules"
-msgstr ""
-
-#: build/redirection.js:13615
-#: client/page/io/index.js:289
-#: redirection.js:2
-msgid "View"
-msgstr ""
-
-#: build/redirection.js:13618
-#: client/page/io/index.js:290
-#: redirection.js:2
-msgid "Download"
-msgstr ""
-
-#: build/redirection.js:13618
-#: client/page/io/index.js:296
-#: redirection.js:2
-msgid "Export Logs"
-msgstr ""
-
-#: build/redirection.js:13620
-#: client/page/io/index.js:297
-#: redirection.js:2
-msgid "Export redirect"
-msgstr ""
-
-#: build/redirection.js:13623
-#: client/page/io/index.js:298
-#: redirection.js:2
-msgid "Export 404"
-msgstr ""
-
-#: build/redirection.js:13705
-#: build/redirection.js:13716
-#: build/redirection.js:13727
-#: build/redirection.js:13807
-#: build/redirection.js:13817
-#: build/redirection.js:13827
-#: build/redirection.js:14290
-#: build/redirection.js:14303
-#: build/redirection.js:14316
-#: build/redirection.js:14445
-#: build/redirection.js:14455
-#: build/redirection.js:14465
+#: build/redirection.js:2
 #: client/page/logs/constants.js:18
 #: client/page/logs/constants.js:32
 #: client/page/logs/constants.js:46
@@ -2600,10 +449,37 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: build/redirection.js:13734
-#: build/redirection.js:13833
-#: build/redirection.js:14323
-#: build/redirection.js:14471
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/ip.js:22
+#: client/page/logs/constants.js:26
+#: client/page/logs/constants.js:98
+#: client/page/logs/constants.js:144
+#: client/page/logs/constants.js:157
+#: client/page/logs404/constants.js:45
+#: client/page/logs404/constants.js:92
+#: client/page/logs404/constants.js:207
+#: client/page/logs404/constants.js:218
+#: redirection.js:2
+msgid "IP"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/agent.js:51
+#: client/page/logs/constants.js:40
+#: client/page/logs/constants.js:93
+#: client/page/logs/constants.js:140
+#: client/page/logs/constants.js:155
+#: client/page/logs404/constants.js:29
+#: client/page/logs404/constants.js:87
+#: client/page/logs404/constants.js:203
+#: client/page/logs404/constants.js:217
+#: redirection.js:2
+msgid "User Agent"
+msgstr ""
+
+#: build/redirection.js:2
 #: client/page/logs/constants.js:54
 #: client/page/logs/constants.js:148
 #: client/page/logs404/constants.js:60
@@ -2612,12 +488,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: build/redirection.js:13737
-#: build/redirection.js:13836
-#: build/redirection.js:13907
-#: build/redirection.js:14326
-#: build/redirection.js:14474
-#: build/redirection.js:14496
+#: build/redirection.js:2
 #: client/page/logs/constants.js:58
 #: client/page/logs/constants.js:149
 #: client/page/logs/constants.js:220
@@ -2628,10 +499,7 @@ msgstr ""
 msgid "Method"
 msgstr ""
 
-#: build/redirection.js:13741
-#: build/redirection.js:13839
-#: build/redirection.js:14329
-#: build/redirection.js:14477
+#: build/redirection.js:2
 #: client/page/logs/constants.js:63
 #: client/page/logs/constants.js:150
 #: client/page/logs404/constants.js:68
@@ -2640,9 +508,16 @@ msgstr ""
 msgid "Domain"
 msgstr ""
 
-#: build/redirection.js:13753
-#: build/redirection.js:13845
-#: build/redirection.js:13920
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/url.js:20
+#: client/component/welcome-wizard/step-welcome.js:69
+#: client/page/logs/constants.js:73
+#: redirection.js:2
+msgid "Target URL"
+msgstr ""
+
+#: build/redirection.js:2
 #: client/page/logs/constants.js:78
 #: client/page/logs/constants.js:152
 #: client/page/logs/constants.js:238
@@ -2650,11 +525,7 @@ msgstr ""
 msgid "Redirect By"
 msgstr ""
 
-#: build/redirection.js:13757
-#: build/redirection.js:13848
-#: build/redirection.js:14336
-#: build/redirection.js:14483
-#: build/redirection.js:17076
+#: build/redirection.js:2
 #: client/page/logs/constants.js:83
 #: client/page/logs/constants.js:153
 #: client/page/logs404/constants.js:77
@@ -2664,13 +535,57 @@ msgstr ""
 msgid "HTTP code"
 msgstr ""
 
-#: build/redirection.js:13804
-#: build/redirection.js:13842
-#: build/redirection.js:14442
-#: build/redirection.js:14480
-#: build/redirection.js:16237
-#: build/redirection.js:17018
-#: build/redirection.js:19227
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/referrer.js:19
+#: client/page/logs/constants.js:88
+#: client/page/logs/constants.js:154
+#: client/page/logs404/constants.js:82
+#: client/page/logs404/constants.js:216
+#: redirection.js:2
+msgid "Referrer"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:384
+#: client/page/logs/constants.js:113
+#: client/page/logs404/constants.js:171
+#: client/page/redirects/constants.js:36
+#: client/page/redirects/constants.js:85
+#: redirection.js:2
+msgid "Group"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/groups/constants.js:17
+#: client/page/logs/constants.js:118
+#: client/page/logs404/constants.js:177
+#: client/page/redirects/constants.js:91
+#: redirection.js:2
+msgid "Standard Display"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/groups/constants.js:22
+#: client/page/logs/constants.js:123
+#: client/page/logs404/constants.js:182
+#: client/page/redirects/constants.js:96
+#: redirection.js:2
+msgid "Compact Display"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/groups/constants.js:27
+#: client/page/logs/constants.js:128
+#: client/page/logs404/constants.js:187
+#: client/page/redirects/constants.js:101
+#: redirection.js:2
+msgid "Display All"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/page/logs/constants.js:136
 #: client/page/logs/constants.js:151
 #: client/page/logs404/constants.js:199
@@ -2682,691 +597,333 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: build/redirection.js:13857
-#: build/redirection.js:17073
+#: build/redirection.js:2
 #: client/page/logs/constants.js:156
 #: client/page/redirects/constants.js:77
 #: redirection.js:2
 msgid "Target"
 msgstr ""
 
-#: build/redirection.js:13865
-#: build/redirection.js:14515
-#: build/redirection.js:17160
-#: client/page/logs/constants.js:164
-#: client/page/logs404/constants.js:251
-#: client/page/redirects/constants.js:174
-#: redirection.js:2
-msgid "Search URL"
-msgstr ""
-
-#: build/redirection.js:13868
-#: build/redirection.js:14518
-#: client/page/logs/constants.js:168
-#: client/page/logs404/constants.js:255
-#: redirection.js:2
-msgid "Search exact URL"
-msgstr ""
-
-#: build/redirection.js:13871
-#: build/redirection.js:14521
-#: client/page/logs/constants.js:172
-#: client/page/logs404/constants.js:259
-#: redirection.js:2
-msgid "Search referrer"
-msgstr ""
-
-#: build/redirection.js:13874
-#: build/redirection.js:14524
-#: client/page/logs/constants.js:176
-#: client/page/logs404/constants.js:263
-#: redirection.js:2
-msgid "Search user agent"
-msgstr ""
-
-#: build/redirection.js:13877
-#: build/redirection.js:14527
-#: client/page/logs/constants.js:180
-#: client/page/logs404/constants.js:267
-#: redirection.js:2
-msgid "Search IP"
-msgstr ""
-
-#: build/redirection.js:13880
-#: build/redirection.js:17163
-#: client/page/logs/constants.js:184
-#: client/page/redirects/constants.js:178
-#: redirection.js:2
-msgid "Search target URL"
-msgstr ""
-
-#: build/redirection.js:13883
-#: build/redirection.js:14530
-#: client/page/logs/constants.js:188
-#: client/page/logs404/constants.js:271
-#: redirection.js:2
-msgid "Search domain"
-msgstr ""
-
-#: build/redirection.js:13888
-#: build/redirection.js:14392
+#: build/redirection.js:2
 #: client/page/logs/constants.js:196
 #: client/page/logs404/constants.js:147
 #: redirection.js:2
 msgid "No grouping"
 msgstr ""
 
-#: build/redirection.js:13891
-#: build/redirection.js:14395
+#: build/redirection.js:2
 #: client/page/logs/constants.js:200
 #: client/page/logs404/constants.js:151
 #: redirection.js:2
 msgid "Group by URL"
 msgstr ""
 
-#: build/redirection.js:13894
-#: build/redirection.js:14398
+#: build/redirection.js:2
 #: client/page/logs/constants.js:204
 #: client/page/logs404/constants.js:155
 #: redirection.js:2
 msgid "Group by user agent"
 msgstr ""
 
-#: build/redirection.js:13900
-#: build/redirection.js:14404
+#: build/redirection.js:2
 #: client/page/logs/constants.js:211
 #: client/page/logs404/constants.js:162
 #: redirection.js:2
 msgid "Group by IP"
 msgstr ""
 
-#: build/redirection.js:13923
+#: build/redirection.js:2
 #: client/page/logs/constants.js:242
 #: redirection.js:2
 msgid "WordPress"
 msgstr ""
 
-#: build/redirection.js:14104
-#: client/page/logs/index.js:112
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:104
 #: redirection.js:2
-msgid "RSS"
+msgid "301 - Moved Permanently"
 msgstr ""
 
-#: build/redirection.js:14243
-#: client/page/logs/row-actions.js:52
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:108
 #: redirection.js:2
-msgid "View Redirect"
+msgid "302 - Found"
 msgstr ""
 
-#: build/redirection.js:14368
-#: build/redirection.js:14381
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:112
+#: redirection.js:2
+msgid "303 - See Other"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:116
+#: redirection.js:2
+msgid "304 - Not Modified"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:120
+#: redirection.js:2
+msgid "307 - Temporary Redirect"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:124
+#: redirection.js:2
+msgid "308 - Permanent Redirect"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:131
+#: redirection.js:2
+msgid "400 - Bad Request"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:135
+#: redirection.js:2
+msgid "401 - Unauthorized"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:139
+#: redirection.js:2
+msgid "403 - Forbidden"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:143
+#: redirection.js:2
+msgid "404 - Not Found"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:147
+#: redirection.js:2
+msgid "410 - Gone"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:151
+#: redirection.js:2
+msgid "418 - I'm a teapot"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:155
+#: redirection.js:2
+msgid "451 - Unavailable For Legal Reasons"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:159
+#: redirection.js:2
+msgid "500 - Internal Server Error"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:163
+#: redirection.js:2
+msgid "501 - Not implemented"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:167
+#: redirection.js:2
+msgid "502 - Bad Gateway"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:171
+#: redirection.js:2
+msgid "503 - Service Unavailable"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:175
+#: redirection.js:2
+msgid "504 - Gateway Timeout"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/constants.js:184
+#: client/component/redirect-edit/match/agent.js:62
+#: client/component/redirect-edit/match/cookie.js:25
+#: client/component/redirect-edit/match/header.js:60
+#: client/component/redirect-edit/match/referrer.js:23
+#: redirection.js:2
+msgid "Regex"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:188
+#: redirection.js:2
+msgid "Ignore Slash"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:192
+#: redirection.js:2
+msgid "Ignore Case"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:203
+#: redirection.js:2
+msgid "Exact match"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:207
+#: client/page/options/options-form/url-options.js:15
+#: redirection.js:2
+msgid "Exact match in any order"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:211
+#: redirection.js:2
+msgid "Ignore all parameters"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/redirect-edit/constants.js:215
+#: redirection.js:2
+msgid "Ignore & pass parameters to the target"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/groups/constants.js:80
+#: client/page/groups/row-actions.js:38
+#: client/page/logs/constants.js:107
+#: client/page/logs/row-actions.js:30
+#: client/page/logs404/constants.js:108
+#: client/page/logs404/row-actions.js:42
+#: client/page/options/delete-plugin.js:55
+#: client/page/redirects/constants.js:56
+#: client/page/redirects/row-actions.js:32
+#: redirection.js:2
+msgid "Delete"
+msgstr ""
+
+#: build/redirection.js:2
 #: client/page/logs404/constants.js:116
 #: client/page/logs404/constants.js:132
 #: redirection.js:2
 msgid "Redirect All"
 msgstr ""
 
-#: build/redirection.js:14371
-#: build/redirection.js:15089
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/page/logs404/constants.js:120
 #: client/page/logs404/row-actions.js:77
 #: redirection.js:2
 msgid "Block IP"
 msgstr ""
 
-#: build/redirection.js:14385
-#: build/redirection.js:15095
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/page/logs404/constants.js:137
 #: client/page/logs404/row-actions.js:87
 #: redirection.js:2
 msgid "Ignore URL"
 msgstr ""
 
-#: build/redirection.js:14509
-#: build/redirection.js:17141
+#: build/redirection.js:2
 #: client/page/logs404/constants.js:242
 #: client/page/redirects/constants.js:147
 #: redirection.js:2
 msgid "HTTP Status Code"
 msgstr ""
 
-#: build/redirection.js:14702
-#: build/redirection.js:15062
-#: build/redirection.js:17221
-#: client/page/logs404/create-redirect.js:53
-#: client/page/logs404/row-actions.js:52
-#: client/page/redirects/create.js:32
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/groups/columns/edit.js:41
+#: client/page/groups/constants.js:8
+#: client/page/groups/constants.js:62
+#: client/page/groups/create-group.js:40
 #: redirection.js:2
-msgid "Add Redirect"
+msgid "Name"
 msgstr ""
 
-#: build/redirection.js:14705
-#: client/page/logs404/create-redirect.js:62
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/groups/columns/edit.js:53
+#: client/page/groups/constants.js:9
+#: client/page/groups/constants.js:48
+#: client/page/groups/constants.js:72
 #: redirection.js:2
-msgid "Are you sure you want to delete the selected items?"
+msgid "Module"
 msgstr ""
 
-#: build/redirection.js:14707
-#: client/page/logs404/create-redirect.js:71
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/groups/constants.js:10
+#: client/page/groups/constants.js:34
+#: client/page/groups/constants.js:57
+#: client/page/redirects/constants.js:11
+#: client/page/redirects/constants.js:83
+#: client/page/redirects/constants.js:108
 #: redirection.js:2
-msgid "Delete Log Entries"
+msgid "Status"
 msgstr ""
 
-#: build/redirection.js:14716
-#: client/page/logs404/create-redirect.js:81
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/groups/constants.js:11
+#: client/page/groups/constants.js:67
+#: client/page/home/index.js:53
 #: redirection.js:2
-msgid "Delete logs for this entry"
+msgid "Redirects"
 msgstr ""
 
-#: build/redirection.js:14716
-#: client/page/logs404/create-redirect.js:82
+#: build/redirection.js:2
+#: client/page/groups/constants.js:38
+#: client/page/redirects/constants.js:112
 #: redirection.js:2
-msgid "Delete logs for these entries"
+msgid "Enabled"
 msgstr ""
 
-#: build/redirection.js:15082
-#: client/page/logs404/row-actions.js:70
+#: build/redirection.js:2
+#: client/page/groups/constants.js:42
+#: client/page/redirects/constants.js:116
 #: redirection.js:2
-msgid "Show All"
+msgid "Disabled"
 msgstr ""
 
-#: build/redirection.js:15178
-#: client/page/options/delete-plugin.js:37
+#: build/redirection.js:2
+#: client/page/redirects/constants.js:73
 #: redirection.js:2
-msgid "Delete the plugin - are you sure?"
+msgid "Source"
 msgstr ""
 
-#: build/redirection.js:15178
-#: client/page/options/delete-plugin.js:38
+#: build/redirection.js:2
+#: client/page/redirects/constants.js:74
 #: redirection.js:2
-msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
+msgid "URL options"
 msgstr ""
 
-#: build/redirection.js:15178
-#: client/page/options/delete-plugin.js:39
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/source-query.js:25
+#: client/page/redirects/constants.js:75
 #: redirection.js:2
-msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
+msgid "Query Parameters"
 msgstr ""
 
-#: build/redirection.js:15181
-#: client/page/options/delete-plugin.js:41
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/title.js:23
+#: client/page/redirects/constants.js:76
 #: redirection.js:2
-msgid "Yes! Delete the plugin"
+msgid "Title"
 msgstr ""
 
-#: build/redirection.js:15184
-#: client/page/options/delete-plugin.js:41
-#: redirection.js:2
-msgid "No! Don't delete the plugin"
-msgstr ""
-
-#: build/redirection.js:15194
-#: client/page/options/delete-plugin.js:52
-#: redirection.js:2
-msgid "Delete Redirection"
-msgstr ""
-
-#: build/redirection.js:15194
-#: client/page/options/delete-plugin.js:54
-#: redirection.js:2
-msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
-msgstr ""
-
-#: build/redirection.js:15306
-#: client/page/options/donation.js:83
-#: redirection.js:2
-msgid "You've supported this plugin - thank you!"
-msgstr ""
-
-#: build/redirection.js:15309
-#: client/page/options/donation.js:84
-#: redirection.js:2
-msgid "I'd like to support some more."
-msgstr ""
-
-#: build/redirection.js:15321
-#: client/page/options/donation.js:101
-#: redirection.js:2
-msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
-msgstr ""
-
-#: build/redirection.js:15323
-#: client/page/options/donation.js:106
-#: redirection.js:2
-msgid "You get useful software and I get to carry on making it better."
-msgstr ""
-
-#: build/redirection.js:15391
-#: client/page/options/donation.js:129
-#: redirection.js:2
-msgid "Support 💰"
-msgstr ""
-
-#: build/redirection.js:15404
-#: client/page/options/donation.js:141
-#: redirection.js:2
-msgid "Plugin Support"
-msgstr ""
-
-#: build/redirection.js:15559
-#: build/redirection.js:15568
-#: client/page/options/newsletter.js:22
-#: client/page/options/newsletter.js:36
-#: redirection.js:2
-msgid "Newsletter"
-msgstr ""
-
-#: build/redirection.js:15559
-#: client/page/options/newsletter.js:25
-#: redirection.js:2
-msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
-msgstr ""
-
-#: build/redirection.js:15568
-#: client/page/options/newsletter.js:38
-#: redirection.js:2
-msgid "Want to keep up to date with changes to Redirection?"
-msgstr ""
-
-#: build/redirection.js:15568
-#: client/page/options/newsletter.js:39
-#: redirection.js:2
-msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
-msgstr ""
-
-#: build/redirection.js:15572
-#: client/page/options/newsletter.js:43
-#: redirection.js:2
-msgid "Your email address:"
-msgstr ""
-
-#: build/redirection.js:15706
-#: client/page/options/options-form/index.js:57
-#: redirection.js:2
-msgid "I'm a nice person and I have helped support the author of this plugin"
-msgstr ""
-
-#: build/redirection.js:15726
-#: build/redirection.js:18738
-#: client/page/options/options-form/index.js:75
-#: client/page/site/index.js:103
-#: redirection.js:2
-msgid "Update"
-msgstr ""
-
-#: build/redirection.js:15791
-#: client/page/options/options-form/log-options.js:14
-#: redirection.js:2
-msgid "No logs"
-msgstr ""
-
-#: build/redirection.js:15794
-#: build/redirection.js:16206
-#: client/page/options/options-form/log-options.js:15
-#: client/page/options/options-form/url-options.js:22
-#: redirection.js:2
-msgid "A day"
-msgstr ""
-
-#: build/redirection.js:15797
-#: build/redirection.js:16209
-#: client/page/options/options-form/log-options.js:16
-#: client/page/options/options-form/url-options.js:23
-#: redirection.js:2
-msgid "A week"
-msgstr ""
-
-#: build/redirection.js:15800
-#: client/page/options/options-form/log-options.js:17
-#: redirection.js:2
-msgid "A month"
-msgstr ""
-
-#: build/redirection.js:15803
-#: client/page/options/options-form/log-options.js:18
-#: redirection.js:2
-msgid "Two months"
-msgstr ""
-
-#: build/redirection.js:15806
-#: build/redirection.js:16212
-#: client/page/options/options-form/log-options.js:19
-#: client/page/options/options-form/url-options.js:24
-#: redirection.js:2
-msgid "Forever"
-msgstr ""
-
-#: build/redirection.js:15811
-#: client/page/options/options-form/log-options.js:22
-#: redirection.js:2
-msgid "No IP logging"
-msgstr ""
-
-#: build/redirection.js:15814
-#: client/page/options/options-form/log-options.js:23
-#: redirection.js:2
-msgid "Full IP logging"
-msgstr ""
-
-#: build/redirection.js:15817
-#: client/page/options/options-form/log-options.js:24
-#: redirection.js:2
-msgid "Anonymize IP (mask last part)"
-msgstr ""
-
-#: build/redirection.js:15842
-#: client/page/options/options-form/log-options.js:38
-#: redirection.js:2
-msgid "Redirect Logs"
-msgstr ""
-
-#: build/redirection.js:15849
-#: build/redirection.js:15857
-#: client/page/options/options-form/log-options.js:45
-#: client/page/options/options-form/log-options.js:54
-#: redirection.js:2
-msgid "(time to keep logs for)"
-msgstr ""
-
-#: build/redirection.js:15850
-#: client/page/options/options-form/log-options.js:47
-#: redirection.js:2
-msgid "404 Logs"
-msgstr ""
-
-#: build/redirection.js:15858
-#: client/page/options/options-form/log-options.js:56
-#: redirection.js:2
-msgid "IP Logging"
-msgstr ""
-
-#: build/redirection.js:15865
-#: client/page/options/options-form/log-options.js:63
-#: redirection.js:2
-msgid "(IP logging level)"
-msgstr ""
-
-#: build/redirection.js:15866
-#: client/page/options/options-form/log-options.js:65
-#: redirection.js:2
-msgid "Logging"
-msgstr ""
-
-#: build/redirection.js:15874
-#: client/page/options/options-form/log-options.js:75
-#: redirection.js:2
-msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
-msgstr ""
-
-#: build/redirection.js:15879
-#: client/page/options/options-form/log-options.js:84
-#: redirection.js:2
-msgid "Track redirect hits and date of last access. Contains no user information."
-msgstr ""
-
-#: build/redirection.js:15884
-#: client/page/options/options-form/log-options.js:90
-#: redirection.js:2
-msgid "Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size."
-msgstr ""
-
-#: build/redirection.js:15884
-#: client/page/options/options-form/log-options.js:101
-#: redirection.js:2
-msgid "Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}."
-msgstr ""
-
-#: build/redirection.js:15926
-#: client/page/options/options-form/other-options.js:14
-#: redirection.js:2
-msgid "Default REST API"
-msgstr ""
-
-#: build/redirection.js:15929
-#: client/page/options/options-form/other-options.js:15
-#: redirection.js:2
-msgid "Raw REST API"
-msgstr ""
-
-#: build/redirection.js:15932
-#: client/page/options/options-form/other-options.js:16
-#: redirection.js:2
-msgid "Relative REST API"
-msgstr ""
-
-#: build/redirection.js:15938
-#: client/page/options/options-form/other-options.js:23
-#: redirection.js:2
-msgid "Upgrade manually when prompted"
-msgstr ""
-
-#: build/redirection.js:15941
-#: client/page/options/options-form/other-options.js:27
-#: redirection.js:2
-msgid "Automatically upgrade on admin pages"
-msgstr ""
-
-#: build/redirection.js:15965
-#: client/page/options/options-form/other-options.js:40
-#: redirection.js:2
-msgid "Advanced"
-msgstr ""
-
-#: build/redirection.js:15966
-#: client/page/options/options-form/other-options.js:43
-#: redirection.js:2
-msgid "RSS Token"
-msgstr ""
-
-#: build/redirection.js:15976
-#: client/page/options/options-form/other-options.js:47
-#: redirection.js:2
-msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
-msgstr ""
-
-#: build/redirection.js:15987
-#: client/page/options/options-form/other-options.js:68
-#: redirection.js:2
-msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
-msgstr ""
-
-#: build/redirection.js:15991
-#: client/page/options/options-form/other-options.js:82
-#: redirection.js:2
-msgid "Unable to save .htaccess file"
-msgstr ""
-
-#: build/redirection.js:16001
-#: client/page/options/options-form/other-options.js:91
-#: redirection.js:2
-msgid "How Redirection uses the REST API - don't change unless necessary"
-msgstr ""
-
-#: build/redirection.js:16002
-#: client/page/options/options-form/other-options.js:94
-#: redirection.js:2
-msgid "Data Upgrade"
-msgstr ""
-
-#: build/redirection.js:16010
-#: client/page/options/options-form/other-options.js:103
-#: redirection.js:2
-msgid "Decide how Redirection updates itself, if needed."
-msgstr ""
-
-#: build/redirection.js:16071
-#: client/page/options/options-form/url-monitor.js:41
-#: redirection.js:2
-msgid "Monitor changes to %(type)s"
-msgstr ""
-
-#: build/redirection.js:16132
-#: client/page/options/options-form/url-monitor.js:93
-#: redirection.js:2
-msgid "URL Monitor"
-msgstr ""
-
-#: build/redirection.js:16135
-#: client/page/options/options-form/url-monitor.js:98
-#: redirection.js:2
-msgid "URL Monitor Changes"
-msgstr ""
-
-#: build/redirection.js:16142
-#: client/page/options/options-form/url-monitor.js:101
-#: redirection.js:2
-msgid "Save changes to this group"
-msgstr ""
-
-#: build/redirection.js:16147
-#: client/page/options/options-form/url-monitor.js:108
-#: redirection.js:2
-msgid "For example \"/amp\""
-msgstr ""
-
-#: build/redirection.js:16149
-#: client/page/options/options-form/url-monitor.js:111
-#: redirection.js:2
-msgid "Create associated redirect (added to end of URL)"
-msgstr ""
-
-#: build/redirection.js:16192
-#: client/page/options/options-form/url-options.js:16
-#: redirection.js:2
-msgid "Ignore all query parameters"
-msgstr ""
-
-#: build/redirection.js:16195
-#: client/page/options/options-form/url-options.js:17
-#: redirection.js:2
-msgid "Ignore and pass all query parameters"
-msgstr ""
-
-#: build/redirection.js:16200
-#: client/page/options/options-form/url-options.js:20
-#: redirection.js:2
-msgid "Never cache"
-msgstr ""
-
-#: build/redirection.js:16203
-#: client/page/options/options-form/url-options.js:21
-#: redirection.js:2
-msgid "An hour"
-msgstr ""
-
-#: build/redirection.js:16244
-#: client/page/options/options-form/url-options.js:45
-#: redirection.js:2
-msgid "Default URL settings"
-msgstr ""
-
-#: build/redirection.js:16246
-#: build/redirection.js:16263
-#: client/page/options/options-form/url-options.js:46
-#: client/page/options/options-form/url-options.js:83
-#: redirection.js:2
-msgid "Applies to all redirections unless you configure them otherwise."
-msgstr ""
-
-#: build/redirection.js:16251
-#: client/page/options/options-form/url-options.js:51
-#: redirection.js:2
-msgid "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})"
-msgstr ""
-
-#: build/redirection.js:16258
-#: client/page/options/options-form/url-options.js:71
-#: redirection.js:2
-msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
-msgstr ""
-
-#: build/redirection.js:16261
-#: client/page/options/options-form/url-options.js:82
-#: redirection.js:2
-msgid "Default query matching"
-msgstr ""
-
-#: build/redirection.js:16268
-#: client/page/options/options-form/url-options.js:89
-#: redirection.js:2
-msgid "Exact - matches the query parameters exactly defined in your source, in any order"
-msgstr ""
-
-#: build/redirection.js:16268
-#: client/page/options/options-form/url-options.js:94
-#: redirection.js:2
-msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr ""
-
-#: build/redirection.js:16268
-#: client/page/options/options-form/url-options.js:95
-#: redirection.js:2
-msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr ""
-
-#: build/redirection.js:16269
-#: client/page/options/options-form/url-options.js:98
-#: redirection.js:2
-msgid "Auto-generate URL"
-msgstr ""
-
-#: build/redirection.js:16279
-#: client/page/options/options-form/url-options.js:109
-#: redirection.js:2
-msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
-msgstr ""
-
-#: build/redirection.js:16282
-#: client/page/options/options-form/url-options.js:120
-#: redirection.js:2
-msgid "HTTP Cache Header"
-msgstr ""
-
-#: build/redirection.js:16291
-#: client/page/options/options-form/url-options.js:129
-#: redirection.js:2
-msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
-msgstr ""
-
-#: build/redirection.js:16292
-#: client/page/options/options-form/url-options.js:132
-#: redirection.js:2
-msgid "Redirect Caching"
-msgstr ""
-
-#: build/redirection.js:16301
-#: client/page/options/options-form/url-options.js:137
-#: redirection.js:2
-msgid "(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache."
-msgstr ""
-
-#: build/redirection.js:16339
-#: client/page/redirects/columns/code.js:16
-#: redirection.js:2
-msgid "pass"
-msgstr ""
-
-#: build/redirection.js:16794
-#: client/page/redirects/columns/source-query.js:21
-#: redirection.js:2
-msgid "Exact Query"
-msgstr ""
-
-#: build/redirection.js:16797
-#: client/page/redirects/columns/source-query.js:24
-#: redirection.js:2
-msgid "Ignore Query"
-msgstr ""
-
-#: build/redirection.js:16799
-#: client/page/redirects/columns/source-query.js:26
-#: redirection.js:2
-msgid "Ignore & Pass Query"
-msgstr ""
-
-#: build/redirection.js:17022
-#: build/redirection.js:17079
-#: build/redirection.js:17133
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/page/redirects/constants.js:21
 #: client/page/redirects/constants.js:79
 #: client/page/redirects/constants.js:136
@@ -3374,9 +931,32 @@ msgstr ""
 msgid "Match Type"
 msgstr ""
 
-#: build/redirection.js:17026
-#: build/redirection.js:17094
-#: build/redirection.js:17137
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/redirect-edit/position.js:12
+#: client/page/redirects/constants.js:80
+#: redirection.js:2
+msgid "Position"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:45
+#: client/page/redirects/constants.js:81
+#: redirection.js:2
+msgid "Hits"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:49
+#: client/page/redirects/constants.js:82
+#: redirection.js:2
+msgid "Last Access"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
 #: client/page/redirects/constants.js:26
 #: client/page/redirects/constants.js:84
 #: client/page/redirects/constants.js:141
@@ -3384,542 +964,103 @@ msgstr ""
 msgid "Action Type"
 msgstr ""
 
-#: build/redirection.js:17030
-#: client/page/redirects/constants.js:31
-#: redirection.js:2
-msgid "Code"
-msgstr ""
-
-#: build/redirection.js:17038
-#: client/page/redirects/constants.js:41
-#: redirection.js:2
-msgid "Pos"
-msgstr ""
-
-#: build/redirection.js:17041
-#: build/redirection.js:17085
-#: client/page/redirects/constants.js:45
-#: client/page/redirects/constants.js:81
-#: redirection.js:2
-msgid "Hits"
-msgstr ""
-
-#: build/redirection.js:17044
-#: build/redirection.js:17088
-#: client/page/redirects/constants.js:49
-#: client/page/redirects/constants.js:82
-#: redirection.js:2
-msgid "Last Access"
-msgstr ""
-
-#: build/redirection.js:17057
-#: client/page/redirects/constants.js:68
-#: redirection.js:2
-msgid "Reset hits"
-msgstr ""
-
-#: build/redirection.js:17061
-#: client/page/redirects/constants.js:73
-#: redirection.js:2
-msgid "Source"
-msgstr ""
-
-#: build/redirection.js:17064
-#: client/page/redirects/constants.js:74
-#: redirection.js:2
-msgid "URL options"
-msgstr ""
-
-#: build/redirection.js:17123
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:122
 #: redirection.js:2
 msgid "URL match"
 msgstr ""
 
-#: build/redirection.js:17126
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:126
 #: redirection.js:2
 msgid "Regular Expression"
 msgstr ""
 
-#: build/redirection.js:17129
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:130
 #: redirection.js:2
 msgid "Plain"
 msgstr ""
 
-#: build/redirection.js:17145
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:152
 #: redirection.js:2
 msgid "Last Accessed"
 msgstr ""
 
-#: build/redirection.js:17148
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:156
 #: redirection.js:2
 msgid "Never accessed"
 msgstr ""
 
-#: build/redirection.js:17151
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:160
 #: redirection.js:2
 msgid "Not accessed in last month"
 msgstr ""
 
-#: build/redirection.js:17154
+#: build/redirection.js:2
 #: client/page/redirects/constants.js:164
 #: redirection.js:2
 msgid "Not accessed in last year"
 msgstr ""
 
-#: build/redirection.js:17166
-#: client/page/redirects/constants.js:182
-#: redirection.js:2
-msgid "Search title"
-msgstr ""
-
-#: build/redirection.js:17217
-#: client/page/redirects/create.js:27
-#: redirection.js:2
-msgid "Add new redirection"
-msgstr ""
-
-#: build/redirection.js:17304
-#: client/page/redirects/index.js:62
-#: redirection.js:2
-msgid "All groups"
-msgstr ""
-
-#: build/redirection.js:17527
-#: client/page/redirects/row-actions.js:44
-#: redirection.js:2
-msgid "Check Redirect"
-msgstr ""
-
-#: build/redirection.js:17678
-#: client/page/site/aliases/index.js:39
-#: redirection.js:2
-msgid "Site Aliases"
-msgstr ""
-
-#: build/redirection.js:17678
-#: client/page/site/aliases/index.js:41
-#: redirection.js:2
-msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
-msgstr ""
-
-#: build/redirection.js:17678
-#: client/page/site/aliases/index.js:42
-#: redirection.js:2
-msgid "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install."
-msgstr ""
-
-#: build/redirection.js:17680
-#: client/page/site/aliases/index.js:47
-#: redirection.js:2
-msgid "Aliased Domain"
-msgstr ""
-
-#: build/redirection.js:17682
-#: client/page/site/aliases/index.js:48
-#: redirection.js:2
-msgid "Alias"
-msgstr ""
-
-#: build/redirection.js:17693
-#: client/page/site/aliases/index.js:64
-#: redirection.js:2
-msgid "No aliases"
-msgstr ""
-
-#: build/redirection.js:17696
-#: client/page/site/aliases/index.js:68
-#: redirection.js:2
-msgid "Add Alias"
-msgstr ""
-
-#: build/redirection.js:17732
-#: client/page/site/canonical/index.js:12
-#: redirection.js:2
-msgid "Don't set a preferred domain - {{code}}%(site)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:17739
-#: client/page/site/canonical/index.js:24
-#: redirection.js:2
-msgid "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:17747
-#: client/page/site/canonical/index.js:38
-#: redirection.js:2
-msgid "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:17805
-#: client/page/site/canonical/index.js:89
-#: redirection.js:2
-msgid "Canonical Settings"
-msgstr ""
-
-#: build/redirection.js:17810
-#: client/page/site/canonical/index.js:95
-#: redirection.js:2
-msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:17817
-#: client/page/site/canonical/index.js:110
-#: redirection.js:2
-msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
-msgstr ""
-
-#: build/redirection.js:17819
-#: client/page/site/canonical/index.js:117
-#: redirection.js:2
-msgid "Preferred domain"
-msgstr ""
-
-#: build/redirection.js:17829
-#: client/page/site/canonical/index.js:129
-#: redirection.js:2
-msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
-msgstr ""
-
-#: build/redirection.js:17882
-#: client/page/site/headers/header.js:28
-#: redirection.js:2
-msgid "Redirect"
-msgstr ""
-
-#: build/redirection.js:18033
-#: client/page/site/headers/header.js:258
-#: redirection.js:2
-msgid "Custom Header"
-msgstr ""
-
-#: build/redirection.js:18157
-#: client/page/site/headers/index.js:17
-#: redirection.js:2
-msgid "Add Header"
-msgstr ""
-
-#: build/redirection.js:18160
-#: client/page/site/headers/index.js:21
-#: redirection.js:2
-msgid "Add Security Presets"
-msgstr ""
-
-#: build/redirection.js:18163
-#: client/page/site/headers/index.js:25
-#: redirection.js:2
-msgid "Add CORS Presets"
-msgstr ""
-
-#: build/redirection.js:18221
-#: client/page/site/headers/index.js:84
-#: redirection.js:2
-msgid "HTTP Headers"
-msgstr ""
-
-#: build/redirection.js:18221
-#: client/page/site/headers/index.js:85
-#: redirection.js:2
-msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
-
-#: build/redirection.js:18223
-#: client/page/site/headers/index.js:90
-#: redirection.js:2
-msgid "Location"
-msgstr ""
-
-#: build/redirection.js:18223
-#: client/page/site/headers/index.js:91
-#: redirection.js:2
-msgid "Header"
-msgstr ""
-
-#: build/redirection.js:18230
-#: client/page/site/headers/index.js:106
-#: redirection.js:2
-msgid "No headers"
-msgstr ""
-
-#: build/redirection.js:18235
-#: client/page/site/headers/index.js:117
-#: redirection.js:2
-msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
-
-#: build/redirection.js:18386
-#: client/page/site/headers/types/multi-choice.js:26
-#: redirection.js:2
-msgid "All"
-msgstr ""
-
-#: build/redirection.js:18390
-#: client/page/site/headers/types/multi-choice.js:29
-#: redirection.js:2
-msgid "Values"
-msgstr ""
-
-#: build/redirection.js:18430
-#: client/page/site/headers/types/plain-value.js:10
-#: redirection.js:2
-msgid "Value"
-msgstr ""
-
-#: build/redirection.js:18711
-#: client/page/site/index.js:73
-#: redirection.js:2
-msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
-msgstr ""
-
-#: build/redirection.js:18832
-#: client/page/site/permalink/index.js:39
-#: redirection.js:2
-msgid "Permalink Migration"
-msgstr ""
-
-#: build/redirection.js:18832
-#: client/page/site/permalink/index.js:40
-#: redirection.js:2
-msgid "Enter old permalinks structures to automatically migrate them to your current one."
-msgstr ""
-
-#: build/redirection.js:18832
-#: client/page/site/permalink/index.js:41
-#: redirection.js:2
-msgid "Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta."
-msgstr ""
-
-#: build/redirection.js:18834
-#: client/page/site/permalink/index.js:46
-#: redirection.js:2
-msgid "Permalinks"
-msgstr ""
-
-#: build/redirection.js:18843
-#: client/page/site/permalink/index.js:62
-#: redirection.js:2
-msgid "No migrated permalinks"
-msgstr ""
-
-#: build/redirection.js:18846
-#: client/page/site/permalink/index.js:70
-#: redirection.js:2
-msgid "Add Permalink"
-msgstr ""
-
-#: build/redirection.js:18963
-#: client/page/site/relocate/index.js:31
-#: redirection.js:2
-msgid "Relocate Site"
-msgstr ""
-
-#: build/redirection.js:18963
-#: client/page/site/relocate/index.js:32
-#: redirection.js:2
-msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
-msgstr ""
-
-#: build/redirection.js:18963
-#: client/page/site/relocate/index.js:34
-#: redirection.js:2
-msgid "Relocate to domain"
-msgstr ""
-
-#: build/redirection.js:19071
-#: client/page/support/debug.js:68
-#: redirection.js:2
-msgid "Database version"
-msgstr ""
-
-#: build/redirection.js:19076
-#: client/page/support/debug.js:79
-#: redirection.js:2
-msgid "Do not change unless advised to do so!"
-msgstr ""
-
-#: build/redirection.js:19079
-#: client/page/support/debug.js:88
-#: redirection.js:2
-msgid "IP Headers"
-msgstr ""
-
-#: build/redirection.js:19122
-#: client/page/support/help.js:12
-#: redirection.js:2
-msgid "Need help?"
-msgstr ""
-
-#: build/redirection.js:19122
-#: client/page/support/help.js:15
-#: redirection.js:2
-msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
-msgstr ""
-
-#: build/redirection.js:19129
-#: client/page/support/help.js:28
-#: redirection.js:2
-msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
-msgstr ""
-
-#: build/redirection.js:19145
-#: client/page/support/help.js:50
-#: redirection.js:2
-msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
-msgstr ""
-
-#: build/redirection.js:19145
-#: client/page/support/help.js:57
-#: redirection.js:2
-msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
-msgstr ""
-
-#: build/redirection.js:19149
-#: client/page/support/help.js:73
-#: redirection.js:2
-msgid "Need to search and replace?"
-msgstr ""
-
-#: build/redirection.js:19149
-#: client/page/support/help.js:75
-#: redirection.js:2
-msgid "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects."
-msgstr ""
-
-#: build/redirection.js:19221
-#: client/page/support/http-tester.js:41
-#: redirection.js:2
-msgid "Redirect Tester"
-msgstr ""
-
-#: build/redirection.js:19221
-#: client/page/support/http-tester.js:45
-#: redirection.js:2
-msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
-msgstr ""
-
-#: build/redirection.js:19233
-#: client/page/support/http-tester.js:61
-#: redirection.js:2
-msgid "Enter full URL, including http:// or https://"
-msgstr ""
-
-#: build/redirection.js:19238
-#: client/page/support/http-tester.js:67
-#: redirection.js:2
-msgid "Check"
-msgstr ""
-
-#: build/redirection.js:19333
-#: client/page/support/plugin-status.js:22
-#: redirection.js:2
-msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
-msgstr ""
-
-#: build/redirection.js:19336
-#: client/page/support/plugin-status.js:27
-#: redirection.js:2
-msgid "⚡️ Magic fix ⚡️"
-msgstr ""
-
-#: build/redirection.js:19346
-#: client/page/support/plugin-status.js:39
-#: redirection.js:2
-msgid "Problem"
-msgstr ""
-
-#: build/redirection.js:19412
-#: client/page/support/status.js:29
-#: redirection.js:2
-msgid "WordPress REST API"
-msgstr ""
-
-#: build/redirection.js:19412
-#: client/page/support/status.js:30
-#: redirection.js:2
-msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
-msgstr ""
-
-#: build/redirection.js:19412
-#: client/page/support/status.js:33
-#: redirection.js:2
-msgid "Plugin Status"
-msgstr ""
-
-#: build/redirection.js:19418
-#: client/page/support/status.js:38
-#: redirection.js:2
-msgid "Plugin Debug"
-msgstr ""
-
-#: build/redirection.js:19418
-#: client/page/support/status.js:39
-#: redirection.js:2
-msgid "This information is provided for debugging purposes. Be careful making any changes."
-msgstr ""
-
-#: build/redirection.js:20927
-#: client/state/message/reducer.js:49
-#: redirection.js:2
-msgid "Redirection saved"
-msgstr ""
-
-#: build/redirection.js:20928
-#: client/state/message/reducer.js:50
-#: redirection.js:2
-msgid "Log deleted"
-msgstr ""
-
-#: build/redirection.js:20929
-#: client/state/message/reducer.js:51
-#: redirection.js:2
-msgid "Settings saved"
-msgstr ""
-
-#: build/redirection.js:20930
-#: client/state/message/reducer.js:52
-#: redirection.js:2
-msgid "Group saved"
-msgstr ""
-
-#: build/redirection.js:20931
-#: client/state/message/reducer.js:53
-#: redirection.js:2
-msgid "404 deleted"
-msgstr ""
-
-#: build/redirection.js:23291
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/debug/index.js:70
 #: redirection.js:2
 msgid "Show debug"
 msgstr ""
 
-#: build/redirection.js:23295
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/debug/index.js:80
 #: redirection.js:2
 msgid "Debug Information"
 msgstr ""
 
-#: build/redirection.js:23624
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-nonce.js:16
+#: redirection.js:2
+msgid "You are using an old or cached session"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-nonce.js:18
+#: redirection.js:2
+msgid "This is usually fixed by doing one of the following:"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-nonce.js:20
+#: redirection.js:2
+msgid "Reload the page - your current session is old."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-nonce.js:22
+#: redirection.js:2
+msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-nonce.js:27
+#: redirection.js:2
+msgid "Your admin pages are being cached. Clear this cache and try again. There may be multiple caches involved."
+msgstr ""
+
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:76
 #: redirection.js:2
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr ""
 
-#: build/redirection.js:23628
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:88
 #: redirection.js:2
 msgid "Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests."
 msgstr ""
 
-#: build/redirection.js:23630
-#: build/redirection.js:23646
-#: build/redirection.js:23668
-#: build/redirection.js:23685
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:94
 #: client/wp-plugin-components/error/decode-error/index.js:140
 #: client/wp-plugin-components/error/decode-error/index.js:185
@@ -3928,129 +1069,109 @@ msgstr ""
 msgid "Read this REST API guide for more information."
 msgstr ""
 
-#: build/redirection.js:23634
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:105
 #: redirection.js:2
 msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
 msgstr ""
 
-#: build/redirection.js:23636
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:111
 #: redirection.js:2
 msgid "You will will need to fix this on your site. Redirection is not causing the error."
 msgstr ""
 
-#: build/redirection.js:23636
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:117
 #: redirection.js:2
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
 msgstr ""
 
-#: build/redirection.js:23640
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:125
 #: redirection.js:2
 msgid "Check your {{link}}Site Health{{/link}} and fix any issues."
 msgstr ""
 
-#: build/redirection.js:23644
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:131
 #: redirection.js:2
 msgid "Your server configuration is blocking access to the REST API."
 msgstr ""
 
-#: build/redirection.js:23644
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:133
 #: redirection.js:2
 msgid "A security plugin or firewall is blocking access. You will need to whitelist the REST API."
 msgstr ""
 
-#: build/redirection.js:23650
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:148
 #: redirection.js:2
 msgid "Your REST API is being redirected. Please remove the redirection for the API."
 msgstr ""
 
-#: build/redirection.js:23654
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:154
 #: redirection.js:2
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
 msgstr ""
 
-#: build/redirection.js:23658
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:162
 #: redirection.js:2
 msgid "An unknown error occurred."
 msgstr ""
 
-#: build/redirection.js:23662
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:169
 #: redirection.js:2
 msgid "Your REST API is showing a deprecated PHP error. Please fix this error."
 msgstr ""
 
-#: build/redirection.js:23666
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:179
 #: redirection.js:2
 msgid "This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log"
 msgstr ""
 
-#: build/redirection.js:23672
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:193
 #: redirection.js:2
 msgid "Your WordPress REST API has been disabled. You will need to enable it to continue."
 msgstr ""
 
-#: build/redirection.js:23679
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:203
 #: redirection.js:2
 msgid "WordPress returned an unexpected message. This could be a PHP error from another plugin, or data inserted by your theme."
 msgstr ""
 
-#: build/redirection.js:23679
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:209
 #: redirection.js:2
 msgid "Possible cause"
 msgstr ""
 
-#: build/redirection.js:23683
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:221
 #: redirection.js:2
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
 msgstr ""
 
-#: build/redirection.js:23689
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/decode-error/index.js:239
 #: redirection.js:2
 msgid "Your REST API appears to be cached and this will cause problems. Please exclude your REST API from your caching system."
 msgstr ""
 
-#: build/redirection.js:23763
-#: client/wp-plugin-components/error/display/error-api.js:16
-#: redirection.js:2
-msgid "Bad data"
-msgstr ""
-
-#: build/redirection.js:23763
-#: client/wp-plugin-components/error/display/error-api.js:18
-#: redirection.js:2
-msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
-msgstr ""
-
-#: build/redirection.js:23763
-#: client/wp-plugin-components/error/display/error-api.js:19
-#: redirection.js:2
-msgid "Please review your data and try again."
-msgstr ""
-
-#: build/redirection.js:23807
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/display/error-default.js:17
 #: redirection.js:2
 msgid "REST API 404"
 msgstr ""
 
-#: build/redirection.js:23810
-#: build/redirection.js:23876
-#: build/redirection.js:23928
+#: build/redirection.js:2
 #: client/wp-plugin-components/error/display/error-default.js:20
 #: client/wp-plugin-components/error/display/error-fixed.js:18
 #: client/wp-plugin-components/error/display/error-known.js:25
@@ -4058,39 +1179,2755 @@ msgstr ""
 msgid "Something went wrong 🙁"
 msgstr ""
 
-#: build/redirection.js:23974
-#: client/wp-plugin-components/error/display/error-nonce.js:16
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-api.js:16
 #: redirection.js:2
-msgid "You are using an old or cached session"
+msgid "Bad data"
 msgstr ""
 
-#: build/redirection.js:23974
-#: client/wp-plugin-components/error/display/error-nonce.js:18
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-api.js:18
 #: redirection.js:2
-msgid "This is usually fixed by doing one of the following:"
+msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
 msgstr ""
 
-#: build/redirection.js:23974
-#: client/wp-plugin-components/error/display/error-nonce.js:20
+#: build/redirection.js:2
+#: client/wp-plugin-components/error/display/error-api.js:19
 #: redirection.js:2
-msgid "Reload the page - your current session is old."
+msgid "Please review your data and try again."
 msgstr ""
 
-#: build/redirection.js:23974
-#: client/wp-plugin-components/error/display/error-nonce.js:22
+#: build/redirection.js:2
+#: client/page/home/debug.js:19
 #: redirection.js:2
-msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
+msgid "Please check the {{link}}support site{{/link}} before proceeding further."
 msgstr ""
 
-#: build/redirection.js:23974
-#: client/wp-plugin-components/error/display/error-nonce.js:27
+#: build/redirection.js:2
+#: client/page/home/debug.js:27
 #: redirection.js:2
-msgid "Your admin pages are being cached. Clear this cache and try again. There may be multiple caches involved."
+msgid "If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/debug.js:38
+#: redirection.js:2
+msgid "Create An Issue"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/debug.js:41
+#: redirection.js:2
+msgid "Email"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/debug.js:45
+#: redirection.js:2
+msgid "Include these details in your report along with a description of what you were doing and a screenshot."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:26
+#: redirection.js:2
+msgid "Welcome to Redirection 🚀🎉"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:30
+#: redirection.js:2
+msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:37
+#: redirection.js:2
+msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:42
+#: redirection.js:2
+msgid "How do I use this plugin?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:45
+#: redirection.js:2
+msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:64
+#: redirection.js:2
+msgid "(Example) The source URL is your old or original URL"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:75
+#: redirection.js:2
+msgid "(Example) The target URL is the new URL"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:83
+#: redirection.js:2
+msgid "That's all there is to it - you are now redirecting! Note that the above is just an example."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:87
+#: redirection.js:2
+msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:94
+#: redirection.js:2
+msgid "Some features you may find useful are"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:99
+#: redirection.js:2
+msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:110
+#: redirection.js:2
+msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:118
+#: redirection.js:2
+msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:130
+#: redirection.js:2
+msgid "Check a URL is being redirected"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:133
+#: redirection.js:2
+msgid "What's next?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:134
+#: redirection.js:2
+msgid "First you will be asked a few questions, and then Redirection will set up your database."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:138
+#: redirection.js:2
+msgid "Start Setup"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-welcome.js:141
+#: redirection.js:2
+msgid "Manual Setup"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:35
+#: redirection.js:2
+msgid "Basic Setup"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:37
+#: redirection.js:2
+msgid "These are some options you may want to enable now. They can be changed at any time."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:48
+#: redirection.js:2
+msgid "Monitor permalink changes in WordPress posts and pages"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:52
+#: redirection.js:2
+msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:57
+#: client/component/welcome-wizard/step-options.js:78
+#: client/component/welcome-wizard/step-options.js:99
+#: redirection.js:2
+msgid "{{link}}Read more about this.{{/link}}"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:69
+#: redirection.js:2
+msgid "Keep a log of all redirects and 404 errors."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:73
+#: redirection.js:2
+msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:90
+#: redirection.js:2
+msgid "Store IP information for redirects and 404 errors."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-options.js:94
+#: redirection.js:2
+msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-database.js:30
+#: client/component/welcome-wizard/step-importer.js:88
+#: client/component/welcome-wizard/step-importing.js:56
+#: client/component/welcome-wizard/step-options.js:109
+#: redirection.js:2
+msgid "Continue"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:56
+#: client/component/welcome-wizard/step-importer.js:92
+#: client/component/welcome-wizard/step-options.js:113
+#: redirection.js:2
+msgid "Go back"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/api-result-raw.js:41
+#: redirection.js:2
+msgid "Show Full"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/api-result-raw.js:42
+#: redirection.js:2
+msgid "Hide"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/api-result-pass.js:15
+#: redirection.js:2
+msgid "Working!"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Switch to this API"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Current API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:14
+#: redirection.js:2
+msgid "Default REST API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:15
+#: redirection.js:2
+msgid "Raw REST API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:16
+#: redirection.js:2
+msgid "Relative REST API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:40
+#: redirection.js:2
+msgid "Advanced"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:43
+#: redirection.js:2
+msgid "RSS Token"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:47
+#: redirection.js:2
+msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/io/index.js:285
+#: client/page/options/options-form/other-options.js:53
+#: redirection.js:2
+msgid "Apache .htaccess"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:68
+#: redirection.js:2
+msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:82
+#: redirection.js:2
+msgid "Unable to save .htaccess file"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:38
+#: client/page/options/options-form/other-options.js:87
+#: redirection.js:2
+msgid "REST API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:91
+#: redirection.js:2
+msgid "How Redirection uses the REST API - don't change unless necessary"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:94
+#: redirection.js:2
+msgid "Data Upgrade"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:23
+#: redirection.js:2
+msgid "Upgrade manually when prompted"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:27
+#: redirection.js:2
+msgid "Automatically upgrade on admin pages"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/other-options.js:103
+#: redirection.js:2
+msgid "Decide how Redirection updates itself, if needed."
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/component/rest-api-status/index.js:102
+#: client/page/support/plugin-status.js:39
+#: redirection.js:2
+msgid "Good"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:104
+#: redirection.js:2
+msgid "Working but some issues"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:107
+#: redirection.js:2
+msgid "Unavailable"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:122
+#: redirection.js:2
+msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:128
+#: redirection.js:2
+msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:137
+#: redirection.js:2
+msgid "Summary"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:143
+#: redirection.js:2
+msgid "Show Problems"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:172
+#: redirection.js:2
+msgid "Testing - %s%%"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/rest-api-status/index.js:181
+#: redirection.js:2
+msgid "Check Again"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:42
+#: redirection.js:2
+msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:53
+#: redirection.js:2
+msgid "A security plugin (e.g Wordfence)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:54
+#: redirection.js:2
+msgid "A server firewall or other server configuration (e.g OVH)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:55
+#: redirection.js:2
+msgid "Caching software (e.g Cloudflare)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:56
+#: redirection.js:2
+msgid "Some other plugin that blocks the REST API"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:61
+#: redirection.js:2
+msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:73
+#: redirection.js:2
+msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:88
+#: redirection.js:2
+msgid "You will need at least one working REST API to continue."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-api.js:92
+#: redirection.js:2
+msgid "Finish Setup"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/api-error.js:11
+#: client/component/database/database-error.js:42
+#: client/component/welcome-wizard/manual-install.js:47
+#: redirection.js:2
+msgid "Database problem"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/api-error.js:15
+#: client/component/database/database-error.js:46
+#: redirection.js:2
+msgid "Try again"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/database-error.js:51
+#: redirection.js:2
+msgid "Skip this stage"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/database-error.js:57
+#: redirection.js:2
+msgid "Stop upgrade"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/database-error.js:64
+#: redirection.js:2
+msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/index.js:71
+#: redirection.js:2
+msgid "Leaving before the process has completed may cause problems."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/index.js:27
+#: redirection.js:2
+msgid "Upgrading Redirection"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/index.js:30
+#: redirection.js:2
+msgid "Setting up Redirection"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/index.js:77
+#: redirection.js:2
+msgid "Please remain on this page until complete."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/database/index.js:81
+#: redirection.js:2
+msgid "Progress: %(complete)d%%"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:27
+#: redirection.js:2
+msgid "Manual Install"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:30
+#: redirection.js:2
+msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:33
+#: redirection.js:2
+msgid "Click \"Finished! 🎉\" when finished."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:48
+#: redirection.js:2
+msgid "The Redirection database does not appear to exist. Have you run the above SQL?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:53
+#: redirection.js:2
+msgid "Finished! 🎉"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/manual-install.js:58
+#: redirection.js:2
+msgid "If you do not complete the manual install you will be returned here."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importer.js:34
+#: client/component/welcome-wizard/step-importing.js:32
+#: redirection.js:2
+msgid "Import Existing Redirects"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importer.js:37
+#: redirection.js:2
+msgid "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importer.js:45
+#: redirection.js:2
+msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importer.js:67
+#: redirection.js:2
+msgid "The following plugins have been detected."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importing.js:36
+#: redirection.js:2
+msgid "Please wait, importing."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importing.js:46
+#: redirection.js:2
+msgid "Import finished."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importing.js:46
+#: redirection.js:2
+msgid "Importing failed."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-importing.js:51
+#: redirection.js:2
+msgid "Retry"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-finish.js:41
+#: redirection.js:2
+msgid "Installation Complete"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-finish.js:43
+#: redirection.js:2
+msgid "Redirection is now installed!"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-finish.js:46
+#: redirection.js:2
+msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/step-finish.js:53
+#: redirection.js:2
+msgid "Ready to begin! 🎉"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/index.js:90
+#: redirection.js:2
+msgid "Something went wrong when installing Redirection."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/welcome-wizard/index.js:108
+#: redirection.js:2
+msgid "I need support!"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Your site already has the latest SQL."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Click \"Complete Upgrade\" when finished."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Complete Upgrade"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Something went wrong when upgrading Redirection."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Upgrade Required"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Redirection database needs upgrading"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "A database upgrade is in progress. Please continue to finish."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Manual Upgrade"
+msgstr ""
+
+#: build/redirection.js:2
+#: redirection.js:2
+msgid "Automatic Upgrade"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/error-details.js:20
+#: redirection.js:2
+msgid "What do I do next?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/error-details.js:25
+#: redirection.js:2
+msgid "Take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/error-details.js:36
+#: redirection.js:2
+msgid "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/error-details.js:47
+#: redirection.js:2
+msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/error-details.js:55
+#: redirection.js:2
+msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/crash-handler.js:25
+#: redirection.js:2
+msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/home/crash-handler.js:34
+#: redirection.js:2
+msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:14
+#: redirection.js:2
+msgid "No logs"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:15
+#: client/page/options/options-form/url-options.js:22
+#: redirection.js:2
+msgid "A day"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:16
+#: client/page/options/options-form/url-options.js:23
+#: redirection.js:2
+msgid "A week"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:17
+#: redirection.js:2
+msgid "A month"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:18
+#: redirection.js:2
+msgid "Two months"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:19
+#: client/page/options/options-form/url-options.js:24
+#: redirection.js:2
+msgid "Forever"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/home/index.js:44
+#: client/page/options/options-form/log-options.js:35
+#: redirection.js:2
+msgid "Logs"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:38
+#: redirection.js:2
+msgid "Redirect Logs"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:45
+#: client/page/options/options-form/log-options.js:54
+#: redirection.js:2
+msgid "(time to keep logs for)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:47
+#: redirection.js:2
+msgid "404 Logs"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:56
+#: redirection.js:2
+msgid "IP Logging"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:22
+#: redirection.js:2
+msgid "No IP logging"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:23
+#: redirection.js:2
+msgid "Full IP logging"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:24
+#: redirection.js:2
+msgid "Anonymize IP (mask last part)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:63
+#: redirection.js:2
+msgid "(IP logging level)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:65
+#: redirection.js:2
+msgid "Logging"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:75
+#: redirection.js:2
+msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:84
+#: redirection.js:2
+msgid "Track redirect hits and date of last access. Contains no user information."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:90
+#: redirection.js:2
+msgid "Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/log-options.js:101
+#: redirection.js:2
+msgid "Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:93
+#: redirection.js:2
+msgid "URL Monitor"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:41
+#: redirection.js:2
+msgid "Monitor changes to %(type)s"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:98
+#: redirection.js:2
+msgid "URL Monitor Changes"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:101
+#: redirection.js:2
+msgid "Save changes to this group"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:108
+#: redirection.js:2
+msgid "For example \"/amp\""
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-monitor.js:111
+#: redirection.js:2
+msgid "Create associated redirect (added to end of URL)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:45
+#: redirection.js:2
+msgid "Default URL settings"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:46
+#: client/page/options/options-form/url-options.js:83
+#: redirection.js:2
+msgid "Applies to all redirections unless you configure them otherwise."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:51
+#: redirection.js:2
+msgid "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:71
+#: redirection.js:2
+msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:82
+#: redirection.js:2
+msgid "Default query matching"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:16
+#: redirection.js:2
+msgid "Ignore all query parameters"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:17
+#: redirection.js:2
+msgid "Ignore and pass all query parameters"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:89
+#: redirection.js:2
+msgid "Exact - matches the query parameters exactly defined in your source, in any order"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:94
+#: redirection.js:2
+msgid "Ignore - as exact, but ignores any query parameters not in your source"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:95
+#: redirection.js:2
+msgid "Pass - as ignore, but also copies the query parameters to the target"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:98
+#: redirection.js:2
+msgid "Auto-generate URL"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:109
+#: redirection.js:2
+msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:120
+#: redirection.js:2
+msgid "HTTP Cache Header"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:20
+#: redirection.js:2
+msgid "Never cache"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:21
+#: redirection.js:2
+msgid "An hour"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:129
+#: redirection.js:2
+msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:132
+#: redirection.js:2
+msgid "Redirect Caching"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/url-options.js:137
+#: redirection.js:2
+msgid "(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/options-form/index.js:57
+#: redirection.js:2
+msgid "I'm a nice person and I have helped support the author of this plugin"
+msgstr ""
+
+#: build/redirection.js:2
+#: build/redirection.js:6
+#: client/page/options/options-form/index.js:75
+#: client/page/site/index.js:103
+#: redirection.js:2
+msgid "Update"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:37
+#: redirection.js:2
+msgid "Delete the plugin - are you sure?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:38
+#: redirection.js:2
+msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:39
+#: redirection.js:2
+msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:41
+#: redirection.js:2
+msgid "Yes! Delete the plugin"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:41
+#: redirection.js:2
+msgid "No! Don't delete the plugin"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:52
+#: redirection.js:2
+msgid "Delete Redirection"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/delete-plugin.js:54
+#: redirection.js:2
+msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:83
+#: redirection.js:2
+msgid "You've supported this plugin - thank you!"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:84
+#: redirection.js:2
+msgid "I'd like to support some more."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:101
+#: redirection.js:2
+msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:106
+#: redirection.js:2
+msgid "You get useful software and I get to carry on making it better."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:129
+#: redirection.js:2
+msgid "Support 💰"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/donation.js:141
+#: redirection.js:2
+msgid "Plugin Support"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/newsletter.js:22
+#: client/page/options/newsletter.js:36
+#: redirection.js:2
+msgid "Newsletter"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/newsletter.js:25
+#: redirection.js:2
+msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/newsletter.js:38
+#: redirection.js:2
+msgid "Want to keep up to date with changes to Redirection?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/newsletter.js:39
+#: redirection.js:2
+msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/options/newsletter.js:43
+#: redirection.js:2
+msgid "Your email address:"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:12
+#: redirection.js:2
+msgid "Need help?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:15
+#: redirection.js:2
+msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:28
+#: redirection.js:2
+msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:50
+#: redirection.js:2
+msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:57
+#: redirection.js:2
+msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:73
+#: redirection.js:2
+msgid "Need to search and replace?"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/page/support/help.js:75
+#: redirection.js:2
+msgid "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/http-check/details.js:36
+#: redirection.js:2
+msgid "An unknown error"
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/http-check/details.js:40
+#: redirection.js:2
+msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/http-check/details.js:48
+#: redirection.js:2
+msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/http-check/details.js:59
+#: client/component/http-check/details.js:72
+#: redirection.js:2
+msgid "Redirected by Redirection."
+msgstr ""
+
+#: build/redirection.js:2
+#: client/component/http-check/details.js:61
+#: redirection.js:2
+msgid "Matches your redirect"
+msgstr ""
+
+#. translators: %1s: who performed the redirect
+#: build/redirection.js:4
+#: client/component/http-check/details.js:77
+#: redirection.js:2
+msgid "Redirected by %1s. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:87
+#: redirection.js:2
+msgid "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:95
+#: redirection.js:2
+msgid "Page was loaded."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:206
+#: redirection.js:2
+msgid "If this is not expected then this {{support}}support page{{/support}} may help."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:216
+#: redirection.js:2
+msgid "If your browser is behaving differently then you should clear your browser cache."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:220
+#: redirection.js:2
+msgid "View full redirect.li results."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/details.js:187
+#: redirection.js:2
+msgid "Unable to check that URL. It may not be valid or accessible."
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/response.js:20
+#: redirection.js:2
+msgid "Error"
+msgstr ""
+
+#: build/redirection.js:4
+#: client/component/http-check/response.js:21
+#: redirection.js:2
+msgid "Something went wrong obtaining this information. It may work in the future."
+msgstr ""
+
+#. translators: %s: URL being checked
+#: build/redirection.js:6
+#: client/component/http-check/response.js:52
+#: redirection.js:2
+msgid "Check redirect for: {{code}}%s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/http-tester.js:41
+#: redirection.js:2
+msgid "Redirect Tester"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/http-tester.js:45
+#: redirection.js:2
+msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/http-tester.js:61
+#: redirection.js:2
+msgid "Enter full URL, including http:// or https://"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/http-tester.js:67
+#: redirection.js:2
+msgid "Check"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/plugin-status.js:22
+#: redirection.js:2
+msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/plugin-status.js:27
+#: redirection.js:2
+msgid "⚡️ Magic fix ⚡️"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/plugin-status.js:39
+#: redirection.js:2
+msgid "Problem"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/debug.js:68
+#: redirection.js:2
+msgid "Database version"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/debug.js:79
+#: redirection.js:2
+msgid "Do not change unless advised to do so!"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:394
+#: client/page/groups/columns/edit.js:71
+#: client/page/support/debug.js:81
+#: redirection.js:2
+msgid "Save"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/debug.js:88
+#: redirection.js:2
+msgid "IP Headers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/status.js:29
+#: redirection.js:2
+msgid "WordPress REST API"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/status.js:30
+#: redirection.js:2
+msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/status.js:33
+#: redirection.js:2
+msgid "Plugin Status"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/status.js:38
+#: redirection.js:2
+msgid "Plugin Debug"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/support/status.js:39
+#: redirection.js:2
+msgid "This information is provided for debugging purposes. Be careful making any changes."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:39
+#: redirection.js:2
+msgid "Site Aliases"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:41
+#: redirection.js:2
+msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:42
+#: redirection.js:2
+msgid "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:47
+#: redirection.js:2
+msgid "Aliased Domain"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:48
+#: redirection.js:2
+msgid "Alias"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:64
+#: redirection.js:2
+msgid "No aliases"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/aliases/index.js:68
+#: redirection.js:2
+msgid "Add Alias"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/relocate/index.js:31
+#: redirection.js:2
+msgid "Relocate Site"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/relocate/index.js:32
+#: redirection.js:2
+msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/relocate/index.js:34
+#: redirection.js:2
+msgid "Relocate to domain"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:89
+#: redirection.js:2
+msgid "Canonical Settings"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:95
+#: redirection.js:2
+msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:110
+#: redirection.js:2
+msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:117
+#: redirection.js:2
+msgid "Preferred domain"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:12
+#: redirection.js:2
+msgid "Don't set a preferred domain - {{code}}%(site)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:24
+#: redirection.js:2
+msgid "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:38
+#: redirection.js:2
+msgid "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/canonical/index.js:129
+#: redirection.js:2
+msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/types/plain-value.js:10
+#: redirection.js:2
+msgid "Value"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/types/multi-choice.js:26
+#: redirection.js:2
+msgid "All"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/types/multi-choice.js:29
+#: redirection.js:2
+msgid "Values"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:41
+#: client/page/home/index.js:61
+#: client/page/site/headers/header.js:24
+#: redirection.js:2
+msgid "Site"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/header.js:28
+#: redirection.js:2
+msgid "Redirect"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/header.js:258
+#: redirection.js:2
+msgid "Custom Header"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:84
+#: redirection.js:2
+msgid "HTTP Headers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:85
+#: redirection.js:2
+msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:90
+#: redirection.js:2
+msgid "Location"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:91
+#: redirection.js:2
+msgid "Header"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:106
+#: redirection.js:2
+msgid "No headers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:17
+#: redirection.js:2
+msgid "Add Header"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:21
+#: redirection.js:2
+msgid "Add Security Presets"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:25
+#: redirection.js:2
+msgid "Add CORS Presets"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/headers/index.js:117
+#: redirection.js:2
+msgid "Note that some HTTP headers are set by your server and cannot be changed."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:39
+#: redirection.js:2
+msgid "Permalink Migration"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:40
+#: redirection.js:2
+msgid "Enter old permalinks structures to automatically migrate them to your current one."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:41
+#: redirection.js:2
+msgid "Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:46
+#: redirection.js:2
+msgid "Permalinks"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:62
+#: redirection.js:2
+msgid "No migrated permalinks"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/permalink/index.js:70
+#: redirection.js:2
+msgid "Add Permalink"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/site/index.js:73
+#: redirection.js:2
+msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/header/check-column.js:23
+#: redirection.js:2
+msgid "Select All"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/row/empty-row.js:13
+#: redirection.js:2
+msgid "Nothing to display."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/row/failed-row.js:14
+#: redirection.js:2
+msgid "Sorry, something went wrong loading the data - please try again"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:39
+#: redirection.js:2
+msgid "First page"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:47
+#: redirection.js:2
+msgid "Prev page"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:55
+#: redirection.js:2
+msgid "Current Page"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:72
+#: redirection.js:2
+msgid "of %s"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:77
+#: redirection.js:2
+msgid "Next page"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/pagination-links.js:85
+#: redirection.js:2
+msgid "Last page"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/navigation-pages.js:33
+#: redirection.js:2
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/navigation-pages.js:37
+#: redirection.js:2
+msgid "%1d of %1d selected. {{all}}Select All.{{/all}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/navigation/navigation-pages.js:44
+#: redirection.js:2
+msgid "%1d of %1d selected. {{all}}Clear All.{{/all}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/bulk-actions.js:61
+#: client/component/table/group.js:31
+#: redirection.js:2
+msgid "Apply"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/log-page/log-filters.js:87
+#: redirection.js:2
+msgid "Filters"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/table/bulk-actions.js:45
+#: redirection.js:2
+msgid "Bulk Actions"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/display-options/index.js:30
+#: redirection.js:2
+msgid "Custom Display"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/display-options/index.js:64
+#: redirection.js:2
+msgid "Pre-defined"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/display-options/index.js:69
+#: client/component/redirect-edit/match/agent.js:55
+#: client/component/redirect-edit/match/header.js:55
+#: redirection.js:2
+msgid "Custom"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/powered-by/index.js:16
+#: redirection.js:2
+msgid "Powered by {{link}}redirect.li{{/link}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:29
+#: redirection.js:2
+msgid "Geo IP Error"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:30
+#: client/component/useragent/index.js:31
+#: redirection.js:2
+msgid "Something went wrong obtaining this information"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:43
+#: client/component/geo-map/index.js:57
+#: client/component/geo-map/index.js:77
+#: redirection.js:2
+msgid "Geo IP"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:46
+#: redirection.js:2
+msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:60
+#: redirection.js:2
+msgid "No details are known for this address."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:82
+#: redirection.js:2
+msgid "City"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:86
+#: redirection.js:2
+msgid "Area"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:90
+#: redirection.js:2
+msgid "Timezone"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/geo-map/index.js:94
+#: redirection.js:2
+msgid "Geo Location"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/log-page/log-columns/column-ip.js:60
+#: redirection.js:2
+msgid "Filter by IP"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/log-page/log-actions/geo-map.js:32
+#: redirection.js:2
+msgid "Geo Info"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:30
+#: redirection.js:2
+msgid "Useragent Error"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:42
+#: redirection.js:2
+msgid "Unknown Useragent"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:97
+#: redirection.js:2
+msgid "Device"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:101
+#: redirection.js:2
+msgid "Operating System"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:105
+#: redirection.js:2
+msgid "Browser"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:109
+#: redirection.js:2
+msgid "Engine"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:114
+#: redirection.js:2
+msgid "Useragent"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/useragent/index.js:118
+#: redirection.js:2
+msgid "Agent"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/log-page/log-actions/user-agent.js:32
+#: redirection.js:2
+msgid "Agent Info"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/request-data/index.js:21
+#: redirection.js:2
+msgid "Request Headers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/request-data/index.js:44
+#: redirection.js:2
+msgid "Redirect Source"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/log-page/log-actions/extra-data.js:28
+#: redirection.js:2
+msgid "View Data"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/row-actions.js:52
+#: redirection.js:2
+msgid "View Redirect"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:164
+#: client/page/logs404/constants.js:251
+#: client/page/redirects/constants.js:174
+#: redirection.js:2
+msgid "Search URL"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:168
+#: client/page/logs404/constants.js:255
+#: redirection.js:2
+msgid "Search exact URL"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:172
+#: client/page/logs404/constants.js:259
+#: redirection.js:2
+msgid "Search referrer"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:176
+#: client/page/logs404/constants.js:263
+#: redirection.js:2
+msgid "Search user agent"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:180
+#: client/page/logs404/constants.js:267
+#: redirection.js:2
+msgid "Search IP"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:184
+#: client/page/redirects/constants.js:178
+#: redirection.js:2
+msgid "Search target URL"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/constants.js:188
+#: client/page/logs404/constants.js:271
+#: redirection.js:2
+msgid "Search domain"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs/index.js:112
+#: redirection.js:2
+msgid "RSS"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/source-url.js:48
+#: redirection.js:2
+msgid "The relative URL you want to redirect from"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/source-url.js:55
+#: redirection.js:2
+msgid "URL options / Regex"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/title.js:29
+#: redirection.js:2
+msgid "Describe the purpose of this redirect (optional)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action-code.js:42
+#: redirection.js:2
+msgid "with HTTP code"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match-type.js:19
+#: redirection.js:2
+msgid "Match"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/agent.js:52
+#: redirection.js:2
+msgid "Match against this browser user agent"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/agent.js:56
+#: redirection.js:2
+msgid "Mobile"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/agent.js:57
+#: redirection.js:2
+msgid "Feed Readers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/agent.js:58
+#: redirection.js:2
+msgid "Libraries"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/referrer.js:20
+#: redirection.js:2
+msgid "Match against this browser referrer text"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/header.js:50
+#: redirection.js:2
+msgid "HTTP Header"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/header.js:51
+#: redirection.js:2
+msgid "Header name"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/header.js:52
+#: redirection.js:2
+msgid "Header value"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/header.js:56
+#: redirection.js:2
+msgid "Accept Language"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/header.js:67
+#: redirection.js:2
+msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/custom.js:18
+#: redirection.js:2
+msgid "Filter Name"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/custom.js:19
+#: redirection.js:2
+msgid "WordPress filter name"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/cookie.js:20
+#: redirection.js:2
+msgid "Cookie"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/cookie.js:21
+#: redirection.js:2
+msgid "Cookie name"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/cookie.js:22
+#: redirection.js:2
+msgid "Cookie value"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/role.js:18
+#: redirection.js:2
+msgid "Role"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/role.js:19
+#: redirection.js:2
+msgid "Enter role or capability value"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/server.js:18
+#: redirection.js:2
+msgid "Server"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/server.js:19
+#: redirection.js:2
+msgid "Enter server URL to match against"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/ip.js:23
+#: redirection.js:2
+msgid "Enter IP addresses (one per line)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/page.js:17
+#: redirection.js:2
+msgid "Page Type"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/page.js:19
+#: redirection.js:2
+msgid "Only the 404 page type is currently supported."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/page.js:20
+#: redirection.js:2
+msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/language.js:18
+#: redirection.js:2
+msgid "Language"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/match/language.js:19
+#: redirection.js:2
+msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/login.js:20
+#: redirection.js:2
+msgid "Logged In"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/login.js:21
+#: client/component/redirect-edit/action/url-from.js:21
+#: redirection.js:2
+msgid "Target URL when matched (empty to ignore)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/login.js:23
+#: redirection.js:2
+msgid "Logged Out"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/login.js:24
+#: client/component/redirect-edit/action/url-from.js:24
+#: redirection.js:2
+msgid "Target URL when not matched (empty to ignore)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/target.js:24
+#: redirection.js:2
+msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/url-from.js:20
+#: redirection.js:2
+msgid "Matched Target"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/action/url-from.js:23
+#: redirection.js:2
+msgid "Unmatched Target"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:56
+#: redirection.js:2
+msgid "Anchor values are not sent to the server and cannot be redirected."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:68
+#: redirection.js:2
+msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:88
+#: redirection.js:2
+msgid "The source URL should probably start with a {{code}}/{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:100
+#: redirection.js:2
+msgid "Remember to enable the \"regex\" option if this is a regular expression."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:109
+#: redirection.js:2
+msgid "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:119
+#: redirection.js:2
+msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:136
+#: redirection.js:2
+msgid "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:149
+#: redirection.js:2
+msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:160
+#: redirection.js:2
+msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:171
+#: redirection.js:2
+msgid "If you want to redirect everything please use a site relocation or alias from the Site page."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:181
+#: redirection.js:2
+msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:205
+#: redirection.js:2
+msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:222
+#: redirection.js:2
+msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:240
+#: redirection.js:2
+msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/warning.js:255
+#: redirection.js:2
+msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:318
+#: redirection.js:2
+msgid "Exclude from logs"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:360
+#: redirection.js:2
+msgid "When matched"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:415
+#: client/page/groups/columns/edit.js:78
+#: client/page/io/index.js:130
+#: redirection.js:2
+msgid "Cancel"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:420
+#: client/page/io/index.js:210
+#: redirection.js:2
+msgid "Close"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/component/redirect-edit/index.js:429
+#: redirection.js:2
+msgid "Show advanced options"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/create-redirect.js:53
+#: client/page/logs404/row-actions.js:52
+#: client/page/redirects/create.js:32
+#: redirection.js:2
+msgid "Add Redirect"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/create-redirect.js:62
+#: redirection.js:2
+msgid "Are you sure you want to delete the selected items?"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/create-redirect.js:71
+#: redirection.js:2
+msgid "Delete Log Entries"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/create-redirect.js:81
+#: redirection.js:2
+msgid "Delete logs for this entry"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/create-redirect.js:82
+#: redirection.js:2
+msgid "Delete logs for these entries"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/logs404/row-actions.js:70
+#: redirection.js:2
+msgid "Show All"
+msgstr ""
+
+#: build/redirection.js:6
+#: redirection.js:2
+msgid "total = "
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/importer.js:19
+#: redirection.js:2
+msgid "Import from %s"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:224
+#: redirection.js:2
+msgid "Are you sure you want to import from %s?"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:101
+#: redirection.js:2
+msgid "Import to group"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:109
+#: redirection.js:2
+msgid "Import a CSV, .htaccess, or JSON file."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:110
+#: redirection.js:2
+msgid "Click 'Add File' or drag and drop here."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:112
+#: redirection.js:2
+msgid "Add File"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:123
+#: redirection.js:2
+msgid "File selected"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:129
+#: redirection.js:2
+msgid "Upload"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:140
+#: redirection.js:2
+msgid "Importing"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:156
+#: redirection.js:2
+msgid "Finished importing"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:158
+#: redirection.js:2
+msgid "Total redirects imported:"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:159
+#: redirection.js:2
+msgid "Double-check the file is the correct format!"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/update-notice.js:45
+#: client/page/io/index.js:161
+#: redirection.js:2
+msgid "OK"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:232
+#: redirection.js:2
+msgid "Plugin Importers"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:234
+#: redirection.js:2
+msgid "The following redirect plugins were detected on your site and can be imported from."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:246
+#: redirection.js:2
+msgid "Import"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:257
+#: redirection.js:2
+msgid "All imports will be appended to the current database - nothing is merged."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:261
+#: redirection.js:2
+msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:268
+#: redirection.js:2
+msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:271
+#: redirection.js:2
+msgid "Export"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:272
+#: redirection.js:2
+msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:276
+#: redirection.js:2
+msgid "Everything"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:277
+#: redirection.js:2
+msgid "WordPress redirects"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:278
+#: redirection.js:2
+msgid "Apache redirects"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:279
+#: redirection.js:2
+msgid "Nginx redirects"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:283
+#: redirection.js:2
+msgid "Complete data (JSON)"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:284
+#: redirection.js:2
+msgid "CSV"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:286
+#: redirection.js:2
+msgid "Nginx rewrite rules"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:289
+#: redirection.js:2
+msgid "View"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:290
+#: redirection.js:2
+msgid "Download"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:296
+#: redirection.js:2
+msgid "Export Logs"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:297
+#: redirection.js:2
+msgid "Export redirect"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/io/index.js:298
+#: redirection.js:2
+msgid "Export 404"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/create-group.js:29
+#: redirection.js:2
+msgid "Add Group"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/create-group.js:31
+#: redirection.js:2
+msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/columns/edit.js:86
+#: client/page/groups/create-group.js:73
+#: redirection.js:2
+msgid "Note that you will need to set the Apache module path in your Redirection options."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/row-actions.js:30
+#: client/page/redirects/row-actions.js:28
+#: redirection.js:2
+msgid "Edit"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/row-actions.js:49
+#: redirection.js:2
+msgid "View Redirects"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/constants.js:88
+#: client/page/groups/row-actions.js:58
+#: client/page/redirects/constants.js:64
+#: client/page/redirects/row-actions.js:37
+#: redirection.js:2
+msgid "Disable"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/constants.js:84
+#: client/page/groups/row-actions.js:64
+#: client/page/redirects/constants.js:60
+#: client/page/redirects/row-actions.js:39
+#: redirection.js:2
+msgid "Enable"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/columns/module.js:23
+#: redirection.js:2
+msgid "Filter on: %(type)s"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/groups/constants.js:95
+#: redirection.js:2
+msgid "Search"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/create.js:27
+#: redirection.js:2
+msgid "Add new redirection"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/row-actions.js:44
+#: redirection.js:2
+msgid "Check Redirect"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/columns/source-query.js:21
+#: redirection.js:2
+msgid "Exact Query"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/columns/source-query.js:24
+#: redirection.js:2
+msgid "Ignore Query"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/columns/source-query.js:26
+#: redirection.js:2
+msgid "Ignore & Pass Query"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/columns/code.js:16
+#: redirection.js:2
+msgid "pass"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/index.js:62
+#: redirection.js:2
+msgid "All groups"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:182
+#: redirection.js:2
+msgid "Search title"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:68
+#: redirection.js:2
+msgid "Reset hits"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:31
+#: redirection.js:2
+msgid "Code"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/redirects/constants.js:41
+#: redirection.js:2
+msgid "Pos"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/cache-detect.js:19
+#: redirection.js:2
+msgid "Cached Redirection detected"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/cache-detect.js:23
+#: redirection.js:2
+msgid "Please clear your browser cache and reload this page."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/cache-detect.js:25
+#: redirection.js:2
+msgid "If you are using a caching system such as Cloudflare then please read this: "
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/cache-detect.js:27
+#: redirection.js:2
+msgid "clearing your cache."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/update-notice.js:33
+#: redirection.js:2
+msgid "Version %s installed! Please read the {{url}}release notes{{/url}} for details."
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:42
+#: client/page/home/index.js:57
+#: redirection.js:2
+msgid "Groups"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:43
+#: client/page/home/index.js:73
+#: redirection.js:2
+msgid "Import/Export"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:45
+#: redirection.js:2
+msgid "404 errors"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:46
+#: client/page/home/index.js:77
+#: redirection.js:2
+msgid "Options"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:47
+#: client/page/home/index.js:81
+#: redirection.js:2
+msgid "Support"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:157
+#: redirection.js:2
+msgid "Add New"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:65
+#: redirection.js:2
+msgid "Log"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:69
+#: redirection.js:2
+msgid "404s"
+msgstr ""
+
+#: build/redirection.js:6
+#: client/page/home/index.js:184
+#: redirection.js:2
+msgid "View notice"
 msgstr ""
 
 #: client/component/progress/index.js:23
 #: client/component/progress/index.js:26
 msgid "Saving..."
+msgstr ""
+
+#: client/page/io/importer.js:16
+msgid "total = %d"
 msgstr ""
 
 #: redirection.js:2

@@ -7,7 +7,8 @@
     },
     "scripts": {
         "pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
-        "json": "wp i18n make-json locale --purge"
+        "json": "wp i18n make-json locale --purge",
+        "test": "./vendor/bin/phpunit"
     },
     "config": {
         "allow-plugins": {

@@ -462,5 +462,31 @@
 				"status": 200
 			}
 		}
+	],
+	[
+		"Test array query parameter with case",
+		{
+			"source": {
+				"url": "/array?queryParam[thing]=1"
+			},
+			"target": {
+				"location": "/plain-redirect/",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test array query parameter without case",
+		{
+			"source": {
+				"url": "/array?queryparam[thing]=1"
+			},
+			"target": {
+				"location": "/plain-redirect/",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]

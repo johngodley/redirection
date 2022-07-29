@@ -312,7 +312,7 @@ class Redirection_Admin {
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
 			'pluginRoot' => $this->get_plugin_url(),
 			'per_page' => $this->get_per_page(),
-			'locale' => str_replace( '_', '-', get_locale() ),
+			'locale' => implode( '-', array_slice( explode( '-', str_replace( '_', '-', get_locale() ) ), 0, 2 ) ),
 			'settings' => $options,
 			'preload' => $preload,
 			'versions' => implode( "\n", $versions ),

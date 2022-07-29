@@ -181,6 +181,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.3.1 - 29th July 2022 =
+* Fix crash caused by bad translations in locale files
+* Fix query match not working when it contained mixed case
+* Fix missing flag in .htaccess export
+
 = 5.3.0 - 21st July 2022 =
 * Improve installation process
 * Improve permalink migration so it works with more permalinks

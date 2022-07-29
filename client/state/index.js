@@ -6,7 +6,7 @@ import {
 	applyMiddleware,
 	createStore,
 } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import { composeWithDevTools } from '@redux-devtools/extension';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { urlMiddleware } from 'state/middleware';
@@ -14,10 +14,6 @@ import { urlMiddleware } from 'state/middleware';
 /**
  * Internal dependencies
  */
-
-const composeEnhancers = composeWithDevTools( {
-	name: 'Redirection',
-} );
 
 const middlewares = [
 	thunk,
@@ -28,7 +24,7 @@ export default function createReduxStore( initialState = {} ) {
 	const store = createStore(
 		reducers,
 		initialState,
-		composeEnhancers( applyMiddleware( ...middlewares ) )
+		composeWithDevTools( applyMiddleware( ...middlewares ) )
 	);
 
 	return store;
