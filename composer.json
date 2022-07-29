@@ -1,9 +1,12 @@
 {
     "require-dev": {
-        "vimeo/psalm": "^3.14.2",
+        "vimeo/psalm": "^4.23.0",
         "yoast/phpunit-polyfills": "^1.0",
         "wp-cli/wp-cli-bundle": "*",
-        "humanmade/psalm-plugin-wordpress": "^1.0"
+        "wp-coding-standards/wpcs": "^2.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "sirbrillig/phpcs-variable-analysis": "^2.11",
+        "sirbrillig/phpcs-no-get-current-user": "^1.1"
     },
     "scripts": {
         "pot": "wp i18n make-pot . languages/redirection.pot --ignore-domain --exclude=build/redirection-strings.php",
