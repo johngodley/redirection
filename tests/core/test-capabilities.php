@@ -1,14 +1,14 @@
 <?php
 
 class CapabilitiesTest extends WP_UnitTestCase {
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->editor_user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
 		$this->admin_user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		wp_set_current_user( 0 );

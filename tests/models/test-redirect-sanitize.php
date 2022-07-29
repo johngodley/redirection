@@ -10,7 +10,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		], $extra );
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->sanitizer = new Red_Item_Sanitize();
 		$this->group = Red_Group::create( 'group', 1 );
 	}

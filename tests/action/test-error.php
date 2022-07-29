@@ -10,7 +10,7 @@ class ErrorTest extends WP_UnitTestCase {
 		$wp_query->is_404 = $is_404;
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		$module = Redirection::init()->get_module();
 		$module->reset();
 	}

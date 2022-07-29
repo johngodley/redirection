@@ -19,7 +19,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_404" );
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$this->previous_prefix = $wpdb->prefix;
@@ -28,7 +28,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		global $wpdb;
 
 		$this->removeTables();

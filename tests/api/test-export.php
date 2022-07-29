@@ -1,7 +1,7 @@
 <?php
 
 class ImportExportCsvTest extends Redirection_Api_Test {
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_items" );

@@ -1,7 +1,7 @@
 <?php
 
 class MonitorTest extends WP_UnitTestCase {
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->group = Red_Group::create( 'group', 1 );

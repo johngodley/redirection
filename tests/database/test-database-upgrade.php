@@ -152,7 +152,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_modules" );
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$status = new Red_Database_Status();
@@ -164,7 +164,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		global $wpdb;
 
 		$this->removeTables();
