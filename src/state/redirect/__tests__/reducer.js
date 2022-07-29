@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import reducer from 'state/redirect/reducer';
+import reducer from '../../redirect/reducer';
 import {
 	REDIRECT_LOADED,
 	REDIRECT_LOADING,
@@ -11,10 +11,10 @@ import {
 	REDIRECT_ITEM_SAVING,
 	REDIRECT_ITEM_SAVED,
 	REDIRECT_ITEM_FAILED,
-} from 'state/redirect/type';
-import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from '../../state/settings/type';
-import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from '../../lib/store';
-import { setTableSelected, clearSelected } from '../../lib/table';
+} from '../../redirect/type';
+import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from '../../settings/type';
+import { setTable, setRows, setTotal, setItem, setSaving, removeSaving, restoreToOriginal } from '../../../lib/store';
+import { setTableSelected, clearSelected } from '../../../lib/table';
 
 const NEW_TABLE = {
 	orderby: 'name',
@@ -35,8 +35,8 @@ const DEFAULT_STATE = {
 	saving: [],
 };
 
-jest.mock( 'lib/store' );
-jest.mock( 'lib/table' );
+jest.mock( '../../../lib/store' );
+jest.mock( '../../../lib/table' );
 
 const isCalled = ( mocker, first, second ) => expect( mocker.mock.calls[ 0 ][ 0 ] ).toBe( first ) && expect( mocker.mock.calls[ 0 ][ 1 ] ).toBe( second );
 

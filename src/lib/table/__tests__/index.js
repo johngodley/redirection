@@ -8,7 +8,7 @@ import {
 	clearSelected,
 	removeDefaults,
 	getDefaultTable,
-} from 'lib/table';
+} from '../../table';
 import { getPageUrl } from '@wp-plugin-lib';
 
 const NEW_TABLE = {
@@ -28,7 +28,7 @@ global.Redirectioni10n = {
 	per_page: 25,
 };
 
-jest.mock( 'lib/wordpress-url' );
+jest.mock( '@wp-plugin-lib' );
 
 describe( 'tables', () => {
 	test( 'mergeWithTable leaves state alone with no params', () => {

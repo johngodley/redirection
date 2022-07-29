@@ -55,6 +55,7 @@
 		"use-debounce": "^8.0.1"
 	},
 	"devDependencies": {
+		"@types/jest": "^28.1.4",
 		"@types/react": "^18.0.14",
 		"@types/react-dom": "^18.0.6",
 		"@types/react-highlight-words": "^0.16.4",
@@ -83,17 +84,17 @@
 	"scripts": {
 		"build": "wp-scripts build",
 		"check-engines": "wp-scripts check-engines",
-		"check-licenses": "wp-scripts check-licenses",
-		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"lint:php": "phpcs -s",
+		"lint:psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
 		"test:e2e": "wp-scripts test-e2e",
-		"test:unit": "wp-scripts test-unit-js",
+		"test:js": "wp-scripts test-unit-js",
+		"test:php": "composer run-script test",
 		"e2e": "NODE_ENV=e2e jest --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"up": "docker compose up",
 		"down": "docker compose down",
@@ -101,9 +102,6 @@
 		"cli": "docker compose run cli sh",
 		"export": "docker compose run cli wp redirection export all /opt/redirection/redirects.json",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
-		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
-		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
-		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis",
 		"locale": "rm -rf language/*.po language/*.mo language/json/*.json && composer run-script pot && yarn locale:download && yarn locale:json",
 		"locale:download": "gulp potDownload",
 		"locale:json": "gulp potJson",
@@ -232,15 +230,6 @@
 		"typescript": "^4.8.2",
 		"url": "^0.11.0",
 		"use-debounce": "^8.0.4"
-	},
-	"jest": {
-		"modulePaths": [
-			"./src"
-		],
-		"moduleNameMapper": {
-			"^.+\\.(css|less|scss)$": "babel-jest"
-		},
-		"testEnvironment": "jsdom"
 	},
 	"apidoc": {
 		"name": "Redirection REST API",

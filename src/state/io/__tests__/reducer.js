@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 
-import reducer from 'state/io/reducer';
+import reducer from '../../io/reducer';
 import {
 	IO_EXPORTED,
 	IO_EXPORTING,
@@ -11,14 +11,12 @@ import {
 	IO_FAILED,
 	IO_CLEAR,
 	IO_ADD_FILE,
-} from 'state/io/type';
-import { getInitialIO } from 'state/io/initial';
-import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
+} from '../../io/type';
+import { getInitialIO } from '../../io/initial';
+import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from '../../settings/type';
 
 global.Redirectioni10n = {};
 const DEFAULT_STATE = getInitialIO();
-
-jest.mock( 'lib/store' );
 
 describe( 'io reducer', () => {
 	test( 'unknown action returns same state', () => {

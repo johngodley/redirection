@@ -5,27 +5,27 @@
 
 global.console = { error: jest.fn() };
 
-import reducer from 'state/message/reducer';
-import { MESSAGE_CLEAR_ERRORS, MESSAGE_CLEAR_NOTICES } from 'state/message/type';
+import reducer from '../../message/reducer';
+import { MESSAGE_CLEAR_ERRORS, MESSAGE_CLEAR_NOTICES } from '../../message/type';
 import {
 	REDIRECT_FAILED,
 	REDIRECT_ITEM_SAVING,
 	REDIRECT_ITEM_FAILED,
 	REDIRECT_ITEM_SAVED,
-} from 'state/redirect/type';
+} from '../../redirect/type';
 import {
 	GROUP_FAILED,
 	GROUP_ITEM_FAILED,
 	GROUP_ITEM_SAVED,
 	GROUP_ITEM_SAVING,
-} from 'state/group/type';
-import { LOG_FAILED } from 'state/log/type';
+} from '../../group/type';
+import { LOG_FAILED } from '../../log/type';
 import {
 	SETTING_LOAD_FAILED,
 	SETTING_SAVE_FAILED,
 	SETTING_SAVED,
 	SETTING_SAVING,
-} from 'state/settings/type';
+} from '../../settings/type';
 
 const DEFAULT_STATE = {
 	errors: [],

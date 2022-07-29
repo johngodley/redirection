@@ -6,19 +6,19 @@ import {
 	LOG_LOADING,
 	LOG_FAILED,
 	LOG_SET_SELECTED,
-} from 'state/log/type';
-import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from 'state/settings/type';
-import reducer from 'state/log/reducer';
-import { getInitialLog } from 'state/log/initial';
-import { setTableSelected, clearSelected } from 'lib/table';
-import { setTable, setRows, setTotal } from 'lib/store';
+} from '../../log/type';
+import { STATUS_IN_PROGRESS, STATUS_FAILED, STATUS_COMPLETE } from '../../settings/type';
+import reducer from '../../log/reducer';
+import { getInitialLog } from '../../log/initial';
+import { setTableSelected, clearSelected } from '../../../lib/table';
+import { setTable, setRows, setTotal } from '../../../lib/store';
 
 global.Redirectioni10n = {};
 
 const DEFAULT_STATE = getInitialLog();
 
-jest.mock( 'lib/table' );
-jest.mock( 'lib/store' );
+jest.mock( '../../../lib/table' );
+jest.mock( '../../../lib/store' );
 
 const isCalled = ( mocker, first, second ) => expect( mocker.mock.calls[ 0 ][ 0 ] ).toBe( first ) && expect( mocker.mock.calls[ 0 ][ 1 ] ).toBe( second );
 

@@ -10,7 +10,7 @@ import {
 	setTotal,
 	setSaving,
 	removeSaving,
-} from '../../lib/store';
+} from '../../store';
 
 describe( 'Store Reducer', () => {
 	test( 'setTable returns existing table if non provided', () => {

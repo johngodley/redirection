@@ -6,8 +6,8 @@
 global.console = { error: jest.fn() };
 global.Redirectioni10n = {};
 
-import reducer from 'state/settings/reducer';
-import { getInitialSettings } from 'state/settings/initial';
+import reducer from '../../settings/reducer';
+import { getInitialSettings } from '../../settings/initial';
 import {
 	SETTING_LOAD_START,
 	SETTING_LOAD_SUCCESS,
@@ -19,7 +19,7 @@ import {
 	STATUS_IN_PROGRESS,
 	STATUS_COMPLETE,
 	STATUS_FAILED,
-} from 'state/settings/type';
+} from '../../settings/type';
 
 const DEFAULT_STATE = getInitialSettings();
 

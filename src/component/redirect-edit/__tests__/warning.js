@@ -26,8 +26,6 @@ describe( 'redirect warnings', () => {
 			expect( isRegex( 'test \\' ) ).toBe( true );
 			expect( isRegex( 'test (' ) ).toBe( true );
 			expect( isRegex( 'test )' ) ).toBe( true );
-			expect( isRegex( 'test [' ) ).toBe( true );
-			expect( isRegex( 'test ]' ) ).toBe( true );
 			expect( isRegex( 'test ^' ) ).toBe( true );
 			expect( isRegex( 'test $' ) ).toBe( true );
 		} );
@@ -56,7 +54,7 @@ describe( 'redirect warnings', () => {
 
 		test( 'detect greedy regex in URL', () => {
 			const values = { url: '/this*', flag_regex: true };
-			expect( getWarningFromState( values ) ).toHaveLength( 1 );
+			expect( getWarningFromState( values ) ).toHaveLength( 2 );
 		} );
 
 		// test( 'detect redirect everything', () => {
