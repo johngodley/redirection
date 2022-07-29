@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Database;
+use Redirection\Plugin\Settings;
+
 class DatabaseTest extends WP_UnitTestCase {
 	private $previous_prefix;
 
@@ -21,7 +24,7 @@ class DatabaseTest extends WP_UnitTestCase {
 		return $result->$create;
 	}
 
-	public function setUp(): void {
+	public function setUp() : void {
 		global $wpdb;
 
 		$this->previous_prefix = $wpdb->prefix;
@@ -30,7 +33,7 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown(): void {
+	public function tearDown() : void {
 		global $wpdb;
 
 		$this->removeTables();
@@ -42,7 +45,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testNeedDatabaseAfterInstall() {
 		delete_option( REDIRECTION_OPTION );
 		delete_option( Database\Status::OLD_DB_VERSION );
-		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => false ] );
+		Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => false ] );
 
 		$status = new Database\Status();
 
@@ -98,7 +101,7 @@ class DatabaseTest extends WP_UnitTestCase {
 
 		$this->assertTrue( $status->needs_updating() );
 		$this->assertFalse( get_option( Database\Status::OLD_DB_VERSION ) );
-		$this->assertEquals( 1, \Redirection\Settings\red_get_options()['database'] );
+		$this->assertEquals( 1, Settings\red_get_options()['database'] );
 	}
 
 	// Trigger upgrade if older database
@@ -114,7 +117,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
 		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
-		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
+		Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
 
 		$status = new Database\Status();
 		$this->assertTrue( $status->needs_updating() );

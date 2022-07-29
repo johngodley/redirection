@@ -61,7 +61,9 @@ class Schema_420 extends Database\Upgrader {
 	}
 
 	private function has_404_domain( $wpdb ) {
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'domain` varchar' ) !== false ) {
 			return true;

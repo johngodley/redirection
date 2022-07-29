@@ -1,11 +1,14 @@
 <?php
 
+use Redirection\Database;
+use Redirection\Plugin\Settings;
+
 class DatabaseStatusTest extends WP_UnitTestCase {
 	private function clearStage() {
-		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => false ] );
+		Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => false ] );
 	}
 
-	public function setUp(): void {
+	public function setUp() : void {
 		$this->clearStage();
 	}
 
@@ -41,7 +44,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 'add_title_201', $stage );
 
-		$settings = \Redirection\Settings\red_get_options();
+		$settings = Settings\red_get_options();
 		$option = $settings[ Database\Status::DB_UPGRADE_STAGE ];
 
 		$this->assertEquals( 'add_title_201', $option['stage'] );
@@ -69,7 +72,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testSkipToNextStage() {
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 
 		$this->setRunningStage( 'add_title_201' );
 
@@ -83,10 +86,10 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	public function testSkipToEnd() {
 		$database = new Database\Database();
 		$upgrades = $database->get_upgrades();
-		$upgrade = Database\Database\Upgrader::get( $upgrades[ count( $upgrades ) - 1 ] );
+		$upgrade = Database\Upgrader::get( $upgrades[ count( $upgrades ) - 1 ] );
 		$stages = array_keys( $upgrade->get_stages() );
 
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( $stages[ count( $stages ) - 1 ] );
 
 		$status = new Database\Status();
@@ -97,7 +100,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusNotRunningNoUpgrade() {
-		\Redirection\Settings\red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
+		Settings\red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
 
 		$status = new Database\Status();
 		$expected = [
@@ -109,7 +112,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusNotRunningNeedUpgrade() {
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 
 		$status = new Database\Status();
 		$status->start_upgrade( [] );
@@ -126,7 +129,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusNotRunningNeedInstall() {
-		\Redirection\Settings\red_set_options( array( 'database' => '' ) );
+		Settings\red_set_options( array( 'database' => '' ) );
 
 		$status = new Database\Status();
 		$status->start_install( [] );
@@ -142,7 +145,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusRunningWithStage() {
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( 'add_title_201' );
 
 		$reason = 'Add titles to redirects';
@@ -168,7 +171,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusRunningFinish() {
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( false );
 
 		$reason = 'Expand size of redirect titles';
@@ -192,7 +195,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusRunningInstallFinish() {
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( false );
 
 		$reason = 'Expand size of redirect titles';
@@ -216,10 +219,10 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 	}
 
 	public function testStatusRunningError() {
-		$latest = new Database\Schema\Latest();
+		$latest = new Database\Schema\Schema_Latest();
 		$reason = 'this is an error';
 
-		\Redirection\Settings\red_set_options( array( 'database' => '1.0' ) );
+		Settings\red_set_options( array( 'database' => '1.0' ) );
 		$this->setRunningStage( 'add_title_201' );
 		$status = new Database\Status();
 		$status->set_error( $reason );

@@ -39,7 +39,21 @@ To use in development mode then run:
 
 `yarn start`
 
-This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
+### PHPUnit
+
+To setup PHPUnit:
+
+`./bin/install-wp-tests.sh test root root <mysql socket file>`
+
+Make a note of the WP download location (for example, /var/folders/l8/something) and set the `WP_TESTS_DIR` environement variable to the `wordpress-tests-lib` directory in that download location.
+
+`export WP_TEST_DIR=/var/folders/l8/somthing/wordpress-tests-lib`
+
+Then edit `wordpress-tests-lib/wp-tests-config.php` in that directory and configure the database.
+
+Then:
+
+`yarn test:php`
 
 ### Releasing
 

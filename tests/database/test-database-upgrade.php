@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Database;
+
 class DatabaseTester {
 	public function get_create_table( $table ) {
 		global $wpdb;
@@ -21,7 +23,7 @@ class DatabaseTester {
 	public function check_against_latest( $unit, $version ) {
 		global $wpdb;
 
-		$database = new Database\Schema\Latest();
+		$database = new Database\Schema\Schema_Latest();
 
 		foreach ( $database->get_all_tables() as $table => $expected ) {
 			$actual = $this->get_create_table( $table );
@@ -48,7 +50,7 @@ class DatabaseTester {
 	public function sql_clean( $sql ) {
 		global $wpdb;
 
-		$latest = new Database\Schema\Latest();
+		$latest = new Database\Schema\Schema_Latest();
 
 		$sql = str_replace( '{$prefix}', $wpdb->prefix, $sql );
 		$sql = trim( $sql );
@@ -154,7 +156,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_modules" );
 	}
 
-	public function setUp(): void {
+	public function setUp() : void {
 		global $wpdb;
 
 		$status = new Database\Status();
@@ -166,11 +168,11 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown(): void {
+	public function tearDown() : void {
 		global $wpdb;
 
 		$this->removeTables();
-		\Redirection\Settings\red_set_options( array( 'database' => '' ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'database' => '' ) );
 
 		$wpdb->prefix = $this->previous_prefix;
 	}
@@ -248,7 +250,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
 		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
-		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
+		\Redirection\Plugin\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
 
 		$status = new Database\Status();
 		$this->assertTrue( $status->needs_updating() );
@@ -314,7 +316,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		global $wpdb;
 
 		$database = new Database\Database();
-		$latest = new Database\Schema\Latest();
+		$latest = new Database\Schema\Schema_Latest();
 		$tester = new DatabaseTester();
 
 		$versions = array(
@@ -341,7 +343,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 			$latest->create_groups( $wpdb );
 			$tester->create_content_for_version( $ver );
 
-			\Redirection\Settings\red_set_options( array( 'database' => $ver ) );
+			\Redirection\Plugin\Settings\red_set_options( array( 'database' => $ver ) );
 
 			// Perform upgrade to latest
 			$last = 0;
@@ -386,12 +388,12 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		// Some sites have a broken 2.4 database and are still marked as 2.3.3
 		$status = new Database\Status();
 		$tester = new DatabaseTester();
-		$latest = new Database\Schema\Latest();
+		$latest = new Database\Schema\Schema_Latest();
 		$database = new Database\Database();
 
 		$status->stop_update();
 		$tester->create_tables( dirname( __FILE__ ) . '/sql/2.3.2.sql', $this );
-		\Redirection\Settings\red_set_options( array( 'database' => '2.3.3' ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'database' => '2.3.3' ) );
 		$latest->create_groups( $wpdb );
 
 		// Set up the broken install

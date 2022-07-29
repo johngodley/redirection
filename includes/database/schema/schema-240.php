@@ -20,9 +20,11 @@ class Schema_240 extends Database\Upgrader {
 	}
 
 	private function has_ip_index( $wpdb ) {
+		$wpdb->suppress_errors( true );
 		$wpdb->hide_errors();
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'key `ip` (' ) !== false ) {
 			return true;
@@ -32,9 +34,11 @@ class Schema_240 extends Database\Upgrader {
 	}
 
 	protected function has_varchar_ip( $wpdb ) {
+		$wpdb->suppress_errors( true );
 		$wpdb->hide_errors();
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`ip` varchar(45)' ) !== false ) {
 			return true;
@@ -44,9 +48,11 @@ class Schema_240 extends Database\Upgrader {
 	}
 
 	protected function has_int_ip( $wpdb ) {
+		$wpdb->suppress_errors( true );
 		$wpdb->hide_errors();
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`ip` int' ) !== false ) {
 			return true;
