@@ -273,7 +273,7 @@ class ImportExport extends React.Component {
 
 				<p className="redirect-export_buttons">
 					<select name="module" onChange={ this.onInput } value={ this.state.module }>
-						<option value="0">{ __( 'Everything', 'redirection' ) }</option>
+						<option value="all">{ __( 'Everything', 'redirection' ) }</option>
 						<option value="1">{ __( 'WordPress redirects', 'redirection' ) }</option>
 						<option value="2">{ __( 'Apache redirects', 'redirection' ) }</option>
 						<option value="3">{ __( 'Nginx redirects', 'redirection' ) }</option>
