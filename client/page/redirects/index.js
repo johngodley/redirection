@@ -58,7 +58,7 @@ function validateDisplay( selected ) {
 function getGroups( groups ) {
 	return [
 		{
-			value: 0,
+			value: '0',
 			label: __( 'All groups', 'redirection' ),
 		},
 	].concat( nestedGroups( groups ) );
@@ -73,10 +73,10 @@ function Redirects( props ) {
 	const { status, total, table, rows, addTop, saving } = redirect;
 	const canAdd = status === STATUS_COMPLETE && group.status === STATUS_COMPLETE && has_capability( CAP_REDIRECT_ADD );
 
-	useEffect(() => {
+	useEffect( () => {
 		props.onLoadRedirects();
 		props.onLoadGroups();
-	}, []);
+	}, [] );
 
 	const logOptions = {
 		displayFilters: getDisplayOptions( table.groupBy ),
@@ -98,10 +98,11 @@ function Redirects( props ) {
 				logActions={ {
 					...props,
 					onGroup: ( group ) => {
-						props.onFilter( {
-							...table.filterBy,
-							...( parseInt( group, 10 ) > 0 ? { group } : {} ),
-						} );
+						props.onFilter(
+							parseInt( group, 10 ) > 0 ? {
+								...table.filterBy,
+								group: group,
+							} : {} );
 					},
 					onFilter: ( filter ) => {
 						props.onFilter( {
@@ -128,7 +129,7 @@ function Redirects( props ) {
 				) }
 			/>
 
-			{ canAdd && ! addTop && <CreateRedirect defaultFlags={ defaultFlags } addTop={ false } /> }
+			{ canAdd && !addTop && <CreateRedirect defaultFlags={ defaultFlags } addTop={ false } /> }
 		</div>
 	);
 }
