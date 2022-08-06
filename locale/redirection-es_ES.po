@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-08 19:57:59+0000\n"
+"PO-Revision-Date: 2022-07-29 09:20:02+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -929,7 +929,7 @@ msgstr "Tienes diferentes URLs configuradas en tu página ajustes de WordPress >
 
 #: redirection-strings.php:196
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
-msgstr "Si tienes algún problema, por favor consulta la documentación de tu plugin, o intenta contactar con el soporte de tu alojamiento. Esto es normalmente {{{link}}no suele ser un problema causado por Redirection{{/link}}."
+msgstr "Si tienes algún problema, por favor, consulta la documentación de tu plugin, o intenta contactar con el soporte de tu alojamiento. Normalmente {{link}}no suele ser un problema provocado por Redirection{{/link}}."
 
 #: redirection-strings.php:195
 msgid "Some other plugin that blocks the REST API"
@@ -1010,7 +1010,7 @@ msgstr "Comprueba si una URL está siendo redirigida"
 
 #: redirection-strings.php:171
 msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
-msgstr "Coincidencia de URLs más potente, incluidas las expresiones {{regular}}regulares {{/regular}}, y {{other}} otras condiciones{{{/other}}."
+msgstr "Coincidencia de URLs más potente, incluidas las {{regular}}expresiones regulares {{/regular}}, y {{other}}otras condiciones{{/other}}."
 
 #: redirection-strings.php:170
 msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
@@ -1062,7 +1062,7 @@ msgstr "La URL de origen probablemente debería comenzar con un {{code}}/{{/code
 
 #: redirection-strings.php:114
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
-msgstr "Esto se convertirá en una redirección de servidor para el dominio {{code}}%(server)s{{{/code}}}."
+msgstr "Esto se convertirá en una redirección de servidor para el dominio {{code}}%(server)s{{/code}}."
 
 #: redirection-strings.php:113
 msgid "Anchor values are not sent to the server and cannot be redirected."
