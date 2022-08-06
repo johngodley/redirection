@@ -181,6 +181,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.3.2 - 6th August 2022 =
+* Fix missing props error
+* Fix missing value for .htaccess location display
+
 = 5.3.1 - 29th July 2022 =
 * Fix crash caused by bad translations in locale files
 * Fix query match not working when it contained mixed case
