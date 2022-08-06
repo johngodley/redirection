@@ -69,7 +69,7 @@ function OtherOptions( props ) {
 									'Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}.',
 									'redirection'
 								),
-								installed,
+								{ installed },
 							),
 							{
 								code: <code />,
