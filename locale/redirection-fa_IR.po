@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-11 06:29:45+0000\n"
+"PO-Revision-Date: 2022-07-30 08:22:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: redirection-strings.php:713
 msgid "Show debug"
-msgstr ""
+msgstr "نمایش دیباگ"
 
 #: redirection-strings.php:614
 msgid "View Data"

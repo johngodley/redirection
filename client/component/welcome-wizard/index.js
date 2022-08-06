@@ -52,7 +52,7 @@ function getContentForStep( step ) {
 	return StepWelcome;
 }
 
-function WelcomeWizard( props ) {
+function WelcomeWizard() {
 	const [ step, setStep ] = useState( STEP_WELCOME );
 	const [ options, setOptions ] = useState( { settings: { log: false, ip: false , monitor: false }, importers: [] } );
 

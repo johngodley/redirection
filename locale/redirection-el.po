@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-07-21 07:19:14+0000\n"
+"PO-Revision-Date: 2022-08-04 10:19:19+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2181,7 +2181,7 @@ msgstr ""
 
 #: redirection-strings.php:443
 msgid "Delete Redirection"
-msgstr "Διαγραφή ανακατεύθυνσης"
+msgstr "Διαγραφή του Redirection"
 
 #: redirection-strings.php:296 redirection-strings.php:612
 msgid "Upload"
@@ -2303,7 +2303,7 @@ msgstr "Λήψη"
 #: redirection-strings.php:209 redirection-strings.php:375
 #: redirection-strings.php:618
 msgid "Redirection"
-msgstr "Ανακατεύθυνση"
+msgstr "Redirection"
 
 #: redirection-admin.php:150
 msgid "Settings"
@@ -2425,7 +2425,7 @@ msgstr "Επεξεργασμένα άρθρα"
 #: models/group.php:227 redirection-strings.php:272
 #: database/schema/latest.php:139
 msgid "Redirections"
-msgstr "Redirections"
+msgstr "Ανακατευθύνσεις"
 
 #: redirection-strings.php:329 redirection-strings.php:339
 #: redirection-strings.php:348 redirection-strings.php:359
