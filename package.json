@@ -81,6 +81,7 @@
 		"path": "^0.12.7",
 		"prettier": "npm:wp-prettier@2.6.2",
 		"release-it": "^15.3.0",
+		"request": "^2.88.2",
 		"through": "^2.3.8",
 		"through2": "^4.0.2",
 		"webpack-shell-plugin-next": "^2.2.2"
