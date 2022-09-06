@@ -1,5 +1,9 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+
 class RedirectionApiGroupTest extends Redirection_Api_Test {
 	public static $redirection;
 
@@ -48,15 +52,15 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_GROUP_MANAGE => [ [ 'group', 'GET' ] ],
-			Redirection_Capabilities::CAP_REDIRECT_MANAGE => [ [ 'group', 'GET' ] ],
-			Redirection_Capabilities::CAP_GROUP_ADD => [
+			Plugin\Capabilities::CAP_GROUP_MANAGE => [ [ 'group', 'GET' ] ],
+			Plugin\Capabilities::CAP_REDIRECT_MANAGE => [ [ 'group', 'GET' ] ],
+			Plugin\Capabilities::CAP_GROUP_ADD => [
 				[ 'group', 'POST' ],
 				[ 'group/1', 'POST' ],
 				[ 'bulk/group/enable', 'POST' ],
 				[ 'bulk/group/disable', 'POST' ],
 			],
-			Redirection_Capabilities::CAP_GROUP_DELETE => [ [ 'bulk/group/delete', 'POST' ] ],
+			Plugin\Capabilities::CAP_GROUP_DELETE => [ [ 'bulk/group/delete', 'POST' ] ],
 		];
 
 		$this->setEditor();

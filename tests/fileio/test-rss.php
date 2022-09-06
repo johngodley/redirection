@@ -1,5 +1,9 @@
 <?php
 
+use Redirection\FileIO;
+use Redirection\Redirect;
+use Redirection\Group;
+
 class ImportExportRss extends WP_UnitTestCase {
 	public function testExport() {
 		$group1 = Group\Group::create( 'group1', 1 );

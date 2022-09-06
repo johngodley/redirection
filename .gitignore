@@ -8,3 +8,4 @@ node_modules
 .DS_Store
 build
 languages
+/.phpunit.result.cache

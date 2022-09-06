@@ -1,8 +1,11 @@
 <?php
 
+use Redirection\Front;
+use Redirection\Action;
+
 class NothingTest extends WP_UnitTestCase {
-	public function setUp(): void {
-		$module = Redirection::init()->get_module();
+	public function setUp() : void {
+		$module = Front\Redirection::init()->get_module();
 		$module->reset();
 	}
 
@@ -12,7 +15,7 @@ class NothingTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 
 		$wp_query->is_404 = 1;
-		$module = Redirection::init()->get_module();
+		$module = Front\Redirection::init()->get_module();
 		$module->template_redirect();
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
@@ -25,7 +28,7 @@ class NothingTest extends WP_UnitTestCase {
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404" );
 
 		$wp_query->is_404 = 1;
-		$module = Redirection::init()->get_module();
+		$module = Front\Redirection::init()->get_module();
 		$action = Action\Action::create( 'nothing', 1 );
 
 		$action->run();

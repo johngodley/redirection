@@ -1,6 +1,9 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/login.php';
+use Redirection\Match;
+use Redirection\Url;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-login.php';
 
 class LoginMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

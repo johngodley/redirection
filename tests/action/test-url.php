@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Front;
+use Redirection\Action;
+
 class ActionUrlTest extends WP_UnitTestCase {
 	private $target = false;
 	private $code = false;

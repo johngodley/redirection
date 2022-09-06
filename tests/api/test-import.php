@@ -1,5 +1,9 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\FileIO;
+
 class ImportImportCsvTest extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
@@ -19,7 +23,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_IO_MANAGE => [
+			Plugin\Capabilities::CAP_IO_MANAGE => [
 				[ 'import/plugin', 'GET' ],
 				[ 'import/plugin', 'POST' ],
 				[ 'import/file/1', 'POST' ],

@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Front;
+use Redirection\Action;
+
 class PassTest extends WP_UnitTestCase {
 	public function testIsExternal() {
 		$action = Action\Action::create( 'pass', 1 );

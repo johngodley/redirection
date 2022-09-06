@@ -1,9 +1,11 @@
 <?php
 
+use Redirection\Redirect;
+
 class RedirectCacheTest extends WP_UnitTestCase {
 	private function get_cache( $onoff = true ) {
-		\Redirection\Settings\red_set_options( [ 'cache_key' => $onoff ? 1 : 0 ] );
-		$cache = Redirect_Cache::init();
+		\Redirection\Plugin\Settings\red_set_options( [ 'cache_key' => $onoff ? 1 : 0 ] );
+		$cache = Redirect\Redirect_Cache::init();
 		$cache->reset();
 		return $cache;
 	}
@@ -33,7 +35,7 @@ class RedirectCacheTest extends WP_UnitTestCase {
 	}
 
 	public function testSetCache() {
-		\Redirection\Settings\red_set_options( [ 'cache_key' => 1 ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'cache_key' => 1 ] );
 
 		$item = new Redirect\Redirect( [ 'match_type' => 'url' ] );
 
@@ -44,7 +46,7 @@ class RedirectCacheTest extends WP_UnitTestCase {
 	}
 
 	public function testCannotDoubleSetCache() {
-		\Redirection\Settings\red_set_options( [ 'cache_key' => 1 ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'cache_key' => 1 ] );
 
 		$item = new Redirect\Redirect( [ 'match_type' => 'url' ] );
 
@@ -83,7 +85,7 @@ class RedirectCacheTest extends WP_UnitTestCase {
 		$cache->set( '/cat', $item, [ $item ] );
 		$this->assertEquals( [ $item->to_sql() ], $cache->get( '/cat' ) );
 
-		\Redirection\Settings\red_set_options( [ 'cache_key' => 2 ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'cache_key' => 2 ] );
 		$cache->reset();
 
 		$this->assertFalse( $cache->get( '/cat' ) );

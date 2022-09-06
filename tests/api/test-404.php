@@ -1,7 +1,12 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+use Redirection\Redirect;
+
 class RedirectionApi404Test extends Redirection_Api_Test {
-	public static function setupBeforeClass(): void {
+	public static function setupBeforeClass() : void {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
@@ -50,8 +55,8 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_404_MANAGE => [ [ '404', 'GET' ] ],
-			Redirection_Capabilities::CAP_404_DELETE => [
+			Plugin\Capabilities::CAP_404_MANAGE => [ [ '404', 'GET' ] ],
+			Plugin\Capabilities::CAP_404_DELETE => [
 				[ 'bulk/404/delete', 'POST' ],
 			],
 		];

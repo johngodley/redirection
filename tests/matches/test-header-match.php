@@ -1,6 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/../../matches/http-header.php';
+use Redirection\Match;
+
+require_once dirname( __FILE__ ) . '/../../includes/match/match-http-header.php';
 
 class HeaderMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

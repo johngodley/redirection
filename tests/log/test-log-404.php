@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Log;
+
 class Log_404_Test extends WP_UnitTestCase {
 	public function testCsvRow() {
 		$row = [ 'created' => 'created', 'url' => 'url', 'ip' => 'ip', 'referrer' => 'referrer', 'agent' => 'agent' ];

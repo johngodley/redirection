@@ -1,7 +1,9 @@
 <?php
 
+use Redirection\Url;
+
 class UrlTransformTest extends WP_UnitTestCase {
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 
 		$this->admin_user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
@@ -10,7 +12,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testNoTransform() {
 		$before = 'hello world';
 		$after = $before;
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -18,7 +20,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testNumbericPost() {
 		$before = 'hello world';
 		$after = $before;
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -28,7 +30,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 
 		$before = 'hello [userid]';
 		$after = 'hello ' . $this->admin_user_id;
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -38,14 +40,14 @@ class UrlTransformTest extends WP_UnitTestCase {
 
 		$before = 'hello [userlogin]';
 		$after = 'hello user 0';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, strtolower( substr( $transform->transform( $before ), 0, strlen( $after ) ) ) );
 	}
 
 	public function testUnixTime() {
 		$before = 'hello [unixtime]';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( 1, preg_match( '/hello \d*/', $transform->transform( $before ), $matches ) );
 	}
@@ -53,7 +55,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testMD5() {
 		$before = 'hello [md5]world[/md5]';
 		$after = 'hello 7d793037a0760186574b0282f2f435e7';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -61,7 +63,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testUpper() {
 		$before = '[upper]hello world[/upper]';
 		$after = 'HELLO WORLD';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -69,7 +71,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testLower() {
 		$before = '[lower]HELLO WORLD[/lower]';
 		$after = 'hello world';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -77,7 +79,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testDashes() {
 		$before = '[dashes]hello world_here[/dashes]';
 		$after = 'hello-world-here';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}
@@ -85,7 +87,7 @@ class UrlTransformTest extends WP_UnitTestCase {
 	public function testUnderscores() {
 		$before = '[underscores]hello world-here[/underscores]';
 		$after = 'hello_world_here';
-		$transform = new Transform();
+		$transform = new Url\Transform();
 
 		$this->assertEquals( $after, $transform->transform( $before ) );
 	}

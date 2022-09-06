@@ -1,6 +1,9 @@
 <?php
 
-include_once dirname( __FILE__ ) . '/../../fileio/csv.php';
+use Redirection\FileIO;
+use Redirection\Group;
+
+include_once dirname( __FILE__ ) . '/../../includes/file-io/fileio-csv.php';
 
 class ImportCsvTest extends WP_UnitTestCase {
 	public function testHeader() {

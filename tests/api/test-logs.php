@@ -1,7 +1,11 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+
 class RedirectionApiLogTest extends Redirection_Api_Test {
-	public static function setupBeforeClass(): void {
+	public static function setupBeforeClass() : void {
 		global $wpdb;
 
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
@@ -48,8 +52,8 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_LOG_MANAGE => [ [ 'log', 'GET' ] ],
-			Redirection_Capabilities::CAP_LOG_DELETE => [
+			Plugin\Capabilities::CAP_LOG_MANAGE => [ [ 'log', 'GET' ] ],
+			Plugin\Capabilities::CAP_LOG_DELETE => [
 				[ 'bulk/log/delete', 'POST' ],
 			],
 		];

@@ -1,7 +1,12 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+use Redirection\Redirect;
+
 class RedirectionApiRedirectTest extends Redirection_Api_Test {
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 		$this->group = Group\Group::create( 'group1', 1 );
 		$this->group2 = Group\Group::create( 'group2', 1 );
@@ -60,12 +65,12 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_REDIRECT_MANAGE => [
+			Plugin\Capabilities::CAP_REDIRECT_MANAGE => [
 				[ 'redirect', 'GET' ],
 				[ 'redirect/post', 'GET' ],
 			],
-			Redirection_Capabilities::CAP_REDIRECT_DELETE => [ [ 'bulk/redirect/delete', 'POST' ] ],
-			Redirection_Capabilities::CAP_REDIRECT_ADD => [
+			Plugin\Capabilities::CAP_REDIRECT_DELETE => [ [ 'bulk/redirect/delete', 'POST' ] ],
+			Plugin\Capabilities::CAP_REDIRECT_ADD => [
 				[ 'redirect', 'POST' ],
 				[ 'redirect/1', 'POST' ],
 				[ 'bulk/redirect/enable', 'POST' ],

@@ -1,6 +1,9 @@
 <?php
 
-class Module\WordPress_Test extends WP_UnitTestCase {
+use Redirection\Module;
+use Redirection\Redirect;
+
+class Module_WordPress_Test extends WP_UnitTestCase {
 	private function get_404_count() {
 		global $wpdb;
 

@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../fileio/apache.php';
+use Redirection\FileIO;
+
+require dirname( __FILE__ ) . '/../../includes/file-io/fileio-apache.php';
 
 class ApacheTest extends WP_UnitTestCase {
 	public function testEmpty() {

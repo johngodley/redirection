@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/user-role.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-user-role.php';
 
 class UserRoleMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

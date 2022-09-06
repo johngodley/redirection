@@ -1,6 +1,10 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../fileio/json.php';
+use Redirection\FileIO;
+use Redirection\Redirect;
+use Redirection\Group;
+
+require dirname( __FILE__ ) . '/../../includes/file-io/fileio-json.php';
 
 class JsonTest extends WP_UnitTestCase {
 	public function testExportEmpty() {

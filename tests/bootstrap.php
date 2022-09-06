@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Plugin;
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 if ( ! $_tests_dir ) {
@@ -13,10 +15,10 @@ require_once $_tests_dir . '/includes/functions.php';
 
 function _manually_load_plugin() {
 	require dirname( __FILE__ ) . '/../redirection.php';
-	require dirname( __FILE__ ) . '/../redirection-admin.php';
-	require dirname( __FILE__ ) . '/../database/schema/latest.php';
+	require dirname( __FILE__ ) . '/../includes/redirection-admin.php';
+	require dirname( __FILE__ ) . '/../includes/database/schema/schema-latest.php';
 
-	$database = new Database\Schema\Latest();
+	$database = new \Redirection\Database\Schema\Schema_Latest();
 	$database->remove();
 	$database->install();
 }
@@ -53,11 +55,11 @@ class Redirection_Api_Test extends WP_Ajax_UnitTestCase {
 
 	protected function add_capability( $cap ) {
 		$this->cap = $cap;
-		add_filter( Redirection_Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
+		add_filter( Plugin\Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
 	}
 
 	protected function clear_capability() {
-		remove_filter( Redirection_Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
+		remove_filter( Plugin\Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
 	}
 
 	public function editor_cap( $cap, $name ) {

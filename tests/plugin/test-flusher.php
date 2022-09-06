@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Plugin;
+use Redirection\Log;
+
 class FlusherTest extends WP_UnitTestCase {
 	private function setScheduleExpire( $days ) {
 		update_option( 'redirection_options', array( 'expire_redirect' => $days, 'expire_404' => $days ) );

@@ -1,6 +1,8 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/../../matches/custom-filter.php';
+use Redirection\Match;
+
+require_once dirname( __FILE__ ) . '/../../includes/match/match-custom-filter.php';
 
 class CustomMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

@@ -1,13 +1,15 @@
 <?php
 
+use Redirection\Url;
+
 class FromTraitTest extends WP_UnitTestCase {
 	public function testMatches() {
 		$matches = [
-			'Match\Page' => 'page.php',
+			'\Redirection\Match\Page' => 'page.php',
 		];
 
 		foreach ( $matches as $klass => $file ) {
-			require_once dirname( __FILE__ ) . '/../../matches/' . $file;
+			require_once dirname( __FILE__ ) . '/../../includes/match/match-' . $file;
 
 			// Test URL when matched
 			$match = new $klass( serialize( [ 'url' => '/url' ] ) );

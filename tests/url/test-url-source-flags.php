@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Url;
+
 class SourceFlagsTest extends WP_UnitTestCase {
 	private function checkDefaults( $flags ) {
 		$this->assertFalse( $flags->is_ignore_case() );
@@ -113,7 +115,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testDefaults() {
-		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
 
 		$expected = [ 'flag_case' => true, 'flag_trailing' => true, 'flag_regex' => false, 'flag_query' => 'exact' ];
 		$flags = new Url\Source_Flags();

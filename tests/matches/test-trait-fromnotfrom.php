@@ -1,20 +1,23 @@
 <?php
 
+use Redirection\Match;
+use Redirection\Url;
+
 class FromNotFromTraitTest extends WP_UnitTestCase {
 	public function testMatches() {
 		$matches = [
-			'Match\Cookie' => 'cookie.php',
-			'Match\Custom' => 'custom-filter.php',
-			'Match\Header' => 'http-header.php',
-			'Match\IP' => 'ip.php',
-			'Match\Referrer' => 'referrer.php',
-			'Match\Server' => 'server.php',
-			'Match\User_Agent' => 'user-agent.php',
-			'Match\Role' => 'user-role.php',
+			'\Redirection\Match\Cookie' => 'cookie.php',
+			'\Redirection\Match\Custom' => 'custom-filter.php',
+			'\Redirection\Match\Header' => 'http-header.php',
+			'\Redirection\Match\IP' => 'ip.php',
+			'\Redirection\Match\Referrer' => 'referrer.php',
+			'\Redirection\Match\Server' => 'server.php',
+			'\Redirection\Match\User_Agent' => 'user-agent.php',
+			'\Redirection\Match\Role' => 'user-role.php',
 		];
 
 		foreach ( $matches as $klass => $file ) {
-			require_once dirname( __FILE__ ) . '/../../matches/' . $file;
+			require_once dirname( __FILE__ ) . '/../../includes/match/match-' . $file;
 
 			// Test a match to from
 			$match = new $klass( serialize( [ 'url_from' => '/from', 'url_notfrom' => '/notfrom' ] ) );

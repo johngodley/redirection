@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Front;
+use Redirection\Action;
+
 class ErrorTest extends WP_UnitTestCase {
 	private function set_404( $is_404 ) {
 		global $wp_query;
@@ -10,8 +13,8 @@ class ErrorTest extends WP_UnitTestCase {
 		$wp_query->is_404 = $is_404;
 	}
 
-	public function setUp(): void {
-		$module = Redirection::init()->get_module();
+	protected function setUp(): void {
+		$module = Front\Redirection::init()->get_module();
 		$module->reset();
 	}
 

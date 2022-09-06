@@ -1,6 +1,9 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../file-io/class-htaccess.php';
+use Redirection\FileIO;
+use Redirection\Redirect;
+
+require dirname( __FILE__ ) . '/../../includes/file-io/class-htaccess.php';
 
 class HtaccessTest extends WP_UnitTestCase {
 	private function getOutput( FileIO\Htaccess $htaccess ) {

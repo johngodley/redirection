@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/language.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-language.php';
 
 class LanguageMatchTest extends WP_UnitTestCase {
 	public function testNoData() {

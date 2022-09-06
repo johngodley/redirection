@@ -1,10 +1,13 @@
 <?php
 
+use Redirection\Site;
+use Redirection\Front;
+
 class RequestTest extends WP_UnitTestCase {
 	private $ip = false;
 
 	public function setUp() : void {
-		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+		remove_filter( 'redirection_request_ip', array( Front\Redirection::init(), 'no_ip_logging' ) );
 	}
 
 	private function monitorAction( $hook ) {
@@ -256,8 +259,8 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testNoIPLogging() {
-		add_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );;
-		\Redirection\Settings\red_set_options( array( 'ip_logging' => 0 ) );
+		add_filter( 'redirection_request_ip', array( Front\Redirection::init(), 'no_ip_logging' ) );;
+		\Redirection\Plugin\Settings\red_set_options( array( 'ip_logging' => 0 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
@@ -268,10 +271,10 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testMaskIP4() {
-		$front = Redirection::init();
+		$front = Front\Redirection::init();
 
 		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
-		red_set_options( array( 'ip_logging' => 2 ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
@@ -283,11 +286,10 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testMaskIP6() {
-		$front = Redirection::init();
-		\Redirection\Settings\red_set_options( array( 'ip_logging' => 2 ) );
+		$front = Front\Redirection::init();
 
 		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );;
-		red_set_options( array( 'ip_logging' => 2 ) );
+		\Redirection\Plugin\Settings\red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );

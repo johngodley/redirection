@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Site;
+
 class HeaderTest extends WP_UnitTestCase {
 	public function testNoHeaders() {
 		$http = new Site\Http_Headers();

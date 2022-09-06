@@ -1,7 +1,10 @@
 <?php
 
+use Redirection\Group;
+use Redirection\Plugin;
+
 class MonitorTest extends WP_UnitTestCase {
-	public function setUp(): void {
+	public function setUp() : void {
 		parent::setUp();
 
 		$this->group = Group\Group::create( 'group', 1 );
@@ -110,7 +113,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Plugin\Monitor( $this->getActiveOptions() );
 		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
 		$post = $this->factory->post->create();
-		$before = parse_url( get_permalink( $post ), PHP_Path );
+		$before = parse_url( get_permalink( $post ), PHP_URL_PATH );
 		$this->factory->post->update_object( $post, array( 'post_name' => 'something' ) );
 
 		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
@@ -125,7 +128,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Plugin\Monitor( $this->getActiveOptions( 1, 'post', '/amp/' ) );
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 		$post = $this->factory->post->create();
-		$before = parse_url( get_permalink( $post ), PHP_Path );
+		$before = parse_url( get_permalink( $post ), PHP_URL_PATH );
 		$this->factory->post->update_object( $post, array( 'post_name' => 'something' ) );
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
@@ -141,7 +144,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		$monitor = new Plugin\Monitor( $this->getActiveOptions( 1, 'trash' ) );
 		$post = $this->factory->post->create( array( 'post_title' => 'trash me' ) );
-		$url = parse_url( get_permalink( $post ), PHP_Path );
+		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 
@@ -160,7 +163,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		$monitor = new Plugin\Monitor( $this->getActiveOptions() );
 		$post = $this->factory->post->create( array( 'post_title' => 'trash me' ) );
-		$url = parse_url( get_permalink( $post ), PHP_Path );
+		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 
@@ -209,9 +212,9 @@ class MonitorTest extends WP_UnitTestCase {
 
 		$monitor = new Plugin\Monitor( $this->getActiveOptions( $this->group->get_id() ) );
 		$action = new MockAction();
-		$before = parse_url( get_permalink( $this->post_id ), PHP_Path );
+		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
 		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
-		$after = parse_url( get_permalink( $this->post_id ), PHP_Path );
+		$after = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
 
 		add_action( 'redirection_remove_existing', array( $action, 'action' ), 10, 2 );
 
@@ -233,12 +236,12 @@ class MonitorTest extends WP_UnitTestCase {
 
 	public function testMultipleRedirectsNotCreated() {
 		$monitor = new Plugin\Monitor( $this->getActiveOptions() );
-		$before = parse_url( get_permalink( $this->post_id ), PHP_Path );
+		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
 
 		// Should trigger one redirection
 		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
 		$monitor->check_for_modified_slug( $this->post_id, $before );
-		$before = parse_url( get_permalink( $this->post_id ), PHP_Path );
+		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
 
 		// Should not trigger another
 		$this->assertFalse( $monitor->check_for_modified_slug( $this->post_id, $before ) );

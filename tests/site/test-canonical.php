@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Site;
+
 class Canonical_Test extends WP_UnitTestCase {
 	public function testNoCanonical() {
 		$canonical = new Site\Canonical( false, '', [], 'http://example.org' );

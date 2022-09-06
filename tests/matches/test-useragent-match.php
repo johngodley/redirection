@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/user-agent.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-user-agent.php';
 
 class UserAgentMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

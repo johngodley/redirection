@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/referrer.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-referrer.php';
 
 class ReferrerMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

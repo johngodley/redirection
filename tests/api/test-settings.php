@@ -1,5 +1,9 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+
 class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
@@ -18,11 +22,11 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_OPTION_MANAGE => [
+			Plugin\Capabilities::CAP_OPTION_MANAGE => [
 				[ 'setting', 'GET' ],
 				[ 'setting', 'POST' ],
 			],
-			Redirection_Capabilities::CAP_SITE_MANAGE => [
+			Plugin\Capabilities::CAP_SITE_MANAGE => [
 				[ 'setting', 'GET' ],
 				[ 'setting', 'POST' ],
 			],

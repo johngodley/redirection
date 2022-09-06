@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Front;
+use Redirection\Action;
+
 class RandomTest extends WP_UnitTestCase {
 	private $target = null;
 	private $code = 0;

@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 class RedirectionApiPluginTest extends Redirection_Api_Test {
@@ -24,7 +27,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_SUPPORT_MANAGE => [
+			Plugin\Capabilities::CAP_SUPPORT_MANAGE => [
 				[ 'plugin', 'GET' ],
 				[ 'plugin', 'POST' ],
 				[ 'plugin/delete', 'POST' ],

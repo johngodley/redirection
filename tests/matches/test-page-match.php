@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/page.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-page.php';
 
 class PageMatchTest extends WP_UnitTestCase {
 	private function set_404( $is_404 ) {

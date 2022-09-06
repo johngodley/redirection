@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Group;
+
 class GroupTest extends WP_UnitTestCase {
 	public function testCreate() {
 		$group = Group\Group::create( 'normal name', 1 );

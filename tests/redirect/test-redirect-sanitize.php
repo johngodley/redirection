@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Group;
+use Redirection\Redirect;
+
 class RedirectSanitizeTest extends WP_UnitTestCase {
 	private function get_new( array $extra = array() ) {
 		return array_merge( [
@@ -10,7 +13,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		], $extra );
 	}
 
-	public function setUp(): void {
+	public function setUp() : void {
 		$this->sanitizer = new Redirect\Sanitize();
 		$this->group = Group\Group::create( 'group', 1 );
 	}
@@ -208,7 +211,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testRegexFlagsSetColumn() {
-		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'match_data' => [ 'source' => [ 'flag_regex' => true ] ] ] ) );
 
 		$this->assertEquals( 'regex', $result['match_url'] );
@@ -216,7 +219,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGetJsonDefaultSame() {
-		\Redirection\Settings\red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 
 		$flags = [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
@@ -224,7 +227,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGetJsonDefaultDifferent() {
-		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Plugin\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 
 		$flags = [ 'source' => [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );

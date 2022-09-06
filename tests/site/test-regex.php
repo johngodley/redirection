@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Site;
+
 class RegexTest extends WP_UnitTestCase {
 	public function testPlainRegex() {
 		$regex = new Site\Regex( 'cat.*' );

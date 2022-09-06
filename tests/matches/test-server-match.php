@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/server.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-server.php';
 
 class ServerMatchTest extends WP_UnitTestCase {
 	public function testNoData() {

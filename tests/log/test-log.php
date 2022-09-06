@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Log;
+
 class Log_Test extends WP_UnitTestCase {
 	public function testBadId() {
 		$this->assertFalse( Log\Error::get_by_id( 23232 ) );

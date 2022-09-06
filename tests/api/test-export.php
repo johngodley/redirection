@@ -1,7 +1,13 @@
 <?php
 
+use Redirection\Log;
+use Redirection\Plugin;
+use Redirection\Group;
+use Redirection\Redirect;
+use Redirection\FileIO;
+
 class ImportExportCsvTest extends Redirection_Api_Test {
-	public function setUp(): void {
+	public function setUp() : void {
 		global $wpdb;
 
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_items" );
@@ -24,7 +30,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
-			Redirection_Capabilities::CAP_IO_MANAGE => [ [ 'export/1/csv', 'GET' ] ],
+			Plugin\Capabilities::CAP_IO_MANAGE => [ [ 'export/1/csv', 'GET' ] ],
 		];
 
 		$this->setEditor();

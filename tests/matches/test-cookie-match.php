@@ -1,6 +1,8 @@
 <?php
 
-require dirname( __FILE__ ) . '/../../matches/cookie.php';
+use Redirection\Match;
+
+require dirname( __FILE__ ) . '/../../includes/match/match-cookie.php';
 
 class CookieMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
