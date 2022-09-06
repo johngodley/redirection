@@ -181,6 +181,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.4 - Unreleased =
+* Fix JSON import always creating new groups
+* CSV import now supports 410 error codes and includes a status column
+
 = 5.3.3 - ??? =
 * Fix default HTTP header not being set when first used
 * Fix incorrect column heading in CSV

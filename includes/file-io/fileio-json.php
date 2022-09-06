@@ -40,17 +40,17 @@ class Json extends FileIO {
 		}
 
 		// Import groups
-		$groups = array();
-		$group_map = array();
+		$groups = [];
 
 		if ( isset( $json['groups'] ) ) {
 			foreach ( $json['groups'] as $group ) {
-				$old_group_id = $group['id'];
-				unset( $group['id'] );
+				$group = Group\Group::get( $group['id'] );
+				if ( ! $group ) {
+					$group = Group\Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
+				}
 
-				$group = Group\Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
 				if ( $group ) {
-					$group_map[ $old_group_id ] = $group->get_id();
+					$groups[ $group->get_id() ] = $group;
 				}
 			}
 		}
@@ -62,16 +62,18 @@ class Json extends FileIO {
 			foreach ( $json['redirects'] as $pos => $redirect ) {
 				unset( $redirect['id'] );
 
-				if ( ! isset( $group_map[ $redirect['group_id'] ] ) ) {
-					$new_group = Group\Group::create( 'Group', 1 );
-					$group_map[ $redirect['group_id'] ] = $new_group->get_id();
+				if ( ! isset( $groups[ $redirect['group_id'] ] ) ) {
+					// Group is not listed so create one for it
+					$group = Group\Group::create( 'Group', 1 );
+					$groups[ $group->get_id() ] = $group;
+					$redirect['group_id'] = $group->get_id();
 				}
 
 				if ( $redirect['match_type'] === 'url' && isset( $redirect['action_data'] ) && ! is_array( $redirect['action_data'] ) ) {
 					$redirect['action_data'] = array( 'url' => $redirect['action_data'] );
 				}
 
-				$redirect['group_id'] = $group_map[ $redirect['group_id'] ];
+				$redirect['group_id'] = $groups[ $redirect['group_id'] ];
 				Redirect\Redirect::create( $redirect );
 				$count++;
 

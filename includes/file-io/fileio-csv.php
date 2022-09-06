@@ -115,15 +115,17 @@ class Csv extends FileIO {
 
 	public function csv_as_item( $csv, $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
-			return array(
+			$code = $this->get_valid_code( isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301 );
+
+			return [
 				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
 				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',
-				'action_type' => 'url',
-				'action_code' => isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301,
-			);
+				'action_type' => $code > 400 && $code < 500 ? 'error' : 'url',
+				'action_code' => $code,
+			];
 		}
 
 		return false;
