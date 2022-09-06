@@ -68,8 +68,8 @@ class ExportCsvTest extends WP_UnitTestCase {
 	}
 
 	public function testEnabled() {
-		$exporter = new Red_Csv_File();
-		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
+		$exporter = new FileIO\Csv();
+		$item = new Redirect\Redirect( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$item->enable();
 		$csv = $exporter->item_as_csv( $item );
 
@@ -77,8 +77,8 @@ class ExportCsvTest extends WP_UnitTestCase {
 	}
 
 	public function testDisabled() {
-		$exporter = new Red_Csv_File();
-		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
+		$exporter = new FileIO\Csv();
+		$item = new Redirect\Redirect( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$item->disable();
 		$csv = $exporter->item_as_csv( $item );
 
