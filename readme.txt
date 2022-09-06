@@ -183,6 +183,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 
 = 5.3.3 - ??? =
 - Fix default HTTP header not being set when first used
+- Fix incorrect column heading in CSV
 
 = 5.3.2 - 6th August 2022 =
 * Fix missing props error
