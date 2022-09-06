@@ -238,7 +238,10 @@ class Htaccess {
 
 		// Remove invalid characters
 		$url = preg_replace( '/[^\PC\s]/u', '', $url );
-		return str_replace( ' ', '%20', preg_quote( $url ) );
+		$url = preg_quote( $url );
+		$url = str_replace( '\\=', '=', $url );
+
+		return str_replace( ' ', '%20', $url );
 	}
 
 	/**
