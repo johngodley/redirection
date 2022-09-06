@@ -83,17 +83,24 @@ class UrlQueryTest extends WP_UnitTestCase {
 	}
 
 	public function testQueryArrayCase() {
-		$url = new Red_Url_Query( '/?hasCase[something]=test', new Red_Source_Flags() );
+		$url = new Query( '/?hasCase[something]=test', new Source_Flags() );
 
-		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Red_Source_Flags() ) );
-		$this->assertFalse( $url->is_match( '/?hascase[something]=test', new Red_Source_Flags() ) );
+		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Source_Flags() ) );
+		$this->assertFalse( $url->is_match( '/?hascase[something]=test', new Source_Flags() ) );
 	}
 
 	public function testQueryArrayCaseInsensitive() {
-		$url = new Red_Url_Query( '/?hasCase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) );
+		$url = new Query( '/?hasCase[something]=test', new Source_Flags( [ 'flag_case' => true ] ) );
 
-		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
-		$this->assertTrue( $url->is_match( '/?hascase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/?hasCase[something]=test', new Source_Flags( [ 'flag_case' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/?hascase[something]=test', new Source_Flags( [ 'flag_case' => true ] ) ) );
+	}
+
+	public function testQueryPass() {
+		$url = new Query( '/?hasCase=test', new Source_Flags( [ 'flag_case' => true ] ) );
+
+		$this->assertTrue( $url->is_match( '/?hasCase=test', new Source_Flags( [ 'flag_case' => true ] ) ) );
+		$this->assertTrue( $url->is_match( '/?hascase=test', new Source_Flags( [ 'flag_case' => true ] ) ) );
 	}
 
 	public function testQueryPassNoParams() {
@@ -126,11 +133,11 @@ class UrlQueryTest extends WP_UnitTestCase {
 	}
 
 	public function testQueryPassCase() {
-		$this->assertEquals( '/?this=THAt', Red_Url_Query::add_to_target( '/', '/?this=THAt', new Red_Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
+		$this->assertEquals( '/?this=THAt', Query::add_to_target( '/', '/?this=THAt', new Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
 	}
 
 	public function testQueryPassNoValue() {
-		$this->assertEquals( '/?this', Red_Url_Query::add_to_target( '/', '/?this', new Red_Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
+		$this->assertEquals( '/?this', Query::add_to_target( '/', '/?this', new Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
 	}
 
 	public function testFragment() {

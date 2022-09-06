@@ -43,7 +43,7 @@ class Query {
 		$this->match_query = $this->original_query;
 
 		if ( $flags->is_ignore_case() ) {
-			$this->match_query = $this->get_url_query( Red_Url_Path::to_lower( $url ) );
+			$this->match_query = $this->get_url_query( Path::to_lower( $url ) );
 		}
 	}
 
