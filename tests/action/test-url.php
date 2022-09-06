@@ -14,7 +14,7 @@ class ActionUrlTest extends WP_UnitTestCase {
 	public function testIsFile() {
 		add_filter( 'wp_redirect', array( $this, 'hook_redirect' ), 10, 2 );
 
-		$action = Red_Action::create( 'url', 301 );
+		$action = Action\Action::create( 'url', 301 );
 		$action->set_target( '/new' );
 		$action->run();
 

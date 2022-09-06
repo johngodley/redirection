@@ -1,5 +1,11 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Redirect as Redirect_Redirect;
+use Redirection\Api;
+use Redirection\Plugin;
+
 /**
  * @api {get} /redirection/v1/redirect Get redirects
  * @apiName GetRedirects
@@ -170,7 +176,7 @@
 /**
  * Redirect API endpoint
  */
-class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
+class Redirect extends Api\Filter_Route {
 	/**
 	 * Redirect API endpoint constructor
 	 *
@@ -182,16 +188,16 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 
 		register_rest_route( $namespace, '/redirect', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_list', [ $this, 'permission_callback_manage' ] ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_create', [ $this, 'permission_callback_add' ] ),
+			$this->get_route( \WP_REST_Server::READABLE, 'route_list', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::EDITABLE, 'route_create', [ $this, 'permission_callback_add' ] ),
 		) );
 
 		register_rest_route( $namespace, '/redirect/(?P<id>[\d]+)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_update', [ $this, 'permission_callback_add' ] ),
+			$this->get_route( \WP_REST_Server::EDITABLE, 'route_update', [ $this, 'permission_callback_add' ] ),
 		) );
 
 		register_rest_route( $namespace, '/redirect/post', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_match_post', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::READABLE, 'route_match_post', [ $this, 'permission_callback_manage' ] ),
 			'args' => [
 				'text' => [
 					'description' => 'Text to match',
@@ -202,7 +208,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 		) );
 
 		register_rest_route( $namespace, '/bulk/redirect/(?P<bulk>delete|enable|disable|reset)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_bulk' ] ),
+			$this->get_route( \WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_bulk' ] ),
 			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
 				'global' => [
 					'description' => 'Apply bulk action globally, as per filters',
@@ -223,22 +229,22 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a manage capability
 	 *
-	 * @param WP_REST_Request $request Request.
+	 * @param \WP_REST_Request $request Request.
 	 * @return Bool
 	 */
-	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
+	public function permission_callback_manage( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_REDIRECT_MANAGE );
 	}
 
 	/**
 	 * Checks a bulk capability
 	 *
-	 * @param WP_REST_Request $request Request.
+	 * @param \WP_REST_Request $request Request.
 	 * @return Bool
 	 */
-	public function permission_callback_bulk( WP_REST_Request $request ) {
+	public function permission_callback_bulk( \WP_REST_Request $request ) {
 		if ( $request['bulk'] === 'delete' ) {
-			return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_DELETE );
+			return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_REDIRECT_DELETE );
 		}
 
 		return $this->permission_callback_add( $request );
@@ -247,30 +253,30 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a create capability
 	 *
-	 * @param WP_REST_Request $request Request.
+	 * @param \WP_REST_Request $request Request.
 	 * @return Bool
 	 */
-	public function permission_callback_add( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_ADD );
+	public function permission_callback_add( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_REDIRECT_ADD );
 	}
 
 	/**
 	 * Get redirect list
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_list( WP_REST_Request $request ) {
-		return Red_Item::get_filtered( $request->get_params() );
+	public function route_list( \WP_REST_Request $request ) {
+		return Redirect_Redirect\Redirect::get_filtered( $request->get_params() );
 	}
 
 	/**
 	 * Get redirect list
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_create( WP_REST_Request $request ) {
+	public function route_create( \WP_REST_Request $request ) {
 		$params = $request->get_params();
 		$urls = array();
 
@@ -289,7 +295,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 
 			foreach ( $unique as $url ) {
 				$params['url'] = $url;
-				$redirect = Red_Item::create( $params );
+				$redirect = Redirect_Redirect\Redirect::create( $params );
 
 				if ( is_wp_error( $redirect ) ) {
 					return $this->add_error_details( $redirect, __LINE__ );
@@ -303,12 +309,12 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	/**
 	 * Update redirect
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_update( WP_REST_Request $request ) {
+	public function route_update( \WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$redirect = Red_Item::get_by_id( intval( $params['id'], 10 ) );
+		$redirect = Redirect_Redirect\Redirect::get_by_id( intval( $params['id'], 10 ) );
 
 		if ( $redirect ) {
 			$result = $redirect->update( $params );
@@ -320,16 +326,16 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			return [ 'item' => $redirect->to_json() ];
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect_update_failed', 'Invalid redirect details' ), __LINE__ );
+		return $this->add_error_details( new \WP_Error( 'redirect_update_failed', 'Invalid redirect details' ), __LINE__ );
 	}
 
 	/**
 	 * Perform bulk action on redirects
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_bulk( WP_REST_Request $request ) {
+	public function route_bulk( \WP_REST_Request $request ) {
 		$params = $request->get_params();
 		$action = $request['bulk'];
 
@@ -337,10 +343,10 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			$items = $params['items'];
 
 			foreach ( $items as $item ) {
-				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
+				$redirect = Redirect_Redirect\Redirect::get_by_id( intval( $item, 10 ) );
 
 				if ( $redirect === false ) {
-					return $this->add_error_details( new WP_Error( 'redirect_bulk_failed', 'Invalid redirect' ), __LINE__ );
+					return $this->add_error_details( new \WP_Error( 'redirect_bulk_failed', 'Invalid redirect' ), __LINE__ );
 				}
 
 				if ( $action === 'delete' ) {
@@ -355,11 +361,11 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 			}
 		} elseif ( isset( $params['global'] ) && $params['global'] ) {
 			if ( $action === 'delete' ) {
-				Red_Item::delete_all( $params );
+				Redirect_Redirect\Redirect::delete_all( $params );
 			} elseif ( $action === 'reset' ) {
-				Red_Item::reset_all( $params );
+				Redirect_Redirect\Redirect::reset_all( $params );
 			} elseif ( $action === 'enable' || $action === 'disable' ) {
-				Red_Item::set_status_all( $action, $params );
+				Redirect_Redirect\Redirect::set_status_all( $action, $params );
 			}
 		}
 
@@ -369,10 +375,10 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	/**
 	 * Search for a post
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_match_post( WP_REST_Request $request ) {
+	public function route_match_post( \WP_REST_Request $request ) {
 		global $wpdb;
 
 		$params = $request->get_params();

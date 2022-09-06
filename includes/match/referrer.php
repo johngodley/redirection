@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Match the referrer
  */
-class Referrer_Match extends Red_Match {
+class Referrer extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -39,11 +43,11 @@ class Referrer_Match extends Red_Match {
 
 	public function is_match( $url ) {
 		if ( $this->regex ) {
-			$regex = new Red_Regex( $this->referrer, true );
-			return $regex->is_match( Redirection_Request::get_referrer() );
+			$regex = new Site\Regex( $this->referrer, true );
+			return $regex->is_match( Site\Request::get_referrer() );
 		}
 
-		return Redirection_Request::get_referrer() === $this->referrer;
+		return Site\Request::get_referrer() === $this->referrer;
 	}
 
 	public function get_data() {

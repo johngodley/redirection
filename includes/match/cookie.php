@@ -1,21 +1,25 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 require_once dirname( __FILE__ ) . '/http-header.php';
 
 /**
  * Check that a cookie value exists
  */
-class Cookie_Match extends Header_Match {
+class Cookie extends Header {
 	public function name() {
 		return __( 'URL and cookie', 'redirection' );
 	}
 
 	public function is_match( $url ) {
 		if ( $this->regex ) {
-			$regex = new Red_Regex( $this->value, true );
-			return $regex->is_match( Redirection_Request::get_cookie( $this->name ) );
+			$regex = new Site\Regex( $this->value, true );
+			return $regex->is_match( Site\Request::get_cookie( $this->name ) );
 		}
 
-		return Redirection_Request::get_cookie( $this->name ) === $this->value;
+		return Site\Request::get_cookie( $this->name ) === $this->value;
 	}
 }

@@ -1,12 +1,14 @@
 <?php
 
+namespace Redirection\Log;
+
 require_once __DIR__ . '/log-404.php';
 require_once __DIR__ . '/log-redirect.php';
 
 /**
  * Base log class
  */
-abstract class Red_Log {
+abstract class Log {
 	const MAX_IP_LENGTH = 45;
 	const MAX_DOMAIN_LENGTH = 255;
 	const MAX_URL_LENGTH = 2000;
@@ -123,7 +125,7 @@ abstract class Red_Log {
 	 * Get a log item by ID
 	 *
 	 * @param integer $id Log ID.
-	 * @return Red_Log|false
+	 * @return Log|false
 	 */
 	public static function get_by_id( $id ) {
 		global $wpdb;

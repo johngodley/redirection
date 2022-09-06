@@ -1,5 +1,11 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Log as Redirect_Log;
+use Redirection\Api;
+use Redirection\Plugin;
+
 /**
  * @api {get} /redirection/v1/log Get logs
  * @apiName GetLogs
@@ -100,7 +106,7 @@
 /**
  * Log API endpoint
  */
-class Redirection_Api_Log extends Redirection_Api_Filter_Route {
+class Log extends Api\Filter_Route {
 	/**
 	 * Log API endpoint constructor
 	 *
@@ -112,11 +118,11 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 
 		register_rest_route( $namespace, '/log', array(
 			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_log', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::READABLE, 'route_log', [ $this, 'permission_callback_manage' ] ),
 		) );
 
 		register_rest_route( $namespace, '/bulk/log/(?P<bulk>delete)', [
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_delete' ] ),
+			$this->get_route( \WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_delete' ] ),
 			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
 				'items' => [
 					'description' => 'Comma separated list of item IDs to perform action on',
@@ -133,40 +139,40 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a manage capability
 	 *
-	 * @param WP_REST_Request $request Request.
+	 * @param \WP_REST_Request $request Request.
 	 * @return Bool
 	 */
-	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE );
+	public function permission_callback_manage( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_LOG_MANAGE );
 	}
 
 	/**
 	 * Checks a delete capability
 	 *
-	 * @param WP_REST_Request $request Request.
+	 * @param \WP_REST_Request $request Request.
 	 * @return Bool
 	 */
-	public function permission_callback_delete( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_DELETE );
+	public function permission_callback_delete( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_LOG_DELETE );
 	}
 
 	/**
 	 * Get log list
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_log( WP_REST_Request $request ) {
+	public function route_log( \WP_REST_Request $request ) {
 		return $this->get_logs( $request->get_params() );
 	}
 
 	/**
 	 * Perform bulk action on logs
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param \WP_REST_Request $request The request.
+	 * @return \WP_Error|array Return an array of results, or a \WP_Error
 	 */
-	public function route_bulk( WP_REST_Request $request ) {
+	public function route_bulk( \WP_REST_Request $request ) {
 		$params = $request->get_params();
 
 		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
@@ -174,7 +180,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 
 			foreach ( $items as $item ) {
 				if ( is_numeric( $item ) ) {
-					Red_Redirect_Log::delete( intval( $item, 10 ) );
+					Redirect_Log\Redirect::delete( intval( $item, 10 ) );
 				} elseif ( isset( $params['groupBy'] ) ) {
 					$delete_by = 'url-exact';
 
@@ -182,11 +188,11 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 						$delete_by = $params['groupBy'];
 					}
 
-					Red_Redirect_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
+					Redirect_Log\Redirect::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
 				}
 			}
 		} elseif ( isset( $params['global'] ) && $params['global'] ) {
-			Red_Redirect_Log::delete_all( $params );
+			Redirect_Log\Redirect::delete_all( $params );
 		}
 
 		return $this->route_log( $request );
@@ -194,9 +200,9 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 
 	private function get_logs( array $params ) {
 		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
-			return Red_Redirect_Log::get_grouped( $params['groupBy'], $params );
+			return Redirect_Log\Redirect::get_grouped( $params['groupBy'], $params );
 		}
 
-		return Red_Redirect_Log::get_filtered( $params );
+		return Redirect_Log\Redirect::get_filtered( $params );
 	}
 }

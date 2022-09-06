@@ -1,12 +1,17 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+use Redirection\Url as Redirect_Url;
+
 require_once __DIR__ . '/from-notfrom.php';
 require_once __DIR__ . '/from-url.php';
 
 /**
  * Matches a URL and some other condition
  */
-abstract class Red_Match {
+abstract class Match {
 	/**
 	 * Match type
 	 *
@@ -63,11 +68,11 @@ abstract class Red_Match {
 	 *
 	 * @param String           $original_url The client URL (not decoded).
 	 * @param String           $matched_url The URL in the redirect.
-	 * @param Red_Source_Flags $flag Source flags.
+	 * @param Redirect_Url\Source_Flags $flag Source flags.
 	 * @param boolean          $is_matched Was the match successful.
 	 * @return String|false
 	 */
-	abstract public function get_target_url( $original_url, $matched_url, Red_Source_Flags $flag, $is_matched );
+	abstract public function get_target_url( $original_url, $matched_url, Redirect_Url\Source_Flags $flag, $is_matched );
 
 	/**
 	 * Get the match data
@@ -106,35 +111,77 @@ abstract class Red_Match {
 	 * @param string           $source_url Redirect source URL.
 	 * @param string           $target_url Target URL.
 	 * @param string           $requested_url The URL being requested (decoded).
-	 * @param Red_Source_Flags $flags Source URL flags.
+	 * @param Redirect_Url\Source_Flags $flags Source URL flags.
 	 * @return string
 	 */
-	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
-		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
+	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Redirect_Url\Source_Flags $flags ) {
+		$regex = new Site\Regex( $source_url, $flags->is_ignore_case() );
 
 		return $regex->replace( $target_url, $requested_url );
 	}
 
 	/**
-	 * Create a Red_Match object, given a type
+	 * Create a Match\Match object, given a type
 	 *
 	 * @param string $name Match type.
 	 * @param string $data Match data.
-	 * @return Red_Match|null
+	 * @return Match|null
 	 */
 	public static function create( $name, $data = '' ) {
 		$avail = self::available();
 		if ( isset( $avail[ strtolower( $name ) ] ) ) {
-			$classname = $name . '_match';
+			require_once __DIR__ . '/' . $avail[ strtolower( $name ) ];
 
-			if ( ! class_exists( strtolower( $classname ) ) ) {
-				include dirname( __FILE__ ) . '/' . $avail[ strtolower( $name ) ];
+			switch ( $name ) {
+				case 'url':
+					$class = new Url_Only();
+					break;
+
+				case 'referrer':
+					$class = new Referrer();
+					break;
+
+				case 'agent':
+					$class = new User_Agent();
+					break;
+
+				case 'login':
+					$class = new Login();
+					break;
+
+				case 'header':
+					$class = new Header();
+					break;
+
+				case 'custom':
+					$class = new Custom();
+					break;
+
+				case 'cookie':
+					$class = new Cookie();
+					break;
+
+				case 'role':
+					$class = new Role();
+					break;
+
+				case 'server':
+					$class = new Server();
+					break;
+
+				case 'ip':
+					$class = new Ip();
+					break;
+
+				case 'page':
+					$class = new Page();
+					break;
+
+				case 'language':
+					$class = new Language();
+					break;
 			}
 
-			/**
-			 * @var Red_Match
-			 */
-			$class = new $classname( $data );
 			$class->type = $name;
 			return $class;
 		}
@@ -143,7 +190,7 @@ abstract class Red_Match {
 	}
 
 	/**
-	 * Get all Red_Match objects
+	 * Get all Match\Match objects
 	 *
 	 * @return String[]
 	 */
@@ -153,7 +200,7 @@ abstract class Red_Match {
 		$avail = self::available();
 		foreach ( array_keys( $avail ) as $name ) {
 			/**
-			 * @var Red_Match
+			 * @var Match\Match
 			 */
 			$obj = self::create( $name );
 			$data[ $name ] = $obj->name();

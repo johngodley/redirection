@@ -1,6 +1,10 @@
 <?php
 
-class Red_Monitor {
+namespace Redirection\Plugin;
+
+use Redirection\Redirect;
+
+class Monitor {
 	private $monitor_group_id;
 	private $updated_posts = array();
 	private $monitor_types = array();
@@ -27,7 +31,7 @@ class Red_Monitor {
 	}
 
 	public function remove_existing_redirect( $url ) {
-		Red_Item::disable_where_matches( $url );
+		Redirect\Redirect::disable_where_matches( $url );
 	}
 
 	public function can_monitor_post( $post, $post_before ) {
@@ -67,7 +71,7 @@ class Red_Monitor {
 
 	public function post_trashed( $post_id ) {
 		$data = array(
-			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
+			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_Path ),
 			'action_data' => array( 'url' => '/' ),
 			'match_type'  => 'url',
 			'action_type' => 'url',
@@ -78,7 +82,7 @@ class Red_Monitor {
 
 		// Create a new redirect for this post, but only if not draft
 		if ( $data['url'] !== '/' ) {
-			Red_Item::create( $data );
+			Redirect\Redirect::create( $data );
 		}
 	}
 
@@ -100,7 +104,7 @@ class Red_Monitor {
 	}
 
 	private function get_site_path() {
-		$path = wp_parse_url( get_site_url(), PHP_URL_PATH );
+		$path = wp_parse_url( get_site_url(), PHP_Path );
 
 		if ( $path ) {
 			return rtrim( $path, '/' ) . '/';
@@ -110,8 +114,8 @@ class Red_Monitor {
 	}
 
 	public function check_for_modified_slug( $post_id, $before ) {
-		$after  = wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH );
-		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
+		$after  = wp_parse_url( get_permalink( $post_id ), PHP_Path );
+		$before = wp_parse_url( esc_url( $before ), PHP_Path );
 
 		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
@@ -126,7 +130,7 @@ class Red_Monitor {
 			);
 
 			// Create a new redirect for this post
-			$new_item = Red_Item::create( $data );
+			$new_item = Redirect\Redirect::create( $data );
 
 			if ( ! is_wp_error( $new_item ) ) {
 				do_action( 'redirection_monitor_created', $new_item, $before, $post_id );
@@ -135,7 +139,7 @@ class Red_Monitor {
 					// Create an associated redirect for this post
 					$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
 					$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
-					Red_Item::create( $data );
+					Redirect\Redirect::create( $data );
 				}
 			}
 

@@ -1,24 +1,30 @@
 <?php
 
-abstract class Red_FileIO {
+namespace Redirection\FileIO;
+
+use Redirection\Group;
+use Redirection\Redirect;
+use Redirection\Module;
+
+abstract class FileIO {
 	public static function create( $type ) {
 		$exporter = false;
 
 		if ( $type === 'rss' ) {
 			include_once __DIR__ . '/rss.php';
-			$exporter = new Red_Rss_File();
+			$exporter = new Rss();
 		} elseif ( $type === 'csv' ) {
 			include_once __DIR__ . '/csv.php';
-			$exporter = new Red_Csv_File();
+			$exporter = new Csv();
 		} elseif ( $type === 'apache' ) {
 			include_once __DIR__ . '/apache.php';
-			$exporter = new Red_Apache_File();
+			$exporter = new Apache();
 		} elseif ( $type === 'nginx' ) {
 			include_once __DIR__ . '/nginx.php';
-			$exporter = new Red_Nginx_File();
+			$exporter = new Nginx();
 		} elseif ( $type === 'json' ) {
 			include_once __DIR__ . '/json.php';
-			$exporter = new Red_Json_File();
+			$exporter = new Json();
 		}
 
 		return $exporter;
@@ -31,20 +37,20 @@ abstract class Red_FileIO {
 
 		if ( $extension === 'csv' || $extension === 'txt' ) {
 			include_once __DIR__ . '/csv.php';
-			$importer = new Red_Csv_File();
+			$importer = new Csv();
 			$data = '';
 		} elseif ( $extension === 'json' ) {
 			include_once __DIR__ . '/json.php';
-			$importer = new Red_Json_File();
+			$importer = new Json();
 			$data = @file_get_contents( $file['tmp_name'] );
 		} else {
 			include_once __DIR__ . '/apache.php';
-			$importer = new Red_Apache_File();
+			$importer = new Apache();
 			$data = @file_get_contents( $file['tmp_name'] );
 		}
 
 		if ( $extension !== 'json' ) {
-			$group = Red_Group::get( $group_id );
+			$group = Group\Group::get( $group_id );
 			if ( ! $group ) {
 				return false;
 			}
@@ -72,15 +78,15 @@ abstract class Red_FileIO {
 		$items = false;
 
 		if ( $module_name_or_id === 'all' || $module_name_or_id === 0 ) {
-			$groups = Red_Group::get_all();
-			$items = Red_Item::get_all();
+			$groups = Group\Group::get_all();
+			$items = Redirect\Redirect::get_all();
 		} else {
-			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Red_Module::get_id_for_name( $module_name_or_id );
-			$module = Red_Module::get( intval( $module_name_or_id, 10 ) );
+			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Redirect\Module\Module::get_id_for_name( $module_name_or_id );
+			$module = Redirect\Module::get( intval( $module_name_or_id, 10 ) );
 
 			if ( $module ) {
-				$groups = Red_Group::get_all_for_module( $module->get_id() );
-				$items = Red_Item::get_all_for_module( $module->get_id() );
+				$groups = Group\Group::get_all_for_module( $module->get_id() );
+				$items = Redirect\Redirect::get_all_for_module( $module->get_id() );
 			}
 		}
 

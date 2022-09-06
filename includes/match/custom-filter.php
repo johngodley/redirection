@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Match;
+
 /**
  * Perform a check against the results of a custom filter
  */
-class Custom_Match extends Red_Match {
+class Custom extends Match {
 	use FromNotFrom_Match;
 
 	/**

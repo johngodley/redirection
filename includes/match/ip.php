@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Check the request IP
  */
-class IP_Match extends Red_Match {
+class IP extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -64,7 +68,7 @@ class IP_Match extends Red_Match {
 	}
 
 	public function is_match( $url ) {
-		$matched = $this->get_matching_ips( Redirection_Request::get_ip() );
+		$matched = $this->get_matching_ips( Site\Request::get_ip() );
 
 		return count( $matched ) > 0;
 	}

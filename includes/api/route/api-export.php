@@ -1,5 +1,11 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\FileIO;
+use Redirection\Api;
+use Redirection\Plugin;
+
 /**
  * @api {get} /redirection/v1/export/:module/:format Export redirects
  * @apiName Export
@@ -22,18 +28,18 @@
  *       "message": "Invalid module"
  *     }
  */
-class Redirection_Api_Export extends Redirection_Api_Route {
+class Export extends Api\Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_export', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::READABLE, 'route_export', [ $this, 'permission_callback_manage' ] ),
 		) );
 	}
 
-	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
+	public function permission_callback_manage( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_IO_MANAGE );
 	}
 
-	public function route_export( WP_REST_Request $request ) {
+	public function route_export( \WP_REST_Request $request ) {
 		$module = $request['module'];
 		$format = 'json';
 
@@ -41,9 +47,9 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 			$format = $request['format'];
 		}
 
-		$export = Red_FileIO::export( $module, $format );
+		$export = FileIO\FileIO::export( $module, $format );
 		if ( $export === false ) {
-			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_module', 'Invalid module' ), __LINE__ );
+			return $this->add_error_details( new \WP_Error( 'redirect_export_invalid_module', 'Invalid module' ), __LINE__ );
 		}
 
 		return array(

@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * Query parameter martching
  */
-class Red_Url_Query {
+class Query {
 	/**
 	 * @type Integer
 	 */
@@ -34,7 +36,7 @@ class Red_Url_Query {
 	 * Constructor
 	 *
 	 * @param String           $url URL.
-	 * @param Red_Source_Flags $flags URL flags.
+	 * @param Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
 		$this->original_query = $this->get_url_query( $url );
@@ -49,12 +51,12 @@ class Red_Url_Query {
 	 * Does this object match the URL?
 	 *
 	 * @param String           $url URL to match.
-	 * @param Red_Source_Flags $flags Source flags.
+	 * @param Source_Flags $flags Source flags.
 	 * @return boolean
 	 */
-	public function is_match( $url, Red_Source_Flags $flags ) {
+	public function is_match( $url, Url\Source_Flags $flags ) {
 		if ( $flags->is_ignore_case() ) {
-			$url = Red_Url_Path::to_lower( $url );
+			$url = Path::to_lower( $url );
 		}
 
 		// If we can't parse the query params then match the params exactly
@@ -94,7 +96,7 @@ class Red_Url_Query {
 	 */
 	private function is_string_match( $first, $second, $case ) {
 		if ( $case ) {
-			return Red_Url_Path::to_lower( $first ) === Red_Url_Path::to_lower( $second );
+			return Path::to_lower( $first ) === Path::to_lower( $second );
 		}
 
 		return $first === $second;
@@ -105,13 +107,13 @@ class Red_Url_Query {
 	 *
 	 * @param string           $target_url The target URL to add params to.
 	 * @param string           $requested_url The source URL to pass params from.
-	 * @param Red_Source_Flags $flags Any URL flags.
+	 * @param Source_Flags $flags Any URL flags.
 	 * @return string URL, modified or not.
 	 */
-	public static function add_to_target( $target_url, $requested_url, Red_Source_Flags $flags ) {
+	public static function add_to_target( $target_url, $requested_url, Url\Source_Flags $flags ) {
 		if ( $flags->is_query_pass() && $target_url ) {
-			$source_query = new Red_Url_Query( $target_url, $flags );
-			$request_query = new Red_Url_Query( $requested_url, $flags );
+			$source_query = new Query( $target_url, $flags );
+			$request_query = new Query( $requested_url, $flags );
 
 			// Now add any remaining params
 			$query_diff = $source_query->get_query_diff( $source_query->original_query, $request_query->original_query );
@@ -179,7 +181,7 @@ class Red_Url_Query {
 	}
 
 	/**
-	 * Get a URL with the given base and query parameters from this Url_Query
+	 * Get a URL with the given base and query parameters from this Query
 	 *
 	 * @param String $url Base URL.
 	 * @return String

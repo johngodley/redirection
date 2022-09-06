@@ -1,6 +1,8 @@
 <?php
 
-class Red_Rss_File extends Red_FileIO {
+namespace Redirection\FileIO;
+
+class Rss extends FileIO {
 	public function force_download() {
 		header( 'Content-type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 	}

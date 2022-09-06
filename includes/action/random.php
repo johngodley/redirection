@@ -1,11 +1,13 @@
 <?php
 
+namespace Redirection\Action;
+
 require_once dirname( __FILE__ ) . '/url.php';
 
 /**
  * URL action - redirect to a URL
  */
-class Random_Action extends Url_Action {
+class Random extends Url {
 	/**
 	 * Get a random URL
 	 *

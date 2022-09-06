@@ -4,7 +4,7 @@ require dirname( __FILE__ ) . '/../../matches/server.php';
 
 class ServerMatchTest extends WP_UnitTestCase {
 	public function testNoData() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -14,7 +14,7 @@ class ServerMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testGuessProtocol() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -24,7 +24,7 @@ class ServerMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testHostOnly() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -34,7 +34,7 @@ class ServerMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testBadServer() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -44,7 +44,7 @@ class ServerMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testValidServer() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -54,7 +54,7 @@ class ServerMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testLoadBad() {
-		$match = new Server_Match();
+		$match = new Match\Server();
 		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes', 'server' => '' ) ) );
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
@@ -62,21 +62,21 @@ class ServerMatchTest extends WP_UnitTestCase {
 	public function testNoMatch() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
-		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Server( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertFalse( $match->is_match( '' ) );
 	}
 
 	public function testNoMatchNoExist() {
 		unset( $_SERVER['SERVER_NAME'] );
 
-		$match = new Server_Match( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Server( serialize( array( 'server' => 'other', 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertFalse( $match->is_match( '' ) );
 	}
 
 	public function testMatch() {
 		$_SERVER['SERVER_NAME'] = 'server.com';
 
-		$match = new Server_Match( serialize( array( 'server' => 'http://server.com', 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Server( serialize( array( 'server' => 'http://server.com', 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

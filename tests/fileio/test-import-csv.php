@@ -4,14 +4,14 @@ include_once dirname( __FILE__ ) . '/../../fileio/csv.php';
 
 class ImportCsvTest extends WP_UnitTestCase {
 	public function testHeader() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( 'source', 'target' ), 1 );
 
 		$this->assertFalse( $csv );
 	}
 
 	public function testSourceTarget() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 'url', '301', 'url', '2', '' ), 1 );
 		$target = array(
 			'url' => '/source',
@@ -27,28 +27,28 @@ class ImportCsvTest extends WP_UnitTestCase {
 	}
 
 	public function testSourceTargetRegex() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( '/source.*', '/target' ), 1 );
 
 		$this->assertTrue( $csv['regex'] );
 	}
 
 	public function testSourceTargetRegexOverride() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( '/source', '/target', 1 ), 1 );
 
 		$this->assertTrue( $csv['regex'] );
 	}
 
 	public function testRedirectCode() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 308 ), 1 );
 
 		$this->assertEquals( 308, $csv['action_code'] );
 	}
 
 	public function testInvalidRedirectCode() {
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$csv = $importer->csv_as_item( array( '/source', '/target', 0, 666 ), 1 );
 
 		$this->assertEquals( 301, $csv['action_code'] );
@@ -57,13 +57,13 @@ class ImportCsvTest extends WP_UnitTestCase {
 	public function testCreateRedirect() {
 		global $wpdb;
 
-		$group = Red_Group::create( 'group', 1 );
+		$group = Group\Group::create( 'group', 1 );
 
 		$file = fopen( 'php://memory', 'w+' );
 		fwrite( $file, '"/old","/new","0","301","url","2",""' );
 		rewind( $file );
 
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
@@ -76,7 +76,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 	public function testLineEndings() {
 		global $wpdb;
 
-		$group = Red_Group::create( 'group', 1 );
+		$group = Group\Group::create( 'group', 1 );
 
 		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
 		ini_set( 'auto_detect_line_endings', true );
@@ -87,7 +87,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		fwrite( $file, $multi );
 		rewind( $file );
 
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
@@ -98,7 +98,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 	public function testSemicolon() {
 		global $wpdb;
 
-		$group = Red_Group::create( 'group', 1 );
+		$group = Group\Group::create( 'group', 1 );
 
 		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
 		ini_set( 'auto_detect_line_endings', true );
@@ -109,7 +109,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		fwrite( $file, $multi );
 		rewind( $file );
 
-		$importer = new Red_Csv_File();
+		$importer = new FileIO\Csv();
 		$count = $importer->load_from_file( $group->get_id(), $file, ';' );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 

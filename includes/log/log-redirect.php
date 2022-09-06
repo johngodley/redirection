@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Log;
+
 /**
  * Redirect logging. Extends the base log class with specifics for redirects
  */
-class Red_Redirect_Log extends Red_Log {
+class Redirect extends Log {
 	/**
 	 * The redirect associated with this log entry.
 	 *
@@ -159,19 +161,5 @@ class Red_Redirect_Log extends Red_Log {
 			'redirect_by_slug' => $this->redirect_by,
 			'redirect_by' => $this->get_redirect_name( $this->redirect_by ),
 		] );
-	}
-}
-
-// phpcs:ignore
-class RE_Log {
-	public static function create( $url, $target, $agent, $ip, $referrer, $extra = array() ) {
-		_deprecated_function( __FUNCTION__, '4.6', 'Red_Redirect_Log::create( $domain, $url, $ip, $details )' );
-
-		return Red_Redirect_Log::create( Redirection_Request::get_server(), $url, $ip, array_merge( [
-			'agent' => $agent,
-			'referrer' => $referrer,
-			'target' => $target,
-			'request_method' => Redirection_Request::get_request_method(),
-		], $extra ) );
 	}
 }

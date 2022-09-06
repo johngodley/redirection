@@ -23,77 +23,77 @@ class FlusherTest extends WP_UnitTestCase {
 	}
 
 	public function testNothingScheduled() {
-		Red_Flusher::clear();
-		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		Plugin\Flusher::clear();
+		$this->assertEquals( 0, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testNothingScheduledAfterClear() {
-		Red_Flusher::clear();
-		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		Plugin\Flusher::clear();
+		$this->assertEquals( 0, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testSchedule() {
-		Red_Flusher::schedule();
-		$this->assertTrue( wp_next_scheduled( Red_Flusher::DELETE_HOOK ) > 0 );
+		Plugin\Flusher::schedule();
+		$this->assertTrue( wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) > 0 );
 	}
 
 	public function testScheduleRepeatNoChange() {
-		Red_Flusher::schedule();
+		Plugin\Flusher::schedule();
 
-		$next = wp_next_scheduled( Red_Flusher::DELETE_HOOK );
+		$next = wp_next_scheduled( Plugin\Flusher::DELETE_HOOK );
 
-		Red_Flusher::schedule();
+		Plugin\Flusher::schedule();
 
-		$this->assertEquals( $next, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		$this->assertEquals( $next, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testScheduleIsClearedWhenReset() {
 		$this->setScheduleExpire( 0 );
-		Red_Flusher::schedule();
-		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		Plugin\Flusher::schedule();
+		$this->assertEquals( 0, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testScheduleIsCleared() {
-		Red_Flusher::schedule();
-		Red_Flusher::clear();
+		Plugin\Flusher::schedule();
+		Plugin\Flusher::clear();
 
-		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		$this->assertEquals( 0, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testFlush() {
-		Red_Flusher::clear();
-		Red_Redirect_Log::delete_all();
+		Plugin\Flusher::clear();
+		Log\Redirect::delete_all();
 
 		$this->addLog( 5 );
 		$this->addLog( 8 );
 		$this->assertEquals( 2, $this->getLogCount() );
 
-		$flusher = new Red_Flusher();
+		$flusher = new Plugin\Flusher();
 		$flusher->flush();
 
 		$this->assertEquals( 1, $this->getLogCount() );
-		$this->assertEquals( 0, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		$this->assertEquals( 0, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 	}
 
 	public function testBigFlush() {
-		Red_Flusher::clear();
-		Red_Redirect_Log::delete_all();
+		Plugin\Flusher::clear();
+		Log\Redirect::delete_all();
 
-		for ( $i = 0; $i < Red_Flusher::DELETE_MAX + 2; $i++ ) {
+		for ( $i = 0; $i < Plugin\Flusher::DELETE_MAX + 2; $i++ ) {
 			$this->addLog( 8 );   // Will get flushed
 		}
 
-		$this->assertEquals( Red_Flusher::DELETE_MAX + 2, $this->getLogCount() );
+		$this->assertEquals( Plugin\Flusher::DELETE_MAX + 2, $this->getLogCount() );
 
-		wp_schedule_event( time() + ( 60 * 30 ), Red_Flusher::DELETE_FREQ, Red_Flusher::DELETE_HOOK );
+		wp_schedule_event( time() + ( 60 * 30 ), Plugin\Flusher::DELETE_FREQ, Plugin\Flusher::DELETE_HOOK );
 
-		$next_event = wp_next_scheduled( Red_Flusher::DELETE_HOOK );
+		$next_event = wp_next_scheduled( Plugin\Flusher::DELETE_HOOK );
 
-		$flusher = new Red_Flusher();
+		$flusher = new Plugin\Flusher();
 		$flusher->flush();
 
 		$this->assertEquals( 2, $this->getLogCount() );
-		$this->assertNotEquals( $next_event, wp_next_scheduled( Red_Flusher::DELETE_HOOK ) );
+		$this->assertNotEquals( $next_event, wp_next_scheduled( Plugin\Flusher::DELETE_HOOK ) );
 
 		$flusher->flush();
 		$this->assertEquals( 0, $this->getLogCount() );

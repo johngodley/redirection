@@ -182,7 +182,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testDefaultGroup() {
 		$this->setNonce();
 
-		$groups = Red_Group::get_all();
+		$groups = Group\Group::get_all();
 
 		$this->callApi( 'setting', array( 'monitor_post' => $groups[0]['id'], 'monitor_types' => array( 'post' ) ), 'POST' );
 		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );

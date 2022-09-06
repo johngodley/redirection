@@ -4,7 +4,7 @@ require dirname( __FILE__ ) . '/../../fileio/json.php';
 
 class JsonTest extends WP_UnitTestCase {
 	public function testExportEmpty() {
-		$json = new Red_Json_File();
+		$json = new FileIO\Json();
 		$data = json_decode( $json->get_data( array(), array() ) );
 
 		$this->assertTrue( empty( $data->groups ) );
@@ -13,9 +13,9 @@ class JsonTest extends WP_UnitTestCase {
 	}
 
 	public function testExportNew() {
-		$json = new Red_Json_File();
-		$redirects = [ new Red_Item( (object)[ 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ] ) ];
-		$groups = [ (new Red_Group( (object)[ 'name' => 'group', 'id' => 1 ] ) )->to_json() ];
+		$json = new FileIO\Json();
+		$redirects = [ new Redirect\Redirect( (object)[ 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ] ) ];
+		$groups = [ (new Group\Group( (object)[ 'name' => 'group', 'id' => 1 ] ) )->to_json() ];
 
 		$data = json_decode( $json->get_data( $redirects, $groups ) );
 
@@ -24,7 +24,7 @@ class JsonTest extends WP_UnitTestCase {
 	}
 
 	public function testImportBad() {
-		$json = new Red_Json_File();
+		$json = new FileIO\Json();
 		$data = $json->load( 0, 'thing', 'x' );
 		$this->assertEquals( 0, $data );
 	}
@@ -53,7 +53,7 @@ class JsonTest extends WP_UnitTestCase {
 			),
 		);
 
-		$json = new Red_Json_File();
+		$json = new FileIO\Json();
 		$data = $json->load( 0, 'thing', wp_json_encode( $import ) );
 		$this->assertEquals( 1, $data );
 

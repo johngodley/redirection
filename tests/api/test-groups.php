@@ -11,7 +11,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 		}
 
 		for ( $i = 0; $i < $total; $i++ ) {
-			Red_Group::create( 'test' . ( $i + 1 ), $module );
+			Group\Group::create( 'test' . ( $i + 1 ), $module );
 		}
 
 		$this->setNonce();
@@ -120,7 +120,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testListFilterStatus() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/group/disable', array( 'items' => $group->get_id() ), 'POST' );
 		$result = $this->callApi( 'group', [ 'filterBy' => [ 'status' => 'disabled' ] ] );
@@ -181,7 +181,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testBadBulk() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/group/cats', array( 'items' => $group->get_id() ), 'POST' );
 		$this->assertEquals( 'rest_no_route', $result->data['code'] );
@@ -192,7 +192,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testBulkDelete() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/group/delete', array( 'items' => $group->get_id() ), 'POST' );
 		$this->assertEquals( 2, count( $result->data['items'] ) );
@@ -200,23 +200,23 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testBulkDisable() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/group/disable', array( 'items' => $group->get_id() ), 'POST' );
 		$this->assertEquals( 3, count( $result->data['items'] ) );
 
-		$group = Red_Group::get( $group->get_id() );
+		$group = Group\Group::get( $group->get_id() );
 		$this->assertFalse( $group->is_enabled() );
 	}
 
 	public function testBulkEnable() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/group/enable', array( 'items' => $group->get_id() ), 'POST' );
 		$this->assertEquals( 3, count( $result->data['items'] ) );
 
-		$group = Red_Group::get( $group->get_id() );
+		$group = Group\Group::get( $group->get_id() );
 		$this->assertTrue( $group->is_enabled() );
 	}
 
@@ -229,7 +229,7 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testUpdateBadName() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'group/' . $group->get_id(), array(), 'POST' );
 		$this->assertEquals( 400, $result->status );
@@ -237,11 +237,11 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 	public function testUpdate() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'group/' . $group->get_id(), array( 'name' => 'cats', 'moduleId' => 2 ), 'POST' );
 
-		$group = Red_Group::get( $group->get_id() );
+		$group = Group\Group::get( $group->get_id() );
 		$this->assertEquals( 2, $group->get_module_id() );
 		$this->assertEquals( 'cats', $group->get_name() );
 	}

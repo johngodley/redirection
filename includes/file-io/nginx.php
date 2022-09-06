@@ -1,6 +1,11 @@
 <?php
 
-class Red_Nginx_File extends Red_FileIO {
+namespace Redirection\FileIO;
+
+use Redirection\Redirect;
+use Redirection\Url;
+
+class Nginx extends FileIO {
 	public function force_download() {
 		parent::force_download();
 
@@ -10,7 +15,7 @@ class Red_Nginx_File extends Red_FileIO {
 
 	public function get_data( array $items, array $groups ) {
 		$lines   = array();
-		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = \Redirection\Settings\red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
 
 		$lines[] = '# Created by Redirection';
 		$lines[] = '# ' . date( 'r' );
@@ -34,7 +39,7 @@ class Red_Nginx_File extends Red_FileIO {
 		return implode( PHP_EOL, $lines ) . PHP_EOL;
 	}
 
-	private function get_redirect_code( Red_Item $item ) {
+	private function get_redirect_code( Redirect\Redirect $item ) {
 		if ( $item->get_action_code() === 301 ) {
 			return 'permanent';
 		}
@@ -45,7 +50,7 @@ class Red_Nginx_File extends Red_FileIO {
 		return 0;
 	}
 
-	private function get_nginx_item( Red_Item $item ) {
+	private function get_nginx_item( Redirect\Redirect $item ) {
 		$target = 'add_' . $item->get_match_type();
 
 		if ( method_exists( $this, $target ) ) {
@@ -55,11 +60,11 @@ class Red_Nginx_File extends Red_FileIO {
 		return false;
 	}
 
-	private function add_url( Red_Item $item, array $match_data ) {
+	private function add_url( Redirect\Redirect $item, array $match_data ) {
 		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $match_data['source'] );
 	}
 
-	private function add_agent( Red_Item $item, array $match_data ) {
+	private function add_agent( Redirect\Redirect $item, array $match_data ) {
 		if ( $item->match->url_from ) {
 			$lines[] = 'if ( $http_user_agent ~* ^' . $item->match->user_agent . '$ ) {';
 			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
@@ -75,7 +80,7 @@ class Red_Nginx_File extends Red_FileIO {
 		return implode( "\n", $lines );
 	}
 
-	private function add_referrer( Red_Item $item, array $match_data ) {
+	private function add_referrer( Redirect\Redirect $item, array $match_data ) {
 		if ( $item->match->url_from ) {
 			$lines[] = 'if ( $http_referer ~* ^' . $item->match->referrer . '$ ) {';
 			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
@@ -95,8 +100,8 @@ class Red_Nginx_File extends Red_FileIO {
 		$line = ltrim( $line, '^' );
 		$line = rtrim( $line, '$' );
 
-		$source_url = new Red_Url_Encode( $line );
-		$target_url = new Red_Url_Encode( $target );
+		$source_url = new Url\Encode( $line );
+		$target_url = new Url\Encode( $target );
 
 		// Remove any existing start/end from a regex
 		$from = $source_url->get_as_source();

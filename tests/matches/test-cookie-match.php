@@ -4,7 +4,7 @@ require dirname( __FILE__ ) . '/../../matches/cookie.php';
 
 class CookieMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
-		$match = new Cookie_Match();
+		$match = new Match\Cookie();
 		$saved = array(
 			'url_from' => '/some/url',
 			'url_notfrom' => '/some/url',
@@ -23,7 +23,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testBadData() {
-		$match = new Cookie_Match();
+		$match = new Match\Cookie();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -35,7 +35,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testLoadBad() {
-		$match = new Cookie_Match();
+		$match = new Match\Cookie();
 		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes', 'regex' => true, 'name' => '', 'value' => '' ) ) );
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
@@ -43,7 +43,7 @@ class CookieMatchTest extends WP_UnitTestCase {
 	public function testMatch() {
 		$_COOKIE['cookie'] = 'nothing';
 
-		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Cookie( serialize( array( 'name' => 'cookie', 'value' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertTrue( $match->is_match( '' ) );
 
 		unset( $_COOKIE['cookie'] );
@@ -52,21 +52,21 @@ class CookieMatchTest extends WP_UnitTestCase {
 	public function testMatchRegex() {
 		$_COOKIE['cookie'] = 'nothing';
 
-		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'no.*', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Cookie( serialize( array( 'name' => 'cookie', 'value' => 'no.*', 'regex' => true, 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertTrue( $match->is_match( '' ) );
 
 		unset( $_COOKIE['cookie'] );
 	}
 
 	public function testNotMatchExist() {
-		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Cookie( serialize( array( 'name' => 'cookie', 'value' => 'other', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertFalse( $match->is_match( '' ) );
 	}
 
 	public function testNotMatch() {
 		$_COOKIE['cookie'] = 'other';
 
-		$match = new Cookie_Match( serialize( array( 'name' => 'cookie', 'value' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$match = new Match\Cookie( serialize( array( 'name' => 'cookie', 'value' => 'nothing', 'regex' => false, 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertFalse( $match->is_match( '' ) );
 
 		unset( $_COOKIE['cookie'] );

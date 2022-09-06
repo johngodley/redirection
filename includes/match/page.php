@@ -1,10 +1,12 @@
 <?php
 
+namespace Redirection\Match;
+
 /**
  * Match the WordPress page type
  */
-class Page_Match extends Red_Match {
-	use FromUrl_Match;
+class Page extends Match {
+	use FromMatch;
 
 	/**
 	 * Page type

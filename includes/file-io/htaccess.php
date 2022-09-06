@@ -1,5 +1,10 @@
 <?php
 
+namespace Redirection\FileIO;
+
+use Redirection\Redirect;
+use Redirection\Match;
+
 /**
  * Convert redirects to .htaccess format
  *
@@ -7,7 +12,7 @@
  * - Trailing slash flag
  * - Query flags
  */
-class Red_Htaccess {
+class Htaccess {
 	/**
 	 * Array of redirect lines
 	 *
@@ -122,8 +127,8 @@ class Red_Htaccess {
 	/**
 	 * Add a referrer redirect
 	 *
-	 * @param Red_Item       $item Redirect item.
-	 * @param Referrer_Match $match Redirect match.
+	 * @param Redirect\Redirect $item  Redirect item.
+	 * @param Match\Referrer    $match Redirect match.
 	 * @return void
 	 */
 	private function add_referrer( $item, $match ) {
@@ -154,8 +159,8 @@ class Red_Htaccess {
 	/**
 	 * Add a useragent redirect
 	 *
-	 * @param Red_Item    $item Redirect item.
-	 * @param Agent_Match $match Redirect match.
+	 * @param Redirect\Redirect $item Redirect item.
+	 * @param Match\User_Agent  $match Redirect match.
 	 * @return void
 	 */
 	private function add_agent( $item, $match ) {
@@ -186,8 +191,8 @@ class Red_Htaccess {
 	/**
 	 * Add a server redirect
 	 *
-	 * @param Red_Item     $item Redirect item.
-	 * @param Server_Match $match Redirect match.
+	 * @param Redirect\Redirect $item  Redirect item.
+	 * @param Match\Server      $match Redirect match.
 	 * @return void
 	 */
 	private function add_server( $item, $match ) {
@@ -199,8 +204,8 @@ class Red_Htaccess {
 	/**
 	 * Add a redirect
 	 *
-	 * @param Red_Item  $item Redirect item.
-	 * @param Red_Match $match Redirect match.
+	 * @param Redirect\Redirect $item  Redirect item.
+	 * @param Match\Match       $match Redirect match.
 	 * @return void
 	 */
 	private function add_url( $item, $match ) {
@@ -357,7 +362,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function generate() {
-		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = \Redirection\Settings\red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
@@ -372,7 +377,7 @@ class Red_Htaccess {
 		];
 
 		// Add http => https option
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		if ( $options['https'] ) {
 			$text[] = 'RewriteCond %{HTTPS} off';
 			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
@@ -395,7 +400,7 @@ class Red_Htaccess {
 	/**
 	 * Add a redirect to the file
 	 *
-	 * @param Red_Item $item Redirect.
+	 * @param Redirect\Redirect $item Redirect.
 	 * @return void
 	 */
 	public function add( $item ) {

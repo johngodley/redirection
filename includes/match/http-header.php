@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Check a HTTP request header
  */
-class Header_Match extends Red_Match {
+class Header extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -55,11 +59,11 @@ class Header_Match extends Red_Match {
 
 	public function is_match( $url ) {
 		if ( $this->regex ) {
-			$regex = new Red_Regex( $this->value, true );
-			return $regex->is_match( Redirection_Request::get_header( $this->name ) );
+			$regex = new Site\Regex( $this->value, true );
+			return $regex->is_match( Site\Request::get_header( $this->name ) );
 		}
 
-		return Redirection_Request::get_header( $this->name ) === $this->value;
+		return Site\Request::get_header( $this->name ) === $this->value;
 	}
 
 	public function get_data() {

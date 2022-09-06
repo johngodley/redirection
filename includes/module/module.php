@@ -1,5 +1,9 @@
 <?php
 
+namespace Redirection\Module;
+
+use Redirection\Group;
+
 require_once __DIR__ . '/wordpress.php';
 require_once __DIR__ . '/apache.php';
 require_once __DIR__ . '/nginx.php';
@@ -7,7 +11,7 @@ require_once __DIR__ . '/nginx.php';
 /**
  * Base class for redirect module.
  */
-abstract class Red_Module {
+abstract class Module {
 	/**
 	 * Constructor. Loads options
 	 *
@@ -23,22 +27,22 @@ abstract class Red_Module {
 	 * Get a module based on the supplied ID, and loads it with appropriate options.
 	 *
 	 * @param integer $id Module ID.
-	 * @return Red_Module|false
+	 * @return Module|false
 	 */
 	public static function get( $id ) {
 		$id = intval( $id, 10 );
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
-		if ( $id === Apache_Module::MODULE_ID ) {
-			return new Apache_Module( isset( $options['modules'][ Apache_Module::MODULE_ID ] ) ? $options['modules'][ Apache_Module::MODULE_ID ] : array() );
+		if ( $id === Apache::MODULE_ID ) {
+			return new Apache( isset( $options['modules'][ Apache::MODULE_ID ] ) ? $options['modules'][ Apache::MODULE_ID ] : array() );
 		}
 
-		if ( $id === WordPress_Module::MODULE_ID ) {
-			return new WordPress_Module( isset( $options['modules'][ WordPress_Module::MODULE_ID ] ) ? $options['modules'][ WordPress_Module::MODULE_ID ] : array() );
+		if ( $id === WordPress::MODULE_ID ) {
+			return new WordPress( isset( $options['modules'][ WordPress::MODULE_ID ] ) ? $options['modules'][ WordPress::MODULE_ID ] : array() );
 		}
 
-		if ( $id === Nginx_Module::MODULE_ID ) {
-			return new Nginx_Module( isset( $options['modules'][ Nginx_Module::MODULE_ID ] ) ? $options['modules'][ Nginx_Module::MODULE_ID ] : array() );
+		if ( $id === Nginx::MODULE_ID ) {
+			return new Nginx( isset( $options['modules'][ Nginx::MODULE_ID ] ) ? $options['modules'][ Nginx::MODULE_ID ] : array() );
 		}
 
 		return false;
@@ -51,7 +55,7 @@ abstract class Red_Module {
 	 * @return boolean
 	 */
 	public static function is_valid_id( $id ) {
-		if ( $id === Apache_Module::MODULE_ID || $id === WordPress_Module::MODULE_ID || $id === Nginx_Module::MODULE_ID ) {
+		if ( $id === Apache::MODULE_ID || $id === WordPress::MODULE_ID || $id === Nginx::MODULE_ID ) {
 			return true;
 		}
 
@@ -66,9 +70,9 @@ abstract class Red_Module {
 	 */
 	public static function get_id_for_name( $name ) {
 		$names = array(
-			'wordpress' => WordPress_Module::MODULE_ID,
-			'apache'    => Apache_Module::MODULE_ID,
-			'nginx'     => Nginx_Module::MODULE_ID,
+			'wordpress' => WordPress::MODULE_ID,
+			'apache'    => Apache::MODULE_ID,
+			'nginx'     => Nginx::MODULE_ID,
 		);
 
 		if ( isset( $names[ $name ] ) ) {
@@ -85,7 +89,7 @@ abstract class Red_Module {
 	 * @return void
 	 */
 	public static function flush( $group_id ) {
-		$group = Red_Group::get( $group_id );
+		$group = Group\Group::get( $group_id );
 
 		if ( is_object( $group ) ) {
 			$module = self::get( $group->get_module_id() );

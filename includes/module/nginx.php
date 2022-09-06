@@ -1,6 +1,8 @@
 <?php
 
-class Nginx_Module extends Red_Module {
+namespace Redirection\Module;
+
+class Nginx extends Module {
 	const MODULE_ID = 3;
 
 	private $location  = '';

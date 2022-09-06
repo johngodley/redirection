@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Match;
+
 /**
  * Trait to add redirect matching that adds a matched target
  */
@@ -42,11 +44,11 @@ trait FromNotFrom_Match {
 	 *
 	 * @param string           $requested_url Request URL.
 	 * @param string           $source_url Redirect source URL.
-	 * @param Red_Source_Flags $flags Redirect flags.
+	 * @param Url\Source_Flags $flags Redirect flags.
 	 * @param boolean          $matched Has the source been matched.
 	 * @return string|false
 	 */
-	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
+	public function get_target_url( $requested_url, $source_url, Url\Source_Flags $flags, $matched ) {
 		// Action needs a target URL based on whether we matched or not
 		$target = $this->get_matched_target( $matched );
 

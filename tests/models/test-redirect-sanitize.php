@@ -11,8 +11,8 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function setUp(): void {
-		$this->sanitizer = new Red_Item_Sanitize();
-		$this->group = Red_Group::create( 'group', 1 );
+		$this->sanitizer = new Redirect\Sanitize();
+		$this->group = Group\Group::create( 'group', 1 );
 	}
 
 	public function testRemoveHttp() {
@@ -208,7 +208,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testRegexFlagsSetColumn() {
-		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '/test', 'match_data' => [ 'source' => [ 'flag_regex' => true ] ] ] ) );
 
 		$this->assertEquals( 'regex', $result['match_url'] );
@@ -216,7 +216,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGetJsonDefaultSame() {
-		red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Settings\red_set_options( [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 
 		$flags = [ 'source' => [ 'flag_case' => true, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );
@@ -224,7 +224,7 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 	}
 
 	public function testGetJsonDefaultDifferent() {
-		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
+		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => false ] );
 
 		$flags = [ 'source' => [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] ];
 		$result = $this->sanitizer->get( $this->get_new( [ 'match_data' => $flags ] ) );

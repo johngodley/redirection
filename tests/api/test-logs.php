@@ -25,7 +25,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 				'referrer' => 'referrer' . $i,
 			];
 
-			Red_Redirect_Log::create( 'domain', 'test' . ( $i + 1 ), '192.168.1.' . ( $i + 1 ), $details );
+			Log\Redirect::create( 'domain', 'test' . ( $i + 1 ), '192.168.1.' . ( $i + 1 ), $details );
 		}
 
 		$this->setNonce();
@@ -169,7 +169,7 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	public function testBadBulk() {
 		$this->createAB();
-		$group = Red_Group::create( 'test', 1 );
+		$group = Group\Group::create( 'test', 1 );
 
 		$result = $this->callApi( 'bulk/log/cats', array( 'items' => '1' ), 'POST' );
 		$this->assertEquals( 'rest_no_route', $result->data['code'] );
@@ -177,8 +177,8 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 	public function testDeleteBulkItem() {
 		$this->setNonce();
-		Red_Redirect_Log::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer' ] );
-		$last = Red_Redirect_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer' ] );
+		Log\Redirect::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer' ] );
+		$last = Log\Redirect::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer' ] );
 
 		$result = $this->callApi( 'bulk/log/delete', array( 'items' => $last ), 'POST' );
 		$this->assertEquals( 1, count( $result->data['items'] ) );
@@ -187,9 +187,9 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 	public function testDeleteBulkFilter() {
 		$this->setNonce();
 
-		Red_Redirect_Log::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer1' ] );
-		Red_Redirect_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer2' ] );
-		Red_Redirect_Log::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer3' ] );
+		Log\Redirect::create( 'test1', 'agent', '192.168.1.1', [ 'referrer' => 'referrer1' ] );
+		Log\Redirect::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer2' ] );
+		Log\Redirect::create( 'test2', 'agent', '192.168.1.2', [ 'referrer' => 'referrer3' ] );
 
 		$result = $this->callApi( 'bulk/log/delete', [ 'global' => true, 'filterBy' => [ 'referrer' => 'referrer2' ] ], 'POST' );
 		$result = $this->callApi( 'log' );

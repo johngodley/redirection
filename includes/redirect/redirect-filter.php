@@ -1,9 +1,14 @@
 <?php
 
+namespace Redirection\Redirect;
+
+use Redirection\Match;
+use Redirection\Action;
+
 /**
  * Filter the redirects
  */
-class Red_Item_Filters {
+class Filters {
 	/**
 	 * List of filters
 	 *
@@ -36,12 +41,12 @@ class Red_Item_Filters {
 				}
 			} elseif ( $filter_by === 'id' ) {
 				$this->filters[] = $wpdb->prepare( 'id=%d', intval( $filter, 10 ) );
-			} elseif ( $filter_by === 'match' && in_array( $filter, array_keys( Red_Match::available() ), true ) ) {
+			} elseif ( $filter_by === 'match' && in_array( $filter, array_keys( Match\Match::available() ), true ) ) {
 				$this->filters[] = $wpdb->prepare( 'match_type=%s', $filter );
-			} elseif ( $filter_by === 'action' && in_array( $filter, array_keys( Red_Action::available() ), true ) ) {
+			} elseif ( $filter_by === 'action' && in_array( $filter, array_keys( Action\Action::available() ), true ) ) {
 				$this->filters[] = $wpdb->prepare( 'action_type=%s', $filter );
 			} elseif ( $filter_by === 'http' ) {
-				$sanitizer = new Red_Item_Sanitize();
+				$sanitizer = new Sanitize();
 				$filter = intval( $filter, 10 );
 
 				if ( $sanitizer->is_valid_error_code( $filter ) || $sanitizer->is_valid_redirect_code( $filter ) ) {

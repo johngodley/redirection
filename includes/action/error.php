@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Action;
+
 /**
  * Return an error to the client, and trigger the WordPress error page
  */
-class Error_Action extends Red_Action {
+class Error extends Action {
 	/**
 	 * Set WordPress to show the error page
 	 *

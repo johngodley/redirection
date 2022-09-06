@@ -1,6 +1,10 @@
 <?php
 
-class Red_Database_420 extends Red_Database_Upgrader {
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
+class Database_420 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'add_extra_logging' => 'Add extra logging support',

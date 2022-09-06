@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Action;
+
 /**
  * A redirect action - what happens after a URL is matched.
  */
-abstract class Red_Action {
+abstract class Action {
 	/**
 	 * The action code (i.e. HTTP code)
 	 *
@@ -45,22 +47,38 @@ abstract class Red_Action {
 	 *
 	 * @param string  $name Action type.
 	 * @param integer $code Action code.
-	 * @return Red_Action|null
+	 * @return Action|null
 	 */
 	public static function create( $name, $code ) {
 		$avail = self::available();
 
 		if ( isset( $avail[ $name ] ) ) {
-			if ( ! class_exists( strtolower( $avail[ $name ][1] ) ) ) {
-				include_once dirname( __FILE__ ) . '/' . $avail[ $name ][0];
+			require_once __DIR__ . '/' . $avail[ $name ];
+
+			switch ( $name ) {
+				case 'url':
+					$class = new Url();
+					break;
+
+				case 'error':
+					$class = new Referrer();
+					break;
+
+				case 'nothing':
+					$class = new User_Agent();
+					break;
+
+				case 'random':
+					$class = new Login();
+					break;
+
+				case 'pass':
+					$class = new Header();
+					break;
 			}
 
-			/**
-			 * @var Red_Action
-			 */
-			$obj = new $avail[ $name ][1]( [ 'code' => $code ] );
-			$obj->type = $name;
-			return $obj;
+			$class->type = $name;
+			return $class;
 		}
 
 		return null;
@@ -73,11 +91,11 @@ abstract class Red_Action {
 	 */
 	public static function available() {
 		return [
-			'url'     => [ 'url.php', 'Url_Action' ],
-			'error'   => [ 'error.php', 'Error_Action' ],
-			'nothing' => [ 'nothing.php', 'Nothing_Action' ],
-			'random'  => [ 'random.php', 'Random_Action' ],
-			'pass'    => [ 'pass.php', 'Pass_Action' ],
+			'url'     => 'url.php',
+			'error'   => 'error.php',
+			'nothing' => 'nothing.php',
+			'random'  => 'random.php',
+			'pass'    => 'pass.php',
 		];
 	}
 

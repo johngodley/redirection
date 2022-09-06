@@ -1,6 +1,14 @@
 <?php
 
-class Red_Item_Sanitize {
+namespace Redirection\Redirect;
+
+use Redirection\Site;
+use Redirection\Url;
+use Redirection\Match;
+use Redirection\Action;
+use Redirection\Group;
+
+class Sanitize {
 	private function clean_array( $array ) {
 		foreach ( $array as $name => $value ) {
 			if ( is_array( $value ) ) {
@@ -21,7 +29,7 @@ class Red_Item_Sanitize {
 		$domain = wp_parse_url( $url, PHP_URL_HOST );
 
 		// Auto-convert an absolute URL to relative + server match
-		if ( $domain && $domain !== Redirection_Request::get_server_name() ) {
+		if ( $domain && $domain !== Site\Request::get_server_name() ) {
 			$return['match_type'] = 'server';
 
 			if ( isset( $details['action_data']['url'] ) ) {
@@ -33,7 +41,7 @@ class Red_Item_Sanitize {
 				$return['action_data'] = [ 'server' => $domain ];
 			}
 
-			$url = wp_parse_url( $url, PHP_URL_PATH );
+			$url = wp_parse_url( $url, PHP_Path );
 			if ( is_wp_error( $url ) || $url === null ) {
 				$url = '/';
 			}
@@ -53,14 +61,14 @@ class Red_Item_Sanitize {
 		// Auto-migrate the regex to the source flags
 		$data['match_data'] = [ 'source' => [ 'flag_regex' => $data['regex'] === 1 ? true : false ] ];
 
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 
 		// Set flags
 		if ( isset( $details['match_data'] ) && isset( $details['match_data']['source'] ) ) {
-			$defaults = red_get_options();
+			$defaults = \Redirection\Settings\red_get_options();
 
 			// Parse the source flags
-			$flags = new Red_Source_Flags( $details['match_data']['source'] );
+			$flags = new Url\Source_Flags( $details['match_data']['source'] );
 
 			// Remove defaults
 			$data['match_data']['source'] = $flags->get_json_without_defaults( $defaults );
@@ -73,7 +81,7 @@ class Red_Item_Sanitize {
 		}
 
 		if ( isset( $details['match_data']['options'] ) && is_array( $details['match_data']['options'] ) ) {
-			$source = new Red_Source_Options( $details['match_data']['options'] );
+			$source = new Source_Options( $details['match_data']['options'] );
 			$data['match_data']['options'] = $source->get_json();
 		}
 
@@ -101,7 +109,7 @@ class Red_Item_Sanitize {
 		}
 
 		if ( ! is_wp_error( $data['url'] ) ) {
-			$matcher = new Red_Url_Match( $data['url'] );
+			$matcher = new Match\Match( $data['url'] );
 			$data['match_url'] = $matcher->get_url();
 
 			// If 'exact order' then save the match URL with query params
@@ -127,15 +135,15 @@ class Red_Item_Sanitize {
 			}
 		}
 
-		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
+		$matcher = Match\Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
 		if ( ! $matcher ) {
-			return new WP_Error( 'redirect', 'Invalid redirect matcher' );
+			return new \WP_Error( 'redirect', 'Invalid redirect matcher' );
 		}
 
 		$action_code = isset( $details['action_code'] ) ? intval( $details['action_code'], 10 ) : 0;
-		$action = Red_Action::create( isset( $details['action_type'] ) ? $details['action_type'] : false, $action_code );
+		$action = Action\Action::create( isset( $details['action_type'] ) ? $details['action_type'] : false, $action_code );
 		if ( ! $action ) {
-			return new WP_Error( 'redirect', 'Invalid redirect action' );
+			return new \WP_Error( 'redirect', 'Invalid redirect action' );
 		}
 
 		$data['action_type'] = $details['action_type'];
@@ -203,7 +211,7 @@ class Red_Item_Sanitize {
 	protected function get_group( $group_id ) {
 		$group_id = intval( $group_id, 10 );
 
-		if ( ! Red_Group::get( $group_id ) ) {
+		if ( ! Group\Group::get( $group_id ) ) {
 			return new WP_Error( 'redirect', 'Invalid group when creating redirect' );
 		}
 
@@ -221,7 +229,7 @@ class Red_Item_Sanitize {
 	}
 
 	protected function auto_generate() {
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		$url = '';
 
 		if ( isset( $options['auto_target'] ) && $options['auto_target'] ) {

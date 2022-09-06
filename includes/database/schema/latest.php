@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
 /**
  * Latest database schema
  */
-class Red_Latest_Database extends Red_Database_Upgrader {
+class Latest extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			/* translators: displayed when installing the plugin */
@@ -33,7 +37,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 			}
 		}
 
-		red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
+		\Redirection\Settings\red_set_options( array( 'database' => REDIRECTION_DB_VERSION ) );
 		return true;
 	}
 
@@ -54,7 +58,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		delete_option( 'redirection_root' );
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_options' );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Database\Status::OLD_DB_VERSION );
 	}
 
 	/**
@@ -156,7 +160,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 
 		$group = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_groups LIMIT 1" );
 		if ( $group ) {
-			red_set_options( array( 'last_group_id' => $group->id ) );
+			\Redirection\Settings\red_set_options( array( 'last_group_id' => $group->id ) );
 		}
 
 		return true;

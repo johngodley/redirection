@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Action;
+
 /**
  * URL action - redirect to a URL
  */
-class Url_Action extends Red_Action {
+class Url extends Action {
 	/**
 	 * Redirect to a URL
 	 *

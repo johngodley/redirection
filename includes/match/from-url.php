@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Match;
+
 /**
  * Trait to add redirect matching that adds a matched target
  */
-trait FromUrl_Match {
+trait FromMatch {
 	/**
 	 * URL to match against
 	 *
@@ -34,11 +36,11 @@ trait FromUrl_Match {
 	 *
 	 * @param string           $requested_url Request URL.
 	 * @param string           $source_url Redirect source URL.
-	 * @param Red_Source_Flags $flags Redirect flags.
+	 * @param Url\Source_Flags $flags Redirect flags.
 	 * @param boolean          $matched Is the URL matched.
 	 * @return string|false
 	 */
-	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
+	public function get_target_url( $requested_url, $source_url, Url\Source_Flags $flags, $matched ) {
 		$target = $this->get_matched_target( $matched );
 
 		if ( $flags->is_regex() && $target ) {

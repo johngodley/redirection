@@ -13,7 +13,7 @@ class PageMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testNoData() {
-		$match = new Page_Match();
+		$match = new Match\Page();
 		$saved = array(
 			'url' => '',
 			'page' => '404',
@@ -22,7 +22,7 @@ class PageMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testBadPage() {
-		$match = new Page_Match();
+		$match = new Match\Page();
 		$saved = array(
 			'url' => '',
 			'page' => '404',
@@ -31,7 +31,7 @@ class PageMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testGoodPage() {
-		$match = new Page_Match();
+		$match = new Match\Page();
 		$saved = array(
 			'url' => '',
 			'page' => '404',
@@ -40,7 +40,7 @@ class PageMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testLoadBad() {
-		$match = new Page_Match();
+		$match = new Match\Page();
 		$match->load( serialize( array( 'url' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'page' => '' ) ) );
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url );
 	}
@@ -48,14 +48,14 @@ class PageMatchTest extends WP_UnitTestCase {
 	public function testMatch404() {
 		$this->set_404( true );
 
-		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/target' ) ) );
+		$match = new Match\Page( serialize( array( 'page' => '404', 'url' => '/target' ) ) );
 		$this->assertTrue( $match->is_match( '' ) );
 	}
 
 	public function testNotMatch() {
 		$this->set_404( false );
 
-		$match = new Page_Match( serialize( array( 'page' => '404', 'url' => '/cat' ) ) );
+		$match = new Match\Page( serialize( array( 'page' => '404', 'url' => '/cat' ) ) );
 		$this->assertFalse( $match->is_match( '' ) );
 	}
 }

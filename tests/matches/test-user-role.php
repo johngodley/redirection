@@ -4,7 +4,7 @@ require dirname( __FILE__ ) . '/../../matches/user-role.php';
 
 class UserRoleMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
-		$match = new Role_Match();
+		$match = new Match\Role();
 		$saved = array(
 			'url_from' => '/some/url',
 			'url_notfrom' => '/some/url',
@@ -20,7 +20,7 @@ class UserRoleMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testBadData() {
-		$match = new Role_Match();
+		$match = new Match\Role();
 		$saved = array(
 			'url_from' => '',
 			'url_notfrom' => '',
@@ -30,7 +30,7 @@ class UserRoleMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testLoadBad() {
-		$match = new Role_Match();
+		$match = new Match\Role();
 		$match->load( serialize( array( 'url_from' => 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', 'url_notfrom' => 'yes' ) ) );
 		$this->assertEquals( 'O:8:"stdClass":1:{s:5:"hello";s:5:"world";}', $match->url_from );
 	}
@@ -43,7 +43,7 @@ class UserRoleMatchTest extends WP_UnitTestCase {
 	// 	};
 	// 	add_filter( 'user_has_cap', $action, 10, 2 );
 
-	// 	$match = new Role_Match( serialize( array( 'url_from' => '', 'url_notfrom' => '', 'role' => 'special' ) ) );
+	// 	$match = new Match\Role( serialize( array( 'url_from' => '', 'url_notfrom' => '', 'role' => 'special' ) ) );
 	// 	$this->assertFalse( $match->is_match( '' ) );
 	// }
 
@@ -56,7 +56,7 @@ class UserRoleMatchTest extends WP_UnitTestCase {
 	// 	};
 	// 	add_filter( 'user_has_cap', $action, 10, 2 );
 
-	// 	$match = new Role_Match( serialize( array( 'url_from' => '', 'url_notfrom' => '', 'role' => 'special' ) ) );
+	// 	$match = new Match\Role( serialize( array( 'url_from' => '', 'url_notfrom' => '', 'role' => 'special' ) ) );
 	// 	$this->assertTrue( $match->is_match( '' ) );
 	// }
 }

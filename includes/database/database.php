@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Database;
+
 require_once __DIR__ . '/database-status.php';
 require_once __DIR__ . '/database-upgrader.php';
 
-class Red_Database {
+class Database {
 	/**
 	 * Get all upgrades for a database version
 	 *
@@ -15,7 +17,7 @@ class Red_Database {
 				[
 					'version' => REDIRECTION_DB_VERSION,
 					'file' => 'latest.php',
-					'class' => 'Red_Latest_Database',
+					'class' => 'Database\Schema\Latest',
 				],
 			];
 		}
@@ -25,7 +27,7 @@ class Red_Database {
 
 		foreach ( $this->get_upgrades() as $upgrade ) {
 			if ( ! $found ) {
-				$upgrader = Red_Database_Upgrader::get( $upgrade );
+				$upgrader = Upgrader::get( $upgrade );
 
 				$stage_present = in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
 				$same_version = $current_stage === false && version_compare( $upgrade['version'], $current_version, 'gt' );
@@ -48,7 +50,7 @@ class Red_Database {
 	 *
 	 * @return mixed Result for upgrade
 	 */
-	public function apply_upgrade( Red_Database_Status $status ) {
+	public function apply_upgrade( Status $status ) {
 		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
@@ -65,7 +67,7 @@ class Red_Database {
 		}
 
 		// Look at first upgrade
-		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
+		$upgrader = Upgrader::get( $upgraders[0] );
 
 		// Perform the upgrade
 		$upgrader->perform_stage( $status );
@@ -100,12 +102,12 @@ class Red_Database {
 	/**
 	 * Get latest database installer
 	 *
-	 * @return object Red_Latest_Database
+	 * @return object Database\Schema\Latest
 	 */
 	public static function get_latest_database() {
 		include_once dirname( __FILE__ ) . '/schema/latest.php';
 
-		return new Red_Latest_Database();
+		return new Schema\Latest();
 	}
 
 	/**
@@ -118,52 +120,52 @@ class Red_Database {
 			[
 				'version' => '2.0.1',
 				'file' => '201.php',
-				'class' => 'Red_Database_201',
+				'class' => 'Database\Database_201',
 			],
 			[
 				'version' => '2.1.16',
 				'file' => '216.php',
-				'class' => 'Red_Database_216',
+				'class' => 'Database\Database_216',
 			],
 			[
 				'version' => '2.2',
 				'file' => '220.php',
-				'class' => 'Red_Database_220',
+				'class' => 'Database\Database_220',
 			],
 			[
 				'version' => '2.3.1',
 				'file' => '231.php',
-				'class' => 'Red_Database_231',
+				'class' => 'Database\Database_231',
 			],
 			[
 				'version' => '2.3.2',
 				'file' => '232.php',
-				'class' => 'Red_Database_232',
+				'class' => 'Database\Database_232',
 			],
 			[
 				'version' => '2.3.3',
 				'file' => '233.php',
-				'class' => 'Red_Database_233',
+				'class' => 'Database\Database_233',
 			],
 			[
 				'version' => '2.4',
 				'file' => '240.php',
-				'class' => 'Red_Database_240',
+				'class' => 'Database\Database_240',
 			],
 			[
 				'version' => '4.0',
 				'file' => '400.php',
-				'class' => 'Red_Database_400',
+				'class' => 'Database\Database_400',
 			],
 			[
 				'version' => '4.1',
 				'file' => '410.php',
-				'class' => 'Red_Database_410',
+				'class' => 'Database\Database_410',
 			],
 			[
 				'version' => '4.2',
 				'file' => '420.php',
-				'class' => 'Red_Database_420',
+				'class' => 'Database\Database_420',
 			],
 		];
 	}

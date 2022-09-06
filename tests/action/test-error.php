@@ -21,7 +21,7 @@ class ErrorTest extends WP_UnitTestCase {
 		$wp_query->posts = array( 1 );
 		$this->set_404( false );
 
-		$action = Red_Action::create( 'error', 1 );
+		$action = Action\Action::create( 'error', 1 );
 		$action->run( 410, 'test' );
 
 		$this->assertTrue( get_query_var( 'is_404' ) );

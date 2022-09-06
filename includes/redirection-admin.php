@@ -1,10 +1,17 @@
 <?php
 
-require_once __DIR__ . '/redirect/group.php';
-require_once __DIR__ . '/site/monitor.php';
+use Redirection\Plugin;
+use Redirection\Database;
+use Redirection\Site;
+use Redirection\FileIO;
+use Redirection\Log;
+use Redirection\Redirect;
+
+require_once __DIR__ . '/group/group.php';
+require_once __DIR__ . '/plugin/class-monitor.php';
+require_once __DIR__ . '/plugin/class-capabilities.php';
 require_once __DIR__ . '/file-io/file-io.php';
 require_once __DIR__ . '/database/database.php';
-require_once __DIR__ . '/redirection-capabilities.php';
 
 define( 'RED_DEFAULT_PER_PAGE', 25 );
 define( 'RED_MAX_PER_PAGE', 200 );
@@ -43,7 +50,7 @@ class Redirection_Admin {
 		register_deactivation_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_deactivated' ] );
 		register_uninstall_hook( REDIRECTION_FILE, [ 'Redirection_Admin', 'plugin_uninstall' ] );
 
-		$this->monitor = new Red_Monitor( red_get_options() );
+		$this->monitor = new Plugin\Monitor( \Redirection\Settings\red_get_options() );
 		$this->run_hacks();
 	}
 
@@ -65,24 +72,24 @@ class Redirection_Admin {
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_activated() {
-		Red_Database::apply_to_sites( function() {
-			Red_Flusher::clear();
-			red_set_options();
+		Database\Database::apply_to_sites( function() {
+			Plugin\Flusher::clear();
+			\Redirection\Settings\red_set_options();
 		} );
 	}
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_deactivated() {
-		Red_Database::apply_to_sites( function() {
-			Red_Flusher::clear();
+		Database\Database::apply_to_sites( function() {
+			Plugin\Flusher::clear();
 		} );
 	}
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
 	public static function plugin_uninstall() {
-		$database = Red_Database::get_latest_database();
+		$database = Database\Database::get_latest_database();
 
-		Red_Database::apply_to_sites( function() use ( $database ) {
+		Database\Database::apply_to_sites( function() use ( $database ) {
 			$database->remove();
 		} );
 	}
@@ -93,7 +100,7 @@ class Redirection_Admin {
 	 * @return void
 	 */
 	public function update_nag() {
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		// Is the site configured to upgrade automatically?
 		if ( $options['plugin_update'] === 'admin' ) {
@@ -102,12 +109,12 @@ class Redirection_Admin {
 		}
 
 		// Can the user perform a manual database upgrade?
-		if ( ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ) {
+		if ( ! Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_OPTION_MANAGE ) ) {
 			return;
 		}
 
 		// Default manual update, with nag
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$message = false;
 		if ( $status->needs_installing() ) {
@@ -118,7 +125,7 @@ class Redirection_Admin {
 			$message = sprintf( __( 'Redirection\'s database needs to be updated - <a href="%1$1s">click to update</a>.', 'redirection' ), esc_url( $this->get_plugin_url() ) );
 		}
 
-		if ( ! $message || strpos( Redirection_Request::get_request_url(), 'page=redirection.php' ) !== false ) {
+		if ( ! $message || strpos( Site\Request::get_request_url(), 'page=redirection.php' ) !== false ) {
 			return;
 		}
 
@@ -134,8 +141,8 @@ class Redirection_Admin {
 	 */
 	private function automatic_upgrade() {
 		$loop = 0;
-		$status = new Red_Database_Status();
-		$database = new Red_Database();
+		$status = new Database\Status();
+		$database = new Database\Database();
 
 		// Loop until the DB is upgraded, or until a max is exceeded (just in case)
 		while ( $loop < 20 ) {
@@ -147,7 +154,7 @@ class Redirection_Admin {
 
 			if ( $status->is_error() ) {
 				// If an error occurs then switch to 'prompt' mode and let the user deal with it.
-				red_set_options( [ 'plugin_update' => 'prompt' ] );
+				\Redirection\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
 				return;
 			}
 
@@ -189,7 +196,7 @@ class Redirection_Admin {
 	}
 
 	public function flush_schedule( $options ) {
-		Red_Flusher::schedule();
+		Plugin\Flusher::schedule();
 		return $options;
 	}
 
@@ -203,7 +210,7 @@ class Redirection_Admin {
 	}
 
 	public function plugin_settings( $links ) {
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 		if ( $status->needs_updating() ) {
 			array_unshift( $links, '<a style="color: red" href="' . esc_url( $this->get_plugin_url() ) . '&amp;sub=support">' . __( 'Upgrade Database', 'redirection' ) . '</a>' );
 		}
@@ -225,7 +232,7 @@ class Redirection_Admin {
 	}
 
 	private function get_first_available_page_url() {
-		$pages = Redirection_Capabilities::get_available_pages();
+		$pages = Plugin\Capabilities::get_available_pages();
 
 		if ( count( $pages ) > 0 ) {
 			return $this->get_plugin_url() . ( $pages[0] === 'redirect' ? '' : '&sub=' . rawurlencode( $pages[0] ) );
@@ -254,14 +261,14 @@ class Redirection_Admin {
 
 		$build = REDIRECTION_VERSION . '-' . REDIRECTION_BUILD;
 		$preload = $this->get_preload_data();
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		$versions = array(
 			'Plugin: ' . REDIRECTION_VERSION . ' ' . REDIRECTION_DB_VERSION,
 			'WordPress: ' . $wp_version . ' (' . ( is_multisite() ? 'multi' : 'single' ) . ')',
 			'PHP: ' . phpversion(),
-			'Browser: ' . Redirection_Request::get_user_agent(),
+			'Browser: ' . Site\Request::get_user_agent(),
 			'JavaScript: ' . plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . $build,
-			'REST API: ' . red_get_rest_api(),
+			'REST API: ' . \Redirection\Settings\red_get_rest_api(),
 		);
 
 		$this->inject();
@@ -287,19 +294,19 @@ class Redirection_Admin {
 			$is_new = version_compare( $options['update_notice'], $major_version ) < 0;
 		}
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 		$status->check_tables_exist();
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
 			'api' => [
-				'WP_API_root' => esc_url_raw( red_get_rest_api() ),
+				'WP_API_root' => esc_url_raw( \Redirection\Settings\red_get_rest_api() ),
 				'WP_API_nonce' => wp_create_nonce( 'wp_rest' ),
 				'site_health' => admin_url( 'site-health.php' ),
 				'current' => $options['rest_api'],
 				'routes' => [
-					REDIRECTION_API_JSON => red_get_rest_api( REDIRECTION_API_JSON ),
-					REDIRECTION_API_JSON_INDEX => red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
-					REDIRECTION_API_JSON_RELATIVE => red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
+					REDIRECTION_API_JSON => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON ),
+					REDIRECTION_API_JSON_INDEX => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON_INDEX ),
+					REDIRECTION_API_JSON_RELATIVE => \Redirection\Settings\red_get_rest_api( REDIRECTION_API_JSON_RELATIVE ),
 				],
 			],
 			'pluginBaseUrl' => plugins_url( '', REDIRECTION_FILE ),
@@ -312,8 +319,8 @@ class Redirection_Admin {
 			'version' => REDIRECTION_VERSION,
 			'database' => $status->get_json(),
 			'caps' => [
-				'pages' => Redirection_Capabilities::get_available_pages(),
-				'capabilities' => Redirection_Capabilities::get_all_capabilities(),
+				'pages' => Plugin\Capabilities::get_available_pages(),
+				'capabilities' => Plugin\Capabilities::get_all_capabilities(),
 			],
 			'update_notice' => $is_new ? $major_version : false,
 		) );
@@ -332,7 +339,7 @@ class Redirection_Admin {
 	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
 	 */
 	public function ip_geo_block( $validate ) {
-		$url = Redirection_Request::get_request_url();
+		$url = Site\Request::get_request_url();
 		$override = array(
 			'tools.php?page=redirection.php',
 			'action=red_proxy&rest_path=redirection',
@@ -354,10 +361,10 @@ class Redirection_Admin {
 	}
 
 	private function run_fixit() {
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SUPPORT_MANAGE ) ) {
-			require_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
+		if ( Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_SUPPORT_MANAGE ) ) {
+			require_once __DIR__ . '/site/class-fixer.php';
 
-			$fixer = new Red_Fixer();
+			$fixer = new Plugin\Fixer();
 			$result = $fixer->fix( $fixer->get_status() );
 
 			if ( is_wp_error( $result ) ) {
@@ -368,25 +375,25 @@ class Redirection_Admin {
 
 	private function set_rest_api( $api ) {
 		if ( $api >= 0 && $api <= REDIRECTION_API_JSON_RELATIVE ) {
-			red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
+			\Redirection\Settings\red_set_options( array( 'rest_api' => intval( $api, 10 ) ) );
 		}
 	}
 
 	private function get_preload_data() {
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		if ( $status->needs_installing() ) {
 			include_once __DIR__ . '/file-io/importer.php';
 
 			return [
-				'importers' => Red_Plugin_Importer::get_plugins(),
+				'importers' => Importer\Plugin_Importer::get_plugins(),
 			];
 		}
 
 		if ( $this->get_current_page() === 'support' ) {
-			require_once dirname( REDIRECTION_FILE ) . '/site/fixer.php';
+			require_once __DIR__ . '/plugin/class-fixer.php';
 
-			$fixer = new Red_Fixer();
+			$fixer = new Plugin\Fixer();
 
 			return array(
 				'pluginStatus' => $fixer->get_json(),
@@ -416,7 +423,7 @@ class Redirection_Admin {
 	}
 
 	public function admin_menu() {
-		$hook = add_management_page( 'Redirection', 'Redirection', Redirection_Capabilities::get_plugin_access(), basename( REDIRECTION_FILE ), [ $this, 'admin_screen' ] );
+		$hook = add_management_page( 'Redirection', 'Redirection', Plugin\Capabilities::get_plugin_access(), basename( REDIRECTION_FILE ), [ $this, 'admin_screen' ] );
 		add_action( 'load-' . $hook, [ $this, 'redirection_head' ] );
 	}
 
@@ -436,19 +443,19 @@ class Redirection_Admin {
 	 * @return void
 	 */
 	public function clear_cache() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 
 		if ( $settings['cache_key'] > 0 ) {
-			red_set_options( [ 'cache_key' => time() ] );
+			\Redirection\Settings\red_set_options( [ 'cache_key' => time() ] );
 		}
 	}
 
 	public function set_default_group( $id, $redirect ) {
-		red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
+		\Redirection\Settings\red_set_options( array( 'last_group_id' => $redirect->get_group_id() ) );
 	}
 
 	public function admin_screen() {
-		if ( count( Redirection_Capabilities::get_all_capabilities() ) === 0 ) {
+		if ( count( Plugin\Capabilities::get_all_capabilities() ) === 0 ) {
 			die( 'You do not have sufficient permissions to access this page.' );
 		}
 
@@ -460,7 +467,7 @@ class Redirection_Admin {
 			$this->show_fixit_failed();
 		}
 
-		Red_Flusher::schedule();
+		Plugin\Flusher::schedule();
 
 		$this->show_main();
 	}
@@ -590,7 +597,7 @@ class Redirection_Admin {
 		}
 
 		// Are we allowed to access this page?
-		if ( in_array( $page, Redirection_Capabilities::get_available_pages(), true ) ) {
+		if ( in_array( $page, Plugin\Capabilities::get_available_pages(), true ) ) {
 			// phpcs:ignore
 			return $page;
 		}
@@ -609,15 +616,15 @@ class Redirection_Admin {
 
 	public function try_export_rss() {
 		// phpcs:ignore
-		if ( isset( $_GET['token'] ) && isset( $_GET['sub'] ) && $_GET['sub'] === 'rss' && Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE ) ) {
-			$options = red_get_options();
+		if ( isset( $_GET['token'] ) && isset( $_GET['sub'] ) && $_GET['sub'] === 'rss' && Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_REDIRECT_MANAGE ) ) {
+			$options = \Redirection\Settings\red_get_options();
 
 			// phpcs:ignore
 			if ( $_GET['token'] === $options['token'] && ! empty( $options['token'] ) ) {
 				// phpcs:ignore
-				$items = Red_Item::get_all_for_module( intval( $_GET['module'], 10 ) );
+				$items = Redirect\Redirect::get_all_for_module( intval( $_GET['module'], 10 ) );
 
-				$exporter = Red_FileIO::create( 'rss' );
+				$exporter = FileIO\FileIO::create( 'rss' );
 				$exporter->force_download();
 
 				// phpcs:ignore
@@ -628,11 +635,11 @@ class Redirection_Admin {
 	}
 
 	private function try_export_logs() {
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
+		if ( Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_IO_MANAGE ) && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) ) {
 			if ( $this->get_current_page() === 'log' ) {
-				Red_Redirect_Log::export_to_csv();
+				Log\Redirect::export_to_csv();
 			} elseif ( $this->get_current_page() === '404s' ) {
-				Red_404_Log::export_to_csv();
+				Log\Error::export_to_csv();
 			}
 
 			die();
@@ -645,8 +652,8 @@ class Redirection_Admin {
 			return;
 		}
 
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
-			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
+		if ( Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_IO_MANAGE ) && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
+			$export = FileIO\FileIO::export( $_GET['export'], $_GET['exporter'] );
 
 			if ( $export !== false ) {
 				$export['exporter']->force_download();
@@ -665,7 +672,7 @@ add_action( 'init', array( 'Redirection_Admin', 'init' ) );
 
 // This is causing a lot of problems with the REST API - disable qTranslate
 add_filter( 'qtranslate_language_detect_redirect', function( $lang, $url ) {
-	$url = Redirection_Request::get_request_url();
+	$url = Site\Request::get_request_url();
 
 	if ( strpos( $url, '/wp-json/' ) !== false || strpos( $url, '?rest_route' ) !== false ) {
 		return false;

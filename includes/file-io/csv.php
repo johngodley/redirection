@@ -1,6 +1,10 @@
 <?php
 
-class Red_Csv_File extends Red_FileIO {
+namespace Redirection\FileIO;
+
+use Redirection\Redirect;
+
+class Csv extends FileIO {
 	const CSV_SOURCE = 0;
 	const CSV_TARGET = 1;
 	const CSV_REGEX = 2;
@@ -86,7 +90,7 @@ class Red_Csv_File extends Red_FileIO {
 			$item = $this->csv_as_item( $csv, $group_id );
 
 			if ( $item ) {
-				$created = Red_Item::create( $item );
+				$created = Redirect\Redirect::create( $item );
 
 				// The query log can use up all the memory
 				$wpdb->queries = [];

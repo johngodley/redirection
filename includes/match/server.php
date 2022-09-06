@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Match the server URL. Used to match requests for another domain.
  */
-class Server_Match extends Red_Match {
+class Server extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -40,7 +44,7 @@ class Server_Match extends Red_Match {
 	public function is_match( $url ) {
 		$server = wp_parse_url( $this->server, PHP_URL_HOST );
 
-		return $server === Redirection_Request::get_server_name();
+		return $server === Site\Request::get_server_name();
 	}
 
 	public function get_data() {

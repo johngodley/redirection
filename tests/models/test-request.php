@@ -25,7 +25,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_url' );
 		unset( $_SERVER['REQUEST_URI'] );
 
-		$result = Redirection_Request::get_request_url();
+		$result = Site\Request::get_request_url();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -36,7 +36,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_url' );
 		$_SERVER['REQUEST_URI'] = 'test';
 
-		$result = Redirection_Request::get_request_url();
+		$result = Site\Request::get_request_url();
 
 		$this->assertEquals( 'test', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -47,7 +47,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_url' );
 		$_SERVER['REQUEST_URI'] = "test\\'s";
 
-		$result = Redirection_Request::get_request_url();
+		$result = Site\Request::get_request_url();
 
 		$this->assertEquals( "test's", $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -58,7 +58,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_agent' );
 		unset( $_SERVER['HTTP_USER_AGENT'] );
 
-		$result = Redirection_Request::get_user_agent();
+		$result = Site\Request::get_user_agent();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -69,7 +69,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_agent' );
 		$_SERVER['HTTP_USER_AGENT'] = 'user agent';
 
-		$result = Redirection_Request::get_user_agent();
+		$result = Site\Request::get_user_agent();
 
 		$this->assertEquals( 'user agent', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -80,7 +80,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_referrer' );
 		unset( $_SERVER['HTTP_REFERER'] );
 
-		$result = Redirection_Request::get_referrer();
+		$result = Site\Request::get_referrer();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -91,7 +91,7 @@ class RequestTest extends WP_UnitTestCase {
 		$action = $this->monitorAction( 'redirection_request_referrer' );
 		$_SERVER['HTTP_REFERER'] = 'referrer';
 
-		$result = Redirection_Request::get_referrer();
+		$result = Site\Request::get_referrer();
 
 		$this->assertEquals( 'referrer', $result );
 		$this->assertEquals( 1, $action->get_call_count() );
@@ -114,14 +114,14 @@ class RequestTest extends WP_UnitTestCase {
 
 	public function testNoAcceptLanguage() {
 		unset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-		$language = Redirection_Request::get_accept_language();
+		$language = Site\Request::get_accept_language();
 
 		$this->assertEquals( [], $language );
 	}
 
 	public function testAcceptLanguage() {
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'ab, cd, de;something';
-		$language = Redirection_Request::get_accept_language();
+		$language = Site\Request::get_accept_language();
 
 		$this->assertEquals( [ 'ab', 'cd', 'de' ], $language );
 	}
@@ -131,7 +131,7 @@ class RequestTest extends WP_UnitTestCase {
 
 		$_SERVER['REMOTE_ADDR'] = 'something';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( '', $this->ip );
@@ -145,7 +145,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( '', $this->ip );
@@ -159,7 +159,7 @@ class RequestTest extends WP_UnitTestCase {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = ' 192.1.1.1, 192.1.1.2, 192.1.2.3';
 		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '192.1.1.1', $result );
 		$this->assertEquals( '192.1.1.1', $this->ip );
@@ -173,7 +173,7 @@ class RequestTest extends WP_UnitTestCase {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '192.1.1.1';
 		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '192.1.1.1', $result );
 		$this->assertEquals( '192.1.1.1', $this->ip );
@@ -187,7 +187,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		$_SERVER['REMOTE_ADDR'] = '192.1.1.1';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '192.1.1.1', $result );
 		$this->assertEquals( '192.1.1.1', $this->ip );
@@ -202,7 +202,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['HTTP_CF_CONNECTING_IP'] = '192.1.1.3';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '192.1.1.3', $result );
 		$this->assertEquals( '192.1.1.3', $this->ip );
@@ -217,7 +217,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['HTTP_CF_CONNECTING_IP'] = 'cat';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( '', $this->ip );
@@ -232,7 +232,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['HTTP_CF_CONNECTING_IP'] );
 		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', $result );
 		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', $this->ip );
@@ -247,7 +247,7 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['HTTP_CF_CONNECTING_IP'] );
 		$_SERVER['REMOTE_ADDR'] = '2001gfdgdfcat:db8:85a3:10:10:8a2e:370:7334';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 
 		$this->assertEquals( '', $result );
 		$this->assertEquals( '', $this->ip );
@@ -257,13 +257,13 @@ class RequestTest extends WP_UnitTestCase {
 
 	public function testNoIPLogging() {
 		add_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );;
-		red_set_options( array( 'ip_logging' => 0 ) );
+		\Redirection\Settings\red_set_options( array( 'ip_logging' => 0 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 		$this->assertEquals( '', $result );
 	}
 
@@ -277,13 +277,14 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 		$this->assertEquals( '192.168.1.0', $result );
 		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMaskIP6() {
 		$front = Redirection::init();
+		\Redirection\Settings\red_set_options( array( 'ip_logging' => 2 ) );
 
 		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );;
 		red_set_options( array( 'ip_logging' => 2 ) );
@@ -292,13 +293,13 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
 
-		$result = Redirection_Request::get_ip();
+		$result = Site\Request::get_ip();
 		$this->assertEquals( '2000:420:22:0:10:226:260:3224', $result );
 		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMissingHeader() {
-		$result = Redirection_Request::get_header( 'test' );
+		$result = Site\Request::get_header( 'test' );
 
 		$this->assertFalse( $result );
 	}
@@ -306,21 +307,21 @@ class RequestTest extends WP_UnitTestCase {
 	public function testHeader() {
 		$_SERVER['HTTP_TEST'] = 'test';
 
-		$result = Redirection_Request::get_header( 'test' );
+		$result = Site\Request::get_header( 'test' );
 
 		$this->assertEquals( 'test', $result );
 		unset( $_SERVER['HTTP_TEST'] );
 	}
 
 	public function testMissingCookie() {
-		$result = Redirection_Request::get_cookie( 'cookie' );
+		$result = Site\Request::get_cookie( 'cookie' );
 
 		$this->assertFalse( $result );
 	}
 
 	public function testCookie() {
 		$_COOKIE['cookie'] = 'cat';
-		$result = Redirection_Request::get_cookie( 'cookie' );
+		$result = Site\Request::get_cookie( 'cookie' );
 
 		$this->assertEquals( 'cat', $result );
 		unset( $_COOKIE['cookie'] );

@@ -3,8 +3,8 @@
 class RedirectionApiRedirectTest extends Redirection_Api_Test {
 	public function setUp(): void {
 		parent::setUp();
-		$this->group = Red_Group::create( 'group1', 1 );
-		$this->group2 = Red_Group::create( 'group2', 1 );
+		$this->group = Group\Group::create( 'group1', 1 );
+		$this->group2 = Group\Group::create( 'group2', 1 );
 	}
 
 	private function createAB( $total = 2, $group = false, $clear = true ) {
@@ -15,7 +15,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 		}
 
 		for ( $i = 0; $i < $total; $i++ ) {
-			Red_Item::create( [
+			Redirect\Redirect::create( [
 				'url' => '/test' . ( $i + 1 ),
 				'group_id' => $group ? $group : $this->group->get_id(),
 				'action_type' => 'url',
@@ -145,7 +145,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListFilterStatus() {
 		$this->createAB();
-		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'status' => 'disabled' ) );
+		Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'status' => 'disabled' ) );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'status' => 'disabled' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
@@ -153,7 +153,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListFilterUrlMatch() {
 		$this->createAB();
-		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'regex' => 1 ) );
+		Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'regex' => 1 ) );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'url-match' => 'regular' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
@@ -161,7 +161,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListFilterMatch() {
 		$this->createAB();
-		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'login' ) );
+		Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'login' ) );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'match' => 'login' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
@@ -169,7 +169,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testListFilterActionType() {
 		$this->createAB();
-		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'pass', 'match_type' => 'url' ) );
+		Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'pass', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'action' => 'pass' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
@@ -178,7 +178,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 	public function testListFilterHTTP() {
 		$this->createAB();
 
-		Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'action_code' => 303 ) );
+		Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url', 'action_code' => 303 ) );
 
 		$result = $this->callApi( 'redirect', [ 'filterBy' => [ 'http' => '303' ] ] );
 		$this->assertEquals( 1, $result->data['total'] );
@@ -229,7 +229,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testBadBulk() {
 		$this->createAB();
-		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
+		$redirect = Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'bulk/redirect/cats', array( 'items' => $redirect->get_id() ), 'POST' );
 		$this->assertEquals( 'rest_no_route', $result->data['code'] );
@@ -240,7 +240,7 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testBulkDelete() {
 		$this->createAB();
-		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
+		$redirect = Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'bulk/redirect/delete', array( 'items' => $redirect->get_id() ), 'POST' );
 		$this->assertEquals( 2, count( $result->data['items'] ) );
@@ -248,23 +248,23 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testBulkDisable() {
 		$this->createAB();
-		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
+		$redirect = Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'bulk/redirect/disable', array( 'items' => $redirect->get_id() ), 'POST' );
 		$this->assertEquals( 3, count( $result->data['items'] ) );
 
-		$redirect = Red_Item::get_by_id( $redirect->get_id() );
+		$redirect = Redirect\Redirect::get_by_id( $redirect->get_id() );
 		$this->assertFalse( $redirect->is_enabled() );
 	}
 
 	public function testBulkEnable() {
 		$this->createAB();
-		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
+		$redirect = Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'bulk/redirect/enable', array( 'items' => $redirect->get_id() ), 'POST' );
 		$this->assertEquals( 3, count( $result->data['items'] ) );
 
-		$redirect = Red_Item::get_by_id( $redirect->get_id() );
+		$redirect = Redirect\Redirect::get_by_id( $redirect->get_id() );
 		$this->assertTrue( $redirect->is_enabled() );
 	}
 
@@ -277,10 +277,10 @@ class RedirectionApiRedirectTest extends Redirection_Api_Test {
 
 	public function testUpdate() {
 		$this->createAB();
-		$redirect = Red_Item::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
+		$redirect = Redirect\Redirect::create( array( 'url' => '/', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ) );
 
 		$result = $this->callApi( 'redirect/' . $redirect->get_id(), array( 'url' => '/cats', 'group_id' => $this->group->get_id(), 'action_type' => 'url', 'match_type' => 'url' ), 'POST' );
-		$redirect = Red_Item::get_by_id( $redirect->get_id() );
+		$redirect = Redirect\Redirect::get_by_id( $redirect->get_id() );
 
 		$this->assertEquals( '/cats', $redirect->get_url() );
 	}

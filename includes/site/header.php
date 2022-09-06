@@ -1,6 +1,8 @@
 <?php
 
-class Red_Http_Headers {
+namespace Redirection\Site;
+
+class Http_Headers {
 	private $headers = [];
 
 	public function __construct( $options = [] ) {

@@ -11,12 +11,12 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testDefaultFlags() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$this->checkDefaults( $flags );
 	}
 
 	public function testSetInvalidFlags() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [
 			'cat' => 'cat',
 			'case' => 'cat',
@@ -28,7 +28,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testSetQueryMatch() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_query' => 'ignore' ] );
 		$this->assertTrue( $flags->is_query_ignore() );
 		$this->assertFalse( $flags->is_query_exact() );
@@ -39,25 +39,25 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testSetCase() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_case' => true ] );
 		$this->assertTrue( $flags->is_ignore_case() );
 	}
 
 	public function testSetTrailing() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_trailing' => true ] );
 		$this->assertTrue( $flags->is_ignore_trailing() );
 	}
 
 	public function testSetPass() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_query' => 'pass' ] );
 		$this->assertTrue( $flags->is_query_pass() );
 	}
 
 	public function testSetRegexTrue() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => true, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
 		$this->assertTrue( $flags->is_regex() );
 		$this->assertTrue( $flags->is_ignore_case() );
@@ -66,7 +66,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testSetRegexFalse() {
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => false, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
 		$this->assertFalse( $flags->is_regex() );
 		$this->assertTrue( $flags->is_ignore_case() );
@@ -85,7 +85,7 @@ class SourceFlagsTest extends WP_UnitTestCase {
 		];
 		$expected = [];
 
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => false, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
 		$this->assertEquals( $expected, $flags->get_json_without_defaults( $defaults ) );
 	}
@@ -107,16 +107,16 @@ class SourceFlagsTest extends WP_UnitTestCase {
 			'flag_case' => true,
 		];
 
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_regex' => false, 'flag_case' => true, 'flag_trailing' => true, 'flag_query' => 'pass' ] );
 		$this->assertEquals( $expected, $flags->get_json_without_defaults( $defaults ) );
 	}
 
 	public function testDefaults() {
-		red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
+		\Redirection\Settings\red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
 
 		$expected = [ 'flag_case' => true, 'flag_trailing' => true, 'flag_regex' => false, 'flag_query' => 'exact' ];
-		$flags = new Red_Source_Flags();
+		$flags = new Url\Source_Flags();
 		$flags->set_flags( [ 'flag_case' => true, 'flag_trailing' => true ] );
 
 		$this->assertEquals( $expected, $flags->get_json_with_defaults() );

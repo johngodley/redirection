@@ -1,5 +1,11 @@
 <?php
 
+use Redirection\Module;
+use Redirection\Redirect;
+use Redirection\Database;
+use Redirection\Plugin;
+use Redirection\Url;
+
 require_once __DIR__ . '/module/wordpress.php';
 require_once __DIR__ . '/site/canonical.php';
 require_once __DIR__ . '/database/database-status.php';
@@ -18,7 +24,7 @@ class Redirection {
 	/**
 	 * WordPress module
 	 *
-	 * @var WordPress_Module|null
+	 * @var Module\WordPress|null
 	 */
 	private $module = null;
 
@@ -43,15 +49,15 @@ class Redirection {
 			return;
 		}
 
-		$this->module = Red_Module::get( WordPress_Module::MODULE_ID );
+		$this->module = Module\Module::get( Module\WordPress::MODULE_ID );
 		if ( $this->module ) {
 			$this->module->start();
 		}
 
-		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
+		add_action( Plugin\Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
 		add_filter( 'redirection_url_target', [ $this, 'transform_url' ] );
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		if ( $options['ip_logging'] === 0 ) {
 			add_filter( 'redirection_request_ip', array( $this, 'no_ip_logging' ) );
 		} elseif ( $options['ip_logging'] === 2 ) {
@@ -60,7 +66,7 @@ class Redirection {
 	}
 
 	public function transform_url( $url ) {
-		$transformer = new Red_Url_Transform();
+		$transformer = new Url\Transform();
 
 		return $transformer->transform( $url );
 	}
@@ -71,7 +77,7 @@ class Redirection {
 	 * @return boolean
 	 */
 	public function can_start() {
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 		if ( $status->needs_installing() ) {
 			return false;
 		}
@@ -124,14 +130,14 @@ class Redirection {
 	 * @return void
 	 */
 	public function clean_redirection_logs() {
-		$flusher = new Red_Flusher();
+		$flusher = new Plugin\Flusher();
 		$flusher->flush();
 	}
 
 	/**
 	 * Used for unit tests
 	 *
-	 * @return WordPress_Module|null
+	 * @return Module\Module|null
 	 */
 	public function get_module() {
 		return $this->module;

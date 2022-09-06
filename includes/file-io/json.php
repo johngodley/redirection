@@ -1,6 +1,11 @@
 <?php
 
-class Red_Json_File extends Red_FileIO {
+namespace Redirection\FileIO;
+
+use Redirection\Group;
+use Redirection\Redirect;
+
+class Json extends FileIO {
 	public function force_download() {
 		parent::force_download();
 
@@ -9,7 +14,7 @@ class Red_Json_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = \Redirection\Settings\red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
 
 		$items = array(
 			'plugin' => array(
@@ -43,7 +48,7 @@ class Red_Json_File extends Red_FileIO {
 				$old_group_id = $group['id'];
 				unset( $group['id'] );
 
-				$group = Red_Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
+				$group = Group\Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
 				if ( $group ) {
 					$group_map[ $old_group_id ] = $group->get_id();
 				}
@@ -58,7 +63,7 @@ class Red_Json_File extends Red_FileIO {
 				unset( $redirect['id'] );
 
 				if ( ! isset( $group_map[ $redirect['group_id'] ] ) ) {
-					$new_group = Red_Group::create( 'Group', 1 );
+					$new_group = Group\Group::create( 'Group', 1 );
 					$group_map[ $redirect['group_id'] ] = $new_group->get_id();
 				}
 
@@ -67,7 +72,7 @@ class Red_Json_File extends Red_FileIO {
 				}
 
 				$redirect['group_id'] = $group_map[ $redirect['group_id'] ];
-				Red_Item::create( $redirect );
+				Redirect\Redirect::create( $redirect );
 				$count++;
 
 				// Helps reduce memory usage

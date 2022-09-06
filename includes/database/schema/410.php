@@ -1,6 +1,10 @@
 <?php
 
-class Red_Database_410 extends Red_Database_Upgrader {
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
+class Database_410 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'handle_double_slash' => 'Support double-slash URLs',

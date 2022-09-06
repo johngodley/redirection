@@ -1,4 +1,12 @@
 <?php
+
+namespace Redirection\Api\Route;
+
+use Redirection\Group;
+use Redirection\Module;
+use Redirection\Api;
+use Redirection\Plugin;
+
 /**
  * @api {get} /redirection/v1/setting Get settings
  * @apiName GetSettings
@@ -79,42 +87,42 @@
  *     }
  */
 
-class Redirection_Api_Settings extends Redirection_Api_Route {
+class Settings extends Api\Route {
 	public function __construct( $namespace ) {
 		register_rest_route( $namespace, '/setting', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_settings', [ $this, 'permission_callback_manage' ] ),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_save_settings', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::READABLE, 'route_settings', [ $this, 'permission_callback_manage' ] ),
+			$this->get_route( \WP_REST_Server::EDITABLE, 'route_save_settings', [ $this, 'permission_callback_manage' ] ),
 		) );
 	}
 
-	public function route_settings( WP_REST_Request $request ) {
+	public function route_settings( \WP_REST_Request $request ) {
 		if ( ! function_exists( 'get_home_path' ) ) {
 			include_once ABSPATH . '/wp-admin/includes/file.php';
 		}
 
 		return [
-			'settings' => red_get_options(),
-			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
+			'settings' => \Redirection\Settings\red_get_options(),
+			'groups' => $this->groups_to_json( Group\Group::get_for_select() ),
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
-			'post_types' => red_get_post_types(),
+			'post_types' => \Redirection\Settings\red_get_post_types(),
 		];
 	}
 
-	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) || Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+	public function permission_callback_manage( \WP_REST_Request $request ) {
+		return Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_OPTION_MANAGE ) || Plugin\Capabilities::has_access( Plugin\Capabilities::CAP_SITE_MANAGE );
 	}
 
-	public function route_save_settings( WP_REST_Request $request ) {
+	public function route_save_settings( \WP_REST_Request $request ) {
 		$params = $request->get_params();
 		$result = true;
 
 		if ( isset( $params['location'] ) && strlen( $params['location'] ) > 0 ) {
-			$module = Red_Module::get( 2 );
+			$module = Module\Module::get( 2 );
 			$result = $module->can_save( $params['location'] );
 		}
 
-		red_set_options( $params );
+		\Redirection\Settings\red_set_options( $params );
 
 		$settings = $this->route_settings( $request );
 		if ( is_wp_error( $result ) ) {

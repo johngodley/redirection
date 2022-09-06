@@ -1,6 +1,6 @@
 <?php
 
-class WordPress_Module_Test extends WP_UnitTestCase {
+class Module\WordPress_Test extends WP_UnitTestCase {
 	private function get_404_count() {
 		global $wpdb;
 
@@ -14,7 +14,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 	}
 
 	public function testLogBackCompat() {
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$insert = [
 			'request_data' => 'data',
 			'request_method' => 'method',
@@ -38,16 +38,16 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 
 	public function testCanonicalWP() {
 		// Normal canonical redirect
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$this->assertEquals( 'url', $wp->redirect_canonical( 'url', 'target' ) );
 
 		// Canonical redirect when we've already matched this URL
-		$wp->reset( new Red_Item() );
+		$wp->reset( new Redirect\Redirect() );
 		$this->assertFalse( $wp->redirect_canonical( 'url', 'target' ) );
 	}
 
 	public function testNo404Log() {
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$start = $this->get_404_count();
 
 		// No log if not a 404 page
@@ -59,7 +59,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 
 		// No log if already matched a URL
 		$wp_query->is_404 = true;
-		$wp->reset( new Red_Item() );
+		$wp->reset( new Redirect\Redirect() );
 		$wp->template_redirect();
 		$this->assertEquals( $start, $this->get_404_count() );
 
@@ -79,7 +79,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		update_option( REDIRECTION_OPTION, array( 'expire_404' => 7 ) );
 
 		// Log if it is a 404 page and not matched and option is enabled
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$start = $this->get_404_count();
 		$wp->template_redirect();
 		$this->assertEquals( $start + 1, $this->get_404_count() );
@@ -88,7 +88,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 	}
 
 	public function testDoNothing() {
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$this->assertTrue( $wp->can_log() );
 
 		$wp->redirection_do_nothing();
@@ -100,7 +100,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		update_option( REDIRECTION_OPTION, array( 'log_external' => true ) );
 		$start = $this->get_log_count();
 
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$wp->record_redirect_by( 'redirection' );
 
 		$this->assertEquals( $start, $this->get_log_count() );
@@ -111,7 +111,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		update_option( REDIRECTION_OPTION, array( 'log_external' => false ) );
 		$start = $this->get_log_count();
 
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$wp->record_redirect_by( 'wordpress' );
 
 		$this->assertEquals( $start, $this->get_log_count() );
@@ -122,7 +122,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		update_option( REDIRECTION_OPTION, array( 'log_external' => true ) );
 		$start = $this->get_log_count();
 
-		$wp = new WordPress_Module();
+		$wp = new Module\WordPress();
 		$wp->record_redirect_by( 'wordpress' );
 
 		$this->assertEquals( $start + 1, $this->get_log_count() );

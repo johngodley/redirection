@@ -41,10 +41,10 @@ class DatabaseTest extends WP_UnitTestCase {
 	// A fresh install should install the DB
 	public function testNeedDatabaseAfterInstall() {
 		delete_option( REDIRECTION_OPTION );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
-		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => false ] );
+		delete_option( Database\Status::OLD_DB_VERSION );
+		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => false ] );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertTrue( $status->needs_installing() );
 		$this->assertFalse( $status->needs_updating() );
@@ -53,9 +53,9 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Dont trigger an install when upgrading from an older database without the 'database' setting
 	public function testNoInstallAfterUpgradeOld() {
 		delete_option( REDIRECTION_OPTION );
-		update_option( Red_Database_Status::OLD_DB_VERSION, 1 );
+		update_option( Database\Status::OLD_DB_VERSION, 1 );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertFalse( $status->needs_installing() );
 	}
@@ -63,50 +63,50 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Don't trigger upgrade if not installed
 	public function testNoUpgradeOnNewInstall() {
 		delete_option( REDIRECTION_OPTION );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Database\Status::OLD_DB_VERSION );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertFalse( $status->needs_updating() );
 	}
 
 	// Don't trigger upgrade if same version
 	public function testNoUpgradeOnSameVersion() {
-		update_option( Red_Database_Status::OLD_DB_VERSION, array( 'database' => REDIRECTION_DB_VERSION ) );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		update_option( Database\Status::OLD_DB_VERSION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		delete_option( Database\Status::OLD_DB_VERSION );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertFalse( $status->needs_updating() );
 	}
 
 	// Don't trigger upgrade if newer version
 	public function testNoUpgradeOnNewerVersion() {
-		update_option( Red_Database_Status::OLD_DB_VERSION, array( 'database' => '50.0' ) );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		update_option( Database\Status::OLD_DB_VERSION, array( 'database' => '50.0' ) );
+		delete_option( Database\Status::OLD_DB_VERSION );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertFalse( $status->needs_updating() );
 	}
 
 	// Trigger upgrade if redirection_version is present
 	public function testUpgradeOld() {
-		update_option( Red_Database_Status::OLD_DB_VERSION, 1 );
+		update_option( Database\Status::OLD_DB_VERSION, 1 );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertTrue( $status->needs_updating() );
-		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
-		$this->assertEquals( 1, red_get_options()['database'] );
+		$this->assertFalse( get_option( Database\Status::OLD_DB_VERSION ) );
+		$this->assertEquals( 1, \Redirection\Settings\red_get_options()['database'] );
 	}
 
 	// Trigger upgrade if older database
 	public function testUpgradeOldVersion() {
 		update_option( REDIRECTION_OPTION, array( 'database' => '1.0' ) );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Database\Status::OLD_DB_VERSION );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertTrue( $status->needs_updating() );
 	}
@@ -114,35 +114,35 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
 		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
-		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
+		\Redirection\Settings\red_set_options( [ Database\Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 		$this->assertTrue( $status->needs_updating() );
 	}
 
 	public function testGetVersionNone() {
 		delete_option( REDIRECTION_OPTION );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Database\Status::OLD_DB_VERSION );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertEquals( '', $status->get_current_version() );
 	}
 
 	public function testGetVersionOld() {
 		delete_option( REDIRECTION_OPTION );
-		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
+		update_option( Database\Status::OLD_DB_VERSION, '1.2' );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertEquals( '1.2', $status->get_current_version() );
 	}
 
 	public function testGetVersionNew() {
 		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
-		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
+		update_option( Database\Status::OLD_DB_VERSION, '1.2' );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertEquals( '1.5', $status->get_current_version() );
 	}
@@ -150,7 +150,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testSupports() {
 		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertTrue( $status->does_support( '1.2' ) );
 		$this->assertTrue( $status->does_support( '1.5' ) );
@@ -161,7 +161,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testDoesntSupport() {
 		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
 
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		$this->assertFalse( $status->does_support( '1.8' ) );
 
@@ -169,13 +169,13 @@ class DatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetUpgradesForSameVersion() {
-		$database = new Red_Database();
+		$database = new Database\Database();
 		$upgrades = $database->get_upgrades_for_version( '2.2', false );
 		$this->assertEquals( 7, count( $upgrades ) );
 	}
 
 	public function testGetUpgradesForUnknownVersion() {
-		$database = new Red_Database();
+		$database = new Database\Database();
 		$upgrades = $database->get_upgrades_for_version( '100.0.0', false );
 		$this->assertEmpty( $upgrades );
 	}

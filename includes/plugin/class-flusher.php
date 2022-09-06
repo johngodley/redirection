@@ -1,13 +1,15 @@
 <?php
 
-class Red_Flusher {
+namespace Redirection\Plugin;
+
+class Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
 	const DELETE_MAX = 20000;
 	const DELETE_KEEP_ON = 10;  // 10 minutes
 
 	public function flush() {
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		$total  = $this->expire_logs( 'redirection_logs', $options['expire_redirect'] );
 		$total += $this->expire_logs( 'redirection_404', $options['expire_404'] );
@@ -56,7 +58,7 @@ class Red_Flusher {
 	}
 
 	public static function schedule() {
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		if ( $options['expire_redirect'] > 0 || $options['expire_404'] > 0 ) {
 			if ( ! wp_next_scheduled( self::DELETE_HOOK ) ) {

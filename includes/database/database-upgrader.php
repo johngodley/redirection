@@ -1,6 +1,8 @@
 <?php
 
-abstract class Red_Database_Upgrader {
+namespace Redirection\Database;
+
+abstract class Upgrader {
 	private $queries = [];
 	private $live = true;
 
@@ -24,9 +26,9 @@ abstract class Red_Database_Upgrader {
 	/**
 	 * Run a particular stage on the current upgrader
 	 *
-	 * @return Red_Database_Status
+	 * @return Database\Status
 	 */
-	public function perform_stage( Red_Database_Status $status ) {
+	public function perform_stage( Database\Status $status ) {
 		global $wpdb;
 
 		$stage = $status->get_current_stage();

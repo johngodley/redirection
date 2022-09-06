@@ -1,5 +1,11 @@
 <?php
 
+namespace Redirection\Settings;
+
+use Redirection\Url;
+use Redirection\Group;
+use Redirection\Site;
+
 define( 'REDIRECTION_OPTION', 'redirection_options' );
 define( 'REDIRECTION_API_JSON', 0 );
 define( 'REDIRECTION_API_JSON_INDEX', 1 );
@@ -43,7 +49,7 @@ function red_get_post_types( $full = true ) {
  * @return array
  */
 function red_get_default_options() {
-	$flags = new Red_Source_Flags();
+	$flags = new Url\Source_Flags();
 	$defaults = [
 		'support'             => false,
 		'token'               => md5( uniqid() ),
@@ -84,9 +90,9 @@ function red_get_default_options() {
  * @param array $settings Partial settings.
  * @return array
  */
-function red_set_options( array $settings = [] ) {
-	$options = red_get_options();
-	$monitor_types = [];
+function red_set_options( array $settings = array() ) {
+	$options = \Redirection\Settings\red_get_options();
+	$monitor_types = array();
 
 	if ( isset( $settings['database'] ) ) {
 		$options['database'] = $settings['database'];
@@ -105,7 +111,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
-		$allowed = red_get_post_types( false );
+		$allowed = \Redirection\Settings\red_get_post_types( false );
 
 		foreach ( $settings['monitor_types'] as $type ) {
 			if ( in_array( $type, $allowed, true ) ) {
@@ -120,7 +126,7 @@ function red_set_options( array $settings = [] ) {
 		$options['associated_redirect'] = '';
 
 		if ( strlen( $settings['associated_redirect'] ) > 0 ) {
-			$sanitizer = new Red_Item_Sanitize();
+			$sanitizer = new Redirect\Sanitize();
 			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
 		}
 	}
@@ -131,8 +137,8 @@ function red_set_options( array $settings = [] ) {
 	} elseif ( isset( $settings['monitor_post'] ) ) {
 		$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
 
-		if ( ! Red_Group::get( $options['monitor_post'] ) && $options['monitor_post'] !== 0 ) {
-			$groups = Red_Group::get_all();
+		if ( ! Group\Group::get( $options['monitor_post'] ) && $options['monitor_post'] !== 0 ) {
+			$groups = Group\Group::get_all();
 
 			if ( count( $groups ) > 0 ) {
 				$options['monitor_post'] = $groups[0]['id'];
@@ -147,8 +153,8 @@ function red_set_options( array $settings = [] ) {
 	if ( isset( $settings['last_group_id'] ) ) {
 		$options['last_group_id'] = max( 0, intval( $settings['last_group_id'], 10 ) );
 
-		if ( ! Red_Group::get( $options['last_group_id'] ) ) {
-			$groups = Red_Group::get_all();
+		if ( ! Group\Group::get( $options['last_group_id'] ) ) {
+			$groups = Group\Group::get_all();
 			$options['last_group_id'] = $groups[0]['id'];
 		}
 	}
@@ -189,7 +195,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['location'] ) && ( ! isset( $options['location'] ) || $options['location'] !== $settings['location'] ) ) {
-		$module = Red_Module::get( 2 );
+		$module = Redirect\Module::get( 2 );
 		if ( $module ) {
 			$options['modules'][2] = $module->update( $settings );
 		}
@@ -205,7 +211,7 @@ function red_set_options( array $settings = [] ) {
 		$options['plugin_update'] = $settings['plugin_update'];
 	}
 
-	$flags = new Red_Source_Flags();
+	$flags = new Url\Source_Flags();
 	$flags_present = [];
 
 	foreach ( array_keys( $flags->get_json() ) as $flag ) {
@@ -220,7 +226,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['headers'] ) ) {
-		$headers = new Red_Http_Headers( $settings['headers'] );
+		$headers = new Site\Http_Headers( $settings['headers'] );
 		$options['headers'] = $headers->get_json();
 	}
 

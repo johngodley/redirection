@@ -1,6 +1,10 @@
 <?php
 
-class Red_Database_400 extends Red_Database_Upgrader {
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
+class Database_400 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'add_match_url_400' => 'Add a matched URL column',

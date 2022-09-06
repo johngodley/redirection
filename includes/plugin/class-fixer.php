@@ -1,8 +1,14 @@
 <?php
 
-require_once dirname( REDIRECTION_FILE ) . '/database/database.php';
+namespace Redirection\Plugin;
 
-class Red_Fixer {
+use Redirection\Database;
+use Redirection\Site;
+use Redirection\Group;
+
+require_once dirname( __DIR__ ) . '/database/database.php';
+
+class Fixer {
 	const REGEX_LIMIT = 200;
 
 	public function get_json() {
@@ -13,10 +19,10 @@ class Red_Fixer {
 	}
 
 	public function get_debug() {
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 		$ip = [];
 
-		foreach ( Redirection_Request::get_ip_headers() as $var ) {
+		foreach ( Site\Request::get_ip_headers() as $var ) {
 			$ip[ $var ] = isset( $_SERVER[ $var ] ) ? $_SERVER[ $var ] : false;
 		}
 
@@ -31,8 +37,8 @@ class Red_Fixer {
 
 	public function save_debug( $name, $value ) {
 		if ( $name === 'database' ) {
-			$database = new Red_Database();
-			$status = new Red_Database_Status();
+			$database = new Database\Database();
+			$status = new Database\Status();
 
 			foreach ( $database->get_upgrades() as $upgrade ) {
 				if ( $value === $upgrade['version'] ) {
@@ -40,7 +46,7 @@ class Red_Fixer {
 					$status->save_db_version( $value );
 
 					// Switch to prompt mode
-					red_set_options( [ 'plugin_update' => 'prompt' ] );
+					\Redirection\Settings\red_set_options( [ 'plugin_update' => 'prompt' ] );
 					break;
 				}
 			}
@@ -50,18 +56,18 @@ class Red_Fixer {
 	public function get_status() {
 		global $wpdb;
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 		$bad_group = $this->get_missing();
 		$monitor_group = $options['monitor_post'];
-		$valid_monitor = Red_Group::get( $monitor_group ) || $monitor_group === 0;
+		$valid_monitor = Group\Group::get( $monitor_group ) || $monitor_group === 0;
 
 		$status = [
 			array_merge( [
 				'id' => 'db',
 				'name' => __( 'Database tables', 'redirection' ),
-			], $this->get_database_status( Red_Database::get_latest_database() ) ),
+			], $this->get_database_status( Database\Database::get_latest_database() ) ),
 			[
 				'name' => __( 'Valid groups', 'redirection' ),
 				'id' => 'groups',
@@ -149,12 +155,12 @@ class Red_Fixer {
 	}
 
 	private function fix_db() {
-		$database = Red_Database::get_latest_database();
+		$database = Database\Database::get_latest_database();
 		return $database->install();
 	}
 
 	private function fix_groups() {
-		if ( Red_Group::create( 'new group', 1 ) === false ) {
+		if ( Group\Group::create( 'new group', 1 ) === false ) {
 			return new WP_Error( 'Unable to create group' );
 		}
 
@@ -172,11 +178,11 @@ class Red_Fixer {
 	}
 
 	private function fix_monitor() {
-		red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
+		\Redirection\Settings\red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
 	}
 
 	private function get_valid_group() {
-		$groups = Red_Group::get_all();
+		$groups = Group\Group::get_all();
 
 		return $groups[0]['id'];
 	}

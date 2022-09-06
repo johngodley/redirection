@@ -1,6 +1,11 @@
 <?php
 
-class Apache_Module extends Red_Module {
+namespace Redirection\Module;
+
+use Redirection\Redirect;
+use Redirection\FileIO;
+
+class Apache extends Module {
 	const MODULE_ID = 2;
 
 	private $location  = '';
@@ -34,10 +39,10 @@ class Apache_Module extends Red_Module {
 			return false;
 		}
 
-		$items = Red_Item::get_all_for_module( $this->get_id() );
+		$items = Redirect\Redirect::get_all_for_module( $this->get_id() );
 
 		// Produce the .htaccess file
-		$htaccess = new Red_Htaccess();
+		$htaccess = new FileIO\Htaccess();
 		if ( is_array( $items ) && count( $items ) > 0 ) {
 			foreach ( $items as $item ) {
 				if ( $item->is_enabled() ) {
@@ -80,7 +85,7 @@ class Apache_Module extends Red_Module {
 
 		if ( ! empty( $this->location ) && $save['location'] !== $this->location && $save['location'] !== '' ) {
 			// Location has moved. Remove from old location
-			$htaccess = new Red_Htaccess();
+			$htaccess = new FileIO\Htaccess();
 			$htaccess->save( $this->location, '' );
 		}
 

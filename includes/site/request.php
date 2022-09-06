@@ -1,6 +1,8 @@
 <?php
 
-class Redirection_Request {
+namespace Redirection\Site;
+
+class Request {
 	public static function get_request_headers() {
 		$ignore = apply_filters( 'redirection_request_headers_ignore', [
 			'cookie',

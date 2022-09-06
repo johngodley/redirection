@@ -4,14 +4,14 @@ require dirname( __FILE__ ) . '/../../fileio/apache.php';
 
 class ApacheTest extends WP_UnitTestCase {
 	public function testEmpty() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$items = $apache->load( 0, '', '' );
 
 		$this->assertEquals( 0, $items );
 	}
 
 	public function testRewriteRule() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'RewriteRule /thing /newthing [301,L]' );
 
 		$this->assertEquals( '/thing', $item['url'] );
@@ -20,7 +20,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirect() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'Redirect permanent /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
@@ -29,7 +29,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirectQuoted() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'Redirect permanent "/products/space thing/again thing.html" /products/again-thing/' );
 
 		$this->assertEquals( '/products/space thing/again thing.html', $item['url'] );
@@ -38,7 +38,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirect302() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'Redirect /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
@@ -47,7 +47,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirectMatch() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'RedirectMatch permanent /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
@@ -57,7 +57,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirectMatch302() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'RedirectMatch /thing /newthing' );
 
 		$this->assertEquals( '/thing', $item['url'] );
@@ -67,7 +67,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirectWithHash() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'Redirect permanent /thing/other /other/thing#1' );
 
 		$this->assertEquals( '/thing/other', $item['url'] );
@@ -76,7 +76,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRewriteNoCode() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'RewriteRule ^products/reporting$ /products/ [R,L]' );
 
 		$this->assertEquals( '/products/reporting', $item['url'] );
@@ -85,7 +85,7 @@ class ApacheTest extends WP_UnitTestCase {
 	}
 
 	public function testRedirectWithExtension() {
-		$apache = new Red_Apache_File();
+		$apache = new FileIO\Apache();
 		$item = $apache->get_as_item( 'RewriteRule ^products/reporting\.html.*$ /products/ [R,L]' );
 
 		$this->assertEquals( '^/products/reporting\.html.*', $item['url'] );

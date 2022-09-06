@@ -6,13 +6,13 @@
 class Redirection_Cli extends WP_CLI_Command {
 	private function get_group( $group_id ) {
 		if ( $group_id === 0 ) {
-			$groups = Red_Group::get_filtered( array() );
+			$groups = Group\Group::get_filtered( array() );
 
 			if ( count( $groups['items'] ) > 0 ) {
 				return $groups['items'][0]['id'];
 			}
 		} else {
-			$groups = Red_Group::get( $group_id );
+			$groups = Group\Group::get( $group_id );
 			if ( $groups ) {
 				return $group_id;
 			}
@@ -50,7 +50,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$name = $args[0];
 		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
 
-		$importer = Red_Plugin_Importer::get_importer( $name );
+		$importer = Importer\Plugin_Importer::get_importer( $name );
 		if ( $importer ) {
 			$count = $importer->import_plugin( $group );
 			WP_CLI::success( sprintf( 'Imported %d redirects from plugin %s', $count, $name ) );
@@ -79,7 +79,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$name = $args[0];
 		$set = isset( $extra['set'] ) ? $extra['set'] : false;
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		if ( ! isset( $options[ $name ] ) ) {
 			WP_CLI::error( 'Unsupported setting: ' . $name );
@@ -97,7 +97,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			$options = [];
 			$options[ $name ] = $decoded;
 
-			$options = red_set_options( $options );
+			$options = \Redirection\Settings\red_set_options( $options );
 			$value = $options[ $name ];
 		}
 
@@ -132,7 +132,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			return;
 		}
 
-		$importer = Red_FileIO::create( $format );
+		$importer = FileIO\FileIO::create( $format );
 
 		if ( ! $importer ) {
 			WP_CLI::error( 'Invalid import format - csv, json, or apache supported' );
@@ -180,7 +180,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	 */
 	public function export( $args, $extra ) {
 		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
-		$exporter = Red_FileIO::create( $format );
+		$exporter = FileIO\FileIO::create( $format );
 
 		if ( ! $exporter ) {
 			WP_CLI::error( 'Invalid export format - json, csv, apache, or nginx supported' );
@@ -189,7 +189,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 		$file = fopen( $args[1] === '-' ? 'php://stdout' : $args[1], 'w' );
 		if ( $file ) {
-			$export = Red_FileIO::export( $args[0], $format );
+			$export = FileIO\FileIO::export( $args[0], $format );
 
 			if ( $export === false ) {
 				// phpcs:ignore
@@ -231,8 +231,8 @@ class Redirection_Cli extends WP_CLI_Command {
 		}
 
 		if ( $args[0] === 'install' ) {
-			Red_Database::apply_to_sites( function() {
-				$latest = Red_Database::get_latest_database();
+			Database\Database::apply_to_sites( function() {
+				$latest = Database\Database::get_latest_database();
 				$latest->install();
 
 				WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is installed' );
@@ -244,9 +244,9 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			$wpdb->show_errors( false );
 
-			Red_Database::apply_to_sites( function() {
-				$database = new Red_Database();
-				$status = new Red_Database_Status();
+			Database\Database::apply_to_sites( function() {
+				$database = new Database\Database();
+				$status = new Database\Status();
 
 				if ( ! $status->needs_updating() ) {
 					WP_CLI::success( 'Site ' . get_current_blog_id() . ' database is already the latest version' );
@@ -281,8 +281,8 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			WP_CLI::success( 'Database upgrade finished' );
 		} elseif ( $args[0] === 'remove' ) {
-			Red_Database::apply_to_sites( function() {
-				$latest = Red_Database::get_latest_database();
+			Database\Database::apply_to_sites( function() {
+				$latest = Database\Database::get_latest_database();
 				$latest->remove();
 			} );
 
@@ -292,12 +292,11 @@ class Redirection_Cli extends WP_CLI_Command {
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-
 	// Register "redirection" as top-level command, and all public methods as sub-commands
 	WP_CLI::add_command( 'redirection', 'Redirection_Cli' );
 
-	add_action( Red_Flusher::DELETE_HOOK, function() {
-		$flusher = new Red_Flusher();
+	add_action( Plugin\Flusher::DELETE_HOOK, function() {
+		$flusher = new Plugin\Flusher();
 		$flusher->flush();
 	} );
 }

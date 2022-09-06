@@ -5,7 +5,7 @@ class SettingsTest extends WP_UnitTestCase {
 		delete_option( REDIRECTION_OPTION );
 
 		$defaults = red_get_default_options();
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		unset( $defaults['token'] );
 		unset( $options['token'] );
@@ -19,7 +19,7 @@ class SettingsTest extends WP_UnitTestCase {
 	public function testGetDefaultOptionsAlreadyInstalled() {
 		update_option( REDIRECTION_OPTION, [ 'token' => 'token' ] );
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		$this->assertFalse( $options['flag_case'] );
 		$this->assertFalse( $options['flag_trailing'] );
 		$this->assertFalse( $options['flag_regex'] );
@@ -30,7 +30,7 @@ class SettingsTest extends WP_UnitTestCase {
 		update_option( REDIRECTION_OPTION, array( 'token' => 'token' ) );
 
 		$defaults = red_get_default_options();
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		foreach ( $defaults as $name => $value ) {
 			if ( $name !== 'token' ) {
@@ -45,7 +45,7 @@ class SettingsTest extends WP_UnitTestCase {
 	public function testRemoveOld() {
 		update_option( REDIRECTION_OPTION, array( 'cat' => 'cat' ) );
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 		$this->assertFalse( isset( $options['cat'] ) );
 	}
 }

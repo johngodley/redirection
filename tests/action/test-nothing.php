@@ -26,7 +26,7 @@ class NothingTest extends WP_UnitTestCase {
 
 		$wp_query->is_404 = 1;
 		$module = Redirection::init()->get_module();
-		$action = Red_Action::create( 'nothing', 1 );
+		$action = Action\Action::create( 'nothing', 1 );
 
 		$action->run();
 		$module->template_redirect();

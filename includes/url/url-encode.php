@@ -1,6 +1,8 @@
 <?php
 
-class Red_Url_Encode {
+namespace Redirection\Url;
+
+class Encode {
 	/**
 	 * URL
 	 *

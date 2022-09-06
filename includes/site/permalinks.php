@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Site;
+
 /**
  * Provides permalink migration facilities
  */
-class Red_Permalinks {
+class Permalinks {
 	/**
 	 * List of migrated permalink structures
 	 *
@@ -30,10 +32,10 @@ class Red_Permalinks {
 	/**
 	 * Match and migrate any permalinks
 	 *
-	 * @param WP_Query $query Query.
+	 * @param \WP_Query $query Query.
 	 * @return void
 	 */
-	public function migrate( WP_Query $query ) {
+	public function migrate( \WP_Query $query ) {
 		global $wp;
 
 		if ( count( $this->permalinks ) === 0 ) {

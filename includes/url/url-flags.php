@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * Represent URL source flags.
  */
-class Red_Source_Flags {
+class Source_Flags {
 	const QUERY_IGNORE = 'ignore';
 	const QUERY_EXACT = 'exact';
 	const QUERY_PASS = 'pass';
@@ -209,7 +211,7 @@ class Red_Source_Flags {
 	 * @return array
 	 */
 	public function get_json_with_defaults() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 		$json = $this->get_json();
 		$defaults = [
 			self::FLAG_QUERY => $settings[ self::FLAG_QUERY ],

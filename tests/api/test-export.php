@@ -43,14 +43,14 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 
 	public function testExportNameModule() {
 		// Create 2 groups, one in apache, one in WordPress
-		$group1 = Red_Group::create( 'group1', 1 );
-		$group2 = Red_Group::create( 'group2', 2 );
+		$group1 = Group\Group::create( 'group1', 1 );
+		$group2 = Group\Group::create( 'group2', 2 );
 
 		// Create 1 redirect in each group
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
 
-		$results = Red_FileIO::export( 'apache', 'json' );
+		$results = FileIO\FileIO::export( 'apache', 'json' );
 
 		// Expect 1 redirect and 1 group
 		$this->assertEquals( 1, $results['total'] );
@@ -58,14 +58,14 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 
 	public function testExportAll() {
 		// Create 2 groups, one in apache, one in wordpress
-		$group1 = Red_Group::create( 'group1', 1 );
-		$group2 = Red_Group::create( 'group2', 2 );
+		$group1 = Group\Group::create( 'group1', 1 );
+		$group2 = Group\Group::create( 'group2', 2 );
 
 		// Create 1 redirect in each group
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
 
-		$results = Red_FileIO::export( 'all', 'json' );
+		$results = FileIO\FileIO::export( 'all', 'json' );
 
 		// Expect 2 redirect and 2 group
 		$this->assertEquals( 2, $results['total'] );
@@ -87,8 +87,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$expected = 'source,target,regex,code,type,match,hits,title,status
 "/1","/unknown",0,301,"url",0,"","active"';
 
-		$group1 = Red_Group::create( 'group1', 1 );
-		Red_Item::create( array( 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		$group1 = Group\Group::create( 'group1', 1 );
+		Redirect\Redirect::create( array( 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 
 		$this->setNonce();
 		$result = $this->callApi( 'export/1/csv' );
@@ -98,8 +98,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testExportJSON() {
-		$group1 = Red_Group::create( 'group1', 1 );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		$group1 = Group\Group::create( 'group1', 1 );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 
 		$this->setNonce();
 		$result = $this->callApi( 'export/1/json' );
@@ -110,8 +110,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testExportNginx() {
-		$group1 = Red_Group::create( 'group1', 1 );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		$group1 = Group\Group::create( 'group1', 1 );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 
 		$this->setNonce();
 		$result = $this->callApi( 'export/1/nginx' );
@@ -121,8 +121,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testExportApache() {
-		$group1 = Red_Group::create( 'group1', 1 );
-		Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		$group1 = Group\Group::create( 'group1', 1 );
+		Redirect\Redirect::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 
 		$this->setNonce();
 		$result = $this->callApi( 'export/1/apache' );

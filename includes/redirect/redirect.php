@@ -1,5 +1,14 @@
 <?php
 
+namespace Redirection\Redirect;
+
+use Redirection\Url;
+use Redirection\Action;
+use Redirection\Match;
+use Redirection\Module;
+use Redirection\Site;
+use Redirection\Database;
+
 require_once __DIR__ . '/redirect-sanitizer.php';
 require_once __DIR__ . '/redirect-filter.php';
 require_once __DIR__ . '/redirect-options.php';
@@ -8,7 +17,7 @@ require_once __DIR__ . '/redirect-cache.php';
 /**
  * Redirect class
  */
-class Red_Item {
+class Redirect {
 	/**
 	 * Maximum number of redirects to get from the database in one request.
 	 *
@@ -124,28 +133,28 @@ class Red_Item {
 	/**
 	 * Source flags
 	 *
-	 * @var Red_Source_Flags|null
+	 * @var Url\Source_Flags|null
 	 */
 	public $source_flags = null;
 
 	/**
 	 * Source options
 	 *
-	 * @var Red_Source_Options|null
+	 * @var Source_Options|null
 	 */
 	public $source_options = null;
 
 	/**
 	 * Match object
 	 *
-	 * @var Red_Match|null
+	 * @var Match\Match|null
 	 */
 	public $match = null;
 
 	/**
 	 * Action object
 	 *
-	 * @var Red_Action|null
+	 * @var Action\Action|null
 	 */
 	public $action = null;
 
@@ -184,7 +193,7 @@ class Red_Item {
 	}
 
 	/**
-	 * Load the Red_Source_Flags and Red_Source_Options.
+	 * Load the Url\Source_Flags and Source_Options.
 	 *
 	 * Requires a v4 database
 	 *
@@ -193,15 +202,15 @@ class Red_Item {
 	private function load_source() {
 		// Default regex flag to regex column. This will be removed once the regex column has been migrated
 		// todo: deprecate
-		$this->source_flags = new Red_Source_Flags( array_merge( red_get_options(), [ 'flag_regex' => $this->regex ] ) );
-		$this->source_options = new Red_Source_Options();
+		$this->source_flags = new Url\Source_Flags( array_merge( \Redirection\Settings\red_get_options(), [ 'flag_regex' => $this->regex ] ) );
+		$this->source_options = new Source_Options();
 
 		if ( isset( $this->match_data ) ) {
 			$json = json_decode( $this->match_data, true );
 
 			if ( $json && isset( $json['source'] ) ) {
 				// Merge redirect flags with default flags
-				$this->source_flags->set_flags( array_merge( red_get_options(), $json['source'] ) );
+				$this->source_flags->set_flags( array_merge( \Redirection\Settings\red_get_options(), $json['source'] ) );
 			}
 
 			if ( $json && isset( $json['options'] ) ) {
@@ -211,7 +220,7 @@ class Red_Item {
 	}
 
 	/**
-	 * Load the Red_Match object
+	 * Load the Match\Match object
 	 *
 	 * @return void
 	 */
@@ -220,11 +229,11 @@ class Red_Item {
 			$this->match_type = 'url';
 		}
 
-		$this->match = Red_Match::create( $this->match_type, $this->action_data );
+		$this->match = Match\Match::create( $this->match_type, $this->action_data );
 	}
 
 	/**
-	 * Load the Red_Action object
+	 * Load the Action\Action object
 	 *
 	 * @return void
 	 */
@@ -233,14 +242,14 @@ class Red_Item {
 			$this->action_type = 'nothing';
 		}
 
-		$this->action = Red_Action::create( $this->action_type, $this->action_code );
+		$this->action = Action\Action::create( $this->action_type, $this->action_code );
 	}
 
 	/**
 	 * Get all redirects for a module. No paging.
 	 *
 	 * @param integer $module Module ID.
-	 * @return Red_Item[]
+	 * @return Redirect[]
 	 */
 	public static function get_all_for_module( $module ) {
 		global $wpdb;
@@ -259,7 +268,7 @@ class Red_Item {
 		$items = array();
 
 		foreach ( (array) $rows as $row ) {
-			$items[] = new Red_Item( $row );
+			$items[] = new Redirect( $row );
 		}
 
 		return $items;
@@ -272,7 +281,7 @@ class Red_Item {
 	 * @return array
 	 */
 	public static function get_for_url( $url ) {
-		$status = new Red_Database_Status();
+		$status = new Database\Status();
 
 		// deprecate
 		if ( $status->does_support( '4.0' ) ) {
@@ -286,7 +295,7 @@ class Red_Item {
 	 * Get a redirect that matches a URL
 	 *
 	 * @param string $url URL to match.
-	 * @return Red_Item[]
+	 * @return Redirect[]
 	 */
 	public static function get_for_matched_url( $url ) {
 		global $wpdb;
@@ -295,7 +304,7 @@ class Red_Item {
 		$cache = Redirect_Cache::init();
 		$rows = $cache->get( $url );
 
-		$url = new Red_Url_Match( $url );
+		$url = new Url\Match( $url );
 		$url_without = $url->get_url();
 		$url_with = $url->get_url_with_params();
 
@@ -308,10 +317,10 @@ class Red_Item {
 
 		if ( is_array( $rows ) ) {
 			foreach ( $rows as $row ) {
-				$items[] = new Red_Item( $row );
+				$items[] = new Redirect( $row );
 			}
 
-			usort( $items, [ 'Red_Item', 'sort_urls' ] );
+			usort( $items, [ 'Redirection\Redirect\Redirect', 'sort_urls' ] );
 
 			if ( count( $items ) >= self::MAX_REDIRECTS ) {
 				// Something has gone pretty wrong at this point
@@ -340,7 +349,7 @@ class Red_Item {
 				{$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled'
 				AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1
 				OR {$wpdb->prefix}redirection_items.url=%s)",
-				WordPress_Module::MODULE_ID,
+				Module\WordPress::MODULE_ID,
 				$url
 			)
 		);
@@ -350,13 +359,13 @@ class Red_Item {
 			foreach ( $rows as $row ) {
 				$items[] = array(
 					'position' => ( $row->group_pos * 1000 ) + $row->position,
-					'item' => new Red_Item( $row ),
+					'item' => new Redirect( $row ),
 				);
 			}
 		}
 
-		usort( $items, array( 'Red_Item', 'sort_urls_old' ) );
-		$items = array_map( array( 'Red_Item', 'reduce_sorted_items' ), $items );
+		usort( $items, array( 'Redirection\Redirect\Redirect', 'sort_urls_old' ) );
+		$items = array_map( array( 'Redirection\Redirect\Redirect', 'reduce_sorted_items' ), $items );
 
 		// Sort it in PHP
 		ksort( $items );
@@ -377,7 +386,7 @@ class Red_Item {
 	/**
 	 * Get all redirects. No paging, and it could be too large for memory
 	 *
-	 * @return Red_Item[]
+	 * @return Redirect[]
 	 */
 	public static function get_all() {
 		global $wpdb;
@@ -386,7 +395,7 @@ class Red_Item {
 		$items = array();
 
 		foreach ( (array) $rows as $row ) {
-			$items[] = new Red_Item( $row );
+			$items[] = new Redirect( $row );
 		}
 
 		return $items;
@@ -427,14 +436,14 @@ class Red_Item {
 	 * Get a redirect by ID
 	 *
 	 * @param integer $id Redirect ID.
-	 * @return Red_Item|false
+	 * @return Redirect|false
 	 */
 	public static function get_by_id( $id ) {
 		global $wpdb;
 
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id=%d", $id ) );
 		if ( $row ) {
-			return new Red_Item( $row );
+			return new Redirect( $row );
 		}
 
 		return false;
@@ -463,19 +472,19 @@ class Red_Item {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE id=%d", $this->id ) );
 		do_action( 'redirection_redirect_deleted', $this );
 
-		Red_Module::flush( $this->group_id );
+		Redirect\Module::flush( $this->group_id );
 	}
 
 	/**
 	 * Create a redirect with new details
 	 *
 	 * @param array $details Redirect details.
-	 * @return WP_Error|Red_Item
+	 * @return \WP_Error|Redirect
 	 */
 	public static function create( array $details ) {
 		global $wpdb;
 
-		$sanitizer = new Red_Item_Sanitize();
+		$sanitizer = new Sanitize();
 		$data = $sanitizer->get( $details );
 		if ( is_wp_error( $data ) ) {
 			return $data;
@@ -500,7 +509,7 @@ class Red_Item {
 
 		// Create
 		if ( $wpdb->insert( $wpdb->prefix . 'redirection_items', $data ) !== false ) {
-			Red_Module::flush( $data['group_id'] );
+			Module\Module::flush( $data['group_id'] );
 
 			$redirect = self::get_by_id( $wpdb->insert_id );
 			if ( $redirect ) {
@@ -509,22 +518,22 @@ class Red_Item {
 				return $redirect;
 			}
 
-			return new WP_Error( 'redirect_create_failed', 'Unable to get newly added redirect' );
+			return new \WP_Error( 'redirect_create_failed', 'Unable to get newly added redirect' );
 		}
 
-		return new WP_Error( 'redirect_create_failed', 'Unable to add new redirect' );
+		return new \WP_Error( 'redirect_create_failed', 'Unable to add new redirect' );
 	}
 
 	/**
 	 * Update the redirect with new details
 	 *
 	 * @param array $details Redirect details.
-	 * @return WP_Error|true
+	 * @return \WP_Error|true
 	 */
 	public function update( $details ) {
 		global $wpdb;
 
-		$sanitizer = new Red_Item_Sanitize();
+		$sanitizer = new Sanitize();
 		$data = $sanitizer->get( $details );
 
 		if ( is_wp_error( $data ) ) {
@@ -547,10 +556,10 @@ class Red_Item {
 			do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
 			$this->load_from_data( $data );
 
-			Red_Module::flush( $this->group_id );
+			Module\Module::flush( $this->group_id );
 
 			if ( $old_group !== $this->group_id && $old_group !== false ) {
-				Red_Module::flush( $old_group );
+				Module\Module::flush( $old_group );
 			}
 
 			return true;
@@ -564,7 +573,7 @@ class Red_Item {
 	 *
 	 * @param string       $requested_url The URL being requested (decoded).
 	 * @param string|false $original_url The URL being requested (not decoded).
-	 * @return Red_Action|false true if matched, false otherwise
+	 * @return Action\Action|false true if matched, false otherwise
 	 */
 	public function get_match( $requested_url, $original_url = false ) {
 		if ( ! $this->is_enabled() || ! $this->match || ! $this->source_flags || ! $this->action ) {
@@ -576,14 +585,14 @@ class Red_Item {
 			$original_url = $requested_url;
 		}
 
-		$url = new Red_Url( $this->url );
+		$url = new Url\Url( $this->url );
 
 		// Does the URL match? This may not be the case for regular expressions
 		if ( ! $url->is_match( $requested_url, $this->source_flags ) ) {
 			return false;
 		}
 
-		// Does the additional Red_Match logic also match? This provides dynamic checking of things like IP, cookies, etc
+		// Does the additional Match\Match logic also match? This provides dynamic checking of things like IP, cookies, etc
 		$matched = $this->match->is_match( $requested_url );
 		$target_url = false;
 
@@ -592,7 +601,7 @@ class Red_Item {
 			// Get the target from the action and the match status - some matches have a matched/unmatched target
 			$target_url = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $matched );
 			if ( $target_url ) {
-				$target_url = Red_Url_Query::add_to_target( $target_url, $original_url, $this->source_flags );
+				$target_url = Url\Query::add_to_target( $target_url, $original_url, $this->source_flags );
 			}
 
 			// Allow plugins a look
@@ -629,7 +638,7 @@ class Red_Item {
 	public function visit( $url, $target ) {
 		global $wpdb;
 
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		// Update the counters
 		$this->last_count++;
@@ -645,9 +654,9 @@ class Red_Item {
 
 			$details = [
 				'target' => $target,
-				'agent' => Redirection_Request::get_user_agent(),
-				'referrer' => Redirection_Request::get_referrer(),
-				'request_method' => Redirection_Request::get_request_method(),
+				'agent' => Site\Request::get_user_agent(),
+				'referrer' => Site\Request::get_referrer(),
+				'request_method' => Site\Request::get_request_method(),
 				'http_code' => $this->get_action_code(),
 				'redirect_id' => $this->id,
 				'redirect_by' => 'redirection',
@@ -655,11 +664,11 @@ class Red_Item {
 
 			if ( $options['log_header'] ) {
 				$details['request_data'] = [
-					'headers' => Redirection_Request::get_request_headers(),
+					'headers' => Site\Request::get_request_headers(),
 				];
 			}
 
-			Red_Redirect_Log::create( Redirection_Request::get_server(), $url, Redirection_Request::get_ip(), $details );
+			Log\Redirect::create( Site\Request::get_server(), $url, Site\Request::get_ip(), $details );
 		}
 	}
 
@@ -887,7 +896,7 @@ class Red_Item {
 	public static function delete_all( array $params ) {
 		global $wpdb;
 
-		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$filters = new Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
 		// where is known
@@ -904,7 +913,7 @@ class Red_Item {
 	public static function reset_all( array $params ) {
 		global $wpdb;
 
-		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$filters = new Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
 		// where is known
@@ -922,7 +931,7 @@ class Red_Item {
 	public static function set_status_all( $status, array $params ) {
 		global $wpdb;
 
-		$filters = new Red_Item_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
+		$filters = new Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$where = $filters->get_as_sql();
 
 		// where is known
@@ -934,7 +943,7 @@ class Red_Item {
 	 * Get a filtered list of redirects
 	 *
 	 * @param array $params Filter parameters.
-	 * @return array<total: integer, items: Red_Item[]>
+	 * @return array<total: integer, items: Redirect[]>
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
@@ -958,7 +967,7 @@ class Red_Item {
 		}
 
 		if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
-			$filters = new Red_Item_Filters( $params['filterBy'] );
+			$filters = new Filters( $params['filterBy'] );
 			$where = $filters->get_as_sql();
 		}
 
@@ -983,7 +992,7 @@ class Red_Item {
 		$items = [];
 
 		foreach ( $rows as $row ) {
-			$group = new Red_Item( $row );
+			$group = new Redirect( $row );
 			$items[] = $group->to_json();
 		}
 

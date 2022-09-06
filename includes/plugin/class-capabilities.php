@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Plugin;
+
 /**
  * Redirection capabilities
  *
@@ -35,7 +37,7 @@
  * Note some capabilities may give access to data from others. For example, when viewing a page of redirects via `redirection_cap_redirect_manage`
  * the client will need to access group data.
  */
-class Redirection_Capabilities {
+class Capabilities {
 	const FILTER_ALL = 'redirection_capability_all';
 	const FILTER_PAGES = 'redirection_capability_pages';
 	const FILTER_CAPABILITY = 'redirection_capability_check';
@@ -72,7 +74,7 @@ class Redirection_Capabilities {
 	/**
 	 * Determine if the current user has access to a named capability.
 	 *
-	 * @param string $cap_name The capability to check for. See Redirection_Capabilities for constants.
+	 * @param string $cap_name The capability to check for. See Capabilities for constants.
 	 * @return boolean
 	 */
 	public static function has_access( $cap_name ) {

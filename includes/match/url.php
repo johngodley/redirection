@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Url as Redirect_Url;
+
 /**
  * Match the URL only.
  */
-class URL_Match extends Red_Match {
+class Url_Only extends Match {
 	/**
 	 * URL
 	 *
@@ -33,7 +37,7 @@ class URL_Match extends Red_Match {
 		return true;
 	}
 
-	public function get_target_url( $original_url, $matched_url, Red_Source_Flags $flag, $is_matched ) {
+	public function get_target_url( $original_url, $matched_url, Redirect_Url\Source_Flags $flag, $is_matched ) {
 		$target = $this->url;
 
 		if ( $flag->is_regex() ) {

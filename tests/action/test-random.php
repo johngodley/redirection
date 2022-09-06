@@ -17,7 +17,7 @@ class RandomTest extends WP_UnitTestCase {
 		$post1 = $this->factory->post->create( [ 'post_title' => 'trash me1', 'post_name' => 'post-1' ] );
 		$post1 = $this->factory->post->create( [ 'post_title' => 'trash me2', 'post_name' => 'post-2' ] );
 
-		$action = Red_Action::create( 'random', 301 );
+		$action = Action\Action::create( 'random', 301 );
 		$action->run();
 
 		$this->assertEquals( 301, $this->code );

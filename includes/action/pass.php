@@ -1,11 +1,13 @@
 <?php
 
+namespace Redirection\Action;
+
 require_once dirname( __FILE__ ) . '/url.php';
 
 /**
  * A 'pass through' action. Matches a rewrite rather than a redirect, and uses PHP to fetch data from a remote URL.
  */
-class Pass_Action extends Url_Action {
+class Pass extends Url {
 	/**
 	 * Process an external passthrough - a URL that lives external to this server.
 	 *

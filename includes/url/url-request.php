@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * Decode request URLs
  */
-class Red_Url_Request {
+class Request {
 	/**
 	 * Original URL
 	 *
@@ -85,7 +87,7 @@ class Red_Url_Request {
 	 * @return boolean
 	 */
 	public function is_protected_url() {
-		$rest = wp_parse_url( red_get_rest_api() );
+		$rest = wp_parse_url( \Redirection\Settings\red_get_rest_api() );
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $this->get_decoded_url(), 0, strlen( $rest_api ) ) === $rest_api ) {

@@ -50,7 +50,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testBadCreate() {
-		$exporter = Red_FileIO::create( 'monkey' );
+		$exporter = FileIO\FileIO::create( 'monkey' );
 		$this->assertFalse( $exporter );
 	}
 
@@ -58,7 +58,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$types = array( 'rss', 'csv', 'apache', 'nginx', 'json' );
 
 		foreach ( $types as $type ) {
-			$exporter = Red_FileIO::create( $type );
+			$exporter = FileIO\FileIO::create( $type );
 			$this->assertTrue( $exporter !== false );
 		}
 	}

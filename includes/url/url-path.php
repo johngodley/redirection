@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * The path part of a URL
  */
-class Red_Url_Path {
+class Path {
 	/**
 	 * URL path
 	 *
@@ -24,11 +26,11 @@ class Red_Url_Path {
 	 * Is the supplied `url` a match for this object?
 	 *
 	 * @param String           $url URL to match against.
-	 * @param Red_Source_Flags $flags Source flags to use in match.
+	 * @param Source_Flags $flags Source flags to use in match.
 	 * @return boolean
 	 */
-	public function is_match( $url, Red_Source_Flags $flags ) {
-		$target = new Red_Url_Path( $url );
+	public function is_match( $url, Url\Source_Flags $flags ) {
+		$target = new Path( $url );
 
 		$target_path = $target->get();
 		$source_path = $this->get();

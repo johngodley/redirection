@@ -1,7 +1,11 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
 // Note: not localised as the messages aren't important enough
-class Red_Database_216 extends Red_Database_Upgrader {
+class Database_216 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'add_group_indices_216' => 'Add indices to groups',

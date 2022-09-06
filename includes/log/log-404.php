@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Log;
+
 /**
  * 404 error logging. Extends the base log class with specifics for 404s
  */
-class Red_404_Log extends Red_Log {
+class Error extends Log {
 	/**
 	 * Get's the table name for this log object
 	 *
@@ -73,18 +75,5 @@ class Red_404_Log extends Red_Log {
 			$row->referrer,
 			$row->agent,
 		];
-	}
-}
-
-// phpcs:ignore
-class RE_404 {
-	public static function create( $url, $agent, $ip, $referrer ) {
-		_deprecated_function( __FUNCTION__, '4.6', 'Red_404_Log::create( $domain, $url, $ip, $details )' );
-
-		return Red_404_Log::create( Redirection_Request::get_server(), $url, $ip, [
-			'agent' => $agent,
-			'referrer' => $referrer,
-			'request_method' => Redirection_Request::get_request_method(),
-		] );
 	}
 }

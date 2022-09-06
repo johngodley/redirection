@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * Get a URL suitable for matching in the database
  */
-class Red_Url_Match {
+class Match {
 	/**
 	 * URL
 	 *
@@ -30,7 +32,7 @@ class Red_Url_Match {
 	 */
 	public function get_url() {
 		// Remove query params, and decode any encoded characters
-		$url = new Red_Url_Path( $this->url );
+		$url = new Path( $this->url );
 		$path = $url->get_without_trailing_slash();
 
 		// URL encode
@@ -56,7 +58,7 @@ class Red_Url_Match {
 		}
 
 		// Lowercase everything
-		$path = Red_Url_Path::to_lower( $path );
+		$path = Path::to_lower( $path );
 
 		return $path ? $path : '/';
 	}
@@ -67,7 +69,7 @@ class Red_Url_Match {
 	 * @return String
 	 */
 	public function get_url_with_params() {
-		$query = new Red_Url_Query( $this->url, new Red_Source_Flags( [ Red_Source_Flags::FLAG_CASE => true ] ) );
+		$query = new Query( $this->url, new Source_Flags( [ Source_Flags::FLAG_CASE => true ] ) );
 
 		return $query->get_url_with_query( $this->get_url() );
 	}

@@ -4,13 +4,13 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 	public function testCsvRow() {
 		$row = [ 'created' => 'created', 'url' => 'url', 'sent_to' => 'sent_to', 'ip' => 'ip', 'referrer' => 'referrer', 'agent' => 'agent' ];
 		$expected = [ 'created', 'url', 'sent_to', 'ip', 'referrer', 'agent' ];
-		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+		$csv = Log\Redirect::get_csv_row( (object) $row );
 
 		$this->assertEquals( $expected, $csv );
 	}
 
 	public function testValidLog() {
-		$log = Red_Redirect_Log::create( 'domain', 'url', '192.168.1.1', [
+		$log = Log\Redirect::create( 'domain', 'url', '192.168.1.1', [
 			'agent' => 'agent',
 			'referrer' => 'referrer',
 			'http_code' => 301,
@@ -23,7 +23,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 			],
 		] );
 
-		$json = Red_Redirect_Log::get_by_id( $log )->to_json();
+		$json = Log\Redirect::get_by_id( $log )->to_json();
 		$expected = [
 			'url' => 'url',
 			'agent' => 'agent',
@@ -49,7 +49,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 	}
 
 	public function testEmptyRedirectLog() {
-		$log = Red_Redirect_Log::create( 'domain', 'url', '192.168.1.1', [
+		$log = Log\Redirect::create( 'domain', 'url', '192.168.1.1', [
 			'agent' => 'agent',
 			'referrer' => 'referrer',
 			'http_code' => 301,
@@ -59,7 +59,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 			],
 		] );
 
-		$json = Red_Redirect_Log::get_by_id( $log )->to_json();
+		$json = Log\Redirect::get_by_id( $log )->to_json();
 		$expected = [
 			'url' => 'url',
 			'agent' => 'agent',
@@ -102,7 +102,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 			'offset' => 20 * 4,
 			'where' => "WHERE sent_to LIKE '%target%' AND redirect_by = 'redirect_by'",
 		];
-		$query = Red_Redirect_Log::get_query( $query );
+		$query = Log\Redirect::get_query( $query );
 		$query['where'] = preg_replace( '/\{.*?\}/', '%', $query['where'] );
 
 		$this->assertEquals( $expected, $query );

@@ -1,7 +1,11 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
 // Note: not localised as the messages aren't important enough
-class Red_Database_201 extends Red_Database_Upgrader {
+class Database_201 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'add_title_201' => 'Add titles to redirects',

@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Redirect;
+
 /**
  * Options for a redirect source URL
  */
-class Red_Source_Options {
+class Source_Options {
 	/**
 	 * Exclude this from logging.
 	 *
@@ -40,7 +42,7 @@ class Red_Source_Options {
 	 * @return boolean
 	 */
 	public function can_log() {
-		$options = red_get_options();
+		$options = \Redirection\Settings\red_get_options();
 
 		if ( isset( $options['expire_redirect'] ) && $options['expire_redirect'] !== -1 ) {
 			return ! $this->log_exclude;

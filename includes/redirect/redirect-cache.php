@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Redirect;
+
 /**
  * Redirect caching.
  *
@@ -69,7 +71,7 @@ class Redirect_Cache {
 	}
 
 	public function reset() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 		$this->key = $settings['cache_key'];
 		$this->cached = [];
 	}
@@ -97,7 +99,7 @@ class Redirect_Cache {
 	 * Get the cache entry for a URL
 	 *
 	 * @param String $url Requested URL.
-	 * @return Red_Item[]|bool
+	 * @return Redirect[]|bool
 	 */
 	public function get( $url ) {
 		if ( ! $this->can_cache() ) {
@@ -127,8 +129,8 @@ class Redirect_Cache {
 	 * Set the cache for a URL
 	 *
 	 * @param String         $url URL to cache.
-	 * @param Red_Item|false $matched The matched redirect.
-	 * @param Red_Item[]     $redirects All of the redirects the match the URL.
+	 * @param Redirect|false $matched The matched redirect.
+	 * @param Redirect[]     $redirects All of the redirects the match the URL.
 	 * @return boolean
 	 */
 	public function set( $url, $matched, $redirects ) {
@@ -165,9 +167,9 @@ class Redirect_Cache {
 	}
 
 	/**
-	 * Convert a Red_Item to a format suitable for storing in the cache
+	 * Convert a Redirect\Redirect to a format suitable for storing in the cache
 	 *
-	 * @param Red_Item[] $rows Redirects.
+	 * @param Redirect[] $rows Redirects.
 	 * @return array
 	 */
 	private function convert_to_rows( array $rows ) {
@@ -185,9 +187,9 @@ class Redirect_Cache {
 	 *
 	 * If the matched redirect is a static redirect then we include it in the list, but don't include any redirects after.
 	 *
-	 * @param Red_Item[]     $redirects Array of redirects.
-	 * @param Red_Item|false $matched The matched item.
-	 * @return Red_Item[]
+	 * @param Redirect[]     $redirects Array of redirects.
+	 * @param Redirect|false $matched The matched item.
+	 * @return Redirect[]
 	 */
 	private function get_dynamic_matched( array $redirects, $matched ) {
 		$dynamic = [];

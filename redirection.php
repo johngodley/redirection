@@ -40,18 +40,18 @@ if ( version_compare( phpversion(), '5.6' ) < 0 ) {
 	return;
 }
 
-require_once __DIR__ . '/redirection-version.php';
-require_once __DIR__ . '/includes/redirection-settings.php';
+require_once __DIR__ . '/build/redirection-version.php';
+require_once __DIR__ . '/includes/plugin/class-settings.php';
+require_once __DIR__ . '/includes/plugin/class-flusher.php';
 require_once __DIR__ . '/includes/redirect/redirect.php';
 require_once __DIR__ . '/includes/url/url.php';
 require_once __DIR__ . '/includes/site/regex.php';
-require_once __DIR__ . '/includes/module/module.php';
-require_once __DIR__ . '/includes/log/log.php';
-require_once __DIR__ . '/includes/site/flusher.php';
-require_once __DIR__ . '/includes/match/match.php';
-require_once __DIR__ . '/includes/action/action.php';
 require_once __DIR__ . '/includes/site/request.php';
 require_once __DIR__ . '/includes/site/header.php';
+require_once __DIR__ . '/includes/module/module.php';
+require_once __DIR__ . '/includes/log/log.php';
+require_once __DIR__ . '/includes/match/match.php';
+require_once __DIR__ . '/includes/action/action.php';
 
 function red_is_wpcli() {
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -73,7 +73,7 @@ function red_start_rest() {
 	require_once __DIR__ . '/includes/redirection-admin.php';
 	require_once __DIR__ . '/includes/api/api.php';
 
-	Redirection_Api::init();
+	Redirection\Api\Api::init();
 	Redirection_Admin::init();
 
 	remove_action( 'rest_api_init', 'red_start_rest' );

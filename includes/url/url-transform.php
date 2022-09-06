@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Url;
+
 /**
  * Transform URL shortcodes
  */
-class Red_Url_Transform {
+class Transform {
 	/**
 	 * Replace special tags in the target URL.
 	 *
@@ -93,7 +95,7 @@ class Red_Url_Transform {
 				return str_replace( [ '-', ' ' ], '_', $content );
 		}
 
-		return apply_filters( 'redirection_url_transform', '', $tag, $attrs, $content );
+		return apply_filters( 'redirection_Transform', '', $tag, $attrs, $content );
 	}
 
 	/**

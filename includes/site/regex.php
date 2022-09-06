@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Site;
+
 /**
  * Regular expression helper
  */
-class Red_Regex {
+class Regex {
 	private $pattern;
 	private $case;
 
@@ -37,8 +39,8 @@ class Red_Regex {
 	 *
 	 * Note: if the pattern is invalid it will return $target
 	 *
-	 * @param string $replace_pattern The regex replace pattern
-	 * @param string $target Text to match the regex against
+	 * @param  string $replace_pattern The regex replace pattern
+	 * @param  string $target Text to match the regex against
 	 * @return string Replaced text
 	 */
 	public function replace( $replace_pattern, $target ) {

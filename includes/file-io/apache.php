@@ -1,6 +1,10 @@
 <?php
 
-class Red_Apache_File extends Red_FileIO {
+namespace Redirection\FileIO;
+
+use Redirection\Redirect;
+
+class Apache extends FileIO {
 	public function force_download() {
 		parent::force_download();
 
@@ -11,7 +15,7 @@ class Red_Apache_File extends Red_FileIO {
 	public function get_data( array $items, array $groups ) {
 		include_once __DIR__ . '/htaccess.php';
 
-		$htaccess = new Red_Htaccess();
+		$htaccess = new Htaccess();
 
 		foreach ( $items as $item ) {
 			$htaccess->add( $item );
@@ -33,7 +37,7 @@ class Red_Apache_File extends Red_FileIO {
 
 			if ( $item ) {
 				$item['group_id'] = $group;
-				$redirect = Red_Item::create( $item );
+				$redirect = Redirect\Redirect::create( $item );
 
 				if ( ! is_wp_error( $redirect ) ) {
 					$count++;

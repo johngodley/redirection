@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Site;
+
 /**
  * Canonical redirects.
  */
-class Redirection_Canonical {
+class Canonical {
 	/**
 	 * Aliased domains. These are domains that should be redirected to the WP domain.
 	 *
@@ -115,7 +117,7 @@ class Redirection_Canonical {
 	 * @return string|false
 	 */
 	private function get_canonical_target( $server ) {
-		$canonical = rtrim( red_parse_domain_only( $server ), '/' );
+		$canonical = rtrim( \Redirection\Settings\red_parse_domain_only( $server ), '/' );
 
 		if ( $this->need_force_www( $server ) ) {
 			$canonical = 'www.' . ltrim( $canonical, 'www.' );
@@ -185,7 +187,7 @@ class Redirection_Canonical {
 			return false;
 		} );
 
-		if ( $domain !== red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
+		if ( $domain !== \Redirection\Settings\red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
 			return apply_filters( 'redirect_relocate_target', $relocate . $request );
 		}
 

@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Check the client language
  */
-class Language_Match extends Red_Match {
+class Language extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -36,7 +40,7 @@ class Language_Match extends Red_Match {
 
 	public function is_match( $url ) {
 		$matches = explode( ',', $this->language );
-		$requested = Redirection_Request::get_accept_language();
+		$requested = Site\Request::get_accept_language();
 
 		foreach ( $matches as $match ) {
 			if ( in_array( $match, $requested, true ) ) {

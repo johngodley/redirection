@@ -1,11 +1,15 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database;
+
 /**
  * There are several problems with 2.3.3 => 2.4 that this attempts to cope with:
  * - some sites have a misconfigured IP column
  * - some sites don't have any IP column
  */
-class Red_Database_240 extends Red_Database_Upgrader {
+class Database_240 extends Database\Upgrader {
 	public function get_stages() {
 		return [
 			'convert_int_ip_to_varchar_240' => 'Convert integer IP values to support IPv6',

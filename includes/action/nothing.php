@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Action;
+
 /**
  * The 'do nothing' action. This really does nothing, and is used to short-circuit Redirection so that it doesn't trigger other redirects.
  */
-class Nothing_Action extends Red_Action {
+class Nothing extends Action {
 	/**
 	 * Issue an action when nothing happens. This stops further processing.
 	 *

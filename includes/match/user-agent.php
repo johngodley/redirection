@@ -1,9 +1,13 @@
 <?php
 
+namespace Redirection\Match;
+
+use Redirection\Site;
+
 /**
  * Match the user agent
  */
-class Agent_Match extends Red_Match {
+class User_Agent extends Match {
 	use FromNotFrom_Match;
 
 	/**
@@ -39,11 +43,11 @@ class Agent_Match extends Red_Match {
 
 	public function is_match( $url ) {
 		if ( $this->regex ) {
-			$regex = new Red_Regex( $this->agent, true );
-			return $regex->is_match( Redirection_Request::get_user_agent() );
+			$regex = new Site\Regex( $this->agent, true );
+			return $regex->is_match( Site\Request::get_user_agent() );
 		}
 
-		return $this->agent === Redirection_Request::get_user_agent();
+		return $this->agent === Site\Request::get_user_agent();
 	}
 
 	public function get_data() {

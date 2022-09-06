@@ -4,7 +4,7 @@ require dirname( __FILE__ ) . '/../../fileio/nginx.php';
 
 class NginxTest extends WP_UnitTestCase {
 	public function testEmpty() {
-		$nginx = new Red_Nginx_File();
+		$nginx = new FileIO\Nginx();
 		$file = $nginx->get_data( array(), array() );
 
 		$lines = explode( "\n", $file );
@@ -14,8 +14,8 @@ class NginxTest extends WP_UnitTestCase {
 	}
 
 	public function testNew() {
-		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( ( object )array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'status' => 'enabled' ) ) );
+		$nginx = new FileIO\Nginx();
+		$redirects = array( new Redirect\Redirect( ( object )array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'status' => 'enabled' ) ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );
@@ -30,8 +30,8 @@ class NginxTest extends WP_UnitTestCase {
 
 	public function testInvalidRegex() {
 		$regex = "something\nwith newline";
-		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => $regex, 'action_data' => $regex, 'action_code' => 301 ) ) );
+		$nginx = new FileIO\Nginx();
+		$redirects = array( new Redirect\Redirect( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => $regex, 'action_data' => $regex, 'action_code' => 301 ) ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );
@@ -41,8 +41,8 @@ class NginxTest extends WP_UnitTestCase {
 	}
 
 	public function testRegexStartEnd() {
-		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '^/test$', 'action_data' => '/target', 'action_code' => 301 ] ) );
+		$nginx = new FileIO\Nginx();
+		$redirects = array( new Redirect\Redirect( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '^/test$', 'action_data' => '/target', 'action_code' => 301 ] ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );
@@ -52,8 +52,8 @@ class NginxTest extends WP_UnitTestCase {
 
 	public function testCaseInsensitive() {
 		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
-		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => '/target', 'action_code' => 301, 'match_data' => $match_data ] ) );
+		$nginx = new FileIO\Nginx();
+		$redirects = array( new Redirect\Redirect( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'url' => '/test', 'action_data' => '/target', 'action_code' => 301, 'match_data' => $match_data ] ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );

@@ -16,7 +16,7 @@ function _manually_load_plugin() {
 	require dirname( __FILE__ ) . '/../redirection-admin.php';
 	require dirname( __FILE__ ) . '/../database/schema/latest.php';
 
-	$database = new Red_Latest_Database();
+	$database = new Database\Schema\Latest();
 	$database->remove();
 	$database->install();
 }

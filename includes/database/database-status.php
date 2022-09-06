@@ -1,6 +1,8 @@
 <?php
 
-class Red_Database_Status {
+namespace Redirection\Database;
+
+class Status {
 	// Used in < 3.7 versions of Redirection, but since migrated to general settings
 	const OLD_DB_VERSION = 'redirection_version';
 	const DB_UPGRADE_STAGE = 'database_stage';
@@ -37,7 +39,7 @@ class Red_Database_Status {
 	}
 
 	public function load_stage() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 
 		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
 			$this->stage = isset( $settings[ self::DB_UPGRADE_STAGE ]['stage'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stage'] : false;
@@ -52,7 +54,7 @@ class Red_Database_Status {
 	 * @return bool true if needs installing, false otherwise
 	 */
 	public function needs_installing() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 
 		if ( $settings['database'] === '' && $this->get_old_version() === false ) {
 			return true;
@@ -86,7 +88,7 @@ class Red_Database_Status {
 	 * @return string Current database version
 	 */
 	public function get_current_version() {
-		$settings = red_get_options();
+		$settings = \Redirection\Settings\red_get_options();
 
 		if ( $settings['database'] !== '' && is_string( $settings['database'] ) ) {
 			return $settings['database'];
@@ -97,7 +99,7 @@ class Red_Database_Status {
 
 			// Upgrade the old value
 			if ( $version ) {
-				red_set_options( array( 'database' => $version ) );
+				\Redirection\Settings\red_set_options( array( 'database' => $version ) );
 				delete_option( self::OLD_DB_VERSION );
 				$this->clear_cache();
 				return $version;
@@ -112,13 +114,13 @@ class Red_Database_Status {
 	}
 
 	public function check_tables_exist() {
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$missing = $latest->get_missing_tables();
 
 		// No tables installed - do a fresh install
 		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
-			delete_option( Red_Database_Status::OLD_DB_VERSION );
-			red_set_options( [ 'database' => '' ] );
+			delete_option( Status::OLD_DB_VERSION );
+			\Redirection\Settings\red_set_options( [ 'database' => '' ] );
 			$this->clear_cache();
 
 			$this->status = self::STATUS_NEED_INSTALL;
@@ -157,7 +159,7 @@ class Red_Database_Status {
 			}
 		}
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$this->debug = array_merge( $this->debug, $latest->get_table_schema() );
 		$this->debug[] = 'Stage: ' . $this->get_current_stage();
 	}
@@ -176,7 +178,7 @@ class Red_Database_Status {
 		$this->stages = [];
 		$this->debug = [];
 
-		red_set_options( [ self::DB_UPGRADE_STAGE => false ] );
+		\Redirection\Settings\red_set_options( [ self::DB_UPGRADE_STAGE => false ] );
 		$this->clear_cache();
 	}
 
@@ -298,7 +300,7 @@ class Red_Database_Status {
 		$this->stages = [];
 
 		foreach ( $upgrades as $upgrade ) {
-			$upgrader = Red_Database_Upgrader::get( $upgrade );
+			$upgrader = Upgrader::get( $upgrade );
 			$this->stages = array_merge( $this->stages, array_keys( $upgrader->get_stages() ) );
 		}
 
@@ -321,18 +323,18 @@ class Red_Database_Status {
 			],
 		];
 
-		red_set_options( $stages );
+		\Redirection\Settings\red_set_options( $stages );
 
 		$this->clear_cache();
 	}
 
 	private function get_manual_upgrade() {
 		$queries = [];
-		$database = new Red_Database();
+		$database = new Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
 
 		foreach ( $upgraders as $upgrade ) {
-			$upgrade = Red_Database_Upgrader::get( $upgrade );
+			$upgrade = Upgrader::get( $upgrade );
 
 			$stages = $upgrade->get_stages();
 			foreach ( array_keys( $stages ) as $stage ) {
@@ -344,14 +346,14 @@ class Red_Database_Status {
 	}
 
 	private function get_next_stage( $stage ) {
-		$database = new Red_Database();
+		$database = new Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), $this->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
 			$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
 		}
 
-		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
+		$upgrader = Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?
 		$pos = array_search( $this->stage, $this->stages, true );
@@ -373,7 +375,7 @@ class Red_Database_Status {
 	}
 
 	public function save_db_version( $version ) {
-		red_set_options( array( 'database' => $version ) );
+		\Redirection\Settings\red_set_options( array( 'database' => $version ) );
 		delete_option( self::OLD_DB_VERSION );
 
 		$this->clear_cache();

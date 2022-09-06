@@ -1,9 +1,11 @@
 <?php
 
+namespace Redirection\Match;
+
 /**
  * Match a particular role or capability
  */
-class Role_Match extends Red_Match {
+class Role extends Match {
 	use FromNotFrom_Match;
 
 	/**
