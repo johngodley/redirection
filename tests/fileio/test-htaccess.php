@@ -155,7 +155,7 @@ and a line at the end';
 	}
 
 	public function testRegexInData() {
-		$regex = "/$1";
+		$regex = '/$1';
 		$htaccess = new FileIO\Htaccess();
 		$htaccess->add( new Redirect\Redirect( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '/blog/(.*)', 'action_data' => $regex, 'action_code' => 301 ) ) );
 

@@ -8,7 +8,7 @@ use Redirection\FileIO;
 class Apache extends Module {
 	const MODULE_ID = 2;
 
-	private $location  = '';
+	private $location = '';
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -95,6 +95,6 @@ class Apache extends Module {
 			$save['location'] = '';
 		}
 
-		return true;
+		return $save;
 	}
 }

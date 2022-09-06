@@ -197,9 +197,14 @@ function red_set_options( array $settings = array() ) {
 	}
 
 	if ( isset( $settings['location'] ) && ( ! isset( $options['location'] ) || $options['location'] !== $settings['location'] ) ) {
-		$module = Module\Module::get( 2 );
+		$module = Module\Module::get( Module\Apache::MODULE_ID );
+
 		if ( $module ) {
-			$options['modules'][2] = $module->update( $settings );
+			$saved = $module->update( $settings );
+
+			if ( $saved['location'] ) {
+				$options['modules'][ Module\Apache::MODULE_ID ] = $saved;
+			}
 		}
 	}
 
