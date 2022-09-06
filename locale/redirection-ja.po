@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-10-02 13:57:14+0000\n"
+"PO-Revision-Date: 2022-08-19 09:47:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: redirection-strings.php:736
 msgid "Please review your data and try again."
-msgstr ""
+msgstr "データを確認してもう一度お試しください。"
 
 #: redirection-strings.php:735
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
@@ -33,7 +33,7 @@ msgstr ""
 
 #: redirection-strings.php:734
 msgid "Bad data"
-msgstr ""
+msgstr "不正なデータ"
 
 #: redirection-strings.php:730
 msgid "WordPress returned an unexpected message. This could be a PHP error from another plugin, or data inserted by your theme."
@@ -41,19 +41,19 @@ msgstr ""
 
 #: redirection-strings.php:729
 msgid "Your WordPress REST API has been disabled. You will need to enable it to continue."
-msgstr ""
+msgstr "WordPress REST API が無効化されています。続行するには有効化する必要があります。"
 
 #: redirection-strings.php:726
 msgid "An unknown error occurred."
-msgstr ""
+msgstr "未知のエラーが発生しました。"
 
 #: redirection-strings.php:724
 msgid "Your REST API is being redirected. Please remove the redirection for the API."
-msgstr ""
+msgstr "REST API はリダイレクトされています。API のリダイレクトを削除してください。"
 
 #: redirection-strings.php:722
 msgid "A security plugin or firewall is blocking access. You will need to whitelist the REST API."
-msgstr ""
+msgstr "セキュリティ プラグインまたはファイアウォールがアクセスをブロックしています。REST API をホワイトリストに追加してください。"
 
 #: redirection-strings.php:721
 msgid "Your server configuration is blocking access to the REST API. You will need to fix this."
@@ -61,7 +61,7 @@ msgstr ""
 
 #: redirection-strings.php:720
 msgid "Check your {{link}}Site Health{{/link}} and fix any issues."
-msgstr ""
+msgstr "{{link}}サイトヘルス{{/link}} をご確認の上問題を修正してください。"
 
 #: redirection-strings.php:719
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting? If not then you will need to fix any issues."
@@ -73,15 +73,15 @@ msgstr ""
 
 #: redirection-strings.php:714
 msgid "Debug Information"
-msgstr ""
+msgstr "デバッグ情報"
 
 #: redirection-strings.php:713
 msgid "Show debug"
-msgstr ""
+msgstr "デバッグを表示"
 
 #: redirection-strings.php:614
 msgid "View Data"
-msgstr ""
+msgstr "データを表示"
 
 #: redirection-strings.php:511
 msgid "Other"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: redirection-strings.php:491
 msgid "Logging"
-msgstr ""
+msgstr "ログ"
 
 #: redirection-strings.php:490
 msgid "(IP logging level)"
@@ -113,39 +113,39 @@ msgstr ""
 
 #: redirection-strings.php:428
 msgid "Are you sure you want to delete the selected items?"
-msgstr ""
+msgstr "本当に選択されたものを削除してもよいですか？"
 
 #: redirection-strings.php:378
 msgid "View Redirect"
-msgstr ""
+msgstr "リダイレクトを表示"
 
 #: redirection-strings.php:376
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: redirection-strings.php:370 redirection-strings.php:400
 msgid "Group by user agent"
-msgstr ""
+msgstr "ユーザーエージェントでグループ分け"
 
 #: redirection-strings.php:367 redirection-strings.php:426
 msgid "Search domain"
-msgstr ""
+msgstr "ドメインを検索"
 
 #: redirection-strings.php:336 redirection-strings.php:356
 #: redirection-strings.php:373
 msgid "Redirect By"
-msgstr ""
+msgstr "リダイレクトシステム"
 
 #: redirection-strings.php:333 redirection-strings.php:354
 #: redirection-strings.php:387 redirection-strings.php:414
 msgid "Domain"
-msgstr ""
+msgstr "ドメイン"
 
 #: redirection-strings.php:332 redirection-strings.php:353
 #: redirection-strings.php:372 redirection-strings.php:386
 #: redirection-strings.php:413 redirection-strings.php:420
 msgid "Method"
-msgstr ""
+msgstr "メソッド"
 
 #: redirection-strings.php:263
 msgid "If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
@@ -153,15 +153,15 @@ msgstr ""
 
 #: redirection-strings.php:262
 msgid "Please check the {{link}}support site{{/link}} before proceeding further."
-msgstr ""
+msgstr "先に進む前に {{link}}サポートサイト{{/link}} をご確認ください。"
 
 #: redirection-strings.php:256
 msgid "Something went wrong when upgrading Redirection."
-msgstr ""
+msgstr "Redirection のアップグレード中に問題が発生しました。"
 
 #: redirection-strings.php:208
 msgid "Something went wrong when installing Redirection."
-msgstr ""
+msgstr "Redirection のインストール中に問題が発生しました。"
 
 #: redirection-strings.php:145
 msgid "Apply To All"
@@ -181,15 +181,15 @@ msgstr ""
 
 #: redirection-strings.php:126
 msgid "Redirect Source"
-msgstr ""
+msgstr "リダイレクト元"
 
 #: redirection-strings.php:125
 msgid "Request Headers"
-msgstr ""
+msgstr "リクエストヘッダー"
 
 #: redirection-strings.php:96
 msgid "Exclude from logs"
-msgstr ""
+msgstr "ログから除外する"
 
 #: redirection-strings.php:46
 msgid "Cannot connect to the server to determine the redirect status."
@@ -209,7 +209,7 @@ msgstr "ドメインに引っ越し"
 
 #: redirection-strings.php:711
 msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
-msgstr ""
+msgstr "サイト全体のリダイレクトをお望みですか？ドメインを入力して、WordPress ログイン画面と管理画面以外のすべてをリダイレクトできます。このオプションを有効化するとほかのエイリアス設定やカノニカル設定が無効化されます。"
 
 #: redirection-strings.php:710
 msgid "Relocate Site"
@@ -237,7 +237,7 @@ msgstr "優先ドメイン"
 
 #: redirection-strings.php:694
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
-msgstr ""
+msgstr "{{strong}}警告{{/strong}}: リダイレクトを強制する前にHTTPSが動作しているかご確認ください。"
 
 #: redirection-strings.php:693
 msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
@@ -313,11 +313,11 @@ msgstr "次のプラグインが検出されました。"
 
 #: redirection-strings.php:203
 msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
-msgstr ""
+msgstr "WordPress は投稿の URL が変わった際に自動でリダイレクトを作成します。これらを Redirection にインポートすることであなたが管理できるようになります。"
 
 #: redirection-strings.php:202
 msgid "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import."
-msgstr ""
+msgstr "WordPress や別のプラグインからリダイレクトをインポートするのは、Redirection の上手な始め方です。インポートしたいリダイレクトを選んでください。"
 
 #: redirection-strings.php:201 redirection-strings.php:206
 msgid "Import Existing Redirects"
@@ -361,7 +361,7 @@ msgstr "地域"
 
 #: redirection-strings.php:705
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
-msgstr ""
+msgstr "サイトヘッダーはリダイレクトを含むサイト全体に適用されます。リダイレクトヘッダーはリダイレクトにのみ適用されます。"
 
 #: redirection-strings.php:704
 msgid "HTTP Headers"
@@ -530,27 +530,27 @@ msgstr "言語"
 
 #: redirection-strings.php:89
 msgid "504 - Gateway Timeout"
-msgstr "504 - Gateway Timeout"
+msgstr "504 - Gateway Timeout（時間切れ）"
 
 #: redirection-strings.php:88
 msgid "503 - Service Unavailable"
-msgstr "503 - Service Unavailable"
+msgstr "503 - Service Unavailable（サービス利用不可）"
 
 #: redirection-strings.php:87
 msgid "502 - Bad Gateway"
-msgstr "502 - Bad Gateway"
+msgstr "502 - Bad Gateway（通信異常）"
 
 #: redirection-strings.php:86
 msgid "501 - Not implemented"
-msgstr "501 - Not implemented"
+msgstr "501 - Not implemented（未実装）"
 
 #: redirection-strings.php:85
 msgid "500 - Internal Server Error"
-msgstr "500 - Internal Server Error"
+msgstr "500 - Internal Server Error（サーバー内部エラー）"
 
 #: redirection-strings.php:84
 msgid "451 - Unavailable For Legal Reasons"
-msgstr "451 - Unavailable For Legal Reasons"
+msgstr "451 - Unavailable For Legal Reasons（検閲により利用不可）"
 
 #: redirection-strings.php:66 matches/language.php:9
 msgid "URL and language"
@@ -558,7 +558,7 @@ msgstr "URL と言語"
 
 #: redirection-strings.php:743
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
-msgstr ""
+msgstr "ログアウトし、ブラウザのキャッシュを削除してからログインしなおしてください。お使いのブラウザはキャッシュされた古いセッションを表示しています。"
 
 #: redirection-strings.php:742
 msgid "Reload the page - your current session is old."
@@ -590,7 +590,7 @@ msgstr "ターゲット URL に無効な文字 {{code}}%(invalid)s{{/code}} が�
 
 #: redirection-strings.php:271
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr ""
+msgstr "WordPress 5.2 以降をお使いの場合は、{{link}}サイトヘルス{{/link}} をご覧の上で問題を解決してください。"
 
 #: redirection-strings.php:19
 msgid "If you do not complete the manual install you will be returned here."
@@ -602,7 +602,7 @@ msgstr "完了後、「完了 !🎉”」をクリックしてください。"
 
 #: redirection-strings.php:16 redirection-strings.php:251
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
-msgstr ""
+msgstr "お使いのサイトが特別なデータベースの権限を必要としている場合や、ご自身で行いたい場合は、手動で以下のSQLを実行することもできます。"
 
 #: redirection-strings.php:15 redirection-strings.php:211
 msgid "Manual Install"
@@ -710,7 +710,7 @@ msgstr "REST API が動作していないため、この問題が修正される
 
 #: redirection-strings.php:135
 msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
-msgstr ""
+msgstr "REST API に接続する際に問題が発生しています。プラグインが動作するのにこの問題を修正する必要はありません。"
 
 #: redirection-strings.php:134
 msgid "Unavailable"
@@ -770,7 +770,7 @@ msgstr "考えられる原因"
 
 #: redirection-strings.php:727
 msgid "This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log"
-msgstr ""
+msgstr "セキュリティ プラグインによる問題、またはメモリ不足や外部エラーが考えられます。サーバーのエラーログをご確認ください"
 
 #: redirection-strings.php:716
 msgid "Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests."
@@ -998,7 +998,7 @@ msgstr "準備ができたら、ボタンを押して続行してください。
 
 #: redirection-strings.php:174
 msgid "First you will be asked a few questions, and then Redirection will set up your database."
-msgstr ""
+msgstr "数個の質問から、Redirection がデータベースを設定します。"
 
 #: redirection-strings.php:173
 msgid "What's next?"
@@ -1042,7 +1042,7 @@ msgstr ""
 
 #: redirection-strings.php:158
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
-msgstr ""
+msgstr "Redirection バージョン %(version)s をインストールしていただきありがとうございます。このプラグインでは、Apache や Nginx の知識なしで、301 リダイレクトを管理したり、404 エラーを追跡したり、サイトを改善したりできます。"
 
 #: redirection-strings.php:157
 msgid "Welcome to Redirection 🚀🎉"
@@ -1082,7 +1082,7 @@ msgstr "進捗: %(complete)d$"
 
 #: redirection-strings.php:20
 msgid "Leaving before the process has completed may cause problems."
-msgstr ""
+msgstr "手順が完了する前に離脱すると問題が発生する可能性があります。"
 
 #: redirection-strings.php:14
 msgid "Setting up Redirection"
@@ -1131,7 +1131,7 @@ msgstr "データベースを更新"
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:82
 msgid "Please complete your <a href=\"%s\">Redirection setup</a> to activate the plugin."
-msgstr ""
+msgstr "<a href=\"%s\">Redirection セットアップ</a> を行って、プラグインを有効化してください。"
 
 #. translators: version number
 #: api/api-plugin.php:118
@@ -1180,23 +1180,23 @@ msgstr "このリダイレクトの目的を説明 (省略可)"
 
 #: redirection-strings.php:83
 msgid "418 - I'm a teapot"
-msgstr "418 - I'm a teapot"
+msgstr "418 - I'm a teapot（急須ですが）"
 
 #: redirection-strings.php:80
 msgid "403 - Forbidden"
-msgstr "403 - Forbidden"
+msgstr "403 - Forbidden（不許可）"
 
 #: redirection-strings.php:78
 msgid "400 - Bad Request"
-msgstr "400 - Bad Request"
+msgstr "400 - Bad Request（不正なリクエスト）"
 
 #: redirection-strings.php:75
 msgid "304 - Not Modified"
-msgstr "304 - Not Modified"
+msgstr "304 - Not Modified（変更なし）"
 
 #: redirection-strings.php:74
 msgid "303 - See Other"
-msgstr "303 - See Other"
+msgstr "303 - See Other（次のページ）"
 
 #: redirection-strings.php:71
 msgid "Do nothing (ignore)"
@@ -1216,11 +1216,11 @@ msgstr "すべて表示"
 
 #: redirection-strings.php:432
 msgid "Delete logs for these entries"
-msgstr ""
+msgstr "これらの項目のログをすべて削除"
 
 #: redirection-strings.php:431
 msgid "Delete logs for this entry"
-msgstr ""
+msgstr "この項目のログをすべて削除"
 
 #: redirection-strings.php:430
 msgid "Delete Log Entries"
@@ -1719,7 +1719,7 @@ msgstr "URL モニター"
 
 #: redirection-strings.php:725
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
-msgstr ""
+msgstr "リクエストが肥大化したためサーバーによって拒否されました。続行するには設定を見直してください。"
 
 #: redirection-admin.php:445
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"

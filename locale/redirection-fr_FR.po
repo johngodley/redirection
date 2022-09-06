@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-07-13 05:52:21+0000\n"
+"PO-Revision-Date: 2022-08-09 06:03:47+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -566,7 +566,7 @@ msgstr "Veuillez recharger la page. Votre session actuelle est expirée."
 
 #: redirection-strings.php:4
 msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
-msgstr "Une boucle a été détectée et la mise à niveau a été arrêtée. Ceci indique généralement que {{{support}}}votre site est mis en cache{{{support}}} et que les modifications de la base de données ne sont pas enregistrées."
+msgstr "Une boucle a été détectée et la mise à niveau a été arrêtée. Ceci indique généralement que {{support}}votre site est mis en cache{{/support}}} et que les modifications de la base de données ne sont pas enregistrées."
 
 #: redirection-strings.php:516
 msgid "Unable to save .htaccess file"
