@@ -2,17 +2,12 @@
  * External dependencies
  */
 
-import React from 'react';
 import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
 import { STATUS_COMPLETE } from '../../state/settings/type';
-
-/**
- * Internal dependencies
- */
 import TableHeader from './header';
 import TableRows from './row';
 import './style.scss';

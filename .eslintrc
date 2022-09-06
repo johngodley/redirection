@@ -1,0 +1,26 @@
+{
+	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"env": {
+		"browser": true
+	},
+	"plugins": [ "@typescript-eslint" ],
+	"globals": {},
+	"ignorePatterns": [ "vendor/", "node_modules/", "build/" ],
+	"rules": {
+		"prettier/prettier": "off",
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": [ "error" ],
+		"no-unused-expressions": "off",
+		"@typescript-eslint/no-unused-expressions": [ "error" ]
+	},
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [ ".js", ".jsx", ".ts", ".tsx" ]
+			}
+		},
+		"jest": {
+			"version": 26
+		}
+	}
+}

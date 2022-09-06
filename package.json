@@ -1,12 +1,85 @@
 {
 	"name": "redirection",
-	"version": "5.4.0-beta-1",
+	"version": "5.3.0-beta-1",
 	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
+	"author": "John Godley",
+	"license": "GPL-3.0-only",
+	"keywords": [
+		"post",
+		"admin",
+		"seo",
+		"pages",
+		"manage",
+		"301",
+		"404",
+		"redirect",
+		"permalink"
+	],
+	"homepage": "https://github.com/johngodley/redirection",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/johngodley/redirection.git"
+	},
+	"bugs": {
+		"url": "https://github.com/johngodley/redirection/issues"
+	},
+	"engines": {
+		"node": ">=12.14.0",
+		"npm": ">=6.14.8"
+	},
 	"main": "redirection.php",
 	"browser": {
 		"redirection.php": false
 	},
 	"sideEffects": true,
+	"dependencies": {
+		"@emotion/react": "^11.9.3",
+		"@wordpress/element": "^4.10.0",
+		"@wordpress/i18n": "^4.12.0",
+		"classnames": "^2.3.1",
+		"deep-equal": "^2.0.5",
+		"qs": "^6.11.0",
+		"rc-progress": "^3.4.0",
+		"rc-util": "^5.22.5",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-dropzone": "^14.2.2",
+		"react-focus-lock": "^2.9.1",
+		"react-highlight-words": "^0.18.0",
+		"react-redux": "^8.0.2",
+		"react-textarea-autosize": "^8.3.4",
+		"redux": "^4.2.0",
+		"redux-thunk": "^2.4.1",
+		"typescript": "^4.7.4",
+		"url": "^0.11.0",
+		"use-debounce": "^8.0.1"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.14",
+		"@types/react-dom": "^18.0.6",
+		"@types/react-highlight-words": "^0.16.4",
+		"@types/react-redux": "^7.1.24",
+		"@wordpress/base-styles": "^4.6.0",
+		"@wordpress/eslint-plugin": "^12.6.0",
+		"@wordpress/prettier-config": "^1.4.0",
+		"@wordpress/scripts": "^23.4.0",
+		"apidoc": "^0.51.1",
+		"chai": "^4.3.6",
+		"download": "^8.0.0",
+		"glob-all": "^3.3.0",
+		"gulp": "^4.0.2",
+		"gulp-deleted": "1.0.0",
+		"gulp-po2json": "^1.0.0",
+		"gulp-zip": "^5.1.0",
+		"he": "^1.2.0",
+		"jest": "^28.1.2",
+		"mocha": "^10.0.0",
+		"path": "^0.12.7",
+		"prettier": "npm:wp-prettier@2.6.2",
+		"through": "^2.3.8",
+		"through2": "^4.0.2",
+		"webpack-shell-plugin-next": "^2.2.2"
+	},
 	"scripts": {
 		"build": "wp-scripts build",
 		"check-engines": "wp-scripts check-engines",
@@ -190,9 +263,5 @@
 	},
 	"wordpress": {
 		"supported": "5.4"
-	},
-	"engines": {
-		"node": ">=12.14.0",
-		"npm": ">=6.14.8"
 	}
 }
