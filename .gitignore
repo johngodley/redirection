@@ -7,3 +7,4 @@ node_modules
 /redirection.js.LICENSE.txt
 .DS_Store
 build
+languages

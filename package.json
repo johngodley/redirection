@@ -27,7 +27,7 @@
 		"clean": "docker compose down && docker compose rm && docker volume prune",
 		"cli": "docker compose run cli sh",
 		"export": "docker compose run cli wp redirection export all /opt/redirection/redirects.json",
-		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
+		"release": "rm -rf node_modules && yarn install && yarn dist",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
 		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
 		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
@@ -137,6 +137,7 @@
 		"webpack-bundle-size-analyzer": "^3.1.0",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.10.1"
+		"webpack-shell-plugin-next": "^2.2.2"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.10.4",

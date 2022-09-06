@@ -50,12 +50,6 @@ const SVN_SOURCE_FILES = [
 	'!redirection.js.LICENSE.txt',
 	'!tsconfig.json',
 ];
-const versionHeader = md5 => `<?php
-
-define( 'REDIRECTION_VERSION', '${ pkg.version }' );
-define( 'REDIRECTION_BUILD', '${ md5 }' );
-define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
-`;
 
 function downloadLocale( locale, wpName, type ) {
 	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
@@ -102,17 +96,6 @@ const copyPlugin = ( target, cb ) => src( SVN_SOURCE_FILES )
 			cb();
 		}
 	} );
-
-function version( cb ) {
-	fs.readFile( 'redirection.js', ( error, data ) => {
-		const md5 = crypto
-			.createHash( 'md5' )
-			.update( data, 'utf8' )
-			.digest( 'hex' );
-
-		fs.writeFile( 'redirection-version.php', versionHeader( md5 ), cb );
-	} );
-}
 
 const svn = () => copyPlugin( config.svn_target, () => console.log( 'SVN exported to ' + config.svn_target ) );
 
@@ -192,7 +175,6 @@ function potDownload( cb ) {
 }
 
 exports.svn = svn;
-exports.version = version;
 exports.plugin = plugin;
 exports.potDownload = potDownload;
 exports.potJson = potJson;

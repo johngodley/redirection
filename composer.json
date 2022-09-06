@@ -6,7 +6,7 @@
         "humanmade/psalm-plugin-wordpress": "^1.0"
     },
     "scripts": {
-        "pot": "wp i18n make-pot . languages/redirection.pot --ignore-domain --exclude=redirection-strings.php",
+        "pot": "wp i18n make-pot . languages/redirection.pot --ignore-domain --exclude=build/redirection-strings.php",
         "json": "wp i18n make-json languages --purge"
         "test": "./vendor/bin/phpunit"
     },
