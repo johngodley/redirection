@@ -40,7 +40,7 @@ class JsonTest extends WP_UnitTestCase {
 			'groups' => array(
 				array(
 					'name' => 'groupx',
-					'id' => 5,
+					'id' => 1,
 					'module_id' => 1,
 					'enabled' => true,
 				),
@@ -64,8 +64,8 @@ class JsonTest extends WP_UnitTestCase {
 		$group = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_groups ORDER BY id DESC LIMIT 1" );
 		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
 
-		$this->assertEquals( 'groupx', $group->name );
+		$this->assertEquals( 'Group', $group->name );
 		$this->assertEquals( '/source1', $redirect->url );
-		$this->assertEquals( $group->id, $redirect->group_id );
+		$this->assertEquals( 1, $redirect->group_id );
 	}
 }

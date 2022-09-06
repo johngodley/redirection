@@ -50,7 +50,7 @@ class Json extends FileIO {
 				}
 
 				if ( $new_group ) {
-					$groups[ $group->get_id() ] = $new_group;
+					$groups[ $group['id'] ] = $new_group;
 				}
 			}
 		}
