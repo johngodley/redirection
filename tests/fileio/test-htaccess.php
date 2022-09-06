@@ -137,7 +137,7 @@ and a line at the end';
 
 		$lines = $this->getOutput( $htaccess );
 
-		$this->assertEquals( 'RewriteRule ^my-test$ /target?test=1&test=2%20 [R=301,L]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^my-test$ /target?test=1&test=2%20 [R=301,L,NE]', trim( $lines[5] ) );
 	}
 
 	public function testInvalidRegex() {

@@ -3,6 +3,10 @@
 class RequestTest extends WP_UnitTestCase {
 	private $ip = false;
 
+	public function setUp() : void {
+		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+	}
+
 	private function monitorAction( $hook ) {
 		$action = new MockAction();
 
@@ -264,7 +268,9 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testMaskIP4() {
-		add_filter( 'redirection_request_ip', array( Redirection::init(), 'mask_ip' ) );;
+		$front = Redirection::init();
+
+		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 		red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
@@ -273,10 +279,13 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '192.168.1.0', $result );
+		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMaskIP6() {
-		add_filter( 'redirection_request_ip', array( Redirection::init(), 'mask_ip' ) );;
+		$front = Redirection::init();
+
+		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );;
 		red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
@@ -285,6 +294,7 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '2000:420:22:0:10:226:260:3224', $result );
+		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMissingHeader() {
