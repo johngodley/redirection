@@ -13,9 +13,16 @@ class SettingsTest extends WP_UnitTestCase {
 		unset( $options['token'] );
 
 		foreach ( $defaults as $name => $value ) {
+			if ( $name === 'flag_case' || $name === 'flag_trailing' ) {
+				continue;
+			}
+
 			$this->assertTrue( isset( $options[ $name ] ) );
-			$this->assertEquals( $value, $options[ $name ] );
+			$this->assertEquals( $value, $options[ $name ], "Failed with $name" );
 		}
+
+		$this->assertTrue( $options['flag_case'] );
+		$this->assertTrue( $options['flag_trailing'] );
 	}
 
 	public function testGetDefaultOptionsAlreadyInstalled() {

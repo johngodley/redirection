@@ -488,5 +488,31 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test pass query param with case insenstive",
+		{
+			"source": {
+				"url": "/query-pass-case?thiS=THaT"
+			},
+			"target": {
+				"location": "/plain-redirect/?thiS=THaT",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test pass query param with no value",
+		{
+			"source": {
+				"url": "/query-pass-case?thiS"
+			},
+			"target": {
+				"location": "/plain-redirect/?thiS",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]
