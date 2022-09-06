@@ -62,7 +62,7 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 function downloadLocale( locale, wpName, type ) {
 	const url = LOCALE_URL.replace( '$LOCALE', locale ) + type;
 
-	download( url, 'locale', {
+	download( url, 'languages', {
 		filename: 'redirection-' + wpName + '.' + type,
 	} )
 		.catch( e => {
@@ -132,7 +132,7 @@ function plugin() {
 }
 
 function potJson( done ) {
-	return src( [ 'locale/*.po' ] )
+	return src( [ 'languages/*.po' ] )
 		.pipe( po2json() )
 		.pipe( through.obj( ( file, enc, cb ) => {
 			const json = JSON
@@ -163,7 +163,7 @@ function potJson( done ) {
 			file.contents = new Buffer( he.decode( JSON.stringify( translation ) ) );
 			cb( null, file );
 		} ) )
-		.pipe( dest( 'locale/json/' ) )
+		.pipe( dest( 'languages/json/' ) )
 		.on( 'end', function () {
 			done();
 		} );

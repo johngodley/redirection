@@ -320,7 +320,7 @@ class Redirection_Admin {
 			'update_notice' => $is_new ? $major_version : false,
 		) );
 
-		wp_set_script_translations( 'redirection', 'redirection', plugin_dir_path( __FILE__ ) . 'locale/json/' );
+		wp_set_script_translations( 'redirection', 'redirection', plugin_dir_path( __FILE__ ) . 'languages/json/' );
 
 		$this->add_help_tab();
 	}
@@ -425,7 +425,7 @@ class Redirection_Admin {
 			$locale = get_user_locale();
 		}
 
-		$i18n_json = dirname( REDIRECTION_FILE ) . '/locale/json/redirection-' . $locale . '.json';
+		$i18n_json = dirname( REDIRECTION_FILE ) . '/languages/json/redirection-' . $locale . '.json';
 
 		if ( is_file( $i18n_json ) && is_readable( $i18n_json ) ) {
 			// phpcs:ignore

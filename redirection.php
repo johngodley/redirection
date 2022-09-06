@@ -6,7 +6,7 @@ Description: Manage all your 301 redirects and monitor 404 errors
 Version: 5.4.0-beta-1
 Author: John Godley
 Text Domain: redirection
-Domain Path: /locale
+Domain Path: /languages
 ============================================================================================================
 This software is provided "as is" and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantibility and fitness for a particular purpose are disclaimed. In no event shall
@@ -80,7 +80,7 @@ function red_start_rest() {
 }
 
 function redirection_locale() {
-	load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
+	load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/languages/' );
 }
 
 if ( red_is_admin() || red_is_wpcli() ) {

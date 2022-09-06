@@ -20,8 +20,25 @@
         "plugin-zip": "wp-scripts plugin-zip",
         "start": "wp-scripts start",
         "test:e2e": "wp-scripts test-e2e",
+        "test:unit": "wp-scripts test-unit-js",
+		"e2e": "NODE_ENV=e2e jest --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
+		"up": "docker compose up",
+		"down": "docker compose down",
+		"clean": "docker compose down && docker compose rm && docker volume prune",
+		"cli": "docker compose run cli sh",
+		"export": "docker compose run cli wp redirection export all /opt/redirection/redirects.json",
+		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
+		"doc": "apidoc -v -i api/ -o ./api-doc/",
+		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
+		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
+		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
+		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis",
+		"locale": "rm -rf language/*.po language/*.mo language/json/*.json && composer run-script pot && yarn locale:download && yarn locale:json",
+		"locale:download": "gulp potDownload",
+		"locale:json": "gulp potJson",
 		"svn": "gulp svn",
 		"test:php": "composer run-script test"
+		"plugin": "gulp plugin"
         "test:unit": "wp-scripts test-unit-js"
 	},
 	"repository": {
