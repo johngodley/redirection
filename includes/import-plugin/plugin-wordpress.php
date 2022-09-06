@@ -32,7 +32,7 @@ class WordPress_Canonical extends Importer\Plugin_Importer {
 			return false;
 		}
 
-		$new_path = wp_parse_url( $new, PHP_Path );
+		$new_path = wp_parse_url( $new, PHP_URL_PATH );
 		$old = rtrim( dirname( $new_path ), '/' ) . '/' . rtrim( $redirect->meta_value, '/' ) . '/';
 		$old = str_replace( '\\', '', $old );
 		$old = str_replace( '//', '/', $old );

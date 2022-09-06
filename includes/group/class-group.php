@@ -123,7 +123,7 @@ class Group {
 	/**
 	 * Get all groups
 	 *
-	 * @return Group[]
+	 * @return array[]
 	 */
 	public static function get_all( $params = [] ) {
 		global $wpdb;

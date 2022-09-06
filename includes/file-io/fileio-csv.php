@@ -39,7 +39,7 @@ class Csv extends FileIO {
 			$item->get_action_type(),
 			$item->get_hits(),
 			$item->get_title(),
-			$item->is_enabled() ? 'active' : 'disabled'
+			$item->is_enabled() ? 'active' : 'disabled',
 		);
 
 		$csv = array_map( array( $this, 'escape_csv' ), $csv );
@@ -101,12 +101,11 @@ class Csv extends FileIO {
 			}
 		}
 
-
 		return $count;
 	}
 
 	private function get_valid_code( $code ) {
-		if ( get_status_header_desc( $code ) !== '' ) {
+		if ( get_status_header_desc( intval( $code, 10 ) ) !== '' ) {
 			return intval( $code, 10 );
 		}
 
@@ -114,12 +113,15 @@ class Csv extends FileIO {
 	}
 
 	public function csv_as_item( $csv, $group ) {
-		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
+		$source = isset( $csv[ self::CSV_SOURCE ] ) ? $csv[ self::CSV_SOURCE ] : null;
+		$target = isset( $csv[ self::CSV_TARGET ] ) ? $csv[ self::CSV_TARGET ] : null;
+
+		if ( $source && $target && $source !== 'source' && $target !== 'target' ) {
 			$code = $this->get_valid_code( isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301 );
 
 			return [
-				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
+				'url'         => trim( $source ),
+				'action_data' => array( 'url' => trim( $target ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',
@@ -138,7 +140,7 @@ class Csv extends FileIO {
 	private function is_regex( $url ) {
 		$regex = '()[]$^*';
 
-		if ( strpbrk( $url, $regex ) === false ) {
+		if ( $url && strpbrk( $url, $regex ) === false ) {
 			return false;
 		}
 

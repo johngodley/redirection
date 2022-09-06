@@ -87,7 +87,7 @@ class Permalinks {
 	 * @return boolean
 	 */
 	private function needs_migrating() {
-		global $wp_query;
+		global $wp_query, $wp;
 
 		// It's a 404 - shortcut to yes
 		if ( is_404() ) {
@@ -99,7 +99,7 @@ class Permalinks {
 			return false;
 		}
 
-		if ( $wp_query->posts && ! $wp_query->is_posts_page && empty( $this->query_vars['page'] ) ) {
+		if ( $wp_query->posts && ! $wp_query->is_posts_page && empty( $wp->query_vars['page'] ) ) {
 			return false;
 		}
 

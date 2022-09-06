@@ -23,6 +23,8 @@ abstract class Module {
 		}
 	}
 
+	abstract public function get_name();
+
 	/**
 	 * Get a module based on the supplied ID, and loads it with appropriate options.
 	 *
@@ -143,8 +145,9 @@ abstract class Module {
 	/**
 	 * Flush
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	protected function flush_module() {
+		return true;
 	}
 }

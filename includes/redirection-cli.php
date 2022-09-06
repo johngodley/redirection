@@ -1,6 +1,10 @@
 <?php
 
 use Redirection\FileIO;
+use Redirection\Group;
+use Redirection\Plugin;
+use Redirection\Importer;
+use Redirection\Database;
 
 /**
  * Implements example command.
@@ -81,7 +85,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		$name = $args[0];
 		$set = isset( $extra['set'] ) ? $extra['set'] : false;
 
-		$options = \Redirection\Plugin\Settings\red_get_options();
+		$options = Plugin\Settings\red_get_options();
 
 		if ( ! isset( $options[ $name ] ) ) {
 			WP_CLI::error( 'Unsupported setting: ' . $name );
@@ -99,7 +103,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			$options = [];
 			$options[ $name ] = $decoded;
 
-			$options = \Redirection\Plugin\Settings\red_set_options( $options );
+			$options = Plugin\Settings\red_set_options( $options );
 			$value = $options[ $name ];
 		}
 
@@ -246,7 +250,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			$wpdb->show_errors( false );
 
-			Database\Database::apply_to_sites( function() {
+			Database\Database::apply_to_sites( function() use ( $skip ) {
 				$database = new Database\Database();
 				$status = new Database\Status();
 
@@ -258,7 +262,7 @@ class Redirection_Cli extends WP_CLI_Command {
 				$loop = 0;
 
 				while ( $loop < 50 ) {
-					$result = $database->apply_upgrade( $status );
+					$database->apply_upgrade( $status );
 					$info = $status->get_json();
 
 					if ( ! $info['inProgress'] ) {

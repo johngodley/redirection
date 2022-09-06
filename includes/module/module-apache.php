@@ -86,7 +86,7 @@ class Apache extends Module {
 		if ( ! empty( $this->location ) && $save['location'] !== $this->location && $save['location'] !== '' ) {
 			// Location has moved. Remove from old location
 			$htaccess = new FileIO\Htaccess();
-			$htaccess->save( $this->location, '' );
+			$htaccess->save( $this->location );
 		}
 
 		$this->load( $save );
@@ -95,6 +95,6 @@ class Apache extends Module {
 			$save['location'] = '';
 		}
 
-		return $save;
+		return true;
 	}
 }

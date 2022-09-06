@@ -60,10 +60,10 @@ class Admin {
 	/**
 	 * Massage the Redirection WP translations.
 	 *
-	 * @param [type] $file
-	 * @param [type] $handle
-	 * @param [type] $domain
-	 * @return void
+	 * @param string  $file File.
+	 * @param integer $handle File handle.
+	 * @param string  $domain Locale domain.
+	 * @return string
 	 */
 	public function load_script_translation_file( $file, $handle, $domain ) {
 		if ( $domain === 'redirection' ) {
@@ -587,7 +587,7 @@ class Admin {
 	 * Get the current plugin page.
 	 * Uses $_GET['sub'] to determine the current page unless a page is supplied.
 	 *
-	 * @param string $page Current page.
+	 * @param string|false $page Current page.
 	 *
 	 * @return string|boolean Current page, or false.
 	 */

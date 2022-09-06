@@ -14,7 +14,7 @@ class DatabaseTester {
 		$wpdb->suppress_errors( false );
 
 		if ( $result === false ) {
-			throw new Exception( 'Failed to create table ' . $table );
+			throw new \Exception( 'Failed to create table ' . $table );
 		}
 
 		return $result->$create;
@@ -81,7 +81,7 @@ class DatabaseTester {
 				$result = $wpdb->query( $table );
 
 				if ( $result === false ) {
-					throw new Exception( 'Failed to create table ' . $table );
+					throw new \Exception( 'Failed to create table ' . $table );
 				}
 			}
 

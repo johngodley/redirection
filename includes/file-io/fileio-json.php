@@ -44,13 +44,13 @@ class Json extends FileIO {
 
 		if ( isset( $json['groups'] ) ) {
 			foreach ( $json['groups'] as $group ) {
-				$group = Group\Group::get( $group['id'] );
-				if ( ! $group ) {
-					$group = Group\Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
+				$new_group = Group\Group::get( $group['id'] );
+				if ( ! $new_group ) {
+					$new_group = Group\Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
 				}
 
-				if ( $group ) {
-					$groups[ $group->get_id() ] = $group;
+				if ( $new_group ) {
+					$groups[ $group->get_id() ] = $new_group;
 				}
 			}
 		}

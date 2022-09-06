@@ -35,7 +35,7 @@ class Query {
 	/**
 	 * Constructor
 	 *
-	 * @param String           $url URL.
+	 * @param String       $url URL.
 	 * @param Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
@@ -50,7 +50,7 @@ class Query {
 	/**
 	 * Does this object match the URL?
 	 *
-	 * @param String           $url URL to match.
+	 * @param String       $url URL to match.
 	 * @param Source_Flags $flags Source flags.
 	 * @return boolean
 	 */
@@ -105,8 +105,8 @@ class Query {
 	/**
 	 * Pass query params from one URL to another URL, ignoring any params that already exist on the target.
 	 *
-	 * @param string           $target_url The target URL to add params to.
-	 * @param string           $requested_url The source URL to pass params from.
+	 * @param string       $target_url The target URL to add params to.
+	 * @param string       $requested_url The source URL to pass params from.
 	 * @param Source_Flags $flags Any URL flags.
 	 * @return string URL, modified or not.
 	 */
@@ -284,7 +284,7 @@ class Query {
 	private function get_query_case( array $query ) {
 		$keys = [];
 		foreach ( array_keys( $query ) as $key ) {
-			$keys[ Red_Url_Path::to_lower( $key ) ] = $key;
+			$keys[ Path::to_lower( $key ) ] = $key;
 		}
 
 		return $keys;

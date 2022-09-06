@@ -244,6 +244,8 @@ class Htaccess {
 	/**
 	 * Add a redirect flags
 	 *
+	 * @param string $current Current line.
+	 * @param array  $flags Flags to add.
 	 * @return string
 	 */
 	private function add_flags( $current, array $flags ) {
@@ -279,9 +281,9 @@ class Htaccess {
 	/**
 	 * Add a random target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param array|string $data Data.
+	 * @param integer      $code HTTP code.
+	 * @param array        $match_data Match data.
 	 * @return string
 	 */
 	private function action_random( $data, $code, $match_data ) {
@@ -301,9 +303,9 @@ class Htaccess {
 	/**
 	 * Add a passthrough target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param array|string $data Data.
+	 * @param integer      $code HTTP code.
+	 * @param array        $match_data Match data.
 	 * @return string
 	 */
 	private function action_pass( $data, $code, $match_data ) {
@@ -315,9 +317,9 @@ class Htaccess {
 	/**
 	 * Add an error target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param array|string $data Data.
+	 * @param integer      $code HTTP code.
+	 * @param array        $match_data Match data.
 	 * @return string
 	 */
 	private function action_error( $data, $code, $match_data ) {
@@ -333,9 +335,9 @@ class Htaccess {
 	/**
 	 * Add a URL target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param array|string $data Data.
+	 * @param integer $code HTTP code.
+	 * @param array   $match_data Match data.
 	 * @return string
 	 */
 	private function action_url( $data, $code, $match_data ) {
@@ -349,9 +351,10 @@ class Htaccess {
 	/**
 	 * Return URL target
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string       $action Action type.
+	 * @param string|array $data Data.
+	 * @param integer      $code HTTP code.
+	 * @param array        $match_data Match data.
 	 * @return string
 	 */
 	private function target( $action, $data, $code, $match_data ) {
@@ -378,7 +381,7 @@ class Htaccess {
 
 		$text = [
 			'# Created by Redirection',
-			'# ' . date( 'r' ),
+			'# ' . gmdate( 'r' ),
 			'# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me',
 			'',
 			'<IfModule mod_rewrite.c>',
@@ -422,7 +425,7 @@ class Htaccess {
 	/**
 	 * Get the .htaccess file
 	 *
-	 * @param boolean $existing Existing .htaccess data.
+	 * @param string|false $existing Existing .htaccess data.
 	 * @return string
 	 */
 	public function get( $existing = false ) {
@@ -462,11 +465,10 @@ class Htaccess {
 	/**
 	 * Save the .htaccess to a file
 	 *
-	 * @param string  $filename Filename to save.
-	 * @param boolean $content_to_save Content to save.
+	 * @param string $filename Filename to save.
 	 * @return bool
 	 */
-	public function save( $filename, $content_to_save = false ) {
+	public function save( $filename ) {
 		$existing = false;
 		$filename = $this->sanitize_filename( $filename );
 

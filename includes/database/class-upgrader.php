@@ -26,7 +26,8 @@ abstract class Upgrader {
 	/**
 	 * Run a particular stage on the current upgrader
 	 *
-	 * @return Status
+	 * @param Status $status Status.
+	 * @return void
 	 */
 	public function perform_stage( Status $status ) {
 		global $wpdb;
@@ -36,7 +37,7 @@ abstract class Upgrader {
 			try {
 				$this->$stage( $wpdb );
 				$status->set_ok( $this->get_reason( $stage ) );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				$status->set_error( $e->getMessage() );
 			}
 		} else {
@@ -103,7 +104,7 @@ abstract class Upgrader {
 
 		if ( $result === false ) {
 			/* translators: 1: SQL string */
-			throw new Exception( sprintf( 'Failed to perform query "%s"', $sql ) );
+			throw new \Exception( sprintf( 'Failed to perform query "%s"', $sql ) );
 		}
 
 		return true;

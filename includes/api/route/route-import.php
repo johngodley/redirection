@@ -64,13 +64,15 @@ class Import extends Api\Route {
 	public function route_plugin_import( \WP_REST_Request $request ) {
 		include_once dirname( dirname( __DIR__ ) ) . '/import-plugin/class-importer.php';
 
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
 		$groups = Group\Group::get_all();
 		$plugins = is_array( $request['plugin'] ) ? $request['plugin'] : [ $request['plugin'] ];
 		$total = 0;
 
-		foreach ( $plugins as $plugin ) {
-			$total += Importer\Plugin_Importer::import( $plugin, $groups[0]['id'] );
+		if ( count( $groups ) > 0 ) {
+			foreach ( $plugins as $plugin ) {
+				$total += Importer\Plugin_Importer::import( $plugin, $groups[0]['id'] );
+			}
 		}
 
 		return [ 'imported' => $total ];

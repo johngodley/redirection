@@ -40,7 +40,7 @@ class Source_Flags {
 	/**
 	 * Query parameter matching
 	 *
-	 * @var self::QUERY_EXACT|self::QUERY_IGNORE|self::QUERY_PASS|self::QUERY_EXACT_ORDER
+	 * @var string
 	 */
 	private $flag_query = self::QUERY_EXACT;
 

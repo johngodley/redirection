@@ -48,7 +48,8 @@ class Database {
 	/**
 	 * Apply a particular upgrade stage
 	 *
-	 * @return mixed Result for upgrade
+	 * @param Status $status Status.
+	 * @return void
 	 */
 	public function apply_upgrade( Status $status ) {
 		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );

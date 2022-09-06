@@ -162,7 +162,7 @@ class Redirect {
 	/**
 	 * Constructor
 	 *
-	 * @param stdClass|array|null $values Values.
+	 * @param \stdClass|array|null $values Values.
 	 */
 	public function __construct( $values = null ) {
 		if ( is_object( $values ) ) {
@@ -510,7 +510,7 @@ class Redirect {
 
 		// Create
 		if ( $wpdb->insert( $wpdb->prefix . 'redirection_items', $data ) !== false ) {
-			Module\Module::flush( $data['group_id'] );
+			Module\Module::flush( intval( $data['group_id'], 10 ) );
 
 			$redirect = self::get_by_id( $wpdb->insert_id );
 			if ( $redirect ) {
@@ -944,7 +944,7 @@ class Redirect {
 	 * Get a filtered list of redirects
 	 *
 	 * @param array $params Filter parameters.
-	 * @return array<total: integer, items: Redirect[]>
+	 * @return array
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;

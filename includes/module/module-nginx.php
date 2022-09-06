@@ -5,7 +5,7 @@ namespace Redirection\Module;
 class Nginx extends Module {
 	const MODULE_ID = 3;
 
-	private $location  = '';
+	private $location = '';
 
 	public function get_id() {
 		return self::MODULE_ID;
@@ -23,9 +23,6 @@ class Nginx extends Module {
 				$this->$key = $data[ $key ];
 			}
 		}
-	}
-
-	protected function flush_module() {
 	}
 
 	public function update( array $data ) {

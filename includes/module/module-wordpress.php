@@ -137,9 +137,9 @@ class WordPress extends Module {
 	/**
 	 * Called when a redirect is matched. This allows us to cache a positive result.
 	 *
-	 * @param String         $url URL.
+	 * @param String                  $url URL.
 	 * @param Redirect\Redirect|false $matched_redirect Matched redirect.
-	 * @param array          $redirects Array of redirects.
+	 * @param array                   $redirects Array of redirects.
 	 * @return void
 	 */
 	public function cache_redirects( $url, $matched_redirect, $redirects ) {
@@ -150,8 +150,8 @@ class WordPress extends Module {
 	/**
 	 * If we have a 404 then check for any permalink migrations
 	 *
-	 * @param boolean  $result Return result.
-	 * @param WP_Query $query WP_Query object.
+	 * @param boolean   $result Return result.
+	 * @param \WP_Query $query WP_Query object.
 	 * @return boolean
 	 */
 	public function pre_handle_404( $result, \WP_Query $query ) {

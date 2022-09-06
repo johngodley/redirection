@@ -379,7 +379,7 @@ function red_get_options() {
 /**
  * Get the current REST API
  *
- * @param boolean $type Override with a specific API type.
+ * @param boolean|integer $type Override with a specific API type.
  * @return string
  */
 function red_get_rest_api( $type = false ) {

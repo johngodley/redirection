@@ -252,7 +252,7 @@ class Group extends Api\Filter_Route {
 	 * @return \WP_Error|array Return an array of results, or a WP_Error
 	 */
 	public function route_create( \WP_REST_Request $request ) {
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
 		$group = Redirect_Group\Group::create( isset( $params['name'] ) ? $params['name'] : '', isset( $params['moduleId'] ) ? $params['moduleId'] : 0 );
 
 		if ( $group ) {
@@ -269,7 +269,7 @@ class Group extends Api\Filter_Route {
 	 * @return \WP_Error|array Return an array of results, or a WP_Error
 	 */
 	public function route_update( \WP_REST_Request $request ) {
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
 		$group = Redirect_Group\Group::get( intval( $request['id'], 10 ) );
 
 		if ( $group ) {

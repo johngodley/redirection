@@ -4,6 +4,8 @@ namespace Redirection\FileIO;
 
 use Redirection\Redirect;
 use Redirection\Url;
+use Redirection\Plugin;
+use Redirection\Match;
 
 class Nginx extends FileIO {
 	public function force_download() {
@@ -15,10 +17,10 @@ class Nginx extends FileIO {
 
 	public function get_data( array $items, array $groups ) {
 		$lines   = array();
-		$version = \Redirection\Plugin\Settings\red_get_plugin_data( REDIRECTION_FILE );
+		$version = Plugin\Settings\red_get_plugin_data( REDIRECTION_FILE );
 
 		$lines[] = '# Created by Redirection';
-		$lines[] = '# ' . date( 'r' );
+		$lines[] = '# ' . gmdate( 'r' );
 		$lines[] = '# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me';
 		$lines[] = '';
 		$lines[] = 'server {';
@@ -60,42 +62,90 @@ class Nginx extends FileIO {
 		return false;
 	}
 
+	/**
+	 * Add plain redirect
+	 *
+	 * @param Redirect\Redirect $item Item.
+	 * @param array             $match_data Match data.
+	 * @return string
+	 **/
 	private function add_url( Redirect\Redirect $item, array $match_data ) {
 		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $match_data['source'] );
 	}
 
+	/**
+	 * Add user agent match
+	 *
+	 * @param Redirect\Redirect $item Item.
+	 * @param array             $match_data Match data.
+	 * @return string
+	 * @suppress PhanUndeclaredProperty
+	 **/
 	private function add_agent( Redirect\Redirect $item, array $match_data ) {
-		if ( $item->match->url_from ) {
-			$lines[] = 'if ( $http_user_agent ~* ^' . $item->match->user_agent . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
+		if ( ! ( $item->match instanceof Match\User_Agent ) ) {
+			return '';
+		}
+
+		/** @var Match\User_Agent */
+		$match = $item->match;
+		$lines = [];
+
+		if ( $match->url_from ) {
+			$lines[] = 'if ( $http_user_agent ~* ^' . $match->user_agent . '$ ) {';
+			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
 			$lines[] = '    }';
 		}
 
-		if ( $item->match->url_notfrom ) {
-			$lines[] = 'if ( $http_user_agent !~* ^' . $item->match->user_agent . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_notfrom, $this->get_redirect_code( $item ), $match_data['source'] );
+		if ( $match->url_notfrom ) {
+			$lines[] = 'if ( $http_user_agent !~* ^' . $match->user_agent . '$ ) {';
+			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_notfrom, $this->get_redirect_code( $item ), $match_data['source'] );
 			$lines[] = '    }';
 		}
 
 		return implode( "\n", $lines );
 	}
 
+	/**
+	 * Add referrer match
+	 *
+	 * @param Redirect\Redirect $item Item.
+	 * @param array             $match_data Match data.
+	 * @return string
+	 * @suppress PhanUndeclaredProperty
+	 **/
 	private function add_referrer( Redirect\Redirect $item, array $match_data ) {
-		if ( $item->match->url_from ) {
-			$lines[] = 'if ( $http_referer ~* ^' . $item->match->referrer . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
+		if ( ! ( $item->match instanceof Match\Referrer ) ) {
+			return '';
+		}
+
+		/** @var Match\Referrer */
+		$match = $item->match;
+		$lines = [];
+
+		if ( $match->url_from ) {
+			$lines[] = 'if ( $http_referer ~* ^' . $match->referrer . '$ ) {';
+			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_from, $this->get_redirect_code( $item ), $match_data['source'] );
 			$lines[] = '    }';
 		}
 
-		if ( $item->match->url_notfrom ) {
-			$lines[] = 'if ( $http_referer !~* ^' . $item->match->referrer . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $item->match->url_notfrom, $this->get_redirect_code( $item ), $match_data['source'] );
+		if ( $match->url_notfrom ) {
+			$lines[] = 'if ( $http_referer !~* ^' . $match->referrer . '$ ) {';
+			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_notfrom, $this->get_redirect_code( $item ), $match_data['source'] );
 			$lines[] = '    }';
 		}
 
 		return implode( "\n", $lines );
 	}
 
+	/**
+	 * Get a redirect
+	 *
+	 * @param string $line Existing line.
+	 * @param string $target Target URL.
+	 * @param string $code HTTP code.
+	 * @param string $source Source URL.
+	 * @return string
+	 */
 	private function get_redirect( $line, $target, $code, $source ) {
 		$line = ltrim( $line, '^' );
 		$line = rtrim( $line, '$' );

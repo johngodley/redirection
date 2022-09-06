@@ -56,6 +56,7 @@ abstract class Action {
 		if ( isset( $avail[ $name ] ) ) {
 			require_once __DIR__ . '/action-' . $avail[ $name ];
 
+			$class = null;
 			switch ( $name ) {
 				case 'url':
 					$class = new Url( $code );
@@ -78,8 +79,10 @@ abstract class Action {
 					break;
 			}
 
-			$class->type = $name;
-			return $class;
+			if ( $class ) {
+				$class->type = $name;
+				return $class;
+			}
 		}
 
 		return null;

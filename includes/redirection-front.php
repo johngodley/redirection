@@ -3,7 +3,6 @@
 namespace Redirection\Front;
 
 use Redirection\Module;
-use Redirection\Redirect;
 use Redirection\Database;
 use Redirection\Plugin;
 use Redirection\Url;

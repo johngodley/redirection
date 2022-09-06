@@ -5,6 +5,7 @@ namespace Redirection\Api\Route;
 use Redirection\Database;
 use Redirection\Plugin as Redirect_Plugin;
 use Redirection\Api;
+use Redirection\Group;
 
 /**
  * 'Plugin' functions for Redirection

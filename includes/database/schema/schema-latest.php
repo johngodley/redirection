@@ -20,7 +20,7 @@ class Schema_Latest extends Database\Upgrader {
 	/**
 	 * Install the latest database
 	 *
-	 * @return bool|WP_Error true if installed, WP_Error otherwise
+	 * @return bool|\WP_Error true if installed, WP_Error otherwise
 	 */
 	public function install() {
 		global $wpdb;

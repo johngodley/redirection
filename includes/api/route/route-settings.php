@@ -118,6 +118,7 @@ class Settings extends Api\Route {
 		$result = true;
 
 		if ( isset( $params['location'] ) && strlen( $params['location'] ) > 0 ) {
+			/** @var Module\Apache */
 			$module = Module\Module::get( 2 );
 			$result = $module->can_save( $params['location'] );
 		}
@@ -125,7 +126,7 @@ class Settings extends Api\Route {
 		\Redirection\Plugin\Settings\red_set_options( $params );
 
 		$settings = $this->route_settings( $request );
-		if ( is_wp_error( $result ) ) {
+		if ( $result instanceof \WP_Error ) {
 			$settings['warning'] = $result->get_error_message();
 		}
 

@@ -105,7 +105,7 @@ class Sanitize {
 		}
 
 		if ( isset( $details['last_access'] ) ) {
-			$data['last_access'] = date( 'Y-m-d H:i:s', strtotime( $details['last_access'] ) );
+			$data['last_access'] = gmdate( 'Y-m-d H:i:s', strtotime( $details['last_access'] ) );
 		}
 
 		if ( ! is_wp_error( $data['url'] ) ) {
@@ -234,7 +234,7 @@ class Sanitize {
 
 		if ( isset( $options['auto_target'] ) && $options['auto_target'] ) {
 			$id = time();
-			$url = str_replace( '$dec$', $id, $options['auto_target'] );
+			$url = str_replace( '$dec$', (string) $id, $options['auto_target'] );
 			$url = str_replace( '$hex$', sprintf( '%x', $id ), $url );
 		}
 
