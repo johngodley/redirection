@@ -25,7 +25,7 @@ class Red_Csv_File extends Red_FileIO {
 
 	public function item_as_csv( $item ) {
 		$data = $item->match->get_data();
-		$data = isset( $data['url'] ) ? $data = $data['url'] : '*';
+		$data = isset( $data['url'] ) ? $data = $data['url'] : '/unknown';
 
 		$csv = array(
 			$item->get_url(),

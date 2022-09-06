@@ -92,6 +92,9 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function get_redirect( $line, $target, $code, $source ) {
+		$line = ltrim( $line, '^' );
+		$line = rtrim( $line, '$' );
+
 		$source_url = new Red_Url_Encode( $line );
 		$target_url = new Red_Url_Encode( $target );
 
