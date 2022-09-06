@@ -55,6 +55,7 @@
 		"use-debounce": "^8.0.2"
 	},
 	"devDependencies": {
+		"@redux-devtools/extension": "^3.2.2",
 		"@types/jest": "^28.1.6",
 		"@types/react": "^18.0.15",
 		"@types/react-dom": "^18.0.6",
@@ -92,6 +93,8 @@
 		"lint:php": "phpcs -s",
 		"lint:psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"lint:phan": "./vendor/bin/phan",
+		"lint:stan": "./vendor/bin/phpstan analyse -c phpstan.neon",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip && mv redirection.zip redirection-$npm_package_version.zip",
 		"release": "release-it",
@@ -99,12 +102,12 @@
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"test:js": "wp-scripts test-unit-js",
 		"test:php": "composer run-script test",
+		"test:unit": "wp-scripts test-unit-js",
 		"locale": "rm -rf language/*.po language/*.mo language/json/*.json && composer run-script pot && yarn locale:download && yarn locale:json",
 		"locale:download": "gulp potDownload",
 		"locale:json": "gulp potJson",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
 		"svn": "gulp svn",
-		"test:php": "composer run-script test"
 		"plugin": "gulp plugin"
         "test:unit": "wp-scripts test-unit-js"
 	},

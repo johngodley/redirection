@@ -7,7 +7,9 @@
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
 		"sirbrillig/phpcs-variable-analysis": "^2.11",
 		"sirbrillig/phpcs-no-get-current-user": "^1.1",
-		"phpunit/phpunit": "^9.5"
+		"phpunit/phpunit": "^9.5",
+		"phpstan/phpstan": "^1.8",
+		"phan/phan": "^5.3"
 	},
 	"scripts": {
 		"pot": "wp i18n make-pot . languages/redirection.pot --ignore-domain --exclude=build/redirection-strings.php",

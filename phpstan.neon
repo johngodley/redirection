@@ -1,0 +1,10 @@
+parameters:
+	scanDirectories:
+		- ../../../wp-includes
+		- ../../../wp-admin
+	scanFiles:
+		- ./redirection.php
+		- ./build/redirection-version.php
+	level: 2
+	paths:
+		- includes
