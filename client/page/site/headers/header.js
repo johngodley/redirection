@@ -2,7 +2,6 @@
  * External dependencies
  */
 
-import React from 'react';
 import { __ } from '@wordpress/i18n';
 
 /**
@@ -44,6 +43,7 @@ const knownHeaders = {
 	'X-Frame-Options': {
 		component: HeaderReplaceSimpleChoice,
 		info: '',
+		default: 'deny',
 		options: {
 			choices: arrayToSelect( [
 				'deny',
@@ -98,6 +98,7 @@ const knownHeaders = {
 	'Clear-Site-Data': {
 		component: HeaderMultiChoice,
 		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data',
+		default: 'cache',
 		options: {
 			choices: arrayToSelect( [
 				'cache',
@@ -134,6 +135,7 @@ const knownHeaders = {
 	'Access-Control-Allow-Methods': {
 		component: HeaderMultiChoice,
 		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods',
+		default: 'GET',
 		options: {
 			choices: arrayToSelect( [
 				'GET',
@@ -269,7 +271,6 @@ const Header = ( { header, onChange, onDelete } ) => {
 	const changeHeader = ( ev ) => {
 		const { name, value } = ev.target;
 		let hName = headerName;
-
 		if ( name === 'type' && value === 'Custom' ) {
 			hName = '';
 		} else if ( name === 'type' ) {
@@ -277,8 +278,8 @@ const Header = ( { header, onChange, onDelete } ) => {
 		}
 
 		saveHeader( {
-			headerValue: name === 'type' ? '' : header.headerValue,
-			headerSettings: name === 'type' ? getDefault( value ) : header.headerSettings,
+			headerValue: name === 'type' ? getDefault( value ) : header.headerValue,
+			headerSettings: name === 'type' ? getOptions( hName ) : header.headerSettings,
 			headerName: hName,
 			[ name ]: value,
 		} );
