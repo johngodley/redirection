@@ -14,7 +14,7 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'type', 'code', 'match', 'hits', 'title', 'status' ) ) ];
+		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'match', 'hits', 'title', 'status' ) ) ];
 
 		foreach ( $items as $line ) {
 			$lines[] = $this->item_as_csv( $line );
@@ -25,7 +25,7 @@ class Red_Csv_File extends Red_FileIO {
 
 	public function item_as_csv( $item ) {
 		$data = $item->match->get_data();
-		$data = isset( $data['url'] ) ? $data = $data['url'] : '*';
+		$data = isset( $data['url'] ) ? $data = $data['url'] : '/unknown';
 
 		$csv = array(
 			$item->get_url(),
@@ -43,6 +43,10 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function escape_csv( $item ) {
+		if ( is_numeric( $item ) ) {
+			return $item;
+		}
+
 		return '"' . str_replace( '"', '""', $item ) . '"';
 	}
 

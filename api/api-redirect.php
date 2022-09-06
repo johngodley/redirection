@@ -95,7 +95,7 @@
  * @apiParam {Integer} group_id The group this redirect belongs to
  * @apiParam {String} action_type What to do when the URL is matched
  * @apiParam {Integer} action_code The HTTP code to return
- * @apiParam {String} action_data Any data associated with the `action_type` and `match_type`. For example, the target URL
+ * @apiParam {Object} action_data Any data associated with the `action_type` and `match_type`. For example, the target URL
  */
 
 /**

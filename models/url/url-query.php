@@ -10,11 +10,18 @@ class Red_Url_Query {
 	const RECURSION_LIMIT = 10;
 
 	/**
-	 * Query parameters
+	 * Original query parameters (used when passing)
 	 *
 	 * @var array
 	 */
-	private $query = [];
+	private $original_query = [];
+
+	/**
+	 * Match query parameters (used only for matching, and maybe be lowercased)
+	 *
+	 * @var array
+	 */
+	private $match_query = [];
 
 	/**
 	 * Is this an exact match?
@@ -30,7 +37,12 @@ class Red_Url_Query {
 	 * @param Red_Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
-		$this->query = $this->get_url_query( $flags->is_ignore_case() ? Red_Url_Path::to_lower( $url ) : $url );
+		$this->original_query = $this->get_url_query( $url );
+		$this->match_query = $this->original_query;
+
+		if ( $flags->is_ignore_case() ) {
+			$this->match_query = $this->get_url_query( Red_Url_Path::to_lower( $url ) );
+		}
 	}
 
 	/**
@@ -53,16 +65,16 @@ class Red_Url_Query {
 		$target = $this->get_url_query( $url );
 
 		// All params in the source have to exist in the request, but in any order
-		$matched = $this->get_query_same( $this->query, $target, $flags->is_ignore_case() );
+		$matched = $this->get_query_same( $this->match_query, $target, $flags->is_ignore_case() );
 
-		if ( count( $matched ) !== count( $this->query ) ) {
+		if ( count( $matched ) !== count( $this->match_query ) ) {
 			// Source params arent matched exactly
 			return false;
 		};
 
 		// Get list of whatever is left over
-		$query_diff = $this->get_query_diff( $this->query, $target );
-		$query_diff = array_merge( $query_diff, $this->get_query_diff( $target, $this->query ) );
+		$query_diff = $this->get_query_diff( $this->match_query, $target );
+		$query_diff = array_merge( $query_diff, $this->get_query_diff( $target, $this->match_query ) );
 
 		if ( $flags->is_query_ignore() || $flags->is_query_pass() ) {
 			return true;  // This ignores all other query params
@@ -102,8 +114,8 @@ class Red_Url_Query {
 			$request_query = new Red_Url_Query( $requested_url, $flags );
 
 			// Now add any remaining params
-			$query_diff = $source_query->get_query_diff( $source_query->query, $request_query->query );
-			$request_diff = $request_query->get_query_diff( $request_query->query, $source_query->query );
+			$query_diff = $source_query->get_query_diff( $source_query->original_query, $request_query->original_query );
+			$request_diff = $request_query->get_query_diff( $request_query->original_query, $source_query->original_query );
 
 			foreach ( $request_diff as $key => $value ) {
 				$query_diff[ $key ] = $value;
@@ -112,7 +124,7 @@ class Red_Url_Query {
 			// Remove any params from $source that are present in $request - we dont allow
 			// predefined params to be overridden
 			foreach ( array_keys( $query_diff ) as $key ) {
-				if ( isset( $source_query->query[ $key ] ) ) {
+				if ( isset( $source_query->original_query[ $key ] ) ) {
 					unset( $query_diff[ $key ] );
 				}
 			}
@@ -127,11 +139,24 @@ class Red_Url_Query {
 	 * Build a URL from a base and query parameters
 	 *
 	 * @param String $url Base URL.
-	 * @param Array  $query Query parameters.
+	 * @param Array  $query_array Query parameters.
 	 * @return String
 	 */
-	public static function build_url( $url, $query ) {
-		$query = http_build_query( $query );
+	public static function build_url( $url, $query_array ) {
+		$query = http_build_query( array_map( function( $value ) {
+			if ( $value === null ) {
+				return '';
+			}
+
+			return $value;
+		}, $query_array ) );
+
+		foreach ( $query_array as $key => $value ) {
+			if ( $value === null ) {
+				$query = str_replace( $key . '=', $key, $query );
+			}
+		}
+
 		$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
 
 		if ( $query ) {
@@ -160,7 +185,7 @@ class Red_Url_Query {
 	 * @return String
 	 */
 	public function get_url_with_query( $url ) {
-		return self::build_url( $url, $this->query );
+		return self::build_url( $url, $this->original_query );
 	}
 
 	/**
@@ -169,7 +194,7 @@ class Red_Url_Query {
 	 * @return Array
 	 */
 	public function get() {
-		return $this->query;
+		return $this->original_query;
 	}
 
 	/**
@@ -199,6 +224,13 @@ class Red_Url_Query {
 		$query = $this->get_query_after( $url );
 
 		wp_parse_str( $query ? $query : '', $params );
+
+		// For exactness and due to the way parse_str works we go through and check any query param without a value
+		foreach ( $params as $key => $value ) {
+			if ( is_string( $value ) && strlen( $value ) === 0 && strpos( $url, $value . '=' ) === false ) {
+				$params[ $key ] = null;
+			}
+		}
 
 		if ( $this->is_exact_match( $url, $params ) ) {
 			$this->match_exact = $query;

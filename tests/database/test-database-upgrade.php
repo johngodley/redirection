@@ -5,9 +5,11 @@ class DatabaseTester {
 		global $wpdb;
 
 		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$create = 'Create Table';
 		$result = $wpdb->get_row( "SHOW CREATE TABLE $table" );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( $result === false ) {
 			throw new Exception( 'Failed to create table ' . $table );
