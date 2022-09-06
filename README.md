@@ -35,7 +35,7 @@ Some parts of the UI are React and can be built with:
 
 `yarn build`
 
-To use in development mode then set `REDIRECTION_DEV_MODE` to true in PHP, and run:
+To use in development mode then run:
 
 `yarn start`
 

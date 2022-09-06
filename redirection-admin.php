@@ -276,13 +276,8 @@ class Redirection_Admin {
 			) );
 		}
 
-		if ( defined( 'REDIRECTION_DEV_MODE' ) && REDIRECTION_DEV_MODE ) {
-			wp_enqueue_script( 'redirection', 'http://localhost:3312/redirection.js', array(), $build, true );
-		} else {
-			wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js', array(), $build, true );
-		}
-
-		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'redirection.css', array(), $build );
+		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.js', [], $build, true );
+		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.css', [], $build );
 
 		$is_new = false;
 		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );

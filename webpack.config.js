@@ -1,86 +1,76 @@
-/** @format */
+/**
+ * External dependencies
+ */
 
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-const TerserPlugin = require( 'terser-webpack-plugin' );
-
-// PostCSS plugins
-const postcssPresetEnv = require( 'postcss-preset-env' );
-const postcssFocus = require( 'postcss-focus' );
-const postcssReporter = require( 'postcss-reporter' );
-
-const isProduction = () => process.env.NODE_ENV === 'production';
-const getDevUrl = 'http://localhost:3312/';
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 const pkg = require( './package.json' );
+const TerserPlugin = require( 'terser-webpack-plugin' );
+const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
 
-const config = {
-	entry: [ path.join( __dirname, 'client', 'index.tsx' ) ],
-	output: {
-		path: path.join( __dirname ),
-		filename: 'redirection.js',
-		chunkFilename: 'redirection-[name]-[chunkhash].js',
-	},
-	module: {
-		rules: [
-			{
-				test: /\.(ts|js|tsx)$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader',
-			},
-			{
-				test: /\.json$/,
-				loader: 'json-loader',
-			},
-			{
-				test: /\.scss$/,
-				exclude: /node_modules/,
-				use: [ 'style-loader', 'css-loader', 'postcss-loader', 'sass-loader' ],
-			},
-			{
-				test: [ path.resolve( __dirname, 'node_modules/redbox-react' ) ],
-				use: 'null-loader',
-			},
-		],
-	},
-	resolve: {
-		extensions: [ '.js', '.ts', '.tsx', '.json', '.scss', '.css' ],
-		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
-	},
-	externals: {
-		'@wordpress/i18n': 'wp.i18n'
-	},
-	plugins: [
-		new webpack.BannerPlugin( 'Redirection v' + pkg.version ),
+
+const WORDPRESS_NAMESPACE = '@wordpress/';
+
+function camelCaseDash( string ) {
+	return string.replace( /-([a-z])/g, ( _, letter ) => letter.toUpperCase() );
+}
+
+function requestToExternal( request ) {
+    if ( request.startsWith( WORDPRESS_NAMESPACE ) ) {
+		return [
+			'wp',
+			camelCaseDash( request.substring( WORDPRESS_NAMESPACE.length ) ),
+		];
+    }
+}
+
+process.env.WP_NO_EXTERNALS = true;
+
+const modified = {
+    ...defaultConfig,
+    output: {
+        ...defaultConfig.output,
+        filename: 'redirection.js',
+    },
+    externals: {
+        '@wordpress/i18n': 'wp.i18n'
+    },
+    plugins: [
+        // Replace the default MiniCSSExtractPlugin with a custom one that doesn't externalise React
+        ...defaultConfig.plugins.filter( ( plugin ) => !( plugin instanceof MiniCSSExtractPlugin ) && !( plugin instanceof DependencyExtractionWebpackPlugin ) ),
+        new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
+
 		new webpack.DefinePlugin( {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
-		//		new BundleAnalyzerPlugin(),
-		new webpack.LoaderOptionsPlugin( {
-			options: {
-				postcss: [
-					postcssFocus(),
-					postcssPresetEnv( {
-						browsers: [ 'last 2 versions', 'IE > 10' ],
-					} ),
-					postcssReporter( {
-						clearMessages: true,
-					} ),
-				],
-			},
-		} ),
-	],
-	watchOptions: {
-		ignored: [ 'node_modules/**' ],
-	},
-	performance: {
-		hints: false,
-	},
-	optimization: {
-		minimize: isProduction(),
-		minimizer: [
-			new TerserPlugin( {
+    ],
+    resolve: {
+        ...defaultConfig.resolve,
+        alias: {
+            ...defaultConfig.resolve.alias,
+            '@wp-plugin-components': path.resolve( __dirname, 'src/wp-plugin-components' ),
+            '@wp-plugin-lib': path.resolve( __dirname, 'src/wp-plugin-lib/' )
+        }
+    },
+    optimization: {
+        ...defaultConfig.optimization,
+        minimizer: [
+            new TerserPlugin( {
 				parallel: true,
+				terserOptions: {
+					output: {
+						comments: /translators:/i,
+					},
+					compress: {
+						passes: 2,
+					},
+					mangle: {
+						reserved: [ '__', '_n', '_nx', '_x' ],
+					},
+				},
 				extractComments: {
 					condition: true,
 					banner: () => {
@@ -88,23 +78,8 @@ const config = {
 					},
 				},
 			} ),
-		],
-	},
+        ]
+    }
 };
 
-if ( isProduction() ) {
-	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );
-} else {
-	config.output.publicPath = getDevUrl;
-	config.devtool = 'inline-source-map';
-	config.devServer = {
-		historyApiFallback: {
-			index: '/',
-		},
-		//disableHostCheck: true,
-		host: "latest.local",
-		headers: { 'Access-Control-Allow-Origin': '*' },
-	};
-}
-
-module.exports = config;
+module.exports = modified;

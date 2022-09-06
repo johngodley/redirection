@@ -1,6 +1,6 @@
 {
 	"name": "redirection",
-	"version": "5.3.3",
+	"version": "5.4.0-beta-1",
 	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
 	"main": "redirection.php",
 	"browser": {
@@ -8,32 +8,21 @@
 	},
 	"sideEffects": true,
 	"scripts": {
-		"test": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
-		"watch": "jest --watch",
-		"testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
-		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
-		"build": "gulp version && NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
-		"localbuild": "NODE_ENV=production webpack serve --progress --color --hot --config ./webpack.config.js --port 3312 --mode production",
-		"lint": "eslint --cache --ext=.js src",
-		"stat": "NODE_ENV=production webpack --json --mode production | webpack-bundle-size-analyzer",
-		"e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
-		"up": "docker compose up",
-		"down": "docker compose down",
-		"clean": "docker compose down && docker compose rm && docker volume prune",
-		"cli": "docker compose run cli sh",
-		"export": "docker compose run cli wp redirection export all /opt/redirection/redirects.json",
-		"release": "rm -rf node_modules && yarn install && yarn dist && gulp version",
-		"doc": "apidoc -v -i api/ -o ./api-doc/",
-		"phpcs": "phpcs ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php",
-		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib phpunit",
-		"psalm": "./vendor/vimeo/psalm/psalm --show-info=true",
-		"psalm-taint": "./vendor/vimeo/psalm/psalm --show-info=true --taint-analysis",
-		"locale": "rm -rf language/*.po language/*.mo language/json/*.json && composer run-script pot && yarn locale:download && yarn locale:json",
-		"locale:download": "gulp potDownload",
-		"locale:json": "gulp potJson",
+		"build": "wp-scripts build",
+        "check-engines": "wp-scripts check-engines",
+        "check-licenses": "wp-scripts check-licenses",
+        "format": "wp-scripts format",
+        "lint:css": "wp-scripts lint-style",
+        "lint:js": "wp-scripts lint-js",
+        "lint:md:docs": "wp-scripts lint-md-docs",
+        "lint:pkg-json": "wp-scripts lint-pkg-json",
+        "packages-update": "wp-scripts packages-update",
+        "plugin-zip": "wp-scripts plugin-zip",
+        "start": "wp-scripts start",
+        "test:e2e": "wp-scripts test-e2e",
 		"svn": "gulp svn",
-		"plugin": "gulp plugin",
 		"test:php": "composer run-script test"
+        "test:unit": "wp-scripts test-unit-js"
 	},
 	"repository": {
 		"type": "git",
@@ -80,6 +69,7 @@
 		"@wordpress/eslint-plugin": "^13.0.0",
 		"@wordpress/jest-preset-default": "^9.0.0",
 		"@wordpress/prettier-config": "^2.0.0",
+		"@wordpress/scripts": "^23.4.0",
 		"apidoc": "^0.53.0",
 		"autoprefixer": "^10.4.8",
 		"babel-core": "^7.0.0-bridge.0",
@@ -157,7 +147,7 @@
 	},
 	"jest": {
 		"modulePaths": [
-			"./client"
+			"./src"
 		],
 		"moduleNameMapper": {
 			"^.+\\.(css|less|scss)$": "babel-jest"

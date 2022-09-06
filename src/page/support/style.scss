@@ -1,0 +1,120 @@
+@import "../../global";
+
+/**
+ * The plugin status section of the support page
+ */
+.plugin-status {
+	th {
+		text-align: left;
+		padding: 5px;
+	}
+
+	td,
+	span {
+		padding: 5px;
+	}
+
+	.plugin-status-good {
+		background-color: $ok;
+		color: white;
+	}
+
+	.plugin-status-problem {
+		background-color: orange;
+		color: white;
+	}
+
+	.plugin-status-error {
+		background-color: $error;
+		color: white;
+	}
+}
+
+/**
+ * The Github link on the support page
+ */
+
+.github {
+	margin-top: 8px;
+
+	a {
+		text-decoration: none;
+	}
+
+	img {
+		padding-right: 10px;
+		margin-bottom: -10px;
+	}
+}
+
+.http-tester {
+	table {
+		width: 95%;
+
+		th,
+		td {
+			vertical-align: top;
+			padding: 5px 5px;
+			overflow: hidden;
+		}
+
+		td {
+			max-width: 500px;
+		}
+
+		th {
+			text-align: right;
+			padding-right: 10px;
+			width: 150px;
+		}
+
+		p {
+			padding-top: 0;
+			margin-top: 0;
+		}
+
+		code {
+			background-color: transparent;
+			font-size: 12px;
+			padding: 0;
+		}
+	}
+
+	ul {
+		list-style-type: disc;
+		margin-left: 20px;
+
+		li span {
+			margin: -20px;
+		}
+
+		ul {
+			list-style-type: disc;
+			margin-left: 20px;
+		}
+	}
+}
+
+.redirection-httptest {
+	background-color: white;
+	border: 1px solid #999;
+	margin-bottom: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+
+	h2 {
+		margin-top: 10px;
+	}
+}
+
+.redirection-httptest__input {
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+
+	input[type="text"] {
+		width: 100%;
+	}
+}

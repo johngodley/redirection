@@ -5,4 +5,5 @@ node_modules
 /api-doc
 /vendor
 /redirection.js.LICENSE.txt
-/.DS_Store
+.DS_Store
+build

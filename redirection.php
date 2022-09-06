@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: https://redirection.me/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 5.3.3
+Version: 5.4.0-beta-1
 Author: John Godley
 Text Domain: redirection
 Domain Path: /locale
@@ -22,7 +22,6 @@ For full license details see license.txt
 
 define( 'REDIRECTION_DB_VERSION', '4.2' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
-define( 'REDIRECTION_DEV_MODE', false );
 
 if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 	define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
