@@ -181,6 +181,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.3.4 - 14th September 2022 =
+* Fix query parameter name with a + not matching
+
 = 5.3.3 - 7th September 2022 =
 * Fix default HTTP header not being set when first used
 * Fix incorrect column heading in CSV
