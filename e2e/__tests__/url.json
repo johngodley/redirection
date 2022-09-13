@@ -488,5 +488,44 @@
 				"agent": true
 			}
 		}
+	],
+	[
+		"Test query param exact with +",
+		{
+			"source": {
+				"url": "/exact-query?random+thing"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param ignore and pass with +",
+		{
+			"source": {
+				"url": "/plain-query-pass?random+thing"
+			},
+			"target": {
+				"location": "/plain-redirect?random+thing",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param ignore and multiple pass with +",
+		{
+			"source": {
+				"url": "/plain-query-pass?random+thing&another[]=thing"
+			},
+			"target": {
+				"location": "/plain-redirect?another[]=thing&random+thing",
+				"status": 301,
+				"agent": true
+			}
+		}
 	]
 ]

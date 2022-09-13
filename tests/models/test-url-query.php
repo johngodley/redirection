@@ -93,6 +93,16 @@ class UrlQueryTest extends WP_UnitTestCase {
 		$this->assertTrue( $url->is_match( '/?hascase[something]=test', new Red_Source_Flags( [ 'flag_case' => true ] ) ) );
 	}
 
+	public function testQueryMatchPlus() {
+		$url = new Red_Url_Query( '/?a+1', new Red_Source_Flags() );
+		$this->assertTrue( $url->is_match( '/?a+1', new Red_Source_Flags( [] ) ) );
+	}
+
+	public function testQueryMatchPlusExtra() {
+		$url = new Red_Url_Query( '/?a+1', new Red_Source_Flags() );
+		$this->assertTrue( $url->is_match( '/?a+1&test=3', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
+	}
+
 	public function testQueryPassNoParams() {
 		$this->assertEquals( '/cats', Red_Url_Query::add_to_target( '/cats', '/target', new Red_Source_Flags( [ 'flag_query' => 'pass' ] ) ) );
 	}
@@ -128,6 +138,14 @@ class UrlQueryTest extends WP_UnitTestCase {
 
 	public function testQueryPassNoValue() {
 		$this->assertEquals( '/?this', Red_Url_Query::add_to_target( '/', '/?this', new Red_Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
+	}
+
+	public function testQueryPassNoValuePlus() {
+		$this->assertEquals( '/?this+that', Red_Url_Query::add_to_target( '/', '/?this+that', new Red_Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
+	}
+
+	public function testQueryPassNoValuePlusArray() {
+		$this->assertEquals( '/?array[]=1&this+that', Red_Url_Query::add_to_target( '/', '/?array[]=1&this+that', new Red_Source_Flags( [ 'flag_query' => 'pass', 'flag_case' => true ] ) ) );
 	}
 
 	public function testFragment() {
