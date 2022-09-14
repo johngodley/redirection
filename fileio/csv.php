@@ -25,7 +25,16 @@ class Red_Csv_File extends Red_FileIO {
 
 	public function item_as_csv( $item ) {
 		$data = $item->match->get_data();
-		$data = isset( $data['url'] ) ? $data = $data['url'] : '/unknown';
+
+		if ( isset( $data['url'] ) ) {
+			$data = $data['url'];
+		} else {
+			$data = '/unknown';
+		}
+
+		if ( $item->get_action_code() > 400 && $item->get_action_code() < 500 ) {
+			$data = '';
+		}
 
 		$csv = array(
 			$item->get_url(),
@@ -35,7 +44,7 @@ class Red_Csv_File extends Red_FileIO {
 			$item->get_action_type(),
 			$item->get_hits(),
 			$item->get_title(),
-			$item->is_enabled() ? 'active' : 'disabled'
+			$item->is_enabled() ? 'active' : 'disabled',
 		);
 
 		$csv = array_map( array( $this, 'escape_csv' ), $csv );
@@ -97,7 +106,6 @@ class Red_Csv_File extends Red_FileIO {
 			}
 		}
 
-
 		return $count;
 	}
 
@@ -109,16 +117,26 @@ class Red_Csv_File extends Red_FileIO {
 		return 301;
 	}
 
+	private function get_action_type( $code ) {
+		if ( $code > 400 && $code < 500 ) {
+			return 'error';
+		}
+
+		return 'url';
+	}
+
 	public function csv_as_item( $csv, $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
+			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+
 			return array(
 				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
 				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id'    => $group,
 				'match_type'  => 'url',
-				'action_type' => 'url',
-				'action_code' => isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301,
+				'action_type' => $this->get_action_type( $code ),
+				'action_code' => $code,
 			);
 		}
 
