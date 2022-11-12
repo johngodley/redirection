@@ -51,6 +51,9 @@ const SVN_SOURCE_FILES = [
 	'!psalm.xml',
 	'!redirection.js.LICENSE.txt',
 	'!tsconfig.json',
+	'!e2e-jest.js',
+	'!phpstan.neon',
+	'!jest-config.js'
 ];
 const versionHeader = md5 => `<?php
 
