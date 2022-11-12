@@ -295,6 +295,12 @@ class Redirection_Admin {
 		$status = new Red_Database_Status();
 		$status->check_tables_exist();
 
+		// Fix some sites having a version set to +OK - not sure why
+		if ( isset( $options['database'] ) && $options['database'] === '+OK' ) {
+			red_set_options( [ 'database' => REDIRECTION_DB_VERSION ] );
+			$status->stop_update();
+		}
+
 		$translations = $this->get_i18n_data();
 
 		wp_localize_script( 'redirection', 'Redirectioni10n', array(
