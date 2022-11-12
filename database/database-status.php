@@ -89,6 +89,10 @@ class Red_Database_Status {
 		$settings = red_get_options();
 
 		if ( $settings['database'] !== '' && is_string( $settings['database'] ) ) {
+			if ( $settings['database'] === '+OK' ) {
+				return REDIRECTION_DB_VERSION;
+			}
+
 			return $settings['database'];
 		}
 
