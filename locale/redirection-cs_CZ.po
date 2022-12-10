@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-08-15 07:39:50+0000\n"
+"PO-Revision-Date: 2022-11-07 09:54:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,684 +11,895 @@ msgstr ""
 "Language: cs_CZ\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
-#: redirection-strings.php:744
+#: redirection.js:2
+msgid "Export Logs"
+msgstr ""
+
+#: redirection.js:2
+msgid "total = %d"
+msgstr ""
+
+#: redirection.js:2
+msgid "of %s"
+msgstr ""
+
+#: redirection.js:2
+msgid "An unknown error"
+msgstr ""
+
+#: redirection.js:2
+msgid "Your site already has the latest SQL."
+msgstr ""
+
+#: redirection.js:2
+msgid "Progress: %(complete)d%%"
+msgstr ""
+
+#: redirection.js:2
+msgid "Testing - %s%%"
+msgstr ""
+
+#: redirection.js:2
+msgid "Transition"
+msgid_plural "TransitionEnd"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: redirection.js:2
+msgid "Animation"
+msgid_plural "AnimationEnd"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: redirection-strings.php:750 redirection.js:2
+msgid "REST API 404"
+msgstr ""
+
+#: redirection-strings.php:746 redirection.js:2
+msgid "Your REST API appears to be cached and this will cause problems. Please exclude your REST API from your caching system."
+msgstr ""
+
+#: redirection-strings.php:738 redirection.js:2
+msgid "Your REST API is showing a deprecated PHP error. Please fix this error."
+msgstr ""
+
+#: redirection-strings.php:732 redirection.js:2
+msgid "Your server configuration is blocking access to the REST API."
+msgstr ""
+
+#: redirection-strings.php:730 redirection.js:2
+msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
+msgstr ""
+
+#: redirection-strings.php:729 redirection.js:2
+msgid "You will will need to fix this on your site. Redirection is not causing the error."
+msgstr ""
+
+#: redirection-strings.php:719 redirection.js:2
+msgid "Add Permalink"
+msgstr ""
+
+#: redirection-strings.php:718 redirection.js:2
+msgid "No migrated permalinks"
+msgstr ""
+
+#: redirection-strings.php:717 redirection.js:2
+msgid "Permalinks"
+msgstr ""
+
+#: redirection-strings.php:716 redirection.js:2
+msgid "Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta."
+msgstr ""
+
+#: redirection-strings.php:715 redirection.js:2
+msgid "Enter old permalinks structures to automatically migrate them to your current one."
+msgstr ""
+
+#: redirection-strings.php:714 redirection.js:2
+msgid "Permalink Migration"
+msgstr ""
+
+#: redirection-strings.php:681 redirection.js:2
+msgid "(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache."
+msgstr ""
+
+#: redirection-strings.php:678 redirection.js:2
+msgid "HTTP Cache Header"
+msgstr ""
+
+#: redirection-strings.php:651 redirection.js:2
+msgid "Decide how Redirection updates itself, if needed."
+msgstr ""
+
+#: redirection-strings.php:650 redirection.js:2
+msgid "Data Upgrade"
+msgstr ""
+
+#: redirection-strings.php:642 redirection.js:2
+msgid "Advanced"
+msgstr ""
+
+#: redirection-strings.php:641 redirection.js:2
+msgid "Automatically upgrade on admin pages"
+msgstr ""
+
+#: redirection-strings.php:640 redirection.js:2
+msgid "Upgrade manually when prompted"
+msgstr ""
+
+#: redirection-strings.php:606 redirection.js:2
+msgid "Nothing to display."
+msgstr ""
+
+#: redirection-strings.php:599 redirection.js:2
+msgid "%1d of %1d selected. {{all}}Clear All.{{/all}}"
+msgstr ""
+
+#: redirection-strings.php:598 redirection.js:2
+msgid "%1d of %1d selected. {{all}}Select All.{{/all}}"
+msgstr ""
+
+#: redirection-strings.php:526 redirection.js:2
+msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
+msgstr ""
+
+#: redirection-strings.php:362 redirection-strings.php:423 redirection.js:2
+msgid "Search exact URL"
+msgstr ""
+
+#: redirection-strings.php:286 redirection.js:2
+msgid "Version %s installed! Please read the {{url}}release notes{{/url}} for details."
+msgstr ""
+
+#: redirection-strings.php:223 redirection.js:2
+msgid "Manual Setup"
+msgstr ""
+
+#: redirection-strings.php:188 redirection.js:2
+msgid "Importing failed."
+msgstr ""
+
+#: redirection-strings.php:187 redirection.js:2
+msgid "Import finished."
+msgstr ""
+
+#: redirection-strings.php:178 redirection.js:2
+msgid "Ready to begin! 🎉"
+msgstr ""
+
+#: redirection-strings.php:177 redirection.js:2
+msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
+msgstr ""
+
+#: redirection-strings.php:176 redirection.js:2
+msgid "Redirection is now installed!"
+msgstr ""
+
+#: redirection-strings.php:175 redirection.js:2
+msgid "Installation Complete"
+msgstr ""
+
+#: redirection-strings.php:160 redirection.js:2
+msgid "The Redirection database does not appear to exist. Have you run the above SQL?"
+msgstr ""
+
+#: redirection-strings.php:120 redirection.js:2
+msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
+msgstr ""
+
+#: redirection-strings.php:119 redirection.js:2
+msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
+msgstr ""
+
+#: redirection-strings.php:118 redirection.js:2
+msgid "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}"
+msgstr ""
+
+#: redirection-strings.php:116 redirection.js:2
+msgid "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section."
+msgstr ""
+
+#: redirection-strings.php:92 redirection-strings.php:658 redirection.js:2
+msgid "Exact match in any order"
+msgstr ""
+
+#: redirection-strings.php:46 redirection.js:2
+msgid "Something went wrong obtaining this information. It may work in the future."
+msgstr ""
+
+#: redirection-strings.php:44 redirection.js:2
+msgid "View full redirect.li results."
+msgstr ""
+
+#: redirection-strings.php:43 redirection.js:2
+msgid "If your browser is behaving differently then you should clear your browser cache."
+msgstr ""
+
+#: redirection-strings.php:42 redirection.js:2
+msgid "If this is not expected then this {{support}}support page{{/support}} may help."
+msgstr ""
+
+#: redirection-strings.php:41 redirection.js:2
+msgid "Unable to check that URL. It may not be valid or accessible."
+msgstr ""
+
+#: redirection-strings.php:40 redirection.js:2
+msgid "Page was loaded."
+msgstr ""
+
+#: redirection-strings.php:39 redirection.js:2
+msgid "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: redirection-strings.php:38 redirection.js:2
+msgid "Redirected by %1s. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: redirection-strings.php:36 redirection.js:2
+msgid "Matches your redirect"
+msgstr ""
+
+#: redirection-strings.php:35 redirection-strings.php:37 redirection.js:2
+msgid "Redirected by Redirection."
+msgstr ""
+
+#: redirection-strings.php:34 redirection.js:2
+msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
+msgstr ""
+
+#: redirection-strings.php:33 redirection.js:2
+msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
+msgstr ""
+
+#: redirection-strings.php:32
+msgid "An unknown errorm"
+msgstr ""
+
+#: redirection-strings.php:5 redirection.js:2
+msgid "Are you sure want to delete all %d matching items?"
+msgstr ""
+
+#: models/fixer.php:91
+msgid "Too many regular expressions may impact site performance"
+msgstr ""
+
+#: models/fixer.php:89
+msgid "Regular Expressions"
+msgstr ""
+
+#: redirection-strings.php:758 redirection.js:2
 msgid "Your admin pages are being cached. Clear this cache and try again. There may be multiple caches involved."
 msgstr "Stránky správce se ukládají do mezipaměti. Vymažte tuto mezipaměť a zkuste to znovu. Může se jednat o více mezipamětí."
 
-#: redirection-strings.php:741
+#: redirection-strings.php:755 redirection.js:2
 msgid "This is usually fixed by doing one of the following:"
 msgstr "Obvykle se to opraví provedením jedné z následujících akcí:"
 
-#: redirection-strings.php:740
+#: redirection-strings.php:754 redirection.js:2
 msgid "You are using an old or cached session"
 msgstr "Používáte starou relaci nebo relaci v mezipaměti."
 
-#: redirection-strings.php:736
+#: redirection-strings.php:749 redirection.js:2
 msgid "Please review your data and try again."
 msgstr "Zkontrolujte svá data a zkuste to znovu."
 
-#: redirection-strings.php:735
+#: redirection-strings.php:748 redirection.js:2
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
 msgstr "Při zadávání požadavku na váš web došlo k problému. To může znamenat, že jste zadali data, která neodpovídají požadavkům, nebo že zásuvný modul odeslal špatný požadavek."
 
-#: redirection-strings.php:734
+#: redirection-strings.php:747 redirection.js:2
 msgid "Bad data"
 msgstr "Špatná data"
 
-#: redirection-strings.php:730
+#: redirection-strings.php:742 redirection.js:2
 msgid "WordPress returned an unexpected message. This could be a PHP error from another plugin, or data inserted by your theme."
 msgstr "WordPress vrátil neočekávanou zprávu. Může to být chyba PHP z jiného pluginu nebo data vložená vaší šablonou."
 
-#: redirection-strings.php:729
+#: redirection-strings.php:741 redirection.js:2
 msgid "Your WordPress REST API has been disabled. You will need to enable it to continue."
 msgstr "Rozhraní WordPress REST API bylo zakázáno. Chcete-li pokračovat, musíte jej povolit."
 
-#: redirection-strings.php:726
+#: redirection-strings.php:737 redirection.js:2
 msgid "An unknown error occurred."
 msgstr "Vyskytla se neznámá chyba."
 
-#: redirection-strings.php:724
+#: redirection-strings.php:735 redirection.js:2
 msgid "Your REST API is being redirected. Please remove the redirection for the API."
 msgstr "Vaše rozhraní REST API je přesměrováno. Odstraňte prosím přesměrování pro rozhraní API."
 
-#: redirection-strings.php:722
+#: redirection-strings.php:733 redirection.js:2
 msgid "A security plugin or firewall is blocking access. You will need to whitelist the REST API."
 msgstr "Přístup blokuje bezpečnostní zásuvný modul nebo brána firewall. Budete muset vytvořit bílou listinu rozhraní REST API."
 
-#: redirection-strings.php:721
-msgid "Your server configuration is blocking access to the REST API. You will need to fix this."
-msgstr "Konfigurace vašeho serveru blokuje přístup k rozhraní REST API. Budete to muset opravit."
-
-#: redirection-strings.php:720
+#: redirection-strings.php:731 redirection.js:2
 msgid "Check your {{link}}Site Health{{/link}} and fix any issues."
-msgstr "Zkontrolujte {{odkaz}}Site Health{{/link}} a opravte případné problémy."
+msgstr "Zkontrolujte {{link}}Site Health{{/link}} a opravte případné problémy."
 
-#: redirection-strings.php:719
-msgid "Can you access your {{api}}REST API{{/api}} without it redirecting? If not then you will need to fix any issues."
-msgstr "Můžete přistupovat k vašemu {{api}}REST API{{/api}} bez přesměrování? Pokud ne, budete muset všechny problémy opravit."
-
-#: redirection-strings.php:718
-msgid "Your REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
+#: redirection-strings.php:728 redirection.js:2
+msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
 msgstr "Vaše rozhraní REST API vrací stránku 404. Téměř jistě se jedná o problém s externím zásuvným modulem nebo konfigurací serveru."
 
-#: redirection-strings.php:714
+#: redirection-strings.php:724 redirection.js:2
 msgid "Debug Information"
 msgstr "Informace o ladění"
 
-#: redirection-strings.php:713
+#: redirection-strings.php:723 redirection.js:2
 msgid "Show debug"
 msgstr "Zobrazit ladění"
 
-#: redirection-strings.php:614
+#: redirection-strings.php:548 redirection.js:2
 msgid "View Data"
 msgstr "Zobrazit data"
 
-#: redirection-strings.php:511
-msgid "Other"
-msgstr "Další"
-
-#: redirection-strings.php:495
+#: redirection-strings.php:636 redirection.js:2
 msgid "Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}."
-msgstr "Přesměrování neukládá žádné jiné informace identifikující uživatele než ty, které jsou nakonfigurovány výše. Je vaší odpovědností zajistit, aby vaše stránky splňovaly všechny příslušné {{odkaz}}požadavky na ochranu osobních údajů {{{/link}}."
+msgstr "Přesměrování neukládá žádné jiné informace identifikující uživatele než ty, které jsou nakonfigurovány výše. Je vaší odpovědností zajistit, aby vaše stránky splňovaly všechny příslušné {{link}}požadavky na ochranu osobních údajů {{/link}}."
 
-#: redirection-strings.php:494
+#: redirection-strings.php:635 redirection.js:2
 msgid "Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size."
 msgstr "Zachycení informací o hlavičkách HTTP pomocí protokolů (kromě souborů cookie). Mohou obsahovat informace o uživateli a mohly by zvětšit velikost protokolu."
 
-#: redirection-strings.php:493
+#: redirection-strings.php:634 redirection.js:2
 msgid "Track redirect hits and date of last access. Contains no user information."
 msgstr "Sledujte návštěvy přesměrování a datum posledního přístupu. Neobsahuje žádné informace o uživateli."
 
-#: redirection-strings.php:492
+#: redirection-strings.php:633 redirection.js:2
 msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
 msgstr "Zaznamenává \"externí\" přesměrování - ta, která nejsou z přesměrování. Může zvýšit velikost protokolu a neobsahuje žádné informace o uživateli."
 
-#: redirection-strings.php:491
+#: redirection-strings.php:632 redirection.js:2
 msgid "Logging"
 msgstr "Protokolování"
 
-#: redirection-strings.php:490
+#: redirection-strings.php:631 redirection.js:2
 msgid "(IP logging level)"
 msgstr "(úroveň protokolování IP)"
 
-#: redirection-strings.php:428
+#: redirection-strings.php:429 redirection.js:2
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Opravdu chcete odstranit vybrané položky?"
 
-#: redirection-strings.php:378
+#: redirection-strings.php:378 redirection.js:2
 msgid "View Redirect"
 msgstr "Zobrazit přesměrování"
 
-#: redirection-strings.php:376
+#: redirection-strings.php:376 redirection.js:2
 msgid "RSS"
 msgstr "RSS"
 
-#: redirection-strings.php:370 redirection-strings.php:400
+#: redirection-strings.php:370 redirection-strings.php:400 redirection.js:2
 msgid "Group by user agent"
 msgstr "Seskupení podle agenta uživatele"
 
-#: redirection-strings.php:367 redirection-strings.php:426
+#: redirection-strings.php:367 redirection-strings.php:427 redirection.js:2
 msgid "Search domain"
 msgstr "Vyhledat doménu"
 
-#: redirection-strings.php:336 redirection-strings.php:356
-#: redirection-strings.php:373
+#: redirection-strings.php:335 redirection-strings.php:355
+#: redirection-strings.php:373 redirection.js:2
 msgid "Redirect By"
 msgstr "Přesměrování podle"
 
-#: redirection-strings.php:333 redirection-strings.php:354
-#: redirection-strings.php:387 redirection-strings.php:414
+#: redirection-strings.php:332 redirection-strings.php:353
+#: redirection-strings.php:387 redirection-strings.php:414 redirection.js:2
 msgid "Domain"
 msgstr "Doména"
 
-#: redirection-strings.php:332 redirection-strings.php:353
+#: redirection-strings.php:331 redirection-strings.php:352
 #: redirection-strings.php:372 redirection-strings.php:386
-#: redirection-strings.php:413 redirection-strings.php:420
+#: redirection-strings.php:413 redirection-strings.php:420 redirection.js:2
 msgid "Method"
 msgstr "Metoda"
 
-#: redirection-strings.php:263
+#: redirection-strings.php:260 redirection.js:2
 msgid "If that did not help then {{strong}}create an issue{{/strong}} or send it in an {{strong}}email{{/strong}}."
 msgstr "Pokud to nepomohlo, {{strong}}založte problém{{/strong}} nebo jej pošlete v {{strong}}emailu{{/strong}}."
 
-#: redirection-strings.php:262
+#: redirection-strings.php:259 redirection.js:2
 msgid "Please check the {{link}}support site{{/link}} before proceeding further."
-msgstr "Než budete pokračovat, podívejte se prosím na {{odkaz}}stránky podpory{{odkaz}}."
+msgstr "Než budete pokračovat, podívejte se prosím na {{link}}stránky podpory{{link}}."
 
-#: redirection-strings.php:256
+#: redirection.js:2
 msgid "Something went wrong when upgrading Redirection."
 msgstr "Něco se pokazilo při aktualizaci Redirection."
 
-#: redirection-strings.php:208
+#: redirection-strings.php:153 redirection.js:2
 msgid "Something went wrong when installing Redirection."
 msgstr "Při instalaci Redirection se něco pokazilo."
 
-#: redirection-strings.php:145
-msgid "Apply To All"
-msgstr "Aplikovat na všechno"
-
-#: redirection-strings.php:143
-msgid "Bulk Actions (all)"
-msgstr "Hromadné akce (vše)"
-
-#: redirection-strings.php:142
-msgid "Actions applied to all selected items"
-msgstr "Akce aplikované na všechny vybrané položky"
-
-#: redirection-strings.php:141
-msgid "Actions applied to everything that matches current filter"
-msgstr "Akce aplikované na vše, co odpovídá aktuálnímu filtru"
-
-#: redirection-strings.php:126
+#: redirection-strings.php:128 redirection.js:2
 msgid "Redirect Source"
 msgstr "Zdroj přesměrování"
 
-#: redirection-strings.php:125
+#: redirection-strings.php:127 redirection.js:2
 msgid "Request Headers"
 msgstr "Záhlaví požadavku"
 
-#: redirection-strings.php:96
+#: redirection-strings.php:95 redirection.js:2
 msgid "Exclude from logs"
 msgstr "Vyloučit z protokolů"
 
-#: redirection-strings.php:46
-msgid "Cannot connect to the server to determine the redirect status."
-msgstr "Nelze se připojit k serveru a zjistit stav přesměrování."
-
-#: redirection-strings.php:45
-msgid "Your URL is cached and the cache may need to be cleared."
-msgstr "Adresa URL je uložena v mezipaměti a je možné, že bude nutné mezipaměť vymazat."
-
-#: redirection-strings.php:44
-msgid "Something else other than Redirection is redirecting this URL."
-msgstr "Tuto adresu URL přesměrovává něco jiného než přesměrování."
-
-#: redirection-strings.php:712
+#: redirection-strings.php:722 redirection.js:2
 msgid "Relocate to domain"
 msgstr "Přesměrování na doménu"
 
-#: redirection-strings.php:711
+#: redirection-strings.php:721 redirection.js:2
 msgid "Want to redirect the entire site? Enter a domain to redirect everything, except WordPress login and admin. Enabling this option will disable any site aliases or canonical settings."
 msgstr "Chcete přesměrovat celý web? Zadejte doménu, na kterou se přesměruje vše kromě přihlášení do WordPressu a administrace. Povolením této možnosti se vypnou všechny aliasy webu nebo nastavení kanonických odkazů."
 
-#: redirection-strings.php:710
+#: redirection-strings.php:720 redirection.js:2
 msgid "Relocate Site"
 msgstr "Přemístit web"
 
-#: redirection-strings.php:703
+#: redirection-strings.php:707 redirection.js:2
 msgid "Add CORS Presets"
 msgstr "Přidat předvolby CORS"
 
-#: redirection-strings.php:702
+#: redirection-strings.php:706 redirection.js:2
 msgid "Add Security Presets"
 msgstr "Přidat předvolby zabezpečení"
 
-#: redirection-strings.php:701
+#: redirection-strings.php:705 redirection.js:2
 msgid "Add Header"
 msgstr "Vytvořit hlavičku"
 
-#: redirection-strings.php:696
+#: redirection-strings.php:700 redirection.js:2
 msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
 msgstr "Měli byste aktualizovat adresu URL webu tak, aby odpovídala vašemu nastavení kanonických odkazů: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
 
-#: redirection-strings.php:695
+#: redirection-strings.php:699 redirection.js:2
 msgid "Preferred domain"
 msgstr "Preferovaná doména"
 
-#: redirection-strings.php:694
+#: redirection-strings.php:698 redirection.js:2
 msgid "{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect."
 msgstr "{{strong}}Upozornění{{/strong}}: Před vynucením přesměrování se ujistěte, že vaše HTTPS funguje."
 
-#: redirection-strings.php:693
+#: redirection-strings.php:697 redirection.js:2
 msgid "Force a redirect from HTTP to HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
 msgstr "Vynucení přesměrování z HTTP na HTTPS - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteHTTPS)s{{/code}}"
 
-#: redirection-strings.php:692
+#: redirection-strings.php:696 redirection.js:2
 msgid "Canonical Settings"
 msgstr "Nastavení kanonického kódu"
 
-#: redirection-strings.php:691
+#: redirection-strings.php:695 redirection.js:2
 msgid "Add www to domain - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
 msgstr "Přidání www do domény - {{code}}%(site)s{{/code}} ⇒ {{code}}%(siteWWW)s{{/code}}"
 
-#: redirection-strings.php:690
+#: redirection-strings.php:694 redirection.js:2
 msgid "Remove www from domain - {{code}}%(siteWWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
 msgstr "Odstranění www z domény - {{code}}%(siteWW)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
 
-#: redirection-strings.php:689
+#: redirection-strings.php:693 redirection.js:2
 msgid "Don't set a preferred domain - {{code}}%(site)s{{/code}}"
 msgstr "Nenastavovat preferovanou doménu - {{code}}%(site)s{{/code}}"
 
-#: redirection-strings.php:688
+#: redirection-strings.php:692 redirection.js:2
 msgid "Add Alias"
 msgstr "Vytvořit alias"
 
-#: redirection-strings.php:687
+#: redirection-strings.php:691 redirection.js:2
 msgid "No aliases"
 msgstr "Žádné aliasy"
 
-#: redirection-strings.php:686
+#: redirection-strings.php:690 redirection.js:2
 msgid "Alias"
 msgstr "Alias"
 
-#: redirection-strings.php:685
+#: redirection-strings.php:689 redirection.js:2
 msgid "Aliased Domain"
 msgstr "Aliasovaná doména"
 
-#: redirection-strings.php:684
+#: redirection-strings.php:688 redirection.js:2
 msgid "You will need to configure your system (DNS and server) to pass requests for these domains to this WordPress install."
 msgstr "Budete muset nakonfigurovat svůj systém (DNS a server) tak, aby předával požadavky na tyto domény této instalaci WordPress."
 
-#: redirection-strings.php:683
+#: redirection-strings.php:687 redirection.js:2
 msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
 msgstr "Alias webu je jiná doména, která má být přesměrována na tento web. Jedná se například o starou doménu nebo subdoménu. Tím dojde k přesměrování všech adres URL, včetně přihlašovacích a správcovských adres WordPressu."
 
-#: redirection-strings.php:682
+#: redirection-strings.php:686 redirection.js:2
 msgid "Site Aliases"
 msgstr "Aliasy webu"
 
-#: redirection-strings.php:585
+#: redirection-strings.php:524 redirection.js:2
 msgid "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects."
 msgstr "Doprovodný doplněk Search Regex umožňuje vyhledávat a nahrazovat data na webu. Podporuje také přesměrování a hodí se, pokud chcete hromadně aktualizovat velké množství přesměrování."
 
-#: redirection-strings.php:584
+#: redirection-strings.php:523 redirection.js:2
 msgid "Need to search and replace?"
 msgstr "Potřebujete vyhledávat a nahrazovat?"
 
-#: redirection-strings.php:573
+#: redirection-strings.php:512 redirection.js:2
 msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
-msgstr "Možnosti na této stránce mohou při nesprávném použití způsobit problémy. Můžete je {{odkaz}}dočasně vypnout {{{/link}} a provést změny."
+msgstr "Možnosti na této stránce mohou při nesprávném použití způsobit problémy. Můžete je {{link}}dočasně vypnout {{/link}} a provést změny."
 
-#: redirection-strings.php:207
+#: redirection-strings.php:186 redirection.js:2
 msgid "Please wait, importing."
 msgstr "Vyčkejte, probíhá import."
 
-#: redirection-strings.php:205
+#: redirection-strings.php:174 redirection-strings.php:183
+#: redirection-strings.php:190 redirection-strings.php:202 redirection.js:2
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: redirection-strings.php:204
+#: redirection-strings.php:182 redirection.js:2
 msgid "The following plugins have been detected."
 msgstr "Byly zjištěny následující pluginy."
 
-#: redirection-strings.php:203
+#: redirection-strings.php:181 redirection.js:2
 msgid "WordPress automatically creates redirects when you change a post URL. Importing these into Redirection will allow you to manage and monitor them."
 msgstr "WordPress automaticky vytváří přesměrování, pokud změníte URL příspěvku. Jejich importování do pluginu Redirection vám umožní jejich správu a monitorování."
 
-#: redirection-strings.php:202
+#: redirection-strings.php:180 redirection.js:2
 msgid "Importing existing redirects from WordPress or other plugins is a good way to get started with Redirection. Check each set of redirects you wish to import."
 msgstr "Import existujících přesměrování z WordPressu a ostatních pluginů je dobrá cesta jak začít s pluginem Redirection. Označte každý soubor přesměrování, který si přejete importovat."
 
-#: redirection-strings.php:201 redirection-strings.php:206
+#: redirection-strings.php:179 redirection-strings.php:185 redirection.js:2
 msgid "Import Existing Redirects"
 msgstr "Importovat existující přesměrování"
 
-#: redirection-strings.php:166
+#: redirection-strings.php:213 redirection.js:2
 msgid "That's all there is to it - you are now redirecting! Note that the above is just an example."
 msgstr "To je vše - nyní můžete přesměrovávat! Všimněte si, že výše uvedené je pouze příklad."
 
-#: redirection-strings.php:119
+#: redirection-strings.php:121 redirection.js:2
 msgid "If you want to redirect everything please use a site relocation or alias from the Site page."
 msgstr "Pokud chcete přesměrovat všechno, použijte přesměrování webu nebo alias ze stránky Web."
 
-#: redirection-strings.php:747
+#: redirection-strings.php:761 redirection.js:2
 msgid "Value"
 msgstr "Hodnota"
 
-#: redirection-strings.php:746
+#: redirection-strings.php:760 redirection.js:2
 msgid "Values"
 msgstr "Hodnoty"
 
-#: redirection-strings.php:745
+#: redirection-strings.php:759 redirection.js:2
 msgid "All"
 msgstr "Všechny"
 
-#: redirection-strings.php:709
+#: redirection-strings.php:713 redirection.js:2
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
 msgstr "Všimněte si, že některé hlavičky HTTP jsou nastaveny vaším serverem a nelze je změnit."
 
-#: redirection-strings.php:708
+#: redirection-strings.php:712 redirection.js:2
 msgid "No headers"
 msgstr "Žádné hlavičky"
 
-#: redirection-strings.php:707
+#: redirection-strings.php:711 redirection.js:2
 msgid "Header"
 msgstr "Záhlaví"
 
-#: redirection-strings.php:706
+#: redirection-strings.php:710 redirection.js:2
 msgid "Location"
 msgstr "Umístění"
 
-#: redirection-strings.php:705
+#: redirection-strings.php:709 redirection.js:2
 msgid "Site headers are added across your site, including redirects. Redirect headers are only added to redirects."
 msgstr "Hlavičky webu jsou přidány na celém webu, včetně přesměrování. Hlavičky přesměrování se přidávají pouze k přesměrováním."
 
-#: redirection-strings.php:704
+#: redirection-strings.php:708 redirection.js:2
 msgid "HTTP Headers"
 msgstr "Hlavičky HTTP"
 
-#: redirection-strings.php:700
+#: redirection-strings.php:704 redirection.js:2
 msgid "Custom Header"
 msgstr "Vlastní hlavička"
 
-#: redirection-strings.php:699
+#: redirection-strings.php:703 redirection.js:2
 msgid "General"
 msgstr "Obecné"
 
-#: redirection-strings.php:698
+#: redirection-strings.php:702 redirection.js:2
 msgid "Redirect"
 msgstr "Přesměrovat"
 
-#: redirection-strings.php:124
+#: redirection-strings.php:126 redirection.js:2
 msgid "Some servers may be configured to serve file resources directly, preventing a redirect occurring."
 msgstr "Některé servery mohou být nakonfigurovány tak, aby servírovaly zdroje souborů přímo, což brání vzniku přesměrování."
 
-#: redirection-strings.php:273 redirection-strings.php:282
-#: redirection-strings.php:697
+#: redirection-strings.php:270 redirection-strings.php:279
+#: redirection-strings.php:701 redirection.js:2
 msgid "Site"
 msgstr "Web"
 
-#: redirection-strings.php:732
+#: redirection-strings.php:744 redirection.js:2
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
 msgstr "Nelze provést požadavek z důvodu zabezpečení prohlížeče. Důvodem je obvykle nekonzistentní nastavení adres URL systému WordPress a webu nebo zablokování požadavku zásadami CORS webu."
 
-#: redirection-strings.php:681
+#: redirection-strings.php:685 redirection.js:2
 msgid "Ignore & Pass Query"
 msgstr "Ignorovat a předat dotaz"
 
-#: redirection-strings.php:680
+#: redirection-strings.php:684 redirection.js:2
 msgid "Ignore Query"
 msgstr "Ignorovat dotaz"
 
-#: redirection-strings.php:679
+#: redirection-strings.php:683 redirection.js:2
 msgid "Exact Query"
 msgstr "Přesný dotaz"
 
-#: redirection-strings.php:564
+#: redirection-strings.php:503 redirection.js:2
 msgid "Search title"
 msgstr "Název vyhledávání"
 
-#: redirection-strings.php:561
+#: redirection-strings.php:500 redirection.js:2
 msgid "Not accessed in last year"
 msgstr "V posledním roce nebyl proveden přístup"
 
-#: redirection-strings.php:560
+#: redirection-strings.php:499 redirection.js:2
 msgid "Not accessed in last month"
 msgstr "Nepřistupováno za poslední měsíc"
 
-#: redirection-strings.php:559
+#: redirection-strings.php:498 redirection.js:2
 msgid "Never accessed"
 msgstr "Nikdy nepřistupováno"
 
-#: redirection-strings.php:558
+#: redirection-strings.php:497 redirection.js:2
 msgid "Last Accessed"
 msgstr "Poslední přístup"
 
-#: redirection-strings.php:421 redirection-strings.php:557
+#: redirection-strings.php:421 redirection-strings.php:496 redirection.js:2
 msgid "HTTP Status Code"
 msgstr "Stavový kód HTTP"
 
-#: redirection-strings.php:554
+#: redirection-strings.php:493 redirection.js:2
 msgid "Plain"
 msgstr "Prostý"
 
-#: redirection-strings.php:552
+#: redirection-strings.php:491 redirection.js:2
 msgid "URL match"
 msgstr "Shoda URL"
 
-#: redirection-strings.php:533
+#: redirection-strings.php:472 redirection.js:2
 msgid "Source"
 msgstr "Zdroj"
 
-#: redirection-strings.php:524
+#: redirection-strings.php:463 redirection.js:2
 msgid "Code"
 msgstr "Kód"
 
-#: redirection-strings.php:523 redirection-strings.php:544
-#: redirection-strings.php:556
+#: redirection-strings.php:462 redirection-strings.php:483
+#: redirection-strings.php:495 redirection.js:2
 msgid "Action Type"
 msgstr "Typ akce"
 
-#: redirection-strings.php:522 redirection-strings.php:539
-#: redirection-strings.php:555
+#: redirection-strings.php:461 redirection-strings.php:478
+#: redirection-strings.php:494 redirection.js:2
 msgid "Match Type"
 msgstr "Typ shody"
 
-#: redirection-strings.php:366 redirection-strings.php:563
+#: redirection-strings.php:366 redirection-strings.php:502 redirection.js:2
 msgid "Search target URL"
 msgstr "Cílová adresa URL pro vyhledávání"
 
-#: redirection-strings.php:365 redirection-strings.php:425
+#: redirection-strings.php:365 redirection-strings.php:426 redirection.js:2
 msgid "Search IP"
 msgstr "IP adresa pro vyhledávání"
 
-#: redirection-strings.php:364 redirection-strings.php:424
+#: redirection-strings.php:364 redirection-strings.php:425 redirection.js:2
 msgid "Search user agent"
 msgstr "Agent uživatele pro vyhledávání"
 
-#: redirection-strings.php:363 redirection-strings.php:423
+#: redirection-strings.php:363 redirection-strings.php:424 redirection.js:2
 msgid "Search referrer"
 msgstr "Odkazující vyhledávač"
 
-#: redirection-strings.php:362 redirection-strings.php:422
-#: redirection-strings.php:562
+#: redirection-strings.php:361 redirection-strings.php:422
+#: redirection-strings.php:501 redirection.js:2
 msgid "Search URL"
 msgstr "Vyhledat URL"
 
-#: redirection-strings.php:677
+#: redirection-strings.php:613 redirection.js:2
 msgid "Filter on: %(type)s"
 msgstr "Filtrovat na: %(type)s"
 
-#: redirection-strings.php:223 redirection-strings.php:551
+#: redirection-strings.php:233 redirection-strings.php:490 redirection.js:2
 msgid "Disabled"
 msgstr "Zakázáno"
 
-#: redirection-strings.php:222 redirection-strings.php:550
+#: redirection-strings.php:232 redirection-strings.php:489 redirection.js:2
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: redirection-strings.php:219 redirection-strings.php:344
-#: redirection-strings.php:404 redirection-strings.php:547
+#: redirection-strings.php:229 redirection-strings.php:343
+#: redirection-strings.php:404 redirection-strings.php:486 redirection.js:2
 msgid "Compact Display"
 msgstr "Kompaktní zobrazení"
 
-#: redirection-strings.php:218 redirection-strings.php:343
-#: redirection-strings.php:403 redirection-strings.php:546
+#: redirection-strings.php:228 redirection-strings.php:342
+#: redirection-strings.php:403 redirection-strings.php:485 redirection.js:2
 msgid "Standard Display"
 msgstr "Standardní zobrazení"
 
-#: redirection-strings.php:216 redirection-strings.php:221
-#: redirection-strings.php:225 redirection-strings.php:520
-#: redirection-strings.php:543 redirection-strings.php:549
+#: redirection-strings.php:226 redirection-strings.php:231
+#: redirection-strings.php:235 redirection-strings.php:459
+#: redirection-strings.php:482 redirection-strings.php:488 redirection.js:2
 msgid "Status"
 msgstr "Stav"
 
-#: redirection-strings.php:24
+#: redirection-strings.php:19 redirection.js:2
 msgid "Pre-defined"
 msgstr "Předdefinované"
 
-#: redirection-strings.php:23
+#: redirection-strings.php:18 redirection.js:2
 msgid "Custom Display"
 msgstr "Vlastní zobrazení"
 
-#: redirection-strings.php:220 redirection-strings.php:345
-#: redirection-strings.php:405 redirection-strings.php:548
+#: redirection-strings.php:230 redirection-strings.php:344
+#: redirection-strings.php:405 redirection-strings.php:487 redirection.js:2
 msgid "Display All"
 msgstr "Zobrazit vše"
 
-#: redirection-strings.php:123
+#: redirection-strings.php:125 redirection.js:2
 msgid "Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?"
 msgstr "Vaše adresa URL se zobrazuje tak, že obsahuje doménu uvnitř cesty: {{code}}%(relative)s{{/code}}. Chtěli jste místo toho použít {{code}}%(absolute)s{{/code}}?"
 
-#: redirection-strings.php:651
+#: redirection-strings.php:585 redirection.js:2
 msgid "Comma separated list of languages to match against (i.e. da, en-GB)"
 msgstr "Seznam jazyků oddělených čárkou, podle kterých se má porovnávat (tj. da, cs-GB)"
 
-#: redirection-strings.php:650
+#: redirection-strings.php:584 redirection.js:2
 msgid "Language"
 msgstr "Jazyk"
 
-#: redirection-strings.php:89
+#: redirection-strings.php:87 redirection.js:2
 msgid "504 - Gateway Timeout"
 msgstr "504 - Gateway Timeout"
 
-#: redirection-strings.php:88
+#: redirection-strings.php:86 redirection.js:2
 msgid "503 - Service Unavailable"
 msgstr "503 - Service Unavailable"
 
-#: redirection-strings.php:87
+#: redirection-strings.php:85 redirection.js:2
 msgid "502 - Bad Gateway"
 msgstr "502 - Bad Gateway"
 
-#: redirection-strings.php:86
+#: redirection-strings.php:84 redirection.js:2
 msgid "501 - Not implemented"
 msgstr "501 - Není implementováno"
 
-#: redirection-strings.php:85
+#: redirection-strings.php:83 redirection.js:2
 msgid "500 - Internal Server Error"
 msgstr "500 - Vnitřní chyba serveru"
 
-#: redirection-strings.php:84
+#: redirection-strings.php:82 redirection.js:2
 msgid "451 - Unavailable For Legal Reasons"
 msgstr "451 - Nedostupné z právních důvodů"
 
-#: redirection-strings.php:66 matches/language.php:9
+#: matches/language.php:17 redirection-strings.php:64 redirection.js:2
 msgid "URL and language"
 msgstr "Adresa URL a jazyk"
 
-#: redirection-strings.php:743
+#: redirection-strings.php:757 redirection.js:2
 msgid "Log out, clear your browser cache, and log in again - your browser has cached an old session."
 msgstr "Odhlaste se, vymažte mezipaměť prohlížeče a znovu se přihlaste - prohlížeč si uložil do mezipaměti starou relaci."
 
-#: redirection-strings.php:742
+#: redirection-strings.php:756 redirection.js:2
 msgid "Reload the page - your current session is old."
 msgstr "Znovu načtěte stránku - vaše aktuální relace je stará."
 
-#: redirection-strings.php:4
-msgid "A loop was detected and the upgrade has been stopped. This usually indicates {{support}}your site is cached{{/support}} and database changes are not being saved."
-msgstr "Byla zjištěna smyčka a aktualizace byla zastavena. To obvykle znamená, že {{podpora}}vaše stránky jsou uloženy v mezipaměti{{/support}} a změny v databázi se neukládají."
-
-#: redirection-strings.php:516
+#: redirection-strings.php:647 redirection.js:2
 msgid "Unable to save .htaccess file"
 msgstr "Nelze uložit soubor .htaccess"
 
-#: redirection-strings.php:515
+#: redirection-strings.php:646 redirection.js:2
 msgid "Redirects added to an Apache group can be saved to an {{code}}.htaccess{{/code}} file by adding the full path here. For reference, your WordPress is installed to {{code}}%(installed)s{{/code}}."
-msgstr "Přesměrování přidaná do skupiny Apache lze uložit do souboru {{kód}}.htaccess{{/code}} přidáním celé cesty sem. Pro informaci, váš WordPress je nainstalován do {{code}}%(installed)s{{/code}}."
+msgstr "Přesměrování přidaná do skupiny Apache lze uložit do souboru {{code}}.htaccess{{/code}} přidáním celé cesty sem. Pro informaci, váš WordPress je nainstalován do {{code}}%(installed)s{{/code}}."
 
-#: redirection-strings.php:252
+#: redirection.js:2
 msgid "Click \"Complete Upgrade\" when finished."
 msgstr "Po dokončení klikněte na tlačítko \"Dokončit aktualizaci\"."
 
-#: redirection-strings.php:212
-msgid "Automatic Install"
-msgstr "Automatická instalace"
-
-#: redirection-strings.php:122
+#: redirection-strings.php:124 redirection.js:2
 msgid "Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}"
 msgstr "Vaše cílová adresa URL obsahuje neplatný znak {{code}}%(invalid)s{{/code}}."
 
-#: redirection-strings.php:271
+#: redirection-strings.php:268 redirection.js:2
 msgid "If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues."
-msgstr "Pokud používáte WordPress 5.2 nebo novější, podívejte se na {{odkaz}}Site Health{{/link}} a vyřešte případné problémy."
+msgstr "Pokud používáte WordPress 5.2 nebo novější, podívejte se na {{link}}Site Health{{/link}} a vyřešte případné problémy."
 
-#: redirection-strings.php:19
+#: redirection-strings.php:163 redirection.js:2
 msgid "If you do not complete the manual install you will be returned here."
 msgstr "Pokud nedokončíte ruční instalaci, budete vráceni sem."
 
-#: redirection-strings.php:17
+#: redirection-strings.php:158 redirection.js:2
 msgid "Click \"Finished! 🎉\" when finished."
 msgstr "Klikněte na tlačítko \"Dokončeno! 🎉\" po dokončení."
 
-#: redirection-strings.php:16 redirection-strings.php:251
+#: redirection-strings.php:157 redirection.js:2
 msgid "If your site needs special database permissions, or you would rather do it yourself, you can manually run the following SQL."
 msgstr "Pokud váš web potřebuje speciální databázová oprávnění nebo byste to raději udělali sami, můžete ručně spustit následující SQL."
 
-#: redirection-strings.php:15 redirection-strings.php:211
+#: redirection-strings.php:156 redirection.js:2
 msgid "Manual Install"
 msgstr "Manuální instalace"
 
-#: database/database-status.php:145
+#: database/database-status.php:156
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
 msgstr "Zjištěna nedostatečná oprávnění k databázi. Přidělte prosím uživateli databáze odpovídající oprávnění."
 
-#: redirection-strings.php:604
+#: redirection-strings.php:538 redirection.js:2
 msgid "This information is provided for debugging purposes. Be careful making any changes."
 msgstr "Tato informace je poskytována pro účely ladění. Buďte opatrní při provádění jakýchkoli změn."
 
-#: redirection-strings.php:603
+#: redirection-strings.php:537 redirection.js:2
 msgid "Plugin Debug"
 msgstr "Ladění zásuvného modulu"
 
-#: redirection-strings.php:601
+#: redirection-strings.php:535 redirection.js:2
 msgid "Redirection communicates with WordPress through the WordPress REST API. This is a standard part of WordPress, and you will experience problems if you cannot use it."
 msgstr "Přesměrování komunikuje se systémem WordPress prostřednictvím rozhraní WordPress REST API. Jedná se o standardní součást WordPressu, a pokud ji nebudete moci používat, dojde k problémům."
 
-#: redirection-strings.php:578
+#: redirection-strings.php:517 redirection.js:2
 msgid "IP Headers"
 msgstr "Záhlaví IP"
 
-#: redirection-strings.php:576
+#: redirection-strings.php:515 redirection.js:2
 msgid "Do not change unless advised to do so!"
 msgstr "Neměňte, pokud vám to není doporučeno!"
 
-#: redirection-strings.php:575
+#: redirection-strings.php:514 redirection.js:2
 msgid "Database version"
 msgstr "Verze databáze"
 
-#: redirection-strings.php:317
+#: redirection-strings.php:316 redirection.js:2
 msgid "Complete data (JSON)"
 msgstr "Kompletní data (JSON)"
 
-#: redirection-strings.php:312
+#: redirection-strings.php:311 redirection.js:2
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
 msgstr "Export do CSV, Apache .htaccess, Nginx nebo JSON Přesměrování. Formát JSON obsahuje úplné informace a ostatní formáty obsahují částečné informace odpovídající danému formátu."
 
-#: redirection-strings.php:310
+#: redirection-strings.php:309 redirection.js:2
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
 msgstr "CSV neobsahuje všechny informace a vše je importováno/exportováno jako \"pouze URL\" shody. Pro úplnou sadu údajů použijte formát JSON."
 
-#: redirection-strings.php:308
+#: redirection-strings.php:307 redirection.js:2
 msgid "All imports will be appended to the current database - nothing is merged."
 msgstr "Všechny importy se připojí k aktuální databázi - nic se nesloučí."
 
-#: redirection-strings.php:261
+#: redirection.js:2
 msgid "Automatic Upgrade"
 msgstr "Automatická aktualizace"
 
-#: redirection-strings.php:260
+#: redirection.js:2
 msgid "Manual Upgrade"
 msgstr "Manuální aktualizace"
 
-#: redirection-strings.php:259
+#: redirection.js:2
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
 msgstr "Vytvořte si prosím zálohu dat přesměrování: {{Stáhnout}}Stažení zálohy{{/stáhnout}}. Pokud se vyskytnou nějaké problémy, můžete je importovat zpět do Redirection."
 
-#: redirection-strings.php:254
+#: redirection.js:2
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
 msgstr "Kliknutím na tlačítko \"Aktualizovat databázi\" dojde k automatické aktualizaci databáze."
 
-#: redirection-strings.php:253
+#: redirection.js:2
 msgid "Complete Upgrade"
 msgstr "Dokončení aktualizace"
 
-#: redirection-strings.php:250
+#: redirection.js:2
 msgid "Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}."
 msgstr "Redirection ukládá data do vaší databáze a tu je někdy potřeba aktualizovat. Vaše databáze má verzi {{strong}}%(current)s{{/strong}} a nejnovější je {{strong}}%(latest)s{{/strong}}."
 
-#: redirection-strings.php:236 redirection-strings.php:676
+#: redirection-strings.php:246 redirection-strings.php:612 redirection.js:2
 msgid "Note that you will need to set the Apache module path in your Redirection options."
 msgstr "Všimněte si, že v možnostech přesměrování musíte nastavit cestu k modulu Apache."
 
-#: redirection-strings.php:210
+#: redirection-strings.php:155 redirection.js:2
 msgid "I need support!"
 msgstr "Potřebuji podporu!"
 
-#: redirection-strings.php:198
+#: redirection-strings.php:172 redirection.js:2
 msgid "You will need at least one working REST API to continue."
 msgstr "Abyste mohli pokračovat, budete potřebovat alespoň jedno funkční rozhraní REST API."
 
-#: redirection-strings.php:140
+#: redirection-strings.php:140 redirection.js:2
 msgid "Check Again"
 msgstr "Znova zkontrolovat"
 
@@ -696,450 +907,436 @@ msgstr "Znova zkontrolovat"
 msgid "Testing - %s$"
 msgstr "Testování - %s$"
 
-#: redirection-strings.php:138
+#: redirection-strings.php:138 redirection.js:2
 msgid "Show Problems"
 msgstr "Zobrazit problémy"
 
-#: redirection-strings.php:137
+#: redirection-strings.php:137 redirection.js:2
 msgid "Summary"
 msgstr "Shrnutí"
 
-#: redirection-strings.php:136
+#: redirection-strings.php:136 redirection.js:2
 msgid "Your REST API is not working and the plugin will not be able to continue until this is fixed."
 msgstr "Vaše rozhraní REST API nefunguje a zásuvný modul nebude moci pokračovat, dokud to nebude opraveno."
 
-#: redirection-strings.php:135
+#: redirection-strings.php:135 redirection.js:2
 msgid "There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work."
 msgstr "Došlo k problémům s připojením k vašemu rozhraní REST API. Tyto problémy není nutné opravovat a zásuvný modul je schopen fungovat."
 
-#: redirection-strings.php:134
+#: redirection-strings.php:134 redirection.js:2
 msgid "Unavailable"
 msgstr "Nedostupné"
 
-#: redirection-strings.php:133
+#: redirection-strings.php:133 redirection.js:2
 msgid "Working but some issues"
 msgstr "Funguje, ale jsou s ním nějaké problémy"
 
-#: redirection-strings.php:131
+#: redirection.js:2
 msgid "Current API"
 msgstr "Aktuální API"
 
-#: redirection-strings.php:130
+#: redirection.js:2
 msgid "Switch to this API"
 msgstr "Přepnout na toto API"
 
-#: redirection-strings.php:129
+#: redirection-strings.php:131 redirection.js:2
 msgid "Hide"
 msgstr "Skrýt"
 
-#: redirection-strings.php:128
+#: redirection-strings.php:130 redirection.js:2
 msgid "Show Full"
 msgstr "Zobrazit úplně"
 
-#: redirection-strings.php:127
+#: redirection-strings.php:129 redirection.js:2
 msgid "Working!"
 msgstr "Funguje!"
 
-#: redirection-strings.php:121
+#: redirection-strings.php:123 redirection.js:2
 msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
 msgstr "Vaše cílová adresa URL by měla být absolutní adresa URL, například {{code}}https://domain.com/%(url)s{{/code}} nebo začínat lomítkem {{code}}/%(url)s{{/code}}."
 
-#: redirection-strings.php:120
+#: redirection-strings.php:122 redirection.js:2
 msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
 msgstr "Váš zdroj je stejný jako cíl a tím se vytvoří smyčka. Pokud nechcete provést žádnou akci, ponechte cíl prázdný."
 
-#: redirection-strings.php:110
+#: redirection-strings.php:109 redirection.js:2
 msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
 msgstr "Cílová adresa URL, kterou chcete přesměrovat, nebo automatické doplnění na název příspěvku nebo trvalý odkaz."
 
-#: redirection-strings.php:266
+#: redirection-strings.php:263 redirection.js:2
 msgid "Include these details in your report along with a description of what you were doing and a screenshot."
 msgstr "Tyto údaje uveďte do hlášení spolu s popisem toho, co jste dělali, a snímkem obrazovky."
 
-#: redirection-strings.php:264
+#: redirection-strings.php:261 redirection.js:2
 msgid "Create An Issue"
 msgstr "Vytvoření problému"
 
-#: redirection-strings.php:267
+#: redirection-strings.php:264 redirection.js:2
 msgid "What do I do next?"
 msgstr "Co mám dělat dál?"
 
-#: redirection-strings.php:731
+#: redirection-strings.php:743 redirection.js:2
 msgid "Possible cause"
 msgstr "Možná příčina"
 
-#: redirection-strings.php:727
+#: redirection-strings.php:739 redirection.js:2
 msgid "This could be a security plugin, or your server is out of memory or has an external error. Please check your server error log"
 msgstr "Může se jednat o bezpečnostní doplněk nebo o nedostatek paměti vašeho serveru či externí chybu. Zkontrolujte prosím protokol o chybách serveru"
 
-#: redirection-strings.php:716
+#: redirection-strings.php:726 redirection.js:2
 msgid "Your REST API is probably being blocked by a security plugin. Please disable this, or configure it to allow REST API requests."
 msgstr "Vaše rozhraní REST API je pravděpodobně blokováno bezpečnostním pluginem. Zakažte jej nebo jej nakonfigurujte tak, aby povoloval požadavky REST API."
 
-#: redirection-strings.php:717 redirection-strings.php:723
-#: redirection-strings.php:728 redirection-strings.php:733
+#: redirection-strings.php:727 redirection-strings.php:734
+#: redirection-strings.php:740 redirection-strings.php:745 redirection.js:2
 msgid "Read this REST API guide for more information."
 msgstr "Další informace naleznete v tomto průvodci REST API."
 
-#: redirection-strings.php:109
+#: redirection-strings.php:108 redirection.js:2
 msgid "URL options / Regex"
 msgstr "Možnosti URL / Regex"
 
-#: redirection-strings.php:324
+#: redirection-strings.php:323 redirection.js:2
 msgid "Export 404"
 msgstr "Exportovat 404"
 
-#: redirection-strings.php:323
+#: redirection-strings.php:322 redirection.js:2
 msgid "Export redirect"
 msgstr "Exportovat přesměrování"
 
-#: redirection-strings.php:117
-msgid "WordPress permalink structures do not work in normal URLs. Please use a regular expression."
-msgstr "Struktury trvalých odkazů ve WordPressu nefungují v běžných adresách URL. Použijte prosím regulární výraz."
-
-#: redirection-strings.php:506
+#: redirection-strings.php:675 redirection.js:2
 msgid "Pass - as ignore, but also copies the query parameters to the target"
 msgstr "Předat - jako ignorovat, ale také zkopíruje parametry dotazu do cíle"
 
-#: redirection-strings.php:505
+#: redirection-strings.php:674 redirection.js:2
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
 msgstr "Ignorovat - jako přesný, ale ignoruje všechny parametry dotazu, které nejsou ve zdroji."
 
-#: redirection-strings.php:504
+#: redirection-strings.php:673 redirection.js:2
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
 msgstr "Exact - odpovídá přesně parametrům dotazu definovaným ve vašem zdroji, v libovolném pořadí"
 
-#: redirection-strings.php:502
+#: redirection-strings.php:671 redirection.js:2
 msgid "Default query matching"
 msgstr "Výchozí porovnávání dotazů"
 
-#: redirection-strings.php:501
+#: redirection-strings.php:670 redirection.js:2
 msgid "Ignore trailing slashes (i.e. {{code}}/exciting-post/{{/code}} will match {{code}}/exciting-post{{/code}})"
 msgstr "Ignorovat koncové lomítko (tj. {{code}}/exciting-post/{{/code}} bude odpovídat {{code}}/exciting-post{{/code}})."
 
-#: redirection-strings.php:500
+#: redirection-strings.php:669 redirection.js:2
 msgid "Case insensitive matches (i.e. {{code}}/Exciting-Post{{/code}} will match {{code}}/exciting-post{{/code}})"
 msgstr "Shoda nerozlišující velká a malá písmena (tj. {{code}}/Exciting-Post{{/code}} bude odpovídat {{code}}/exciting-post{{/code}})."
 
-#: redirection-strings.php:499 redirection-strings.php:503
+#: redirection-strings.php:668 redirection-strings.php:672 redirection.js:2
 msgid "Applies to all redirections unless you configure them otherwise."
 msgstr "Platí pro všechna přesměrování, pokud je nenakonfigurujete jinak."
 
-#: redirection-strings.php:498
+#: redirection-strings.php:667 redirection.js:2
 msgid "Default URL settings"
 msgstr "Výchozí nastavení URL"
 
-#: redirection-strings.php:477
+#: redirection-strings.php:660 redirection.js:2
 msgid "Ignore and pass all query parameters"
 msgstr "Ignorovat a předat všechny parametry dotazu"
 
-#: redirection-strings.php:476
+#: redirection-strings.php:659 redirection.js:2
 msgid "Ignore all query parameters"
 msgstr "Ignorovat všechny parametry dotazu"
 
-#: redirection-strings.php:475
+#: redirection-strings.php:91 redirection.js:2
 msgid "Exact match"
 msgstr "Přesná shoda"
 
-#: redirection-strings.php:194
+#: redirection-strings.php:168 redirection.js:2
 msgid "Caching software (e.g Cloudflare)"
 msgstr "Software pro ukládání do mezipaměti (např. Cloudflare)"
 
-#: redirection-strings.php:192
+#: redirection-strings.php:166 redirection.js:2
 msgid "A security plugin (e.g Wordfence)"
 msgstr "Zásuvný modul zabezpečení (např. Wordfence)"
 
-#: redirection-strings.php:534
+#: redirection-strings.php:473 redirection.js:2
 msgid "URL options"
 msgstr "Možnosti URL"
 
-#: redirection-strings.php:105 redirection-strings.php:535
+#: redirection-strings.php:104 redirection-strings.php:474 redirection.js:2
 msgid "Query Parameters"
 msgstr "Parametry dotazu"
 
-#: redirection-strings.php:95
+#: redirection-strings.php:94 redirection.js:2
 msgid "Ignore & pass parameters to the target"
 msgstr "Ignorovat a předat parametry cíli"
 
-#: redirection-strings.php:94
+#: redirection-strings.php:93 redirection.js:2
 msgid "Ignore all parameters"
 msgstr "Ignorovat všechny parametry"
 
-#: redirection-strings.php:93
-msgid "Exact match all parameters in any order"
-msgstr "Přesná shoda všech parametrů v libovolném pořadí"
-
-#: redirection-strings.php:92
+#: redirection-strings.php:90 redirection.js:2
 msgid "Ignore Case"
 msgstr "Ignorovat případ"
 
-#: redirection-strings.php:91
+#: redirection-strings.php:89 redirection.js:2
 msgid "Ignore Slash"
 msgstr "Ignorovat lomítko"
 
-#: redirection-strings.php:474
+#: redirection-strings.php:639 redirection.js:2
 msgid "Relative REST API"
 msgstr "Relativní rozhraní REST API"
 
-#: redirection-strings.php:473
+#: redirection-strings.php:638 redirection.js:2
 msgid "Raw REST API"
 msgstr "Nezpracované rozhraní REST API"
 
-#: redirection-strings.php:472
+#: redirection-strings.php:637 redirection.js:2
 msgid "Default REST API"
 msgstr "Výchozí rozhraní REST API"
 
-#: redirection-strings.php:165
+#: redirection-strings.php:212 redirection.js:2
 msgid "(Example) The target URL is the new URL"
 msgstr "(Příklad) Cílová adresa URL je nová adresa URL"
 
-#: redirection-strings.php:163
+#: redirection-strings.php:210 redirection.js:2
 msgid "(Example) The source URL is your old or original URL"
 msgstr "(Příklad) Zdrojová adresa URL je vaše stará nebo původní adresa URL"
 
 #. translators: 1: server PHP version. 2: required PHP version.
-#: redirection.php:38
+#: redirection.php:37
 msgid "Disabled! Detected PHP %1$s, need PHP %2$s+"
 msgstr "Vypnuto! Zjištěno PHP %1$s, je třeba PHP %2$s+"
 
-#: redirection-strings.php:249
+#: redirection.js:2
 msgid "A database upgrade is in progress. Please continue to finish."
 msgstr "Probíhá aktualizace databáze. Pokračujte prosím v dokončení."
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
-#: redirection-admin.php:85
+#: redirection-admin.php:118
 msgid "Redirection's database needs to be updated - <a href=\"%1$1s\">click to update</a>."
 msgstr "Databázi přesměrování je třeba aktualizovat - <a href=\"%1$1s\">klikněte pro aktualizaci</a>."
 
-#: redirection-strings.php:258
+#: redirection.js:2
 msgid "Redirection database needs upgrading"
 msgstr "Databázi přesměrování je třeba aktualizovat"
 
-#: redirection-strings.php:257
+#: redirection.js:2
 msgid "Upgrade Required"
 msgstr "Je nutná aktualizace"
 
-#: redirection-strings.php:199
+#: redirection-strings.php:173 redirection.js:2
 msgid "Finish Setup"
 msgstr "Dokončit nastavení"
 
-#: redirection-strings.php:197
+#: redirection-strings.php:189 redirection.js:2
+msgid "Retry"
+msgstr ""
+
+#: redirection-strings.php:171 redirection.js:2
 msgid "You have different URLs configured on your WordPress Settings > General page, which is usually an indication of a misconfiguration, and it can cause problems with the REST API. Please review your settings."
 msgstr "Na stránce Nastavení WordPressu > Obecné máte nakonfigurovány různé adresy URL, což obvykle svědčí o chybné konfiguraci a může to způsobit problémy s rozhraním REST API. Zkontrolujte prosím své nastavení."
 
-#: redirection-strings.php:196
+#: redirection-strings.php:170 redirection.js:2
 msgid "If you do experience a problem then please consult your plugin documentation, or try contacting your host support. This is generally {{link}}not a problem caused by Redirection{{/link}}."
-msgstr "Pokud se vyskytne problém, pak se prosím podívejte do dokumentace k zásuvnému modulu nebo zkuste kontaktovat podporu hostitele. Obecně se nejedná o {{odkaz}}problém způsobený přesměrováním{{/link}}."
+msgstr "Pokud se vyskytne problém, pak se prosím podívejte do dokumentace k zásuvnému modulu nebo zkuste kontaktovat podporu hostitele. Obecně se nejedná o {{link}}problém způsobený přesměrováním{{/link}}."
 
-#: redirection-strings.php:195
+#: redirection-strings.php:169 redirection.js:2
 msgid "Some other plugin that blocks the REST API"
 msgstr "Některé další zásuvné moduly, které blokují rozhraní REST API"
 
-#: redirection-strings.php:193
+#: redirection-strings.php:167 redirection.js:2
 msgid "A server firewall or other server configuration (e.g OVH)"
 msgstr "Firewall serveru nebo jiná konfigurace serveru (např. OVH)."
 
-#: redirection-strings.php:191
+#: redirection-strings.php:165 redirection.js:2
 msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
 msgstr "Přesměrování používá {{link}}WordPress REST API{{/link}} ke komunikaci s WordPressem. To je ve výchozím nastavení povoleno a funguje. Někdy je rozhraní REST API blokováno:"
 
-#: redirection-strings.php:189 redirection-strings.php:200
+#: redirection-strings.php:162 redirection-strings.php:184
+#: redirection-strings.php:203 redirection.js:2
 msgid "Go back"
 msgstr "Přejít zpět"
 
-#: redirection-strings.php:188
-msgid "Continue Setup"
-msgstr "Pokračovat v nastavení"
-
-#: redirection-strings.php:186
+#: redirection-strings.php:200 redirection.js:2
 msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
 msgstr "Uložení IP adresy umožňuje provádět další akce protokolu. Upozorňujeme, že budete muset dodržovat místní zákony týkající se shromažďování údajů (například GDPR)."
 
-#: redirection-strings.php:185
+#: redirection-strings.php:199 redirection.js:2
 msgid "Store IP information for redirects and 404 errors."
 msgstr "Ukládání informací o IP pro přesměrování a chyby 404."
 
-#: redirection-strings.php:183
+#: redirection-strings.php:197 redirection.js:2
 msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
 msgstr "Ukládání záznamů pro přesměrování a chyby 404 vám umožní zjistit, co se na vašem webu děje. Tím se zvýší vaše nároky na ukládání dat do databáze."
 
-#: redirection-strings.php:182
+#: redirection-strings.php:196 redirection.js:2
 msgid "Keep a log of all redirects and 404 errors."
 msgstr "Uchovávejte protokoly všech přesměrování a chyb 404."
 
-#: redirection-strings.php:181 redirection-strings.php:184
-#: redirection-strings.php:187
+#: redirection-strings.php:195 redirection-strings.php:198
+#: redirection-strings.php:201 redirection.js:2
 msgid "{{link}}Read more about this.{{/link}}"
 msgstr "{{odkaz}}Přečtěte si o tom více.{{/link}}"
 
-#: redirection-strings.php:180
+#: redirection-strings.php:194 redirection.js:2
 msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
 msgstr "Pokud změníte trvalý odkaz v příspěvku nebo na stránce, může přesměrování automaticky vytvořit přesměrování za vás."
 
-#: redirection-strings.php:179
+#: redirection-strings.php:193 redirection.js:2
 msgid "Monitor permalink changes in WordPress posts and pages"
 msgstr "Sledování změn permalinků v příspěvcích a stránkách WordPress"
 
-#: redirection-strings.php:178
+#: redirection-strings.php:192 redirection.js:2
 msgid "These are some options you may want to enable now. They can be changed at any time."
 msgstr "Toto jsou některé možnosti, které byste nyní mohli chtít povolit. Můžete je kdykoli změnit."
 
-#: redirection-strings.php:177
+#: redirection-strings.php:191 redirection.js:2
 msgid "Basic Setup"
 msgstr "Základní nastavení"
 
-#: redirection-strings.php:176
+#: redirection-strings.php:222 redirection.js:2
 msgid "Start Setup"
 msgstr "Spustit nastavení"
 
-#: redirection-strings.php:175
-msgid "When ready please press the button to continue."
-msgstr "Až budete připraveni, pokračujte stisknutím tlačítka ."
-
-#: redirection-strings.php:174
+#: redirection-strings.php:221 redirection.js:2
 msgid "First you will be asked a few questions, and then Redirection will set up your database."
 msgstr "Nejprve budete dotázáni na několik otázek a poté Redirection nastaví vaši databázi."
 
-#: redirection-strings.php:173
+#: redirection-strings.php:220 redirection.js:2
 msgid "What's next?"
 msgstr "Co bude následovat?"
 
-#: redirection-strings.php:172
+#: redirection-strings.php:219 redirection.js:2
 msgid "Check a URL is being redirected"
 msgstr "Zkontrolujte, zda je přesměrována adresa URL"
 
-#: redirection-strings.php:171
+#: redirection-strings.php:218 redirection.js:2
 msgid "More powerful URL matching, including {{regular}}regular expressions{{/regular}}, and {{other}}other conditions{{/other}}"
 msgstr "Výkonnější porovnávání URL, včetně {{regulárních}}regulárních výrazů {{{/regulárních}} a {{jiných}}dalších podmínek {{{/jiných}}."
 
-#: redirection-strings.php:170
+#: redirection-strings.php:217 redirection.js:2
 msgid "{{link}}Import{{/link}} from .htaccess, CSV, and a variety of other plugins"
-msgstr "{{odkaz}}Import{{/link}} z .htaccess, CSV a řady dalších pluginů"
+msgstr "{{link}}Import{{/link}} z .htaccess, CSV a řady dalších pluginů"
 
-#: redirection-strings.php:169
+#: redirection-strings.php:216 redirection.js:2
 msgid "{{link}}Monitor 404 errors{{/link}}, get detailed information about the visitor, and fix any problems"
 msgstr "{{link}}Monitorování chyb 404{{/link}}, získávání podrobných informací o návštěvníkovi a oprava případných problémů"
 
-#: redirection-strings.php:168
+#: redirection-strings.php:215 redirection.js:2
 msgid "Some features you may find useful are"
 msgstr "Některé funkce, které se vám mohou hodit, jsou"
 
-#: redirection-strings.php:167
+#: redirection-strings.php:214 redirection.js:2
 msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
 msgstr "Úplnou dokumentaci najdete na webu {{link}}Přesměrování.{{/link}}"
 
-#: redirection-strings.php:161
+#: redirection-strings.php:208 redirection.js:2
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
 msgstr "Jednoduché přesměrování zahrnuje nastavení {{strong}}zdrojové adresy URL{{/strong}}. (stará adresa URL) a {{strong}}cílovou adresu URL{{/strong}}. (nová adresa URL). Zde je příklad:"
 
-#: redirection-strings.php:160
+#: redirection-strings.php:207 redirection.js:2
 msgid "How do I use this plugin?"
 msgstr "Jak tento zásuvný modul používat?"
 
-#: redirection-strings.php:159
+#: redirection-strings.php:206 redirection.js:2
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
 msgstr "Přesměrování je určeno k použití na webech s několika přesměrováními na weby s tisíci přesměrováními."
 
-#: redirection-strings.php:158
+#: redirection-strings.php:205 redirection.js:2
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
 msgstr "Děkujeme, že jste si nainstalovali a používáte Redirection v%(version)s. Tento plugin vám umožní spravovat přesměrování 301, sledovat chyby 404 a vylepšovat vaše stránky, aniž byste potřebovali znalosti Apache nebo Nginx."
 
-#: redirection-strings.php:157
+#: redirection-strings.php:204 redirection.js:2
 msgid "Welcome to Redirection 🚀🎉"
 msgstr "Vítejte v aplikaci Přesměrování 🚀🎉"
 
-#: redirection-strings.php:118
+#: redirection-strings.php:117 redirection.js:2
 msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
 msgstr "Chcete-li zabránit nenasytnému regulárnímu výrazu, můžete jej pomocí {{code}}^{{/code}} ukotvit na začátek adresy URL. Například: {{code}}%(example)s{{/code}}"
 
-#: redirection-strings.php:116
+#: redirection-strings.php:115 redirection.js:2
 msgid "Remember to enable the \"regex\" option if this is a regular expression."
 msgstr "Nezapomeňte povolit volbu \"regex\", pokud se jedná o regulární výraz."
 
-#: redirection-strings.php:115
+#: redirection-strings.php:114 redirection.js:2
 msgid "The source URL should probably start with a {{code}}/{{/code}}"
 msgstr "Zdrojová adresa URL by pravděpodobně měla začínat znakem {{code}}/{{/code}}."
 
-#: redirection-strings.php:114
+#: redirection-strings.php:113 redirection.js:2
 msgid "This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}."
 msgstr "To bude převedeno na přesměrování serveru pro doménu {{code}}%(server)s{{/code}}."
 
-#: redirection-strings.php:113
+#: redirection-strings.php:112 redirection.js:2
 msgid "Anchor values are not sent to the server and cannot be redirected."
 msgstr "Hodnoty kotvy se na server neodesílají a nelze je přesměrovat."
 
-#: redirection-strings.php:38
-msgid "{{code}}%(status)d{{/code}} to {{code}}%(target)s{{/code}}"
-msgstr "{{code}}%(status)d{{/code}} na {{code}}%(target)s{{/code}}"
-
-#: redirection-strings.php:18 redirection-strings.php:22
+#: redirection-strings.php:161 redirection.js:2
 msgid "Finished! 🎉"
 msgstr "Dokončeno! 🎉"
 
-#: redirection-strings.php:21
+#: redirection-strings.php:17
 msgid "Progress: %(complete)d$"
 msgstr "Průběh: %(complete)d$"
 
-#: redirection-strings.php:20
+#: redirection-strings.php:15 redirection.js:2
 msgid "Leaving before the process has completed may cause problems."
 msgstr "Odchod před dokončením procesu může způsobit problémy."
 
-#: redirection-strings.php:14
+#: redirection-strings.php:14 redirection.js:2
 msgid "Setting up Redirection"
 msgstr "Nastavení přesměrování"
 
-#: redirection-strings.php:13
+#: redirection-strings.php:13 redirection.js:2
 msgid "Upgrading Redirection"
 msgstr "Aktualizace přesměrování"
 
-#: redirection-strings.php:12
+#: redirection-strings.php:16 redirection.js:2
 msgid "Please remain on this page until complete."
 msgstr "Zůstaňte na této stránce až do dokončení."
 
-#: redirection-strings.php:11
+#: redirection-strings.php:12 redirection.js:2
 msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
 msgstr "Pokud chcete {{podpora}}požádat o podporu{{/support}}, uveďte prosím tyto údaje:"
 
-#: redirection-strings.php:10
+#: redirection-strings.php:11 redirection.js:2
 msgid "Stop upgrade"
 msgstr "Zastavit upgrade"
 
-#: redirection-strings.php:9
+#: redirection-strings.php:10 redirection.js:2
 msgid "Skip this stage"
 msgstr "Přeskočit tuto fázi"
 
-#: redirection-strings.php:6 redirection-strings.php:8
+#: redirection-strings.php:7 redirection-strings.php:9 redirection.js:2
 msgid "Try again"
 msgstr "Zkusit znovu"
 
-#: redirection-strings.php:5 redirection-strings.php:7
+#: redirection-strings.php:6 redirection-strings.php:8
+#: redirection-strings.php:159 redirection.js:2
 msgid "Database problem"
 msgstr "Problém s databází"
 
-#: redirection-admin.php:469
+#: redirection-admin.php:550
 msgid "Please enable JavaScript"
 msgstr "Povolte prosím JavaScript"
 
-#: redirection-admin.php:156
+#: redirection-admin.php:217
 msgid "Please upgrade your database"
 msgstr "Upgradujte prosím databázi"
 
-#: redirection-admin.php:147 redirection-strings.php:255
+#: redirection-admin.php:208 redirection.js:2
 msgid "Upgrade Database"
 msgstr "Upgradovat databázi"
 
 #. translators: 1: URL to plugin page
-#: redirection-admin.php:82
+#: redirection-admin.php:115
 msgid "Please complete your <a href=\"%s\">Redirection setup</a> to activate the plugin."
 msgstr "Dokončete prosím <a href=\"%s\">Nastavení přesměrování</a> pro aktivaci zásuvného modulu."
 
 #. translators: version number
-#: api/api-plugin.php:118
+#: api/api-plugin.php:119
 msgid "Your database does not need updating to %s."
 msgstr "Vaši databázi není třeba aktualizovat na %s."
 
 #. translators: 1: table name
-#: database/schema/latest.php:104
+#: database/schema/latest.php:103
 msgid "Table \"%s\" is missing"
 msgstr "Chybí tabulka \"%s\""
 
@@ -1154,452 +1351,414 @@ msgid "Install Redirection tables"
 msgstr "Nainstalujte tabulky přesměrování"
 
 #. translators: 1: Site URL, 2: Home URL
-#: models/fixer.php:98
+#: models/fixer.php:115
 msgid "Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s"
 msgstr "Adresa webu a domovská adresa URL jsou nekonzistentní. Prosíme o opravu na stránce Nastavení > Obecné: %1$1s není %2$2s."
 
-#: redirection-strings.php:654
+#: redirection-strings.php:588 redirection.js:2
 msgid "Please do not try and redirect all your 404s - this is not a good thing to do."
 msgstr "Nepokoušejte se prosím přesměrovat všechny 404 - není to dobré."
 
-#: redirection-strings.php:653
+#: redirection-strings.php:587 redirection.js:2
 msgid "Only the 404 page type is currently supported."
 msgstr "V současné době je podporován pouze typ stránky 404."
 
-#: redirection-strings.php:652
+#: redirection-strings.php:586 redirection.js:2
 msgid "Page Type"
 msgstr "Typ stránky"
 
-#: redirection-strings.php:649
+#: redirection-strings.php:583 redirection.js:2
 msgid "Enter IP addresses (one per line)"
 msgstr "Zadejte IP adresy (jedna na řádek)"
 
-#: redirection-strings.php:112
+#: redirection-strings.php:111 redirection.js:2
 msgid "Describe the purpose of this redirect (optional)"
 msgstr "Popište účel tohoto přesměrování (volitelné)"
 
-#: redirection-strings.php:83
+#: redirection-strings.php:81 redirection.js:2
 msgid "418 - I'm a teapot"
 msgstr "418 - I'm a teapot"
 
-#: redirection-strings.php:80
+#: redirection-strings.php:78 redirection.js:2
 msgid "403 - Forbidden"
 msgstr "403 - Forbidden"
 
-#: redirection-strings.php:78
+#: redirection-strings.php:76 redirection.js:2
 msgid "400 - Bad Request"
 msgstr "400 - Bad Request"
 
-#: redirection-strings.php:75
+#: redirection-strings.php:73 redirection.js:2
 msgid "304 - Not Modified"
 msgstr "304 - Not Modified"
 
-#: redirection-strings.php:74
+#: redirection-strings.php:72 redirection.js:2
 msgid "303 - See Other"
 msgstr "303 - See Other"
 
-#: redirection-strings.php:71
+#: actions/nothing.php:17 redirection-strings.php:69 redirection.js:2
 msgid "Do nothing (ignore)"
 msgstr "Nedělat nic (ignorovat)"
 
-#: redirection-strings.php:622 redirection-strings.php:626
+#: redirection-strings.php:556 redirection-strings.php:560 redirection.js:2
 msgid "Target URL when not matched (empty to ignore)"
 msgstr "Cílová adresa URL, když neodpovídá (prázdná pro ignorování)"
 
-#: redirection-strings.php:620 redirection-strings.php:624
+#: redirection-strings.php:554 redirection-strings.php:558 redirection.js:2
 msgid "Target URL when matched (empty to ignore)"
 msgstr "Cílová adresa URL při shodě (prázdná pro ignorování)"
 
-#: redirection-strings.php:435
+#: redirection-strings.php:436 redirection.js:2
 msgid "Show All"
 msgstr "Zobrazit vše"
 
-#: redirection-strings.php:432
+#: redirection-strings.php:433 redirection.js:2
 msgid "Delete logs for these entries"
 msgstr "Odstranění protokolů pro tyto položky"
 
-#: redirection-strings.php:431
+#: redirection-strings.php:432 redirection.js:2
 msgid "Delete logs for this entry"
 msgstr "Smazat protokoly pro tuto položku"
 
-#: redirection-strings.php:430
+#: redirection-strings.php:431 redirection.js:2
 msgid "Delete Log Entries"
 msgstr "Odstranit záznamy protokolu"
 
-#: redirection-strings.php:371 redirection-strings.php:401
+#: redirection-strings.php:371 redirection-strings.php:401 redirection.js:2
 msgid "Group by IP"
 msgstr "Seskupit podle IP"
 
-#: redirection-strings.php:369 redirection-strings.php:399
+#: redirection-strings.php:369 redirection-strings.php:399 redirection.js:2
 msgid "Group by URL"
 msgstr "Seskupit podle adresy URL"
 
-#: redirection-strings.php:368 redirection-strings.php:398
+#: redirection-strings.php:368 redirection-strings.php:398 redirection.js:2
 msgid "No grouping"
 msgstr "Žádné seskupení"
 
-#: redirection-strings.php:397 redirection-strings.php:437
+#: redirection-strings.php:397 redirection-strings.php:438 redirection.js:2
 msgid "Ignore URL"
 msgstr "Ignorovat URL"
 
-#: redirection-strings.php:395 redirection-strings.php:436
+#: redirection-strings.php:395 redirection-strings.php:437 redirection.js:2
 msgid "Block IP"
 msgstr "Blokovat IP"
 
-#: redirection-strings.php:394 redirection-strings.php:396
+#: redirection-strings.php:394 redirection-strings.php:396 redirection.js:2
 msgid "Redirect All"
 msgstr "Přesměrovat vše"
 
-#: redirection-strings.php:326 redirection-strings.php:328
-#: redirection-strings.php:330 redirection-strings.php:347
-#: redirection-strings.php:349 redirection-strings.php:351
+#: redirection-strings.php:325 redirection-strings.php:327
+#: redirection-strings.php:329 redirection-strings.php:346
+#: redirection-strings.php:348 redirection-strings.php:350
 #: redirection-strings.php:380 redirection-strings.php:382
 #: redirection-strings.php:384 redirection-strings.php:407
-#: redirection-strings.php:409 redirection-strings.php:411
+#: redirection-strings.php:409 redirection-strings.php:411 redirection.js:2
 msgid "Count"
 msgstr "Počet"
 
-#: redirection-strings.php:65 matches/page.php:9
+#: matches/page.php:17 redirection-strings.php:63 redirection.js:2
 msgid "URL and WordPress page type"
 msgstr "URL a typ stránky WordPress"
 
-#: redirection-strings.php:61 matches/ip.php:9
+#: matches/ip.php:17 redirection-strings.php:59 redirection.js:2
 msgid "URL and IP"
 msgstr "URL a IP"
 
-#: redirection-strings.php:599
+#: redirection-strings.php:533 redirection.js:2
 msgid "Problem"
 msgstr "Problém"
 
-#: redirection-strings.php:132 redirection-strings.php:598
+#: redirection-strings.php:132 redirection-strings.php:532 redirection.js:2
 msgid "Good"
 msgstr "V pořádku"
 
-#: redirection-strings.php:594
+#: redirection-strings.php:529 redirection.js:2
 msgid "Check"
 msgstr "Zkontrolovat"
 
-#: redirection-strings.php:572
+#: redirection-strings.php:511 redirection.js:2
 msgid "Check Redirect"
 msgstr "Zkontrolovat přesměrování"
 
-#: redirection-strings.php:49
+#: redirection-strings.php:47 redirection.js:2
 msgid "Check redirect for: {{code}}%s{{/code}}"
 msgstr "Zkontrolujte přesměrování pro: {{code}}%s{{/code}}"
 
-#: redirection-strings.php:43
-msgid "Not using Redirection"
-msgstr "Nepoužívá přesměrování"
-
-#: redirection-strings.php:42
-msgid "Using Redirection"
-msgstr "Používání přesměrování"
-
-#: redirection-strings.php:39
-msgid "Found"
-msgstr "Nalezeno"
-
-#: redirection-strings.php:40
-msgid "{{code}}%(status)d{{/code}} to {{code}}%(url)s{{/code}}"
-msgstr "{{code}}%(status)d{{/code}} na {{code}}%(url)s{{/code}}"
-
-#: redirection-strings.php:37
-msgid "Expected"
-msgstr "Očekávané"
-
-#: redirection-strings.php:47
+#: redirection-strings.php:45 redirection.js:2
 msgid "Error"
 msgstr "Chyba"
 
-#: redirection-strings.php:593
+#: redirection-strings.php:528 redirection.js:2
 msgid "Enter full URL, including http:// or https://"
 msgstr "Zadejte úplnou adresu URL, včetně http:// nebo https://"
 
-#: redirection-strings.php:591
-msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this to check a URL to see how it is really redirecting."
-msgstr "Někdy může prohlížeč uložit adresu URL do mezipaměti, takže je obtížné zjistit, zda funguje podle očekávání. Pomocí této funkce můžete zkontrolovat adresu URL a zjistit, jak se skutečně přesměrovává."
-
-#: redirection-strings.php:590
+#: redirection-strings.php:525 redirection.js:2
 msgid "Redirect Tester"
 msgstr "Tester přesměrování"
 
-#: redirection-strings.php:360 redirection-strings.php:537
-#: redirection-strings.php:589
+#: redirection-strings.php:359 redirection-strings.php:476 redirection.js:2
 msgid "Target"
 msgstr "Cíl"
 
-#: redirection-strings.php:588
-msgid "URL is not being redirected with Redirection"
-msgstr "Adresa URL není přesměrována pomocí funkce Přesměrování"
-
-#: redirection-strings.php:587
-msgid "URL is being redirected with Redirection"
-msgstr "Adresa URL je přesměrována pomocí přesměrování"
-
-#: redirection-strings.php:586 redirection-strings.php:595
-msgid "Unable to load details"
-msgstr "Nelze načíst podrobnosti"
-
-#: redirection-strings.php:661
+#: redirection-strings.php:595 redirection.js:2
 msgid "Enter server URL to match against"
 msgstr "Zadejte adresu URL serveru, se kterou chcete porovnat"
 
-#: redirection-strings.php:660
+#: redirection-strings.php:594 redirection.js:2
 msgid "Server"
 msgstr "Server"
 
-#: redirection-strings.php:659
+#: redirection-strings.php:593 redirection.js:2
 msgid "Enter role or capability value"
 msgstr "Zadejte hodnotu role nebo schopnosti"
 
-#: redirection-strings.php:658
+#: redirection-strings.php:592 redirection.js:2
 msgid "Role"
 msgstr "Role"
 
-#: redirection-strings.php:656
+#: redirection-strings.php:590 redirection.js:2
 msgid "Match against this browser referrer text"
 msgstr "Porovnat s tímto textem odkazu prohlížeče"
 
-#: redirection-strings.php:629
+#: redirection-strings.php:563 redirection.js:2
 msgid "Match against this browser user agent"
 msgstr "Shoda s uživatelským agentem tohoto prohlížeče"
 
-#: redirection-strings.php:108
+#: redirection-strings.php:107 redirection.js:2
 msgid "The relative URL you want to redirect from"
 msgstr "Relativní adresa URL, ze které chcete přesměrovat"
 
-#: redirection-strings.php:288
+#: redirection-strings.php:285 redirection.js:2
 msgid "Add New"
 msgstr "Přidat nový"
 
-#: redirection-strings.php:57 matches/user-role.php:9
+#: matches/user-role.php:17 redirection-strings.php:55 redirection.js:2
 msgid "URL and role/capability"
 msgstr "URL a role/schopnost"
 
-#: redirection-strings.php:62 matches/server.php:9
+#: matches/server.php:17 redirection-strings.php:60 redirection.js:2
 msgid "URL and server"
 msgstr "Adresa URL a server"
 
-#: models/fixer.php:102
+#: models/fixer.php:119
 msgid "Site and home protocol"
 msgstr "Web a domovský protokol"
 
-#: models/fixer.php:95
+#: models/fixer.php:112
 msgid "Site and home are consistent"
 msgstr "Stránka a domovská stránka jsou konzistentní"
 
-#: redirection-strings.php:647
+#: redirection-strings.php:581 redirection.js:2
 msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
 msgstr "Všimněte si, že je vaší odpovědností předat PHP hlavičky HTTP. V této věci se obraťte na svého poskytovatele hostingu, který vám poskytne podporu."
 
-#: redirection-strings.php:645
+#: redirection-strings.php:579 redirection.js:2
 msgid "Accept Language"
 msgstr "Přijmout jazyk"
 
-#: redirection-strings.php:643
+#: redirection-strings.php:577 redirection.js:2
 msgid "Header value"
 msgstr "Hodnota hlavičky"
 
-#: redirection-strings.php:642
+#: redirection-strings.php:576 redirection.js:2
 msgid "Header name"
 msgstr "Název hlavičky"
 
-#: redirection-strings.php:641
+#: redirection-strings.php:575 redirection.js:2
 msgid "HTTP Header"
 msgstr "Hlavička HTTP"
 
-#: redirection-strings.php:640
+#: redirection-strings.php:574 redirection.js:2
 msgid "WordPress filter name"
 msgstr "Název filtru WordPress"
 
-#: redirection-strings.php:639
+#: redirection-strings.php:573 redirection.js:2
 msgid "Filter Name"
 msgstr "Název filtru"
 
-#: redirection-strings.php:637
+#: redirection-strings.php:571 redirection.js:2
 msgid "Cookie value"
 msgstr "Hodnota souboru cookie"
 
-#: redirection-strings.php:636
+#: redirection-strings.php:570 redirection.js:2
 msgid "Cookie name"
 msgstr "Název souboru cookie"
 
-#: redirection-strings.php:635
+#: redirection-strings.php:569 redirection.js:2
 msgid "Cookie"
 msgstr "Soubor cookie"
 
-#: redirection-strings.php:245
+#: redirection-strings.php:255 redirection.js:2
 msgid "clearing your cache."
 msgstr "vymazání mezipaměti."
 
-#: redirection-strings.php:244
+#: redirection-strings.php:254 redirection.js:2
 msgid "If you are using a caching system such as Cloudflare then please read this: "
 msgstr "Pokud používáte systém ukládání do mezipaměti, jako je Cloudflare, přečtěte si tento návod: "
 
-#: redirection-strings.php:63 matches/http-header.php:11
+#: matches/http-header.php:31 redirection-strings.php:61 redirection.js:2
 msgid "URL and HTTP header"
 msgstr "URL a hlavička HTTP"
 
-#: redirection-strings.php:64 matches/custom-filter.php:9
+#: matches/custom-filter.php:17 redirection-strings.php:62 redirection.js:2
 msgid "URL and custom filter"
 msgstr "Adresa URL a vlastní filtr"
 
-#: redirection-strings.php:60 matches/cookie.php:7
+#: matches/cookie.php:10 redirection-strings.php:58 redirection.js:2
 msgid "URL and cookie"
 msgstr "Adresa URL a soubor cookie"
 
-#: redirection-strings.php:609
+#: redirection-strings.php:543 redirection.js:2
 msgid "404 deleted"
 msgstr "404 smazáno"
 
-#: redirection-strings.php:190 redirection-strings.php:517
+#: redirection-strings.php:164 redirection-strings.php:648 redirection.js:2
 msgid "REST API"
 msgstr "ROZHRANÍ API REST"
 
-#: redirection-strings.php:518
+#: redirection-strings.php:649 redirection.js:2
 msgid "How Redirection uses the REST API - don't change unless necessary"
 msgstr "Jak přesměrování používá rozhraní REST API - neměňte, pokud to není nutné"
 
-#: redirection-strings.php:268
+#: redirection-strings.php:265 redirection.js:2
 msgid "Take a look at the {{link}}plugin status{{/link}}. It may be able to identify and \"magic fix\" the problem."
-msgstr "Podívejte se na stav {{odkaz}}pluginu{{/link}}. Může být schopen identifikovat a \"kouzelně opravit\" problém."
+msgstr "Podívejte se na stav {{link}}pluginu{{/link}}. Může být schopen identifikovat a \"kouzelně opravit\" problém."
 
-#: redirection-strings.php:269
+#: redirection-strings.php:266 redirection.js:2
 msgid "{{link}}Caching software{{/link}}, in particular Cloudflare, can cache the wrong thing. Try clearing all your caches."
 msgstr "{{link}}Cachovací software{{/link}}, zejména Cloudflare, může cachovat špatně. Zkuste vymazat všechny mezipaměti."
 
-#: redirection-strings.php:270
+#: redirection-strings.php:267 redirection.js:2
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 msgstr "{{link}}Dočasně vypněte ostatní zásuvné moduly!{{/link}} Tím se vyřeší mnoho problémů."
 
-#: redirection-admin.php:448
+#: redirection-admin.php:529
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr "Podívejte se prosím na <a href=\"https://redirection.me/support/problems/\">seznam běžných problémů</a>."
 
-#: redirection-admin.php:442
+#: redirection-admin.php:523
 msgid "Unable to load Redirection ☹️"
 msgstr "Nelze načíst přesměrování ☹️"
 
-#: redirection-strings.php:600
+#: redirection-strings.php:534 redirection.js:2
 msgid "WordPress REST API"
 msgstr "Rozhraní WordPress REST API"
 
-#: redirection-strings.php:148
+#: redirection-strings.php:144 redirection.js:2
 msgid "Useragent Error"
 msgstr "Chyba Useragent"
 
-#: redirection-strings.php:150
+#: redirection-strings.php:146 redirection.js:2
 msgid "Unknown Useragent"
 msgstr "Neznámý Useragent"
 
-#: redirection-strings.php:151
+#: redirection-strings.php:147 redirection.js:2
 msgid "Device"
 msgstr "Zařízení"
 
-#: redirection-strings.php:152
+#: redirection-strings.php:148 redirection.js:2
 msgid "Operating System"
 msgstr "Operační systém"
 
-#: redirection-strings.php:153
+#: redirection-strings.php:149 redirection.js:2
 msgid "Browser"
 msgstr "Prohlížeč"
 
-#: redirection-strings.php:154
+#: redirection-strings.php:150 redirection.js:2
 msgid "Engine"
 msgstr "Engine"
 
-#: redirection-strings.php:155
+#: redirection-strings.php:151 redirection.js:2
 msgid "Useragent"
 msgstr "Useragent"
 
-#: redirection-strings.php:41 redirection-strings.php:156
+#: redirection-strings.php:152 redirection.js:2
 msgid "Agent"
 msgstr "Agent"
 
-#: redirection-strings.php:469
+#: redirection-strings.php:622 redirection.js:2
 msgid "No IP logging"
 msgstr "Žádné protokolování IP"
 
-#: redirection-strings.php:470
+#: redirection-strings.php:623 redirection.js:2
 msgid "Full IP logging"
 msgstr "Úplné protokolování IP"
 
-#: redirection-strings.php:471
+#: redirection-strings.php:624 redirection.js:2
 msgid "Anonymize IP (mask last part)"
 msgstr "Anonymizace IP (maskování poslední části)"
 
-#: redirection-strings.php:482
+#: redirection-strings.php:652 redirection.js:2
 msgid "Monitor changes to %(type)s"
 msgstr "Sledování změn %(type)s"
 
-#: redirection-strings.php:489
+#: redirection-strings.php:630 redirection.js:2
 msgid "IP Logging"
 msgstr "Protokolování IP"
 
-#: redirection-strings.php:615
+#: redirection-strings.php:549 redirection.js:2
 msgid "Geo Info"
 msgstr "Geografické informace"
 
-#: redirection-strings.php:616
+#: redirection-strings.php:550 redirection.js:2
 msgid "Agent Info"
 msgstr "Informace o agentovi"
 
-#: redirection-strings.php:617
+#: redirection-strings.php:551 redirection.js:2
 msgid "Filter by IP"
 msgstr "Filtrování podle IP"
 
-#: redirection-strings.php:26
+#: redirection-strings.php:21 redirection.js:2
 msgid "Geo IP Error"
 msgstr "Geo IP Chyba"
 
-#: redirection-strings.php:27 redirection-strings.php:48
-#: redirection-strings.php:149
+#: redirection-strings.php:22 redirection-strings.php:145 redirection.js:2
 msgid "Something went wrong obtaining this information"
 msgstr "Při získávání těchto informací se něco pokazilo"
 
-#: redirection-strings.php:29
+#: redirection-strings.php:24 redirection.js:2
 msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
 msgstr "Jedná se o IP z privátní sítě. To znamená, že se nachází uvnitř domácí nebo firemní sítě a nelze zobrazit žádné další informace."
 
-#: redirection-strings.php:31
+#: redirection-strings.php:26 redirection.js:2
 msgid "No details are known for this address."
 msgstr "Pro tuto adresu nejsou známy žádné podrobnosti."
 
-#: redirection-strings.php:28 redirection-strings.php:30
-#: redirection-strings.php:32
+#: redirection-strings.php:23 redirection-strings.php:25
+#: redirection-strings.php:27 redirection.js:2
 msgid "Geo IP"
 msgstr "Geo IP"
 
-#: redirection-strings.php:33
+#: redirection-strings.php:28 redirection.js:2
 msgid "City"
 msgstr "Město"
 
-#: redirection-strings.php:34
+#: redirection-strings.php:29 redirection.js:2
 msgid "Area"
 msgstr "Oblast"
 
-#: redirection-strings.php:35
+#: redirection-strings.php:30 redirection.js:2
 msgid "Timezone"
 msgstr "Časové pásmo"
 
-#: redirection-strings.php:36
+#: redirection-strings.php:31 redirection.js:2
 msgid "Geo Location"
 msgstr "Geografická poloha"
 
-#: redirection-strings.php:51
+#: redirection-strings.php:49 redirection.js:2
 msgid "Powered by {{link}}redirect.li{{/link}}"
 msgstr "Powered by {{link}}redirect.li{{/link}}"
 
-#: redirection-settings.php:20
+#: redirection-settings.php:21
 msgid "Trash"
 msgstr "Odpadkový koš"
 
-#: redirection-admin.php:447
+#: redirection-admin.php:528
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr "Upozorňujeme, že přesměrování vyžaduje, aby bylo povoleno rozhraní WordPress REST API. Pokud jste toto rozhraní zakázali, nebudete moci přesměrování používat."
 
 #. translators: URL
-#: redirection-admin.php:340
+#: redirection-admin.php:408
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr "Úplnou dokumentaci o používání přesměrování najdete na <a href=\"%s\" target=\"_blank\">stránce podpory redirection.me</a>."
 
@@ -1607,545 +1766,541 @@ msgstr "Úplnou dokumentaci o používání přesměrování najdete na <a href=
 msgid "https://redirection.me/"
 msgstr "https://redirection.me/"
 
-#: redirection-strings.php:580
+#: redirection-strings.php:519 redirection.js:2
 msgid "Full documentation for Redirection can be found at {{site}}https://redirection.me{{/site}}. If you have a problem please check the {{faq}}FAQ{{/faq}} first."
 msgstr "Úplnou dokumentaci k přesměrování naleznete na {{site}}https://redirection.me{{/site}}. Pokud máte problém, podívejte se nejprve na {{faq}}FAQ{{/faq}}."
 
-#: redirection-strings.php:581
+#: redirection-strings.php:520 redirection.js:2
 msgid "If you want to report a bug please read the {{report}}Reporting Bugs{{/report}} guide."
 msgstr "Pokud chcete nahlásit chybu, přečtěte si prosím příručku {{report}}Hlášení chyb{{/report}}."
 
-#: redirection-strings.php:583
+#: redirection-strings.php:522 redirection.js:2
 msgid "If you want to submit information that you don't want in a public repository then send it directly via {{email}}email{{/email}} - include as much information as you can!"
 msgstr "Pokud chcete odeslat informace, které nechcete ve veřejném úložišti, pošlete je přímo prostřednictvím {{email}}email{{/email}}. - Uveďte co nejvíce informací!"
 
-#: redirection-strings.php:464
+#: redirection-strings.php:661 redirection.js:2
 msgid "Never cache"
 msgstr "Nikdy neukládejte do mezipaměti"
 
-#: redirection-strings.php:465
+#: redirection-strings.php:662 redirection.js:2
 msgid "An hour"
 msgstr "Hodinu"
 
-#: redirection-strings.php:509
-msgid "Redirect Cache"
+#: redirection-strings.php:680 redirection.js:2
+msgid "Redirect Caching"
 msgstr "Přesměrování do mezipaměti"
 
-#: redirection-strings.php:510
+#: redirection-strings.php:679 redirection.js:2
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
 msgstr "Jak dlouho se mají přesměrované adresy URL 301 ukládat do mezipaměti (prostřednictvím hlavičky HTTP \"Expires\")."
 
-#: redirection-strings.php:304
+#: redirection-strings.php:303 redirection.js:2
 msgid "Are you sure you want to import from %s?"
 msgstr "Jste si jisti, že chcete importovat z %s?"
 
-#: redirection-strings.php:305
+#: redirection-strings.php:304 redirection.js:2
 msgid "Plugin Importers"
 msgstr "Importéři zásuvných modulů"
 
-#: redirection-strings.php:306
+#: redirection-strings.php:305 redirection.js:2
 msgid "The following redirect plugins were detected on your site and can be imported from."
 msgstr "Na vašem webu byly zjištěny následující pluginy přesměrování, ze kterých je možné importovat."
 
-#: redirection-strings.php:289
+#: redirection-strings.php:288
 msgid "total = "
 msgstr "celkem = "
 
-#: redirection-strings.php:290
+#: redirection-strings.php:289 redirection.js:2
 msgid "Import from %s"
 msgstr "Importovat z %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:430
+#: redirection-admin.php:511
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr "Přesměrování vyžaduje WordPress v%1$1s, používáte v%2$2s - aktualizujte prosím svůj WordPress."
 
-#: models/importer.php:277
+#: models/importer.php:332
 msgid "Default WordPress \"old slugs\""
 msgstr "Výchozí \"staré zásuvné moduly\" WordPressu"
 
-#: redirection-strings.php:481
+#: redirection-strings.php:657 redirection.js:2
 msgid "Create associated redirect (added to end of URL)"
 msgstr "Vytvoření přidruženého přesměrování (přidáno na konec adresy URL)"
 
-#: redirection-admin.php:450
+#: redirection-admin.php:531
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr "<code>Přesměrováníi10n</code> není definováno. To obvykle znamená, že jiný zásuvný modul blokuje načítání přesměrování. Vypněte prosím všechny pluginy a zkuste to znovu."
 
-#: redirection-strings.php:596
+#: redirection-strings.php:530 redirection.js:2
 msgid "If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
 msgstr "Pokud kouzelné tlačítko nefunguje, měli byste si přečíst chybu a zjistit, zda ji můžete opravit ručně, jinak postupujte podle níže uvedené části \"Potřebujete pomoc\"."
 
-#: redirection-strings.php:597
+#: redirection-strings.php:531 redirection.js:2
 msgid "⚡️ Magic fix ⚡️"
 msgstr "⚡️ Kouzelná oprava ⚡️"
 
-#: redirection-strings.php:602
+#: redirection-strings.php:536 redirection.js:2
 msgid "Plugin Status"
 msgstr "Stav zásuvného modulu"
 
-#: redirection-strings.php:25 redirection-strings.php:630
-#: redirection-strings.php:644
+#: redirection-strings.php:20 redirection-strings.php:564
+#: redirection-strings.php:578 redirection.js:2
 msgid "Custom"
 msgstr "Vlastní"
 
-#: redirection-strings.php:631
+#: redirection-strings.php:565 redirection.js:2
 msgid "Mobile"
 msgstr "Mobilní"
 
-#: redirection-strings.php:632
+#: redirection-strings.php:566 redirection.js:2
 msgid "Feed Readers"
 msgstr "Čtečky krmiv"
 
-#: redirection-strings.php:633
+#: redirection-strings.php:567 redirection.js:2
 msgid "Libraries"
 msgstr "Knihovny"
 
-#: redirection-strings.php:478
+#: redirection-strings.php:654 redirection.js:2
 msgid "URL Monitor Changes"
 msgstr "Změny v monitoru URL"
 
-#: redirection-strings.php:479
+#: redirection-strings.php:655 redirection.js:2
 msgid "Save changes to this group"
 msgstr "Uložení změn v této skupině"
 
-#: redirection-strings.php:480
+#: redirection-strings.php:656 redirection.js:2
 msgid "For example \"/amp\""
 msgstr "Například \"/amp\""
 
-#: redirection-strings.php:497
+#: redirection-strings.php:653 redirection.js:2
 msgid "URL Monitor"
 msgstr "Sledování URL"
 
-#: redirection-strings.php:725
+#: redirection-strings.php:736 redirection.js:2
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
 msgstr "Váš server odmítl požadavek pro jeho příliš velkou velikost. Abyste mohli pokračovat, musíte jej znovu nakonfigurovat."
 
-#: redirection-admin.php:445
+#: redirection-admin.php:526
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr "Zkontrolujte také, zda je váš prohlížeč schopen načíst soubor <code>redirection.js</code>:"
 
-#: redirection-admin.php:444 redirection-strings.php:247
+#: redirection-admin.php:525 redirection-strings.php:257 redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr "Pokud používáte nějaký plugin nebo službu pro ukládání stránek do mezipaměti (CloudFlare, OVH atd.), můžete také zkusit vymazat tuto mezipaměť."
 
-#: redirection-admin.php:433
+#: redirection-admin.php:514
 msgid "Unable to load Redirection"
 msgstr "Nelze načíst přesměrování"
 
-#: models/fixer.php:75
+#: models/fixer.php:80
 msgid "Post monitor group is valid"
 msgstr "Skupina monitorů příspěvků je platná"
 
-#: models/fixer.php:75
+#: models/fixer.php:80
 msgid "Post monitor group is invalid"
 msgstr "Skupina monitorů příspěvků je neplatná"
 
-#: models/fixer.php:73
+#: models/fixer.php:78
 msgid "Post monitor group"
 msgstr "Post monitor group"
 
-#: models/fixer.php:69
+#: models/fixer.php:74
 msgid "All redirects have a valid group"
 msgstr "Všechna přesměrování mají platnou skupinu"
 
-#: models/fixer.php:69
+#: models/fixer.php:74
 msgid "Redirects with invalid groups detected"
 msgstr "Zjištěna přesměrování s neplatnými skupinami"
 
-#: models/fixer.php:67
+#: models/fixer.php:72
 msgid "Valid redirect group"
 msgstr "Platná skupina přesměrování"
 
-#: models/fixer.php:63
+#: models/fixer.php:68
 msgid "Valid groups detected"
 msgstr "Zjištěny platné skupiny"
 
-#: models/fixer.php:63
+#: models/fixer.php:68
 msgid "No valid groups, so you will not be able to create any redirects"
 msgstr "Žádné platné skupiny, takže nebude možné vytvořit žádné přesměrování."
 
-#: models/fixer.php:61
+#: models/fixer.php:66
 msgid "Valid groups"
 msgstr "Platné skupiny"
 
-#: models/fixer.php:58
+#: models/fixer.php:63
 msgid "Database tables"
 msgstr "Tabulky databáze"
 
-#: models/fixer.php:87
+#: models/fixer.php:104
 msgid "The following tables are missing:"
 msgstr "Chybí následující tabulky:"
 
-#: models/fixer.php:87
+#: models/fixer.php:104
 msgid "All tables present"
 msgstr "Všechny tabulky jsou přítomny"
 
-#: redirection-strings.php:242
+#: redirection-strings.php:252 redirection.js:2
 msgid "Cached Redirection detected"
 msgstr "Zjištěno přesměrování do mezipaměti"
 
-#: redirection-strings.php:243
+#: redirection-strings.php:253 redirection.js:2
 msgid "Please clear your browser cache and reload this page."
 msgstr "Vymažte prosím mezipaměť prohlížeče a načtěte tuto stránku znovu."
 
-#: redirection-strings.php:715
+#: redirection-strings.php:725 redirection.js:2
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr "WordPress nevrátil odpověď. To může znamenat, že došlo k chybě nebo že byl požadavek zablokován. Zkontrolujte prosím chybový_log vašeho serveru."
 
-#: redirection-admin.php:449
+#: redirection-admin.php:530
 msgid "If you think Redirection is at fault then create an issue."
 msgstr "Pokud se domníváte, že je na vině přesměrování, vytvořte problém."
 
-#: redirection-admin.php:443
+#: redirection-admin.php:524
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr "Může to být způsobeno jiným doplňkem - podívejte se do chybové konzoly prohlížeče, kde najdete další podrobnosti."
 
-#: redirection-admin.php:465
+#: redirection-admin.php:546
 msgid "Loading, please wait..."
 msgstr "Načítá se, vyčkejte prosím..."
 
-#: redirection-strings.php:309
+#: redirection-strings.php:308 redirection.js:2
 msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
 msgstr "{{strong}}Formát souboru CSV{{/strong}}: {{code}}zdrojová URL, cílová URL{{/code}} - a volitelně může následovat {{code}}regex, http kód{{/code}}. ({{code}}regex{{/code}} - 0 pro ne, 1 pro ano)."
 
-#: redirection-strings.php:246
+#: redirection-strings.php:256 redirection.js:2
 msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
 msgstr "Přesměrování nefunguje. Zkuste vymazat mezipaměť prohlížeče a znovu načíst tuto stránku."
 
-#: redirection-strings.php:248
+#: redirection-strings.php:258 redirection.js:2
 msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
-msgstr "Pokud to nepomůže, otevřete chybovou konzolu prohlížeče a vytvořte {{odkaz}}nový problém{{/link}} s podrobnostmi."
+msgstr "Pokud to nepomůže, otevřete chybovou konzolu prohlížeče a vytvořte {{link}}nový problém{{/link}} s podrobnostmi."
 
-#: redirection-admin.php:453
+#: redirection-admin.php:534
 msgid "Create Issue"
 msgstr "Vytvořit problém"
 
-#: redirection-strings.php:265
+#: redirection-strings.php:262 redirection.js:2
 msgid "Email"
 msgstr "Pošlete e-mail na adresu"
 
-#: redirection-strings.php:579
+#: redirection-strings.php:518 redirection.js:2
 msgid "Need help?"
 msgstr "Potřebujete pomoc?"
 
-#: redirection-strings.php:582
+#: redirection-strings.php:521 redirection.js:2
 msgid "Please note that any support is provide on as-time-is-available basis and is not guaranteed. I do not provide paid support."
 msgstr "Upozorňujeme, že veškerá podpora je poskytována podle časové dostupnosti a není zaručena. Neposkytuji placenou podporu."
 
-#: redirection-strings.php:526
+#: redirection-strings.php:465 redirection.js:2
 msgid "Pos"
 msgstr "Pozice"
 
-#: redirection-strings.php:82
+#: redirection-strings.php:80 redirection.js:2
 msgid "410 - Gone"
 msgstr "410 - Pryč"
 
-#: redirection-strings.php:104 redirection-strings.php:540
+#: redirection-strings.php:103 redirection-strings.php:479 redirection.js:2
 msgid "Position"
 msgstr "Pozice"
 
-#: redirection-strings.php:508
+#: redirection-strings.php:677 redirection.js:2
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Slouží k automatickému generování adresy URL, pokud není zadána žádná adresa URL. Pro vložení jedinečného ID místo něj použijte speciální značky {{code}}$dec${{/code}} nebo {{code}}$hex${{/code}}."
 
-#: redirection-strings.php:447
+#: redirection-strings.php:448 redirection.js:2
 msgid "I'd like to support some more."
 msgstr "Rád bych podporoval ještě další."
 
-#: redirection-strings.php:450
+#: redirection-strings.php:451 redirection.js:2
 msgid "Support 💰"
 msgstr "Podpora 💰"
 
-#: redirection-strings.php:291
+#: redirection-strings.php:290 redirection.js:2
 msgid "Import to group"
 msgstr "Import do skupiny"
 
-#: redirection-strings.php:292
+#: redirection-strings.php:291 redirection.js:2
 msgid "Import a CSV, .htaccess, or JSON file."
 msgstr "Importovat soubor CSV, .htaccess nebo JSON."
 
-#: redirection-strings.php:293
+#: redirection-strings.php:292 redirection.js:2
 msgid "Click 'Add File' or drag and drop here."
 msgstr "Klikněte na 'Přidat soubor' nebo sem přetáhněte soubor."
 
-#: redirection-strings.php:294 redirection-strings.php:611
+#: redirection-strings.php:293 redirection-strings.php:545 redirection.js:2
 msgid "Add File"
 msgstr "Přidat soubor"
 
-#: redirection-strings.php:295
+#: redirection-strings.php:294 redirection.js:2
 msgid "File selected"
 msgstr "Vybraný soubor"
 
-#: redirection-strings.php:298
+#: redirection-strings.php:297 redirection.js:2
 msgid "Importing"
 msgstr "Importování"
 
-#: redirection-strings.php:299
+#: redirection-strings.php:298 redirection.js:2
 msgid "Finished importing"
 msgstr "Dokončeno importování"
 
-#: redirection-strings.php:300
+#: redirection-strings.php:299 redirection.js:2
 msgid "Total redirects imported:"
 msgstr "Celkový počet importovaných přesměrování:"
 
-#: redirection-strings.php:301
+#: redirection-strings.php:300 redirection.js:2
 msgid "Double-check the file is the correct format!"
 msgstr "Překontrolujte, zda je soubor ve správném formátu!"
 
-#: redirection-strings.php:302
+#: redirection-strings.php:287 redirection-strings.php:301 redirection.js:2
 msgid "OK"
 msgstr "OK"
 
-#: redirection-strings.php:101 redirection-strings.php:303
+#: redirection-strings.php:100 redirection-strings.php:302 redirection.js:2
 msgid "Close"
 msgstr "Zavřít"
 
-#: redirection-strings.php:311
+#: redirection-strings.php:310 redirection.js:2
 msgid "Export"
 msgstr "Export"
 
-#: redirection-strings.php:313
+#: redirection-strings.php:312 redirection.js:2
 msgid "Everything"
 msgstr "Vše"
 
-#: redirection-strings.php:314
+#: redirection-strings.php:313 redirection.js:2
 msgid "WordPress redirects"
 msgstr "Přesměrování WordPress"
 
-#: redirection-strings.php:315
+#: redirection-strings.php:314 redirection.js:2
 msgid "Apache redirects"
 msgstr "Přesměrování Apache"
 
-#: redirection-strings.php:316
+#: redirection-strings.php:315 redirection.js:2
 msgid "Nginx redirects"
 msgstr "Přesměrování Nginx"
 
-#: redirection-strings.php:318
+#: redirection-strings.php:317 redirection.js:2
 msgid "CSV"
 msgstr "CSV"
 
-#: redirection-strings.php:319 redirection-strings.php:514
+#: redirection-strings.php:318 redirection-strings.php:645 redirection.js:2
 msgid "Apache .htaccess"
 msgstr "Apache .htaccess"
 
-#: redirection-strings.php:320
+#: redirection-strings.php:319 redirection.js:2
 msgid "Nginx rewrite rules"
 msgstr "Pravidla přepisu Nginx"
 
-#: redirection-strings.php:321
+#: redirection-strings.php:320 redirection.js:2
 msgid "View"
 msgstr "Zobrazit"
 
-#: redirection-strings.php:275 redirection-strings.php:285
+#: redirection-strings.php:272 redirection-strings.php:282 redirection.js:2
 msgid "Import/Export"
 msgstr "Import/export"
 
-#: redirection-strings.php:276 redirection-strings.php:484
+#: redirection-strings.php:273 redirection-strings.php:625 redirection.js:2
 msgid "Logs"
 msgstr "Protokoly"
 
-#: redirection-strings.php:277
+#: redirection-strings.php:274 redirection.js:2
 msgid "404 errors"
 msgstr "Chyby 404"
 
-#: redirection-strings.php:605
+#: redirection-strings.php:539 redirection.js:2
 msgid "Redirection saved"
 msgstr "Uložené přesměrování"
 
-#: redirection-strings.php:606
+#: redirection-strings.php:540 redirection.js:2
 msgid "Log deleted"
 msgstr "Protokol odstraněn"
 
-#: redirection-strings.php:607
+#: redirection-strings.php:541 redirection.js:2
 msgid "Settings saved"
 msgstr "Uložená nastavení"
 
-#: redirection-strings.php:608
+#: redirection-strings.php:542 redirection.js:2
 msgid "Group saved"
 msgstr "Uložená skupina"
 
-#: redirection-strings.php:213 redirection-strings.php:429
+#: redirection-strings.php:4 redirection-strings.php:430 redirection.js:2
 msgid "Are you sure you want to delete this item?"
-msgid_plural "Are you sure you want to delete the selected items?"
+msgid_plural "Are you sure you want to delete the %d selected items?"
 msgstr[0] "Opravdu chcete tuto položku odstranit?"
 msgstr[1] "Opravdu chcete tyto položky odstranit?"
 msgstr[2] "Opravdu chcete tyto položky odstranit?"
 
-#: redirection-strings.php:678
+#: redirection-strings.php:682 redirection.js:2
 msgid "pass"
 msgstr "pass"
 
-#: redirection-strings.php:567
+#: redirection-strings.php:506 redirection.js:2
 msgid "All groups"
 msgstr "Všechny skupiny"
 
-#: redirection-strings.php:72
+#: redirection-strings.php:70 redirection.js:2
 msgid "301 - Moved Permanently"
 msgstr "301 - Trvale přesunuto"
 
-#: redirection-strings.php:73
+#: redirection-strings.php:71 redirection.js:2
 msgid "302 - Found"
 msgstr "302 - Nalezeno"
 
-#: redirection-strings.php:76
+#: redirection-strings.php:74 redirection.js:2
 msgid "307 - Temporary Redirect"
 msgstr "307 - Dočasné přesměrování"
 
-#: redirection-strings.php:77
+#: redirection-strings.php:75 redirection.js:2
 msgid "308 - Permanent Redirect"
 msgstr "308 - Trvalé přesměrování"
 
-#: redirection-strings.php:79
+#: redirection-strings.php:77 redirection.js:2
 msgid "401 - Unauthorized"
 msgstr "401 - Neoprávněné"
 
-#: redirection-strings.php:81
+#: redirection-strings.php:79 redirection.js:2
 msgid "404 - Not Found"
 msgstr "404 - Nenalezeno"
 
-#: redirection-strings.php:111 redirection-strings.php:536
+#: redirection-strings.php:110 redirection-strings.php:475 redirection.js:2
 msgid "Title"
 msgstr "Název"
 
-#: redirection-strings.php:97
+#: redirection-strings.php:96 redirection.js:2
 msgid "When matched"
 msgstr "Při shodě"
 
-#: redirection-strings.php:54
+#: redirection-strings.php:52 redirection.js:2
 msgid "with HTTP code"
 msgstr "s kódem HTTP"
 
-#: redirection-strings.php:102
+#: redirection-strings.php:101 redirection.js:2
 msgid "Show advanced options"
 msgstr "Zobrazit rozšířené možnosti"
 
-#: redirection-strings.php:623
+#: redirection-strings.php:557 redirection.js:2
 msgid "Matched Target"
 msgstr "Shodný cíl"
 
-#: redirection-strings.php:625
+#: redirection-strings.php:559 redirection.js:2
 msgid "Unmatched Target"
 msgstr "Neshodný cíl"
 
-#: redirection-strings.php:52 redirection-strings.php:53
+#: redirection-strings.php:50 redirection-strings.php:51
 msgid "Saving..."
 msgstr "Uložení..."
 
-#: redirection-strings.php:610
+#: redirection-strings.php:544 redirection.js:2
 msgid "View notice"
 msgstr "Zobrazit oznámení"
 
-#: redirection-strings.php:737 redirection-strings.php:738
-#: redirection-strings.php:739
+#: redirection-strings.php:751 redirection-strings.php:752
+#: redirection-strings.php:753 redirection.js:2
 msgid "Something went wrong 🙁"
 msgstr "Něco se pokazilo 🙁"
 
 #. translators: maximum number of log entries
-#: redirection-admin.php:212
+#: redirection-admin.php:273
 msgid "Log entries (%d max)"
 msgstr "Záznamy v protokolu (%d max)"
 
-#: redirection-strings.php:144
+#: redirection-strings.php:141 redirection.js:2
 msgid "Bulk Actions"
 msgstr "Hromadné akce"
 
-#: redirection-strings.php:146 redirection-strings.php:147
+#: redirection-strings.php:142 redirection-strings.php:143 redirection.js:2
 msgid "Apply"
 msgstr "Použít"
 
-#: redirection-strings.php:664
+#: redirection-strings.php:600 redirection.js:2
 msgid "First page"
 msgstr "První stránka"
 
-#: redirection-strings.php:665
+#: redirection-strings.php:601 redirection.js:2
 msgid "Prev page"
 msgstr "Předchozí stránka"
 
-#: redirection-strings.php:666
+#: redirection-strings.php:602 redirection.js:2
 msgid "Current Page"
 msgstr "Aktuální stránka"
 
-#: redirection-strings.php:667
+#: redirection-strings.php:603
 msgid "of %(page)s"
 msgstr "%(stránek)"
 
-#: redirection-strings.php:668
+#: redirection-strings.php:604 redirection.js:2
 msgid "Next page"
 msgstr "Další stránka"
 
-#: redirection-strings.php:669
+#: redirection-strings.php:605 redirection.js:2
 msgid "Last page"
 msgstr "Poslední stránka"
 
-#: redirection-strings.php:663
+#: redirection-strings.php:597 redirection.js:2
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] "%s položka"
 msgstr[1] ""
 msgstr[2] ""
 
-#: redirection-strings.php:662
+#: redirection-strings.php:596 redirection.js:2
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: redirection-strings.php:671
+#: redirection-strings.php:607 redirection.js:2
 msgid "Sorry, something went wrong loading the data - please try again"
 msgstr "Omlouváme se, něco se pokazilo při načítání dat - zkuste to prosím znovu"
 
-#: redirection-strings.php:670
-msgid "No results"
-msgstr "Žádné výsledky"
-
-#: redirection-strings.php:453
+#: redirection-strings.php:454 redirection.js:2
 msgid "Thanks for subscribing! {{a}}Click here{{/a}} if you need to return to your subscription."
 msgstr "Děkujeme za přihlášení k odběru! {{a}}Pokud se chcete vrátit k odběru, klikněte zde{{/a}}."
 
-#: redirection-strings.php:452 redirection-strings.php:454
+#: redirection-strings.php:453 redirection-strings.php:455 redirection.js:2
 msgid "Newsletter"
 msgstr "Odběr novinek"
 
-#: redirection-strings.php:455
+#: redirection-strings.php:456 redirection.js:2
 msgid "Want to keep up to date with changes to Redirection?"
 msgstr "Chcete být informováni o změnách v aplikaci Přesměrování?"
 
-#: redirection-strings.php:456
+#: redirection-strings.php:457 redirection.js:2
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
 msgstr "Přihlaste se k odběru drobného newsletteru Redirection - nízkoobjemového zpravodaje o nových funkcích a změnách v pluginu. Ideální, pokud chcete testovat beta verze změn před vydáním."
 
-#: redirection-strings.php:457
+#: redirection-strings.php:458 redirection.js:2
 msgid "Your email address:"
 msgstr "Vaše e-mailová adresa:"
 
-#: redirection-strings.php:446
+#: redirection-strings.php:447 redirection.js:2
 msgid "You've supported this plugin - thank you!"
 msgstr "Děkujeme, že jste podpořili tento plugin!"
 
-#: redirection-strings.php:449
+#: redirection-strings.php:450 redirection.js:2
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Vy získáte užitečný software a já budu moci pokračovat v jeho vylepšování."
 
-#: redirection-strings.php:463 redirection-strings.php:468
+#: redirection-strings.php:621 redirection-strings.php:665 redirection.js:2
 msgid "Forever"
 msgstr "Navždy"
 
-#: redirection-strings.php:438
+#: redirection-strings.php:439 redirection.js:2
 msgid "Delete the plugin - are you sure?"
 msgstr "Smazání pluginu - jste si jisti?"
 
-#: redirection-strings.php:439
+#: redirection-strings.php:440 redirection.js:2
 msgid "Deleting the plugin will remove all your redirections, logs, and settings. Do this if you want to remove the plugin for good, or if you want to reset the plugin."
 msgstr "Odstranění pluginu odstraní všechna vaše přesměrování, protokoly a nastavení. Udělejte to, pokud chcete zásuvný modul odstranit nadobro, nebo pokud chcete zásuvný modul resetovat."
 
-#: redirection-strings.php:440
+#: redirection-strings.php:441 redirection.js:2
 msgid "Once deleted your redirections will stop working. If they appear to continue working then please clear your browser cache."
 msgstr "Po odstranění přestanou vaše přesměrování fungovat. Pokud se zdá, že fungují i nadále, vymažte prosím mezipaměť prohlížeče."
 
-#: redirection-strings.php:441
+#: redirection-strings.php:442 redirection.js:2
 msgid "Yes! Delete the plugin"
 msgstr "Ano! Odstraňte zásuvný modul"
 
-#: redirection-strings.php:442
+#: redirection-strings.php:443 redirection.js:2
 msgid "No! Don't delete the plugin"
 msgstr "Ne! Neodstraňujte zásuvný modul"
 
@@ -2157,329 +2312,329 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Správa všech přesměrování 301 a sledování chyb 404"
 
-#: redirection-strings.php:448
+#: redirection-strings.php:449 redirection.js:2
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Přesměrování je k dispozici zdarma - život je báječný a krásný! Jeho vývoj si vyžádal spoustu času a úsilí a vy můžete tento vývoj podpořit tím, že {{strong}}přispějete malým darem {{/strong}}."
 
-#: redirection-admin.php:341
+#: redirection-admin.php:409
 msgid "Redirection Support"
 msgstr "Podpora pro Redirection"
 
-#: redirection-strings.php:279 redirection-strings.php:287
+#: redirection-strings.php:276 redirection-strings.php:284 redirection.js:2
 msgid "Support"
 msgstr "Podpora"
 
-#: redirection-strings.php:284
+#: redirection-strings.php:281 redirection.js:2
 msgid "404s"
 msgstr "404s"
 
-#: redirection-strings.php:283
+#: redirection-strings.php:280 redirection.js:2
 msgid "Log"
 msgstr "Protokol"
 
-#: redirection-strings.php:444
+#: redirection-strings.php:445 redirection.js:2
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
 msgstr "Výběrem této možnosti dojde k odstranění všech přesměrování, logů a všech nastavení, spojených s pluginem Redirection. Tyto změny není možné vzít zpět, ujistěte se, že víte, co děláte."
 
-#: redirection-strings.php:443
+#: redirection-strings.php:444 redirection.js:2
 msgid "Delete Redirection"
 msgstr "Odstranit přesměrování"
 
-#: redirection-strings.php:296 redirection-strings.php:612
+#: redirection-strings.php:295 redirection-strings.php:546 redirection.js:2
 msgid "Upload"
 msgstr "Nahrát"
 
-#: redirection-strings.php:307
+#: redirection-strings.php:306 redirection.js:2
 msgid "Import"
 msgstr "Importovat"
 
-#: redirection-strings.php:519 redirection-strings.php:574
+#: redirection-strings.php:513 redirection-strings.php:615 redirection.js:2
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: redirection-strings.php:507
+#: redirection-strings.php:676 redirection.js:2
 msgid "Auto-generate URL"
 msgstr "Automatické generování URL"
 
-#: redirection-strings.php:513
+#: redirection-strings.php:644 redirection.js:2
 msgid "A unique token allowing feed readers access to Redirection log RSS (leave blank to auto-generate)"
 msgstr "Jedinečný token umožňující čtečkám kanálů přístup k RSS záznamu Redirection (pro automatické generování ponechte prázdné)."
 
-#: redirection-strings.php:512
+#: redirection-strings.php:643 redirection.js:2
 msgid "RSS Token"
 msgstr "RSS Token"
 
-#: redirection-strings.php:487
+#: redirection-strings.php:628 redirection.js:2
 msgid "404 Logs"
 msgstr "Záznamy 404"
 
-#: redirection-strings.php:486 redirection-strings.php:488
+#: redirection-strings.php:627 redirection-strings.php:629 redirection.js:2
 msgid "(time to keep logs for)"
 msgstr "(čas pro uchovávání protokolů)"
 
-#: redirection-strings.php:485
+#: redirection-strings.php:626 redirection.js:2
 msgid "Redirect Logs"
 msgstr "Logy přesměrování"
 
-#: redirection-strings.php:483
+#: redirection-strings.php:614 redirection.js:2
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Jsem milý člověk a podpořil jsem vývoj tohoto pluginu"
 
-#: redirection-strings.php:451
+#: redirection-strings.php:452 redirection.js:2
 msgid "Plugin Support"
 msgstr "Podpora zásuvných modulů"
 
-#: redirection-strings.php:278 redirection-strings.php:286
+#: redirection-strings.php:275 redirection-strings.php:283 redirection.js:2
 msgid "Options"
 msgstr "Možnosti"
 
-#: redirection-strings.php:462
+#: redirection-strings.php:620 redirection.js:2
 msgid "Two months"
 msgstr "Dva měsíce"
 
-#: redirection-strings.php:461
+#: redirection-strings.php:619 redirection.js:2
 msgid "A month"
 msgstr "Měsíc"
 
-#: redirection-strings.php:460 redirection-strings.php:467
+#: redirection-strings.php:618 redirection-strings.php:664 redirection.js:2
 msgid "A week"
 msgstr "Týden"
 
-#: redirection-strings.php:459 redirection-strings.php:466
+#: redirection-strings.php:617 redirection-strings.php:663 redirection.js:2
 msgid "A day"
 msgstr "Den"
 
-#: redirection-strings.php:458
+#: redirection-strings.php:616 redirection.js:2
 msgid "No logs"
 msgstr "Žádné protokoly"
 
-#: redirection-strings.php:234
+#: redirection-strings.php:244 redirection.js:2
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
 msgstr "Použijte skupiny k organizaci přesměrování. Skupiny jsou přiřazeny k modulu, který ovlivňuje, jak přesměrování v dané skupině fungují. Pokud si nejste jisti, držte se modulu WordPress."
 
-#: redirection-strings.php:233
+#: redirection-strings.php:243 redirection.js:2
 msgid "Add Group"
 msgstr "Přidat skupinu"
 
-#: redirection-strings.php:232
+#: redirection-strings.php:242 redirection.js:2
 msgid "Search"
 msgstr "Hledat"
 
-#: redirection-strings.php:274 redirection-strings.php:281
+#: redirection-strings.php:271 redirection-strings.php:278 redirection.js:2
 msgid "Groups"
 msgstr "Skupiny"
 
-#: redirection-strings.php:99 redirection-strings.php:577
-#: redirection-strings.php:674
+#: redirection-strings.php:98 redirection-strings.php:516
+#: redirection-strings.php:610 redirection.js:2
 msgid "Save"
 msgstr "Uložit"
 
-#: redirection-strings.php:98 redirection-strings.php:342
-#: redirection-strings.php:402 redirection-strings.php:525
-#: redirection-strings.php:545
+#: redirection-strings.php:97 redirection-strings.php:341
+#: redirection-strings.php:402 redirection-strings.php:464
+#: redirection-strings.php:484 redirection.js:2
 msgid "Group"
 msgstr "Skupina"
 
-#: redirection-strings.php:553
+#: redirection-strings.php:492 redirection.js:2
 msgid "Regular Expression"
 msgstr "Regulární výraz"
 
-#: redirection-strings.php:103
+#: redirection-strings.php:102 redirection.js:2
 msgid "Match"
 msgstr "Shoda"
 
-#: redirection-strings.php:565
+#: redirection-strings.php:504 redirection.js:2
 msgid "Add new redirection"
 msgstr "Přidat nové přesměrování"
 
-#: redirection-strings.php:100 redirection-strings.php:297
-#: redirection-strings.php:613 redirection-strings.php:675
+#: redirection-strings.php:99 redirection-strings.php:296
+#: redirection-strings.php:547 redirection-strings.php:611 redirection.js:2
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: redirection-strings.php:322
+#: redirection-strings.php:321 redirection.js:2
 msgid "Download"
 msgstr "Stáhnout"
 
 #. Plugin Name of the plugin
-#: redirection-strings.php:209 redirection-strings.php:375
-#: redirection-strings.php:618
+#: redirection-strings.php:154 redirection-strings.php:375
+#: redirection-strings.php:552 redirection.js:2
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:150
+#: redirection-admin.php:211
 msgid "Settings"
 msgstr "Nastavení"
 
-#: redirection-strings.php:374
+#: redirection-strings.php:374 redirection.js:2
 msgid "WordPress"
 msgstr "WordPress"
 
-#: redirection-strings.php:70
+#: actions/error.php:59 redirection-strings.php:68 redirection.js:2
 msgid "Error (404)"
 msgstr "Chyba (404)"
 
-#: redirection-strings.php:69
+#: actions/pass.php:74 redirection-strings.php:67 redirection.js:2
 msgid "Pass-through"
 msgstr "Průchozí"
 
-#: redirection-strings.php:68
+#: actions/random.php:48 redirection-strings.php:66 redirection.js:2
 msgid "Redirect to random post"
 msgstr "Přesměrovat na náhodný příspěvek"
 
-#: redirection-strings.php:67
+#: actions/url.php:53 redirection-strings.php:65 redirection.js:2
 msgid "Redirect to URL"
 msgstr "Přesměrovat na URL"
 
-#: redirection-strings.php:327 redirection-strings.php:340
-#: redirection-strings.php:350 redirection-strings.php:361
+#: redirection-strings.php:326 redirection-strings.php:339
+#: redirection-strings.php:349 redirection-strings.php:360
 #: redirection-strings.php:383 redirection-strings.php:392
 #: redirection-strings.php:410 redirection-strings.php:419
-#: redirection-strings.php:648
+#: redirection-strings.php:582 redirection.js:2
 msgid "IP"
 msgstr "IP"
 
-#: redirection-strings.php:106 redirection-strings.php:107
-#: redirection-strings.php:162 redirection-strings.php:325
-#: redirection-strings.php:334 redirection-strings.php:379
-#: redirection-strings.php:388
+#: redirection-strings.php:105 redirection-strings.php:106
+#: redirection-strings.php:209 redirection-strings.php:324
+#: redirection-strings.php:333 redirection-strings.php:379
+#: redirection-strings.php:388 redirection.js:2
 msgid "Source URL"
 msgstr "Zdrojová URL"
 
-#: redirection-strings.php:331 redirection-strings.php:352
-#: redirection-strings.php:385 redirection-strings.php:412
+#: redirection-strings.php:330 redirection-strings.php:351
+#: redirection-strings.php:385 redirection-strings.php:412 redirection.js:2
 msgid "Date"
 msgstr "Datum"
 
-#: redirection-strings.php:427 redirection-strings.php:434
-#: redirection-strings.php:566
+#: redirection-strings.php:428 redirection-strings.php:435
+#: redirection-strings.php:505 redirection.js:2
 msgid "Add Redirect"
 msgstr "Přidat přesměrování"
 
-#: redirection-strings.php:239
+#: redirection-strings.php:249 redirection.js:2
 msgid "View Redirects"
 msgstr "Zobrazit přesměrování"
 
-#: redirection-strings.php:215 redirection-strings.php:224
-#: redirection-strings.php:228 redirection-strings.php:673
+#: redirection-strings.php:225 redirection-strings.php:234
+#: redirection-strings.php:238 redirection-strings.php:609 redirection.js:2
 msgid "Module"
 msgstr "Modul"
 
-#: redirection-strings.php:217 redirection-strings.php:227
-#: redirection-strings.php:280
+#: redirection-strings.php:227 redirection-strings.php:237
+#: redirection-strings.php:277 redirection.js:2
 msgid "Redirects"
 msgstr "Přesměrování"
 
-#: redirection-strings.php:214 redirection-strings.php:226
-#: redirection-strings.php:235 redirection-strings.php:672
+#: redirection-strings.php:224 redirection-strings.php:236
+#: redirection-strings.php:245 redirection-strings.php:608 redirection.js:2
 msgid "Name"
 msgstr "Jméno"
 
-#: redirection-strings.php:50
+#: redirection-strings.php:48 redirection.js:2
 msgid "Filters"
 msgstr "Filtry"
 
-#: redirection-strings.php:532
+#: redirection-strings.php:471 redirection.js:2
 msgid "Reset hits"
 msgstr "Obnovit zásahy"
 
-#: redirection-strings.php:230 redirection-strings.php:241
-#: redirection-strings.php:530 redirection-strings.php:571
+#: redirection-strings.php:240 redirection-strings.php:251
+#: redirection-strings.php:469 redirection-strings.php:510 redirection.js:2
 msgid "Enable"
 msgstr "Povolit"
 
-#: redirection-strings.php:231 redirection-strings.php:240
-#: redirection-strings.php:531 redirection-strings.php:570
+#: redirection-strings.php:241 redirection-strings.php:250
+#: redirection-strings.php:470 redirection-strings.php:509 redirection.js:2
 msgid "Disable"
 msgstr "Zakázat"
 
-#: redirection-strings.php:229 redirection-strings.php:238
-#: redirection-strings.php:341 redirection-strings.php:377
-#: redirection-strings.php:393 redirection-strings.php:433
-#: redirection-strings.php:445 redirection-strings.php:529
-#: redirection-strings.php:569
+#: redirection-strings.php:239 redirection-strings.php:248
+#: redirection-strings.php:340 redirection-strings.php:377
+#: redirection-strings.php:393 redirection-strings.php:434
+#: redirection-strings.php:446 redirection-strings.php:468
+#: redirection-strings.php:508 redirection.js:2
 msgid "Delete"
 msgstr "Odstranit"
 
-#: redirection-strings.php:237 redirection-strings.php:568
+#: redirection-strings.php:247 redirection-strings.php:507 redirection.js:2
 msgid "Edit"
 msgstr "Upravit"
 
-#: redirection-strings.php:528 redirection-strings.php:542
+#: redirection-strings.php:467 redirection-strings.php:481 redirection.js:2
 msgid "Last Access"
 msgstr "Poslední přístup"
 
-#: redirection-strings.php:527 redirection-strings.php:541
+#: redirection-strings.php:466 redirection-strings.php:480 redirection.js:2
 msgid "Hits"
 msgstr "Zobrazení"
 
-#: redirection-strings.php:346 redirection-strings.php:355
+#: redirection-strings.php:345 redirection-strings.php:354
 #: redirection-strings.php:406 redirection-strings.php:415
-#: redirection-strings.php:496 redirection-strings.php:521
-#: redirection-strings.php:592
+#: redirection-strings.php:460 redirection-strings.php:527
+#: redirection-strings.php:666 redirection.js:2
 msgid "URL"
 msgstr "URL"
 
-#: database/schema/latest.php:144
+#: database/schema/latest.php:143
 msgid "Modified Posts"
 msgstr "Upravené příspěvky"
 
-#: models/group.php:227 redirection-strings.php:272
-#: database/schema/latest.php:139
+#: database/schema/latest.php:138 models/group.php:234
+#: redirection-strings.php:269 redirection.js:2
 msgid "Redirections"
 msgstr "Přesměrování"
 
-#: redirection-strings.php:329 redirection-strings.php:339
-#: redirection-strings.php:348 redirection-strings.php:359
+#: redirection-strings.php:328 redirection-strings.php:338
+#: redirection-strings.php:347 redirection-strings.php:358
 #: redirection-strings.php:381 redirection-strings.php:391
 #: redirection-strings.php:408 redirection-strings.php:418
-#: redirection-strings.php:628
+#: redirection-strings.php:562 redirection.js:2
 msgid "User Agent"
 msgstr "User Agent"
 
-#: redirection-strings.php:59 matches/user-agent.php:10
+#: matches/user-agent.php:24 redirection-strings.php:57 redirection.js:2
 msgid "URL and user agent"
 msgstr "URL a user agent"
 
-#: redirection-strings.php:164 redirection-strings.php:335
-#: redirection-strings.php:627
+#: redirection-strings.php:211 redirection-strings.php:334
+#: redirection-strings.php:561 redirection.js:2
 msgid "Target URL"
 msgstr "Cílová adresa URL"
 
-#: redirection-strings.php:55 matches/url.php:7
+#: matches/url.php:15 redirection-strings.php:53 redirection.js:2
 msgid "URL only"
 msgstr "Pouze adresa URL"
 
-#: redirection-strings.php:337 redirection-strings.php:357
+#: redirection-strings.php:336 redirection-strings.php:356
 #: redirection-strings.php:389 redirection-strings.php:416
-#: redirection-strings.php:538
+#: redirection-strings.php:477 redirection.js:2
 msgid "HTTP code"
 msgstr "Kód HTTP"
 
-#: redirection-strings.php:90 redirection-strings.php:634
-#: redirection-strings.php:638 redirection-strings.php:646
-#: redirection-strings.php:657
+#: redirection-strings.php:88 redirection-strings.php:568
+#: redirection-strings.php:572 redirection-strings.php:580
+#: redirection-strings.php:591 redirection.js:2
 msgid "Regex"
 msgstr "Regex"
 
-#: redirection-strings.php:338 redirection-strings.php:358
+#: redirection-strings.php:337 redirection-strings.php:357
 #: redirection-strings.php:390 redirection-strings.php:417
-#: redirection-strings.php:655
+#: redirection-strings.php:589 redirection.js:2
 msgid "Referrer"
 msgstr "Referrer"
 
-#: redirection-strings.php:58 matches/referrer.php:10
+#: matches/referrer.php:24 redirection-strings.php:56 redirection.js:2
 msgid "URL and referrer"
 msgstr "URL a referrer"
 
-#: redirection-strings.php:621
+#: redirection-strings.php:555 redirection.js:2
 msgid "Logged Out"
 msgstr "Odhlášený"
 
-#: redirection-strings.php:619
+#: redirection-strings.php:553 redirection.js:2
 msgid "Logged In"
 msgstr "Přihlášený"
 
-#: redirection-strings.php:56 matches/login.php:8
+#: matches/login.php:22 redirection-strings.php:54 redirection.js:2
 msgid "URL and login status"
 msgstr "URL a přihlášení"

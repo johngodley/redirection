@@ -183,6 +183,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 
 = 5.3.6 - 12th November 2022 =
 * Fix for sites with a version of +OK
+* Another fix for CZ locale
 
 = 5.3.5 - 6th November 2022 =
 * Fix crash on options page for Czech language
