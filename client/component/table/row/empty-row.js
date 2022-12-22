@@ -3,14 +3,14 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const EmptyRow = ( props ) => {
 	const { headers } = props;
 
 	return (
 		<tr>
-			<td colSpan={ headers.length + 1 }>{ __( 'Nothing to display.' ) }</td>
+			<td colSpan={ headers.length + 1 }>{ __( 'Nothing to display.', 'redirection' ) }</td>
 		</tr>
 	);
 };

@@ -1,10 +1,8 @@
-/* global Redirectioni10n */
 /**
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -25,13 +23,13 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 		<div className="api-result-log">
 			<form
 				className="api-result-select"
-				action={ Redirectioni10n.pluginRoot + '&sub=support' }
+				action={ window.Redirectioni10n.pluginRoot + '&sub=support' }
 				method="POST"
 			>
 				{ allowChange && ! isCurrent && (
-					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API' ) } />
+					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API', 'redirection' ) } />
 				) }
-				{ allowChange && isCurrent && <span>{ __( 'Current API' ) }</span> }
+				{ allowChange && isCurrent && <span>{ __( 'Current API', 'redirection' ) }</span> }
 
 				<input type="hidden" name="rest_api" value={ item.value } />
 				<input type="hidden" name="_wpnonce" value={ apiFetch.nonceMiddleware.nonce } />

@@ -5,7 +5,7 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => false ] );
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->clearStage();
 	}
 

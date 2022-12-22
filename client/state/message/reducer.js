@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -46,11 +46,11 @@ const addNotice = ( existing, notice ) => existing.slice( 0 ).concat( [ notice ]
 const reduceProgress = state => Math.max( 0, state.inProgress - 1 );
 
 const NOTICES = {
-	REDIRECT_ITEM_SAVED: __( 'Redirection saved' ),
-	LOG_ITEM_SAVED: __( 'Log deleted' ),
-	SETTING_SAVED: __( 'Settings saved' ),
-	GROUP_ITEM_SAVED: __( 'Group saved' ),
-	ERROR_ITEM_SAVED: __( '404 deleted' ),
+	REDIRECT_ITEM_SAVED: __( 'Redirection saved', 'redirection' ),
+	LOG_ITEM_SAVED: __( 'Log deleted', 'redirection' ),
+	SETTING_SAVED: __( 'Settings saved', 'redirection' ),
+	GROUP_ITEM_SAVED: __( 'Group saved', 'redirection' ),
+	ERROR_ITEM_SAVED: __( '404 deleted', 'redirection' ),
 };
 
 export default function messages( state = {}, action ) {

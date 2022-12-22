@@ -21,7 +21,7 @@ class DatabaseTest extends WP_UnitTestCase {
 		return $result->$create;
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$this->previous_prefix = $wpdb->prefix;
@@ -30,7 +30,7 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		global $wpdb;
 
 		$this->removeTables();

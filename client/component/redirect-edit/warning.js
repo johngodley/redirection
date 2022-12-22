@@ -2,15 +2,14 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
 import * as parseUrl from 'url';
 
 /**
  * Internal dependencies
  */
 
-import { ExternalLink } from 'wp-plugin-components';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 import TableRow from './table-row';
 
 export const isRegex = ( text ) => {
@@ -39,7 +38,7 @@ const beginsWith = ( str, match ) => match.indexOf( str ) === 0 || str.substr( 0
 
 export const getWarningFromState = ( item ) => {
 	const { url, flag_regex, action_data = {} } = item;
-	if ( action_data === null || ! url || ! item || typeof url !== 'string' ) {
+	if ( action_data === null || !url || !item || typeof url !== 'string' ) {
 		return [];
 	}
 
@@ -54,23 +53,25 @@ export const getWarningFromState = ( item ) => {
 	if ( url.indexOf( '#' ) !== -1 ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/faq/#anchor">
-				{ __( 'Anchor values are not sent to the server and cannot be redirected.' ) }
+				{ __( 'Anchor values are not sent to the server and cannot be redirected.', 'redirection' ) }
 			</ExternalLink>
 		);
 	}
 
 	// Server redirect
 	if ( url.substr( 0, 4 ) === 'http' && url.indexOf( document.location.origin ) === -1 ) {
+		console.log( parseUrl.parse( url ).hostname );
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/matching-redirects/#server">
-				{ __( 'This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.', {
-					components: {
+				{ createInterpolateElement(
+					sprintf(
+						__( 'This will be converted to a server redirect for the domain {{code}}%(server)s{{/code}}.', 'redirection' ),
+						{ server: parseUrl.parse( url ).hostname }
+					),
+					{
 						code: <code />,
 					},
-					args: {
-						server: parseUrl.parse( url ).hostname,
-					},
-				} ) }
+				) }
 			</ExternalLink>
 		);
 	}
@@ -84,11 +85,11 @@ export const getWarningFromState = ( item ) => {
 		url.indexOf( '[source]' ) === -1
 	) {
 		warnings.push(
-			__( 'The source URL should probably start with a {{code}}/{{/code}}', {
-				components: {
+			createInterpolateElement( __( 'The source URL should probably start with a {{code}}/{{/code}}', 'redirection' ),
+				{
 					code: <code />,
-				},
-			} )
+				}
+			)
 		);
 	}
 
@@ -96,7 +97,7 @@ export const getWarningFromState = ( item ) => {
 	if ( isRegex( url ) && flag_regex === false ) {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/redirect-regular-expressions/">
-				{ __( 'Remember to enable the "regex" option if this is a regular expression.' ) }
+				{ __( 'Remember to enable the "regex" option if this is a regular expression.', 'redirection' ) }
 			</ExternalLink>
 		);
 	}
@@ -105,73 +106,69 @@ export const getWarningFromState = ( item ) => {
 	if ( url.match( /%\w+%/ ) ) {
 		warnings.push(
 			<ExternalLink url="tools.php?page=redirection.php&sub=site">
-				{ __( 'Please add migrated permalinks to the Site page under the "Permalink Migration" section.' ) }
+				{ __( 'Please add migrated permalinks to the Site page under the "Permalink Migration" section.', 'redirection' ) }
 			</ExternalLink>
 		);
 	}
 
-	// Period without escape
-	// TODO
-	// if ( flag_regex && url.match( /(?<!\\)\.(?![\*\+])/ ) ) {
-	// 	warnings.push( __( 'A literal period {{code}}.{{/code}} should be escaped like {{code}}\\.{{/code}} otherwise it will interpreted as a regular expression.', {
-	// 		components: {
-	// 			code: <code />,
-	// 		},
-	// 	} ) );
-	// }
-
 	// Anchor
 	if ( url.indexOf( '^' ) === -1 && url.indexOf( '$' ) === -1 && flag_regex ) {
 		warnings.push(
-			__(
-				'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}',
+			createInterpolateElement(
+				sprintf(
+					__(
+						'To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}',
+						'redirection'
+					),
+					{ example: '^' + url },
+				),
 				{
-					components: {
-						code: <code />,
-					},
-					args: {
-						example: '^' + url,
-					},
-				}
+					code: <code />,
+				},
 			)
 		);
 	}
 
 	if ( flag_regex && url.indexOf( '^' ) > 0 ) {
 		warnings.push(
-			__( 'The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}', {
-				components: {
+			createInterpolateElement(
+				sprintf(
+					__( 'The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}', 'redirection' ),
+					{ example: '^' + url.replace( '^', '' ) }
+				),
+				{
 					code: <code />,
 				},
-				args: {
-					example: '^' + url.replace( '^', '' ),
-				},
-			} )
+			)
 		);
 	}
 
 	if ( flag_regex && url.match( /[a-zA-Z0-9\/]\?/ ) ) {
 		warnings.push(
-			__( 'To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}', {
-				components: {
+			createInterpolateElement(
+				__( 'To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}', 'redirection' ),
+				{
 					code: <code />,
 				},
-			} )
+			)
 		);
 	}
 
 	if ( flag_regex && url.match( /[a-zA-Z0-9 ]\*/ ) ) {
-		warnings.push( __( 'Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}.', {
-			components: {
-				link: <ExternalLink url="https://redirection.me/support/redirect-regular-expressions/" />
-			}
-		} ) );
+		warnings.push(
+			createInterpolateElement(
+				__( 'Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}.', 'redirection' ),
+				{
+					link: <ExternalLink url="https://redirection.me/support/redirect-regular-expressions/" />
+				}
+			)
+		);
 	}
 
 	// Redirect everything
 	if ( url === '/(.*)' || url === '^/(.*)' ) {
 		warnings.push(
-			__( 'If you want to redirect everything please use a site relocation or alias from the Site page.' )
+			__( 'If you want to redirect everything please use a site relocation or alias from the Site page.', 'redirection' )
 		);
 	}
 
@@ -182,7 +179,8 @@ export const getWarningFromState = ( item ) => {
 	) {
 		warnings.push(
 			__(
-				'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.'
+				'Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action.',
+				'redirection'
 			)
 		);
 	}
@@ -197,21 +195,19 @@ export const getWarningFromState = ( item ) => {
 
 	if (
 		targetUrl &&
-		! beginsWith( targetUrl, 'https://' ) &&
-		! beginsWith( targetUrl, 'http://' ) &&
+		!beginsWith( targetUrl, 'https://' ) &&
+		!beginsWith( targetUrl, 'http://' ) &&
 		targetUrl.substr( 0, 1 ) !== '/'
 	) {
 		warnings.push(
-			__(
-				'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.',
+			createInterpolateElement(
+				sprintf(
+					__( 'Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}.', 'redirection' ),
+					{ url: action_data.url }
+				),
 				{
-					components: {
-						code: <code />,
-					},
-					args: {
-						url: action_data.url,
-					},
-				}
+					code: <code />,
+				},
 			)
 		);
 	}
@@ -222,14 +218,12 @@ export const getWarningFromState = ( item ) => {
 
 			if ( matches !== null ) {
 				warnings.push(
-					__( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', {
-						components: {
+					createInterpolateElement(
+						sprintf( __( 'Your target URL contains the invalid character {{code}}%(invalid)s{{/code}}', 'redirection' ), { invalid: matches } ),
+						{
 							code: <code />,
 						},
-						args: {
-							invalid: matches,
-						},
-					} )
+					)
 				);
 			}
 		} );
@@ -241,17 +235,14 @@ export const getWarningFromState = ( item ) => {
 
 		if ( relative ) {
 			warnings.push(
-				__(
-					'Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?',
+				createInterpolateElement(
+					sprintf(
+						__( 'Your URL appears to contain a domain inside the path: {{code}}%(relative)s{{/code}}. Did you mean to use {{code}}%(absolute)s{{/code}} instead?', 'redirection' ),
+						{ relative, absolute: 'https://' + relative }
+					),
 					{
-						components: {
-							code: <code />,
-						},
-						args: {
-							relative,
-							absolute: 'https://' + relative,
-						},
-					}
+						code: <code />,
+					},
 				)
 			);
 		}
@@ -262,7 +253,8 @@ export const getWarningFromState = ( item ) => {
 		warnings.push(
 			<ExternalLink url="https://redirection.me/support/problems/url-not-redirecting/">
 				{ __(
-					'Some servers may be configured to serve file resources directly, preventing a redirect occurring.'
+					'Some servers may be configured to serve file resources directly, preventing a redirect occurring.',
+					'redirection'
 				) }
 			</ExternalLink>
 		);

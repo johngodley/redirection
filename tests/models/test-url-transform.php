@@ -1,7 +1,7 @@
 <?php
 
 class UrlTransformTest extends WP_UnitTestCase {
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->admin_user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );

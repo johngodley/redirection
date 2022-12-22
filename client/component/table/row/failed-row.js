@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const FailedRow = ( props ) => {
 	const { headers } = props;
@@ -11,7 +11,7 @@ const FailedRow = ( props ) => {
 	return (
 		<tr>
 			<td colSpan={ headers.length + 1 }>
-				<p>{ __( 'Sorry, something went wrong loading the data - please try again' ) }</p>
+				<p>{ __( 'Sorry, something went wrong loading the data - please try again', 'redirection' ) }</p>
 			</td>
 		</tr>
 	);

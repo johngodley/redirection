@@ -72,7 +72,6 @@ export default function settings( state = {}, action ) {
 			return { ...state, showDatabase: true };
 
 		case IO_FAILED:
-		case IO_IMPORTED:
 		case SETTING_DATABASE_FINISH:
 			return { ...state, showDatabase: false, database: { ...state.database, status: DB_STATUS_OK } };
 
@@ -83,7 +82,7 @@ export default function settings( state = {}, action ) {
 					...state.database,
 					inProgress: true,
 					result: DB_STATUS_OK,
-					reason: action.arg === 'skip' ? false : state.database.reason,
+					reason: action.arg === 'skip' || action.arg === 'retry' ? false : state.database.reason,
 				},
 				showDatabase: action.arg === 'stop' ? false : true,
 			};

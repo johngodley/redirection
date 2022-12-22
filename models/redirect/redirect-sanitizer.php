@@ -141,7 +141,7 @@ class Red_Item_Sanitize {
 		$data['action_type'] = $details['action_type'];
 		$data['action_code'] = $this->get_code( $details['action_type'], $action_code );
 
-		if ( isset( $details['action_data'] ) ) {
+		if ( isset( $details['action_data'] ) && is_array( $details['action_data'] ) ) {
 			$match_data = $matcher->save( $details['action_data'] ? $details['action_data'] : array(), ! $this->is_url_type( $data['action_type'] ) );
 			$data['action_data'] = is_array( $match_data ) ? serialize( $match_data ) : $match_data;
 		}

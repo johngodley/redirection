@@ -4,20 +4,22 @@
 
 import apiFetch from 'wp-plugin-lib/api-fetch';
 import { mergeWithTable, removeDefaults } from 'lib/table';
-import { translate as __ } from 'i18n-calypso';
+import { sprintf, _n, __ } from '@wordpress/i18n';
 
 function getConfirmMessage( count, isArray ) {
 	if ( isArray ) {
-		return __(
-			'Are you sure you want to delete this item?',
-			'Are you sure you want to delete the %d selected items?',
-			{ count, args: count }
+		return sprintf(
+			_n(
+				'Are you sure you want to delete this item?',
+				'Are you sure you want to delete the %d selected items?',
+				count,
+				'redirection'
+			),
+			count
 		);
 	}
 
-	return __( 'Are you sure want to delete all %d matching items?', {
-		args: count,
-	} );
+	return sprintf( __( 'Are you sure want to delete all %d matching items?', 'redirection' ), count );
 }
 
 export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( dispatch, getState ) => {
@@ -28,7 +30,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 
 	if ( Array.isArray( ids ) ) {
 		params.items = ids;
-	} else if ( ! table.selectAll ) {
+	} else if ( !table.selectAll ) {
 		params.items = table.selected;
 	}
 
@@ -39,7 +41,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 	const count = params.items && params.items !== true ? params.items.length : total;
 	const confirmMessage = getConfirmMessage( count, Array.isArray( params.items ) );
 
-	if ( bulk === 'delete' && ! extra.deleteConfirm && ! confirm( confirmMessage ) ) {
+	if ( bulk === 'delete' && !extra.deleteConfirm && !confirm( confirmMessage ) ) {
 		return;
 	}
 
@@ -56,7 +58,7 @@ export const tableAction = ( endpoint, bulk, ids, status, extra = {} ) => ( disp
 
 	apiFetch( endpoint( bulk, data, removeDefaults( table, status.order ) ) )
 		.then( json => {
-			dispatch( { type: status.saved, ... json, saving } );
+			dispatch( { type: status.saved, ...json, saving } );
 		} )
 		.catch( error => {
 			dispatch( { type: status.failed, error, saving } );
@@ -187,10 +189,10 @@ const copyReplace = ( data, item, cb ) => {
 export const setItem = ( state, action ) =>
 	action.item
 		? copyReplace( state.rows, action.item, ( existing ) => ( {
-				...existing,
-				...action.item,
-				original: existing,
-		  } ) )
+			...existing,
+			...action.item,
+			original: existing,
+		} ) )
 		: state.rows;
 export const restoreToOriginal = ( state, action ) =>
 	action.item ? copyReplace( state.rows, action.item, ( existing ) => existing.original ) : state.rows;

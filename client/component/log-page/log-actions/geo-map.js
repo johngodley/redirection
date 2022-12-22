@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -29,7 +29,7 @@ function GeoMapAction( props ) {
 				href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) }
 				onClick={ () => setShowModal( true ) }
 			>
-				{ __( 'Geo Info' ) }
+				{ __( 'Geo Info', 'redirection' ) }
 			</RowAction>
 
 			{ showModal && (

@@ -5,9 +5,11 @@ class DatabaseTester {
 		global $wpdb;
 
 		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$create = 'Create Table';
 		$result = $wpdb->get_row( "SHOW CREATE TABLE $table" );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( $result === false ) {
 			throw new Exception( 'Failed to create table ' . $table );
@@ -152,7 +154,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}redirection_modules" );
 	}
 
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$status = new Red_Database_Status();
@@ -164,7 +166,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		$this->removeTables();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		global $wpdb;
 
 		$this->removeTables();

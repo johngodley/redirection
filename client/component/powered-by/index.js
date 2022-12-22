@@ -2,22 +2,22 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
  */
-import { ExternalLink } from 'wp-plugin-components';
+import { ExternalLink, createInterpolateElement } from 'wp-plugin-components';
 import './style.scss';
 
 const PoweredBy = () => (
 	<div className="redirection-poweredby">
-		{ __( 'Powered by {{link}}redirect.li{{/link}}', {
-			components: {
+		{ createInterpolateElement(
+			__( 'Powered by {{link}}redirect.li{{/link}}', 'redirection' ),
+			{
 				link: <ExternalLink url="https://redirect.li" />,
 			},
-		} ) }
+		) }
 	</div>
 );
 

@@ -2,7 +2,6 @@
 
 const path = require( 'path' );
 const webpack = require( 'webpack' );
-const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin;
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 // PostCSS plugins
@@ -15,7 +14,7 @@ const getDevUrl = 'http://localhost:3312/';
 const pkg = require( './package.json' );
 
 const config = {
-	entry: [ path.join( __dirname, 'client', 'index.js' ) ],
+	entry: [ path.join( __dirname, 'client', 'index.tsx' ) ],
 	output: {
 		path: path.join( __dirname ),
 		filename: 'redirection.js',
@@ -24,7 +23,7 @@ const config = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.(ts|js|tsx)$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
 			},
@@ -44,8 +43,11 @@ const config = {
 		],
 	},
 	resolve: {
-		extensions: [ '.js', '.jsx', '.json', '.scss', '.css' ],
+		extensions: [ '.js', '.ts', '.tsx', '.json', '.scss', '.css' ],
 		modules: [ path.resolve( __dirname, 'client' ), 'node_modules' ],
+	},
+	externals: {
+		'@wordpress/i18n': 'wp.i18n'
 	},
 	plugins: [
 		new webpack.BannerPlugin( 'Redirection v' + pkg.version ),
@@ -95,9 +97,6 @@ if ( isProduction() ) {
 } else {
 	config.output.publicPath = getDevUrl;
 	config.devtool = 'inline-source-map';
-	config.resolve.alias = {
-		'react-dom': '@hot-loader/react-dom',
-	};
 	config.devServer = {
 		historyApiFallback: {
 			index: '/',

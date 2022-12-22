@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -39,7 +39,7 @@ function ErrorRowActions( props ) {
 
 	menu.push(
 		<RowAction onClick={ () => onDelete( id ) } capability={ CAP_404_DELETE } key="0">
-			{ __( 'Delete' ) }
+			{ __( 'Delete', 'redirection' ) }
 		</RowAction>
 	);
 
@@ -49,7 +49,7 @@ function ErrorRowActions( props ) {
 			capability={ CAP_REDIRECT_ADD }
 			key="1"
 		>
-			{ __( 'Add Redirect' ) }
+			{ __( 'Add Redirect', 'redirection' ) }
 		</RowAction>
 	);
 
@@ -67,14 +67,14 @@ function ErrorRowActions( props ) {
 			capability={ CAP_REDIRECT_MANAGE }
 			key="4"
 		>
-			{ __( 'Show All' ) }
+			{ __( 'Show All', 'redirection' ) }
 		</RowAction>
 	);
 
 	if ( groupBy === 'ip' ) {
 		menu.push(
 			<RowAction onClick={ () => onCreate( getCreateAction( 'block', [ ip ] ) ) } capability={ CAP_REDIRECT_ADD } key="5">
-				{ __( 'Block IP' ) }
+				{ __( 'Block IP', 'redirection' ) }
 			</RowAction>
 		);
 	} else if ( groupBy !== 'agent' ) {
@@ -84,7 +84,7 @@ function ErrorRowActions( props ) {
 				capability={ CAP_REDIRECT_ADD }
 				key="6"
 			>
-				{ __( 'Ignore URL' ) }
+				{ __( 'Ignore URL', 'redirection' ) }
 			</RowAction>
 		);
 	}

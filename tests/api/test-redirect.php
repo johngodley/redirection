@@ -1,7 +1,7 @@
 <?php
 
 class RedirectionApiRedirectTest extends Redirection_Api_Test {
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->group = Red_Group::create( 'group1', 1 );
 		$this->group2 = Red_Group::create( 'group2', 1 );

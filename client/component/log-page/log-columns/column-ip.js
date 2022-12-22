@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import Highlighter from 'react-highlight-words';
 
 /**
@@ -57,7 +57,7 @@ export default function ColumnIp( props ) {
 			{ table.groupBy === '' && (
 				<RowActions
 					disabled={ isSaving }
-					actions={ [ <RowAction onClick={ () => onFilter( { ip } ) }>{ __( 'Filter by IP' ) }</RowAction> ] }
+					actions={ [ <RowAction onClick={ () => onFilter( { ip } ) }>{ __( 'Filter by IP', 'redirection' ) }</RowAction> ] }
 				/>
 			) }
 		</>

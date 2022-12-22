@@ -3,11 +3,11 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 const HeaderPlainValue = ( { headerValue, onChange } ) => {
 	return (
-		<label>{ __( 'Value' ) }: <input type="text" className="regular-text" name="headerValue" value={ headerValue } onChange={ ev => onChange( { [ ev.target.name ]: ev.target.value } ) } /></label>
+		<label>{ __( 'Value', 'redirection' ) }: <input type="text" className="regular-text" name="headerValue" value={ headerValue } onChange={ ev => onChange( { [ ev.target.name ]: ev.target.value } ) } /></label>
 	);
 };
 

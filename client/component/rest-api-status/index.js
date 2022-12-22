@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __, sprintf } from '@wordpress/i18n';
 import classnames from 'classnames';
 
 /**
@@ -99,12 +99,12 @@ class RestApiStatus extends React.Component {
 
 	getApiStatusText( status ) {
 		if ( status === STATUS_OK ) {
-			return __( 'Good' );
+			return __( 'Good', 'redirection' );
 		} else if ( status === STATUS_WARNING || status === STATUS_WARNING_CURRENT ) {
-			return __( 'Working but some issues' );
+			return __( 'Working but some issues', 'redirection' );
 		}
 
-		return __( 'Unavailable' );
+		return __( 'Unavailable', 'redirection' );
 	}
 
 	onShow = () => {
@@ -120,25 +120,27 @@ class RestApiStatus extends React.Component {
 	renderError( status ) {
 		const showing = this.canShowProblem( status );
 		let message = __(
-			'There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work.'
+			'There are some problems connecting to your REST API. It is not necessary to fix these problems and the plugin is able to work.',
+			'redirection'
 		);
 
 		if ( status === STATUS_FAIL ) {
 			message = __(
-				'Your REST API is not working and the plugin will not be able to continue until this is fixed.'
+				'Your REST API is not working and the plugin will not be able to continue until this is fixed.',
+				'redirection'
 			);
 		}
 
 		return (
 			<div className="api-result-log">
 				<p>
-					<strong>{ __( 'Summary' ) }</strong>: { message }
+					<strong>{ __( 'Summary', 'redirection' ) }</strong>: { message }
 				</p>
 
 				{ ! showing && (
 					<p>
 						<button className="button-secondary" onClick={ this.onShow }>
-							{ __( 'Show Problems' ) }
+							{ __( 'Show Problems', 'redirection' ) }
 						</button>
 					</p>
 				) }
@@ -167,7 +169,7 @@ class RestApiStatus extends React.Component {
 
 					<div className="api-result-progress">
 						<span className={ statusClass }>
-							{ percent < 100 && __( 'Testing - %s%%', { args: [ percent ] } ) }
+							{ percent < 100 && sprintf( __( 'Testing - %s%%', 'redirection' ), percent ) }
 							{ percent >= 100 && this.getApiStatusText( status ) }
 						</span>
 
@@ -176,7 +178,7 @@ class RestApiStatus extends React.Component {
 
 					{ percent >= 100 && status !== STATUS_OK && (
 						<button className="button button-secondary api-result-retry" onClick={ this.onRetry }>
-							{ __( 'Check Again' ) }
+							{ __( 'Check Again', 'redirection' ) }
 						</button>
 					) }
 				</div>

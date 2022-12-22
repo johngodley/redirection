@@ -45,7 +45,7 @@ const ApiResultError = ( error, methods ) => {
 					{ error.message }
 				</p>
 
-				<DecodeError error={ error } links={ getErrorLinks() } />
+				<DecodeError error={ error } links={ getErrorLinks() } locale="redirection" />
 				<ApiResultRaw error={ error } />
 			</div>
 		</div>

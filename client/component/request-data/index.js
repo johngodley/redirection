@@ -3,7 +3,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -18,7 +18,7 @@ const RequestHeaders = ( { headers } ) => {
 
 	return (
 		<Fragment>
-			<h3>{ __( 'Request Headers' ) }</h3>
+			<h3>{ __( 'Request Headers', 'redirection' ) }</h3>
 
 			<table>
 				<tbody>
@@ -41,7 +41,7 @@ const RequestSource = ( { source } ) => {
 
 	return (
 		<Fragment>
-			<h3>{ __( 'Redirect Source' ) }</h3>
+			<h3>{ __( 'Redirect Source', 'redirection' ) }</h3>
 
 			<ul>
 				{ source.map( ( item, key ) => <li key={ key }>{ item }</li> ) }

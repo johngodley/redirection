@@ -4,7 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -39,7 +39,7 @@ const ActionCode = ( { actionType, actionCode, onChange } ) => {
 	if ( codes ) {
 		return (
 			<>
-				<strong className="small-flex">{ __( 'with HTTP code' ) }</strong>
+				<strong className="small-flex">{ __( 'with HTTP code', 'redirection' ) }</strong>
 
 				<Select name="action_code" value={ actionCode } items={ codes } onChange={ onChange } />
 			</>

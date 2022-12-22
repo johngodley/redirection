@@ -1,7 +1,7 @@
 <?php
 
 class ImportExportCsvTest extends Redirection_Api_Test {
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_items" );
@@ -84,8 +84,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testExportCSV() {
-		$expected = 'source,target,regex,type,code,match,hits,title
-"/1","*","0","url","301","url","0",""';
+		$expected = 'source,target,regex,code,type,match,hits,title,status
+"/1","/unknown",0,301,"url",0,"","active"';
 
 		$group1 = Red_Group::create( 'group1', 1 );
 		Red_Item::create( array( 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );

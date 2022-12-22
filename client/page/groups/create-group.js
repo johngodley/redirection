@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -26,10 +26,10 @@ function CreateGroup( props ) {
 
 	return (
 		<>
-			<h2>{ __( 'Add Group' ) }</h2>
+			<h2>{ __( 'Add Group', 'redirection' ) }</h2>
 			<p>
 				{ __(
-					'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.'
+					'Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module.', 'redirection'
 				) }
 			</p>
 
@@ -37,7 +37,7 @@ function CreateGroup( props ) {
 				<table className="form-table redirect-groups">
 					<tbody>
 						<tr>
-							<th>{ __( 'Name' ) }</th>
+							<th>{ __( 'Name', 'redirection' ) }</th>
 							<td>
 								<input
 									size={ 30 }
@@ -70,7 +70,7 @@ function CreateGroup( props ) {
 
 				{ moduleId === 2 && (
 					<p>
-						{ __( 'Note that you will need to set the Apache module path in your Redirection options.' ) }
+						{ __( 'Note that you will need to set the Apache module path in your Redirection options.', 'redirection' ) }
 					</p>
 				) }
 			</form>

@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -20,13 +20,13 @@ import TableRow from './table-row';
  */
 function RedirectTitle( { title, onChange } ) {
 	return (
-		<TableRow title={ __( 'Title' ) } className="redirect-edit__title">
+		<TableRow title={ __( 'Title', 'redirection' ) } className="redirect-edit__title">
 			<input
 				type="text"
 				name="title"
 				value={ title }
 				onChange={ ( ev ) => onChange( { title: ev.target.value } ) }
-				placeholder={ __( 'Describe the purpose of this redirect (optional)' ) }
+				placeholder={ __( 'Describe the purpose of this redirect (optional)', 'redirection' ) }
 			/>
 		</TableRow>
 	);

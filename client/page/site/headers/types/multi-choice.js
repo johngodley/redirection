@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -23,10 +23,10 @@ const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 
 	return (
 		<MultiOptionDropdown
-			options={ wildCard ? choices.concat( [ { value: wildCard, label: __( 'All' ) } ] ) : choices }
+			options={ wildCard ? choices.concat( [ { value: wildCard, label: __( 'All', 'redirection' ) } ] ) : choices }
 			selected={ selected }
 			onApply={ applyItem }
-			title={ __( 'Values' ) }
+			title={ __( 'Values', 'redirection' ) }
 			hideTitle
 			multiple
 			badges

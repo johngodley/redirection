@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -65,7 +65,7 @@ class Debug extends React.Component {
 			<table className="plugin-status">
 				<tbody>
 					<tr>
-						<th>{ __( 'Database version' ) }</th>
+						<th>{ __( 'Database version', 'redirection' ) }</th>
 						<td>
 							<Select
 								items={ getVersions() }
@@ -76,16 +76,16 @@ class Debug extends React.Component {
 							&nbsp;
 							{ version !== database.current && (
 								<>
-									<strong>{ __( 'Do not change unless advised to do so!' ) }</strong> &nbsp;
+									<strong>{ __( 'Do not change unless advised to do so!', 'redirection' ) }</strong> &nbsp;
 									<button className="button-secondary button" onClick={ this.onSave }>
-										{ __( 'Save' ) }
+										{ __( 'Save', 'redirection' ) }
 									</button>
 								</>
 							) }
 						</td>
 					</tr>
 					<tr>
-						<th>{ __( 'IP Headers' ) }</th>
+						<th>{ __( 'IP Headers', 'redirection' ) }</th>
 						<td>
 							{ Object.keys( ip_header )
 								.filter( ( key ) => ip_header[ key ] )

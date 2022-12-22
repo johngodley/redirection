@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -109,7 +109,7 @@ function Logs( props ) {
 						{ token && (
 							<div className="table-button-item">
 								<a href={ getRssUrl( token ) } className="button-secondary">
-									{ __( 'RSS' ) }
+									{ __( 'RSS', 'redirection' ) }
 								</a>
 							</div>
 						) }

@@ -2,8 +2,8 @@
  * External dependencies
  */
 
-import React, { useEffect, useState } from 'react';
-import { translate as __, numberFormat } from 'i18n-calypso';
+import { useEffect, useState } from 'react';
+import { __, sprintf } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -36,7 +36,7 @@ function PaginationLinks( props ) {
 	return (
 		<>
 			<NavigationButton
-				title={ __( 'First page' ) }
+				title={ __( 'First page', 'redirection' ) }
 				button="«"
 				className="first-page"
 				disabled={ page <= 0 }
@@ -44,7 +44,7 @@ function PaginationLinks( props ) {
 			/>
 
 			<NavigationButton
-				title={ __( 'Prev page' ) }
+				title={ __( 'Prev page', 'redirection' ) }
 				button="‹"
 				className="prev-page"
 				disabled={ page <= 0 }
@@ -52,7 +52,7 @@ function PaginationLinks( props ) {
 			/>
 			<span className="paging-input">
 				<label htmlFor="current-page-selector" className="screen-reader-text">
-					{ __( 'Current Page' ) }
+					{ __( 'Current Page', 'redirection' ) }
 				</label>
 
 				<input
@@ -69,19 +69,12 @@ function PaginationLinks( props ) {
 				/>
 
 				<span className="tablenav-paging-text">
-					{ __( 'of %(page)s', {
-						components: {
-							total: <span className="total-pages" />,
-						},
-						args: {
-							page: numberFormat( max, 0 ),
-						},
-					} ) }
+					{ sprintf( __( 'of %s', 'redirection' ), new Intl.NumberFormat( window.Redirectioni10n.locale ).format( max ) ) }
 				</span>
 			</span>
 
 			<NavigationButton
-				title={ __( 'Next page' ) }
+				title={ __( 'Next page', 'redirection' ) }
 				button="›"
 				className="next-page"
 				disabled={ page >= max - 1 }
@@ -89,7 +82,7 @@ function PaginationLinks( props ) {
 			/>
 
 			<NavigationButton
-				title={ __( 'Last page' ) }
+				title={ __( 'Last page', 'redirection' ) }
 				button="»"
 				className="last-page"
 				disabled={ page >= max - 1 }

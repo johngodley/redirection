@@ -72,7 +72,7 @@ const getRedirectLiUrl = ( url, version = 1 ) => {
 export const RedirectLiApi = {
 	ip: {
 		getGeo: ( ip ) => ( {
-			url: getRedirectLiUrl( 'ip/' + ip + '?locale=' + Redirectioni10n.locale.localeSlug.substr( 0, 2 ) ),
+			url: getRedirectLiUrl( 'ip/' + ip + '?locale=' + window.Redirectioni10n.locale.substr( 0, 2 ) ),
 			method: 'get',
 		} ),
 	},

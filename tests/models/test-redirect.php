@@ -2,7 +2,7 @@
 
 // get_filtered is handled by api/test-redirect.php
 class RedirectTest extends WP_UnitTestCase {
-	public function setUp() {
+	public function setUp(): void {
 		global $wpdb;
 
 		$this->group = Red_Group::create( 'group', 1 );

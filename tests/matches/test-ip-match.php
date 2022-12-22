@@ -3,6 +3,10 @@
 require dirname( __FILE__ ) . '/../../matches/ip.php';
 
 class IPMatchTest extends WP_UnitTestCase {
+	public function setUp() : void {
+		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+	}
+
 	public function testNoData() {
 		$match = new Ip_Match();
 		$saved = array(

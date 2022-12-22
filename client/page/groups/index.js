@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**

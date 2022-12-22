@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -21,7 +21,7 @@ function TargetUrl( props ) {
 
 	return (
 		<DropdownText
-			placeholder={ __( 'The target URL you want to redirect, or auto-complete on post name or permalink.' ) }
+			placeholder={ __( 'The target URL you want to redirect, or auto-complete on post name or permalink.', 'redirection' ) }
 			onChange={ onChange }
 			fetchData={ getSuggestedUrls }
 			value={ url }

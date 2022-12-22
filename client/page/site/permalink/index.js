@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Local dependencies
@@ -36,14 +36,14 @@ function PermalinkSettings( props ) {
 
 	return (
 		<>
-			<h3>{ __( 'Permalink Migration' ) }</h3>
-			<p>{ __( 'Enter old permalinks structures to automatically migrate them to your current one.' ) }</p>
-			<p>{ __( 'Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta.' ) }</p>
+			<h3>{ __( 'Permalink Migration', 'redirection' ) }</h3>
+			<p>{ __( 'Enter old permalinks structures to automatically migrate them to your current one.', 'redirection' ) }</p>
+			<p>{ __( 'Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta.', 'redirection' ) }</p>
 
 			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto">
 				<thead>
 					<tr>
-						<th>{ __( 'Permalinks' ) }</th>
+						<th>{ __( 'Permalinks', 'redirection' ) }</th>
 						<th className="redirect-alias__delete" />
 					</tr>
 				</thead>
@@ -59,7 +59,7 @@ function PermalinkSettings( props ) {
 					) ) }
 					{ permalinks.length === 0 && (
 						<tr>
-							<td colSpan={ 2 }>{ __( 'No migrated permalinks' ) }</td>
+							<td colSpan={ 2 }>{ __( 'No migrated permalinks', 'redirection' ) }</td>
 						</tr>
 					) }
 				</tbody>
@@ -67,7 +67,7 @@ function PermalinkSettings( props ) {
 
 			<p>
 				<button className="button-secondary" onClick={ ( ev ) => addPermalink( permalinks, onChange, ev ) }>
-					{ __( 'Add Permalink' ) }
+					{ __( 'Add Permalink', 'redirection' ) }
 				</button>
 			</p>
 		</>

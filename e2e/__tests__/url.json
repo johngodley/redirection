@@ -443,10 +443,86 @@
 		"Test a migrated permalink",
 		{
 			"source": {
-				"url": "/2020/01/01/migrated-permalink/"
+				"url": "/2022/07/06/migrated-permalink/"
 			},
 			"target": {
 				"location": "/migrated-permalink/",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test a existing permalink",
+		{
+			"source": {
+				"url": "/migrated-permalink/"
+			},
+			"target": {
+				"status": 200
+			}
+		}
+	],
+	[
+		"Test array query parameter with case",
+		{
+			"source": {
+				"url": "/array?queryParam[thing]=1"
+			},
+			"target": {
+				"location": "/plain-redirect/",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test array query parameter without case",
+		{
+			"source": {
+				"url": "/array?queryparam[thing]=1"
+			},
+			"target": {
+				"location": "/plain-redirect/",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param exact with +",
+		{
+			"source": {
+				"url": "/exact-query?random+thing"
+			},
+			"target": {
+				"location": "/plain-redirect",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param ignore and pass with +",
+		{
+			"source": {
+				"url": "/plain-query-pass?random+thing"
+			},
+			"target": {
+				"location": "/plain-redirect?random+thing",
+				"status": 301,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Test query param ignore and multiple pass with +",
+		{
+			"source": {
+				"url": "/plain-query-pass?random+thing&another[]=thing"
+			},
+			"target": {
+				"location": "/plain-redirect?another[]=thing&random+thing",
 				"status": 301,
 				"agent": true
 			}

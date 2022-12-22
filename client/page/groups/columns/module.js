@@ -2,8 +2,7 @@
  * External dependencies
  */
 
-import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { sprintf, __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
 /**
@@ -21,7 +20,7 @@ function ModuleColumn( { row, onEnableModule } ) {
 	return (
 		<Badge
 			onClick={ () => onEnableModule( module_id ) }
-			title={ __( 'Filter on: %(type)s', { args: { type: name } } ) }
+			title={ sprintf( __( 'Filter on: %(type)s', 'redirection' ), { type: name } ) }
 		>
 			{ name }
 		</Badge>

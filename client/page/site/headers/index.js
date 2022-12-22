@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -14,15 +14,15 @@ import Header from './header';
 
 const getPresets = () => [
 	{
-		title: __( 'Add Header' ),
+		title: __( 'Add Header', 'redirection' ),
 		name: 'header',
 	},
 	{
-		title: __( 'Add Security Presets' ),
+		title: __( 'Add Security Presets', 'redirection' ),
 		name: 'security',
 	},
 	{
-		title: __( 'Add CORS Presets' ),
+		title: __( 'Add CORS Presets', 'redirection' ),
 		name: 'cors',
 	},
 ];
@@ -81,14 +81,14 @@ const HttpHeaders = ( { headers, onChange } ) => {
 
 	return (
 		<>
-			<h3>{ __( 'HTTP Headers' ) }</h3>
-			<p>{ __( 'Site headers are added across your site, including redirects. Redirect headers are only added to redirects.' ) }</p>
+			<h3>{ __( 'HTTP Headers', 'redirection' ) }</h3>
+			<p>{ __( 'Site headers are added across your site, including redirects. Redirect headers are only added to redirects.', 'redirection' ) }</p>
 
 			<table className="wp-list-table widefat fixed striped items redirect-headers table-auto">
 				<thead>
 					<tr>
-						<th>{ __( 'Location' ) }</th>
-						<th>{ __( 'Header' ) }</th>
+						<th>{ __( 'Location', 'redirection' ) }</th>
+						<th>{ __( 'Header', 'redirection' ) }</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -103,7 +103,7 @@ const HttpHeaders = ( { headers, onChange } ) => {
 						/>
 					) ) }
 
-					{ headers.length === 0 && <tr><td colSpan="3">{ __( 'No headers' ) }</td></tr> }
+					{ headers.length === 0 && <tr><td colSpan="3">{ __( 'No headers', 'redirection' ) }</td></tr> }
 				</tbody>
 			</table>
 
@@ -114,7 +114,7 @@ const HttpHeaders = ( { headers, onChange } ) => {
 				onSelect={ () => onPreset( preset, headers, onChange ) }
 			/>
 
-			<p>{ __( 'Note that some HTTP headers are set by your server and cannot be changed.' ) }</p>
+			<p>{ __( 'Note that some HTTP headers are set by your server and cannot be changed.', 'redirection' ) }</p>
 		</>
 	);
 };

@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 
 /**
@@ -15,8 +15,8 @@ const MatchCustom = ( { data, onChange } ) => {
 	const { filter } = data;
 
 	return (
-		<TableRow title={ __( 'Filter Name' ) } className="redirect-edit__match">
-			<input type="text" name="filter" value={ filter } onChange={ onChange } className="regular-text" placeholder={ __( 'WordPress filter name' ) } />
+		<TableRow title={ __( 'Filter Name', 'redirection' ) } className="redirect-edit__match">
+			<input type="text" name="filter" value={ filter } onChange={ onChange } className="regular-text" placeholder={ __( 'WordPress filter name', 'redirection' ) } />
 		</TableRow>
 	);
 };

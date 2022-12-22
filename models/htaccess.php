@@ -256,7 +256,7 @@ class Red_Htaccess {
 			$flags[] = 'QSA';
 		}
 
-		if ( strpos( $url, '#' ) !== false ) {
+		if ( strpos( $url, '#' ) !== false || strpos( $url, '%' ) !== false ) {
 			$flags[] = 'NE';
 		}
 

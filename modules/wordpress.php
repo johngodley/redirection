@@ -149,7 +149,7 @@ class WordPress_Module extends Red_Module {
 	public function pre_handle_404( $result, WP_Query $query ) {
 		$options = red_get_options();
 
-		if ( is_404() && count( $options['permalinks'] ) > 0 ) {
+		if ( count( $options['permalinks'] ) > 0 ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/models/permalinks.php';
 
 			$permalinks = new Red_Permalinks( $options['permalinks'] );

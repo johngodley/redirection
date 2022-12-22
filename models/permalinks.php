@@ -40,6 +40,10 @@ class Red_Permalinks {
 			return;
 		}
 
+		if ( ! $this->needs_migrating() ) {
+			return;
+		}
+
 		$this->intercept_permalinks();
 
 		foreach ( $this->permalinks as $old ) {
@@ -73,6 +77,46 @@ class Red_Permalinks {
 		}
 
 		$this->release_permalinks();
+	}
+
+	/**
+	 * Determine if the current request needs migrating. This is based on `WP::handle_404` in class-wp.php
+	 *
+	 * @return boolean
+	 */
+	private function needs_migrating() {
+		global $wp_query;
+
+		// It's a 404 - shortcut to yes
+		if ( is_404() ) {
+			return true;
+		}
+
+		// Not admin pages
+		if ( is_admin() || is_robots() || is_favicon() ) {
+			return false;
+		}
+
+		if ( $wp_query->posts && ! $wp_query->is_posts_page && empty( $this->query_vars['page'] ) ) {
+			return false;
+		}
+
+		if ( ! is_paged() ) {
+			$author = get_query_var( 'author' );
+
+			// Don't 404 for authors without posts as long as they matched an author on this site.
+			if ( is_author() && is_numeric( $author ) && $author > 0 && is_user_member_of_blog( $author )
+				// Don't 404 for these queries if they matched an object.
+				|| ( is_tag() || is_category() || is_tax() || is_post_type_archive() ) && get_queried_object()
+				// Don't 404 for these queries either.
+				|| is_home() || is_search() || is_feed()
+			) {
+				return false;
+			}
+		}
+
+		// If we've got this far then it's a 404
+		return true;
 	}
 
 	/**

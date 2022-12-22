@@ -1,7 +1,7 @@
 <?php
 
 class NothingTest extends WP_UnitTestCase {
-	public function setUp() {
+	public function setUp(): void {
 		$module = Redirection::init()->get_module();
 		$module->reset();
 	}

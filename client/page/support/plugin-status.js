@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { translate as __ } from 'i18n-calypso';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -20,11 +20,11 @@ const Fixit = () => {
 
 			<p>
 				{ __(
-					"If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below."
+					"If the magic button doesn't work then you should read the error and see if you can fix it manually, otherwise follow the 'Need help' section below.", 'redirection'
 				) }
 			</p>
 			<p>
-				<input type="submit" className="button-primary" value={ __( '⚡️ Magic fix ⚡️' ) } />
+				<input type="submit" className="button-primary" value={ __( '⚡️ Magic fix ⚡️', 'redirection' ) } />
 			</p>
 		</form>
 	);
@@ -36,7 +36,7 @@ const PluginStatusItem = ( props ) => {
 	return (
 		<tr>
 			<th>{ item.name }</th>
-			<td><span className={ 'plugin-status-' + item.status }>{ item.status === 'good' ? __( 'Good' ) : __( 'Problem' ) }</span> { item.message }</td>
+			<td><span className={ 'plugin-status-' + item.status }>{ item.status === 'good' ? __( 'Good', 'redirection' ) : __( 'Problem', 'redirection' ) }</span> { item.message }</td>
 		</tr>
 	);
 };
