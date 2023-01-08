@@ -704,6 +704,7 @@ class Red_Item {
 
 		$this->status = 'enabled';
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => $this->status ], [ 'id' => $this->id ] );
+		do_action( 'redirection_redirect_enabled', $this->id );
 	}
 
 	/**
@@ -716,6 +717,7 @@ class Red_Item {
 
 		$this->status = 'disabled';
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => $this->status ], [ 'id' => $this->id ] );
+		do_action( 'redirection_redirect_disabled', $this->id );
 	}
 
 	/**
