@@ -89,14 +89,14 @@ function red_set_options( array $settings = [] ) {
 	$monitor_types = [];
 
 	if ( isset( $settings['database'] ) ) {
-		$options['database'] = $settings['database'];
+		$options['database'] = sanitize_text_field( $settings['database'] );
 	}
 
 	if ( array_key_exists( 'database_stage', $settings ) ) {
 		if ( $settings['database_stage'] === false ) {
 			unset( $options['database_stage'] );
 		} else {
-			$options['database_stage'] = $settings['database_stage'];
+			$options['database_stage'] = sanitize_text_field( $settings['database_stage'] );
 		}
 	}
 
@@ -116,12 +116,12 @@ function red_set_options( array $settings = [] ) {
 		$options['monitor_types'] = $monitor_types;
 	}
 
-	if ( isset( $settings['associated_redirect'] ) ) {
+	if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redircet'] ) ) {
 		$options['associated_redirect'] = '';
 
 		if ( strlen( $settings['associated_redirect'] ) > 0 ) {
 			$sanitizer = new Red_Item_Sanitize();
-			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
+			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( sanitize_text_field( $settings['associated_redirect'] ) ) );
 		}
 	}
 
@@ -140,8 +140,8 @@ function red_set_options( array $settings = [] ) {
 		}
 	}
 
-	if ( isset( $settings['auto_target'] ) ) {
-		$options['auto_target'] = $settings['auto_target'];
+	if ( isset( $settings['auto_target'] ) && is_string( $settings['auto_target'] ) ) {
+		$options['auto_target'] = sanitize_text_field( $settings['auto_target'] );
 	}
 
 	if ( isset( $settings['last_group_id'] ) ) {
@@ -153,8 +153,8 @@ function red_set_options( array $settings = [] ) {
 		}
 	}
 
-	if ( isset( $settings['token'] ) ) {
-		$options['token'] = $settings['token'];
+	if ( isset( $settings['token'] ) && is_string( $settings['token'] ) ) {
+		$options['token'] = sanitize_text_field( $settings['token'] );
 	}
 
 	if ( isset( $settings['token'] ) && trim( $options['token'] ) === '' ) {
@@ -202,7 +202,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['plugin_update'] ) && in_array( $settings['plugin_update'], [ 'prompt', 'admin' ], true ) ) {
-		$options['plugin_update'] = $settings['plugin_update'];
+		$options['plugin_update'] = sanitize_text_field( $settings['plugin_update'] );
 	}
 
 	$flags = new Red_Source_Flags();
@@ -225,21 +225,23 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['aliases'] ) && is_array( $settings['aliases'] ) ) {
+		$options['aliases'] = array_map( 'sanitize_text_field', $settings['aliases'] );
 		$options['aliases'] = array_values( array_filter( array_map( 'red_parse_domain_only', $settings['aliases'] ) ) );
 		$options['aliases'] = array_slice( $options['aliases'], 0, 20 ); // Max 20
 	}
 
 	if ( isset( $settings['permalinks'] ) && is_array( $settings['permalinks'] ) ) {
-		$options['permalinks'] = array_values( array_filter( array_map( 'trim', $settings['permalinks'] ) ) );
+		$options['permalinks'] = array_map( 'sanitize_text_field', $settings['permalinks'] );
+		$options['permalinks'] = array_values( array_filter( array_map( 'trim', $options['permalinks'] ) ) );
 		$options['permalinks'] = array_slice( $options['permalinks'], 0, 10 ); // Max 10
 	}
 
 	if ( isset( $settings['preferred_domain'] ) && in_array( $settings['preferred_domain'], [ '', 'www', 'nowww' ], true ) ) {
-		$options['preferred_domain'] = $settings['preferred_domain'];
+		$options['preferred_domain'] = sanitize_text_field( $settings['preferred_domain'] );
 	}
 
-	if ( isset( $settings['relocate'] ) ) {
-		$options['relocate'] = red_parse_domain_path( $settings['relocate'] );
+	if ( isset( $settings['relocate'] ) && is_string( $settings['relocate'] ) ) {
+		$options['relocate'] = red_parse_domain_path( sanitize_text_field( $settings['relocate'] ) );
 
 		if ( strlen( $options['relocate'] ) > 0 ) {
 			$options['preferred_domain'] = '';
@@ -262,7 +264,7 @@ function red_set_options( array $settings = [] ) {
 
 	if ( isset( $settings['update_notice'] ) ) {
 		$major_version = explode( '-', REDIRECTION_VERSION )[0];   // Remove any beta suffix
-		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
+		$major_version = implode( '.', array_slice( explode( '.', $major_version ), 0, 2 ) );
 		$options['update_notice'] = $major_version;
 	}
 

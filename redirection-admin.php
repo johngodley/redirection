@@ -50,14 +50,14 @@ class Redirection_Admin {
 	/**
 	 * Massage the Redirection WP translations.
 	 *
-	 * @param [type] $file
-	 * @param [type] $handle
-	 * @param [type] $domain
-	 * @return void
+	 * @param string $file File.
+	 * @param string $handle File.
+	 * @param string $domain File.
+	 * @return string
 	 */
 	public function load_script_translation_file( $file, $handle, $domain ) {
 		if ( $domain === 'redirection' ) {
-			return preg_replace( '/-\w*\./', '.', $file );
+			return preg_replace( '/-\w*\.json$/', '.json', $file );
 		}
 
 		return $file;
@@ -159,7 +159,9 @@ class Redirection_Admin {
 	// then this can prevent Redirection running and it's a little sensitive about that. We use the nuclear option here to disable
 	// all other JS while viewing Redirection
 	public function flying_solo( $src, $handle ) {
-		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], 'page=redirection.php' ) !== false ) {
+		$request = Redirection_Request::get_request_url();
+
+		if ( strpos( $request, 'page=redirection.php' ) !== false ) {
 			if ( substr( $src, 0, 4 ) === 'http' && $handle !== 'redirection' && strpos( $src, 'plugins' ) !== false ) {
 				if ( $this->ignore_this_plugin( $src ) ) {
 					return false;
@@ -234,6 +236,14 @@ class Redirection_Admin {
 		return admin_url();
 	}
 
+	private function get_query( $name ) {
+		if ( isset( $_GET[ $name ] ) ) {
+			return sanitize_text_field( $_GET[ $name ] );
+		}
+
+		return null;
+	}
+
 	public function redirection_head() {
 		global $wp_version;
 
@@ -244,10 +254,12 @@ class Redirection_Admin {
 			die();
 		}
 
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wp_rest' ) ) {
-			if ( $_REQUEST['action'] === 'fixit' ) {
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['_wpnonce'] ) && is_string( $_REQUEST['action'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wp_rest' ) ) {
+			$action = sanitize_text_field( $_REQUEST['action'] );
+
+			if ( $action === 'fixit' ) {
 				$this->run_fixit();
-			} elseif ( $_REQUEST['action'] === 'rest_api' ) {
+			} elseif ( $action === 'rest_api' ) {
 				$this->set_rest_api( intval( $_REQUEST['rest_api'], 10 ) );
 			}
 		}
@@ -287,8 +299,7 @@ class Redirection_Admin {
 		$is_new = false;
 		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
 
-		// phpcs:ignore
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'redirection.php' && strpos( REDIRECTION_VERSION, '-beta' ) === false ) {
+		if ( $this->get_query( 'page' ) === 'redirection.php' && strpos( REDIRECTION_VERSION, '-beta' ) === false ) {
 			$is_new = version_compare( $options['update_notice'], $major_version ) < 0;
 		}
 
@@ -618,11 +629,13 @@ class Redirection_Admin {
 	 * @return string|boolean Current page, or false.
 	 */
 	private function get_current_page( $page = false ) {
-		// $_GET['sub'] is validated below
-		// phpcs:ignore
 		if ( ! $page ) {
 			// phpcs:ignore
-			$page = isset( $_GET['sub'] ) ? $_GET['sub'] : 'redirect';
+			$page = 'redirect';
+
+			if ( $this->get_query( 'sub' ) ) {
+				$page = $this->get_query( 'sub' );
+			}
 		}
 
 		// Are we allowed to access this page?
@@ -636,7 +649,12 @@ class Redirection_Admin {
 
 	private function inject() {
 		// phpcs:ignore
-		if ( isset( $_GET['page'] ) && $this->get_current_page() !== 'redirect' && $_GET['page'] === 'redirection.php' ) {
+		$page = false;
+		if ( $this->get_query( 'page' ) ) {
+			$page = $this->get_query( 'page' );
+		}
+
+		if ( $page && $this->get_current_page() !== 'redirect' && $page === 'redirection.php' ) {
 			$this->try_export_logs();
 			$this->try_export_redirects();
 			$this->try_export_rss();
@@ -644,14 +662,18 @@ class Redirection_Admin {
 	}
 
 	public function try_export_rss() {
-		// phpcs:ignore
-		if ( isset( $_GET['token'] ) && isset( $_GET['sub'] ) && $_GET['sub'] === 'rss' && Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE ) ) {
+		$token = $this->get_query( 'token' );
+		$sub = $this->get_query( 'sub' );
+
+		if ( $token && $sub === 'rss' && Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE ) ) {
 			$options = red_get_options();
 
 			// phpcs:ignore
-			if ( $_GET['token'] === $options['token'] && ! empty( $options['token'] ) ) {
+			if ( $token === $options['token'] && ! empty( $options['token'] ) ) {
+				$module = $this->get_query( 'module' );
+
 				// phpcs:ignore
-				$items = Red_Item::get_all_for_module( intval( $_GET['module'], 10 ) );
+				$items = Red_Item::get_all_for_module( intval( $module, 10 ) );
 
 				$exporter = Red_FileIO::create( 'rss' );
 				$exporter->force_download();
@@ -677,18 +699,22 @@ class Redirection_Admin {
 
 	private function try_export_redirects() {
 		// phpcs:ignore
-		if ( ! isset( $_GET['sub'] ) || $_GET['sub'] !== 'io' ) {
+		$sub = $this->get_query( 'sub' );
+		if ( $sub !== 'io' ) {
 			return;
 		}
 
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_GET['exporter'] ) && isset( $_GET['export'] ) && check_admin_referer( 'wp_rest' ) ) {
-			$export = Red_FileIO::export( $_GET['export'], $_GET['exporter'] );
+		$export = $this->get_query( 'export' );
+		$exporter = $this->get_query( 'exporter' );
+
+		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && $export && $exporter && check_admin_referer( 'wp_rest' ) ) {
+			$export = Red_FileIO::export( $export, $exporter );
 
 			if ( $export !== false ) {
 				$export['exporter']->force_download();
 
-				// phpcs:ignore
-				echo $export['data'];
+				// This data is not displayed and will be downloaded to a file
+				echo wp_kses( $export['data'], 'strip' );
 				die();
 			}
 		}

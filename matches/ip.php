@@ -30,7 +30,7 @@ class IP_Match extends Red_Match {
 	 * @return String|false
 	 */
 	private function sanitize_single_ip( $ip ) {
-		$ip = @inet_pton( trim( $ip ) );
+		$ip = @inet_pton( trim( sanitize_text_field( $ip ) ) );
 		if ( $ip !== false ) {
 			return @inet_ntop( $ip );  // Convert back to string
 		}

@@ -106,7 +106,7 @@ abstract class Red_Action {
 	 * @return void
 	 */
 	public function set_target( $target_url ) {
-		$this->target = $target_url;
+		$this->target = sanitize_text_field( $target_url );
 	}
 
 	/**

@@ -56,7 +56,7 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	private function add_url( Red_Item $item, array $match_data ) {
-		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $match_data['source'] );
+		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $match_data['source'], $item->source_flags->is_regex() );
 	}
 
 	private function add_agent( Red_Item $item, array $match_data ) {
@@ -91,11 +91,11 @@ class Red_Nginx_File extends Red_FileIO {
 		return implode( "\n", $lines );
 	}
 
-	private function get_redirect( $line, $target, $code, $source ) {
+	private function get_redirect( $line, $target, $code, $source, $regex = false ) {
 		$line = ltrim( $line, '^' );
 		$line = rtrim( $line, '$' );
 
-		$source_url = new Red_Url_Encode( $line );
+		$source_url = new Red_Url_Encode( $line, $regex );
 		$target_url = new Red_Url_Encode( $target );
 
 		// Remove any existing start/end from a regex

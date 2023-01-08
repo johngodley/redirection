@@ -101,7 +101,7 @@ class Red_Htaccess {
 	 */
 	private function encode_regex( $url ) {
 		// Remove any newlines
-		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', sanitize_text_field( $url ) );
 
 		// Remove invalid characters
 		$url = preg_replace( '/[^\PC\s]/u', '', $url );
@@ -224,7 +224,7 @@ class Red_Htaccess {
 		}
 
 		if ( $to ) {
-			$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
+			$this->items[] = sprintf( 'RewriteRule %s %s', sanitize_text_field( $from ), sanitize_text_field( $to ) );
 		}
 	}
 
@@ -433,7 +433,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	public function sanitize_redirect( $text ) {
-		return str_replace( [ '<?', '>' ], '', $text );
+		return str_replace( [ '<?', '>' ], '', sanitize_text_field( $text ) );
 	}
 
 	/**
@@ -443,7 +443,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	public function sanitize_filename( $filename ) {
-		return str_replace( '.php', '', $filename );
+		return str_replace( '.php', '', sanitize_text_field( $filename )  );
 	}
 
 	/**

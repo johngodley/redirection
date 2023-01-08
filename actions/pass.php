@@ -34,6 +34,7 @@ class Pass_Action extends Url_Action {
 			$_SERVER['QUERY_STRING'] = substr( $target, $pos + 1 );
 			$_SERVER['PATH_INFO'] = $target;
 
+			// Take the query params in the target and make them the params for this request
 			parse_str( $_SERVER['QUERY_STRING'], $_GET );
 		}
 	}

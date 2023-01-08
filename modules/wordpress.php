@@ -411,9 +411,14 @@ class WordPress_Module extends Red_Module {
 	private function cgi_fix( $url, $status ) {
 		if ( $status === 301 && php_sapi_name() === 'cgi-fcgi' ) {
 			$servers_to_check = [ 'lighttpd', 'nginx' ];
+			$server = '';
+			if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && is_string( $_SERVER['SERVER_SOFTWARE'] ) ) {
+				$server = sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] );
+			}
 
 			foreach ( $servers_to_check as $name ) {
-				if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stripos( $_SERVER['SERVER_SOFTWARE'], $name ) !== false ) {
+
+				if ( stripos( $server, $name ) !== false ) {
 					status_header( $status );
 					header( "Location: $url" );
 					exit( 0 );

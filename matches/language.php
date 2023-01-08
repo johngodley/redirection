@@ -30,7 +30,7 @@ class Language_Match extends Red_Match {
 	 * @return String
 	 */
 	private function sanitize_language( $language ) {
-		$parts = explode( ',', str_replace( ' ', '', $language ) );
+		$parts = explode( ',', str_replace( ' ', '', sanitize_text_field( $language ) ) );
 		return implode( ',', $parts );
 	}
 

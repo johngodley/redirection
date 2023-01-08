@@ -34,11 +34,11 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	}
 
 	public function route_export( WP_REST_Request $request ) {
-		$module = $request['module'];
+		$module = sanitize_text_field( $request['module'] );
 		$format = 'json';
 
 		if ( in_array( $request['format'], [ 'csv', 'apache', 'nginx', 'json' ], true ) ) {
-			$format = $request['format'];
+			$format = sanitize_text_field( $request['format'] );
 		}
 
 		$export = Red_FileIO::export( $module, $format );

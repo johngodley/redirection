@@ -42,7 +42,7 @@ class Header_Match extends Red_Match {
 	}
 
 	public function sanitize_name( $name ) {
-		$name = $this->sanitize_url( $name );
+		$name = $this->sanitize_url( sanitize_text_field( $name ) );
 		$name = str_replace( ' ', '', $name );
 		$name = preg_replace( '/[^A-Za-z0-9\-_]/', '', $name );
 
@@ -50,7 +50,7 @@ class Header_Match extends Red_Match {
 	}
 
 	public function sanitize_value( $value ) {
-		return $this->sanitize_url( $value );
+		return $this->sanitize_url( sanitize_text_field( $value ) );
 	}
 
 	public function is_match( $url ) {
