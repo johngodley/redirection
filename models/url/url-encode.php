@@ -106,6 +106,19 @@ class Red_Url_Encode {
 
 			// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
 			$url = preg_replace( '@^\^/@', '^', $url );
+
+			$url = $this->replace_encoding( $url, [
+				'%2A' => '*',
+				'%3F' => '?',
+				'%28' => '(',
+				'%29' => ')',
+				'%5B' => '[',
+				'%5C' => ']',
+				'%24' => '$',
+				'%2B' => '+',
+				'%7C' => '|',
+				'\\.' => '.',
+			] );
 		}
 
 		return $url;
