@@ -50,14 +50,14 @@ class Redirection_Admin {
 	/**
 	 * Massage the Redirection WP translations.
 	 *
-	 * @param [type] $file
-	 * @param [type] $handle
-	 * @param [type] $domain
-	 * @return void
+	 * @param string $file File.
+	 * @param string $handle File.
+	 * @param string $domain File.
+	 * @return string
 	 */
 	public function load_script_translation_file( $file, $handle, $domain ) {
 		if ( $domain === 'redirection' ) {
-			return preg_replace( '/-\w*\./', '.', $file );
+			return preg_replace( '/-\w*\.json$/', '.json', $file );
 		}
 
 		return $file;
