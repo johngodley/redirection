@@ -89,7 +89,7 @@ class Red_Item_Sanitize {
 			$details = array_merge( $details, $this->set_server( $url, $details ) );
 		}
 
-		$data['match_type'] = isset( $details['match_type'] ) ? $details['match_type'] : 'url';
+		$data['match_type'] = isset( $details['match_type'] ) ? sanitize_text_field( $details['match_type'] ) : 'url';
 		$data['url'] = $this->get_url( $url, $data['regex'] );
 
 		if ( isset( $details['hits'] ) ) {
@@ -97,7 +97,7 @@ class Red_Item_Sanitize {
 		}
 
 		if ( isset( $details['last_access'] ) ) {
-			$data['last_access'] = date( 'Y-m-d H:i:s', strtotime( $details['last_access'] ) );
+			$data['last_access'] = date( 'Y-m-d H:i:s', strtotime( sanitize_text_field( $details['last_access'] ) ) );
 		}
 
 		if ( ! is_wp_error( $data['url'] ) ) {
@@ -120,25 +120,26 @@ class Red_Item_Sanitize {
 		}
 
 		if ( $data['title'] ) {
-			$data['title'] = trim( substr( $data['title'], 0, 500 ) );
+			$data['title'] = trim( substr( sanitize_text_field( $data['title'] ), 0, 500 ) );
+			$data['title'] = wp_kses( $data['title'], 'strip' );
 
 			if ( strlen( $data['title'] ) === 0 ) {
 				$data['title'] = null;
 			}
 		}
 
-		$matcher = Red_Match::create( isset( $details['match_type'] ) ? $details['match_type'] : false );
+		$matcher = Red_Match::create( isset( $details['match_type'] ) ? sanitize_text_field( $details['match_type'] ) : false );
 		if ( ! $matcher ) {
 			return new WP_Error( 'redirect', 'Invalid redirect matcher' );
 		}
 
 		$action_code = isset( $details['action_code'] ) ? intval( $details['action_code'], 10 ) : 0;
-		$action = Red_Action::create( isset( $details['action_type'] ) ? $details['action_type'] : false, $action_code );
+		$action = Red_Action::create( isset( $details['action_type'] ) ? sanitize_text_field( $details['action_type'] ) : false, $action_code );
 		if ( ! $action ) {
 			return new WP_Error( 'redirect', 'Invalid redirect action' );
 		}
 
-		$data['action_type'] = $details['action_type'];
+		$data['action_type'] = sanitize_text_field( $details['action_type'] );
 		$data['action_code'] = $this->get_code( $details['action_type'], $action_code );
 
 		if ( isset( $details['action_data'] ) && is_array( $details['action_data'] ) ) {
@@ -234,6 +235,8 @@ class Red_Item_Sanitize {
 	}
 
 	public function sanitize_url( $url, $regex = false ) {
+		$url = wp_kses( $url, 'strip' );
+
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
 		$url = preg_replace( '@^https?://(.*?)$@', '/', $url );
@@ -277,9 +280,9 @@ class Red_Item_Sanitize {
 	private function remove_bad_encoding( $text ) {
 		// Try and remove bad decoding
 		if ( function_exists( 'iconv' ) ) {
-			return @iconv( 'UTF-8', 'UTF-8//IGNORE', $text );
+			return @iconv( 'UTF-8', 'UTF-8//IGNORE', sanitize_text_field( $text ) );
 		}
 
-		return $text;
+		return sanitize_text_field( $text );
 	}
 }

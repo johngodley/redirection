@@ -20,7 +20,8 @@ class Red_Item_Filters {
 		global $wpdb;
 
 		foreach ( $filter_params as $filter_by => $filter ) {
-			$filter = trim( $filter );
+			$filter = trim( sanitize_text_field( $filter ) );
+			$filter_by = sanitize_text_field( $filter_by );
 
 			if ( $filter_by === 'status' ) {
 				if ( $filter === 'enabled' ) {

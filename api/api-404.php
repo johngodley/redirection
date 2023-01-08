@@ -157,10 +157,11 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 				if ( is_numeric( $item ) ) {
 					Red_404_Log::delete( intval( $item, 10 ) );
 				} elseif ( isset( $params['groupBy'] ) ) {
+					$group_by = sanitize_text_field( $params['groupBy'] );
 					$delete_by = 'url-exact';
 
-					if ( in_array( $params['groupBy'], [ 'ip', 'agent' ], true ) ) {
-						$delete_by = $params['groupBy'];
+					if ( in_array( $group_by, [ 'ip', 'agent' ], true ) ) {
+						$delete_by = $group_by;
 					}
 
 					Red_404_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
@@ -185,7 +186,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	 */
 	private function get_404( array $params ) {
 		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent', 'url-exact' ], true ) ) {
-			$group_by = $params['groupBy'];
+			$group_by = sanitize_text_field( $params['groupBy'] );
 			if ( $group_by === 'url-exact' ) {
 				$group_by = 'url';
 			}

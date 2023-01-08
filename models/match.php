@@ -91,6 +91,8 @@ abstract class Red_Match {
 	 * @return String
 	 */
 	public function sanitize_url( $url ) {
+		$url = sanitize_text_field( $url );
+
 		// No new lines
 		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
 

@@ -391,9 +391,9 @@ abstract class Red_Log {
 	 */
 	protected static function sanitize_create( $domain, $url, $ip, array $details = [] ) {
 		$insert = [
-			'url' => substr( $url, 0, self::MAX_URL_LENGTH ),
-			'domain' => substr( $domain, 0, self::MAX_DOMAIN_LENGTH ),
-			'ip' => substr( $ip, 0, self::MAX_IP_LENGTH ),
+			'url' => substr( sanitize_text_field( $url ), 0, self::MAX_URL_LENGTH ),
+			'domain' => substr( sanitize_text_field( $domain ), 0, self::MAX_DOMAIN_LENGTH ),
+			'ip' => substr( sanitize_text_field( $ip ), 0, self::MAX_IP_LENGTH ),
 			'created' => current_time( 'mysql' ),
 		];
 
@@ -413,11 +413,11 @@ abstract class Red_Log {
 		}
 
 		if ( isset( $insert['agent'] ) ) {
-			$insert['agent'] = substr( $insert['agent'], 0, self::MAX_AGENT_LENGTH );
+			$insert['agent'] = substr( sanitize_text_field( $insert['agent'] ), 0, self::MAX_AGENT_LENGTH );
 		}
 
 		if ( isset( $insert['referrer'] ) ) {
-			$insert['referrer'] = substr( $insert['referrer'], 0, self::MAX_REFERRER_LENGTH );
+			$insert['referrer'] = substr( sanitize_text_field( $insert['referrer'] ), 0, self::MAX_REFERRER_LENGTH );
 		}
 
 		if ( isset( $insert['request_data'] ) ) {
@@ -429,7 +429,7 @@ abstract class Red_Log {
 		}
 
 		if ( isset( $insert['request_method'] ) ) {
-			$insert['request_method'] = strtoupper( $insert['request_method'] );
+			$insert['request_method'] = strtoupper( sanitize_text_field( $insert['request_method'] ) );
 
 			if ( ! in_array( $insert['request_method'], static::$supported_methods, true ) ) {
 				$insert['request_method'] = '';

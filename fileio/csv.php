@@ -94,7 +94,7 @@ class Red_Csv_File extends Red_FileIO {
 		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) ) {
 			$item = $this->csv_as_item( $csv, $group_id );
 
-			if ( $item ) {
+			if ( $this->item_is_valid( $item ) ) {
 				$created = Red_Item::create( $item );
 
 				// The query log can use up all the memory
@@ -107,6 +107,18 @@ class Red_Csv_File extends Red_FileIO {
 		}
 
 		return $count;
+	}
+
+	private function item_is_valid( array $csv ) {
+		if ( strlen( $csv['url'] ) === 0 ) {
+			return false;
+		}
+
+		if ( $csv['action_data']['url'] === $csv['url'] ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private function get_valid_code( $code ) {

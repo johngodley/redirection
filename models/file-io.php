@@ -60,11 +60,13 @@ abstract class Red_FileIO {
 
 	protected function export_filename( $extension ) {
 		$name = wp_parse_url( home_url(), PHP_URL_HOST );
+
+		$name = sanitize_text_field( $name );
 		$name = str_replace( '.', '-', $name );
 		$date = strtolower( date_i18n( get_option( 'date_format' ) ) );
 		$date = str_replace( [ ',', ' ', '--' ], '-', $date );
 
-		return 'redirection-' . $name . '-' . $date . '.' . $extension;
+		return 'redirection-' . $name . '-' . $date . '.' . sanitize_text_field( $extension );
 	}
 
 	public static function export( $module_name_or_id, $format ) {
@@ -86,11 +88,11 @@ abstract class Red_FileIO {
 
 		$exporter = self::create( $format );
 		if ( $exporter && $items !== false && $groups !== false ) {
-			return array(
+			return [
 				'data' => $exporter->get_data( $items, $groups ),
 				'total' => count( $items ),
 				'exporter' => $exporter,
-			);
+			];
 		}
 
 		return false;

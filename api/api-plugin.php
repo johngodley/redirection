@@ -67,7 +67,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		if ( isset( $params['name'] ) && isset( $params['value'] ) ) {
 			global $wpdb;
 
-			$fixer->save_debug( $params['name'], $params['value'] );
+			$fixer->save_debug( sanitize_text_field( $params['name'] ), sanitize_text_field( $params['value'] ) );
 
 			$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 			if ( $groups === 0 ) {
@@ -110,7 +110,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		$upgrade = false;
 
 		if ( isset( $params['upgrade'] ) && in_array( $params['upgrade'], [ 'stop', 'skip' ], true ) ) {
-			$upgrade = $params['upgrade'];
+			$upgrade = sanitize_text_field( $params['upgrade'] );
 		}
 
 		// Check upgrade

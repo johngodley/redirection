@@ -17,7 +17,7 @@ class Red_Fixer {
 		$ip = [];
 
 		foreach ( Redirection_Request::get_ip_headers() as $var ) {
-			$ip[ $var ] = isset( $_SERVER[ $var ] ) ? $_SERVER[ $var ] : false;
+			$ip[ $var ] = isset( $_SERVER[ $var ] ) ? sanitize_text_field( $_SERVER[ $var ] ) : false;
 		}
 
 		return [

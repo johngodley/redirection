@@ -59,6 +59,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		$params = $request->get_params( $request );
 		$groups = Red_Group::get_all();
 		$plugins = is_array( $request['plugin'] ) ? $request['plugin'] : [ $request['plugin'] ];
+		$plugins = array_map( 'sanitize_text_field', $plugins );
 		$total = 0;
 
 		foreach ( $plugins as $plugin ) {
@@ -70,8 +71,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 
 	public function route_import_file( WP_REST_Request $request ) {
 		$upload = $request->get_file_params();
-		$upload = isset( $upload['file'] ) ? $upload['file'] : false;
-		$group_id = $request['group_id'];
+		$upload = isset( $upload['file'] ) ? sanitize_text_field( $upload['file'] ) : false;
+		$group_id = intval( $request['group_id'], 10 );
 
 		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
 			$count = Red_FileIO::import( $group_id, $upload );
