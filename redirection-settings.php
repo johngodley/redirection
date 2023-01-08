@@ -264,7 +264,7 @@ function red_set_options( array $settings = [] ) {
 
 	if ( isset( $settings['update_notice'] ) ) {
 		$major_version = explode( '-', REDIRECTION_VERSION )[0];   // Remove any beta suffix
-		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );
+		$major_version = implode( '.', array_slice( explode( '.', $major_version ), 0, 2 ) );
 		$options['update_notice'] = $major_version;
 	}
 
