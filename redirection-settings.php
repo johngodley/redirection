@@ -116,13 +116,9 @@ function red_set_options( array $settings = [] ) {
 		$options['monitor_types'] = $monitor_types;
 	}
 
-	if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redircet'] ) ) {
-		$options['associated_redirect'] = '';
-
-		if ( strlen( $settings['associated_redirect'] ) > 0 ) {
-			$sanitizer = new Red_Item_Sanitize();
-			$options['associated_redirect'] = trim( $sanitizer->sanitize_url( sanitize_text_field( $settings['associated_redirect'] ) ) );
-		}
+	if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redirect'] ) ) {
+		$sanitizer = new Red_Item_Sanitize();
+		$options['associated_redirect'] = trim( $sanitizer->sanitize_url( $settings['associated_redirect'] ) );
 	}
 
 	if ( isset( $settings['monitor_types'] ) && count( $monitor_types ) === 0 ) {

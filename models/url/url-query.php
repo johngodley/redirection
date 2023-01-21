@@ -110,6 +110,7 @@ class Red_Url_Query {
 	 */
 	public static function add_to_target( $target_url, $requested_url, Red_Source_Flags $flags ) {
 		if ( $flags->is_query_pass() && $target_url ) {
+			error_log( 'adding '.$requested_url );
 			$source_query = new Red_Url_Query( $target_url, $flags );
 			$request_query = new Red_Url_Query( $requested_url, $flags );
 
@@ -120,7 +121,7 @@ class Red_Url_Query {
 			foreach ( $request_diff as $key => $value ) {
 				$query_diff[ $key ] = $value;
 			}
-
+error_log( print_r($query_diff,true));
 			// Remove any params from $source that are present in $request - we dont allow
 			// predefined params to be overridden
 			foreach ( array_keys( $query_diff ) as $key ) {

@@ -76,8 +76,8 @@ and a line at the end';
 
 		$lines = $this->getOutput( $htaccess );
 
-		$this->assertEquals( 'RewriteRule ^my-test$  [R=301,L]', trim( $lines[5] ) );
-		$this->assertEquals( 'RewriteRule ^my-test\.php$  [R=302,L]', trim( $lines[6] ) );
+		$this->assertEquals( 'RewriteRule ^my-test$ [R=301,L]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^my-test\.php$ [R=302,L]', trim( $lines[6] ) );
 	}
 
 	public function testRedirectUrlHash() {
@@ -95,7 +95,7 @@ and a line at the end';
 
 		$lines = $this->getOutput( $htaccess );
 
-		$this->assertEquals( 'RewriteRule my\.test.*?  [R=301,L]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule my\.test.*? [R=301,L]', trim( $lines[5] ) );
 	}
 
 	public function testRedirectUrlRegexLimit() {
@@ -104,7 +104,7 @@ and a line at the end';
 
 		$lines = $this->getOutput( $htaccess );
 
-		$this->assertEquals( 'RewriteRule ^my-test.*?$  [R=301,L]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^my-test.*?$ [R=301,L]', trim( $lines[5] ) );
 	}
 
 	public function testError() {
@@ -126,9 +126,9 @@ and a line at the end';
 		$lines = $this->getOutput( $htaccess );
 
 		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1$', trim( $lines[5] ) );
-		$this->assertEquals( 'RewriteRule ^my-test$  [R=301,L]', trim( $lines[6] ) );
+		$this->assertEquals( 'RewriteRule ^my-test$ [R=301,L]', trim( $lines[6] ) );
 		$this->assertEquals( 'RewriteCond %{QUERY_STRING} ^query=1&thing=2$', trim( $lines[7] ) );
-		$this->assertEquals( 'RewriteRule ^my-test\.php$  [R=302,L]', trim( $lines[8] ) );
+		$this->assertEquals( 'RewriteRule ^my-test\.php$ [R=302,L]', trim( $lines[8] ) );
 	}
 
 	public function testRedirectUrlWithTargetQuery() {

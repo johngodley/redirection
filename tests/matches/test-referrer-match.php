@@ -6,10 +6,10 @@ class ReferrerMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Referrer_Match();
 		$saved = array(
-			'url_from' => '/some/url',
-			'url_notfrom' => '/some/url',
+			'url_from' => '/some/url somethingelse1',
+			'url_notfrom' => '/some/url somethingelse2',
 			'regex' => false,
-			'referrer' => "some",
+			'referrer' => "some referrer",
 		);
 		$source = array(
 			'url_from' => "/some/url\nsomethingelse1",

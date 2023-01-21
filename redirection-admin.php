@@ -714,7 +714,7 @@ class Redirection_Admin {
 				$export['exporter']->force_download();
 
 				// This data is not displayed and will be downloaded to a file
-				echo wp_kses( $export['data'], 'strip' );
+				echo str_replace( '&amp;', '&', wp_kses( $export['data'], 'strip' ) );
 				die();
 			}
 		}

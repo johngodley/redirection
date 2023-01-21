@@ -2,6 +2,25 @@
 
 class Redirection_Request {
 	/**
+	 * URL friendly sanitize_text_fields which lets encoded characters through and doesn't trim
+	 *
+	 * @param string $value Value.
+	 * @return string
+	 */
+	public static function sanitize_url( $value ) {
+		// Remove invalid UTF
+		$url = wp_check_invalid_utf8( $value, true );
+
+		// No new lines
+		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+
+		// Clean control codes
+		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+
+		return $url;
+	}
+
+	/**
 	 * Get HTTP headers
 	 *
 	 * @return array
@@ -104,7 +123,7 @@ class Redirection_Request {
 		$url = '';
 
 		if ( isset( $_SERVER['REQUEST_URI'] ) && is_string( $_SERVER['REQUEST_URI'] ) ) {
-			$url = sanitize_text_field( $_SERVER['REQUEST_URI'] );
+			$url = self::sanitize_url( $_SERVER['REQUEST_URI'] );
 		}
 
 		return apply_filters( 'redirection_request_url', stripslashes( $url ) );
@@ -134,7 +153,7 @@ class Redirection_Request {
 		$referrer = '';
 
 		if ( isset( $_SERVER['HTTP_REFERER'] ) && is_string( $_SERVER['HTTP_REFERER'] ) ) {
-			$referrer = sanitize_text_field( $_SERVER['HTTP_REFERER'] );
+			$referrer = self::sanitize_url( $_SERVER['HTTP_REFERER'] );
 		}
 
 		return apply_filters( 'redirection_request_referrer', $referrer );
