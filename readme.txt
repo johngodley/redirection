@@ -183,7 +183,7 @@ A x.1 version increase introduces new or updated features and can be considered 
 
 = 5.3.7 - 8th January 2023 =
 * Fix problem with locales in certain directories
-* Fix incorrect import of empty CSV
+* Fix incorrect import of empty CSV lines
 * Don't encode regex for Nginx
 
 = 5.3.6 - 12th November 2022 =
