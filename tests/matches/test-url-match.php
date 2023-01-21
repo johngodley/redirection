@@ -7,9 +7,9 @@ class UrlMatchTest extends WP_UnitTestCase {
 		$match = new URL_Match();
 		$saved = '/some/url';
 
-		$this->assertEquals( $match->save( array( 'url' => "/some/url\nsomethingelse1" ) ), $saved );
-		$this->assertEquals( $match->save( array( 'url' => "/some/url\rsomethingelse2" ) ), $saved );
-		$this->assertEquals( $match->save( array( 'url' => "/some/url\r\nsomethingelse3" ) ), $saved );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\nsomethingelse1" ) ), '/some/url somethingelse1' );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\rsomethingelse2" ) ), '/some/url somethingelse2' );
+		$this->assertEquals( $match->save( array( 'url' => "/some/url\r\nsomethingelse3" ) ), '/some/url somethingelse3' );
 	}
 
 	public function testBadData() {

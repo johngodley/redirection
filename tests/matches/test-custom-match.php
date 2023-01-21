@@ -6,8 +6,8 @@ class CustomMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Custom_Match();
 		$saved = array(
-			'url_from' => '/some/url',
-			'url_notfrom' => '/some/url',
+			'url_from' => '/some/url somethingelse1',
+			'url_notfrom' => '/some/url somethingelse2',
 			'filter' => 'filterthing',
 		);
 		$source = array(

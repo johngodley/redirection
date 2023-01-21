@@ -42,7 +42,7 @@ class HeaderTest extends WP_UnitTestCase {
 
 	public function testHeaderSanitizeValue() {
 		$headers = [ [ 'headerName' => 'Good', 'location' => 'redirect', 'headerValue' => "this\nthing", 'type' => 'Custom' ] ];
-		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'this', 'headerSettings' => [] ] ];
+		$expected = [ [ 'type' => 'Custom', 'location' => 'redirect', 'headerName' => 'Good', 'headerValue' => 'this thing', 'headerSettings' => [] ] ];
 		$http = new Red_Http_Headers( $headers );
 		$this->assertEquals( $expected, $http->get_json() );
 	}

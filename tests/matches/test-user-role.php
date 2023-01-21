@@ -6,8 +6,8 @@ class UserRoleMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Role_Match();
 		$saved = array(
-			'url_from' => '/some/url',
-			'url_notfrom' => '/some/url',
+			'url_from' => '/some/url somethingelse1',
+			'url_notfrom' => '/some/url somethingelse2',
 			'role' => 'role',
 		);
 		$source = array(

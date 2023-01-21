@@ -236,6 +236,7 @@ class Red_Item_Sanitize {
 
 	public function sanitize_url( $url, $regex = false ) {
 		$url = wp_kses( $url, 'strip' );
+		$url = str_replace( '&amp;', '&', $url );
 
 		// Make sure that the old URL is relative
 		$url = preg_replace( '@^https?://(.*?)/@', '/', $url );
