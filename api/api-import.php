@@ -71,7 +71,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 
 	public function route_import_file( WP_REST_Request $request ) {
 		$upload = $request->get_file_params();
-		$upload = isset( $upload['file'] ) ? sanitize_text_field( $upload['file'] ) : false;
+		$upload = isset( $upload['file'] ) ? $upload['file'] : false;
 		$group_id = intval( $request['group_id'], 10 );
 
 		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
