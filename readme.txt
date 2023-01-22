@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 5.6
 Tested up to: 6.1
-Stable tag: 5.3.7
+Stable tag: 5.3.8
 Requires PHP: 5.6
 License: GPLv3
 
@@ -180,6 +180,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.3.8 - 22nd January 2023 =
+* Fix app rendering twice causing problems with upgrades
+* Fix CSV header being detected as an error
 
 = 5.3.7 - 8th January 2023 =
 * Fix problem with locales in certain directories

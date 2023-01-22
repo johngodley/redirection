@@ -3,9 +3,9 @@
  * External dependencies
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { __ } from '@wordpress/i18n';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Internal dependencies
@@ -87,35 +87,38 @@ const getMenu = () =>
 
 const ALLOWED_PAGES = Redirectioni10n?.caps?.pages || [];
 
-function Home( props ) {
+export default function Home() {
+	const dispatch = useDispatch();
 	const {
-		onClearErrors,
 		errors,
-		onClearNotices,
 		notices,
-		onAdd,
 		databaseStatus,
-		onShowUpgrade,
 		showDatabase,
-		result,
 		inProgress,
 		pluginUpdate,
-	} = props;
+	} = useSelector( state => {
+		return {
+			errors: state.message.errors,
+			notices: state.message.notices,
+			databaseStatus: state.settings.database.status,
+			inProgress: state.settings.database.inProgress,
+			showDatabase: state.settings.showDatabase,
+			pluginUpdate: state.settings.values.plugin_update,
+		}
+	} );
 	const [ page, setPage ] = useState( getPluginPage( ALLOWED_PAGES ) );
 
 	function changePage( page ) {
-		const { onSet404Table, onSetLogTable, onSetRedirectTable, onSetGroupTable } = props;
-
 		setPage( page === '' ? 'redirect' : page );
 
 		if ( page === '404s' ) {
-			onSet404Table( getInitialError().table );
+			dispatch( setErrorTable( getInitialError().table ) );
 		} else if ( page === 'log' ) {
-			onSetLogTable( getInitialLog().table );
+			dispatch( setLogTable( getInitialLog().table ) );
 		} else if ( page === '' ) {
-			onSetRedirectTable( getInitialRedirect().table );
+			dispatch( setRedirectTable( getInitialRedirect().table ) );
 		} else if ( page === 'groups' ) {
-			onSetGroupTable( getInitialGroup().table );
+			dispatch( setGroupTable( getInitialGroup().table ) );
 		}
 	}
 
@@ -129,23 +132,21 @@ function Home( props ) {
 
 	const needsUpgrader =
 		pluginUpdate === 'prompt' && ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' );
-
 	return (
 		<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
 			<div className="wrap redirection">
 				{ needsUpgrader && (
 					<DatabaseUpdate
-						onShowUpgrade={ onShowUpgrade }
+						onShowUpgrade={ () => dispatch( showUpgrade() ) }
 						showDatabase={ showDatabase }
-						result={ result }
 					/>
 				) }
 
-				{ ! inProgress && databaseStatus !== 'finish-update' && ! showDatabase && (
+				{ !inProgress && databaseStatus !== 'finish-update' && !showDatabase && (
 					<PageRouter
 						page={ page }
 						setPage={ setPage }
-						onPageChange={ onClearErrors }
+						onPageChange={ () => dispatch( clearErrors() ) }
 						allowedPages={ ALLOWED_PAGES }
 						baseUrl="?page=redirection.php"
 						defaultPage="redirect"
@@ -153,7 +154,7 @@ function Home( props ) {
 						<h1 className="wp-heading-inline">{ getTitles()[ page ] }</h1>
 
 						{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
-							<button type="button" onClick={ onAdd } className="page-title-action">
+							<button type="button" onClick={ () => dispatch( addToTop( true ) ) } className="page-title-action">
 								{ __( 'Add New', 'redirection' ) }
 							</button>
 						) }
@@ -170,7 +171,7 @@ function Home( props ) {
 
 						<Error
 							errors={ errors }
-							onClear={ onClearErrors }
+							onClear={ () => dispatch( clearErrors() ) }
 							renderDebug={ DebugReport }
 							details={ getErrorDetails() }
 							links={ getErrorLinks() }
@@ -181,62 +182,10 @@ function Home( props ) {
 
 						<PageContent page={ page } />
 
-						<Snackbar notices={ notices } onClear={ onClearNotices } snackBarViewText={ __( 'View notice', 'redirection' ) } />
+						<Snackbar notices={ notices } onClear={ () => dispatch( clearNotices() ) } snackBarViewText={ __( 'View notice', 'redirection' ) } />
 					</PageRouter>
 				) }
 			</div>
 		</ErrorBoundary>
 	);
 }
-
-function mapDispatchToProps( dispatch ) {
-	return {
-		onClearErrors: () => {
-			dispatch( clearErrors() );
-		},
-		onAdd: () => {
-			dispatch( addToTop( true ) );
-		},
-		onSet404Table: ( table ) => {
-			dispatch( setErrorTable( table ) );
-		},
-		onSetLogTable: ( table ) => {
-			dispatch( setLogTable( table ) );
-		},
-		onSetGroupTable: ( table ) => {
-			dispatch( setGroupTable( table ) );
-		},
-		onSetRedirectTable: ( table ) => {
-			dispatch( setRedirectTable( table ) );
-		},
-		onShowUpgrade: () => {
-			dispatch( showUpgrade() );
-		},
-		onClearNotices: () => {
-			dispatch( clearNotices() );
-		},
-	};
-}
-
-function mapStateToProps( state ) {
-	const {
-		message: { errors, notices },
-		settings: { showDatabase, values },
-	} = state;
-	const { status: databaseStatus, result, inProgress } = state.settings.database;
-
-	return {
-		errors,
-		notices,
-		showDatabase,
-		databaseStatus,
-		result,
-		inProgress,
-		pluginUpdate: values.plugin_update,
-	};
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)( Home );

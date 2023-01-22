@@ -96,7 +96,7 @@ function red_set_options( array $settings = [] ) {
 		if ( $settings['database_stage'] === false ) {
 			unset( $options['database_stage'] );
 		} else {
-			$options['database_stage'] = sanitize_text_field( $settings['database_stage'] );
+			$options['database_stage'] = $settings['database_stage'];
 		}
 	}
 
