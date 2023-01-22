@@ -115,48 +115,49 @@ function AutomaticUpgrade( { onShowUpgrade } ) {
 	);
 }
 
-export default function DatabaseUpdate( { showDatabase, result, onShowUpgrade } ) {
-	const { reason, status } = useSelector( ( state ) => state.settings.database );
+function ShowDatabase() {
 	const dispatch = useDispatch();
-	const [ isManual, setManual ] = useState( false );
+	const { reason, status, result } = useSelector( ( state ) => state.settings.database );
 
 	function onFinish() {
 		dispatch( finishUpgrade() );
 	}
 
+	return (
+		<>
+			{ result === STATUS_FAILED && (
+				<Error
+					details={ getErrorDetails() }
+					errors={ reason }
+					renderDebug={ DebugReport }
+					links={ getErrorLinks() }
+					locale="redirection"
+				>
+					{ __( 'Something went wrong when upgrading Redirection.', 'redirection' ) }
+				</Error>
+			) }
+
+			<div className="wizard-wrapper">
+				<div className="wizard">
+					<Database />
+
+					{ hasFinished( status ) && (
+						<button className="button button-primary" onClick={ onFinish }>
+							{ __( 'Finished! 🎉', 'redirection' ) }
+						</button>
+					) }
+				</div>
+			</div>
+		</>
+	);
+}
+
+function ShowNotice( { onShowUpgrade } ) {
+	const [ isManual, setManual ] = useState( false );
+
 	function onToggle( ev ) {
 		ev.preventDefault();
 		setManual( !isManual );
-	}
-
-	if ( showDatabase ) {
-		return (
-			<>
-				{ result === STATUS_FAILED && (
-					<Error
-						details={ getErrorDetails() }
-						errors={ reason }
-						renderDebug={ DebugReport }
-						links={ getErrorLinks() }
-						locale="redirection"
-					>
-						{ __( 'Something went wrong when upgrading Redirection.', 'redirection' ) }
-					</Error>
-				) }
-
-				<div className="wizard-wrapper">
-					<div className="wizard">
-						<Database />
-
-						{ hasFinished( status ) && (
-							<button className="button button-primary" onClick={ onFinish }>
-								{ __( 'Finished! 🎉', 'redirection' ) }
-							</button>
-						) }
-					</div>
-				</div>
-			</>
-		);
 	}
 
 	return (
@@ -198,4 +199,12 @@ export default function DatabaseUpdate( { showDatabase, result, onShowUpgrade } 
 			</div>
 		</>
 	);
+}
+
+export default function DatabaseUpdate( { showDatabase, onShowUpgrade } ) {
+	if ( showDatabase ) {
+		return <ShowDatabase />;
+	}
+
+	return <ShowNotice onShowUpgrade={ onShowUpgrade } />
 }

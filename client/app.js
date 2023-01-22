@@ -2,7 +2,6 @@
  * External dependencies
  */
 
-import React from 'react';
 import { Provider } from 'react-redux';
 
 /**
@@ -26,12 +25,10 @@ apiFetch.resetMiddlewares();
 apiFetch.use( apiFetch.createRootURLMiddleware( window.Redirectioni10n?.api?.WP_API_root ?? '/wp-json/' ) );
 apiFetch.use( apiFetch.createNonceMiddleware( window.Redirectioni10n?.api?.WP_API_nonce ?? '' ) );
 
-const App = () => (
-	<Provider store={ createReduxStore( getInitialState() ) }>
-		<React.StrictMode>
+export default function App() {
+	return (
+		<Provider store={ createReduxStore( getInitialState() ) }>
 			<Home />
-		</React.StrictMode>
-	</Provider>
-);
-
-export default App;
+		</Provider>
+	);
+};
