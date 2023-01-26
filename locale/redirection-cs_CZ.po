@@ -819,7 +819,7 @@ msgstr "Pokud váš web potřebuje speciální databázová oprávnění nebo by
 msgid "Manual Install"
 msgstr "Manuální instalace"
 
-#: database/database-status.php:156
+#: database/database-status.php:160
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
 msgstr "Zjištěna nedostatečná oprávnění k databázi. Přidělte prosím uživateli databáze odpovídající oprávnění."
 
@@ -1313,15 +1313,15 @@ msgstr "Zkusit znovu"
 msgid "Database problem"
 msgstr "Problém s databází"
 
-#: redirection-admin.php:550
+#: redirection-admin.php:567
 msgid "Please enable JavaScript"
 msgstr "Povolte prosím JavaScript"
 
-#: redirection-admin.php:217
+#: redirection-admin.php:219
 msgid "Please upgrade your database"
 msgstr "Upgradujte prosím databázi"
 
-#: redirection-admin.php:208 redirection.js:2
+#: redirection-admin.php:210 redirection.js:2
 msgid "Upgrade Database"
 msgstr "Upgradovat databázi"
 
@@ -1632,11 +1632,11 @@ msgstr "{{link}}Cachovací software{{/link}}, zejména Cloudflare, může cachov
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 msgstr "{{link}}Dočasně vypněte ostatní zásuvné moduly!{{/link}} Tím se vyřeší mnoho problémů."
 
-#: redirection-admin.php:529
+#: redirection-admin.php:546
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr "Podívejte se prosím na <a href=\"https://redirection.me/support/problems/\">seznam běžných problémů</a>."
 
-#: redirection-admin.php:523
+#: redirection-admin.php:540
 msgid "Unable to load Redirection ☹️"
 msgstr "Nelze načíst přesměrování ☹️"
 
@@ -1753,12 +1753,12 @@ msgstr "Powered by {{link}}redirect.li{{/link}}"
 msgid "Trash"
 msgstr "Odpadkový koš"
 
-#: redirection-admin.php:528
+#: redirection-admin.php:545
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr "Upozorňujeme, že přesměrování vyžaduje, aby bylo povoleno rozhraní WordPress REST API. Pokud jste toto rozhraní zakázali, nebudete moci přesměrování používat."
 
 #. translators: URL
-#: redirection-admin.php:408
+#: redirection-admin.php:425
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr "Úplnou dokumentaci o používání přesměrování najdete na <a href=\"%s\" target=\"_blank\">stránce podpory redirection.me</a>."
 
@@ -1815,7 +1815,7 @@ msgid "Import from %s"
 msgstr "Importovat z %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:511
+#: redirection-admin.php:528
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr "Přesměrování vyžaduje WordPress v%1$1s, používáte v%2$2s - aktualizujte prosím svůj WordPress."
 
@@ -1827,7 +1827,7 @@ msgstr "Výchozí \"staré zásuvné moduly\" WordPressu"
 msgid "Create associated redirect (added to end of URL)"
 msgstr "Vytvoření přidruženého přesměrování (přidáno na konec adresy URL)"
 
-#: redirection-admin.php:531
+#: redirection-admin.php:548
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr "<code>Přesměrováníi10n</code> není definováno. To obvykle znamená, že jiný zásuvný modul blokuje načítání přesměrování. Vypněte prosím všechny pluginy a zkuste to znovu."
 
@@ -1880,15 +1880,15 @@ msgstr "Sledování URL"
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
 msgstr "Váš server odmítl požadavek pro jeho příliš velkou velikost. Abyste mohli pokračovat, musíte jej znovu nakonfigurovat."
 
-#: redirection-admin.php:526
+#: redirection-admin.php:543
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr "Zkontrolujte také, zda je váš prohlížeč schopen načíst soubor <code>redirection.js</code>:"
 
-#: redirection-admin.php:525 redirection-strings.php:257 redirection.js:2
+#: redirection-admin.php:542 redirection-strings.php:257 redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr "Pokud používáte nějaký plugin nebo službu pro ukládání stránek do mezipaměti (CloudFlare, OVH atd.), můžete také zkusit vymazat tuto mezipaměť."
 
-#: redirection-admin.php:514
+#: redirection-admin.php:531
 msgid "Unable to load Redirection"
 msgstr "Nelze načíst přesměrování"
 
@@ -1952,15 +1952,15 @@ msgstr "Vymažte prosím mezipaměť prohlížeče a načtěte tuto stránku zno
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr "WordPress nevrátil odpověď. To může znamenat, že došlo k chybě nebo že byl požadavek zablokován. Zkontrolujte prosím chybový_log vašeho serveru."
 
-#: redirection-admin.php:530
+#: redirection-admin.php:547
 msgid "If you think Redirection is at fault then create an issue."
 msgstr "Pokud se domníváte, že je na vině přesměrování, vytvořte problém."
 
-#: redirection-admin.php:524
+#: redirection-admin.php:541
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr "Může to být způsobeno jiným doplňkem - podívejte se do chybové konzoly prohlížeče, kde najdete další podrobnosti."
 
-#: redirection-admin.php:546
+#: redirection-admin.php:563
 msgid "Loading, please wait..."
 msgstr "Načítá se, vyčkejte prosím..."
 
@@ -1976,7 +1976,7 @@ msgstr "Přesměrování nefunguje. Zkuste vymazat mezipaměť prohlížeče a z
 msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
 msgstr "Pokud to nepomůže, otevřete chybovou konzolu prohlížeče a vytvořte {{link}}nový problém{{/link}} s podrobnostmi."
 
-#: redirection-admin.php:534
+#: redirection-admin.php:551
 msgid "Create Issue"
 msgstr "Vytvořit problém"
 
@@ -2201,7 +2201,7 @@ msgid "Something went wrong 🙁"
 msgstr "Něco se pokazilo 🙁"
 
 #. translators: maximum number of log entries
-#: redirection-admin.php:273
+#: redirection-admin.php:285
 msgid "Log entries (%d max)"
 msgstr "Záznamy v protokolu (%d max)"
 
@@ -2316,7 +2316,7 @@ msgstr "Správa všech přesměrování 301 a sledování chyb 404"
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Přesměrování je k dispozici zdarma - život je báječný a krásný! Jeho vývoj si vyžádal spoustu času a úsilí a vy můžete tento vývoj podpořit tím, že {{strong}}přispějete malým darem {{/strong}}."
 
-#: redirection-admin.php:409
+#: redirection-admin.php:426
 msgid "Redirection Support"
 msgstr "Podpora pro Redirection"
 
@@ -2462,7 +2462,7 @@ msgstr "Stáhnout"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:211
+#: redirection-admin.php:213
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -2474,7 +2474,7 @@ msgstr "WordPress"
 msgid "Error (404)"
 msgstr "Chyba (404)"
 
-#: actions/pass.php:74 redirection-strings.php:67 redirection.js:2
+#: actions/pass.php:75 redirection-strings.php:67 redirection.js:2
 msgid "Pass-through"
 msgstr "Průchozí"
 
@@ -2579,7 +2579,7 @@ msgstr "URL"
 msgid "Modified Posts"
 msgstr "Upravené příspěvky"
 
-#: database/schema/latest.php:138 models/group.php:234
+#: database/schema/latest.php:138 models/group.php:236
 #: redirection-strings.php:269 redirection.js:2
 msgid "Redirections"
 msgstr "Přesměrování"
