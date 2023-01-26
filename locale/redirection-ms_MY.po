@@ -815,7 +815,7 @@ msgstr ""
 msgid "Manual Install"
 msgstr "Pasang Manual"
 
-#: database/database-status.php:156
+#: database/database-status.php:160
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
 msgstr ""
 
@@ -1309,15 +1309,15 @@ msgstr "Cuba lagi"
 msgid "Database problem"
 msgstr "Masalah pengkalan data"
 
-#: redirection-admin.php:550
+#: redirection-admin.php:567
 msgid "Please enable JavaScript"
 msgstr ""
 
-#: redirection-admin.php:217
+#: redirection-admin.php:219
 msgid "Please upgrade your database"
 msgstr ""
 
-#: redirection-admin.php:208 redirection.js:2
+#: redirection-admin.php:210 redirection.js:2
 msgid "Upgrade Database"
 msgstr "Naik taraf pangkalan data"
 
@@ -1628,11 +1628,11 @@ msgstr ""
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 msgstr ""
 
-#: redirection-admin.php:529
+#: redirection-admin.php:546
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr ""
 
-#: redirection-admin.php:523
+#: redirection-admin.php:540
 msgid "Unable to load Redirection ☹️"
 msgstr ""
 
@@ -1749,12 +1749,12 @@ msgstr ""
 msgid "Trash"
 msgstr "Sampah"
 
-#: redirection-admin.php:528
+#: redirection-admin.php:545
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr ""
 
 #. translators: URL
-#: redirection-admin.php:408
+#: redirection-admin.php:425
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr ""
 
@@ -1811,7 +1811,7 @@ msgid "Import from %s"
 msgstr "Import dari %s"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:511
+#: redirection-admin.php:528
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr ""
 
@@ -1823,7 +1823,7 @@ msgstr ""
 msgid "Create associated redirect (added to end of URL)"
 msgstr ""
 
-#: redirection-admin.php:531
+#: redirection-admin.php:548
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr ""
 
@@ -1876,15 +1876,15 @@ msgstr "Pantau URL"
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
 msgstr ""
 
-#: redirection-admin.php:526
+#: redirection-admin.php:543
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr ""
 
-#: redirection-admin.php:525 redirection-strings.php:257 redirection.js:2
+#: redirection-admin.php:542 redirection-strings.php:257 redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr ""
 
-#: redirection-admin.php:514
+#: redirection-admin.php:531
 msgid "Unable to load Redirection"
 msgstr ""
 
@@ -1948,15 +1948,15 @@ msgstr ""
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr ""
 
-#: redirection-admin.php:530
+#: redirection-admin.php:547
 msgid "If you think Redirection is at fault then create an issue."
 msgstr ""
 
-#: redirection-admin.php:524
+#: redirection-admin.php:541
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr ""
 
-#: redirection-admin.php:546
+#: redirection-admin.php:563
 msgid "Loading, please wait..."
 msgstr ""
 
@@ -1972,7 +1972,7 @@ msgstr ""
 msgid "If that doesn't help, open your browser's error console and create a {{link}}new issue{{/link}} with the details."
 msgstr ""
 
-#: redirection-admin.php:534
+#: redirection-admin.php:551
 msgid "Create Issue"
 msgstr ""
 
@@ -2195,7 +2195,7 @@ msgid "Something went wrong 🙁"
 msgstr ""
 
 #. translators: maximum number of log entries
-#: redirection-admin.php:273
+#: redirection-admin.php:285
 msgid "Log entries (%d max)"
 msgstr ""
 
@@ -2310,7 +2310,7 @@ msgstr "Uruskan semua alihan 301 dan pantau ralat 404 anda"
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr ""
 
-#: redirection-admin.php:409
+#: redirection-admin.php:426
 msgid "Redirection Support"
 msgstr "Sokongan Alihan"
 
@@ -2456,7 +2456,7 @@ msgstr "Muat Turun"
 msgid "Redirection"
 msgstr "Alihan"
 
-#: redirection-admin.php:211
+#: redirection-admin.php:213
 msgid "Settings"
 msgstr "Tetapan"
 
@@ -2468,7 +2468,7 @@ msgstr "WordPress"
 msgid "Error (404)"
 msgstr "Ralat (404)"
 
-#: actions/pass.php:74 redirection-strings.php:67 redirection.js:2
+#: actions/pass.php:75 redirection-strings.php:67 redirection.js:2
 msgid "Pass-through"
 msgstr ""
 
@@ -2573,7 +2573,7 @@ msgstr "URL"
 msgid "Modified Posts"
 msgstr "Kiriman Diubahsuai"
 
-#: database/schema/latest.php:138 models/group.php:234
+#: database/schema/latest.php:138 models/group.php:236
 #: redirection-strings.php:269 redirection.js:2
 msgid "Redirections"
 msgstr "Alihan"

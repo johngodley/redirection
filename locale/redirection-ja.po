@@ -815,7 +815,7 @@ msgstr "お使いのサイトが特別なデータベースの権限を必要と
 msgid "Manual Install"
 msgstr "手動インストール"
 
-#: database/database-status.php:156
+#: database/database-status.php:160
 msgid "Insufficient database permissions detected. Please give your database user appropriate permissions."
 msgstr ""
 
@@ -1309,15 +1309,15 @@ msgstr "もう一度試す"
 msgid "Database problem"
 msgstr "データベースに問題発生"
 
-#: redirection-admin.php:550
+#: redirection-admin.php:567
 msgid "Please enable JavaScript"
 msgstr "JavaScript を有効化してください"
 
-#: redirection-admin.php:217
+#: redirection-admin.php:219
 msgid "Please upgrade your database"
 msgstr "データベースをアップグレードしてください"
 
-#: redirection-admin.php:208 redirection.js:2
+#: redirection-admin.php:210 redirection.js:2
 msgid "Upgrade Database"
 msgstr "データベースを更新"
 
@@ -1628,11 +1628,11 @@ msgstr "{{link}}キャッシュソフト{{/link}} 特に Cloudflare は間違っ
 msgid "{{link}}Please temporarily disable other plugins!{{/link}} This fixes so many problems."
 msgstr "{{link}}一時的に他のプラグインを無効化してください。{{/link}} 多くの問題はこれで解決します。"
 
-#: redirection-admin.php:529
+#: redirection-admin.php:546
 msgid "Please see the <a href=\"https://redirection.me/support/problems/\">list of common problems</a>."
 msgstr "<a href=\"https://redirection.me/support/problems/\">よくある問題一覧</a> をご覧ください。"
 
-#: redirection-admin.php:523
+#: redirection-admin.php:540
 msgid "Unable to load Redirection ☹️"
 msgstr "Redirection のロードに失敗しました☹️"
 
@@ -1749,12 +1749,12 @@ msgstr "Powered by {{link}}redirect.li{{/link}}"
 msgid "Trash"
 msgstr "ゴミ箱"
 
-#: redirection-admin.php:528
+#: redirection-admin.php:545
 msgid "Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won't be able to use Redirection"
 msgstr "Redirection の使用には WordPress REST API が有効化されている必要があります。REST API が無効化されていると Redirection を使用することができません。"
 
 #. translators: URL
-#: redirection-admin.php:408
+#: redirection-admin.php:425
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
 msgstr "Redirection プラグインの詳しい使い方については <a href=\"%s\" target=\"_blank\">redirection.me</a> サポートサイトをご覧ください。"
 
@@ -1811,7 +1811,7 @@ msgid "Import from %s"
 msgstr "%s からインポート"
 
 #. translators: 1: Expected WordPress version, 2: Actual WordPress version
-#: redirection-admin.php:511
+#: redirection-admin.php:528
 msgid "Redirection requires WordPress v%1$1s, you are using v%2$2s - please update your WordPress"
 msgstr "Redirection の動作には WordPress v%1$1s が必要ですが、v%2$2s を利用しているようです。WordPress をアップデートしてください。"
 
@@ -1823,7 +1823,7 @@ msgstr "初期設定の WordPress \"old slugs\""
 msgid "Create associated redirect (added to end of URL)"
 msgstr "関連付けたリダイレクトを作成する（URL の後ろに追加されます）"
 
-#: redirection-admin.php:531
+#: redirection-admin.php:548
 msgid "<code>Redirectioni10n</code> is not defined. This usually means another plugin is blocking Redirection from loading. Please disable all plugins and try again."
 msgstr "<code> Redirectioni10n</code> が定義されていません。別のプラグインが Redirection の機能をブロックしているようです。一度全てのプラグインを無効にしてから、もう一度お試しください。"
 
@@ -1876,15 +1876,15 @@ msgstr "URL モニター"
 msgid "Your server has rejected the request for being too big. You will need to reconfigure it to continue."
 msgstr "リクエストが肥大化したためサーバーによって拒否されました。続行するには設定を見直してください。"
 
-#: redirection-admin.php:526
+#: redirection-admin.php:543
 msgid "Also check if your browser is able to load <code>redirection.js</code>:"
 msgstr "また <code>redirection.js</code> をお使いのブラウザがロードできるか確認してください :"
 
-#: redirection-admin.php:525 redirection-strings.php:257 redirection.js:2
+#: redirection-admin.php:542 redirection-strings.php:257 redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
 msgstr "CloudFlare, OVH などのキャッシュプラグイン・サービスを使用してページをキャッシュしている場合、キャッシュをクリアしてみてください。"
 
-#: redirection-admin.php:514
+#: redirection-admin.php:531
 msgid "Unable to load Redirection"
 msgstr "Redirection のロードに失敗しました"
 
@@ -1948,15 +1948,15 @@ msgstr "ブラウザーのキャッシュをクリアしてページを再読込
 msgid "WordPress did not return a response. This could mean an error occurred or that the request was blocked. Please check your server error_log."
 msgstr "WordPress WordPress が応答しません。これはエラーが発生したかリクエストがブロックされたことを示しています。サーバーの error_log を確認してください。"
 
-#: redirection-admin.php:530
+#: redirection-admin.php:547
 msgid "If you think Redirection is at fault then create an issue."
 msgstr "もしこの原因が Redirection だと思うのであれば Issue を作成してください。"
 
-#: redirection-admin.php:524
+#: redirection-admin.php:541
 msgid "This may be caused by another plugin - look at your browser's error console for more details."
 msgstr "この原因は他のプラグインが原因で起こっている可能性があります - 詳細を見るにはブラウザーの開発者ツールを使用してください。"
 
-#: redirection-admin.php:546
+#: redirection-admin.php:563
 msgid "Loading, please wait..."
 msgstr "ロード中です。お待ち下さい…"
 
@@ -1974,7 +1974,7 @@ msgstr ""
 "もしこれが助けにならない場合、ブラウザーのコンソールを開き {{link}新しい\n"
 " issue{{/link}} を詳細とともに作成してください。"
 
-#: redirection-admin.php:534
+#: redirection-admin.php:551
 msgid "Create Issue"
 msgstr "Issue を作成"
 
@@ -2197,7 +2197,7 @@ msgid "Something went wrong 🙁"
 msgstr "問題が発生しました"
 
 #. translators: maximum number of log entries
-#: redirection-admin.php:273
+#: redirection-admin.php:285
 msgid "Log entries (%d max)"
 msgstr "ログ (最大 %d)"
 
@@ -2310,7 +2310,7 @@ msgstr "すべての 301 リダイレクトを管理し、404 エラーをモニ
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection プラグインは無料でお使いいただけます。しかし、開発にはかなりの時間と労力がかかっており、{{strong}}少額の寄付{{/strong}} でも開発を助けていただけると嬉しいです。"
 
-#: redirection-admin.php:409
+#: redirection-admin.php:426
 msgid "Redirection Support"
 msgstr "Redirection を応援する"
 
@@ -2456,7 +2456,7 @@ msgstr "ダウンロード"
 msgid "Redirection"
 msgstr "Redirection"
 
-#: redirection-admin.php:211
+#: redirection-admin.php:213
 msgid "Settings"
 msgstr "設定"
 
@@ -2468,7 +2468,7 @@ msgstr "WordPress"
 msgid "Error (404)"
 msgstr "エラー (404)"
 
-#: actions/pass.php:74 redirection-strings.php:67 redirection.js:2
+#: actions/pass.php:75 redirection-strings.php:67 redirection.js:2
 msgid "Pass-through"
 msgstr "通過"
 
@@ -2573,7 +2573,7 @@ msgstr "URL"
 msgid "Modified Posts"
 msgstr "編集済みの投稿"
 
-#: database/schema/latest.php:138 models/group.php:234
+#: database/schema/latest.php:138 models/group.php:236
 #: redirection-strings.php:269 redirection.js:2
 msgid "Redirections"
 msgstr "転送ルール"
