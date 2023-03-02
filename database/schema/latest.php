@@ -179,6 +179,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 	private function create_items_sql( $prefix, $charset_collate ) {
 		return "CREATE TABLE IF NOT EXISTS `{$prefix}redirection_items` (
 			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			`created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			`url` mediumtext NOT NULL,
 			`match_url` VARCHAR(2000) DEFAULT NULL,
   			`match_data` TEXT,
