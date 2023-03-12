@@ -29,7 +29,7 @@ __( "City", "redirection" ), // client/component/geo-map/index.js:82
 __( "Area", "redirection" ), // client/component/geo-map/index.js:86
 __( "Timezone", "redirection" ), // client/component/geo-map/index.js:90
 __( "Geo Location", "redirection" ), // client/component/geo-map/index.js:94
-__( "An unknown errorm", "redirection" ), // client/component/http-check/details.js:37
+__( "An unknown error", "redirection" ), // client/component/http-check/details.js:37
 __( "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself.", "redirection" ), // client/component/http-check/details.js:41
 __( "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}.", "redirection" ), // client/component/http-check/details.js:47
 __( "Redirected by Redirection.", "redirection" ), // client/component/http-check/details.js:61
@@ -727,7 +727,7 @@ __( "Your REST API is probably being blocked by a security plugin. Please disabl
 __( "Read this REST API guide for more information.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:94
 __( "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:105
 __( "You will will need to fix this on your site. Redirection is not causing the error.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:111
-__( "Can you access your {{api}}REST API{{/api}} without it redirecting?.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:116
+__( "Can you access your {{api}}REST API{{/api}} without it redirecting?", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:116
 __( "Check your {{link}}Site Health{{/link}} and fix any issues.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:123
 __( "Your server configuration is blocking access to the REST API.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:129
 __( "A security plugin or firewall is blocking access. You will need to whitelist the REST API.", "redirection" ), // client/wp-plugin-components/error/decode-error/index.js:131
