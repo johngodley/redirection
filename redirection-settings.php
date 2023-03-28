@@ -117,7 +117,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redirect'] ) ) {
-		$options['associated_redirect'] == '';
+		$options['associated_redirect'] = '';
 
 		if ( strlen( $settings['associated_redirect'] ) > 0 ) {
 			$sanitizer = new Red_Item_Sanitize();
