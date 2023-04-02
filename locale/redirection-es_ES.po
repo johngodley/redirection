@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-21 13:55:40+0000\n"
+"PO-Revision-Date: 2023-03-16 13:16:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
 "Language: es\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -33,7 +33,7 @@ msgstr "Tu sitio ya tiene la última versión de SQL."
 
 #: redirection.js:2
 msgid "Progress: %(complete)d%%"
-msgstr "Progreso: %(completado)d%%"
+msgstr "Progreso: %(complete)d%%"
 
 #: redirection.js:2
 msgid "Testing - %s%%"
@@ -2586,7 +2586,7 @@ msgstr "Redirecciones"
 #: redirection-strings.php:408 redirection-strings.php:418
 #: redirection-strings.php:562 redirection.js:2
 msgid "User Agent"
-msgstr "Agente usuario HTTP"
+msgstr "Agente de usuario"
 
 #: matches/user-agent.php:24 redirection-strings.php:57 redirection.js:2
 msgid "URL and user agent"

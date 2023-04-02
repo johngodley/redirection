@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-25T17:58:06+00:00\n"
+"POT-Creation-Date: 2023-04-02T10:13:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 
@@ -3143,7 +3143,7 @@ msgstr ""
 
 #: client/wp-plugin-components/error/decode-error/index.js:117
 #: redirection.js:2
-msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
+msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?"
 msgstr ""
 
 #: client/wp-plugin-components/error/decode-error/index.js:125

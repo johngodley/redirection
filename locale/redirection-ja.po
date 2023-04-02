@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-11-06 11:35:55+0000\n"
+"PO-Revision-Date: 2023-02-18 07:23:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
@@ -33,11 +33,11 @@ msgstr "お使いのサイトはすでに最新の SQL になっています。"
 
 #: redirection.js:2
 msgid "Progress: %(complete)d%%"
-msgstr ""
+msgstr "進捗: %(完了)%%"
 
 #: redirection.js:2
 msgid "Testing - %s%%"
-msgstr ""
+msgstr "テスト中 - %s%%"
 
 #: redirection.js:2
 msgid "Transition"
@@ -55,11 +55,11 @@ msgstr "REST API 404"
 
 #: redirection-strings.php:746 redirection.js:2
 msgid "Your REST API appears to be cached and this will cause problems. Please exclude your REST API from your caching system."
-msgstr ""
+msgstr "お使いの REST API はキャッシュされているようで、これが問題を引き起こしています。REST API を、利用中のキャッシュのシステムから除外してください。"
 
 #: redirection-strings.php:738 redirection.js:2
 msgid "Your REST API is showing a deprecated PHP error. Please fix this error."
-msgstr ""
+msgstr "お使いの REST API は、PHP の非推奨（Deprecated）エラーを出しています。このエラーを修正してください。"
 
 #: redirection-strings.php:732 redirection.js:2
 msgid "Your server configuration is blocking access to the REST API."
@@ -67,7 +67,7 @@ msgstr "サーバーは REST API のアクセスをブロックするように�
 
 #: redirection-strings.php:730 redirection.js:2
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
-msgstr ""
+msgstr "リダイレクトなしでお使いの {{api}}REST API{{/api}} にアクセスできますか ?"
 
 #: redirection-strings.php:729 redirection.js:2
 msgid "You will will need to fix this on your site. Redirection is not causing the error."
@@ -99,7 +99,7 @@ msgstr "パーマリンクの移行"
 
 #: redirection-strings.php:681 redirection.js:2
 msgid "(beta) Enable caching of redirects via WordPress object cache. Can improve performance. Requires an object cache."
-msgstr ""
+msgstr "（ベータ版）WordPress オブジェクトキャッシュを介してリダイレクトのキャッシュを有効にします。パフォーマンスが向上することがあります。オブジェクトキャッシュが必須です。"
 
 #: redirection-strings.php:678 redirection.js:2
 msgid "HTTP Cache Header"
@@ -195,11 +195,11 @@ msgstr "キャレット（{{code}}^{{/code}}）を最初に置いてください
 
 #: redirection-strings.php:116 redirection.js:2
 msgid "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section."
-msgstr ""
+msgstr "移行後のパーマリンクを、サイトページの「パーマリンクの移行」セクションに追加してください。"
 
 #: redirection-strings.php:92 redirection-strings.php:658 redirection.js:2
 msgid "Exact match in any order"
-msgstr ""
+msgstr "順番にかかわらず完全一致"
 
 #: redirection-strings.php:46 redirection.js:2
 msgid "Something went wrong obtaining this information. It may work in the future."
@@ -267,15 +267,15 @@ msgstr "正規表現"
 
 #: redirection-strings.php:758 redirection.js:2
 msgid "Your admin pages are being cached. Clear this cache and try again. There may be multiple caches involved."
-msgstr ""
+msgstr "管理画面のページがキャッシュされています。このキャッシュを消去し再度お試しください。複数のキャッシュが関与している可能性があります。"
 
 #: redirection-strings.php:755 redirection.js:2
 msgid "This is usually fixed by doing one of the following:"
-msgstr ""
+msgstr "これは、以下のいずれかを行うことで通常は解決されます:"
 
 #: redirection-strings.php:754 redirection.js:2
 msgid "You are using an old or cached session"
-msgstr ""
+msgstr "古いか、キャッシュされたセッションを使用中です"
 
 #: redirection-strings.php:749 redirection.js:2
 msgid "Please review your data and try again."
@@ -283,7 +283,7 @@ msgstr "データを確認してもう一度お試しください。"
 
 #: redirection-strings.php:748 redirection.js:2
 msgid "There was a problem making a request to your site. This could indicate you provided data that did not match requirements, or that the plugin sent a bad request."
-msgstr ""
+msgstr "このサイトへのリクエストに問題がありました。これは、要件に一致しないデータを提供したか、プラグインが不正なリクエストを送信したことを示しています。"
 
 #: redirection-strings.php:747 redirection.js:2
 msgid "Bad data"
@@ -495,7 +495,7 @@ msgstr "この WordPress のインストールにこれらのドメインの要�
 
 #: redirection-strings.php:687 redirection.js:2
 msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
-msgstr ""
+msgstr "サイト エイリアスは、このサイト二リダイレクトしたい他のドメインのことを指します。例えば、古いドメインやサブドメインなどです。この設定では、WordPress のログイン画面や管理画面を含め、すべてのURLをリダイレクトします。"
 
 #: redirection-strings.php:686 redirection.js:2
 msgid "Site Aliases"
@@ -511,7 +511,7 @@ msgstr "検索置換が必要ですか ?"
 
 #: redirection-strings.php:512 redirection.js:2
 msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
-msgstr ""
+msgstr "このページの設定は、正しく扱わないと問題が発生することがあります。 {{link}}リダイレクトを一時的に停止{{/link}}することで設定の変更を行えます。"
 
 #: redirection-strings.php:186 redirection.js:2
 msgid "Please wait, importing."
@@ -540,7 +540,7 @@ msgstr "既存のリダイレクトをインポート"
 
 #: redirection-strings.php:213 redirection.js:2
 msgid "That's all there is to it - you are now redirecting! Note that the above is just an example."
-msgstr ""
+msgstr "たったそれだけで… リダイレクトは完成です！上記はただの例であることに留意してください。"
 
 #: redirection-strings.php:121 redirection.js:2
 msgid "If you want to redirect everything please use a site relocation or alias from the Site page."
@@ -849,7 +849,7 @@ msgstr "すべてのデータ (JSON 形式)"
 
 #: redirection-strings.php:311 redirection.js:2
 msgid "Export to CSV, Apache .htaccess, Nginx, or Redirection JSON. The JSON format contains full information, and other formats contain partial information appropriate to the format."
-msgstr ""
+msgstr "CSV, Apache .htaccess, Nginx, Redirection JSON 形式でエクスポートできます。JSON 形式はすべての設定を含んでおり、他のフォーマットでは、それぞれの形式に適した部分的な情報を出力します。"
 
 #: redirection-strings.php:309 redirection.js:2
 msgid "CSV does not include all information, and everything is imported/exported as \"URL only\" matches. Use the JSON format for a full set of data."
@@ -957,7 +957,7 @@ msgstr ""
 
 #: redirection-strings.php:109 redirection.js:2
 msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
-msgstr ""
+msgstr "リダイレクト先のURL、もしくは投稿のタイトルやパーマリンクを入力できます。"
 
 #: redirection-strings.php:263 redirection.js:2
 msgid "Include these details in your report along with a description of what you were doing and a screenshot."
@@ -994,7 +994,7 @@ msgstr "URL オプション / 正規表現"
 
 #: redirection-strings.php:323 redirection.js:2
 msgid "Export 404"
-msgstr "エクスポート404"
+msgstr "404 エラーをエクスポート"
 
 #: redirection-strings.php:322 redirection.js:2
 msgid "Export redirect"
@@ -1070,11 +1070,11 @@ msgstr "すべてのパラメータを無視"
 
 #: redirection-strings.php:90 redirection.js:2
 msgid "Ignore Case"
-msgstr "大文字と小文字を区別しない"
+msgstr "大文字小文字の区別なし"
 
 #: redirection-strings.php:89 redirection.js:2
 msgid "Ignore Slash"
-msgstr "スラッシュを無視"
+msgstr "スラッシュ無視"
 
 #: redirection-strings.php:639 redirection.js:2
 msgid "Relative REST API"
@@ -1153,15 +1153,15 @@ msgstr "戻る"
 
 #: redirection-strings.php:200 redirection.js:2
 msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
-msgstr ""
+msgstr "IP アドレスを保管することで、追加の対応を行うことができます。お住まいの地域のデータの取得に関する法律（GDPR など）に従う必要があることにご注意ください。"
 
 #: redirection-strings.php:199 redirection.js:2
 msgid "Store IP information for redirects and 404 errors."
-msgstr ""
+msgstr "リダイレクトと 404 エラーの IP アドレスを記録する。"
 
 #: redirection-strings.php:197 redirection.js:2
 msgid "Storing logs for redirects and 404s will allow you to see what is happening on your site. This will increase your database storage requirements."
-msgstr ""
+msgstr "リダイレクトと 404 のログを保管することで、サイトで何が起きているかを確認できます。必要なデータベース容量が増加します。"
 
 #: redirection-strings.php:196 redirection.js:2
 msgid "Keep a log of all redirects and 404 errors."
@@ -1174,7 +1174,7 @@ msgstr "{{link}}これについてさらに読む。{{/link}}"
 
 #: redirection-strings.php:194 redirection.js:2
 msgid "If you change the permalink in a post or page then Redirection can automatically create a redirect for you."
-msgstr ""
+msgstr "投稿や固定ページのパーマリンクを変更しても、Redirection が自動的にリダイレクトを作成します。"
 
 #: redirection-strings.php:193 redirection.js:2
 msgid "Monitor permalink changes in WordPress posts and pages"
@@ -1198,7 +1198,7 @@ msgstr "数個の質問から、Redirection がデータベースを設定しま
 
 #: redirection-strings.php:220 redirection.js:2
 msgid "What's next?"
-msgstr "次のステップ"
+msgstr "次のステップは？"
 
 #: redirection-strings.php:219 redirection.js:2
 msgid "Check a URL is being redirected"
@@ -1218,11 +1218,11 @@ msgstr "{{link}}404エラー{{/link}}を監視し、訪問者に関する詳細�
 
 #: redirection-strings.php:215 redirection.js:2
 msgid "Some features you may find useful are"
-msgstr ""
+msgstr "便利なその他の機能はこちら"
 
 #: redirection-strings.php:214 redirection.js:2
 msgid "Full documentation can be found on the {{link}}Redirection website.{{/link}}"
-msgstr ""
+msgstr "完全なドキュメントは、{{link}}Redirection のウェブサイト{{/link}} でご覧いただけます。"
 
 #: redirection-strings.php:208 redirection.js:2
 msgid "A simple redirect involves setting a {{strong}}source URL{{/strong}} (the old URL) and a {{strong}}target URL{{/strong}} (the new URL). Here's an example:"
@@ -1234,7 +1234,7 @@ msgstr "このプラグインはどうやって使いますか ?"
 
 #: redirection-strings.php:206 redirection.js:2
 msgid "Redirection is designed to be used on sites with a few redirects to sites with thousands of redirects."
-msgstr ""
+msgstr "Redirection は、数個のリダイレクトを持つサイトから何千ものリダイレクトを持つサイトまで、幅広く使えるよう設計されています。"
 
 #: redirection-strings.php:205 redirection.js:2
 msgid "Thank you for installing and using Redirection v%(version)s. This plugin will allow you to manage 301 redirections, keep track of 404 errors, and improve your site, with no knowledge of Apache or Nginx needed."
@@ -2272,7 +2272,7 @@ msgstr "このプラグインを支援していただき、ありがとうござ
 
 #: redirection-strings.php:450 redirection.js:2
 msgid "You get useful software and I get to carry on making it better."
-msgstr "あなたはいくつかの便利なソフトウェアを手に入れ、私はそれをより良くするために続けます。"
+msgstr "皆さんは便利なソフトウェアを利用でき、私はそれらをより良く改良するために努力し続けられるのです。"
 
 #: redirection-strings.php:621 redirection-strings.php:665 redirection.js:2
 msgid "Forever"
@@ -2328,7 +2328,7 @@ msgstr "ログ"
 
 #: redirection-strings.php:445 redirection.js:2
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
-msgstr "個のオプションを選択すると、リディレクションプラグインに関するすべての転送ルール・ログ・設定を削除します。本当にこの操作を行って良いか、再度確認してください。"
+msgstr "このオプションを選択すると、Redirection プラグインに関するすべての転送ルール・ログ・設定を削除します。本当にこの操作を行って良いか、再度確認してください。"
 
 #: redirection-strings.php:444 redirection.js:2
 msgid "Delete Redirection"

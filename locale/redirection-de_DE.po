@@ -2,30 +2,30 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-21 13:55:01+0000\n"
+"PO-Revision-Date: 2023-03-12 08:48:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
 
 #: redirection.js:2
 msgid "Export Logs"
-msgstr ""
+msgstr "Protokolle exportieren"
 
 #: redirection.js:2
 msgid "total = %d"
-msgstr ""
+msgstr "Gesamt = %d"
 
 #: redirection.js:2
 msgid "of %s"
-msgstr ""
+msgstr "von %s"
 
 #: redirection.js:2
 msgid "An unknown error"
-msgstr ""
+msgstr "Ein unbekannter Fehler"
 
 #: redirection.js:2
 msgid "Your site already has the latest SQL."
@@ -33,11 +33,11 @@ msgstr "Deine Website hat bereits das aktuellste SQL."
 
 #: redirection.js:2
 msgid "Progress: %(complete)d%%"
-msgstr ""
+msgstr "Fortschritt: %(abgeschlossen)d%%"
 
 #: redirection.js:2
 msgid "Testing - %s%%"
-msgstr ""
+msgstr "Prüfung - %s%%"
 
 #: redirection.js:2
 msgid "Transition"
@@ -53,7 +53,7 @@ msgstr[1] ""
 
 #: redirection-strings.php:750 redirection.js:2
 msgid "REST API 404"
-msgstr ""
+msgstr "REST API 404"
 
 #: redirection-strings.php:746 redirection.js:2
 msgid "Your REST API appears to be cached and this will cause problems. Please exclude your REST API from your caching system."
@@ -65,15 +65,15 @@ msgstr "Deine REST-API zeigt einen Fehler aus veraltetem PHP-Code an. Bitte behe
 
 #: redirection-strings.php:732 redirection.js:2
 msgid "Your server configuration is blocking access to the REST API."
-msgstr ""
+msgstr "Deine Serverkonfiguration blockiert den Zugriff auf die REST-API."
 
 #: redirection-strings.php:730 redirection.js:2
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
-msgstr ""
+msgstr "Kannst du auf deine {{api}}REST API{{/api}} ohne Umleitung zugreifen?"
 
 #: redirection-strings.php:729 redirection.js:2
 msgid "You will will need to fix this on your site. Redirection is not causing the error."
-msgstr ""
+msgstr "Du musst dies auf deiner Website beheben. Redirection verursacht den Fehler nicht."
 
 #: redirection-strings.php:719 redirection.js:2
 msgid "Add Permalink"
@@ -89,7 +89,7 @@ msgstr "Permalinks"
 
 #: redirection-strings.php:716 redirection.js:2
 msgid "Note: this is in beta and will only migrate posts. Certain permalinks will not work. If yours does not work then you will need to wait until it is out of beta."
-msgstr ""
+msgstr "Hinweis: Diese Funktion befindet sich in der Beta-Phase und wird nur Beiträge migrieren. Bestimmte Permalinks werden nicht funktionieren. Wenn deine nicht funktionieren, musst du warten, bis die Beta-Phase beendet ist."
 
 #: redirection-strings.php:715 redirection.js:2
 msgid "Enter old permalinks structures to automatically migrate them to your current one."
@@ -129,7 +129,7 @@ msgstr "Upgrade manuell, wenn du dazu aufgefordert wirst"
 
 #: redirection-strings.php:606 redirection.js:2
 msgid "Nothing to display."
-msgstr ""
+msgstr "Nichts anzuzeigen"
 
 #: redirection-strings.php:599 redirection.js:2
 msgid "%1d of %1d selected. {{all}}Clear All.{{/all}}"
@@ -141,7 +141,7 @@ msgstr "%1d von %1d ausgewählt.{{all}}Alle auswählen.{{/all}}"
 
 #: redirection-strings.php:526 redirection.js:2
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
-msgstr ""
+msgstr "Manchmal kann dein Browser eine URL zwischenspeichern, sodass es schwierig ist, festzustellen, ob es wie erwartet funktioniert. Nutze diesen Dienst von {{link}}redirect.li{{/link}}, um genaue Ergebnisse zu erhalten."
 
 #: redirection-strings.php:362 redirection-strings.php:423 redirection.js:2
 msgid "Search exact URL"
@@ -153,43 +153,43 @@ msgstr "Version %s installiert! Bitte lies die {{url}}Release Notes{{/url}} für
 
 #: redirection-strings.php:223 redirection.js:2
 msgid "Manual Setup"
-msgstr ""
+msgstr "Manuelle Einrichtung"
 
 #: redirection-strings.php:188 redirection.js:2
 msgid "Importing failed."
-msgstr ""
+msgstr "Der Import ist fehlgeschlagen."
 
 #: redirection-strings.php:187 redirection.js:2
 msgid "Import finished."
-msgstr ""
+msgstr "Import abgeschlossen"
 
 #: redirection-strings.php:178 redirection.js:2
 msgid "Ready to begin! 🎉"
-msgstr ""
+msgstr "Es kann losgehen! 🎉"
 
 #: redirection-strings.php:177 redirection.js:2
 msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
-msgstr ""
+msgstr "Bitte nimm dir einen Moment, um die {{support}}Support-Website (engl.){{/support}} anzusehen, um weitere Informationen über die Benutzung von Redirection zu erhalten."
 
 #: redirection-strings.php:176 redirection.js:2
 msgid "Redirection is now installed!"
-msgstr ""
+msgstr "Redirection ist jetzt installiert!"
 
 #: redirection-strings.php:175 redirection.js:2
 msgid "Installation Complete"
-msgstr ""
+msgstr "Installation abgeschlossen!"
 
 #: redirection-strings.php:160 redirection.js:2
 msgid "The Redirection database does not appear to exist. Have you run the above SQL?"
-msgstr ""
+msgstr "Die Redirection-Datenbank scheint nicht zu existieren. Hast du das obige SQL ausgeführt?"
 
 #: redirection-strings.php:120 redirection.js:2
 msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
-msgstr ""
+msgstr "Wildcards werden nicht unterstützt. Du musst einen {{link}}regulären Ausdruck{{/link}} verwenden."
 
 #: redirection-strings.php:119 redirection.js:2
 msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
-msgstr ""
+msgstr "Für eine Übereinstimmung mit {{code}}?{{/code}} musst du es als {{code}}\\?{{/code}} escapen"
 
 #: redirection-strings.php:118 redirection.js:2
 msgid "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}"
@@ -205,55 +205,55 @@ msgstr "Genaue Übereinstimmung in beliebiger Reihenfolge"
 
 #: redirection-strings.php:46 redirection.js:2
 msgid "Something went wrong obtaining this information. It may work in the future."
-msgstr ""
+msgstr "Beim Abrufen dieser Informationen ist etwas schief gelaufen. Vielleicht funktioniert es in der Zukunft."
 
 #: redirection-strings.php:44 redirection.js:2
 msgid "View full redirect.li results."
-msgstr ""
+msgstr "Vollständige Ergebnisse von redirect.li anzeigen."
 
 #: redirection-strings.php:43 redirection.js:2
 msgid "If your browser is behaving differently then you should clear your browser cache."
-msgstr ""
+msgstr "Wenn sich dein Browser anders verhält, solltest du deinen Browser-Cache leeren."
 
 #: redirection-strings.php:42 redirection.js:2
 msgid "If this is not expected then this {{support}}support page{{/support}} may help."
-msgstr ""
+msgstr "Wenn das nicht erwartet ist, kann diese {{support}}Support-Seite (engl.){{/support}} helfen."
 
 #: redirection-strings.php:41 redirection.js:2
 msgid "Unable to check that URL. It may not be valid or accessible."
-msgstr ""
+msgstr "Diese URL kann nicht überprüft werden. Sie ist möglicherweise nicht gültig oder nicht zugänglich."
 
 #: redirection-strings.php:40 redirection.js:2
 msgid "Page was loaded."
-msgstr ""
+msgstr "Die Seite wurde geladen."
 
 #: redirection-strings.php:39 redirection.js:2
 msgid "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Umgeleitet von einem unbekannten Agenten. {{support}}Was bedeutet das?{{/support}}."
 
 #: redirection-strings.php:38 redirection.js:2
 msgid "Redirected by %1s. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Weitergeleitet von %1s. {{support}}Was bedeutet das?{{/support}}."
 
 #: redirection-strings.php:36 redirection.js:2
 msgid "Matches your redirect"
-msgstr ""
+msgstr "Passt zu deinem Redirect"
 
 #: redirection-strings.php:35 redirection-strings.php:37 redirection.js:2
 msgid "Redirected by Redirection."
-msgstr ""
+msgstr "Umgeleitet von Redirection."
 
 #: redirection-strings.php:34 redirection.js:2
 msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Es wurde eine Fehlerseite zurückgegeben. Es ist unwahrscheinlich, dass dies ein Problem mit Redirection. {{support}}Was bedeutet das?{{/support}}."
 
 #: redirection-strings.php:33 redirection.js:2
 msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
-msgstr ""
+msgstr "Mit dem Server stimmt etwas nicht. Dies ist kein Problem mit der Weiterleitung und du musst den Fehler selbst beheben."
 
 #: redirection-strings.php:32
 msgid "An unknown errorm"
-msgstr ""
+msgstr "Ein unbekannter Fehler"
 
 #: redirection-strings.php:5 redirection.js:2
 msgid "Are you sure want to delete all %d matching items?"
