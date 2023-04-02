@@ -98,10 +98,10 @@ const copyPlugin = ( target, cb ) => src( SVN_SOURCE_FILES )
 	.pipe( dest( target ) )
 	.on( 'end', () => {
 		// Check which files are in the target but dont exist in the source
-		globby( target + '**' )
-			.then( paths => {
-				removeFromTarget( paths, target );
-			} );
+		// globby( target + '**' )
+		// 	.then( paths => {
+		// 		removeFromTarget( paths, target );
+		// 	} );
 
 		if ( cb ) {
 			cb();
