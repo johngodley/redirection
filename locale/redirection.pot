@@ -1888,7 +1888,7 @@ msgstr ""
 
 #: client/page/io/index.js:109
 #: redirection.js:2
-msgid "Import a CSV, .htaccess, or JSON file."
+msgid "Import a CSV, .htaccess, _redirects, or JSON file."
 msgstr ""
 
 #: client/page/io/index.js:110
@@ -2017,27 +2017,32 @@ msgstr ""
 msgid "Nginx rewrite rules"
 msgstr ""
 
-#: client/page/io/index.js:289
+#: client/page/io/index.js:287
 #: redirection.js:2
-msgid "View"
+msgid "Static _redirects (Netlify, GitLab, CloudFlare, ...)"
 msgstr ""
 
 #: client/page/io/index.js:290
 #: redirection.js:2
-msgid "Download"
+msgid "View"
 msgstr ""
 
-#: client/page/io/index.js:296
+#: client/page/io/index.js:291
 #: redirection.js:2
-msgid "Export Logs"
+msgid "Download"
 msgstr ""
 
 #: client/page/io/index.js:297
 #: redirection.js:2
-msgid "Export redirect"
+msgid "Export Logs"
 msgstr ""
 
 #: client/page/io/index.js:298
+#: redirection.js:2
+msgid "Export redirect"
+msgstr ""
+
+#: client/page/io/index.js:299
 #: redirection.js:2
 msgid "Export 404"
 msgstr ""

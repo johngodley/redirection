@@ -24,7 +24,7 @@
  */
 class Redirection_Api_Export extends Redirection_Api_Route {
 	public function __construct( $namespace ) {
-		register_rest_route( $namespace, '/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)', array(
+		register_rest_route( $namespace, '/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json|redirects)', array(
 			$this->get_route( WP_REST_Server::READABLE, 'route_export', [ $this, 'permission_callback_manage' ] ),
 		) );
 	}
@@ -37,7 +37,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 		$module = sanitize_text_field( $request['module'] );
 		$format = 'json';
 
-		if ( in_array( $request['format'], [ 'csv', 'apache', 'nginx', 'json' ], true ) ) {
+		if ( in_array( $request['format'], [ 'csv', 'apache', 'nginx', 'json', 'redirects' ], true ) ) {
 			$format = sanitize_text_field( $request['format'] );
 		}
 
