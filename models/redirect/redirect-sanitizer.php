@@ -268,6 +268,10 @@ class Red_Item_Sanitize {
 			}
 		}
 
+		if ( $regex ) {
+			$decoded = str_replace( '?&lt;!', '?<!', $decoded );
+		}
+
 		// Return the URL
 		return $decoded;
 	}
@@ -281,9 +285,9 @@ class Red_Item_Sanitize {
 	private function remove_bad_encoding( $text ) {
 		// Try and remove bad decoding
 		if ( function_exists( 'iconv' ) ) {
-			return @iconv( 'UTF-8', 'UTF-8//IGNORE', sanitize_text_field( $text ) );
+			return @iconv( 'UTF-8', 'UTF-8//IGNORE', sanitize_textarea_field( $text ) );
 		}
 
-		return sanitize_text_field( $text );
+		return sanitize_textarea_field( $text );
 	}
 }

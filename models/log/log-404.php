@@ -8,7 +8,7 @@ class Red_404_Log extends Red_Log {
 	 * Get's the table name for this log object
 	 *
 	 * @param Object $wpdb WPDB object.
-	 * @return String
+	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
 		return "{$wpdb->prefix}redirection_404";

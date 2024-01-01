@@ -33,7 +33,7 @@ class Red_Url_Query {
 	/**
 	 * Constructor
 	 *
-	 * @param String           $url URL.
+	 * @param string           $url URL.
 	 * @param Red_Source_Flags $flags URL flags.
 	 */
 	public function __construct( $url, $flags ) {
@@ -48,7 +48,7 @@ class Red_Url_Query {
 	/**
 	 * Does this object match the URL?
 	 *
-	 * @param String           $url URL to match.
+	 * @param string           $url URL to match.
 	 * @param Red_Source_Flags $flags Source flags.
 	 * @return boolean
 	 */
@@ -138,9 +138,9 @@ class Red_Url_Query {
 	/**
 	 * Build a URL from a base and query parameters
 	 *
-	 * @param String $url Base URL.
+	 * @param string $url Base URL.
 	 * @param Array  $query_array Query parameters.
-	 * @return String
+	 * @return string
 	 */
 	public static function build_url( $url, $query_array ) {
 		$query = http_build_query( array_map( function( $value ) {
@@ -186,8 +186,8 @@ class Red_Url_Query {
 	/**
 	 * Get a URL with the given base and query parameters from this Url_Query
 	 *
-	 * @param String $url Base URL.
-	 * @return String
+	 * @param string $url Base URL.
+	 * @return string
 	 */
 	public function get_url_with_query( $url ) {
 		return self::build_url( $url, $this->original_query );
@@ -205,7 +205,7 @@ class Red_Url_Query {
 	/**
 	 * Does the URL and the query params contain no parameters?
 	 *
-	 * @param String $url URL.
+	 * @param string $url URL.
 	 * @param Array  $params Query params.
 	 * @return boolean
 	 */
@@ -221,7 +221,7 @@ class Red_Url_Query {
 	/**
 	 * Get query parameters from a URL
 	 *
-	 * @param String $url URL.
+	 * @param string $url URL.
 	 * @return array
 	 */
 	private function get_url_query( $url ) {
@@ -294,7 +294,7 @@ class Red_Url_Query {
 	/**
 	 * Does the URL contain query parameters?
 	 *
-	 * @param String $url URL.
+	 * @param string $url URL.
 	 * @return boolean
 	 */
 	public function has_query_params( $url ) {
@@ -310,8 +310,8 @@ class Red_Url_Query {
 	/**
 	 * Get parameters after the ?
 	 *
-	 * @param String $url URL.
-	 * @return String
+	 * @param string $url URL.
+	 * @return string
 	 */
 	public function get_query_after( $url ) {
 		$qpos = strpos( $url, '?' );

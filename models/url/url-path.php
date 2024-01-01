@@ -14,7 +14,7 @@ class Red_Url_Path {
 	/**
 	 * Constructor
 	 *
-	 * @param String $path URL.
+	 * @param string $path URL.
 	 */
 	public function __construct( $path ) {
 		$this->path = $this->get_path_component( $path );
@@ -23,7 +23,7 @@ class Red_Url_Path {
 	/**
 	 * Is the supplied `url` a match for this object?
 	 *
-	 * @param String           $url URL to match against.
+	 * @param string           $url URL to match against.
 	 * @param Red_Source_Flags $flags Source flags to use in match.
 	 * @return boolean
 	 */
@@ -51,8 +51,8 @@ class Red_Url_Path {
 	/**
 	 * Convert a URL to lowercase
 	 *
-	 * @param String $url URL.
-	 * @return String
+	 * @param string $url URL.
+	 * @return string
 	 */
 	public static function to_lower( $url ) {
 		if ( function_exists( 'mb_strtolower' ) ) {
@@ -65,7 +65,7 @@ class Red_Url_Path {
 	/**
 	 * Get the path value
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function get() {
 		return $this->path;
@@ -74,7 +74,7 @@ class Red_Url_Path {
 	/**
 	 * Get the path value without trailing slash, or `/` if home
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function get_without_trailing_slash() {
 		// Return / or // as-is
@@ -90,8 +90,8 @@ class Red_Url_Path {
 	 * `parse_url` doesn't handle 'incorrect' URLs, such as those with double slashes
 	 * These are often used in redirects, so we fall back to our own parsing
 	 *
-	 * @param String $url URL.
-	 * @return String
+	 * @param string $url URL.
+	 * @return string
 	 */
 	private function get_path_component( $url ) {
 		$path = $url;
@@ -111,8 +111,8 @@ class Red_Url_Path {
 	/**
 	 * Get the path component up to the query string
 	 *
-	 * @param String $url URL.
-	 * @return String
+	 * @param string $url URL.
+	 * @return string
 	 */
 	private function get_query_before( $url ) {
 		$qpos = strpos( $url, '?' );

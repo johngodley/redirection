@@ -61,7 +61,7 @@ abstract class Red_Module {
 	/**
 	 * Return a module ID given the module name
 	 *
-	 * @param String $name Module name.
+	 * @param string $name Module name.
 	 * @return integer|false
 	 */
 	public static function get_id_for_name( $name ) {

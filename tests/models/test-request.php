@@ -3,8 +3,19 @@
 class RequestTest extends WP_UnitTestCase {
 	private $ip = false;
 
+	private function resetIpSettings() {
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+		unset( $_SERVER['REMOTE_ADDR'] );
+		red_set_options( [ 'ip_headers' => [] ] );
+	}
+
+	private function allowIpFrom( $header ) {
+		red_set_options( [ 'ip_headers' => [ $header ] ] );
+	}
+
 	public function setUp() : void {
 		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+		$this->resetIpSettings();
 	}
 
 	private function monitorAction( $hook ) {
@@ -142,9 +153,6 @@ class RequestTest extends WP_UnitTestCase {
 	public function testInvalidIP() {
 		$this->monitorRequestIP();
 
-		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
-		unset( $_SERVER['REMOTE_ADDR'] );
-
 		$result = Redirection_Request::get_ip();
 
 		$this->assertEquals( '', $result );
@@ -155,6 +163,8 @@ class RequestTest extends WP_UnitTestCase {
 
 	public function testMultipleForwardedIP() {
 		$this->monitorRequestIP();
+
+		$this->allowIpFrom( 'HTTP_X_FORWARDED_FOR' );
 
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = ' 192.1.1.1, 192.1.1.2, 192.1.2.3';
 		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
@@ -172,6 +182,8 @@ class RequestTest extends WP_UnitTestCase {
 
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '192.1.1.1';
 		$_SERVER['REMOTE_ADDR'] = '192.1.1.2';
+
+		$this->allowIpFrom( 'HTTP_X_FORWARDED_FOR' );
 
 		$result = Redirection_Request::get_ip();
 
@@ -198,20 +210,28 @@ class RequestTest extends WP_UnitTestCase {
 	public function testCloudfareIP() {
 		$this->monitorRequestIP();
 
+		red_set_options( array( 'ip_headers' => [] ) );
+
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['HTTP_CF_CONNECTING_IP'] = '192.1.1.3';
 
 		$result = Redirection_Request::get_ip();
 
+		$this->assertEquals( '', $result );
+
+		$this->allowIpFrom( 'HTTP_CF_CONNECTING_IP' );
+
+		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '192.1.1.3', $result );
-		$this->assertEquals( '192.1.1.3', $this->ip );
 
 		$this->removeMonitorRequestIP();
 	}
 
 	public function testBadIP4() {
 		$this->monitorRequestIP();
+
+		red_set_options( array( 'ip_headers' => [] ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );

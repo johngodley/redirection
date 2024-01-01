@@ -40,7 +40,7 @@ class Page_Match extends Red_Match {
 	/**
 	 * Load the match data into this instance.
 	 *
-	 * @param String $values Match values, as read from the database (plain text or serialized PHP).
+	 * @param string $values Match values, as read from the database (plain text or serialized PHP).
 	 * @return void
 	 */
 	public function load( $values ) {

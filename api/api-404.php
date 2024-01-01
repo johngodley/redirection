@@ -85,7 +85,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * 404 API endpoint constructor
 	 *
-	 * @param String $namespace Namespace.
+	 * @param string $namespace Namespace.
 	 */
 	public function __construct( $namespace ) {
 		$orders = [ 'url', 'ip', 'total', 'count', '' ];

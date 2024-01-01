@@ -22,7 +22,11 @@ class Red_Http_Headers {
 
 		if ( isset( $header['headerSettings'] ) && is_array( $header['headerSettings'] ) ) {
 			foreach ( $header['headerSettings'] as $key => $setting_value ) {
-				$settings[ $this->sanitize( sanitize_text_field( $key ) ) ] = $this->sanitize( $setting_value );
+				if ( is_array( $setting_value ) && isset( $setting_value['value'] ) ) {
+					$settings[ $this->sanitize( sanitize_text_field( $key ) ) ] = $this->sanitize( $setting_value['value'] );
+				} else {
+					$settings[ $this->sanitize( sanitize_text_field( $key ) ) ] = $this->sanitize( $setting_value );
+				}
 			}
 		}
 

@@ -3,12 +3,13 @@
  */
 
 import { __ } from '@wordpress/i18n';
+import TextareaAutosize from 'react-textarea-autosize';
 
 /**
  * Internal dependencies
  */
 import { TableRow } from 'component/form-table';
-import { ExternalLink, Select, createInterpolateElement } from 'wp-plugin-components';
+import { ExternalLink, MultiOptionDropdown, Notice, Select, createInterpolateElement } from 'wp-plugin-components';
 
 const timeToKeep = () => [
 	{ value: -1, label: __( 'No logs', 'redirection' ) },
@@ -23,10 +24,20 @@ const ipLogging = () => [
 	{ value: 1, label: __( 'Full IP logging', 'redirection' ) },
 	{ value: 2, label: __( 'Anonymize IP (mask last part)', 'redirection' ) },
 ];
+const ipAddress = () => [
+	{ value: 'HTTP_CF_CONNECTING_IP', label: 'HTTP_CF_CONNECTING_IP' },
+	{ value: 'HTTP_CLIENT_IP', label: 'HTTP_CLIENT_IP' },
+	{ value: 'HTTP_X_FORWARDED_FOR', label: 'HTTP_X_FORWARDED_FOR' },
+	{ value: 'HTTP_X_FORWARDED', label: 'HTTP_X_FORWARDED' },
+	{ value: 'HTTP_X_CLUSTER_CLIENT_IP', label: 'HTTP_X_CLUSTER_CLIENT_IP' },
+	{ value: 'HTTP_FORWARDED_FOR', label: 'HTTP_FORWARDED_FOR' },
+	{ value: 'HTTP_FORWARDED', label: 'HTTP_FORWARDED' },
+	{ value: 'HTTP_VIA', label: 'HTTP_VIA' },
+];
 
 function LogOptions( props ) {
 	const { settings, onChange, getLink } = props;
-	const { expire_redirect, expire_404, ip_logging, log_external, track_hits, log_header, support } = settings;
+	const { expire_redirect, expire_404, ip_logging, log_external, track_hits, log_header, ip_proxy, ip_headers } = settings;
 
 	return (
 		<>
@@ -62,6 +73,27 @@ function LogOptions( props ) {
 				/>{ ' ' }
 				{ __( '(IP logging level)', 'redirection' ) }
 			</TableRow>
+			<TableRow title={ __( 'IP Address', 'redirection' ) + ':' } url={ getLink( 'options', 'ipaddress' ) }>
+				<MultiOptionDropdown
+					options={ ipAddress() }
+					selected={ ip_headers }
+					multiple
+					badges={ ip_headers.length > 0 }
+					hideTitle={ ip_headers.length > 0 }
+					onApply={ ( options ) => onChange( { ip_headers: options } ) }
+					title={ ip_headers.length === 0 ? __( 'REMOTE_ADDR', 'redirection' ) : '' }
+				/>
+
+				<p>{ createInterpolateElement( __( 'Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address.', 'redirection' ), { code: <code /> } ) }</p>
+				{ ip_headers.length > 0 && <Notice status="warning"><p>{ createInterpolateElement( __( 'Please ensure you trust the data in these headers. If using a proxy then set its address below.', 'redirection' ), { code: <code /> } ) }</p></Notice> }
+			</TableRow>
+			{
+				ip_headers.length > 0 &&
+				<TableRow title={ __( 'Proxy Address', 'redirection' ) + ':' } url={ getLink( 'options', 'proxy' ) }>
+					<TextareaAutosize minRows={ 3 } value={ ip_proxy.join( '\n' ) } onChange={ ( ev ) => onChange( { ip_proxy: ev.target.value.split( '\n' ) } ) } rows={ 5 } />
+					<p>{ __( 'If using a proxy then add any IP addresses here to only trust IP headers from those addresses.', 'redirection' ) }</p>
+				</TableRow>
+			}
 			<TableRow title={ __( 'Logging', 'redirection' ) + ':' } url={ getLink( 'options', 'iplogging' ) }>
 				<p>
 					<label>

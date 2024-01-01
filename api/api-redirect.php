@@ -174,7 +174,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 	/**
 	 * Redirect API endpoint constructor
 	 *
-	 * @param String $namespace Namespace.
+	 * @param string $namespace Namespace.
 	 */
 	public function __construct( $namespace ) {
 		$orders = [ 'source', 'last_count', 'last_access', 'position', 'id', '' ];

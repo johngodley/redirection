@@ -86,7 +86,7 @@ class Redirect_Cache {
 	/**
 	 * Get the current cache key
 	 *
-	 * @param String $url URL we are looking at.
+	 * @param string $url URL we are looking at.
 	 * @return string
 	 */
 	private function get_key( $url ) {
@@ -96,7 +96,7 @@ class Redirect_Cache {
 	/**
 	 * Get the cache entry for a URL
 	 *
-	 * @param String $url Requested URL.
+	 * @param string $url Requested URL.
 	 * @return Red_Item[]|bool
 	 */
 	public function get( $url ) {
@@ -126,7 +126,7 @@ class Redirect_Cache {
 	/**
 	 * Set the cache for a URL
 	 *
-	 * @param String         $url URL to cache.
+	 * @param string         $url URL to cache.
 	 * @param Red_Item|false $matched The matched redirect.
 	 * @param Red_Item[]     $redirects All of the redirects the match the URL.
 	 * @return boolean

@@ -1,0 +1,18 @@
+parameters:
+    level: 8
+    paths:
+        - actions
+        - api
+        - database
+        - fileio
+        - matches
+        - models
+        - modules
+    phpVersion: 80127
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkAlwaysTrueInstanceof: false
+    checkAlwaysTrueStrictComparison: false
+    polluteScopeWithLoopInitialAssignments: false
+    parallel:
+        maximumNumberOfProcesses: 4

@@ -14,7 +14,7 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function get_data( array $items, array $groups ) {
-		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'match', 'hits', 'title', 'status' ) ) ];
+		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'hits', 'title', 'status' ) ) ];
 
 		foreach ( $items as $line ) {
 			$lines[] = $this->item_as_csv( $line );
@@ -90,9 +90,13 @@ class Red_Csv_File extends Red_FileIO {
 		global $wpdb;
 
 		$count = 0;
+		$group = Red_Group::get( $group_id );
+		if ( ! $group ) {
+			return 0;
+		}
 
 		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) ) {
-			$item = $this->csv_as_item( $csv, $group_id );
+			$item = $this->csv_as_item( $csv, $group );
 
 			if ( $item && $this->item_is_valid( $item ) ) {
 				$created = Red_Item::create( $item );
@@ -137,7 +141,7 @@ class Red_Csv_File extends Red_FileIO {
 		return 'url';
 	}
 
-	public function csv_as_item( $csv, $group ) {
+	public function csv_as_item( $csv, Red_Group $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
 
@@ -145,10 +149,11 @@ class Red_Csv_File extends Red_FileIO {
 				'url'         => trim( $csv[ self::CSV_SOURCE ] ),
 				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
 				'regex'       => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
-				'group_id'    => $group,
+				'group_id'    => $group->get_id(),
 				'match_type'  => 'url',
 				'action_type' => $this->get_action_type( $code ),
 				'action_code' => $code,
+				'status'      => $group->is_enabled() ? 'enabled' : 'disabled',
 			);
 		}
 
