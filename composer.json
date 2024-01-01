@@ -4,7 +4,8 @@
         "yoast/phpunit-polyfills": "^1.0",
         "wp-cli/wp-cli-bundle": "*",
         "humanmade/psalm-plugin-wordpress": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.10"
     },
     "scripts": {
         "pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
