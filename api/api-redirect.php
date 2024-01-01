@@ -342,7 +342,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 				$redirect = Red_Item::get_by_id( intval( $item, 10 ) );
 
 				if ( $redirect === false ) {
-					return $this->add_error_details( new WP_Error( 'redirect_bulk_failed', 'Invalid redirect' ), __LINE__, 403 );
+					return $this->add_error_details( new WP_Error( 'redirect_bulk_failed', 'Invalid redirect' ), __LINE__ );
 				}
 
 				if ( $action === 'delete' ) {

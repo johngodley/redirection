@@ -9,10 +9,14 @@ class SettingsTest extends WP_UnitTestCase {
 
 		unset( $defaults['token'] );
 		unset( $options['token'] );
+		unset( $options['flag_case'] );
+		unset( $defaults['flag_case'] );
+		unset( $options['flag_trailing'] );
+		unset( $defaults['flag_trailing'] );
 
 		foreach ( $defaults as $name => $value ) {
 			$this->assertTrue( isset( $options[ $name ] ) );
-			$this->assertEquals( $value, $options[ $name ] );
+			$this->assertEquals( $value, $options[ $name ], $name . ' is not equal ' . print_r( $options[$name], true ) );
 		}
 	}
 

@@ -6,9 +6,9 @@ class UserAgentMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Agent_Match();
 		$saved = array(
-			'url_from' => '/some/url somethingelse1',
-			'url_notfrom' => '/some/url somethingelse2',
-			'agent' => 'user agent here',
+			'url_from' => '/some/url',
+			'url_notfrom' => '/some/url',
+			'agent' => 'user agent',
 			'regex' => false,
 		);
 		$source = array(

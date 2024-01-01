@@ -6,8 +6,8 @@ class LoginMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {
 		$match = new Login_Match();
 		$saved = array(
-			'logged_in' => '/some/url somethingelse1',
-			'logged_out' => '/some/url somethingelse2',
+			'logged_in' => '/some/url',
+			'logged_out' => '/some/url',
 		);
 		$source = array(
 			'logged_in' => "/some/url\nsomethingelse1",

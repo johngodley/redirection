@@ -141,7 +141,7 @@ class Red_Csv_File extends Red_FileIO {
 		return 'url';
 	}
 
-	public function csv_as_item( $csv, $group ) {
+	public function csv_as_item( $csv, Red_Group $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
 

@@ -117,7 +117,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'export/1/nginx' );
 
 		$this->assertEquals( 1, $result->data['total'] );
-		$this->assertTrue( strpos( $result->data, 'rewrite ^1$' ) !== false );
+		$this->assertTrue( strpos( $result->data['data'], 'rewrite (?i)^/1$' ) !== false );
 	}
 
 	public function testExportApache() {
@@ -128,6 +128,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'export/1/apache' );
 
 		$this->assertEquals( 1, $result->data['total'] );
-		$this->assertTrue( strpos( $result->data, 'RewriteRule ^1$' ) !== false );
+		print_r($result);
+		$this->assertTrue( strpos( $result->data['data'], 'RewriteRule (?i)^/1$' ) !== false );
 	}
 }

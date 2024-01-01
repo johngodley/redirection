@@ -10,7 +10,8 @@
     "scripts": {
         "pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
         "json": "wp i18n make-json locale --purge",
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "phpstan": "./vendor/bin/phpstan analyse --configuration=phpstan.neon"
     },
     "config": {
         "allow-plugins": {

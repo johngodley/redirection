@@ -50,7 +50,7 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$lines = array_filter( explode( PHP_EOL, $result ) );
 
 		$this->assertEquals( 3, count( $lines ) );
-		$this->assertEquals( 'source,target,regex,code,match,title,status', $lines[0] );
+		$this->assertEquals( 'source,target,regex,code,type,hits,title,status', $lines[0] );
 		$this->assertEquals( '"/source1","/target",0,301,"url",0,"","active"', $lines[1] );
 		$this->assertEquals( '"/source2","/target",0,301,"url",0,"","active"', $lines[2] );
 	}
