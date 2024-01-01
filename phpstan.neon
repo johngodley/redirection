@@ -5,9 +5,9 @@ parameters:
         - api
         - database
         - fileio
-		- matches
-		- models
-		- modules
+        - matches
+        - models
+        - modules
     phpVersion: 80127
     reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
