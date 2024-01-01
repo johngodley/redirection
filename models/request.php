@@ -93,7 +93,9 @@ class Redirection_Request {
 			$host = sanitize_text_field( $_SERVER['HTTP_HOST'] );
 		}
 
-		return apply_filters( 'redirection_request_server_host', $host );
+		$parts = explode( ':', $host );
+
+		return apply_filters( 'redirection_request_server_host', $parts[0] );
 	}
 
 	/**
