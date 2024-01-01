@@ -113,7 +113,7 @@ abstract class Red_Log {
 	 * Get's the table name for this log object
 	 *
 	 * @param Object $wpdb WPDB object.
-	 * @return String
+	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
 		return '';

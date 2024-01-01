@@ -102,7 +102,7 @@ abstract class Red_Action {
 	/**
 	 * Set the target for this action
 	 *
-	 * @param String $target_url The original URL from the client.
+	 * @param string $target_url The original URL from the client.
 	 * @return void
 	 */
 	public function set_target( $target_url ) {
@@ -112,7 +112,7 @@ abstract class Red_Action {
 	/**
 	 * Get the target for this action
 	 *
-	 * @return String|null
+	 * @return string|null
 	 */
 	public function get_target() {
 		return $this->target;

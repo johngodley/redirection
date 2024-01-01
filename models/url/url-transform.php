@@ -9,8 +9,8 @@ class Red_Url_Transform {
 	 *
 	 * From the distant Redirection past. Undecided whether to keep
 	 *
-	 * @param String $url Target URL.
-	 * @return String
+	 * @param string $url Target URL.
+	 * @return string
 	 */
 	public function transform( $url ) {
 		// Deprecated number post ID

@@ -9,7 +9,7 @@ class Pass_Action extends Url_Action {
 	/**
 	 * Process an external passthrough - a URL that lives external to this server.
 	 *
-	 * @param String $url Target URL.
+	 * @param string $url Target URL.
 	 * @return void
 	 */
 	public function process_external( $url ) {
@@ -21,7 +21,7 @@ class Pass_Action extends Url_Action {
 	/**
 	 * Process an internal passthrough - a URL that lives on the same server. Here we change the request URI and continue without making a remote request.
 	 *
-	 * @param String $target Target URL.
+	 * @param string $target Target URL.
 	 * @return void
 	 */
 	public function process_internal( $target ) {
@@ -42,7 +42,7 @@ class Pass_Action extends Url_Action {
 	/**
 	 * Is a URL external?
 	 *
-	 * @param String $target URL to test.
+	 * @param string $target URL to test.
 	 * @return boolean
 	 */
 	public function is_external( $target ) {

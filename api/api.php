@@ -143,8 +143,8 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 	/**
 	 * Register a bulk action route
 	 *
-	 * @param String  $namespace Namespace.
-	 * @param String  $route Route.
+	 * @param string  $namespace Namespace.
+	 * @param string  $route Route.
 	 * @param Array   $orders
 	 * @param Array   $filters
 	 * @param Object  $callback

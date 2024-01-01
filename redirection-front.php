@@ -82,8 +82,8 @@ class Redirection {
 	/**
 	 * Override the IP with an empty value
 	 *
-	 * @param String $ip IP.
-	 * @return String
+	 * @param string $ip IP.
+	 * @return string
 	 */
 	public function no_ip_logging( $ip ) {
 		return '';
@@ -92,8 +92,8 @@ class Redirection {
 	/**
 	 * Override the IP with a masked IP
 	 *
-	 * @param String $ip IP.
-	 * @return String
+	 * @param string $ip IP.
+	 * @return string
 	 */
 	public function mask_ip( $ip ) {
 		$ip = trim( $ip );

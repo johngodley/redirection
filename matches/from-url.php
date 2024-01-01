@@ -65,7 +65,7 @@ trait FromUrl_Match {
 	/**
 	 * Load the data into the instance.
 	 *
-	 * @param String $values Serialized PHP data.
+	 * @param string $values Serialized PHP data.
 	 * @return array
 	 */
 	private function load_data( $values ) {
