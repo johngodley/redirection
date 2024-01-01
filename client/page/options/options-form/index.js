@@ -2,7 +2,7 @@
  * External dependencies
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { connect } from 'react-redux';
 
@@ -11,11 +11,12 @@ import { connect } from 'react-redux';
  */
 import { saveSettings } from 'state/settings/action';
 import { STATUS_IN_PROGRESS } from 'state/settings/type';
-import { FormTable, TableRow } from 'component/form-table';
+import { FormTable } from 'component/form-table';
 import { Button } from 'wp-plugin-components';
 import LogOptions from './log-options';
 import OtherOptions from './other-options';
 import UrlOptions from './url-options';
+import './style.scss';
 
 function supportLink( rel, anchor ) {
 	return 'https://redirection.me/support/' + rel + ( anchor ? '/#' + anchor : '' );
@@ -43,22 +44,13 @@ function OptionsForm( props ) {
 	}
 
 	// Update local settings if values change
-	useEffect(() => {
+	useEffect( () => {
 		setSettings( values );
-	}, [ values ]);
+	}, [ values ] );
 
 	return (
 		<form onSubmit={ onSubmit }>
 			<FormTable>
-				<TableRow title="">
-					<label>
-						<input type="checkbox" checked={ support } name="support" onChange={ onChange } />
-						<span className="sub">
-							{ __( "I'm a nice person and I have helped support the author of this plugin", 'redirection' ) }
-						</span>
-					</label>
-				</TableRow>
-
 				<LogOptions settings={ settings } onChange={ onChange } getLink={ supportLink } />
 				<UrlOptions settings={ settings } onChange={ onChange } getLink={ supportLink } groups={ groups } postTypes={ postTypes } />
 

@@ -13,7 +13,6 @@ import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'page/options/delete-plugin';
 import Placeholder from 'wp-plugin-components/placeholder';
-import Donation from './donation';
 import Newsletter from './newsletter';
 
 class Options extends React.Component {
@@ -31,7 +30,6 @@ class Options extends React.Component {
 
 		return (
 			<div>
-				{ loadStatus === STATUS_COMPLETE && <Donation support={ values.support } /> }
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
 
 				<Newsletter newsletter={ newsletter } />
