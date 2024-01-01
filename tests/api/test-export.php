@@ -84,7 +84,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testExportCSV() {
-		$expected = 'source,target,regex,code,type,match,hits,title,status
+		$expected = 'source,target,regex,code,type,hits,title,status
 "/1","/unknown",0,301,"url",0,"","active"';
 
 		$group1 = Red_Group::create( 'group1', 1 );
