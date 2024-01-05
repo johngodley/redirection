@@ -173,7 +173,7 @@ abstract class Red_Log {
 	/**
 	 * Convert a log entry to JSON
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function to_json() {
 		return [
@@ -195,7 +195,7 @@ abstract class Red_Log {
 	 * Get filtered log entries
 	 *
 	 * @param array $params Filters.
-	 * @return Array{items: Array, total: integer}
+	 * @return array{items: Array, total: integer}
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
@@ -234,7 +234,7 @@ abstract class Red_Log {
 	 *
 	 * @param string $group Group type.
 	 * @param array  $params Filter params.
-	 * @return Array{items: mixed, total: integer}
+	 * @return array{items: mixed, total: integer}
 	 */
 	public static function get_grouped( $group, array $params ) {
 		global $wpdb;
@@ -280,7 +280,7 @@ abstract class Red_Log {
 	 * Convert a set of filters to a SQL query.
 	 *
 	 * @param array $params Filters.
-	 * @return Array{orderby: string, direction: string, limit: integer, offset: integer, where: string}
+	 * @return array{orderby: string, direction: string, limit: integer, offset: integer, where: string}
 	 */
 	public static function get_query( array $params ) {
 		$query = [
@@ -390,6 +390,7 @@ abstract class Red_Log {
 	 * @return array
 	 */
 	protected static function sanitize_create( $domain, $url, $ip, array $details = [] ) {
+		$url = urldecode( $url );
 		$insert = [
 			'url' => substr( sanitize_text_field( $url ), 0, self::MAX_URL_LENGTH ),
 			'domain' => substr( sanitize_text_field( $domain ), 0, self::MAX_DOMAIN_LENGTH ),
@@ -482,6 +483,10 @@ abstract class Red_Log {
 
 		// phpcs:ignore
 		$stdout = fopen( 'php://output', 'w' );
+		if ( ! $stdout ) {
+			return;
+		}
+
 		fputcsv( $stdout, static::get_csv_header() );
 
 		global $wpdb;

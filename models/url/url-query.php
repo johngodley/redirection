@@ -196,7 +196,7 @@ class Red_Url_Query {
 	/**
 	 * Get the query parameters
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function get() {
 		return $this->original_query;

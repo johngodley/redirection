@@ -128,7 +128,6 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'export/1/apache' );
 
 		$this->assertEquals( 1, $result->data['total'] );
-		print_r($result);
 		$this->assertTrue( strpos( $result->data['data'], 'RewriteRule (?i)^/1$' ) !== false );
 	}
 }

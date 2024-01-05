@@ -8,6 +8,11 @@ parameters:
         - matches
         - models
         - modules
+        - redirection-settings.php
+        - redirection-admin.php
+        - redirection-cli.php
+        - redirection-capabilities.php
+        - redirection-front.php
     phpVersion: 80127
     reportUnmatchedIgnoredErrors: false
     checkMissingIterableValueType: false
