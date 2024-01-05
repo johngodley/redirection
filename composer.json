@@ -5,7 +5,9 @@
         "wp-cli/wp-cli-bundle": "*",
         "humanmade/psalm-plugin-wordpress": "^1.0",
         "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "szepeviktor/phpstan-wordpress": "^1.3",
+        "phpstan/extension-installer": "^1.3"
     },
     "scripts": {
         "pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
@@ -15,7 +17,8 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     }
 }
