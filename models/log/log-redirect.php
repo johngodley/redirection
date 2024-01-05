@@ -150,7 +150,7 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Convert a log entry to JSON
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function to_json() {
 		return array_merge( parent::to_json(), [

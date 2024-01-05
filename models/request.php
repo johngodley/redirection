@@ -200,7 +200,6 @@ class Redirection_Request {
 			foreach ( $options['ip_headers'] as $header ) {
 				if ( isset( $_SERVER[ $header ] ) ) {
 					$ip = new Redirection_IP( $_SERVER[ $header ] );
-					error_log( $header . ' = ' . $ip->get() );
 					break;
 				}
 			}
