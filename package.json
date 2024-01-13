@@ -103,7 +103,7 @@
 		"node-sass": "^9.0.0",
 		"null-loader": "^4.0.1",
 		"path": "^0.12.7",
-		"postcss": "^8.4.32",
+		"postcss": "^8.4.33",
 		"postcss-focus": "^7.0.0",
 		"postcss-loader": "^7.3.4",
 		"postcss-preset-env": "^9.3.0",
