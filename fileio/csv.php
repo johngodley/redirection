@@ -60,11 +60,7 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	public function load( $group, $filename, $data ) {
-		ini_set( 'auto_detect_line_endings', true );
-
 		$file = fopen( $filename, 'r' );
-
-		ini_set( 'auto_detect_line_endings', false );
 
 		if ( $file ) {
 			$separators = [
