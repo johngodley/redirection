@@ -2,7 +2,6 @@
  * External dependencies
  */
 
-import React from 'react';
 import { connect } from 'react-redux';
 import { __ } from '@wordpress/i18n';
 
@@ -13,7 +12,6 @@ import { __ } from '@wordpress/i18n';
 import { RowActions, RowAction } from 'component/table/row-action';
 import { setFilter } from 'state/error/action';
 import { CAP_REDIRECT_MANAGE, CAP_404_DELETE, CAP_REDIRECT_ADD } from 'lib/capabilities';
-import GeoMapAction from 'component/log-page/log-actions/geo-map';
 import UseragentAction from 'component/log-page/log-actions/user-agent';
 import getCreateAction from './create-action';
 
@@ -53,9 +51,9 @@ function ErrorRowActions( props ) {
 		</RowAction>
 	);
 
-	if ( ip ) {
-		menu.unshift( <GeoMapAction key="2" ip={ ip } /> );
-	}
+	// if ( ip ) {
+	// 	menu.unshift( <GeoMapAction key="2" ip={ ip } /> );
+	// }
 
 	if ( agent ) {
 		menu.unshift( <UseragentAction key="3" agent={ agent } /> );
