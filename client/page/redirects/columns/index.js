@@ -21,7 +21,12 @@ function getServer( item ) {
 }
 
 function escapeUrl( url ) {
-	return encodeURIComponent( url ).replace( /%2F/gi, '/' );
+	let newUrl = encodeURIComponent( url ).replace( /%2F/gi, '/' );
+
+	newUrl = newUrl.replace( /%3F/gi, '?' );
+	newUrl = newUrl.replace( /%3D/gi, '=' );
+	newUrl = newUrl.replace( /%26/gi, '&' );
+	return newUrl;
 }
 
 export default function getColumns( row, rowParams, disabled, defaultFlags, group ) {

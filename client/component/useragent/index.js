@@ -69,6 +69,10 @@ class Useragent extends React.Component {
 	}
 
 	getType( type, url ) {
+		if ( ! type ) {
+			return null;
+		}
+
 		const name = type.slice( 0, 1 ).toUpperCase() + type.slice( 1 );
 
 		if ( url ) {

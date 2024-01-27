@@ -63,6 +63,7 @@ const knownHeaders = {
 				'max-age=<expire-time>',
 				'max-age=<expire-time>; includeSubDomains',
 				'max-age=<expire-time>; preload',
+				'max-age=<expire-time>; includeSubDomains; preload',
 			] ),
 			replace: 'expire-time',
 			replaceType: 'integer',

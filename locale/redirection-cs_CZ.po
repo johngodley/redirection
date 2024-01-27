@@ -7,9 +7,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: cs_CZ\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr ""
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -2008,11 +2032,11 @@ msgstr "Pozice"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Slouží k automatickému generování adresy URL, pokud není zadána žádná adresa URL. Pro vložení jedinečného ID místo něj použijte speciální značky {{code}}$dec${{/code}} nebo {{code}}$hex${{/code}}."
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Rád bych podporoval ještě další."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "Podpora 💰"
 
@@ -2272,11 +2296,11 @@ msgstr "Přihlaste se k odběru drobného newsletteru Redirection - nízkoobjemo
 msgid "Your email address:"
 msgstr "Vaše e-mailová adresa:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Děkujeme, že jste podpořili tento plugin!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Vy získáte užitečný software a já budu moci pokračovat v jeho vylepšování."
 
@@ -2312,7 +2336,7 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Správa všech přesměrování 301 a sledování chyb 404"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Přesměrování je k dispozici zdarma - život je báječný a krásný! Jeho vývoj si vyžádal spoustu času a úsilí a vy můžete tento vývoj podpořit tím, že {{strong}}přispějete malým darem {{/strong}}."
 
@@ -2376,11 +2400,11 @@ msgstr "(čas pro uchovávání protokolů)"
 msgid "Redirect Logs"
 msgstr "Logy přesměrování"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Jsem milý člověk a podpořil jsem vývoj tohoto pluginu"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Podpora zásuvných modulů"
 

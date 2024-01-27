@@ -4,7 +4,7 @@ Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
 Requires at least: 5.9
 Tested up to: 6.4.2
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 Requires PHP: 5.6
 License: GPLv3
 
@@ -20,7 +20,7 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
-Redirection is compatible with PHP from 5.6 to 8.1.
+Redirection is compatible with PHP from 5.6 to 8.3.
 
 = Redirect manager =
 
@@ -183,6 +183,13 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.4.2 - 27th January 2024 =
+* Remove Geo IP option (it may return)
+* Fix crash in agent info
+* Add new max-age header
+* Remove deprecated ini_set call
+* Don't double encode URLs when checking
 
 = 5.4.1 - 5th January 2024 =
 * Fix problem with some international URLs not appearing in the 404 log

@@ -1,24 +1,29 @@
 {
-    "require-dev": {
-        "vimeo/psalm": "^3.14.2",
-        "yoast/phpunit-polyfills": "^1.0",
-        "wp-cli/wp-cli-bundle": "*",
-        "humanmade/psalm-plugin-wordpress": "^1.0",
-        "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^1.10",
-        "szepeviktor/phpstan-wordpress": "^1.3",
-        "phpstan/extension-installer": "^1.3"
-    },
-    "scripts": {
-        "pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
-        "json": "wp i18n make-json locale --purge",
-        "test": "./vendor/bin/phpunit",
-        "phpstan": "./vendor/bin/phpstan analyse --configuration=phpstan.neon"
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
-        }
-    }
+	"require-dev": {
+		"vimeo/psalm": "^5.18",
+		"yoast/phpunit-polyfills": "^2.0",
+		"wp-cli/wp-cli-bundle": "^2.9",
+		"phpunit/phpunit": "^10.5",
+		"phpstan/phpstan": "^1.10",
+		"szepeviktor/phpstan-wordpress": "^1.3",
+		"phpstan/extension-installer": "^1.3",
+		"squizlabs/php_codesniffer": "^3.8",
+		"wp-coding-standards/wpcs": "^3.0",
+		"sirbrillig/phpcs-variable-analysis": "^2.11",
+		"sirbrillig/phpcs-no-get-current-user": "^1.1",
+		"phpcompatibility/php-compatibility": "^9.3"
+	},
+	"scripts": {
+		"pot": "wp i18n make-pot . locale/redirection.pot --ignore-domain --exclude=redirection-strings.php",
+		"json": "wp i18n make-json locale --purge",
+		"test": "./vendor/bin/phpunit",
+		"phpstan": "./vendor/bin/phpstan analyse --configuration=phpstan.neon",
+		"lint": "./vendor/bin/phpcs --standard=phpcs.xml --extensions=php --ignore=vendor ./models ./api ./actions ./modules ./matches ./fileio ./database ./*.php"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
+		}
+	}
 }

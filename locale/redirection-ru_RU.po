@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-21 13:55:30+0000\n"
+"PO-Revision-Date: 2024-01-05 09:26:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: ru\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr ""
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -17,15 +41,15 @@ msgstr "Экспорт журналов"
 
 #: redirection.js:2
 msgid "total = %d"
-msgstr ""
+msgstr "всего = %d"
 
 #: redirection.js:2
 msgid "of %s"
-msgstr ""
+msgstr "от %s"
 
 #: redirection.js:2
 msgid "An unknown error"
-msgstr ""
+msgstr "Неизвестная ошибка"
 
 #: redirection.js:2
 msgid "Your site already has the latest SQL."
@@ -33,11 +57,11 @@ msgstr "На сайте уже установлена последняя вер�
 
 #: redirection.js:2
 msgid "Progress: %(complete)d%%"
-msgstr ""
+msgstr "Прогресс: %(complete)d%%"
 
 #: redirection.js:2
 msgid "Testing - %s%%"
-msgstr ""
+msgstr "Тестирование - %s%%"
 
 #: redirection.js:2
 msgid "Transition"
@@ -67,15 +91,15 @@ msgstr "API REST показывает устаревшую ошибку PHP. И�
 
 #: redirection-strings.php:732 redirection.js:2
 msgid "Your server configuration is blocking access to the REST API."
-msgstr ""
+msgstr "Конфигурация вашего сервера блокирует доступ к REST API."
 
 #: redirection-strings.php:730 redirection.js:2
 msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
-msgstr ""
+msgstr "Можно ли получить доступ к {{api}}REST API{{/api}} без перенаправления?."
 
 #: redirection-strings.php:729 redirection.js:2
 msgid "You will will need to fix this on your site. Redirection is not causing the error."
-msgstr ""
+msgstr "Вам нужно будет исправить это на вашем сайте. Redirection не вызывает ошибку."
 
 #: redirection-strings.php:719 redirection.js:2
 msgid "Add Permalink"
@@ -143,7 +167,7 @@ msgstr "%1d из %1d выбранных. {{all}}Выделить все.{{/all}}
 
 #: redirection-strings.php:526 redirection.js:2
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
-msgstr ""
+msgstr "Иногда ваш браузер может кэшировать URL-адрес, из-за чего трудно понять, работает ли он должным образом. Воспользуйтесь этой службой {{link}}redirect.li{{/link}}, чтобы получить точные результаты."
 
 #: redirection-strings.php:362 redirection-strings.php:423 redirection.js:2
 msgid "Search exact URL"
@@ -155,43 +179,43 @@ msgstr "Установлена версия %s! Прочитайте {{url}}пр
 
 #: redirection-strings.php:223 redirection.js:2
 msgid "Manual Setup"
-msgstr ""
+msgstr "Ручная настройка"
 
 #: redirection-strings.php:188 redirection.js:2
 msgid "Importing failed."
-msgstr ""
+msgstr "Не удалось импортировать."
 
 #: redirection-strings.php:187 redirection.js:2
 msgid "Import finished."
-msgstr ""
+msgstr "Импорт завершен."
 
 #: redirection-strings.php:178 redirection.js:2
 msgid "Ready to begin! 🎉"
-msgstr ""
+msgstr "Готов начать! 🎉"
 
 #: redirection-strings.php:177 redirection.js:2
 msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
-msgstr ""
+msgstr "Пожалуйста, найдите время, чтобы ознакомиться с {{support}}сайтом поддержки{{/support}}, чтобы получить информацию о том, как использовать перенаправление."
 
 #: redirection-strings.php:176 redirection.js:2
 msgid "Redirection is now installed!"
-msgstr ""
+msgstr "Redirection теперь установлено!"
 
 #: redirection-strings.php:175 redirection.js:2
 msgid "Installation Complete"
-msgstr ""
+msgstr "Установка завершена"
 
 #: redirection-strings.php:160 redirection.js:2
 msgid "The Redirection database does not appear to exist. Have you run the above SQL?"
-msgstr ""
+msgstr "База данных Redirection не существует. Вы запускали вышеуказанный SQL?"
 
 #: redirection-strings.php:120 redirection.js:2
 msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
-msgstr ""
+msgstr "Подстановочные знаки не поддерживаются. Необходимо использовать {{link}} регулярное выражение{{/link}}."
 
 #: redirection-strings.php:119 redirection.js:2
 msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
-msgstr ""
+msgstr "Для совпадения {{code}}?{{/code}} вам нужно экранировать его с помощью {{code}}\\?{{/code}}."
 
 #: redirection-strings.php:118 redirection.js:2
 msgid "The caret {{code}}^{{/code}} should be at the start. For example: {{code}}%(example)s{{/code}}"
@@ -207,7 +231,7 @@ msgstr "Точное совпадение в любом порядке"
 
 #: redirection-strings.php:46 redirection.js:2
 msgid "Something went wrong obtaining this information. It may work in the future."
-msgstr ""
+msgstr "Что-то пошло не так при получении этой информации. Это может сработать в будущем."
 
 #: redirection-strings.php:44 redirection.js:2
 msgid "View full redirect.li results."
@@ -215,15 +239,15 @@ msgstr "Просмотреть все результаты redirect.li."
 
 #: redirection-strings.php:43 redirection.js:2
 msgid "If your browser is behaving differently then you should clear your browser cache."
-msgstr ""
+msgstr "Если ваш браузер ведет себя по-другому, вам следует очистить кеш браузера."
 
 #: redirection-strings.php:42 redirection.js:2
 msgid "If this is not expected then this {{support}}support page{{/support}} may help."
-msgstr ""
+msgstr "Если это не ожидается, то эта {{support}}страница поддержки{{/support}} может помочь."
 
 #: redirection-strings.php:41 redirection.js:2
 msgid "Unable to check that URL. It may not be valid or accessible."
-msgstr ""
+msgstr "Не удалось проверить этот URL. Он может быть недействительным или недоступным."
 
 #: redirection-strings.php:40 redirection.js:2
 msgid "Page was loaded."
@@ -231,27 +255,27 @@ msgstr "Страница загружена."
 
 #: redirection-strings.php:39 redirection.js:2
 msgid "Redirected by an unknown agent. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Перенаправлено неизвестным агентом. Что это означает?"
 
 #: redirection-strings.php:38 redirection.js:2
 msgid "Redirected by %1s. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Перенаправлено от %1s. {{support}}Что это означает?{{/support}}."
 
 #: redirection-strings.php:36 redirection.js:2
 msgid "Matches your redirect"
-msgstr ""
+msgstr "Соответствует вашему перенаправлению"
 
 #: redirection-strings.php:35 redirection-strings.php:37 redirection.js:2
 msgid "Redirected by Redirection."
-msgstr ""
+msgstr "Перенаправлено Redirection."
 
 #: redirection-strings.php:34 redirection.js:2
 msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "Была возвращена страница ошибки. Вероятно, это не связано с перенаправлением. {{support}}Что это означает?{{/support}}."
 
 #: redirection-strings.php:33 redirection.js:2
 msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
-msgstr ""
+msgstr "Что-то не так с сервером. Это не проблема с Redirection, и вам нужно будет устранить ошибку самостоятельно."
 
 #: redirection-strings.php:32
 msgid "An unknown errorm"
@@ -1788,7 +1812,7 @@ msgstr "Час"
 
 #: redirection-strings.php:680 redirection.js:2
 msgid "Redirect Caching"
-msgstr "Перенаправление кэша"
+msgstr "Кеширование перенаправлений"
 
 #: redirection-strings.php:679 redirection.js:2
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -2008,11 +2032,11 @@ msgstr "Позиция"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Используется для автоматического создания URL-адреса, если URL-адрес не указан. Используйте специальные теги {{code}} $ dec $ {{code}} или {{code}} $ hex $ {{/ code}}, чтобы вместо этого вставить уникальный идентификатор"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Мне хотелось бы поддержать чуть больше."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "Поддержка 💰"
 
@@ -2128,8 +2152,8 @@ msgstr "Группа сохранена"
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the %d selected items?"
 msgstr[0] "Вы действительно хотите удалить этот пункт?"
-msgstr[1] "Вы действительно хотите удалить эти пункты?"
-msgstr[2] "Вы действительно хотите удалить эти пунктов?"
+msgstr[1] "Вы действительно хотите удалить этот пункт?"
+msgstr[2] "Вы действительно хотите удалить этот пункт?"
 
 #: redirection-strings.php:682 redirection.js:2
 msgid "pass"
@@ -2262,7 +2286,7 @@ msgstr "Новости"
 
 #: redirection-strings.php:456 redirection.js:2
 msgid "Want to keep up to date with changes to Redirection?"
-msgstr "Хотите быть в курсе изменений в плагине?"
+msgstr "Хотите быть в курсе изменений в плагине Redirection?"
 
 #: redirection-strings.php:457 redirection.js:2
 msgid "Sign up for the tiny Redirection newsletter - a low volume newsletter about new features and changes to the plugin. Ideal if you want to test beta changes before release."
@@ -2272,11 +2296,11 @@ msgstr "Подпишитесь на маленький информационн�
 msgid "Your email address:"
 msgstr "Ваш адрес электронной почты:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Вы поддерживаете этот плагин - спасибо!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Вы получаете полезное программное обеспечение, и я продолжаю делать его лучше."
 
@@ -2312,13 +2336,13 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Управляйте всеми 301-перенаправлениями и отслеживайте ошибки 404"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection является бесплатным для использования - жизнь чудесна и прекрасна! Это потребовало много времени и усилий для развития, и вы можете помочь поддержать эту разработку {{strong}} сделав небольшое пожертвование {{/strong}}."
 
 #: redirection-admin.php:426
 msgid "Redirection Support"
-msgstr "Поддержка плагин Redirection"
+msgstr "Поддержка плагина Redirection"
 
 #: redirection-strings.php:276 redirection-strings.php:284 redirection.js:2
 msgid "Support"
@@ -2376,11 +2400,11 @@ msgstr "(время хранения журналов для)"
 msgid "Redirect Logs"
 msgstr "Перенаправление журналов"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Я хороший человек, и я помог поддержать автора этого плагина"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Поддержка плагина"
 
@@ -2406,7 +2430,7 @@ msgstr "День"
 
 #: redirection-strings.php:616 redirection.js:2
 msgid "No logs"
-msgstr "Нет записей"
+msgstr "Нет журналов"
 
 #: redirection-strings.php:244 redirection.js:2
 msgid "Use groups to organise your redirects. Groups are assigned to a module, which affects how the redirects in that group work. If you are unsure then stick to the WordPress module."
