@@ -1,17 +1,17 @@
-# Copyright (C) 2023 John Godley
+# Copyright (C) 2024 John Godley
 # This file is distributed under the same license as the Redirection plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Redirection 5.3.9\n"
+"Project-Id-Version: Redirection 5.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/redirection5\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-02T10:13:53+00:00\n"
+"POT-Creation-Date: 2024-01-27T14:50:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.9.0\n"
 
 #. Plugin Name of the plugin
 #: client/component/log-page/log-columns/index.js:76
@@ -1236,32 +1236,32 @@ msgstr ""
 msgid "Unknown Useragent"
 msgstr ""
 
-#: client/component/useragent/index.js:97
+#: client/component/useragent/index.js:101
 #: redirection.js:2
 msgid "Device"
 msgstr ""
 
-#: client/component/useragent/index.js:101
+#: client/component/useragent/index.js:105
 #: redirection.js:2
 msgid "Operating System"
 msgstr ""
 
-#: client/component/useragent/index.js:105
+#: client/component/useragent/index.js:109
 #: redirection.js:2
 msgid "Browser"
 msgstr ""
 
-#: client/component/useragent/index.js:109
+#: client/component/useragent/index.js:113
 #: redirection.js:2
 msgid "Engine"
 msgstr ""
 
-#: client/component/useragent/index.js:114
+#: client/component/useragent/index.js:118
 #: redirection.js:2
 msgid "Useragent"
 msgstr ""
 
-#: client/component/useragent/index.js:118
+#: client/component/useragent/index.js:122
 #: redirection.js:2
 msgid "Agent"
 msgstr ""
@@ -1666,9 +1666,9 @@ msgstr ""
 #: client/page/groups/constants.js:80
 #: client/page/groups/row-actions.js:38
 #: client/page/logs/constants.js:107
-#: client/page/logs/row-actions.js:30
+#: client/page/logs/row-actions.js:28
 #: client/page/logs404/constants.js:108
-#: client/page/logs404/row-actions.js:42
+#: client/page/logs404/row-actions.js:40
 #: client/page/options/delete-plugin.js:55
 #: client/page/redirects/constants.js:56
 #: client/page/redirects/row-actions.js:32
@@ -1818,7 +1818,7 @@ msgid "Import/Export"
 msgstr ""
 
 #: client/page/home/index.js:44
-#: client/page/options/options-form/log-options.js:35
+#: client/page/options/options-form/log-options.js:46
 #: redirection.js:2
 msgid "Logs"
 msgstr ""
@@ -2194,7 +2194,7 @@ msgstr ""
 msgid "RSS"
 msgstr ""
 
-#: client/page/logs/row-actions.js:52
+#: client/page/logs/row-actions.js:50
 #: redirection.js:2
 msgid "View Redirect"
 msgstr ""
@@ -2206,13 +2206,13 @@ msgid "Redirect All"
 msgstr ""
 
 #: client/page/logs404/constants.js:120
-#: client/page/logs404/row-actions.js:77
+#: client/page/logs404/row-actions.js:75
 #: redirection.js:2
 msgid "Block IP"
 msgstr ""
 
 #: client/page/logs404/constants.js:137
-#: client/page/logs404/row-actions.js:87
+#: client/page/logs404/row-actions.js:85
 #: redirection.js:2
 msgid "Ignore URL"
 msgstr ""
@@ -2224,7 +2224,7 @@ msgid "HTTP Status Code"
 msgstr ""
 
 #: client/page/logs404/create-redirect.js:53
-#: client/page/logs404/row-actions.js:52
+#: client/page/logs404/row-actions.js:50
 #: client/page/redirects/create.js:32
 #: redirection.js:2
 msgid "Add Redirect"
@@ -2250,7 +2250,7 @@ msgstr ""
 msgid "Delete logs for these entries"
 msgstr ""
 
-#: client/page/logs404/row-actions.js:70
+#: client/page/logs404/row-actions.js:68
 #: redirection.js:2
 msgid "Show All"
 msgstr ""
@@ -2290,36 +2290,6 @@ msgstr ""
 msgid "Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do."
 msgstr ""
 
-#: client/page/options/donation.js:83
-#: redirection.js:2
-msgid "You've supported this plugin - thank you!"
-msgstr ""
-
-#: client/page/options/donation.js:84
-#: redirection.js:2
-msgid "I'd like to support some more."
-msgstr ""
-
-#: client/page/options/donation.js:101
-#: redirection.js:2
-msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
-msgstr ""
-
-#: client/page/options/donation.js:106
-#: redirection.js:2
-msgid "You get useful software and I get to carry on making it better."
-msgstr ""
-
-#: client/page/options/donation.js:129
-#: redirection.js:2
-msgid "Support 💰"
-msgstr ""
-
-#: client/page/options/donation.js:141
-#: redirection.js:2
-msgid "Plugin Support"
-msgstr ""
-
 #: client/page/options/newsletter.js:22
 #: client/page/options/newsletter.js:36
 #: redirection.js:2
@@ -2346,112 +2316,137 @@ msgstr ""
 msgid "Your email address:"
 msgstr ""
 
-#: client/page/options/options-form/index.js:57
-#: redirection.js:2
-msgid "I'm a nice person and I have helped support the author of this plugin"
-msgstr ""
-
-#: client/page/options/options-form/index.js:75
+#: client/page/options/options-form/index.js:67
 #: client/page/site/index.js:103
 #: redirection.js:2
 msgid "Update"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:14
+#: client/page/options/options-form/log-options.js:15
 #: redirection.js:2
 msgid "No logs"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:15
+#: client/page/options/options-form/log-options.js:16
 #: client/page/options/options-form/url-options.js:22
 #: redirection.js:2
 msgid "A day"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:16
+#: client/page/options/options-form/log-options.js:17
 #: client/page/options/options-form/url-options.js:23
 #: redirection.js:2
 msgid "A week"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:17
+#: client/page/options/options-form/log-options.js:18
 #: redirection.js:2
 msgid "A month"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:18
+#: client/page/options/options-form/log-options.js:19
 #: redirection.js:2
 msgid "Two months"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:19
+#: client/page/options/options-form/log-options.js:20
 #: client/page/options/options-form/url-options.js:24
 #: redirection.js:2
 msgid "Forever"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:22
+#: client/page/options/options-form/log-options.js:23
 #: redirection.js:2
 msgid "No IP logging"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:23
+#: client/page/options/options-form/log-options.js:24
 #: redirection.js:2
 msgid "Full IP logging"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:24
+#: client/page/options/options-form/log-options.js:25
 #: redirection.js:2
 msgid "Anonymize IP (mask last part)"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:38
+#: client/page/options/options-form/log-options.js:49
 #: redirection.js:2
 msgid "Redirect Logs"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:45
-#: client/page/options/options-form/log-options.js:54
+#: client/page/options/options-form/log-options.js:56
+#: client/page/options/options-form/log-options.js:65
 #: redirection.js:2
 msgid "(time to keep logs for)"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:47
+#: client/page/options/options-form/log-options.js:58
 #: redirection.js:2
 msgid "404 Logs"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:56
+#: client/page/options/options-form/log-options.js:67
 #: redirection.js:2
 msgid "IP Logging"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:63
+#: client/page/options/options-form/log-options.js:74
 #: redirection.js:2
 msgid "(IP logging level)"
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:65
+#: client/page/options/options-form/log-options.js:76
 #: redirection.js:2
-msgid "Logging"
-msgstr ""
-
-#: client/page/options/options-form/log-options.js:75
-#: redirection.js:2
-msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
+msgid "IP Address"
 msgstr ""
 
 #: client/page/options/options-form/log-options.js:84
 #: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:87
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:88
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:92
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:94
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:97
+#: redirection.js:2
+msgid "Logging"
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:107
+#: redirection.js:2
+msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
+msgstr ""
+
+#: client/page/options/options-form/log-options.js:116
+#: redirection.js:2
 msgid "Track redirect hits and date of last access. Contains no user information."
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:90
+#: client/page/options/options-form/log-options.js:122
 #: redirection.js:2
 msgid "Capture HTTP header information with logs (except cookies). It may include user information, and could increase your log size."
 msgstr ""
 
-#: client/page/options/options-form/log-options.js:101
+#: client/page/options/options-form/log-options.js:133
 #: redirection.js:2
 msgid "Redirection stores no user identifiable information other than what is configured above. It is your responsibility to ensure your site meets any applicable {{link}}privacy requirements{{/link}}."
 msgstr ""
@@ -2848,12 +2843,12 @@ msgstr ""
 msgid "Redirect"
 msgstr ""
 
-#: client/page/site/headers/header.js:227
+#: client/page/site/headers/header.js:228
 #: redirection.js:2
 msgid "General"
 msgstr ""
 
-#: client/page/site/headers/header.js:260
+#: client/page/site/headers/header.js:261
 #: redirection.js:2
 msgid "Custom Header"
 msgstr ""
@@ -3143,7 +3138,7 @@ msgstr ""
 
 #: client/wp-plugin-components/error/decode-error/index.js:117
 #: redirection.js:2
-msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?"
+msgid "Can you access your {{api}}REST API{{/api}} without it redirecting?."
 msgstr ""
 
 #: client/wp-plugin-components/error/decode-error/index.js:125

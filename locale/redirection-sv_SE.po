@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-22 11:26:33+0000\n"
+"PO-Revision-Date: 2024-01-05 09:26:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: sv_SE\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr "Proxy-adress"
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr "REMOTE_ADDR"
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr "IP-adress"
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -57,7 +81,7 @@ msgstr "REST API 404"
 
 #: redirection-strings.php:746 redirection.js:2
 msgid "Your REST API appears to be cached and this will cause problems. Please exclude your REST API from your caching system."
-msgstr ""
+msgstr "Ditt REST API verkar vara cachelagrat och detta kommer att orsaka problem. Exkludera ditt REST API från ditt cachelagringssystem."
 
 #: redirection-strings.php:738 redirection.js:2
 msgid "Your REST API is showing a deprecated PHP error. Please fix this error."
@@ -141,7 +165,7 @@ msgstr "%1d av %1d markerade. {{all}}Markera alla{{/all}}."
 
 #: redirection-strings.php:526 redirection.js:2
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
-msgstr ""
+msgstr "Ibland kan din webbläsare cachelagra en URL, vilket gör det svårt att veta om den fungerar som förväntat. Använd denna tjänst från {{link}}redirect.li{{/link}} för att få exakta resultat."
 
 #: redirection-strings.php:362 redirection-strings.php:423 redirection.js:2
 msgid "Search exact URL"
@@ -169,7 +193,7 @@ msgstr "Redo att börja! 🎉"
 
 #: redirection-strings.php:177 redirection.js:2
 msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
-msgstr ""
+msgstr "På {{support}}supportwebbplatsen{{/support}} hittar du information om hur du använder Redirection."
 
 #: redirection-strings.php:176 redirection.js:2
 msgid "Redirection is now installed!"
@@ -245,7 +269,7 @@ msgstr "Omdirigerad av Redirection."
 
 #: redirection-strings.php:34 redirection.js:2
 msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
-msgstr ""
+msgstr "En felsida returnerades. Detta är sannolikt inte ett problem med Redirection. {{support}}Vad betyder detta? {{/support}}."
 
 #: redirection-strings.php:33 redirection.js:2
 msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
@@ -317,7 +341,7 @@ msgstr "Kontrollera din {{link}}Hälsostatus för webbplats{{/ link}} och åtgä
 
 #: redirection-strings.php:728 redirection.js:2
 msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr "Ditt REST API returnerar en 404-sida. Detta är nästan helt säkert ett externt tilläggs- eller serverkonfigurationsproblem."
+msgstr "Ditt REST API för WordPress returnerar en 404-sida. Detta är nästan helt säkert ett externt tilläggs- eller serverkonfigurationsproblem."
 
 #: redirection-strings.php:724 redirection.js:2
 msgid "Debug Information"
@@ -1786,7 +1810,7 @@ msgstr "En timma"
 
 #: redirection-strings.php:680 redirection.js:2
 msgid "Redirect Caching"
-msgstr "Omdirigera cache"
+msgstr "Cachehantering av omdirigeringar"
 
 #: redirection-strings.php:679 redirection.js:2
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -2006,11 +2030,11 @@ msgstr "Position"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Används för att automatiskt generera en URL om ingen URL anges. Använd specialkoderna {{code}}$dec${{/code}} eller {{code}}$hex${{/code}} för att infoga ett unikt ID istället"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Jag skulle vilja stödja lite till."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "Stötta 💰"
 
@@ -2186,7 +2210,7 @@ msgstr "Ej matchande mål"
 
 #: redirection-strings.php:50 redirection-strings.php:51
 msgid "Saving..."
-msgstr "Sparar..."
+msgstr "Sparar …"
 
 #: redirection-strings.php:544 redirection.js:2
 msgid "View notice"
@@ -2268,11 +2292,11 @@ msgstr "Prenumerera på vårt lilla nyhetsbrev om Redirection – ett lågfrekve
 msgid "Your email address:"
 msgstr "Din e-postadress:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Du har stöttat detta tillägg – tack!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Du får en användbar mjukvara och jag kan fortsätta göra den bättre."
 
@@ -2308,7 +2332,7 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Hantera alla dina 301-omdirigeringar och övervaka 404-fel"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection är gratis att använda – livet är underbart och ljuvligt! Det har krävts mycket tid och ansträngningar för att utveckla tillägget och du kan hjälpa till med att stödja denna utveckling genom att {{strong}}göra en liten donation{{/ strong}}."
 
@@ -2372,11 +2396,11 @@ msgstr "(hur länge loggar ska sparas)"
 msgid "Redirect Logs"
 msgstr "Redirection-loggar"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Jag är en trevlig person och jag har hjälpt till att stödja skaparen av detta tillägg"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Stöd tillägget"
 

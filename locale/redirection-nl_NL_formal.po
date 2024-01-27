@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-21 13:54:46+0000\n"
+"PO-Revision-Date: 2024-01-05 18:16:43+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: nl\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr "Als je een proxy gebruikt, voeg dan hier IP-adressen toe om alleen IP headers van die adressen te vertrouwen."
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr "Proxy adres"
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr "Zorg ervoor dat je de gegevens in deze headers vertrouwt. Als je een proxy gebruikt, stel dan het adres daarvan hieronder in."
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr "Stel alleen aangepaste IP headers in als je server <code>geen REMOTE_ADDR</code> gebruikt om het klant IP-adres op te slaan."
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr "REMOTE_ADDR"
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr "IP-adres"
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -73,7 +97,7 @@ msgstr "Heeft je toegang tot je {{api}}REST API{{/api}} zonder dat deze omleidt?
 
 #: redirection-strings.php:729 redirection.js:2
 msgid "You will will need to fix this on your site. Redirection is not causing the error."
-msgstr "Je zult dit op je site moeten oplossen. Redirection veroorzaakt de fout niet."
+msgstr "Je moet dit oplossen op je site. Redirection veroorzaakt de fout niet."
 
 #: redirection-strings.php:719 redirection.js:2
 msgid "Add Permalink"
@@ -93,7 +117,7 @@ msgstr "Reactie: dit is in beta en zal alleen berichten migreren. Bepaalde perma
 
 #: redirection-strings.php:715 redirection.js:2
 msgid "Enter old permalinks structures to automatically migrate them to your current one."
-msgstr "Voer oude permalink-structuren in om ze automatisch naar de huidige te migreren."
+msgstr "Voer oude permalink structuren in om ze automatisch naar je huidige te migreren."
 
 #: redirection-strings.php:714 redirection.js:2
 msgid "Permalink Migration"
@@ -117,7 +141,7 @@ msgstr "Gegevens upgrade"
 
 #: redirection-strings.php:642 redirection.js:2
 msgid "Advanced"
-msgstr "Geavanceerd "
+msgstr "Geavanceerd"
 
 #: redirection-strings.php:641 redirection.js:2
 msgid "Automatically upgrade on admin pages"
@@ -141,7 +165,7 @@ msgstr "%1d van %1d geselecteerd. {{all}}Selecteer Alles.{{/all}}"
 
 #: redirection-strings.php:526 redirection.js:2
 msgid "Sometimes your browser can cache a URL, making it hard to know if it's working as expected. Use this service from {{link}}redirect.li{{/link}} to get accurate results."
-msgstr "Soms kan je browser een URL cachen, waardoor het moeilijk is om te weten of deze werkt zoals verwacht. Gebruik deze service van {{link}}redirect.li{{/link}} om nauwkeurige resultaten te krijgen."
+msgstr "Soms kan je browser een URL cachen, waardoor het moeilijk is om te weten of deze werkt zoals verwacht. Gebruik deze dienst van {{link}}redirect.li{{/link}} om nauwkeurige resultaten te krijgen."
 
 #: redirection-strings.php:362 redirection-strings.php:423 redirection.js:2
 msgid "Search exact URL"
@@ -185,7 +209,7 @@ msgstr "De Redirection database lijkt niet te bestaan. Heb je de bovenstaande SQ
 
 #: redirection-strings.php:120 redirection.js:2
 msgid "Wildcards are not supported. You need to use a {{link}}regular expression{{/link}}."
-msgstr "Jokertekens worden niet ondersteund. Je moet een {{link}}reguliere expressie{{/link}} gebruiken."
+msgstr "Jokertekens worden niet ondersteund. Je moet een {{link}}reguliere uitdrukking{{/link}} gebruiken."
 
 #: redirection-strings.php:119 redirection.js:2
 msgid "To match {{code}}?{{/code}} you need to escape it with {{code}}\\?{{/code}}"
@@ -197,7 +221,7 @@ msgstr "Het dakje {{code}}^{{/code}} moet aan het begin. Bijvoorbeeld: {{code}}%
 
 #: redirection-strings.php:116 redirection.js:2
 msgid "Please add migrated permalinks to the Site page under the \"Permalink Migration\" section."
-msgstr "Voeg gemigreerde permalinks toe aan de pagina onder het gedeelte \"Permalink-migratie\"."
+msgstr "Voeg gemigreerde permalinks toe aan de site pagina onder de \"Permalink migratie\" sectie."
 
 #: redirection-strings.php:92 redirection-strings.php:658 redirection.js:2
 msgid "Exact match in any order"
@@ -317,7 +341,7 @@ msgstr "Controleer je {{link}}sitestatus{{/link}} en los eventuele problemen op.
 
 #: redirection-strings.php:728 redirection.js:2
 msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr "Je REST API retourneert een 404 pagina. Dit is vrijwel zeker een probleem met de externe plugin of serverconfiguratie."
+msgstr "Je WordPress REST API retourneert een 404 pagina. Dit is vrijwel zeker een probleem met de externe plugin of serverconfiguratie."
 
 #: redirection-strings.php:724 redirection.js:2
 msgid "Debug Information"
@@ -433,7 +457,7 @@ msgstr "Site verplaatsen"
 
 #: redirection-strings.php:707 redirection.js:2
 msgid "Add CORS Presets"
-msgstr "CORS-voorinstellingen toevoegen"
+msgstr "CORS voorinstellingen toevoegen"
 
 #: redirection-strings.php:706 redirection.js:2
 msgid "Add Security Presets"
@@ -445,7 +469,7 @@ msgstr "Header toevoegen"
 
 #: redirection-strings.php:700 redirection.js:2
 msgid "You should update your site URL to match your canonical settings: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
-msgstr "Je moet je site-URL updaten zodat deze overeenkomt met je canonieke instellingen: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
+msgstr "Je moet je site URL updaten zodat deze overeenkomt met je canonieke instellingen: {{code}}%(current)s{{/code}} ⇒ {{code}}%(site)s{{/code}}"
 
 #: redirection-strings.php:699 redirection.js:2
 msgid "Preferred domain"
@@ -497,11 +521,11 @@ msgstr "Je moet je systeem (DNS en server) configureren om aanvragen voor deze d
 
 #: redirection-strings.php:687 redirection.js:2
 msgid "A site alias is another domain that you want to be redirected to this site. For example, an old domain, or a subdomain. This will redirect all URLs, including WordPress login and admin."
-msgstr "Een site-alias is een ander domein dat je wil omleiden naar deze site. Bijvoorbeeld een oud domein of een subdomein. Hiermee worden alle URL's omgeleid, inclusief WordPress login en beheer."
+msgstr "Een site alias is een ander domein dat je wil omleiden naar deze site. Bijvoorbeeld een oud domein of een subdomein. Hiermee worden alle URL's omgeleid, inclusief WordPress login en beheer."
 
 #: redirection-strings.php:686 redirection.js:2
 msgid "Site Aliases"
-msgstr "Site-aliassen"
+msgstr "Site aliassen"
 
 #: redirection-strings.php:524 redirection.js:2
 msgid "The companion plugin Search Regex allows you to search and replace data on your site. It also supports Redirection, and is handy if you want to bulk update a lot of redirects."
@@ -509,7 +533,7 @@ msgstr "Met de bijbehorende plugin Zoek Regex kun je gegevens op je site zoeken 
 
 #: redirection-strings.php:523 redirection.js:2
 msgid "Need to search and replace?"
-msgstr "Wilt je zoeken en vervangen?"
+msgstr "Wil je zoeken en vervangen?"
 
 #: redirection-strings.php:512 redirection.js:2
 msgid "Options on this page can cause problems if used incorrectly. You can {{link}}temporarily disable them{{/link}} to make changes."
@@ -607,7 +631,7 @@ msgstr "Site"
 
 #: redirection-strings.php:744 redirection.js:2
 msgid "Unable to make request due to browser security. This is typically because your WordPress and Site URL settings are inconsistent, or the request was blocked by your site CORS policy."
-msgstr "Kan aanvraag niet indienen vanwege browserbeveiliging. Dit komt meestal omdat je WordPress en site URL instellingen niet consistent zijn of omdat het verzoek is geblokkeerd door het CORS beleid van je site."
+msgstr "Kan aanvraag niet indienen vanwege browserbeveiliging. Dit komt meestal omdat je WordPress en site URL instellingen niet consistent zijn of omdat de aanvraag is geblokkeerd door het CORS beleid van je site."
 
 #: redirection-strings.php:685 redirection.js:2
 msgid "Ignore & Pass Query"
@@ -871,7 +895,7 @@ msgstr "Handmatige upgrade"
 
 #: redirection.js:2
 msgid "Please make a backup of your Redirection data: {{download}}downloading a backup{{/download}}. If you experience any issues you can import this back into Redirection."
-msgstr "Maak een back-up van je omleidingsgegevens: {{download}}download een back-up{{/download}}. Als je problemen ondervindt, kun je dit terug importeren in omleiding."
+msgstr "Maak een backup van je Redirection gegevens: {{download}}download een backup{{/download}}. Als je problemen ondervindt, kunt je dit terug importeren in omleiding."
 
 #: redirection.js:2
 msgid "Click the \"Upgrade Database\" button to automatically upgrade the database."
@@ -951,7 +975,7 @@ msgstr "Werkt!"
 
 #: redirection-strings.php:123 redirection.js:2
 msgid "Your target URL should be an absolute URL like {{code}}https://domain.com/%(url)s{{/code}} or start with a slash {{code}}/%(url)s{{/code}}."
-msgstr "Je doel-URL moet een absolute URL zijn zoals{{code}}https://domain.com/%(url)s{{/code}} of beginnen met een schuine streep {{code}}/%(url)s{{/code}}."
+msgstr "Je doel URL moet een absolute URL zijn zoals{{code}}https://domain.com/%(url)s{{/code}} of beginnen met een schuine streep {{code}}/%(url)s{{/code}}."
 
 #: redirection-strings.php:122 redirection.js:2
 msgid "Your source is the same as a target and this will create a loop. Leave a target blank if you do not want to take action."
@@ -959,7 +983,7 @@ msgstr "Je bron is hetzelfde als een doel en dit zal een lus creëren. Laat een 
 
 #: redirection-strings.php:109 redirection.js:2
 msgid "The target URL you want to redirect, or auto-complete on post name or permalink."
-msgstr "De doel-URL die je wil omleiden of automatisch wilt aanvullen op berichtnaam of permalink."
+msgstr "De doel URL die je wil omleiden of automatisch wilt aanvullen op berichtnaam of permalink."
 
 #: redirection-strings.php:263 redirection.js:2
 msgid "Include these details in your report along with a description of what you were doing and a screenshot."
@@ -1004,15 +1028,15 @@ msgstr "Exporteer verwijzing"
 
 #: redirection-strings.php:675 redirection.js:2
 msgid "Pass - as ignore, but also copies the query parameters to the target"
-msgstr "Pass - negeren, maar kopieert ook de queryparameters naar het doel"
+msgstr "Pass - negeren, maar kopieert ook de query parameters naar het doel"
 
 #: redirection-strings.php:674 redirection.js:2
 msgid "Ignore - as exact, but ignores any query parameters not in your source"
-msgstr "Negeren - als exact, maar negeert alle queryparameters die niet in je bron staan"
+msgstr "Negeren - als exact, maar negeert alle query parameters die niet in je bron staan"
 
 #: redirection-strings.php:673 redirection.js:2
 msgid "Exact - matches the query parameters exactly defined in your source, in any order"
-msgstr "Exact - komt overeen met de queryparameters die precies zijn gedefinieerd in je bron, in willekeurige volgorde"
+msgstr "Exact - komt overeen met de query parameters die precies zijn gedefinieerd in je bron, in willekeurige volgorde"
 
 #: redirection-strings.php:671 redirection.js:2
 msgid "Default query matching"
@@ -1036,11 +1060,11 @@ msgstr "Standaard URL instellingen"
 
 #: redirection-strings.php:660 redirection.js:2
 msgid "Ignore and pass all query parameters"
-msgstr "Negeer & geef zoekopdrachtparameters door"
+msgstr "Negeer en geef alle query parameters door"
 
 #: redirection-strings.php:659 redirection.js:2
 msgid "Ignore all query parameters"
-msgstr "Negeer alle zoekopdrachtparameters"
+msgstr "Negeer alle query parameters"
 
 #: redirection-strings.php:91 redirection.js:2
 msgid "Exact match"
@@ -1052,7 +1076,7 @@ msgstr "Caching software (bv. Cloudflare)"
 
 #: redirection-strings.php:166 redirection.js:2
 msgid "A security plugin (e.g Wordfence)"
-msgstr "Een beveiligingsplugin (bv. Wordfence)"
+msgstr "Een beveiliging plugin (bv. Wordfence)"
 
 #: redirection-strings.php:473 redirection.js:2
 msgid "URL options"
@@ -1060,7 +1084,7 @@ msgstr "URL opties"
 
 #: redirection-strings.php:104 redirection-strings.php:474 redirection.js:2
 msgid "Query Parameters"
-msgstr "Zoekopdrachtparameters"
+msgstr "Query parameters"
 
 #: redirection-strings.php:94 redirection.js:2
 msgid "Ignore & pass parameters to the target"
@@ -1096,7 +1120,7 @@ msgstr "(Voorbeeld) De doel URL is de nieuwe URL"
 
 #: redirection-strings.php:210 redirection.js:2
 msgid "(Example) The source URL is your old or original URL"
-msgstr "(Voorbeeld) De bron-URL is je oude of originele URL"
+msgstr "(Voorbeeld) De bron URL is je oude of originele URL"
 
 #. translators: 1: server PHP version. 2: required PHP version.
 #: redirection.php:37
@@ -1105,7 +1129,7 @@ msgstr "Uitgeschakeld! Gedetecteerd PHP %1$s, nodig PHP %2$s+"
 
 #: redirection.js:2
 msgid "A database upgrade is in progress. Please continue to finish."
-msgstr "Er wordt een database-upgrade uitgevoerd. Ga door om te voltooien."
+msgstr "Er wordt een database upgrade uitgevoerd. Ga door om te voltooien."
 
 #. translators: 1: URL to plugin page, 2: current version, 3: target version
 #: redirection-admin.php:118
@@ -1146,7 +1170,7 @@ msgstr "Een serverfirewall of andere serverconfiguratie (bijvoorbeeld OVH)"
 
 #: redirection-strings.php:165 redirection.js:2
 msgid "Redirection uses the {{link}}WordPress REST API{{/link}} to communicate with WordPress. This is enabled and working by default. Sometimes the REST API is blocked by:"
-msgstr "Omleiding gebruikt de {{link}}WordPress REST API{{/link}} om met WordPress te communiceren. Dit is ingeschakeld en werkt standaard. Soms wordt de REST API geblokkeerd door:"
+msgstr "Redirection gebruikt de {{link}} WordPress REST API {{/link}} om met WordPress te communiceren. Dit is ingeschakeld en werkt standaard. Soms wordt de REST API geblokkeerd door:"
 
 #: redirection-strings.php:162 redirection-strings.php:184
 #: redirection-strings.php:203 redirection.js:2
@@ -1155,7 +1179,7 @@ msgstr "Ga terug"
 
 #: redirection-strings.php:200 redirection.js:2
 msgid "Storing the IP address allows you to perform additional log actions. Note that you will need to adhere to local laws regarding the collection of data (for example GDPR)."
-msgstr "Door het IP-adres op te slaan, kun je aanvullende log acties uitvoeren. Houd er rekening mee dat je zich moet houden aan de lokale wetten met betrekking tot het verzamelen van gegevens (bijvoorbeeld GDPR)."
+msgstr "Door het IP-adres op te slaan, kun je aanvullende log acties uitvoeren. Houd er rekening mee dat je je moet houden aan de lokale wetten met betrekking tot het verzamelen van gegevens (bijvoorbeeld AVG/GDPR)."
 
 #: redirection-strings.php:199 redirection.js:2
 msgid "Store IP information for redirects and 404 errors."
@@ -1167,7 +1191,7 @@ msgstr "Door logs voor omleidingen en 404's op te slaan, kun je zien wat er op j
 
 #: redirection-strings.php:196 redirection.js:2
 msgid "Keep a log of all redirects and 404 errors."
-msgstr "Houd een log bij van alle omleidingen en 404-fouten."
+msgstr "Houd een log bij van alle omleidingen en 404 fouten."
 
 #: redirection-strings.php:195 redirection-strings.php:198
 #: redirection-strings.php:201 redirection.js:2
@@ -1244,7 +1268,7 @@ msgstr "Bedankt voor het installereren en gebruiken van Redirection v%(versie)s.
 
 #: redirection-strings.php:204 redirection.js:2
 msgid "Welcome to Redirection 🚀🎉"
-msgstr "Welkom bij Redirection 🚀🎉 "
+msgstr "Welkom bij Redirection 🚀🎉"
 
 #: redirection-strings.php:117 redirection.js:2
 msgid "To prevent a greedy regular expression you can use {{code}}^{{/code}} to anchor it to the start of the URL. For example: {{code}}%(example)s{{/code}}"
@@ -1264,11 +1288,11 @@ msgstr "Dit wordt omgezet naar een server omleiding voor het domein {{code}}%(se
 
 #: redirection-strings.php:112 redirection.js:2
 msgid "Anchor values are not sent to the server and cannot be redirected."
-msgstr "Ankerwaarden worden niet naar de server gestuurd en kunnen niet worden omgeleid."
+msgstr "Ankerwaarden worden niet naar de server verzonden en kunnen niet worden omgeleid."
 
 #: redirection-strings.php:161 redirection.js:2
 msgid "Finished! 🎉"
-msgstr "Klaar! 🎉 "
+msgstr "Klaar! 🎉"
 
 #: redirection-strings.php:17
 msgid "Progress: %(complete)d$"
@@ -1276,7 +1300,7 @@ msgstr "Voortgang: %(complete)d$"
 
 #: redirection-strings.php:15 redirection.js:2
 msgid "Leaving before the process has completed may cause problems."
-msgstr "Vertrekken voordat het proces is voltooid, kan problemen veroorzaken."
+msgstr "Vertrekken voordat het proces is afgerond, kan problemen veroorzaken."
 
 #: redirection-strings.php:14 redirection.js:2
 msgid "Setting up Redirection"
@@ -1288,7 +1312,7 @@ msgstr "Upgraden Redirection"
 
 #: redirection-strings.php:16 redirection.js:2
 msgid "Please remain on this page until complete."
-msgstr "Blijf op deze pagina tot het voltooid is."
+msgstr "Blijf op deze pagina tot het afgerond is."
 
 #: redirection-strings.php:12 redirection.js:2
 msgid "If you want to {{support}}ask for support{{/support}} please include these details:"
@@ -1313,7 +1337,7 @@ msgstr "Database probleem"
 
 #: redirection-admin.php:567
 msgid "Please enable JavaScript"
-msgstr "Schakel Javascript in"
+msgstr "Schakel JavaScript in"
 
 #: redirection-admin.php:219
 msgid "Please upgrade your database"
@@ -1326,7 +1350,7 @@ msgstr "Upgrade database"
 #. translators: 1: URL to plugin page
 #: redirection-admin.php:115
 msgid "Please complete your <a href=\"%s\">Redirection setup</a> to activate the plugin."
-msgstr "Voltooi je <a href=\"%s\">omleiding instellingen</a> om de plugin te activeren."
+msgstr "Voltooi je <a href=\"%s\">Redirection instellingen</a> om de plugin te activeren."
 
 #. translators: version number
 #: api/api-plugin.php:119
@@ -1500,7 +1524,7 @@ msgstr "Doel"
 
 #: redirection-strings.php:595 redirection.js:2
 msgid "Enter server URL to match against"
-msgstr "Voer de server-URL in waarnaar moet worden gezocht"
+msgstr "Voer de server URL in waarnaar moet worden gezocht"
 
 #: redirection-strings.php:594 redirection.js:2
 msgid "Server"
@@ -1548,7 +1572,7 @@ msgstr "Site en home komen overeen"
 
 #: redirection-strings.php:581 redirection.js:2
 msgid "Note it is your responsibility to pass HTTP headers to PHP. Please contact your hosting provider for support about this."
-msgstr "Het is je eigen verantwoordelijkheid om HTTP-headers door te geven aan PHP. Neem contact op met je hostingprovider voor ondersteuning hiermee."
+msgstr "Het is je eigen verantwoordelijkheid om HTTP headers door te geven aan PHP. Neem contact op met je hosting provider voor ondersteuning hiermee."
 
 #: redirection-strings.php:579 redirection.js:2
 msgid "Accept Language"
@@ -1636,7 +1660,7 @@ msgstr "Bekijk hier de <a href=\"https://redirection.me/support/problems/\">lijs
 
 #: redirection-admin.php:540
 msgid "Unable to load Redirection ☹️"
-msgstr "Redirection kon niet worden geladen ☹️ "
+msgstr "Omleiding kon niet worden geladen ☹️"
 
 #: redirection-strings.php:534 redirection.js:2
 msgid "WordPress REST API"
@@ -1676,7 +1700,7 @@ msgstr "Agent"
 
 #: redirection-strings.php:622 redirection.js:2
 msgid "No IP logging"
-msgstr "Geen IP geschiedenis"
+msgstr "Geen IP logging"
 
 #: redirection-strings.php:623 redirection.js:2
 msgid "Full IP logging"
@@ -1692,7 +1716,7 @@ msgstr "Monitor veranderd naar %(type)s"
 
 #: redirection-strings.php:630 redirection.js:2
 msgid "IP Logging"
-msgstr "IP geschiedenis bijhouden"
+msgstr "IP logging"
 
 #: redirection-strings.php:549 redirection.js:2
 msgid "Geo Info"
@@ -1716,7 +1740,7 @@ msgstr "Er ging iets mis bij het ophalen van deze informatie"
 
 #: redirection-strings.php:24 redirection.js:2
 msgid "This is an IP from a private network. This means it is located inside a home or business network and no more information can be displayed."
-msgstr "Dit is een IP adres van een privé-netwerk. Dat betekent dat het zich in een huis of bedrijfsnetwerk bevindt, en dat geen verdere informatie kan worden getoond."
+msgstr "Dit is een IP-adres van een privé netwerk. Dat betekent dat het zich in een huis of bedrijfsnetwerk bevindt, en dat geen verdere informatie kan worden getoond."
 
 #: redirection-strings.php:26 redirection.js:2
 msgid "No details are known for this address."
@@ -1758,7 +1782,7 @@ msgstr "Redirection vereist dat de WordPress REST API geactiveerd is. Heb je dez
 #. translators: URL
 #: redirection-admin.php:425
 msgid "You can find full documentation about using Redirection on the <a href=\"%s\" target=\"_blank\">redirection.me</a> support site."
-msgstr "Je kunt de volledige documentatie over het gebruik van Redirection vinden op de <a href=\"%s\" target=\"_blank\">redirection.me</a> ondersteuning site."
+msgstr "Je kunt volledige documentatie over het gebruik van Redirection vinden op de <a href=\"%s\" target=\"_blank\">redirection.me</a> ondersteuning site."
 
 #. Plugin URI of the plugin
 msgid "https://redirection.me/"
@@ -1786,7 +1810,7 @@ msgstr "Een uur"
 
 #: redirection-strings.php:680 redirection.js:2
 msgid "Redirect Caching"
-msgstr "Omleiding cache"
+msgstr "Omleiding caching"
 
 #: redirection-strings.php:679 redirection.js:2
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -1802,7 +1826,7 @@ msgstr "Plugin importeerders"
 
 #: redirection-strings.php:305 redirection.js:2
 msgid "The following redirect plugins were detected on your site and can be imported from."
-msgstr "De volgende redirect plugins, waar vandaan je kunt importeren, zijn gevonden op je site."
+msgstr "De volgende omleiding plugins, waar vandaan je kunt importeren, zijn gevonden op je site."
 
 #: redirection-strings.php:288
 msgid "total = "
@@ -1835,7 +1859,7 @@ msgstr "Als de magische knop niet werkt, moet je de fout lezen en kijken of je d
 
 #: redirection-strings.php:531 redirection.js:2
 msgid "⚡️ Magic fix ⚡️"
-msgstr " ⚡️ Magische reparatie ⚡️ "
+msgstr "⚡️ magische oplossing"
 
 #: redirection-strings.php:536 redirection.js:2
 msgid "Plugin Status"
@@ -1884,7 +1908,7 @@ msgstr "Controleer ook of je browser <code>redirection.js</code> kan laden:"
 
 #: redirection-admin.php:542 redirection-strings.php:257 redirection.js:2
 msgid "If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache."
-msgstr "Als je een plugin of service voor pagina caching gebruikt (CloudFlare, OVH, enz.), kun je ook proberen die cache te wissen."
+msgstr "Als je een plugin of dienst voor pagina caching gebruikt (CloudFlare, OVH, enz.), kun je ook proberen die cache te wissen."
 
 #: redirection-admin.php:531
 msgid "Unable to load Redirection"
@@ -1940,7 +1964,7 @@ msgstr "Alle tabellen zijn aanwezig"
 
 #: redirection-strings.php:252 redirection.js:2
 msgid "Cached Redirection detected"
-msgstr "Gecachte verwijzing gedetecteerd"
+msgstr "Cached omleiden gedetecteerd"
 
 #: redirection-strings.php:253 redirection.js:2
 msgid "Please clear your browser cache and reload this page."
@@ -1964,7 +1988,7 @@ msgstr "Aan het laden..."
 
 #: redirection-strings.php:308 redirection.js:2
 msgid "{{strong}}CSV file format{{/strong}}: {{code}}source URL, target URL{{/code}} - and can be optionally followed with {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 for no, 1 for yes)."
-msgstr "{{strong}}CSV bestandsformaat{{/strong}}: {{code}}bron-URL, doel-URL{{/code}} - en kan eventueel worden gevolgd door {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 voor nee, 1 voor ja)."
+msgstr "{{strong}}CSV bestandsformaat{{/strong}}: {{code}}bron URL, doel URL{{/code}} - en kan eventueel worden gevolgd door {{code}}regex, http code{{/code}} ({{code}}regex{{/code}} - 0 voor nee, 1 voor ja)."
 
 #: redirection-strings.php:256 redirection.js:2
 msgid "Redirection is not working. Try clearing your browser cache and reloading this page."
@@ -2006,13 +2030,13 @@ msgstr "Positie"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Wordt gebruikt om een URL te genereren wanneer geen URL is ingegeven. Gebruik de speciale tags {{code}}$dec${{/code}} of {{code}}$hex${{/code}} om in plaats daarvan een unieke ID te gebruiken"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Ik wil graag meer bijdragen."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
-msgstr "Ondersteuning 💰 "
+msgstr "Ondersteuning 💰"
 
 #: redirection-strings.php:290 redirection.js:2
 msgid "Import to group"
@@ -2088,7 +2112,7 @@ msgstr "Apache .htaccess"
 
 #: redirection-strings.php:319 redirection.js:2
 msgid "Nginx rewrite rules"
-msgstr "Nginx rewrite regels"
+msgstr "Nginx herschrijfregels"
 
 #: redirection-strings.php:320 redirection.js:2
 msgid "View"
@@ -2125,8 +2149,8 @@ msgstr "Groep opgeslagen"
 #: redirection-strings.php:4 redirection-strings.php:430 redirection.js:2
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the %d selected items?"
-msgstr[0] "Weet je zeker dat je dit item wil verwijderen?"
-msgstr[1] "Weet je zeker dat je deze items wil verwijderen?"
+msgstr[0] "Weet je zeker dat je dit item wilt verwijderen?"
+msgstr[1] "Weet je zeker dat je de %d geselecteerde items wilt verwijderen?"
 
 #: redirection-strings.php:682 redirection.js:2
 msgid "pass"
@@ -2195,7 +2219,7 @@ msgstr "Toon bericht"
 #: redirection-strings.php:751 redirection-strings.php:752
 #: redirection-strings.php:753 redirection.js:2
 msgid "Something went wrong 🙁"
-msgstr "Er is iets verkeerd gegaan 🙁 "
+msgstr "Er is iets verkeerd gegaan 🙁"
 
 #. translators: maximum number of log entries
 #: redirection-admin.php:285
@@ -2268,11 +2292,11 @@ msgstr "Meld je aan voor de kleine Redirection nieuwsbrief - een nieuwsbrief, di
 msgid "Your email address:"
 msgstr "Je e-mailadres:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Je hebt deze plugin gesteund - bedankt!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Je krijgt goed bruikbare software en ik kan doorgaan met het verbeteren ervan."
 
@@ -2306,9 +2330,9 @@ msgstr "John Godley"
 
 #. Description of the plugin
 msgid "Manage all your 301 redirects and monitor 404 errors"
-msgstr "Beheer al je 301-verwijzingen en hou 404-fouten in de gaten"
+msgstr "Beheer al je 301 omleidingen en bewaak 404 fouten"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Je mag Redirection gratis gebruiken - het leven is verrukkelijk! Desalniettemin heeft het veel tijd en moeite gekost om Redirection te ontwikkelen. Als je Redirection handig vind, kan je de ontwikkeling ondersteunen door een {{strong}}kleine donatie{{/strong}} te doen."
 
@@ -2334,7 +2358,7 @@ msgstr "Deze actie zal alle verwijzingen, alle logs en alle instellingen van de 
 
 #: redirection-strings.php:444 redirection.js:2
 msgid "Delete Redirection"
-msgstr "Verwijder omleidingen"
+msgstr "Verwijder Redirection"
 
 #: redirection-strings.php:295 redirection-strings.php:546 redirection.js:2
 msgid "Upload"
@@ -2358,7 +2382,7 @@ msgstr "Een uniek token waarmee feed readers toegang hebben tot de Redirection l
 
 #: redirection-strings.php:643 redirection.js:2
 msgid "RSS Token"
-msgstr "RSS-token"
+msgstr "RSS token"
 
 #: redirection-strings.php:628 redirection.js:2
 msgid "404 Logs"
@@ -2372,11 +2396,11 @@ msgstr "(tijd om logs voor te bewaren)"
 msgid "Redirect Logs"
 msgstr "Omleiding logs"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Ik ben een aardig persoon en ik heb de auteur van deze plugin geholpen met ondersteuning"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Ondersteuning van de plugin"
 
@@ -2495,7 +2519,7 @@ msgstr "IP-adres"
 #: redirection-strings.php:333 redirection-strings.php:379
 #: redirection-strings.php:388 redirection.js:2
 msgid "Source URL"
-msgstr "Bron-URL"
+msgstr "Bron URL"
 
 #: redirection-strings.php:330 redirection-strings.php:351
 #: redirection-strings.php:385 redirection-strings.php:412 redirection.js:2

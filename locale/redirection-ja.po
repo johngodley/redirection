@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-02-18 07:23:46+0000\n"
+"PO-Revision-Date: 2023-11-06 14:56:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: ja_JP\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr ""
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -343,7 +367,7 @@ msgstr ""
 
 #: redirection-strings.php:633 redirection.js:2
 msgid "Log \"external\" redirects - those not from Redirection. This can increase your log size and contains no user information."
-msgstr ""
+msgstr "Redirection 以外で実行されたリダイレクトのログを保存。ログのサイズが肥大化し、ユーザー情報は含みません。"
 
 #: redirection-strings.php:632 redirection.js:2
 msgid "Logging"
@@ -560,7 +584,7 @@ msgstr "すべて"
 
 #: redirection-strings.php:713 redirection.js:2
 msgid "Note that some HTTP headers are set by your server and cannot be changed."
-msgstr ""
+msgstr "HTTPヘッダーの中には、サーバーによって設定され、変更できないものがあることにご留意ください。"
 
 #: redirection-strings.php:712 redirection.js:2
 msgid "No headers"
@@ -2006,11 +2030,11 @@ msgstr "位置"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "URL が指定されていない場合に URL を自動生成するために使用されます。{{code}}$dec${{/code}} もしくは {{code}}$hex${{/code}} のような特別なタグが一意の ID を作るために挿入されます。"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "もっとサポートがしたいです。"
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "サポート💰"
 
@@ -2266,11 +2290,11 @@ msgstr "Redirection ニュースレターにサインアップ - このプラグ
 msgid "Your email address:"
 msgstr "メールアドレス:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "このプラグインを支援していただき、ありがとうございます。"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "皆さんは便利なソフトウェアを利用でき、私はそれらをより良く改良するために努力し続けられるのです。"
 
@@ -2306,7 +2330,7 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "すべての 301 リダイレクトを管理し、404 エラーをモニター"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection プラグインは無料でお使いいただけます。しかし、開発にはかなりの時間と労力がかかっており、{{strong}}少額の寄付{{/strong}} でも開発を助けていただけると嬉しいです。"
 
@@ -2370,11 +2394,11 @@ msgstr "(ログの保存期間)"
 msgid "Redirect Logs"
 msgstr "転送ログ"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "このプラグインの作者に対する援助を行いました"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "プラグインサポート"
 

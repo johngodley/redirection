@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-01-21 13:55:38+0000\n"
+"PO-Revision-Date: 2024-01-05 09:26:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: es_EC\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr ""
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -317,7 +341,7 @@ msgstr "Comprueba la {{link}}salud del sitio{{/link}} y corrige cualquier proble
 
 #: redirection-strings.php:728 redirection.js:2
 msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr "Tu API REST está devolviendo una página 404. esto es casi con certeza debido a un problema con un plugin externo o con la configuración del servidor. "
+msgstr "Tu API REST de WordPress está devolviendo una página 404. Es casi seguro que es un problema de un plugin externo o de la configuración del servidor."
 
 #: redirection-strings.php:724 redirection.js:2
 msgid "Debug Information"
@@ -2006,11 +2030,11 @@ msgstr "Posición"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Se usa para generar automáticamente una URL si no se ofrece una URL. Utiliza las etiquetas especiales {{code}}$dec${{/code}} o {{code}}$hex${{/code}} para insertar un ID único insertado"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Me gustaría dar algo más de apoyo."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "Apoyar 💰"
 
@@ -2126,7 +2150,7 @@ msgstr "Grupo guardado"
 msgid "Are you sure you want to delete this item?"
 msgid_plural "Are you sure you want to delete the %d selected items?"
 msgstr[0] "¿Seguro que quieres borrar este elemento?"
-msgstr[1] "¿Seguro que quieres borrar los elementos seleccionados?"
+msgstr[1] "¿Seguro que quieres borrar estos %d elementos?"
 
 #: redirection-strings.php:682 redirection.js:2
 msgid "pass"
@@ -2268,11 +2292,11 @@ msgstr "Regístrate al pequeño boletín de Redirection - un boletín liviano so
 msgid "Your email address:"
 msgstr "Tu dirección de correo electrónico:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Ya has apoyado a este plugin - ¡gracias!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Tienes un software útil y yo seguiré haciéndolo mejor."
 
@@ -2308,7 +2332,7 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Gestiona todas tus redirecciones 301 y supervisa tus errores 404"
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection se puede usar gratis - ¡La vida es maravillosa y encantadora! Sin embargo, ha requerido una gran cantidad de tiempo y esfuerzo desarrollarlo y, si te ha sido útil, puedes ayudar a este desarrollo {{strong}}haciendo una pequeña donación{{/strong}}. "
 
@@ -2372,11 +2396,11 @@ msgstr "(tiempo que se mantendrán los registros)"
 msgid "Redirect Logs"
 msgstr "Registros de redirecciones"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Soy una buena persona y he apoyado al autor de este plugin"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Soporte del plugin"
 

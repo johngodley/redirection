@@ -2,14 +2,38 @@
 # This file is distributed under the same license as the Plugins - Redirection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-03-12 08:48:32+0000\n"
+"PO-Revision-Date: 2024-01-05 09:26:05+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"X-Generator: GlotPress/4.0.0-beta.2\n"
 "Language: de\n"
 "Project-Id-Version: Plugins - Redirection - Stable (latest release)\n"
+
+#: redirection.js:2
+msgid "If using a proxy then add any IP addresses here to only trust IP headers from those addresses."
+msgstr ""
+
+#: redirection.js:2
+msgid "Proxy Address"
+msgstr ""
+
+#: redirection.js:2
+msgid "Please ensure you trust the data in these headers. If using a proxy then set its address below."
+msgstr ""
+
+#: redirection.js:2
+msgid "Only set custom IP headers if your server does not use <code>REMOTE_ADDR</code> to store the client IP address."
+msgstr ""
+
+#: redirection.js:2
+msgid "REMOTE_ADDR"
+msgstr ""
+
+#: redirection.js:2
+msgid "IP Address"
+msgstr ""
 
 #: redirection.js:2
 msgid "Export Logs"
@@ -42,14 +66,14 @@ msgstr "Prüfung - %s%%"
 #: redirection.js:2
 msgid "Transition"
 msgid_plural "TransitionEnd"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Transition"
+msgstr[1] "TransitionEnd"
 
 #: redirection.js:2
 msgid "Animation"
 msgid_plural "AnimationEnd"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Animation"
+msgstr[1] "AnimationEnd"
 
 #: redirection-strings.php:750 redirection.js:2
 msgid "REST API 404"
@@ -125,7 +149,7 @@ msgstr "Automatische Upgrades auf Admin-Seiten"
 
 #: redirection-strings.php:640 redirection.js:2
 msgid "Upgrade manually when prompted"
-msgstr "Upgrade manuell, wenn du dazu aufgefordert wirst"
+msgstr "Manuelle Upgrades bei Aufforderung"
 
 #: redirection-strings.php:606 redirection.js:2
 msgid "Nothing to display."
@@ -169,7 +193,7 @@ msgstr "Es kann losgehen! 🎉"
 
 #: redirection-strings.php:177 redirection.js:2
 msgid "Please take a moment to consult the {{support}}support site{{/support}} for information about how to use Redirection."
-msgstr "Bitte nimm dir einen Moment, um die {{support}}Support-Website (engl.){{/support}} anzusehen, um weitere Informationen über die Benutzung von Redirection zu erhalten."
+msgstr "Bitte nimm dir etwas Zeit, um die {{support}}Support-Website (engl.){{/support}} anzusehen, um weitere Informationen über die Benutzung von Redirection zu erhalten."
 
 #: redirection-strings.php:176 redirection.js:2
 msgid "Redirection is now installed!"
@@ -205,7 +229,7 @@ msgstr "Genaue Übereinstimmung in beliebiger Reihenfolge"
 
 #: redirection-strings.php:46 redirection.js:2
 msgid "Something went wrong obtaining this information. It may work in the future."
-msgstr "Beim Abrufen dieser Informationen ist etwas schief gelaufen. Vielleicht funktioniert es in der Zukunft."
+msgstr "Beim Abrufen dieser Information ist etwas schiefgelaufen. Vielleicht funktioniert es in Zukunft."
 
 #: redirection-strings.php:44 redirection.js:2
 msgid "View full redirect.li results."
@@ -245,7 +269,7 @@ msgstr "Umgeleitet von Redirection."
 
 #: redirection-strings.php:34 redirection.js:2
 msgid "An error page was returned. This is unlikely to be a problem with Redirection. {{support}}What does this mean?{{/support}}."
-msgstr "Es wurde eine Fehlerseite zurückgegeben. Es ist unwahrscheinlich, dass dies ein Problem mit Redirection. {{support}}Was bedeutet das?{{/support}}."
+msgstr "Es wurde eine Fehlerseite zurückgegeben. Es ist unwahrscheinlich, dass dies ein Problem von Redirection ist. {{support}}Was bedeutet das?{{/support}}."
 
 #: redirection-strings.php:33 redirection.js:2
 msgid "Something is wrong with the server. This is not a problem with Redirection and you will need to resolve the error yourself."
@@ -317,7 +341,7 @@ msgstr "Überprüfe den {{link}}Website-Zustand{{/link}} und behebe alle Problem
 
 #: redirection-strings.php:728 redirection.js:2
 msgid "Your WordPress REST API is returning a 404 page. This is almost certainly an external plugin or server configuration issue."
-msgstr "Die REST-API sendet eine 404-Seite zurück. Dies ist mit ziemlicher Sicherheit ein Problem mit einem anderen Plugin oder mit der Serverkonfiguration."
+msgstr "Deine REST-API gibt eine 404-Seite zurück. Dies ist mit ziemlicher Sicherheit ein Problem mit einem anderen Plugin oder mit der Serverkonfiguration."
 
 #: redirection-strings.php:724 redirection.js:2
 msgid "Debug Information"
@@ -1786,7 +1810,7 @@ msgstr "Eine Stunde"
 
 #: redirection-strings.php:680 redirection.js:2
 msgid "Redirect Caching"
-msgstr "Cache umleiten"
+msgstr "Caching umleiten"
 
 #: redirection-strings.php:679 redirection.js:2
 msgid "How long to cache redirected 301 URLs (via \"Expires\" HTTP header)"
@@ -2006,11 +2030,11 @@ msgstr "Position"
 msgid "Used to auto-generate a URL if no URL is given. Use the special tags {{code}}$dec${{/code}} or {{code}}$hex${{/code}} to insert a unique ID instead"
 msgstr "Wird verwendet, um automatisch eine URL zu generieren, wenn keine URL angegeben ist. Verwende die speziellen Tags {{code}}$dec${{/code}} oder {{code}}$hex${{/code}}, um stattdessen eine eindeutige ID einzufügen"
 
-#: redirection-strings.php:448 redirection.js:2
+#: redirection-strings.php:448
 msgid "I'd like to support some more."
 msgstr "Ich möchte etwas mehr unterstützen."
 
-#: redirection-strings.php:451 redirection.js:2
+#: redirection-strings.php:451
 msgid "Support 💰"
 msgstr "Unterstützen 💰"
 
@@ -2186,7 +2210,7 @@ msgstr "Unpassendes Ziel"
 
 #: redirection-strings.php:50 redirection-strings.php:51
 msgid "Saving..."
-msgstr "Speichern..."
+msgstr "Wird gespeichert …"
 
 #: redirection-strings.php:544 redirection.js:2
 msgid "View notice"
@@ -2268,11 +2292,11 @@ msgstr "Melde dich für den Redirection-Newsletter an - ein gelegentlicher Newsl
 msgid "Your email address:"
 msgstr "Deine E-Mail Adresse:"
 
-#: redirection-strings.php:447 redirection.js:2
+#: redirection-strings.php:447
 msgid "You've supported this plugin - thank you!"
 msgstr "Du hast dieses Plugin bereits unterstützt - vielen Dank!"
 
-#: redirection-strings.php:450 redirection.js:2
+#: redirection-strings.php:450
 msgid "You get useful software and I get to carry on making it better."
 msgstr "Du erhältst nützliche Software, und ich kann diese weiter verbessern."
 
@@ -2308,7 +2332,7 @@ msgstr "John Godley"
 msgid "Manage all your 301 redirects and monitor 404 errors"
 msgstr "Verwalte alle 301-Umleitungen und 404-Fehler."
 
-#: redirection-strings.php:449 redirection.js:2
+#: redirection-strings.php:449
 msgid "Redirection is free to use - life is wonderful and lovely! It has required a great deal of time and effort to develop and you can help support this development by {{strong}}making a small donation{{/strong}}."
 msgstr "Redirection ist kostenlos – das Leben ist wundervoll und schön! Aber: Sehr viel Zeit und Arbeit sind in seine Entwicklung geflossen und falls es sich als nützlich erwiesen hat, kannst du die Entwicklung {{strong}}mit einer kleinen Spende unterstützen{{/strong}}."
 
@@ -2372,11 +2396,11 @@ msgstr "(Dauer, für die die Protokolle behalten werden)"
 msgid "Redirect Logs"
 msgstr "Umleitungs-Protokolle"
 
-#: redirection-strings.php:614 redirection.js:2
+#: redirection-strings.php:614
 msgid "I'm a nice person and I have helped support the author of this plugin"
 msgstr "Ich bin eine nette Person und ich helfe dem Autor des Plugins"
 
-#: redirection-strings.php:452 redirection.js:2
+#: redirection-strings.php:452
 msgid "Plugin Support"
 msgstr "Plugin Support"
 
