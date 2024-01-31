@@ -525,8 +525,7 @@ class WordPress_Module extends Red_Module {
 				nocache_headers();
 			} else {
 				// Custom cache
-				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s T', time() + $options['redirect_cache'] * 60 * 60 ) );
-				header( 'Cache-Control: max-age=' . $options['redirect_cache'] * 60 * 60 );
+				header( 'Cache-Control: max-age=' . $options['redirect_cache'] * 60 * 60, false );
 			}
 		}
 
