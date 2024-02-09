@@ -30,6 +30,10 @@ class Red_Redirects_File extends Red_FileIO {
 			}
 		}
 
+		$groups = array_combine( array_map( function ( $group ) {
+			return $group['id'];
+		}, $groups ), $groups );
+
 		$contents = array();
 
 		foreach ( $lines as $group_id => $group_lines ) {
@@ -131,7 +135,7 @@ class Red_Redirects_File extends Red_FileIO {
 					if ( count( $query_params ) > 0 ) {
 						$target .= '?' . http_build_query( $query_params );
 					}
-					
+
 					break;
 				case 'exact':
 					list( $source, $query_params ) = $this->extract_query_params( $source );
@@ -142,7 +146,7 @@ class Red_Redirects_File extends Red_FileIO {
 					if ( count( $query_params ) > 0 ) {
 						$target .= '?' . http_build_query( $query_params );
 					}
-					
+
 					break;
 				case 'pass':
 					list( $source, $query_params ) = $this->extract_query_params( $source );
@@ -152,13 +156,13 @@ class Red_Redirects_File extends Red_FileIO {
 					$params = array_map( function ( string $key, string $value ) use ( &$counter, &$target ) {
 						return $key . '=:param' . ++$counter;
 					}, array_keys( $query_params ), $query_params );
-					
+
 					$params_str = join( ' ', $params );
 					array_push( $params, http_build_query( $target_query_params ) );
 					if ( count( $params ) > 0 ) {
 						$target .= '?' . join( '&', $params );
 					}
-					
+
 					break;
 				case 'ignore':
 					list( $source, $_ ) = $this->extract_query_params( $source );
@@ -217,7 +221,7 @@ class Red_Redirects_File extends Red_FileIO {
 		if ( ! empty( $component['scheme'] ) ) {
 			$url .= $component['scheme'] . '://';
 		}
-		
+
 		if ( ! empty( $component['host'] ) ) {
 			$url .= $component['host'];
 		}
@@ -414,7 +418,7 @@ class FromRegexReplacer {
 			// placeholder
 			self::SOURCE_PLACEHOLDER_REGEX => function ( array $matches ) {
 				$counter = ++$this->counter;
-	
+
 				return ":path{$counter}";
 			},
 		), rtrim( ltrim( $url, '^ ' ), '$ ' ) );
@@ -452,7 +456,7 @@ class ToRegexReplacer {
 			// placeholder
 			self::PLACEHOLDER_REGEX => function ( array $matches ) {
 				$this->targets[ $matches['placeholder'] ] = ++$this->counter;
-	
+
 				return 'splat' === $matches['placeholder'] ? '(.*)$' : '([^/]*)';
 			},
 		), $url );
