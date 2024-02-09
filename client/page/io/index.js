@@ -106,7 +106,7 @@ class ImportExport extends React.Component {
 	renderInitialDrop( open ) {
 		return (
 			<>
-				<h3>{ __( 'Import a CSV, .htaccess, or JSON file.', 'redirection' ) }</h3>
+				<h3>{ __( 'Import a CSV, .htaccess, _redirects, or JSON file.', 'redirection' ) }</h3>
 				<p>{ __( "Click 'Add File' or drag and drop here.", 'redirection' ) }</p>
 
 				<button type="button" className="button-secondary" onClick={ open }>{ __( 'Add File', 'redirection' ) }</button>
@@ -284,6 +284,7 @@ class ImportExport extends React.Component {
 						<option value="csv">{ __( 'CSV', 'redirection' ) }</option>
 						<option value="apache">{ __( 'Apache .htaccess', 'redirection' ) }</option>
 						<option value="nginx">{ __( 'Nginx rewrite rules', 'redirection' ) }</option>
+						<option value="redirects">{ __( 'Static _redirects (Netlify, GitLab, CloudFlare, ...)', 'redirection' ) }</option>
 					</select>
 
 					<button className="button-primary" onClick={ this.onView }>{ __( 'View', 'redirection' ) }</button>

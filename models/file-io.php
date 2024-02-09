@@ -19,6 +19,9 @@ abstract class Red_FileIO {
 		} elseif ( $type === 'json' ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/fileio/json.php';
 			$exporter = new Red_Json_File();
+		} elseif ( $type === 'redirects' ) {
+			include_once dirname( dirname( __FILE__ ) ) . '/fileio/redirects.php';
+			$exporter = new Red_Redirects_File();
 		}
 
 		return $exporter;
@@ -28,6 +31,7 @@ abstract class Red_FileIO {
 		$parts = pathinfo( $file['name'] );
 		$extension = isset( $parts['extension'] ) ? $parts['extension'] : '';
 		$extension = strtolower( $extension );
+		$basename = strtolower( $parts['basename'] );
 
 		if ( $extension === 'csv' || $extension === 'txt' ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/fileio/csv.php';
@@ -36,6 +40,10 @@ abstract class Red_FileIO {
 		} elseif ( $extension === 'json' ) {
 			include_once dirname( dirname( __FILE__ ) ) . '/fileio/json.php';
 			$importer = new Red_Json_File();
+			$data = @file_get_contents( $file['tmp_name'] );
+		} elseif ( $basename === '_redirects' ) {
+			include_once dirname( dirname( __FILE__ ) ) . '/fileio/redirects.php';
+			$importer = new Red_Redirects_File();
 			$data = @file_get_contents( $file['tmp_name'] );
 		} else {
 			include_once dirname( dirname( __FILE__ ) ) . '/fileio/apache.php';

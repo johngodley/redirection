@@ -55,7 +55,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testGoodCreate() {
-		$types = array( 'rss', 'csv', 'apache', 'nginx', 'json' );
+		$types = array( 'rss', 'csv', 'apache', 'nginx', 'json', 'redirects' );
 
 		foreach ( $types as $type ) {
 			$exporter = Red_FileIO::create( $type );
