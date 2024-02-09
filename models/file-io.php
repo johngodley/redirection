@@ -76,6 +76,9 @@ abstract class Red_FileIO {
 		if ( $module_name_or_id === 'all' || $module_name_or_id === 0 ) {
 			$groups = Red_Group::get_all();
 			$items = Red_Item::get_all();
+
+			$groups = self::filter_groups_to_export( 'all', $groups );
+			$items = self::filter_items_to_export( 'all', $items, $groups );
 		} else {
 			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Red_Module::get_id_for_name( $module_name_or_id );
 			$module = Red_Module::get( intval( $module_name_or_id, 10 ) );
@@ -83,6 +86,9 @@ abstract class Red_FileIO {
 			if ( $module ) {
 				$groups = Red_Group::get_all_for_module( $module->get_id() );
 				$items = Red_Item::get_all_for_module( $module->get_id() );
+
+				$groups = self::filter_groups_to_export( $module->get_name(), $groups );
+				$items = self::filter_items_to_export( $module->get_name(), $items, $groups );
 			}
 		}
 
@@ -96,6 +102,20 @@ abstract class Red_FileIO {
 		}
 
 		return false;
+	}
+
+	private static function filter_items_to_export( $module_name, $items, $groups ) {
+		$items = apply_filters( 'redirection_export_items', $items, $groups );
+		$items = apply_filters( 'redirection_export_items_' . $module_name, $items, $groups );
+
+		return $items;
+	}
+
+	private static function filter_groups_to_export( $module_name, $groups ) {
+		$groups = apply_filters( 'redirection_export_groups', $groups );
+		$groups = apply_filters( 'redirection_export_groups_' . $module_name, $groups );
+
+		return $groups;
 	}
 
 	abstract public function get_data( array $items, array $groups );
