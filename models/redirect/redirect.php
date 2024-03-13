@@ -544,7 +544,7 @@ class Red_Item {
 
 		$result = $wpdb->update( $wpdb->prefix . 'redirection_items', $data, array( 'id' => $this->id ) );
 		if ( $result !== false ) {
-			do_action( 'redirection_redirect_updated', $this, self::get_by_id( $this->id ) );
+			do_action( 'redirection_redirect_updated', $this->id, self::get_by_id( $this->id ) );
 			$this->load_from_data( $data );
 
 			Red_Module::flush( $this->group_id );
