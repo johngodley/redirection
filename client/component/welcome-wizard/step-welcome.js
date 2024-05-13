@@ -130,7 +130,7 @@ export default function StepWelcome( { setStep, setOptions } ) {
 				<li>{ __( 'Check a URL is being redirected', 'redirection' ) }</li>
 			</ul>
 
-			<h3>{ __( "What's next?" ) }</h3>
+			<h3>{ __( "What's next?", 'redirection' ) }</h3>
 			<p>{ __( 'First you will be asked a few questions, and then Redirection will set up your database.', 'redirection' ) }</p>
 
 			<div className="wizard-buttons">
