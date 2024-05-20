@@ -936,7 +936,7 @@ class Red_Item {
 	 * Get a filtered list of redirects
 	 *
 	 * @param array $params Filter parameters.
-	 * @return array<total: integer, items: Red_Item[]>
+	 * @return array{total:integer,items:Red_Item[]}
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
