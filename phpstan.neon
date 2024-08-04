@@ -1,23 +1,38 @@
 parameters:
     level: 8
     paths:
-        - actions
-        - api
-        - database
-        - fileio
-        - matches
-        - models
-        - modules
-        - redirection-settings.php
+        - redirection.php
         - redirection-admin.php
-        - redirection-cli.php
         - redirection-capabilities.php
+        - redirection-cli.php
         - redirection-front.php
-    phpVersion: 80127
-    reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
-    checkAlwaysTrueInstanceof: false
-    checkAlwaysTrueStrictComparison: false
-    polluteScopeWithLoopInitialAssignments: false
+        - redirection-settings.php
+        - redirection-version.php
+    scanDirectories:
+        - matches
+        - modules
+        - modules
+        - fileio
+        - database
+        - models
+    excludePaths:
+        - vendor
+
+    phpVersion: 70100
+
     parallel:
         maximumNumberOfProcesses: 4
+
+    disallowedFunctionCalls:
+        -
+            function: 'var_dump()'
+            message: 'forgot about it? if needed just add a phpstan ignore line'
+        -
+            function: 'print_r()'
+            message: 'forgot about it? if needed just add a phpstan ignore line'
+        -
+            function: 'error_log()'
+            message: 'forgot about it? if needed just add a phpstan ignore line'
+        -
+            function: 'debug_print_var()'
+            message: 'forgot about it? if needed just add a phpstan ignore line'

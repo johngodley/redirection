@@ -1,11 +1,9 @@
-=== Plugin Name ===
+=== Redirection ===
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
-Tags: redirect, htaccess, 301, 404, seo, permalink, apache, nginx, post, admin
-Requires at least: 5.9
-Tested up to: 6.4.2
-Stable tag: 5.4.2
-Requires PHP: 5.6
+Tags: redirect, htaccess, 301, 404, apache
+Tested up to: 6.6.1
+Stable tag: 5.5
 License: GPLv3
 
 Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
@@ -20,7 +18,7 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
-Redirection is compatible with PHP from 5.6 to 8.3.
+Redirection is compatible with PHP from 7.0 to 8.3.
 
 = Redirect manager =
 
@@ -183,6 +181,10 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.5.0 =
+* Multiple 'URL and WP page type' redirects will now work
+* Translations now use WP core
 
 = 5.4.2 - 27th January 2024 =
 * Remove Geo IP option (it may return)
