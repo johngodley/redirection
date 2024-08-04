@@ -34,7 +34,6 @@ class Redirection_Admin {
 		}, 10, 3 );
 		add_action( 'redirection_redirect_updated', [ $this, 'set_default_group' ], 10, 2 );
 		add_action( 'redirection_redirect_updated', [ $this, 'clear_cache' ], 10, 2 );
-		add_filter( 'load_script_translation_file', [ $this, 'load_script_translation_file' ], 10, 3 );
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', [ $this, 'flying_solo' ], 10, 2 );
@@ -45,22 +44,6 @@ class Redirection_Admin {
 
 		$this->monitor = new Red_Monitor( red_get_options() );
 		$this->run_hacks();
-	}
-
-	/**
-	 * Massage the Redirection WP translations.
-	 *
-	 * @param string $file File.
-	 * @param string $handle File.
-	 * @param string $domain File.
-	 * @return string
-	 */
-	public function load_script_translation_file( $file, $handle, $domain ) {
-		if ( $domain === 'redirection' ) {
-			return preg_replace( '/-\w*\.json$/', '.json', $file );
-		}
-
-		return $file;
 	}
 
 	// These are only called on the single standard site, or in the network admin of the multisite - they run across all available sites
