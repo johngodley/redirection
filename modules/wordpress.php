@@ -232,15 +232,25 @@ class WordPress_Module extends Red_Module {
 	 * @return boolean
 	 */
 	private function is_url_and_page_type() {
-		$page_types = array_values( array_filter( $this->redirects, function( Red_Item $redirect ) {
-			return $redirect->match && $redirect->match->get_type() === 'page';
-		} ) );
+		$page_types = array_values(
+			array_filter(
+				$this->redirects,
+				function ( Red_Item $redirect ) {
+					return $redirect->match && $redirect->match->get_type() === 'page';
+				}
+			)
+		);
 
 		if ( count( $page_types ) > 0 ) {
 			$request = new Red_Url_Request( Redirection_Request::get_request_url() );
-			$action = $page_types[0]->get_match( $request->get_decoded_url(), $request->get_original_url() );
-			if ( $action ) {
-				$action->run();
+
+			foreach ( $page_types as $page_type ) {
+				$action = $page_type->get_match( $request->get_decoded_url(), $request->get_original_url() );
+
+				if ( $action ) {
+					$action->run();
+					return true;
+				}
 			}
 
 			return true;
