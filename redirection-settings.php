@@ -250,7 +250,12 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	if ( isset( $settings['permalinks'] ) && is_array( $settings['permalinks'] ) ) {
-		$options['permalinks'] = array_map( 'sanitize_text_field', $settings['permalinks'] );
+		$options['permalinks'] = array_map(
+			function ( $permalink ) {
+				return sanitize_option( 'permalink_structure', $permalink );
+			},
+			$settings['permalinks']
+		);
 		$options['permalinks'] = array_values( array_filter( array_map( 'trim', $options['permalinks'] ) ) );
 		$options['permalinks'] = array_slice( $options['permalinks'], 0, 10 ); // Max 10
 	}
