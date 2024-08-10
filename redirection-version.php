@@ -2,4 +2,4 @@
 
 define( 'REDIRECTION_VERSION', '5.5.0' );
 define( 'REDIRECTION_MIN_WP', '6.4' );
-define( 'REDIRECTION_BUILD', 'efd7f21219b33f67a71a2310e1eb0862' );
+define( 'REDIRECTION_BUILD', 'fe0a39d2435bdc89725a505d988b3ee2' );

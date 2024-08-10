@@ -9,14 +9,14 @@
 	"sideEffects": true,
 	"scripts": {
 		"test": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
-		"watch": "jest --watch",
 		"testsetup": "bin/install-wp-tests.sh wordpress_test wp wp localhost latest",
 		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
 		"build": "yarn build:version && NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
 		"build:version": "./dev/generate-version.sh $npm_package_version $npm_package_wordpress_supported",
-		"plugin-zip": "yarn build && rm -rf release && mkdir -p release && wp-scripts plugin-zip && mv redirection.zip release",
-		"release": "yarn plugin-zip && release-it",
-		"release:svn": "yarn plugin-zip && cd release && unzip redirection.zip && cd .. && rm release/redirection.zip && dev/svn.sh",
+		"release": "yarn build && rm -rf release && mkdir -p release && cp -R *.php readme.txt redirection.js redirection.css license.txt modules models matches images fileio database api actions release",
+		"dist": "yarn release && rm -rf redirection dist && mkdir -p dist && mv release redirection && zip redirection.zip -r redirection && mv redirection.zip dist && rm -rf redirection",
+		"dist:github": "yarn dist && release-it",
+		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
 		"e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
 		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib ./vendor/bin/phpunit",
@@ -47,6 +47,7 @@
 		"@wordpress/eslint-plugin": "^20.1.0",
 		"@wordpress/jest-preset-default": "^12.4.0",
 		"@wordpress/prettier-config": "^4.4.0",
+		"@wordpress/scripts": "^28.4.0",
 		"apidoc": "^1.2.0",
 		"autoprefixer": "^10.4.20",
 		"babel-core": "^7.0.0-bridge.0",
@@ -148,7 +149,7 @@
 	},
 	"files": [
 		"actions",
-		"api",
+		"api/*.php",
 		"database",
 		"fileio",
 		"images",
@@ -159,6 +160,7 @@
 		"license.txt",
 		"readme.txt",
 		"redirection.css",
-		"redirection.js"
+		"redirection.js",
+		"!package.json"
 	]
 }

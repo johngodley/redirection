@@ -1,8 +1,10 @@
 node_modules
 .config.json
-/.vscode
-/yarn-error.log
-/api-doc
-/vendor
-/redirection.js.LICENSE.txt
-/.DS_Store
+.vscode
+yarn-error.log
+api-doc
+vendor
+redirection.js.LICENSE.txt
+.DS_Store
+release
+dist
