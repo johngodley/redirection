@@ -78,6 +78,7 @@
 		"postcss-reporter": "^7.1.0",
 		"prettier": "npm:wp-prettier@3.0.3",
 		"redux-devtools-extension": "^2.13.9",
+		"release-it": "^17.6.0",
 		"request-promise": "^4.2.6",
 		"sass-loader": "^16.0.0",
 		"shared-git-hooks": "^1.2.1",
@@ -147,20 +148,12 @@
 		"node": ">=12.14.0",
 		"npm": ">=6.14.8"
 	},
-	"files": [
-		"actions",
-		"api/*.php",
-		"database",
-		"fileio",
-		"images",
-		"matches",
-		"models",
-		"modules",
-		"*.php",
-		"license.txt",
-		"readme.txt",
-		"redirection.css",
-		"redirection.js",
-		"!package.json"
-	]
+	"release-it": {
+		"github": {
+			"assets": [
+				"dist/redirection.zip"
+			]
+		},
+		"npm": false
+	}
 }
