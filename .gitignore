@@ -9,3 +9,4 @@ redirection.js.LICENSE.txt
 release
 dist
 svn
+/.phpunit.result.cache

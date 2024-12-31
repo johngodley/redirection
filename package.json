@@ -8,8 +8,6 @@
 	},
 	"sideEffects": true,
 	"scripts": {
-		"test": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
-		"testsetup": "dev/install-wp-tests.sh wordpress_test wp wp localhost latest",
 		"start": "NODE_ENV=development DEBUG=redirection* webpack serve --progress --color --port 3312",
 		"build": "yarn build:version && NODE_ENV=production webpack --progress --color --config ./webpack.config.js --mode production",
 		"build:version": "./dev/generate-version.sh $npm_package_version $npm_package_wordpress_supported",
@@ -17,10 +15,14 @@
 		"dist": "yarn release && rm -rf redirection dist && mkdir -p dist && mv release redirection && zip redirection.zip -r redirection && mv redirection.zip dist && mv redirection release",
 		"dist:github": "yarn dist && release-it",
 		"dist:svn": "yarn dist && ./dev/svn.sh $npm_package_version",
-		"e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"doc": "apidoc -v -i api/ -o ./api-doc/",
-		"phpunit": "WP_TESTS_DIR=/var/folders/9z/t36wpw1d6hzdy4x5sfq8nqt00000gn/T/wordpress-tests-lib ./vendor/bin/phpunit",
+		"test:unit": "composer run-script test",
+		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/redirection5 composer run test-integration",
+		"test:js": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
+		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
+		"wp-env:start": "wp-env start",
 		"test:php": "composer run-script test",
+		"wp-env:destroy": "wp-env destroy",
 		"update": "ncu -u"
 	},
 	"repository": {
@@ -45,6 +47,7 @@
 		"@types/react-highlight-words": "^0.20.0",
 		"@types/react-redux": "^7.1.34",
 		"@wordpress/base-styles": "^5.12.0",
+		"@wordpress/env": "^10.13.0",
 		"@wordpress/eslint-plugin": "^21.5.0",
 		"@wordpress/jest-preset-default": "^12.12.0",
 		"@wordpress/prettier-config": "^4.12.0",
