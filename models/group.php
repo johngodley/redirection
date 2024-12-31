@@ -94,13 +94,14 @@ class Red_Group {
 	 * Get a group given an ID
 	 *
 	 * @param integer $id Group ID.
+	 * @param bool $clear Clear cache.
 	 * @return Red_Group|boolean
 	 */
-	public static function get( $id ) {
+	public static function get( $id, $clear = false ) {
 		static $groups = [];
 		global $wpdb;
 
-		if ( isset( $groups[ $id ] ) ) {
+		if ( isset( $groups[ $id ] ) && ! $clear ) {
 			$row = $groups[ $id ];
 		} else {
 			$row = $wpdb->get_row( $wpdb->prepare( "SELECT {$wpdb->prefix}redirection_groups.*,COUNT( {$wpdb->prefix}redirection_items.id ) AS items,SUM( {$wpdb->prefix}redirection_items.last_count ) AS redirects FROM {$wpdb->prefix}redirection_groups LEFT JOIN {$wpdb->prefix}redirection_items ON {$wpdb->prefix}redirection_items.group_id={$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id=%d GROUP BY {$wpdb->prefix}redirection_groups.id", $id ) );
