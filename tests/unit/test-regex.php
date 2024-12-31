@@ -1,6 +1,12 @@
 <?php
 
-class RegexTest extends WP_UnitTestCase {
+require_once PLUGIN_PATH . '/models/url/url-query.php';
+require_once PLUGIN_PATH . '/models/url/url-flags.php';
+require_once PLUGIN_PATH . '/models/url/url-path.php';
+require_once PLUGIN_PATH . '/models/url/url.php';
+require_once PLUGIN_PATH . '/models/regex.php';
+
+class RegexTest extends TestCase {
 	public function testPlainRegex() {
 		$regex = new Red_Regex( 'cat.*' );
 

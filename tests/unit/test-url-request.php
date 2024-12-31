@@ -1,6 +1,10 @@
 <?php
 
-class UrlRequestTest extends WP_UnitTestCase {
+require_once PLUGIN_PATH . '/models/url/url-query.php';
+require_once PLUGIN_PATH . '/models/url/url-flags.php';
+require_once PLUGIN_PATH . '/models/url/url-path.php';
+
+class UrlRequestTest extends TestCase {
 	public function testNoUrl() {
 		$request = new Red_Url_Request( '' );
 

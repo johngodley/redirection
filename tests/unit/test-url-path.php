@@ -1,6 +1,10 @@
 <?php
 
-class UrlPathTest extends WP_UnitTestCase {
+require_once PLUGIN_PATH . '/models/url/url-query.php';
+require_once PLUGIN_PATH . '/models/url/url-flags.php';
+require_once PLUGIN_PATH . '/models/url/url-path.php';
+
+class UrlPathTest extends TestCase {
 	public function testPathMatch() {
 		$url = new Red_Url_Path( '/test' );
 		$this->assertTrue( $url->is_match( '/test', new Red_Source_Flags() ) );
