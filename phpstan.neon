@@ -1,3 +1,6 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     level: 8
     paths:
@@ -8,13 +11,13 @@ parameters:
         - redirection-front.php
         - redirection-settings.php
         - redirection-version.php
-    scanDirectories:
         - matches
         - modules
         - modules
         - fileio
         - database
         - models
+        - tests
     excludePaths:
         - vendor
 
