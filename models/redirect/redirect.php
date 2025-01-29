@@ -469,6 +469,71 @@ class Red_Item {
 	/**
 	 * Create a redirect with new details
 	 *
+	 * @param array{
+	 *     // Required fields
+	 *     url: string,                    // The URL pattern to match (e.g., "/plain301", "^/plain-regex/(.*)")
+	 *     match_url: string,              // Typically same as url, or "regex" for regex matches
+	 *     match_type: string,             // The type of match to perform. One of:
+	 *                                     // - "url" (most common)
+	 *                                     // - "login"
+	 *                                     // - "referrer"
+	 *                                     // - "agent" (user agent)
+	 *                                     // - "cookie"
+	 *                                     // - "ip"
+	 *                                     // - "server"
+	 *                                     // - "header"
+	 *                                     // - "role" (user role)
+	 *                                     // - "language"
+	 *                                     // - "page"
+	 *     action_type: string,            // The type of action to perform. One of:
+	 *                                     // - "url" (most common, performs redirect)
+	 *                                     // - "pass" (passes through the request)
+	 *                                     // - "nothing" (does nothing/ignores)
+	 *                                     // - "error" (returns error code)
+	 *     action_code: int,               // HTTP status code. Common values:
+	 *                                     // - 301 (permanent redirect)
+	 *                                     // - 302 (temporary redirect)
+	 *                                     // - 303 (see other)
+	 *                                     // - 307 (temporary redirect)
+	 *                                     // - 308 (permanent redirect)
+	 *                                     // - 403 (forbidden, with error action_type)
+	 *                                     // - 0 (for non-redirect actions)
+	 *     group_id: int,                  // ID of the group this redirect belongs to
+	 *     
+	 *     // Optional fields
+	 *     action_data?: array{           // Data specific to the action_type:
+	 *         // For action_type="url":
+	 *         url?: string,              // Target URL for redirect
+	 *         // For action_type="login":
+	 *         logged_in?: string,        // URL for logged-in users
+	 *         logged_out?: string,       // URL for logged-out users
+	 *         // For action_type="role":
+	 *         role?: string,             // Required role capability
+	 *         url_from?: string,         // URL for users with role
+	 *         url_notfrom?: string,      // URL for users without role
+	 *         // For various match types:
+	 *         ip?: string[],             // Array of IP addresses
+	 *         regex?: bool,              // Whether to use regex matching
+	 *         agent?: string,            // User agent string to match
+	 *         server?: string,           // Server URL to match
+	 *         name?: string,             // Cookie/header name
+	 *         value?: string,            // Cookie/header value
+	 *         page?: string              // Page type to match
+	 *     },
+	 *     match_data?: array{           // Additional matching configuration:
+	 *         source?: array{
+	 *             flag_query?: "exact"|"exactorder"|"ignore"|"pass",  // How to handle query parameters
+	 *             flag_case?: bool,      // Whether to match case-sensitively
+	 *             flag_trailing?: bool,  // Whether to match trailing slashes
+	 *             flag_regex?: bool      // Whether the URL is a regex pattern
+	 *         }
+	 *     },
+	 *     regex?: bool,                 // Whether this is a regex redirect (default false)
+	 *     title?: string,               // Optional title/description
+	 *     enabled?: bool,               // Whether redirect is enabled (default true)
+	 *     position?: int                // Position in redirect order (0-based)
+	 * } $details Redirect creation parameters
+	 *
 	 * @param array $details Redirect details.
 	 * @return WP_Error|Red_Item
 	 */
