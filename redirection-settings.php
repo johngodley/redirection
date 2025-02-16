@@ -57,7 +57,6 @@ function red_get_default_options() {
 		'log_header'          => false,
 		'track_hits'          => true,
 		'modules'             => [],
-		'newsletter'          => false,
 		'redirect_cache'      => 1,   // 1 hour
 		'ip_logging'          => 0,   // No IP logging
 		'ip_headers'          => [],
@@ -181,7 +180,7 @@ function red_set_options( array $settings = [] ) {
 	}
 
 	// Boolean settings
-	foreach ( [ 'support', 'https', 'newsletter', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+	foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits' ] as $name ) {
 		if ( isset( $settings[ $name ] ) ) {
 			$options[ $name ] = $settings[ $name ] ? true : false;
 		}

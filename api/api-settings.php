@@ -42,7 +42,6 @@
  * @apiSuccess {String} settings.expire_redirect
  * @apiSuccess {String} settings.expire_404
  * @apiSuccess {String} settings.modules
- * @apiSuccess {String} settings.newsletter
  * @apiSuccess {String} settings.redirect_cache
  * @apiSuccess {String} settings.ip_logging
  * @apiSuccess {String} settings.last_group_id

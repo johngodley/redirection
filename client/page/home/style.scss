@@ -53,14 +53,6 @@
  * Mobile version of stuff
  */
 @media screen and (max-width: 782px) {
-	.newsletter form {
-		input[type="email"] {
-			display: block;
-			width: 100%;
-			margin: 5px 0;
-		}
-	}
-
 	.import {
 		select {
 			width: 100%;

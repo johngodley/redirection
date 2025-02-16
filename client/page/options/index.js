@@ -13,7 +13,6 @@ import { STATUS_IN_PROGRESS, STATUS_COMPLETE } from 'state/settings/type';
 import OptionsForm from './options-form';
 import DeletePlugin from 'page/options/delete-plugin';
 import Placeholder from 'wp-plugin-components/placeholder';
-import Newsletter from './newsletter';
 
 class Options extends React.Component {
 	componentDidMount() {
@@ -22,7 +21,6 @@ class Options extends React.Component {
 
 	render() {
 		const { loadStatus, values, canDelete = false } = this.props;
-		const { newsletter = false } = this.props.values ? this.props.values : {};
 
 		if ( loadStatus === STATUS_IN_PROGRESS || ! values ) {
 			return <Placeholder />;
@@ -31,8 +29,6 @@ class Options extends React.Component {
 		return (
 			<div>
 				{ loadStatus === STATUS_COMPLETE && <OptionsForm /> }
-
-				<Newsletter newsletter={ newsletter } />
 
 				<hr />
 				{ canDelete && <DeletePlugin onDelete={ this.props.onDeletePlugin } /> }
