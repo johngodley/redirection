@@ -119,19 +119,25 @@ class Red_Http_Headers {
 		}
 	}
 
+	/**
+	 * Sanitize that string
+	 *
+	 * @param string $text
+	 * @return string
+	 */
 	private function sanitize( $text ) {
 		if ( is_array( $text ) ) {
 			return '';
 		}
 
 		// No new lines
-		$text = preg_replace( "/[\r\n\t].*?$/s", '', $text );
+		$text = (string) preg_replace( "/[\r\n\t].*?$/s", '', $text );
 
 		// Clean control codes
-		$text = preg_replace( '/[^\PC\s]/u', '', $text );
+		$text = (string) preg_replace( '/[^\PC\s]/u', '', $text );
 
 		// Try and remove bad decoding
-		if ( function_exists( 'iconv' ) ) {
+		if ( function_exists( 'iconv' ) && is_string( $text ) ) {
 			$converted = @iconv( 'UTF-8', 'UTF-8//IGNORE', $text );
 			if ( $converted !== false ) {
 				$text = $converted;
