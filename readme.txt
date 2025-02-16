@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, apache
 Tested up to: 6.7
-Stable tag: 5.5.1
+Stable tag: 5.5.2
 License: GPLv3
 
 Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
@@ -181,6 +181,12 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.5.2 =
+* Fix saving of x-frame-options
+* Fix CPT loading
+* Fix last access date changing on update
+* Remove newsletter option
 
 = 5.5.1 =
 * Fix problem with category pages and permalink migration

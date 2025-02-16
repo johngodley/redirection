@@ -25,10 +25,6 @@ Redirection is mostly a PHP plugin, but does contain files that need to be built
 
 `yarn install`
 
-### Language files
-
-`gulp pot` - Updates language files
-
 ### React
 
 Some parts of the UI are React and can be built with:
@@ -41,11 +37,22 @@ To use in development mode then set `REDIRECTION_DEV_MODE` to true in PHP, and r
 
 This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
 
+### Testing
+
+Unit tests:
+
+- `yarn test:unit`
+
+Integration (with WP) tests:
+
+- `yarn wp-env:start` to setup integration tests
+- `yarn test:integration` to run them
+
 ### Releasing
 
 Finally, to produce a release copy:
 
-`gulp plugin`
+`yarn release`
 
 ## Support
 
