@@ -15,7 +15,7 @@ function red_get_plugin_data( $plugin ) {
 }
 
 function red_get_post_types( $full = true ) {
-	$types = get_post_types( [ 'public' => true, 'rewrite' => false ], 'objects' );
+	$types = get_post_types( [ 'public' => true ], 'objects' );
 	$types[] = (object) array(
 		'name' => 'trash',
 		'label' => __( 'Trash', 'default' ),
