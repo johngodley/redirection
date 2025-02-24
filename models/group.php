@@ -118,7 +118,7 @@ class Red_Group {
 	/**
 	 * Get all groups
 	 *
-	 * @return Red_Group[]
+	 * @return array<array{id:int,name:string,redirects:int,module_id:int,moduleName:string,enabled:bool}>
 	 */
 	public static function get_all( $params = [] ) {
 		global $wpdb;
