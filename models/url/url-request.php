@@ -106,6 +106,13 @@ class Red_Url_Request {
 	 */
 	public function is_ignore_posttypes(){
 
+
+		$settings = red_get_options();
+
+		if( empty( $settings['ignore_posttypes'][0] ) ){
+			return false;
+		}
+
 		// Resolve the original URL to a post ID.
 		$post_id = url_to_postid( $this->original_url );
 		if( empty( $post_id ) ){
@@ -117,9 +124,7 @@ class Red_Url_Request {
 			return;
 		}
 
-		$settings = red_get_options();
-
 		// Check if the post type is listed in ignored post types.
-		return is_array( $settings['ignore_posttypes'] ) && in_array( $post_type, $settings['ignore_posttypes'], true );
+		return in_array( $post_type, $settings['ignore_posttypes'], true );
 	}
 }
