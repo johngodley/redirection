@@ -17,6 +17,7 @@ import LogOptions from './log-options';
 import OtherOptions from './other-options';
 import UrlOptions from './url-options';
 import './style.scss';
+import IgnorePostTypesSetting from './ignore-posttype';
 
 function supportLink( rel, anchor ) {
 	return 'https://redirection.me/support/' + rel + ( anchor ? '/#' + anchor : '' );
@@ -52,6 +53,7 @@ function OptionsForm( props ) {
 		<form onSubmit={ onSubmit }>
 			<FormTable>
 				<LogOptions settings={ settings } onChange={ onChange } getLink={ supportLink } />
+				<IgnorePostTypesSetting settings={ settings }onChange={ onChange } getLink={ supportLink } postTypes={ postTypes }/>
 				<UrlOptions settings={ settings } onChange={ onChange } getLink={ supportLink } groups={ groups } postTypes={ postTypes } />
 
 				<OtherOptions
@@ -91,7 +93,4 @@ function mapStateToProps( state ) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)( OptionsForm );
+export default connect( mapStateToProps, mapDispatchToProps )( OptionsForm );

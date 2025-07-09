@@ -73,6 +73,7 @@ function red_get_default_options() {
 		'cache_key'           => 0,
 		'plugin_update'       => 'prompt',
 		'update_notice'       => 0,
+		'ignore_posttypes'    => [],
 	];
 	$defaults = array_merge( $defaults, $flags->get_json() );
 
@@ -122,17 +123,35 @@ function red_set_options( array $settings = [] ) {
 		$options['rest_api'] = intval( $settings['rest_api'], 10 );
 	}
 
-	if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
+	$monitor_types_settings = isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] );
+	$ignore_posttypes_settings = isset( $settings['ignore_posttypes'] ) && is_array( $settings['ignore_posttypes'] );
+	
+	if ( $monitor_types_settings || $ignore_posttypes_settings ) {
 		$allowed = red_get_post_types( false );
 
-		foreach ( $settings['monitor_types'] as $type ) {
-			if ( in_array( $type, $allowed, true ) ) {
-				$monitor_types[] = $type;
-			}
-		}
+		if( $monitor_types_settings ){
 
-		$options['monitor_types'] = $monitor_types;
+			foreach ( $settings['monitor_types'] as $type ) {
+				if ( in_array( $type, $allowed, true ) ) {
+					$monitor_types[] = $type;
+				}
+			}
+	
+			$options['monitor_types'] = $monitor_types;
+		}
+		
+		if( $ignore_posttypes_settings ){
+
+			foreach ( $settings['ignore_posttypes'] as $type ) {
+				if ( in_array( $type, $allowed, true ) ) {
+					$ignore_posttypes[] = $type;
+				}
+			}
+	
+			$options['ignore_posttypes'] = $ignore_posttypes;
+		}
 	}
+
 
 	if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redirect'] ) ) {
 		$options['associated_redirect'] = '';
