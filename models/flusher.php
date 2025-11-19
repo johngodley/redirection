@@ -1,13 +1,21 @@
 <?php
 
+/**
+ * Handles automatic expiration and optimization of redirect and 404 logs
+ */
 class Red_Flusher {
 	const DELETE_HOOK = 'redirection_log_delete';
 	const DELETE_FREQ = 'daily';
 	const DELETE_MAX = 20000;
 	const DELETE_KEEP_ON = 10;  // 10 minutes
 
+	/**
+	 * Flush expired logs and optimize tables
+	 *
+	 * @return void
+	 */
 	public function flush() {
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		$total  = $this->expire_logs( 'redirection_logs', $options['expire_redirect'] );
 		$total += $this->expire_logs( 'redirection_404', $options['expire_404'] );
@@ -24,6 +32,11 @@ class Red_Flusher {
 		$this->optimize_logs();
 	}
 
+	/**
+	 * Randomly optimize log tables to improve performance
+	 *
+	 * @return void
+	 */
 	private function optimize_logs() {
 		global $wpdb;
 
@@ -36,6 +49,13 @@ class Red_Flusher {
 		}
 	}
 
+	/**
+	 * Delete expired logs from a table
+	 *
+	 * @param string $table Table name (without prefix).
+	 * @param int $expiry_time Number of days to keep logs.
+	 * @return int Number of logs deleted.
+	 */
 	private function expire_logs( $table, $expiry_time ) {
 		global $wpdb;
 
@@ -55,11 +75,16 @@ class Red_Flusher {
 		return 0;
 	}
 
+	/**
+	 * Schedule the automatic log deletion cron job
+	 *
+	 * @return void
+	 */
 	public static function schedule() {
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		if ( $options['expire_redirect'] > 0 || $options['expire_404'] > 0 ) {
-			if ( ! wp_next_scheduled( self::DELETE_HOOK ) ) {
+			if ( wp_next_scheduled( self::DELETE_HOOK ) === false ) {
 				wp_schedule_event( time(), self::DELETE_FREQ, self::DELETE_HOOK );
 			}
 		} else {
@@ -67,6 +92,11 @@ class Red_Flusher {
 		}
 	}
 
+	/**
+	 * Clear the scheduled log deletion cron job
+	 *
+	 * @return void
+	 */
 	public static function clear() {
 		wp_clear_scheduled_hook( self::DELETE_HOOK );
 	}

@@ -1,19 +1,28 @@
 <?php
 
-require_once dirname( dirname( __FILE__ ) ) . '/modules/wordpress.php';
-require_once dirname( dirname( __FILE__ ) ) . '/modules/apache.php';
-require_once dirname( dirname( __FILE__ ) ) . '/modules/nginx.php';
+require_once dirname( __DIR__ ) . '/modules/wordpress.php';
+require_once dirname( __DIR__ ) . '/modules/apache.php';
+require_once dirname( __DIR__ ) . '/modules/nginx.php';
 
 /**
  * Base class for redirect module.
+ *
+ * @phpstan-type WordPressModuleOptions array{}
+ * @phpstan-type ApacheModuleOptions array{
+ *     location: string
+ * }
+ * @phpstan-type NginxModuleOptions array{
+ *     location: string
+ * }
+ * @phpstan-type RedModuleOptions WordPressModuleOptions|ApacheModuleOptions|NginxModuleOptions
  */
 abstract class Red_Module {
 	/**
 	 * Constructor. Loads options
 	 *
-	 * @param array $options Any module options.
+	 * @param RedModuleOptions $options Any module options.
 	 */
-	public function __construct( $options = [] ) {
+	public function __construct( array $options = [] ) {
 		if ( ! empty( $options ) ) {
 			$this->load( $options );
 		}
@@ -27,7 +36,7 @@ abstract class Red_Module {
 	 */
 	public static function get( $id ) {
 		$id = intval( $id, 10 );
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		if ( $id === Apache_Module::MODULE_ID ) {
 			return new Apache_Module( isset( $options['modules'][ Apache_Module::MODULE_ID ] ) ? $options['modules'][ Apache_Module::MODULE_ID ] : array() );
@@ -90,7 +99,7 @@ abstract class Red_Module {
 		if ( is_object( $group ) ) {
 			$module = self::get( $group->get_module_id() );
 
-			if ( $module ) {
+			if ( $module !== false ) {
 				$module->flush_module();
 			}
 		}
@@ -105,7 +114,7 @@ abstract class Red_Module {
 	public static function flush_by_module( $module_id ) {
 		$module = self::get( $module_id );
 
-		if ( $module ) {
+		if ( $module !== false ) {
 			$module->flush_module();
 		}
 	}
@@ -118,10 +127,15 @@ abstract class Red_Module {
 	abstract public function get_id();
 
 	/**
+	 * @return string
+	 */
+	abstract public function get_name();
+
+	/**
 	 * Update
 	 *
-	 * @param array $data Data.
-	 * @return false
+	 * @param RedModuleOptions $data Data.
+	 * @return array<string, string>|false
 	 */
 	public function update( array $data ) {
 		return false;
@@ -130,10 +144,10 @@ abstract class Red_Module {
 	/**
 	 * Load
 	 *
-	 * @param array $options Options.
+	 * @param RedModuleOptions $options Options.
 	 * @return void
 	 */
-	protected function load( $options ) {
+	protected function load( array $options ) {
 	}
 
 	/**

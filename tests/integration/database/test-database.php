@@ -15,8 +15,13 @@ class DatabaseTest extends WP_UnitTestCase {
 	private function getCreateTable( $table ) {
 		global $wpdb;
 
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$create = 'Create Table';
-		$result = $wpdb->get_row( "SHOW CREATE TABLE $table" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$result = $wpdb->get_row( "SHOW CREATE TABLE `$table`" );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		return $result->$create;
 	}
@@ -27,6 +32,10 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->previous_prefix = $wpdb->prefix;
 		$wpdb->prefix = 'dbtest_';
 
+		// Suppress wpdb error output during tests
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
+
 		$this->removeTables();
 	}
 
@@ -35,14 +44,19 @@ class DatabaseTest extends WP_UnitTestCase {
 
 		$this->removeTables();
 
+		// Restore wpdb error output
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
+
 		$wpdb->prefix = $this->previous_prefix;
 	}
 
 	// A fresh install should install the DB
 	public function testNeedDatabaseAfterInstall() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
 		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => false ] );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -52,8 +66,9 @@ class DatabaseTest extends WP_UnitTestCase {
 
 	// Dont trigger an install when upgrading from an older database without the 'database' setting
 	public function testNoInstallAfterUpgradeOld() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		update_option( Red_Database_Status::OLD_DB_VERSION, 1 );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -62,8 +77,9 @@ class DatabaseTest extends WP_UnitTestCase {
 
 	// Don't trigger upgrade if not installed
 	public function testNoUpgradeOnNewInstall() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -74,6 +90,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testNoUpgradeOnSameVersion() {
 		update_option( Red_Database_Status::OLD_DB_VERSION, array( 'database' => REDIRECTION_DB_VERSION ) );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -84,6 +101,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	public function testNoUpgradeOnNewerVersion() {
 		update_option( Red_Database_Status::OLD_DB_VERSION, array( 'database' => '50.0' ) );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -93,6 +111,7 @@ class DatabaseTest extends WP_UnitTestCase {
 	// Trigger upgrade if redirection_version is present
 	public function testUpgradeOld() {
 		update_option( Red_Database_Status::OLD_DB_VERSION, 1 );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -103,8 +122,9 @@ class DatabaseTest extends WP_UnitTestCase {
 
 	// Trigger upgrade if older database
 	public function testUpgradeOldVersion() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.0' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.0' ) );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -113,16 +133,18 @@ class DatabaseTest extends WP_UnitTestCase {
 
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
-		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => REDIRECTION_DB_VERSION ) );
 		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 		$this->assertTrue( $status->needs_updating() );
 	}
 
 	public function testGetVersionNone() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -130,8 +152,9 @@ class DatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetVersionOld() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -139,8 +162,9 @@ class DatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetVersionNew() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
 		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
@@ -148,24 +172,26 @@ class DatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testSupports() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
 		$this->assertTrue( $status->does_support( '1.2' ) );
 		$this->assertTrue( $status->does_support( '1.5' ) );
 
-		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => REDIRECTION_DB_VERSION ) );
 	}
 
 	public function testDoesntSupport() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
+		Red_Options::reset();
 
 		$status = new Red_Database_Status();
 
 		$this->assertFalse( $status->does_support( '1.8' ) );
 
-		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => REDIRECTION_DB_VERSION ) );
 	}
 
 	public function testGetUpgradesForSameVersion() {

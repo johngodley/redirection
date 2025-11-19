@@ -1,7 +1,25 @@
 <?php
 
 /**
+ * @phpstan-type IpMap array{
+ *    ip?: string[],
+ *    url_from?: string,
+ *    url_notfrom?: string
+ * }
+ * @phpstan-type IpResult array{
+ *    ip: string[],
+ *    url_from?: string,
+ *    url_notfrom?: string
+ * }
+ * @phpstan-type IpData array{
+ *    ip: string[],
+ *    url_from: string,
+ *    url_notfrom: string
+ * }
+ *
  * Check the request IP
+ *
+ * @phpstan-extends Red_Match<IpMap, IpResult>
  */
 class IP_Match extends Red_Match {
 	use FromNotFrom_Match;
@@ -17,10 +35,15 @@ class IP_Match extends Red_Match {
 		return __( 'URL and IP', 'redirection' );
 	}
 
+	/**
+	 * @param IpMap $details
+	 * @return IpResult
+	 */
 	public function save( array $details, $no_target_url = false ) {
-		$data = array( 'ip' => isset( $details['ip'] ) && is_array( $details['ip'] ) ? $this->sanitize_ips( $details['ip'] ) : [] );
+		$data = array( 'ip' => isset( $details['ip'] ) && is_array( $details['ip'] ) ? $this->sanitize_ips( $details['ip'] ) : [] ); // @phpstan-ignore-line
 
-		return $this->save_data( $details, $no_target_url, $data );
+		$result = $this->save_data( $details, $no_target_url, $data );
+		return $result; // @phpstan-ignore-line
 	}
 
 	/**
@@ -58,9 +81,12 @@ class IP_Match extends Red_Match {
 	private function get_matching_ips( $match_ip ) {
 		$current_ip = @inet_pton( $match_ip );
 
-		return array_filter( $this->ip, function( $ip ) use ( $current_ip ) {
-			return @inet_pton( $ip ) === $current_ip;
-		} );
+		return array_filter(
+			$this->ip,
+			function ( $ip ) use ( $current_ip ) {
+				return @inet_pton( $ip ) === $current_ip;
+			}
+		);
 	}
 
 	public function is_match( $url ) {
@@ -69,14 +95,26 @@ class IP_Match extends Red_Match {
 		return count( $matched ) > 0;
 	}
 
+	/**
+	 * @return IpData
+	 */
 	public function get_data() {
-		return array_merge( array(
-			'ip' => $this->ip,
-		), $this->get_from_data() );
+		return array_merge(
+			array(
+				'ip' => $this->ip,
+			),
+			$this->get_from_data()
+		);
 	}
 
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param string|IpMap $values Match values, as read from the database (plain text, serialized PHP, or parsed array).
+	 * @return void
+	 */
 	public function load( $values ) {
-		$values = $this->load_data( $values );
-		$this->ip = isset( $values['ip'] ) ? $values['ip'] : [];
+		$data = $this->load_data( $values );
+		$this->ip = isset( $data['ip'] ) ? $data['ip'] : []; // @phpstan-ignore-line
 	}
 }

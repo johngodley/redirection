@@ -70,7 +70,7 @@ class Redirection_Canonical {
 				if ( $server === $alias ) {
 					// Redirect this to the WP url
 					$target = $this->get_canonical_target( get_bloginfo( 'url' ) );
-					if ( ! $target ) {
+					if ( $target === false ) {
 						return false;
 					}
 
@@ -171,19 +171,25 @@ class Redirection_Canonical {
 	public function relocate_request( $relocate, $domain, $request ) {
 		$relocate = rtrim( $relocate, '/' );
 
-		$protected = apply_filters( 'redirect_relocate_protected', [
-			'/wp-admin',
-			'/wp-login.php',
-			'/wp-json/',
-		] );
+		$protected = apply_filters(
+			'redirect_relocate_protected',
+			[
+				'/wp-admin',
+				'/wp-login.php',
+				'/wp-json/',
+			]
+		);
 
-		$not_protected = array_filter( $protected, function( $base ) use ( $request ) {
-			if ( substr( $request, 0, strlen( $base ) ) === $base ) {
-				return true;
+		$not_protected = array_filter(
+			$protected,
+			function ( $base ) use ( $request ) {
+				if ( substr( $request, 0, strlen( $base ) ) === $base ) {
+					return true;
+				}
+
+				return false;
 			}
-
-			return false;
-		} );
+		);
 
 		if ( $domain !== red_parse_domain_only( $relocate ) && count( $not_protected ) === 0 ) {
 			return apply_filters( 'redirect_relocate_target', $relocate . $request );

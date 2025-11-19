@@ -1,9 +1,36 @@
 <?php
 
+require_once __DIR__ . '/group-filter.php';
+
 /**
  * A group of redirects
+ *
+ * @phpstan-type GroupData object{
+ *     id: int,
+ *     name: string,
+ *     module_id?: int,
+ *     status?: string,
+ *     position?: int
+ * }
+ * @phpstan-type GroupJson array{
+ *     id: int,
+ *     name: string,
+ *     redirects: int,
+ *     module_id: int,
+ *     moduleName: string,
+ *     enabled: bool,
+ *     default?: bool
+ * }
+ * @phpstan-type GroupFilteredResult array{
+ *     items: array<GroupJson>,
+ *     total: int
+ * }
+ * @phpstan-type GroupSelectData array<string, array<int, string>>
  */
 class Red_Group {
+	const DEFAULT_PER_PAGE = 25;
+	const MAX_PER_PAGE = 200;
+
 	/**
 	 * Group ID
 	 *
@@ -14,7 +41,7 @@ class Red_Group {
 	/**
 	 * Group name
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $name = '';
 
@@ -28,21 +55,14 @@ class Red_Group {
 	/**
 	 * Group status - 'enabled' or 'disabled'
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $status = 'enabled';
 
 	/**
-	 * Group position. Currently not used
-	 *
-	 * @var integer
-	 */
-	private $position = 0;
-
-	/**
 	 * Constructor
 	 *
-	 * @param string|Object $values Values.
+	 * @param GroupData|string $values Values.
 	 */
 	public function __construct( $values = '' ) {
 		if ( is_object( $values ) ) {
@@ -55,10 +75,6 @@ class Red_Group {
 
 			if ( isset( $values->status ) ) {
 				$this->status = $values->status;
-			}
-
-			if ( isset( $values->position ) ) {
-				$this->position = intval( $values->position, 10 );
 			}
 		}
 	}
@@ -95,7 +111,7 @@ class Red_Group {
 	 *
 	 * @param integer $id Group ID.
 	 * @param bool $clear Clear cache.
-	 * @return Red_Group|boolean
+	 * @return Red_Group|false
 	 */
 	public static function get( $id, $clear = false ) {
 		static $groups = [];
@@ -118,7 +134,8 @@ class Red_Group {
 	/**
 	 * Get all groups
 	 *
-	 * @return Red_Group[]
+	 * @param array<string, mixed> $params Optional filter parameters.
+	 * @return array<GroupJson>
 	 */
 	public static function get_all( $params = [] ) {
 		global $wpdb;
@@ -130,6 +147,7 @@ class Red_Group {
 		}
 
 		$data = [];
+		// phpcs:ignore
 		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups $where" );
 
 		if ( $rows ) {
@@ -142,6 +160,12 @@ class Red_Group {
 		return $data;
 	}
 
+	/**
+	 * Get all groups for a specific module
+	 *
+	 * @param int $module_id Module ID.
+	 * @return array<GroupJson>
+	 */
 	public static function get_all_for_module( $module_id ) {
 		global $wpdb;
 
@@ -158,6 +182,11 @@ class Red_Group {
 		return $data;
 	}
 
+	/**
+	 * Get groups formatted for select dropdown
+	 *
+	 * @return GroupSelectData
+	 */
 	public static function get_for_select() {
 		global $wpdb;
 
@@ -167,7 +196,8 @@ class Red_Group {
 		if ( $rows ) {
 			foreach ( $rows as $row ) {
 				$module = Red_Module::get( $row->module_id );
-				if ( $module ) {
+
+				if ( $module !== false ) {
 					$data[ $module->get_name() ][ intval( $row->id, 10 ) ] = $row->name;
 				}
 			}
@@ -176,6 +206,14 @@ class Red_Group {
 		return $data;
 	}
 
+	/**
+	 * Create a new group
+	 *
+	 * @param string $name Group name.
+	 * @param int $module_id Module ID.
+	 * @param bool $enabled Whether the group is enabled.
+	 * @return Red_Group|false
+	 */
 	public static function create( $name, $module_id, $enabled = true ) {
 		global $wpdb;
 
@@ -195,12 +233,18 @@ class Red_Group {
 
 			$wpdb->insert( $wpdb->prefix . 'redirection_groups', $data );
 
-			return Red_Group::get( $wpdb->insert_id );
+			return self::get( $wpdb->insert_id );
 		}
 
 		return false;
 	}
 
+	/**
+	 * Update group details
+	 *
+	 * @param array<string, mixed> $data Update data.
+	 * @return bool
+	 */
 	public function update( $data ) {
 		global $wpdb;
 
@@ -222,6 +266,11 @@ class Red_Group {
 		return true;
 	}
 
+	/**
+	 * Delete this group and all its redirects
+	 *
+	 * @return void
+	 */
 	public function delete() {
 		global $wpdb;
 
@@ -238,12 +287,22 @@ class Red_Group {
 		}
 	}
 
+	/**
+	 * Get total number of redirects in this group
+	 *
+	 * @return int
+	 */
 	public function get_total_redirects() {
 		global $wpdb;
 
 		return intval( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) ), 10 );
 	}
 
+	/**
+	 * Enable this group and all its redirects
+	 *
+	 * @return void
+	 */
 	public function enable() {
 		global $wpdb;
 
@@ -253,6 +312,11 @@ class Red_Group {
 		Red_Module::flush( $this->id );
 	}
 
+	/**
+	 * Disable this group and all its redirects
+	 *
+	 * @return void
+	 */
 	public function disable() {
 		global $wpdb;
 
@@ -262,16 +326,27 @@ class Red_Group {
 		Red_Module::flush( $this->id );
 	}
 
+	/**
+	 * Get the module ID for this group
+	 *
+	 * @return int
+	 */
 	public function get_module_id() {
 		return $this->module_id;
 	}
 
+	/**
+	 * Get filtered groups with pagination
+	 *
+	 * @param array<string, mixed> $params Filter and pagination parameters.
+	 * @return GroupFilteredResult
+	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
 
 		$orderby = 'name';
 		$direction = 'DESC';
-		$limit = RED_DEFAULT_PER_PAGE;
+		$limit = self::DEFAULT_PER_PAGE;
 		$offset = 0;
 		$where = '';
 
@@ -290,7 +365,7 @@ class Red_Group {
 
 		if ( isset( $params['per_page'] ) ) {
 			$limit = intval( $params['per_page'], 10 );
-			$limit = min( RED_MAX_PER_PAGE, $limit );
+			$limit = min( self::MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
 
@@ -301,12 +376,13 @@ class Red_Group {
 		}
 
 		$rows = $wpdb->get_results(
+			// phpcs:ignore
 			"SELECT * FROM {$wpdb->prefix}redirection_groups $where " . $wpdb->prepare( "ORDER BY $orderby $direction LIMIT %d,%d", $offset, $limit )
 		);
 		$total_items = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups " . $where ) );
 		$items = array();
 
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		foreach ( $rows as $row ) {
 			$group = new Red_Group( $row );
@@ -325,6 +401,11 @@ class Red_Group {
 		);
 	}
 
+	/**
+	 * Convert group to JSON representation
+	 *
+	 * @return GroupJson
+	 */
 	public function to_json() {
 		$module = Red_Module::get( $this->get_module_id() );
 
@@ -338,6 +419,12 @@ class Red_Group {
 		);
 	}
 
+	/**
+	 * Delete all groups matching filters
+	 *
+	 * @param array<string, mixed> $params Filter parameters.
+	 * @return void
+	 */
 	public static function delete_all( array $params ) {
 		global $wpdb;
 
@@ -350,48 +437,23 @@ class Red_Group {
 		$wpdb->query( $sql );
 	}
 
+	/**
+	 * Set status for all groups matching filters
+	 *
+	 * @param string $action Action to perform ('enable' or 'disable').
+	 * @param array<string, mixed> $params Filter parameters.
+	 * @return void
+	 */
 	public static function set_status_all( $action, array $params ) {
 		global $wpdb;
 
 		$filters = new Red_Group_Filters( isset( $params['filterBy'] ) ? $params['filterBy'] : [] );
 		$query = $filters->get_as_sql();
 
+		// phpcs:ignore
 		$sql = $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_groups SET status=%s {$query}", $action === 'enable' ? 'enable' : 'disable' );
 
 		// phpcs:ignore
 		$wpdb->query( $sql );
-	}
-}
-
-class Red_Group_Filters {
-	private $filters = [];
-
-	public function __construct( $filter_params ) {
-		global $wpdb;
-
-		foreach ( $filter_params as $filter_by => $filter ) {
-			$filter_by = sanitize_text_field( $filter_by );
-			$filter = sanitize_text_field( $filter );
-
-			if ( $filter_by === 'status' ) {
-				if ( $filter === 'enabled' ) {
-					$this->filters[] = "status='enabled'";
-				} else {
-					$this->filters[] = "status='disabled'";
-				}
-			} elseif ( $filter_by === 'module' ) {
-				$this->filters[] = $wpdb->prepare( 'module_id=%d', intval( $filter, 10 ) );
-			} elseif ( $filter_by === 'name' ) {
-				$this->filters[] = $wpdb->prepare( 'name LIKE %s', '%' . $wpdb->esc_like( trim( $filter ) ) . '%' );
-			}
-		}
-	}
-
-	public function get_as_sql() {
-		if ( count( $this->filters ) > 0 ) {
-			return ' WHERE ' . implode( ' AND ', $this->filters );
-		}
-
-		return '';
 	}
 }

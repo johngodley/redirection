@@ -2,7 +2,7 @@
 Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, apache
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 5.5.2
 License: GPLv3
 

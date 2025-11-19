@@ -14,10 +14,10 @@ class Redirection_Request {
 		$url = wp_check_invalid_utf8( $value, true );
 
 		// No new lines
-		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		$url = (string) preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
 		// Clean control codes
-		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
 
 		return $url;
 	}
@@ -25,13 +25,16 @@ class Redirection_Request {
 	/**
 	 * Get HTTP headers
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public static function get_request_headers() {
-		$ignore = apply_filters( 'redirection_request_headers_ignore', [
-			'cookie',
-			'host',
-		] );
+		$ignore = apply_filters(
+			'redirection_request_headers_ignore',
+			[
+				'cookie',
+				'host',
+			]
+		);
 		$headers = [];
 
 		foreach ( $_SERVER as $name => $value ) {
@@ -188,7 +191,7 @@ class Redirection_Request {
 	 * @return string
 	 */
 	public static function get_ip() {
-		$options = red_get_options();
+		$options = Red_Options::get();
 		$ip = new Redirection_IP();
 
 		// This is set by the server, but may not be the actual IP
@@ -246,7 +249,7 @@ class Redirection_Request {
 	 */
 	public static function get_accept_language() {
 		if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) && is_string( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
-			$languages = preg_replace( '/;.*$/', '', sanitize_text_field( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) );
+			$languages = (string) preg_replace( '/;.*$/', '', sanitize_text_field( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) );
 			$languages = str_replace( ' ', '', $languages );
 
 			return apply_filters( 'redirection_request_accept_language', explode( ',', $languages ) );

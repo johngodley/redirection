@@ -4,9 +4,20 @@
  * Regular expression helper
  */
 class Red_Regex {
+	/**
+	 * @var string
+	 */
 	private $pattern;
+
+	/**
+	 * @var bool
+	 */
 	private $case;
 
+	/**
+	 * @param string $pattern
+	 * @param bool $case_insensitive
+	 */
 	public function __construct( $pattern, $case_insensitive = false ) {
 		$this->pattern = rawurldecode( $pattern );
 		$this->case = $case_insensitive;
@@ -24,10 +35,18 @@ class Red_Regex {
 		return @preg_match( $this->get_regex(), $target, $matches ) > 0;
 	}
 
+	/**
+	 * @param string $path
+	 * @return string
+	 */
 	private function encode_path( $path ) {
 		return str_replace( ' ', '%20', $path );
 	}
 
+	/**
+	 * @param string $path
+	 * @return string
+	 */
 	private function encode_query( $path ) {
 		return str_replace( ' ', '+', $path );
 	}
@@ -60,6 +79,9 @@ class Red_Regex {
 		return $result;
 	}
 
+	/**
+	 * @return string
+	 */
 	private function get_regex() {
 		$at_escaped = str_replace( '@', '\\@', $this->pattern );
 		$case = '';
@@ -71,6 +93,9 @@ class Red_Regex {
 		return '@' . $at_escaped . '@s' . $case;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_ignore_case() {
 		return $this->case;
 	}

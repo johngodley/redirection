@@ -1,6 +1,3 @@
-includes:
-    - phpstan-baseline.neon
-
 parameters:
     level: 8
     paths:
@@ -10,16 +7,19 @@ parameters:
         - redirection-cli.php
         - redirection-front.php
         - redirection-settings.php
-        - redirection-version.php
         - matches
-        - modules
         - modules
         - fileio
         - database
         - models
-        - tests
+        - api
     excludePaths:
         - vendor
+
+    dynamicConstantNames:
+        - REDIRECTION_DEV_MODE
+        - REDIRECTION_VERSION
+        - WP_CLI
 
     phpVersion: 70100
 
@@ -39,3 +39,21 @@ parameters:
         -
             function: 'debug_print_var()'
             message: 'forgot about it? if needed just add a phpstan ignore line'
+
+    universalObjectCratesClasses:
+        - stdClass
+
+    stubFiles:
+
+    customRulesetUsed: true
+
+    ignoreErrors:
+        -
+            identifier: arrayFilter.strict
+        -
+            identifier: empty.notAllowed
+        -
+            identifier: ternary.condNotBoolean
+        -
+            message: '#PHPDoc tag @api(Define|Error|ErrorExample|Success|Param|Name|Description|Group|Success) has invalid value#'
+            path: api/api.php

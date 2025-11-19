@@ -7,14 +7,14 @@ class Red_Url_Request {
 	/**
 	 * Original URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $original_url;
 
 	/**
 	 * Decoded URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $decoded_url;
 
@@ -86,6 +86,11 @@ class Red_Url_Request {
 	 */
 	public function is_protected_url() {
 		$rest = wp_parse_url( red_get_rest_api() );
+
+		if ( ! is_array( $rest ) || ! isset( $rest['path'] ) ) {
+			return false;
+		}
+
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $this->get_decoded_url(), 0, strlen( $rest_api ) ) === $rest_api ) {
@@ -95,5 +100,4 @@ class Red_Url_Request {
 
 		return false;
 	}
-
 }

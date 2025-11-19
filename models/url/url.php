@@ -12,7 +12,7 @@ class Red_Url {
 	/**
 	 * URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $url;
 

@@ -1,5 +1,9 @@
 <?php
 
+/**
+	* @phpstan-import-type GroupJson from Red_Group
+*/
+
 class Red_Apache_File extends Red_FileIO {
 	public function force_download() {
 		parent::force_download();
@@ -8,8 +12,13 @@ class Red_Apache_File extends Red_FileIO {
 		header( 'Content-Disposition: attachment; filename="' . $this->export_filename( 'htaccess' ) . '"' );
 	}
 
+	/**
+	 * @param array<Red_Item>  $items
+	 * @param array<GroupJson> $groups
+	 * @return string
+	 */
 	public function get_data( array $items, array $groups ) {
-		include_once dirname( dirname( __FILE__ ) ) . '/models/htaccess.php';
+		include_once dirname( __DIR__ ) . '/models/htaccess.php';
 
 		$htaccess = new Red_Htaccess();
 
@@ -20,7 +29,17 @@ class Red_Apache_File extends Red_FileIO {
 		return $htaccess->get() . PHP_EOL;
 	}
 
+	/**
+	 * @param int $group Group ID to import into.
+	 * @param string $filename Path to the file to import.
+	 * @param string|false $data File contents (or false if not pre-loaded).
+	 * @return int
+	 */
 	public function load( $group, $filename, $data ) {
+		if ( $data === false ) {
+			return 0;
+		}
+
 		// Remove any comments
 		$data = str_replace( "\n", "\r", $data );
 
@@ -28,10 +47,10 @@ class Red_Apache_File extends Red_FileIO {
 		$lines = array_filter( explode( "\r", $data ) );
 		$count = 0;
 
-		foreach ( (array) $lines as $line ) {
+		foreach ( $lines as $line ) {
 			$item = $this->get_as_item( $line );
 
-			if ( $item ) {
+			if ( $item !== false ) {
 				$item['group_id'] = $group;
 				$redirect = Red_Item::create( $item );
 
@@ -44,6 +63,10 @@ class Red_Apache_File extends Red_FileIO {
 		return $count;
 	}
 
+	/**
+	 * @param string $line
+	 * @return array<string, mixed>|false
+	 */
 	public function get_as_item( $line ) {
 		$item = false;
 
@@ -53,7 +76,7 @@ class Red_Apache_File extends Red_FileIO {
 				'match_type' => 'url',
 				'action_type' => 'url',
 				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
-				'action_code' => $this->get_code( $matches[3] ),
+				'action_code' => $this->get_code( isset( $matches[3] ) ? $matches[3] : '' ),
 				'regex' => $this->is_regex( $matches[1] ),
 			);
 		} elseif ( preg_match( '@Redirect\s+(.*?)\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
@@ -92,7 +115,7 @@ class Red_Apache_File extends Red_FileIO {
 			);
 		}
 
-		if ( $item ) {
+		if ( $item !== false ) {
 			$item['action_type'] = 'url';
 			$item['match_type'] = 'url';
 
@@ -106,20 +129,27 @@ class Red_Apache_File extends Red_FileIO {
 		return false;
 	}
 
+	/**
+	 * @param string $url
+	 * @return string
+	 */
 	private function decode_url( $url ) {
 		$url = rawurldecode( $url );
 
 		// Replace quoted slashes
-		$url = preg_replace( '@\\\/@', '/', $url );
+		$url = (string) preg_replace( '@\\\/@', '/', $url );
 
 		// Ensure escaped '.' is still escaped
-		$url = preg_replace( '@\\\\.@', '\\\\.', $url );
+		$url = (string) preg_replace( '@\\\\.@', '\\\\.', $url );
 		return $url;
 	}
 
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
 	private function is_str_regex( $url ) {
-		$regex  = '()[]$^?+.';
-		$escape = false;
+		$regex = '()[]$^?+.';
 		$len = strlen( $url );
 
 		for ( $x = 0; $x < $len; $x++ ) {
@@ -128,7 +158,7 @@ class Red_Apache_File extends Red_FileIO {
 
 			if ( $char === '\\' ) {
 				$escape = true;
-			} elseif ( strpos( $regex, $char ) !== false && ! $escape ) {
+			} elseif ( strpos( $regex, $char ) !== false ) {
 				return true;
 			}
 		}
@@ -136,6 +166,10 @@ class Red_Apache_File extends Red_FileIO {
 		return false;
 	}
 
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
 	private function is_regex( $url ) {
 		if ( $this->is_str_regex( $url ) ) {
 			$tmp = ltrim( $url, '^' );
@@ -149,6 +183,10 @@ class Red_Apache_File extends Red_FileIO {
 		return false;
 	}
 
+	/**
+	 * @param string $url
+	 * @return string
+	 */
 	private function regex_url( $url ) {
 		$url = $this->decode_url( $url );
 
@@ -166,6 +204,10 @@ class Red_Apache_File extends Red_FileIO {
 		return $this->decode_url( $url );
 	}
 
+	/**
+	 * @param string $code
+	 * @return int
+	 */
 	private function get_code( $code ) {
 		if ( strpos( $code, '301' ) !== false || stripos( $code, 'permanent' ) !== false ) {
 			return 301;

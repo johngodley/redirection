@@ -2,7 +2,7 @@
 
 class FlusherTest extends WP_UnitTestCase {
 	private function setScheduleExpire( $days ) {
-		update_option( 'redirection_options', array( 'expire_redirect' => $days, 'expire_404' => $days ) );
+		Red_Options::save( array( 'expire_redirect' => $days, 'expire_404' => $days ) );
 	}
 
 	private function addLog( $days ) {
@@ -64,6 +64,12 @@ class FlusherTest extends WP_UnitTestCase {
 		Red_Flusher::clear();
 		Red_Redirect_Log::delete_all();
 
+		// Set expiration to 7 days so that 8-day-old logs are deleted but 5-day-old logs remain
+		$this->setScheduleExpire( 7 );
+
+		// Clear the scheduled event that was created by setScheduleExpire (via flush_schedule filter)
+		Red_Flusher::clear();
+
 		$this->addLog( 5 );
 		$this->addLog( 8 );
 		$this->assertEquals( 2, $this->getLogCount() );
@@ -78,6 +84,12 @@ class FlusherTest extends WP_UnitTestCase {
 	public function testBigFlush() {
 		Red_Flusher::clear();
 		Red_Redirect_Log::delete_all();
+
+		// Set expiration to 7 days so that 8-day-old logs are deleted
+		$this->setScheduleExpire( 7 );
+
+		// Clear the scheduled event that was created by setScheduleExpire (via flush_schedule filter)
+		Red_Flusher::clear();
 
 		for ( $i = 0; $i < Red_Flusher::DELETE_MAX + 2; $i++ ) {
 			$this->addLog( 8 );   // Will get flushed

@@ -22,6 +22,25 @@
  *   - if a match was found and dynamic redirects were involved then cache all redirects
  *
  * We have a maximum number of redirects that can be cached to avoid saturating the cache.
+ *
+ * @phpstan-type RedirectSqlRow array{
+ *     id: int,
+ *     url: string,
+ *     match_url: string,
+ *     match_data: mixed,
+ *     action_code: int,
+ *     action_type: string,
+ *     action_data: string|null,
+ *     match_type: string,
+ *     title: string,
+ *     hits: int,
+ *     regex: bool,
+ *     group_id: int,
+ *     position: int,
+ *     last_access: string,
+ *     status: string,
+ *     enabled: bool
+ * }
  */
 class Redirect_Cache {
 	const EMPTY_VALUE = 'empty';
@@ -37,7 +56,7 @@ class Redirect_Cache {
 	/**
 	 * Array of URLs that have been cached
 	 *
-	 * @var array
+	 * @var array<string,bool>
 	 */
 	private $cached = [];
 
@@ -68,8 +87,11 @@ class Redirect_Cache {
 		$this->reset();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function reset() {
-		$settings = red_get_options();
+		$settings = Red_Options::get();
 		$this->key = $settings['cache_key'];
 		$this->cached = [];
 	}
@@ -140,7 +162,7 @@ class Redirect_Cache {
 
 		// Default store the match redirect
 		$rows = [];
-		if ( $matched ) {
+		if ( $matched !== false ) {
 			$rows[] = $matched;
 		}
 
@@ -166,9 +188,10 @@ class Redirect_Cache {
 
 	/**
 	 * Convert a Red_Item to a format suitable for storing in the cache
+	 * Returns the JSON representation of redirects (without 'status' field).
 	 *
 	 * @param Red_Item[] $rows Redirects.
-	 * @return array
+	 * @return list<array<string, mixed>>
 	 */
 	private function convert_to_rows( array $rows ) {
 		$converted = [];
@@ -185,7 +208,7 @@ class Redirect_Cache {
 	 *
 	 * If the matched redirect is a static redirect then we include it in the list, but don't include any redirects after.
 	 *
-	 * @param Red_Item[]     $redirects Array of redirects.
+	 * @param Red_Item[] $redirects Array of redirects.
 	 * @param Red_Item|false $matched The matched item.
 	 * @return Red_Item[]
 	 */

@@ -1,6 +1,11 @@
 <?php
 
 class UrlTransformTest extends WP_UnitTestCase {
+	/**
+	 * @var int
+	 */
+	private $admin_user_id;
+
 	public function setUp(): void {
 		parent::setUp();
 

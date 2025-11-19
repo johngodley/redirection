@@ -1,6 +1,35 @@
 <?php
 
 /**
+ * @phpstan-import-type LogJson from Red_Log
+ * @phpstan-import-type LogFilterParams from Red_Log
+ * @phpstan-import-type LogGetParams from Red_Log
+ * @phpstan-type RedirectCsvRow object{
+ *   created: string,
+ *   url: string,
+ *   sent_to: string,
+ *   ip: string,
+ *   referrer: string,
+ *   agent: string
+ * }
+ * @phpstan-type RedirectLogJson array{
+ *   id: int,
+ *   created: string,
+ *   created_time: string,
+ *   url: string,
+ *   agent: string,
+ *   referrer: string,
+ *   domain: string,
+ *   ip: string,
+ *   http_code: int,
+ *   request_method: string,
+ *   request_data: mixed,
+ *   sent_to: string,
+ *   redirection_id: int,
+ *   redirect_by_slug: string,
+ *   redirect_by: string
+ * }
+ *
  * Redirect logging. Extends the base log class with specifics for redirects
  */
 class Red_Redirect_Log extends Red_Log {
@@ -28,7 +57,7 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Get's the table name for this log object
 	 *
-	 * @param Object $wpdb WPDB object.
+	 * @param \wpdb $wpdb WPDB object.
 	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
@@ -41,8 +70,8 @@ class Red_Redirect_Log extends Red_Log {
 	 * @param string $domain Domain name of request.
 	 * @param string $url URL of request.
 	 * @param string $ip IP of client.
-	 * @param array  $details Other log details.
-	 * @return integer|false Log ID, or false
+	 * @param array<string, mixed> $details Other log details.
+	 * @return int|false Log ID, or false
 	 */
 	public static function create( $domain, $url, $ip, $details ) {
 		global $wpdb;
@@ -78,7 +107,8 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Get query filters as a SQL `WHERE` statement. SQL will be sanitized
 	 *
-	 * @param array $filter Array of filter params.
+	 * @phpstan-param LogFilterParams & array{target?: string, redirect_by?: string} $filter
+	 * @phpstan-return list<string>
 	 * @return array
 	 */
 	protected static function get_query_filter( array $filter ) {
@@ -86,6 +116,7 @@ class Red_Redirect_Log extends Red_Log {
 
 		$where = parent::get_query_filter( $filter );
 
+		/** @var array{target?: string, redirect_by?: string} $filter */
 		if ( isset( $filter['target'] ) ) {
 			$where[] = $wpdb->prepare( 'sent_to LIKE %s', '%' . $wpdb->esc_like( trim( $filter['target'] ) ) . '%' );
 		}
@@ -109,19 +140,21 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Get the CSV headers for this log object
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	public static function get_csv_header() {
 		return [ 'date', 'source', 'target', 'ip', 'referrer', 'agent' ];
 	}
 
 	/**
-	 * Get the CSV headers for this log object
+	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
-	 * @return array
+	 * @phpstan-param object $row
+	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
+		/** @var RedirectCsvRow $row */
 		return [
 			$row->created,
 			$row->url,
@@ -150,28 +183,18 @@ class Red_Redirect_Log extends Red_Log {
 	/**
 	 * Convert a log entry to JSON
 	 *
-	 * @return array
+	 * @phpstan-return RedirectLogJson
+	 * @return array<string, mixed>
 	 */
 	public function to_json() {
-		return array_merge( parent::to_json(), [
-			'sent_to' => $this->sent_to,
-			'redirection_id' => intval( $this->redirection_id, 10 ),
-			'redirect_by_slug' => $this->redirect_by,
-			'redirect_by' => $this->get_redirect_name( $this->redirect_by ),
-		] );
-	}
-}
-
-// phpcs:ignore
-class RE_Log {
-	public static function create( $url, $target, $agent, $ip, $referrer, $extra = array() ) {
-		_deprecated_function( __FUNCTION__, '4.6', 'Red_Redirect_Log::create( $domain, $url, $ip, $details )' );
-
-		return Red_Redirect_Log::create( Redirection_Request::get_server(), $url, $ip, array_merge( [
-			'agent' => $agent,
-			'referrer' => $referrer,
-			'target' => $target,
-			'request_method' => Redirection_Request::get_request_method(),
-		], $extra ) );
+		return array_merge(
+			parent::to_json(),
+			[
+				'sent_to' => $this->sent_to,
+				'redirection_id' => intval( $this->redirection_id, 10 ),
+				'redirect_by_slug' => $this->redirect_by,
+				'redirect_by' => $this->get_redirect_name( $this->redirect_by === null ? '' : $this->redirect_by ),
+			]
+		);
 	}
 }

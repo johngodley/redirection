@@ -1,10 +1,19 @@
 <?php
 
+/**
+	* @phpstan-import-type GroupJson from Red_Group
+*/
+
 class Red_Rss_File extends Red_FileIO {
 	public function force_download() {
 		header( 'Content-type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 	}
 
+	/**
+	 * @param array<Red_Item>  $items
+	 * @param array<GroupJson> $groups
+	 * @return string
+	 */
 	public function get_data( array $items, array $groups ) {
 		$xml = '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . ">\r\n";
 		ob_start();
@@ -15,9 +24,8 @@ class Red_Rss_File extends Red_FileIO {
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
 	<title>Redirection - <?php bloginfo_rss( 'name' ); ?></title>
-	<link><?php esc_url( bloginfo_rss( 'url' ) ); ?></link>
 	<description><?php esc_html( bloginfo_rss( 'description' ) ); ?></description>
-	<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'GMT' ), false ) ); ?></pubDate>
+	<pubDate><?php echo esc_html( (string) mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'gmt' ), false ) ); ?></pubDate>
 	<generator>
 		<?php echo esc_html( 'http://wordpress.org/?v=' ); ?>
 		<?php bloginfo_rss( 'version' ); ?>
@@ -28,8 +36,8 @@ class Red_Rss_File extends Red_FileIO {
 	<item>
 		<title><?php echo esc_html( $log->get_url() ); ?></title>
 		<link><![CDATA[<?php echo esc_url( home_url() ) . esc_url( $log->get_url() ); ?>]]></link>
-		<pubDate><?php echo esc_html( date( 'D, d M Y H:i:s +0000', intval( $log->get_last_hit(), 10 ) ) ); ?></pubDate>
-		<guid isPermaLink="false"><?php echo esc_html( $log->get_id() ); ?></guid>
+		<pubDate><?php echo esc_html( gmdate( 'D, d M Y H:i:s +0000', intval( $log->get_last_hit(), 10 ) ) ); ?></pubDate>
+		<guid isPermaLink="false"><?php echo esc_html( (string) $log->get_id() ); ?></guid>
 		<description><?php echo esc_html( $log->get_url() ); ?></description>
 	</item>
 		<?php endforeach; ?>
@@ -42,6 +50,13 @@ class Red_Rss_File extends Red_FileIO {
 		return $xml;
 	}
 
-	function load( $group, $data, $filename = '' ) {
+	/**
+	 * @param int $group Group ID to import into.
+	 * @param string $filename Path to the file to import.
+	 * @param string|false $data File contents (or false if not pre-loaded).
+	 * @return int
+	 */
+	public function load( $group, $filename, $data ) {
+		return 0;
 	}
 }

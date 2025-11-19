@@ -1,22 +1,21 @@
 <?php
 
 require_once __DIR__ . '/database-status.php';
+require_once __DIR__ . '/database-upgrade.php';
 require_once __DIR__ . '/database-upgrader.php';
 
 class Red_Database {
 	/**
 	 * Get all upgrades for a database version
 	 *
-	 * @return array Array of versions from self::get_upgrades()
+	 * @param string $current_version
+	 * @param string|false $current_stage
+	 * @return list<Red_Database_Upgrade> Array of versions from self::get_upgrades()
 	 */
 	public function get_upgrades_for_version( $current_version, $current_stage ) {
 		if ( empty( $current_version ) ) {
 			return [
-				[
-					'version' => REDIRECTION_DB_VERSION,
-					'file' => 'latest.php',
-					'class' => 'Red_Latest_Database',
-				],
+				new Red_Database_Upgrade( REDIRECTION_DB_VERSION, 'latest.php', 'Red_Latest_Database' ),
 			];
 		}
 
@@ -27,8 +26,8 @@ class Red_Database {
 			if ( ! $found ) {
 				$upgrader = Red_Database_Upgrader::get( $upgrade );
 
-				$stage_present = in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
-				$same_version = $current_stage === false && version_compare( $upgrade['version'], $current_version, 'gt' );
+				$stage_present = is_string( $current_stage ) && in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
+				$same_version = $current_stage === false && version_compare( $upgrade->get_version(), $current_version, 'gt' );
 
 				if ( $stage_present || $same_version ) {
 					$found = true;
@@ -46,7 +45,7 @@ class Red_Database {
 	/**
 	 * Apply a particular upgrade stage
 	 *
-	 * @return mixed Result for upgrade
+	 * @return void
 	 */
 	public function apply_upgrade( Red_Database_Status $status ) {
 		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );
@@ -75,20 +74,29 @@ class Red_Database {
 		}
 	}
 
+	/**
+	 * Apply a callback to all sites in a multisite network, or to the current site if not multisite.
+	 *
+	 * @param callable $callback Callback function to apply to each site.
+	 * @return void
+	 */
 	public static function apply_to_sites( $callback ) {
-		if ( is_multisite() && ( is_network_admin() || defined( 'WP_CLI' ) && WP_CLI ) ) {
+		if ( is_multisite() && ( is_network_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) ) {
 			$total = get_sites( [ 'count' => true ] );
 			$per_page = 100;
 
 			// Paginate through all sites and apply the callback
 			for ( $offset = 0; $offset < $total; $offset += $per_page ) {
-				array_map( function( $site ) use ( $callback ) {
-					switch_to_blog( $site->blog_id );
+				array_map(
+					function ( $site ) use ( $callback ) {
+						switch_to_blog( (int) $site->blog_id );
 
-					$callback();
+						$callback();
 
-					restore_current_blog();
-				}, get_sites( [ 'number' => $per_page, 'offset' => $offset ] ) );
+						restore_current_blog();
+					},
+					get_sites( [ 'number' => $per_page, 'offset' => $offset ] )
+				);
 			}
 
 			return;
@@ -100,10 +108,10 @@ class Red_Database {
 	/**
 	 * Get latest database installer
 	 *
-	 * @return object Red_Latest_Database
+	 * @return Red_Latest_Database Red_Latest_Database
 	 */
 	public static function get_latest_database() {
-		include_once dirname( __FILE__ ) . '/schema/latest.php';
+		include_once __DIR__ . '/schema/latest.php';
 
 		return new Red_Latest_Database();
 	}
@@ -111,60 +119,20 @@ class Red_Database {
 	/**
 	 * List of all upgrades and their associated file
 	 *
-	 * @return array Database upgrade array
+	 * @return list<Red_Database_Upgrade> Database upgrade array
 	 */
 	public function get_upgrades() {
 		return [
-			[
-				'version' => '2.0.1',
-				'file' => '201.php',
-				'class' => 'Red_Database_201',
-			],
-			[
-				'version' => '2.1.16',
-				'file' => '216.php',
-				'class' => 'Red_Database_216',
-			],
-			[
-				'version' => '2.2',
-				'file' => '220.php',
-				'class' => 'Red_Database_220',
-			],
-			[
-				'version' => '2.3.1',
-				'file' => '231.php',
-				'class' => 'Red_Database_231',
-			],
-			[
-				'version' => '2.3.2',
-				'file' => '232.php',
-				'class' => 'Red_Database_232',
-			],
-			[
-				'version' => '2.3.3',
-				'file' => '233.php',
-				'class' => 'Red_Database_233',
-			],
-			[
-				'version' => '2.4',
-				'file' => '240.php',
-				'class' => 'Red_Database_240',
-			],
-			[
-				'version' => '4.0',
-				'file' => '400.php',
-				'class' => 'Red_Database_400',
-			],
-			[
-				'version' => '4.1',
-				'file' => '410.php',
-				'class' => 'Red_Database_410',
-			],
-			[
-				'version' => '4.2',
-				'file' => '420.php',
-				'class' => 'Red_Database_420',
-			],
+			new Red_Database_Upgrade( '2.0.1', '201.php', 'Red_Database_201' ),
+			new Red_Database_Upgrade( '2.1.16', '216.php', 'Red_Database_216' ),
+			new Red_Database_Upgrade( '2.2', '220.php', 'Red_Database_220' ),
+			new Red_Database_Upgrade( '2.3.1', '231.php', 'Red_Database_231' ),
+			new Red_Database_Upgrade( '2.3.2', '232.php', 'Red_Database_232' ),
+			new Red_Database_Upgrade( '2.3.3', '233.php', 'Red_Database_233' ),
+			new Red_Database_Upgrade( '2.4', '240.php', 'Red_Database_240' ),
+			new Red_Database_Upgrade( '4.0', '400.php', 'Red_Database_400' ),
+			new Red_Database_Upgrade( '4.1', '410.php', 'Red_Database_410' ),
+			new Red_Database_Upgrade( '4.2', '420.php', 'Red_Database_420' ),
 		];
 	}
 }

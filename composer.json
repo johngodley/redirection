@@ -22,9 +22,9 @@
 		"checks": "composer lint; composer analyse",
 		"baseline": "vendor/bin/phpstan analyse --configuration phpstan.neon  --generate-baseline",
 		"lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n",
+		"format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n",
 		"test": "./vendor/bin/phpunit --configuration=phpunit-unit.xml",
-		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,"
-	},
+		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,"	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
