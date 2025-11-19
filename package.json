@@ -10,8 +10,8 @@
 	"scripts": {
 		"start": "wp-scripts start",
 		"build": "wp-scripts build",
-		"release": "yarn plugin-zip && release-it",
-		"test": "yarn test:php && yarn test:js && yarn test:integration",
+		"release": "pnpm plugin-zip && release-it",
+		"test": "pnpm test:php && pnpm test:js && pnpm test:integration",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/redirection5 composer run test-integration",
 		"test:js": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
@@ -156,6 +156,5 @@
 			]
 		},
 		"npm": false
-	},
-	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+	}
 }
