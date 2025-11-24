@@ -165,9 +165,13 @@ abstract class Red_Database_Upgrader {
 		$two_param_methods = [ 'create_groups' ];
 
 		if ( in_array( $stage, $two_param_methods, true ) ) {
-			call_user_func( [ $this, $stage ], $wpdb, $live );
+			/** @var callable(wpdb, bool): void $callable */
+			$callable = [ $this, $stage ];
+			call_user_func( $callable, $wpdb, $live );
 		} else {
-			call_user_func( [ $this, $stage ], $wpdb );
+			/** @var callable(wpdb): void $callable */
+			$callable = [ $this, $stage ];
+			call_user_func( $callable, $wpdb );
 		}
 	}
 }

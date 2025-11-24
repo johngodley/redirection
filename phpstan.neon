@@ -16,9 +16,11 @@ parameters:
     excludePaths:
         - vendor
 
+    bootstrapFiles:
+        - build/redirection-version.php
+
     dynamicConstantNames:
         - REDIRECTION_DEV_MODE
-        - REDIRECTION_VERSION
         - WP_CLI
 
     phpVersion: 70100

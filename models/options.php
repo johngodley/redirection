@@ -80,6 +80,7 @@ class Red_Options {
 
 	/**
 	 * Reset the options cache.
+	 * @return void
 	 */
 	public static function reset() {
 		self::$options_cache = null;

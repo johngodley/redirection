@@ -8,7 +8,7 @@
  *   next?: string,
  *   time?: float,
  *   manual?: array<int, string>,
- *   result: 'ok'|'error',
+ *   result?: 'ok'|'error',
  *   reason?: string|false,
  *   debug?: array<int, string>,
  *   complete?: int|float
@@ -319,8 +319,6 @@ class Red_Database_Status {
 		$result = [
 			'status' => $this->status,
 			'inProgress' => $this->stage !== false,
-			// XXX doesnt exist
-//			'result' => self::RESULT_ERROR,
 		];
 
 		// Add on version status

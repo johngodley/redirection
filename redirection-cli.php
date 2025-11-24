@@ -293,7 +293,7 @@ class Redirection_Cli extends WP_CLI_Command {
 							break;
 						}
 
-						if ( $info['result'] === 'error' && isset( $info['reason'] ) && isset( $info['debug'] ) ) {
+						if ( isset( $info['result'] ) && $info['result'] === 'error' && isset( $info['reason'] ) && isset( $info['debug'] ) ) {
 							if ( $skip === false ) {
 								WP_CLI::error( 'Site ' . get_current_blog_id() . ' database failed to upgrade: ' . $info['reason'] . ' - ' . $info['debug'][0] );
 								return;

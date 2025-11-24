@@ -425,7 +425,7 @@ class Red_Htaccess {
 
 		if ( method_exists( $this, $target ) && $item->is_enabled() ) {
 			// For URL matches, extract target URL from match object
-			if ( $target === 'add_url' && $item->match !== null && isset( $item->match->url ) ) {
+			if ( $target === 'add_url' && $item->match instanceof URL_Match ) {
 				$this->add_url( $item, $item->match->url );
 			} else {
 				$this->$target( $item, $item->match ); // @phpstan-ignore-line

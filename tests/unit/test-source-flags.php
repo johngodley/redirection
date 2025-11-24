@@ -1,6 +1,17 @@
 <?php
 
-class SourceFlagsTest extends WP_UnitTestCase {
+require_once PLUGIN_PATH . '/models/url/url-flags.php';
+require_once PLUGIN_PATH . '/models/options.php';
+require_once PLUGIN_PATH . '/redirection-settings.php';
+
+use Brain\Monkey\Functions;
+
+class SourceFlagsTest extends TestCase {
+	protected function setUp(): void {
+		parent::setUp();
+		Red_Options::reset();
+	}
+
 	private function checkDefaults( $flags ) {
 		$this->assertFalse( $flags->is_ignore_case() );
 		$this->assertFalse( $flags->is_ignore_trailing() );
@@ -17,13 +28,15 @@ class SourceFlagsTest extends WP_UnitTestCase {
 
 	public function testSetInvalidFlags() {
 		$flags = new Red_Source_Flags();
-		$flags->set_flags( [
-			'cat' => 'cat',
-			'case' => 'cat',
-			'flag_query' => 'cat',
-			'flag_trailing' => 'cat',
-			'flag_regex' => 'cat',
-		] );
+		$flags->set_flags(
+			[
+				'cat' => 'cat',
+				'case' => 'cat',
+				'flag_query' => 'cat',
+				'flag_trailing' => 'cat',
+				'flag_regex' => 'cat',
+			]
+		);
 		$this->checkDefaults( $flags );
 	}
 
@@ -75,11 +88,12 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testIgnoreSameDefaults() {
+		// phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
+		// phpstan-ignore-next-line
 		$defaults = [
 			'cat' => 'thing',
 			'flag_trailing' => true,
 			'flag_query' => 'pass',
-			'flag_trailing' => true,
 			'flag_regex' => false,
 			'flag_case' => true,
 		];
@@ -91,18 +105,20 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testReturnDifferentDefaults() {
+		// phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
+		// phpstan-ignore-next-line
 		$defaults = [
 			'cat' => 'thing',
 			'flag_trailing' => false,
 			'flag_query' => 'ignore',
-			'flag_trailing' => false,
 			'flag_regex' => true,
 			'flag_case' => false,
 		];
+		// phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
+		// phpstan-ignore-next-line
 		$expected = [
 			'flag_trailing' => true,
 			'flag_query' => 'pass',
-			'flag_trailing' => true,
 			'flag_regex' => false,
 			'flag_case' => true,
 		];
@@ -113,7 +129,46 @@ class SourceFlagsTest extends WP_UnitTestCase {
 	}
 
 	public function testDefaults() {
+		// Mock apply_filters to return the first argument (default behavior when no filters are applied)
+		Functions\expect( 'apply_filters' )
+			->andReturnUsing(
+				function ( $hook, $value ) {
+					return $value;
+				}
+			);
+
+		// Mock WordPress functions used by Red_Options
+		Functions\expect( 'get_option' )
+			->with( Red_Options::OPTION_KEY, false )
+			->andReturn(
+				[
+					'flag_case' => false,
+					'flag_trailing' => false,
+					'flag_query' => 'exact',
+					'flag_regex' => false,
+				]
+			);
+
+		Functions\expect( 'update_option' )
+			->with( Red_Options::OPTION_KEY, \Mockery::type( 'array' ) )
+			->andReturn( true );
+
+		// Reset the options cache before setting options
+		Red_Options::reset();
+
 		red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
+
+		// Mock get_option again for the get_json_with_defaults call
+		Functions\expect( 'get_option' )
+			->with( Red_Options::OPTION_KEY, false )
+			->andReturn(
+				[
+					'flag_case' => false,
+					'flag_trailing' => false,
+					'flag_query' => 'exact',
+					'flag_regex' => false,
+				]
+			);
 
 		$expected = [ 'flag_case' => true, 'flag_trailing' => true, 'flag_regex' => false, 'flag_query' => 'exact' ];
 		$flags = new Red_Source_Flags();
