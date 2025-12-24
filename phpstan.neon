@@ -20,10 +20,9 @@ parameters:
         - build/redirection-version.php
 
     dynamicConstantNames:
-        - REDIRECTION_DEV_MODE
         - WP_CLI
 
-    phpVersion: 70100
+    phpVersion: 70200
 
     parallel:
         maximumNumberOfProcesses: 4
@@ -44,8 +43,6 @@ parameters:
 
     universalObjectCratesClasses:
         - stdClass
-
-    stubFiles:
 
     customRulesetUsed: true
 

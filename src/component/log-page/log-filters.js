@@ -70,7 +70,7 @@ function LogFilters( props ) {
 		<>
 			{ groupOptions.length > 0 && (
 				<TableGroup
-					selected={ table.groupBy ? table.groupBy : '0' }
+					selected={ table.groupBy ? table.groupBy : '' }
 					options={ groupOptions }
 					isEnabled={ ! disabled }
 					onGroup={ onGroup }

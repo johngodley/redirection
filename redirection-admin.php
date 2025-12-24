@@ -349,8 +349,12 @@ class Redirection_Admin {
 			);
 		}
 
-		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.js', array(), $build, true );
-		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.css', array(), $build );
+		$assets = include plugin_dir_path( REDIRECTION_FILE ) . 'build/redirection.asset.php';
+		$dependencies = $assets['dependencies'];
+		$version = $assets['version'];
+
+		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.js', $dependencies, $version, true );
+		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.css', [], $version );
 
 		$is_new = false;
 		$major_version = implode( '.', array_slice( explode( '.', REDIRECTION_VERSION ), 0, 2 ) );

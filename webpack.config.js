@@ -55,16 +55,11 @@ class CustomRtlCssPlugin extends RtlCssPlugin {
 	};
 }
 
-process.env.WP_NO_EXTERNALS = true;
-
 const modified = {
 	...defaultConfig,
 	output: {
 		...defaultConfig.output,
 		filename: 'redirection.js',
-	},
-	externals: {
-		'@wordpress/i18n': 'wp.i18n'
 	},
 	module: {
 		...defaultConfig.module,
@@ -116,7 +111,6 @@ const modified = {
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
 		...defaultConfig.plugins.filter( ( plugin ) =>
 			!( plugin instanceof MiniCSSExtractPlugin ) &&
-			!( plugin instanceof DependencyExtractionWebpackPlugin ) &&
 			!( plugin instanceof RtlCssPlugin )
 		),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
