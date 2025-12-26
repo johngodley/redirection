@@ -51,7 +51,7 @@ const HeaderReplaceSimpleChoice = ( { headerValue, headerSettings, options, onCh
 
 			{ hasReplace( selected, replace ) && (
 				<label>
-					{ getReplace( replace ).replace( '<', '' ).replace( '>', '' ) }
+					{ getReplace( replace ).replace( /</g, '' ).replace( />/g, '' ) }
 
 					<input type="text" className="regular-text" name="replaceValue" value={ replaceValue } onChange={ onChangeReplace } />
 				</label>
