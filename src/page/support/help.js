@@ -72,10 +72,12 @@ const Help = () => {
 			</p>
 			<h2>{ __( 'Need to search and replace?', 'redirection' ) }</h2>
 			<p>
-				{ __(
-					'The companion plugin Search Regex allows you to search and replace data on your site and is handy if you want to bulk update a lot of URLs in your posts and pages.',
+				{ createInterpolateElement(__(
+					'The companion plugin <link>Search Regex</link> allows you to search and replace data on your site and is handy if you want to bulk update a lot of URLs in your posts and pages.',
 					'redirection'
-				) }
+				), {
+					link: <ExternalLink url="https://searchregex.com/" />,
+				} ) }
 			</p>
 		</div>
 	);
