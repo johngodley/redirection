@@ -110,7 +110,8 @@ class Redirection {
 				return '';
 			}
 
-			$mask = pack( 'a16', 'ffff:ffff:ffff:ffff::ff00::0000::0000::0000' );
+			// Mask lower 64 bits of the IPv6 address (keep the upper 64 bits).
+			$mask = str_repeat( "\xff", 8 ) . str_repeat( "\x00", 8 );
 			$masked = $packed & $mask;
 			$converted = inet_ntop( $masked );
 			if ( $converted === false ) {
