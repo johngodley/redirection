@@ -30,7 +30,7 @@ if ( version_compare( phpversion(), '7.2' ) < 0 ) {
 	 */
 	function red_deprecated_php( array $links ): array {
 		/* translators: 1: server PHP version. 2: required PHP version. */
-		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %1$s, need PHP %2$s+', 'redirection' ), phpversion(), '5.6' ) . '</a>' );
+		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %1$s, need PHP %2$s+', 'redirection' ), phpversion(), '7.2' ) . '</a>' );
 		return $links;
 	}
 
