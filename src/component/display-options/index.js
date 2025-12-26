@@ -68,24 +68,48 @@ function DisplayOptions( props ) {
 		{
 			label: __( 'Custom', 'redirection' ),
 			value: 'custom',
-			multiple: true,
 			options: customOptions,
 		},
 	];
 
 	/**
 	 * @param {*} selected
-	 * @param {*} optionValue
 	 */
-	function onChange( selected, optionValue ) {
-		// If a preset then just switch, otherwise its custom
-		const preset = groupedOptions[ 0 ].options.find( ( item ) => item.value === optionValue );
-
-		if ( preset ) {
-			setDisplay( optionValue, preset.grouping );
-		} else {
-			setDisplay( 'custom', validation ? validation( selected ) : selected );
+	function onChange( selected ) {
+		if ( ! Array.isArray( selected ) ) {
+			return;
 		}
+
+		// Check what changed: compare with current state
+		const currentState = displaySelected.concat( [ displayType ] );
+
+		// Find what was added
+		const added = selected.filter( item => ! currentState.includes( item ) );
+
+		// If a predefined option was added, switch to it
+		if ( added.length > 0 ) {
+			const preset = groupedOptions[ 0 ].options.find( ( item ) => item.value === added[ 0 ] );
+			if ( preset ) {
+				// A predefined option was selected, switch to it
+				setDisplay( preset.value, preset.grouping );
+				return;
+			}
+		}
+
+		// Otherwise, it's a custom selection change
+		// Filter to get only custom option values (exclude displayType and predefined values)
+		const customSelected = selected.filter( item => {
+			// Exclude displayType
+			if ( item === displayType ) return false;
+			// Exclude predefined values
+			const isPredefined = groupedOptions[ 0 ].options.find( preset => preset.value === item );
+			if ( isPredefined ) return false;
+			// Only include if it's a valid custom option
+			const isCustom = customOptions.find( opt => opt.value === item );
+			return isCustom;
+		} );
+
+		setDisplay( 'custom', validation ? validation( customSelected ) : customSelected );
 	}
 
 	return (
@@ -95,7 +119,7 @@ function DisplayOptions( props ) {
 			selected={ displaySelected.concat( [ displayType ] ) }
 			onChange={ onChange }
 			title={ getPlaceholder( displayType, groupedOptions ) }
-			isEnabled={ ! disabled }
+			disabled={ disabled }
 		/>
 	);
 }

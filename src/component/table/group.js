@@ -26,7 +26,7 @@ class TableGroup extends React.Component {
 
 		return (
 			<div className="alignleft actions">
-				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.onChange } isEnabled={ isEnabled } />
+				<Select items={ options } value={ this.state.selected } name="filter" onChange={ this.onChange } disabled={ ! isEnabled } />
 
 				<button className="button" onClick={ this.onSubmit } disabled={ ! isEnabled }>{ __( 'Apply', 'redirection' ) }</button>
 			</div>

@@ -14,16 +14,16 @@ import Header from './header';
 
 const getPresets = () => [
 	{
-		title: __( 'Add Header', 'redirection' ),
-		name: 'header',
+		label: __( 'Add Header', 'redirection' ),
+		value: 'header',
 	},
 	{
-		title: __( 'Add Security Presets', 'redirection' ),
-		name: 'security',
+		label: __( 'Add Security Presets', 'redirection' ),
+		value: 'security',
 	},
 	{
-		title: __( 'Add CORS Presets', 'redirection' ),
-		name: 'cors',
+		label: __( 'Add CORS Presets', 'redirection' ),
+		value: 'cors',
 	},
 ];
 
@@ -78,6 +78,8 @@ const onPreset = ( preset, headers, onChange ) => {
 
 const HttpHeaders = ( { headers, onChange } ) => {
 	const [ preset, setPreset ] = useState( 'header' );
+	const presets = getPresets();
+	const selectedPreset = presets.find( p => p.value === preset );
 
 	return (
 		<>
@@ -108,10 +110,13 @@ const HttpHeaders = ( { headers, onChange } ) => {
 			</table>
 
 			<DropdownButton
-				options={ getPresets() }
+				options={ presets }
 				selected={ preset }
-				onChange={ setPreset }
-				onSelect={ () => onPreset( preset, headers, onChange ) }
+				title={ selectedPreset ? selectedPreset.label : presets[ 0 ].label }
+				onSelect={ ( value ) => {
+					setPreset( value );
+					onPreset( value, headers, onChange );
+				} }
 			/>
 
 			<p>{ __( 'Note that some HTTP headers are set by your server and cannot be changed.', 'redirection' ) }</p>
