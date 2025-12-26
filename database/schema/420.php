@@ -1,6 +1,9 @@
 <?php
 
 class Red_Database_420 extends Red_Database_Upgrader {
+	/**
+	 * @return array<string, string>
+	 */
 	public function get_stages() {
 		return [
 			'add_extra_logging' => 'Add extra logging support',
@@ -10,6 +13,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		];
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	protected function remove_module_id( $wpdb ) {
 		if ( ! $this->has_module_id( $wpdb ) ) {
 			return true;
@@ -18,6 +25,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` DROP `module_id`" );
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	protected function remove_group_id( $wpdb ) {
 		if ( ! $this->has_group_id( $wpdb ) ) {
 			return true;
@@ -26,6 +37,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` DROP `group_id`" );
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	private function has_module_id( $wpdb ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
 
@@ -36,6 +51,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return false;
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	private function has_group_id( $wpdb ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
 
@@ -46,6 +65,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return false;
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	private function has_log_domain( $wpdb ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
 
@@ -56,6 +79,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return false;
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	private function has_404_domain( $wpdb ) {
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 
@@ -66,6 +93,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return false;
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	protected function add_extra_logging( $wpdb ) {
 		if ( $this->has_log_domain( $wpdb ) ) {
 			return true;
@@ -81,6 +112,10 @@ class Red_Database_420 extends Red_Database_Upgrader {
 		return $this->do_query( $wpdb, "ALTER TABLE `{$wpdb->prefix}redirection_logs` CHANGE COLUMN `agent` `agent` MEDIUMTEXT NULL" );
 	}
 
+	/**
+	 * @param \wpdb $wpdb
+	 * @return bool
+	 */
 	protected function add_extra_404( $wpdb ) {
 		if ( $this->has_404_domain( $wpdb ) ) {
 			return true;

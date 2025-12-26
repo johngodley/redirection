@@ -1,12 +1,30 @@
 <?php
 
 class Red_Monitor {
-	private $monitor_group_id;
+	/**
+	 * @var int
+	 */
+	private $monitor_group_id = 0;
+
+	/**
+	 * @var array<int, string>
+	 */
 	private $updated_posts = array();
+
+	/**
+	 * @var list<string>
+	 */
 	private $monitor_types = array();
+
+	/**
+	 * @var string
+	 */
 	private $associated = '';
 
-	public function __construct( $options ) {
+	/**
+	 * @param array<string, mixed> $options
+	 */
+	public function __construct( array $options ) {
 		$this->monitor_types = apply_filters( 'redirection_monitor_types', isset( $options['monitor_types'] ) ? $options['monitor_types'] : array() );
 
 		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
@@ -14,25 +32,35 @@ class Red_Monitor {
 			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
 
 			// Only monitor if permalinks enabled
-			if ( get_option( 'permalink_structure' ) ) {
+			if ( get_option( 'permalink_structure' ) !== false ) {
 				add_action( 'pre_post_update', array( $this, 'pre_post_update' ), 10, 2 );
 				add_action( 'post_updated', array( $this, 'post_updated' ), 11, 3 );
-				add_filter( 'redirection_remove_existing', array( $this, 'remove_existing_redirect' ) );
+				add_action( 'redirection_remove_existing', array( $this, 'remove_existing_redirect' ) );
 				add_filter( 'redirection_permalink_changed', array( $this, 'has_permalink_changed' ), 10, 3 );
 
-				if ( in_array( 'trash', $this->monitor_types ) ) {
+				if ( in_array( 'trash', $this->monitor_types, true ) ) {
 					add_action( 'wp_trash_post', array( $this, 'post_trashed' ) );
 				}
 			}
 		}
 	}
 
-	public function remove_existing_redirect( $url ) {
+	/**
+	 * @param string $url
+	 * @return void
+	 */
+	public function remove_existing_redirect( string $url ): void {
 		Red_Item::disable_where_matches( $url );
 	}
 
-	public function can_monitor_post( $post, $post_before ) {
+	/**
+	 * @param WP_Post $post
+	 * @param WP_Post $post_before
+	 * @return bool
+	 */
+	public function can_monitor_post( WP_Post $post, WP_Post $post_before ): bool {
 		// Check this is for the expected post
+		// @phpstan-ignore isset.property
 		if ( ! isset( $post->ID ) || ! isset( $this->updated_posts[ $post->ID ] ) ) {
 			return false;
 		}
@@ -43,7 +71,7 @@ class Red_Monitor {
 		}
 
 		$type = get_post_type( $post->ID );
-		if ( ! in_array( $type, $this->monitor_types ) ) {
+		if ( ! in_array( $type, $this->monitor_types, true ) ) {
 			return false;
 		}
 
@@ -52,8 +80,13 @@ class Red_Monitor {
 
 	/**
 	 * Called when a post has been updated - check if the slug has changed
+	 *
+	 * @param int $post_id
+	 * @param WP_Post $post
+	 * @param WP_Post $post_before
+	 * @return void
 	 */
-	public function post_updated( $post_id, $post, $post_before ) {
+	public function post_updated( int $post_id, WP_Post $post, WP_Post $post_before ): void {
 		if ( isset( $this->updated_posts[ $post_id ] ) && $this->can_monitor_post( $post, $post_before ) ) {
 			$this->check_for_modified_slug( $post_id, $this->updated_posts[ $post_id ] );
 		}
@@ -61,14 +94,30 @@ class Red_Monitor {
 
 	/**
 	 * Remember the previous post permalink
+	 *
+	 * @param int $post_id
+	 * @param array<string, mixed> $data
+	 * @return void
 	 */
-	public function pre_post_update( $post_id, $data ) {
-		$this->updated_posts[ $post_id ] = get_permalink( $post_id );
+	public function pre_post_update( int $post_id, array $data ): void {
+		$permalink = get_permalink( $post_id );
+		if ( $permalink !== false ) {
+			$this->updated_posts[ $post_id ] = $permalink;
+		}
 	}
 
-	public function post_trashed( $post_id ) {
+	/**
+	 * @param int $post_id
+	 * @return void
+	 */
+	public function post_trashed( int $post_id ): void {
+		$permalink = get_permalink( $post_id );
+		if ( $permalink === false ) {
+			return;
+		}
+
 		$data = array(
-			'url'         => wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH ),
+			'url'         => wp_parse_url( $permalink, PHP_URL_PATH ),
 			'action_data' => array( 'url' => '/' ),
 			'match_type'  => 'url',
 			'action_type' => 'url',
@@ -78,13 +127,18 @@ class Red_Monitor {
 		);
 
 		// Create a new redirect for this post, but only if not draft
-		if ( $data['url'] !== '/' ) {
+		if ( $data['url'] !== null && $data['url'] !== false && $data['url'] !== '/' ) {
 			Red_Item::create( $data );
 		}
 	}
 
 	/**
 	 * Changed if permalinks are different and the before wasn't the site url (we don't want to redirect the site URL)
+	 *
+	 * @param bool $result
+	 * @param string|false $before
+	 * @param string|false $after
+	 * @return bool
 	 */
 	public function has_permalink_changed( $result, $before, $after ) {
 		// Check it's not redirecting from the root
@@ -100,21 +154,34 @@ class Red_Monitor {
 		return true;
 	}
 
-	private function get_site_path() {
+	/**
+	 * @return string
+	 */
+	private function get_site_path(): string {
 		$path = wp_parse_url( get_site_url(), PHP_URL_PATH );
 
-		if ( $path ) {
+		if ( is_string( $path ) ) {
 			return rtrim( $path, '/' ) . '/';
 		}
 
 		return '/';
 	}
 
-	public function check_for_modified_slug( $post_id, $before ) {
-		$after  = wp_parse_url( get_permalink( $post_id ), PHP_URL_PATH );
+	/**
+	 * @param int $post_id
+	 * @param string $before
+	 * @return bool
+	 */
+	public function check_for_modified_slug( int $post_id, string $before ): bool {
+		$permalink = get_permalink( $post_id );
+		if ( $permalink === false ) {
+			return false;
+		}
+
+		$after = wp_parse_url( $permalink, PHP_URL_PATH );
 		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
 
-		if ( apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
+		if ( is_string( $before ) && is_string( $after ) && apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
 
 			$data = array(

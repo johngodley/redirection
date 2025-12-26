@@ -3,7 +3,7 @@
     "plugins": [ "." ],
     "env": {
         "tests": {
-            "phpVersion": "8.1"
+            "phpVersion": "7.2"
         }
     }
 }

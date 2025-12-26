@@ -26,12 +26,18 @@
 		/* This needs to be false so our types are possible to consume without setting this */
 		"esModuleInterop": false,
 		"resolveJsonModule": true,
-		"baseUrl": "./client",
+		"baseUrl": "src",
 		"paths": {
-			"wp-plugin-library": ["wp-plugin-library"]
+			"@wp-plugin-lib": ["wp-plugin-lib"],
+			"@wp-plugin-components": ["wp-plugin-components"],
+			"lib": ["lib"],
+			"component": ["component"],
+			"state": ["state"],
+			"page": ["page"],
+			"app": ["app"]
 		},
-		"rootDirs": ["client"]
+		"rootDirs": ["src"]
 	},
-	"include": ["client/**/*"],
+	"include": ["src/**/*"],
 	"exclude": ["node_modules", "**/*.spec.ts"]
 }

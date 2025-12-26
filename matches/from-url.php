@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * @phpstan-type FromUrlMap (array{
+ *    url?: string
+ * } & array<string, mixed>)
+ * @phpstan-type FromUrlData array{
+ *    url: string
+ * }
+ *
  * Trait to add redirect matching that adds a matched target
  */
 trait FromUrl_Match {
@@ -14,16 +21,22 @@ trait FromUrl_Match {
 	/**
 	 * Save data to an array, ready for serializing.
 	 *
-	 * @param array   $details New match data.
-	 * @param boolean $no_target_url Does the action have a target URL.
-	 * @param array   $data Existing match data.
-	 * @return array
+	 * @phpstan-template TData of array<string, mixed>
+	 * @param FromUrlMap $details New match data.
+	 * @param bool $no_target_url Does the action have a target URL.
+	 * @phpstan-param TData $data Existing match data.
+	 * @param array<string, mixed> $data Existing match data.
+	 * @phpstan-return TData&FromUrlMap
+	 * @return array<string, mixed>
 	 */
 	private function save_data( array $details, $no_target_url, array $data ) {
 		if ( $no_target_url === false ) {
-			return array_merge( [
-				'url' => isset( $details['url'] ) ? $this->sanitize_url( $details['url'] ) : '',
-			], $data );
+			return array_merge(
+				[
+					'url' => isset( $details['url'] ) ? $this->sanitize_url( $details['url'] ) : '',
+				],
+				$data
+			);
 		}
 
 		return $data;
@@ -41,7 +54,7 @@ trait FromUrl_Match {
 	public function get_target_url( $requested_url, $source_url, Red_Source_Flags $flags, $matched ) {
 		$target = $this->get_matched_target( $matched );
 
-		if ( $flags->is_regex() && $target ) {
+		if ( $flags->is_regex() && $target !== false ) {
 			return $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
@@ -65,25 +78,29 @@ trait FromUrl_Match {
 	/**
 	 * Load the data into the instance.
 	 *
-	 * @param string $values Serialized PHP data.
-	 * @return array
+	 * @phpstan-template TValues of array<string, mixed>
+	 * @param string|TValues $values Serialized PHP or parsed array.
+	 * @phpstan-return TValues&FromUrlMap
+	 * @return array<string, mixed>&FromUrlMap
 	 */
 	private function load_data( $values ) {
-		$values = unserialize( $values );
+		if ( is_string( $values ) ) {
+			$values = unserialize( $values ); // phpcs:ignore
+		}
 
 		if ( isset( $values['url'] ) ) {
 			$this->url = $values['url'];
 		}
 
-		return $values;
+		return is_array( $values ) ? $values : [];
 	}
 
 	/**
 	 * Get the loaded data as an array.
 	 *
-	 * @return array<url: string>
+	 * @return FromUrlData
 	 */
-	private function get_from_data() {
+	private function get_from_data(): array {
 		return [
 			'url' => $this->url,
 		];

@@ -24,11 +24,11 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 			'redirect_by' => 'redirect_by',
 		];
 
-		update_option( REDIRECTION_OPTION, array( 'database' => 4.0 ) );
+		Red_Options::save( array( 'database' => 4.0 ) );
 
 		$old = $wp->log_back_compat( $insert );
 
-		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		Red_Options::save( array( 'database' => REDIRECTION_DB_VERSION ) );
 
 		$new = $wp->log_back_compat( $insert );
 
@@ -64,7 +64,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		$this->assertEquals( $start, $this->get_404_count() );
 
 		// No log if 404 log option is not enabled
-		update_option( REDIRECTION_OPTION, array( 'expire_404' => -1 ) );
+		Red_Options::save( array( 'expire_404' => -1 ) );
 		$wp->reset();
 		$wp->template_redirect();
 		$this->assertEquals( $start, $this->get_404_count() );
@@ -76,7 +76,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 		global $wp_query;
 
 		$wp_query->is_404 = true;
-		update_option( REDIRECTION_OPTION, array( 'expire_404' => 7 ) );
+		Red_Options::save( array( 'expire_404' => 7 ) );
 
 		// Log if it is a 404 page and not matched and option is enabled
 		$wp = new WordPress_Module();
@@ -97,7 +97,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 
 	public function testNoExternalIfRedirection() {
 		$_SERVER['REQUEST_URI'] = '/test';
-		update_option( REDIRECTION_OPTION, array( 'log_external' => true ) );
+		Red_Options::save( array( 'log_external' => true ) );
 		$start = $this->get_log_count();
 
 		$wp = new WordPress_Module();
@@ -108,7 +108,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 
 	public function testNoExternalIfNotEnabled() {
 		$_SERVER['REQUEST_URI'] = '/test';
-		update_option( REDIRECTION_OPTION, array( 'log_external' => false ) );
+		Red_Options::save( array( 'log_external' => false ) );
 		$start = $this->get_log_count();
 
 		$wp = new WordPress_Module();
@@ -119,7 +119,7 @@ class WordPress_Module_Test extends WP_UnitTestCase {
 
 	public function testExternal() {
 		$_SERVER['REQUEST_URI'] = '/test';
-		update_option( REDIRECTION_OPTION, array( 'log_external' => true ) );
+		Red_Options::save( array( 'log_external' => true ) );
 		$start = $this->get_log_count();
 
 		$wp = new WordPress_Module();

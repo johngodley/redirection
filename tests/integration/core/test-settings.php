@@ -2,9 +2,10 @@
 
 class SettingsTest extends WP_UnitTestCase {
 	public function testGetDefaultOptions() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 
-		$defaults = red_get_default_options();
+		Red_Options::reset();
+		$defaults = Red_Options::get_default_options();
 		$options = red_get_options();
 
 		unset( $defaults['token'] );
@@ -21,7 +22,8 @@ class SettingsTest extends WP_UnitTestCase {
 	}
 
 	public function testGetDefaultOptionsAlreadyInstalled() {
-		update_option( REDIRECTION_OPTION, [ 'token' => 'token' ] );
+		update_option( Red_Options::OPTION_KEY, [ 'token' => 'token' ] );
+		Red_Options::reset();
 
 		$options = red_get_options();
 		$this->assertFalse( $options['flag_case'] );
@@ -31,9 +33,10 @@ class SettingsTest extends WP_UnitTestCase {
 	}
 
 	public function testOptionOverride() {
-		update_option( REDIRECTION_OPTION, array( 'token' => 'token' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'token' => 'token' ) );
+		Red_Options::reset();
 
-		$defaults = red_get_default_options();
+		$defaults = Red_Options::get_default_options();
 		$options = red_get_options();
 
 		foreach ( $defaults as $name => $value ) {
@@ -47,7 +50,8 @@ class SettingsTest extends WP_UnitTestCase {
 	}
 
 	public function testRemoveOld() {
-		update_option( REDIRECTION_OPTION, array( 'cat' => 'cat' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'cat' => 'cat' ) );
+		Red_Options::reset();
 
 		$options = red_get_options();
 		$this->assertFalse( isset( $options['cat'] ) );

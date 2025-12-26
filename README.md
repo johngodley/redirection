@@ -31,8 +31,6 @@ Some parts of the UI are React and can be built with:
 
 `yarn build`
 
-To use in development mode then set `REDIRECTION_DEV_MODE` to true in PHP, and run:
-
 `yarn start`
 
 This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.

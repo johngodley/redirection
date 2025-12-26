@@ -177,7 +177,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	// A fresh install should install the DB
 	public function testNeedDatabaseAfterInstall() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
 
 		$status = new Red_Database_Status();
@@ -188,7 +188,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	// Dont trigger an install when upgrading from an older database without the 'database' setting
 	public function testNoInstallAfterUpgradeOld() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		update_option( Red_Database_Status::OLD_DB_VERSION, 1 );
 
 		$status = new Red_Database_Status();
@@ -198,7 +198,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	// Don't trigger upgrade if not installed
 	public function testNoUpgradeOnNewInstall() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
 
 		$status = new Red_Database_Status();
@@ -237,7 +237,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	// Trigger upgrade if older database
 	public function testUpgradeOldVersion() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.0' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.0' ) );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
 
 		$status = new Red_Database_Status();
@@ -247,7 +247,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 	// Trigger upgrade if at target version but still have a stage remaining
 	public function testUpgradeStillRemaining() {
-		update_option( REDIRECTION_OPTION, array( 'database' => REDIRECTION_DB_VERSION ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => REDIRECTION_DB_VERSION ) );
 		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => array( 'stage' => 'some_stage' ) ] );
 
 		$status = new Red_Database_Status();
@@ -255,7 +255,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetVersionNone() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		delete_option( Red_Database_Status::OLD_DB_VERSION );
 
 		$status = new Red_Database_Status();
@@ -264,7 +264,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetVersionOld() {
-		delete_option( REDIRECTION_OPTION );
+		delete_option( Red_Options::OPTION_KEY );
 		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
 
 		$status = new Red_Database_Status();
@@ -273,7 +273,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testGetVersionNew() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
 		update_option( Red_Database_Status::OLD_DB_VERSION, '1.2' );
 
 		$status = new Red_Database_Status();
@@ -282,7 +282,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testSupports() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
 
 		$status = new Red_Database_Status();
 
@@ -291,7 +291,7 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testDoesntSupport() {
-		update_option( REDIRECTION_OPTION, array( 'database' => '1.5' ) );
+		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
 
 		$status = new Red_Database_Status();
 
@@ -397,7 +397,11 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		// Set up the broken install
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}redirection_404 DROP INDEX ip" );
 		$wpdb->query( "ALTER TABLE {$wpdb->prefix}redirection_404 ADD INDEX ip (id)" );
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		while ( true ) {
 			$result = $database->apply_upgrade( $status );
@@ -418,7 +422,11 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 
 		$tester->check_against_latest( $this, '2.3.2' );
 
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 		$this->assertTrue( strpos( $existing[1], 'KEY `ip` (`ip`)' ) !== false );
 	}
 }

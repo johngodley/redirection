@@ -2,6 +2,16 @@
 
 /**
  * Represent URL source flags.
+ *
+ * @phpstan-type FlagName 'flag_query'|'flag_case'|'flag_trailing'|'flag_regex'
+ * @phpstan-type QueryType 'ignore'|'exact'|'pass'|'exactorder'
+ * @phpstan-type FlagsJson array{
+ *     flag_query: QueryType,
+ *     flag_case: bool,
+ *     flag_trailing: bool,
+ *     flag_regex: bool
+ * }
+ * @phpstan-import-type RedirectionOptions from Red_Options
  */
 class Red_Source_Flags {
 	const QUERY_IGNORE = 'ignore';
@@ -43,16 +53,16 @@ class Red_Source_Flags {
 	private $flag_query = self::QUERY_EXACT;
 
 	/**
-	 * Values that have been set
+	 * Values that have been set (tracks which flag keys were provided)
 	 *
-	 * @var array
+	 * @var array<FlagName>
 	 */
 	private $values_set = [];
 
 	/**
 	 * Constructor
 	 *
-	 * @param array|null $json JSON object.
+	 * @param array<string, mixed>|null $json JSON object.
 	 */
 	public function __construct( $json = null ) {
 		if ( $json !== null ) {
@@ -63,7 +73,7 @@ class Red_Source_Flags {
 	/**
 	 * Get list of valid query types as an array
 	 *
-	 * @return string[]
+	 * @return array<QueryType>
 	 */
 	private function get_allowed_query() {
 		return [
@@ -77,7 +87,7 @@ class Red_Source_Flags {
 	/**
 	 * Parse flag data.
 	 *
-	 * @param array $json Flag data.
+	 * @param array<string, mixed> $json Flag data.
 	 * @return void
 	 */
 	public function set_flags( array $json ) {
@@ -103,7 +113,9 @@ class Red_Source_Flags {
 		}
 
 		// Keep track of what values have been set, so we know what to override with defaults later
-		$this->values_set = array_intersect( array_keys( $json ), array_keys( $this->get_json() ) );
+		/** @var array<FlagName> $intersected */
+		$intersected = array_values( array_intersect( array_keys( $json ), array_keys( $this->get_json() ) ) );
+		$this->values_set = $intersected;
 	}
 
 	/**
@@ -172,7 +184,7 @@ class Red_Source_Flags {
 	/**
 	 * Return the flags as a JSON object
 	 *
-	 * @return array
+	 * @return FlagsJson
 	 */
 	public function get_json() {
 		return [
@@ -186,14 +198,16 @@ class Red_Source_Flags {
 	/**
 	 * Return flag data, with defaults removed from the data.
 	 *
-	 * @param array $defaults Defaults to remove.
-	 * @return array
+	 * @param RedirectionOptions $defaults Defaults to remove.
+	 * @return array<string, mixed>
 	 */
 	public function get_json_without_defaults( $defaults ) {
 		$json = $this->get_json();
 
+		// @phpstan-ignore greater.alwaysTrue
 		if ( count( $defaults ) > 0 ) {
 			foreach ( $json as $key => $value ) {
+				// @phpstan-ignore isset.offset
 				if ( isset( $defaults[ $key ] ) && $value === $defaults[ $key ] ) {
 					unset( $json[ $key ] );
 				}
@@ -206,10 +220,10 @@ class Red_Source_Flags {
 	/**
 	 * Return flag data, with defaults filling in any gaps not set.
 	 *
-	 * @return array
+	 * @return FlagsJson
 	 */
 	public function get_json_with_defaults() {
-		$settings = red_get_options();
+		$settings = Red_Options::get();
 		$json = $this->get_json();
 		$defaults = [
 			self::FLAG_QUERY => $settings[ self::FLAG_QUERY ],
@@ -219,6 +233,7 @@ class Red_Source_Flags {
 		];
 
 		foreach ( $this->values_set as $key ) {
+			// @phpstan-ignore isset.offset
 			if ( ! isset( $json[ $key ] ) ) {
 				$json[ $key ] = $defaults[ $key ];
 			}

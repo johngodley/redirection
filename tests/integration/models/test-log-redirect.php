@@ -59,7 +59,9 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 			],
 		] );
 
-		$json = Red_Redirect_Log::get_by_id( $log )->to_json();
+		$entry = Red_Redirect_Log::get_by_id( $log );
+
+		$json = $entry->to_json();
 		$expected = [
 			'url' => 'url',
 			'agent' => 'agent',

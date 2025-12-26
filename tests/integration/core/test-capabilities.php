@@ -1,6 +1,9 @@
 <?php
 
 class CapabilitiesTest extends WP_UnitTestCase {
+	private $editor_user_id;
+	private $admin_user_id;
+
 	public function setUp(): void {
 		parent::setUp();
 

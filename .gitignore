@@ -10,3 +10,10 @@ release
 dist
 svn
 /.phpunit.result.cache
+/build
+/.stignore
+/.stfolder
+/.claude.md
+/.claude
+/WARP.md
+/AGENTS.md

@@ -1,6 +1,16 @@
 <?php
 
 class MonitorTest extends WP_UnitTestCase {
+	/**
+	 * @var Red_Group
+	 */
+	private $group;
+
+	/**
+	 * @var int
+	 */
+	private $post_id;
+
 	public function setUp(): void {
 		parent::setUp();
 
@@ -14,10 +24,12 @@ class MonitorTest extends WP_UnitTestCase {
 	}
 
 	private function getPost( $status, $type ) {
-		return (object) array(
-			'post_status' => $status,
-			'post_type' => $type,
-			'ID' => 1,
+		return new WP_Post(
+			(object) [
+				'post_status' => $status,
+				'post_type' => $type,
+				'ID' => 1,
+			]
 		);
 	}
 
@@ -40,21 +52,21 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testDraftToPublish() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getDraftPost(), $this->getPublishedPost() ) );
 	}
 
 	public function testPublishToDraft() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getDraftPost() ) );
 	}
 
 	public function testHierarchical() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost( 'page' ), $this->getPublishedPost() ) );
 	}
 
@@ -68,7 +80,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get();
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -76,7 +88,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get();
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -84,7 +96,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -92,7 +104,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -100,7 +112,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'product' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -133,7 +145,7 @@ class MonitorTest extends WP_UnitTestCase {
 
 		// Should not trigger another
 		$this->assertEquals( $total + 2, $after );
-		$this->assertEquals( $before.'amp/', $redirect->url );
+		$this->assertEquals( $before . 'amp/', $redirect->url );
 	}
 
 	public function testTrashUpdated() {

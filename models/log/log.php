@@ -5,17 +5,58 @@ require_once __DIR__ . '/log-redirect.php';
 
 /**
  * Base log class
+ *
+ * @phpstan-type LogJson array{
+ *   id: int,
+ *   created: string,
+ *   created_time: string,
+ *   url: string,
+ *   agent: string,
+ *   referrer: string,
+ *   domain: string,
+ *   ip: string,
+ *   http_code: int,
+ *   request_method: string,
+ *   request_data: mixed
+ * }
+ * @phpstan-type LogQuery array{
+ *   orderby: string,
+ *   direction: string,
+ *   limit: int,
+ *   offset: int,
+ *   where: string
+ * }
+ * @phpstan-type LogFilterParams array{
+ *   ip?: string,
+ *   domain?: string,
+ *   'url-exact'?: string,
+ *   url?: string,
+ *   referrer?: string,
+ *   agent?: string,
+ *   http?: int,
+ *   method?: string
+ * }
+ * @phpstan-type LogGetParams array{
+ *   orderby?: 'ip'|'url',
+ *   direction?: 'ASC'|'DESC',
+ *   per_page?: int,
+ *   page?: int,
+ *   filterBy?: LogFilterParams
+ * }
  */
 abstract class Red_Log {
 	const MAX_IP_LENGTH = 45;
 	const MAX_DOMAIN_LENGTH = 255;
 	const MAX_URL_LENGTH = 2000;
+	const DEFAULT_PER_PAGE = 25;
+	const MAX_PER_PAGE = 200;
 	const MAX_AGENT_LENGTH = 255;
 	const MAX_REFERRER_LENGTH = 255;
 
 	/**
 	 * Supported HTTP methods
 	 *
+	 * @phpstan-var list<string>
 	 * @var array
 	 */
 	protected static $supported_methods = [ 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH' ];
@@ -93,17 +134,19 @@ abstract class Red_Log {
 	/**
 	 * Constructor
 	 *
-	 * @param array $values Array of log values.
+	 * @param LogJson $values Array of log values.
 	 */
-	final public function __construct( array $values ) {
+	final public function __construct( $values ) {
 		foreach ( $values as $key => $value ) {
+			// @phpstan-ignore property.notFound, assign.propertyType, property.dynamicName
 			$this->$key = $value;
 		}
 
+		// @phpstan-ignore isset.offset
 		if ( isset( $values['created'] ) ) {
 			$converted = mysql2date( 'U', $values['created'] );
 
-			if ( $converted ) {
+			if ( $converted !== false ) {
 				$this->created = intval( $converted, 10 );
 			}
 		}
@@ -112,7 +155,7 @@ abstract class Red_Log {
 	/**
 	 * Get's the table name for this log object
 	 *
-	 * @param Object $wpdb WPDB object.
+	 * @param \wpdb $wpdb WPDB object.
 	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
@@ -155,7 +198,7 @@ abstract class Red_Log {
 	/**
 	 * Delete all matching log entries
 	 *
-	 * @param array $params Array of filter parameters.
+	 * @phpstan-param LogGetParams $params Array of filter parameters.
 	 * @return integer|false
 	 */
 	public static function delete_all( array $params = [] ) {
@@ -173,6 +216,7 @@ abstract class Red_Log {
 	/**
 	 * Convert a log entry to JSON
 	 *
+	 * @phpstan-return LogJson
 	 * @return array
 	 */
 	public function to_json() {
@@ -194,8 +238,9 @@ abstract class Red_Log {
 	/**
 	 * Get filtered log entries
 	 *
-	 * @param array $params Filters.
-	 * @return array{items: Array, total: integer}
+	 * @param array<string, mixed> $params Filters.
+	 * @phpstan-return array{items: list<LogJson>, total: int}
+	 * @return array
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
@@ -223,6 +268,7 @@ abstract class Red_Log {
 			$items[] = $item->to_json();
 		}
 
+		/** @var list<LogJson> $items */
 		return [
 			'items' => $items,
 			'total' => intval( $total_items, 10 ),
@@ -232,9 +278,10 @@ abstract class Red_Log {
 	/**
 	 * Get grouped log entries
 	 *
-	 * @param string $group Group type.
-	 * @param array  $params Filter params.
-	 * @return array{items: mixed, total: integer}
+	 * @param string $group Group type ('ip'|'url'|'agent').
+	 * @param array<string, mixed>  $params Filter params.
+	 * @phpstan-return array{items: list<object>, total: int}
+	 * @return array
 	 */
 	public static function get_grouped( $group, array $params ) {
 		global $wpdb;
@@ -262,14 +309,18 @@ abstract class Red_Log {
 			$row->count = intval( $row->count, 10 );
 
 			if ( isset( $row->url ) ) {
+				// @phpstan-ignore property.notFound
 				$row->id = $row->url;
 			} elseif ( isset( $row->ip ) ) {
+				// @phpstan-ignore property.notFound
 				$row->id = $row->ip;
 			} elseif ( isset( $row->agent ) ) {
+				// @phpstan-ignore property.notFound
 				$row->id = $row->agent;
 			}
 		}
 
+		/** @var list<object> $rows */
 		return array(
 			'items' => $rows,
 			'total' => intval( $total_items, 10 ),
@@ -279,14 +330,15 @@ abstract class Red_Log {
 	/**
 	 * Convert a set of filters to a SQL query.
 	 *
-	 * @param array $params Filters.
-	 * @return array{orderby: string, direction: string, limit: integer, offset: integer, where: string}
+	 * @param array<string, mixed> $params Filters.
+	 * @phpstan-return LogQuery
+	 * @return array
 	 */
 	public static function get_query( array $params ) {
 		$query = [
 			'orderby' => 'id',
 			'direction' => 'DESC',
-			'limit' => RED_DEFAULT_PER_PAGE,
+			'limit' => self::DEFAULT_PER_PAGE,
 			'offset' => 0,
 			'where' => '',
 		];
@@ -301,7 +353,7 @@ abstract class Red_Log {
 
 		if ( isset( $params['per_page'] ) ) {
 			$limit = intval( $params['per_page'], 10 );
-			if ( $limit >= 5 && $limit <= RED_MAX_PER_PAGE ) {
+			if ( $limit >= 5 && $limit <= self::MAX_PER_PAGE ) {
 				$query['limit'] = $limit;
 			}
 		}
@@ -328,7 +380,8 @@ abstract class Red_Log {
 	/**
 	 * Get query filters as a SQL `WHERE` statement. SQL will be sanitized
 	 *
-	 * @param array $filter Array of filter params.
+	 * @phpstan-param LogFilterParams $filter Array of filter params.
+	 * @phpstan-return list<string>
 	 * @return array
 	 */
 	protected static function get_query_filter( array $filter ) {
@@ -392,8 +445,8 @@ abstract class Red_Log {
 	 * @param string $domain Requested Domain.
 	 * @param string $url Requested URL.
 	 * @param string $ip Client IP. This is assumed to be a valid IP and won't be checked.
-	 * @param array  $details Extra log details.
-	 * @return array
+	 * @param array<string, mixed>  $details Extra log details.
+	 * @return array<string, mixed>
 	 */
 	protected static function sanitize_create( $domain, $url, $ip, array $details = [] ) {
 		$url = urldecode( $url );
@@ -458,17 +511,17 @@ abstract class Red_Log {
 	/**
 	 * Get the CSV headers for this log object
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	public static function get_csv_header() {
 		return [];
 	}
 
 	/**
-	 * Get the CSV headers for this log object
+	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
-	 * @return array
+	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
 		return [];
@@ -489,7 +542,7 @@ abstract class Red_Log {
 
 		// phpcs:ignore
 		$stdout = fopen( 'php://output', 'w' );
-		if ( ! $stdout ) {
+		if ( $stdout === false ) {
 			return;
 		}
 

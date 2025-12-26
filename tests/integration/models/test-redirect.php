@@ -2,13 +2,23 @@
 
 // get_filtered is handled by api/test-redirect.php
 class RedirectTest extends WP_UnitTestCase {
+	/**
+	 * @var Red_Group
+	 */
+	private $group;
+
+	/**
+	 * @var string|false
+	 */
+	private $captured_url;
+
 	public function setUp(): void {
 		global $wpdb;
 
 		$this->group = Red_Group::create( 'group', 1 );
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_items" );
 
-		red_set_options( [ 'database' => REDIRECTION_DB_VERSION ] );
+		Red_Options::save( [ 'database' => REDIRECTION_DB_VERSION ] );
 	}
 
 	private function getRedirectData( $params = [] ) {
@@ -84,7 +94,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 	public function testConstructNoSourceDefaults() {
 		// Test that with no flag data at all we still get the defaults
-		red_set_options( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true, 'flag_regex' => false ] );
+		Red_Options::save( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true, 'flag_regex' => false ] );
 
 		$data = $this->get_item_data();
 		$data['regex'] = false;
@@ -98,7 +108,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 	public function testConstructOverride() {
 		// Check that with some flags we get defaults
-		red_set_options( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
+		Red_Options::save( [ 'flag_case' => true, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
 
 		$data = $this->get_item_data();
 		$data['match_data'] = json_encode( [ 'source' => [ 'flag_case' => false ] ] );
@@ -221,17 +231,17 @@ class RedirectTest extends WP_UnitTestCase {
 		$item = $this->createRedirect();
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
-		$options = red_get_options();
-		$options['expire_redirect'] = -1;
-		update_option( 'redirection_options', $options );
+		Red_Options::save( [ 'expire_redirect' => -1 ] );
 
 		$item->visit( '/blob', '/target' );
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
 		$this->assertEquals( 1, $item->get_hits() );
 		$item = Red_Item::get_by_id( $item->get_id() );
+
 		$this->assertEquals( 1, $item->get_hits() );
 		$this->assertEquals( $after, $before );
+		$this->assertEquals( 0, $after );
 	}
 
 	public function testVisit() {
@@ -239,9 +249,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$before = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs" );
 
-		$options = red_get_options();
-		$options['expire_redirect'] = 0;
-		update_option( 'redirection_options', $options );
+		Red_Options::save( [ 'expire_redirect' => 0 ] );
 
 		$item = $this->createRedirect();
 		$item->visit( '/blob', '/target' );
@@ -514,7 +522,7 @@ class RedirectTest extends WP_UnitTestCase {
 		// With 4.0 support (default) this wont match anything as no match_url
 		$this->assertEquals( 0, count( Red_Item::get_for_url( 'pre4' ) ) );
 
-		red_set_options( [ 'database' => '3.9' ] );
+		Red_Options::save( [ 'database' => '3.9' ] );
 
 		// Switch to <4.0 and we will match
 		$this->assertEquals( 1, count( Red_Item::get_for_url( 'pre4' ) ) );
@@ -532,7 +540,7 @@ class RedirectTest extends WP_UnitTestCase {
 		// With 4.0 support (default) this will match
 		$this->assertEquals( 1, count( Red_Item::get_for_url( 'post4' ) ) );
 
-		red_set_options( [ 'database' => '3.9' ] );
+		Red_Options::save( [ 'database' => '3.9' ] );
 
 		// Switch to <4.0 and we won't match
 		$this->assertEquals( 0, count( Red_Item::get_for_url( 'post4' ) ) );
@@ -551,7 +559,7 @@ class RedirectTest extends WP_UnitTestCase {
 	public function testCreateSavesJson() {
 		global $wpdb;
 
-		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
+		Red_Options::save( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
 		$expected = [
 			'source' => [
 				'flag_case' => true,
@@ -570,7 +578,7 @@ class RedirectTest extends WP_UnitTestCase {
 
 	public function testMatchData() {
 		// This returns with defaults
-		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
+		Red_Options::save( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'ignore', 'flag_trailing' => true ] );
 
 		$item = new Red_Item( (object) [ 'match_data' => wp_json_encode( [ 'source' => [ 'flag_case' => true ] ] ) ] );
 		$data = $item->get_match_data();
@@ -582,7 +590,7 @@ class RedirectTest extends WP_UnitTestCase {
 		global $wpdb;
 
 		// This returns without defaults
-		red_set_options( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => true ] );
+		Red_Options::save( [ 'flag_case' => false, 'flag_regex' => false, 'flag_query' => 'exact', 'flag_trailing' => true ] );
 
 		$item = $this->createRedirect( [
 			'url' => '/cat.*',

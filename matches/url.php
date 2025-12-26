@@ -1,13 +1,22 @@
 <?php
 
 /**
+ * @phpstan-type UrlMap array{
+ *    url?: string
+ * }
+ * @phpstan-type UrlData array{
+ *    url: string
+ * }
+ *
  * Match the URL only.
+ *
+ * @phpstan-extends Red_Match<UrlMap, string>
  */
 class URL_Match extends Red_Match {
 	/**
 	 * URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	public $url = '';
 
@@ -15,6 +24,10 @@ class URL_Match extends Red_Match {
 		return __( 'URL only', 'redirection' );
 	}
 
+	/**
+	 * @param UrlMap $details
+	 * @return string|null
+	 */
 	public function save( array $details, $no_target_url = false ) {
 		$data = isset( $details['url'] ) ? $details['url'] : '';
 
@@ -43,8 +56,11 @@ class URL_Match extends Red_Match {
 		return $target;
 	}
 
+	/**
+	 * @return UrlData|null
+	 */
 	public function get_data() {
-		if ( $this->url ) {
+		if ( $this->url !== '' ) {
 			return [
 				'url' => $this->url,
 			];
@@ -53,7 +69,18 @@ class URL_Match extends Red_Match {
 		return null;
 	}
 
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param string|UrlMap $values Match values, as read from the database (plain text, serialized PHP, or parsed array).
+	 * @return void
+	 */
 	public function load( $values ) {
+		if ( is_array( $values ) ) {
+			$this->url = isset( $values['url'] ) ? $values['url'] : '';
+			return;
+		}
+
 		$this->url = $values;
 	}
 }

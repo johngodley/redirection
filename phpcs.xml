@@ -19,11 +19,11 @@
     <exclude-pattern>client/</exclude-pattern>
 
 	<rule ref="PHPCompatibility"/>
-	<config name="testVersion" value="7.0-"/>
-    <config name="minimum_supported_wp_version" value="7.0"/>
+	<config name="testVersion" value="7.1-"/>
+    <config name="minimum_supported_wp_version" value="7.1"/>
 
     <!-- Include rulesets -->
-    <rule ref="VariableAnalysis"/>
+	<rule ref="VariableAnalysis"/>
 
     <!--                -->
     <!-- Disabled rules -->
@@ -67,6 +67,9 @@
         <exclude name="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound"/>
         <exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
         <exclude name="WordPress.DB.PreparedSQL.NotPrepared"/>
+        <exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery"/>
+        <exclude name="WordPress.DB.DirectDatabaseQuery.NoCaching"/>
+        <exclude name="WordPress.DB.DirectDatabaseQuery.SchemaChange"/>
         <exclude name="WordPress.Files.FileName"/>
         <exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized"/>
@@ -76,6 +79,10 @@
         <exclude name="WordPress.WP.CapitalPDangit"/>
         <exclude name="WordPress.WP.DeprecatedFunctions"/>
         <exclude name="WordPress.WP.I18n.NoHtmlWrappedStrings"/>
+        <!-- Allow post-increment/decrement (e.g., $count++)) -->
+        <exclude name="Squiz.Operators.IncrementDecrementUsage"/>
+        <exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement.PostIncrementFound"/>
+        <exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement.PostDecrementFound"/>
     </rule>
 
     <!--                -->
@@ -85,12 +92,14 @@
         <type>error</type>
     </rule>
 
-    <rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
-        <properties>
-            <property name="allowUnusedCaughtExceptions" value="true"/>
-            <property name="allowUndefinedVariablesInFileScope" value="true"/>
-        </properties>
-    </rule>
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
+		<properties>
+			<property name="allowUnusedCaughtExceptions" value="true"/>
+			<property name="allowUndefinedVariablesInFileScope" value="true"/>
+			<!-- Allow unused function parameters (handled by framework hooks or required by signatures) -->
+			<property name="allowUnusedFunctionParameters" value="true"/>
+		</properties>
+	</rule>
 
     <rule ref="WordPress.Security.EscapeOutput">
         <properties>
