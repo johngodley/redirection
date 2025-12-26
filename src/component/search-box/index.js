@@ -78,17 +78,27 @@ class SearchBox extends React.Component {
 		const { searchTypes, name = '' } = this.props;
 		const disabled = this.props.disabled || ( this.state.search === '' && this.props.table.filter === '' );
 
+		// Convert searchTypes format { name, title } to DropdownButton format { value, label }
+		const dropdownOptions = searchTypes ? searchTypes.map( item => ( {
+			value: item.name,
+			label: item.title,
+		} ) ) : [];
+
+		// Find the current selected option to display its title
+		const selectedOption = searchTypes ? searchTypes.find( item => item.name === this.state.selected ) : null;
+		const dropdownTitle = selectedOption ? selectedOption.title : '';
+
 		return (
 			<form onSubmit={ this.onSubmit } className="redirect-searchbox">
 				<input type="search" name="s" value={ this.state.search } onChange={ this.onSearch } />
 
 				{ searchTypes && (
 					<DropdownButton
-						options={ searchTypes }
-						isEnabled={ ! disabled }
+						options={ dropdownOptions }
+						disabled={ disabled }
+						title={ dropdownTitle }
+						onSelect={ this.onChange }
 						selected={ this.state.selected }
-						onChange={ this.onChange }
-						onSelect={ this.onSubmit }
 					/>
 				) }
 				{ ! searchTypes && <input type="submit" className="button" value={ name } disabled={ disabled } /> }
