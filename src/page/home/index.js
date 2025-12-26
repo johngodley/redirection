@@ -3,7 +3,7 @@
  * External dependencies
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -106,6 +106,9 @@ export default function Home() {
 			pluginUpdate: state.settings.values.plugin_update,
 		}
 	} );
+	const onPageChange = useCallback( () => {
+		dispatch( clearErrors() );
+	}, [ dispatch ] );
 	const [ page, setPage ] = useState( getPluginPage( ALLOWED_PAGES ) );
 
 	function changePage( page ) {
@@ -146,7 +149,7 @@ export default function Home() {
 					<PageRouter
 						page={ page }
 						setPage={ setPage }
-						onPageChange={ () => dispatch( clearErrors() ) }
+						onPageChange={ onPageChange }
 						allowedPages={ ALLOWED_PAGES }
 						baseUrl="?page=redirection.php"
 						defaultPage="redirect"

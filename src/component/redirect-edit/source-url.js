@@ -51,7 +51,7 @@ const RedirectSourceUrl = ( { url, flags, defaultFlags, onFlagChange, onChange, 
 			<MultiOptionDropdown
 				options={ flagOptions }
 				selected={ getUrlFlags( flags ) }
-				onApply={ changeFlag }
+				onChange={ changeFlag }
 				title={ __( 'URL options / Regex', 'redirection' ) }
 				badges
 				multiple

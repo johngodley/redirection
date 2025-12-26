@@ -25,7 +25,7 @@ const HeaderMultiChoice = ( { headerValue, options, onChange } ) => {
 		<MultiOptionDropdown
 			options={ wildCard ? choices.concat( [ { value: wildCard, label: __( 'All', 'redirection' ) } ] ) : choices }
 			selected={ selected }
-			onApply={ applyItem }
+			onChange={ applyItem }
 			title={ __( 'Values', 'redirection' ) }
 			hideTitle
 			multiple

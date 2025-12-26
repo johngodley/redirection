@@ -5,7 +5,7 @@ function StatusColumn( { row } ) {
 		return <div className="redirect-status redirect-status__enabled">✓</div>;
 	}
 
-	return <div className="redirect-status redirect-status__disabled">❌</div>;
+	return <div className="redirect-status redirect-status__disabled">&times;</div>;
 }
 
 export default StatusColumn;

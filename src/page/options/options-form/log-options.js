@@ -80,7 +80,7 @@ function LogOptions( props ) {
 					multiple
 					badges={ ip_headers.length > 0 }
 					hideTitle={ ip_headers.length > 0 }
-					onApply={ ( options ) => onChange( { ip_headers: options } ) }
+					onChange={ ( options ) => onChange( { ip_headers: options } ) }
 					title={ ip_headers.length === 0 ? __( 'REMOTE_ADDR', 'redirection' ) : '' }
 				/>
 

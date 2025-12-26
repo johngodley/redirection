@@ -83,7 +83,7 @@ function LogFilters( props ) {
 					<MultiOptionDropdown
 						options={ filterOptions }
 						selected={ getSelectedFilters( table.filterBy, filterOptions ) }
-						onApply={ onChange }
+						onChange={ onChange }
 						title={ __( 'Filters', 'redirection' ) }
 						isEnabled={ ! disabled }
 						multiple

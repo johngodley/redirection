@@ -93,7 +93,7 @@ function DisplayOptions( props ) {
 			className="redirect-table-display__filter"
 			options={ groupedOptions }
 			selected={ displaySelected.concat( [ displayType ] ) }
-			onApply={ onChange }
+			onChange={ onChange }
 			title={ getPlaceholder( displayType, groupedOptions ) }
 			isEnabled={ ! disabled }
 		/>
