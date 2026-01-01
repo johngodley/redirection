@@ -3,7 +3,7 @@
 /**
  * Delete button on options page
  */
-.wp-core-ui .button-delete {
+.wp-core-ui .button-secondary.button-delete {
 	box-shadow: none;
 	text-shadow: none;
 
@@ -12,7 +12,7 @@
 	color: #fff;
 }
 
-.wp-core-ui .button-delete:hover {
+.wp-core-ui .button-secondary.button-delete:hover {
 	background-color: #ff3860;
 	border-color: transparent;
 	box-shadow: none;

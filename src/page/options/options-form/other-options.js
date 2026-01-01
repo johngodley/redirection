@@ -36,9 +36,9 @@ function OtherOptions( props ) {
 	return (
 		<>
 			<tr className="redirect-option__row">
-				<td colSpan={ 2 }>
+				<th colSpan={ 2 }>
 					<h2 className="title">{ __( 'Advanced', 'redirection' ) }</h2>
-				</td>
+				</th>
 			</tr>
 			<TableRow title={ __( 'RSS Token', 'redirection' ) + ':' } url={ getLink( 'options', 'rsstoken' ) }>
 				<input className="regular-text" type="text" value={ token } name="token" onChange={ onChange } />

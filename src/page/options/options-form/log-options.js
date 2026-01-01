@@ -42,9 +42,9 @@ function LogOptions( props ) {
 	return (
 		<>
 			<tr className="redirect-option__row">
-				<td colSpan={ 2 }>
+				<th colSpan={ 2 }>
 					<h2 className="title">{ __( 'Logs', 'redirection' ) }</h2>
-				</td>
+				</th>
 			</tr>
 			<TableRow title={ __( 'Redirect Logs', 'redirection' ) + ':' } url={ getLink( 'logs' ) }>
 				<Select
