@@ -52,7 +52,7 @@ class DeletePlugin extends React.Component {
 					<h2>{ __( 'Delete Redirection', 'redirection' ) }</h2>
 
 					<p>{ __( 'Selecting this option will delete all redirections, all logs, and any options associated with the Redirection plugin.  Make sure this is what you want to do.', 'redirection' ) }</p>
-					<input className="button-primary button-delete" type="submit" name="delete" value={ __( 'Delete', 'redirection' ) } />
+					<input className="button-secondary button-delete" type="submit" name="delete" value={ __( 'Delete', 'redirection' ) } />
 				</form>
 
 				{ this.state.isModal && this.showModal() }

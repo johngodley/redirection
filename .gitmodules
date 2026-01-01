@@ -3,4 +3,4 @@
 	url = https://github.com/johngodley/wp-plugin-lib.git
 [submodule "src/wp-plugin-components"]
 	path = src/wp-plugin-components
-	url = https://github.com/johngodley/wp-plugin-components.git
+	url = git@github.com:johngodley/wp-plugin-components.git

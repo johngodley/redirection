@@ -31,9 +31,9 @@ function UrlOptions( props ) {
 	return (
 		<>
 			<tr className="redirect-option__row">
-				<td colSpan={ 2 }>
+				<th colSpan={ 2 }>
 					<h2 className="title">{ __( 'URL', 'redirection' ) }</h2>
-				</td>
+				</th>
 			</tr>
 			<UrlMonitoring
 				settings={ settings }
