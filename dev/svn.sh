@@ -10,7 +10,7 @@ cd svn
 svn up
 
 # Sync the files
-rsync --filter='P .svn' -avz --delete ../release/ .
+rsync --filter='P .svn' -avz --delete ../release/redirection/ .
 
 svn st
 

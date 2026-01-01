@@ -13,7 +13,7 @@
 		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt modules models matches images fileio database api actions release/redirection && rm release/redirection/api/*.md",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
 		"release": "pnpm plugin:zip && release-it",
-		"release:svn": "pnpm plugin:zip && cd release && unzip redirection.zip && cd .. && rm release/redirection.zip && dev/svn.sh $npm_package_version",
+		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",
 		"test": "pnpm test:php && pnpm test:js && pnpm test:integration",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/redirection5 composer run test-integration",
 		"test:js": "jest --testPathIgnorePatterns='/node_modules/|/e2e/'",
