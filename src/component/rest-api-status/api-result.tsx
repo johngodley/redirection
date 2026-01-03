@@ -1,20 +1,49 @@
-/**
- * External dependencies
- */
-
 import { __ } from '@wordpress/i18n';
-
-/**
- * Internal dependencies
- */
-
 import { ExternalLink } from '@wp-plugin-components';
 import ApiResultItem from './api-result-item';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 
-const isLoading = result => Object.keys( result ).length === 0 || result.GET.status === 'loading' || result.POST.status === 'loading';
+interface ApiError {
+	code?: string;
+	name?: string;
+	message: string;
+	data?: {
+		status: number;
+	};
+	request?: any;
+}
 
-const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
+interface ApiTestResult {
+	status: string;
+	error?: ApiError;
+	code?: string;
+}
+
+interface TestResult {
+	GET: ApiTestResult;
+	POST: ApiTestResult;
+	[ key: string ]: any;
+}
+
+interface RouteItem {
+	text: string;
+	value: string;
+}
+
+interface ApiResultProps {
+	item: RouteItem;
+	result: TestResult;
+	routes: {
+		[ key: string ]: string;
+	};
+	isCurrent: boolean;
+	allowChange: boolean;
+}
+
+const isLoading = ( result: TestResult ): boolean =>
+	Object.keys( result ).length === 0 || result.GET.status === 'loading' || result.POST.status === 'loading';
+
+const ApiResult = ( { item, result, routes, isCurrent, allowChange }: ApiResultProps ) => {
 	if ( isLoading( result ) ) {
 		return null;
 	}
@@ -27,7 +56,11 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 				method="POST"
 			>
 				{ allowChange && ! isCurrent && (
-					<input type="submit" className="button button-secondary" value={ __( 'Switch to this API', 'redirection' ) } />
+					<input
+						type="submit"
+						className="button button-secondary"
+						value={ __( 'Switch to this API', 'redirection' ) }
+					/>
 				) }
 				{ allowChange && isCurrent && <span>{ __( 'Current API', 'redirection' ) }</span> }
 
@@ -39,9 +72,9 @@ const ApiResult = ( { item, result, routes, isCurrent, allowChange } ) => {
 			<h4>{ item.text }</h4>
 
 			<p>
-				URL:{' '}
+				URL:{ ' ' }
 				<code>
-					<ExternalLink url={ routes[ item.value ] }>{ routes[ item.value ] }</ExternalLink>
+					<ExternalLink url={ routes[ item.value ] || '' }>{ routes[ item.value ] || '' }</ExternalLink>
 				</code>
 			</p>
 
