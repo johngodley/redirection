@@ -4,7 +4,7 @@ import EditRedirect from 'component/redirect-edit';
 import { Modal } from '@wp-plugin-components';
 import { getDefaultItem } from 'lib/redirect-constants';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
-import { useSettingsStore, useErrorStore } from 'stores';
+import { useSettingsStore } from 'stores';
 import { useErrorBulkAction } from 'lib/api/hooks/use-logs';
 
 interface Row {
@@ -19,6 +19,7 @@ interface RedirectData {
 interface CreateRedirectProps {
 	onClose: () => void;
 	redirect: RedirectData;
+	rows: Row[];
 }
 
 function getRowForId( url: string | number, rows: Row[] ): string {
@@ -44,8 +45,7 @@ function getUniqueUrls( urls: string | string[] | undefined, rows: Row[] ): stri
 }
 
 function CreateRedirect( props: CreateRedirectProps ) {
-	const { onClose, redirect } = props;
-	const rows = useErrorStore( ( state ) => state.rows );
+	const { onClose, redirect, rows } = props;
 	// Direct property access instead of destructuring
 	const values = useSettingsStore( ( state ) => state.values );
 	const defaultFlags = {

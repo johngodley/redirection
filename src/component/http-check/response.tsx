@@ -1,8 +1,8 @@
 import { __, sprintf } from '@wordpress/i18n';
 import clsx from 'clsx';
 import { Spinner, createInterpolateElement } from '@wp-plugin-components';
+import { useHttpCheck } from 'lib/api/hooks';
 import HttpDetails from './details';
-import { useInfoStore } from 'stores';
 import './style.scss';
 
 interface HttpErrorProps {
@@ -30,27 +30,25 @@ function HttpError( { error }: HttpErrorProps ) {
 }
 
 export default function HttpCheckResponse( { url, desiredCode = 0, desiredTarget = null }: HttpCheckResponseProps ) {
-	// Direct property access instead of destructuring
-	const http = useInfoStore( ( state ) => state.http );
-	const status = useInfoStore( ( state ) => state.status );
-	const error = useInfoStore( ( state ) => state.error );
+	const { data: http, isLoading, isError, error } = useHttpCheck( url, { enabled: !! url } );
+	const errorMessage = isError && error ? ( ( error as any ).message as string ) || '' : '';
 
-	if ( status === 'success' && ! http ) {
+	if ( ! isLoading && ! isError && ! http ) {
 		return null;
 	}
 
 	const klass = clsx( {
 		'redirection-httpcheck': true,
-		'wpl-modal_loading': status === 'loading',
-		'redirection-httpcheck_small': status === 'error',
+		'wpl-modal_loading': isLoading,
+		'redirection-httpcheck_small': isError,
 	} );
 
 	return (
 		<div className={ klass }>
-			{ status === 'loading' && <Spinner /> }
-			{ status === 'error' && error && <HttpError error={ error } /> }
+			{ isLoading && <Spinner /> }
+			{ isError && errorMessage && <HttpError error={ errorMessage } /> }
 
-			{ status === 'success' && http && (
+			{ ! isLoading && ! isError && http && (
 				<>
 					<h2>
 						{ createInterpolateElement(

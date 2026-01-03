@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import PoweredBy from 'component/powered-by';
 import { Spinner, ExternalLink } from '@wp-plugin-components';
 import { useUserAgentInfo } from 'lib/api/hooks';
-import { useInfoStore } from 'stores';
 import './style.scss';
 
 interface DeviceInfo {
@@ -140,26 +139,22 @@ function UserAgentDetails( { agent, detail }: { agent: string; detail: AgentDeta
 }
 
 export default function Useragent( { agent }: UseragentProps ) {
-	// Direct property access instead of destructuring
-	const status = useInfoStore( ( state ) => state.status );
-	const error = useInfoStore( ( state ) => state.error );
-	const agents = useInfoStore( ( state ) => state.agents );
-
-	useUserAgentInfo( agent );
+	const { data, isLoading, isError, error } = useUserAgentInfo( agent, { enabled: !! agent } );
 
 	const klass = clsx( {
 		'redirection-useragent': true,
-		'wpl-modal_loading': status === 'loading',
+		'wpl-modal_loading': isLoading,
 	} );
 
-	const detail = agents[ agent ];
+	const detail = data as AgentDetail | undefined;
+	const errorMessage = isError && error ? ( ( error as any ).message as string ) || '' : '';
 
 	return (
 		<div className={ klass }>
-			{ status === 'loading' && <Spinner /> }
-			{ status === 'error' && error && <UserAgentError error={ error } /> }
-			{ status === 'success' && ! detail && <UserAgentUnknown agent={ agent } /> }
-			{ status === 'success' && detail && <UserAgentDetails agent={ agent } detail={ detail as any } /> }
+			{ isLoading && <Spinner /> }
+			{ isError && errorMessage && <UserAgentError error={ errorMessage } /> }
+			{ ! isLoading && ! isError && ! detail && <UserAgentUnknown agent={ agent } /> }
+			{ ! isLoading && ! isError && detail && <UserAgentDetails agent={ agent } detail={ detail } /> }
 		</div>
 	);
 }

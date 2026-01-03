@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { ExternalLink, createInterpolateElement } from '@wp-plugin-components';
-import { useIoStore } from 'stores';
+import { useImporterList } from 'lib/api/hooks';
 
 interface StepSettings {
 	log?: boolean;
@@ -21,7 +21,7 @@ interface StepOptionsProps {
 
 export default function StepOptions( { setStep, step, options, setOptions }: StepOptionsProps ) {
 	const { log = false, ip = false, monitor = false } = options?.settings ?? {};
-	const importers = useIoStore( ( state ) => state.importers );
+	const { data: importers = [] } = useImporterList();
 	const nextStep = importers.length === 0 ? step + 2 : step + 1;
 
 	function setValue( ev: React.ChangeEvent< HTMLInputElement > ) {

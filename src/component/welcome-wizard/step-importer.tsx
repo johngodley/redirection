@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useIoStore } from 'stores';
+import { useImporterList } from 'lib/api/hooks';
 
 const IMPORTER_WP = 'wordpress-old-slugs';
 
@@ -16,9 +16,9 @@ interface StepImporterProps {
 
 export default function StepImporter( { setOptions, options, setStep, step }: StepImporterProps ) {
 	const { importers = [ IMPORTER_WP ] } = options;
-	const availableImporters = useIoStore( ( state ) => state.importers );
-	const wpImport = availableImporters.find( ( item ) => item.id === IMPORTER_WP );
-	const otherImporters = availableImporters.filter( ( item ) => item.id !== IMPORTER_WP );
+	const { data: availableImporters = [] } = useImporterList();
+	const wpImport = availableImporters.find( ( item: any ) => item.id === IMPORTER_WP );
+	const otherImporters = availableImporters.filter( ( item: any ) => item.id !== IMPORTER_WP );
 
 	function toggleImporter( ev: React.ChangeEvent< HTMLInputElement > ) {
 		const newImporters = importers.filter( ( importer ) => importer !== ev.target.name );
@@ -70,7 +70,7 @@ export default function StepImporter( { setOptions, options, setStep, step }: St
 				<>
 					<p>{ __( 'The following plugins have been detected.', 'redirection' ) }</p>
 					<ul>
-						{ otherImporters.map( ( item ) => {
+						{ otherImporters.map( ( item: any ) => {
 							const importerId = `wizard-importer-${ item.id }`;
 
 							return (

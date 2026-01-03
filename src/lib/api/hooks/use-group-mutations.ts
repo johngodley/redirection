@@ -4,7 +4,7 @@ import { RedirectionApi } from 'lib/api-request';
 import { GroupItemResponseSchema, type Group, type CreateGroupInput, type UpdateGroupInput } from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
-import { useGroupStore, useMessageStore } from 'stores';
+import { useTableStore, useMessageStore } from 'stores';
 
 /**
  * Mutation hook for creating a group
@@ -45,12 +45,9 @@ export function useGroupCreate( options?: Omit< UseMutationOptions< Group, Error
 export function useGroupUpdate( options?: Omit< UseMutationOptions< Group, Error, UpdateGroupInput >, 'mutationFn' > ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { addSaving, removeSaving } = useGroupStore();
 
 	return useMutation( {
 		mutationFn: async ( data: UpdateGroupInput ) => {
-			const { id } = data;
-			addSaving( id );
 			incrementProgress();
 			try {
 				const { id: groupId, ...updates } = data;
@@ -59,13 +56,11 @@ export function useGroupUpdate( options?: Omit< UseMutationOptions< Group, Error
 				return validated.item;
 			} catch ( error ) {
 				decrementProgress();
-				removeSaving( id );
 				throw handleApiError( error );
 			}
 		},
 		onSuccess: ( data ) => {
 			decrementProgress();
-			removeSaving( data.id );
 			addNotice( 'Group saved' );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.detail( data.id ) } );
@@ -86,7 +81,7 @@ export function useGroupDelete(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { clearSelected } = useGroupStore();
+	const { setGroupsSelected } = useTableStore();
 
 	return useMutation( {
 		mutationFn: async ( { items }: { items: number[] } ) => {
@@ -102,7 +97,7 @@ export function useGroupDelete(
 		onSuccess: () => {
 			decrementProgress();
 			addNotice( 'Groups deleted' );
-			clearSelected();
+			setGroupsSelected( [] );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
 		},
 		onError: ( error ) => {

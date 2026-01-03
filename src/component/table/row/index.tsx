@@ -70,9 +70,7 @@ function RowColumns( props: RowColumnsProps ) {
 		return (
 			<>
 				{ columns
-					.filter(
-						( column ) => displaySelected.includes( column.name ) || column.alwaysDisplay === true
-					)
+					.filter( ( column ) => displaySelected.includes( column.name ) || column.alwaysDisplay === true )
 					.map( ( column ) => (
 						<td key={ column.name } className={ `column-${ column.name }` }>
 							{ column.content }

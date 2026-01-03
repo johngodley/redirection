@@ -2,23 +2,25 @@ import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOpti
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { RedirectionApi } from 'lib/api-request';
 import { SettingsSchema, type Settings } from 'types';
+import { ZodError } from 'zod';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
-import { useSettingsStore, useMessageStore, useGroupStore } from 'stores';
+import { useSettingsStore, useMessageStore } from 'stores';
 
 /**
  * Query hook for fetching settings
  * @param options
  */
 export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'queryKey' | 'queryFn' > ) {
-	const { setValues, setLoadStatus } = useSettingsStore();
+	const { setValues, setLoadStatus, setError } = useSettingsStore();
 	const { addError } = useMessageStore();
-	const { setRows: setGroupRows } = useGroupStore();
 
 	return useQuery( {
 		queryKey: queryKeys.settings.get(),
 		queryFn: async () => {
 			setLoadStatus( 'loading' );
+			setError( false );
+
 			try {
 				const response = await apiFetch( RedirectionApi.setting.get() );
 				// Extract settings and merge additional fields from the response
@@ -30,18 +32,30 @@ export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'query
 					installed: ( response as any )?.installed || settings.installed,
 					warning: ( response as any )?.warning || settings.warning,
 				};
-				const validated = SettingsSchema.parse( merged );
-				setValues( validated );
 
-				// Populate group store with groups from response if available
-				if ( ( response as any )?.groups && Array.isArray( ( response as any ).groups ) ) {
-					setGroupRows( ( response as any ).groups );
+				try {
+					const validated = SettingsSchema.parse( merged );
+
+					// Keep settings in Zustand for persistence (persist middleware)
+					setValues( validated );
+					setLoadStatus( 'success' );
+
+					return validated;
+				} catch ( parseError ) {
+					if ( parseError instanceof ZodError ) {
+						// Fall back to using the raw settings if validation fails
+						setValues( merged as Settings );
+						setLoadStatus( 'success' );
+						addError( 'Settings validation failed, using unvalidated data.' );
+
+						return merged as Settings;
+					}
+
+					throw parseError;
 				}
-
-				setLoadStatus( 'success' );
-				return validated;
 			} catch ( error ) {
 				setLoadStatus( 'error' );
+				setError( ( error as any ).message || 'Failed to load settings' );
 				addError( ( error as any ).message || 'Failed to load settings' );
 				throw handleApiError( error );
 			}

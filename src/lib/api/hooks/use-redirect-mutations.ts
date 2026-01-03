@@ -4,7 +4,7 @@ import { RedirectionApi } from 'lib/api-request';
 import { RedirectItemResponseSchema, type Redirect, type CreateRedirectInput, type UpdateRedirectInput } from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
-import { useRedirectStore, useMessageStore } from 'stores';
+import { useTableStore, useMessageStore } from 'stores';
 
 /**
  * Mutation hook for creating a redirect
@@ -15,7 +15,6 @@ export function useRedirectCreate(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { removeSaving } = useRedirectStore();
 
 	return useMutation( {
 		mutationFn: async ( data: CreateRedirectInput ) => {
@@ -29,11 +28,10 @@ export function useRedirectCreate(
 				throw handleApiError( error );
 			}
 		},
-		onSuccess: ( data ) => {
+		onSuccess: () => {
 			decrementProgress();
 			addNotice( 'Redirect created' );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
-			removeSaving( data.id );
 		},
 		onError: ( error ) => {
 			addError( error.message || 'Failed to create redirect' );
@@ -51,12 +49,9 @@ export function useRedirectUpdate(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { addSaving, removeSaving } = useRedirectStore();
 
 	return useMutation( {
 		mutationFn: async ( data: UpdateRedirectInput ) => {
-			const { id } = data;
-			addSaving( id );
 			incrementProgress();
 			try {
 				const { id: redirectId, ...updates } = data;
@@ -65,13 +60,11 @@ export function useRedirectUpdate(
 				return validated.item;
 			} catch ( error ) {
 				decrementProgress();
-				removeSaving( id );
 				throw handleApiError( error );
 			}
 		},
 		onSuccess: ( data ) => {
 			decrementProgress();
-			removeSaving( data.id );
 			addNotice( 'Redirect saved' );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.detail( data.id ) } );
@@ -92,7 +85,7 @@ export function useRedirectDelete(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { clearSelected } = useRedirectStore();
+	const { setRedirectsSelected } = useTableStore();
 
 	return useMutation( {
 		mutationFn: async ( { items }: { items: number[] } ) => {
@@ -108,7 +101,7 @@ export function useRedirectDelete(
 		onSuccess: () => {
 			decrementProgress();
 			addNotice( 'Redirects deleted' );
-			clearSelected();
+			setRedirectsSelected( [] );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 		},
 		onError: ( error ) => {
@@ -129,7 +122,7 @@ export function useRedirectBulkAction(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { clearSelected } = useRedirectStore();
+	const { setRedirectsSelected } = useTableStore();
 
 	return useMutation( {
 		mutationFn: async ( { items }: { items: number[] } ) => {
@@ -145,7 +138,7 @@ export function useRedirectBulkAction(
 		onSuccess: () => {
 			decrementProgress();
 			addNotice( `Redirects ${ action }d` );
-			clearSelected();
+			setRedirectsSelected( [] );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 		},
 		onError: ( error ) => {

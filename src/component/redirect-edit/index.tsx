@@ -12,8 +12,8 @@ import MatchType from './match-type';
 import MatchTarget from './match';
 import ActionTarget from './action';
 import { getWarningFromState, Warnings } from './warning';
-import { useRedirectUpdate, useRedirectCreate } from 'lib/api/hooks';
-import { useRedirectStore, useGroupStore, useSettingsStore } from 'stores';
+import { useRedirectUpdate, useRedirectCreate, useGroupList } from 'lib/api/hooks';
+import { useTableStore, useSettingsStore } from 'stores';
 import {
 	ACTION_URL,
 	MATCH_URL,
@@ -101,11 +101,12 @@ function EditRedirect( props: EditRedirectProps ) {
 		children,
 	} = props;
 
-	// Get state from stores - Direct property access instead of destructuring
-	const groups = useGroupStore( ( state ) => state.rows );
-	const addTop = useRedirectStore( ( state ) => state.addTop );
-	const table = useRedirectStore( ( state ) => state.table );
-	const { setAddTop } = useRedirectStore();
+	// Get state from stores and queries
+	const { data: groupData } = useGroupList( {} );
+	const groups = useMemo( () => groupData?.items ?? [], [ groupData ] );
+	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
+	const table = useTableStore( ( state ) => state.redirects );
+	const { setRedirectsAddTop } = useTableStore();
 	const settings = useSettingsStore( ( state ) => state.values );
 	const autoTarget = settings?.auto_target || '';
 	const flags = useMemo(
@@ -536,7 +537,7 @@ function EditRedirect( props: EditRedirectProps ) {
 									type="button"
 									onClick={ ( ev ) => {
 										ev.preventDefault();
-										setAddTop( false );
+										setRedirectsAddTop( false );
 									} }
 								>
 									{ __( 'Close', 'redirection' ) }

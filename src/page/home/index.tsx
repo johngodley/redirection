@@ -13,7 +13,7 @@ import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import CacheDetect from './cache-detect';
 import UpdateNotice from './update-notice';
 import { getInitialError, getInitialLog, getInitialGroup, getInitialRedirect } from 'lib/log-constants';
-import { useMessageStore, useErrorStore, useLogStore, useGroupStore, useRedirectStore, useSettingsStore } from 'stores';
+import { useMessageStore, useSettingsStore, useTableStore } from 'stores';
 import { has_capability, has_page_access, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import './style.scss';
 
@@ -96,10 +96,7 @@ export default function Home() {
 	const inProgress = useSettingsStore( ( state ) => state.database.inProgress );
 	const pluginUpdate = useSettingsStore( ( state ) => state.values?.plugin_update ?? '' );
 	const { setShowDatabase, setApi } = useSettingsStore();
-	const { setTable: setErrorTable } = useErrorStore();
-	const { setTable: setLogTable } = useLogStore();
-	const { setTable: setGroupTable } = useGroupStore();
-	const { setTable: setRedirectTable, setAddTop } = useRedirectStore();
+	const { setErrorsTable, setLogsTable, setRedirectsTable, setRedirectsAddTop, setGroupsTable } = useTableStore();
 
 	const [ page, setPageState ] = useState< string >( getPluginPage( ALLOWED_PAGES ) );
 
@@ -141,16 +138,16 @@ export default function Home() {
 			setPage( newPage === '' ? 'redirect' : newPage );
 
 			if ( newPage === '404s' ) {
-				setErrorTable( getInitialError() as any );
+				setErrorsTable( getInitialError() as any );
 			} else if ( newPage === 'log' ) {
-				setLogTable( getInitialLog() as any );
+				setLogsTable( getInitialLog() as any );
 			} else if ( newPage === '' ) {
-				setRedirectTable( getInitialRedirect() as any );
+				setRedirectsTable( getInitialRedirect() as any );
 			} else if ( newPage === 'groups' ) {
-				setGroupTable( getInitialGroup() as any );
+				setGroupsTable( getInitialGroup() as any );
 			}
 		},
-		[ setPage, setErrorTable, setLogTable, setRedirectTable, setGroupTable ]
+		[ setPage, setErrorsTable, setLogsTable, setRedirectsTable, setGroupsTable ]
 	);
 
 	if ( REDIRECTION_VERSION !== Redirectioni10n.version ) {
@@ -183,7 +180,11 @@ export default function Home() {
 						<h1 className="wp-heading-inline">{ titles[ page ] }</h1>
 
 						{ page === 'redirect' && has_capability( CAP_REDIRECT_ADD ) && (
-							<button type="button" onClick={ () => setAddTop( true ) } className="page-title-action">
+							<button
+								type="button"
+								onClick={ () => setRedirectsAddTop( true ) }
+								className="page-title-action"
+							>
 								{ __( 'Add New', 'redirection' ) }
 							</button>
 						) }

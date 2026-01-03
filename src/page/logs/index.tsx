@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
 import {
 	getHeaders,
@@ -9,7 +8,7 @@ import {
 	getFilterOptions,
 	getGroupBy,
 } from './constants';
-import { useLogStore, useSettingsStore } from 'stores';
+import { useTableStore, useSettingsStore } from 'stores';
 import { useLogList, useErrorBulkAction } from 'lib/api/hooks';
 import { getRssUrl } from 'lib/wordpress-url';
 import LogPage from 'component/log-page';
@@ -47,46 +46,30 @@ function isAvailable( item: string, table: TableState ): boolean {
 }
 
 function Logs() {
-	// Direct property access instead of destructuring
-	const status = useLogStore( ( state ) => state.status );
-	const total = useLogStore( ( state ) => state.total );
-	const table = useLogStore( ( state ) => state.table );
-	const rows = useLogStore( ( state ) => state.rows );
-	const saving = useLogStore( ( state ) => state.saving );
-	const setTable = useLogStore( ( state ) => state.setTable );
-	const setSelected = useLogStore( ( state ) => state.setSelected );
-	const setRows = useLogStore( ( state ) => state.setRows );
-	const setTotal = useLogStore( ( state ) => state.setTotal );
-	const setStatus = useLogStore( ( state ) => state.setStatus );
+	// Get table UI state from table store
+	const table = useTableStore( ( state ) => state.logs );
+	const { setLogsTable, setLogsSelected } = useTableStore();
 
 	const settings = useSettingsStore( ( state ) => state.values );
 	const token = settings?.token || '';
 
 	const logBulkAction = useErrorBulkAction();
 
-	// Fetch logs with current table params
-	const { data: queryData, isLoading: queryLoading } = useLogList( table );
+	// Fetch logs with current table params - read directly from Query
+	const { data: logData, isLoading, isSuccess } = useLogList( table );
+	const rows = logData?.items ?? [];
+	const total = logData?.total ?? 0;
 
-	// Update store when query data changes
-	useEffect( () => {
-		if ( queryData ) {
-			setRows( queryData.items as any );
-			setTotal( queryData.total );
-			setStatus( 'success' );
-		}
-	}, [ queryData, setRows, setTotal, setStatus ] );
-
-	// Set loading status when query starts
-	useEffect( () => {
-		if ( queryLoading ) {
-			setStatus( 'loading' );
-		} else if ( queryData ) {
-			setStatus( 'success' );
-		}
-	}, [ queryLoading, queryData, setStatus ] );
+	// Derive status from Query states
+	let status = 'idle';
+	if ( isLoading ) {
+		status = 'loading';
+	} else if ( isSuccess ) {
+		status = 'success';
+	}
 
 	const handleChangePage = ( page: number ) => {
-		setTable( { page } );
+		setLogsTable( { page } );
 	};
 
 	const handleBulk = ( action: string, items: number[] ) => {
@@ -94,37 +77,34 @@ function Logs() {
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		setLogsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setTable( { groupBy } );
+		setLogsTable( { groupBy } );
 	};
 
 	const handleFilter = ( filterBy: Record< string, any > ) => {
-		setTable( { filterBy, page: 0 } );
+		setLogsTable( { filterBy, page: 0 } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
-		setTable( { displayType, displaySelected } );
+		setLogsTable( { displayType, displaySelected } );
 	};
 
 	const handleSelect = ( items: number[] | boolean ) => {
 		if ( typeof items === 'boolean' ) {
-			setSelected( items ? rows.map( ( r ) => r.id ) : [] );
+			setLogsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else {
-			setSelected( items );
+			setLogsSelected( items );
 		}
 	};
 
 	const handleSetAll = ( allOrClear: any ) => {
 		if ( allOrClear ) {
-			setSelected(
-				rows.map( ( r ) => r.id ),
-				true
-			);
+			setLogsSelected( rows.map( ( r ) => r.id ) );
 		} else {
-			setSelected( [] );
+			setLogsSelected( [] );
 		}
 	};
 
@@ -161,14 +141,10 @@ function Logs() {
 			status={ status as any }
 			total={ total }
 			rows={ rows as any }
-			saving={ saving }
+			saving={ [] }
 			getRow={ ( row: any ) => getColumns( row ) }
 			getRowActions={ ( row: any ) => (
-				<LogRowActions
-					disabled={ saving.includes( row.id ) }
-					row={ row }
-					onDelete={ ( id ) => handleBulk( 'delete', [ id ] ) }
-				/>
+				<LogRowActions disabled={ false } row={ row } onDelete={ ( id ) => handleBulk( 'delete', [ id ] ) } />
 			) }
 			renderTableActions={ () => (
 				<>

@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useRedirectList, useGroupList } from 'lib/api/hooks';
-import { useRedirectStore, useGroupStore, useSettingsStore } from 'stores';
+import { useTableStore, useSettingsStore } from 'stores';
 import {
 	getDisplayGroups,
 	getDisplayOptions,
@@ -49,101 +48,74 @@ function isAvailable( item: string, table: any ) {
 }
 
 function Redirects() {
-	const status = useRedirectStore( ( state ) => state.status );
-	const total = useRedirectStore( ( state ) => state.total );
-	const table = useRedirectStore( ( state ) => state.table );
-	const rows = useRedirectStore( ( state ) => state.rows );
-	const addTop = useRedirectStore( ( state ) => state.addTop );
-	const saving = useRedirectStore( ( state ) => state.saving );
-	const { setTable, setSelected, setRows, setTotal, setStatus } = useRedirectStore();
+	// Get table UI state from table store
+	const table = useTableStore( ( state ) => state.redirects );
+	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
+	const { setRedirectsTable, setRedirectsSelected } = useTableStore();
 
-	const groupRows = useGroupStore( ( state ) => state.rows );
-	const groupStatus = useGroupStore( ( state ) => state.status );
-	const { setRows: setGroupRows, setTotal: setGroupTotal, setStatus: setGroupStatus } = useGroupStore();
 	const settings = useSettingsStore( ( state ) => state.values );
 
-	// Fetch groups for dropdown
-	const { data: groupData } = useGroupList( {} );
+	// Fetch groups for dropdown - read directly from Query
+	const { data: groupData, isSuccess: groupSuccess } = useGroupList( {} );
+	const groupRows = groupData?.items ?? [];
 
-	// Fetch redirects with current table params
-	const { data: queryData, isLoading: queryLoading } = useRedirectList( table, {
-		enabled: status !== 'loading',
-	} );
+	// Fetch redirects with current table params - read directly from Query
+	const { data: redirectData, isLoading, isSuccess } = useRedirectList( table );
+	const rows = redirectData?.items ?? [];
+	const total = redirectData?.total ?? 0;
 
-	// Update group store when group data changes
-	useEffect( () => {
-		if ( groupData ) {
-			setGroupRows( groupData.items );
-			setGroupTotal( groupData.total );
-			setGroupStatus( 'success' );
-		}
-	}, [ groupData, setGroupRows, setGroupTotal, setGroupStatus ] );
-
-	// Update store when query data changes
-	useEffect( () => {
-		if ( queryData ) {
-			setRows( queryData.items );
-			setTotal( queryData.total );
-			setStatus( 'success' );
-		}
-	}, [ queryData, setRows, setTotal, setStatus ] );
-
-	// Set loading status when query starts
-	useEffect( () => {
-		if ( queryLoading ) {
-			setStatus( 'loading' );
-		}
-	}, [ queryLoading, setStatus ] );
+	// Derive status from Query states
+	let status = 'idle';
+	if ( isLoading ) {
+		status = 'loading';
+	} else if ( isSuccess ) {
+		status = 'success';
+	}
 
 	// Get default flags from settings
 	const defaultFlags = {
-		flag_query: settings?.flag_query || 'ignore',
-		flag_case: settings?.flag_case || false,
-		flag_trailing: settings?.flag_trailing || false,
-		flag_regex: settings?.flag_regex || false,
+		flag_query: settings?.flag_query ?? 'ignore',
+		flag_case: settings?.flag_case ?? false,
+		flag_trailing: settings?.flag_trailing ?? false,
+		flag_regex: settings?.flag_regex ?? false,
 	};
 
-	const canAdd = status === 'success' && groupStatus === 'success' && has_capability( CAP_REDIRECT_ADD );
+	const canAdd = status === 'success' && groupSuccess && has_capability( CAP_REDIRECT_ADD );
 
 	const handleChangePage = ( page: number ) => {
-		setTable( { page } );
+		setRedirectsTable( { page } );
 	};
 
 	const handleBulk = () => {
-		// Note: Bulk actions are handled through store actions, not hooks
-		// The redirectBulkAction hook defined above can be used for default actions
-		// For dynamic actions, we'd need to refactor to use store actions directly
+		// Note: Bulk actions are handled through mutations
 		// XXX fix this - bulk actions are not implemented yet.
 	};
 
 	const handleSelect = ( items: number[] | boolean ) => {
 		if ( typeof items === 'boolean' ) {
-			setSelected( items ? rows.map( ( r ) => r.id ) : [] );
+			setRedirectsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else {
-			setSelected( items );
+			setRedirectsSelected( items );
 		}
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		setRedirectsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleFilter = ( filterBy: any ) => {
-		setTable( { filterBy, page: 0 } );
+		setRedirectsTable( { filterBy, page: 0 } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
-		setTable( { displayType, displaySelected } );
+		setRedirectsTable( { displayType, displaySelected } );
 	};
 
 	const handleSetAll = ( allOrClear: any ) => {
 		if ( allOrClear ) {
-			setSelected(
-				rows.map( ( r ) => r.id ),
-				true
-			);
+			setRedirectsSelected( rows.map( ( r ) => r.id ) );
 		} else {
-			setSelected( [] );
+			setRedirectsSelected( [] );
 		}
 	};
 
@@ -194,16 +166,12 @@ function Redirects() {
 				status={ status as any }
 				total={ total }
 				rows={ rows as any }
-				saving={ saving }
+				saving={ [] }
 				getRow={ ( row: any, rowParams: any ) =>
-					getColumns( row, rowParams, saving.includes( row.id ), defaultFlags, { rows: groupRows } )
+					getColumns( row, rowParams, false, defaultFlags, { rows: groupRows } )
 				}
 				getRowActions={ ( row: any, rowParams: any ) => (
-					<RedirectRowActions
-						disabled={ saving.includes( row.id ) }
-						row={ row }
-						rowParams={ rowParams }
-					/>
+					<RedirectRowActions disabled={ false } row={ row } rowParams={ rowParams } />
 				) }
 			/>
 

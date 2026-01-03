@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { __, sprintf } from '@wordpress/i18n';
 import { createInterpolateElement, Select } from '@wp-plugin-components';
 import clsx from 'clsx';
-import { useGroupStore, useIoStore } from 'stores';
 import { useGroupList, useImporterList, useFileImport, usePluginImport, useExport } from 'lib/api/hooks';
 import { nestedGroups, getExportUrl } from 'lib/wordpress-url';
 import { LOGS_TYPE_REDIRECT, LOGS_TYPE_404 } from 'lib/log-constants';
@@ -15,31 +14,51 @@ function ImportExport() {
 	const [ hover, setHover ] = useState< boolean >( false );
 	const [ module, setModule ] = useState< string >( 'all' );
 	const [ format, setFormat ] = useState< string >( 'json' );
+	const [ file, setFile ] = useState< File | false >( false );
+	const [ lastImport, setLastImport ] = useState< number | false >( false );
+	const [ exportData, setExportData ] = useState< string | false >( false );
 	const fileInputRef = useRef< HTMLInputElement >( null );
 
-	// Direct property access instead of destructuring
-	const groupRows = useGroupStore( ( state ) => state.rows );
-	const exportData = useIoStore( ( state ) => state.exportData );
-	const exportStatus = useIoStore( ( state ) => state.exportStatus );
-	const importers = useIoStore( ( state ) => state.importers );
-	const importingStatus = useIoStore( ( state ) => state.importingStatus );
-	const file = useIoStore( ( state ) => state.file );
-	const lastImport = useIoStore( ( state ) => state.lastImport );
-	const { setFile, clearFile, setExportData } = useIoStore();
+	// Fetch data from Query
+	const { data: groupData } = useGroupList( {} );
+	const groupRows = groupData?.items ?? [];
+	const { data: importers = [] } = useImporterList();
 
-	// Fetch data on mount
-	useGroupList( {} );
-	useImporterList();
-
-	const fileImport = useFileImport();
+	const fileImport = useFileImport( {
+		onSuccess: ( data ) => {
+			const imported = ( data as any )?.imported || 0;
+			setLastImport( imported );
+			setFile( false );
+		},
+	} );
 	const pluginImport = usePluginImport();
-	const exportMutation = useExport();
+	const exportMutation = useExport( {
+		onSuccess: ( data ) => {
+			setExportData( data );
+		},
+	} );
+
+	let exportStatus = 'idle';
+	if ( exportMutation.isPending ) {
+		exportStatus = 'loading';
+	} else if ( exportMutation.isSuccess ) {
+		exportStatus = 'success';
+	}
+
+	let importingStatus = 'idle';
+	if ( fileImport.isPending || pluginImport.isPending ) {
+		importingStatus = 'loading';
+	} else if ( fileImport.isSuccess || pluginImport.isSuccess ) {
+		importingStatus = 'success';
+	}
 
 	useEffect( () => {
 		return () => {
-			clearFile();
+			setFile( false );
+			setLastImport( false );
+			setExportData( false );
 		};
-	}, [ clearFile ] );
+	}, [] );
 
 	const onView = () => {
 		exportMutation.mutate( { moduleId: module, format } );
@@ -108,7 +127,8 @@ function ImportExport() {
 
 	const onCancel = () => {
 		setHover( false );
-		clearFile();
+		setFile( false );
+		setLastImport( false );
 		setExportData( false );
 		if ( fileInputRef.current ) {
 			fileInputRef.current.value = '';

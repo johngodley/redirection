@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
 	getBulk,
 	getDisplayOptions,
@@ -8,7 +8,7 @@ import {
 	getHeaders,
 	getFilterOptions,
 } from './constants';
-import { useErrorStore, useSettingsStore } from 'stores';
+import { useTableStore, useSettingsStore } from 'stores';
 import { useErrorList, useErrorBulkAction } from 'lib/api/hooks';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
 import getCreateAction from './create-action';
@@ -63,49 +63,33 @@ function getGroupByTable( groupBy?: string ): Partial< TableState > {
 }
 
 function Logs404() {
-	// Direct property access instead of destructuring
-	const status = useErrorStore( ( state ) => state.status );
-	const total = useErrorStore( ( state ) => state.total );
-	const table = useErrorStore( ( state ) => state.table );
-	const rows = useErrorStore( ( state ) => state.rows );
-	const saving = useErrorStore( ( state ) => state.saving );
-	const setTable = useErrorStore( ( state ) => state.setTable );
-	const setSelected = useErrorStore( ( state ) => state.setSelected );
-	const setRows = useErrorStore( ( state ) => state.setRows );
-	const setTotal = useErrorStore( ( state ) => state.setTotal );
-	const setStatus = useErrorStore( ( state ) => state.setStatus );
+	// Get table UI state from table store
+	const table = useTableStore( ( state ) => state.errors );
+	const { setErrorsTable, setErrorsSelected } = useTableStore();
 
 	const settings = useSettingsStore( ( state ) => state.values );
 	const [ showCreate, setShowCreate ] = useState< any >( null );
 
 	const errorBulkAction = useErrorBulkAction();
 
-	// Fetch errors with current table params
-	const { data: queryData, isFetching: queryLoading } = useErrorList( table );
+	// Fetch errors with current table params - read directly from Query
+	const { data: errorData, isFetching: isLoading } = useErrorList( table );
+	const rows = errorData?.items ?? [];
+	const total = errorData?.total ?? 0;
 
-	// Update store when query data changes
-	useEffect( () => {
-		if ( queryData ) {
-			setRows( queryData.items as any );
-			setTotal( queryData.total );
-		}
-	}, [ queryData, setRows, setTotal ] );
+	// Derive status from Query states
+	let status = 'idle';
+	if ( isLoading ) {
+		status = 'loading';
+	} else if ( errorData ) {
+		status = 'success';
+	}
 
-	// Sync loading status with query state
-	useEffect( () => {
-		if ( queryLoading ) {
-			setStatus( 'loading' );
-		} else if ( queryData ) {
-			setStatus( 'success' );
-		} else {
-			setStatus( 'idle' );
-		}
-	}, [ queryLoading, queryData, setStatus ] );
 	// Note: Groups are needed for the create redirect modal
 	// They should be loaded by a parent component or globally
 
 	function onCreate( create: any ) {
-		setSelected( [], false );
+		setErrorsSelected( [] );
 		setShowCreate( create );
 	}
 
@@ -118,41 +102,38 @@ function Logs404() {
 	}
 
 	const handleChangePage = ( page: number ) => {
-		setTable( { page } );
+		setErrorsTable( { page } );
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		setErrorsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setTable( { groupBy } );
+		setErrorsTable( { groupBy } );
 	};
 
 	const handleFilter = ( filterBy: Record< string, any > ) => {
-		setTable( { filterBy, page: 0 } );
+		setErrorsTable( { filterBy, page: 0 } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
-		setTable( { displayType, displaySelected } );
+		setErrorsTable( { displayType, displaySelected } );
 	};
 
 	const handleSelect = ( items: number[] | boolean ) => {
 		if ( typeof items === 'boolean' ) {
-			setSelected( items ? rows.map( ( r ) => r.id ) : [] );
+			setErrorsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else {
-			setSelected( items );
+			setErrorsSelected( items );
 		}
 	};
 
 	const handleSetAll = ( allOrClear: any ) => {
 		if ( allOrClear ) {
-			setSelected(
-				rows.map( ( r ) => r.id ),
-				true
-			);
+			setErrorsSelected( rows.map( ( r ) => r.id ) );
 		} else {
-			setSelected( [] );
+			setErrorsSelected( [] );
 		}
 	};
 
@@ -181,7 +162,9 @@ function Logs404() {
 
 	return (
 		<>
-			{ showCreate && <CreateRedirect onClose={ () => setShowCreate( null ) } redirect={ showCreate } /> }
+			{ showCreate && (
+				<CreateRedirect onClose={ () => setShowCreate( null ) } redirect={ showCreate } rows={ rows as any } />
+			) }
 
 			<LogPage
 				logOptions={ logOptions as any }
@@ -190,11 +173,11 @@ function Logs404() {
 				status={ status as any }
 				total={ total }
 				rows={ rows as any }
-				saving={ saving }
+				saving={ [] }
 				getRow={ ( row: any ) => getColumns( row ) }
 				getRowActions={ ( row: any, rowParams: any ) => (
 					<ErrorRowActions
-						disabled={ saving.includes( row.id ) }
+						disabled={ false }
 						row={ row as any }
 						onCreate={ onCreate }
 						onDelete={ ( id ) => onBulk( 'delete', [ id ] ) }

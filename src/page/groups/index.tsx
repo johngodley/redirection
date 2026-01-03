@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
 	getFilterOptions,
 	getDisplayGroups,
@@ -7,7 +6,7 @@ import {
 	getBulk,
 	getSearchOptions,
 } from './constants';
-import { useGroupStore } from 'stores';
+import { useTableStore } from 'stores';
 import { useGroupList, useGroupBulkAction } from 'lib/api/hooks';
 import { getModules } from 'lib/modules';
 import { has_capability, CAP_GROUP_ADD } from 'lib/capabilities';
@@ -30,39 +29,22 @@ function isAvailable( item: string, table: TableState ): boolean {
 }
 
 function Groups() {
-	// Direct property access instead of destructuring
-	const status = useGroupStore( ( state ) => state.status );
-	const total = useGroupStore( ( state ) => state.total );
-	const table = useGroupStore( ( state ) => state.table );
-	const rows = useGroupStore( ( state ) => state.rows );
-	const saving = useGroupStore( ( state ) => state.saving );
-	const { setTable, setSelected, setRows, setTotal, setStatus } = useGroupStore();
+	// Get table UI state from table store
+	const table = useTableStore( ( state ) => state.groups );
+	const { setGroupsTable, setGroupsSelected } = useTableStore();
 
 	const groupBulkAction = useGroupBulkAction();
 
-	// Fetch groups with current table params
-	const { data: queryData, isLoading: queryLoading } = useGroupList( table, {
-		enabled: status !== 'loading',
-	} );
+	// Fetch groups with current table params - read directly from Query
+	const { data: groupData, isLoading } = useGroupList( table );
+	const rows = groupData?.items ?? [];
+	const total = groupData?.total ?? 0;
 
-	// Update store when query data changes
-	useEffect( () => {
-		if ( queryData ) {
-			setRows( queryData.items );
-			setTotal( queryData.total );
-			setStatus( 'success' );
-		}
-	}, [ queryData, setRows, setTotal, setStatus ] );
-
-	// Set loading status when query starts
-	useEffect( () => {
-		if ( queryLoading ) {
-			setStatus( 'loading' );
-		}
-	}, [ queryLoading, setStatus ] );
+	// Derive status from Query states
+	const status: 'loading' | 'complete' = isLoading ? 'loading' : 'complete';
 
 	const handleChangePage = ( page: number ) => {
-		setTable( { page } );
+		setGroupsTable( { page } );
 	};
 
 	const handleBulk = ( action: string ) => {
@@ -73,36 +55,33 @@ function Groups() {
 	const handleSelect = ( id: number ) => {
 		const currentSelected = table.selected as number[];
 		if ( currentSelected.includes( id ) ) {
-			setSelected( currentSelected.filter( ( i ) => i !== id ) );
+			setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
 		} else {
-			setSelected( [ ...currentSelected, id ] );
+			setGroupsSelected( [ ...currentSelected, id ] );
 		}
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		setGroupsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setTable( { groupBy, page: 0 } );
+		setGroupsTable( { groupBy, page: 0 } );
 	};
 
 	const handleFilter = ( filterBy: Record< string, any > ) => {
-		setTable( { filterBy, page: 0 } );
+		setGroupsTable( { filterBy, page: 0 } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
-		setTable( { displayType, displaySelected } );
+		setGroupsTable( { displayType, displaySelected } );
 	};
 
 	const handleSetAll = ( allOrClear: any ) => {
 		if ( allOrClear ) {
-			setSelected(
-				rows.map( ( r ) => r.id ),
-				true
-			);
+			setGroupsSelected( rows.map( ( r ) => r.id ) );
 		} else {
-			setSelected( [] );
+			setGroupsSelected( [] );
 		}
 	};
 
@@ -143,26 +122,19 @@ function Groups() {
 		groupBy: table.groupBy ?? '',
 	};
 
-	// Convert GroupStatus to TableStatus
-	const tableStatus = status === 'idle' || status === 'success' ? 'complete' : status;
-
 	return (
 		<>
 			<LogPage
 				logOptions={ logOptions }
 				logActions={ logActions }
 				table={ logPageTable as any }
-				status={ tableStatus }
+				status={ status }
 				total={ total }
 				rows={ rows }
-				saving={ saving }
+				saving={ [] }
 				getRow={ ( row, rowParams ) => getColumns( row as Group, rowParams ) }
 				getRowActions={ ( row, rowParams ) => (
-					<GroupRowActions
-						disabled={ saving.includes( row.id ) }
-						row={ row as Group }
-						rowParams={ rowParams }
-					/>
+					<GroupRowActions disabled={ false } row={ row as Group } rowParams={ rowParams } />
 				) }
 			/>
 

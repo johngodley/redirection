@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
 import { usePluginImport } from 'lib/api/hooks';
-import { useIoStore } from 'stores';
 
 interface StepImportingOptions {
 	importers: string[];
@@ -14,11 +13,19 @@ interface StepImportingProps {
 }
 
 export default function StepImporting( { step, setStep, options }: StepImportingProps ) {
-	const { mutate: pluginImport } = usePluginImport();
-	const importingStatus = useIoStore( ( state ) => state.importingStatus );
+	const pluginImport = usePluginImport();
+
+	let importingStatus: 'idle' | 'loading' | 'success' | 'error' = 'idle';
+	if ( pluginImport.isPending ) {
+		importingStatus = 'loading';
+	} else if ( pluginImport.isSuccess ) {
+		importingStatus = 'success';
+	} else if ( pluginImport.isError ) {
+		importingStatus = 'error';
+	}
 
 	const doImport = useCallback( () => {
-		pluginImport( options.importers );
+		pluginImport.mutate( options.importers );
 	}, [ pluginImport, options.importers ] );
 
 	useEffect( () => {

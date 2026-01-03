@@ -3,7 +3,7 @@ import { RowActions, RowAction } from 'component/table/row-action';
 import { CAP_REDIRECT_MANAGE, CAP_404_DELETE, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import UseragentAction from 'component/log-page/log-actions/user-agent';
 import getCreateAction from './create-action';
-import { useErrorStore } from 'stores';
+import { useTableStore } from 'stores';
 
 interface Error404 {
 	id: number;
@@ -43,13 +43,13 @@ function getShowFilter( groupBy: string, row: Error404 ) {
 
 function ErrorRowActions( props: ErrorRowActionsProps ) {
 	const { row, onDelete, onCreate, table, disabled } = props;
-	const { setTable } = useErrorStore();
+	const { setErrorsTable } = useTableStore();
 	const { url, ip, agent, id } = row;
 	const { groupBy } = table;
 	const menu: JSX.Element[] = [];
 
 	const setFilter = ( filterBy: any ) => {
-		setTable( { filterBy, page: 0 } );
+		setErrorsTable( { filterBy, page: 0 } );
 	};
 
 	menu.push(
