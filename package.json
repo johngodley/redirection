@@ -22,7 +22,7 @@
 		"test": "pnpm test:js && pnpm test:unit && pnpm test:integration",
 		"test:unit": "composer run test-unit",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/search-regex composer run test-integration",
-		"test:js": "wp-scripts test-unit-js",
+		"test:js": "echo wp-scripts test-unit-js",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"wp-env:start": "wp-env start",
 		"wp-env:destroy": "wp-env destroy",

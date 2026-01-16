@@ -23,8 +23,10 @@
 		"baseline": "vendor/bin/phpstan analyse --configuration phpstan.neon  --generate-baseline",
 		"lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n",
 		"format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n",
-		"test": "./vendor/bin/phpunit --configuration=phpunit-unit.xml",
-		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,"	},
+		"format-file": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n --",
+		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,",
+		"test-unit": "./vendor/bin/phpunit --testsuite unit --colors=always --configuration phpunit-unit.xml"
+	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
