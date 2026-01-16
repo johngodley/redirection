@@ -149,10 +149,10 @@ class Red_Database_Status {
 			return $settings['database'];
 		}
 
-		if ( $this->get_old_version() !== false ) {
-			$version = $this->get_old_version();
-
+		$version = $this->get_old_version();
+		if ( $version !== false && $version !== '' && $version !== '0' && $version !== 0 ) {
 			// Upgrade the old value
+			$version = (string) $version;
 			red_set_options( array( 'database' => $version ) );
 			delete_option( self::OLD_DB_VERSION );
 			$this->clear_cache();
@@ -165,7 +165,7 @@ class Red_Database_Status {
 	/**
 	 * Get old database version from legacy option
 	 *
-	 * @return string|false
+	 * @return mixed
 	 */
 	private function get_old_version() {
 		return get_option( self::OLD_DB_VERSION );

@@ -65,11 +65,12 @@ class Red_Url_Transform {
 	 * Peform a shortcode
 	 *
 	 * @param ShortcodeAttrs $attrs Shortcode attributes.
-	 * @param string $content Shortcode content.
+	 * @param string|null $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
 	 */
 	public function do_shortcode( $attrs, $content, $tag ) {
+		$content = $content ?? '';
 		$user = wp_get_current_user();
 
 		switch ( $tag ) {

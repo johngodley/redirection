@@ -76,6 +76,10 @@ class Custom_Match extends Red_Match {
 	 * @return boolean
 	 */
 	public function is_match( $url ) {
+		if ( $this->filter === '' ) {
+			return false;
+		}
+
 		return apply_filters( $this->filter, false, $url );
 	}
 
