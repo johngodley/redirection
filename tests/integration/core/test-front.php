@@ -44,7 +44,7 @@ class FrontTest extends WP_UnitTestCase {
 	public function testMaskIp6() {
 		$redirection = Redirection::init();
 
-		$this->assertEquals( '2000:420:22::226:260:3224', $redirection->mask_ip( '2001:0db8:85a3:0001:0001:8a2e:0370:7334' ) );
+		$this->assertEquals( '2001:db8:85a3:1::', $redirection->mask_ip( '2001:0db8:85a3:0001:0001:8a2e:0370:7334' ) );
 	}
 
 	public function testMaskEmptyIp() {
