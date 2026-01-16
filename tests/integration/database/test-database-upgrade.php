@@ -378,6 +378,43 @@ class UpgradeDatabaseTest extends WP_UnitTestCase {
 		}
 	}
 
+	public function testVersionDoesNotJumpAheadDuringUpgrade() {
+		global $wpdb;
+
+		$this->removeTables();
+
+		// Regression test for bug where database version would jump ahead to next upgrader
+		// before actually running that upgrader's stages, causing version/schema mismatch
+		$status = new Red_Database_Status();
+		$tester = new DatabaseTester();
+		$latest = new Red_Latest_Database();
+		$database = new Red_Database();
+
+		// Load 2.3.4 schema and set version to 2.3.4
+		$tester->create_tables( dirname( __FILE__ ) . '/sql/2.3.4.sql', $this );
+		$latest->create_groups( $wpdb );
+		red_set_options( array( 'database' => '2.3.4' ) );
+
+		// Run only ONE stage of upgrade (not all stages)
+		$database->apply_upgrade( $status );
+
+		// Get current version - should NOT have jumped ahead to 4.0 or 4.2
+		$current_version = $status->get_current_version();
+
+		// Version should still be at starting version or at most the version
+		// of the upgrader whose stages are in progress (2.4)
+		$this->assertTrue(
+			version_compare( $current_version, '2.3.4', 'eq' ) || version_compare( $current_version, '2.4', 'eq' ),
+			'Database version jumped ahead to ' . $current_version . ' before completing upgrade stages'
+		);
+
+		// Version should definitely NOT be 4.0 or higher (the old bug)
+		$this->assertTrue(
+			version_compare( $current_version, '4.0', 'lt' ),
+			'Database version incorrectly set to ' . $current_version . ' (>= 4.0) mid-upgrade'
+		);
+	}
+
 	public function testUpgradeBroken233() {
 		global $wpdb;
 
