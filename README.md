@@ -1,7 +1,5 @@
 # Redirection
 
-PHP/JavaScript [![Build Status](https://travis-ci.org/johngodley/redirection.svg?branch=master)](https://travis-ci.org/johngodley/redirection)
-
 Redirection is a WordPress plugin to manage 301 redirections, keep track of 404 errors, and generally tidy up any loose ends your site may have. This is particularly useful if you are migrating pages from an old website, or are changing the directory of your WordPress installation.
 
 Note: this is the current 'trunk' version of Redirection. It may be newer than what is in the WordPress.org plugin repository, and should be considered experimental.
@@ -21,17 +19,17 @@ Access to the Redirection admin interface is given to users who can `manage_opti
 
 ## Building
 
-Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Gulp, Node, and Yarn installed. Install required modules with:
+Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Gulp, Node, and pnpm installed. Install required modules with:
 
-`yarn install`
+`pnpm install`
 
 ### React
 
 Some parts of the UI are React and can be built with:
 
-`yarn build`
+`pnpm build`
 
-`yarn start`
+`pnpm start`
 
 This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
 
@@ -39,18 +37,18 @@ This will start Webpack in hot-reload mode, and you can make changes to JS files
 
 Unit tests:
 
-- `yarn test:unit`
+- `pnpm test:unit`
 
 Integration (with WP) tests:
 
-- `yarn wp-env:start` to setup integration tests
-- `yarn test:integration` to run them
+- `pnpm wp-env:start` to setup integration tests
+- `pnpm test:integration` to run them
 
 ### Releasing
 
 Finally, to produce a release copy:
 
-`yarn release`
+`pnpm release`
 
 ## Support
 
