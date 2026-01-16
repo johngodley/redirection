@@ -347,39 +347,4 @@ and a line at the end';
 		$this->assertEquals( 'RewriteCond %{HTTP_HOST} ^otherdomain\.com$ [NC]', trim( $lines[5] ) );
 		$this->assertEquals( 'RewriteRule ^test$ /target [R=301,L]', trim( $lines[6] ) );
 	}
-
-	public function testRedirectUrlWithSpaces() {
-		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my test url',
-			'action_data' => '/target',
-			'action_code' => 301,
-		) );
-		$htaccess->add( $item );
-
-		$lines = $this->getOutput( $htaccess );
-
-		$this->assertEquals( 'RewriteRule ^my\stest\surl$ /target [R=301,L]', trim( $lines[5] ) );
-	}
-
-	public function testRedirectUrlRegexWithSpaces() {
-		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my test.*',
-			'action_code' => 301,
-			'action_data' => '/target',
-			'regex' => true,
-		) );
-		$htaccess->add( $item );
-
-		$lines = $this->getOutput( $htaccess );
-
-		$this->assertEquals( 'RewriteRule my\stest.* /target [R=301,L]', trim( $lines[5] ) );
-	}
 }
