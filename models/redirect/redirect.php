@@ -317,8 +317,6 @@ class Red_Item {
 			$this->position = intval( $values['position'], 10 );
 		}
 
-		// XXX convert to pnpm
-
 		if ( array_key_exists( 'group_id', $values ) ) {
 			$this->group_id = intval( $values['group_id'], 10 );
 		}
