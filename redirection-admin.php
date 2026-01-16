@@ -34,6 +34,16 @@ class Redirection_Admin {
 	}
 
 	public function __construct() {
+		// TODO: remove this once we have a stable installed version
+		if ( ! class_exists( 'Red_Options' ) ) {
+			if ( function_exists( 'opcache_reset' ) ) {
+				opcache_reset();
+			}
+
+			add_action( 'admin_notices', [ $this, 'show_incomplete_installation_notice' ] );
+			return;
+		}
+
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 		add_action( 'admin_notices', [ $this, 'update_nag' ] );
 		add_filter( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), [ $this, 'plugin_settings' ] );
@@ -139,6 +149,27 @@ class Redirection_Admin {
 		// Known HTML and so isn't escaped
 		// phpcs:ignore
 		echo '<div class="update-nag notice notice-warning" style="width: 95%">' . $message . '</div>';
+	}
+
+	/**
+	 * Show incomplete installation error
+	 *
+	 * @return void
+	 */
+	public function show_incomplete_installation_notice() {
+		?>
+		<div class="notice notice-error">
+			<p>
+				<strong><?php esc_html_e( 'Redirection Error: Incomplete Installation Detected', 'redirection' ); ?></strong>
+			</p>
+			<p>
+				<?php esc_html_e( 'Redirection has detected that required files are missing or were not properly loaded. This likely means your cache needs clearing.', 'redirection' ); ?>
+			</p>
+			<p>
+				<?php esc_html_e( 'Please try clearing your cache and reloading the page.', 'redirection' ); ?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**

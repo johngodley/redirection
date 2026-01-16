@@ -1,0 +1,6 @@
+{
+	"redefinable-internals": [
+		"function_exists",
+		"opcache_reset"
+	]
+}
