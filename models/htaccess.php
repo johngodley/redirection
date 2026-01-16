@@ -86,9 +86,9 @@ class Red_Htaccess {
 		$allowed = [
 			'%2F' => '/',
 			'%3F' => '?',
-			'+' => ' ',
+			'+' => '\\s',
 			'.' => '\\.',
-			'%20' => ' ',
+			'%20' => '\\s',
 		];
 
 		return $this->replace_encoding( rawurlencode( $url ), $allowed );
@@ -107,8 +107,8 @@ class Red_Htaccess {
 		// Remove invalid characters
 		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
 
-		// Make sure spaces are quoted
-		// $url = str_replace( ' ', '%20', $url );
+		// Make sure spaces are escaped as \s for regex matching
+		$url = str_replace( ' ', '\\s', $url );
 		$url = str_replace( '%24', '$', $url );
 
 		// No leading slash
