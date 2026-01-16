@@ -61,6 +61,33 @@ require_once __DIR__ . '/models/header.php';
 require_once __DIR__ . '/models/group.php';
 
 /**
+ * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.
+ *
+ * @param object $upgrader The upgrader object.
+ * @param array{action: string, type: string, plugins?: string[]} $options The upgrade options.
+ * @return void
+ */
+function redirection_clear_opcache_on_upgrade( $upgrader, $options ) {
+	if ( $options['action'] !== 'update' || $options['type'] !== 'plugin' ) {
+		return;
+	}
+
+	$plugin_basename = plugin_basename( REDIRECTION_FILE );
+	$plugins = $options['plugins'] ?? [];
+
+	if ( ! in_array( $plugin_basename, $plugins, true ) ) {
+		return;
+	}
+
+	if ( function_exists( 'opcache_reset' ) ) {
+		opcache_reset();
+	}
+}
+
+add_action( 'upgrader_process_complete', 'redirection_clear_opcache_on_upgrade', 10, 2 );
+
+
+/**
  * @return bool
  */
 function red_is_wpcli() {
