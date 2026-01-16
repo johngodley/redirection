@@ -165,7 +165,7 @@ class Red_Database_Status {
 	/**
 	 * Get old database version from legacy option
 	 *
-	 * @return string|false
+	 * @return mixed
 	 */
 	private function get_old_version() {
 		return get_option( self::OLD_DB_VERSION );
