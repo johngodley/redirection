@@ -171,6 +171,23 @@ class DatabaseTest extends WP_UnitTestCase {
 		$this->assertEquals( '1.5', $status->get_current_version() );
 	}
 
+	public function testGetVersionOldWithFalse() {
+		// Regression test for bug where get_old_version() returning false
+		// This tests the case where OLD_DB_VERSION doesn't exist (returns false from get_option)
+		delete_option( Red_Options::OPTION_KEY );
+		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		Red_Options::reset();
+
+		$status = new Red_Database_Status();
+
+		// Should return empty string, not crash or pass false to red_set_options()
+		$this->assertEquals( '', $status->get_current_version() );
+
+		// Verify that the database option wasn't set with false
+		$options = red_get_options();
+		$this->assertTrue( ! isset( $options['database'] ) || $options['database'] === '' );
+	}
+
 	public function testSupports() {
 		update_option( Red_Options::OPTION_KEY, array( 'database' => '1.5' ) );
 		Red_Options::reset();
