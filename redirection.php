@@ -37,7 +37,15 @@ if ( version_compare( phpversion(), '7.2' ) < 0 ) {
 	return;
 }
 
-require_once __DIR__ . '/build/redirection-version.php';
+// TODO: remove this once version is stable
+if ( file_exists( __DIR__ . '/build/redirection-version.php' ) ) {
+	require_once __DIR__ . '/build/redirection-version.php';
+} else {
+	define( 'REDIRECTION_VERSION', '5.6.1' );
+	define( 'REDIRECTION_BUILD', '951ae5be919314a6585a78d8091577b5' );
+	define( 'REDIRECTION_MIN_WP', '6.4' );
+}
+
 require_once __DIR__ . '/redirection-settings.php';
 require_once __DIR__ . '/models/options.php';
 require_once __DIR__ . '/models/redirect/redirect.php';
