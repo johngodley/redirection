@@ -1,4 +1,4 @@
-import { useState, memo, useCallback } from 'react';
+import { useState, memo, useCallback, useRef } from 'react';
 import clsx from 'clsx';
 import LoadingRow from './loading-row';
 import EmptyRow from './empty-row';
@@ -23,23 +23,40 @@ function getRowData( status: TableStatus, item: TableRow, table: Table ): RowDat
 
 interface CheckColumnProps {
 	id: RowId;
-	onSelect: ( ids: RowId[] ) => void;
+	rowIndex: number;
+	onSelect: ( ids: RowId[], rowIndex: number ) => void;
+	onShiftSelect: ( rowIndex: number ) => void;
 	isSelected: boolean;
 	isSaving: boolean;
 	disabled: boolean;
 }
 
 const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
-	const { isSaving, disabled, id, onSelect, isSelected } = props;
+	const { isSaving, disabled, id, rowIndex, onSelect, onShiftSelect, isSelected } = props;
 
 	const handleChange = useCallback(
 		( ev: React.ChangeEvent< HTMLInputElement > ) => {
+			// Skip if shift key is held - the click handler will handle it
+			if ( ev.nativeEvent && ev.nativeEvent.shiftKey ) {
+				return;
+			}
 			const value = ev.target.value;
 			// Parse as number if it's numeric, otherwise keep as string
 			const parsedId = /^\d+$/.test( value ) ? parseInt( value, 10 ) : value;
-			onSelect( [ parsedId ] );
+			onSelect( [ parsedId ], rowIndex );
 		},
-		[ onSelect ]
+		[ onSelect, rowIndex ]
+	);
+
+	const handleMouseDown = useCallback(
+		( ev: React.MouseEvent< HTMLInputElement > ) => {
+			if ( ev.shiftKey ) {
+				// Prevent the default checkbox behavior when shift is held
+				ev.preventDefault();
+				onShiftSelect( rowIndex );
+			}
+		},
+		[ onShiftSelect, rowIndex ]
 	);
 
 	return (
@@ -54,6 +71,7 @@ const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 					disabled={ disabled }
 					checked={ isSelected }
 					onChange={ handleChange }
+					onMouseDown={ handleMouseDown }
 				/>
 			) }
 		</th>
@@ -98,6 +116,7 @@ function RowColumns( props: RowColumnsProps ) {
 
 interface SingleRowProps {
 	row: TableRow;
+	rowIndex: number;
 	status: TableStatus;
 	isSelected: boolean;
 	isSaving: boolean;
@@ -106,7 +125,8 @@ interface SingleRowProps {
 	table: Table;
 	getRow: ( row: TableRow, rowData: RowData ) => RenderedColumn[] | React.ReactNode;
 	getRowActions: ( row: TableRow, rowData: RowData ) => React.ReactNode;
-	onSelect?: ( ids: RowId[] ) => void;
+	onSelect?: ( ids: RowId[], rowIndex: number ) => void;
+	onShiftSelect?: ( rowIndex: number ) => void;
 	primary: TableHeader | undefined;
 	headersLength: number;
 }
@@ -114,6 +134,7 @@ interface SingleRowProps {
 function SingleRowComponent( props: SingleRowProps ) {
 	const {
 		row,
+		rowIndex,
 		status,
 		isSelected,
 		isSaving,
@@ -123,6 +144,7 @@ function SingleRowComponent( props: SingleRowProps ) {
 		getRow,
 		getRowActions,
 		onSelect,
+		onShiftSelect,
 		primary,
 		headersLength,
 	} = props;
@@ -139,7 +161,9 @@ function SingleRowComponent( props: SingleRowProps ) {
 			{ !! onSelect && (
 				<CheckColumn
 					id={ row.id }
+					rowIndex={ rowIndex }
 					onSelect={ onSelect }
+					onShiftSelect={ onShiftSelect || ( () => {} ) }
 					disabled={ status === STATUS_LOADING }
 					isSelected={ isSelected }
 					isSaving={ isSaving || isAllSaving }
@@ -189,6 +213,7 @@ function TableRows( props: TableRowsProps ) {
 	const { selected, displaySelected } = table;
 	const primary = headers.find( ( item ) => item.primary );
 	const isAllSaving = saving.some( ( id ) => id === -1 );
+	const lastClickedIndex = useRef< number | null >( null );
 
 	if ( status === STATUS_LOADING && rows.length === 0 ) {
 		return <LoadingRow headers={ headers } rows={ rows } />;
@@ -202,12 +227,58 @@ function TableRows( props: TableRowsProps ) {
 		return <FailedRow headers={ headers } />;
 	}
 
+	const handleSelect = useCallback(
+		( items: RowId[], rowIndex: number ) => {
+			lastClickedIndex.current = rowIndex;
+			if ( onSelect ) {
+				onSelect( items );
+			}
+		},
+		[ onSelect ]
+	);
+
+	const handleShiftSelect = useCallback(
+		( rowIndex: number ) => {
+			if ( ! onSelect ) {
+				return;
+			}
+
+			if ( lastClickedIndex.current === null ) {
+				// No previous click, treat as normal click
+				lastClickedIndex.current = rowIndex;
+				onSelect( [ rows[ rowIndex ].id ] );
+				return;
+			}
+
+			// Calculate range between last clicked and current (inclusive)
+			const start = Math.min( lastClickedIndex.current, rowIndex );
+			const end = Math.max( lastClickedIndex.current, rowIndex );
+
+			// Get all row IDs in the range that are not already selected
+			// This ensures we only add new selections (the toggle behavior won't deselect them)
+			const rangeIds: RowId[] = [];
+			for ( let i = start; i <= end; i++ ) {
+				const id = rows[ i ].id;
+				if ( ! selected.some( ( selectedId ) => selectedId === id ) ) {
+					rangeIds.push( id );
+				}
+			}
+
+			if ( rangeIds.length > 0 ) {
+				onSelect( rangeIds );
+			}
+			lastClickedIndex.current = rowIndex;
+		},
+		[ onSelect, rows, selected ]
+	);
+
 	return (
 		<>
-			{ rows.map( ( row ) => (
+			{ rows.map( ( row, index ) => (
 				<SingleRow
 					key={ row.id }
 					row={ row }
+					rowIndex={ index }
 					status={ status }
 					isSelected={ selected.some( ( id ) => id === row.id ) }
 					isSaving={ saving.some( ( id ) => id === row.id ) }
@@ -216,7 +287,7 @@ function TableRows( props: TableRowsProps ) {
 					table={ table }
 					getRow={ getRow }
 					getRowActions={ getRowActions }
-					{ ...( onSelect ? { onSelect } : {} ) }
+					{ ...( onSelect ? { onSelect: handleSelect, onShiftSelect: handleShiftSelect } : {} ) }
 					primary={ primary }
 					headersLength={ headers.length }
 				/>
