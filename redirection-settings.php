@@ -36,7 +36,7 @@ function red_get_post_types( bool $full = true ): array {
 		}
 	}
 
-	return apply_filters( 'redirection_post_types', $post_types );
+	return apply_filters( 'redirection_post_types', $post_types, $full );
 }
 
 /**
