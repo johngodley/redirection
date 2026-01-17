@@ -126,9 +126,21 @@ class Red_Monitor {
 			'status'      => 'disabled',
 		);
 
+		/**
+		 * Filter the redirect data before creating a redirect for a trashed post.
+		 *
+		 * @param array $data    The redirect data to be created.
+		 * @param int   $post_id The ID of the trashed post.
+		 */
+		$data = apply_filters( 'redirection_monitor_trashed_data', $data, $post_id );
+
 		// Create a new redirect for this post, but only if not draft
 		if ( $data['url'] !== null && $data['url'] !== false && $data['url'] !== '/' ) {
-			Red_Item::create( $data );
+			$new_item = Red_Item::create( $data );
+
+			if ( ! is_wp_error( $new_item ) ) {
+				do_action( 'redirection_monitor_created', $new_item, $data['url'], $post_id );
+			}
 		}
 	}
 
