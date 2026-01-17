@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import TableHeader from './header';
 import TableRows from './row';
+import { STATUS_COMPLETE, type LoadingStatus } from 'lib/constants';
 import './style.scss';
 
-type TableStatus = 'loading' | 'saving' | 'error' | 'complete';
+type TableStatus = LoadingStatus;
 
 interface TableHeaderItem {
 	name: string;
@@ -69,7 +70,7 @@ const Table = ( props: TableProps ) => {
 	const header = (
 		<TableHeader
 			table={ table }
-			disabled={ status !== 'complete' || rows.length === 0 }
+			disabled={ status !== STATUS_COMPLETE || rows.length === 0 }
 			headers={ headers }
 			onSetOrderBy={ onSetOrderBy }
 			onSelect={ handleSelectAll }

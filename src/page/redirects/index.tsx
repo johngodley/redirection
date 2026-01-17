@@ -10,6 +10,7 @@ import {
 	getSearchOptions,
 } from './constants';
 import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
+import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import { nestedGroups } from 'lib/wordpress-url';
 import LogPage from 'component/log-page';
 import CreateRedirect from './create';
@@ -65,11 +66,11 @@ function Redirects() {
 	const total = redirectData?.total ?? 0;
 
 	// Derive status from Query states
-	let status = 'idle';
+	let status = STATUS_IDLE;
 	if ( isLoading ) {
-		status = 'loading';
+		status = STATUS_LOADING;
 	} else if ( isSuccess ) {
-		status = 'complete';
+		status = STATUS_COMPLETE;
 	}
 
 	// Get default flags from settings
@@ -80,7 +81,7 @@ function Redirects() {
 		flag_regex: settings?.flag_regex ?? false,
 	};
 
-	const canAdd = status === 'success' && groupSuccess && has_capability( CAP_REDIRECT_ADD );
+	const canAdd = status === STATUS_COMPLETE && groupSuccess && has_capability( CAP_REDIRECT_ADD );
 
 	const handleChangePage = ( page: number ) => {
 		setRedirectsTable( { page } );

@@ -3,6 +3,7 @@ import TableNav from 'component/table/navigation';
 import LogFilters from 'component/log-page/log-filters';
 import BulkActions from 'component/table/bulk-actions';
 import LogDisplay from './log-display';
+import { STATUS_LOADING, type LoadingStatus } from 'lib/constants';
 
 interface LabelValue {
 	label: string;
@@ -55,7 +56,7 @@ interface TableRow {
 	[ key: string ]: any;
 }
 
-type TableStatus = 'loading' | 'saving' | 'error' | 'complete';
+type TableStatus = LoadingStatus;
 
 interface FilterGroup {
 	label: string;
@@ -104,7 +105,7 @@ function LogPage( props: LogPageProps ) {
 	const { displayFilters, displayGroups, searchOptions, groupBy, rowFilters, bulk, headers, validateDisplay } =
 		logOptions;
 	const { onChangePage, onFilter, onSetDisplay, onBulk, onGroup, onSetOrder, onSetAll, onSelect } = logActions;
-	const disabled = status === 'loading';
+	const disabled = status === STATUS_LOADING;
 
 	const handleSelect = ( ids: number[] ) => {
 		if ( ids.length === 0 ) {

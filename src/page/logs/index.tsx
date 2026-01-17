@@ -11,6 +11,7 @@ import {
 import { useTableStore, useSettingsStore } from 'stores';
 import { useLogList, useErrorBulkAction } from 'lib/api/hooks';
 import { getRssUrl } from 'lib/wordpress-url';
+import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import LogPage from 'component/log-page';
 import LogRowActions from './row-actions';
 import TableButtons from 'component/table/table-buttons';
@@ -61,11 +62,11 @@ function Logs() {
 	const total = logData?.total ?? 0;
 
 	// Derive status from Query states
-	let status = 'idle';
+	let status = STATUS_IDLE;
 	if ( isLoading ) {
-		status = 'loading';
+		status = STATUS_LOADING;
 	} else if ( isSuccess ) {
-		status = 'complete';
+		status = STATUS_COMPLETE;
 	}
 
 	const handleChangePage = ( page: number ) => {

@@ -4,6 +4,7 @@ import LoadingRow from './loading-row';
 import EmptyRow from './empty-row';
 import FailedRow from './failed-row';
 import { Spinner } from '@wp-plugin-components';
+import { STATUS_LOADING, STATUS_COMPLETE, STATUS_ERROR, STATUS_SAVING } from 'lib/constants';
 import type { RenderedColumn, RowData, Table, TableRow, TableStatus } from '../index';
 
 interface TableHeader {
@@ -14,7 +15,7 @@ interface TableHeader {
 
 function getRowData( status: TableStatus, item: TableRow, table: Table ): RowData {
 	return {
-		isLoading: status === 'loading',
+		isLoading: status === STATUS_LOADING,
 		isSelected: table.selected.includes( item.id ),
 		table,
 	};
@@ -128,7 +129,7 @@ function SingleRowComponent( props: SingleRowProps ) {
 	return (
 		<tr
 			className={ clsx( {
-				disabled: status === 'loading' || status === 'saving',
+				disabled: status === STATUS_LOADING || status === STATUS_SAVING,
 				saving: isSaving || isAllSaving,
 			} ) }
 		>
@@ -136,7 +137,7 @@ function SingleRowComponent( props: SingleRowProps ) {
 				<CheckColumn
 					id={ row.id }
 					onSelect={ onSelect }
-					disabled={ status === 'loading' }
+					disabled={ status === STATUS_LOADING }
 					isSelected={ isSelected }
 					isSaving={ isSaving || isAllSaving }
 				/>
@@ -186,15 +187,15 @@ function TableRows( props: TableRowsProps ) {
 	const primary = headers.find( ( item ) => item.primary );
 	const isAllSaving = saving.includes( -1 );
 
-	if ( status === 'loading' && rows.length === 0 ) {
+	if ( status === STATUS_LOADING && rows.length === 0 ) {
 		return <LoadingRow headers={ headers } rows={ rows } />;
 	}
 
-	if ( status === 'complete' && rows.length === 0 ) {
+	if ( status === STATUS_COMPLETE && rows.length === 0 ) {
 		return <EmptyRow headers={ headers } />;
 	}
 
-	if ( status === 'error' ) {
+	if ( status === STATUS_ERROR ) {
 		return <FailedRow headers={ headers } />;
 	}
 

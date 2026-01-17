@@ -65,10 +65,7 @@ function SearchBox( { table, onSearch, searchTypes, selected, disabled = false, 
 
 	const handleTypeChange = ( value: string ) => {
 		setSelectedType( value );
-
-		if ( search.length > 0 ) {
-			onSearch( search, value );
-		}
+		onSearch( search, value );
 	};
 
 	const isDisabled = disabled || ( search === '' && table.filter === '' );
@@ -90,7 +87,7 @@ function SearchBox( { table, onSearch, searchTypes, selected, disabled = false, 
 			{ searchTypes && (
 				<DropdownButton
 					options={ dropdownOptions }
-					disabled={ isDisabled }
+					disabled={ disabled }
 					title={ dropdownTitle }
 					onSelect={ handleTypeChange }
 					selected={ selectedType }

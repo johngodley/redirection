@@ -11,6 +11,7 @@ import {
 import { useTableStore, useSettingsStore } from 'stores';
 import { useErrorList, useErrorBulkAction } from 'lib/api/hooks';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
+import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import getCreateAction from './create-action';
 import LogPage from 'component/log-page';
 import CreateRedirect from './create-redirect';
@@ -78,11 +79,11 @@ function Logs404() {
 	const total = errorData?.total ?? 0;
 
 	// Derive status from Query states
-	let status = 'idle';
+	let status = STATUS_IDLE;
 	if ( isLoading ) {
-		status = 'loading';
+		status = STATUS_LOADING;
 	} else if ( errorData ) {
-		status = 'complete';
+		status = STATUS_COMPLETE;
 	}
 
 	// Note: Groups are needed for the create redirect modal
