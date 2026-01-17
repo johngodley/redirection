@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import NavigationPages from './navigation-pages';
+import './style.scss';
 
 interface Table {
-	per_page: number;
+	perPage: number;
 	page: number;
 	selected: number[];
 	selectAll: boolean;
@@ -27,7 +28,7 @@ function TableNav( props: TableNavProps ) {
 
 			{ total > 0 && (
 				<NavigationPages
-					perPage={ table.per_page }
+					perPage={ table.perPage }
 					page={ table.page }
 					total={ total }
 					onChangePage={ onChangePage }

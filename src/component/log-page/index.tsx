@@ -38,8 +38,8 @@ interface FilterBy {
 
 interface Table {
 	page: number;
-	per_page: number;
-	orderby: string;
+	perPage: number;
+	orderBy: string;
 	direction: string;
 	selected: number[];
 	selectAll: boolean;
@@ -82,7 +82,7 @@ interface LogActions {
 	onGroup: ( group: string ) => void;
 	onSetOrder: ( orderBy: string, direction: string ) => void;
 	onSetAll: ( checked: boolean ) => void;
-	onSelect: ( id: number ) => void;
+	onSelect: ( id: number | number[] | boolean ) => void;
 }
 
 interface LogPageProps {
@@ -107,8 +107,15 @@ function LogPage( props: LogPageProps ) {
 	const disabled = status === 'loading';
 
 	const handleSelect = ( ids: number[] ) => {
-		if ( ids.length > 0 && ids[ 0 ] !== undefined ) {
+		if ( ids.length === 0 ) {
+			// Empty array means deselect all
+			onSelect( false );
+		} else if ( ids.length === 1 && ids[ 0 ] !== undefined ) {
+			// Single item - toggle selection
 			onSelect( ids[ 0 ] );
+		} else {
+			// Multiple items - select all (from header checkbox)
+			onSelect( ids );
 		}
 	};
 

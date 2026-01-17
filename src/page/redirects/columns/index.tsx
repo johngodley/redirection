@@ -111,7 +111,7 @@ export default function getColumns(
 			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( position ),
 		},
 		{
-			name: 'hits',
+			name: 'last_count',
 			content: new Intl.NumberFormat( window.Redirectioni10n.locale ).format( hits ),
 		},
 		{

@@ -59,7 +59,7 @@ const initialRedirectsTable: TableState = {
 	selected: [],
 	filterBy: {},
 	displayType: 'standard',
-	displaySelected: [ 'hits', 'last_access', 'source', 'target', 'code', 'title' ],
+	displaySelected: [ 'last_count', 'last_access', 'source', 'target', 'code', 'title' ],
 	groupBy: '',
 };
 

@@ -1,10 +1,11 @@
 import SortableColumn from './sortable-column';
 import Column from './column';
 import CheckColumn from './check-column';
+import './style.scss';
 
 interface Table {
 	direction: string;
-	orderby: string;
+	orderBy: string;
 	selected: number[];
 }
 

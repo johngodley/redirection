@@ -13,10 +13,10 @@ interface TableHeaderItem {
 }
 
 export interface Table {
-	orderby: string;
+	orderBy: string;
 	direction: string;
 	page: number;
-	per_page: number;
+	perPage: number;
 	selected: number[];
 	filterBy: { [ key: string ]: string };
 	groupBy: string;

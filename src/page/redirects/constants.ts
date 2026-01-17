@@ -71,8 +71,9 @@ export const getHeaders = (): Header[] => [
 		title: __( 'Pos', 'redirection' ),
 	},
 	{
-		name: 'hits',
+		name: 'last_count',
 		title: __( 'Hits', 'redirection' ),
+		sortable: true,
 	},
 	{
 		name: 'last_access',
@@ -108,7 +109,7 @@ export const getDisplayOptions = (): DisplayOption[] => [
 	{ value: 'code', label: __( 'HTTP code', 'redirection' ) },
 	{ value: 'match_type', label: __( 'Match Type', 'redirection' ) },
 	{ value: 'position', label: __( 'Position', 'redirection' ) },
-	{ value: 'hits', label: __( 'Hits', 'redirection' ) },
+	{ value: 'last_count', label: __( 'Hits', 'redirection' ) },
 	{ value: 'last_access', label: __( 'Last Access', 'redirection' ) },
 	{ value: 'status', label: __( 'Status', 'redirection' ) },
 	{ value: 'action_type', label: __( 'Action Type', 'redirection' ) },
@@ -119,12 +120,12 @@ export const getDisplayGroups = (): DisplayGroup[] => [
 	{
 		value: 'standard',
 		label: __( 'Standard Display', 'redirection' ),
-		grouping: [ 'hits', 'last_access', 'source', 'target', 'code', 'title' ],
+		grouping: [ 'last_count', 'last_access', 'source', 'target', 'code', 'title' ],
 	},
 	{
 		value: 'minimal',
 		label: __( 'Compact Display', 'redirection' ),
-		grouping: [ 'source', 'hits', 'last_access', 'target' ],
+		grouping: [ 'source', 'last_count', 'last_access', 'target' ],
 	},
 	{
 		value: 'all',

@@ -69,7 +69,7 @@ function Redirects() {
 	if ( isLoading ) {
 		status = 'loading';
 	} else if ( isSuccess ) {
-		status = 'success';
+		status = 'complete';
 	}
 
 	// Get default flags from settings
@@ -91,9 +91,15 @@ function Redirects() {
 		// XXX fix this - bulk actions are not implemented yet.
 	};
 
-	const handleSelect = ( items: number[] | boolean ) => {
+	const handleSelect = ( items: number[] | boolean | number ) => {
 		if ( typeof items === 'boolean' ) {
 			setRedirectsSelected( items ? rows.map( ( r ) => r.id ) : [] );
+		} else if ( typeof items === 'number' ) {
+			// Toggle single item selection
+			const newSelected = table.selected.includes( items )
+				? table.selected.filter( ( id ) => id !== items )
+				: [ ...table.selected, items ];
+			setRedirectsSelected( newSelected );
 		} else {
 			setRedirectsSelected( items );
 		}
@@ -111,12 +117,11 @@ function Redirects() {
 		setRedirectsTable( { displayType, displaySelected } );
 	};
 
-	const handleSetAll = ( allOrClear: any ) => {
-		if ( allOrClear ) {
-			setRedirectsSelected( rows.map( ( r ) => r.id ) );
-		} else {
-			setRedirectsSelected( [] );
-		}
+	const handleSetAll = ( allOrClear: boolean ) => {
+		setRedirectsTable( {
+			selected: allOrClear ? rows.map( ( r ) => r.id ) : [],
+			selectAll: allOrClear,
+		} );
 	};
 
 	const logOptions = {
@@ -155,6 +160,21 @@ function Redirects() {
 		},
 	};
 
+	// Convert TableState to LogPage's Table format (camelCase)
+	const logPageTable = {
+		page: table.page,
+		perPage: table.per_page,
+		orderBy: table.orderby,
+		direction: table.direction,
+		selected: table.selected,
+		selectAll: table.selectAll ?? false,
+		filter: '',
+		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
+		displayType: table.displayType ?? 'standard',
+		displaySelected: table.displaySelected ?? [],
+		groupBy: table.filterBy?.group ? table.filterBy.group : '0',
+	};
+
 	return (
 		<div className="redirects">
 			{ addTop && has_capability( CAP_REDIRECT_ADD ) && <CreateRedirect defaultFlags={ defaultFlags } addTop /> }
@@ -162,7 +182,7 @@ function Redirects() {
 			<LogPage
 				logOptions={ logOptions as any }
 				logActions={ logActions as any }
-				table={ { ...table, groupBy: table.filterBy?.group ? table.filterBy.group : 0 } as any }
+				table={ logPageTable as any }
 				status={ status as any }
 				total={ total }
 				rows={ rows as any }

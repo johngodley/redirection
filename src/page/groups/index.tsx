@@ -15,6 +15,7 @@ import CreateGroup from './create-group';
 import GroupRowActions from './row-actions';
 import getColumns from './columns';
 import type { TableState, Group } from 'types';
+import './style.scss';
 
 function validateDisplay( selected: string[] ): string[] {
 	if ( ! selected.includes( 'name' ) ) {
@@ -77,12 +78,11 @@ function Groups() {
 		setGroupsTable( { displayType, displaySelected } );
 	};
 
-	const handleSetAll = ( allOrClear: any ) => {
-		if ( allOrClear ) {
-			setGroupsSelected( rows.map( ( r ) => r.id ) );
-		} else {
-			setGroupsSelected( [] );
-		}
+	const handleSetAll = ( allOrClear: boolean ) => {
+		setGroupsTable( {
+			selected: allOrClear ? rows.map( ( r ) => r.id ) : [],
+			selectAll: allOrClear,
+		} );
 	};
 
 	const logOptions = {
@@ -116,6 +116,7 @@ function Groups() {
 		orderBy: table.orderby,
 		direction: table.direction,
 		selected: table.selected as number[],
+		selectAll: table.selectAll ?? false,
 		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
 		displayType: table.displayType ?? 'standard',
 		displaySelected: table.displaySelected ?? [],

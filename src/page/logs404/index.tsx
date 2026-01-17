@@ -82,7 +82,7 @@ function Logs404() {
 	if ( isLoading ) {
 		status = 'loading';
 	} else if ( errorData ) {
-		status = 'success';
+		status = 'complete';
 	}
 
 	// Note: Groups are needed for the create redirect modal
@@ -121,23 +121,44 @@ function Logs404() {
 		setErrorsTable( { displayType, displaySelected } );
 	};
 
-	const handleSelect = ( items: number[] | boolean ) => {
+	const handleSelect = ( items: number[] | boolean | number ) => {
 		if ( typeof items === 'boolean' ) {
 			setErrorsSelected( items ? rows.map( ( r ) => r.id ) : [] );
+		} else if ( typeof items === 'number' ) {
+			// Toggle single item selection
+			const newSelected = table.selected.includes( items )
+				? table.selected.filter( ( id ) => id !== items )
+				: [ ...table.selected, items ];
+			setErrorsSelected( newSelected );
 		} else {
 			setErrorsSelected( items );
 		}
 	};
 
-	const handleSetAll = ( allOrClear: any ) => {
-		if ( allOrClear ) {
-			setErrorsSelected( rows.map( ( r ) => r.id ) );
-		} else {
-			setErrorsSelected( [] );
-		}
+	const handleSetAll = ( allOrClear: boolean ) => {
+		setErrorsTable( {
+			selected: allOrClear ? rows.map( ( r ) => r.id ) : [],
+			selectAll: allOrClear,
+		} );
 	};
 
 	const groupedTable = { ...table, ...getGroupByTable( table.groupBy ) };
+
+	// Convert TableState to LogPage's Table format (camelCase)
+	const logPageTable = {
+		page: table.page,
+		perPage: table.per_page,
+		orderBy: table.orderby,
+		direction: table.direction,
+		selected: table.selected,
+		selectAll: table.selectAll ?? false,
+		filter: '',
+		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
+		displayType: table.displayType ?? 'standard',
+		displaySelected: groupedTable.displaySelected ?? [],
+		groupBy: table.groupBy ?? '',
+	};
+
 	const logOptions = {
 		displayFilters: getDisplayOptions( groupedTable.groupBy ),
 		displayGroups: getDisplayGroups( groupedTable.groupBy ),
@@ -169,7 +190,7 @@ function Logs404() {
 			<LogPage
 				logOptions={ logOptions as any }
 				logActions={ logActions as any }
-				table={ groupedTable as any }
+				table={ logPageTable as any }
 				status={ status as any }
 				total={ total }
 				rows={ rows as any }

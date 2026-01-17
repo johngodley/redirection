@@ -1,3 +1,6 @@
+// UI-only fields that should not be sent to the API or affect query keys
+const UI_ONLY_FIELDS = [ 'selected', 'selectAll', 'displayType', 'displaySelected' ];
+
 /**
  * Clean API parameters by removing empty objects and arrays
  * This prevents sending empty filterBy={} which the API rejects
@@ -8,6 +11,11 @@ export function cleanApiParams( params: Record< string, any > ): Record< string,
 
 	for ( const key in params ) {
 		const value = params[ key ];
+
+		// Skip UI-only fields that shouldn't affect API queries
+		if ( UI_ONLY_FIELDS.includes( key ) ) {
+			continue;
+		}
 
 		// Skip undefined and null
 		if ( value === undefined || value === null ) {
