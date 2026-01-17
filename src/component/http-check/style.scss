@@ -34,7 +34,7 @@
 		}
 
 		.dashicons-warning {
-			color: orange;
+			color: #ffa500;
 		}
 	}
 
@@ -52,6 +52,16 @@
 
 	.wpl-modal_error {
 		padding-left: 10px;
+	}
+
+	padding-bottom: 10px;
+
+	svg {
+		margin-left: 10px;
+		width: 20px;
+		height: 20px;
+		margin-top: 10px;
+		margin-bottom: 10px;
 	}
 }
 
@@ -75,7 +85,7 @@
 
 	.redirection-httpstep__match {
 		background-color: $green;
-		color: white;
+		color: #fff;
 		padding: 3px 2px 3px 5px;
 		font-weight: bold;
 	}
@@ -88,7 +98,7 @@
 	}
 
 	.redirection-httpstep__status a {
-		color: white;
+		color: #fff;
 		font-weight: 500;
 		text-decoration: none;
 	}
@@ -103,28 +113,16 @@
 
 	.redirection-httpstep__400 {
 		background-color: $yellow;
-		color: black;
+		color: #000;
 	}
 
 	.redirection-httpstep__500 {
 		background-color: $error;
-		color: white;
+		color: #fff;
 	}
 
 	button {
 		margin-top: 10px;
 		margin-bottom: -5px;
-	}
-}
-
-.redirection-httpcheck {
-	padding-bottom: 10px;
-
-	svg {
-		margin-left: 10px;
-		width: 20px;
-		height: 20px;
-		margin-top: 10px;
-		margin-bottom: 10px;
 	}
 }

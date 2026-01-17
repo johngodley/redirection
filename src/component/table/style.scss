@@ -102,7 +102,7 @@
 		padding: 2px;
 	}
 
-	input[type=text] {
+	input[type="text"] {
 		width: 100%;
 	}
 }
@@ -248,6 +248,15 @@
 .tablenav .tablenav-pages {
 	margin: 0;
 	padding-bottom: 8px;
+
+	.tablenav-paging-text,
+	.pagination-links .button {
+		margin-right: 4px;
+	}
+
+	.pagination-links .button:last-of-type {
+		margin-right: 0;
+	}
 }
 
 .tablenav.bottom .redirect-table__actions {
@@ -261,17 +270,6 @@
 .redirect-table__actions .actions {
 	.button {
 		height: 28px;
-	}
-}
-
-.tablenav .tablenav-pages {
-	.tablenav-paging-text,
-	.pagination-links .button {
-		margin-right: 4px;
-	}
-
-	.pagination-links .button:last-of-type {
-		margin-right: 0;
 	}
 }
 

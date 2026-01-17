@@ -13,14 +13,14 @@
 	position: relative;
 
 	.api-result-method_fail {
-		color: white;
+		color: #fff;
 		background-color: $error;
 		padding: 3px 5px;
 		margin-right: 5px;
 	}
 
 	.api-result-method_pass {
-		color: white;
+		color: #fff;
 		background-color: $ok;
 		padding: 3px 5px;
 		width: 150px;
@@ -46,9 +46,6 @@
 	pre {
 		background-color: #ccc;
 		padding: 10px 15px;
-	}
-
-	pre {
 		font-family: 'Courier New', Courier, monospace;
 	}
 
@@ -104,7 +101,7 @@
 
 	span {
 		background-color: #777;
-		color: white;
+		color: #fff;
 		padding: 5px 10px;
 		margin-left: 10px;
 	}
@@ -135,7 +132,7 @@
 
 	.api-result-status_good {
 		background-color: $ok;
-		color: white;
+		color: #fff;
 	}
 
 	.api-result-status_problem {
@@ -144,6 +141,6 @@
 
 	.api-result-status_failed {
 		background-color: $error;
-		color: white;
+		color: #fff;
 	}
 }
