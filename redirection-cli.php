@@ -79,11 +79,14 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * : The setting name to get or set
 	 *
 	 * [--set=<value>]
-	 * : The value to set (JSON)
+	 * : The value to set. Use true/false for boolean settings, or JSON for complex values.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp redirection setting name <value>
+	 *     wp redirection setting flag_case
+	 *     wp redirection setting flag_case --set=true
+	 *     wp redirection setting cache_key --set=false
+	 *     wp redirection setting aliases --set='["example.com"]'
 	 *
 	 * @param list<string>            $args  Positional arguments.
 	 * @param array<string, mixed>    $extra Associative flags.
@@ -91,32 +94,112 @@ class Redirection_Cli extends WP_CLI_Command {
 	 */
 	public function setting( $args, $extra ) {
 		$name = $args[0];
-		$set = isset( $extra['set'] ) ? $extra['set'] : false;
+		$set = isset( $extra['set'] ) ? $extra['set'] : null;
 
 		$options = Red_Options::get();
 
-		if ( ! isset( $options[ $name ] ) ) {
+		if ( ! array_key_exists( $name, $options ) ) {
 			WP_CLI::error( 'Unsupported setting: ' . $name );
 			return;
 		}
 
-		$value = $options[ $name ];
+		$old_value = $options[ $name ];
 
-		if ( $set !== false ) {
-			$decoded = json_decode( $set, true );
-			if ( $decoded === null ) {
-				$decoded = $set;
-			}
+		if ( $set !== null ) {
+			$decoded = $this->parse_setting_value( $set );
 
-			$options = [];
-			$options[ $name ] = $decoded;
+			$update = [];
+			$update[ $name ] = $decoded;
 
-			$options = red_set_options( $options );
-			$value = $options[ $name ];
+			$options = Red_Options::save( $update );
+			// @phpstan-ignore offsetAccess.notFound (validated above)
+			$new_value = $options[ $name ];
+
+			$this->display_setting_result( $name, $old_value, $new_value );
+			return;
 		}
 
-		$encoded = is_array( $value ) ? wp_json_encode( $value ) : (string) $value;
-		WP_CLI::success( is_string( $encoded ) ? $encoded : '' );
+		// Just display the current value
+		$this->display_setting_value( $name, $old_value );
+	}
+
+	/**
+	 * Parse a setting value from CLI input.
+	 *
+	 * @param string $value The raw CLI value.
+	 * @return mixed The parsed value.
+	 */
+	private function parse_setting_value( $value ) {
+		// Handle explicit boolean strings
+		if ( $value === 'true' ) {
+			return true;
+		}
+		if ( $value === 'false' ) {
+			return false;
+		}
+
+		// Try JSON decode for arrays/objects
+		$decoded = json_decode( $value, true );
+		if ( $decoded !== null || $value === 'null' ) {
+			return $decoded;
+		}
+
+		// Return as-is (string or numeric string)
+		return $value;
+	}
+
+	/**
+	 * Display a setting value.
+	 *
+	 * @param string $name  Setting name.
+	 * @param mixed  $value Setting value.
+	 * @return void
+	 */
+	private function display_setting_value( $name, $value ) {
+		$display = $this->format_value_for_display( $value );
+		WP_CLI::log( sprintf( '%s: %s', $name, $display ) );
+	}
+
+	/**
+	 * Display the result of setting a value.
+	 *
+	 * @param string $name      Setting name.
+	 * @param mixed  $old_value Previous value.
+	 * @param mixed  $new_value New value.
+	 * @return void
+	 */
+	private function display_setting_result( $name, $old_value, $new_value ) {
+		$old_display = $this->format_value_for_display( $old_value );
+		$new_display = $this->format_value_for_display( $new_value );
+
+		if ( $old_display === $new_display ) {
+			WP_CLI::success( sprintf( '%s is already set to: %s', $name, $new_display ) );
+		} else {
+			WP_CLI::success( sprintf( '%s updated: %s → %s', $name, $old_display, $new_display ) );
+		}
+	}
+
+	/**
+	 * Format a value for display in CLI output.
+	 *
+	 * @param mixed $value The value to format.
+	 * @return string Formatted string for display.
+	 */
+	private function format_value_for_display( $value ) {
+		if ( is_bool( $value ) ) {
+			return $value ? 'true' : 'false';
+		}
+		if ( is_array( $value ) ) {
+			$encoded = wp_json_encode( $value );
+			return is_string( $encoded ) ? $encoded : '[]';
+		}
+		if ( $value === '' ) {
+			return '(empty)';
+		}
+		if ( $value === 0 || $value === '0' ) {
+			return '0 (disabled)';
+		}
+		return (string) $value;
 	}
 
 	/**
