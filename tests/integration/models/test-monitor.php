@@ -151,7 +151,12 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testTrashUpdated() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'trash me' ) );
 		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 
@@ -165,6 +170,26 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( $total + 1, $after );
 		$this->assertEquals( $url, $redirect->url );
 		$this->assertEquals( 'disabled', $redirect->status );
+	}
+
+	public function testTrashNotUpdatedForUnmonitoredType() {
+		global $wpdb;
+
+		// Trash is enabled but 'attachment' is not in monitor_types, so trashing an attachment should not create a redirect
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+
+		$attachment = $this->factory->attachment->create();
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		wp_trash_post( $attachment );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		$this->assertEquals( $total, $after );
 	}
 
 	public function testTrashNotUpdated() {
