@@ -22,14 +22,14 @@
 		"release": "pnpm plugin:zip && release-it",
 		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",
 		"lint": "pnpm lint:css && pnpm lint:js && pnpm lint:ts && pnpm lint:php",
-		"lint:css": "echo wp-scripts lint-style",
-		"lint:js": "echo wp-scripts lint-js",
-		"lint:ts": "echo tsc --noEmit",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:ts": "tsc --noEmit",
 		"lint:php": "composer run-script checks",
 		"test": "pnpm test:js && pnpm test:unit && pnpm test:integration",
 		"test:unit": "composer run test-unit",
 		"test:integration": "wp-env run cli --env-cwd=wp-content/plugins/redirection composer run test-integration",
-		"test:js": "echo wp-scripts test-unit-js",
+		"test:js": "wp-scripts test-unit-js",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"wp-env:start": "wp-env start",
 		"wp-env:destroy": "wp-env destroy",
@@ -118,17 +118,6 @@
 		"use-debounce": "^10.0.6",
 		"zod": "^4.2.1",
 		"zustand": "^5.0.9"
-	},
-	"jest": {
-		"modulePaths": [
-			"./client"
-		],
-		"moduleNameMapper": {
-			"^.+\\.(css|less|scss)$": "babel-jest",
-			"^node:(.*)$": "$1"
-		},
-		"testEnvironment": "jsdom",
-		"transformIgnorePatterns": []
 	},
 	"apidoc": {
 		"name": "Redirection REST API",
