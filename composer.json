@@ -15,7 +15,8 @@
 		"spaze/phpstan-disallowed-calls": "^4.0",
 		"php-stubs/wordpress-tests-stubs": "^6.7",
 		"phpcompatibility/php-compatibility": "^9.3",
-		"brain/monkey": "^2.6"
+		"brain/monkey": "^2.6",
+		"rector/rector": "^2.3"
 	},
 	"scripts": {
 		"analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --configuration=phpstan.neon $*",

@@ -6,7 +6,7 @@ Description: Manage all your 301 redirects and monitor 404 errors
 Version: 5.6.1
 Author: John Godley
 Text Domain: redirection
-Requires PHP: 7.2
+Requires PHP: 7.4
 Requires at least: 6.5
 ============================================================================================================
 For full license details see license.txt
@@ -20,8 +20,8 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 	define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
 }
 
-// This file must support PHP < 7.2 so as not to crash
-if ( version_compare( phpversion(), '7.2' ) < 0 ) {
+// This file must support PHP < 7.4 so as not to crash
+if ( version_compare( phpversion(), '7.4' ) < 0 ) {
 	add_filter( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php' );
 
 	/**
@@ -30,7 +30,7 @@ if ( version_compare( phpversion(), '7.2' ) < 0 ) {
 	 */
 	function red_deprecated_php( array $links ): array {
 		/* translators: 1: server PHP version. 2: required PHP version. */
-		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %1$s, need PHP %2$s+', 'redirection' ), phpversion(), '7.2' ) . '</a>' );
+		array_unshift( $links, '<a href="https://redirection.me/support/problems/php-version/" style="color: red; text-decoration: underline">' . sprintf( __( 'Disabled! Detected PHP %1$s, need PHP %2$s+', 'redirection' ), phpversion(), '7.4' ) . '</a>' );
 		return $links;
 	}
 
