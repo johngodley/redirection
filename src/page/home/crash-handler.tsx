@@ -3,24 +3,62 @@ import { ExternalLink, Error, createInterpolateElement } from '@wp-plugin-compon
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from './debug';
 
-interface ErrorInfo {
-	componentStack: string;
+/**
+ * Detect if an error was likely caused by a browser extension modifying the DOM
+ *
+ * @param {string} stack - Error stack trace
+ * @param {string} message - Error message
+ * @returns {boolean} True if the error appears to be caused by a browser extension
+ */
+function isBrowserExtensionError( stack, message ) {
+	// Check for extension URLs in stack trace
+	if ( stack && ( stack.includes( 'chrome-extension://' ) || stack.includes( 'moz-extension://' ) ) ) {
+		return true;
+	}
+
+	// Check for common DOM manipulation errors caused by extensions modifying the page
+	const domErrors = [
+		"Failed to execute 'removeChild'",
+		"Failed to execute 'insertBefore'",
+		"Failed to execute 'appendChild'",
+		'The node to be removed is not a child of this node',
+	];
+
+	if ( message ) {
+		for ( const error of domErrors ) {
+			if ( message.includes( error ) ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
 
-function CrashHandler( stack: string, errorInfo: ErrorInfo | null ) {
+function BrowserExtensionWarning() {
 	return (
-		<Error
-			errors={ stack }
-			renderDebug={ DebugReport }
-			type="fixed"
-			links={ getErrorLinks() }
-			details={ getErrorDetails().concat( [ stack, errorInfo ? errorInfo.componentStack : '' ] ) }
-			locale="redirection"
-		>
+		<>
 			<p>
 				{ __(
-					'Redirection is not working. Try clearing your browser cache and reloading this page.',
+					'This error may be caused by a browser extension modifying the page. Please try disabling browser extensions for this page.',
 					'redirection'
+				) }
+			</p>
+
+			<p>
+				{ __(
+					'You can also try using a different browser, or using private/incognito mode.',
+					'redirection'
+				) }
+			</p>
+		</>
+	);
+}
+
+function DefaultCrashMessage() {
+	return (
+		<>
+			<p>
 				) }{ ' ' }
 				&nbsp;
 				{ __(
@@ -40,6 +78,25 @@ function CrashHandler( stack: string, errorInfo: ErrorInfo | null ) {
 					}
 				) }
 			</p>
+		</>
+	);
+}
+
+function CrashHandler( error, errorInfo, extra ) {
+	const stack = error?.stack || '';
+	const message = error?.message || '';
+	const isExtensionError = isBrowserExtensionError( stack, message );
+
+	return (
+		<Error
+			errors={ '' }
+			renderDebug={ DebugReport }
+			type="fixed"
+			links={ getErrorLinks() }
+			details={ getErrorDetails().concat( [ stack, errorInfo ? errorInfo.componentStack : '' ] ) }
+			locale="redirection"
+		>
+			{ isExtensionError ? <BrowserExtensionWarning /> : <DefaultCrashMessage /> }
 		</Error>
 	);
 }
