@@ -18,7 +18,7 @@
 		padding: 0;
 		align-items: center;
 
-		> *,
+		> *:not(input[type="checkbox"]),
 		.redirection-url-autocomplete input {
 			flex: 1 1 auto;
 			justify-content: flex-start;
@@ -38,6 +38,10 @@
 			flex-grow: 0;
 			padding-top: 5px;
 		}
+	}
+
+	tbody tr.redirect-edit__action td {
+		display: block;
 	}
 
 	tbody tr.redirect-edit__options td p {
