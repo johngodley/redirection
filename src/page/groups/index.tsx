@@ -15,7 +15,7 @@ import LogPage from 'component/log-page';
 import CreateGroup from './create-group';
 import GroupRowActions from './row-actions';
 import getColumns, { type RowParams } from './columns';
-import type { TableState, Group } from 'types';
+import type { TableState, Group, RowId } from 'types';
 import './style.scss';
 
 function validateDisplay( selected: string[] ): string[] {
@@ -64,8 +64,8 @@ function Groups() {
 		groupBulkAction.mutate( { action, items: selectedIds } );
 	};
 
-	const handleSelect = ( id: number | number[] | boolean ) => {
-		const currentSelected = table.selected as number[];
+	const handleSelect = ( id: RowId | RowId[] | boolean ) => {
+		const currentSelected = table.selected;
 
 		if ( typeof id === 'boolean' ) {
 			// Select all or clear all
@@ -73,13 +73,12 @@ function Groups() {
 		} else if ( Array.isArray( id ) ) {
 			// Multiple items selected
 			setGroupsSelected( id );
+		} else if ( currentSelected.includes( id ) ) {
+			// Toggle single item - remove if selected
+			setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
 		} else {
-			// Toggle single item
-			if ( currentSelected.includes( id ) ) {
-				setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
-			} else {
-				setGroupsSelected( [ ...currentSelected, id ] );
-			}
+			// Toggle single item - add if not selected
+			setGroupsSelected( [ ...currentSelected, id ] );
 		}
 	};
 

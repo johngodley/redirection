@@ -2,10 +2,12 @@ import clsx from 'clsx';
 import NavigationPages from './navigation-pages';
 import './style.scss';
 
+type RowId = number | string;
+
 interface Table {
 	perPage: number;
 	page: number;
-	selected: number[];
+	selected: RowId[];
 	selectAll: boolean;
 }
 

@@ -3,10 +3,12 @@ import Column from './column';
 import CheckColumn from './check-column';
 import './style.scss';
 
+type RowId = number | string;
+
 interface Table {
 	direction: string;
 	orderBy: string;
-	selected: number[];
+	selected: RowId[];
 }
 
 interface TableHeaderItem {

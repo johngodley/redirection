@@ -16,12 +16,14 @@ interface FilterMap {
 	[ key: string ]: string[] | boolean;
 }
 
+type RowId = number | string;
+
 interface TableState {
 	orderby: string;
 	direction: string;
 	page: number;
 	per_page: number;
-	selected: string[];
+	selected: RowId[];
 	filterBy: { [ key: string ]: string };
 	groupBy: string;
 	displayType: string;
@@ -39,19 +41,6 @@ interface TableRow {
 	id: number;
 	[ key: string ]: any;
 }
-
-const removeIfExists = ( current: string[], newItems: string[] ): string[] => {
-	const newArray: string[] = [];
-
-	for ( let x = 0; x < current.length; x++ ) {
-		const item = current[ x ];
-		if ( item && ! newItems.includes( item ) ) {
-			newArray.push( item );
-		}
-	}
-
-	return newArray;
-};
 
 const strOrInt = ( value: string ): string | number =>
 	parseInt( value, 10 ) > 0 || value === '0' ? parseInt( value, 10 ) : value;
@@ -201,14 +190,14 @@ export const clearSelected = ( state: TableState ): TableState => {
 
 export function setTableSelected(
 	table: TableState,
-	items: boolean | string[],
+	items: boolean | RowId[],
 	selectAll: boolean,
 	rows: TableRow[]
 ): TableState {
 	if ( items === true ) {
 		return {
 			...table,
-			selected: rows.map( ( item ) => `${ item.id }` ),
+			selected: rows.map( ( item ) => item.id ),
 			selectAll,
 		};
 	}
@@ -221,9 +210,16 @@ export function setTableSelected(
 		};
 	}
 
+	// Convert to strings for comparison
+	const currentStrings = table.selected.map( ( id ) => String( id ) );
+	const itemStrings = items.map( ( id ) => String( id ) );
+	const newSelected = currentStrings
+		.filter( ( id ) => ! itemStrings.includes( id ) )
+		.concat( itemStrings.filter( ( id ) => ! currentStrings.includes( id ) ) );
+
 	return {
 		...table,
-		selected: removeIfExists( table.selected, items ).concat( removeIfExists( items, table.selected ) ),
+		selected: newSelected,
 		selectAll,
 	};
 }

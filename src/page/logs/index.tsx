@@ -187,7 +187,7 @@ function Logs() {
 				<LogRowActions
 					disabled={ false }
 					row={ row as Parameters< typeof getColumns >[ 0 ] }
-					onDelete={ ( id ) => handleBulk( 'delete' ) }
+					onDelete={ () => handleBulk( 'delete' ) }
 				/>
 			) }
 			renderTableActions={ () => (

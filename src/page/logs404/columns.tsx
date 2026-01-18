@@ -94,11 +94,7 @@ export default function getColumns( row: Error404, rowParams?: RowParams ): Colu
 		},
 		{
 			name: 'ip',
-			content: ip ? (
-				<Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape />
-			) : (
-				''
-			),
+			content: ip ? <Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape /> : '',
 		},
 		{
 			name: 'count',

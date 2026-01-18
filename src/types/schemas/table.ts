@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
 /**
+ * Row ID can be number or string (string for grouped results)
+ */
+export type RowId = number | string;
+
+/**
  * Table state schema - used across all paginated tables
  */
 export const TableStateSchema = z.object( {
@@ -8,11 +13,11 @@ export const TableStateSchema = z.object( {
 	per_page: z.number().int().positive().max( 100 ),
 	orderby: z.string(),
 	direction: z.enum( [ 'asc', 'desc' ] ),
-	selected: z.array( z.number() ),
+	selected: z.array( z.union( [ z.number(), z.string() ] ) ),
 	selectAll: z.boolean().optional(),
 	displayType: z.string().optional(),
 	displaySelected: z.array( z.string() ).optional(),
-	filterBy: z.record( z.string(), z.unknown() ).optional(),
+	filterBy: z.record( z.string(), z.string() ).optional(),
 	groupBy: z.string().optional(),
 } );
 

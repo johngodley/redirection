@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { getPageUrl, getWordPressUrl } from 'lib/wordpress-url';
+import { getPageUrl } from 'lib/wordpress-url';
 import { removeDefaults } from 'lib/table';
 import type { TableState } from 'types';
 
@@ -24,6 +24,7 @@ interface TableUrlSyncOptions {
  * Hook to sync table state with URL query parameters.
  * - On mount: reads URL params and initializes table state
  * - On table change: updates URL to reflect current state
+ * @param options
  */
 export function useTableUrlSync( options: TableUrlSyncOptions ): void {
 	const {
@@ -135,7 +136,7 @@ export function useTableUrlSync( options: TableUrlSyncOptions ): void {
 		const searchParams = new URLSearchParams( document.location.search );
 
 		// Add non-default values
-		const cleaned = removeDefaults( table, defaultOrder );
+		const cleaned = removeDefaults( table as Parameters< typeof removeDefaults >[ 0 ], defaultOrder );
 
 		// Handle sub parameter
 		if ( pageName !== 'redirect' ) {

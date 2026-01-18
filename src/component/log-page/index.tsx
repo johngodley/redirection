@@ -90,7 +90,7 @@ export interface LogActions {
 	onGroup: ( group: string ) => void;
 	onSetOrder: ( orderBy: string, direction: string ) => void;
 	onSetAll: ( checked: boolean ) => void;
-	onSelect: ( id: number | number[] | boolean ) => void;
+	onSelect: ( id: RowId | RowId[] | boolean ) => void;
 }
 
 export interface LogPageProps {
@@ -114,7 +114,7 @@ function LogPage( props: LogPageProps ) {
 	const { onChangePage, onFilter, onSetDisplay, onBulk, onGroup, onSetOrder, onSetAll, onSelect } = logActions;
 	const disabled = status === STATUS_LOADING;
 
-	const handleSelect = ( ids: number[] ) => {
+	const handleSelect = ( ids: RowId[] ) => {
 		if ( ids.length === 0 ) {
 			// Empty array means deselect all
 			onSelect( false );

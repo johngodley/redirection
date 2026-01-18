@@ -1,5 +1,5 @@
 export interface Log {
-	id: number;
+	id: number | string; // string when grouped
 	created: string;
 	url: string;
 	sent_to: string;
@@ -11,14 +11,20 @@ export interface Log {
 	request_method: string;
 	request_data?: Record< string, any >;
 	http_code: number;
+	// Additional fields for grouped results
+	domain?: string | null;
+	redirect_by?: string | null;
+	count?: number;
 }
 
 export interface Error404 {
-	id: number;
+	id: number | string; // string when grouped
 	created: string;
 	url: string;
 	agent: string;
 	referrer: string;
 	ip: string;
 	domain: string;
+	// Additional fields for grouped results
+	count?: number;
 }

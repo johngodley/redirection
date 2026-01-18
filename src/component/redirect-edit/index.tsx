@@ -42,10 +42,6 @@ interface UrlFlags {
 	flag_trailing: boolean;
 }
 
-type InputChangeEvent = React.ChangeEvent< HTMLInputElement >;
-type SelectChangeEvent = React.ChangeEvent< HTMLSelectElement >;
-type FormChangeEvent = InputChangeEvent | SelectChangeEvent;
-
 interface RedirectItem {
 	id?: number;
 	url: string | string[];
@@ -455,7 +451,7 @@ function EditRedirect( props: EditRedirectProps ) {
 					id="redirect-log-exclude"
 					type="checkbox"
 					name="log_exclude"
-					checked={ options.log_exclude || false }
+					checked={ Boolean( options.log_exclude ) }
 					onChange={ onChangeOption }
 				/>
 				<label htmlFor="redirect-log-exclude">{ __( 'Exclude from logs', 'redirection' ) }</label>
@@ -471,6 +467,7 @@ function EditRedirect( props: EditRedirectProps ) {
 						url={ url }
 						flags={ state }
 						defaultFlags={ flags as UrlFlags }
+						// eslint-disable-next-line jsx-a11y/no-autofocus
 						autoFocus={ autoFocus ?? false }
 						onFlagChange={ onFlagChange }
 						onChange={ onChange }

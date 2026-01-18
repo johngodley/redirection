@@ -13,7 +13,13 @@ import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import { nestedGroups } from 'lib/wordpress-url';
-import LogPage, { type LogPageTable, type LogOptions, type LogActions, type FilterBy } from 'component/log-page';
+import LogPage, {
+	type LogPageTable,
+	type LogOptions,
+	type LogActions,
+	type FilterBy,
+	type RowId,
+} from 'component/log-page';
 import CreateRedirect from './create';
 import RedirectRowActions from './row-actions';
 import getColumns from './columns';
@@ -105,7 +111,8 @@ function Redirects() {
 	};
 
 	const handleBulk = ( action: string ) => {
-		const items = table.selected;
+		// Redirect IDs are always numbers
+		const items = table.selected as number[];
 		if ( items.length === 0 ) {
 			return;
 		}
@@ -126,10 +133,10 @@ function Redirects() {
 		}
 	};
 
-	const handleSelect = ( items: number[] | boolean | number ) => {
+	const handleSelect = ( items: RowId[] | boolean | RowId ) => {
 		if ( typeof items === 'boolean' ) {
 			setRedirectsSelected( items ? rows.map( ( r ) => r.id ) : [] );
-		} else if ( typeof items === 'number' ) {
+		} else if ( typeof items === 'number' || typeof items === 'string' ) {
 			// Toggle single item selection
 			const newSelected = table.selected.includes( items )
 				? table.selected.filter( ( id ) => id !== items )

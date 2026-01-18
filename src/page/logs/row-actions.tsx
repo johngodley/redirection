@@ -5,19 +5,19 @@ import ExtraDataAction from 'component/log-page/log-actions/extra-data';
 import { CAP_LOG_DELETE } from 'lib/capabilities';
 
 interface Log {
-	id: number;
-	ip: string;
-	agent: string;
-	request_data: string;
-	redirection_id: number;
-	created: string;
-	sent_to: string;
-	url: string;
+	id: number | string;
+	ip?: string | null;
+	agent?: string | null;
+	request_data?: string | Record< string, unknown >;
+	redirection_id?: number;
+	created?: string;
+	sent_to?: string | null;
+	url?: string;
 }
 
 interface LogRowActionsProps {
 	row: Log;
-	onDelete: ( id: number ) => void;
+	onDelete: ( id: number | string ) => void;
 	disabled: boolean;
 }
 
@@ -40,7 +40,7 @@ function LogRowActions( props: LogRowActionsProps ) {
 		menu.push( <ExtraDataAction data={ request_data } key="4" /> );
 	}
 
-	if ( redirection_id > 0 ) {
+	if ( redirection_id && redirection_id > 0 ) {
 		menu.push(
 			<RowAction
 				href={ Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[id]' ) + '=' + redirection_id }

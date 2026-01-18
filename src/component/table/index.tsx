@@ -21,7 +21,7 @@ export interface Table {
 	page: number;
 	perPage: number;
 	selected: RowId[];
-	filterBy: { [ key: string ]: string };
+	filterBy: Record< string, string >;
 	groupBy: string;
 	displayType: string;
 	displaySelected: string[];
@@ -46,7 +46,7 @@ export interface RenderedColumn {
 	alwaysDisplay?: boolean;
 }
 
-export type { RowData, TableRow, TableStatus, RowId };
+export type { RowData, TableRow, TableStatus };
 
 interface TableProps {
 	table: Table;

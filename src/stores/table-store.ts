@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { TableState } from 'types';
+import type { TableState, RowId } from 'types';
 
 /**
  * Table Store
@@ -24,26 +24,26 @@ export interface TableStoreState {
 	// Actions for redirects table
 	setRedirectsTable: ( table: Partial< TableState > ) => void;
 	clearRedirectsSelected: () => void;
-	setRedirectsSelected: ( items: number[] ) => void;
+	setRedirectsSelected: ( items: RowId[] ) => void;
 	setRedirectsAddTop: ( addTop: boolean ) => void;
 	resetRedirectsTable: () => void;
 
 	// Actions for groups table
 	setGroupsTable: ( table: Partial< TableState > ) => void;
 	clearGroupsSelected: () => void;
-	setGroupsSelected: ( items: number[] ) => void;
+	setGroupsSelected: ( items: RowId[] ) => void;
 	resetGroupsTable: () => void;
 
 	// Actions for logs table
 	setLogsTable: ( table: Partial< TableState > ) => void;
 	clearLogsSelected: () => void;
-	setLogsSelected: ( items: number[] ) => void;
+	setLogsSelected: ( items: RowId[] ) => void;
 	resetLogsTable: () => void;
 
 	// Actions for errors table
 	setErrorsTable: ( table: Partial< TableState > ) => void;
 	clearErrorsSelected: () => void;
-	setErrorsSelected: ( items: number[] ) => void;
+	setErrorsSelected: ( items: RowId[] ) => void;
 	resetErrorsTable: () => void;
 
 	// Global reset
