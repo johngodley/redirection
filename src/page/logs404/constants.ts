@@ -90,6 +90,7 @@ export const getHeaders = ( groupBy?: string ): Header[] => {
 		];
 	}
 
+	// API allows orderby: url, ip, total, count (date is implicit default)
 	return [
 		{
 			name: 'date',
@@ -98,10 +99,12 @@ export const getHeaders = ( groupBy?: string ): Header[] => {
 		{
 			name: 'method',
 			title: __( 'Method', 'redirection' ),
+			sortable: false,
 		},
 		{
 			name: 'domain',
 			title: __( 'Domain', 'redirection' ),
+			sortable: false,
 		},
 		{
 			name: 'url',
@@ -126,7 +129,6 @@ export const getHeaders = ( groupBy?: string ): Header[] => {
 		{
 			name: 'ip',
 			title: __( 'IP', 'redirection' ),
-			sortable: false,
 		},
 	];
 };

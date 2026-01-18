@@ -105,8 +105,7 @@ export function nestedGroups( groups: Group[] ): NestedGroup[] {
 }
 
 export function getExportUrl( moduleId: string, modType: string ): string {
-	// Get nonce from apiFetch if available
-	const nonce = window.wpApiSettings?.nonce || '';
+	const nonce = window.Redirectioni10n.api.WP_API_nonce;
 
 	return (
 		window.Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + nonce

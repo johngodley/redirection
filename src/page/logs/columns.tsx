@@ -1,21 +1,23 @@
+import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
 import { getServerUrl } from 'lib/wordpress-url';
 
+// Interface for logs - all fields optional to support grouped results
 interface Log {
-	id: number;
-	created: string;
-	url: string;
-	sent_to: string;
-	agent: string;
-	referrer: string;
-	ip: string;
-	module: string;
+	id: number | string;
+	created?: string;
+	url?: string;
+	sent_to?: string | null;
+	agent?: string | null;
+	referrer?: string | null;
+	ip?: string | null;
+	module?: string;
 	redirection_id?: number;
-	request_method: string;
-	request_data?: Record< string, any >;
-	http_code: number;
-	domain?: string;
-	redirect_by?: string;
+	request_method?: string | null;
+	request_data?: Record< string, unknown >;
+	http_code?: number;
+	domain?: string | null;
+	redirect_by?: string | null;
 	count?: number;
 }
 
@@ -25,29 +27,54 @@ interface Column {
 	alwaysDisplay?: boolean;
 }
 
+interface FilterBy {
+	url?: string;
+	'url-exact'?: string;
+	ip?: string;
+	referrer?: string;
+	agent?: string;
+	target?: string;
+}
+
+interface RowParams {
+	table: {
+		filterBy: FilterBy;
+	};
+}
+
 function getUrl( row: Log ): string {
+	if ( ! row.url ) {
+		return '';
+	}
 	const server = row.domain ? 'https://' + row.domain : document.location.origin;
 	return getServerUrl( server, row.url );
 }
 
-function getTarget( row: Log ): string | JSX.Element {
+function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
 	if ( ! row.sent_to ) {
 		return '';
 	}
 
 	const server = row.domain ? 'https://' + row.domain : document.location.origin;
 	const targetUrl = getServerUrl( server, row.sent_to );
+	const searchWord = filterBy.target || '';
 
-	return <ExternalLink url={ targetUrl }>{ row.sent_to }</ExternalLink>;
+	return (
+		<ExternalLink url={ targetUrl }>
+			<Highlighter searchWords={ [ searchWord ] } textToHighlight={ row.sent_to } autoEscape />
+		</ExternalLink>
+	);
 }
 
-export default function getColumns( row: Log ): Column[] {
+export default function getColumns( row: Log, rowParams?: RowParams ): Column[] {
 	const { created, url, agent, referrer, ip, request_method, http_code, domain, redirect_by, count } = row;
+	const filterBy = rowParams?.table?.filterBy || {};
+	const urlSearch = filterBy.url || filterBy[ 'url-exact' ] || '';
 
 	return [
 		{
 			name: 'date',
-			content: created,
+			content: created ?? '',
 		},
 		{
 			name: 'method',
@@ -59,12 +86,17 @@ export default function getColumns( row: Log ): Column[] {
 		},
 		{
 			name: 'url',
-			content: <ExternalLink url={ getUrl( row ) }>{ url }</ExternalLink>,
-			alwaysDisplay: true,
+			content: url ? (
+				<ExternalLink url={ getUrl( row ) }>
+					<Highlighter searchWords={ [ urlSearch ] } textToHighlight={ url } autoEscape />
+				</ExternalLink>
+			) : (
+				''
+			),
 		},
 		{
 			name: 'target',
-			content: getTarget( row ),
+			content: getTarget( row, filterBy ),
 		},
 		{
 			name: 'redirect_by',
@@ -72,19 +104,31 @@ export default function getColumns( row: Log ): Column[] {
 		},
 		{
 			name: 'code',
-			content: http_code,
+			content: http_code ?? '',
 		},
 		{
 			name: 'referrer',
-			content: referrer || '',
+			content: referrer ? (
+				<Highlighter searchWords={ [ filterBy.referrer || '' ] } textToHighlight={ referrer } autoEscape />
+			) : (
+				''
+			),
 		},
 		{
 			name: 'agent',
-			content: agent || '',
+			content: agent ? (
+				<Highlighter searchWords={ [ filterBy.agent || '' ] } textToHighlight={ agent } autoEscape />
+			) : (
+				''
+			),
 		},
 		{
 			name: 'ip',
-			content: ip || '',
+			content: ip ? (
+				<Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape />
+			) : (
+				''
+			),
 		},
 		{
 			name: 'count',

@@ -16,7 +16,7 @@ function CreateGroup( props: CreateGroupProps ) {
 
 	function onSubmit( ev: React.FormEvent ) {
 		ev.preventDefault();
-		createGroup( { name, module_id: moduleId, position: 0 } );
+		createGroup( { name, moduleId, position: 0 } );
 		setName( '' );
 	}
 

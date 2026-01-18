@@ -1,17 +1,24 @@
 import { useMutation, useQueryClient, UseMutationOptions } from '@tanstack/react-query';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { RedirectionApi } from 'lib/api-request';
-import { RedirectItemResponseSchema, type Redirect, type CreateRedirectInput, type UpdateRedirectInput } from 'types';
+import {
+	RedirectItemResponseSchema,
+	RedirectListResponseSchema,
+	type Redirect,
+	type CreateRedirectInput,
+	type UpdateRedirectInput,
+} from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { useTableStore, useMessageStore } from 'stores';
 
 /**
  * Mutation hook for creating a redirect
+ * The API returns the full list of redirects after creation, not just the created item
  * @param options
  */
 export function useRedirectCreate(
-	options?: Omit< UseMutationOptions< Redirect, Error, CreateRedirectInput >, 'mutationFn' >
+	options?: Omit< UseMutationOptions< Redirect | null, Error, CreateRedirectInput >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
@@ -21,8 +28,10 @@ export function useRedirectCreate(
 			incrementProgress();
 			try {
 				const response = await apiFetch( RedirectionApi.redirect.create( data ) );
-				const validated = RedirectItemResponseSchema.parse( response );
-				return validated.item;
+				// API returns a list response after creation
+				const validated = RedirectListResponseSchema.parse( response );
+				// Return the first item if available (the newly created one)
+				return validated.items[ 0 ] ?? null;
 			} catch ( error ) {
 				decrementProgress();
 				throw handleApiError( error );

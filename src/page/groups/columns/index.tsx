@@ -11,7 +11,7 @@ interface Group {
 	redirects: number;
 }
 
-interface RowParams {
+export interface RowParams {
 	rowMode: string | false;
 	setRowMode: ( mode: string | false ) => void;
 	table: { filterBy: { name: string } };

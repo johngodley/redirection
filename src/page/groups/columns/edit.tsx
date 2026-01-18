@@ -26,7 +26,7 @@ function EditColumn( props: EditColumnProps ) {
 		ev.stopPropagation();
 
 		onCancel();
-		updateGroup( { id: group.id, name, module_id: moduleId } );
+		updateGroup( { id: group.id, name, moduleId } );
 	}
 
 	return (

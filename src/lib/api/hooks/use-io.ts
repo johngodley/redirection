@@ -91,9 +91,11 @@ export function useExport(
 		mutationFn: async ( { moduleId, format }: { moduleId: string; format: string } ) => {
 			incrementProgress();
 			try {
-				const response = await apiFetch( RedirectionApi.export.file( moduleId, format ) );
-				const data = typeof response === 'string' ? response : JSON.stringify( response, null, 2 );
-				return data;
+				const response = ( await apiFetch( RedirectionApi.export.file( moduleId, format ) ) ) as {
+					data: string;
+					total: number;
+				};
+				return response.data;
 			} catch ( error ) {
 				decrementProgress();
 				throw handleApiError( error );

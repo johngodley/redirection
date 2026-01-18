@@ -1,48 +1,50 @@
-import TableComponent from 'component/table';
+import TableComponent, { type RowData, type RenderedColumn, type RowId } from 'component/table';
 import TableNav from 'component/table/navigation';
 import LogFilters from 'component/log-page/log-filters';
 import BulkActions from 'component/table/bulk-actions';
 import LogDisplay from './log-display';
 import { STATUS_LOADING, type LoadingStatus } from 'lib/constants';
 
-interface LabelValue {
+export type { RowData, RenderedColumn, RowId };
+
+export interface LabelValue {
 	label: string;
 	value: string;
 }
 
-interface LabelValueGrouping {
+export interface LabelValueGrouping {
 	label: string;
 	value: string;
 	grouping: string[];
 }
 
-interface LabelTitle {
+export interface LabelTitle {
 	name: string;
 	title: string;
 }
 
-interface IdName {
+export interface IdName {
 	id: string;
 	name: string;
 }
 
-interface TableHeader {
+export interface TableHeader {
 	name: string;
 	title: string;
 	primary?: boolean;
 	sortable?: boolean;
 }
 
-interface FilterBy {
+export interface FilterBy {
 	[ key: string ]: string;
 }
 
-interface Table {
+export interface LogPageTable {
 	page: number;
 	perPage: number;
 	orderBy: string;
 	direction: string;
-	selected: number[];
+	selected: RowId[];
 	selectAll: boolean;
 	filter: string;
 	filterBy: FilterBy;
@@ -51,20 +53,25 @@ interface Table {
 	groupBy: string;
 }
 
-interface TableRow {
-	id: number;
-	[ key: string ]: any;
+export interface TableRow {
+	id: number | string;
+	[ key: string ]: unknown;
 }
 
-type TableStatus = LoadingStatus;
+export type TableStatus = LoadingStatus;
 
-interface FilterGroup {
+export interface FilterOption {
 	label: string;
 	value: string;
-	options: Array< { label: string; value: string } >;
 }
 
-interface LogOptions {
+export interface FilterGroup {
+	label: string;
+	value: string;
+	options: FilterOption[];
+}
+
+export interface LogOptions {
 	displayFilters: LabelValue[];
 	displayGroups: LabelValueGrouping[];
 	searchOptions: LabelTitle[];
@@ -75,7 +82,7 @@ interface LogOptions {
 	validateDisplay?: ( selected: string[] ) => string[];
 }
 
-interface LogActions {
+export interface LogActions {
 	onChangePage: ( page: number ) => void;
 	onFilter: ( filter: FilterBy ) => void;
 	onSetDisplay: ( group: string, option: string[] ) => void;
@@ -86,17 +93,17 @@ interface LogActions {
 	onSelect: ( id: number | number[] | boolean ) => void;
 }
 
-interface LogPageProps {
+export interface LogPageProps {
 	logOptions: LogOptions;
 	logActions: LogActions;
-	table: Table;
+	table: LogPageTable;
 	total: number;
 	rows: TableRow[];
-	getRow: ( row: TableRow, rowParams: any ) => any;
-	getRowActions: ( row: TableRow, rowParams: any ) => any;
+	getRow: ( row: TableRow, rowParams: RowData ) => RenderedColumn[] | React.ReactNode;
+	getRowActions: ( row: TableRow, rowParams: RowData ) => React.ReactNode;
 	renderTableActions?: () => React.ReactElement;
 	status: TableStatus;
-	saving: number[];
+	saving: RowId[];
 }
 
 function LogPage( props: LogPageProps ) {

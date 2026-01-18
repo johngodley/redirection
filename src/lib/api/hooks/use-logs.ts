@@ -8,31 +8,40 @@ import { cleanApiParams } from '../utils';
 import { z } from 'zod';
 import { useMessageStore } from 'stores';
 
-// Log schema for redirect logs
+// Log schema for redirect logs - handles both individual entries and grouped results
+// Individual entries have numeric id, grouped results have string id (url/ip/agent value)
 const LogSchema = z.object( {
-	id: z.number().int(),
-	created: z.string(),
-	url: z.string(),
-	sent_to: z.string().optional(),
-	agent: z.string().optional(),
+	id: z.union( [ z.number().int(), z.string() ] ),
+	created: z.string().optional(),
+	url: z.string().optional(),
+	sent_to: z.string().optional().nullable(),
+	agent: z.string().optional().nullable(),
 	referrer: z.string().optional().nullable(),
-	ip: z.string().optional(),
+	ip: z.string().optional().nullable(),
+	domain: z.string().optional().nullable(),
 	redirect_id: z.number().int().optional(),
+	redirection_id: z.number().int().optional(),
+	request_method: z.string().optional().nullable(),
+	http_code: z.number().int().optional(),
+	redirect_by: z.string().optional().nullable(),
+	count: z.coerce.number().int().optional(), // Only present in grouped results
 } );
 
-// 404 Error schema
+// 404 Error schema - handles both individual entries and grouped results
+// Individual entries have numeric id, grouped results have string id (url/ip/agent value)
 const Error404Schema = z.object( {
-	id: z.number().int(),
-	created: z.string(),
-	created_time: z.string(),
-	url: z.string(),
+	id: z.union( [ z.number().int(), z.string() ] ),
+	created: z.string().optional(),
+	created_time: z.string().optional(),
+	url: z.string().optional(),
 	agent: z.string().optional(),
 	referrer: z.string().optional().nullable(),
 	domain: z.string().optional(),
 	ip: z.string().optional(),
-	http_code: z.number().int(),
-	request_method: z.string(),
+	http_code: z.number().int().optional(),
+	request_method: z.string().optional(),
 	request_data: z.unknown().optional(),
+	count: z.coerce.number().int().optional(), // Only present in grouped results
 } );
 
 const LogListResponseSchema = PaginatedResponseSchema( LogSchema );

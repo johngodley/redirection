@@ -19,7 +19,7 @@ export type Group = z.infer< typeof GroupSchema >;
  */
 export const CreateGroupInputSchema = z.object( {
 	name: z.string().min( 1, 'Group name is required' ),
-	module_id: z.number().int().positive(),
+	moduleId: z.number().int().positive(),
 	position: z.number().int().nonnegative().default( 0 ),
 	enabled: z.boolean().optional(),
 } );

@@ -64,7 +64,7 @@ const Help = () => {
 						'redirection'
 					),
 					{
-						email: <button type="button" onClick={ onEmailClick } />,
+						email: <button type="button" className="button-link" onClick={ onEmailClick } />,
 					}
 				) }
 			</p>

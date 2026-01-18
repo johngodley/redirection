@@ -13,12 +13,14 @@ interface TableHeaderItem {
 	sortable?: boolean;
 }
 
+export type RowId = number | string;
+
 export interface Table {
 	orderBy: string;
 	direction: string;
 	page: number;
 	perPage: number;
-	selected: number[];
+	selected: RowId[];
 	filterBy: { [ key: string ]: string };
 	groupBy: string;
 	displayType: string;
@@ -26,8 +28,8 @@ export interface Table {
 }
 
 interface TableRow {
-	id: number;
-	[ key: string ]: any;
+	id: number | string;
+	[ key: string ]: unknown;
 }
 
 interface RowData {
@@ -44,7 +46,7 @@ export interface RenderedColumn {
 	alwaysDisplay?: boolean;
 }
 
-export type { RowData, TableRow, TableStatus };
+export type { RowData, TableRow, TableStatus, RowId };
 
 interface TableProps {
 	table: Table;
@@ -53,9 +55,9 @@ interface TableProps {
 	getRowActions: ( row: TableRow, rowData: RowData ) => React.ReactNode;
 	headers: TableHeaderItem[];
 	rows: TableRow[];
-	saving: number[];
+	saving: RowId[];
 	onSetOrderBy: ( orderBy: string, direction: string ) => void;
-	onSelect?: ( ids: number[] ) => void;
+	onSelect?: ( ids: RowId[] ) => void;
 }
 
 const Table = ( props: TableProps ) => {

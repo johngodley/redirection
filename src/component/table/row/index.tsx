@@ -5,7 +5,7 @@ import EmptyRow from './empty-row';
 import FailedRow from './failed-row';
 import { Spinner } from '@wp-plugin-components';
 import { STATUS_LOADING, STATUS_COMPLETE, STATUS_ERROR, STATUS_SAVING } from 'lib/constants';
-import type { RenderedColumn, RowData, Table, TableRow, TableStatus } from '../index';
+import type { RenderedColumn, RowData, Table, TableRow, TableStatus, RowId } from '../index';
 
 interface TableHeader {
 	name: string;
@@ -16,14 +16,14 @@ interface TableHeader {
 function getRowData( status: TableStatus, item: TableRow, table: Table ): RowData {
 	return {
 		isLoading: status === STATUS_LOADING,
-		isSelected: table.selected.includes( item.id ),
+		isSelected: table.selected.some( ( id ) => id === item.id ),
 		table,
 	};
 }
 
 interface CheckColumnProps {
-	id: number;
-	onSelect: ( ids: number[] ) => void;
+	id: RowId;
+	onSelect: ( ids: RowId[] ) => void;
 	isSelected: boolean;
 	isSaving: boolean;
 	disabled: boolean;
@@ -34,7 +34,10 @@ const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 
 	const handleChange = useCallback(
 		( ev: React.ChangeEvent< HTMLInputElement > ) => {
-			onSelect( [ parseInt( ev.target.value, 10 ) ] );
+			const value = ev.target.value;
+			// Parse as number if it's numeric, otherwise keep as string
+			const parsedId = /^\d+$/.test( value ) ? parseInt( value, 10 ) : value;
+			onSelect( [ parsedId ] );
 		},
 		[ onSelect ]
 	);
@@ -103,7 +106,7 @@ interface SingleRowProps {
 	table: Table;
 	getRow: ( row: TableRow, rowData: RowData ) => RenderedColumn[] | React.ReactNode;
 	getRowActions: ( row: TableRow, rowData: RowData ) => React.ReactNode;
-	onSelect?: ( ids: number[] ) => void;
+	onSelect?: ( ids: RowId[] ) => void;
 	primary: TableHeader | undefined;
 	headersLength: number;
 }
@@ -177,15 +180,15 @@ interface TableRowsProps {
 	table: Table;
 	getRow: ( row: TableRow, rowData: RowData ) => RenderedColumn[] | React.ReactNode;
 	getRowActions: ( row: TableRow, rowData: RowData ) => React.ReactNode;
-	onSelect?: ( ids: number[] ) => void;
-	saving: number[];
+	onSelect?: ( ids: RowId[] ) => void;
+	saving: RowId[];
 }
 
 function TableRows( props: TableRowsProps ) {
 	const { rows, headers, status, table, getRow, getRowActions, onSelect, saving } = props;
 	const { selected, displaySelected } = table;
 	const primary = headers.find( ( item ) => item.primary );
-	const isAllSaving = saving.includes( -1 );
+	const isAllSaving = saving.some( ( id ) => id === -1 );
 
 	if ( status === STATUS_LOADING && rows.length === 0 ) {
 		return <LoadingRow headers={ headers } rows={ rows } />;
@@ -206,14 +209,14 @@ function TableRows( props: TableRowsProps ) {
 					key={ row.id }
 					row={ row }
 					status={ status }
-					isSelected={ selected.includes( row.id ) }
-					isSaving={ saving.includes( row.id ) }
+					isSelected={ selected.some( ( id ) => id === row.id ) }
+					isSaving={ saving.some( ( id ) => id === row.id ) }
 					isAllSaving={ isAllSaving }
 					displaySelected={ displaySelected }
 					table={ table }
 					getRow={ getRow }
 					getRowActions={ getRowActions }
-					onSelect={ onSelect }
+					{ ...( onSelect ? { onSelect } : {} ) }
 					primary={ primary }
 					headersLength={ headers.length }
 				/>

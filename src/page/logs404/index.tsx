@@ -10,6 +10,7 @@ import {
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
 import { useErrorList, useErrorBulkAction } from 'lib/api/hooks';
+import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import getCreateAction from './create-action';
@@ -71,6 +72,15 @@ function Logs404() {
 	const settings = useSettingsStore( ( state ) => state.values );
 	const [ showCreate, setShowCreate ] = useState< any >( null );
 
+	// Sync table state with URL query parameters
+	useTableUrlSync( {
+		table,
+		setTable: setErrorsTable,
+		allowedGroup: [ 'url', 'ip', 'agent' ],
+		allowedFilters: [ 'url', 'url-exact', 'referrer', 'agent', 'ip', 'domain', 'method' ],
+		pageName: '404s',
+	} );
+
 	const errorBulkAction = useErrorBulkAction();
 
 	// Fetch errors with current table params - read directly from Query
@@ -107,7 +117,9 @@ function Logs404() {
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setErrorsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		// Date sorting is implicit (default order), so don't send orderby param
+		const orderby = column === 'date' ? '' : column;
+		setErrorsTable( { orderby, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleGroup = ( groupBy: string ) => {
@@ -196,7 +208,7 @@ function Logs404() {
 				total={ total }
 				rows={ rows as any }
 				saving={ [] }
-				getRow={ ( row: any ) => getColumns( row ) }
+				getRow={ ( row: any, rowParams: any ) => getColumns( row, rowParams ) }
 				getRowActions={ ( row: any, rowParams: any ) => (
 					<ErrorRowActions
 						disabled={ false }

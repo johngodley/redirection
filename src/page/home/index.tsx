@@ -213,7 +213,7 @@ export default function Home() {
 						<PageContent page={ page } />
 
 						<Snackbar
-							notices={ notices as any }
+							notices={ notices }
 							onClear={ () => clearNotices() }
 							snackBarViewText={ __( 'View notice', 'redirection' ) }
 						/>

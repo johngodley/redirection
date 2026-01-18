@@ -23,7 +23,16 @@ export const STATUS_FAIL = 'fail';
 export const STATUS_GOOD = 'good';
 export const STATUS_PROBLEM = 'problem';
 
-export type LoadingStatus = typeof STATUS_IDLE | typeof STATUS_LOADING | typeof STATUS_COMPLETE | typeof STATUS_ERROR | typeof STATUS_SAVING;
-export type DatabaseStatus = typeof STATUS_NEED_INSTALL | typeof STATUS_NEED_UPDATE | typeof STATUS_FINISH_INSTALL | typeof STATUS_FINISH_UPDATE;
+export type LoadingStatus =
+	| typeof STATUS_IDLE
+	| typeof STATUS_LOADING
+	| typeof STATUS_COMPLETE
+	| typeof STATUS_ERROR
+	| typeof STATUS_SAVING;
+export type DatabaseStatus =
+	| typeof STATUS_NEED_INSTALL
+	| typeof STATUS_NEED_UPDATE
+	| typeof STATUS_FINISH_INSTALL
+	| typeof STATUS_FINISH_UPDATE;
 export type ApiStatus = typeof STATUS_OK | typeof STATUS_FAIL | typeof STATUS_LOADING;
 export type PluginStatus = typeof STATUS_GOOD | typeof STATUS_PROBLEM;

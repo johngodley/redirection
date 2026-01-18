@@ -33,8 +33,18 @@ interface MatchData {
 		flag_case: boolean;
 		flag_query: string;
 	};
-	options?: Record< string, any >;
+	options?: Record< string, unknown >;
 }
+
+interface UrlFlags {
+	flag_case: boolean;
+	flag_regex: boolean;
+	flag_trailing: boolean;
+}
+
+type InputChangeEvent = React.ChangeEvent< HTMLInputElement >;
+type SelectChangeEvent = React.ChangeEvent< HTMLSelectElement >;
+type FormChangeEvent = InputChangeEvent | SelectChangeEvent;
 
 interface RedirectItem {
 	id?: number;
@@ -43,7 +53,7 @@ interface RedirectItem {
 	match_data: MatchData;
 	match_type: string;
 	action_type: string;
-	action_data: any;
+	action_data: unknown;
 	group_id?: number;
 	action_code: number;
 	position?: number;
@@ -70,11 +80,11 @@ interface RedirectEditState {
 	match_type: string;
 	action_type: string;
 	action_code: number;
-	action_data: any;
-	options: Record< string, any >;
+	action_data: Record< string, unknown >;
+	options: Record< string, unknown >;
 	group_id: number;
 	position: number;
-	warning: any[];
+	warning: React.ReactNode[];
 	advanced: boolean;
 }
 
@@ -459,11 +469,11 @@ function EditRedirect( props: EditRedirectProps ) {
 				<tbody>
 					<RedirectSourceUrl
 						url={ url }
-						flags={ state as any }
-						defaultFlags={ flags as any }
-						{ ...( autoFocus ? { autoFocus } : {} ) }
+						flags={ state }
+						defaultFlags={ flags as UrlFlags }
+						autoFocus={ autoFocus ?? false }
 						onFlagChange={ onFlagChange }
-						onChange={ onChange as any }
+						onChange={ onChange }
 					/>
 					<RedirectSourceQuery
 						query={ flag_query }

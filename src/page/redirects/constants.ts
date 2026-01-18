@@ -27,7 +27,7 @@ interface DisplayGroup {
 interface FilterOption {
 	label: string;
 	value: string;
-	options: Array< { label: string; value: string | number } >;
+	options: Array< { label: string; value: string } >;
 }
 
 interface SearchOption {

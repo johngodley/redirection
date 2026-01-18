@@ -11,8 +11,16 @@ import {
 import { useTableStore, useSettingsStore } from 'stores';
 import { useLogList, useErrorBulkAction } from 'lib/api/hooks';
 import { getRssUrl } from 'lib/wordpress-url';
-import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
-import LogPage from 'component/log-page';
+import { useTableUrlSync } from 'lib/hooks';
+import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE, type LoadingStatus } from 'lib/constants';
+import LogPage, {
+	type LogPageTable,
+	type LogOptions,
+	type LogActions,
+	type TableRow,
+	type FilterBy,
+	type RowId,
+} from 'component/log-page';
 import LogRowActions from './row-actions';
 import TableButtons from 'component/table/table-buttons';
 import getColumns from './columns';
@@ -54,6 +62,15 @@ function Logs() {
 	const settings = useSettingsStore( ( state ) => state.values );
 	const token = settings?.token || '';
 
+	// Sync table state with URL query parameters
+	useTableUrlSync( {
+		table,
+		setTable: setLogsTable,
+		allowedGroup: [ 'url', 'ip', 'agent' ],
+		allowedFilters: [ 'url', 'url-exact', 'referrer', 'agent', 'ip', 'target', 'domain', 'method', 'redirect_by' ],
+		pageName: 'log',
+	} );
+
 	const logBulkAction = useErrorBulkAction();
 
 	// Fetch logs with current table params - read directly from Query
@@ -73,7 +90,8 @@ function Logs() {
 		setLogsTable( { page } );
 	};
 
-	const handleBulk = ( action: string, items: number[] ) => {
+	const handleBulk = ( action: string ) => {
+		const items = table.selected.filter( ( id ): id is number => typeof id === 'number' );
 		logBulkAction.mutate( { action, items } );
 	};
 
@@ -85,7 +103,7 @@ function Logs() {
 		setLogsTable( { groupBy } );
 	};
 
-	const handleFilter = ( filterBy: Record< string, any > ) => {
+	const handleFilter = ( filterBy: FilterBy ) => {
 		setLogsTable( { filterBy, page: 0 } );
 	};
 
@@ -93,12 +111,12 @@ function Logs() {
 		setLogsTable( { displayType, displaySelected } );
 	};
 
-	const handleSelect = ( items: number[] | boolean | number ) => {
+	const handleSelect = ( items: RowId | RowId[] | boolean ) => {
 		if ( typeof items === 'boolean' ) {
 			setLogsSelected( items ? rows.map( ( r ) => r.id ) : [] );
-		} else if ( typeof items === 'number' ) {
+		} else if ( typeof items === 'number' || typeof items === 'string' ) {
 			// Toggle single item selection
-			const newSelected = table.selected.includes( items )
+			const newSelected = table.selected.some( ( id ) => id === items )
 				? table.selected.filter( ( id ) => id !== items )
 				: [ ...table.selected, items ];
 			setLogsSelected( newSelected );
@@ -117,7 +135,7 @@ function Logs() {
 	const groupedTable = { ...table, ...getGroupByTable( table.groupBy ) };
 
 	// Convert TableState to LogPage's Table format (camelCase)
-	const logPageTable = {
+	const logPageTable: LogPageTable = {
 		page: table.page,
 		perPage: table.per_page,
 		orderBy: table.orderby,
@@ -125,13 +143,13 @@ function Logs() {
 		selected: table.selected,
 		selectAll: table.selectAll ?? false,
 		filter: '',
-		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
+		filterBy: ( table.filterBy ?? {} ) as FilterBy,
 		displayType: table.displayType ?? 'standard',
 		displaySelected: groupedTable.displaySelected ?? [],
 		groupBy: table.groupBy ?? '',
 	};
 
-	const logOptions = {
+	const logOptions: LogOptions = {
 		displayFilters: getDisplayOptions( groupedTable.groupBy ),
 		displayGroups: getDisplayGroups( groupedTable.groupBy ),
 		searchOptions: getSearchOptions(),
@@ -144,7 +162,7 @@ function Logs() {
 		validateDisplay,
 	};
 
-	const logActions = {
+	const logActions: LogActions = {
 		onChangePage: handleChangePage,
 		onBulk: handleBulk,
 		onGroup: handleGroup,
@@ -157,16 +175,20 @@ function Logs() {
 
 	return (
 		<LogPage
-			logOptions={ logOptions as any }
-			logActions={ logActions as any }
-			table={ logPageTable as any }
-			status={ status as any }
+			logOptions={ logOptions }
+			logActions={ logActions }
+			table={ logPageTable }
+			status={ status as LoadingStatus }
 			total={ total }
-			rows={ rows as any }
+			rows={ rows as TableRow[] }
 			saving={ [] }
-			getRow={ ( row: any ) => getColumns( row ) }
-			getRowActions={ ( row: any ) => (
-				<LogRowActions disabled={ false } row={ row } onDelete={ ( id ) => handleBulk( 'delete', [ id ] ) } />
+			getRow={ ( row, rowParams ) => getColumns( row as Parameters< typeof getColumns >[ 0 ], rowParams ) }
+			getRowActions={ ( row ) => (
+				<LogRowActions
+					disabled={ false }
+					row={ row as Parameters< typeof getColumns >[ 0 ] }
+					onDelete={ ( id ) => handleBulk( 'delete' ) }
+				/>
 			) }
 			renderTableActions={ () => (
 				<>

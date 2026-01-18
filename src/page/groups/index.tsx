@@ -8,12 +8,13 @@ import {
 } from './constants';
 import { useTableStore } from 'stores';
 import { useGroupList, useGroupBulkAction } from 'lib/api/hooks';
+import { useTableUrlSync } from 'lib/hooks';
 import { getModules } from 'lib/modules';
 import { has_capability, CAP_GROUP_ADD } from 'lib/capabilities';
 import LogPage from 'component/log-page';
 import CreateGroup from './create-group';
 import GroupRowActions from './row-actions';
-import getColumns from './columns';
+import getColumns, { type RowParams } from './columns';
 import type { TableState, Group } from 'types';
 import './style.scss';
 
@@ -34,6 +35,16 @@ function Groups() {
 	const table = useTableStore( ( state ) => state.groups );
 	const { setGroupsTable, setGroupsSelected } = useTableStore();
 
+	// Sync table state with URL query parameters
+	useTableUrlSync( {
+		table,
+		setTable: setGroupsTable,
+		allowedOrder: [ 'name', 'id' ],
+		allowedFilters: [ 'name', 'status', 'module' ],
+		defaultOrder: 'name',
+		pageName: 'groups',
+	} );
+
 	const groupBulkAction = useGroupBulkAction();
 
 	// Fetch groups with current table params - read directly from Query
@@ -53,12 +64,22 @@ function Groups() {
 		groupBulkAction.mutate( { action, items: selectedIds } );
 	};
 
-	const handleSelect = ( id: number ) => {
+	const handleSelect = ( id: number | number[] | boolean ) => {
 		const currentSelected = table.selected as number[];
-		if ( currentSelected.includes( id ) ) {
-			setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
+
+		if ( typeof id === 'boolean' ) {
+			// Select all or clear all
+			setGroupsSelected( id ? rows.map( ( r ) => r.id ) : [] );
+		} else if ( Array.isArray( id ) ) {
+			// Multiple items selected
+			setGroupsSelected( id );
 		} else {
-			setGroupsSelected( [ ...currentSelected, id ] );
+			// Toggle single item
+			if ( currentSelected.includes( id ) ) {
+				setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
+			} else {
+				setGroupsSelected( [ ...currentSelected, id ] );
+			}
 		}
 	};
 
@@ -117,6 +138,7 @@ function Groups() {
 		direction: table.direction,
 		selected: table.selected as number[],
 		selectAll: table.selectAll ?? false,
+		filter: '',
 		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
 		displayType: table.displayType ?? 'standard',
 		displaySelected: table.displaySelected ?? [],
@@ -128,14 +150,18 @@ function Groups() {
 			<LogPage
 				logOptions={ logOptions }
 				logActions={ logActions }
-				table={ logPageTable as any }
+				table={ logPageTable }
 				status={ status }
 				total={ total }
 				rows={ rows }
 				saving={ [] }
-				getRow={ ( row, rowParams ) => getColumns( row as Group, rowParams ) }
+				getRow={ ( row, rowParams ) => getColumns( row as Group, rowParams as unknown as RowParams ) }
 				getRowActions={ ( row, rowParams ) => (
-					<GroupRowActions disabled={ false } row={ row as Group } rowParams={ rowParams } />
+					<GroupRowActions
+						disabled={ false }
+						row={ row as Group }
+						rowParams={ rowParams as unknown as RowParams }
+					/>
 				) }
 			/>
 

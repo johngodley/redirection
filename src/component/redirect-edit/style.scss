@@ -108,11 +108,6 @@
 	margin: 0;
 }
 
-.column-url:not(.redirect-edit) {
-	min-width: 200px;
-	overflow: auto;
-}
-
 .redirect-column-wrap {
 	display: flex;
 	justify-content: space-between;

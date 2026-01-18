@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useRedirectList, useGroupList } from 'lib/api/hooks';
+import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore } from 'stores';
 import {
 	getDisplayGroups,
@@ -9,10 +9,11 @@ import {
 	getFilterOptions,
 	getSearchOptions,
 } from './constants';
+import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import { nestedGroups } from 'lib/wordpress-url';
-import LogPage from 'component/log-page';
+import LogPage, { type LogPageTable, type LogOptions, type LogActions, type FilterBy } from 'component/log-page';
 import CreateRedirect from './create';
 import RedirectRowActions from './row-actions';
 import getColumns from './columns';
@@ -56,9 +57,25 @@ function Redirects() {
 
 	const settings = useSettingsStore( ( state ) => state.values );
 
+	// Sync table state with URL query parameters
+	useTableUrlSync( {
+		table,
+		setTable: setRedirectsTable,
+		allowedOrder: [ 'id', 'url', 'last_access', 'last_count', 'position' ],
+		allowedFilters: [ 'url', 'url-exact', 'target', 'title', 'group', 'status', 'match', 'action' ],
+		defaultOrder: 'id',
+		pageName: 'redirect',
+	} );
+
 	// Fetch groups for dropdown - read directly from Query
 	const { data: groupData, isSuccess: groupSuccess } = useGroupList( {} );
 	const groupRows = groupData?.items ?? [];
+
+	// Bulk action mutations
+	const deleteMutation = useRedirectDelete();
+	const enableMutation = useRedirectBulkAction( 'enable' );
+	const disableMutation = useRedirectBulkAction( 'disable' );
+	const resetMutation = useRedirectBulkAction( 'reset' );
 
 	// Fetch redirects with current table params - read directly from Query
 	const { data: redirectData, isLoading, isSuccess } = useRedirectList( table );
@@ -87,9 +104,26 @@ function Redirects() {
 		setRedirectsTable( { page } );
 	};
 
-	const handleBulk = () => {
-		// Note: Bulk actions are handled through mutations
-		// XXX fix this - bulk actions are not implemented yet.
+	const handleBulk = ( action: string ) => {
+		const items = table.selected;
+		if ( items.length === 0 ) {
+			return;
+		}
+
+		switch ( action ) {
+			case 'delete':
+				deleteMutation.mutate( { items } );
+				break;
+			case 'enable':
+				enableMutation.mutate( { items } );
+				break;
+			case 'disable':
+				disableMutation.mutate( { items } );
+				break;
+			case 'reset':
+				resetMutation.mutate( { items } );
+				break;
+		}
 	};
 
 	const handleSelect = ( items: number[] | boolean | number ) => {
@@ -125,7 +159,7 @@ function Redirects() {
 		} );
 	};
 
-	const logOptions = {
+	const logOptions: LogOptions = {
 		displayFilters: getDisplayOptions(),
 		displayGroups: getDisplayGroups(),
 		searchOptions: getSearchOptions(),
@@ -136,15 +170,15 @@ function Redirects() {
 		validateDisplay,
 	};
 
-	const logActions = {
+	const logActions: LogActions = {
 		onChangePage: handleChangePage,
 		onBulk: handleBulk,
 		onSelect: handleSelect,
 		onSetOrder: handleSetOrder,
-		onFilter: ( filter: any ) => {
+		onFilter: ( filter: FilterBy ) => {
 			handleFilter( {
 				...filter,
-				...( table.filterBy?.group ? { group: table.filterBy.group } : {} ),
+				...( table.filterBy?.group ? { group: String( table.filterBy.group ) } : {} ),
 			} );
 		},
 		onSetDisplay: handleSetDisplay,
@@ -162,7 +196,7 @@ function Redirects() {
 	};
 
 	// Convert TableState to LogPage's Table format (camelCase)
-	const logPageTable = {
+	const logPageTable: LogPageTable = {
 		page: table.page,
 		perPage: table.per_page,
 		orderBy: table.orderby,
@@ -170,10 +204,10 @@ function Redirects() {
 		selected: table.selected,
 		selectAll: table.selectAll ?? false,
 		filter: '',
-		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
+		filterBy: ( table.filterBy ?? {} ) as FilterBy,
 		displayType: table.displayType ?? 'standard',
 		displaySelected: table.displaySelected ?? [],
-		groupBy: table.filterBy?.group ? table.filterBy.group : '0',
+		groupBy: String( table.filterBy?.group ?? '0' ),
 	};
 
 	return (
