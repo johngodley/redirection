@@ -83,7 +83,7 @@ class Red_Flusher {
 
 	/**
 	 * Estimate remaining expired logs using a fast sampling method
-	 * Uses LIMIT with COUNT to avoid full table scans on large tables
+	 * Uses COUNT(*) over a limited subquery to avoid full table scans
 	 *
 	 * @param string $table Table name (without prefix).
 	 * @param int $expiry_time Number of days to keep logs.
@@ -96,19 +96,19 @@ class Red_Flusher {
 			return 0;
 		}
 
-		// Sample approach: Check if there are at least AGGRESSIVE_THRESHOLD logs
-		// This is much faster than COUNT(*) on large tables
+		// Sample approach: Check up to AGGRESSIVE_THRESHOLD + 1 expired logs
+		// Use COUNT(*) over a limited subquery so only a single scalar is returned
 		// phpcs:ignore
-		$sample = $wpdb->get_results(
+		$count = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT 1 FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d",
+				"SELECT COUNT(*) FROM ( SELECT 1 FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d ) AS t",
 				$expiry_time,
 				self::AGGRESSIVE_THRESHOLD + 1
 			)
 		);
 
-		// If we got AGGRESSIVE_THRESHOLD rows, there's definitely a large backlog
-		return count( $sample );
+		// If we reached AGGRESSIVE_THRESHOLD rows, there's definitely a large backlog
+		return $count ? (int) $count : 0;
 	}
 
 	/**

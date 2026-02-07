@@ -16,6 +16,38 @@ class FlusherTest extends WP_UnitTestCase {
 		$wpdb->insert( $wpdb->prefix . 'redirection_logs', $data );
 	}
 
+	/**
+	 * Add multiple logs in bulk for performance
+	 *
+	 * @param int $count Number of logs to add.
+	 * @param int $days Age of logs in days.
+	 * @return void
+	 */
+	private function addLogsBulk( $count, $days ) {
+		global $wpdb;
+
+		$created = date( 'Y-m-d H:I:s', mktime( 0, 0, 0, date( 'm' ), date( 'd' ) - $days, date( 'Y' ) ) );
+		$table = $wpdb->prefix . 'redirection_logs';
+
+		// Build bulk insert with 500 rows at a time to avoid query size limits
+		$batch_size = 500;
+		$batches = ceil( $count / $batch_size );
+
+		for ( $batch = 0; $batch < $batches; $batch++ ) {
+			$rows_in_batch = min( $batch_size, $count - ( $batch * $batch_size ) );
+			$values = array();
+
+			for ( $i = 0; $i < $rows_in_batch; $i++ ) {
+				$values[] = $wpdb->prepare( '(%s, %s)', 'source', $created );
+			}
+
+			if ( ! empty( $values ) ) {
+				// phpcs:ignore
+				$wpdb->query( "INSERT INTO {$table} (url, created) VALUES " . implode( ',', $values ) );
+			}
+		}
+	}
+
 	private function getLogCount() {
 		global $wpdb;
 
@@ -143,9 +175,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 		// Add logs that will trigger aggressive mode (over DELETE_MAX and AGGRESSIVE_THRESHOLD)
 		$large_count = Red_Flusher::DELETE_MAX + Red_Flusher::AGGRESSIVE_THRESHOLD + 1000;
-		for ( $i = 0; $i < $large_count; $i++ ) {
-			$this->addLog( 8 );
-		}
+		$this->addLogsBulk( $large_count, 8 );
 
 		$this->assertEquals( $large_count, $this->getLogCount() );
 
@@ -177,9 +207,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 		// Add logs that will trigger aggressive mode
 		$large_count = Red_Flusher::DELETE_MAX + Red_Flusher::AGGRESSIVE_THRESHOLD + 1000;
-		for ( $i = 0; $i < $large_count; $i++ ) {
-			$this->addLog( 8 );
-		}
+		$this->addLogsBulk( $large_count, 8 );
 
 		$flusher = new Red_Flusher();
 		$flusher->flush();
@@ -251,9 +279,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 		// Add more than AGGRESSIVE_THRESHOLD logs
 		$large_count = Red_Flusher::AGGRESSIVE_THRESHOLD + 5000;
-		for ( $i = 0; $i < $large_count; $i++ ) {
-			$this->addLog( 8 );
-		}
+		$this->addLogsBulk( $large_count, 8 );
 
 		$flusher = new Red_Flusher();
 
@@ -333,9 +359,7 @@ class FlusherTest extends WP_UnitTestCase {
 		// Add enough logs to require multiple aggressive flushes
 		// Need: DELETE_MAX + (DELETE_AGGRESSIVE * 2) to test multiple aggressive runs
 		$large_count = Red_Flusher::DELETE_MAX + ( Red_Flusher::DELETE_AGGRESSIVE * 2 ) + 5000;
-		for ( $i = 0; $i < $large_count; $i++ ) {
-			$this->addLog( 8 );
-		}
+		$this->addLogsBulk( $large_count, 8 );
 
 		$initial_count = $this->getLogCount();
 		$this->assertEquals( $large_count, $initial_count );
