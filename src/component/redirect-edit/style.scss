@@ -18,7 +18,7 @@
 		padding: 0;
 		align-items: center;
 
-		> *,
+		> *:not(input[type="checkbox"]),
 		.redirection-url-autocomplete input {
 			flex: 1 1 auto;
 			justify-content: flex-start;
@@ -38,6 +38,10 @@
 			flex-grow: 0;
 			padding-top: 5px;
 		}
+	}
+
+	tbody tr.redirect-edit__action td {
+		display: block;
 	}
 
 	tbody tr.redirect-edit__options td p {
@@ -68,14 +72,14 @@
 
 		p {
 			color: #444;
-			margin: auto;
+			margin: 0;
 			line-height: 2;
 			display: flex;
 			align-items: center;
 		}
 
 		code {
-			padding: 0px 4px;
+			padding: 0 4px;
 			margin-left: 4px;
 			margin-right: 4px;
 		}
@@ -87,10 +91,6 @@
 
 		a:hover {
 			text-decoration: underline;
-		}
-
-		p {
-			margin: 0;
 		}
 	}
 
@@ -106,11 +106,6 @@
 
 .widefat td.column-url p {
 	margin: 0;
-}
-
-.column-url:not(.redirect-edit) {
-	min-width: 200px;
-	overflow: auto;
 }
 
 .redirect-column-wrap {
@@ -140,7 +135,7 @@
 
 .wpl-badge.redirect-source__flag_regex {
 	background-color: #ffb900;
-	color: black;
+	color: #000;
 }
 
 .redirect-source__flags {

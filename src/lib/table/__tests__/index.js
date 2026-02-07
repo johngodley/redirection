@@ -1,14 +1,4 @@
-/**
- * Internal dependencies
- */
-
-import {
-	mergeWithTable,
-	setTableSelected,
-	clearSelected,
-	removeDefaults,
-	getDefaultTable,
-} from 'lib/table';
+import { mergeWithTable, setTableSelected, clearSelected, removeDefaults, getDefaultTable } from 'lib/table';
 import { getPageUrl } from 'lib/wordpress-url';
 
 const NEW_TABLE = {
@@ -81,7 +71,10 @@ describe( 'tables', () => {
 	} );
 
 	test( 'removeDefaults removes the default table properties', () => {
-		const table = removeDefaults( { direction: 'desc', page: 0, orderby: 'test', per_page: 25, dummy: true }, 'test' );
+		const table = removeDefaults(
+			{ direction: 'desc', page: 0, orderby: 'test', per_page: 25, dummy: true },
+			'test'
+		);
 
 		expect( table ).toEqual( { dummy: true } );
 	} );
@@ -91,6 +84,8 @@ describe( 'tables', () => {
 
 		const table = getDefaultTable( [ 'other' ], [ 'filter' ], [], 'name', [ 'page' ] );
 
-		expect( table ).toEqual( Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, displayType: 'standard' } ) );
+		expect( table ).toEqual(
+			Object.assign( {}, NEW_TABLE, { orderby: 'other', direction: 'asc', page: 5, displayType: 'standard' } )
+		);
 	} );
 } );

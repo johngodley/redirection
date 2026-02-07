@@ -1,6 +1,3 @@
-/**
- * Internal dependencies
- */
 const testItem = require( '../util' );
 
 describe( 'HTTP Redirect Tester', () => {

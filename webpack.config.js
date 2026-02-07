@@ -1,20 +1,16 @@
-/**
- * External dependencies
- */
-
 const fs = require( 'fs' );
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 const pkg = require( './package.json' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
 const RtlCssPlugin = require( '@wordpress/scripts/plugins/rtlcss-webpack-plugin' );
 const WebpackShellPluginNext = require( 'webpack-shell-plugin-next' );
 const crypto = require( 'crypto' );
+const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 
-const versionHeader = md5 => `<?php
+const versionHeader = ( md5 ) => `<?php
 
 define( 'REDIRECTION_VERSION', '${ pkg.version }' );
 define( 'REDIRECTION_BUILD', '${ md5 }' );
@@ -23,10 +19,7 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 
 function generateVersion() {
 	fs.readFile( path.resolve( __dirname, 'build/redirection.js' ), ( error, data ) => {
-		const md5 = crypto
-			.createHash( 'md5' )
-			.update( data, 'utf8' )
-			.digest( 'hex' );
+		const md5 = crypto.createHash( 'md5' ).update( data, 'utf8' ).digest( 'hex' );
 
 		fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
 	} );
@@ -40,15 +33,17 @@ class CustomRtlCssPlugin extends RtlCssPlugin {
 
 		chunks.forEach( ( chunk ) => {
 			const files = Array.from( chunk.files );
-			files.filter( filename => path.extname( filename ) === '.css' ).forEach( ( filename ) => {
-				const src = compilation.assets[ filename ].source();
-				const dst = rtlcss.process( src );
-				// Use custom naming: redirection.css -> redirection-rtl.css
-				const dstFileName = filename.replace( /\.css$/, '-rtl.css' );
+			files
+				.filter( ( filename ) => path.extname( filename ) === '.css' )
+				.forEach( ( filename ) => {
+					const src = compilation.assets[ filename ].source();
+					const dst = rtlcss.process( src );
+					// Use custom naming: redirection.css -> redirection-rtl.css
+					const dstFileName = filename.replace( /\.css$/, '-rtl.css' );
 
-				compilation.assets[ dstFileName ] = new webpack.sources.RawSource( dst );
-				chunk.files.add( dstFileName );
-			} );
+					compilation.assets[ dstFileName ] = new webpack.sources.RawSource( dst );
+					chunk.files.add( dstFileName );
+				} );
 		} );
 
 		callback();
@@ -65,7 +60,13 @@ const modified = {
 		...defaultConfig.module,
 		rules: defaultConfig.module.rules.map( ( rule ) => {
 			// Find the sass-loader and configure it to suppress deprecation warnings
-			if ( rule && typeof rule === 'object' && rule.test && rule.test.toString().includes( 'scss' ) && Array.isArray( rule.use ) ) {
+			if (
+				rule &&
+				typeof rule === 'object' &&
+				rule.test &&
+				rule.test.toString().includes( 'scss' ) &&
+				Array.isArray( rule.use )
+			) {
 				return {
 					...rule,
 					use: rule.use.map( ( loader ) => {
@@ -81,7 +82,12 @@ const modified = {
 								},
 							};
 						}
-						if ( typeof loader === 'object' && loader && loader.loader && loader.loader.includes( 'sass-loader' ) ) {
+						if (
+							typeof loader === 'object' &&
+							loader &&
+							loader.loader &&
+							loader.loader.includes( 'sass-loader' )
+						) {
 							return {
 								...loader,
 								options: {
@@ -109,9 +115,8 @@ const modified = {
 	],
 	plugins: [
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
-		...defaultConfig.plugins.filter( ( plugin ) =>
-			!( plugin instanceof MiniCSSExtractPlugin ) &&
-			!( plugin instanceof RtlCssPlugin )
+		...defaultConfig.plugins.filter(
+			( plugin ) => ! ( plugin instanceof MiniCSSExtractPlugin ) && ! ( plugin instanceof RtlCssPlugin )
 		),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
 		new CustomRtlCssPlugin(),
@@ -125,9 +130,12 @@ const modified = {
 			onBuildEnd: {
 				scripts: [ generateVersion ],
 				blocking: true,
-				parallel: false
+				parallel: false,
 			},
-		} )
+		} ),
+
+		// Add bundle analyzer when ANALYZE env var is set
+		...( process.env.ANALYZE ? [ new BundleAnalyzerPlugin() ] : [] ),
 	],
 	resolve: {
 		...defaultConfig.resolve,
@@ -135,15 +143,20 @@ const modified = {
 			...defaultConfig.resolve.alias,
 			'@wp-plugin-components': path.resolve( __dirname, 'src/wp-plugin-components' ),
 			'@wp-plugin-lib': path.resolve( __dirname, 'src/wp-plugin-lib/' ),
-			'lib': path.resolve( __dirname, 'src/lib/' ),
-			'component': path.resolve( __dirname, 'src/component/' ),
-			'state': path.resolve( __dirname, 'src/state/' ),
-			'page': path.resolve( __dirname, 'src/page/' ),
-			'app': path.resolve( __dirname, 'src/app/' ),
-		}
+			lib: path.resolve( __dirname, 'src/lib/' ),
+			component: path.resolve( __dirname, 'src/component/' ),
+			state: path.resolve( __dirname, 'src/state/' ),
+			page: path.resolve( __dirname, 'src/page/' ),
+			app: path.resolve( __dirname, 'src/app/' ),
+			types: path.resolve( __dirname, 'src/types/' ),
+			stores: path.resolve( __dirname, 'src/stores/' ),
+		},
 	},
 	optimization: {
 		...defaultConfig.optimization,
+		usedExports: true,
+		sideEffects: true,
+		minimize: true,
 		minimizer: [
 			new TerserPlugin( {
 				parallel: true,
@@ -165,8 +178,8 @@ const modified = {
 					},
 				},
 			} ),
-		]
-	}
+		],
+	},
 };
 
 module.exports = modified;

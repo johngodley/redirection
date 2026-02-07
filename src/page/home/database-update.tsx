@@ -1,22 +1,13 @@
-/**
- * External dependencies
- */
-
-import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { __, sprintf } from '@wordpress/i18n';
+import { sprintf, __ } from '@wordpress/i18n';
+import { createInterpolateElement, ExternalLink, Error } from '@wp-plugin-components';
 import TextareaAutosize from 'react-textarea-autosize';
-
-/**
- * Internal dependencies
- */
 import Database from 'component/database';
-import DebugReport from 'page/home/debug';
-import { getExportUrl } from 'state/io/selector';
-import { ExternalLink, Error, createInterpolateElement } from '@wp-plugin-components';
-import { STATUS_FAILED } from 'state/settings/type';
-import { fixStatus, finishUpgrade } from 'state/settings/action';
+import { useFixStatus, useFinishUpgrade } from 'lib/api/hooks/use-settings';
+import { useSettingsStore } from 'stores';
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
+import DebugReport from 'page/home/debug';
+import { getExportUrl } from 'lib/wordpress-url';
 
 function hasFinished( status: string ) {
 	return status === 'finish-install' || status === 'finish-update';
@@ -32,8 +23,10 @@ function getUpgradeNotice() {
 	return (
 		<>
 			<p>
+				{ /* translators: %(current)s is the current database version, %(latest)s is the latest database version */ }
 				{ createInterpolateElement(
 					sprintf(
+						// translators: %(current)s is the current database version, %(latest)s is the latest database version
 						__(
 							'Redirection stores data in your database and sometimes this needs upgrading. Your database is at version {{strong}}%(current)s{{/strong}} and the latest is {{strong}}%(latest)s{{/strong}}.',
 							'redirection'
@@ -41,7 +34,7 @@ function getUpgradeNotice() {
 						{
 							current: window.Redirectioni10n.database.current,
 							latest: window.Redirectioni10n.database.next,
-						},
+						}
 					),
 					{
 						strong: <strong />,
@@ -53,17 +46,19 @@ function getUpgradeNotice() {
 }
 
 function ManualUpgrade() {
-	const dispatch = useDispatch();
+	const { mutate: fixStatus } = useFixStatus();
 
 	function onComplete() {
-		dispatch( fixStatus( 'database', window.Redirectioni10n.database.next ) );
+		fixStatus( { reason: 'database', current: window.Redirectioni10n.database.next } );
 	}
 
 	if ( window.Redirectioni10n.database.manual.length === 0 ) {
 		return (
 			<>
 				<p>
-					{ __( 'Your site already has the latest SQL.', 'redirection' ) + ' ' + __( 'Click "Complete Upgrade" when finished.', 'redirection' ) }
+					{ __( 'Your site already has the latest SQL.', 'redirection' ) +
+						' ' +
+						__( 'Click "Complete Upgrade" when finished.', 'redirection' ) }
 				</p>
 				<p>
 					<button className="button-primary" onClick={ onComplete }>
@@ -99,7 +94,11 @@ function ManualUpgrade() {
 	);
 }
 
-function AutomaticUpgrade( { onShowUpgrade } ) {
+interface AutomaticUpgradeProps {
+	onShowUpgrade: () => void;
+}
+
+function AutomaticUpgrade( { onShowUpgrade }: AutomaticUpgradeProps ) {
 	return (
 		<>
 			<p>{ __( 'Click the "Upgrade Database" button to automatically upgrade the database.', 'redirection' ) }</p>
@@ -116,16 +115,18 @@ function AutomaticUpgrade( { onShowUpgrade } ) {
 }
 
 function ShowDatabase() {
-	const dispatch = useDispatch();
-	const { reason, status, result } = useSelector( ( state ) => state.settings.database );
+	const reason = useSettingsStore( ( state ) => state.database.reason );
+	const status = useSettingsStore( ( state ) => state.database.status );
+	const result = useSettingsStore( ( state ) => state.database.result );
+	const { mutate: finishUpgrade } = useFinishUpgrade();
 
 	function onFinish() {
-		dispatch( finishUpgrade() );
+		finishUpgrade();
 	}
 
 	return (
 		<>
-			{ result === STATUS_FAILED && (
+			{ result === 'error' && (
 				<Error
 					details={ getErrorDetails() }
 					errors={ reason }
@@ -152,12 +153,16 @@ function ShowDatabase() {
 	);
 }
 
-function ShowNotice( { onShowUpgrade } ) {
+interface ShowNoticeProps {
+	onShowUpgrade: () => void;
+}
+
+function ShowNotice( { onShowUpgrade }: ShowNoticeProps ) {
 	const [ isManual, setManual ] = useState( false );
 
-	function onToggle( ev ) {
+	function onToggle( ev: React.MouseEvent< HTMLButtonElement > ) {
 		ev.preventDefault();
-		setManual( !isManual );
+		setManual( ! isManual );
 	}
 
 	return (
@@ -186,25 +191,30 @@ function ShowNotice( { onShowUpgrade } ) {
 			</div>
 
 			<div className="database-switch">
-				{ !isManual && (
-					<a href="#" onClick={ onToggle }>
+				{ ! isManual && (
+					<button type="button" onClick={ onToggle }>
 						{ __( 'Manual Upgrade', 'redirection' ) }
-					</a>
+					</button>
 				) }
 				{ isManual && (
-					<a href="#" onClick={ onToggle }>
+					<button type="button" onClick={ onToggle }>
 						{ __( 'Automatic Upgrade', 'redirection' ) }
-					</a>
+					</button>
 				) }
 			</div>
 		</>
 	);
 }
 
-export default function DatabaseUpdate( { showDatabase, onShowUpgrade } ) {
+interface DatabaseUpdateProps {
+	showDatabase: boolean;
+	onShowUpgrade: () => void;
+}
+
+export default function DatabaseUpdate( { showDatabase, onShowUpgrade }: DatabaseUpdateProps ) {
 	if ( showDatabase ) {
 		return <ShowDatabase />;
 	}
 
-	return <ShowNotice onShowUpgrade={ onShowUpgrade } />
+	return <ShowNotice onShowUpgrade={ onShowUpgrade } />;
 }
