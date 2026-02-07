@@ -48,6 +48,8 @@
 	"devDependencies": {
 		"@hookform/resolvers": "^5.2.2",
 		"@tanstack/eslint-plugin-query": "^5.91.4",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
 		"@types/jest": "^30.0.0",
 		"@types/react": "^18.3.28",
 		"@types/react-dom": "^18.3.7",
