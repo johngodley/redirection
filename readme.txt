@@ -188,7 +188,7 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.7 - Unreleased =
+= 5.7.1 - Unreleased =
 * Bump minimum PHP to 7.4
 
 = 5.6.1 - 17th January 2026 =

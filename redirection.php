@@ -21,7 +21,7 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 }
 
 // This file must support PHP < 7.4 so as not to crash
-if ( version_compare( phpversion(), '7.4' ) < 0 ) {
+if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 	add_filter( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php' );
 
 	/**
