@@ -233,9 +233,9 @@ function TableRows( props: TableRowsProps ) {
 				// No previous click, treat as normal click
 				lastClickedIndex.current = rowIndex;
 				const row = rows[ rowIndex ];
-			if ( row ) {
-				onSelect( [ row.id ] );
-			}
+				if ( row ) {
+					onSelect( [ row.id ] );
+				}
 				return;
 			}
 
