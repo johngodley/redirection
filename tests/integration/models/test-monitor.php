@@ -151,7 +151,12 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testTrashUpdated() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'trash me' ) );
 		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 
@@ -165,6 +170,29 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( $total + 1, $after );
 		$this->assertEquals( $url, $redirect->url );
 		$this->assertEquals( 'disabled', $redirect->status );
+	}
+
+	public function testTrashNotUpdatedForUnmonitoredType() {
+		global $wpdb;
+
+		// Trash is enabled but only 'post' is monitored, so trashing a 'page' should not create a redirect
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+
+		$page = $this->factory->post->create( [ 'post_type' => 'page', 'post_title' => 'unmonitored page' ] );
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		wp_trash_post( $page );
+
+		// Verify the page was actually trashed (not deleted)
+		$this->assertEquals( 'trash', get_post_status( $page ) );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		$this->assertEquals( $total, $after );
 	}
 
 	public function testTrashNotUpdated() {
@@ -259,7 +287,12 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testTrashedDataFilterCanModifyRedirect() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'filter test' ) );
 
 		// Add filter to modify the redirect data
@@ -281,7 +314,12 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testTrashedDataFilterCanSuppressRedirect() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'suppress test' ) );
 
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
@@ -301,7 +339,12 @@ class MonitorTest extends WP_UnitTestCase {
 	}
 
 	public function testMonitorCreatedActionFiresOnTrash() {
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'action test' ) );
 		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 		$action = new MockAction();

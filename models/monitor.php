@@ -111,6 +111,12 @@ class Red_Monitor {
 	 * @return void
 	 */
 	public function post_trashed( int $post_id ): void {
+		// Only create redirects for post types that are being monitored
+		$post_type = get_post_type( $post_id );
+		if ( $post_type === false || ! in_array( $post_type, $this->monitor_types, true ) ) {
+			return;
+		}
+
 		$permalink = get_permalink( $post_id );
 		if ( $permalink === false ) {
 			return;
