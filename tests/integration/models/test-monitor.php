@@ -175,17 +175,20 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testTrashNotUpdatedForUnmonitoredType() {
 		global $wpdb;
 
-		// Trash is enabled but 'attachment' is not in monitor_types, so trashing an attachment should not create a redirect
+		// Trash is enabled but only 'post' is monitored, so trashing a 'page' should not create a redirect
 		$monitor = new Red_Monitor( [
 			'monitor_post' => 1,
 			'monitor_types' => [ 'post', 'trash' ],
 			'associated_redirect' => '',
 		] );
 
-		$attachment = $this->factory->attachment->create();
+		$page = $this->factory->post->create( [ 'post_type' => 'page', 'post_title' => 'unmonitored page' ] );
 		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 
-		wp_trash_post( $attachment );
+		wp_trash_post( $page );
+
+		// Verify the page was actually trashed (not deleted)
+		$this->assertEquals( 'trash', get_post_status( $page ) );
 
 		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
 
