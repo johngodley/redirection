@@ -216,18 +216,6 @@ function TableRows( props: TableRowsProps ) {
 	const isAllSaving = saving.some( ( id ) => id === -1 );
 	const lastClickedIndex = useRef< number | null >( null );
 
-	if ( status === STATUS_LOADING && rows.length === 0 ) {
-		return <LoadingRow headers={ headers } rows={ rows } />;
-	}
-
-	if ( status === STATUS_COMPLETE && rows.length === 0 ) {
-		return <EmptyRow headers={ headers } />;
-	}
-
-	if ( status === STATUS_ERROR ) {
-		return <FailedRow headers={ headers } />;
-	}
-
 	const handleSelect = useCallback(
 		( items: RowId[], rowIndex: number ) => {
 			lastClickedIndex.current = rowIndex;
@@ -277,6 +265,18 @@ function TableRows( props: TableRowsProps ) {
 		},
 		[ onSelect, rows, selected ]
 	);
+
+	if ( status === STATUS_LOADING && rows.length === 0 ) {
+		return <LoadingRow headers={ headers } rows={ rows } />;
+	}
+
+	if ( status === STATUS_COMPLETE && rows.length === 0 ) {
+		return <EmptyRow headers={ headers } />;
+	}
+
+	if ( status === STATUS_ERROR ) {
+		return <FailedRow headers={ headers } />;
+	}
 
 	return (
 		<>
