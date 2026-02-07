@@ -79,11 +79,18 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * : The setting name to get or set
 	 *
 	 * [--set=<value>]
-	 * : The value to set (JSON)
+	 * : The value to set. Use true/false for boolean settings, or JSON for complex values.
+	 *
+	 * [--verbose]
+	 * : Display setting name along with value (e.g., "flag_case: true" instead of just "true")
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp redirection setting name <value>
+	 *     wp redirection setting flag_case
+	 *     wp redirection setting flag_case --verbose
+	 *     wp redirection setting flag_case --set=true
+	 *     wp redirection setting cache_key --set=false
+	 *     wp redirection setting aliases --set='["example.com"]'
 	 *
 	 * @param list<string>            $args  Positional arguments.
 	 * @param array<string, mixed>    $extra Associative flags.
@@ -91,32 +98,120 @@ class Redirection_Cli extends WP_CLI_Command {
 	 */
 	public function setting( $args, $extra ) {
 		$name = $args[0];
-		$set = isset( $extra['set'] ) ? $extra['set'] : false;
+		$set = isset( $extra['set'] ) ? $extra['set'] : null;
+		$verbose = isset( $extra['verbose'] );
 
 		$options = Red_Options::get();
 
-		if ( ! isset( $options[ $name ] ) ) {
+		if ( ! array_key_exists( $name, $options ) ) {
 			WP_CLI::error( 'Unsupported setting: ' . $name );
 			return;
 		}
 
-		$value = $options[ $name ];
+		$old_value = $options[ $name ];
 
-		if ( $set !== false ) {
-			$decoded = json_decode( $set, true );
-			if ( $decoded === null ) {
-				$decoded = $set;
+		if ( $set !== null ) {
+			if ( ! is_string( $set ) ) {
+				WP_CLI::error( 'No value provided for --set; please provide a value, for example: --set=true or --set=\'["example.com"]\'.' );
+				return;
 			}
 
-			$options = [];
-			$options[ $name ] = $decoded;
+			$decoded = $this->parse_setting_value( $set );
 
-			$options = red_set_options( $options );
-			$value = $options[ $name ];
+			$update = [];
+			$update[ $name ] = $decoded;
+
+			$options = Red_Options::save( $update );
+			$new_value = array_key_exists( $name, $options ) ? $options[ $name ] : null;
+
+			$this->display_setting_result( $name, $old_value, $new_value );
+			return;
 		}
 
-		$encoded = is_array( $value ) ? wp_json_encode( $value ) : (string) $value;
-		WP_CLI::success( is_string( $encoded ) ? $encoded : '' );
+		// Just display the current value
+		$this->display_setting_value( $name, $old_value, $verbose );
+	}
+
+	/**
+	 * Parse a setting value from CLI input.
+	 *
+	 * @param string $value The raw CLI value.
+	 * @return mixed The parsed value.
+	 */
+	private function parse_setting_value( $value ) {
+		// Handle explicit boolean strings
+		if ( $value === 'true' ) {
+			return true;
+		}
+		if ( $value === 'false' ) {
+			return false;
+		}
+
+		// Try JSON decode for arrays/objects (but not null, which should be literal string "null")
+		$decoded = json_decode( $value, true );
+		if ( $decoded !== null ) {
+			return $decoded;
+		}
+
+		// Return as-is (string value, including literal "null")
+		return $value;
+	}
+
+	/**
+	 * Display a setting value.
+	 *
+	 * @param string $name    Setting name.
+	 * @param mixed  $value   Setting value.
+	 * @param bool   $verbose Whether to include setting name in output.
+	 * @return void
+	 */
+	private function display_setting_value( $name, $value, $verbose = false ) {
+		$display = $this->format_value_for_display( $value );
+		if ( $verbose ) {
+			WP_CLI::success( sprintf( '%s: %s', $name, $display ) );
+		} else {
+			WP_CLI::success( $display );
+		}
+	}
+
+	/**
+	 * Display the result of setting a value.
+	 *
+	 * @param string $name      Setting name.
+	 * @param mixed  $old_value Previous value.
+	 * @param mixed  $new_value New value.
+	 * @return void
+	 */
+	private function display_setting_result( $name, $old_value, $new_value ) {
+		$old_display = $this->format_value_for_display( $old_value );
+		$new_display = $this->format_value_for_display( $new_value );
+
+		// Compare raw values to avoid issues with formatted display strings
+		if ( $old_value === $new_value ) {
+			WP_CLI::success( sprintf( '%s is already set to: %s', $name, $new_display ) );
+		} else {
+			WP_CLI::success( sprintf( '%s updated: %s → %s', $name, $old_display, $new_display ) );
+		}
+	}
+
+	/**
+	 * Format a value for display in CLI output.
+	 *
+	 * @param mixed $value The value to format.
+	 * @return string Formatted string for display.
+	 */
+	private function format_value_for_display( $value ) {
+		if ( is_bool( $value ) ) {
+			return $value ? 'true' : 'false';
+		}
+		if ( is_array( $value ) ) {
+			$encoded = wp_json_encode( $value );
+			return is_string( $encoded ) ? $encoded : '[]';
+		}
+		if ( $value === '' ) {
+			return '(empty)';
+		}
+		return (string) $value;
 	}
 
 	/**
