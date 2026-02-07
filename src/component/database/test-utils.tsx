@@ -1,5 +1,14 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import type { DatabaseState } from '../../stores/settings-store';
+import type { DatabaseState } from 'stores/settings-store';
+
+interface State {
+	database: DatabaseState;
+}
+
+type Selector< T > = ( state: State ) => T;
+type MockFunction = {
+	mockImplementation: ( impl: ( selector?: Selector< unknown > ) => unknown ) => void;
+};
 
 export function createQueryClientWrapper() {
 	const queryClient = new QueryClient( {
@@ -13,8 +22,8 @@ export function createQueryClientWrapper() {
 	);
 }
 
-export function mockSettingsStore( mock: jest.MockedFunction< any >, database: Partial< DatabaseState > ) {
-	const state = {
+export function mockSettingsStore( mock: MockFunction, database: Partial< DatabaseState > ) {
+	const state: State = {
 		database: {
 			current: '',
 			next: '',
@@ -27,5 +36,7 @@ export function mockSettingsStore( mock: jest.MockedFunction< any >, database: P
 			...database,
 		},
 	};
-	mock.mockImplementation( ( selector: any ) => ( selector ? selector( state ) : state ) );
+	mock.mockImplementation( ( selector?: Selector< unknown > ) =>
+		selector ? selector( state ) : ( state as unknown )
+	);
 }

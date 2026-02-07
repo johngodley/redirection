@@ -18,9 +18,12 @@ jest.mock( 'lib/api/hooks/use-settings', () => ( {
 	useSettings: jest.fn(),
 	useSettingsUpdate: jest.fn(),
 } ) );
-jest.mock( '../../component/prevent-leave', () => ( { prevent, message }: any ) => (
-	prevent ? <div data-testid="prevent-leave">{ message }</div> : null
-) );
+jest.mock(
+	'../../component/prevent-leave',
+	() =>
+		( { prevent, message }: any ) =>
+			prevent ? <div data-testid="prevent-leave">{ message }</div> : null
+);
 jest.mock( './database-error', () => ( { error, onRetry }: any ) => (
 	<div data-testid="database-error">
 		<div>{ error }</div>
