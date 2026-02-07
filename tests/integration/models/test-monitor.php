@@ -255,4 +255,69 @@ class MonitorTest extends WP_UnitTestCase {
 		// Should not trigger another
 		$this->assertFalse( $monitor->check_for_modified_slug( $this->post_id, $before ) );
 	}
+
+	public function testTrashedDataFilterCanModifyRedirect() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'filter test' ) );
+
+		// Add filter to modify the redirect data
+		add_filter( 'redirection_monitor_trashed_data', function( $data, $post_id ) {
+			$data['action_code'] = 302;
+			$data['status'] = 'enabled';
+			return $data;
+		}, 10, 2 );
+
+		wp_trash_post( $post );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		// Verify the filter modified the redirect data
+		$this->assertEquals( 302, $redirect->action_code );
+		$this->assertEquals( 'enabled', $redirect->status );
+	}
+
+	public function testTrashedDataFilterCanSuppressRedirect() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'suppress test' ) );
+
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		// Add filter to suppress redirect creation by setting url to null
+		add_filter( 'redirection_monitor_trashed_data', function( $data, $post_id ) {
+			$data['url'] = null;
+			return $data;
+		}, 10, 2 );
+
+		wp_trash_post( $post );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		// Verify no redirect was created
+		$this->assertEquals( $total, $after );
+	}
+
+	public function testMonitorCreatedActionFiresOnTrash() {
+		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'action test' ) );
+		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
+		$action = new MockAction();
+
+		add_action( 'redirection_monitor_created', array( $action, 'action' ), 10, 3 );
+
+		wp_trash_post( $post );
+
+		// Verify the action was called once
+		$this->assertEquals( 1, $action->get_call_count() );
+
+		$args = $action->get_args();
+
+		// Verify the action was called with correct arguments (Red_Item, url, post_id)
+		$this->assertInstanceOf( 'Red_Item', $args[0][0] );
+		$this->assertEquals( $url, $args[0][1] );
+		$this->assertEquals( $post, $args[0][2] );
+	}
 }
