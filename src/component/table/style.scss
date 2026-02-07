@@ -247,6 +247,26 @@
 
 .tablenav .tablenav-pages {
 	margin: 0;
+	display: flex;
+	align-items: center;
+
+	.pagination-links {
+		display: flex;
+
+		.button {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+
+			span {
+				padding-bottom: 2px;
+			}
+		}
+
+		span.button {
+			padding-bottom: 2px;
+		}
+	}
 
 	.tablenav-paging-text,
 	.pagination-links .button {
