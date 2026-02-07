@@ -77,7 +77,7 @@ const knownHeaders = {
 	},
 	'Permissions-Policy': {
 		component: HeaderPlainValue,
-		info: 'https://www.permissionspolicy.com/',
+		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy',
 		default: 'camera=(), display-capture=(), geolocation=(), microphone=()',
 	},
 	'Clear-Site-Data': {
