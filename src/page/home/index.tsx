@@ -163,7 +163,7 @@ export default function Home() {
 
 	return (
 		<ErrorBoundary renderCrash={ CrashHandler as any } extra={ { page } }>
-			<div className="wrap redirection">
+			<div className="wrap redirection notranslate" translate="no">
 				{ needsUpgrader && (
 					<DatabaseUpdate onShowUpgrade={ () => setShowDatabase( true ) } showDatabase={ showDatabase } />
 				) }

@@ -3,14 +3,14 @@ import { ExternalLink, Error, createInterpolateElement } from '@wp-plugin-compon
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from './debug';
 
+interface ErrorInfo {
+	componentStack: string;
+}
+
 /**
  * Detect if an error was likely caused by a browser extension modifying the DOM
- *
- * @param {string} stack - Error stack trace
- * @param {string} message - Error message
- * @returns {boolean} True if the error appears to be caused by a browser extension
  */
-function isBrowserExtensionError( stack, message ) {
+function isBrowserExtensionError( stack: string, message: string ): boolean {
 	// Check for extension URLs in stack trace
 	if ( stack && ( stack.includes( 'chrome-extension://' ) || stack.includes( 'moz-extension://' ) ) ) {
 		return true;
@@ -46,10 +46,7 @@ function BrowserExtensionWarning() {
 			</p>
 
 			<p>
-				{ __(
-					'You can also try using a different browser, or using private/incognito mode.',
-					'redirection'
-				) }
+				{ __( 'You can also try using a different browser, or using private/incognito mode.', 'redirection' ) }
 			</p>
 		</>
 	);
@@ -59,7 +56,10 @@ function DefaultCrashMessage() {
 	return (
 		<>
 			<p>
-				) }{ ' ' }
+				{ __(
+					'Redirection is not working. Try clearing your browser cache and reloading this page.',
+					'redirection'
+				) }
 				&nbsp;
 				{ __(
 					'If you are using a page caching plugin or service (CloudFlare, OVH, etc) then you can also try clearing that cache.',
@@ -82,7 +82,7 @@ function DefaultCrashMessage() {
 	);
 }
 
-function CrashHandler( error, errorInfo, extra ) {
+function CrashHandler( error: Error, errorInfo: ErrorInfo | null ): JSX.Element {
 	const stack = error?.stack || '';
 	const message = error?.message || '';
 	const isExtensionError = isBrowserExtensionError( stack, message );
