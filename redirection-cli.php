@@ -113,7 +113,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 			$options = Red_Options::save( $update );
 			// @phpstan-ignore offsetAccess.notFound (validated above)
-			$new_value = $options[ $name ];
+			$new_value = array_key_exists( $name, $options ) ? $options[ $name ] : null;
 
 			$this->display_setting_result( $name, $old_value, $new_value );
 			return;
@@ -138,13 +138,13 @@ class Redirection_Cli extends WP_CLI_Command {
 			return false;
 		}
 
-		// Try JSON decode for arrays/objects
+		// Try JSON decode for arrays/objects (but not null, which should be literal string "null")
 		$decoded = json_decode( $value, true );
-		if ( $decoded !== null || $value === 'null' ) {
+		if ( $decoded !== null ) {
 			return $decoded;
 		}
 
-		// Return as-is (string or numeric string)
+		// Return as-is (string or numeric string, including literal "null")
 		return $value;
 	}
 
