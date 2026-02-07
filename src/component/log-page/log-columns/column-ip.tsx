@@ -33,10 +33,7 @@ export default function ColumnIp( props: ColumnIpProps ) {
 	return (
 		<>
 			<a
-				href={ 'https://redirect.li/map/?ip=' + encodeURIComponent( ip ) }
-				onClick={ ( ev ) => {
-					ev.preventDefault();
-				} }
+				href={ 'https://redirect.li/ip/?ip=' + encodeURIComponent( ip ) }
 			>
 				<Highlighter searchWords={ [ table.filterBy.ip || '' ] } textToHighlight={ ip } autoEscape />
 			</a>

@@ -124,7 +124,7 @@ export function useDatabaseUpgrade( options?: Omit< UseMutationOptions< any, Err
 				return response;
 			} catch ( error ) {
 				decrementProgress();
-				setDatabase( { inProgress: false } );
+				setDatabase( { inProgress: false, result: 'failed' } );
 				throw handleApiError( error );
 			}
 		},

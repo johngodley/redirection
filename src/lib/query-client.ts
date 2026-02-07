@@ -5,7 +5,6 @@ import { QueryClient } from '@tanstack/react-query';
  *
  * Default options optimized for WordPress REST API:
  * - 5 minute stale time (data fresh for 5 minutes)
- * - 2 retries on failure
  * - No refetch on window focus (WordPress admin context)
  */
 export const queryClient = new QueryClient( {

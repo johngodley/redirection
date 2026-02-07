@@ -13,6 +13,7 @@ export interface DatabaseState {
 	inProgress: boolean;
 	result: string;
 	status: string;
+	complete: number;
 }
 
 export interface ApiTestResult {
@@ -80,6 +81,7 @@ const initialDatabaseState: DatabaseState = {
 	inProgress: false,
 	result: 'ok',
 	status: 'ok',
+	complete: 0,
 };
 
 const initialState = {

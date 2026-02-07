@@ -210,12 +210,13 @@ export function setTableSelected(
 		};
 	}
 
-	// Convert to strings for comparison
+	// Toggle selection: remove items already selected, add items not yet selected
 	const currentStrings = table.selected.map( ( id ) => String( id ) );
 	const itemStrings = items.map( ( id ) => String( id ) );
-	const newSelected = currentStrings
-		.filter( ( id ) => ! itemStrings.includes( id ) )
-		.concat( itemStrings.filter( ( id ) => ! currentStrings.includes( id ) ) );
+	const newSelected: RowId[] = [
+		...table.selected.filter( ( id ) => ! itemStrings.includes( String( id ) ) ),
+		...items.filter( ( id ) => ! currentStrings.includes( String( id ) ) ),
+	];
 
 	return {
 		...table,

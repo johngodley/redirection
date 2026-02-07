@@ -27,7 +27,7 @@ function getTitle( status: DatabaseStatus ): string {
 }
 
 function hasWork( status: DatabaseStatus, result: DatabaseResult ): boolean {
-	if ( result === 'error' ) {
+	if ( result === 'error' || result === 'failed' ) {
 		return false;
 	}
 
@@ -40,8 +40,7 @@ function hasFinished( status: DatabaseStatus ): boolean {
 
 export default function Database( { children }: DatabaseProps ) {
 	const database = useSettingsStore( ( state ) => state.database );
-	const { status, reason, result } = database;
-	const complete = 0; // Progress tracking would come from API response
+	const { status, reason, result, complete } = database;
 	const showLoading = result === 'ok' && ! hasFinished( status );
 	const { mutate: upgradeDatabaseMutation } = useDatabaseUpgrade();
 
@@ -65,7 +64,7 @@ export default function Database( { children }: DatabaseProps ) {
 		<div className="redirection-database">
 			<PreventLeaveWarning
 				message={ __( 'Leaving before the process has completed may cause problems.', 'redirection' ) }
-				prevent={ result !== 'error' && result !== 'error' }
+				prevent={ result !== 'error' && result !== 'failed' }
 			/>
 
 			<h1>{ getTitle( status ) }</h1>
@@ -90,7 +89,7 @@ export default function Database( { children }: DatabaseProps ) {
 				) }
 
 				{ result === 'error' && <DatabaseError error={ reason || '' } onRetry={ onRetry } /> }
-				{ result === 'error' && <DatabaseApiError error={ reason || '' } onRetry={ onRetry } /> }
+				{ result === 'failed' && <DatabaseApiError error={ reason || '' } onRetry={ onRetry } /> }
 
 				{ hasFinished( status ) && children }
 			</div>
