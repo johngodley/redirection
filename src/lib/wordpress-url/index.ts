@@ -109,8 +109,11 @@ export function getExportUrl( moduleId: string, modType: string ): string {
 
 	return (
 		window.Redirectioni10n.pluginRoot +
-		'&sub=io&export=' + encodeURIComponent( moduleId ) +
-		'&exporter=' + encodeURIComponent( modType ) +
-		'&_wpnonce=' + encodeURIComponent( nonce )
+		'&sub=io&export=' +
+		encodeURIComponent( moduleId ) +
+		'&exporter=' +
+		encodeURIComponent( modType ) +
+		'&_wpnonce=' +
+		encodeURIComponent( nonce )
 	);
 }
