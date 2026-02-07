@@ -70,9 +70,15 @@ const knownHeaders = {
 		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options',
 		options: arrayToSelect( [ 'nosniff' ] ),
 	},
+	// Deprecated: Feature-Policy has been replaced by Permissions-Policy. Remove in a future version.
 	'Feature-Policy': {
 		component: HeaderPlainValue,
 		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy',
+	},
+	'Permissions-Policy': {
+		component: HeaderPlainValue,
+		info: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy',
+		default: 'camera=(), display-capture=(), geolocation=(), microphone=()',
 	},
 	'Clear-Site-Data': {
 		component: HeaderMultiChoice,
@@ -226,6 +232,7 @@ const getHeaders = () => {
 				'X-Content-Type-Options',
 				'Strict-Transport-Security',
 				'Feature-Policy',
+				'Permissions-Policy',
 				'Clear-Site-Data',
 				'Referrer-Policy',
 				'Content-Security-Policy',
