@@ -81,9 +81,13 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * [--set=<value>]
 	 * : The value to set. Use true/false for boolean settings, or JSON for complex values.
 	 *
+	 * [--verbose]
+	 * : Display setting name along with value (e.g., "flag_case: true" instead of just "true")
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp redirection setting flag_case
+	 *     wp redirection setting flag_case --verbose
 	 *     wp redirection setting flag_case --set=true
 	 *     wp redirection setting cache_key --set=false
 	 *     wp redirection setting aliases --set='["example.com"]'
@@ -95,6 +99,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	public function setting( $args, $extra ) {
 		$name = $args[0];
 		$set = isset( $extra['set'] ) ? $extra['set'] : null;
+		$verbose = isset( $extra['verbose'] );
 
 		$options = Red_Options::get();
 
@@ -106,13 +111,17 @@ class Redirection_Cli extends WP_CLI_Command {
 		$old_value = $options[ $name ];
 
 		if ( $set !== null ) {
+			if ( ! is_string( $set ) ) {
+				WP_CLI::error( 'No value provided for --set; please provide a value, for example: --set=true or --set=\'["example.com"]\'.' );
+				return;
+			}
+
 			$decoded = $this->parse_setting_value( $set );
 
 			$update = [];
 			$update[ $name ] = $decoded;
 
 			$options = Red_Options::save( $update );
-			// @phpstan-ignore offsetAccess.notFound (validated above)
 			$new_value = array_key_exists( $name, $options ) ? $options[ $name ] : null;
 
 			$this->display_setting_result( $name, $old_value, $new_value );
@@ -120,7 +129,7 @@ class Redirection_Cli extends WP_CLI_Command {
 		}
 
 		// Just display the current value
-		$this->display_setting_value( $name, $old_value );
+		$this->display_setting_value( $name, $old_value, $verbose );
 	}
 
 	/**
@@ -144,20 +153,25 @@ class Redirection_Cli extends WP_CLI_Command {
 			return $decoded;
 		}
 
-		// Return as-is (string or numeric string, including literal "null")
+		// Return as-is (string value, including literal "null")
 		return $value;
 	}
 
 	/**
 	 * Display a setting value.
 	 *
-	 * @param string $name  Setting name.
-	 * @param mixed  $value Setting value.
+	 * @param string $name    Setting name.
+	 * @param mixed  $value   Setting value.
+	 * @param bool   $verbose Whether to include setting name in output.
 	 * @return void
 	 */
-	private function display_setting_value( $name, $value ) {
+	private function display_setting_value( $name, $value, $verbose = false ) {
 		$display = $this->format_value_for_display( $value );
-		WP_CLI::log( sprintf( '%s: %s', $name, $display ) );
+		if ( $verbose ) {
+			WP_CLI::success( sprintf( '%s: %s', $name, $display ) );
+		} else {
+			WP_CLI::success( $display );
+		}
 	}
 
 	/**
@@ -172,7 +186,8 @@ class Redirection_Cli extends WP_CLI_Command {
 		$old_display = $this->format_value_for_display( $old_value );
 		$new_display = $this->format_value_for_display( $new_value );
 
-		if ( $old_display === $new_display ) {
+		// Compare raw values to avoid issues with formatted display strings
+		if ( $old_value === $new_value ) {
 			WP_CLI::success( sprintf( '%s is already set to: %s', $name, $new_display ) );
 		} else {
 			WP_CLI::success( sprintf( '%s updated: %s → %s', $name, $old_display, $new_display ) );
@@ -195,9 +210,6 @@ class Redirection_Cli extends WP_CLI_Command {
 		}
 		if ( $value === '' ) {
 			return '(empty)';
-		}
-		if ( $value === 0 || $value === '0' ) {
-			return '0 (disabled)';
 		}
 		return (string) $value;
 	}
