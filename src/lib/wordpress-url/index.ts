@@ -108,6 +108,9 @@ export function getExportUrl( moduleId: string, modType: string ): string {
 	const nonce = window.Redirectioni10n.api.WP_API_nonce;
 
 	return (
-		window.Redirectioni10n.pluginRoot + '&sub=io&export=' + moduleId + '&exporter=' + modType + '&_wpnonce=' + nonce
+		window.Redirectioni10n.pluginRoot +
+		'&sub=io&export=' + encodeURIComponent( moduleId ) +
+		'&exporter=' + encodeURIComponent( modType ) +
+		'&_wpnonce=' + encodeURIComponent( nonce )
 	);
 }

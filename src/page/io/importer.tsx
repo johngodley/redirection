@@ -28,7 +28,7 @@ function Importer( props: ImporterProps ) {
 				)
 			</p>
 
-			<button onClick={ clicker } className="button-secondary">
+			<button type="button" onClick={ clicker } className="button-secondary">
 				{ sprintf(
 					// translators: %s is the plugin name
 					__( 'Import from %s', 'redirection' ),
