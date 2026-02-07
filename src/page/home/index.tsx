@@ -162,7 +162,7 @@ export default function Home() {
 		pluginUpdate === 'prompt' && ( databaseStatus === 'need-update' || databaseStatus === 'finish-update' );
 
 	return (
-		<ErrorBoundary renderCrash={ CrashHandler as any } extra={ { page } }>
+		<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
 			<div className="wrap redirection notranslate" translate="no">
 				{ needsUpgrader && (
 					<DatabaseUpdate onShowUpgrade={ () => setShowDatabase( true ) } showDatabase={ showDatabase } />

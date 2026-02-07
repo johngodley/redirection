@@ -1,15 +1,9 @@
 import { __ } from '@wordpress/i18n';
+import type { ErrorInfo } from 'react';
 import { ExternalLink, Error, createInterpolateElement } from '@wp-plugin-components';
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from './debug';
 
-interface ErrorInfo {
-	componentStack: string;
-}
-
-/**
- * Detect if an error was likely caused by a browser extension modifying the DOM
- */
 function isBrowserExtensionError( stack: string, message: string ): boolean {
 	// Check for extension URLs in stack trace
 	if ( stack && ( stack.includes( 'chrome-extension://' ) || stack.includes( 'moz-extension://' ) ) ) {
@@ -82,7 +76,7 @@ function DefaultCrashMessage() {
 	);
 }
 
-function CrashHandler( error: Error, errorInfo: ErrorInfo | null ): JSX.Element {
+function CrashHandler( error: Error | null, errorInfo: ErrorInfo | null, _extra?: unknown ): JSX.Element {
 	const stack = error?.stack || '';
 	const message = error?.message || '';
 	const isExtensionError = isBrowserExtensionError( stack, message );
@@ -93,7 +87,7 @@ function CrashHandler( error: Error, errorInfo: ErrorInfo | null ): JSX.Element 
 			renderDebug={ DebugReport }
 			type="fixed"
 			links={ getErrorLinks() }
-			details={ getErrorDetails().concat( [ stack, errorInfo ? errorInfo.componentStack : '' ] ) }
+			details={ getErrorDetails().concat( [ stack, errorInfo?.componentStack || '' ] ) }
 			locale="redirection"
 		>
 			{ isExtensionError ? <BrowserExtensionWarning /> : <DefaultCrashMessage /> }
