@@ -25,7 +25,8 @@ class Red_Flusher {
 
 		// Check if we're in an ongoing aggressive deletion cycle
 		$aggressive_mode = get_transient( 'redirection_aggressive_delete' );
-		if ( $aggressive_mode ) {
+		$is_aggressive = $aggressive_mode !== false;
+		if ( $is_aggressive ) {
 			$batch_size = self::DELETE_AGGRESSIVE;
 		}
 
@@ -35,7 +36,7 @@ class Red_Flusher {
 		// If we deleted the full batch, there are likely more logs to delete
 		if ( $total >= $batch_size ) {
 			// Check if we should switch to aggressive mode (only if not already in it)
-			if ( ! $aggressive_mode && $total >= self::DELETE_MAX ) {
+			if ( ! $is_aggressive && $batch_size === self::DELETE_MAX ) {
 				// Sample check: if we hit the normal limit, check if there's a large backlog
 				$remaining = $this->estimate_remaining_logs( 'redirection_logs', $options['expire_redirect'] );
 				$remaining += $this->estimate_remaining_logs( 'redirection_404', $options['expire_404'] );
@@ -43,12 +44,12 @@ class Red_Flusher {
 				if ( $remaining >= self::AGGRESSIVE_THRESHOLD ) {
 					// Enable aggressive mode for 1 hour (will auto-expire if deletion completes)
 					set_transient( 'redirection_aggressive_delete', true, HOUR_IN_SECONDS );
-					$aggressive_mode = true;
+					$is_aggressive = true;
 					$batch_size = self::DELETE_AGGRESSIVE;
 				}
 			}
 
-			$delay_minutes = $aggressive_mode ? self::DELETE_FAST : self::DELETE_KEEP_ON;
+			$delay_minutes = $is_aggressive ? self::DELETE_FAST : self::DELETE_KEEP_ON;
 			$next = time() + ( $delay_minutes * 60 );
 
 			// Schedule next deletion if it's before the next normal event
@@ -98,10 +99,9 @@ class Red_Flusher {
 
 		// Sample approach: Check up to AGGRESSIVE_THRESHOLD + 1 expired logs
 		// Use COUNT(*) over a limited subquery so only a single scalar is returned
-		// phpcs:ignore
 		$count = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM ( SELECT 1 FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d ) AS t",
+				"SELECT COUNT(*) FROM ( SELECT 1 FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d ) AS t", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$expiry_time,
 				self::AGGRESSIVE_THRESHOLD + 1
 			)
@@ -128,10 +128,9 @@ class Red_Flusher {
 
 		// Use DELETE with LIMIT - more efficient than counting first
 		// The affected rows tell us how many were deleted
-		// phpcs:ignore
 		$deleted = $wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d",
+				"DELETE FROM {$wpdb->prefix}{$table} WHERE created < DATE_SUB(NOW(), INTERVAL %d DAY) LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$expiry_time,
 				$batch_size
 			)

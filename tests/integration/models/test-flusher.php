@@ -10,7 +10,7 @@ class FlusherTest extends WP_UnitTestCase {
 
 		$data = array(
 			'url' => 'source',
-			'created' => date( 'Y-m-d H:I:s', mktime( 0, 0, 0, date( 'm' ), date( 'd' ) - $days, date( 'Y' ) ) ),
+			'created' => gmdate( 'Y-m-d H:i:s', mktime( 0, 0, 0, (int) gmdate( 'm' ), (int) gmdate( 'd' ) - $days, (int) gmdate( 'Y' ) ) ),
 		);
 
 		$wpdb->insert( $wpdb->prefix . 'redirection_logs', $data );
@@ -26,7 +26,7 @@ class FlusherTest extends WP_UnitTestCase {
 	private function addLogsBulk( $count, $days ) {
 		global $wpdb;
 
-		$created = date( 'Y-m-d H:I:s', mktime( 0, 0, 0, date( 'm' ), date( 'd' ) - $days, date( 'Y' ) ) );
+		$created = gmdate( 'Y-m-d H:i:s', mktime( 0, 0, 0, (int) gmdate( 'm' ), (int) gmdate( 'd' ) - $days, (int) gmdate( 'Y' ) ) );
 		$table = $wpdb->prefix . 'redirection_logs';
 
 		// Build bulk insert with 500 rows at a time to avoid query size limits
