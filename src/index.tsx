@@ -1,19 +1,12 @@
-/**
- * External dependencies
- */
 import { createRoot } from 'react-dom/client';
-
-/**
- * Internal dependencies
- */
 
 import App from './app';
 
 function show( dom: string ) {
 	const element = document.getElementById( dom );
+
 	if ( element ) {
 		const root = createRoot( element );
-
 		root.render( <App /> );
 	}
 }

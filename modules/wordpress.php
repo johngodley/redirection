@@ -119,11 +119,11 @@ class WordPress_Module extends Red_Module {
 	 * @return void
 	 */
 	public function cache_unmatched_redirects( $url, $wp, $redirects ) {
-		if ( $this->matched === false ) {
+		if ( $this->matched !== false ) {
 			return;
 		}
 
-		$this->cache_redirects( $url, $this->matched, $redirects );
+		$this->cache_redirects( $url, false, $redirects );
 	}
 
 	/**

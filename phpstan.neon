@@ -22,7 +22,7 @@ parameters:
     dynamicConstantNames:
         - WP_CLI
 
-    phpVersion: 70200
+    phpVersion: 70400
 
     parallel:
         maximumNumberOfProcesses: 4

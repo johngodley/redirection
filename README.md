@@ -5,6 +5,7 @@ Redirection is a WordPress plugin to manage 301 redirections, keep track of 404 
 Note: this is the current 'trunk' version of Redirection. It may be newer than what is in the WordPress.org plugin repository, and should be considered experimental.
 
 ## Installation
+
 Redirection can be installed by visiting the WordPress.org plugin page:
 
 https://wordpress.org/plugins/redirection/
@@ -19,36 +20,142 @@ Access to the Redirection admin interface is given to users who can `manage_opti
 
 ## Building
 
-Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Gulp, Node, and pnpm installed. Install required modules with:
+Redirection is mostly a PHP plugin, but does contain files that need to be built. For this you'll need Node and pnpm installed.
 
-`pnpm install`
+### Requirements
 
-### React
+- Node.js >= 12.14.0
+- pnpm
+- Composer (for PHP development)
 
-Some parts of the UI are React and can be built with:
+### Setup
 
-`pnpm build`
+Install JavaScript dependencies:
 
-`pnpm start`
+```bash
+pnpm install
+```
 
-This will start Webpack in hot-reload mode, and you can make changes to JS files and have them auto-loaded.
+Install PHP dependencies (for linting and testing):
+
+```bash
+composer install
+```
+
+### Development
+
+The UI is built with React using `@wordpress/scripts`. To start development with hot-reload:
+
+```bash
+pnpm start
+```
+
+To create a production build:
+
+```bash
+pnpm build
+```
+
+### Linting
+
+Run all linters:
+
+```bash
+pnpm lint
+```
+
+Or run individually:
+
+- `pnpm lint:php` - PHP linting (PHPCS and PHPStan)
+- `pnpm lint:js` - JavaScript linting
+- `pnpm lint:css` - CSS linting
+- `pnpm lint:ts` - TypeScript type checking
+
+PHP code can be auto-formatted with:
+
+```bash
+composer format
+```
 
 ### Testing
 
-Unit tests:
+**PHP Unit tests:**
 
-- `pnpm test:unit`
+```bash
+pnpm test:unit
+```
 
-Integration (with WP) tests:
+Or directly via Composer:
 
-- `pnpm wp-env:start` to setup integration tests
-- `pnpm test:integration` to run them
+```bash
+composer test-unit
+```
+
+**PHP Integration tests (requires WordPress):**
+
+First, start the WordPress environment:
+
+```bash
+pnpm wp-env:start
+```
+
+Then run the integration tests:
+
+```bash
+pnpm test:integration
+```
+
+To stop the environment:
+
+```bash
+pnpm wp-env:destroy
+```
+
+**JavaScript tests:**
+
+```bash
+pnpm test:js
+```
+
+**End-to-end tests:**
+
+```bash
+pnpm test:e2e
+```
+
+**Run all tests:**
+
+```bash
+pnpm test
+```
 
 ### Releasing
 
-Finally, to produce a release copy:
+Create a release build (builds assets and creates a zip file):
 
-`pnpm release`
+```bash
+pnpm release
+```
+
+Create just the plugin zip without releasing:
+
+```bash
+pnpm plugin:zip
+```
+
+Release to WordPress.org SVN:
+
+```bash
+pnpm release:svn
+```
+
+### API Documentation
+
+Generate API documentation:
+
+```bash
+pnpm doc
+```
 
 ## Support
 

@@ -18,7 +18,7 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
-Redirection is compatible with PHP from 7.2 to 8.4.
+Redirection is compatible with PHP from 7.4 to 8.4.
 
 = Redirect manager =
 
@@ -181,9 +181,15 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 = 5.6 =
 * Requires minimum PHP 7.2
 
+= 5.7 =
+* Requires minimum PHP 7.4
+
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.7.1 - Unreleased =
+* Bump minimum PHP to 7.4
 
 = 5.6.1 - 17th January 2026 =
 * Fix issue with spaces in Apache .htaccess
