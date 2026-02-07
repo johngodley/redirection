@@ -76,6 +76,7 @@ function DefaultCrashMessage() {
 	);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function CrashHandler( error: Error | null, errorInfo: ErrorInfo | null, _extra?: unknown ): JSX.Element {
 	const stack = error?.stack || '';
 	const message = error?.message || '';
