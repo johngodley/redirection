@@ -36,8 +36,9 @@ const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 
 	const handleChange = useCallback(
 		( ev: React.ChangeEvent< HTMLInputElement > ) => {
-			// Skip if shift key is held - the click handler will handle it
+			// Handle shift selection for keyboard users
 			if ( ev.nativeEvent && ev.nativeEvent.shiftKey ) {
+				onShiftSelect( rowIndex );
 				return;
 			}
 			const value = ev.target.value;
@@ -45,7 +46,7 @@ const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 			const parsedId = /^\d+$/.test( value ) ? parseInt( value, 10 ) : value;
 			onSelect( [ parsedId ], rowIndex );
 		},
-		[ onSelect, rowIndex ]
+		[ onSelect, onShiftSelect, rowIndex ]
 	);
 
 	const handleMouseDown = useCallback(
@@ -250,9 +251,14 @@ function TableRows( props: TableRowsProps ) {
 				return;
 			}
 
+			// Clamp indices to valid range to handle pagination/filtering
+			const maxIndex = rows.length - 1;
+			const clampedLast = Math.min( lastClickedIndex.current, maxIndex );
+			const clampedCurrent = Math.min( rowIndex, maxIndex );
+
 			// Calculate range between last clicked and current (inclusive)
-			const start = Math.min( lastClickedIndex.current, rowIndex );
-			const end = Math.max( lastClickedIndex.current, rowIndex );
+			const start = Math.min( clampedLast, clampedCurrent );
+			const end = Math.max( clampedLast, clampedCurrent );
 
 			// Get all row IDs in the range that are not already selected
 			// This ensures we only add new selections (the toggle behavior won't deselect them)
