@@ -24,8 +24,8 @@ function getRowData( status: TableStatus, item: TableRow, table: Table ): RowDat
 interface CheckColumnProps {
 	id: RowId;
 	rowIndex: number;
-	onSelect: ( ids: RowId[], rowIndex: number ) => void;
-	onShiftSelect: ( rowIndex: number ) => void;
+	onSelect: ( ids: RowId[], rowIndex?: number ) => void;
+	onShiftSelect?: ( rowIndex: number ) => void;
 	isSelected: boolean;
 	isSaving: boolean;
 	disabled: boolean;
@@ -34,30 +34,25 @@ interface CheckColumnProps {
 const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 	const { isSaving, disabled, id, rowIndex, onSelect, onShiftSelect, isSelected } = props;
 
-	const handleChange = useCallback(
-		( ev: React.ChangeEvent< HTMLInputElement > ) => {
-			// Handle shift selection for keyboard users
-			if ( ev.nativeEvent && ev.nativeEvent.shiftKey ) {
-				onShiftSelect( rowIndex );
-				return;
-			}
-			const value = ev.target.value;
-			// Parse as number if it's numeric, otherwise keep as string
-			const parsedId = /^\d+$/.test( value ) ? parseInt( value, 10 ) : value;
-			onSelect( [ parsedId ], rowIndex );
-		},
-		[ onSelect, onShiftSelect, rowIndex ]
-	);
-
-	const handleMouseDown = useCallback(
+	const handleClick = useCallback(
 		( ev: React.MouseEvent< HTMLInputElement > ) => {
-			if ( ev.shiftKey ) {
+			if ( ev.shiftKey && onShiftSelect ) {
 				// Prevent the default checkbox behavior when shift is held
 				ev.preventDefault();
 				onShiftSelect( rowIndex );
 			}
 		},
 		[ onShiftSelect, rowIndex ]
+	);
+
+	const handleChange = useCallback(
+		( ev: React.ChangeEvent< HTMLInputElement > ) => {
+			const value = ev.target.value;
+			// Parse as number if it's numeric, otherwise keep as string
+			const parsedId = /^\d+$/.test( value ) ? parseInt( value, 10 ) : value;
+			onSelect( [ parsedId ], rowIndex );
+		},
+		[ onSelect, rowIndex ]
 	);
 
 	return (
@@ -72,7 +67,7 @@ const CheckColumn = memo( function CheckColumn( props: CheckColumnProps ) {
 					disabled={ disabled }
 					checked={ isSelected }
 					onChange={ handleChange }
-					onMouseDown={ handleMouseDown }
+					onClick={ handleClick }
 				/>
 			) }
 		</th>
@@ -126,7 +121,7 @@ interface SingleRowProps {
 	table: Table;
 	getRow: ( row: TableRow, rowData: RowData ) => RenderedColumn[] | React.ReactNode;
 	getRowActions: ( row: TableRow, rowData: RowData ) => React.ReactNode;
-	onSelect?: ( ids: RowId[], rowIndex: number ) => void;
+	onSelect?: ( ids: RowId[], rowIndex?: number ) => void;
 	onShiftSelect?: ( rowIndex: number ) => void;
 	primary: TableHeader | undefined;
 	headersLength: number;
@@ -164,7 +159,7 @@ function SingleRowComponent( props: SingleRowProps ) {
 					id={ row.id }
 					rowIndex={ rowIndex }
 					onSelect={ onSelect }
-					onShiftSelect={ onShiftSelect || ( () => {} ) }
+					{ ...( onShiftSelect ? { onShiftSelect } : {} ) }
 					disabled={ status === STATUS_LOADING }
 					isSelected={ isSelected }
 					isSaving={ isSaving || isAllSaving }
@@ -217,8 +212,10 @@ function TableRows( props: TableRowsProps ) {
 	const lastClickedIndex = useRef< number | null >( null );
 
 	const handleSelect = useCallback(
-		( items: RowId[], rowIndex: number ) => {
-			lastClickedIndex.current = rowIndex;
+		( items: RowId[], rowIndex?: number ) => {
+			if ( rowIndex !== undefined ) {
+				lastClickedIndex.current = rowIndex;
+			}
 			if ( onSelect ) {
 				onSelect( items );
 			}
@@ -235,7 +232,10 @@ function TableRows( props: TableRowsProps ) {
 			if ( lastClickedIndex.current === null ) {
 				// No previous click, treat as normal click
 				lastClickedIndex.current = rowIndex;
-				onSelect( [ rows[ rowIndex ].id ] );
+				const row = rows[ rowIndex ];
+			if ( row ) {
+				onSelect( [ row.id ] );
+			}
 				return;
 			}
 
@@ -248,13 +248,16 @@ function TableRows( props: TableRowsProps ) {
 			const start = Math.min( clampedLast, clampedCurrent );
 			const end = Math.max( clampedLast, clampedCurrent );
 
+			// Build a Set for efficient membership checks of currently selected IDs
+			const selectedSet = new Set( selected );
+
 			// Get all row IDs in the range that are not already selected
 			// This ensures we only add new selections (the toggle behavior won't deselect them)
 			const rangeIds: RowId[] = [];
 			for ( let i = start; i <= end; i++ ) {
-				const id = rows[ i ].id;
-				if ( ! selected.some( ( selectedId ) => selectedId === id ) ) {
-					rangeIds.push( id );
+				const row = rows[ i ];
+				if ( row && ! selectedSet.has( row.id ) ) {
+					rangeIds.push( row.id );
 				}
 			}
 
