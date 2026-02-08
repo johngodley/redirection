@@ -274,10 +274,10 @@ class Red_Options {
 		}
 
 
-	    $monitor_types_settings_exist = isset( $settings['ignore_posttypes'] ) && is_array( $settings['ignore_posttypes'] );
+	    $ignore_posttypes_settings_exist = isset( $settings['ignore_posttypes'] ) && is_array( $settings['ignore_posttypes'] );
         $monitor_types_settings_exist = isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] );
 
-		if ( $monitor_types_settings_exist || $monitor_types_settings_exist ) {
+		if ( $monitor_types_settings_exist || $ignore_posttypes_settings_exist ) {
 			$allowed = red_get_post_types( false );
 
             if( $monitor_types_settings_exist ){
@@ -292,7 +292,7 @@ class Red_Options {
                 
             }
 
-            if( $monitor_types_settings_exist ){
+            if( $ignore_posttypes_settings_exist ){
 
                 $ignore_posttypes = [];
                 foreach ( $settings['ignore_posttypes'] as $post_type ) {
