@@ -1,13 +1,23 @@
 <?php
 
 /**
+ * @phpstan-type Log404Row object{
+ *   id: int,
+ *   created: string,
+ *   url: string,
+ *   agent: string,
+ *   referrer: string,
+ *   ip: string,
+ *   domain?: string
+ * }
+ *
  * 404 error logging. Extends the base log class with specifics for 404s
  */
 class Red_404_Log extends Red_Log {
 	/**
 	 * Get's the table name for this log object
 	 *
-	 * @param Object $wpdb WPDB object.
+	 * @param \wpdb $wpdb WPDB object.
 	 * @return string
 	 */
 	protected static function get_table_name( $wpdb ) {
@@ -20,10 +30,10 @@ class Red_404_Log extends Red_Log {
 	 * @param string $domain Domain name of request.
 	 * @param string $url URL of request.
 	 * @param string $ip IP of client.
-	 * @param array  $details Other log details.
-	 * @return integer|false Log ID, or false
+	 * @param array<string, mixed> $details Other log details.
+	 * @return int|false Log ID, or false
 	 */
-	public static function create( $domain, $url, $ip, $details ) {
+	public static function create( $domain, $url, $ip, array $details ) {
 		global $wpdb;
 
 		$insert = static::sanitize_create( $domain, $url, $ip, $details );
@@ -53,19 +63,20 @@ class Red_404_Log extends Red_Log {
 	/**
 	 * Get the CSV headers for this log object
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	public static function get_csv_header() {
 		return [ 'date', 'source', 'ip', 'referrer', 'useragent' ];
 	}
 
 	/**
-	 * Get the CSV headers for this log object
+	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
-	 * @return array
+	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
+		/** @var Log404Row $row */
 		return [
 			$row->created,
 			$row->url,
@@ -73,18 +84,5 @@ class Red_404_Log extends Red_Log {
 			$row->referrer,
 			$row->agent,
 		];
-	}
-}
-
-// phpcs:ignore
-class RE_404 {
-	public static function create( $url, $agent, $ip, $referrer ) {
-		_deprecated_function( __FUNCTION__, '4.6', 'Red_404_Log::create( $domain, $url, $ip, $details )' );
-
-		return Red_404_Log::create( Redirection_Request::get_server(), $url, $ip, [
-			'agent' => $agent,
-			'referrer' => $referrer,
-			'request_method' => Redirection_Request::get_request_method(),
-		] );
 	}
 }

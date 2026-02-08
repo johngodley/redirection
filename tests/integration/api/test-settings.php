@@ -55,7 +55,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$this->setNonce();
 
 		$before = $this->callApi( 'setting' );
-		update_option( 'redirection_options', (array) $before->data['settings'] );
+		update_option( Red_Options::OPTION_KEY, (array) $before->data['settings'] );
 		$before = $before->data['settings'];
 
 		$after = $this->callApi( 'setting', array(), 'POST' );

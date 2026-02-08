@@ -1,32 +1,39 @@
 <?php
 
 /**
- * Query parameter martching
+ * Query parameter matching
+ *
+ * @phpstan-type QueryParams array<string, string|null|array<string, mixed>>
+ * @phpstan-type ParsedParam array{
+ *     name: string,
+ *     value: string|null,
+ *     parse_str: string
+ * }
  */
 class Red_Url_Query {
 	/**
-	 * @type Integer
+	 * @var integer
 	 */
 	const RECURSION_LIMIT = 10;
 
 	/**
 	 * Original query parameters (used when passing)
 	 *
-	 * @var array
+	 * @var QueryParams
 	 */
 	private $original_query = [];
 
 	/**
-	 * Match query parameters (used only for matching, and maybe be lowercased)
+	 * Match query parameters (used only for matching, and may be lowercased)
 	 *
-	 * @var array
+	 * @var QueryParams
 	 */
 	private $match_query = [];
 
 	/**
 	 * Is this an exact match?
 	 *
-	 * @var boolean|string
+	 * @var false|string
 	 */
 	private $match_exact = false;
 
@@ -109,7 +116,7 @@ class Red_Url_Query {
 	 * @return string URL, modified or not.
 	 */
 	public static function add_to_target( $target_url, $requested_url, Red_Source_Flags $flags ) {
-		if ( $flags->is_query_pass() && $target_url ) {
+		if ( $flags->is_query_pass() && $target_url !== '' ) {
 			$source_query = new Red_Url_Query( $target_url, $flags );
 			$request_query = new Red_Url_Query( $requested_url, $flags );
 
@@ -139,19 +146,24 @@ class Red_Url_Query {
 	 * Build a URL from a base and query parameters
 	 *
 	 * @param string $url Base URL.
-	 * @param Array  $query_array Query parameters.
+	 * @param QueryParams $query_array Query parameters.
 	 * @return string
 	 */
 	public static function build_url( $url, $query_array ) {
-		$query = http_build_query( array_map( function( $value ) {
-			if ( $value === null ) {
-				return '';
-			}
+		$query = http_build_query(
+			array_map(
+				function ( $value ) {
+					if ( $value === null ) {
+						  return '';
+					}
 
-			return $value;
-		}, $query_array ) );
+					return $value;
+				},
+				$query_array
+			)
+		);
 
-		$query = preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
+		$query = (string) preg_replace( '@%5B\d*%5D@', '[]', $query );  // Make these look like []
 
 		foreach ( $query_array as $key => $value ) {
 			if ( $value === null ) {
@@ -164,12 +176,12 @@ class Red_Url_Query {
 
 		$query = str_replace( '%252B', '+', $query );
 
-		if ( $query ) {
+		if ( $query !== '' ) {
 			// Get any fragment
 			$target_fragment = wp_parse_url( $url, PHP_URL_FRAGMENT );
 
 			// If we have a fragment we need to ensure it comes after the query parameters, not before
-			if ( $target_fragment ) {
+			if ( is_string( $target_fragment ) ) {
 				// Remove fragment
 				$url = str_replace( '#' . $target_fragment, '', $url );
 
@@ -196,18 +208,18 @@ class Red_Url_Query {
 	/**
 	 * Get the query parameters
 	 *
-	 * @return array
+	 * @return QueryParams
 	 */
 	public function get() {
 		return $this->original_query;
 	}
 
 	/**
-	 * Does the URL and the query params contain no parameters?
+	 * Check if query parameters match exactly
 	 *
 	 * @param string $url URL.
-	 * @param Array  $params Query params.
-	 * @return boolean
+	 * @param QueryParams $params Query parameters.
+	 * @return bool
 	 */
 	private function is_exact_match( $url, $params ) {
 		// No parsed query params but we have query params on the URL - some parsing error with wp_parse_str
@@ -222,7 +234,7 @@ class Red_Url_Query {
 	 * Get query parameters from a URL
 	 *
 	 * @param string $url URL.
-	 * @return array
+	 * @return QueryParams
 	 */
 	private function get_url_query( $url ) {
 		$params = [];
@@ -234,7 +246,7 @@ class Red_Url_Query {
 		// For exactness and due to the way parse_str works we go through and check any query param without a value
 		foreach ( $params as $key => $value ) {
 			if ( is_string( $value ) && strlen( $value ) === 0 && strpos( $url, $key . '=' ) === false ) {
-				$params[ $key ] = null;
+				$params[ (string) $key ] = null;
 			}
 		}
 
@@ -251,6 +263,7 @@ class Red_Url_Query {
 			}
 		}
 
+		/** @var QueryParams $params */
 		if ( $this->is_exact_match( $url, $params ) ) {
 			$this->match_exact = $query;
 		}
@@ -264,7 +277,7 @@ class Red_Url_Query {
 	 * TODO: use this in preference to parse_str
 	 *
 	 * @param string $query Query.
-	 * @return string
+	 * @return array<ParsedParam>
 	 */
 	private function parse_str( $query ) {
 		$params = [];
@@ -331,6 +344,12 @@ class Red_Url_Query {
 		return substr( $url, $qpos + 1 );
 	}
 
+	/**
+	 * Get a lowercase key mapping for case-insensitive matching
+	 *
+	 * @param QueryParams $query Query parameters.
+	 * @return array<string, string> Map of lowercase keys to original keys.
+	 */
 	private function get_query_case( array $query ) {
 		$keys = [];
 		foreach ( array_keys( $query ) as $key ) {
@@ -343,11 +362,11 @@ class Red_Url_Query {
 	/**
 	 * Get query parameters that are the same in both query arrays
 	 *
-	 * @param array   $source_query Source query params.
-	 * @param array   $target_query Target query params.
-	 * @param bool    $is_ignore_case Ignore case.
-	 * @param integer $depth Current recursion depth.
-	 * @return array
+	 * @param QueryParams $source_query Source query params.
+	 * @param QueryParams $target_query Target query params.
+	 * @param bool $is_ignore_case Ignore case.
+	 * @param int $depth Current recursion depth.
+	 * @return QueryParams
 	 */
 	public function get_query_same( array $source_query, array $target_query, $is_ignore_case, $depth = 0 ) {
 		if ( $depth > self::RECURSION_LIMIT ) {
@@ -390,10 +409,10 @@ class Red_Url_Query {
 	/**
 	 * Get the difference in query parameters
 	 *
-	 * @param array   $source_query Source query params.
-	 * @param array   $target_query Target query params.
-	 * @param integer $depth Current recursion depth.
-	 * @return array
+	 * @param QueryParams $source_query Source query params.
+	 * @param QueryParams $target_query Target query params.
+	 * @param int $depth Current recursion depth.
+	 * @return QueryParams
 	 */
 	public function get_query_diff( array $source_query, array $target_query, $depth = 0 ) {
 		if ( $depth > self::RECURSION_LIMIT ) {
@@ -403,7 +422,11 @@ class Red_Url_Query {
 		$diff = [];
 		foreach ( $source_query as $key => $value ) {
 			if ( array_key_exists( $key, $target_query ) && is_array( $value ) && is_array( $target_query[ $key ] ) ) {
-				$add = $this->get_query_diff( $source_query[ $key ], $target_query[ $key ], $depth + 1 );
+				/** @var QueryParams $child_source */
+				$child_source = $source_query[ $key ];
+				/** @var QueryParams $child_target */
+				$child_target = $target_query[ $key ];
+				$add = $this->get_query_diff( $child_source, $child_target, $depth + 1 );
 
 				if ( ! empty( $add ) ) {
 					$diff[ $key ] = $add;
@@ -416,6 +439,12 @@ class Red_Url_Query {
 		return $diff;
 	}
 
+	/**
+	 * Check if value is a simple query value (string or null)
+	 *
+	 * @param mixed $value Value to check.
+	 * @return bool
+	 */
 	private function is_value( $value ) {
 		return is_string( $value ) || $value === null;
 	}

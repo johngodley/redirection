@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * @phpstan-type DatabaseStatus array{
+ *   status: string|false,
+ *   inProgress: bool,
+ *   current?: string,
+ *   next?: string,
+ *   time?: float,
+ *   manual?: array<int, string>,
+ *   result?: 'ok'|'error',
+ *   reason?: string|false,
+ *   debug?: array<int, string>,
+ *   complete?: int|float
+ * }
+ */
 class Red_Database_Status {
 	// Used in < 3.7 versions of Redirection, but since migrated to general settings
 	const OLD_DB_VERSION = 'redirection_version';
@@ -14,12 +28,46 @@ class Red_Database_Status {
 	const STATUS_FINISHED_INSTALL = 'finish-install';
 	const STATUS_FINISHED_UPDATING = 'finish-update';
 
+	/**
+	 * Current upgrade stage
+	 *
+	 * @var string|false
+	 */
 	private $stage = false;
+
+	/**
+	 * List of all upgrade stages
+	 *
+	 * @var array<int, string>
+	 */
 	private $stages = [];
 
+	/**
+	 * Current database status
+	 *
+	 * @var string|false
+	 */
 	private $status = false;
+
+	/**
+	 * Result of last operation
+	 *
+	 * @var string|false
+	 */
 	private $result = false;
+
+	/**
+	 * Reason for current status
+	 *
+	 * @var string|false
+	 */
 	private $reason = false;
+
+	/**
+	 * Debug information
+	 *
+	 * @var array<int, string>
+	 */
 	private $debug = [];
 
 	public function __construct() {
@@ -36,8 +84,13 @@ class Red_Database_Status {
 		}
 	}
 
-	public function load_stage() {
-		$settings = red_get_options();
+	/**
+	 * Load current upgrade stage from options
+	 *
+	 * @return void
+	 */
+	public function load_stage(): void {
+		$settings = Red_Options::get();
 
 		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
 			$this->stage = isset( $settings[ self::DB_UPGRADE_STAGE ]['stage'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stage'] : false;
@@ -51,8 +104,8 @@ class Red_Database_Status {
 	 *
 	 * @return bool true if needs installing, false otherwise
 	 */
-	public function needs_installing() {
-		$settings = red_get_options();
+	public function needs_installing(): bool {
+		$settings = Red_Options::get();
 
 		if ( $settings['database'] === '' && $this->get_old_version() === false ) {
 			return true;
@@ -66,14 +119,14 @@ class Red_Database_Status {
 	 *
 	 * @return bool true if needs updating, false otherwise
 	 */
-	public function needs_updating() {
+	public function needs_updating(): bool {
 		// We need updating if we don't need to install, and the current version is less than target version
 		if ( $this->needs_installing() === false && version_compare( $this->get_current_version(), REDIRECTION_DB_VERSION, '<' ) ) {
 			return true;
 		}
 
 		// Also if we're still in the process of upgrading
-		if ( $this->get_current_stage() && $this->status !== self::STATUS_NEED_INSTALL ) {
+		if ( $this->get_current_stage() !== false && $this->status !== self::STATUS_NEED_INSTALL ) {
 			return true;
 		}
 
@@ -85,10 +138,10 @@ class Red_Database_Status {
 	 *
 	 * @return string Current database version
 	 */
-	public function get_current_version() {
-		$settings = red_get_options();
+	public function get_current_version(): string {
+		$settings = Red_Options::get();
 
-		if ( $settings['database'] !== '' && is_string( $settings['database'] ) ) {
+		if ( $settings['database'] !== '' ) {
 			if ( $settings['database'] === '+OK' ) {
 				return REDIRECTION_DB_VERSION;
 			}
@@ -96,32 +149,40 @@ class Red_Database_Status {
 			return $settings['database'];
 		}
 
-		if ( $this->get_old_version() !== false ) {
-			$version = $this->get_old_version();
-
+		$version = $this->get_old_version();
+		if ( $version !== false && $version !== '' && $version !== '0' && $version !== 0 ) {
 			// Upgrade the old value
-			if ( $version ) {
-				red_set_options( array( 'database' => $version ) );
-				delete_option( self::OLD_DB_VERSION );
-				$this->clear_cache();
-				return $version;
-			}
+			$version = (string) $version;
+			red_set_options( array( 'database' => $version ) );
+			delete_option( self::OLD_DB_VERSION );
+			$this->clear_cache();
+			return $version;
 		}
 
 		return '';
 	}
 
+	/**
+	 * Get old database version from legacy option
+	 *
+	 * @return mixed
+	 */
 	private function get_old_version() {
 		return get_option( self::OLD_DB_VERSION );
 	}
 
-	public function check_tables_exist() {
+	/**
+	 * Check if required database tables exist
+	 *
+	 * @return void
+	 */
+	public function check_tables_exist(): void {
 		$latest = Red_Database::get_latest_database();
 		$missing = $latest->get_missing_tables();
 
 		// No tables installed - do a fresh install
 		if ( count( $missing ) === count( $latest->get_all_tables() ) ) {
-			delete_option( Red_Database_Status::OLD_DB_VERSION );
+			delete_option( self::OLD_DB_VERSION );
 			red_set_options( [ 'database' => '' ] );
 			$this->clear_cache();
 
@@ -139,15 +200,26 @@ class Red_Database_Status {
 	 * @param string $version Target version
 	 * @return bool true if supported, false otherwise
 	 */
-	public function does_support( $version ) {
+	public function does_support( string $version ): bool {
 		return version_compare( $this->get_current_version(), $version, 'ge' );
 	}
 
-	public function is_error() {
+	/**
+	 * Check if last operation resulted in error
+	 *
+	 * @return bool
+	 */
+	public function is_error(): bool {
 		return $this->result === self::RESULT_ERROR;
 	}
 
-	public function set_error( $error ) {
+	/**
+	 * Set error status
+	 *
+	 * @param string $error Error message.
+	 * @return void
+	 */
+	public function set_error( string $error ): void {
 		global $wpdb;
 
 		$this->result = self::RESULT_ERROR;
@@ -166,7 +238,13 @@ class Red_Database_Status {
 		$this->debug[] = 'Stage: ' . $this->get_current_stage();
 	}
 
-	public function set_ok( $reason ) {
+	/**
+	 * Set success status
+	 *
+	 * @param string $reason Success message.
+	 * @return void
+	 */
+	public function set_ok( string $reason ): void {
 		$this->reason = $reason;
 		$this->result = self::RESULT_OK;
 		$this->debug = [];
@@ -174,8 +252,10 @@ class Red_Database_Status {
 
 	/**
 	 * Stop current upgrade
+	 *
+	 * @return void
 	 */
-	public function stop_update() {
+	public function stop_update(): void {
 		$this->stage = false;
 		$this->stages = [];
 		$this->debug = [];
@@ -184,7 +264,12 @@ class Red_Database_Status {
 		$this->clear_cache();
 	}
 
-	public function finish() {
+	/**
+	 * Finish upgrade process
+	 *
+	 * @return void
+	 */
+	public function finish(): void {
 		$this->stop_update();
 
 		if ( $this->status === self::STATUS_NEED_INSTALL ) {
@@ -196,7 +281,8 @@ class Red_Database_Status {
 
 	/**
 	 * Get current upgrade stage
-	 * @return string|bool Current stage name, or false if not upgrading
+	 *
+	 * @return string|false Current stage name, or false if not upgrading
 	 */
 	public function get_current_stage() {
 		return $this->stage;
@@ -204,16 +290,18 @@ class Red_Database_Status {
 
 	/**
 	 * Move current stage on to the next
+	 *
+	 * @return void
 	 */
-	public function set_next_stage() {
+	public function set_next_stage(): void {
 		$this->debug = [];
 		$stage = $this->get_current_stage();
 
-		if ( $stage ) {
+		if ( $stage !== false ) {
 			$stage = $this->get_next_stage( $stage );
 
 			// Save next position
-			if ( $stage ) {
+			if ( $stage !== false ) {
 				$this->set_stage( $stage );
 			} else {
 				$this->finish();
@@ -224,7 +312,7 @@ class Red_Database_Status {
 	/**
 	 * Get current upgrade status
 	 *
-	 * @return array Database status array
+	 * @return DatabaseStatus Database status array
 	 */
 	public function get_json() {
 		// Base information
@@ -255,7 +343,13 @@ class Red_Database_Status {
 		return $result;
 	}
 
-	private function get_error_status() {
+	/**
+	 * Get error status information
+	 *
+	 * @phpstan-return array{reason: string|false, result: 'error', debug: array<int, string>}
+	 * @return array<string, mixed>
+	 */
+	private function get_error_status(): array {
 		return [
 			'reason' => $this->reason,
 			'result' => self::RESULT_ERROR,
@@ -263,11 +357,21 @@ class Red_Database_Status {
 		];
 	}
 
+	/**
+	 * Get progress status information
+	 *
+	 * @return array{complete: int|float, result: 'ok', reason: string|false}
+	 */
 	private function get_progress_status() {
 		$complete = 0;
 
-		if ( $this->stage ) {
-			$complete = round( ( array_search( $this->stage, $this->stages, true ) / count( $this->stages ) ) * 100, 1 );
+		if ( $this->stage !== false ) {
+			$total = count( $this->stages );
+			$pos = array_search( $this->stage, $this->stages, true );
+
+			if ( $pos !== false && $total > 0 ) {
+				$complete = round( ( $pos / $total ) * 100, 1 );
+			}
 		}
 
 		return [
@@ -277,7 +381,13 @@ class Red_Database_Status {
 		];
 	}
 
-	private function get_version_upgrade() {
+	/**
+	 * Get version upgrade information
+	 *
+	 * @phpstan-return array{current: string, next: string, time: float}
+	 * @return array<string, mixed>
+	 */
+	private function get_version_upgrade(): array {
 		return [
 			'current' => $this->get_current_version() ? $this->get_current_version() : '-',
 			'next' => REDIRECTION_DB_VERSION,
@@ -287,17 +397,32 @@ class Red_Database_Status {
 
 	/**
 	 * Set the status information for a database upgrade
+	 *
+	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @return void
 	 */
 	public function start_install( array $upgrades ) {
 		$this->set_stages( $upgrades );
 		$this->status = self::STATUS_NEED_INSTALL;
 	}
 
+	/**
+	 * Start database upgrade process
+	 *
+	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @return void
+	 */
 	public function start_upgrade( array $upgrades ) {
 		$this->set_stages( $upgrades );
 		$this->status = self::STATUS_NEED_UPDATING;
 	}
 
+	/**
+	 * Set upgrade stages
+	 *
+	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @return void
+	 */
 	private function set_stages( array $upgrades ) {
 		$this->stages = [];
 
@@ -311,12 +436,19 @@ class Red_Database_Status {
 		}
 	}
 
-	public function set_stage( $stage ) {
+	/**
+	 * @param string|false $stage
+	 * @return void
+	 */
+	public function set_stage( $stage ): void {
 		$this->stage = $stage;
 		$this->save_details();
 	}
 
-	private function save_details() {
+	/**
+	 * @return void
+	 */
+	private function save_details(): void {
 		$stages = [
 			self::DB_UPGRADE_STAGE => [
 				'stage' => $this->stage,
@@ -330,7 +462,10 @@ class Red_Database_Status {
 		$this->clear_cache();
 	}
 
-	private function get_manual_upgrade() {
+	/**
+	 * @return array<int, string>
+	 */
+	private function get_manual_upgrade(): array {
 		$queries = [];
 		$database = new Red_Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
@@ -347,7 +482,11 @@ class Red_Database_Status {
 		return $queries;
 	}
 
-	private function get_next_stage( $stage ) {
+	/**
+	 * @param string $stage
+	 * @return string|false
+	 */
+	private function get_next_stage( string $stage ) {
 		$database = new Red_Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), $this->get_current_stage() );
 
@@ -355,10 +494,18 @@ class Red_Database_Status {
 			$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
 		}
 
+		if ( count( $upgraders ) === 0 ) {
+			return false;
+		}
+
 		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?
-		$pos = array_search( $this->stage, $this->stages, true );
+		$pos = is_string( $this->stage ) ? array_search( $this->stage, $this->stages, true ) : false;
+
+		if ( $pos === false ) {
+			return false;
+		}
 
 		if ( $pos === count( $this->stages ) - 1 ) {
 			$this->save_db_version( REDIRECTION_DB_VERSION );
@@ -368,22 +515,31 @@ class Red_Database_Status {
 		// Set current DB version
 		$current_stages = array_keys( $upgrader->get_stages() );
 
-		if ( array_search( $this->stage, $current_stages, true ) === count( $current_stages ) - 1 ) {
-			$this->save_db_version( $upgraders[1]['version'] );
+		$current_position = is_string( $this->stage ) ? array_search( $this->stage, $current_stages, true ) : false;
+
+		if ( $current_position !== false && $current_position === count( $current_stages ) - 1 && isset( $upgraders[1] ) ) {
+			$this->save_db_version( $upgraders[1]->get_version() );
 		}
 
 		// Move on to next in current version
 		return $this->stages[ $pos + 1 ];
 	}
 
-	public function save_db_version( $version ) {
+	/**
+	 * @param string $version
+	 * @return void
+	 */
+	public function save_db_version( string $version ): void {
 		red_set_options( array( 'database' => $version ) );
 		delete_option( self::OLD_DB_VERSION );
 
 		$this->clear_cache();
 	}
 
-	private function clear_cache() {
+	/**
+	 * @return void
+	 */
+	private function clear_cache(): void {
 		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) && function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
 		}

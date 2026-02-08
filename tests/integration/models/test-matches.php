@@ -1,5 +1,7 @@
 <?php
 
+require_once PLUGIN_PATH . '/matches/url.php';
+
 class MatchesTest extends WP_UnitTestCase {
 	public function testRemoveNewline() {
 		$match = new URL_Match();

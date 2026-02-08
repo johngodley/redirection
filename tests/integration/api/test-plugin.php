@@ -63,7 +63,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 
 		$active = get_option( 'active_plugins' );
 		$this->assertEquals( array(), $active );
-		$this->assertFalse( get_option( 'redirection_options' ) );
+		$this->assertFalse( get_option( Red_Options::OPTION_KEY ) );
 
 		$after = $wpdb->get_results( "SHOW TABLES LIKE '%{$wpdb->prefix}redirection_%'" );
 		// todo test not working, but it does delete the tables

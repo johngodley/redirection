@@ -7,7 +7,7 @@ class Red_Url_Match {
 	/**
 	 * URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $url;
 
@@ -58,7 +58,7 @@ class Red_Url_Match {
 		// Lowercase everything
 		$path = Red_Url_Path::to_lower( $path );
 
-		return $path ? $path : '/';
+		return $path === '' ? '/' : $path;
 	}
 
 	/**

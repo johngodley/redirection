@@ -133,44 +133,85 @@
 
 /**
  * Group API endpoint
+ *
+ * @phpstan-type GroupListResponse array{
+ *   items: list<array<string, mixed>>,
+ *   total: int
+ * }
  */
 class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	/**
 	 * 404 API endpoint constructor
 	 *
-	 * @param string $namespace Namespace.
+	 * @param string $api_namespace Namespace.
 	 */
-	public function __construct( $namespace ) {
+	public function __construct( $api_namespace ) {
 		$orders = [ 'name', 'id', '' ];
 		$filters = [ 'status', 'module', 'name' ];
 
-		register_rest_route( $namespace, '/group', array(
-			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_list', [ $this, 'permission_callback_manage' ] ),
-			array_merge(
-				$this->get_route( WP_REST_Server::EDITABLE, 'route_create', [ $this, 'permission_callback_add' ] ),
-				array( 'args' => $this->get_group_args() )
-			),
-		) );
-
-		register_rest_route( $namespace, '/group/(?P<id>[\d]+)', array(
-			'args' => $this->get_group_args(),
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_update', [ $this, 'permission_callback_add' ] ),
-		) );
-
-		register_rest_route( $namespace, '/bulk/group/(?P<bulk>delete|enable|disable)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_bulk' ] ),
-			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
-				'items' => [
-					'description' => 'Comma separated list of item IDs to perform action on',
-					'type' => 'array',
-					'items' => [
-						'description' => 'Item ID',
-						'type' => [ 'string', 'number' ],
-					],
+		// GET /group - List groups
+		// POST /group - Create group
+		register_rest_route(
+			$api_namespace,
+			'/group',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_list' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'args' => $this->get_filter_args( $orders, $filters ),
 				],
-			] ),
-		) );
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_create' ],
+					'permission_callback' => [ $this, 'permission_callback_add' ],
+					'args' => array_merge(
+						$this->get_filter_args( $orders, $filters ),
+						$this->get_group_args()
+					),
+				],
+			]
+		);
+
+		// POST /group/:id - Update group
+		register_rest_route(
+			$api_namespace,
+			'/group/(?P<id>[\d]+)',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_update' ],
+					'permission_callback' => [ $this, 'permission_callback_add' ],
+					'args' => $this->get_group_args(),
+				],
+			]
+		);
+
+		// POST /bulk/group/:bulk - Bulk actions on groups
+		register_rest_route(
+			$api_namespace,
+			'/bulk/group/(?P<bulk>delete|enable|disable)',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_bulk' ],
+					'permission_callback' => [ $this, 'permission_callback_bulk' ],
+					'args' => array_merge(
+						$this->get_filter_args( $orders, $filters ),
+						[
+							'items' => [
+								'description' => 'Comma separated list of item IDs to perform action on',
+								'type' => 'array',
+								'items' => [
+									'description' => 'Item ID',
+									'type' => [ 'string', 'number' ],
+								],
+							],
+						]
+					),
+				],
+			]
+		);
 	}
 
 	/**
@@ -178,8 +219,8 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 *
 	 * Access to group data is required by the CAP_GROUP_MANAGE and CAP_REDIRECT_MANAGE caps
 	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return Bool
+	 * @param WP_REST_Request<array<string, mixed>> $request Request.
+	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_MANAGE ) || Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
@@ -188,8 +229,8 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a bulk capability
 	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return Bool
+	 * @param WP_REST_Request<array<string, mixed>> $request Request.
+	 * @return bool
 	 */
 	public function permission_callback_bulk( WP_REST_Request $request ) {
 		if ( $request['bulk'] === 'delete' ) {
@@ -202,13 +243,16 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a create capability
 	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return Bool
+	 * @param WP_REST_Request<array<string, mixed>> $request Request.
+	 * @return bool
 	 */
 	public function permission_callback_add( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_ADD );
 	}
 
+	/**
+	 * @return array<string, array<string, mixed>>
+	 */
 	private function get_group_args() {
 		return array(
 			'moduleId' => array(
@@ -232,21 +276,21 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	/**
 	 * Get group list
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return GroupListResponse
 	 */
 	public function route_list( WP_REST_Request $request ) {
-		return Red_Group::get_filtered( $request->get_params() );
+		return Red_Group::get_filtered( $request->get_params() ); // @phpstan-ignore-line
 	}
 
 	/**
 	 * Create a group
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return GroupListResponse|WP_Error
 	 */
 	public function route_create( WP_REST_Request $request ) {
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
 		$name = '';
 		$module = 0;
 
@@ -260,27 +304,27 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 
 		$group = Red_Group::create( $name, $module );
 
-		if ( $group ) {
-			return Red_Group::get_filtered( $params );
+		if ( $group !== false ) {
+			return Red_Group::get_filtered( $params ); // @phpstan-ignore-line
 		}
 
 		return $this->add_error_details( new WP_Error( 'redirect_group_invalid', 'Invalid group or parameters' ), __LINE__ );
 	}
 
 	/**
-	 * Update a 404
+	 * Update a group
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return array{item: array<string, mixed>}|WP_Error
 	 */
 	public function route_update( WP_REST_Request $request ) {
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
 		$group = Red_Group::get( intval( $request['id'], 10 ) );
 
-		if ( $group ) {
+		if ( $group !== false ) {
 			$result = $group->update( $params );
 
-			if ( $result ) {
+			if ( $result !== false ) {
 				return array( 'item' => $group->to_json() );
 			}
 		}
@@ -291,8 +335,8 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	/**
 	 * Perform action on groups
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return GroupListResponse|WP_Error
 	 */
 	public function route_bulk( WP_REST_Request $request ) {
 		$params = $request->get_params();
@@ -302,7 +346,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
 			// Array of integers, sanitized below
 			$items = $params['items'];
-		} elseif ( isset( $params['global'] ) && $params['global'] ) {
+		} elseif ( isset( $params['global'] ) && $params['global'] !== false ) {
 			// Groups have additional actions that fire and so we need to action them individually
 			$groups = Red_Group::get_all( $params );
 			$items = array_column( $groups, 'id' );

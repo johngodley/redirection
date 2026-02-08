@@ -1,0 +1,154 @@
+@import "../../global";
+
+.redirect-edit {
+	width: 100%;
+
+	p {
+		margin: 5px;
+	}
+
+	th {
+		width: 130px;
+		font-weight: bold;
+		text-align: left;
+	}
+
+	tbody tr td {
+		display: flex;
+		padding: 0;
+		align-items: center;
+
+		> *:not(input[type="checkbox"]),
+		.redirection-url-autocomplete input {
+			flex: 1 1 auto;
+			justify-content: flex-start;
+			margin-right: 5px;
+			text-align: left;
+		}
+
+		> select {
+			flex: 0 0 auto;
+		}
+
+		.redirect-edit-position input {
+			width: 60px;
+		}
+
+		.small-flex {
+			flex-grow: 0;
+			padding-top: 5px;
+		}
+	}
+
+	tbody tr.redirect-edit__action td {
+		display: block;
+	}
+
+	tbody tr.redirect-edit__options td p {
+		padding-top: 4px;
+	}
+
+	tbody td.edit-left > * {
+		flex: none;
+	}
+
+	textarea {
+		width: 100%;
+		height: 100px;
+	}
+
+	.redirect-edit_warning {
+		padding-top: 5px;
+		padding-bottom: 5px;
+		margin-bottom: 0;
+		margin-top: 10px;
+		text-align: left;
+		overflow-wrap: break-word;
+		width: 100%;
+
+		span {
+			margin-right: 4px;
+		}
+
+		p {
+			color: #444;
+			margin: 0;
+			line-height: 2;
+			display: flex;
+			align-items: center;
+		}
+
+		code {
+			padding: 0 4px;
+			margin-left: 4px;
+			margin-right: 4px;
+		}
+
+		a {
+			color: #2271b1;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.wpl-multioption__button .wpl-badge {
+		background-color: #ffb900;
+	}
+}
+
+.wpl-modal_content .redirect-edit_warning {
+	margin-left: 0;
+	box-shadow: none;
+}
+
+.widefat td.column-url p {
+	margin: 0;
+}
+
+.redirect-column-wrap {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.redirect-status {
+	border-radius: 10px;
+	padding: 2px 5px;
+	min-width: 15px;
+	font-weight: bold;
+	display: inline;
+	font-size: 16px;
+}
+
+.redirect-status__enabled {
+	color: $ok;
+}
+
+.redirect-status__disabled {
+	color: $red;
+	font-size: 18px;
+	padding: 0 6px 3px 6px;
+}
+
+.wpl-badge.redirect-source__flag_regex {
+	background-color: #ffb900;
+	color: #000;
+}
+
+.redirect-source__flags {
+	.wpl-badge {
+		margin-bottom: 2px;
+	}
+}
+
+.redirect-edit-regex {
+	display: flex;
+	align-items: center;
+
+	input[type="checkbox"] {
+		margin: 0;
+	}
+}

@@ -2,6 +2,8 @@
 
 /**
  * Transform URL shortcodes
+ *
+ * @phpstan-type ShortcodeAttrs array<string, string>|string
  */
 class Red_Url_Transform {
 	/**
@@ -17,7 +19,7 @@ class Red_Url_Transform {
 		if ( is_numeric( $url ) ) {
 			$permalink = get_permalink( intval( $url, 10 ) );
 
-			if ( $permalink ) {
+			if ( $permalink !== false ) {
 				return $permalink;
 			}
 		}
@@ -28,18 +30,21 @@ class Red_Url_Transform {
 
 		remove_all_shortcodes();
 
-		$shortcodes = apply_filters( 'redirection_shortcodes', [
-			'userid',
-			'userlogin',
-			'unixtime',  // Also replaces $dec$
+		$shortcodes = apply_filters(
+			'redirection_shortcodes',
+			[
+				'userid',
+				'userlogin',
+				'unixtime',  // Also replaces $dec$
 
 			// These require content
-			'md5',
-			'upper',
-			'lower',
-			'dashes',
-			'underscores',
-		] );
+				'md5',
+				'upper',
+				'lower',
+				'dashes',
+				'underscores',
+			]
+		);
 
 		foreach ( $shortcodes as $code ) {
 			add_shortcode( $code, [ $this, 'do_shortcode' ] );
@@ -59,12 +64,13 @@ class Red_Url_Transform {
 	/**
 	 * Peform a shortcode
 	 *
-	 * @param array  $attrs Shortcode attributes.
-	 * @param string $content Shortcode content.
+	 * @param ShortcodeAttrs $attrs Shortcode attributes.
+	 * @param string|null $content Shortcode content.
 	 * @param string $tag Shortcode tag.
 	 * @return string
 	 */
 	public function do_shortcode( $attrs, $content, $tag ) {
+		$content = $content ?? '';
 		$user = wp_get_current_user();
 
 		switch ( $tag ) {

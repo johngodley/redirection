@@ -3,6 +3,14 @@
 require PLUGIN_PATH . '/fileio/nginx.php';
 
 class NginxTest extends WP_UnitTestCase {
+	public function setUp(): void {
+		parent::setUp();
+
+		// Ensure options database value exists with defaults
+		delete_option( Red_Options::OPTION_KEY );
+		Red_Options::save( [ 'flag_case' => false, 'flag_trailing' => false ] );
+	}
+
 	public function testEmpty() {
 		$nginx = new Red_Nginx_File();
 		$file = $nginx->get_data( array(), array() );
@@ -15,7 +23,7 @@ class NginxTest extends WP_UnitTestCase {
 
 	public function testNew() {
 		$nginx = new Red_Nginx_File();
-		$redirects = array( new Red_Item( ( object )array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'status' => 'enabled' ) ) );
+		$redirects = array( new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'action_type' => 'url', 'status' => 'enabled' ) ) );
 
 		$file = $nginx->get_data( $redirects, array() );
 		$lines = explode( "\n", $file );

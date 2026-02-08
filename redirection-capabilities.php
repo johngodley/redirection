@@ -69,11 +69,13 @@ class Redirection_Capabilities {
 
 	const CAP_SITE_MANAGE = 'redirection_cap_site_manage';
 
+	const CAP_RSS = 'redirection_cap_rss';
+
 	/**
 	 * Determine if the current user has access to a named capability.
 	 *
 	 * @param string $cap_name The capability to check for. See Redirection_Capabilities for constants.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function has_access( $cap_name ) {
 		// Get the capability using the default plugin access as the base. Old sites overriding `redirection_role` will get access to everything
@@ -95,6 +97,7 @@ class Redirection_Capabilities {
 	/**
 	 * Return all the pages the user has access to.
 	 *
+	 * @phpstan-return list<string>
 	 * @return array Array of pages
 	 */
 	public static function get_available_pages() {
@@ -107,6 +110,7 @@ class Redirection_Capabilities {
 			self::CAP_OPTION_MANAGE => 'options',
 			self::CAP_SUPPORT_MANAGE => 'support',
 			self::CAP_SITE_MANAGE => 'site',
+			self::CAP_RSS => 'rss',
 		];
 
 		$available = [];
@@ -116,27 +120,40 @@ class Redirection_Capabilities {
 			}
 		}
 
-		return array_values( apply_filters( self::FILTER_PAGES, $available ) );
+		/** @var list<string> $filtered */
+		$filtered = apply_filters( self::FILTER_PAGES, $available );
+		// @phpstan-ignore arrayValues.list
+		return array_values( $filtered );
 	}
 
 	/**
 	 * Return all the capabilities the current user has
 	 *
+	 * @phpstan-return list<string>
 	 * @return array Array of capabilities
 	 */
 	public static function get_all_capabilities() {
 		$caps = self::get_every_capability();
 
-		$caps = array_filter( $caps, function( $cap ) {
-			return self::has_access( $cap );
-		} );
+		$caps = array_filter(
+			$caps,
+			function ( $cap ) {
+				return self::has_access( $cap );
+			}
+		);
 
-		return array_values( apply_filters( self::FILTER_ALL, $caps ) );
+		/**
+		 * @var list<string> $filtered
+		 */
+		$filtered = apply_filters( self::FILTER_ALL, $caps );
+		// @phpstan-ignore arrayValues.list
+		return array_values( $filtered );
 	}
 
 	/**
 	 * Unfiltered list of all the supported capabilities, without influence from the current user
 	 *
+	 * @phpstan-return list<string>
 	 * @return array Array of capabilities
 	 */
 	public static function get_every_capability() {

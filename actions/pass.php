@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/url.php';
+require_once __DIR__ . '/url.php';
 
 /**
  * A 'pass through' action. Matches a rewrite rather than a redirect, and uses PHP to fetch data from a remote URL.

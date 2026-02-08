@@ -7,7 +7,7 @@ class Red_Url_Path {
 	/**
 	 * URL path
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $path;
 
@@ -83,7 +83,7 @@ class Red_Url_Path {
 		}
 
 		// Anything else remove the last /
-		return preg_replace( '@/$@', '', $this->get() );
+		return (string) preg_replace( '@/$@', '', $this->get() );
 	}
 
 	/**

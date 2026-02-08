@@ -65,10 +65,10 @@ class Red_Htaccess {
 	 * Replace encoded characters in a URL
 	 *
 	 * @param string $str Source string.
-	 * @param array  $allowed Allowed encodings.
+	 * @param array<string, string>  $allowed Allowed encodings.
 	 * @return string
 	 */
-	private function replace_encoding( $str, $allowed ) {
+	private function replace_encoding( $str, array $allowed ) {
 		foreach ( $allowed as $before => $after ) {
 			$str = str_replace( $before, $after, $str );
 		}
@@ -86,8 +86,9 @@ class Red_Htaccess {
 		$allowed = [
 			'%2F' => '/',
 			'%3F' => '?',
-			'+' => '%20',
+			'+' => '\\s',
 			'.' => '\\.',
+			'%20' => '\\s',
 		];
 
 		return $this->replace_encoding( rawurlencode( $url ), $allowed );
@@ -101,20 +102,20 @@ class Red_Htaccess {
 	 */
 	private function encode_regex( $url ) {
 		// Remove any newlines
-		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		$url = (string) preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
 		// Remove invalid characters
-		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
 
-		// Make sure spaces are quoted
-		$url = str_replace( ' ', '%20', $url );
+		// Make sure spaces are escaped as \s for regex matching
+		$url = str_replace( ' ', '\\s', $url );
 		$url = str_replace( '%24', '$', $url );
 
 		// No leading slash
 		$url = ltrim( $url, '/' );
 
 		// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
-		$url = preg_replace( '@^\^/@', '^', $url );
+		$url = (string) preg_replace( '@^\^/@', '^', $url );
 
 		return $url;
 	}
@@ -123,29 +124,30 @@ class Red_Htaccess {
 	 * Add a referrer redirect
 	 *
 	 * @param Red_Item       $item Redirect item.
-	 * @param Referrer_Match $match Redirect match.
+	 * @param Referrer_Match $match_object Redirect match.
 	 * @return void
 	 */
-	private function add_referrer( $item, $match ) {
-		$from = $this->encode_from( ltrim( $item->get_url(), '/' ), $item->source_flags && $item->source_flags->is_ignore_trailing() );
+	private function add_referrer( $item, $match_object ) {
+		$from = $this->encode_from( ltrim( $item->get_url(), '/' ), $item->source_flags !== null && $item->source_flags->is_ignore_trailing() );
 		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
 		}
 
-		if ( ( $match->url_from || $match->url_notfrom ) && $match->referrer ) {
-			$referrer = $match->regex ? $this->encode_regex( $match->referrer ) : $this->encode_from( $match->referrer, false );
+		if ( ( $match_object->url_from !== '' || $match_object->url_notfrom !== '' ) && $match_object->referrer !== '' ) {
+			$referrer = $match_object->regex ? $this->encode_regex( $match_object->referrer ) : $this->encode_from( $match_object->referrer, false );
 			$to = false;
+			$match_data = $item->get_match_data();
 
-			if ( $match->url_from ) {
-				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->get_match_data() );
+			if ( $match_object->url_from !== '' && $match_data !== null ) {
+				$to = $this->target( $item->get_action_type(), $match_object->url_from, $item->get_action_code(), $match_data );
 			}
 
-			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->get_match_data() );
+			if ( $match_object->url_notfrom !== '' && $match_data !== null ) {
+				$to = $this->target( $item->get_action_type(), $match_object->url_notfrom, $item->get_action_code(), $match_data );
 			}
 
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_REFERER} %s [NC]', $referrer );
-			if ( $to ) {
+			if ( $to !== false ) {
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
@@ -155,29 +157,30 @@ class Red_Htaccess {
 	 * Add a useragent redirect
 	 *
 	 * @param Red_Item    $item Redirect item.
-	 * @param Agent_Match $match Redirect match.
+	 * @param Agent_Match $match_object Redirect match.
 	 * @return void
 	 */
-	private function add_agent( $item, $match ) {
+	private function add_agent( $item, $match_object ) {
 		$from = $this->encode( ltrim( $item->get_url(), '/' ) );
 		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( ltrim( $item->get_url(), '/' ) );
 		}
 
-		if ( ( $match->url_from || $match->url_notfrom ) && $match->agent ) {
-			$agent = ( $match->regex ? $this->encode_regex( $match->agent ) : $this->encode2nd( $match->agent ) );
+		if ( ( $match_object->url_from !== '' || $match_object->url_notfrom !== '' ) && $match_object->agent !== '' ) {
+			$agent = ( $match_object->regex ? $this->encode_regex( $match_object->agent ) : $this->encode2nd( $match_object->agent ) );
 			$to = false;
+			$match_data = $item->get_match_data();
 
-			if ( $match->url_from ) {
-				$to = $this->target( $item->get_action_type(), $match->url_from, $item->get_action_code(), $item->get_match_data() );
+			if ( $match_object->url_from !== '' && $match_data !== null ) {
+				$to = $this->target( $item->get_action_type(), $match_object->url_from, $item->get_action_code(), $match_data );
 			}
 
-			if ( $match->url_notfrom ) {
-				$to = $this->target( $item->get_action_type(), $match->url_notfrom, $item->get_action_code(), $item->get_match_data() );
+			if ( $match_object->url_notfrom !== '' && $match_data !== null ) {
+				$to = $this->target( $item->get_action_type(), $match_object->url_notfrom, $item->get_action_code(), $match_data );
 			}
 
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_USER_AGENT} %s [NC]', $agent );
-			if ( $to ) {
+			if ( $to !== false ) {
 				$this->items[] = sprintf( 'RewriteRule %s %s', $from, $to );
 			}
 		}
@@ -187,23 +190,26 @@ class Red_Htaccess {
 	 * Add a server redirect
 	 *
 	 * @param Red_Item     $item Redirect item.
-	 * @param Server_Match $match Redirect match.
+	 * @param Server_Match $match_object Redirect match.
 	 * @return void
 	 */
-	private function add_server( $item, $match ) {
-		$match->url = $match->url_from;
-		$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( wp_parse_url( $match->server, PHP_URL_HOST ), '/' ) );
-		$this->add_url( $item, $match );
+	private function add_server( $item, $match_object ) {
+		// Temporarily set url property for add_url method
+		$host = wp_parse_url( $match_object->server, PHP_URL_HOST );
+		if ( is_string( $host ) ) {
+			$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( $host, '/' ) );
+		}
+		$this->add_url( $item, $match_object->url_from );
 	}
 
 	/**
 	 * Add a redirect
 	 *
-	 * @param Red_Item  $item Redirect item.
-	 * @param Red_Match $match Redirect match.
+	 * @param Red_Item $item Redirect item.
+	 * @param string $target_url Target URL.
 	 * @return void
 	 */
-	private function add_url( $item, $match ) {
+	private function add_url( $item, $target_url ) {
 		$url = $item->get_url();
 
 		if ( $item->is_regex() === false && strpos( $url, '?' ) !== false ) {
@@ -216,14 +222,19 @@ class Red_Htaccess {
 			}
 		}
 
-		$to = $this->target( $item->get_action_type(), $match->url, $item->get_action_code(), $item->get_match_data() );
-		$from = $this->encode_from( $url, $item->source_flags && $item->source_flags->is_ignore_trailing() );
+		$to = '';
+		$match_data = $item->get_match_data();
+		if ( $match_data !== null && $target_url !== '' ) {
+			$to = $this->target( $item->get_action_type(), $target_url, $item->get_action_code(), $match_data );
+		}
+
+		$from = $this->encode_from( $url, $item->source_flags !== null && $item->source_flags->is_ignore_trailing() );
 
 		if ( $item->is_regex() ) {
 			$from = $this->encode_regex( $item->get_url() );
 		}
 
-		if ( $to ) {
+		if ( $to !== '' ) {
 			$this->items[] = sprintf( 'RewriteRule %s %s', trim( $from ), trim( $to ) );
 		}
 	}
@@ -231,9 +242,11 @@ class Red_Htaccess {
 	/**
 	 * Add a redirect flags
 	 *
+	 * @param string $current Current redirect rule.
+	 * @param array<string> $flags Flags to add.
 	 * @return string
 	 */
-	private function add_flags( $current, array $flags ) {
+	private function add_flags( string $current, array $flags ) {
 		return $current . ' [' . implode( ',', $flags ) . ']';
 	}
 
@@ -241,14 +254,14 @@ class Red_Htaccess {
 	 * Get source flags
 	 *
 	 * @param array<string> $existing Existing flags.
-	 * @param array<string> $source Source flags.
+	 * @param array<string, mixed> $source Source flags.
 	 * @param string        $url URL.
 	 * @return array<string>
 	 */
-	private function get_source_flags( array $existing, array $source, $url ) {
+	private function get_source_flags( array $existing, array $source, string $url ) {
 		$flags = [];
 
-		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
+		if ( isset( $source['flag_case'] ) && $source['flag_case'] !== false ) {
 			$flags[] = 'NC';
 		}
 
@@ -266,17 +279,25 @@ class Red_Htaccess {
 	/**
 	 * Add a random target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string $data Target URL data.
+	 * @param int $code HTTP status code.
+	 * @param array<string, mixed> $match_data Match data including source flags.
 	 * @return string
 	 */
-	private function action_random( $data, $code, $match_data ) {
+	private function action_random( string $data, int $code, array $match_data ) {
 		// Pick a WP post at random
 		global $wpdb;
 
 		$post = $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} ORDER BY RAND() LIMIT 0,1" );
-		$url  = wp_parse_url( get_permalink( $post ) );
+		$permalink = get_permalink( $post );
+		if ( $permalink === false ) {
+			return '';
+		}
+
+		$url = wp_parse_url( $permalink );
+		if ( $url === false || ! isset( $url['path'] ) ) {
+			return '';
+		}
 
 		$flags = [ sprintf( 'R=%d', $code ) ];
 		$flags[] = 'L';
@@ -288,12 +309,12 @@ class Red_Htaccess {
 	/**
 	 * Add a passthrough target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string $data Target URL data.
+	 * @param int $code HTTP status code.
+	 * @param array<string, mixed> $match_data Match data including source flags.
 	 * @return string
 	 */
-	private function action_pass( $data, $code, $match_data ) {
+	private function action_pass( string $data, int $code, array $match_data ) {
 		$flags = $this->get_source_flags( [ 'L' ], $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode2nd( $data ), $flags );
@@ -302,12 +323,12 @@ class Red_Htaccess {
 	/**
 	 * Add an error target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string $data Target URL data.
+	 * @param int $code HTTP status code.
+	 * @param array<string, mixed> $match_data Match data including source flags.
 	 * @return string
 	 */
-	private function action_error( $data, $code, $match_data ) {
+	private function action_error( string $data, int $code, array $match_data ) {
 		$flags = $this->get_source_flags( [ 'F' ], $match_data['source'], $data );
 
 		if ( $code === 410 ) {
@@ -320,12 +341,12 @@ class Red_Htaccess {
 	/**
 	 * Add a URL target.
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string $data Target URL data.
+	 * @param int $code HTTP status code.
+	 * @param array<string, mixed> $match_data Match data including source flags.
 	 * @return string
 	 */
-	private function action_url( $data, $code, $match_data ) {
+	private function action_url( string $data, int $code, array $match_data ) {
 		$flags = [ sprintf( 'R=%d', $code ) ];
 		$flags[] = 'L';
 		$flags = $this->get_source_flags( $flags, $match_data['source'], $data );
@@ -336,16 +357,17 @@ class Red_Htaccess {
 	/**
 	 * Return URL target
 	 *
-	 * @param [type] $data
-	 * @param [type] $code
-	 * @param [type] $match_data
+	 * @param string $action Action type.
+	 * @param string $data Target URL data.
+	 * @param int $code HTTP status code.
+	 * @param array<string, mixed> $match_data Match data including source flags.
 	 * @return string
 	 */
-	private function target( $action, $data, $code, $match_data ) {
+	private function target( string $action, string $data, int $code, array $match_data ) {
 		$target = 'action_' . $action;
 
 		if ( method_exists( $this, $target ) ) {
-			return $this->$target( $data, $code, $match_data );
+			return $this->$target( $data, $code, $match_data ); // @phpstan-ignore-line
 		}
 
 		return '';
@@ -357,7 +379,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function generate() {
-		$version = red_get_plugin_data( dirname( dirname( __FILE__ ) ) . '/redirection.php' );
+		$version = red_get_plugin_data( dirname( __DIR__ ) . '/redirection.php' );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
@@ -365,15 +387,15 @@ class Red_Htaccess {
 
 		$text = [
 			'# Created by Redirection',
-			'# ' . date( 'r' ),
+			'# ' . gmdate( 'r' ),
 			'# Redirection ' . trim( $version['Version'] ) . ' - https://redirection.me',
 			'',
 			'<IfModule mod_rewrite.c>',
 		];
 
 		// Add http => https option
-		$options = red_get_options();
-		if ( $options['https'] ) {
+		$options = Red_Options::get();
+		if ( $options['https'] !== false ) {
 			$text[] = 'RewriteCond %{HTTPS} off';
 			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 		}
@@ -402,22 +424,27 @@ class Red_Htaccess {
 		$target = 'add_' . $item->get_match_type();
 
 		if ( method_exists( $this, $target ) && $item->is_enabled() ) {
-			$this->$target( $item, $item->match );
+			// For URL matches, extract target URL from match object
+			if ( $target === 'add_url' && $item->match instanceof URL_Match ) {
+				$this->add_url( $item, $item->match->url );
+			} else {
+				$this->$target( $item, $item->match ); // @phpstan-ignore-line
+			}
 		}
 	}
 
 	/**
 	 * Get the .htaccess file
 	 *
-	 * @param boolean $existing Existing .htaccess data.
+	 * @param string|false $existing Existing .htaccess data.
 	 * @return string
 	 */
 	public function get( $existing = false ) {
 		$text = $this->generate();
 
-		if ( $existing ) {
+		if ( $existing !== false ) {
 			if ( preg_match( self::INSERT_REGEX, $existing ) > 0 ) {
-				$text = preg_replace( self::INSERT_REGEX, str_replace( '$', '\\$', $text ), $existing );
+				$text = (string) preg_replace( self::INSERT_REGEX, str_replace( '$', '\\$', $text ), $existing );
 			} else {
 				$text = $text . "\n" . trim( $existing );
 			}
@@ -434,7 +461,7 @@ class Red_Htaccess {
 	 */
 	public function sanitize_redirect( $text ) {
 		$text = str_replace( [ "\r", "\n", "\t" ], '', $text );
-		$text = preg_replace( '/[^\PC\s]/u', '', $text );
+		$text = (string) preg_replace( '/[^\PC\s]/u', '', $text );
 
 		return str_replace( [ '<?', '>' ], '', $text );
 	}
@@ -446,32 +473,40 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	public function sanitize_filename( $filename ) {
-		return str_replace( '.php', '', sanitize_text_field( $filename )  );
+		return str_replace( '.php', '', sanitize_text_field( $filename ) );
 	}
 
 	/**
 	 * Save the .htaccess to a file
 	 *
 	 * @param string  $filename Filename to save.
-	 * @param boolean $content_to_save Content to save.
+	 * @param boolean $content_to_save Content to save (unused parameter).
 	 * @return bool
 	 */
 	public function save( $filename, $content_to_save = false ) {
 		$existing = false;
 		$filename = $this->sanitize_filename( $filename );
 
-		if ( file_exists( $filename ) ) {
-			$existing = file_get_contents( $filename );
+		// Initialize WP_Filesystem
+		global $wp_filesystem;
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		$file = @fopen( $filename, 'w' );
-		if ( $file ) {
-			$result = fwrite( $file, $this->get( $existing ) );
-			fclose( $file );
-
-			return $result !== false;
+		// Initialize the filesystem with direct method
+		if ( WP_Filesystem() === null ) {
+			return false;
 		}
 
-		return false;
+		// Read existing file contents if file exists
+		if ( $wp_filesystem->exists( $filename ) ) {
+			$file_contents = $wp_filesystem->get_contents( $filename );
+			if ( $file_contents !== false ) {
+				$existing = $file_contents;
+			}
+		}
+
+		// Write the file
+		return $wp_filesystem->put_contents( $filename, $this->get( $existing ), FS_CHMOD_FILE );
 	}
 }

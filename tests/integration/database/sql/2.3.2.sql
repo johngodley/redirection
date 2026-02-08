@@ -23,10 +23,10 @@ CREATE TABLE `{$prefix}redirection_items` (
 CREATE TABLE `{$prefix}redirection_groups` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`name` varchar(50) NOT NULL,
-	`tracking` int(11) NOT NULL DEFAULT '1',
-	`module_id` int(11) unsigned NOT NULL DEFAULT '0',
+	`tracking` int(11) NOT NULL DEFAULT 1,
+	`module_id` int(11) unsigned NOT NULL DEFAULT 0,
 	`status` enum('enabled','disabled') NOT NULL DEFAULT 'enabled',
-	`position` int(11) unsigned NOT NULL DEFAULT '0',
+	`position` int(11) unsigned NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`),
 	KEY `module_id` (`module_id`),
 	KEY `status` (`status`)

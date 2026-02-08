@@ -2,9 +2,35 @@
 
 require_once dirname( REDIRECTION_FILE ) . '/database/database.php';
 
+/**
+ * Diagnostic and repair tool for Redirection plugin
+ *
+ * @phpstan-type StatusItem array{
+ *     id: string,
+ *     name: string,
+ *     message: string,
+ *     status: string
+ * }
+ * @phpstan-type DebugInfo array{
+ *     database: array{
+ *         current: string,
+ *         latest: string
+ *     },
+ *     ip_header: array<string, string|false>
+ * }
+ * @phpstan-type FixerJson array{
+ *     status: array<StatusItem>,
+ *     debug: DebugInfo
+ * }
+ */
 class Red_Fixer {
 	const REGEX_LIMIT = 200;
 
+	/**
+	 * Get JSON representation of fixer status and debug info
+	 *
+	 * @return FixerJson
+	 */
 	public function get_json() {
 		return [
 			'status' => $this->get_status(),
@@ -12,6 +38,11 @@ class Red_Fixer {
 		];
 	}
 
+	/**
+	 * Get debug information
+	 *
+	 * @return DebugInfo
+	 */
 	public function get_debug() {
 		$status = new Red_Database_Status();
 		$ip = [];
@@ -29,13 +60,20 @@ class Red_Fixer {
 		];
 	}
 
+	/**
+	 * Save debug setting
+	 *
+	 * @param string $name Setting name.
+	 * @param string $value Setting value.
+	 * @return void
+	 */
 	public function save_debug( $name, $value ) {
 		if ( $name === 'database' ) {
 			$database = new Red_Database();
 			$status = new Red_Database_Status();
 
 			foreach ( $database->get_upgrades() as $upgrade ) {
-				if ( $value === $upgrade['version'] ) {
+				if ( $value === $upgrade->get_version() ) {
 					$status->finish();
 					$status->save_db_version( $value );
 
@@ -47,21 +85,29 @@ class Red_Fixer {
 		}
 	}
 
+	/**
+	 * Get status of all diagnostic checks
+	 *
+	 * @return array<StatusItem>
+	 */
 	public function get_status() {
 		global $wpdb;
 
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 		$bad_group = $this->get_missing();
 		$monitor_group = $options['monitor_post'];
-		$valid_monitor = Red_Group::get( $monitor_group ) || $monitor_group === 0;
+		$valid_monitor = Red_Group::get( $monitor_group ) !== false || $monitor_group === 0;
 
 		$status = [
-			array_merge( [
-				'id' => 'db',
-				'name' => __( 'Database tables', 'redirection' ),
-			], $this->get_database_status( Red_Database::get_latest_database() ) ),
+			array_merge(
+				[
+					'id' => 'db',
+					'name' => __( 'Database tables', 'redirection' ),
+				],
+				$this->get_database_status( Red_Database::get_latest_database() )
+			),
 			[
 				'name' => __( 'Valid groups', 'redirection' ),
 				'id' => 'groups',
@@ -96,6 +142,12 @@ class Red_Fixer {
 		return $status;
 	}
 
+	/**
+	 * Get database table status
+	 *
+	 * @param Red_Latest_Database $database Database instance.
+	 * @return array{status: string, message: string}
+	 */
 	private function get_database_status( $database ) {
 		$missing = $database->get_missing_tables();
 
@@ -105,6 +157,11 @@ class Red_Fixer {
 		);
 	}
 
+	/**
+	 * Get HTTP settings status
+	 *
+	 * @return StatusItem
+	 */
 	private function get_http_settings() {
 		$site = wp_parse_url( get_site_url(), PHP_URL_SCHEME );
 		$home = wp_parse_url( get_home_url(), PHP_URL_SCHEME );
@@ -123,6 +180,12 @@ class Red_Fixer {
 		);
 	}
 
+	/**
+	 * Fix all issues found in status
+	 *
+	 * @param array<StatusItem> $status Status items to fix.
+	 * @return array<StatusItem>|WP_Error Updated status or error.
+	 */
 	public function fix( $status ) {
 		foreach ( $status as $item ) {
 			if ( $item['status'] !== 'good' ) {
@@ -130,6 +193,7 @@ class Red_Fixer {
 
 				$result = true;
 				if ( method_exists( $this, $fixer ) ) {
+					// @phpstan-ignore method.dynamicName
 					$result = $this->$fixer();
 				}
 
@@ -142,17 +206,32 @@ class Red_Fixer {
 		return $this->get_status();
 	}
 
+	/**
+	 * Get redirects with missing groups
+	 *
+	 * @return list<object{id: string}>
+	 */
 	private function get_missing() {
 		global $wpdb;
 
 		return $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_items.id FROM {$wpdb->prefix}redirection_items LEFT JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id = {$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id IS NULL" );
 	}
 
+	/**
+	 * Fix database tables
+	 *
+	 * @return bool|WP_Error
+	 */
 	private function fix_db() {
 		$database = Red_Database::get_latest_database();
 		return $database->install();
 	}
 
+	/**
+	 * Fix missing groups
+	 *
+	 * @return bool|WP_Error
+	 */
 	private function fix_groups() {
 		if ( Red_Group::create( 'new group', 1 ) === false ) {
 			return new WP_Error( 'Unable to create group' );
@@ -161,6 +240,11 @@ class Red_Fixer {
 		return true;
 	}
 
+	/**
+	 * Fix redirects with invalid groups
+	 *
+	 * @return void
+	 */
 	private function fix_redirect_groups() {
 		global $wpdb;
 
@@ -171,10 +255,20 @@ class Red_Fixer {
 		}
 	}
 
+	/**
+	 * Fix invalid monitor group setting
+	 *
+	 * @return void
+	 */
 	private function fix_monitor() {
 		red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
 	}
 
+	/**
+	 * Get a valid group ID
+	 *
+	 * @return int
+	 */
 	private function get_valid_group() {
 		$groups = Red_Group::get_all();
 

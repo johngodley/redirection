@@ -15,20 +15,26 @@
 		"spaze/phpstan-disallowed-calls": "^4.0",
 		"php-stubs/wordpress-tests-stubs": "^6.7",
 		"phpcompatibility/php-compatibility": "^9.3",
-		"brain/monkey": "^2.6"
+		"brain/monkey": "^2.6",
+		"rector/rector": "^2.3"
 	},
 	"scripts": {
 		"analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --configuration=phpstan.neon $*",
 		"checks": "composer lint; composer analyse",
 		"baseline": "vendor/bin/phpstan analyse --configuration phpstan.neon  --generate-baseline",
 		"lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n",
-		"test": "./vendor/bin/phpunit --configuration=phpunit-unit.xml",
-		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,"
+		"format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n",
+		"format-file": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n --",
+		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,",
+		"test-unit": "./vendor/bin/phpunit --colors=always --configuration phpunit-unit.xml"
 	},
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"phpstan/extension-installer": true
+		},
+		"platform": {
+			"php": "7.4"
 		}
 	}
 }

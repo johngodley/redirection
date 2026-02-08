@@ -1,0 +1,20 @@
+.form-table.redirect-groups {
+	td {
+		display: flex;
+		align-items: center;
+	}
+
+	th {
+		width: 30px;
+	}
+
+	select {
+		min-height: 30px;
+	}
+}
+
+.widefat .edit-groups {
+	th {
+		width: 70px;
+	}
+}

@@ -1,6 +1,27 @@
 <?php
 
 class RedirectSanitizeTest extends WP_UnitTestCase {
+	/**
+	 * @var Red_Item_Sanitize
+	 */
+	private $sanitizer;
+
+	/**
+	 * @var Red_Group
+	 */
+	private $group;
+
+	public function setUp(): void {
+		parent::setUp();
+
+		// Ensure options database value exists with defaults
+		delete_option( Red_Options::OPTION_KEY );
+		Red_Options::save( [ 'flag_case' => false, 'flag_trailing' => false ] );
+
+		$this->sanitizer = new Red_Item_Sanitize();
+		$this->group = Red_Group::create( 'group', 1 );
+	}
+
 	private function get_new( array $extra = array() ) {
 		return array_merge( [
 			'url' => '/a',
@@ -8,11 +29,6 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 			'match_type' => 'url',
 			'action_type' => 'url',
 		], $extra );
-	}
-
-	public function setUp(): void {
-		$this->sanitizer = new Red_Item_Sanitize();
-		$this->group = Red_Group::create( 'group', 1 );
 	}
 
 	public function testRemoveHttp() {

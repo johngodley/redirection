@@ -1,12 +1,93 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/redirect-sanitizer.php';
-require_once dirname( __FILE__ ) . '/redirect-filter.php';
-require_once dirname( __FILE__ ) . '/redirect-options.php';
-require_once dirname( __FILE__ ) . '/redirect-cache.php';
+require_once __DIR__ . '/redirect-sanitizer.php';
+require_once __DIR__ . '/redirect-filter.php';
+require_once __DIR__ . '/redirect-options.php';
+require_once __DIR__ . '/redirect-cache.php';
 
 /**
  * Redirect class
+ *
+ * @phpstan-type RedirectData array{
+ *     id?: int,
+ *     url?: string,
+ *     match_url?: string,
+ *     match_data?: string,
+ *     regex?: bool|int,
+ *     action_data?: string,
+ *     action_code?: int,
+ *     action_type?: string,
+ *     match_type?: string,
+ *     title?: string,
+ *     last_access?: string|int,
+ *     last_count?: int,
+ *     status?: string,
+ *     position?: int,
+ *     group_id?: int
+ * }
+ * @phpstan-type RedirectJson array{
+ *     id: int,
+ *     url: string,
+ *     match_url: string,
+ *     match_data: mixed,
+ *     action_code: int,
+ *     action_type: string,
+ *     action_data: mixed,
+ *     match_type: string,
+ *     title: string,
+ *     hits: int,
+ *     regex: bool,
+ *     group_id: int,
+ *     position: int,
+ *     last_access: string,
+ *     enabled: bool
+ * }
+ * @phpstan-type RedirectStatusAction 'enable'|'disable'
+ * @phpstan-type RedirectFilterBy array<string, string>
+ * @phpstan-type RedirectFilterParams array{
+ *     filterBy?: RedirectFilterBy
+ * }
+ * @phpstan-type RedirectMatchData array{
+ *     source?: array{
+ *         flag_query: 'ignore'|'exact'|'pass'|'exactorder',
+ *         flag_case: bool,
+ *         flag_trailing: bool,
+ *         flag_regex: bool
+ *     },
+ *     options?: array{
+ *         log_exclude?: bool
+ *     }
+ * }
+ * @phpstan-type RedirectUpdateDetails array{
+ *     url?: string,
+ *     regex?: int|bool,
+ *     match_type?: string,
+ *     action_type?: string,
+ *     action_code?: int,
+ *     action_data?: array<string, mixed>,
+ *     match_data?: RedirectMatchData,
+ *     title?: string,
+ *     group_id?: int,
+ *     position?: int,
+ *     hits?: int,
+ *     last_access?: string
+ * }
+ * @phpstan-type RedirectCreateDetails array{
+ *     url?: string,
+ *     regex?: int|bool,
+ *     match_type?: string,
+ *     action_type?: string,
+ *     action_code?: int,
+ *     action_data?: array<string, mixed>,
+ *     match_data?: RedirectMatchData,
+ *     title?: string,
+ *     group_id?: int,
+ *     position?: int,
+ *     hits?: int,
+ *     last_access?: string,
+ *     enabled?: bool|string,
+ *     status?: string
+ * }
  */
 class Red_Item {
 	/**
@@ -15,6 +96,8 @@ class Red_Item {
 	 * @var integer
 	 */
 	const MAX_REDIRECTS = 20000;
+	const DEFAULT_PER_PAGE = 25;
+	const MAX_PER_PAGE = 200;
 
 	/**
 	 * Redirect ID
@@ -26,21 +109,21 @@ class Red_Item {
 	/**
 	 * Source URL (full)
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $url = '';
 
 	/**
 	 * Source URL (match)
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $match_url = '';
 
 	/**
 	 * Undocumented variable
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $match_data = '';
 
@@ -54,7 +137,7 @@ class Red_Item {
 	/**
 	 * Action data
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $action_data = '';
 
@@ -68,21 +151,21 @@ class Red_Item {
 	/**
 	 * Action type
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $action_type = '';
 
 	/**
 	 * Match type
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $match_type = '';
 
 	/**
 	 * Redirect title
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $title = '';
 
@@ -138,7 +221,7 @@ class Red_Item {
 	/**
 	 * Match object
 	 *
-	 * @var Red_Match|null
+	 * @var Red_Match<array<string, mixed>, (array<string, mixed>|string)>|null
 	 */
 	public $match = null;
 
@@ -152,7 +235,7 @@ class Red_Item {
 	/**
 	 * Constructor
 	 *
-	 * @param stdClass|array|null $values Values.
+	 * @param RedirectData|stdClass|null $values Values.
 	 */
 	public function __construct( $values = null ) {
 		if ( is_object( $values ) ) {
@@ -165,78 +248,122 @@ class Red_Item {
 	/**
 	 * Load values into the object
 	 *
-	 * @param array $values Values.
+	 * @param RedirectData $values Values.
 	 * @return void
 	 */
 	private function load_from_data( array $values ) {
-		foreach ( $values as $key => $value ) {
-			if ( property_exists( $this, $key ) ) {
-				$this->$key = $value;
-			}
+		// @phpstan-ignore function.impossibleType, booleanOr.rightAlwaysTrue
+		if ( array_key_exists( 'id', $values ) && ( is_string( $values['id'] ) || is_int( $values['id'] ) ) ) {
+			$this->id = intval( $values['id'], 10 );
 		}
 
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'url', $values ) && is_string( $values['url'] ) ) {
+			$this->url = $values['url'];
+		}
+
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'match_url', $values ) && is_string( $values['match_url'] ) ) {
+			$this->match_url = $values['match_url'];
+		}
+
+		// @phpstan-ignore notIdentical.alwaysTrue
+		if ( array_key_exists( 'match_data', $values ) && $values['match_data'] !== null ) {
+			$this->match_data = $values['match_data'];
+		}
+
+		if ( array_key_exists( 'regex', $values ) ) {
+			$this->regex = (bool) $values['regex'];
+		}
+
+		// @phpstan-ignore notIdentical.alwaysTrue
+		if ( array_key_exists( 'action_data', $values ) && $values['action_data'] !== null ) {
+			$this->action_data = $values['action_data'];
+		}
+
+		if ( array_key_exists( 'action_code', $values ) ) {
+			$this->action_code = intval( $values['action_code'], 10 );
+		}
+
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'action_type', $values ) && is_string( $values['action_type'] ) ) {
+			$this->action_type = $values['action_type'];
+		}
+
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'match_type', $values ) && is_string( $values['match_type'] ) ) {
+			$this->match_type = $values['match_type'];
+		}
+
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'title', $values ) && is_string( $values['title'] ) ) {
+			$this->title = $values['title'];
+		}
+
+		if ( array_key_exists( 'last_access', $values ) ) {
+			$this->last_access = $this->parse_last_access( $values['last_access'] );
+		}
+
+		if ( array_key_exists( 'last_count', $values ) ) {
+			$this->last_count = intval( $values['last_count'], 10 );
+		}
+
+		// @phpstan-ignore function.alreadyNarrowedType
+		if ( array_key_exists( 'status', $values ) && is_string( $values['status'] ) ) {
+			$this->status = $values['status'];
+		}
+
+		if ( array_key_exists( 'position', $values ) ) {
+			$this->position = intval( $values['position'], 10 );
+		}
+
+		if ( array_key_exists( 'group_id', $values ) ) {
+			$this->group_id = intval( $values['group_id'], 10 );
+		}
+
+		$this->match_type = $this->match_type !== '' ? $this->match_type : 'url';
+		$this->action_type = $this->action_type !== '' ? $this->action_type : 'nothing';
+		// @phpstan-ignore cast.useless
 		$this->regex = (bool) $this->regex;
 
-		if ( isset( $values['last_access'] ) ) {
-			$this->last_access = ( $this->last_access === '1970-01-01 00:00:00' || $this->last_access === '0000-00-00 00:00:00' ) ? 0 : mysql2date( 'U', $this->last_access );
-		}
+		$this->match = Red_Match::create( $this->match_type, $this->action_data );
+		$this->action = Red_Action::create( $this->action_type, $this->action_code );
 
-		$this->load_matcher();
-		$this->load_action();
-		$this->load_source();
-	}
-
-	/**
-	 * Load the Red_Source_Flags and Red_Source_Options.
-	 *
-	 * Requires a v4 database
-	 *
-	 * @return void
-	 */
-	private function load_source() {
-		// Default regex flag to regex column. This will be removed once the regex column has been migrated
-		// todo: deprecate
-		$this->source_flags = new Red_Source_Flags( array_merge( red_get_options(), [ 'flag_regex' => $this->regex ] ) );
+		$options = Red_Options::get();
+		$this->source_flags = new Red_Source_Flags( array_merge( $options, [ 'flag_regex' => $this->regex ] ) );
 		$this->source_options = new Red_Source_Options();
 
-		if ( isset( $this->match_data ) ) {
+		if ( $this->match_data !== '' ) {
 			$json = json_decode( $this->match_data, true );
 
-			if ( $json && isset( $json['source'] ) ) {
-				// Merge redirect flags with default flags
-				$this->source_flags->set_flags( array_merge( red_get_options(), $json['source'] ) );
+			if ( is_array( $json ) && isset( $json['source'] ) && is_array( $json['source'] ) ) {
+				$this->source_flags->set_flags( array_merge( $options, $json['source'] ) );
 			}
 
-			if ( $json && isset( $json['options'] ) ) {
+			if ( is_array( $json ) && isset( $json['options'] ) && is_array( $json['options'] ) ) {
 				$this->source_options->set_options( $json['options'] );
 			}
 		}
 	}
 
 	/**
-	 * Load the Red_Match object
+	 * Parse a last_access value into a timestamp.
 	 *
-	 * @return void
+	 * @param string|int $value Raw value.
+	 * @return int
 	 */
-	private function load_matcher() {
-		if ( empty( $this->match_type ) ) {
-			$this->match_type = 'url';
+	private function parse_last_access( $value ) {
+		if ( is_int( $value ) ) {
+			return $value;
 		}
 
-		$this->match = Red_Match::create( $this->match_type, $this->action_data );
-	}
-
-	/**
-	 * Load the Red_Action object
-	 *
-	 * @return void
-	 */
-	private function load_action() {
-		if ( empty( $this->action_type ) ) {
-			$this->action_type = 'nothing';
+		if ( $value === '1970-01-01 00:00:00' || $value === '0000-00-00 00:00:00' ) {
+			return 0;
 		}
 
-		$this->action = Red_Action::create( $this->action_type, $this->action_code );
+		$timestamp = mysql2date( 'U', $value );
+
+		return $timestamp ? intval( $timestamp, 10 ) : 0;
 	}
 
 	/**
@@ -272,7 +399,7 @@ class Red_Item {
 	 * Get a list of redirects that match a URL. This is a helper function that calls the appropriate method for the current database version.
 	 *
 	 * @param string $url URL to match.
-	 * @return array
+	 * @return Red_Item[]
 	 */
 	public static function get_for_url( $url ) {
 		$status = new Red_Database_Status();
@@ -318,7 +445,8 @@ class Red_Item {
 
 			if ( count( $items ) >= self::MAX_REDIRECTS ) {
 				// Something has gone pretty wrong at this point
-				error_log( 'Redirection: maximum redirect limit exceeded' );
+				// @phpstan-ignore disallowed.function
+				error_log( 'Redirection: maximum redirect limit exceeded' ); // phpcs:ignore
 			}
 		}
 
@@ -330,7 +458,7 @@ class Red_Item {
 	 *
 	 * @deprecated 3.7.3
 	 * @param string $url URL to match.
-	 * @return array
+	 * @return Red_Item[]
 	 */
 	public static function get_old_url( $url ) {
 		global $wpdb;
@@ -370,8 +498,8 @@ class Red_Item {
 	/**
 	 * Return only the 'item' element
 	 *
-	 * @param array $item Item.
-	 * @return string
+	 * @param array{position: int, item: Red_Item} $item Item with position and Red_Item object.
+	 * @return Red_Item
 	 */
 	public static function reduce_sorted_items( $item ) {
 		return $item['item'];
@@ -398,8 +526,8 @@ class Red_Item {
 	/**
 	 * Sort URLs
 	 *
-	 * @param object $first First URL.
-	 * @param object $second Second URL.
+	 * @param Red_Item $first First URL.
+	 * @param Red_Item $second Second URL.
 	 * @return integer
 	 */
 	public static function sort_urls( $first, $second ) {
@@ -416,7 +544,11 @@ class Red_Item {
 	 *
 	 * @param array $first First URL.
 	 * @param array $second Second URL.
-	 * @return integer
+	 *
+	 * @phpstan-param array{position:int} $first
+	 * @phpstan-param array{position:int} $second
+	 * @phpstan-return -1|0|1
+	 * @return int
 	 */
 	public static function sort_urls_old( $first, $second ) {
 		if ( $first['position'] === $second['position'] ) {
@@ -472,7 +604,7 @@ class Red_Item {
 	/**
 	 * Create a redirect with new details
 	 *
-	 * @param array $details Redirect details.
+	 * @param RedirectCreateDetails $details Redirect details.
 	 * @return WP_Error|Red_Item
 	 */
 	public static function create( array $details ) {
@@ -506,7 +638,7 @@ class Red_Item {
 			Red_Module::flush( $data['group_id'] );
 
 			$redirect = self::get_by_id( $wpdb->insert_id );
-			if ( $redirect ) {
+			if ( $redirect !== false ) {
 				do_action( 'redirection_redirect_updated', $wpdb->insert_id, $redirect );
 
 				return $redirect;
@@ -521,7 +653,7 @@ class Red_Item {
 	/**
 	 * Update the redirect with new details
 	 *
-	 * @param array $details Redirect details.
+	 * @param RedirectUpdateDetails $details Redirect details.
 	 * @return WP_Error|true
 	 */
 	public function update( $details ) {
@@ -570,7 +702,7 @@ class Red_Item {
 	 * @return Red_Action|false true if matched, false otherwise
 	 */
 	public function get_match( $requested_url, $original_url = false ) {
-		if ( ! $this->is_enabled() || ! $this->match || ! $this->source_flags || ! $this->action ) {
+		if ( ! $this->is_enabled() || $this->match === null || $this->source_flags === null || $this->action === null ) {
 			// Don't do anything if Redirection is disabled or we don't have any of the objects
 			return false;
 		}
@@ -594,7 +726,7 @@ class Red_Item {
 		if ( $this->action->needs_target() ) {
 			// Get the target from the action and the match status - some matches have a matched/unmatched target
 			$target_url = $this->match->get_target_url( $original_url, $url->get_url(), $this->source_flags, $matched );
-			if ( $target_url ) {
+			if ( $target_url !== false ) {
 				$target_url = Red_Url_Query::add_to_target( $target_url, $original_url, $this->source_flags );
 			}
 
@@ -616,7 +748,7 @@ class Red_Item {
 
 		// Return the action for processing if we have either matched or we have a target URL (possibly from an 'not matched' condition)
 		if ( $matched || $target_url ) {
-			return $this->action;
+			return $this->action === null ? false : $this->action;
 		}
 
 		return false;
@@ -632,7 +764,7 @@ class Red_Item {
 	public function visit( $url, $target ) {
 		global $wpdb;
 
-		$options = red_get_options();
+		$options = Red_Options::get();
 
 		// Update the counters
 		$this->last_count++;
@@ -641,9 +773,10 @@ class Red_Item {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}redirection_items SET last_count=last_count+1, last_access=NOW() WHERE id=%d", $this->id ) );
 		}
 
-		if ( $target && $this->source_options && $this->source_options->can_log() ) {
-			if ( $target === true && $this->match ) {
-				$target = $this->action_type === 'pass' ? $this->match->get_data()['url'] : '';
+		if ( $target !== '' && $this->source_options !== null && $this->source_options->can_log() ) {
+			if ( $target === true && $this->match !== null ) {
+				$match_data = $this->match->get_data();
+				$target = $this->action_type === 'pass' && is_array( $match_data ) && isset( $match_data['url'] ) ? $match_data['url'] : '';
 			}
 
 			$details = [
@@ -656,7 +789,7 @@ class Red_Item {
 				'redirect_by' => 'redirection',
 			];
 
-			if ( $options['log_header'] ) {
+			if ( $options['log_header'] === true ) {
 				$details['request_data'] = [
 					'headers' => Redirection_Request::get_request_headers(),
 				];
@@ -771,10 +904,10 @@ class Red_Item {
 	/**
 	 * Get match data
 	 *
-	 * @return array|null
+	 * @return RedirectMatchData|null
 	 */
 	public function get_match_data() {
-		if ( ! $this->source_flags || ! $this->source_options ) {
+		if ( $this->source_flags === null || $this->source_options === null ) {
 			return null;
 		}
 
@@ -783,6 +916,7 @@ class Red_Item {
 
 		$data = [];
 
+		// @phpstan-ignore empty.variable
 		if ( ! empty( $source ) ) {
 			$data['source'] = $source;
 		}
@@ -791,10 +925,12 @@ class Red_Item {
 			$data['options'] = $options;
 		}
 
+		// @phpstan-ignore greater.alwaysTrue
 		if ( count( $data ) > 0 ) {
 			return $data;
 		}
 
+		// @phpstan-ignore deadCode.unreachable
 		return null;
 	}
 
@@ -840,7 +976,7 @@ class Red_Item {
 	 * @return boolean
 	 */
 	public function is_dynamic() {
-		if ( $this->match ) {
+		if ( $this->match !== null ) {
 			return $this->match->get_type() !== 'url';
 		}
 
@@ -886,7 +1022,7 @@ class Red_Item {
 	/**
 	 * Delete all redirects that match a filter
 	 *
-	 * @param array $params Filter parameters.
+	 * @param RedirectFilterParams $params Filter parameters.
 	 * @return boolean
 	 */
 	public static function delete_all( array $params ) {
@@ -903,7 +1039,7 @@ class Red_Item {
 	/**
 	 * Reset all redirects that match a filter
 	 *
-	 * @param array $params Filter parameters.
+	 * @param RedirectFilterParams $params Filter parameters.
 	 * @return boolean
 	 */
 	public static function reset_all( array $params ) {
@@ -920,8 +1056,8 @@ class Red_Item {
 	/**
 	 * Set the status of all redirects that match the filter
 	 *
-	 * @param 'enable'|'disable' $status Status to set.
-	 * @param array              $params Filter parameters.
+	 * @param RedirectStatusAction $status Status to set.
+	 * @param RedirectFilterParams $params Filter parameters.
 	 * @return boolean
 	 */
 	public static function set_status_all( $status, array $params ) {
@@ -938,15 +1074,15 @@ class Red_Item {
 	/**
 	 * Get a filtered list of redirects
 	 *
-	 * @param array $params Filter parameters.
-	 * @return array{total:integer,items:Red_Item[]}
+	 * @param array<string, mixed> $params Filter parameters.
+	 * @return array{total: int, items: list<RedirectJson>}
 	 */
 	public static function get_filtered( array $params ) {
 		global $wpdb;
 
 		$orderby = 'id';
 		$direction = 'DESC';
-		$limit = RED_DEFAULT_PER_PAGE;
+		$limit = self::DEFAULT_PER_PAGE;
 		$offset = 0;
 		$where = '';
 
@@ -969,7 +1105,7 @@ class Red_Item {
 
 		if ( isset( $params['per_page'] ) ) {
 			$limit = intval( $params['per_page'], 10 );
-			$limit = min( RED_MAX_PER_PAGE, $limit );
+			$limit = min( self::MAX_PER_PAGE, $limit );
 			$limit = max( 5, $limit );
 		}
 
@@ -1001,7 +1137,7 @@ class Red_Item {
 	/**
 	 * Convert the redirect to JSON
 	 *
-	 * @return array
+	 * @return RedirectJson
 	 */
 	public function to_json() {
 		return [
@@ -1026,16 +1162,16 @@ class Red_Item {
 	/**
 	 * Convert the redirect to SQL
 	 *
-	 * @return array
+	 * @return RedirectJson
 	 */
 	public function to_sql() {
 		$json = $this->to_json();
 		$action_data = null;
 
-		if ( $this->match ) {
+		if ( $this->match !== null ) {
 			$data = $this->match->get_data();
 
-			if ( $data ) {
+			if ( $data !== null ) {
 				$action_data = $this->match->save( $data, false );
 
 				if ( is_array( $action_data ) ) {
@@ -1045,11 +1181,14 @@ class Red_Item {
 			}
 		}
 
-		return array_merge( $json, [
-			'match_data'  => wp_json_encode( $this->get_match_data(), JSON_UNESCAPED_SLASHES ),
-			'action_data' => $action_data,
-			'last_access' => date( 'Y-m-d H:i:s', $this->last_access ),
-			'status'      => $this->is_enabled() ? 'enabled' : 'disabled',
-		] );
+		return array_merge(
+			$json,
+			[
+				'match_data'  => wp_json_encode( $this->get_match_data(), JSON_UNESCAPED_SLASHES ),
+				'action_data' => $action_data,
+				'last_access' => gmdate( 'Y-m-d H:i:s', $this->last_access ),
+				'status'      => $this->is_enabled() ? 'enabled' : 'disabled',
+			]
+		);
 	}
 }

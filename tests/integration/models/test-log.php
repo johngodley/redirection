@@ -102,7 +102,7 @@ class Log_Test extends WP_UnitTestCase {
 		return [
 			'orderby' => 'id',
 			'direction' => 'DESC',
-			'limit' => RED_DEFAULT_PER_PAGE,
+			'limit' => Red_Log::DEFAULT_PER_PAGE,
 			'offset' => 0,
 			'where' => '',
 		];

@@ -1,0 +1,11 @@
+@import "@wordpress/base-styles/colors";
+
+.wpl-popover__toggle {
+	display: inline-block;
+	flex: none !important;
+	cursor: pointer;
+}
+
+.wpl-popover__toggle__disabled {
+	opacity: 0.4;
+}

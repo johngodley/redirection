@@ -79,5 +79,4 @@ class ExportCsvTest extends WP_UnitTestCase {
 
 		$this->assertEquals( '"/source","/target",0,301,"url",0,"","disabled"', $csv );
 	}
-
 }

@@ -7,10 +7,7 @@
 		"target": "esnext",
 		"module": "esnext",
 		"lib": ["dom", "esnext"],
-		"declaration": true,
-		"declarationMap": true,
-		"composite": true,
-		"emitDeclarationOnly": true,
+		"noEmit": true,
 		"isolatedModules": true,
 		/* Strict Type-Checking Options */
 		"strict": true,
@@ -21,17 +18,39 @@
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"skipLibCheck": true,
 		/* Module Resolution Options */
 		"moduleResolution": "node",
 		/* This needs to be false so our types are possible to consume without setting this */
 		"esModuleInterop": false,
 		"resolveJsonModule": true,
-		"baseUrl": "./client",
+		"baseUrl": "src",
 		"paths": {
-			"wp-plugin-library": ["wp-plugin-library"]
+			"@wp-plugin-lib": ["wp-plugin-lib"],
+			"@wp-plugin-lib/*": ["wp-plugin-lib/*"],
+			"@wp-plugin-components": ["wp-plugin-components"],
+			"@wp-plugin-components/*": ["wp-plugin-components/*"],
+			"lib/*": ["lib/*"],
+			"component/*": ["component/*"],
+			"state/*": ["state/*"],
+			"page/*": ["page/*"],
+			"app/*": ["app/*"],
+			"types": ["types"],
+			"stores": ["stores"]
 		},
-		"rootDirs": ["client"]
+		"rootDirs": ["src"],
+		"types": []
 	},
-	"include": ["client/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"]
+	"include": ["src/**/*"],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts",
+		"**/*.spec.tsx",
+		"**/*.test.ts",
+		"**/*.test.tsx",
+		"**/__tests__/**/*",
+		"**/__mocks__/**/*"
+	]
 }

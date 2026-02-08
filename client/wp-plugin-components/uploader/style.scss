@@ -1,0 +1,15 @@
+.wpl-dropzone {
+	border: 3px dashed #bbb;
+	text-align: center;
+	padding: 10px;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	color: #666;
+	width: 100%;
+	box-sizing: border-box;
+
+	&.wpl-dropzone__hover {
+		border-color: rgb(134, 191, 212);
+	}
+}

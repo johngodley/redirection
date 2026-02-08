@@ -16,7 +16,6 @@ class Url_Action extends Red_Action {
 		$redirect = wp_redirect( $target, $this->get_code(), 'redirection' );
 
 		if ( $redirect ) {
-			/** @psalm-suppress InvalidGlobal */
 			global $wp_version;
 
 			if ( version_compare( $wp_version, '5.1', '<' ) ) {

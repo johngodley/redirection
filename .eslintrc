@@ -1,0 +1,23 @@
+{
+	"extends": [
+		"plugin:@wordpress/eslint-plugin/recommended",
+		"plugin:@tanstack/eslint-plugin-query/recommended"
+	],
+	"rules": {
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn",
+		"camelcase": "off"
+	},
+	"env": {
+		"browser": true,
+		"jest": true
+	},
+	"settings": {
+		"import/resolver": {
+			"typescript": {
+				"alwaysTryTypes": true,
+				"project": "./tsconfig.json"
+			}
+		}
+	}
+}

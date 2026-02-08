@@ -28,37 +28,106 @@
  *       "message": "Invalid file upload"
  *     }
  */
+/**
+ * @phpstan-type ImportPluginPayload array{
+ *    plugin?: string|list<string>
+ * }
+ * @phpstan-type ImportFileParams array{
+ *  file?: array{
+ *      tmp_name: string,
+ *      name: string,
+ *      size: int,
+ *      type: string,
+ *      error: int
+ *  }
+ * }
+ */
 class Redirection_Api_Import extends Redirection_Api_Route {
-	public function __construct( $namespace ) {
-		register_rest_route( $namespace, '/import/file/(?P<group_id>\d+)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_import_file', [ $this, 'permission_callback_manage' ] ),
-		) );
+	/**
+	 * @param string $api_namespace REST namespace.
+	 */
+	public function __construct( $api_namespace ) {
+		// POST /import/file/:group_id - Import from file upload
+		register_rest_route(
+			$api_namespace,
+			'/import/file/(?P<group_id>\d+)',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_import_file' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
 
-		register_rest_route( $namespace, '/import/plugin', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_plugin_import_list', [ $this, 'permission_callback_manage' ] ),
-		) );
-
-		register_rest_route( $namespace, '/import/plugin', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_plugin_import', [ $this, 'permission_callback_manage' ] ),
-		) );
+		// GET/POST /import/plugin - List or import from plugins
+		register_rest_route(
+			$api_namespace,
+			'/import/plugin',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_plugin_import_list' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_plugin_import' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
 	}
 
-	public function permission_callback_manage( WP_REST_Request $request ) {
+	/**
+	 * Permission callback used for import routes.
+	 *
+	 * @param WP_REST_Request $_request Request (unused).
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $_request
+	 * @return bool
+	 */
+	public function permission_callback_manage( WP_REST_Request $_request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
 	}
 
+	/**
+	 * List available plugin importers.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @phpstan-return array{importers: array<int, mixed>}
+	 * @return array{importers: array}
+	 */
 	public function route_plugin_import_list( WP_REST_Request $request ) {
 		include_once dirname( __DIR__ ) . '/models/importer.php';
 
 		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
 	}
 
+	/**
+	 * Import redirects using selected plugin importers.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @phpstan-return array{imported: int}
+	 * @return array{imported: int}
+	 */
 	public function route_plugin_import( WP_REST_Request $request ) {
 		include_once dirname( __DIR__ ) . '/models/importer.php';
 
-		$params = $request->get_params( $request );
+		$params = $request->get_params();
+		/** @var ImportPluginPayload $params */
 		$groups = Red_Group::get_all();
-		$plugins = is_array( $request['plugin'] ) ? $request['plugin'] : [ $request['plugin'] ];
+		/** @var array<array{id: int, name: string, redirects: int, module_id: int, moduleName: string, enabled: bool, default?: bool}> $groups */
+		$plugin_param = $params['plugin'] ?? $request->get_param( 'plugin' );
+		if ( is_array( $plugin_param ) ) {
+			$plugins = array_map( 'strval', $plugin_param );
+		} elseif ( $plugin_param === null ) {
+			$plugins = [];
+		} else {
+			$plugins = [ (string) $plugin_param ];
+		}
+		/** @var list<string> $plugins */
 		$plugins = array_map( 'sanitize_text_field', $plugins );
 		$total = 0;
 
@@ -69,24 +138,35 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		return [ 'imported' => $total ];
 	}
 
+	/**
+	 * Import redirects from an uploaded file.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @phpstan-return array{imported: int}|WP_Error
+	 * @return array{imported: int}|WP_Error
+	 */
 	public function route_import_file( WP_REST_Request $request ) {
-		$upload = $request->get_file_params();
-		$upload = isset( $upload['file'] ) ? $upload['file'] : false;
+		$file_params = $request->get_file_params();
+		/** @var ImportFileParams $file_params */
 		$group_id = intval( $request['group_id'], 10 );
 
-		if ( $upload && is_uploaded_file( $upload['tmp_name'] ) ) {
-			$count = Red_FileIO::import( $group_id, $upload );
+		if ( isset( $file_params['file'] ) ) {
+			$upload = $file_params['file'];
 
-			if ( $count !== false ) {
-				return array(
-					'imported' => $count,
-				);
+			if ( is_uploaded_file( $upload['tmp_name'] ) ) {
+				$count = Red_FileIO::import( $group_id, $upload );
+
+				if ( $count > 0 ) {
+					return array(
+						'imported' => $count,
+					);
+				}
+
+				return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 			}
-
-			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 		}
 
 		return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file' ), __LINE__ );
 	}
-
 }

@@ -1,0 +1,57 @@
+@import "@wordpress/base-styles/colors";
+
+.wpl-badge {
+	display: inline-flex;
+	align-items: center;
+	background-color: $gray-400;
+	border-radius: 3px;
+	//	white-space: nowrap;
+	color: $black;
+	padding: 0 4px;
+	min-height: 24px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	&.wpl-badge__click {
+		cursor: pointer;
+		border: 1px solid transparent;
+
+		&:hover {
+			color: $white;
+			background-color: $gray-600;
+		}
+	}
+
+	.wpl-badge__close {
+		background-color: transparent;
+		border: none;
+		width: 15px;
+		text-align: center;
+		vertical-align: middle;
+		cursor: pointer;
+		margin-left: 2px;
+
+		&:hover {
+			color: $white;
+		}
+	}
+
+	&.wpl-badge__small .wpl-badge__content {
+		max-width: 100px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&.wpl-badge__disabled {
+		opacity: 0.6;
+
+		.wpl-badge__close {
+			cursor: inherit;
+		}
+	}
+}
+
+.wpl-badge:not(:last-child) {
+	margin-right: 5px;
+}

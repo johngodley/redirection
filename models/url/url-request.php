@@ -7,14 +7,14 @@ class Red_Url_Request {
 	/**
 	 * Original URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $original_url;
 
 	/**
 	 * Decoded URL
 	 *
-	 * @var String
+	 * @var string
 	 */
 	private $decoded_url;
 
@@ -86,6 +86,11 @@ class Red_Url_Request {
 	 */
 	public function is_protected_url() {
 		$rest = wp_parse_url( red_get_rest_api() );
+
+		if ( ! is_array( $rest ) || ! isset( $rest['path'] ) ) {
+			return false;
+		}
+
 		$rest_api = $rest['path'] . ( isset( $rest['query'] ) ? '?' . $rest['query'] : '' );
 
 		if ( substr( $this->get_decoded_url(), 0, strlen( $rest_api ) ) === $rest_api ) {
@@ -107,9 +112,9 @@ class Red_Url_Request {
 	public function is_ignore_posttypes(){
 
 
-		$settings = red_get_options();
+		$options = $options = Red_Options::get();;
 
-		if( empty( $settings['ignore_posttypes'][0] ) ){
+		if( empty( $options['ignore_posttypes'][0] ) ){
 			return false;
 		}
 
@@ -121,10 +126,10 @@ class Red_Url_Request {
 
 		$post_type = get_post_type( $post_id );
 		if( empty( $post_type ) ){
-			return;
+			return false;
 		}
 
 		// Check if the post type is listed in ignored post types.
-		return in_array( $post_type, $settings['ignore_posttypes'], true );
+		return in_array( $post_type, $options['ignore_posttypes'], true );
 	}
 }

@@ -14,7 +14,7 @@
  *
  * @apiUse 401Error
  * @apiUse 404Error
- * @apiError (Error 400) redirect_export_invalid_module Invalid module
+ * @apiError redirect_export_invalid_module Invalid module
  * @apiErrorExample {json} 404 Error Response:
  *     HTTP/1.1 400 Bad Request
  *     {
@@ -22,17 +22,50 @@
  *       "message": "Invalid module"
  *     }
  */
+
+/**
+ * @phpstan-type ExportResponse array{
+ *   data: string,
+ *   total: int
+ * }
+ */
 class Redirection_Api_Export extends Redirection_Api_Route {
-	public function __construct( $namespace ) {
-		register_rest_route( $namespace, '/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)', array(
-			$this->get_route( WP_REST_Server::READABLE, 'route_export', [ $this, 'permission_callback_manage' ] ),
-		) );
+	/**
+	 * Export API endpoint constructor
+	 *
+	 * @param string $api_namespace Namespace.
+	 */
+	public function __construct( $api_namespace ) {
+		// GET /export/:module/:format - Export redirects to specified format
+		register_rest_route(
+			$api_namespace,
+			'/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_export' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
 	}
 
+	/**
+	 * Check if the user has permission to manage import/export
+	 *
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
 	}
 
+	/**
+	 * Export redirects to a specified format
+	 *
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return ExportResponse|WP_Error
+	 */
 	public function route_export( WP_REST_Request $request ) {
 		$module = sanitize_text_field( $request['module'] );
 		$format = 'json';

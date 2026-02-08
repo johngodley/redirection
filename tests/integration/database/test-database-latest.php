@@ -1,6 +1,13 @@
 <?php
 
 class LatestDatabaseTest extends WP_UnitTestCase {
+	/**
+	 * Previous database prefix, stored during setUp to restore in tearDown
+	 *
+	 * @var string
+	 */
+	private $previous_prefix;
+
 	private function checkTableExists( $table ) {
 		global $wpdb;
 

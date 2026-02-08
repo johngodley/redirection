@@ -1,6 +1,16 @@
 <?php
 
 class MonitorTest extends WP_UnitTestCase {
+	/**
+	 * @var Red_Group
+	 */
+	private $group;
+
+	/**
+	 * @var int
+	 */
+	private $post_id;
+
 	public function setUp(): void {
 		parent::setUp();
 
@@ -14,10 +24,12 @@ class MonitorTest extends WP_UnitTestCase {
 	}
 
 	private function getPost( $status, $type ) {
-		return (object) array(
-			'post_status' => $status,
-			'post_type' => $type,
-			'ID' => 1,
+		return new WP_Post(
+			(object) [
+				'post_status' => $status,
+				'post_type' => $type,
+				'ID' => 1,
+			]
 		);
 	}
 
@@ -40,21 +52,21 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testDraftToPublish() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getDraftPost(), $this->getPublishedPost() ) );
 	}
 
 	public function testPublishToDraft() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost(), $this->getDraftPost() ) );
 	}
 
 	public function testHierarchical() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$monitor->pre_post_update( 1, false );
+		$monitor->pre_post_update( 1, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $this->getPublishedPost( 'page' ), $this->getPublishedPost() ) );
 	}
 
@@ -68,7 +80,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get();
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -76,7 +88,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get();
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -84,7 +96,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'page' ) );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertTrue( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -92,7 +104,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'page' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -100,7 +112,7 @@ class MonitorTest extends WP_UnitTestCase {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'product' ) );
-		$monitor->pre_post_update( $post->ID, false );
+		$monitor->pre_post_update( $post->ID, [] );
 		$this->assertFalse( $monitor->can_monitor_post( $post, $post ) );
 	}
 
@@ -133,13 +145,18 @@ class MonitorTest extends WP_UnitTestCase {
 
 		// Should not trigger another
 		$this->assertEquals( $total + 2, $after );
-		$this->assertEquals( $before.'amp/', $redirect->url );
+		$this->assertEquals( $before . 'amp/', $redirect->url );
 	}
 
 	public function testTrashUpdated() {
 		global $wpdb;
 
-		$monitor = new Red_Monitor( $this->getActiveOptions( 1, 'trash' ) );
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
 		$post = $this->factory->post->create( array( 'post_title' => 'trash me' ) );
 		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
 
@@ -153,6 +170,29 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( $total + 1, $after );
 		$this->assertEquals( $url, $redirect->url );
 		$this->assertEquals( 'disabled', $redirect->status );
+	}
+
+	public function testTrashNotUpdatedForUnmonitoredType() {
+		global $wpdb;
+
+		// Trash is enabled but only 'post' is monitored, so trashing a 'page' should not create a redirect
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+
+		$page = $this->factory->post->create( [ 'post_type' => 'page', 'post_title' => 'unmonitored page' ] );
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		wp_trash_post( $page );
+
+		// Verify the page was actually trashed (not deleted)
+		$this->assertEquals( 'trash', get_post_status( $page ) );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		$this->assertEquals( $total, $after );
 	}
 
 	public function testTrashNotUpdated() {
@@ -242,5 +282,85 @@ class MonitorTest extends WP_UnitTestCase {
 
 		// Should not trigger another
 		$this->assertFalse( $monitor->check_for_modified_slug( $this->post_id, $before ) );
+	}
+
+	public function testTrashedDataFilterCanModifyRedirect() {
+		global $wpdb;
+
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+		$post = $this->factory->post->create( array( 'post_title' => 'filter test' ) );
+
+		// Add filter to modify the redirect data
+		add_filter( 'redirection_monitor_trashed_data', function( $data, $post_id ) {
+			$data['action_code'] = 302;
+			$data['status'] = 'enabled';
+			return $data;
+		}, 10, 2 );
+
+		wp_trash_post( $post );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+
+		// Verify the filter modified the redirect data
+		$this->assertEquals( 302, $redirect->action_code );
+		$this->assertEquals( 'enabled', $redirect->status );
+	}
+
+	public function testTrashedDataFilterCanSuppressRedirect() {
+		global $wpdb;
+
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+		$post = $this->factory->post->create( array( 'post_title' => 'suppress test' ) );
+
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		// Add filter to suppress redirect creation by setting url to null
+		add_filter( 'redirection_monitor_trashed_data', function( $data, $post_id ) {
+			$data['url'] = null;
+			return $data;
+		}, 10, 2 );
+
+		wp_trash_post( $post );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		// Verify no redirect was created
+		$this->assertEquals( $total, $after );
+	}
+
+	public function testMonitorCreatedActionFiresOnTrash() {
+		// Trash monitoring requires both 'trash' (to enable the hook) and the post type to monitor
+		$monitor = new Red_Monitor( [
+			'monitor_post' => 1,
+			'monitor_types' => [ 'post', 'trash' ],
+			'associated_redirect' => '',
+		] );
+		$post = $this->factory->post->create( array( 'post_title' => 'action test' ) );
+		$url = parse_url( get_permalink( $post ), PHP_URL_PATH );
+		$action = new MockAction();
+
+		add_action( 'redirection_monitor_created', array( $action, 'action' ), 10, 3 );
+
+		wp_trash_post( $post );
+
+		// Verify the action was called once
+		$this->assertEquals( 1, $action->get_call_count() );
+
+		$args = $action->get_args();
+
+		// Verify the action was called with correct arguments (Red_Item, url, post_id)
+		$this->assertInstanceOf( 'Red_Item', $args[0][0] );
+		$this->assertEquals( $url, $args[0][1] );
+		$this->assertEquals( $post, $args[0][2] );
 	}
 }

@@ -1,20 +1,35 @@
 <?php
 
 /**
+ * @phpstan-type LoginMap array{
+ *    logged_in?: string,
+ *    logged_out?: string
+ * }
+ * @phpstan-type LoginResult array{
+ *    logged_in: string,
+ *    logged_out: string
+ * }
+ * @phpstan-type LoginData array{
+ *    logged_in: string,
+ *    logged_out: string
+ * }
+ *
  * Check whether the user is logged in or out
+ *
+ * @phpstan-extends Red_Match<LoginMap, LoginResult>
  */
 class Login_Match extends Red_Match {
 	/**
 	 * Target URL when logged in.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	public $logged_in = '';
 
 	/**
 	 * Target URL when logged out.
 	 *
-	 * @var String
+	 * @var string
 	 */
 	public $logged_out = '';
 
@@ -22,6 +37,10 @@ class Login_Match extends Red_Match {
 		return __( 'URL and login status', 'redirection' );
 	}
 
+	/**
+	 * @param LoginMap $details
+	 * @return LoginResult|null
+	 */
 	public function save( array $details, $no_target_url = false ) {
 		if ( $no_target_url ) {
 			return null;
@@ -46,13 +65,16 @@ class Login_Match extends Red_Match {
 			$target = $this->logged_out;
 		}
 
-		if ( $flags->is_regex() && $target ) {
+		if ( $flags->is_regex() && $target !== false ) {
 			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
 		}
 
 		return $target;
 	}
 
+	/**
+	 * @return LoginData
+	 */
 	public function get_data() {
 		return [
 			'logged_in' => $this->logged_in,
@@ -63,12 +85,17 @@ class Login_Match extends Red_Match {
 	/**
 	 * Load the match data into this instance.
 	 *
-	 * @param string $values Match values, as read from the database (plain text or serialized PHP).
+	 * @param string|LoginMap $values Match values, as read from the database (plain text, serialized PHP, or parsed array).
 	 * @return void
 	 */
 	public function load( $values ) {
-		$values = unserialize( $values );
-		$this->logged_in = isset( $values['logged_in'] ) ? $values['logged_in'] : '';
-		$this->logged_out = isset( $values['logged_out'] ) ? $values['logged_out'] : '';
+		if ( is_string( $values ) ) {
+			$values = @unserialize( $values );
+		}
+
+		if ( is_array( $values ) ) {
+			$this->logged_in = isset( $values['logged_in'] ) ? $values['logged_in'] : '';
+			$this->logged_out = isset( $values['logged_out'] ) ? $values['logged_out'] : '';
+		}
 	}
 }

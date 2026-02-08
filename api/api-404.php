@@ -79,43 +79,69 @@
  */
 
 /**
+ * @phpstan-type Log404Response array{
+ *   items: list<array<string, mixed>|object>,
+ *   total: int
+ * }
+ *
  * 404 API endpoint
  */
 class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * 404 API endpoint constructor
 	 *
-	 * @param string $namespace Namespace.
+	 * @param string $api_namespace Namespace.
 	 */
-	public function __construct( $namespace ) {
+	public function __construct( $api_namespace ) {
 		$orders = [ 'url', 'ip', 'total', 'count', '' ];
 		$filters = [ 'ip', 'url-exact', 'referrer', 'agent', 'url', 'domain', 'method', 'http' ];
 
-		register_rest_route( $namespace, '/404', array(
-			'args' => $this->get_filter_args( $orders, $filters ),
-			$this->get_route( WP_REST_Server::READABLE, 'route_404', [ $this, 'permission_callback_manage' ] ),
-		) );
-
-		register_rest_route( $namespace, '/bulk/404/(?P<bulk>delete)', array(
-			$this->get_route( WP_REST_Server::EDITABLE, 'route_bulk', [ $this, 'permission_callback_delete' ] ),
-			'args' => array_merge( $this->get_filter_args( $orders, $filters ), [
-				'items' => [
-					'description' => 'Comma separated list of item IDs to perform action on',
-					'type' => 'array',
-					'items' => [
-						'description' => 'Item ID',
-						'type' => [ 'string', 'number' ],
-					],
+		// GET /404 - List 404 logs
+		register_rest_route(
+			$api_namespace,
+			'/404',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_404' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'args' => $this->get_filter_args( $orders, $filters ),
 				],
-			] ),
-		) );
+			]
+		);
+
+		// POST /bulk/404/:bulk - Bulk delete 404 logs
+		register_rest_route(
+			$api_namespace,
+			'/bulk/404/(?P<bulk>delete)',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_bulk' ],
+					'permission_callback' => [ $this, 'permission_callback_delete' ],
+					'args' => array_merge(
+						$this->get_filter_args( $orders, $filters ),
+						[
+							'items' => [
+								'description' => 'Comma separated list of item IDs to perform action on',
+								'type' => 'array',
+								'items' => [
+									'description' => 'Item ID',
+									'type' => [ 'string', 'number' ],
+								],
+							],
+						]
+					),
+				],
+			]
+		);
 	}
 
 	/**
 	 * Checks a manage capability
 	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return Bool
+	 * @param WP_REST_Request<array<string, mixed>> $request Request.
+	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE );
@@ -124,8 +150,8 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * Checks a delete capability
 	 *
-	 * @param WP_REST_Request $request Request.
-	 * @return Bool
+	 * @param WP_REST_Request<array<string, mixed>> $request Request.
+	 * @return bool
 	 */
 	public function permission_callback_delete( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_DELETE );
@@ -134,8 +160,8 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * Get 404 log
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return Log404Response
 	 */
 	public function route_404( WP_REST_Request $request ) {
 		return $this->get_404( $request->get_params() );
@@ -144,8 +170,8 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * Perform action on 404s
 	 *
-	 * @param WP_REST_Request $request The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return Log404Response
 	 */
 	public function route_bulk( WP_REST_Request $request ) {
 		$params = $request->get_params();
@@ -171,7 +197,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 			if ( isset( $params['groupBy'] ) && $params['groupBy'] === 'url-exact' ) {
 				unset( $params['groupBy'] );
 			}
-		} elseif ( isset( $params['global'] ) && $params['global'] ) {
+		} elseif ( isset( $params['global'] ) && $params['global'] !== false ) {
 			Red_404_Log::delete_all( $params );
 		}
 
@@ -181,8 +207,8 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	/**
 	 * Get 404 log
 	 *
-	 * @param array $params The request.
-	 * @return WP_Error|array Return an array of results, or a WP_Error
+	 * @param array<string, mixed> $params The request parameters.
+	 * @return Log404Response
 	 */
 	private function get_404( array $params ) {
 		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent', 'url-exact' ], true ) ) {

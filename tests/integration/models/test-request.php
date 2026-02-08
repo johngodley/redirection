@@ -313,7 +313,7 @@ class RequestTest extends WP_UnitTestCase {
 		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
 
 		$result = Redirection_Request::get_ip();
-		$this->assertEquals( '2000:420:22:0:10:226:260:3224', $result );
+		$this->assertEquals( '2001:db8:85a3:10::', $result );
 		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
 	}
 

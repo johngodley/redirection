@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * URL encoding handler for source and target URLs
+ *
+ * @phpstan-type EncodingMap array<string, string>
+ */
 class Red_Url_Encode {
 	/**
 	 * URL
@@ -23,10 +28,10 @@ class Red_Url_Encode {
 	 */
 	public function __construct( $url, $is_regex = false ) {
 		// Remove any newlines
-		$url = preg_replace( "/[\r\n\t].*?$/s", '', $url );
+		$url = (string) preg_replace( "/[\r\n\t].*?$/s", '', $url );
 
 		// Remove invalid characters
-		$url = preg_replace( '/[^\PC\s]/u', '', $url );
+		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
 
 		// Make sure spaces are quoted
 		$url = str_replace( ' ', '%20', $url );
@@ -82,7 +87,7 @@ class Red_Url_Encode {
 	 * Replace encoded characters in a URL
 	 *
 	 * @param string $str Source string.
-	 * @param array  $allowed Allowed encodings.
+	 * @param EncodingMap $allowed Map of encoded characters to their replacements.
 	 * @return string
 	 */
 	private function replace_encoding( $str, $allowed ) {
@@ -105,20 +110,23 @@ class Red_Url_Encode {
 			$url = ltrim( $url, '/' );
 
 			// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
-			$url = preg_replace( '@^\^/@', '^', $url );
+			$url = (string) preg_replace( '@^\^/@', '^', $url );
 
-			$url = $this->replace_encoding( $url, [
-				'%2A' => '*',
-				'%3F' => '?',
-				'%28' => '(',
-				'%29' => ')',
-				'%5B' => '[',
-				'%5C' => ']',
-				'%24' => '$',
-				'%2B' => '+',
-				'%7C' => '|',
-				'\\.' => '.',
-			] );
+			$url = $this->replace_encoding(
+				$url,
+				[
+					'%2A' => '*',
+					'%3F' => '?',
+					'%28' => '(',
+					'%29' => ')',
+					'%5B' => '[',
+					'%5C' => ']',
+					'%24' => '$',
+					'%2B' => '+',
+					'%7C' => '|',
+					'\\.' => '.',
+				]
+			);
 		}
 
 		return $url;
