@@ -55,7 +55,12 @@ const getVersions = (): VersionOption[] => [
 function Debug( props: DebugProps ) {
 	const { debug } = props;
 	const [ version, setVersion ] = useState( debug.database.current );
-	const { mutate: fixStatus } = useFixStatus();
+	const { mutate: fixStatus } = useFixStatus( {
+		onSuccess: () => {
+			// Reload the page to show the upgrade progress
+			window.location.reload();
+		},
+	} );
 
 	function onChange( ev: React.ChangeEvent< HTMLSelectElement > ) {
 		setVersion( ev.target.value );

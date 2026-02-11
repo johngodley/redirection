@@ -91,6 +91,44 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 				],
 			]
 		);
+
+		// POST /plugin/finish - Finish setup wizard
+		register_rest_route(
+			$api_namespace,
+			'/plugin/finish',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_finish' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
+
+		// POST /plugin/fix - Fix database status
+		register_rest_route(
+			$api_namespace,
+			'/plugin/fix',
+			[
+				[
+					'methods' => WP_REST_Server::EDITABLE,
+					'callback' => [ $this, 'route_fix_status' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'args' => [
+						'reason' => [
+							'description' => 'Reason for fix',
+							'type' => 'string',
+							'required' => true,
+						],
+						'current' => [
+							'description' => 'Current version',
+							'type' => 'string',
+							'required' => true,
+						],
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -220,5 +258,69 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		}
 
 		return $status->get_json();
+	}
+
+	/**
+	 * Finish setup wizard
+	 *
+	 * @return array{success: true}
+	 */
+	public function route_finish() {
+		$status = new Red_Database_Status();
+		$status->finish();
+
+		return array( 'success' => true );
+	}
+
+	/**
+	 * Fix database status after manual upgrade
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @return array{success: true, database: DatabaseStatus}|WP_Error
+	 */
+	public function route_fix_status( WP_REST_Request $request ) {
+		global $wpdb;
+
+		$params = $request->get_params();
+		$reason = isset( $params['reason'] ) ? sanitize_text_field( $params['reason'] ) : '';
+		$current = isset( $params['current'] ) ? sanitize_text_field( $params['current'] ) : '';
+
+		// Validate required parameters
+		if ( $reason === '' ) {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_invalid_reason', 'Missing or invalid reason parameter' ),
+				__LINE__
+			);
+		}
+
+		if ( $current === '' ) {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_invalid_version', 'Missing or invalid current version parameter' ),
+				__LINE__
+			);
+		}
+
+		$status = new Red_Database_Status();
+
+		if ( $reason === 'database' ) {
+			$status->save_db_version( $current );
+
+			// After manual database install, ensure default groups are created
+			$latest = Red_Database::get_latest_database();
+			$latest->create_groups( $wpdb, true );
+
+			$status->finish();
+		} else {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_unsupported_reason', "Unsupported reason: $reason" ),
+				__LINE__
+			);
+		}
+
+		return array(
+			'success' => true,
+			'database' => $status->get_json(),
+		);
 	}
 }

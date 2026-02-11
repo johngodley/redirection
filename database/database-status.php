@@ -93,9 +93,22 @@ class Red_Database_Status {
 		$settings = Red_Options::get();
 
 		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
-			$this->stage = isset( $settings[ self::DB_UPGRADE_STAGE ]['stage'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stage'] : false;
-			$this->stages = isset( $settings[ self::DB_UPGRADE_STAGE ]['stages'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['stages'] : [];
-			$this->status = isset( $settings[ self::DB_UPGRADE_STAGE ]['status'] ) ? $settings[ self::DB_UPGRADE_STAGE ]['status'] : false;
+			$stage_data = $settings[ self::DB_UPGRADE_STAGE ];
+
+			// Database stage can be set to false to clear it - only process if it's an array
+			// phpcs:ignore function.alreadyNarrowedType
+			// @phpstan-ignore function.alreadyNarrowedType
+			if ( ! is_array( $stage_data ) ) {
+				return;
+			}
+
+			$this->stage = isset( $stage_data['stage'] ) ? $stage_data['stage'] : false;
+			$this->stages = isset( $stage_data['stages'] ) ? $stage_data['stages'] : [];
+
+			// Only override status if we have a saved upgrade in progress
+			if ( isset( $stage_data['status'] ) && $stage_data['status'] !== false ) {
+				$this->status = $stage_data['status'];
+			}
 		}
 	}
 
@@ -338,6 +351,11 @@ class Red_Database_Status {
 		} elseif ( $this->status === self::STATUS_FINISHED_INSTALL || $this->status === self::STATUS_FINISHED_UPDATING ) {
 			$result['complete'] = 100;
 			$result['reason'] = $this->reason;
+		} elseif ( $this->status === self::STATUS_NEED_INSTALL || $this->status === self::STATUS_NEED_UPDATING ) {
+			// For fresh install/update that hasn't started yet, set initial progress state
+			$result['complete'] = 0;
+			$result['result'] = self::RESULT_OK;
+			$result['reason'] = false;
 		}
 
 		return $result;
@@ -540,6 +558,10 @@ class Red_Database_Status {
 	 * @return void
 	 */
 	private function clear_cache(): void {
+		// Clear Red_Options in-memory cache
+		Red_Options::reset();
+
+		// Clear WordPress object cache if available
 		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) && function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
 		}

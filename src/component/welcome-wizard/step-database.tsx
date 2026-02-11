@@ -22,8 +22,12 @@ export default function StepDatabase( { step, setStep, options, setOptions }: St
 		setOptions( { manual: false } );
 	}
 
+	function continueToNext() {
+		setStep( step + 1 );
+	}
+
 	if ( manual ) {
-		return <ManualInstall onCancel={ stopManual } />;
+		return <ManualInstall onCancel={ stopManual } onComplete={ continueToNext } />;
 	}
 
 	return (

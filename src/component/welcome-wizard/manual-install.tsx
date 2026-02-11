@@ -5,11 +5,19 @@ import { useFixStatus } from 'lib/api/hooks/use-settings';
 
 interface ManualInstallProps {
 	onCancel: () => void;
+	onComplete?: () => void;
 }
 
-export default function ManualInstall( { onCancel }: ManualInstallProps ) {
+export default function ManualInstall( { onCancel, onComplete: onCompleteCallback }: ManualInstallProps ) {
 	const loadStatus = useSettingsStore( ( state ) => state.loadStatus );
-	const { mutate: fixStatus } = useFixStatus();
+	const { mutate: fixStatus } = useFixStatus( {
+		onSuccess: () => {
+			// After fixing the database status, advance to the next step
+			if ( onCompleteCallback ) {
+				onCompleteCallback();
+			}
+		},
+	} );
 
 	function onComplete() {
 		fixStatus( { reason: 'database', current: Redirectioni10n.database.next } );

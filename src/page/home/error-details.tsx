@@ -4,10 +4,6 @@ import RestApiStatus from 'component/rest-api-status';
 import { getErrorLinks } from 'lib/error-links';
 
 function ErrorDetails() {
-	function onSupportClick() {
-		window.location.href = '?page=redirection.php&sub=support';
-	}
-
 	return (
 		<>
 			<RestApiStatus />
@@ -22,7 +18,8 @@ function ErrorDetails() {
 							'redirection'
 						),
 						{
-							link: <button type="button" onClick={ onSupportClick } />,
+							// eslint-disable-next-line jsx-a11y/anchor-has-content
+							link: <a href="?page=redirection.php&sub=support" />,
 						}
 					) }
 				</li>
@@ -50,10 +47,7 @@ function ErrorDetails() {
 				</li>
 				<li>
 					{ createInterpolateElement(
-						__(
-							'If you are using WordPress 5.2 or newer then look at your {{link}}Site Health{{/link}} and resolve any issues.',
-							'redirection'
-						),
+						__( 'Look at your {{link}}Site Health{{/link}} and resolve any issues.', 'redirection' ),
 						{
 							link: <ExternalLink url={ getErrorLinks().siteHealth } />,
 						}

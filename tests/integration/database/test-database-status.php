@@ -118,6 +118,9 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'status' => 'need-update',
 			'current' => '1.0',
 			'next' => REDIRECTION_DB_VERSION,
+			'complete' => 0,
+			'result' => 'ok',
+			'reason' => false,
 		];
 
 		$actual = $this->get_results( $status, null );
@@ -135,6 +138,9 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 			'inProgress' => false,
 			'current' => '-',
 			'next' => REDIRECTION_DB_VERSION,
+			'complete' => 0,
+			'result' => 'ok',
+			'reason' => false,
 		];
 		$actual = $this->get_results( $status, null );
 

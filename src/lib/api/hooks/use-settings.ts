@@ -132,7 +132,7 @@ export function useDatabaseUpgrade( options?: Omit< UseMutationOptions< any, Err
 			decrementProgress();
 			setDatabase( {
 				inProgress: false,
-				...( data.database || {} ),
+				...data,
 			} );
 		},
 		onError: ( error ) => {
@@ -236,21 +236,29 @@ export function useFinishUpgrade( options?: Omit< UseMutationOptions< any, Error
  * @param options
  */
 export function useFixStatus(
-	options?: Omit< UseMutationOptions< any, Error, { reason: string; current: string } >, 'mutationFn' >
+	options?: Omit< UseMutationOptions< any, Error, { reason: string; current: string }, unknown >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { setDatabase } = useSettingsStore();
+
+	// Extract onSuccess from options to compose it
+	const { onSuccess: onSuccessCallback, ...restOptions } = options || {};
 
 	return useMutation( {
 		mutationFn: async ( { reason, current }: { reason: string; current: string } ) => {
 			const response = await apiFetch( RedirectionApi.plugin.fixStatus( reason, current ) );
 			return response;
 		},
-		onSuccess: ( data: any ) => {
-			setDatabase( data.database || {} );
+		onSuccess: ( ...args: Parameters< NonNullable< typeof onSuccessCallback > > ) => {
+			// Always run core success behavior
+			const [ data ] = args;
+			setDatabase( ( data as any ).database || {} );
 			queryClient.invalidateQueries( { queryKey: queryKeys.settings.all } );
+
+			// Then invoke caller's onSuccess if provided
+			onSuccessCallback?.( ...args );
 		},
-		...options,
+		...restOptions,
 	} );
 }
 

@@ -188,8 +188,13 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
-= 5.7.1 - Unreleased =
+= 5.7.0 - Unreleased =
 * Bump minimum PHP to 7.4
+* Add multi-select support with shift-click in tables
+* Add WP-CLI verbose flag for settings command to display setting names
+* Improve log deletion performance with adaptive batch sizing for large backlogs
+* Add permissions policy header
+* Improve trash monitoring
 
 = 5.6.1 - 17th January 2026 =
 * Fix issue with spaces in Apache .htaccess
