@@ -64,7 +64,7 @@ export default function Database( { children }: DatabaseProps ) {
 		<div className="redirection-database">
 			<PreventLeaveWarning
 				message={ __( 'Leaving before the process has completed may cause problems.', 'redirection' ) }
-				prevent={ result !== 'error' && result !== 'failed' }
+				prevent={ result !== 'error' && result !== 'failed' && ! hasFinished( status ) }
 			/>
 
 			<h1>{ getTitle( status ) }</h1>
