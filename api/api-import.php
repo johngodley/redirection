@@ -152,7 +152,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		$group_id = intval( $request['group_id'], 10 );
 
 		if ( ! isset( $file_params['file'] ) || ! is_uploaded_file( $file_params['file']['tmp_name'] ) ) {
-			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file' ), __LINE__ );
+			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file upload' ), __LINE__ );
 		}
 
 		$upload = $file_params['file'];
@@ -168,6 +168,22 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		}
 
 		$count = Red_FileIO::import( $group_id, $upload );
+
+		// Import failure returns 0, but 0 can also mean no valid redirects in file
+		// For JSON files, pre-validate to distinguish between invalid JSON and empty/no-redirects
+		if ( $count === 0 && $extension === 'json' ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
+			$content = file_get_contents( $upload['tmp_name'] );
+			if ( $content !== false ) {
+				json_decode( $content, true );
+				if ( json_last_error() !== JSON_ERROR_NONE ) {
+					return $this->add_error_details(
+						new WP_Error( 'redirect_import_invalid_json', 'Invalid JSON file: ' . json_last_error_msg() ),
+						__LINE__
+					);
+				}
+			}
+		}
 
 		return array(
 			'imported' => $count,

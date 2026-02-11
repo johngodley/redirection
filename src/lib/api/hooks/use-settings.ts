@@ -236,7 +236,7 @@ export function useFinishUpgrade( options?: Omit< UseMutationOptions< any, Error
  * @param options
  */
 export function useFixStatus(
-	options?: Omit< UseMutationOptions< any, Error, { reason: string; current: string } >, 'mutationFn' >
+	options?: Omit< UseMutationOptions< any, Error, { reason: string; current: string }, unknown >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { setDatabase } = useSettingsStore();
@@ -249,15 +249,14 @@ export function useFixStatus(
 			const response = await apiFetch( RedirectionApi.plugin.fixStatus( reason, current ) );
 			return response;
 		},
-		onSuccess: ( data: any, variables: any, context: any ) => {
+		onSuccess: ( ...args: Parameters< NonNullable< typeof onSuccessCallback > > ) => {
 			// Always run core success behavior
-			setDatabase( data.database || {} );
+			const [ data ] = args;
+			setDatabase( ( data as any ).database || {} );
 			queryClient.invalidateQueries( { queryKey: queryKeys.settings.all } );
 
 			// Then invoke caller's onSuccess if provided
-			if ( onSuccessCallback ) {
-				onSuccessCallback( data, variables, context );
-			}
+			onSuccessCallback?.( ...args );
 		},
 		...restOptions,
 	} );

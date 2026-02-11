@@ -18,6 +18,7 @@ function ErrorDetails() {
 							'redirection'
 						),
 						{
+							// eslint-disable-next-line jsx-a11y/anchor-has-content
 							link: <a href="?page=redirection.php&sub=support" />,
 						}
 					) }
@@ -46,10 +47,7 @@ function ErrorDetails() {
 				</li>
 				<li>
 					{ createInterpolateElement(
-						__(
-							'Look at your {{link}}Site Health{{/link}} and resolve any issues.',
-							'redirection'
-						),
+						__( 'Look at your {{link}}Site Health{{/link}} and resolve any issues.', 'redirection' ),
 						{
 							link: <ExternalLink url={ getErrorLinks().siteHealth } />,
 						}
