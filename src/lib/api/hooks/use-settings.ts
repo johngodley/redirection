@@ -132,7 +132,7 @@ export function useDatabaseUpgrade( options?: Omit< UseMutationOptions< any, Err
 			decrementProgress();
 			setDatabase( {
 				inProgress: false,
-				...( data.database || {} ),
+				...data,
 			} );
 		},
 		onError: ( error ) => {

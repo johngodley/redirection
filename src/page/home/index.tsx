@@ -100,7 +100,7 @@ export default function Home() {
 
 	const [ page, setPageState ] = useState< string >( getPluginPage( ALLOWED_PAGES ) );
 
-	// Initialize API routes and preloaded settings from global config on mount
+	// Initialize API routes, preloaded settings, and database status from global config on mount
 	useEffect( () => {
 		if ( window.Redirectioni10n?.api?.routes ) {
 			setApi( {
@@ -115,6 +115,12 @@ export default function Home() {
 			setValues( window.Redirectioni10n.settings as any );
 			setLoadStatus( 'success' );
 		}
+
+		// Initialize database status from preloaded data
+		if ( window.Redirectioni10n?.database ) {
+			const { setDatabase } = useSettingsStore.getState();
+			setDatabase( window.Redirectioni10n.database as any );
+		}
 	}, [ setApi ] );
 
 	// Wrap setPage in useCallback to ensure stable reference
@@ -122,12 +128,9 @@ export default function Home() {
 		setPageState( newPage );
 	}, [] );
 
-	// Only clear errors if there are actually errors to clear
 	const onPageChange = useCallback( () => {
-		if ( errors.length > 0 ) {
-			clearErrors();
-		}
-	}, [ errors, clearErrors ] );
+		clearErrors();
+	}, [ clearErrors ] );
 
 	// Memoize menu and titles to prevent creating new objects on every render
 	const menu = useMemo( () => getMenu(), [] );
