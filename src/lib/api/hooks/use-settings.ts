@@ -241,16 +241,25 @@ export function useFixStatus(
 	const queryClient = useQueryClient();
 	const { setDatabase } = useSettingsStore();
 
+	// Extract onSuccess from options to compose it
+	const { onSuccess: onSuccessCallback, ...restOptions } = options || {};
+
 	return useMutation( {
 		mutationFn: async ( { reason, current }: { reason: string; current: string } ) => {
 			const response = await apiFetch( RedirectionApi.plugin.fixStatus( reason, current ) );
 			return response;
 		},
-		onSuccess: ( data: any ) => {
+		onSuccess: ( data: any, variables: any, context: any ) => {
+			// Always run core success behavior
 			setDatabase( data.database || {} );
 			queryClient.invalidateQueries( { queryKey: queryKeys.settings.all } );
+
+			// Then invoke caller's onSuccess if provided
+			if ( onSuccessCallback ) {
+				onSuccessCallback( data, variables, context );
+			}
 		},
-		...options,
+		...restOptions,
 	} );
 }
 

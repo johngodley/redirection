@@ -277,7 +277,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 *
 	 * @param WP_REST_Request $request REST request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
-	 * @return array{success: true, database: DatabaseStatus}
+	 * @return array{success: true, database: DatabaseStatus}|WP_Error
 	 */
 	public function route_fix_status( WP_REST_Request $request ) {
 		global $wpdb;
@@ -286,9 +286,24 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		$reason = isset( $params['reason'] ) ? sanitize_text_field( $params['reason'] ) : '';
 		$current = isset( $params['current'] ) ? sanitize_text_field( $params['current'] ) : '';
 
+		// Validate required parameters
+		if ( $reason === '' ) {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_invalid_reason', 'Missing or invalid reason parameter' ),
+				__LINE__
+			);
+		}
+
+		if ( $current === '' ) {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_invalid_version', 'Missing or invalid current version parameter' ),
+				__LINE__
+			);
+		}
+
 		$status = new Red_Database_Status();
 
-		if ( $reason === 'database' && $current !== '' ) {
+		if ( $reason === 'database' ) {
 			$status->save_db_version( $current );
 
 			// After manual database install, ensure default groups are created
@@ -296,6 +311,11 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 			$latest->create_groups( $wpdb, true );
 
 			$status->finish();
+		} else {
+			return $this->add_error_details(
+				new WP_Error( 'redirection_unsupported_reason', "Unsupported reason: $reason" ),
+				__LINE__
+			);
 		}
 
 		return array(
