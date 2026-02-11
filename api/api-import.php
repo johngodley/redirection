@@ -151,22 +151,26 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		/** @var ImportFileParams $file_params */
 		$group_id = intval( $request['group_id'], 10 );
 
-		if ( isset( $file_params['file'] ) ) {
-			$upload = $file_params['file'];
+		if ( ! isset( $file_params['file'] ) || ! is_uploaded_file( $file_params['file']['tmp_name'] ) ) {
+			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file' ), __LINE__ );
+		}
 
-			if ( is_uploaded_file( $upload['tmp_name'] ) ) {
-				$count = Red_FileIO::import( $group_id, $upload );
+		$upload = $file_params['file'];
+		$parts = pathinfo( $upload['name'] );
+		$extension = isset( $parts['extension'] ) ? strtolower( $parts['extension'] ) : '';
 
-				if ( $count > 0 ) {
-					return array(
-						'imported' => $count,
-					);
-				}
-
+		// JSON imports don't need a group, but all other formats do
+		if ( $extension !== 'json' ) {
+			$group = Red_Group::get( $group_id );
+			if ( $group === false ) {
 				return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 			}
 		}
 
-		return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file' ), __LINE__ );
+		$count = Red_FileIO::import( $group_id, $upload );
+
+		return array(
+			'imported' => $count,
+		);
 	}
 }
