@@ -2,6 +2,7 @@ import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
 import { getServerUrl } from 'lib/wordpress-url';
 import { __ } from '@wordpress/i18n';
+import { RowActions, RowAction } from 'component/table/row-action';
 
 // Interface for 404 errors - all fields optional to support grouped results
 interface Error404 {
@@ -99,17 +100,18 @@ export default function getColumns( row: Error404, rowParams?: RowParams ): Colu
 						<Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape />
 					</a>
 					{ rowParams?.table?.groupBy === '' && rowParams?.onFilter && (
-						<div className="row-actions">
-							<a
-								href="#"
-								onClick={ ( e ) => {
-									e.preventDefault();
-									rowParams.onFilter?.( { ip } );
-								} }
-							>
-								{ __( 'Filter by IP', 'redirection' ) }
-							</a>
-						</div>
+						<RowActions
+							actions={ [
+								<RowAction
+									key="filter-ip"
+									onClick={ () => {
+										rowParams.onFilter?.( { ip } );
+									} }
+								>
+									{ __( 'Filter by IP', 'redirection' ) }
+								</RowAction>,
+							] }
+						/>
 					) }
 				</>
 			) : (
