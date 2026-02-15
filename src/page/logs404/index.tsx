@@ -104,7 +104,7 @@ function Logs404() {
 		setShowCreate( create );
 	}
 
-	function handleDelete( id: number ) {
+	function handleDelete( id: number | string ) {
 		const params = table.groupBy ? { groupBy: table.groupBy } : {};
 		errorBulkAction.mutate( { action: 'delete', items: [ id ], params } );
 	}
