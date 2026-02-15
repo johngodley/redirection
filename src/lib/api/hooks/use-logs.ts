@@ -107,6 +107,51 @@ export function useLogDeleteAll( options?: Omit< UseMutationOptions< any, Error,
 }
 
 /**
+ * Mutation hook for bulk log actions
+ * @param options
+ */
+export function useLogBulkAction(
+	options?: Omit<
+		UseMutationOptions< any, Error, { action: string; items: ( string | number )[]; params?: any } >,
+		'mutationFn'
+	>
+) {
+	const queryClient = useQueryClient();
+	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
+
+	return useMutation( {
+		mutationFn: async ( {
+			action,
+			items,
+			params = {},
+		}: {
+			action: string;
+			items: ( string | number )[];
+			params?: any;
+		} ) => {
+			incrementProgress();
+			try {
+				const response = await apiFetch( RedirectionApi.bulk.log( action, { items }, params ) );
+				return response;
+			} catch ( error ) {
+				decrementProgress();
+				throw handleApiError( error );
+			}
+		},
+		onSuccess: ( _, variables ) => {
+			decrementProgress();
+			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
+			addNotice( `Logs ${ actionName }` );
+			queryClient.invalidateQueries( { queryKey: queryKeys.logs.all } );
+		},
+		onError: ( error ) => {
+			addError( error.message || 'Failed to perform log action' );
+		},
+		...options,
+	} );
+}
+
+/**
  * Query hook for fetching 404 errors
  * @param params
  * @param options
@@ -167,13 +212,24 @@ export function useErrorDeleteAll( options?: Omit< UseMutationOptions< any, Erro
  * @param options
  */
 export function useErrorBulkAction(
-	options?: Omit< UseMutationOptions< any, Error, { action: string; items: number[]; params?: any } >, 'mutationFn' >
+	options?: Omit<
+		UseMutationOptions< any, Error, { action: string; items: ( string | number )[]; params?: any } >,
+		'mutationFn'
+	>
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
 
 	return useMutation( {
-		mutationFn: async ( { action, items, params = {} }: { action: string; items: number[]; params?: any } ) => {
+		mutationFn: async ( {
+			action,
+			items,
+			params = {},
+		}: {
+			action: string;
+			items: ( string | number )[];
+			params?: any;
+		} ) => {
 			incrementProgress();
 			try {
 				const response = await apiFetch( RedirectionApi.bulk.error( action, { items }, params ) );

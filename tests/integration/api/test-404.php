@@ -191,4 +191,90 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 
 		$this->assertEquals( 2, count( $result->data['items'] ) );
 	}
+
+	public function testDeleteBulkGroupedByUrl() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		// Create multiple 404 entries with the same URL but different IPs
+		Red_404_Log::create( 'domain', '/missing-page', '192.168.1.1', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_404_Log::create( 'domain', '/missing-page', '192.168.1.2', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_404_Log::create( 'domain', '/another-404', '192.168.1.3', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_404_Log::create( 'domain', '/third-404', '192.168.1.4', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by URL - should delete all entries with /missing-page
+		$result = $this->callApi( 'bulk/404/delete', [ 'items' => [ '/missing-page' ], 'groupBy' => 'url' ], 'POST' );
+		$result = $this->callApi( '404' );
+
+		// Should have 2 remaining entries
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( '/third-404', $result->data['items'][0]['url'] );
+		$this->assertEquals( '/another-404', $result->data['items'][1]['url'] );
+	}
+
+	public function testDeleteBulkGroupedByIp() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		// Create multiple 404 entries with the same IP but different URLs
+		Red_404_Log::create( 'domain', '/url1', '192.168.1.100', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_404_Log::create( 'domain', '/url2', '192.168.1.100', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_404_Log::create( 'domain', '/url3', '192.168.1.200', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_404_Log::create( 'domain', '/url4', '192.168.1.300', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by IP - should delete all entries with 192.168.1.100
+		$result = $this->callApi( 'bulk/404/delete', [ 'items' => [ '192.168.1.100' ], 'groupBy' => 'ip' ], 'POST' );
+		$result = $this->callApi( '404' );
+
+		// Should have 2 remaining entries
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( '192.168.1.300', $result->data['items'][0]['ip'] );
+		$this->assertEquals( '192.168.1.200', $result->data['items'][1]['ip'] );
+	}
+
+	public function testDeleteBulkGroupedByAgent() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		// Create multiple 404 entries with the same agent but different URLs
+		Red_404_Log::create( 'domain', '/url1', '192.168.1.1', [ 'agent' => 'Mozilla/5.0 Chrome', 'referrer' => 'ref1' ] );
+		Red_404_Log::create( 'domain', '/url2', '192.168.1.2', [ 'agent' => 'Mozilla/5.0 Chrome', 'referrer' => 'ref2' ] );
+		Red_404_Log::create( 'domain', '/url3', '192.168.1.3', [ 'agent' => 'Mozilla/5.0 Firefox', 'referrer' => 'ref3' ] );
+		Red_404_Log::create( 'domain', '/url4', '192.168.1.4', [ 'agent' => 'Safari', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by agent - should delete all entries with Mozilla/5.0 Chrome
+		$result = $this->callApi( 'bulk/404/delete', [ 'items' => [ 'Mozilla/5.0 Chrome' ], 'groupBy' => 'agent' ], 'POST' );
+		$result = $this->callApi( '404' );
+
+		// Should have 2 remaining entries
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( 'Safari', $result->data['items'][0]['agent'] );
+		$this->assertEquals( 'Mozilla/5.0 Firefox', $result->data['items'][1]['agent'] );
+	}
+
+	public function testDeleteMultipleBulkGroupedByUrl() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		// Create entries for multiple URLs
+		Red_404_Log::create( 'domain', '/delete-me-1', '192.168.1.1', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_404_Log::create( 'domain', '/delete-me-1', '192.168.1.2', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_404_Log::create( 'domain', '/delete-me-2', '192.168.1.3', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_404_Log::create( 'domain', '/keep-me', '192.168.1.4', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete multiple URLs at once
+		$result = $this->callApi( 'bulk/404/delete', [
+			'items' => [ '/delete-me-1', '/delete-me-2' ],
+			'groupBy' => 'url'
+		], 'POST' );
+		$result = $this->callApi( '404' );
+
+		// Should have 1 remaining entry
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+		$this->assertEquals( '/keep-me', $result->data['items'][0]['url'] );
+	}
 }

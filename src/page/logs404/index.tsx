@@ -104,9 +104,15 @@ function Logs404() {
 		setShowCreate( create );
 	}
 
-	function onBulk( action: string, items: number[] ) {
+	function handleDelete( id: number | string ) {
+		const params = table.groupBy ? { groupBy: table.groupBy } : {};
+		errorBulkAction.mutate( { action: 'delete', items: [ id ], params } );
+	}
+
+	function handleBulk( action: string ) {
+		const params = table.groupBy ? { groupBy: table.groupBy } : {};
 		if ( action === 'delete' ) {
-			errorBulkAction.mutate( { action, items: items as any } );
+			errorBulkAction.mutate( { action: 'delete', items: table.selected, params } );
 		} else {
 			setShowCreate( getCreateAction( action, table.selected as any ) );
 		}
@@ -134,14 +140,15 @@ function Logs404() {
 		setErrorsTable( { displayType, displaySelected } );
 	};
 
-	const handleSelect = ( items: number[] | boolean | number ) => {
+	const handleSelect = ( items: ( number | string )[] | boolean | number | string ) => {
 		if ( typeof items === 'boolean' ) {
 			setErrorsSelected( items ? rows.map( ( r ) => r.id ) : [] );
-		} else if ( typeof items === 'number' ) {
+		} else if ( typeof items === 'number' || typeof items === 'string' ) {
 			// Toggle single item selection
-			const newSelected = table.selected.includes( items )
-				? table.selected.filter( ( id ) => id !== items )
-				: [ ...table.selected, items ];
+			const currentSelected = Array.isArray( table.selected ) ? table.selected : [];
+			const newSelected = currentSelected.includes( items )
+				? currentSelected.filter( ( id ) => id !== items )
+				: [ ...currentSelected, items ];
 			setErrorsSelected( newSelected );
 		} else {
 			setErrorsSelected( items );
@@ -163,7 +170,7 @@ function Logs404() {
 		perPage: table.per_page,
 		orderBy: table.orderby,
 		direction: table.direction,
-		selected: table.selected,
+		selected: table.selected ?? [],
 		selectAll: table.selectAll ?? false,
 		filter: '',
 		filterBy: ( table.filterBy ?? {} ) as Record< string, string >,
@@ -185,7 +192,7 @@ function Logs404() {
 
 	const logActions = {
 		onChangePage: handleChangePage,
-		onBulk,
+		onBulk: handleBulk,
 		onGroup: handleGroup,
 		onSetOrder: handleSetOrder,
 		onFilter: handleFilter,
@@ -214,7 +221,7 @@ function Logs404() {
 						disabled={ false }
 						row={ row as any }
 						onCreate={ onCreate }
-						onDelete={ ( id ) => onBulk( 'delete', [ id ] ) }
+						onDelete={ handleDelete }
 						table={ rowParams.table }
 					/>
 				) }

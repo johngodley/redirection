@@ -196,4 +196,90 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 
 		$this->assertEquals( 2, count( $result->data['items'] ) );
 	}
+
+	public function testDeleteBulkGroupedByUrl() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		// Create multiple entries with the same URL but different IPs
+		Red_Redirect_Log::create( 'domain', '/test-url-1', '192.168.1.1', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_Redirect_Log::create( 'domain', '/test-url-1', '192.168.1.2', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_Redirect_Log::create( 'domain', '/test-url-2', '192.168.1.3', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_Redirect_Log::create( 'domain', '/test-url-3', '192.168.1.4', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by URL - should delete all entries with /test-url-1
+		$result = $this->callApi( 'bulk/log/delete', [ 'items' => [ '/test-url-1' ], 'groupBy' => 'url' ], 'POST' );
+		$result = $this->callApi( 'log' );
+
+		// Should have 2 remaining entries (/test-url-2 and /test-url-3)
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( '/test-url-3', $result->data['items'][0]['url'] );
+		$this->assertEquals( '/test-url-2', $result->data['items'][1]['url'] );
+	}
+
+	public function testDeleteBulkGroupedByIp() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		// Create multiple entries with the same IP but different URLs
+		Red_Redirect_Log::create( 'domain', '/url1', '192.168.1.100', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_Redirect_Log::create( 'domain', '/url2', '192.168.1.100', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_Redirect_Log::create( 'domain', '/url3', '192.168.1.200', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_Redirect_Log::create( 'domain', '/url4', '192.168.1.300', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by IP - should delete all entries with 192.168.1.100
+		$result = $this->callApi( 'bulk/log/delete', [ 'items' => [ '192.168.1.100' ], 'groupBy' => 'ip' ], 'POST' );
+		$result = $this->callApi( 'log' );
+
+		// Should have 2 remaining entries
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( '192.168.1.300', $result->data['items'][0]['ip'] );
+		$this->assertEquals( '192.168.1.200', $result->data['items'][1]['ip'] );
+	}
+
+	public function testDeleteBulkGroupedByAgent() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		// Create multiple entries with the same agent but different URLs
+		Red_Redirect_Log::create( 'domain', '/url1', '192.168.1.1', [ 'agent' => 'Mozilla/5.0 Chrome', 'referrer' => 'ref1' ] );
+		Red_Redirect_Log::create( 'domain', '/url2', '192.168.1.2', [ 'agent' => 'Mozilla/5.0 Chrome', 'referrer' => 'ref2' ] );
+		Red_Redirect_Log::create( 'domain', '/url3', '192.168.1.3', [ 'agent' => 'Mozilla/5.0 Firefox', 'referrer' => 'ref3' ] );
+		Red_Redirect_Log::create( 'domain', '/url4', '192.168.1.4', [ 'agent' => 'Safari', 'referrer' => 'ref4' ] );
+
+		// Delete grouped by agent - should delete all entries with Mozilla/5.0 Chrome
+		$result = $this->callApi( 'bulk/log/delete', [ 'items' => [ 'Mozilla/5.0 Chrome' ], 'groupBy' => 'agent' ], 'POST' );
+		$result = $this->callApi( 'log' );
+
+		// Should have 2 remaining entries
+		$this->assertEquals( 2, count( $result->data['items'] ) );
+		$this->assertEquals( 'Safari', $result->data['items'][0]['agent'] );
+		$this->assertEquals( 'Mozilla/5.0 Firefox', $result->data['items'][1]['agent'] );
+	}
+
+	public function testDeleteMultipleBulkGroupedByUrl() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		// Create entries for multiple URLs
+		Red_Redirect_Log::create( 'domain', '/delete-me-1', '192.168.1.1', [ 'agent' => 'agent1', 'referrer' => 'ref1' ] );
+		Red_Redirect_Log::create( 'domain', '/delete-me-1', '192.168.1.2', [ 'agent' => 'agent2', 'referrer' => 'ref2' ] );
+		Red_Redirect_Log::create( 'domain', '/delete-me-2', '192.168.1.3', [ 'agent' => 'agent3', 'referrer' => 'ref3' ] );
+		Red_Redirect_Log::create( 'domain', '/keep-me', '192.168.1.4', [ 'agent' => 'agent4', 'referrer' => 'ref4' ] );
+
+		// Delete multiple URLs at once
+		$result = $this->callApi( 'bulk/log/delete', [
+			'items' => [ '/delete-me-1', '/delete-me-2' ],
+			'groupBy' => 'url'
+		], 'POST' );
+		$result = $this->callApi( 'log' );
+
+		// Should have 1 remaining entry
+		$this->assertEquals( 1, count( $result->data['items'] ) );
+		$this->assertEquals( '/keep-me', $result->data['items'][0]['url'] );
+	}
 }
