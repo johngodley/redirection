@@ -80,12 +80,12 @@ function redirection_clear_opcache_on_upgrade( $upgrader, $options ) {
 	}
 
 	if ( function_exists( 'opcache_reset' ) ) {
-		opcache_reset();
+		// Suppress warnings if opcache_reset is restricted by server configuration
+		@opcache_reset(); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 	}
 }
 
 add_action( 'upgrader_process_complete', 'redirection_clear_opcache_on_upgrade', 10, 2 );
-
 
 /**
  * @return bool
