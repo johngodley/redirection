@@ -1,6 +1,7 @@
 import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
 import { getServerUrl } from 'lib/wordpress-url';
+import { __ } from '@wordpress/i18n';
 
 // Interface for logs - all fields optional to support grouped results
 interface Log {
@@ -28,18 +29,15 @@ interface Column {
 }
 
 interface FilterBy {
-	url?: string;
-	'url-exact'?: string;
-	ip?: string;
-	referrer?: string;
-	agent?: string;
-	target?: string;
+	[ key: string ]: string;
 }
 
 interface RowParams {
 	table: {
 		filterBy: FilterBy;
+		groupBy?: string;
 	};
+	onFilter?: ( filter: FilterBy ) => void;
 }
 
 function getUrl( row: Log ): string {
@@ -124,7 +122,28 @@ export default function getColumns( row: Log, rowParams?: RowParams ): Column[] 
 		},
 		{
 			name: 'ip',
-			content: ip ? <Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape /> : '',
+			content: ip ? (
+				<>
+					<a href={ 'https://redirect.li/ip/?ip=' + encodeURIComponent( ip ) }>
+						<Highlighter searchWords={ [ filterBy.ip || '' ] } textToHighlight={ ip } autoEscape />
+					</a>
+					{ rowParams?.table?.groupBy === '' && rowParams?.onFilter && (
+						<div className="row-actions">
+							<a
+								href="#"
+								onClick={ ( e ) => {
+									e.preventDefault();
+									rowParams.onFilter?.( { ip } );
+								} }
+							>
+								{ __( 'Filter by IP', 'redirection' ) }
+							</a>
+						</div>
+					) }
+				</>
+			) : (
+				''
+			),
 		},
 		{
 			name: 'count',

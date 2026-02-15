@@ -215,7 +215,12 @@ function Logs404() {
 				total={ total }
 				rows={ rows as any }
 				saving={ [] }
-				getRow={ ( row: any, rowParams: any ) => getColumns( row, rowParams ) }
+				getRow={ ( row: any, rowParams: any ) =>
+					getColumns( row, {
+						...rowParams,
+						onFilter: handleFilter,
+					} )
+				}
 				getRowActions={ ( row: any, rowParams: any ) => (
 					<ErrorRowActions
 						disabled={ false }

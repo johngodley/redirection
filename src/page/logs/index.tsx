@@ -188,7 +188,12 @@ function Logs() {
 			total={ total }
 			rows={ rows as TableRow[] }
 			saving={ [] }
-			getRow={ ( row, rowParams ) => getColumns( row as Parameters< typeof getColumns >[ 0 ], rowParams ) }
+			getRow={ ( row, rowParams ) =>
+				getColumns( row as Parameters< typeof getColumns >[ 0 ], {
+					...rowParams,
+					onFilter: handleFilter,
+				} )
+			}
 			getRowActions={ ( row ) => (
 				<LogRowActions
 					disabled={ false }
