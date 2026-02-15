@@ -211,6 +211,20 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( $total, $after );
 	}
 
+	public function testPostUpdatedWithNullPostExitsCleanly() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions() );
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+
+		$monitor->post_updated( $this->post_id, null, null );
+		$monitor->post_updated( $this->post_id, $this->getPublishedPost(), null );
+		$monitor->post_updated( $this->post_id, null, $this->getPublishedPost() );
+
+		$after = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" );
+		$this->assertEquals( $total, $after );
+	}
+
 	public function testNoHooks() {
 		$monitor = new Red_Monitor( array( 'monitor_post' => 0, 'monitor_types' => array() ) );
 
