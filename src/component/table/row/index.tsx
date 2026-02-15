@@ -16,7 +16,7 @@ interface TableHeader {
 function getRowData( status: TableStatus, item: TableRow, table: Table ): RowData {
 	return {
 		isLoading: status === STATUS_LOADING,
-		isSelected: table.selected.some( ( id ) => id === item.id ),
+		isSelected: Array.isArray( table.selected ) ? table.selected.some( ( id ) => id === item.id ) : false,
 		table,
 	};
 }
@@ -206,7 +206,7 @@ interface TableRowsProps {
 
 function TableRows( props: TableRowsProps ) {
 	const { rows, headers, status, table, getRow, getRowActions, onSelect, saving } = props;
-	const { selected, displaySelected } = table;
+	const { selected = [], displaySelected } = table;
 	const primary = headers.find( ( item ) => item.primary );
 	const isAllSaving = saving.some( ( id ) => id === -1 );
 	const lastClickedIndex = useRef< number | null >( null );

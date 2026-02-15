@@ -9,7 +9,7 @@ import {
 	getGroupBy,
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
-import { useLogList, useErrorBulkAction } from 'lib/api/hooks';
+import { useLogList, useLogBulkAction } from 'lib/api/hooks';
 import { getRssUrl } from 'lib/wordpress-url';
 import { useTableUrlSync } from 'lib/hooks';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE, type LoadingStatus } from 'lib/constants';
@@ -71,7 +71,7 @@ function Logs() {
 		pageName: 'log',
 	} );
 
-	const logBulkAction = useErrorBulkAction();
+	const logBulkAction = useLogBulkAction();
 
 	// Fetch logs with current table params - read directly from Query
 	const { data: logData, isLoading, isSuccess } = useLogList( table );
@@ -90,9 +90,14 @@ function Logs() {
 		setLogsTable( { page } );
 	};
 
+	const handleDelete = ( id: number | string ) => {
+		const params = table.groupBy ? { groupBy: table.groupBy } : {};
+		logBulkAction.mutate( { action: 'delete', items: [ id ], params } );
+	};
+
 	const handleBulk = ( action: string ) => {
-		const items = table.selected.filter( ( id ): id is number => typeof id === 'number' );
-		logBulkAction.mutate( { action, items } );
+		const params = table.groupBy ? { groupBy: table.groupBy } : {};
+		logBulkAction.mutate( { action, items: table.selected, params } );
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
@@ -116,9 +121,10 @@ function Logs() {
 			setLogsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else if ( typeof items === 'number' || typeof items === 'string' ) {
 			// Toggle single item selection
-			const newSelected = table.selected.some( ( id ) => id === items )
-				? table.selected.filter( ( id ) => id !== items )
-				: [ ...table.selected, items ];
+			const currentSelected = Array.isArray( table.selected ) ? table.selected : [];
+			const newSelected = currentSelected.some( ( id ) => id === items )
+				? currentSelected.filter( ( id ) => id !== items )
+				: [ ...currentSelected, items ];
 			setLogsSelected( newSelected );
 		} else {
 			setLogsSelected( items );
@@ -140,7 +146,7 @@ function Logs() {
 		perPage: table.per_page,
 		orderBy: table.orderby,
 		direction: table.direction,
-		selected: table.selected,
+		selected: table.selected ?? [],
 		selectAll: table.selectAll ?? false,
 		filter: '',
 		filterBy: ( table.filterBy ?? {} ) as FilterBy,
@@ -187,7 +193,7 @@ function Logs() {
 				<LogRowActions
 					disabled={ false }
 					row={ row as Parameters< typeof getColumns >[ 0 ] }
-					onDelete={ () => handleBulk( 'delete' ) }
+					onDelete={ handleDelete }
 				/>
 			) }
 			renderTableActions={ () => (

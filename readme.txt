@@ -188,6 +188,9 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
 
+= 5.7.1 - 16th February 2026 =
+* Fix bulk delete on log and 404 page
+
 = 5.7 - 15th February 2026 =
 * Bump minimum PHP to 7.4
 * Add multi-select support with shift-click in tables
