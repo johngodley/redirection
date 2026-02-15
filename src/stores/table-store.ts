@@ -83,7 +83,7 @@ const initialLogsTable: TableState = {
 	selected: [],
 	filterBy: {},
 	displayType: 'standard',
-	displaySelected: [ 'ip', 'url', 'referrer', 'agent', 'date' ],
+	displaySelected: [ 'date', 'url', 'target', 'agent', 'ip' ],
 	groupBy: '',
 };
 
@@ -95,7 +95,7 @@ const initialErrorsTable: TableState = {
 	selected: [],
 	filterBy: {},
 	displayType: 'standard',
-	displaySelected: [ 'ip', 'url', 'referrer', 'agent', 'date' ],
+	displaySelected: [ 'date', 'url', 'agent', 'ip' ],
 	groupBy: '',
 };
 
