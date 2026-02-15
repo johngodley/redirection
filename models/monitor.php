@@ -54,11 +54,16 @@ class Red_Monitor {
 	}
 
 	/**
-	 * @param WP_Post $post
-	 * @param WP_Post $post_before
+	 * @param WP_Post|null $post
+	 * @param WP_Post|null $post_before
 	 * @return bool
 	 */
-	public function can_monitor_post( WP_Post $post, WP_Post $post_before ): bool {
+	public function can_monitor_post( ?WP_Post $post, ?WP_Post $post_before ): bool {
+		// Defensive check: ensure we have valid post objects
+		if ( $post === null || $post_before === null ) {
+			return false;
+		}
+
 		// Check this is for the expected post
 		// @phpstan-ignore isset.property
 		if ( ! isset( $post->ID ) || ! isset( $this->updated_posts[ $post->ID ] ) ) {
@@ -82,11 +87,16 @@ class Red_Monitor {
 	 * Called when a post has been updated - check if the slug has changed
 	 *
 	 * @param int $post_id
-	 * @param WP_Post $post
-	 * @param WP_Post $post_before
+	 * @param WP_Post|null $post
+	 * @param WP_Post|null $post_before
 	 * @return void
 	 */
-	public function post_updated( int $post_id, WP_Post $post, WP_Post $post_before ): void {
+	public function post_updated( int $post_id, ?WP_Post $post, ?WP_Post $post_before ): void {
+		// WordPress may pass null during trash/delete operations - handle gracefully
+		if ( $post === null || $post_before === null ) {
+			return;
+		}
+
 		if ( isset( $this->updated_posts[ $post_id ] ) && $this->can_monitor_post( $post, $post_before ) ) {
 			$this->check_for_modified_slug( $post_id, $this->updated_posts[ $post_id ] );
 		}
