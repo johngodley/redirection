@@ -138,7 +138,7 @@ abstract class Red_Log {
 	 */
 	final public function __construct( $values ) {
 		foreach ( $values as $key => $value ) {
-			// @phpstan-ignore property.notFound, assign.propertyType, property.dynamicName
+			// @phpstan-ignore property.notFound, assign.propertyType
 			$this->$key = $value;
 		}
 
