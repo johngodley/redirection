@@ -41,7 +41,7 @@ if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 if ( file_exists( __DIR__ . '/build/redirection-version.php' ) ) {
 	require_once __DIR__ . '/build/redirection-version.php';
 } else {
-	define( 'REDIRECTION_VERSION', '5.7' );
+	define( 'REDIRECTION_VERSION', '5.7.0' );
 	define( 'REDIRECTION_BUILD', '951ae5be919314a6585a78d8091577b5' );
 	define( 'REDIRECTION_MIN_WP', '6.4' );
 }
