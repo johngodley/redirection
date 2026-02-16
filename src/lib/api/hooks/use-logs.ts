@@ -70,7 +70,7 @@ export function useLogList(
 				return LogListResponseSchema.parse( response );
 			} catch ( error ) {
 				const handledError = handleApiError( error );
-				addError( handledError );
+				addError( handledError.message || 'Failed to fetch logs' );
 				throw handledError;
 			}
 		},
@@ -177,7 +177,7 @@ export function useErrorList(
 				return Error404ListResponseSchema.parse( response );
 			} catch ( error ) {
 				const handledError = handleApiError( error );
-				addError( handledError );
+				addError( handledError.message || 'Failed to fetch 404 errors' );
 				throw handledError;
 			}
 		},

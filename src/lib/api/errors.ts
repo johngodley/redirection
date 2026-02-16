@@ -10,14 +10,19 @@ export class ApiValidationError extends Error {
 		public response?: unknown
 	) {
 		// Create a detailed error message from all validation issues
-		const errorDetails = zodError.issues
+		const issues = zodError.issues;
+		const errorDetails = issues
 			.map( ( issue ) => {
 				const path = issue.path.join( '.' );
-				return `${path}: ${issue.message}`;
+				const prefix = path ? `${ path }: ` : '';
+				return `${ prefix }${ issue.message }`;
 			} )
 			.join( '\n' );
 
-		super( `API response validation failed:\n${errorDetails}` );
+		const message =
+			issues.length > 0 ? `API response validation failed:\n${ errorDetails }` : 'API response validation failed';
+
+		super( message );
 		this.name = 'ApiValidationError';
 	}
 
