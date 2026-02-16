@@ -48,7 +48,14 @@ function RedirectRowActions( props: RedirectRowActionsProps ) {
 
 	if ( has_capability( CAP_REDIRECT_DELETE ) ) {
 		menu.push(
-			<RowAction key="2" onClick={ () => deleteRedirect( { items: [ id ] } ) }>
+			<RowAction
+				key="2"
+				onClick={ () => {
+					if ( window.confirm( __( 'Are you sure you want to delete this item?', 'redirection' ) ) ) {
+						deleteRedirect( { items: [ id ] } );
+					}
+				} }
+			>
 				{ __( 'Delete', 'redirection' ) }
 			</RowAction>
 		);

@@ -43,7 +43,14 @@ function GroupRowActions( props: GroupRowActionsProps ) {
 
 	if ( has_capability( CAP_GROUP_DELETE ) ) {
 		menu.push(
-			<RowAction onClick={ () => performBulkAction( { action: 'delete', items: [ id ] } ) } key="1">
+			<RowAction
+				onClick={ () => {
+					if ( window.confirm( __( 'Are you sure you want to delete this item?', 'redirection' ) ) ) {
+						performBulkAction( { action: 'delete', items: [ id ] } );
+					}
+				} }
+				key="1"
+			>
 				{ __( 'Delete', 'redirection' ) }
 			</RowAction>
 		);

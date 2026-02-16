@@ -385,7 +385,7 @@ class Redirection_Api_Redirect extends Redirection_Api_Filter_Route {
 		$params = $request->get_params();
 		$action = sanitize_text_field( $request['bulk'] );
 
-		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
 			$items = $params['items'];
 
 			foreach ( $items as $item ) {

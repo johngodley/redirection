@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import {
 	getFilterOptions,
 	getDisplayGroups,
@@ -56,12 +57,34 @@ function Groups() {
 	const status: 'loading' | 'complete' = isLoading ? 'loading' : 'complete';
 
 	const handleChangePage = ( page: number ) => {
-		setGroupsTable( { page } );
+		setGroupsTable( { page, selected: [], selectAll: false } );
 	};
 
 	const handleBulk = ( action: string ) => {
+		if ( table.selected.length === 0 && ! table.selectAll ) {
+			return;
+		}
+
+		if ( action === 'delete' ) {
+			const message = table.selectAll
+				? __( 'Are you sure you want to delete all items?', 'redirection' )
+				: __( 'Are you sure you want to delete the selected items?', 'redirection' );
+
+			if ( ! window.confirm( message ) ) {
+				return;
+			}
+		}
+
 		const selectedIds = table.selected as number[];
-		groupBulkAction.mutate( { action, items: selectedIds } );
+
+		if ( table.selectAll ) {
+			// Apply action to all items matching current filters
+			const params = { global: true, ...table.filterBy };
+			groupBulkAction.mutate( { action, items: [], params } );
+		} else {
+			// Apply action to selected items only
+			groupBulkAction.mutate( { action, items: selectedIds } );
+		}
 	};
 
 	const handleSelect = ( id: RowId | RowId[] | boolean ) => {
@@ -74,11 +97,11 @@ function Groups() {
 			// Multiple items selected
 			setGroupsSelected( id );
 		} else if ( currentSelected.includes( id ) ) {
-			// Toggle single item - remove if selected
-			setGroupsSelected( currentSelected.filter( ( i ) => i !== id ) );
+			// Toggle single item - remove if selected, clear selectAll if active
+			setGroupsTable( { selected: currentSelected.filter( ( i ) => i !== id ), selectAll: false } );
 		} else {
-			// Toggle single item - add if not selected
-			setGroupsSelected( [ ...currentSelected, id ] );
+			// Toggle single item - add if not selected, clear selectAll if active
+			setGroupsTable( { selected: [ ...currentSelected, id ], selectAll: false } );
 		}
 	};
 
@@ -87,11 +110,11 @@ function Groups() {
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setGroupsTable( { groupBy, page: 0 } );
+		setGroupsTable( { groupBy, page: 0, selected: [], selectAll: false } );
 	};
 
 	const handleFilter = ( filterBy: Record< string, any > ) => {
-		setGroupsTable( { filterBy, page: 0 } );
+		setGroupsTable( { filterBy, page: 0, selected: [], selectAll: false } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {

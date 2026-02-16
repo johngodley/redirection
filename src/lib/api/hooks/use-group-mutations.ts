@@ -112,16 +112,17 @@ export function useGroupDelete(
  * @param options
  */
 export function useGroupBulkAction(
-	options?: Omit< UseMutationOptions< any, Error, { action: string; items: number[] } >, 'mutationFn' >
+	options?: Omit< UseMutationOptions< any, Error, { action: string; items: number[]; params?: any } >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
+	const { setGroupsTable } = useTableStore();
 
 	return useMutation( {
-		mutationFn: async ( { action, items }: { action: string; items: number[] } ) => {
+		mutationFn: async ( { action, items, params = {} }: { action: string; items: number[]; params?: any } ) => {
 			incrementProgress();
 			try {
-				const response = await apiFetch( RedirectionApi.bulk.group( action, { items }, {} ) );
+				const response = await apiFetch( RedirectionApi.bulk.group( action, { items }, params ) );
 				return response;
 			} catch ( error ) {
 				decrementProgress();
@@ -137,6 +138,8 @@ export function useGroupBulkAction(
 				actionName = 'disabled';
 			}
 			addNotice( `Groups ${ actionName }` );
+			// Reset to first page and clear selections after any bulk action
+			setGroupsTable( { page: 0, selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
 		},
 		onError: ( error ) => {

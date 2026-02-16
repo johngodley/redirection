@@ -90,17 +90,17 @@ export function useRedirectUpdate(
  * @param options
  */
 export function useRedirectDelete(
-	options?: Omit< UseMutationOptions< any, Error, { items: number[] } >, 'mutationFn' >
+	options?: Omit< UseMutationOptions< any, Error, { items: number[]; params?: any } >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
-	const { setRedirectsSelected } = useTableStore();
+	const { setRedirectsTable } = useTableStore();
 
 	return useMutation( {
-		mutationFn: async ( { items }: { items: number[] } ) => {
+		mutationFn: async ( { items, params = {} }: { items: number[]; params?: any } ) => {
 			incrementProgress();
 			try {
-				const response = await apiFetch( RedirectionApi.bulk.redirect( 'delete', { items }, {} ) );
+				const response = await apiFetch( RedirectionApi.bulk.redirect( 'delete', { items }, params ) );
 				return response;
 			} catch ( error ) {
 				decrementProgress();
@@ -110,7 +110,8 @@ export function useRedirectDelete(
 		onSuccess: () => {
 			decrementProgress();
 			addNotice( 'Redirects deleted' );
-			setRedirectsSelected( [] );
+			// Reset to first page and clear selections after delete
+			setRedirectsTable( { page: 0, selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 		},
 		onError: ( error ) => {
