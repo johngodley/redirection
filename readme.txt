@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, apache
 Tested up to: 6.9
-Stable tag: 5.7
+Stable tag: 5.7.1
 License: GPLv3
 
 Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
@@ -190,6 +190,8 @@ A x.1 version increase introduces new or updated features and can be considered 
 
 = 5.7.1 - 16th February 2026 =
 * Fix bulk delete on log and 404 page
+* Restore filter by IP button
+* Remove referrer from standard log display
 
 = 5.7 - 15th February 2026 =
 * Bump minimum PHP to 7.4
