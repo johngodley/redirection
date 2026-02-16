@@ -100,6 +100,10 @@ function Logs() {
 	};
 
 	const handleBulk = ( action: string ) => {
+		if ( table.selected.length === 0 && ! table.selectAll ) {
+			return;
+		}
+
 		if ( action === 'delete' ) {
 			const message = table.selectAll
 				? __( 'Are you sure you want to delete all items?', 'redirection' )
