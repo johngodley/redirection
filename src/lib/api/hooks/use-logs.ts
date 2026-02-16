@@ -6,7 +6,7 @@ import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { cleanApiParams } from '../utils';
 import { z } from 'zod';
-import { useMessageStore } from 'stores';
+import { useMessageStore, useTableStore } from 'stores';
 
 // Log schema for redirect logs - handles both individual entries and grouped results
 // Individual entries have numeric id, grouped results have string id (url/ip/agent value)
@@ -118,6 +118,7 @@ export function useLogBulkAction(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
+	const { setLogsTable } = useTableStore();
 
 	return useMutation( {
 		mutationFn: async ( {
@@ -142,6 +143,8 @@ export function useLogBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `Logs ${ actionName }` );
+			// Reset to first page and clear selections after delete
+			setLogsTable( { page: 0, selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.logs.all } );
 		},
 		onError: ( error ) => {
@@ -219,6 +222,7 @@ export function useErrorBulkAction(
 ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
+	const { setErrorsTable } = useTableStore();
 
 	return useMutation( {
 		mutationFn: async ( {
@@ -243,6 +247,8 @@ export function useErrorBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `404 errors ${ actionName }` );
+			// Reset to first page and clear selections after delete
+			setErrorsTable( { page: 0, selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.errors.all } );
 		},
 		onError: ( error ) => {

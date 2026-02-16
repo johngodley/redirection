@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { __ } from '@wordpress/i18n';
 import {
 	getBulk,
 	getDisplayOptions,
@@ -105,21 +106,41 @@ function Logs404() {
 	}
 
 	function handleDelete( id: number | string ) {
+		if ( ! window.confirm( __( 'Are you sure you want to delete this item?', 'redirection' ) ) ) {
+			return;
+		}
+
 		const params = table.groupBy ? { groupBy: table.groupBy } : {};
 		errorBulkAction.mutate( { action: 'delete', items: [ id ], params } );
 	}
 
 	function handleBulk( action: string ) {
+		if ( action === 'delete' ) {
+			const message = table.selectAll
+				? __( 'Are you sure you want to delete all items?', 'redirection' )
+				: __( 'Are you sure you want to delete the selected items?', 'redirection' );
+
+			if ( ! window.confirm( message ) ) {
+				return;
+			}
+		}
+
 		const params = table.groupBy ? { groupBy: table.groupBy } : {};
 		if ( action === 'delete' ) {
-			errorBulkAction.mutate( { action: 'delete', items: table.selected, params } );
+			if ( table.selectAll ) {
+				// Delete all items matching current filters
+				errorBulkAction.mutate( { action: 'delete', items: [], params: { ...params, global: true, ...table.filterBy } } );
+			} else {
+				// Delete only selected items
+				errorBulkAction.mutate( { action: 'delete', items: table.selected, params } );
+			}
 		} else {
 			setShowCreate( getCreateAction( action, table.selected as any ) );
 		}
 	}
 
 	const handleChangePage = ( page: number ) => {
-		setErrorsTable( { page } );
+		setErrorsTable( { page, selected: [], selectAll: false } );
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
@@ -129,11 +150,11 @@ function Logs404() {
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setErrorsTable( { groupBy } );
+		setErrorsTable( { groupBy, selected: [], selectAll: false } );
 	};
 
 	const handleFilter = ( filterBy: Record< string, any > ) => {
-		setErrorsTable( { filterBy, page: 0 } );
+		setErrorsTable( { filterBy, page: 0, selected: [], selectAll: false } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
@@ -144,12 +165,12 @@ function Logs404() {
 		if ( typeof items === 'boolean' ) {
 			setErrorsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else if ( typeof items === 'number' || typeof items === 'string' ) {
-			// Toggle single item selection
+			// Toggle single item selection - clear selectAll if active
 			const currentSelected = Array.isArray( table.selected ) ? table.selected : [];
 			const newSelected = currentSelected.includes( items )
 				? currentSelected.filter( ( id ) => id !== items )
 				: [ ...currentSelected, items ];
-			setErrorsSelected( newSelected );
+			setErrorsTable( { selected: newSelected, selectAll: false } );
 		} else {
 			setErrorsSelected( items );
 		}

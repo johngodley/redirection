@@ -87,17 +87,38 @@ function Logs() {
 	}
 
 	const handleChangePage = ( page: number ) => {
-		setLogsTable( { page } );
+		setLogsTable( { page, selected: [], selectAll: false } );
 	};
 
 	const handleDelete = ( id: number | string ) => {
+		if ( ! window.confirm( __( 'Are you sure you want to delete this item?', 'redirection' ) ) ) {
+			return;
+		}
+
 		const params = table.groupBy ? { groupBy: table.groupBy } : {};
 		logBulkAction.mutate( { action: 'delete', items: [ id ], params } );
 	};
 
 	const handleBulk = ( action: string ) => {
+		if ( action === 'delete' ) {
+			const message = table.selectAll
+				? __( 'Are you sure you want to delete all items?', 'redirection' )
+				: __( 'Are you sure you want to delete the selected items?', 'redirection' );
+
+			if ( ! window.confirm( message ) ) {
+				return;
+			}
+		}
+
 		const params = table.groupBy ? { groupBy: table.groupBy } : {};
-		logBulkAction.mutate( { action, items: table.selected, params } );
+
+		if ( table.selectAll ) {
+			// Delete all items matching current filters
+			logBulkAction.mutate( { action, items: [], params: { ...params, global: true, ...table.filterBy } } );
+		} else {
+			// Delete only selected items
+			logBulkAction.mutate( { action, items: table.selected, params } );
+		}
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
@@ -105,11 +126,11 @@ function Logs() {
 	};
 
 	const handleGroup = ( groupBy: string ) => {
-		setLogsTable( { groupBy } );
+		setLogsTable( { groupBy, selected: [], selectAll: false } );
 	};
 
 	const handleFilter = ( filterBy: FilterBy ) => {
-		setLogsTable( { filterBy, page: 0 } );
+		setLogsTable( { filterBy, page: 0, selected: [], selectAll: false } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
@@ -120,12 +141,12 @@ function Logs() {
 		if ( typeof items === 'boolean' ) {
 			setLogsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else if ( typeof items === 'number' || typeof items === 'string' ) {
-			// Toggle single item selection
+			// Toggle single item selection - clear selectAll if active
 			const currentSelected = Array.isArray( table.selected ) ? table.selected : [];
 			const newSelected = currentSelected.some( ( id ) => id === items )
 				? currentSelected.filter( ( id ) => id !== items )
 				: [ ...currentSelected, items ];
-			setLogsSelected( newSelected );
+			setLogsTable( { selected: newSelected, selectAll: false } );
 		} else {
 			setLogsSelected( items );
 		}

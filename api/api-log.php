@@ -195,7 +195,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	public function route_bulk( WP_REST_Request $request ) {
 		$params = $request->get_params();
 
-		if ( isset( $params['items'] ) && is_array( $params['items'] ) ) {
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
 			$items = $params['items'];
 
 			foreach ( $items as $item ) {

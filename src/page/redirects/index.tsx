@@ -107,29 +107,53 @@ function Redirects() {
 	const canAdd = status === STATUS_COMPLETE && groupSuccess && has_capability( CAP_REDIRECT_ADD );
 
 	const handleChangePage = ( page: number ) => {
-		setRedirectsTable( { page } );
+		setRedirectsTable( { page, selected: [], selectAll: false } );
 	};
 
 	const handleBulk = ( action: string ) => {
 		// Redirect IDs are always numbers
 		const items = table.selected as number[];
-		if ( items.length === 0 ) {
+		if ( items.length === 0 && ! table.selectAll ) {
 			return;
 		}
 
-		switch ( action ) {
-			case 'delete':
-				deleteMutation.mutate( { items } );
-				break;
-			case 'enable':
-				enableMutation.mutate( { items } );
-				break;
-			case 'disable':
-				disableMutation.mutate( { items } );
-				break;
-			case 'reset':
-				resetMutation.mutate( { items } );
-				break;
+		if ( action === 'delete' ) {
+			const message = table.selectAll
+				? __( 'Are you sure you want to delete all items?', 'redirection' )
+				: __( 'Are you sure you want to delete the selected items?', 'redirection' );
+
+			if ( ! window.confirm( message ) ) {
+				return;
+			}
+		}
+
+		if ( table.selectAll ) {
+			// Apply action to all items matching current filters
+			const params = { global: true, ...table.filterBy };
+			switch ( action ) {
+				case 'delete':
+					deleteMutation.mutate( { items: [], params } );
+					break;
+				// Enable, disable, and reset don't support global yet
+				default:
+					break;
+			}
+		} else {
+			// Apply action to selected items only
+			switch ( action ) {
+				case 'delete':
+					deleteMutation.mutate( { items } );
+					break;
+				case 'enable':
+					enableMutation.mutate( { items } );
+					break;
+				case 'disable':
+					disableMutation.mutate( { items } );
+					break;
+				case 'reset':
+					resetMutation.mutate( { items } );
+					break;
+			}
 		}
 	};
 
@@ -137,11 +161,11 @@ function Redirects() {
 		if ( typeof items === 'boolean' ) {
 			setRedirectsSelected( items ? rows.map( ( r ) => r.id ) : [] );
 		} else if ( typeof items === 'number' || typeof items === 'string' ) {
-			// Toggle single item selection
+			// Toggle single item selection - clear selectAll if active
 			const newSelected = table.selected.includes( items )
 				? table.selected.filter( ( id ) => id !== items )
 				: [ ...table.selected, items ];
-			setRedirectsSelected( newSelected );
+			setRedirectsTable( { selected: newSelected, selectAll: false } );
 		} else {
 			setRedirectsSelected( items );
 		}
@@ -152,7 +176,7 @@ function Redirects() {
 	};
 
 	const handleFilter = ( filterBy: any ) => {
-		setRedirectsTable( { filterBy, page: 0 } );
+		setRedirectsTable( { filterBy, page: 0, selected: [], selectAll: false } );
 	};
 
 	const handleSetDisplay = ( displayType: string, displaySelected: string[] ) => {
