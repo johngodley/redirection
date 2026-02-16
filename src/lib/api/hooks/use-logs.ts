@@ -34,13 +34,13 @@ const Error404Schema = z.object( {
 	created: z.string().optional(),
 	created_time: z.string().optional(),
 	url: z.string().optional(),
-	agent: z.string().optional(),
+	agent: z.string().optional().nullable(),
 	referrer: z.string().optional().nullable(),
-	domain: z.string().optional(),
-	ip: z.string().optional(),
+	domain: z.string().optional().nullable(),
+	ip: z.string().optional().nullable(),
 	http_code: z.number().int().optional(),
-	request_method: z.string().optional(),
-	request_data: z.unknown().optional(),
+	request_method: z.string().optional().nullable(),
+	request_data: z.unknown().optional().nullable(),
 	count: z.coerce.number().int().optional(), // Only present in grouped results
 } );
 
@@ -60,6 +60,7 @@ export function useLogList(
 	options?: Omit< UseQueryOptions< LogListResponse >, 'queryKey' | 'queryFn' >
 ) {
 	const cleanedParams = cleanApiParams( params );
+	const { addError } = useMessageStore();
 
 	return useQuery( {
 		queryKey: queryKeys.logs.list( cleanedParams ),
@@ -68,7 +69,9 @@ export function useLogList(
 				const response = await apiFetch( RedirectionApi.log.list( cleanedParams ) );
 				return LogListResponseSchema.parse( response );
 			} catch ( error ) {
-				throw handleApiError( error );
+				const handledError = handleApiError( error );
+				addError( handledError );
+				throw handledError;
 			}
 		},
 		...options,
@@ -164,6 +167,7 @@ export function useErrorList(
 	options?: Omit< UseQueryOptions< Error404ListResponse >, 'queryKey' | 'queryFn' >
 ) {
 	const cleanedParams = cleanApiParams( params );
+	const { addError } = useMessageStore();
 
 	return useQuery( {
 		queryKey: queryKeys.errors.list( cleanedParams ),
@@ -172,7 +176,9 @@ export function useErrorList(
 				const response = await apiFetch( RedirectionApi.error.list( cleanedParams ) );
 				return Error404ListResponseSchema.parse( response );
 			} catch ( error ) {
-				throw handleApiError( error );
+				const handledError = handleApiError( error );
+				addError( handledError );
+				throw handledError;
 			}
 		},
 		...options,
