@@ -139,7 +139,7 @@
 		}
 	},
 	"wordpress": {
-		"supported": "6.4"
+		"supported": "6.5"
 	},
 	"release-it": {
 		"github": {
