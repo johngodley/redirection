@@ -6,7 +6,8 @@
 	"rules": {
 		"react-hooks/rules-of-hooks": "error",
 		"react-hooks/exhaustive-deps": "warn",
-		"camelcase": "off"
+		"camelcase": "off",
+		"no-alert": "off"
 	},
 	"env": {
 		"browser": true,

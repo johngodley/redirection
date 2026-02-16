@@ -129,7 +129,11 @@ function Logs404() {
 		if ( action === 'delete' ) {
 			if ( table.selectAll ) {
 				// Delete all items matching current filters
-				errorBulkAction.mutate( { action: 'delete', items: [], params: { ...params, global: true, ...table.filterBy } } );
+				errorBulkAction.mutate( {
+					action: 'delete',
+					items: [],
+					params: { ...params, global: true, ...table.filterBy },
+				} );
 			} else {
 				// Delete only selected items
 				errorBulkAction.mutate( { action: 'delete', items: table.selected, params } );
