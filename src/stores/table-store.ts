@@ -50,10 +50,12 @@ export interface TableStoreState {
 	reset: () => void;
 }
 
+const defaultPerPage = window.Redirectioni10n?.per_page ? parseInt( window.Redirectioni10n.per_page, 10 ) : 25;
+
 // Initial table states for each page
 const initialRedirectsTable: TableState = {
 	page: 0,
-	per_page: 25,
+	per_page: defaultPerPage,
 	orderby: 'id',
 	direction: 'desc',
 	selected: [],
@@ -65,7 +67,7 @@ const initialRedirectsTable: TableState = {
 
 const initialGroupsTable: TableState = {
 	page: 0,
-	per_page: 25,
+	per_page: defaultPerPage,
 	orderby: 'name',
 	direction: 'desc',
 	selected: [],
@@ -77,7 +79,7 @@ const initialGroupsTable: TableState = {
 
 const initialLogsTable: TableState = {
 	page: 0,
-	per_page: 25,
+	per_page: defaultPerPage,
 	orderby: '',
 	direction: 'desc',
 	selected: [],
@@ -89,7 +91,7 @@ const initialLogsTable: TableState = {
 
 const initialErrorsTable: TableState = {
 	page: 0,
-	per_page: 25,
+	per_page: defaultPerPage,
 	orderby: '',
 	direction: 'desc',
 	selected: [],
