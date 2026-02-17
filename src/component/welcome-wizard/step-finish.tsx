@@ -31,16 +31,19 @@ export default function StepFinish( { options }: StepFinishProps ) {
 		const { ip, log, monitor } = options.settings;
 		const selectedApi = getFirstApi( apiTest );
 
-		updateSettings( {
-			expire_redirect: log ? WEEK : NEVER,
-			expire_404: log ? WEEK : NEVER,
-			ip_logging: ip ? 1 : 0,
-			rest_api: typeof selectedApi === 'number' ? selectedApi : undefined,
-			monitor_types: monitor ? [ 'post', 'page' ] : undefined,
-			monitor_post: monitor ? 1 : 0,
-		} );
-
-		finishUpgrade();
+		updateSettings(
+			{
+				expire_redirect: log ? WEEK : NEVER,
+				expire_404: log ? WEEK : NEVER,
+				ip_logging: ip ? 1 : 0,
+				rest_api: typeof selectedApi === 'number' ? selectedApi : undefined,
+				monitor_types: monitor ? [ 'post', 'page' ] : undefined,
+				monitor_post: monitor ? 1 : 0,
+			},
+			{
+				onSuccess: () => finishUpgrade(),
+			}
+		);
 	}
 
 	return (

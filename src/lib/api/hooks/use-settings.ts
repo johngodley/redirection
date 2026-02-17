@@ -215,17 +215,25 @@ export function useApiCheck(
 export function useFinishUpgrade( options?: Omit< UseMutationOptions< any, Error, void >, 'mutationFn' > ) {
 	const queryClient = useQueryClient();
 	const { setShowDatabase } = useSettingsStore();
+	const { addError } = useMessageStore();
 
 	return useMutation( {
 		mutationFn: async () => {
-			const response = await apiFetch( RedirectionApi.plugin.finishSetup() );
-			return response;
+			try {
+				const response = await apiFetch( RedirectionApi.plugin.finishSetup() );
+				return response;
+			} catch ( error ) {
+				throw handleApiError( error );
+			}
 		},
 		onSuccess: () => {
 			setShowDatabase( false );
 			queryClient.invalidateQueries( { queryKey: queryKeys.settings.all } );
 			// Reload to show normal admin interface
 			window.location.href = window.Redirectioni10n.pluginRoot;
+		},
+		onError: ( error ) => {
+			addError( error.message || 'Failed to finish setup' );
 		},
 		...options,
 	} );

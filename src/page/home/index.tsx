@@ -158,7 +158,11 @@ export default function Home() {
 	}
 
 	if ( databaseStatus === 'need-install' || databaseStatus === 'finish-install' ) {
-		return <WelcomeWizard />;
+		return (
+			<ErrorBoundary renderCrash={ CrashHandler } extra={ { page } }>
+				<WelcomeWizard />
+			</ErrorBoundary>
+		);
 	}
 
 	const needsUpgrader =
