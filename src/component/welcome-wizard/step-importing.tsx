@@ -31,7 +31,7 @@ export default function StepImporting( { step, setStep, options }: StepImporting
 
 	useEffect( () => {
 		doImport();
-	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [ doImport ] );
 
 	return (
 		<div>

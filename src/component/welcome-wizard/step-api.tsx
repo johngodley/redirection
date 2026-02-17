@@ -77,10 +77,10 @@ export default function StepAPI( { setStep, step }: StepApiProps ) {
 						'redirection'
 					) }
 					<p>
-						<code>{ api!.protocol + '//' + api!.host }</code>
+						<code>{ api?.protocol + '//' + api?.host }</code>
 					</p>
 					<p>
-						<code>{ home!.protocol + '//' + home!.host }</code>
+						<code>{ home?.protocol + '//' + home?.host }</code>
 					</p>
 				</div>
 			) }
