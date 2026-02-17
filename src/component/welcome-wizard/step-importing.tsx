@@ -14,6 +14,7 @@ interface StepImportingProps {
 
 export default function StepImporting( { step, setStep, options }: StepImportingProps ) {
 	const pluginImport = usePluginImport();
+	const { mutate } = pluginImport;
 
 	let importingStatus: 'idle' | 'loading' | 'success' | 'error' = 'idle';
 	if ( pluginImport.isPending ) {
@@ -25,12 +26,12 @@ export default function StepImporting( { step, setStep, options }: StepImporting
 	}
 
 	const doImport = useCallback( () => {
-		pluginImport.mutate( options.importers );
-	}, [ pluginImport, options.importers ] );
+		mutate( options.importers );
+	}, [ mutate, options.importers ] );
 
 	useEffect( () => {
 		doImport();
-	}, [ doImport ] );
+	}, [] ); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div>

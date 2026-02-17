@@ -12,9 +12,17 @@ interface StepApiProps {
 }
 
 export default function StepAPI( { setStep, step }: StepApiProps ) {
-	const api = new URL( window.Redirectioni10n.api.WP_API_root );
-	const home = new URL( window.Redirectioni10n.pluginBaseUrl );
-	const warning = api.protocol !== home.protocol || api.host !== home.host;
+	let api: URL | null = null;
+	let home: URL | null = null;
+
+	try {
+		api = new URL( window.Redirectioni10n.api.WP_API_root );
+		home = new URL( window.Redirectioni10n.pluginBaseUrl );
+	} catch ( e ) {
+		// Ignore malformed URLs - warning will not be shown
+	}
+
+	const warning = api && home && ( api.protocol !== home.protocol || api.host !== home.host );
 	const apiTest = useSettingsStore( ( state ) => state.apiTest );
 
 	useEffect( () => {
@@ -69,10 +77,10 @@ export default function StepAPI( { setStep, step }: StepApiProps ) {
 						'redirection'
 					) }
 					<p>
-						<code>{ api.protocol + '//' + api.host }</code>
+						<code>{ api!.protocol + '//' + api!.host }</code>
 					</p>
 					<p>
-						<code>{ home.protocol + '//' + home.host }</code>
+						<code>{ home!.protocol + '//' + home!.host }</code>
 					</p>
 				</div>
 			) }
