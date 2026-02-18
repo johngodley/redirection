@@ -28,17 +28,18 @@ interface ErrorRowActionsProps {
 }
 
 function getShowFilter( groupBy: string, row: Error404 ) {
-	const { ip, agent, url } = row;
+	// For grouped results, id is set server-side to the group value (url/ip/agent)
+	const value = String( row.id );
 
 	if ( groupBy === 'ip' ) {
-		return { ip };
+		return { ip: value };
 	}
 
 	if ( groupBy === 'agent' ) {
-		return { agent };
+		return { agent: value };
 	}
 
-	return { 'url-exact': url };
+	return { 'url-exact': value };
 }
 
 function ErrorRowActions( props: ErrorRowActionsProps ) {

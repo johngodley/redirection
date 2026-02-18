@@ -25,7 +25,7 @@ interface LogRowActionsProps {
 
 function LogRowActions( props: LogRowActionsProps ) {
 	const { row, onDelete, disabled, groupBy } = props;
-	const { agent, id, request_data, redirection_id, url, ip } = row;
+	const { agent, id, request_data, redirection_id } = row;
 	const { setLogsTable } = useTableStore();
 	const menu: JSX.Element[] = [];
 
@@ -56,13 +56,15 @@ function LogRowActions( props: LogRowActionsProps ) {
 
 	if ( groupBy ) {
 		const getShowFilter = () => {
+			// For grouped results, id is set server-side to the group value (url/ip/agent)
+			const value = String( id );
 			if ( groupBy === 'ip' ) {
-				return { ip: ip ?? '' };
+				return { ip: value };
 			}
 			if ( groupBy === 'agent' ) {
-				return { agent: agent ?? '' };
+				return { agent: value };
 			}
-			return { 'url-exact': url ?? '' };
+			return { 'url-exact': value };
 		};
 
 		menu.push(
