@@ -164,7 +164,12 @@ export function getMatchState( matchType: string, data: any ): any {
 	}
 
 	if ( matchType === MATCH_IP ) {
-		const ip = Array.isArray( data?.ip ) ? data.ip : data?.ip ? [ String( data.ip ) ] : [];
+		let ip: string[] = [];
+		if ( Array.isArray( data?.ip ) ) {
+			ip = data.ip;
+		} else if ( data?.ip ) {
+			ip = [ String( data.ip ) ];
+		}
 		return {
 			ip,
 			url_from: data?.url_from || '',
