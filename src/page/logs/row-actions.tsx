@@ -2,7 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { RowActions, RowAction } from 'component/table/row-action';
 import UseragentAction from 'component/log-page/log-actions/user-agent';
 import ExtraDataAction from 'component/log-page/log-actions/extra-data';
-import { CAP_LOG_DELETE } from 'lib/capabilities';
+import { CAP_LOG_DELETE, CAP_REDIRECT_MANAGE } from 'lib/capabilities';
+import { useTableStore } from 'stores';
 
 interface Log {
 	id: number | string;
@@ -19,11 +20,13 @@ interface LogRowActionsProps {
 	row: Log;
 	onDelete: ( id: number | string ) => void;
 	disabled: boolean;
+	groupBy?: string;
 }
 
 function LogRowActions( props: LogRowActionsProps ) {
-	const { row, onDelete, disabled } = props;
-	const { agent, id, request_data, redirection_id } = row;
+	const { row, onDelete, disabled, groupBy } = props;
+	const { agent, id, request_data, redirection_id, url, ip } = row;
+	const { setLogsTable } = useTableStore();
 	const menu: JSX.Element[] = [];
 
 	menu.push(
@@ -47,6 +50,30 @@ function LogRowActions( props: LogRowActionsProps ) {
 				key="5"
 			>
 				{ __( 'View Redirect', 'redirection' ) }
+			</RowAction>
+		);
+	}
+
+	if ( groupBy ) {
+		const getShowFilter = () => {
+			if ( groupBy === 'ip' ) {
+				return { ip };
+			}
+			if ( groupBy === 'agent' ) {
+				return { agent };
+			}
+			return { 'url-exact': url };
+		};
+
+		menu.push(
+			<RowAction
+				onClick={ () =>
+					setLogsTable( { filterBy: getShowFilter(), page: 0, groupBy: '', selected: [], selectAll: false } )
+				}
+				capability={ CAP_REDIRECT_MANAGE }
+				key="6"
+			>
+				{ __( 'Show All', 'redirection' ) }
 			</RowAction>
 		);
 	}

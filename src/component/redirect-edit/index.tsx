@@ -46,7 +46,7 @@ interface RedirectItem {
 	id?: number;
 	url: string | string[];
 	title: string;
-	match_data: MatchData;
+	match_data?: MatchData | null;
 	match_type: string;
 	action_type: string;
 	action_data: unknown;
@@ -180,11 +180,11 @@ function EditRedirect( props: EditRedirectProps ) {
 		position: initialPosition = 0,
 	} = item;
 	const {
-		flag_regex: initialFlagRegex,
-		flag_trailing: initialFlagTrailing,
-		flag_case: initialFlagCase,
-		flag_query: initialFlagQuery,
-	} = match_data.source;
+		flag_regex: initialFlagRegex = false,
+		flag_trailing: initialFlagTrailing = false,
+		flag_case: initialFlagCase = false,
+		flag_query: initialFlagQuery = 'exact',
+	} = match_data?.source ?? {};
 
 	const initialState: RedirectEditState = {
 		url: initialUrl,
@@ -197,7 +197,7 @@ function EditRedirect( props: EditRedirectProps ) {
 		action_type: initialActionType,
 		action_code: initialActionCode,
 		action_data: getMatchState( initialMatchType, initialActionData ),
-		options: match_data.options || {},
+		options: match_data?.options ?? {},
 		group_id: getValidGroup( initialGroupId ),
 		position: initialPosition,
 		warning: [],
@@ -235,12 +235,25 @@ function EditRedirect( props: EditRedirectProps ) {
 	}, [ state, callback ] );
 
 	const reset = useCallback( () => {
-		setState( {
-			...getDefaultItem( '', state.group_id, flags ),
+		const defaultItem = getDefaultItem( '', state.group_id, flags );
+		setState( ( prev ) => ( {
+			...prev,
+			url: defaultItem.url,
+			title: '',
+			flag_regex: defaultItem.match_data.source.flag_regex,
+			flag_trailing: defaultItem.match_data.source.flag_trailing,
+			flag_case: defaultItem.match_data.source.flag_case,
+			flag_query: defaultItem.match_data.source.flag_query,
+			match_type: defaultItem.match_type,
+			action_type: defaultItem.action_type,
+			action_code: defaultItem.action_code,
+			action_data: defaultItem.action_data,
+			options: defaultItem.match_data.options,
+			position: 0,
+			advanced: false,
 			warning: [],
-			id: item.id,
-		} as RedirectEditState );
-	}, [ state.group_id, flags, item.id ] );
+		} ) );
+	}, [ state.group_id, flags ] );
 
 	const onSave = useCallback(
 		( ev: React.FormEvent ) => {

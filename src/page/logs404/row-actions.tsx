@@ -49,7 +49,7 @@ function ErrorRowActions( props: ErrorRowActionsProps ) {
 	const menu: JSX.Element[] = [];
 
 	const setFilter = ( filterBy: any ) => {
-		setErrorsTable( { filterBy, page: 0 } );
+		setErrorsTable( { filterBy, page: 0, groupBy: '', selected: [], selectAll: false } );
 	};
 
 	menu.push(
