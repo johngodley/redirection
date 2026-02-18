@@ -254,7 +254,7 @@ export function useErrorBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `404 errors ${ actionName }` );
-			// Only reset to first page for global (select-all) deletes; single/bulk deletes stay on current page
+			// Only reset to first page for global (select-all) actions; single/bulk actions stay on current page
 			const isGlobal = variables.params?.global === true;
 			setErrorsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.errors.all } );
