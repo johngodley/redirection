@@ -28,7 +28,7 @@ export const RedirectSchema = z.object( {
 	action_type: z.string(),
 	action_code: z.number().int(),
 	action_data: z.unknown(),
-	match_data: RedirectMatchDataSchema.optional(),
+	match_data: RedirectMatchDataSchema.nullish(),
 	group_id: z.number().int(),
 	title: z.string(),
 	position: z.number().int().nonnegative(),

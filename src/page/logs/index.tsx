@@ -224,6 +224,7 @@ function Logs() {
 					disabled={ false }
 					row={ row as Parameters< typeof getColumns >[ 0 ] }
 					onDelete={ handleDelete }
+					groupBy={ table.groupBy }
 				/>
 			) }
 			renderTableActions={ () => (
