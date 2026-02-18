@@ -20,7 +20,7 @@ interface LogRowActionsProps {
 	row: Log;
 	onDelete: ( id: number | string ) => void;
 	disabled: boolean;
-	groupBy?: string;
+	groupBy?: string | undefined;
 }
 
 function LogRowActions( props: LogRowActionsProps ) {
@@ -57,12 +57,12 @@ function LogRowActions( props: LogRowActionsProps ) {
 	if ( groupBy ) {
 		const getShowFilter = () => {
 			if ( groupBy === 'ip' ) {
-				return { ip };
+				return { ip: ip ?? '' };
 			}
 			if ( groupBy === 'agent' ) {
-				return { agent };
+				return { agent: agent ?? '' };
 			}
-			return { 'url-exact': url };
+			return { 'url-exact': url ?? '' };
 		};
 
 		menu.push(
