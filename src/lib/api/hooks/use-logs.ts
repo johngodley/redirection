@@ -146,8 +146,9 @@ export function useLogBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `Logs ${ actionName }` );
-			// Reset to first page and clear selections after bulk action
-			setLogsTable( { page: 0, selected: [], selectAll: false } );
+			// Only reset to first page for global (select-all) deletes; single/bulk deletes stay on current page
+			const isGlobal = variables.params?.global === true;
+			setLogsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.logs.all } );
 		},
 		onError: ( error ) => {
@@ -253,8 +254,9 @@ export function useErrorBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `404 errors ${ actionName }` );
-			// Reset to first page and clear selections after any bulk 404 error action
-			setErrorsTable( { page: 0, selected: [], selectAll: false } );
+			// Only reset to first page for global (select-all) deletes; single/bulk deletes stay on current page
+			const isGlobal = variables.params?.global === true;
+			setErrorsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.errors.all } );
 		},
 		onError: ( error ) => {
