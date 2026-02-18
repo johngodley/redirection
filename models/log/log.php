@@ -309,13 +309,10 @@ abstract class Red_Log {
 			$row->count = intval( $row->count, 10 );
 
 			if ( property_exists( $row, 'url' ) ) {
-				// @phpstan-ignore property.notFound
 				$row->id = $row->url ?? '';
 			} elseif ( property_exists( $row, 'ip' ) ) {
-				// @phpstan-ignore property.notFound
 				$row->id = $row->ip ?? '';
 			} elseif ( property_exists( $row, 'agent' ) ) {
-				// @phpstan-ignore property.notFound
 				$row->id = $row->agent ?? '';
 			}
 		}
