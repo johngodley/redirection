@@ -146,7 +146,7 @@ export function useLogBulkAction(
 			decrementProgress();
 			const actionName = variables.action === 'delete' ? 'deleted' : variables.action;
 			addNotice( `Logs ${ actionName }` );
-			// Only reset to first page for global (select-all) deletes; single/bulk deletes stay on current page
+			// Only reset to first page for global (select-all) actions; single/bulk actions stay on current page
 			const isGlobal = variables.params?.global === true;
 			setLogsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.logs.all } );
