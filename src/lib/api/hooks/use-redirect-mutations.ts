@@ -107,11 +107,12 @@ export function useRedirectDelete(
 				throw handleApiError( error );
 			}
 		},
-		onSuccess: () => {
+		onSuccess: ( _, variables ) => {
 			decrementProgress();
 			addNotice( 'Redirects deleted' );
-			// Reset to first page and clear selections after delete
-			setRedirectsTable( { page: 0, selected: [], selectAll: false } );
+			// Only reset to first page for global (select-all) actions; single/bulk item actions stay on the current page
+			const isGlobal = variables.params?.global === true;
+			setRedirectsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 		},
 		onError: ( error ) => {
