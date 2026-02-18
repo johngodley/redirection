@@ -19,7 +19,7 @@ describe( 'getMatchState', () => {
 			[ 'custom', { filter: 'my_filter' } ],
 			[ 'role', { role: 'editor' } ],
 			[ 'server', { server: 'example.com' } ],
-			[ 'ip', { ip: '1.2.3.4' } ],
+			[ 'ip', { ip: [ '1.2.3.4' ] } ],
 			[ 'language', { language: 'en' } ],
 		];
 
@@ -46,6 +46,23 @@ describe( 'getMatchState', () => {
 			expect( state ).toEqual( { logged_in: '/in', logged_out: '/out' } );
 			expect( state.url_from ).toBeUndefined();
 			expect( state.url_notfrom ).toBeUndefined();
+		} );
+	} );
+
+	describe( 'ip match type uses string[] for ip field', () => {
+		test( 'preserves an existing ip array', () => {
+			const state = getMatchState( 'ip', { ip: [ '1.2.3.4', '5.6.7.8' ] } );
+			expect( state.ip ).toEqual( [ '1.2.3.4', '5.6.7.8' ] );
+		} );
+
+		test( 'wraps a scalar ip string in an array', () => {
+			const state = getMatchState( 'ip', { ip: '1.2.3.4' } );
+			expect( state.ip ).toEqual( [ '1.2.3.4' ] );
+		} );
+
+		test( 'defaults ip to an empty array when absent', () => {
+			const state = getMatchState( 'ip', {} );
+			expect( state.ip ).toEqual( [] );
 		} );
 	} );
 
