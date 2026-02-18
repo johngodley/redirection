@@ -105,6 +105,8 @@ export function getMatchState( matchType: string, data: any ): any {
 		return {
 			referrer: data?.referrer || '',
 			regex: data?.regex || false,
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
@@ -112,6 +114,8 @@ export function getMatchState( matchType: string, data: any ): any {
 		return {
 			agent: data?.agent || '',
 			regex: data?.regex || false,
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
@@ -120,6 +124,8 @@ export function getMatchState( matchType: string, data: any ): any {
 			name: data?.name || '',
 			value: data?.value || '',
 			regex: data?.regex || false,
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
@@ -128,36 +134,48 @@ export function getMatchState( matchType: string, data: any ): any {
 			name: data?.name || '',
 			value: data?.value || '',
 			regex: data?.regex || false,
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
 	if ( matchType === MATCH_CUSTOM ) {
 		return {
 			filter: data?.filter || '',
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
 	if ( matchType === MATCH_ROLE ) {
 		return {
 			role: data?.role || '',
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
 	if ( matchType === MATCH_SERVER ) {
 		return {
 			server: data?.server || '',
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
 	if ( matchType === MATCH_IP ) {
 		return {
 			ip: data?.ip || '',
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 
 	if ( matchType === MATCH_LANGUAGE ) {
 		return {
 			language: data?.language || '',
+			url_from: data?.url_from || '',
+			url_notfrom: data?.url_notfrom || '',
 		};
 	}
 

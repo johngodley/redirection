@@ -308,15 +308,15 @@ abstract class Red_Log {
 		foreach ( $rows as $row ) {
 			$row->count = intval( $row->count, 10 );
 
-			if ( isset( $row->url ) ) {
+			if ( property_exists( $row, 'url' ) ) {
 				// @phpstan-ignore property.notFound
-				$row->id = $row->url;
-			} elseif ( isset( $row->ip ) ) {
+				$row->id = $row->url ?? '';
+			} elseif ( property_exists( $row, 'ip' ) ) {
 				// @phpstan-ignore property.notFound
-				$row->id = $row->ip;
-			} elseif ( isset( $row->agent ) ) {
+				$row->id = $row->ip ?? '';
+			} elseif ( property_exists( $row, 'agent' ) ) {
 				// @phpstan-ignore property.notFound
-				$row->id = $row->agent;
+				$row->id = $row->agent ?? '';
 			}
 		}
 
