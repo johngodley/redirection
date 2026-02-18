@@ -307,8 +307,7 @@ abstract class Red_Log {
 
 		foreach ( $rows as $row ) {
 			$row->count = intval( $row->count, 10 );
-			// @phpstan-ignore property.notFound
-			$row->id = $row->{ $group } ?? '';
+			$row->id = isset( $row->{ $group } ) ? $row->{ $group } : '';
 		}
 
 		/** @var list<object> $rows */
