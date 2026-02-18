@@ -110,7 +110,7 @@ export function useRedirectDelete(
 		onSuccess: ( _, variables ) => {
 			decrementProgress();
 			addNotice( 'Redirects deleted' );
-			// Only reset to first page for global (select-all) deletes; single/bulk deletes stay on current page
+			// Only reset to first page for global (select-all) actions; single/bulk item actions stay on the current page
 			const isGlobal = variables.params?.global === true;
 			setRedirectsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
