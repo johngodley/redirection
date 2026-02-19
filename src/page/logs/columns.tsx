@@ -54,9 +54,10 @@ function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
 		return '';
 	}
 
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	const targetUrl = getServerUrl( server, row.sent_to );
 	const searchWord = filterBy.target || '';
+	const isAbsolute = /^https?:\/\//i.test( row.sent_to );
+	const server = row.domain ? 'https://' + row.domain : document.location.origin;
+	const targetUrl = isAbsolute ? row.sent_to : getServerUrl( server, row.sent_to );
 
 	return (
 		<ExternalLink url={ targetUrl }>
