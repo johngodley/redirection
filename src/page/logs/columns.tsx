@@ -41,12 +41,19 @@ interface RowParams {
 	onFilter?: ( filter: FilterBy ) => void;
 }
 
+function getOrigin( domain: string | null | undefined ): string {
+	if ( ! domain ) {
+		return document.location.origin;
+	}
+	// domain is stored as protocol://hostname by Redirection_Request::get_server()
+	return /^https?:\/\//i.test( domain ) ? domain : 'https://' + domain;
+}
+
 function getUrl( row: Log ): string {
 	if ( ! row.url ) {
 		return '';
 	}
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	return getServerUrl( server, row.url );
+	return getServerUrl( getOrigin( row.domain ), row.url );
 }
 
 function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
@@ -56,8 +63,7 @@ function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
 
 	const searchWord = filterBy.target || '';
 	const isAbsolute = /^https?:\/\//i.test( row.sent_to );
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	const targetUrl = isAbsolute ? row.sent_to : getServerUrl( server, row.sent_to );
+	const targetUrl = isAbsolute ? row.sent_to : getServerUrl( getOrigin( row.domain ), row.sent_to );
 
 	return (
 		<ExternalLink url={ targetUrl }>
