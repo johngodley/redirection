@@ -1,6 +1,6 @@
 import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
-import { getServerUrl } from 'lib/wordpress-url';
+import { getServerUrl, getOrigin } from 'lib/wordpress-url';
 import { __ } from '@wordpress/i18n';
 import { RowActions, RowAction } from 'component/table/row-action';
 
@@ -45,8 +45,7 @@ function getUrl( row: Log ): string {
 	if ( ! row.url ) {
 		return '';
 	}
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	return getServerUrl( server, row.url );
+	return getServerUrl( getOrigin( row.domain ), row.url );
 }
 
 function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
@@ -54,9 +53,9 @@ function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
 		return '';
 	}
 
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	const targetUrl = getServerUrl( server, row.sent_to );
 	const searchWord = filterBy.target || '';
+	const isAbsolute = /^https?:\/\//i.test( row.sent_to );
+	const targetUrl = isAbsolute ? row.sent_to : getServerUrl( getOrigin( row.domain ), row.sent_to );
 
 	return (
 		<ExternalLink url={ targetUrl }>
