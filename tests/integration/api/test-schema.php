@@ -468,6 +468,69 @@ class RedirectionApiSchemaTest extends Redirection_Api_Test {
 	}
 
 	// -------------------------------------------------------------------------
+	// Group schema tests
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Group list response must match GroupSchema:
+	 *   id: number, name: string, moduleName: string, module_id: number,
+	 *   enabled: boolean, redirects: number
+	 */
+	public function testGroupListSchema() {
+		$result = $this->callApi( 'group' );
+		$this->check_paginated_response( $result );
+
+		$item = $this->get_item( $result );
+
+		$this->check_int_field( $item, 'id' );
+		$this->check_string_field( $item, 'name' );
+		$this->check_string_field( $item, 'moduleName' );
+		$this->check_int_field( $item, 'module_id' );
+		$this->assertArrayHasKey( 'enabled', $item, "Field 'enabled' missing from group response" );
+		$this->assertIsBool( $item['enabled'], "Field 'enabled' must be a bool" );
+		$this->assertArrayHasKey( 'redirects', $item, "Field 'redirects' missing from group response" );
+		$this->assertIsInt( $item['redirects'], "Field 'redirects' must be an int" );
+	}
+
+	/**
+	 * Group create response must return a paginated list { items, total }, NOT { item }.
+	 * Regression test: frontend useGroupCreate previously tried to parse the response
+	 * as GroupItemResponseSchema({ item }) causing "item: expected object, received undefined".
+	 */
+	public function testGroupCreateResponseShape() {
+		$result = $this->callApi( 'group', [ 'name' => 'new-test-group', 'moduleId' => 1 ], 'POST' );
+
+		$this->assertEquals( 200, $result->status, 'Expected 200 response from group create' );
+
+		$data = (array) $result->data;
+		$this->assertArrayHasKey( 'items', $data, "Group create must return 'items' array, not 'item'" );
+		$this->assertArrayHasKey( 'total', $data, "Group create must return 'total'" );
+		$this->assertArrayNotHasKey( 'item', $data, "Group create must NOT return a single 'item' key" );
+		$this->assertIsArray( $data['items'], "'items' must be an array" );
+		$this->assertIsInt( $data['total'], "'total' must be an int" );
+
+		$names = array_column( array_map( function ( $item ) { return (array) $item; }, $data['items'] ), 'name' );
+		$this->assertContains( 'new-test-group', $names, 'Newly created group must appear in the returned items' );
+	}
+
+	/**
+	 * Group update response must return a single item { item }, matching GroupItemResponseSchema.
+	 */
+	public function testGroupUpdateResponseShape() {
+		$group = Red_Group::create( 'update-test-group', 1 );
+		$result = $this->callApi( 'group/' . $group->get_id(), [ 'name' => 'updated-name', 'moduleId' => 1 ], 'POST' );
+
+		$this->assertEquals( 200, $result->status, 'Expected 200 response from group update' );
+
+		$data = (array) $result->data;
+		$this->assertArrayHasKey( 'item', $data, "Group update must return a single 'item'" );
+		$item = (array) $data['item'];
+		$this->check_int_field( $item, 'id' );
+		$this->check_string_field( $item, 'name' );
+		$this->assertEquals( 'updated-name', $item['name'], 'Updated name must be reflected in response' );
+	}
+
+	// -------------------------------------------------------------------------
 	// Paginated response envelope tests
 	// -------------------------------------------------------------------------
 
