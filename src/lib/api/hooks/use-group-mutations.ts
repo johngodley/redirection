@@ -10,7 +10,7 @@ import { useTableStore, useMessageStore } from 'stores';
  * Mutation hook for creating a group
  * @param options
  */
-export function useGroupCreate( options?: Omit< UseMutationOptions< Group, Error, CreateGroupInput >, 'mutationFn' > ) {
+export function useGroupCreate( options?: Omit< UseMutationOptions< void, Error, CreateGroupInput >, 'mutationFn' > ) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
 
@@ -18,9 +18,7 @@ export function useGroupCreate( options?: Omit< UseMutationOptions< Group, Error
 		mutationFn: async ( data: CreateGroupInput ) => {
 			incrementProgress();
 			try {
-				const response = await apiFetch( RedirectionApi.group.create( data ) );
-				const validated = GroupItemResponseSchema.parse( response );
-				return validated.item;
+				await apiFetch( RedirectionApi.group.create( data ) );
 			} catch ( error ) {
 				decrementProgress();
 				throw handleApiError( error );
