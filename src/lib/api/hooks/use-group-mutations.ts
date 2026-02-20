@@ -1,7 +1,13 @@
 import { useMutation, useQueryClient, UseMutationOptions } from '@tanstack/react-query';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { RedirectionApi } from 'lib/api-request';
-import { GroupItemResponseSchema, GroupListResponseSchema, type Group, type CreateGroupInput, type UpdateGroupInput } from 'types';
+import {
+	GroupItemResponseSchema,
+	GroupListResponseSchema,
+	type Group,
+	type CreateGroupInput,
+	type UpdateGroupInput,
+} from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { useTableStore, useMessageStore } from 'stores';
@@ -10,7 +16,9 @@ import { useTableStore, useMessageStore } from 'stores';
  * Mutation hook for creating a group
  * @param options
  */
-export function useGroupCreate( options?: Omit< UseMutationOptions< Group | null, Error, CreateGroupInput >, 'mutationFn' > ) {
+export function useGroupCreate(
+	options?: Omit< UseMutationOptions< Group | null, Error, CreateGroupInput >, 'mutationFn' >
+) {
 	const queryClient = useQueryClient();
 	const { incrementProgress, decrementProgress, addNotice, addError } = useMessageStore();
 
