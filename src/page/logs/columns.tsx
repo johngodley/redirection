@@ -41,7 +41,6 @@ interface RowParams {
 	onFilter?: ( filter: FilterBy ) => void;
 }
 
-
 function getUrl( row: Log ): string {
 	if ( ! row.url ) {
 		return '';
