@@ -118,7 +118,7 @@ describe( 'LogSchema', () => {
 	describe( 'grouped log entries', () => {
 		test( 'grouped-by-url row has string id and count', () => {
 			const grouped = makeLog( {
-				id: '/group-url',  // string — the grouped value
+				id: '/group-url', // string — the grouped value
 				count: 5,
 				// Individual fields absent in grouped rows
 				created: undefined,
@@ -246,20 +246,20 @@ describe( 'LogListResponseSchema', () => {
 	} );
 
 	test( 'parses a list with multiple entries', () => {
-		const response = makeLogListResponse( [
-			makeLog( { id: 1 } ),
-			makeLog( { id: 2, agent: null, referrer: null } ),
-		], 2 );
+		const response = makeLogListResponse(
+			[ makeLog( { id: 1 } ), makeLog( { id: 2, agent: null, referrer: null } ) ],
+			2
+		);
 		const result = LogListResponseSchema.parse( response );
 		expect( result.items ).toHaveLength( 2 );
 		expect( result.items[ 1 ].agent ).toBeNull();
 	} );
 
 	test( 'parses a grouped response with string ids', () => {
-		const response = makeLogListResponse( [
-			makeLog( { id: '/url-a', count: 10 } ),
-			makeLog( { id: '/url-b', count: 3 } ),
-		], 2 );
+		const response = makeLogListResponse(
+			[ makeLog( { id: '/url-a', count: 10 } ), makeLog( { id: '/url-b', count: 3 } ) ],
+			2
+		);
 		const result = LogListResponseSchema.parse( response );
 		expect( result.items[ 0 ].id ).toBe( '/url-a' );
 		expect( result.items[ 0 ].count ).toBe( 10 );
@@ -291,9 +291,7 @@ describe( 'Error404ListResponseSchema', () => {
 	} );
 
 	test( 'parses a list with null nullable fields', () => {
-		const response = makeLogListResponse( [
-			makeLog404( { agent: null, ip: null, referrer: null } ),
-		], 1 );
+		const response = makeLogListResponse( [ makeLog404( { agent: null, ip: null, referrer: null } ) ], 1 );
 		const result = Error404ListResponseSchema.parse( response );
 		expect( result.items[ 0 ].agent ).toBeNull();
 		expect( result.items[ 0 ].ip ).toBeNull();

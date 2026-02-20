@@ -5,7 +5,7 @@
  * the current page no longer exist. For single-item or non-global bulk
  * deletes we stay on the current page so the user doesn't lose their place.
  *
- * @param params  The mutation variables' params object (may be undefined)
+ * @param params The mutation variables' params object (may be undefined)
  */
 export function getTableResetOnDelete( params: { global?: boolean } | undefined ): {
 	page?: number;
@@ -27,8 +27,8 @@ export function getTableResetOnDelete( params: { global?: boolean } | undefined 
  * (the URL, IP, or agent string). Clicking "Show All" should switch to
  * ungrouped view filtered to that value, using the correct filter key.
  *
- * @param groupBy  The current groupBy field ('ip', 'agent', or 'url')
- * @param id       The group value (row.id cast to string)
+ * @param groupBy The current groupBy field ('ip', 'agent', or 'url')
+ * @param id      The group value (row.id cast to string)
  */
 export function getShowFilter( groupBy: string, id: string ): Record< string, string > {
 	if ( groupBy === 'ip' ) {

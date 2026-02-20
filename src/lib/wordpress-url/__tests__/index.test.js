@@ -85,7 +85,9 @@ describe( 'getOrigin', () => {
 
 describe( 'getServerUrl + getOrigin combined', () => {
 	test( 'builds full URL from domain with protocol and relative path', () => {
-		expect( getServerUrl( getOrigin( 'https://example.com' ), '/some-page' ) ).toBe( 'https://example.com/some-page' );
+		expect( getServerUrl( getOrigin( 'https://example.com' ), '/some-page' ) ).toBe(
+			'https://example.com/some-page'
+		);
 	} );
 
 	test( 'builds full URL from protocol-less domain', () => {

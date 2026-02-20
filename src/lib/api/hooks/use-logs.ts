@@ -1,7 +1,12 @@
 import { useQuery, useMutation, useQueryClient, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { RedirectionApi } from 'lib/api-request';
-import { LogListResponseSchema, Error404ListResponseSchema, type LogListResponse, type Error404ListResponse } from 'types';
+import {
+	LogListResponseSchema,
+	Error404ListResponseSchema,
+	type LogListResponse,
+	type Error404ListResponse,
+} from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { cleanApiParams, getTableResetOnDelete } from '../utils';

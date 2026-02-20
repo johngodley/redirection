@@ -59,7 +59,13 @@ function LogRowActions( props: LogRowActionsProps ) {
 		menu.push(
 			<RowAction
 				onClick={ () =>
-					setLogsTable( { filterBy: getShowFilter( groupBy, String( id ) ), page: 0, groupBy: '', selected: [], selectAll: false } )
+					setLogsTable( {
+						filterBy: getShowFilter( groupBy, String( id ) ),
+						page: 0,
+						groupBy: '',
+						selected: [],
+						selectAll: false,
+					} )
 				}
 				capability={ CAP_REDIRECT_MANAGE }
 				key="6"
