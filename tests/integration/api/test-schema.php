@@ -7,7 +7,7 @@
  * on the frontend. Any mismatch here would cause a Zod validation error in the browser.
  *
  * Field types and nullability must match what the frontend schemas declare in:
- *   - src/lib/api/hooks/use-logs.ts (LogSchema, Error404Schema)
+ *   - src/types/schemas/log.ts (LogSchema, Error404Schema)
  *   - src/types/schemas/redirect.ts (RedirectSchema)
  */
 class RedirectionApiSchemaTest extends Redirection_Api_Test {
@@ -78,7 +78,12 @@ class RedirectionApiSchemaTest extends Redirection_Api_Test {
 	 */
 	private function get_items( $result ) {
 		$data = (array) $result->data;
-		return array_map( 'get_object_vars_or_self', $data['items'] );
+		return array_map(
+			static function ( $item ) {
+				return (array) $item;
+			},
+			$data['items']
+		);
 	}
 
 	// -------------------------------------------------------------------------
