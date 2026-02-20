@@ -1,6 +1,6 @@
 import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
-import { getServerUrl } from 'lib/wordpress-url';
+import { getServerUrl, getOrigin } from 'lib/wordpress-url';
 import { __ } from '@wordpress/i18n';
 import { RowActions, RowAction } from 'component/table/row-action';
 
@@ -40,8 +40,7 @@ function getUrl( row: Error404 ): string {
 	if ( ! row.url ) {
 		return '';
 	}
-	const server = row.domain ? 'https://' + row.domain : document.location.origin;
-	return getServerUrl( server, row.url );
+	return getServerUrl( getOrigin( row.domain ), row.url );
 }
 
 export default function getColumns( row: Error404, rowParams?: RowParams ): Column[] {

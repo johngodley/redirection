@@ -1,6 +1,6 @@
 import Highlighter from 'react-highlight-words';
 import { ExternalLink } from '@wp-plugin-components';
-import { getServerUrl } from 'lib/wordpress-url';
+import { getServerUrl, getOrigin } from 'lib/wordpress-url';
 import { __ } from '@wordpress/i18n';
 import { RowActions, RowAction } from 'component/table/row-action';
 
@@ -41,13 +41,6 @@ interface RowParams {
 	onFilter?: ( filter: FilterBy ) => void;
 }
 
-function getOrigin( domain: string | null | undefined ): string {
-	if ( ! domain ) {
-		return document.location.origin;
-	}
-	// domain is stored as protocol://hostname by Redirection_Request::get_server()
-	return /^https?:\/\//i.test( domain ) ? domain : 'https://' + domain;
-}
 
 function getUrl( row: Log ): string {
 	if ( ! row.url ) {

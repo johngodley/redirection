@@ -54,6 +54,14 @@ export function getServerUrl( domain: string, path: string ): string {
 	return domain.replace( /\/$/, '' ) + '/' + path.replace( /^\//, '' );
 }
 
+export function getOrigin( domain: string | null | undefined ): string {
+	if ( ! domain ) {
+		return document.location.origin;
+	}
+	// domain is stored as protocol://hostname by Redirection_Request::get_server()
+	return /^https?:\/\//i.test( domain ) ? domain : 'https://' + domain;
+}
+
 interface Header {
 	name: string;
 	value: string;
