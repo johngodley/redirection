@@ -508,6 +508,9 @@ class RedirectionApiSchemaTest extends Redirection_Api_Test {
 		$this->assertArrayNotHasKey( 'item', $data, "Group create must NOT return a single 'item' key" );
 		$this->assertIsArray( $data['items'], "'items' must be an array" );
 		$this->assertIsInt( $data['total'], "'total' must be an int" );
+
+		$names = array_column( array_map( function ( $item ) { return (array) $item; }, $data['items'] ), 'name' );
+		$this->assertContains( 'new-test-group', $names, 'Newly created group must appear in the returned items' );
 	}
 
 	/**
