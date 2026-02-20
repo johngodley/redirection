@@ -41,14 +41,14 @@ interface RowParams {
 	onFilter?: ( filter: FilterBy ) => void;
 }
 
-function getUrl( row: Log ): string {
+export function getUrl( row: Log ): string {
 	if ( ! row.url ) {
 		return '';
 	}
 	return getServerUrl( getOrigin( row.domain ), row.url );
 }
 
-function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
+export function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element {
 	if ( ! row.sent_to ) {
 		return '';
 	}

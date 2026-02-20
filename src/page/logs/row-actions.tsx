@@ -3,6 +3,7 @@ import { RowActions, RowAction } from 'component/table/row-action';
 import UseragentAction from 'component/log-page/log-actions/user-agent';
 import ExtraDataAction from 'component/log-page/log-actions/extra-data';
 import { CAP_LOG_DELETE, CAP_REDIRECT_MANAGE } from 'lib/capabilities';
+import { getShowFilter } from 'lib/api/utils';
 import { useTableStore } from 'stores';
 
 interface Log {
@@ -55,22 +56,10 @@ function LogRowActions( props: LogRowActionsProps ) {
 	}
 
 	if ( groupBy ) {
-		const getShowFilter = () => {
-			// For grouped results, id is set server-side to the group value (url/ip/agent)
-			const value = String( id );
-			if ( groupBy === 'ip' ) {
-				return { ip: value };
-			}
-			if ( groupBy === 'agent' ) {
-				return { agent: value };
-			}
-			return { 'url-exact': value };
-		};
-
 		menu.push(
 			<RowAction
 				onClick={ () =>
-					setLogsTable( { filterBy: getShowFilter(), page: 0, groupBy: '', selected: [], selectAll: false } )
+					setLogsTable( { filterBy: getShowFilter( groupBy, String( id ) ), page: 0, groupBy: '', selected: [], selectAll: false } )
 				}
 				capability={ CAP_REDIRECT_MANAGE }
 				key="6"
