@@ -10,6 +10,7 @@ import {
 } from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
+import { getTableResetOnDelete } from '../utils';
 import { useTableStore, useMessageStore } from 'stores';
 
 /**
@@ -110,9 +111,7 @@ export function useRedirectDelete(
 		onSuccess: ( _, variables ) => {
 			decrementProgress();
 			addNotice( 'Redirects deleted' );
-			// Only reset to first page for global (select-all) actions; single/bulk item actions stay on the current page
-			const isGlobal = variables.params?.global === true;
-			setRedirectsTable( { ...( isGlobal ? { page: 0 } : {} ), selected: [], selectAll: false } );
+			setRedirectsTable( getTableResetOnDelete( variables.params ) );
 			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 		},
 		onError: ( error ) => {

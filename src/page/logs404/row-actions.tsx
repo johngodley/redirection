@@ -4,6 +4,7 @@ import { CAP_REDIRECT_MANAGE, CAP_404_DELETE, CAP_REDIRECT_ADD } from 'lib/capab
 import UseragentAction from 'component/log-page/log-actions/user-agent';
 import getCreateAction from './create-action';
 import { useTableStore } from 'stores';
+import { getShowFilter } from 'lib/api/utils';
 
 interface Error404 {
 	id: number;
@@ -25,21 +26,6 @@ interface ErrorRowActionsProps {
 	onCreate: ( action: any ) => void;
 	table: Table;
 	disabled: boolean;
-}
-
-function getShowFilter( groupBy: string, row: Error404 ) {
-	// For grouped results, id is set server-side to the group value (url/ip/agent)
-	const value = String( row.id );
-
-	if ( groupBy === 'ip' ) {
-		return { ip: value };
-	}
-
-	if ( groupBy === 'agent' ) {
-		return { agent: value };
-	}
-
-	return { 'url-exact': value };
 }
 
 function ErrorRowActions( props: ErrorRowActionsProps ) {
@@ -85,7 +71,7 @@ function ErrorRowActions( props: ErrorRowActionsProps ) {
 
 	menu.push(
 		<RowAction
-			onClick={ () => setFilter( getShowFilter( groupBy, row ) ) }
+			onClick={ () => setFilter( getShowFilter( groupBy, String( row.id ) ) ) }
 			capability={ CAP_REDIRECT_MANAGE }
 			key="4"
 		>
