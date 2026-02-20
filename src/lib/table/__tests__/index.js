@@ -64,6 +64,38 @@ describe( 'tables', () => {
 		expect( table.dummy ).toEqual( true );
 	} );
 
+	test( 'clearSelected also clears selectAll', () => {
+		const table = clearSelected( { selected: [ 1, 2 ], selectAll: true } );
+
+		expect( table.selected ).toEqual( [] );
+		expect( table.selectAll ).toBe( false );
+	} );
+
+	test( 'setTableSelected with true selects all rows and preserves selectAll param', () => {
+		const rows = [ { id: 1 }, { id: 2 }, { id: 3 } ];
+		const table = setTableSelected( NEW_TABLE, true, true, rows );
+
+		expect( table.selected ).toEqual( [ 1, 2, 3 ] );
+		expect( table.selectAll ).toBe( true );
+	} );
+
+	test( 'setTableSelected with false clears selection and sets selectAll to false', () => {
+		const tableWithAll = { ...NEW_TABLE, selected: [ 1, 2, 3 ], selectAll: true };
+		const table = setTableSelected( tableWithAll, false, false, [] );
+
+		expect( table.selected ).toEqual( [] );
+		expect( table.selectAll ).toBe( false );
+	} );
+
+	test( 'setTableSelected toggling a single item clears selectAll', () => {
+		// Simulates unchecking one row after "Select All" was clicked
+		const tableWithAll = { ...NEW_TABLE, selected: [ 1, 2, 3 ], selectAll: true };
+		const table = setTableSelected( tableWithAll, [ 2 ], false, [] );
+
+		expect( table.selected ).not.toContain( 2 );
+		expect( table.selectAll ).toBe( false );
+	} );
+
 	test( 'removeDefaults does nothing to an object with no matching properties', () => {
 		const table = removeDefaults( { dummy: true } );
 

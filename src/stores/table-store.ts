@@ -127,7 +127,7 @@ export const useTableStore = create< TableStoreState >()(
 
 			setRedirectsSelected: ( items ) =>
 				set( ( state ) => ( {
-					redirects: { ...state.redirects, selected: items },
+					redirects: { ...state.redirects, selected: items, selectAll: false },
 				} ) ),
 
 			setRedirectsAddTop: ( addTop ) => set( { redirectsAddTop: addTop } ),
@@ -147,7 +147,7 @@ export const useTableStore = create< TableStoreState >()(
 
 			setGroupsSelected: ( items ) =>
 				set( ( state ) => ( {
-					groups: { ...state.groups, selected: items },
+					groups: { ...state.groups, selected: items, selectAll: false },
 				} ) ),
 
 			resetGroupsTable: () => set( { groups: initialGroupsTable } ),
@@ -165,7 +165,7 @@ export const useTableStore = create< TableStoreState >()(
 
 			setLogsSelected: ( items ) =>
 				set( ( state ) => ( {
-					logs: { ...state.logs, selected: items },
+					logs: { ...state.logs, selected: items, selectAll: false },
 				} ) ),
 
 			resetLogsTable: () => set( { logs: initialLogsTable } ),
@@ -183,7 +183,7 @@ export const useTableStore = create< TableStoreState >()(
 
 			setErrorsSelected: ( items ) =>
 				set( ( state ) => ( {
-					errors: { ...state.errors, selected: items },
+					errors: { ...state.errors, selected: items, selectAll: false },
 				} ) ),
 
 			resetErrorsTable: () => set( { errors: initialErrorsTable } ),
