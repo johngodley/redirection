@@ -7,7 +7,7 @@ interface HeaderPlainValueProps {
 
 const HeaderPlainValue = ( { headerValue, onChange }: HeaderPlainValueProps ) => {
 	return (
-		<p>
+		<>
 			<label htmlFor="header-plain-value">{ __( 'Value', 'redirection' ) }:</label>{ ' ' }
 			<input
 				id="header-plain-value"
@@ -17,7 +17,7 @@ const HeaderPlainValue = ( { headerValue, onChange }: HeaderPlainValueProps ) =>
 				value={ headerValue }
 				onChange={ ( ev ) => onChange( { [ ev.target.name ]: ev.target.value } ) }
 			/>
-		</p>
+		</>
 	);
 };
 
