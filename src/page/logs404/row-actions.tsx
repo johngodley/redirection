@@ -71,7 +71,7 @@ function ErrorRowActions( props: ErrorRowActionsProps ) {
 
 	menu.push(
 		<RowAction
-			onClick={ () => setFilter( getShowFilter( groupBy, String( row.id ) ) ) }
+			onClick={ () => setFilter( getShowFilter( groupBy, groupBy === '' ? row.url : String( row.id ) ) ) }
 			capability={ CAP_REDIRECT_MANAGE }
 			key="4"
 		>

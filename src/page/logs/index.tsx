@@ -126,7 +126,7 @@ function Logs() {
 	};
 
 	const handleSetOrder = ( column: string, direction: string ) => {
-		setLogsTable( { orderby: column, direction: direction as 'asc' | 'desc' } );
+		setLogsTable( { orderby: column === 'date' ? '' : column, direction: direction as 'asc' | 'desc' } );
 	};
 
 	const handleGroup = ( groupBy: string ) => {
@@ -169,7 +169,7 @@ function Logs() {
 	const logPageTable: LogPageTable = {
 		page: table.page,
 		perPage: table.per_page,
-		orderBy: table.orderby,
+		orderBy: table.orderby || 'date',
 		direction: table.direction,
 		selected: table.selected ?? [],
 		selectAll: table.selectAll ?? false,
