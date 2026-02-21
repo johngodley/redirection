@@ -73,7 +73,7 @@ const initialGroupsTable: TableState = {
 	selected: [],
 	filterBy: {},
 	displayType: 'standard',
-	displaySelected: [ 'name' ],
+	displaySelected: [ 'name', 'module', 'redirects' ],
 	groupBy: '',
 };
 
