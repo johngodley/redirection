@@ -197,7 +197,7 @@ function Logs404() {
 	const logPageTable = {
 		page: table.page,
 		perPage: table.per_page,
-		orderBy: table.orderby,
+		orderBy: table.orderby || 'date',
 		direction: table.direction,
 		selected: table.selected ?? [],
 		selectAll: table.selectAll ?? false,
