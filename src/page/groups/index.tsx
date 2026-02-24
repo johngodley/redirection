@@ -79,7 +79,7 @@ function Groups() {
 
 		if ( table.selectAll ) {
 			// Apply action to all items matching current filters
-			const params = { global: true, ...table.filterBy };
+			const params = { global: true, filterBy: table.filterBy };
 			groupBulkAction.mutate( { action, items: [], params } );
 		} else {
 			// Apply action to selected items only

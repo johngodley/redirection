@@ -129,7 +129,7 @@ function Redirects() {
 
 		if ( table.selectAll ) {
 			// Apply action to all items matching current filters
-			const params = { global: true, ...table.filterBy };
+			const params = { global: true, filterBy: table.filterBy };
 			switch ( action ) {
 				case 'delete':
 					deleteMutation.mutate( { items: [], params } );

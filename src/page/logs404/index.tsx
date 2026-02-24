@@ -136,7 +136,7 @@ function Logs404() {
 				errorBulkAction.mutate( {
 					action: 'delete',
 					items: [],
-					params: { ...params, global: true, ...table.filterBy },
+					params: { ...params, global: true, filterBy: table.filterBy },
 				} );
 			} else {
 				// Delete only selected items

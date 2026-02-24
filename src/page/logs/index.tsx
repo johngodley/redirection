@@ -118,7 +118,7 @@ function Logs() {
 
 		if ( table.selectAll ) {
 			// Delete all items matching current filters
-			logBulkAction.mutate( { action, items: [], params: { ...params, global: true, ...table.filterBy } } );
+			logBulkAction.mutate( { action, items: [], params: { ...params, global: true, filterBy: table.filterBy } } );
 		} else {
 			// Delete only selected items
 			logBulkAction.mutate( { action, items: table.selected, params } );
