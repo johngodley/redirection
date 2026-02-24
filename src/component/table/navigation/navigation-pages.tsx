@@ -31,7 +31,7 @@ function NavigationPages( props: NavigationPagesProps ) {
 		<div className={ classes }>
 			<span className={ clsx( 'displaying-num', isEverything ? 'displaying-num-all' : null ) }>
 				{ /* translators: %s is the number of items */ }
-				{ selected === 0 &&
+				{ ( selected === 0 || ( selected < perPage && ! isEverything ) ) &&
 					sprintf(
 						// translators: %s is the number of items
 						_n( '%s item', '%s items', total, 'redirection' ),
@@ -39,6 +39,7 @@ function NavigationPages( props: NavigationPagesProps ) {
 					) }
 				{ /* translators: 1: number of selected items, 2: total number of items */ }
 				{ selected > 0 &&
+					selected >= perPage &&
 					! isEverything &&
 					createInterpolateElement(
 						sprintf(
