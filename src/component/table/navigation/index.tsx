@@ -13,6 +13,7 @@ interface Table {
 
 interface TableNavProps {
 	total: number;
+	rowCount: number;
 	table: Table;
 	children?: React.ReactNode;
 	onChangePage: ( page: number ) => void;
@@ -22,7 +23,7 @@ interface TableNavProps {
 }
 
 function TableNav( props: TableNavProps ) {
-	const { total, table, children = null, onChangePage, disabled, className, onSelectAll } = props;
+	const { total, rowCount, table, children = null, onChangePage, disabled, className, onSelectAll } = props;
 
 	return (
 		<div className={ clsx( 'tablenav', className ) }>
@@ -33,6 +34,7 @@ function TableNav( props: TableNavProps ) {
 					perPage={ table.perPage }
 					page={ table.page }
 					total={ total }
+					rowCount={ rowCount }
 					onChangePage={ onChangePage }
 					onSelectAll={ onSelectAll }
 					disabled={ disabled }
