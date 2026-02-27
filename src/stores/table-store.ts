@@ -101,6 +101,17 @@ const initialErrorsTable: TableState = {
 	groupBy: '',
 };
 
+interface PersistedDisplayState {
+	redirects_displayType?: string;
+	redirects_displaySelected?: string[];
+	groups_displayType?: string;
+	groups_displaySelected?: string[];
+	logs_displayType?: string;
+	logs_displaySelected?: string[];
+	errors_displayType?: string;
+	errors_displaySelected?: string[];
+}
+
 const initialState = {
 	redirects: initialRedirectsTable,
 	groups: initialGroupsTable,
@@ -204,7 +215,8 @@ export const useTableStore = create< TableStoreState >()(
 					errors_displayType: state.errors.displayType,
 					errors_displaySelected: state.errors.displaySelected,
 				} ),
-				merge: ( persisted: any, current ) => {
+				merge: ( persisted: unknown, current ) => {
+					const p: PersistedDisplayState = ( persisted as PersistedDisplayState ) ?? {};
 					// Read legacy localStorage keys (redirect_displayType, log_displayType, 404s_displayType, group_displayType)
 					// and migrate them into the new format on first load, then remove the old keys.
 					const legacyRead = ( name: string, tableState: TableState ) => {
@@ -226,23 +238,23 @@ export const useTableStore = create< TableStoreState >()(
 						...current,
 						redirects: legacyRead( 'redirect', {
 							...current.redirects,
-							displayType: persisted.redirects_displayType ?? current.redirects.displayType,
-							displaySelected: persisted.redirects_displaySelected ?? current.redirects.displaySelected,
+							displayType: p.redirects_displayType ?? current.redirects.displayType,
+							displaySelected: p.redirects_displaySelected ?? current.redirects.displaySelected,
 						} ),
 						groups: legacyRead( 'group', {
 							...current.groups,
-							displayType: persisted.groups_displayType ?? current.groups.displayType,
-							displaySelected: persisted.groups_displaySelected ?? current.groups.displaySelected,
+							displayType: p.groups_displayType ?? current.groups.displayType,
+							displaySelected: p.groups_displaySelected ?? current.groups.displaySelected,
 						} ),
 						logs: legacyRead( 'log', {
 							...current.logs,
-							displayType: persisted.logs_displayType ?? current.logs.displayType,
-							displaySelected: persisted.logs_displaySelected ?? current.logs.displaySelected,
+							displayType: p.logs_displayType ?? current.logs.displayType,
+							displaySelected: p.logs_displaySelected ?? current.logs.displaySelected,
 						} ),
 						errors: legacyRead( '404s', {
 							...current.errors,
-							displayType: persisted.errors_displayType ?? current.errors.displayType,
-							displaySelected: persisted.errors_displaySelected ?? current.errors.displaySelected,
+							displayType: p.errors_displayType ?? current.errors.displayType,
+							displaySelected: p.errors_displaySelected ?? current.errors.displaySelected,
 						} ),
 					};
 				},
