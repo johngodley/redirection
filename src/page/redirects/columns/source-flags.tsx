@@ -37,6 +37,7 @@ function SourceFlags( props: SourceFlagsProps ) {
 							key={ key }
 							name={ displayName?.label || '' }
 							className={ 'redirect-source__' + key }
+							strikethrough={ !! defaultFlags[ key ] && ! source[ key ] }
 						/>
 					);
 				} ) }
