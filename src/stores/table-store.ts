@@ -113,124 +113,140 @@ export const useTableStore = create< TableStoreState >()(
 	devtools(
 		persist(
 			( set ) => ( {
-			...initialState,
+				...initialState,
 
-			// Redirects table actions
-			setRedirectsTable: ( table ) =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, ...table },
-				} ) ),
+				// Redirects table actions
+				setRedirectsTable: ( table ) =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, ...table },
+					} ) ),
 
-			clearRedirectsSelected: () =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, selected: [] },
-				} ) ),
+				clearRedirectsSelected: () =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, selected: [] },
+					} ) ),
 
-			setRedirectsSelected: ( items ) =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, selected: items, selectAll: false },
-				} ) ),
+				setRedirectsSelected: ( items ) =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, selected: items, selectAll: false },
+					} ) ),
 
-			setRedirectsAddTop: ( addTop ) => set( { redirectsAddTop: addTop } ),
+				setRedirectsAddTop: ( addTop ) => set( { redirectsAddTop: addTop } ),
 
-			resetRedirectsTable: () => set( { redirects: initialRedirectsTable, redirectsAddTop: false } ),
+				resetRedirectsTable: () => set( { redirects: initialRedirectsTable, redirectsAddTop: false } ),
 
-			// Groups table actions
-			setGroupsTable: ( table ) =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, ...table },
-				} ) ),
+				// Groups table actions
+				setGroupsTable: ( table ) =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, ...table },
+					} ) ),
 
-			clearGroupsSelected: () =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, selected: [] },
-				} ) ),
+				clearGroupsSelected: () =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, selected: [] },
+					} ) ),
 
-			setGroupsSelected: ( items ) =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, selected: items, selectAll: false },
-				} ) ),
+				setGroupsSelected: ( items ) =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, selected: items, selectAll: false },
+					} ) ),
 
-			resetGroupsTable: () => set( { groups: initialGroupsTable } ),
+				resetGroupsTable: () => set( { groups: initialGroupsTable } ),
 
-			// Logs table actions
-			setLogsTable: ( table ) =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, ...table },
-				} ) ),
+				// Logs table actions
+				setLogsTable: ( table ) =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, ...table },
+					} ) ),
 
-			clearLogsSelected: () =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, selected: [] },
-				} ) ),
+				clearLogsSelected: () =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, selected: [] },
+					} ) ),
 
-			setLogsSelected: ( items ) =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, selected: items, selectAll: false },
-				} ) ),
+				setLogsSelected: ( items ) =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, selected: items, selectAll: false },
+					} ) ),
 
-			resetLogsTable: () => set( { logs: initialLogsTable } ),
+				resetLogsTable: () => set( { logs: initialLogsTable } ),
 
-			// Errors table actions
-			setErrorsTable: ( table ) =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, ...table },
-				} ) ),
+				// Errors table actions
+				setErrorsTable: ( table ) =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, ...table },
+					} ) ),
 
-			clearErrorsSelected: () =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, selected: [] },
-				} ) ),
+				clearErrorsSelected: () =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, selected: [] },
+					} ) ),
 
-			setErrorsSelected: ( items ) =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, selected: items, selectAll: false },
-				} ) ),
+				setErrorsSelected: ( items ) =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, selected: items, selectAll: false },
+					} ) ),
 
-			resetErrorsTable: () => set( { errors: initialErrorsTable } ),
+				resetErrorsTable: () => set( { errors: initialErrorsTable } ),
 
-			// Global reset
-			reset: () => set( initialState ),
-		} ),
-		{
-			name: 'redirection-display',
-			partialize: ( state ) => ( {
-				redirects_displayType: state.redirects.displayType,
-				redirects_displaySelected: state.redirects.displaySelected,
-				groups_displayType: state.groups.displayType,
-				groups_displaySelected: state.groups.displaySelected,
-				logs_displayType: state.logs.displayType,
-				logs_displaySelected: state.logs.displaySelected,
-				errors_displayType: state.errors.displayType,
-				errors_displaySelected: state.errors.displaySelected,
+				// Global reset
+				reset: () => set( initialState ),
 			} ),
-			merge: ( persisted: any, current ) => {
-				// Read legacy localStorage keys (redirect_displayType, log_displayType, 404s_displayType, group_displayType)
-				// and migrate them into the new format on first load, then remove the old keys.
-				const legacyRead = ( name: string, tableState: TableState ) => {
-					const legacyType = localStorage.getItem( name + '_displayType' );
-					if ( ! legacyType ) {
-						return tableState;
-					}
-					let displaySelected = tableState.displaySelected;
-					if ( legacyType === 'custom' ) {
-						const stored = localStorage.getItem( name + '_displaySelected' );
-						displaySelected = stored ? stored.split( ',' ) : displaySelected;
-					}
-					localStorage.removeItem( name + '_displayType' );
-					localStorage.removeItem( name + '_displaySelected' );
-					return { ...tableState, displayType: legacyType, displaySelected };
-				};
+			{
+				name: 'redirection-display',
+				partialize: ( state ) => ( {
+					redirects_displayType: state.redirects.displayType,
+					redirects_displaySelected: state.redirects.displaySelected,
+					groups_displayType: state.groups.displayType,
+					groups_displaySelected: state.groups.displaySelected,
+					logs_displayType: state.logs.displayType,
+					logs_displaySelected: state.logs.displaySelected,
+					errors_displayType: state.errors.displayType,
+					errors_displaySelected: state.errors.displaySelected,
+				} ),
+				merge: ( persisted: any, current ) => {
+					// Read legacy localStorage keys (redirect_displayType, log_displayType, 404s_displayType, group_displayType)
+					// and migrate them into the new format on first load, then remove the old keys.
+					const legacyRead = ( name: string, tableState: TableState ) => {
+						const legacyType = localStorage.getItem( name + '_displayType' );
+						if ( ! legacyType ) {
+							return tableState;
+						}
+						let displaySelected = tableState.displaySelected;
+						if ( legacyType === 'custom' ) {
+							const stored = localStorage.getItem( name + '_displaySelected' );
+							displaySelected = stored ? stored.split( ',' ) : displaySelected;
+						}
+						localStorage.removeItem( name + '_displayType' );
+						localStorage.removeItem( name + '_displaySelected' );
+						return { ...tableState, displayType: legacyType, displaySelected };
+					};
 
-				return {
-					...current,
-					redirects: legacyRead( 'redirect', { ...current.redirects, displayType: persisted.redirects_displayType ?? current.redirects.displayType, displaySelected: persisted.redirects_displaySelected ?? current.redirects.displaySelected } ),
-					groups: legacyRead( 'group', { ...current.groups, displayType: persisted.groups_displayType ?? current.groups.displayType, displaySelected: persisted.groups_displaySelected ?? current.groups.displaySelected } ),
-					logs: legacyRead( 'log', { ...current.logs, displayType: persisted.logs_displayType ?? current.logs.displayType, displaySelected: persisted.logs_displaySelected ?? current.logs.displaySelected } ),
-					errors: legacyRead( '404s', { ...current.errors, displayType: persisted.errors_displayType ?? current.errors.displayType, displaySelected: persisted.errors_displaySelected ?? current.errors.displaySelected } ),
-				};
-			},
-		}
+					return {
+						...current,
+						redirects: legacyRead( 'redirect', {
+							...current.redirects,
+							displayType: persisted.redirects_displayType ?? current.redirects.displayType,
+							displaySelected: persisted.redirects_displaySelected ?? current.redirects.displaySelected,
+						} ),
+						groups: legacyRead( 'group', {
+							...current.groups,
+							displayType: persisted.groups_displayType ?? current.groups.displayType,
+							displaySelected: persisted.groups_displaySelected ?? current.groups.displaySelected,
+						} ),
+						logs: legacyRead( 'log', {
+							...current.logs,
+							displayType: persisted.logs_displayType ?? current.logs.displayType,
+							displaySelected: persisted.logs_displaySelected ?? current.logs.displaySelected,
+						} ),
+						errors: legacyRead( '404s', {
+							...current.errors,
+							displayType: persisted.errors_displayType ?? current.errors.displayType,
+							displaySelected: persisted.errors_displaySelected ?? current.errors.displaySelected,
+						} ),
+					};
+				},
+			}
 		),
 		{ name: 'TableStore' }
 	)
