@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import type { TableState, RowId } from 'types';
 
 /**
@@ -111,7 +111,8 @@ const initialState = {
 
 export const useTableStore = create< TableStoreState >()(
 	devtools(
-		( set ) => ( {
+		persist(
+			( set ) => ( {
 			...initialState,
 
 			// Redirects table actions
@@ -191,6 +192,46 @@ export const useTableStore = create< TableStoreState >()(
 			// Global reset
 			reset: () => set( initialState ),
 		} ),
+		{
+			name: 'redirection-display',
+			partialize: ( state ) => ( {
+				redirects_displayType: state.redirects.displayType,
+				redirects_displaySelected: state.redirects.displaySelected,
+				groups_displayType: state.groups.displayType,
+				groups_displaySelected: state.groups.displaySelected,
+				logs_displayType: state.logs.displayType,
+				logs_displaySelected: state.logs.displaySelected,
+				errors_displayType: state.errors.displayType,
+				errors_displaySelected: state.errors.displaySelected,
+			} ),
+			merge: ( persisted: any, current ) => {
+				// Read legacy localStorage keys (redirect_displayType, log_displayType, 404s_displayType, group_displayType)
+				// and migrate them into the new format on first load, then remove the old keys.
+				const legacyRead = ( name: string, tableState: TableState ) => {
+					const legacyType = localStorage.getItem( name + '_displayType' );
+					if ( ! legacyType ) {
+						return tableState;
+					}
+					let displaySelected = tableState.displaySelected;
+					if ( legacyType === 'custom' ) {
+						const stored = localStorage.getItem( name + '_displaySelected' );
+						displaySelected = stored ? stored.split( ',' ) : displaySelected;
+					}
+					localStorage.removeItem( name + '_displayType' );
+					localStorage.removeItem( name + '_displaySelected' );
+					return { ...tableState, displayType: legacyType, displaySelected };
+				};
+
+				return {
+					...current,
+					redirects: legacyRead( 'redirect', { ...current.redirects, displayType: persisted.redirects_displayType ?? current.redirects.displayType, displaySelected: persisted.redirects_displaySelected ?? current.redirects.displaySelected } ),
+					groups: legacyRead( 'group', { ...current.groups, displayType: persisted.groups_displayType ?? current.groups.displayType, displaySelected: persisted.groups_displaySelected ?? current.groups.displaySelected } ),
+					logs: legacyRead( 'log', { ...current.logs, displayType: persisted.logs_displayType ?? current.logs.displayType, displaySelected: persisted.logs_displaySelected ?? current.logs.displaySelected } ),
+					errors: legacyRead( '404s', { ...current.errors, displayType: persisted.errors_displayType ?? current.errors.displayType, displaySelected: persisted.errors_displaySelected ?? current.errors.displaySelected } ),
+				};
+			},
+		}
+		),
 		{ name: 'TableStore' }
 	)
 );
