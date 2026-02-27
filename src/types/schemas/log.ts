@@ -22,6 +22,7 @@ export const LogSchema = z.object( {
 	redirection_id: z.number().int().optional(),
 	request_method: z.string().optional().nullable(),
 	http_code: z.number().int().optional(),
+	request_data: z.unknown().optional().nullable(),
 	redirect_by: z.string().optional().nullable(),
 	count: z.coerce.number().int().optional(), // Only present in grouped results
 } );
