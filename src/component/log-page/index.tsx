@@ -142,6 +142,7 @@ function LogPage( props: LogPageProps ) {
 
 			<TableNav
 				total={ total }
+				rowCount={ rows.length }
 				table={ table }
 				disabled={ disabled }
 				onChangePage={ onChangePage }
@@ -174,6 +175,7 @@ function LogPage( props: LogPageProps ) {
 
 			<TableNav
 				total={ total }
+				rowCount={ rows.length }
 				table={ table }
 				disabled={ disabled }
 				onChangePage={ onChangePage }

@@ -7,6 +7,7 @@ interface NavigationPagesProps {
 	total: number;
 	perPage: number;
 	page: number;
+	rowCount: number;
 	onChangePage: ( page: number ) => void;
 	disabled: boolean;
 	selected: number;
@@ -15,7 +16,7 @@ interface NavigationPagesProps {
 }
 
 function NavigationPages( props: NavigationPagesProps ) {
-	const { total, perPage, page, onChangePage, selected, onSelectAll, isEverything } = props;
+	const { total, perPage, page, rowCount, onChangePage, selected, onSelectAll, isEverything } = props;
 	const classes = clsx( {
 		'tablenav-pages': true,
 	} );
@@ -31,7 +32,7 @@ function NavigationPages( props: NavigationPagesProps ) {
 		<div className={ classes }>
 			<span className={ clsx( 'displaying-num', isEverything ? 'displaying-num-all' : null ) }>
 				{ /* translators: %s is the number of items */ }
-				{ selected === 0 &&
+				{ ( selected === 0 || ( ! isEverything && ( selected < rowCount || total <= perPage ) ) ) &&
 					sprintf(
 						// translators: %s is the number of items
 						_n( '%s item', '%s items', total, 'redirection' ),
@@ -39,6 +40,8 @@ function NavigationPages( props: NavigationPagesProps ) {
 					) }
 				{ /* translators: 1: number of selected items, 2: total number of items */ }
 				{ selected > 0 &&
+					selected >= rowCount &&
+					total > perPage &&
 					! isEverything &&
 					createInterpolateElement(
 						sprintf(
