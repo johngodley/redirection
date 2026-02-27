@@ -101,6 +101,18 @@ const initialErrorsTable: TableState = {
 	groupBy: '',
 };
 
+interface PersistedTableDisplay {
+	displayType: string;
+	displaySelected: string[];
+}
+
+interface PersistedState {
+	redirects?: PersistedTableDisplay;
+	groups?: PersistedTableDisplay;
+	logs?: PersistedTableDisplay;
+	errors?: PersistedTableDisplay;
+}
+
 const initialState = {
 	redirects: initialRedirectsTable,
 	groups: initialGroupsTable,
@@ -204,9 +216,7 @@ export const useTableStore = create< TableStoreState >()(
 					errors: { displayType: state.errors.displayType, displaySelected: state.errors.displaySelected },
 				} ),
 				merge: ( persisted: unknown, current: TableStoreState ): TableStoreState => {
-					const p = ( persisted ?? {} ) as Partial<
-						Pick< TableStoreState, 'redirects' | 'groups' | 'logs' | 'errors' >
-					>;
+					const p = ( persisted ?? {} ) as PersistedState;
 					return {
 						...current,
 						redirects: { ...current.redirects, ...p.redirects },
