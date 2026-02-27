@@ -26,6 +26,7 @@ const makeLog = ( overrides = {} ) => ( {
 	redirection_id: 42,
 	request_method: 'GET',
 	http_code: 301,
+	request_data: null,
 	redirect_by: 'Redirection',
 	...overrides,
 } );
@@ -102,6 +103,16 @@ describe( 'LogSchema', () => {
 		test( 'request_method can be null', () => {
 			const result = LogSchema.parse( makeLog( { request_method: null } ) );
 			expect( result.request_method ).toBeNull();
+		} );
+
+		test( 'request_data can be null', () => {
+			const result = LogSchema.parse( makeLog( { request_data: null } ) );
+			expect( result.request_data ).toBeNull();
+		} );
+
+		test( 'request_data can be an object', () => {
+			const result = LogSchema.parse( makeLog( { request_data: { method: 'POST', body: 'foo=bar' } } ) );
+			expect( result.request_data ).toEqual( { method: 'POST', body: 'foo=bar' } );
 		} );
 
 		test( 'redirect_by can be null', () => {
