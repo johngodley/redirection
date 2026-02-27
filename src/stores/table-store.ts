@@ -101,17 +101,6 @@ const initialErrorsTable: TableState = {
 	groupBy: '',
 };
 
-interface PersistedDisplayState {
-	redirects_displayType?: string;
-	redirects_displaySelected?: string[];
-	groups_displayType?: string;
-	groups_displaySelected?: string[];
-	logs_displayType?: string;
-	logs_displaySelected?: string[];
-	errors_displayType?: string;
-	errors_displaySelected?: string[];
-}
-
 const initialState = {
 	redirects: initialRedirectsTable,
 	groups: initialGroupsTable,
@@ -206,56 +195,24 @@ export const useTableStore = create< TableStoreState >()(
 			{
 				name: 'redirection-display',
 				partialize: ( state ) => ( {
-					redirects_displayType: state.redirects.displayType,
-					redirects_displaySelected: state.redirects.displaySelected,
-					groups_displayType: state.groups.displayType,
-					groups_displaySelected: state.groups.displaySelected,
-					logs_displayType: state.logs.displayType,
-					logs_displaySelected: state.logs.displaySelected,
-					errors_displayType: state.errors.displayType,
-					errors_displaySelected: state.errors.displaySelected,
+					redirects: {
+						displayType: state.redirects.displayType,
+						displaySelected: state.redirects.displaySelected,
+					},
+					groups: { displayType: state.groups.displayType, displaySelected: state.groups.displaySelected },
+					logs: { displayType: state.logs.displayType, displaySelected: state.logs.displaySelected },
+					errors: { displayType: state.errors.displayType, displaySelected: state.errors.displaySelected },
 				} ),
-				merge: ( persisted: unknown, current ) => {
-					const p: PersistedDisplayState = ( persisted as PersistedDisplayState ) ?? {};
-					// Read legacy localStorage keys (redirect_displayType, log_displayType, 404s_displayType, group_displayType)
-					// and migrate them into the new format on first load, then remove the old keys.
-					const legacyRead = ( name: string, tableState: TableState ) => {
-						const legacyType = localStorage.getItem( name + '_displayType' );
-						if ( ! legacyType ) {
-							return tableState;
-						}
-						let displaySelected = tableState.displaySelected;
-						if ( legacyType === 'custom' ) {
-							const stored = localStorage.getItem( name + '_displaySelected' );
-							displaySelected = stored ? stored.split( ',' ) : displaySelected;
-						}
-						localStorage.removeItem( name + '_displayType' );
-						localStorage.removeItem( name + '_displaySelected' );
-						return { ...tableState, displayType: legacyType, displaySelected };
-					};
-
+				merge: ( persisted: unknown, current: TableStoreState ): TableStoreState => {
+					const p = ( persisted ?? {} ) as Partial<
+						Pick< TableStoreState, 'redirects' | 'groups' | 'logs' | 'errors' >
+					>;
 					return {
 						...current,
-						redirects: legacyRead( 'redirect', {
-							...current.redirects,
-							displayType: p.redirects_displayType ?? current.redirects.displayType,
-							displaySelected: p.redirects_displaySelected ?? current.redirects.displaySelected,
-						} ),
-						groups: legacyRead( 'group', {
-							...current.groups,
-							displayType: p.groups_displayType ?? current.groups.displayType,
-							displaySelected: p.groups_displaySelected ?? current.groups.displaySelected,
-						} ),
-						logs: legacyRead( 'log', {
-							...current.logs,
-							displayType: p.logs_displayType ?? current.logs.displayType,
-							displaySelected: p.logs_displaySelected ?? current.logs.displaySelected,
-						} ),
-						errors: legacyRead( '404s', {
-							...current.errors,
-							displayType: p.errors_displayType ?? current.errors.displayType,
-							displaySelected: p.errors_displaySelected ?? current.errors.displaySelected,
-						} ),
+						redirects: { ...current.redirects, ...p.redirects },
+						groups: { ...current.groups, ...p.groups },
+						logs: { ...current.logs, ...p.logs },
+						errors: { ...current.errors, ...p.errors },
 					};
 				},
 			}
