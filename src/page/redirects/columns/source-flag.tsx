@@ -9,7 +9,11 @@ interface RedirectFlagProps {
 
 function RedirectFlag( { name, className, strikethrough }: RedirectFlagProps ) {
 	return (
-		<Badge className={ clsx( 'redirect-source__flag', className, { 'redirect-source__flag--disabled': strikethrough } ) }>
+		<Badge
+			className={ clsx( 'redirect-source__flag', className, {
+				'redirect-source__flag--disabled': strikethrough,
+			} ) }
+		>
 			{ strikethrough ? <s>{ name }</s> : name }
 		</Badge>
 	);
