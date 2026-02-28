@@ -219,6 +219,10 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 		// filterBy sent as empty string (client serialisation quirk) is treated as "no filter"
 		$result = $this->callApi( 'bulk/404/delete', [ 'global' => true, 'filterBy' => '' ], 'POST' );
 		$this->assertEquals( 200, $result->status );
+
+		// Verify that the 404 entry was actually deleted (empty filterBy behaves as no filter)
+		$result = $this->callApi( '404' );
+		$this->assertEquals( 0, count( $result->data['items'] ) );
 	}
 
 	public function testDeleteBulkGroupedByUrl() {

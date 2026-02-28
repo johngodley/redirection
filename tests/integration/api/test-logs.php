@@ -224,6 +224,10 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 		// filterBy sent as empty string (client serialisation quirk) is treated as "no filter"
 		$result = $this->callApi( 'bulk/log/delete', [ 'global' => true, 'filterBy' => '' ], 'POST' );
 		$this->assertEquals( 200, $result->status );
+
+		// Verify that the empty filterBy behaved as "no filter" and actually deleted the logs
+		$result = $this->callApi( 'log' );
+		$this->assertEquals( 0, count( $result->data['items'] ) );
 	}
 
 	public function testDeleteBulkGroupedByUrl() {
