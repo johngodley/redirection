@@ -155,4 +155,18 @@ describe( 'cleanApiParams', () => {
 		} );
 		expect( result ).toEqual( { page: 1 } );
 	} );
+
+	test( 'bulk delete with no active filter — filterBy omitted, global kept', () => {
+		// Mirrors the "select all and delete" path in logs/index.tsx and logs404/index.tsx.
+		// Without cleanApiParams, filterBy:{} serialises as "filterBy=" (empty string).
+		// PHP now accepts that gracefully, but it's still cleaner to omit it entirely.
+		const result = cleanApiParams( { global: true, filterBy: {} } );
+		expect( result ).toEqual( { global: true } );
+		expect( result ).not.toHaveProperty( 'filterBy' );
+	} );
+
+	test( 'bulk delete with active filter — filterBy preserved', () => {
+		const result = cleanApiParams( { global: true, filterBy: { ip: '192.168.1.1' } } );
+		expect( result ).toEqual( { global: true, filterBy: { ip: '192.168.1.1' } } );
+	} );
 } );

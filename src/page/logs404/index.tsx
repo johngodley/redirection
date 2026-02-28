@@ -11,6 +11,7 @@ import {
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
 import { useErrorList, useErrorBulkAction } from 'lib/api/hooks';
+import { cleanApiParams } from 'lib/api/utils';
 import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
@@ -136,7 +137,7 @@ function Logs404() {
 				errorBulkAction.mutate( {
 					action: 'delete',
 					items: [],
-					params: { ...params, global: true, filterBy: table.filterBy },
+					params: cleanApiParams( { ...params, global: true, filterBy: table.filterBy } ),
 				} );
 			} else {
 				// Delete only selected items

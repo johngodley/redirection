@@ -197,6 +197,35 @@ class RedirectionApiLogTest extends Redirection_Api_Test {
 		$this->assertEquals( 2, count( $result->data['items'] ) );
 	}
 
+	public function testDeleteBulkAllNoFilter() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		Red_Redirect_Log::create( 'domain', 'test1', '192.168.1.1', [] );
+		Red_Redirect_Log::create( 'domain', 'test2', '192.168.1.2', [] );
+		Red_Redirect_Log::create( 'domain', 'test3', '192.168.1.3', [] );
+
+		// global=true with no filterBy — the "select all and delete" case
+		$result = $this->callApi( 'bulk/log/delete', [ 'global' => true ], 'POST' );
+		$this->assertEquals( 200, $result->status );
+
+		$result = $this->callApi( 'log' );
+		$this->assertEquals( 0, count( $result->data['items'] ) );
+	}
+
+	public function testDeleteBulkEmptyFilterByIsAccepted() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$this->setNonce();
+
+		Red_Redirect_Log::create( 'domain', 'test1', '192.168.1.1', [] );
+
+		// filterBy sent as empty string (client serialisation quirk) is treated as "no filter"
+		$result = $this->callApi( 'bulk/log/delete', [ 'global' => true, 'filterBy' => '' ], 'POST' );
+		$this->assertEquals( 200, $result->status );
+	}
+
 	public function testDeleteBulkGroupedByUrl() {
 		global $wpdb;
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_logs" );
