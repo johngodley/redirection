@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import type { TableState, RowId } from 'types';
 
 /**
@@ -101,6 +101,18 @@ const initialErrorsTable: TableState = {
 	groupBy: '',
 };
 
+interface PersistedTableDisplay {
+	displayType: string;
+	displaySelected: string[];
+}
+
+interface PersistedState {
+	redirects?: PersistedTableDisplay;
+	groups?: PersistedTableDisplay;
+	logs?: PersistedTableDisplay;
+	errors?: PersistedTableDisplay;
+}
+
 const initialState = {
 	redirects: initialRedirectsTable,
 	groups: initialGroupsTable,
@@ -111,86 +123,110 @@ const initialState = {
 
 export const useTableStore = create< TableStoreState >()(
 	devtools(
-		( set ) => ( {
-			...initialState,
+		persist(
+			( set ) => ( {
+				...initialState,
 
-			// Redirects table actions
-			setRedirectsTable: ( table ) =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, ...table },
-				} ) ),
+				// Redirects table actions
+				setRedirectsTable: ( table ) =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, ...table },
+					} ) ),
 
-			clearRedirectsSelected: () =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, selected: [] },
-				} ) ),
+				clearRedirectsSelected: () =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, selected: [] },
+					} ) ),
 
-			setRedirectsSelected: ( items ) =>
-				set( ( state ) => ( {
-					redirects: { ...state.redirects, selected: items, selectAll: false },
-				} ) ),
+				setRedirectsSelected: ( items ) =>
+					set( ( state ) => ( {
+						redirects: { ...state.redirects, selected: items, selectAll: false },
+					} ) ),
 
-			setRedirectsAddTop: ( addTop ) => set( { redirectsAddTop: addTop } ),
+				setRedirectsAddTop: ( addTop ) => set( { redirectsAddTop: addTop } ),
 
-			resetRedirectsTable: () => set( { redirects: initialRedirectsTable, redirectsAddTop: false } ),
+				resetRedirectsTable: () => set( { redirects: initialRedirectsTable, redirectsAddTop: false } ),
 
-			// Groups table actions
-			setGroupsTable: ( table ) =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, ...table },
-				} ) ),
+				// Groups table actions
+				setGroupsTable: ( table ) =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, ...table },
+					} ) ),
 
-			clearGroupsSelected: () =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, selected: [] },
-				} ) ),
+				clearGroupsSelected: () =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, selected: [] },
+					} ) ),
 
-			setGroupsSelected: ( items ) =>
-				set( ( state ) => ( {
-					groups: { ...state.groups, selected: items, selectAll: false },
-				} ) ),
+				setGroupsSelected: ( items ) =>
+					set( ( state ) => ( {
+						groups: { ...state.groups, selected: items, selectAll: false },
+					} ) ),
 
-			resetGroupsTable: () => set( { groups: initialGroupsTable } ),
+				resetGroupsTable: () => set( { groups: initialGroupsTable } ),
 
-			// Logs table actions
-			setLogsTable: ( table ) =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, ...table },
-				} ) ),
+				// Logs table actions
+				setLogsTable: ( table ) =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, ...table },
+					} ) ),
 
-			clearLogsSelected: () =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, selected: [] },
-				} ) ),
+				clearLogsSelected: () =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, selected: [] },
+					} ) ),
 
-			setLogsSelected: ( items ) =>
-				set( ( state ) => ( {
-					logs: { ...state.logs, selected: items, selectAll: false },
-				} ) ),
+				setLogsSelected: ( items ) =>
+					set( ( state ) => ( {
+						logs: { ...state.logs, selected: items, selectAll: false },
+					} ) ),
 
-			resetLogsTable: () => set( { logs: initialLogsTable } ),
+				resetLogsTable: () => set( { logs: initialLogsTable } ),
 
-			// Errors table actions
-			setErrorsTable: ( table ) =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, ...table },
-				} ) ),
+				// Errors table actions
+				setErrorsTable: ( table ) =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, ...table },
+					} ) ),
 
-			clearErrorsSelected: () =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, selected: [] },
-				} ) ),
+				clearErrorsSelected: () =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, selected: [] },
+					} ) ),
 
-			setErrorsSelected: ( items ) =>
-				set( ( state ) => ( {
-					errors: { ...state.errors, selected: items, selectAll: false },
-				} ) ),
+				setErrorsSelected: ( items ) =>
+					set( ( state ) => ( {
+						errors: { ...state.errors, selected: items, selectAll: false },
+					} ) ),
 
-			resetErrorsTable: () => set( { errors: initialErrorsTable } ),
+				resetErrorsTable: () => set( { errors: initialErrorsTable } ),
 
-			// Global reset
-			reset: () => set( initialState ),
-		} ),
+				// Global reset
+				reset: () => set( initialState ),
+			} ),
+			{
+				name: 'redirection-display',
+				partialize: ( state ) => ( {
+					redirects: {
+						displayType: state.redirects.displayType,
+						displaySelected: state.redirects.displaySelected,
+					},
+					groups: { displayType: state.groups.displayType, displaySelected: state.groups.displaySelected },
+					logs: { displayType: state.logs.displayType, displaySelected: state.logs.displaySelected },
+					errors: { displayType: state.errors.displayType, displaySelected: state.errors.displaySelected },
+				} ),
+				merge: ( persisted: unknown, current: TableStoreState ): TableStoreState => {
+					const p = ( persisted ?? {} ) as PersistedState;
+					return {
+						...current,
+						redirects: { ...current.redirects, ...p.redirects },
+						groups: { ...current.groups, ...p.groups },
+						logs: { ...current.logs, ...p.logs },
+						errors: { ...current.errors, ...p.errors },
+					};
+				},
+			}
+		),
 		{ name: 'TableStore' }
 	)
 );
