@@ -3,7 +3,7 @@ Contributors: johnny5
 Donate link: https://redirection.me/donation/
 Tags: redirect, htaccess, 301, 404, apache
 Tested up to: 6.9
-Stable tag: 5.7.3
+Stable tag: 5.7.4
 License: GPLv3
 
 Manage 301 redirects, track 404 errors, and improve your site. No knowledge of Apache or Nginx required.
@@ -187,6 +187,11 @@ The plugin works in a similar manner to how WordPress handles permalinks and sho
 == Changelog ==
 
 A x.1 version increase introduces new or updated features and can be considered to contain 'breaking' changes. A x.x.1 increase is purely a bug fix and introduces no new features, and can be considered as containing no breaking changes.
+
+= 5.7.4 - 28th February 2026 =
+* Fix display setting not saving
+* Fix 'view data' on logs
+* Fix missing filters on select all
 
 = 5.7.3 - 21st February 2026 =
 * Fix log target having double domain
