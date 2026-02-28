@@ -192,6 +192,39 @@ class RedirectionApi404Test extends Redirection_Api_Test {
 		$this->assertEquals( 2, count( $result->data['items'] ) );
 	}
 
+	public function testDeleteBulkAllNoFilter() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		Red_404_Log::create( 'domain', '/page1', '192.168.1.1', [] );
+		Red_404_Log::create( 'domain', '/page2', '192.168.1.2', [] );
+		Red_404_Log::create( 'domain', '/page3', '192.168.1.3', [] );
+
+		// global=true with no filterBy — the "select all and delete" case
+		$result = $this->callApi( 'bulk/404/delete', [ 'global' => true ], 'POST' );
+		$this->assertEquals( 200, $result->status );
+
+		$result = $this->callApi( '404' );
+		$this->assertEquals( 0, count( $result->data['items'] ) );
+	}
+
+	public function testDeleteBulkEmptyFilterByIsAccepted() {
+		global $wpdb;
+		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );
+		$this->setNonce();
+
+		Red_404_Log::create( 'domain', '/page1', '192.168.1.1', [] );
+
+		// filterBy sent as empty string (client serialisation quirk) is treated as "no filter"
+		$result = $this->callApi( 'bulk/404/delete', [ 'global' => true, 'filterBy' => '' ], 'POST' );
+		$this->assertEquals( 200, $result->status );
+
+		// Verify that the 404 entry was actually deleted (empty filterBy behaves as no filter)
+		$result = $this->callApi( '404' );
+		$this->assertEquals( 0, count( $result->data['items'] ) );
+	}
+
 	public function testDeleteBulkGroupedByUrl() {
 		global $wpdb;
 		$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_404" );

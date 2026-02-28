@@ -10,6 +10,7 @@ import {
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
 import { useLogList, useLogBulkAction } from 'lib/api/hooks';
+import { cleanApiParams } from 'lib/api/utils';
 import { getRssUrl } from 'lib/wordpress-url';
 import { useTableUrlSync } from 'lib/hooks';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE, type LoadingStatus } from 'lib/constants';
@@ -121,7 +122,7 @@ function Logs() {
 			logBulkAction.mutate( {
 				action,
 				items: [],
-				params: { ...params, global: true, filterBy: table.filterBy },
+				params: cleanApiParams( { ...params, global: true, filterBy: table.filterBy } ),
 			} );
 		} else {
 			// Delete only selected items

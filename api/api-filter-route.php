@@ -29,7 +29,12 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 			}
 		}
 
-		// Value should be an array at this point based on REST validation
+		// An empty string means no filter was set (client sent filterBy= with nothing) — normalize to an empty array
+		if ( $value === '' ) {
+			$request->set_param( $param, [] );
+			return true;
+		}
+
 		if ( ! is_array( $value ) ) {
 			return new WP_Error( 'rest_invalid_param', 'Filter is not an array', array( 'status' => 400 ) );
 		}
