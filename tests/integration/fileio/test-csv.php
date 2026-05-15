@@ -79,4 +79,73 @@ class ExportCsvTest extends WP_UnitTestCase {
 
 		$this->assertEquals( '"/source","/target",0,301,"url",0,"","disabled",""', $csv );
 	}
+
+	public function testExportIncludesGroupName() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301, 'group_id' => 5 ) );
+		$csv = $exporter->item_as_csv( $item, array( 5 => 'My Group' ) );
+
+		$this->assertEquals( '"/source","/target",0,301,"url",0,"","active","My Group"', $csv );
+	}
+
+	public function testExportGroupNameEmptyWhenGroupNotInMap() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '/target', 'action_code' => 301, 'group_id' => 99 ) );
+		$csv = $exporter->item_as_csv( $item, array( 5 => 'My Group' ) );
+
+		$this->assertEquals( '"/source","/target",0,301,"url",0,"","active",""', $csv );
+	}
+
+	public function testExportMultipleLinesWithGroupNames() {
+		$exporter = new Red_Csv_File();
+		$item1 = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source1', 'action_data' => '/target', 'action_code' => 301, 'group_id' => 1 ) );
+		$item2 = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 2, 'regex' => false, 'action_type' => 'url', 'url' => '/source2', 'action_data' => '/target', 'action_code' => 301, 'group_id' => 2 ) );
+		$groups = array(
+			array( 'id' => 1, 'name' => 'Group Alpha' ),
+			array( 'id' => 2, 'name' => 'Group Beta' ),
+		);
+
+		$result = $exporter->get_data( array( $item1, $item2 ), $groups );
+		$lines = array_filter( explode( PHP_EOL, $result ) );
+
+		$this->assertEquals( 3, count( $lines ) );
+		$this->assertEquals( '"/source1","/target",0,301,"url",0,"","active","Group Alpha"', $lines[1] );
+		$this->assertEquals( '"/source2","/target",0,301,"url",0,"","active","Group Beta"', $lines[2] );
+	}
+
+	public function testImportResolvesGroupByName() {
+		$exporter = new Red_Csv_File();
+		$fallback_group = new Red_Group( (object) array( 'id' => 1, 'name' => 'Fallback', 'status' => 'enabled' ) );
+		$groups_by_name = array( 'Target Group' => 42 );
+		$csv = array( '/source', '/target', '0', '301', 'url', '0', '', 'active', 'Target Group' );
+
+		$item = $exporter->csv_as_item( $csv, $fallback_group, $groups_by_name );
+
+		$this->assertNotFalse( $item );
+		$this->assertEquals( 42, $item['group_id'] );
+	}
+
+	public function testImportFallsBackToSelectedGroupWhenNameUnknown() {
+		$exporter = new Red_Csv_File();
+		$fallback_group = new Red_Group( (object) array( 'id' => 1, 'name' => 'Fallback', 'status' => 'enabled' ) );
+		$groups_by_name = array( 'Target Group' => 42 );
+		$csv = array( '/source', '/target', '0', '301', 'url', '0', '', 'active', 'Unknown Group' );
+
+		$item = $exporter->csv_as_item( $csv, $fallback_group, $groups_by_name );
+
+		$this->assertNotFalse( $item );
+		$this->assertEquals( 1, $item['group_id'] );
+	}
+
+	public function testImportFallsBackToSelectedGroupWhenNoGroupColumn() {
+		$exporter = new Red_Csv_File();
+		$fallback_group = new Red_Group( (object) array( 'id' => 1, 'name' => 'Fallback', 'status' => 'enabled' ) );
+		$groups_by_name = array( 'Target Group' => 42 );
+		$csv = array( '/source', '/target', '0', '301' );
+
+		$item = $exporter->csv_as_item( $csv, $fallback_group, $groups_by_name );
+
+		$this->assertNotFalse( $item );
+		$this->assertEquals( 1, $item['group_id'] );
+	}
 }
