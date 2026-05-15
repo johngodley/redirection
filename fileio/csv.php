@@ -20,6 +20,7 @@ class Red_Csv_File extends Red_FileIO {
 	const CSV_TARGET = 1;
 	const CSV_REGEX = 2;
 	const CSV_CODE = 3;
+	const CSV_GROUP = 8;
 
 	public function force_download() {
 		parent::force_download();
@@ -34,20 +35,26 @@ class Red_Csv_File extends Red_FileIO {
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {
-		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'hits', 'title', 'status' ) ) ];
+		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'hits', 'title', 'status', 'group' ) ) ];
+
+		$group_names = [];
+		foreach ( $groups as $group ) {
+			$group_names[ $group['id'] ] = $group['name'];
+		}
 
 		foreach ( $items as $line ) {
-			$lines[] = $this->item_as_csv( $line );
+			$lines[] = $this->item_as_csv( $line, $group_names );
 		}
 
 		return implode( PHP_EOL, $lines ) . PHP_EOL;
 	}
 
 	/**
-	 * @param Red_Item $item
+	 * @param Red_Item             $item
+	 * @param array<int, string>   $group_names Map of group ID to group name.
 	 * @return string
 	 */
-	public function item_as_csv( $item ) {
+	public function item_as_csv( $item, array $group_names = [] ) {
 		$data = [];
 
 		if ( $item->match !== null ) {
@@ -64,6 +71,7 @@ class Red_Csv_File extends Red_FileIO {
 			$data = '';
 		}
 
+		$group_id = $item->get_group_id();
 		$csv = array(
 			$item->get_url(),
 			$data,
@@ -73,6 +81,7 @@ class Red_Csv_File extends Red_FileIO {
 			$item->get_hits(),
 			$item->get_title(),
 			$item->is_enabled() ? 'active' : 'disabled',
+			isset( $group_names[ $group_id ] ) ? $group_names[ $group_id ] : '',
 		);
 
 		$csv = array_map( array( $this, 'escape_csv' ), $csv );
@@ -137,6 +146,14 @@ class Red_Csv_File extends Red_FileIO {
 
 		/** @var Red_Group $group */
 
+		$all_groups = Red_Group::get_all();
+		$groups_by_name = [];
+		if ( $all_groups !== false ) {
+			foreach ( $all_groups as $g ) {
+				$groups_by_name[ $g['name'] ] = $g['id'];
+			}
+		}
+
 		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) !== false ) {
 			if ( $csv === null ) {
 				continue;
@@ -149,7 +166,7 @@ class Red_Csv_File extends Red_FileIO {
 				},
 				$csv
 			);
-			$item = $this->csv_as_item( $csv, $group );
+			$item = $this->csv_as_item( $csv, $group, $groups_by_name );
 
 			if ( $item !== false && $this->item_is_valid( $item ) ) {
 				$created = Red_Item::create( $item );
@@ -207,19 +224,25 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param array<int, string> $csv
-	 * @param Red_Group          $group
+	 * @param array<int, string>   $csv
+	 * @param Red_Group            $group         Fallback group from the import UI.
+	 * @param array<string, int>   $groups_by_name Map of group name to group ID for name-based lookup.
 	 * @return CsvItem|false
 	 */
-	public function csv_as_item( $csv, Red_Group $group ) {
+	public function csv_as_item( $csv, Red_Group $group, array $groups_by_name = [] ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+
+			$group_id = $group->get_id();
+			if ( isset( $csv[ self::CSV_GROUP ] ) && $csv[ self::CSV_GROUP ] !== '' && isset( $groups_by_name[ $csv[ self::CSV_GROUP ] ] ) ) {
+				$group_id = $groups_by_name[ $csv[ self::CSV_GROUP ] ];
+			}
 
 			return array(
 				'url' => trim( $csv[ self::CSV_SOURCE ] ),
 				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
 				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
-				'group_id' => $group->get_id(),
+				'group_id' => $group_id,
 				'match_type' => 'url',
 				'action_type' => $this->get_action_type( $code ),
 				'action_code' => $code,
