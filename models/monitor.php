@@ -34,7 +34,7 @@ class Red_Monitor {
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) !== false ) {
 				add_action( 'pre_post_update', array( $this, 'pre_post_update' ), 10, 2 );
-				add_action( 'post_updated', array( $this, 'post_updated' ), 11, 3 );
+				add_action( 'wp_after_insert_post', array( $this, 'post_after_insert' ), 11, 4 );
 				add_action( 'redirection_remove_existing', array( $this, 'remove_existing_redirect' ) );
 				add_filter( 'redirection_permalink_changed', array( $this, 'has_permalink_changed' ), 10, 3 );
 
@@ -81,6 +81,27 @@ class Red_Monitor {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Called after a post and its terms have been inserted or updated. This hook
+	 * fires after term assignment in both the classic editor and the REST/block
+	 * editor flows, so the new permalink is always available when we compare it
+	 * against the one captured in `pre_post_update`.
+	 *
+	 * @param int $post_id
+	 * @param WP_Post|null $post
+	 * @param bool $update
+	 * @param WP_Post|null $post_before
+	 * @return void
+	 */
+	public function post_after_insert( int $post_id, ?WP_Post $post, bool $update, ?WP_Post $post_before ): void {
+		// A slug cannot change on insertion, so skip brand-new posts.
+		if ( ! $update ) {
+			return;
+		}
+
+		$this->post_updated( $post_id, $post, $post_before );
 	}
 
 	/**
