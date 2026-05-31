@@ -304,6 +304,13 @@ class WordPress_Module extends Red_Module {
 	 * @return void
 	 */
 	public function canonical_domain() {
+		// In a plain PHP CLI bootstrap (e.g. a cron script that loads wp-load.php)
+		// there is no real HTTP request to redirect. Running die() here would
+		// silently terminate the CLI process before user code can execute.
+		if ( red_is_cli() ) {
+			return;
+		}
+
 		$target = $this->get_canonical_target();
 
 		if ( $target !== false ) {
@@ -320,6 +327,12 @@ class WordPress_Module extends Red_Module {
 	 */
 	public function init() {
 		if ( $this->matched !== false ) {
+			return;
+		}
+
+		// Skip the redirect loop in a plain PHP CLI bootstrap. A matched rule
+		// would call wp_redirect()+die() and silently terminate the CLI process.
+		if ( red_is_cli() ) {
 			return;
 		}
 

@@ -99,6 +99,18 @@ function red_is_wpcli() {
 }
 
 /**
+ * Detect a plain PHP CLI context (e.g., a cron script that loads wp-load.php
+ * directly). Distinct from red_is_wpcli(), which is only true under WP-CLI.
+ * Used to skip front-end redirect enforcement that would otherwise call die()
+ * and silently terminate the CLI process.
+ *
+ * @return bool
+ */
+function red_is_cli() {
+	return PHP_SAPI === 'cli';
+}
+
+/**
  * @return bool
  */
 function red_is_admin() {
