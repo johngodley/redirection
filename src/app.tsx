@@ -1,33 +1,38 @@
+import { __ } from '@wordpress/i18n';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Error as ErrorDisplay, ErrorBoundary } from '@wp-plugin-components';
 import Home from './page/home';
 import apiFetch from '@wp-plugin-lib/api-fetch';
+import { getErrorDetails, getErrorLinks } from 'lib/error-links';
 import { queryClient } from 'lib/query-client';
-import ErrorBoundary from 'wp-plugin-components/error-boundary';
 
 // Create error renderer for app-level crashes
 function AppCrashHandler( error: Error | null, errorInfo: any ) {
+	const stack = error?.stack || '';
+
 	console.error( 'Redirection app crashed:', { error, errorInfo, redirectionData: window.Redirectioni10n } );
 
 	return (
-		<div style={ { padding: '20px', background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '4px', margin: '20px' } }>
-			<h3>⚠️ Redirection Plugin Error</h3>
-			<p>The Redirection plugin encountered an error and could not load properly.</p>
-			<details style={ { marginTop: '10px' } }>
-				<summary>Technical Details</summary>
-				<pre style={ { background: '#f8f9fa', padding: '10px', fontSize: '12px', overflow: 'auto' } }>
-					{ error?.message || 'Unknown error' }
-					{ error?.stack && '\n\nStack trace:\n' + error.stack }
-				</pre>
-			</details>
+		<ErrorDisplay
+			errors={ '' }
+			type="fixed"
+			links={ getErrorLinks() }
+			details={ getErrorDetails().concat( [ stack, errorInfo?.componentStack || '' ] ) }
+			locale="redirection"
+			title={ __( 'Redirection plugin error', 'redirection' ) }
+		>
+			<p>{ __( 'The Redirection plugin encountered an error and could not load properly.', 'redirection' ) }</p>
 			<p>
-				<strong>Possible solutions:</strong>
-				<br />• Refresh the page
-				<br />• Clear browser cache
-				<br />• Disable conflicting plugins
-				<br />• Check for JavaScript errors in browser console
+				<strong>{ __( 'Possible solutions:', 'redirection' ) }</strong>
 			</p>
-		</div>
+			<ul>
+				<li>{ __( 'Refresh the page', 'redirection' ) }</li>
+				<li>{ __( 'Clear browser cache', 'redirection' ) }</li>
+				<li>{ __( 'Disable conflicting plugins', 'redirection' ) }</li>
+				<li>{ __( 'Check for JavaScript errors in browser console', 'redirection' ) }</li>
+			</ul>
+		</ErrorDisplay>
 	);
 }
 
