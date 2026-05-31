@@ -18,3 +18,5 @@ svn
 /WARP.md
 /AGENTS.md
 /tsconfig.tsbuildinfo
+.agents
+/CLAUDE.md
