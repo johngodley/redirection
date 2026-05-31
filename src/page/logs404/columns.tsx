@@ -8,6 +8,7 @@ import { RowActions, RowAction } from 'component/table/row-action';
 interface Error404 {
 	id: number | string;
 	created?: string;
+	created_time?: string;
 	url?: string;
 	agent?: string;
 	referrer?: string;
@@ -44,14 +45,26 @@ function getUrl( row: Error404 ): string {
 }
 
 export default function getColumns( row: Error404, rowParams?: RowParams ): Column[] {
-	const { created, url, agent, referrer, ip, domain, request_method, http_code, count } = row;
+	const { created, created_time, url, agent, referrer, ip, domain, request_method, http_code, count } = row;
 	const filterBy = rowParams?.table?.filterBy || {};
 	const urlSearch = filterBy.url || filterBy[ 'url-exact' ] || '';
 
 	return [
 		{
 			name: 'date',
-			content: created ?? '',
+			content: created ? (
+				<>
+					{ created }
+					{ created_time && (
+						<>
+							<br />
+							{ created_time }
+						</>
+					) }
+				</>
+			) : (
+				''
+			),
 		},
 		{
 			name: 'method',

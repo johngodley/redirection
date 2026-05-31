@@ -8,6 +8,7 @@ import { RowActions, RowAction } from 'component/table/row-action';
 interface Log {
 	id: number | string;
 	created?: string;
+	created_time?: string;
 	url?: string;
 	sent_to?: string | null;
 	agent?: string | null;
@@ -65,14 +66,27 @@ export function getTarget( row: Log, filterBy: FilterBy ): string | JSX.Element 
 }
 
 export default function getColumns( row: Log, rowParams?: RowParams ): Column[] {
-	const { created, url, agent, referrer, ip, request_method, http_code, domain, redirect_by, count } = row;
+	const { created, created_time, url, agent, referrer, ip, request_method, http_code, domain, redirect_by, count } =
+		row;
 	const filterBy = rowParams?.table?.filterBy || {};
 	const urlSearch = filterBy.url || filterBy[ 'url-exact' ] || '';
 
 	return [
 		{
 			name: 'date',
-			content: created ?? '',
+			content: created ? (
+				<>
+					{ created }
+					{ created_time && (
+						<>
+							<br />
+							{ created_time }
+						</>
+					) }
+				</>
+			) : (
+				''
+			),
 		},
 		{
 			name: 'method',

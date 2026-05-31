@@ -12,6 +12,7 @@ import { PaginatedResponseSchema } from './table';
 export const LogSchema = z.object( {
 	id: z.union( [ z.number().int(), z.string() ] ),
 	created: z.string().optional(),
+	created_time: z.string().optional(),
 	url: z.string().optional(),
 	sent_to: z.string().optional().nullable(),
 	agent: z.string().optional().nullable(),
