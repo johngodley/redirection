@@ -543,11 +543,7 @@ function EditRedirect( props: EditRedirectProps ) {
 								{ saveButton }
 							</Button>{ ' ' }
 							&nbsp;
-							{ onCancel && (
-								<Button onClick={ onCancel }>
-									{ __( 'Cancel', 'redirection' ) }
-								</Button>
-							) }
+							{ onCancel && <Button onClick={ onCancel }>{ __( 'Cancel', 'redirection' ) }</Button> }
 							{ addTop && ! onCancel && (
 								<Button
 									onClick={ ( ev ) => {

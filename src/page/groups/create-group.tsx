@@ -57,7 +57,12 @@ function CreateGroup( props: CreateGroupProps ) {
 								/>
 								&nbsp;
 								<span className="table-actions">
-									<Button isPrimary isSecondary={ false } isSubmit disabled={ disabled || name === '' }>
+									<Button
+										isPrimary
+										isSecondary={ false }
+										isSubmit
+										disabled={ disabled || name === '' }
+									>
 										{ __( 'Add', 'redirection' ) }
 									</Button>
 								</span>
