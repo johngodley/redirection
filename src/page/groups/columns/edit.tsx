@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { __ } from '@wordpress/i18n';
-import { Select } from '@wp-plugin-components';
+import { Button, Select } from '@wp-plugin-components';
 import { getModules } from 'lib/modules';
 import { useGroupUpdate } from 'lib/api/hooks/use-group-mutations';
 
@@ -31,7 +31,7 @@ function EditColumn( props: EditColumnProps ) {
 
 	return (
 		<form onSubmit={ onSave }>
-			<table className="edit-groups">
+			<table className="edit-groups inline-edit-row">
 				<tbody>
 					<tr>
 						<th>{ __( 'Name', 'redirection' ) }</th>
@@ -60,20 +60,11 @@ function EditColumn( props: EditColumnProps ) {
 						<th />
 						<td>
 							<div className="table-actions">
-								<input
-									className="button-primary"
-									type="submit"
-									name="save"
-									value={ __( 'Save', 'redirection' ) }
-								/>
+								<Button isPrimary isSecondary={ false } isSubmit>
+									{ __( 'Save', 'redirection' ) }
+								</Button>
 								&nbsp;
-								<input
-									className="button-secondary"
-									type="button"
-									name="cancel"
-									value={ __( 'Cancel', 'redirection' ) }
-									onClick={ onCancel }
-								/>
+								<Button onClick={ onCancel }>{ __( 'Cancel', 'redirection' ) }</Button>
 							</div>
 
 							{ moduleId === 2 && (

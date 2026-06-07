@@ -58,7 +58,7 @@ function PermalinkSettings( props: PermalinkSettingsProps ) {
 				) }
 			</p>
 
-			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto">
+			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto inline-edit-row">
 				<thead>
 					<tr>
 						<th>{ __( 'Permalinks', 'redirection' ) }</th>

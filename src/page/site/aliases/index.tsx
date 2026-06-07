@@ -56,7 +56,7 @@ const SiteAliases = ( { aliases, siteDomain, onChange }: SiteAliasesProps ) => {
 				) }
 			</p>
 
-			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto">
+			<table className="wp-list-table widefat fixed striped items redirect-aliases table-auto inline-edit-row">
 				<thead>
 					<tr>
 						<th>{ __( 'Aliased Domain', 'redirection' ) }</th>
