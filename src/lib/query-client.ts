@@ -15,6 +15,7 @@ export const queryClient = new QueryClient( {
 			retry: false,
 			refetchOnWindowFocus: false,
 			onError: ( error ) => {
+				// eslint-disable-next-line no-console
 				console.error( 'TanStack Query error:', {
 					error,
 					userAgent: navigator.userAgent,
@@ -26,6 +27,7 @@ export const queryClient = new QueryClient( {
 		mutations: {
 			retry: false, // Don't retry mutations by default
 			onError: ( error ) => {
+				// eslint-disable-next-line no-console
 				console.error( 'TanStack Mutation error:', {
 					error,
 					userAgent: navigator.userAgent,

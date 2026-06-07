@@ -10,15 +10,24 @@ import { queryClient } from 'lib/query-client';
 // Create error renderer for app-level crashes
 function AppCrashHandler( error: Error | null, errorInfo: any ) {
 	const stack = error?.stack || '';
+	const hasRedirectionData =
+		typeof window.Redirectioni10n === 'object' &&
+		!! window.Redirectioni10n &&
+		typeof window.Redirectioni10n.api === 'object' &&
+		typeof window.Redirectioni10n.versions === 'string';
 
+	// eslint-disable-next-line no-console
 	console.error( 'Redirection app crashed:', { error, errorInfo, redirectionData: window.Redirectioni10n } );
 
 	return (
 		<ErrorDisplay
 			errors={ '' }
 			type="fixed"
-			links={ getErrorLinks() }
-			details={ getErrorDetails().concat( [ stack, errorInfo?.componentStack || '' ] ) }
+			links={ hasRedirectionData ? getErrorLinks() : undefined }
+			details={ ( hasRedirectionData ? getErrorDetails() : [] ).concat( [
+				stack,
+				errorInfo?.componentStack || '',
+			] ) }
 			locale="redirection"
 			title={ __( 'Redirection plugin error', 'redirection' ) }
 		>
@@ -39,12 +48,14 @@ function AppCrashHandler( error: Error | null, errorInfo: any ) {
 // Validate and initialize global data
 function initializeApp() {
 	// Validate Redirectioni10n exists
-	if ( typeof window.Redirectioni10n !== 'object' || !window.Redirectioni10n ) {
-		throw new Error( 'Redirectioni10n global data is missing. This may indicate a plugin conflict or caching issue.' );
+	if ( typeof window.Redirectioni10n !== 'object' || ! window.Redirectioni10n ) {
+		throw new Error(
+			'Redirectioni10n global data is missing. This may indicate a plugin conflict or caching issue.'
+		);
 	}
 
 	// Validate API data exists
-	if ( !window.Redirectioni10n.api ) {
+	if ( ! window.Redirectioni10n.api ) {
 		throw new Error( 'Redirectioni10n.api is missing. The WordPress REST API configuration was not loaded.' );
 	}
 
@@ -52,6 +63,7 @@ function initializeApp() {
 	try {
 		new Intl.NumberFormat( window.Redirectioni10n.locale );
 	} catch ( error ) {
+		// eslint-disable-next-line no-console
 		console.warn( 'Invalid locale:', window.Redirectioni10n.locale, 'falling back to en-US' );
 		window.Redirectioni10n.locale = 'en-US';
 	}
@@ -60,17 +72,18 @@ function initializeApp() {
 	apiFetch.resetMiddlewares();
 
 	const apiRoot = window.Redirectioni10n.api.WP_API_root;
-	if ( !apiRoot ) {
+	if ( ! apiRoot ) {
 		throw new Error( 'WP_API_root is missing from Redirectioni10n.api' );
 	}
 
 	const apiNonce = window.Redirectioni10n.api.WP_API_nonce;
-	if ( !apiNonce ) {
-		throw new Error( 'WP_API_nonce is missing from Redirectioni10n.api' );
+	if ( ! apiNonce ) {
+		// eslint-disable-next-line no-console
+		console.warn( 'WP_API_nonce is missing from Redirectioni10n.api' );
 	}
 
 	apiFetch.use( apiFetch.createRootURLMiddleware( apiRoot ) );
-	apiFetch.use( apiFetch.createNonceMiddleware( apiNonce ) );
+	apiFetch.use( apiFetch.createNonceMiddleware( apiNonce ?? '' ) );
 }
 
 export default function App(): React.ReactElement {
