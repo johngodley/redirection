@@ -12,11 +12,11 @@ function getSafeRedirectionData() {
 	};
 }
 
-function logTanStackError( type: 'Query' | 'Mutation', error: Error ) {
+function logTanStackError( type: 'Query' | 'Mutation', error: unknown ) {
 	// eslint-disable-next-line no-console
 	console.error( `TanStack ${ type } error:`, {
 		error,
-		userAgent: navigator.userAgent,
+		userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
 		timestamp: new Date().toISOString(),
 		redirectionData: getSafeRedirectionData(),
 	} );
@@ -33,12 +33,12 @@ function logTanStackError( type: 'Query' | 'Mutation', error: Error ) {
 export const queryClient = new QueryClient( {
 	queryCache: new QueryCache( {
 		onError: ( error ) => {
-			logTanStackError( 'Query', error as Error );
+			logTanStackError( 'Query', error );
 		},
 	} ),
 	mutationCache: new MutationCache( {
 		onError: ( error ) => {
-			logTanStackError( 'Mutation', error as Error );
+			logTanStackError( 'Mutation', error );
 		},
 	} ),
 	defaultOptions: {

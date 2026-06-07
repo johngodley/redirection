@@ -2,12 +2,21 @@ import { __ } from '@wordpress/i18n';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Error as ErrorDisplay, ErrorBoundary } from '@wp-plugin-components';
+import type { ErrorInfo } from 'react';
+import { useEffect, useState } from 'react';
 import Home from './page/home';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { getErrorDetails, getErrorLinks } from 'lib/error-links';
 import { queryClient } from 'lib/query-client';
 
 let hasInitializedApp = false;
+
+interface AppConfig {
+	apiRoot: string;
+	apiNonce: string;
+	locale: string;
+	localeWasInvalid: boolean;
+}
 
 function getSafeRedirectionData() {
 	if ( typeof window.Redirectioni10n !== 'object' || ! window.Redirectioni10n ) {
@@ -22,11 +31,12 @@ function getSafeRedirectionData() {
 }
 
 // Create error renderer for app-level crashes
-function AppCrashHandler( error: Error | null, errorInfo: any ) {
+function AppCrashHandler( error: Error | null, errorInfo: ErrorInfo | null ) {
 	const stack = error?.stack || '';
 	const hasRedirectionData =
 		typeof window.Redirectioni10n === 'object' &&
 		!! window.Redirectioni10n &&
+		!! window.Redirectioni10n.api &&
 		typeof window.Redirectioni10n.api === 'object' &&
 		typeof window.Redirectioni10n.versions === 'string';
 
@@ -59,8 +69,8 @@ function AppCrashHandler( error: Error | null, errorInfo: any ) {
 	);
 }
 
-// Validate and initialize global data
-function initializeApp() {
+// Validate global data without side effects so the boundary can catch failures during render.
+function getAppConfig(): AppConfig {
 	// Validate Redirectioni10n exists
 	if ( typeof window.Redirectioni10n !== 'object' || ! window.Redirectioni10n ) {
 		throw new Error(
@@ -73,35 +83,24 @@ function initializeApp() {
 		throw new Error( 'Redirectioni10n.api is missing. The WordPress REST API configuration was not loaded.' );
 	}
 
-	// Validate the locale works with the browser
-	try {
-		new Intl.NumberFormat( window.Redirectioni10n.locale );
-	} catch ( error ) {
-		// eslint-disable-next-line no-console
-		console.warn( 'Invalid locale:', window.Redirectioni10n.locale, 'falling back to en-US' );
-		window.Redirectioni10n.locale = 'en-US';
-	}
-
-	// Set API nonce and root URL with validation
-	if ( hasInitializedApp ) {
-		return;
-	}
-
 	const apiRoot = window.Redirectioni10n.api.WP_API_root;
 	if ( ! apiRoot ) {
 		throw new Error( 'WP_API_root is missing from Redirectioni10n.api' );
 	}
 
-	const apiNonce = window.Redirectioni10n.api.WP_API_nonce;
-	if ( ! apiNonce ) {
-		// eslint-disable-next-line no-console
-		console.warn( 'WP_API_nonce is missing from Redirectioni10n.api' );
+	const apiNonce = window.Redirectioni10n.api.WP_API_nonce ?? '';
+	let locale = window.Redirectioni10n.locale;
+	let localeWasInvalid = false;
+
+	// Validate the locale works with the browser, but don't mutate globals during render.
+	try {
+		new Intl.NumberFormat( locale );
+	} catch ( error ) {
+		locale = 'en-US';
+		localeWasInvalid = true;
 	}
 
-	apiFetch.resetMiddlewares();
-	apiFetch.use( apiFetch.createRootURLMiddleware( apiRoot ) );
-	apiFetch.use( apiFetch.createNonceMiddleware( apiNonce ?? '' ) );
-	hasInitializedApp = true;
+	return { apiRoot, apiNonce, locale, localeWasInvalid };
 }
 
 export default function App(): React.ReactElement {
@@ -113,8 +112,36 @@ export default function App(): React.ReactElement {
 }
 
 function AppInitializer(): React.ReactElement {
-	// Initialize app data - this can throw errors that the boundary will catch
-	initializeApp();
+	const [ isReady, setIsReady ] = useState( hasInitializedApp );
+	const config = getAppConfig();
+
+	useEffect( () => {
+		if ( hasInitializedApp ) {
+			setIsReady( true );
+			return;
+		}
+
+		if ( config.localeWasInvalid ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'Invalid locale:', window.Redirectioni10n.locale, 'falling back to en-US' );
+			window.Redirectioni10n.locale = config.locale;
+		}
+
+		if ( ! config.apiNonce ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'WP_API_nonce is missing from Redirectioni10n.api' );
+		}
+
+		apiFetch.resetMiddlewares();
+		apiFetch.use( apiFetch.createRootURLMiddleware( config.apiRoot ) );
+		apiFetch.use( apiFetch.createNonceMiddleware( config.apiNonce ) );
+		hasInitializedApp = true;
+		setIsReady( true );
+	}, [ config.apiNonce, config.apiRoot, config.locale, config.localeWasInvalid ] );
+
+	if ( ! isReady ) {
+		return <></>;
+	}
 
 	return (
 		<QueryClientProvider client={ queryClient }>
