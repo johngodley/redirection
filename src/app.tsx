@@ -7,6 +7,20 @@ import apiFetch from '@wp-plugin-lib/api-fetch';
 import { getErrorDetails, getErrorLinks } from 'lib/error-links';
 import { queryClient } from 'lib/query-client';
 
+let hasInitializedApp = false;
+
+function getSafeRedirectionData() {
+	if ( typeof window.Redirectioni10n !== 'object' || ! window.Redirectioni10n ) {
+		return null;
+	}
+
+	return {
+		version: window.Redirectioni10n.version,
+		locale: window.Redirectioni10n.locale,
+		apiRoot: window.Redirectioni10n.api?.WP_API_root,
+	};
+}
+
 // Create error renderer for app-level crashes
 function AppCrashHandler( error: Error | null, errorInfo: any ) {
 	const stack = error?.stack || '';
@@ -17,7 +31,7 @@ function AppCrashHandler( error: Error | null, errorInfo: any ) {
 		typeof window.Redirectioni10n.versions === 'string';
 
 	// eslint-disable-next-line no-console
-	console.error( 'Redirection app crashed:', { error, errorInfo, redirectionData: window.Redirectioni10n } );
+	console.error( 'Redirection app crashed:', { error, errorInfo, redirectionData: getSafeRedirectionData() } );
 
 	return (
 		<ErrorDisplay
@@ -69,7 +83,9 @@ function initializeApp() {
 	}
 
 	// Set API nonce and root URL with validation
-	apiFetch.resetMiddlewares();
+	if ( hasInitializedApp ) {
+		return;
+	}
 
 	const apiRoot = window.Redirectioni10n.api.WP_API_root;
 	if ( ! apiRoot ) {
@@ -82,8 +98,10 @@ function initializeApp() {
 		console.warn( 'WP_API_nonce is missing from Redirectioni10n.api' );
 	}
 
+	apiFetch.resetMiddlewares();
 	apiFetch.use( apiFetch.createRootURLMiddleware( apiRoot ) );
 	apiFetch.use( apiFetch.createNonceMiddleware( apiNonce ?? '' ) );
+	hasInitializedApp = true;
 }
 
 export default function App(): React.ReactElement {

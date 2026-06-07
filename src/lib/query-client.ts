@@ -1,12 +1,24 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 
+function getSafeRedirectionData() {
+	if ( typeof window.Redirectioni10n !== 'object' || ! window.Redirectioni10n ) {
+		return null;
+	}
+
+	return {
+		version: window.Redirectioni10n.version,
+		locale: window.Redirectioni10n.locale,
+		apiRoot: window.Redirectioni10n.api?.WP_API_root,
+	};
+}
+
 function logTanStackError( type: 'Query' | 'Mutation', error: Error ) {
 	// eslint-disable-next-line no-console
 	console.error( `TanStack ${ type } error:`, {
 		error,
 		userAgent: navigator.userAgent,
 		timestamp: new Date().toISOString(),
-		redirectionData: window.Redirectioni10n,
+		redirectionData: getSafeRedirectionData(),
 	} );
 }
 
