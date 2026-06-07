@@ -22,7 +22,6 @@ export function useLogList(
 	options?: Omit< UseQueryOptions< LogListResponse >, 'queryKey' | 'queryFn' >
 ) {
 	const cleanedParams = cleanApiParams( params );
-	const { addError } = useMessageStore();
 
 	return useQuery( {
 		queryKey: queryKeys.logs.list( cleanedParams ),
@@ -32,7 +31,7 @@ export function useLogList(
 				return LogListResponseSchema.parse( response );
 			} catch ( error ) {
 				const handledError = handleApiError( error );
-				addError( handledError.message || 'Failed to fetch logs' );
+				useMessageStore.getState().addError( handledError.message || 'Failed to fetch logs' );
 				throw handledError;
 			}
 		},
@@ -128,7 +127,6 @@ export function useErrorList(
 	options?: Omit< UseQueryOptions< Error404ListResponse >, 'queryKey' | 'queryFn' >
 ) {
 	const cleanedParams = cleanApiParams( params );
-	const { addError } = useMessageStore();
 
 	return useQuery( {
 		queryKey: queryKeys.errors.list( cleanedParams ),
@@ -138,7 +136,7 @@ export function useErrorList(
 				return Error404ListResponseSchema.parse( response );
 			} catch ( error ) {
 				const handledError = handleApiError( error );
-				addError( handledError.message || 'Failed to fetch 404 errors' );
+				useMessageStore.getState().addError( handledError.message || 'Failed to fetch 404 errors' );
 				throw handledError;
 			}
 		},

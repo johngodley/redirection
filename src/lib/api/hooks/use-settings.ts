@@ -12,14 +12,11 @@ import { useSettingsStore, useMessageStore } from 'stores';
  * @param options
  */
 export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'queryKey' | 'queryFn' > ) {
-	const { setValues, setLoadStatus, setError } = useSettingsStore();
-	const { addError } = useMessageStore();
-
 	return useQuery( {
 		queryKey: queryKeys.settings.get(),
 		queryFn: async () => {
-			setLoadStatus( 'loading' );
-			setError( false );
+			useSettingsStore.getState().setLoadStatus( 'loading' );
+			useSettingsStore.getState().setError( false );
 
 			try {
 				const response = await apiFetch( RedirectionApi.setting.get() );
@@ -37,16 +34,16 @@ export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'query
 					const validated = SettingsSchema.parse( merged );
 
 					// Keep settings in Zustand for persistence (persist middleware)
-					setValues( validated );
-					setLoadStatus( 'success' );
+					useSettingsStore.getState().setValues( validated );
+					useSettingsStore.getState().setLoadStatus( 'success' );
 
 					return validated;
 				} catch ( parseError ) {
 					if ( parseError instanceof ZodError ) {
 						// Fall back to using the raw settings if validation fails
-						setValues( merged as Settings );
-						setLoadStatus( 'success' );
-						addError( 'Settings validation failed, using unvalidated data.' );
+						useSettingsStore.getState().setValues( merged as Settings );
+						useSettingsStore.getState().setLoadStatus( 'success' );
+						useMessageStore.getState().addError( 'Settings validation failed, using unvalidated data.' );
 
 						return merged as Settings;
 					}
@@ -54,9 +51,9 @@ export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'query
 					throw parseError;
 				}
 			} catch ( error ) {
-				setLoadStatus( 'error' );
-				setError( ( error as any ).message || 'Failed to load settings' );
-				addError( ( error as any ).message || 'Failed to load settings' );
+				useSettingsStore.getState().setLoadStatus( 'error' );
+				useSettingsStore.getState().setError( ( error as any ).message || 'Failed to load settings' );
+				useMessageStore.getState().addError( ( error as any ).message || 'Failed to load settings' );
 				throw handleApiError( error );
 			}
 		},
@@ -275,14 +272,12 @@ export function useFixStatus(
  * @param options
  */
 export function usePluginStatus( options?: Omit< UseQueryOptions< any >, 'queryKey' | 'queryFn' > ) {
-	const { setPluginStatus } = useSettingsStore();
-
 	return useQuery( {
 		queryKey: queryKeys.settings.status(),
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.plugin.status() );
-				setPluginStatus( response as any );
+				useSettingsStore.getState().setPluginStatus( response as any );
 				return response;
 			} catch ( error ) {
 				throw handleApiError( error );
