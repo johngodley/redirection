@@ -51,10 +51,12 @@ export function useSettings( options?: Omit< UseQueryOptions< Settings >, 'query
 					throw parseError;
 				}
 			} catch ( error ) {
+				const handledError = handleApiError( error );
+
 				useSettingsStore.getState().setLoadStatus( 'error' );
-				useSettingsStore.getState().setError( ( error as any ).message || 'Failed to load settings' );
-				useMessageStore.getState().addError( ( error as any ).message || 'Failed to load settings' );
-				throw handleApiError( error );
+				useSettingsStore.getState().setError( handledError.message || 'Failed to load settings' );
+				useMessageStore.getState().addError( handledError.message || 'Failed to load settings' );
+				throw handledError;
 			}
 		},
 		...options,
