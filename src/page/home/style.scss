@@ -81,12 +81,22 @@
 	background-color: #fff !important;
 }
 
-.redirect-edit .table-actions {
+.redirect-edit .table-actions,
+.edit-groups .table-actions,
+.redirect-groups .table-actions {
 	margin-left: 1px;
 	margin-top: 2px;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 32px;
+		height: 32px;
+	}
 
 	button.redirection-edit_advanced {
 		text-decoration: none;

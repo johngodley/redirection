@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { __ } from '@wordpress/i18n';
-import { Select } from '@wp-plugin-components';
+import { Button, Select } from '@wp-plugin-components';
 import { getModules } from 'lib/modules';
 import { useGroupCreate } from 'lib/api/hooks/use-group-mutations';
 
@@ -31,7 +31,7 @@ function CreateGroup( props: CreateGroupProps ) {
 			</p>
 
 			<form onSubmit={ onSubmit }>
-				<table className="form-table redirect-groups">
+				<table className="form-table redirect-groups inline-edit-row">
 					<tbody>
 						<tr>
 							<th>{ __( 'Name', 'redirection' ) }</th>
@@ -56,13 +56,11 @@ function CreateGroup( props: CreateGroupProps ) {
 									disabled={ disabled }
 								/>
 								&nbsp;
-								<input
-									className="button-primary"
-									type="submit"
-									name="add"
-									value="Add"
-									disabled={ disabled || name === '' }
-								/>
+								<span className="table-actions">
+									<Button isPrimary isSecondary={ false } isSubmit disabled={ disabled || name === '' }>
+										{ __( 'Add', 'redirection' ) }
+									</Button>
+								</span>
 							</td>
 						</tr>
 					</tbody>

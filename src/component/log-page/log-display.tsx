@@ -56,7 +56,7 @@ function LogDisplay( props: LogDisplayProps ) {
 	}
 
 	return (
-		<div className="redirect-table-display">
+		<div className="redirect-table-display tablenav">
 			<DisplayOptions
 				disabled={ disabled }
 				customOptions={ filterOptions }

@@ -13,3 +13,15 @@
 		color: #333;
 	}
 }
+
+.tablenav-pages {
+	.paging-input {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.tablenav.bottom {
+	margin-top: 10px;
+}

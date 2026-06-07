@@ -98,7 +98,7 @@ const HttpHeaders = ( { headers, onChange }: HttpHeadersProps ) => {
 				) }
 			</p>
 
-			<table className="wp-list-table widefat fixed striped items redirect-headers table-auto">
+			<table className="wp-list-table widefat fixed striped items redirect-headers table-auto inline-edit-row">
 				<thead>
 					<tr>
 						<th>{ __( 'Location', 'redirection' ) }</th>

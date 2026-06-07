@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { __ } from '@wordpress/i18n';
+import { Button } from '@wp-plugin-components';
 import TableRow from './table-row';
 import RedirectSourceUrl from './source-url';
 import RedirectSourceQuery from './source-query';
@@ -474,7 +475,7 @@ function EditRedirect( props: EditRedirectProps ) {
 
 	return (
 		<form onSubmit={ onSave } ref={ ref }>
-			<table className="redirect-edit">
+			<table className="redirect-edit inline-edit-row">
 				<tbody>
 					<RedirectSourceUrl
 						url={ url }
@@ -538,30 +539,24 @@ function EditRedirect( props: EditRedirectProps ) {
 
 					<TableRow>
 						<div className="table-actions">
-							<input
-								className="button-primary"
-								type="submit"
-								name="save"
-								value={ saveButton }
-								disabled={ ! canSaveForm() }
-							/>{ ' ' }
+							<Button isPrimary isSecondary={ false } isSubmit disabled={ ! canSaveForm() }>
+								{ saveButton }
+							</Button>{ ' ' }
 							&nbsp;
 							{ onCancel && (
-								<button type="button" className="button-secondary" onClick={ onCancel }>
+								<Button onClick={ onCancel }>
 									{ __( 'Cancel', 'redirection' ) }
-								</button>
+								</Button>
 							) }
 							{ addTop && ! onCancel && (
-								<button
-									className="button-secondary"
-									type="button"
+								<Button
 									onClick={ ( ev ) => {
 										ev.preventDefault();
 										setRedirectsAddTop( false );
 									} }
 								>
 									{ __( 'Close', 'redirection' ) }
-								</button>
+								</Button>
 							) }
 							&nbsp;
 							{ canShowAdvanced() && (
