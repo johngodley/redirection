@@ -533,7 +533,7 @@ class Red_Database_Status {
 		// Set current DB version
 		$current_stages = array_keys( $upgrader->get_stages() );
 
-		$current_position = is_string( $this->stage ) ? array_search( $this->stage, $current_stages, true ) : false;
+		$current_position = array_search( $this->stage, $current_stages, true );
 
 		if ( $current_position !== false && $current_position === count( $current_stages ) - 1 && isset( $upgraders[1] ) ) {
 			$this->save_db_version( $upgraders[1]->get_version() );

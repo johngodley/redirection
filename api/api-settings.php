@@ -101,7 +101,7 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 	/**
 	 * Settings API endpoint constructor
 	 *
-	 * @param string $api_namespace Namespace.
+	 * @param non-falsy-string $api_namespace Namespace.
 	 */
 	public function __construct( $api_namespace ) {
 		// GET /setting - Get settings
