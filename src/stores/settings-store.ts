@@ -103,7 +103,11 @@ const initialState = {
 };
 
 if ( typeof window !== 'undefined' ) {
-	window.localStorage.removeItem( 'redirection-settings' );
+	try {
+		window.localStorage.removeItem( 'redirection-settings' );
+	} catch ( error ) {
+		void error;
+	}
 }
 
 export const useSettingsStore = create< SettingsStore >()(
