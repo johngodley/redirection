@@ -109,8 +109,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *
 	 * @param WP_REST_Request $request Request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
-	 * @phpstan-return array{imported: int}
-	 * @return array{imported: int}
+	 * @phpstan-return array{imported: int}|WP_Error
+	 * @return array{imported: int}|WP_Error
 	 */
 	public function route_plugin_import( WP_REST_Request $request ) {
 		include_once dirname( __DIR__ ) . '/models/importer.php';
@@ -130,6 +130,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		/** @var list<string> $plugins */
 		$plugins = array_map( 'sanitize_text_field', $plugins );
 		$total = 0;
+
+		if ( count( $groups ) === 0 ) {
+			return new WP_Error( 'redirect_import_invalid_group', 'No groups are available for import' );
+		}
 
 		foreach ( $plugins as $plugin ) {
 			$total += Red_Plugin_Importer::import( $plugin, $groups[0]['id'] );

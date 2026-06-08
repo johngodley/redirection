@@ -176,7 +176,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 			$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 			if ( $groups === 0 ) {
-				Red_Group::create( 'new group', 1 );
+				Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
 			}
 		} else {
 			$fixer->fix( $fixer->get_status() );

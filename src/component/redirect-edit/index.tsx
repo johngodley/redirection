@@ -14,7 +14,7 @@ import MatchTarget from './match';
 import ActionTarget from './action';
 import { getWarningFromState, Warnings } from './warning';
 import { useRedirectUpdate, useRedirectCreate, useGroupList } from 'lib/api/hooks';
-import { useTableStore, useSettingsStore } from 'stores';
+import { useTableStore, useSettingsStore, useMessageStore } from 'stores';
 import {
 	ACTION_URL,
 	MATCH_URL,
@@ -115,6 +115,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	const table = useTableStore( ( state ) => state.redirects );
 	const { setRedirectsAddTop } = useTableStore();
 	const settings = useSettingsStore( ( state ) => state.values );
+	const addError = useMessageStore( ( state ) => state.addError );
 	const autoTarget = settings?.auto_target || '';
 	const flags = useMemo(
 		() =>
@@ -168,6 +169,8 @@ function EditRedirect( props: EditRedirectProps ) {
 		},
 		[ groups, table.filterBy ]
 	);
+
+	const hasGroups = groups.length > 0;
 
 	const {
 		url: initialUrl,
@@ -275,7 +278,17 @@ function EditRedirect( props: EditRedirectProps ) {
 				action_data,
 				options,
 			} = state;
-			const group_value = group_id > 0 || ! groups ? group_id : groups[ 0 ]!.id;
+			const group_value = group_id > 0 ? group_id : groups[ 0 ]?.id;
+
+			if ( group_value === undefined ) {
+				addError(
+					__(
+						'Unable to create a redirect because no groups are available. Please reload the page.',
+						'redirection'
+					)
+				);
+				return;
+			}
 
 			const redirect: RedirectItem = {
 				...( item.id ? { id: parseInt( String( item.id ), 10 ) } : {} ),
@@ -318,7 +331,18 @@ function EditRedirect( props: EditRedirectProps ) {
 				childSave();
 			}
 		},
-		[ state, groups, item.id, canSaveCallback, updateRedirect, createRedirect, onCancel, reset, childSave ]
+		[
+			state,
+			groups,
+			item.id,
+			canSaveCallback,
+			updateRedirect,
+			createRedirect,
+			onCancel,
+			reset,
+			childSave,
+			addError,
+		]
 	);
 
 	const onUpdateState = useCallback( ( newState: Partial< RedirectEditState > ) => {
@@ -427,6 +451,10 @@ function EditRedirect( props: EditRedirectProps ) {
 	const canSaveForm = useCallback( () => {
 		const { match_type, action_type, action_data, url } = state;
 
+		if ( ! hasGroups ) {
+			return false;
+		}
+
 		if ( url.length === 0 && ! autoTarget ) {
 			return false;
 		}
@@ -436,7 +464,7 @@ function EditRedirect( props: EditRedirectProps ) {
 		}
 
 		return true;
-	}, [ state, autoTarget ] );
+	}, [ state, autoTarget, hasGroups ] );
 
 	const {
 		url,
@@ -453,6 +481,9 @@ function EditRedirect( props: EditRedirectProps ) {
 		options,
 		warning,
 	} = state;
+	const warningsWithGroups = ! hasGroups
+		? [ __( 'No groups are available. Reload the page before creating a redirect.', 'redirection' ), ...warning ]
+		: warning;
 
 	const renderOptions = () => {
 		if ( ! advanced || ! [ 'url', 'random' ].includes( action_type ) ) {
@@ -578,7 +609,7 @@ function EditRedirect( props: EditRedirectProps ) {
 						</div>
 					</TableRow>
 
-					<Warnings warnings={ warning } />
+					<Warnings warnings={ warningsWithGroups } />
 				</tbody>
 			</table>
 		</form>

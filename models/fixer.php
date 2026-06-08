@@ -233,7 +233,7 @@ class Red_Fixer {
 	 * @return bool|WP_Error
 	 */
 	private function fix_groups() {
-		if ( Red_Group::create( 'new group', 1 ) === false ) {
+		if ( Red_Group::create( __( 'Redirections', 'redirection' ), 1 ) === false ) {
 			return new WP_Error( 'Unable to create group' );
 		}
 
@@ -271,6 +271,16 @@ class Red_Fixer {
 	 */
 	private function get_valid_group() {
 		$groups = Red_Group::get_all();
+
+		if ( count( $groups ) === 0 ) {
+			$group = Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
+
+			if ( $group !== false ) {
+				return $group->get_id();
+			}
+
+			return 0;
+		}
 
 		return $groups[0]['id'];
 	}

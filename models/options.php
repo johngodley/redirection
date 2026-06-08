@@ -303,6 +303,8 @@ class Red_Options {
 
 				if ( count( $groups ) > 0 ) {
 					$options['monitor_post'] = $groups[0]['id'];
+				} else {
+					$options['monitor_post'] = 0;
 				}
 			}
 		}
@@ -316,7 +318,7 @@ class Red_Options {
 
 			if ( Red_Group::get( $options['last_group_id'] ) === false ) {
 				$groups = Red_Group::get_all();
-				$options['last_group_id'] = $groups[0]['id'];
+				$options['last_group_id'] = count( $groups ) > 0 ? $groups[0]['id'] : 0;
 			}
 		}
 
