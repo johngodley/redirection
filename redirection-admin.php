@@ -336,6 +336,8 @@ class Redirection_Admin {
 	public function redirection_head() {
 		global $wp_version;
 
+		nocache_headers();
+
 		// Does user have access to this page?
 		if ( $this->get_current_page() === false ) {
 			// Redirect to root plugin page
@@ -382,7 +384,7 @@ class Redirection_Admin {
 
 		$assets = include plugin_dir_path( REDIRECTION_FILE ) . 'build/redirection.asset.php';
 		$dependencies = $assets['dependencies'];
-		$version = $assets['version'];
+		$version = $assets['version'] . '-' . REDIRECTION_BUILD;
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.js', $dependencies, $version, true );
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.css', [], $version );
@@ -426,6 +428,7 @@ class Redirection_Admin {
 				'preload' => $preload,
 				'versions' => implode( "\n", $versions ),
 				'version' => REDIRECTION_VERSION,
+				'build' => REDIRECTION_BUILD,
 				'database' => $status->get_json(),
 				'caps' => [
 					'pages' => Redirection_Capabilities::get_available_pages(),

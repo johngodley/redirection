@@ -26,6 +26,7 @@ export function useGroupCreate(
 		mutationFn: async ( data: CreateGroupInput ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.groups.lists() } );
 				const response = await apiFetch( RedirectionApi.group.create( data ) );
 				// API returns a list response after creation
 				const validated = GroupListResponseSchema.parse( response );
@@ -59,6 +60,7 @@ export function useGroupUpdate( options?: Omit< UseMutationOptions< Group, Error
 		mutationFn: async ( data: UpdateGroupInput ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.groups.lists() } );
 				const { id: groupId, ...updates } = data;
 				const response = await apiFetch( RedirectionApi.group.update( groupId, updates ) );
 				const validated = GroupItemResponseSchema.parse( response );
@@ -96,6 +98,7 @@ export function useGroupDelete(
 		mutationFn: async ( { items }: { items: number[] } ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.groups.lists() } );
 				const response = await apiFetch( RedirectionApi.bulk.group( 'delete', { items }, {} ) );
 				return response;
 			} catch ( error ) {
@@ -131,6 +134,7 @@ export function useGroupBulkAction(
 		mutationFn: async ( { action, items, params = {} }: { action: string; items: number[]; params?: any } ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.groups.lists() } );
 				const response = await apiFetch( RedirectionApi.bulk.group( action, { items }, params ) );
 				return response;
 			} catch ( error ) {

@@ -28,6 +28,7 @@ export function useRedirectCreate(
 		mutationFn: async ( data: CreateRedirectInput ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.redirects.lists() } );
 				const response = await apiFetch( RedirectionApi.redirect.create( data ) );
 				// API returns a list response after creation
 				const validated = RedirectListResponseSchema.parse( response );
@@ -64,6 +65,7 @@ export function useRedirectUpdate(
 		mutationFn: async ( data: UpdateRedirectInput ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.redirects.lists() } );
 				const { id: redirectId, ...updates } = data;
 				const response = await apiFetch( RedirectionApi.redirect.update( redirectId, updates ) );
 				const validated = RedirectItemResponseSchema.parse( response );
@@ -101,6 +103,7 @@ export function useRedirectDelete(
 		mutationFn: async ( { items, params = {} }: { items: number[]; params?: any } ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.redirects.lists() } );
 				const response = await apiFetch( RedirectionApi.bulk.redirect( 'delete', { items }, params ) );
 				return response;
 			} catch ( error ) {
@@ -138,6 +141,7 @@ export function useRedirectBulkAction(
 		mutationFn: async ( { items }: { items: number[] } ) => {
 			incrementProgress();
 			try {
+				await queryClient.cancelQueries( { queryKey: queryKeys.redirects.lists() } );
 				const response = await apiFetch( RedirectionApi.bulk.redirect( action, { items }, {} ) );
 				return response;
 			} catch ( error ) {

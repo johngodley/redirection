@@ -28,6 +28,7 @@ interface Redirectioni10n {
 	pluginBaseUrl: string;
 	locale: string;
 	version: string;
+	build: string;
 	versions: string;
 	database: RedirectionDatabase;
 	api: RedirectionApi;

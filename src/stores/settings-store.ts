@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 
 import type { Settings } from 'types';
 
@@ -102,60 +102,58 @@ const initialState = {
 	},
 };
 
+if ( typeof window !== 'undefined' ) {
+	window.localStorage.removeItem( 'redirection-settings' );
+}
+
 export const useSettingsStore = create< SettingsStore >()(
 	devtools(
-		persist(
-			( set ) => ( {
-				...initialState,
+		( set ) => ( {
+			...initialState,
 
-				setValues: ( values ) => set( { values } ),
+			setValues: ( values ) => set( { values } ),
 
-				updateValues: ( updates ) =>
-					set( ( state ) => ( {
-						values: state.values ? { ...state.values, ...updates } : null,
-					} ) ),
+			updateValues: ( updates ) =>
+				set( ( state ) => ( {
+					values: state.values ? { ...state.values, ...updates } : null,
+				} ) ),
 
-				setLoadStatus: ( status ) => set( { loadStatus: status } ),
+			setLoadStatus: ( status ) => set( { loadStatus: status } ),
 
-				setSaveStatus: ( status ) => set( { saveStatus: status } ),
+			setSaveStatus: ( status ) => set( { saveStatus: status } ),
 
-				setError: ( error ) => set( { error } ),
+			setError: ( error ) => set( { error } ),
 
-				setDatabase: ( database ) =>
-					set( ( state ) => ( {
-						database: { ...state.database, ...database },
-					} ) ),
+			setDatabase: ( database ) =>
+				set( ( state ) => ( {
+					database: { ...state.database, ...database },
+				} ) ),
 
-				setShowDatabase: ( show ) => set( { showDatabase: show } ),
+			setShowDatabase: ( show ) => set( { showDatabase: show } ),
 
-				setApi: ( api ) =>
-					set( ( state ) => ( {
-						api: { ...state.api, ...api },
-					} ) ),
+			setApi: ( api ) =>
+				set( ( state ) => ( {
+					api: { ...state.api, ...api },
+				} ) ),
 
-				setApiTest: ( apiTest ) =>
-					set( ( state ) => {
-						const updatedApiTest: ApiTest = { ...state.apiTest };
-						Object.keys( apiTest ).forEach( ( key ) => {
-							if ( apiTest[ key ] ) {
-								updatedApiTest[ key ] = apiTest[ key ];
-							}
-						} );
-						return { apiTest: updatedApiTest };
-					} ),
+			setApiTest: ( apiTest ) =>
+				set( ( state ) => {
+					const updatedApiTest: ApiTest = { ...state.apiTest };
+					Object.keys( apiTest ).forEach( ( key ) => {
+						if ( apiTest[ key ] ) {
+							updatedApiTest[ key ] = apiTest[ key ];
+						}
+					} );
+					return { apiTest: updatedApiTest };
+				} ),
 
-				setPluginStatus: ( pluginStatus ) =>
-					set( ( state ) => ( {
-						pluginStatus: { ...state.pluginStatus, ...pluginStatus },
-					} ) ),
+			setPluginStatus: ( pluginStatus ) =>
+				set( ( state ) => ( {
+					pluginStatus: { ...state.pluginStatus, ...pluginStatus },
+				} ) ),
 
-				reset: () => set( initialState ),
-			} ),
-			{
-				name: 'redirection-settings',
-				partialize: ( state ) => ( { values: state.values } ),
-			}
-		),
+			reset: () => set( initialState ),
+		} ),
 		{ name: 'SettingsStore' }
 	)
 );
