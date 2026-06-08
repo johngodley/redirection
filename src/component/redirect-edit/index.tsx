@@ -109,7 +109,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	} = props;
 
 	// Get state from stores and queries
-	const { data: groupData } = useGroupList( {} );
+	const { data: groupData, isFetched: hasFetchedGroups } = useGroupList( {} );
 	const groups = useMemo( () => groupData?.items ?? [], [ groupData ] );
 	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
 	const table = useTableStore( ( state ) => state.redirects );
@@ -171,6 +171,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	);
 
 	const hasGroups = groups.length > 0;
+	const hasNoGroups = hasFetchedGroups && ! hasGroups;
 
 	const {
 		url: initialUrl,
@@ -481,7 +482,7 @@ function EditRedirect( props: EditRedirectProps ) {
 		options,
 		warning,
 	} = state;
-	const warningsWithGroups = ! hasGroups
+	const warningsWithGroups = hasNoGroups
 		? [ __( 'No groups are available. Reload the page before creating a redirect.', 'redirection' ), ...warning ]
 		: warning;
 

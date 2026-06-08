@@ -234,7 +234,7 @@ class Red_Fixer {
 	 */
 	private function fix_groups() {
 		if ( Red_Group::create( __( 'Redirections', 'redirection' ), 1 ) === false ) {
-			return new WP_Error( 'Unable to create group' );
+			return new WP_Error( 'redirect_group_create_failed', 'Unable to create group' );
 		}
 
 		return true;

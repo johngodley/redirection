@@ -132,7 +132,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		$total = 0;
 
 		if ( count( $groups ) === 0 ) {
-			return new WP_Error( 'redirect_import_invalid_group', 'No groups are available for import' );
+			return $this->add_error_details(
+				new WP_Error( 'redirect_import_invalid_group', 'No groups are available for import' ),
+				__LINE__
+			);
 		}
 
 		foreach ( $plugins as $plugin ) {
