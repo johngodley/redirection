@@ -103,8 +103,8 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 	/**
 	 * Register a bulk action endpoint for a resource
 	 *
-	 * @param string $namespace REST namespace.
-	 * @param string $route REST route.
+	 * @param non-falsy-string $namespace REST namespace.
+	 * @param non-falsy-string $route REST route.
 	 * @param list<string> $orders Allowed order fields.
 	 * @param list<string> $filters Allowed filter fields.
 	 * @param string $callback Handler method on this class.

@@ -33,7 +33,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	/**
 	 * Export API endpoint constructor
 	 *
-	 * @param string $api_namespace Namespace.
+	 * @param non-falsy-string $api_namespace Namespace.
 	 */
 	public function __construct( $api_namespace ) {
 		// GET /export/:module/:format - Export redirects to specified format

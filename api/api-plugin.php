@@ -10,7 +10,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	/**
 	 * Register REST routes for plugin actions
 	 *
-	 * @param string $api_namespace REST namespace.
+	 * @param non-falsy-string $api_namespace REST namespace.
 	 * @return void
 	 */
 	public function __construct( $api_namespace ) {

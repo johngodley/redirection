@@ -109,7 +109,7 @@ class Redirection_Api_Log extends Redirection_Api_Filter_Route {
 	/**
 	 * Log API endpoint constructor
 	 *
-	 * @param string $api_namespace Namespace.
+	 * @param non-falsy-string $api_namespace Namespace.
 	 */
 	public function __construct( $api_namespace ) {
 		$orders = [ 'url', 'ip', 'total', 'count', '' ];

@@ -36,7 +36,7 @@ class Red_Flusher {
 		// If we deleted the full batch, there are likely more logs to delete
 		if ( $total >= $batch_size ) {
 			// Check if we should switch to aggressive mode (only if not already in it)
-			if ( ! $is_aggressive && $batch_size === self::DELETE_MAX ) {
+			if ( ! $is_aggressive ) {
 				// Sample check: if we hit the normal limit, check if there's a large backlog
 				$remaining = $this->estimate_remaining_logs( 'redirection_logs', $options['expire_redirect'] );
 				$remaining += $this->estimate_remaining_logs( 'redirection_404', $options['expire_404'] );

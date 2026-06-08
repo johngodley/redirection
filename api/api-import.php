@@ -44,7 +44,7 @@
  */
 class Redirection_Api_Import extends Redirection_Api_Route {
 	/**
-	 * @param string $api_namespace REST namespace.
+	 * @param non-falsy-string $api_namespace REST namespace.
 	 */
 	public function __construct( $api_namespace ) {
 		// POST /import/file/:group_id - Import from file upload
