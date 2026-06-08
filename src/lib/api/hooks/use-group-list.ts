@@ -19,6 +19,8 @@ export function useGroupList(
 
 	return useQuery( {
 		queryKey: queryKeys.groups.list( cleanedParams ),
+		refetchOnMount: 'always',
+		refetchOnReconnect: true,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.group.list( cleanedParams ) );

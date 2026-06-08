@@ -20,6 +20,8 @@ export function useRedirectList(
 
 	return useQuery( {
 		queryKey: queryKeys.redirects.list( cleanedParams ),
+		refetchOnMount: 'always',
+		refetchOnReconnect: true,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.redirect.list( cleanedParams ) );
