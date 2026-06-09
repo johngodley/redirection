@@ -99,11 +99,17 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testSaveMonitorPostWithNoGroupsFallsBackToZero() {
 		global $wpdb;
 
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+		$latest = Red_Database::get_latest_database();
 
-		$this->setNonce();
-		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ) ), 'POST' );
-		$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+		try {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
+
+			$this->setNonce();
+			$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ) ), 'POST' );
+			$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+		} finally {
+			$latest->create_groups( $wpdb, true );
+		}
 	}
 
 	public function testNoMonitorTypes() {
@@ -202,11 +208,17 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testLastGroupIdWithNoGroupsFallsBackToZero() {
 		global $wpdb;
 
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+		$latest = Red_Database::get_latest_database();
 
-		$this->setNonce();
-		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
-		$this->assertEquals( 0, $result->data['settings']['last_group_id'] );
+		try {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
+
+			$this->setNonce();
+			$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
+			$this->assertEquals( 0, $result->data['settings']['last_group_id'] );
+		} finally {
+			$latest->create_groups( $wpdb, true );
+		}
 	}
 
 	public function testHeader() {
