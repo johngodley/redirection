@@ -49,6 +49,18 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$this->assertEquals( 1, count( $result->data['importers'] ) );
 	}
 
+	public function testPluginImportWithNoGroups() {
+		global $wpdb;
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+
+		$this->setNonce();
+		$result = $this->callApi( 'import/plugin', array( 'plugin' => [ 'thing' ] ), 'POST' );
+
+		$this->assertEquals( 'redirect_import_invalid_group', $result->data['code'] );
+		$this->assertEquals( 400, $result->status );
+	}
+
 	public function testBadCreate() {
 		$exporter = Red_FileIO::create( 'monkey' );
 		$this->assertFalse( $exporter );

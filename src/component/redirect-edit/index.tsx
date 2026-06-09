@@ -109,7 +109,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	} = props;
 
 	// Get state from stores and queries
-	const { data: groupData, isFetched: hasFetchedGroups } = useGroupList( {} );
+	const { data: groupData, isSuccess: hasLoadedGroups } = useGroupList( {} );
 	const groups = useMemo( () => groupData?.items ?? [], [ groupData ] );
 	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
 	const table = useTableStore( ( state ) => state.redirects );
@@ -171,7 +171,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	);
 
 	const hasGroups = groups.length > 0;
-	const hasNoGroups = hasFetchedGroups && ! hasGroups;
+	const hasNoGroups = hasLoadedGroups && ! hasGroups;
 
 	const {
 		url: initialUrl,
@@ -450,9 +450,9 @@ function EditRedirect( props: EditRedirectProps ) {
 	);
 
 	const canSaveForm = useCallback( () => {
-		const { match_type, action_type, action_data, url } = state;
+		const { match_type, action_type, action_data, url, group_id } = state;
 
-		if ( ! hasGroups ) {
+		if ( ! hasGroups && group_id <= 0 ) {
 			return false;
 		}
 

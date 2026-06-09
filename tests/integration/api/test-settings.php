@@ -96,6 +96,16 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$this->assertEquals( array( 'post' ), $result->data['settings']['monitor_types'] );
 	}
 
+	public function testSaveMonitorPostWithNoGroupsFallsBackToZero() {
+		global $wpdb;
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+
+		$this->setNonce();
+		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ) ), 'POST' );
+		$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+	}
+
 	public function testNoMonitorTypes() {
 		$this->setNonce();
 		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'associated_redirect' => '/test' ), 'POST' );
@@ -187,6 +197,16 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$this->callApi( 'setting', array( 'monitor_post' => $groups[0]['id'], 'monitor_types' => array( 'post' ) ), 'POST' );
 		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
 		$this->assertEquals( 1, $result->data['settings']['monitor_post'] );
+	}
+
+	public function testLastGroupIdWithNoGroupsFallsBackToZero() {
+		global $wpdb;
+
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+
+		$this->setNonce();
+		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
+		$this->assertEquals( 0, $result->data['settings']['last_group_id'] );
 	}
 
 	public function testHeader() {
