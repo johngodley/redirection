@@ -88,30 +88,71 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	}
 
 	public function testSaveValidMonitorPost() {
-		$data = "1";
+		$groups = Red_Group::get_all();
+		$data = strval( $groups[0]['id'] );
 		$this->setNonce();
 
 		$result = $this->callApi( 'setting', array( 'monitor_post' => $data, 'monitor_types' => array( 'post' ) ), 'POST' );
-		$this->assertEquals( 1, $result->data['settings']['monitor_post'] );
+		$this->assertEquals( intval( $data, 10 ), $result->data['settings']['monitor_post'] );
 		$this->assertEquals( array( 'post' ), $result->data['settings']['monitor_types'] );
 	}
 
+	public function testSaveMonitorPostWithNoGroupsFallsBackToZero() {
+		global $wpdb;
+
+		$latest = Red_Database::get_latest_database();
+		$options = Red_Options::get();
+
+		try {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
+
+			$this->setNonce();
+			$result = $this->callApi( 'setting', array( 'monitor_post' => '99999', 'monitor_types' => array( 'post' ) ), 'POST' );
+			$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+		} finally {
+			$latest->create_groups( $wpdb, true );
+			update_option( Red_Options::OPTION_KEY, $options );
+			Red_Options::reset();
+		}
+	}
+
 	public function testNoMonitorTypes() {
-		$this->setNonce();
-		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'associated_redirect' => '/test' ), 'POST' );
-		$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
-		$this->assertEquals( '', $result->data['settings']['associated_redirect'] );
+		$options = Red_Options::get();
+		$groups = Red_Group::get_all();
+		$group_id = strval( $groups[0]['id'] );
+
+		try {
+			red_set_options(
+				array(
+					'monitor_post' => 0,
+					'monitor_types' => array(),
+					'associated_redirect' => '',
+				)
+			);
+
+			$this->setNonce();
+			$result = $this->callApi( 'setting', array( 'monitor_post' => $group_id, 'monitor_types' => array(), 'associated_redirect' => '/test' ), 'POST' );
+			$this->assertEquals( 0, $result->data['settings']['monitor_post'] );
+			$this->assertEquals( '', $result->data['settings']['associated_redirect'] );
+		} finally {
+			update_option( Red_Options::OPTION_KEY, $options );
+			Red_Options::reset();
+		}
 	}
 
 	public function testMonitorTypes() {
+		$groups = Red_Group::get_all();
+		$group_id = strval( $groups[0]['id'] );
 		$this->setNonce();
-		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post', 'page', 'trash' ) ), 'POST' );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => $group_id, 'monitor_types' => array( 'post', 'page', 'trash' ) ), 'POST' );
 		$this->assertEquals( array( 'post', 'page', 'trash' ), $result->data['settings']['monitor_types'] );
 	}
 
 	public function testAssociatedRedirect() {
+		$groups = Red_Group::get_all();
+		$group_id = strval( $groups[0]['id'] );
 		$this->setNonce();
-		$result = $this->callApi( 'setting', array( 'monitor_post' => '1', 'monitor_types' => array( 'post' ), 'associated_redirect' => '/amp/' ), 'POST' );
+		$result = $this->callApi( 'setting', array( 'monitor_post' => $group_id, 'monitor_types' => array( 'post' ), 'associated_redirect' => '/amp/' ), 'POST' );
 		$this->assertEquals( '/amp/', $result->data['settings']['associated_redirect'] );
 	}
 
@@ -180,13 +221,51 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	}
 
 	public function testDefaultGroup() {
-		$this->setNonce();
-
+		Red_Options::reset();
+		$options = Red_Options::get();
 		$groups = Red_Group::get_all();
+		$group_id = $groups[0]['id'];
 
-		$this->callApi( 'setting', array( 'monitor_post' => $groups[0]['id'], 'monitor_types' => array( 'post' ) ), 'POST' );
-		$result = $this->callApi( 'setting', array( 'last_group_id' => 1 ), 'POST' );
-		$this->assertEquals( 1, $result->data['settings']['monitor_post'] );
+		try {
+			red_set_options(
+				array(
+					'monitor_post' => 0,
+					'monitor_types' => array(),
+					'last_group_id' => $group_id,
+				)
+			);
+
+			$this->setNonce();
+
+			$result = $this->callApi( 'setting', array( 'monitor_post' => $group_id, 'monitor_types' => array( 'post' ) ), 'POST' );
+			$this->assertEquals( $group_id, $result->data['settings']['monitor_post'] );
+			$this->assertEquals( array( 'post' ), $result->data['settings']['monitor_types'] );
+
+			$result = $this->callApi( 'setting', array( 'last_group_id' => $group_id ), 'POST' );
+			$this->assertEquals( $group_id, $result->data['settings']['monitor_post'] );
+		} finally {
+			update_option( Red_Options::OPTION_KEY, $options );
+			Red_Options::reset();
+		}
+	}
+
+	public function testLastGroupIdWithNoGroupsFallsBackToZero() {
+		global $wpdb;
+
+		$latest = Red_Database::get_latest_database();
+		$options = Red_Options::get();
+
+		try {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
+
+			$this->setNonce();
+			$result = $this->callApi( 'setting', array( 'last_group_id' => 99999 ), 'POST' );
+			$this->assertEquals( 0, $result->data['settings']['last_group_id'] );
+		} finally {
+			$latest->create_groups( $wpdb, true );
+			update_option( Red_Options::OPTION_KEY, $options );
+			Red_Options::reset();
+		}
 	}
 
 	public function testHeader() {

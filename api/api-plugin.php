@@ -176,10 +176,18 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 			$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 			if ( $groups === 0 ) {
-				Red_Group::create( 'new group', 1 );
+				$group = Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
+
+				if ( $group === false ) {
+					return $this->add_error_details( new WP_Error( 'redirect_group_create_failed', 'Unable to create group' ), __LINE__ );
+				}
 			}
 		} else {
-			$fixer->fix( $fixer->get_status() );
+			$result = $fixer->fix( $fixer->get_status() );
+
+			if ( is_wp_error( $result ) ) {
+				return $this->add_error_details( $result, __LINE__ );
+			}
 		}
 
 		return $fixer->get_json();

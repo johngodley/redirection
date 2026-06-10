@@ -233,8 +233,8 @@ class Red_Fixer {
 	 * @return bool|WP_Error
 	 */
 	private function fix_groups() {
-		if ( Red_Group::create( 'new group', 1 ) === false ) {
-			return new WP_Error( 'Unable to create group' );
+		if ( Red_Group::create( __( 'Redirections', 'redirection' ), 1 ) === false ) {
+			return new WP_Error( 'redirect_group_create_failed', 'Unable to create group' );
 		}
 
 		return true;
@@ -243,34 +243,59 @@ class Red_Fixer {
 	/**
 	 * Fix redirects with invalid groups
 	 *
-	 * @return void
+	 * @return bool|WP_Error
 	 */
 	private function fix_redirect_groups() {
 		global $wpdb;
 
 		$missing = $this->get_missing();
+		$group_id = $this->get_valid_group();
+
+		if ( is_wp_error( $group_id ) ) {
+			return $group_id;
+		}
 
 		foreach ( $missing as $row ) {
-			$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'group_id' => $this->get_valid_group() ), array( 'id' => $row->id ) );
+			$wpdb->update( $wpdb->prefix . 'redirection_items', array( 'group_id' => $group_id ), array( 'id' => $row->id ) );
 		}
+
+		return true;
 	}
 
 	/**
 	 * Fix invalid monitor group setting
 	 *
-	 * @return void
+	 * @return bool|WP_Error
 	 */
 	private function fix_monitor() {
-		red_set_options( array( 'monitor_post' => $this->get_valid_group() ) );
+		$group_id = $this->get_valid_group();
+
+		if ( is_wp_error( $group_id ) ) {
+			return $group_id;
+		}
+
+		red_set_options( array( 'monitor_post' => $group_id ) );
+
+		return true;
 	}
 
 	/**
 	 * Get a valid group ID
 	 *
-	 * @return int
+	 * @return int|WP_Error
 	 */
 	private function get_valid_group() {
 		$groups = Red_Group::get_all();
+
+		if ( count( $groups ) === 0 ) {
+			$group = Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
+
+			if ( $group !== false ) {
+				return $group->get_id();
+			}
+
+			return new WP_Error( 'redirect_group_create_failed', 'Unable to create group' );
+		}
 
 		return $groups[0]['id'];
 	}
