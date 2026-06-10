@@ -80,6 +80,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 	public function testFixStatus() {
 		global $wpdb;
 		$latest = Red_Database::get_latest_database();
+		$options = Red_Options::get();
 
 		try {
 			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
@@ -96,7 +97,10 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
 			$this->assertEquals( 'good', $results->data['status'][1]['status'] );
 		} finally {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
 			$latest->create_groups( $wpdb, true );
+			update_option( Red_Options::OPTION_KEY, $options );
+			Red_Options::reset();
 		}
 	}
 
