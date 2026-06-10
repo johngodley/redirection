@@ -79,19 +79,25 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 
 	public function testFixStatus() {
 		global $wpdb;
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}redirection_groups" );
+		$latest = Red_Database::get_latest_database();
 
-		$this->setNonce();
+		try {
+			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );
 
-		$results = $this->callApi( 'plugin' );
+			$this->setNonce();
 
-		$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
-		$this->assertEquals( 'problem', $results->data['status'][1]['status'] );
+			$results = $this->callApi( 'plugin' );
 
-		$results = $this->callApi( 'plugin', array(), 'POST' );
+			$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
+			$this->assertEquals( 'problem', $results->data['status'][1]['status'] );
 
-		$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
-		$this->assertEquals( 'good', $results->data['status'][1]['status'] );
+			$results = $this->callApi( 'plugin', array(), 'POST' );
+
+			$this->assertEquals( 'groups', $results->data['status'][1]['id'] );
+			$this->assertEquals( 'good', $results->data['status'][1]['status'] );
+		} finally {
+			$latest->create_groups( $wpdb, true );
+		}
 	}
 
 	// public function testMatchPost() {
