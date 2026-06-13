@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
-import getFirstApi from './first-api';
+import getFirstApi, { hasWorkingApi } from './first-api';
 import { ExternalLink, createInterpolateElement } from '@wp-plugin-components';
-import { useSettingsStore } from 'stores';
+import { useMessageStore, useSettingsStore } from 'stores';
 import { useSettingsUpdate, useFinishUpgrade } from 'lib/api/hooks/use-settings';
 
 const WEEK = 7;
@@ -24,10 +24,17 @@ interface StepFinishProps {
 
 export default function StepFinish( { options }: StepFinishProps ) {
 	const apiTest = useSettingsStore( ( state ) => state.apiTest );
+	const { addError } = useMessageStore();
 	const { mutate: updateSettings } = useSettingsUpdate();
 	const { mutate: finishUpgrade } = useFinishUpgrade();
+	const canFinish = hasWorkingApi( apiTest );
 
 	function onFinish() {
+		if ( ! canFinish ) {
+			addError( __( 'You need at least one working REST API to finish setup.', 'redirection' ) );
+			return;
+		}
+
 		const { ip, log, monitor } = options.settings;
 		const selectedApi = getFirstApi( apiTest );
 
@@ -36,7 +43,7 @@ export default function StepFinish( { options }: StepFinishProps ) {
 				expire_redirect: log ? WEEK : NEVER,
 				expire_404: log ? WEEK : NEVER,
 				ip_logging: ip ? 1 : 0,
-				rest_api: typeof selectedApi === 'number' ? selectedApi : undefined,
+				rest_api: selectedApi !== null ? Number( selectedApi ) : undefined,
 				monitor_types: monitor ? [ 'post', 'page' ] : undefined,
 				monitor_post: monitor ? 1 : 0,
 			},
@@ -64,7 +71,7 @@ export default function StepFinish( { options }: StepFinishProps ) {
 				) }
 			</p>
 
-			<button className="button button-primary" onClick={ onFinish } type="button">
+			<button className="button button-primary" onClick={ onFinish } type="button" disabled={ ! canFinish }>
 				{ __( 'Ready to begin! 🎉', 'redirection' ) }
 			</button>
 		</div>

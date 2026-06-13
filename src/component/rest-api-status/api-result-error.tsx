@@ -29,6 +29,16 @@ const getApiErrorName = ( error: ApiError ): string | null => {
 	return null;
 };
 
+const getMethodStatus = ( error: ApiError, method: string ) => {
+	const status = error.data?.status;
+
+	if ( typeof status === 'number' && status > 0 ) {
+		return `${ method } ${ status }`;
+	}
+
+	return `${ method } ${ error.code === 'rest_api_cors_mismatch' ? 'blocked' : 'failed' }`;
+};
+
 const ApiResultError = ( { error, methods }: ApiResultErrorProps ) => {
 	const name = getApiErrorName( error );
 
@@ -42,7 +52,7 @@ const ApiResultError = ( { error, methods }: ApiResultErrorProps ) => {
 				<p>
 					{ methods.map( ( method, key ) => (
 						<span key={ key } className="api-result-method_fail">
-							{ method } { error.data && error.data.status }
+							{ getMethodStatus( error, method ) }
 						</span>
 					) ) }
 

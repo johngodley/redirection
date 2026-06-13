@@ -63,7 +63,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::ALLMETHODS,
 					'callback' => [ $this, 'route_test' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_setup' ],
 				],
 			]
 		);
@@ -76,7 +76,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_database' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_setup' ],
 					'args' => [
 						'upgrade' => [
 							'description' => 'Upgrade parameter',
@@ -100,7 +100,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_finish' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_setup' ],
 				],
 			]
 		);
@@ -113,7 +113,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_fix_status' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_setup' ],
 					'args' => [
 						'reason' => [
 							'description' => 'Reason for fix',
@@ -140,6 +140,18 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SUPPORT_MANAGE );
+	}
+
+	/**
+	 * Permission callback for setup and database upgrade actions
+	 *
+	 * @param WP_REST_Request $request REST request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_setup( WP_REST_Request $request ) {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			$this->permission_callback_manage( $request );
 	}
 
 	/**
