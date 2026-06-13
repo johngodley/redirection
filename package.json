@@ -19,7 +19,7 @@
 		"build:stats": "wp-scripts build --webpack-bundle-analyzer",
 		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt modules models matches images fileio database api actions release/redirection && rm release/redirection/api/*.md",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
-		"release": "pnpm plugin:zip && release-it",
+		"release": "bash dev/release-github.sh",
 		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",
 		"lint": "pnpm lint:css && pnpm lint:js && pnpm lint:ts && pnpm lint:php",
 		"lint:css": "wp-scripts lint-style",
@@ -85,7 +85,6 @@
 		"postcss-preset-env": "^10.6.1",
 		"postcss-reporter": "^7.1.0",
 		"prettier": "npm:wp-prettier@3.0.3",
-		"release-it": "^19.2.4",
 		"rtlcss": "^4.3.0",
 		"sass-loader": "^16.0.8",
 		"style-loader": "4.0.0",
@@ -140,14 +139,6 @@
 	},
 	"wordpress": {
 		"supported": "6.5"
-	},
-	"release-it": {
-		"github": {
-			"assets": [
-				"dist/redirection.zip"
-			]
-		},
-		"npm": false
 	},
 	"packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"
 }
