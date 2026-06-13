@@ -5,7 +5,12 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
-BRANCH="$(git branch --show-current)"
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$BRANCH" = "HEAD" ]; then
+	echo "Releases must be created from the trunk branch, not a detached HEAD." >&2
+	exit 1
+fi
 
 if [ "$BRANCH" != "trunk" ]; then
 	echo "Releases must be created from trunk. Current branch: $BRANCH" >&2
@@ -56,7 +61,7 @@ case "$CONFIRM" in
 		;;
 	*)
 		echo "Release cancelled."
-		exit 1
+		exit 0
 		;;
 esac
 
