@@ -58,6 +58,10 @@ REMOTE_TAG_EXISTS=0
 if git ls-remote --exit-code --refs --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
 	REMOTE_TAG_COMMIT="$(git ls-remote origin "refs/tags/$TAG^{}" | awk '{print $1}')"
 
+	if [ -z "$REMOTE_TAG_COMMIT" ]; then
+		REMOTE_TAG_COMMIT="$(git ls-remote origin "refs/tags/$TAG" | awk '{print $1}')"
+	fi
+
 	if [ "$REMOTE_TAG_COMMIT" != "$HEAD_COMMIT" ]; then
 		echo "Git tag $TAG already exists on origin but does not point to HEAD." >&2
 		exit 1
