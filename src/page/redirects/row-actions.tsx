@@ -38,7 +38,7 @@ function RedirectRowActions( props: RedirectRowActionsProps ) {
 		return null;
 	}
 
-	if ( enabled && has_capability( CAP_REDIRECT_ADD ) ) {
+	if ( has_capability( CAP_REDIRECT_ADD ) ) {
 		menu.push(
 			<RowAction key="1" onClick={ () => setRowMode( 'edit' ) }>
 				{ __( 'Edit', 'redirection' ) }
