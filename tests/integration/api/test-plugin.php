@@ -12,7 +12,6 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			[ 'plugin/test', 'POST', [] ],
 			[ 'plugin/data', 'POST', [] ],
 			[ 'plugin/finish', 'POST', [] ],
-			[ 'plugin/fix', 'POST', [ 'reason' => 'groups', 'current' => '0.1' ] ],
 		];
 	}
 
@@ -40,7 +39,6 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 				[ 'plugin/test', 'POST' ],
 				[ 'plugin/data', 'POST' ],
 				[ 'plugin/finish', 'POST' ],
-				[ 'plugin/fix', 'POST' ],
 			],
 		];
 
@@ -51,6 +49,24 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			$this->check_endpoints( $this->get_endpoints(), $working_caps );
 			$this->clear_capability();
 		}
+	}
+
+	public function testFixPermission() {
+		$this->setUnauthorised();
+		$result = $this->callApi( 'plugin/fix', [ 'reason' => 'database', 'current' => '1.0' ], 'POST' );
+		$this->assertEquals( 403, $result->status );
+		$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+
+		$this->setEditor();
+		$this->add_capability( Redirection_Capabilities::CAP_OPTION_MANAGE );
+		$result = $this->callApi( 'plugin/fix', [ 'reason' => 'database', 'current' => '1.0' ], 'POST' );
+		$this->assertNotEquals( 403, $result->status );
+		$this->clear_capability();
+
+		$this->add_capability( Redirection_Capabilities::CAP_SUPPORT_MANAGE );
+		$result = $this->callApi( 'plugin/fix', [ 'reason' => 'database', 'current' => '1.0' ], 'POST' );
+		$this->assertNotEquals( 403, $result->status );
+		$this->clear_capability();
 	}
 
 	public function testDelete() {
