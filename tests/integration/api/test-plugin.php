@@ -11,6 +11,8 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 			[ 'plugin/test', 'GET', [] ],
 			[ 'plugin/test', 'POST', [] ],
 			[ 'plugin/data', 'POST', [] ],
+			[ 'plugin/finish', 'POST', [] ],
+			[ 'plugin/fix', 'POST', [ 'reason' => 'groups', 'current' => '0.1' ] ],
 		];
 	}
 
@@ -24,6 +26,12 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 	public function testEditorPermission() {
 		// Everything else is 403
 		$working = [
+			Redirection_Capabilities::CAP_OPTION_MANAGE => [
+				[ 'plugin/test', 'GET' ],
+				[ 'plugin/test', 'POST' ],
+				[ 'plugin/data', 'POST' ],
+				[ 'plugin/finish', 'POST' ],
+			],
 			Redirection_Capabilities::CAP_SUPPORT_MANAGE => [
 				[ 'plugin', 'GET' ],
 				[ 'plugin', 'POST' ],
@@ -31,6 +39,8 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 				[ 'plugin/test', 'GET' ],
 				[ 'plugin/test', 'POST' ],
 				[ 'plugin/data', 'POST' ],
+				[ 'plugin/finish', 'POST' ],
+				[ 'plugin/fix', 'POST' ],
 			],
 		];
 
