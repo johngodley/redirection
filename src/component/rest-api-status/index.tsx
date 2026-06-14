@@ -106,9 +106,9 @@ function getApiStatusText( status: string ): string {
 
 export default function RestApiStatus( { allowChange = true }: RestApiStatusProps ) {
 	const [ showing, setShowing ] = React.useState( false );
-	const [ hasChecked, setHasChecked ] = React.useState( false );
 	// Direct property access instead of destructuring
 	const apiTest = useSettingsStore( ( state ) => state.apiTest );
+	const clearApiTest = useSettingsStore( ( state ) => state.clearApiTest );
 	const api = useSettingsStore( ( state ) => state.api );
 	const { mutate: checkApiMutation } = useApiCheck();
 
@@ -116,18 +116,17 @@ export default function RestApiStatus( { allowChange = true }: RestApiStatusProp
 
 	useEffect( () => {
 		const untested = Object.keys( routes ).map( ( id ) => ( { id, url: routes[ id ] } ) );
-		if ( untested.length > 0 && ! hasChecked ) {
+		if ( untested.length > 0 && Object.keys( apiTest ).length === 0 ) {
 			checkApiMutation(
 				untested.filter( ( item ): item is { id: string; url: string } => !! item && !! item.url )
 			);
-			setHasChecked( true );
 		}
-	}, [ routes, checkApiMutation, hasChecked ] );
+	}, [ routes, apiTest, checkApiMutation ] );
 
 	const onRetry = ( ev: React.MouseEvent< HTMLButtonElement > ) => {
 		ev.preventDefault();
 		setShowing( false );
-		setHasChecked( false );
+		clearApiTest();
 		const untested = Object.keys( routes ).map( ( id ) => ( { id, url: routes[ id ] } ) );
 		checkApiMutation( untested.filter( ( item ): item is { id: string; url: string } => !! item && !! item.url ) );
 	};

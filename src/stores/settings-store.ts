@@ -69,6 +69,7 @@ export interface SettingsStore {
 	setShowDatabase: ( show: boolean ) => void;
 	setApi: ( api: Partial< ApiState > ) => void;
 	setApiTest: ( apiTest: Partial< ApiTest > ) => void;
+	clearApiTest: () => void;
 	setPluginStatus: ( pluginStatus: Partial< PluginStatus > ) => void;
 	reset: () => void;
 }
@@ -150,6 +151,8 @@ export const useSettingsStore = create< SettingsStore >()(
 					} );
 					return { apiTest: updatedApiTest };
 				} ),
+
+			clearApiTest: () => set( { apiTest: {} } ),
 
 			setPluginStatus: ( pluginStatus ) =>
 				set( ( state ) => ( {

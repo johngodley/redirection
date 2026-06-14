@@ -11,7 +11,21 @@ interface ApiTest {
 	[ key: string ]: ApiResult;
 }
 
-export default function getFirstApi( apiTest: ApiTest ): string | number {
+export function hasWorkingApi( apiTest: ApiTest ): boolean {
+	const keys = Object.keys( apiTest );
+
+	for ( let index = 0; index < keys.length; index++ ) {
+		const key = keys[ index ];
+
+		if ( key && apiTest[ key ] && apiTest[ key ].GET.status === 'ok' && apiTest[ key ].POST.status === 'ok' ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+export default function getFirstApi( apiTest: ApiTest ): string | null {
 	const keys = Object.keys( apiTest );
 
 	for ( let index = 0; index < keys.length; index++ ) {
@@ -22,5 +36,5 @@ export default function getFirstApi( apiTest: ApiTest ): string | number {
 		}
 	}
 
-	return 0;
+	return null;
 }
