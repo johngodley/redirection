@@ -25,7 +25,7 @@ export function hasWorkingApi( apiTest: ApiTest ): boolean {
 	return false;
 }
 
-export default function getFirstApi( apiTest: ApiTest ): string | number | null {
+export default function getFirstApi( apiTest: ApiTest ): string | null {
 	const keys = Object.keys( apiTest );
 
 	for ( let index = 0; index < keys.length; index++ ) {

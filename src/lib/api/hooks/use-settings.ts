@@ -153,7 +153,7 @@ export function useApiCheck(
 
 	return useMutation( {
 		mutationFn: async ( apis: { id: string; url: string }[] ) => {
-			const createCorsError = ( testUrl: string ) => ( {
+			const createCorsError = ( testUrl: string, testOrigin: string, currentOrigin: string ) => ( {
 				message: __(
 					'This REST API URL uses a different origin and cannot be tested from the current admin page. Check your WordPress URL/Site URL or proxy configuration.',
 					'redirection'
@@ -165,8 +165,8 @@ export function useApiCheck(
 				request: {
 					url: testUrl,
 					origins: {
-						current: window.location.origin,
-						test: new URL( testUrl, window.location.href ).origin,
+						current: currentOrigin,
+						test: testOrigin,
 					},
 				},
 			} );
@@ -190,25 +190,30 @@ export function useApiCheck(
 				const testUrl = url.endsWith( '/' )
 					? `${ url }redirection/v1/plugin/test`
 					: `${ url }/redirection/v1/plugin/test`;
-				const testOrigin = new URL( testUrl, window.location.href ).origin;
 				const currentOrigin = window.location.origin;
 
-				if ( testOrigin !== currentOrigin ) {
-					const error = createCorsError( testUrl );
+				try {
+					const testOrigin = new URL( testUrl, window.location.href ).origin;
 
-					results[ id ].GET = {
-						status: 'fail',
-						error,
-						code: 'cors',
-					};
-					results[ id ].POST = {
-						status: 'fail',
-						error,
-						code: 'cors',
-					};
+					if ( testOrigin !== currentOrigin ) {
+						const error = createCorsError( testUrl, testOrigin, currentOrigin );
 
-					setApiTest( results );
-					continue;
+						results[ id ].GET = {
+							status: 'fail',
+							error,
+							code: 'cors',
+						};
+						results[ id ].POST = {
+							status: 'fail',
+							error,
+							code: 'cors',
+						};
+
+						setApiTest( results );
+						continue;
+					}
+				} catch ( error ) {
+					// Fall through to the normal request test so malformed URLs surface their own error.
 				}
 
 				// Test GET
