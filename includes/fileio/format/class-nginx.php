@@ -1,11 +1,21 @@
 <?php
 
-/**
- * @phpstan-import-type GroupJson from Red_Group
- * @phpstan-import-type RedirectMatchData from Red_Item
- */
+namespace Redirection\FileIO\Format;
 
-class Red_Nginx_File extends Red_FileIO {
+use Redirection\FileIO\FileIO;
+
+/**
+ * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type RedirectMatchData from \Red_Item
+ *
+ * @phpstan-type SourceMatchOptions array{
+ *   flag_query?: 'ignore'|'exact'|'pass'|'exactorder',
+ *   flag_case?: bool,
+ *   flag_trailing?: bool,
+ *   flag_regex?: bool
+ * }
+ */
+class Nginx extends FileIO {
 	public function force_download() {
 		parent::force_download();
 
@@ -14,13 +24,13 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param array<Red_Item> $items
+	 * @param array<\Red_Item> $items
 	 * @param array<GroupJson> $groups
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {
-		$lines = array();
-		$version = red_get_plugin_data( dirname( __DIR__ ) . '/redirection.php' );
+		$lines = [];
+		$version = red_get_plugin_data( dirname( __DIR__, 3 ) . '/redirection.php' );
 
 		$lines[] = '# Created by Redirection';
 		$lines[] = '# ' . gmdate( 'r' );
@@ -28,14 +38,22 @@ class Red_Nginx_File extends Red_FileIO {
 		$lines[] = '';
 		$lines[] = 'server {';
 
-		$parts = array();
+		$parts = [];
 		foreach ( $items as $item ) {
 			if ( $item->is_enabled() ) {
 				$parts[] = $this->get_nginx_item( $item );
 			}
 		}
 
-		$lines = array_merge( $lines, array_filter( $parts ) );
+		$lines = array_merge(
+			$lines,
+			array_filter(
+				$parts,
+				static function ( $part ) {
+					return is_string( $part ) && $part !== '';
+				}
+			)
+		);
 
 		$lines[] = '}';
 		$lines[] = '';
@@ -45,12 +63,14 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
+	 * @param \Red_Item $item
 	 * @return 'permanent'|'redirect'
 	 */
-	private function get_redirect_code( Red_Item $item ) {
+	private function get_redirect_code( $item ) {
 		if ( $item->get_action_code() === 301 ) {
 			return 'permanent';
 		}
+
 		return 'redirect';
 	}
 
@@ -65,14 +85,15 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
+	 * @param \Red_Item $item
 	 * @return string|false
 	 */
-	private function get_nginx_item( Red_Item $item ) {
+	private function get_nginx_item( $item ) {
 		$target = 'add_' . $item->get_match_type();
 
 		if ( method_exists( $this, $target ) ) {
 			$match_data = $item->get_match_data();
-			$match_data = is_array( $match_data ) ? $match_data : array();
+			$match_data = is_array( $match_data ) ? $match_data : [];
 			// @phpstan-ignore method.dynamicName
 			return '    ' . $this->$target( $item, $match_data );
 		}
@@ -81,11 +102,12 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
+	 * @param \Red_Item $item
 	 * @param RedirectMatchData $match_data
 	 * @return string
 	 */
-	private function add_url( Red_Item $item, array $match_data ) {
-		// @phpstan-ignore booleanAnd.rightAlwaysTrue
+	private function add_url( $item, array $match_data ) {
+		/** @var SourceMatchOptions|null $source */
 		$source = isset( $match_data['source'] ) && is_array( $match_data['source'] ) ? $match_data['source'] : null;
 		$regex = $item->source_flags !== null && $item->source_flags->is_regex();
 
@@ -93,18 +115,17 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
+	 * @param \Red_Item $item
 	 * @param RedirectMatchData $match_data
 	 * @return string
 	 */
-	private function add_agent( Red_Item $item, array $match_data ) {
-		$lines = array();
-
-		// @phpstan-ignore booleanAnd.rightAlwaysTrue
+	private function add_agent( $item, array $match_data ) {
+		$lines = [];
+		/** @var SourceMatchOptions|null $source */
 		$source = isset( $match_data['source'] ) && is_array( $match_data['source'] ) ? $match_data['source'] : null;
 
-		// Help PHPStan: ensure we operate on an Agent_Match
 		$match = $item->match;
-		if ( ! ( $match instanceof Agent_Match ) ) {
+		if ( ! ( $match instanceof \Agent_Match ) ) {
 			return '';
 		}
 
@@ -124,17 +145,17 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
+	 * @param \Red_Item $item
 	 * @param RedirectMatchData $match_data
 	 * @return string
 	 */
-	private function add_referrer( Red_Item $item, array $match_data ) {
-		$lines = array();
-		// @phpstan-ignore booleanAnd.rightAlwaysTrue
+	private function add_referrer( $item, array $match_data ) {
+		$lines = [];
+		/** @var SourceMatchOptions|null $source */
 		$source = isset( $match_data['source'] ) && is_array( $match_data['source'] ) ? $match_data['source'] : null;
 
-		// Help PHPStan: ensure we operate on a Referrer_Match
 		$match = $item->match;
-		if ( ! ( $match instanceof Referrer_Match ) ) {
+		if ( ! ( $match instanceof \Referrer_Match ) ) {
 			return '';
 		}
 
@@ -154,26 +175,20 @@ class Red_Nginx_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param string                         $line
-	 * @param string                         $target
-	 * @param 'permanent'|'redirect'         $code
-	 * @param array{
-	 *   flag_query?: 'ignore'|'exact'|'pass'|'exactorder',
-	 *   flag_case?: bool,
-	 *   flag_trailing?: bool,
-	 *   flag_regex?: bool
-	 * }|null                                 $source
-	 * @param bool                           $regex
+	 * @param string $line
+	 * @param string $target
+	 * @param 'permanent'|'redirect' $code
+	 * @param SourceMatchOptions|null $source
+	 * @param bool $regex
 	 * @return string
 	 */
 	private function get_redirect( $line, $target, $code, $source, $regex = false ) {
 		$line = ltrim( $line, '^' );
 		$line = rtrim( $line, '$' );
 
-		$source_url = new Red_Url_Encode( $line, $regex );
-		$target_url = new Red_Url_Encode( $target );
+		$source_url = new \Red_Url_Encode( $line, $regex );
+		$target_url = new \Red_Url_Encode( $target );
 
-		// Remove any existing start/end from a regex
 		$from = $source_url->get_as_source();
 		$from = ltrim( $from, '^' );
 		$from = rtrim( $from, '$' );
@@ -186,4 +201,8 @@ class Red_Nginx_File extends Red_FileIO {
 
 		return 'rewrite ' . $from . '$ ' . $target_url->get_as_target() . ' ' . $code . ';';
 	}
+}
+
+if ( ! class_exists( 'Red_Nginx_File', false ) ) {
+	\class_alias( '\Redirection\FileIO\Format\Nginx', 'Red_Nginx_File' );
 }

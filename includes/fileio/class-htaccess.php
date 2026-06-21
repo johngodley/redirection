@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\FileIO;
+
 /**
  * Convert redirects to .htaccess format
  *
@@ -7,13 +9,13 @@
  * - Trailing slash flag
  * - Query flags
  */
-class Red_Htaccess {
+class Htaccess {
 	/**
 	 * Array of redirect lines
 	 *
 	 * @var array<string>
 	 */
-	private $items = array();
+	private $items = [];
 
 	const INSERT_REGEX = '@\n?# Created by Redirection(?:.*?)# End of Redirection\n?@sm';
 
@@ -26,15 +28,12 @@ class Red_Htaccess {
 	 */
 	private function encode_from( $url, $ignore_trailing ) {
 		$url = $this->encode( $url );
-
-		// Apache 2 does not need a leading slashing
 		$url = ltrim( $url, '/' );
 
 		if ( $ignore_trailing ) {
 			$url = rtrim( $url, '/' ) . '/?';
 		}
 
-		// Exactly match the URL
 		return '^' . $url . '$';
 	}
 
@@ -65,7 +64,7 @@ class Red_Htaccess {
 	 * Replace encoded characters in a URL
 	 *
 	 * @param string $str Source string.
-	 * @param array<string, string>  $allowed Allowed encodings.
+	 * @param array<string, string> $allowed Allowed encodings.
 	 * @return string
 	 */
 	private function replace_encoding( $str, array $allowed ) {
@@ -101,20 +100,11 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function encode_regex( $url ) {
-		// Remove any newlines
 		$url = (string) preg_replace( "/[\r\n\t].*?$/s", '', $url );
-
-		// Remove invalid characters
 		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
-
-		// Make sure spaces are escaped as \s for regex matching
 		$url = str_replace( ' ', '\\s', $url );
 		$url = str_replace( '%24', '$', $url );
-
-		// No leading slash
 		$url = ltrim( $url, '/' );
-
-		// If pattern has a ^ at the start then ensure we don't have a slash immediatley after
 		$url = (string) preg_replace( '@^\^/@', '^', $url );
 
 		return $url;
@@ -123,8 +113,8 @@ class Red_Htaccess {
 	/**
 	 * Add a referrer redirect
 	 *
-	 * @param Red_Item       $item Redirect item.
-	 * @param Referrer_Match $match_object Redirect match.
+	 * @param \Red_Item $item Redirect item.
+	 * @param \Referrer_Match $match_object Redirect match.
 	 * @return void
 	 */
 	private function add_referrer( $item, $match_object ) {
@@ -156,8 +146,8 @@ class Red_Htaccess {
 	/**
 	 * Add a useragent redirect
 	 *
-	 * @param Red_Item    $item Redirect item.
-	 * @param Agent_Match $match_object Redirect match.
+	 * @param \Red_Item $item Redirect item.
+	 * @param \Agent_Match $match_object Redirect match.
 	 * @return void
 	 */
 	private function add_agent( $item, $match_object ) {
@@ -167,7 +157,7 @@ class Red_Htaccess {
 		}
 
 		if ( ( $match_object->url_from !== '' || $match_object->url_notfrom !== '' ) && $match_object->agent !== '' ) {
-			$agent = ( $match_object->regex ? $this->encode_regex( $match_object->agent ) : $this->encode2nd( $match_object->agent ) );
+			$agent = $match_object->regex ? $this->encode_regex( $match_object->agent ) : $this->encode2nd( $match_object->agent );
 			$to = false;
 			$match_data = $item->get_match_data();
 
@@ -189,12 +179,11 @@ class Red_Htaccess {
 	/**
 	 * Add a server redirect
 	 *
-	 * @param Red_Item     $item Redirect item.
-	 * @param Server_Match $match_object Redirect match.
+	 * @param \Red_Item $item Redirect item.
+	 * @param \Server_Match $match_object Redirect match.
 	 * @return void
 	 */
 	private function add_server( $item, $match_object ) {
-		// Temporarily set url property for add_url method
 		$host = wp_parse_url( $match_object->server, PHP_URL_HOST );
 		if ( is_string( $host ) ) {
 			$this->items[] = sprintf( 'RewriteCond %%{HTTP_HOST} ^%s$ [NC]', preg_quote( $host, '/' ) );
@@ -205,7 +194,7 @@ class Red_Htaccess {
 	/**
 	 * Add a redirect
 	 *
-	 * @param Red_Item $item Redirect item.
+	 * @param \Red_Item $item Redirect item.
 	 * @param string $target_url Target URL.
 	 * @return void
 	 */
@@ -240,7 +229,7 @@ class Red_Htaccess {
 	}
 
 	/**
-	 * Add a redirect flags
+	 * Add redirect flags
 	 *
 	 * @param string $current Current redirect rule.
 	 * @param array<string> $flags Flags to add.
@@ -255,7 +244,7 @@ class Red_Htaccess {
 	 *
 	 * @param array<string> $existing Existing flags.
 	 * @param array<string, mixed> $source Source flags.
-	 * @param string        $url URL.
+	 * @param string $url URL.
 	 * @return array<string>
 	 */
 	private function get_source_flags( array $existing, array $source, string $url ) {
@@ -285,7 +274,6 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function action_random( string $data, int $code, array $match_data ) {
-		// Pick a WP post at random
 		global $wpdb;
 
 		$post = $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} ORDER BY RAND() LIMIT 0,1" );
@@ -299,8 +287,7 @@ class Red_Htaccess {
 			return '';
 		}
 
-		$flags = [ sprintf( 'R=%d', $code ) ];
-		$flags[] = 'L';
+		$flags = [ sprintf( 'R=%d', $code ), 'L' ];
 		$flags = $this->get_source_flags( $flags, $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode( $url['path'] ), $flags );
@@ -347,8 +334,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function action_url( string $data, int $code, array $match_data ) {
-		$flags = [ sprintf( 'R=%d', $code ) ];
-		$flags[] = 'L';
+		$flags = [ sprintf( 'R=%d', $code ), 'L' ];
 		$flags = $this->get_source_flags( $flags, $match_data['source'], $data );
 
 		return $this->add_flags( $this->encode2nd( $data ), $flags );
@@ -379,7 +365,7 @@ class Red_Htaccess {
 	 * @return string
 	 */
 	private function generate() {
-		$version = red_get_plugin_data( dirname( __DIR__ ) . '/redirection.php' );
+		$version = red_get_plugin_data( dirname( __DIR__, 2 ) . '/redirection.php' );
 
 		if ( count( $this->items ) === 0 ) {
 			return '';
@@ -393,39 +379,31 @@ class Red_Htaccess {
 			'<IfModule mod_rewrite.c>',
 		];
 
-		// Add http => https option
-		$options = Red_Options::get();
+		$options = \Red_Options::get();
 		if ( $options['https'] !== false ) {
 			$text[] = 'RewriteCond %{HTTPS} off';
 			$text[] = 'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]';
 		}
 
-		// Add redirects
 		$text = array_merge( $text, array_filter( array_map( [ $this, 'sanitize_redirect' ], $this->items ) ) );
-
-		// End of mod_rewrite
 		$text[] = '</IfModule>';
 		$text[] = '';
-
-		// End of redirection section
 		$text[] = '# End of Redirection';
 
-		$text = implode( "\n", $text );
-		return "\n" . $text . "\n";
+		return "\n" . implode( "\n", $text ) . "\n";
 	}
 
 	/**
 	 * Add a redirect to the file
 	 *
-	 * @param Red_Item $item Redirect.
+	 * @param \Red_Item $item Redirect.
 	 * @return void
 	 */
 	public function add( $item ) {
 		$target = 'add_' . $item->get_match_type();
 
 		if ( method_exists( $this, $target ) && $item->is_enabled() ) {
-			// For URL matches, extract target URL from match object
-			if ( $target === 'add_url' && $item->match instanceof URL_Match ) {
+			if ( $target === 'add_url' && $item->match instanceof \URL_Match ) {
 				$this->add_url( $item, $item->match->url );
 			} else {
 				$this->$target( $item, $item->match ); // @phpstan-ignore-line
@@ -479,26 +457,24 @@ class Red_Htaccess {
 	/**
 	 * Save the .htaccess to a file
 	 *
-	 * @param string  $filename Filename to save.
-	 * @param boolean $content_to_save Content to save (unused parameter).
+	 * @param string $filename Filename to save.
+	 * @param bool $content_to_save Content to save.
 	 * @return bool
 	 */
 	public function save( $filename, $content_to_save = false ) {
 		$existing = false;
 		$filename = $this->sanitize_filename( $filename );
 
-		// Initialize WP_Filesystem
 		global $wp_filesystem;
 		if ( ! function_exists( 'WP_Filesystem' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		// Initialize the filesystem with direct method
-		if ( WP_Filesystem() === null ) {
+		$filesystem_ready = WP_Filesystem();
+		if ( $filesystem_ready !== true || ! isset( $wp_filesystem ) ) {
 			return false;
 		}
 
-		// Read existing file contents if file exists
 		if ( $wp_filesystem->exists( $filename ) ) {
 			$file_contents = $wp_filesystem->get_contents( $filename );
 			if ( $file_contents !== false ) {
@@ -506,7 +482,10 @@ class Red_Htaccess {
 			}
 		}
 
-		// Write the file
 		return $wp_filesystem->put_contents( $filename, $this->get( $existing ), FS_CHMOD_FILE );
 	}
+}
+
+if ( ! class_exists( 'Red_Htaccess', false ) ) {
+	\class_alias( '\Redirection\FileIO\Htaccess', 'Red_Htaccess' );
 }

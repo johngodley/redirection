@@ -246,7 +246,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			return;
 		}
 
-		$importer = Red_FileIO::create( $format );
+		$importer = \Redirection\FileIO\FileIO::create( $format );
 
 		if ( $importer === false ) {
 			WP_CLI::error( 'Invalid import format - csv, json, or apache supported' );
@@ -299,7 +299,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	 */
 	public function export( $args, $extra ) {
 		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
-		$exporter = Red_FileIO::create( $format );
+		$exporter = \Redirection\FileIO\FileIO::create( $format );
 
 		if ( $exporter === false ) {
 			WP_CLI::error( 'Invalid export format - json, csv, apache, or nginx supported' );
@@ -308,7 +308,7 @@ class Redirection_Cli extends WP_CLI_Command {
 
 		$file = fopen( $args[1] === '-' ? 'php://stdout' : $args[1], 'w' );
 		if ( $file !== false ) {
-			$export = Red_FileIO::export( $args[0], $format );
+			$export = \Redirection\FileIO\FileIO::export( $args[0], $format );
 
 			if ( $export === false ) {
 				// phpcs:ignore

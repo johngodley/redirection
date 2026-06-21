@@ -9,7 +9,7 @@ parameters:
         - redirection-settings.php
         - matches
         - modules
-        - fileio
+        - includes/fileio
         - database
         - models
         - api
@@ -23,6 +23,8 @@ parameters:
         - WP_CLI
 
     phpVersion: 70400
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
 
     parallel:
         maximumNumberOfProcesses: 4

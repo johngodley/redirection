@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\FileIO\FileIO;
+
 class ImportImportCsvTest extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
@@ -41,7 +43,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testPluginList() {
-		update_option( '301_redirects', array( 'redirect' ) );
+		update_option( '301_redirects', [ 'redirect' ] );
 
 		$this->setNonce();
 		$result = $this->callApi( 'import/plugin' );
@@ -68,15 +70,15 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testBadCreate() {
-		$exporter = Red_FileIO::create( 'monkey' );
+		$exporter = FileIO::create( 'monkey' );
 		$this->assertFalse( $exporter );
 	}
 
 	public function testGoodCreate() {
-		$types = array( 'rss', 'csv', 'apache', 'nginx', 'json' );
+		$types = [ 'rss', 'csv', 'apache', 'nginx', 'json' ];
 
 		foreach ( $types as $type ) {
-			$exporter = Red_FileIO::create( $type );
+			$exporter = FileIO::create( $type );
 			$this->assertTrue( $exporter !== false );
 		}
 	}

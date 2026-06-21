@@ -1,10 +1,14 @@
 <?php
 
-/**
-	* @phpstan-import-type GroupJson from Red_Group
-*/
+namespace Redirection\FileIO\Format;
 
-class Red_Apache_File extends Red_FileIO {
+use Redirection\FileIO\FileIO;
+use Redirection\FileIO\Htaccess;
+
+/**
+ * @phpstan-import-type GroupJson from \Red_Group
+ */
+class Apache extends FileIO {
 	public function force_download() {
 		parent::force_download();
 
@@ -13,14 +17,12 @@ class Red_Apache_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param array<Red_Item>  $items
+	 * @param array<\Red_Item>  $items
 	 * @param array<GroupJson> $groups
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {
-		include_once dirname( __DIR__ ) . '/models/htaccess.php';
-
-		$htaccess = new Red_Htaccess();
+		$htaccess = new Htaccess();
 
 		foreach ( $items as $item ) {
 			$htaccess->add( $item );
@@ -40,11 +42,13 @@ class Red_Apache_File extends Red_FileIO {
 			return 0;
 		}
 
-		// Remove any comments
 		$data = str_replace( "\n", "\r", $data );
-
-		// Split it into lines
-		$lines = array_filter( explode( "\r", $data ) );
+		$lines = array_filter(
+			explode( "\r", $data ),
+			static function ( $line ) {
+				return strlen( $line ) > 0;
+			}
+		);
 		$count = 0;
 
 		foreach ( $lines as $line ) {
@@ -52,7 +56,7 @@ class Red_Apache_File extends Red_FileIO {
 
 			if ( $item !== false ) {
 				$item['group_id'] = $group;
-				$redirect = Red_Item::create( $item );
+				$redirect = \Red_Item::create( $item );
 
 				if ( ! is_wp_error( $redirect ) ) {
 					$count++;
@@ -71,48 +75,48 @@ class Red_Apache_File extends Red_FileIO {
 		$item = false;
 
 		if ( preg_match( '@rewriterule\s+(.*?)\s+(.*?)\s+(\[.*\])*@i', $line, $matches ) > 0 ) {
-			$item = array(
+			$item = [
 				'url' => $this->regex_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
-				'action_code' => $this->get_code( isset( $matches[3] ) ? $matches[3] : '' ),
+				'action_data' => [ 'url' => $this->decode_url( $matches[2] ) ],
+				'action_code' => $this->get_code( $matches[3] ?? '' ),
 				'regex' => $this->is_regex( $matches[1] ),
-			);
+			];
 		} elseif ( preg_match( '@Redirect\s+(.*?)\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
-			$item = array(
+			$item = [
 				'url' => $this->decode_url( $matches[2] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => array( 'url' => $this->decode_url( $matches[3] ) ),
+				'action_data' => [ 'url' => $this->decode_url( $matches[3] ) ],
 				'action_code' => $this->get_code( $matches[1] ),
-			);
+			];
 		} elseif ( preg_match( '@Redirect\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
-			$item = array(
+			$item = [
 				'url' => $this->decode_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
+				'action_data' => [ 'url' => $this->decode_url( $matches[2] ) ],
 				'action_code' => 302,
-			);
+			];
 		} elseif ( preg_match( '@Redirectmatch\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
-			$item = array(
+			$item = [
 				'url' => $this->decode_url( $matches[2] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => array( 'url' => $this->decode_url( $matches[3] ) ),
+				'action_data' => [ 'url' => $this->decode_url( $matches[3] ) ],
 				'action_code' => $this->get_code( $matches[1] ),
 				'regex' => true,
-			);
+			];
 		} elseif ( preg_match( '@Redirectmatch\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
-			$item = array(
+			$item = [
 				'url' => $this->decode_url( $matches[1] ),
 				'match_type' => 'url',
 				'action_type' => 'url',
-				'action_data' => array( 'url' => $this->decode_url( $matches[2] ) ),
+				'action_data' => [ 'url' => $this->decode_url( $matches[2] ) ],
 				'action_code' => 302,
 				'regex' => true,
-			);
+			];
 		}
 
 		if ( $item !== false ) {
@@ -135,11 +139,7 @@ class Red_Apache_File extends Red_FileIO {
 	 */
 	private function decode_url( $url ) {
 		$url = rawurldecode( $url );
-
-		// Replace quoted slashes
 		$url = (string) preg_replace( '@\\\/@', '/', $url );
-
-		// Ensure escaped '.' is still escaped
 		$url = (string) preg_replace( '@\\\\.@', '\\\\.', $url );
 		return $url;
 	}
@@ -153,12 +153,9 @@ class Red_Apache_File extends Red_FileIO {
 		$len = strlen( $url );
 
 		for ( $x = 0; $x < $len; $x++ ) {
-			$escape = false;
 			$char = substr( $url, $x, 1 );
 
-			if ( $char === '\\' ) {
-				$escape = true;
-			} elseif ( strpos( $regex, $char ) !== false ) {
+			if ( $char !== '\\' && strpos( $regex, $char ) !== false ) {
 				return true;
 			}
 		}
@@ -231,4 +228,8 @@ class Red_Apache_File extends Red_FileIO {
 
 		return 302;
 	}
+}
+
+if ( ! class_exists( 'Red_Apache_File', false ) ) {
+	\class_alias( '\Redirection\FileIO\Format\Apache', 'Red_Apache_File' );
 }

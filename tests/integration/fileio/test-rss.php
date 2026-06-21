@@ -1,21 +1,21 @@
 <?php
 
-require PLUGIN_PATH . '/fileio/rss.php';
+use Redirection\FileIO\FileIO;
 
 class ImportExportRss extends WP_UnitTestCase {
 	public function testExport() {
 		// Mock bloginfo_rss('url') by filtering the siteurl option
-		add_filter( 'option_siteurl', array( $this, 'mock_siteurl' ) );
+		add_filter( 'option_siteurl', [ $this, 'mock_siteurl' ] );
 
 		$group1 = Red_Group::create( 'group1', 1 );
-		$item = Red_Item::create( array( 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
+		$item = Red_Item::create( [ 'url' => '/1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ] );
 
-		$exporter = Red_FileIO::create( 'rss' );
-		$xml = $exporter->get_data( array( $item ), array() );
+		$exporter = FileIO::create( 'rss' );
+		$xml = $exporter->get_data( [ $item ], [] );
 
 		$this->assertTrue( strpos( $xml, '<title>/1</title>' ) !== false );
 
-		remove_filter( 'option_siteurl', array( $this, 'mock_siteurl' ) );
+		remove_filter( 'option_siteurl', [ $this, 'mock_siteurl' ] );
 	}
 
 	public function mock_siteurl() {

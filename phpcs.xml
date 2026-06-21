@@ -5,7 +5,7 @@
 	<file>./models</file>
 	<file>./modules</file>
 	<file>./matches</file>
-	<file>./fileio</file>
+	<file>./includes</file>
 	<file>./database</file>
 	<file>./api</file>
 	<file>./redirection-admin.php</file>

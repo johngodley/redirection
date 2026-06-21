@@ -1,9 +1,17 @@
 <?php
 
+namespace Redirection\FileIO;
+
+use Redirection\FileIO\Format\Apache;
+use Redirection\FileIO\Format\Csv;
+use Redirection\FileIO\Format\Json;
+use Redirection\FileIO\Format\Nginx;
+use Redirection\FileIO\Format\Rss;
+
 /**
  * Base class for file import/export operations
  *
- * @phpstan-import-type GroupJson from Red_Group
+ * @phpstan-import-type GroupJson from \Red_Group
  * @phpstan-type UploadedFile array{
  *     name: string,
  *     type: string,
@@ -14,34 +22,29 @@
  * @phpstan-type ExportResult array{
  *     data: string,
  *     total: int,
- *     exporter: Red_FileIO
+ *     exporter: FileIO
  * }
  */
-abstract class Red_FileIO {
+abstract class FileIO {
 	/**
 	 * Create a file IO handler for the specified type
 	 *
 	 * @param string $type File format type (rss, csv, apache, nginx, json).
-	 * @return Red_FileIO|false
+	 * @return FileIO|false
 	 */
 	public static function create( $type ) {
 		$exporter = false;
 
 		if ( $type === 'rss' ) {
-			include_once dirname( __DIR__ ) . '/fileio/rss.php';
-			$exporter = new Red_Rss_File();
+			$exporter = new Rss();
 		} elseif ( $type === 'csv' ) {
-			include_once dirname( __DIR__ ) . '/fileio/csv.php';
-			$exporter = new Red_Csv_File();
+			$exporter = new Csv();
 		} elseif ( $type === 'apache' ) {
-			include_once dirname( __DIR__ ) . '/fileio/apache.php';
-			$exporter = new Red_Apache_File();
+			$exporter = new Apache();
 		} elseif ( $type === 'nginx' ) {
-			include_once dirname( __DIR__ ) . '/fileio/nginx.php';
-			$exporter = new Red_Nginx_File();
+			$exporter = new Nginx();
 		} elseif ( $type === 'json' ) {
-			include_once dirname( __DIR__ ) . '/fileio/json.php';
-			$exporter = new Red_Json_File();
+			$exporter = new Json();
 		}
 
 		return $exporter;
@@ -60,21 +63,18 @@ abstract class Red_FileIO {
 		$extension = strtolower( $extension );
 
 		if ( $extension === 'csv' || $extension === 'txt' ) {
-			include_once dirname( __DIR__ ) . '/fileio/csv.php';
-			$importer = new Red_Csv_File();
+			$importer = new Csv();
 			$data = '';
 		} elseif ( $extension === 'json' ) {
-			include_once dirname( __DIR__ ) . '/fileio/json.php';
-			$importer = new Red_Json_File();
-			$data = @file_get_contents( $file['tmp_name'] );
+			$importer = new Json();
+			$data = @file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		} else {
-			include_once dirname( __DIR__ ) . '/fileio/apache.php';
-			$importer = new Red_Apache_File();
-			$data = @file_get_contents( $file['tmp_name'] );
+			$importer = new Apache();
+			$data = @file_get_contents( $file['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		}
 
 		if ( $extension !== 'json' ) {
-			$group = Red_Group::get( $group_id );
+			$group = \Red_Group::get( $group_id );
 			if ( $group === false ) {
 				return 0;
 			}
@@ -125,15 +125,15 @@ abstract class Red_FileIO {
 		$items = false;
 
 		if ( $module_name_or_id === 'all' || $module_name_or_id === 0 ) {
-			$groups = Red_Group::get_all();
-			$items = Red_Item::get_all();
+			$groups = \Red_Group::get_all();
+			$items = \Red_Item::get_all();
 		} else {
-			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : Red_Module::get_id_for_name( $module_name_or_id );
-			$module = Red_Module::get( intval( $module_name_or_id, 10 ) );
+			$module_name_or_id = is_numeric( $module_name_or_id ) ? $module_name_or_id : \Red_Module::get_id_for_name( $module_name_or_id );
+			$module = \Red_Module::get( intval( $module_name_or_id, 10 ) );
 
 			if ( $module !== false ) {
-				$groups = Red_Group::get_all_for_module( $module->get_id() );
-				$items = Red_Item::get_all_for_module( $module->get_id() );
+				$groups = \Red_Group::get_all_for_module( $module->get_id() );
+				$items = \Red_Item::get_all_for_module( $module->get_id() );
 			}
 		}
 
@@ -152,7 +152,7 @@ abstract class Red_FileIO {
 	/**
 	 * Get export data for items and groups
 	 *
-	 * @param array<Red_Item> $items Redirect items to export.
+	 * @param array<\Red_Item> $items Redirect items to export.
 	 * @param array<GroupJson> $groups Groups to export.
 	 * @return string Formatted export data.
 	 */
@@ -167,4 +167,8 @@ abstract class Red_FileIO {
 	 * @return int
 	 */
 	abstract public function load( $group, $filename, $data );
+}
+
+if ( ! class_exists( 'Red_FileIO', false ) ) {
+	\class_alias( '\Redirection\FileIO\FileIO', 'Red_FileIO' );
 }

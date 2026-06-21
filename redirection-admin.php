@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/models/monitor.php';
-require_once __DIR__ . '/models/file-io.php';
 require_once __DIR__ . '/database/database.php';
 require_once __DIR__ . '/redirection-capabilities.php';
 
@@ -830,7 +829,7 @@ class Redirection_Admin {
 
 				$items = Red_Item::get_all_for_module( intval( $module, 10 ) );
 
-				$exporter = Red_FileIO::create( 'rss' );
+				$exporter = \Redirection\FileIO\FileIO::create( 'rss' );
 				if ( $exporter !== false ) {
 					$exporter->force_download();
 
@@ -869,7 +868,7 @@ class Redirection_Admin {
 		$exporter = $this->get_query( 'exporter' );
 
 		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && $export !== null && $exporter !== null && check_admin_referer( 'wp_rest' ) !== false ) {
-			$export = Red_FileIO::export( $export, $exporter );
+			$export = \Redirection\FileIO\FileIO::export( $export, $exporter );
 
 			if ( $export !== false ) {
 				$export['exporter']->force_download();
