@@ -1,5 +1,9 @@
 <?php
 
+namespace Redirection\FileIO\Format;
+
+use Redirection\FileIO\FileIO;
+
 /**
  * CSV import/export handler
  *
@@ -13,9 +17,9 @@
  *     action_code: int,
  *     status?: 'enabled'|'disabled'
  * }
- * @phpstan-import-type GroupJson from Red_Group
+ * @phpstan-import-type GroupJson from \Red_Group
  */
-class Red_Csv_File extends Red_FileIO {
+class Csv extends FileIO {
 	const CSV_SOURCE = 0;
 	const CSV_TARGET = 1;
 	const CSV_REGEX = 2;
@@ -29,12 +33,12 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param array<Red_Item> $items
+	 * @param array<\Red_Item> $items
 	 * @param array<GroupJson> $groups
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {
-		$lines = [ implode( ',', array( 'source', 'target', 'regex', 'code', 'type', 'hits', 'title', 'status' ) ) ];
+		$lines = [ implode( ',', [ 'source', 'target', 'regex', 'code', 'type', 'hits', 'title', 'status' ] ) ];
 
 		foreach ( $items as $line ) {
 			$lines[] = $this->item_as_csv( $line );
@@ -44,7 +48,7 @@ class Red_Csv_File extends Red_FileIO {
 	}
 
 	/**
-	 * @param Red_Item $item
+	 * @param \Red_Item $item
 	 * @return string
 	 */
 	public function item_as_csv( $item ) {
@@ -64,7 +68,7 @@ class Red_Csv_File extends Red_FileIO {
 			$data = '';
 		}
 
-		$csv = array(
+		$csv = [
 			$item->get_url(),
 			$data,
 			$item->is_regex() ? 1 : 0,
@@ -73,9 +77,9 @@ class Red_Csv_File extends Red_FileIO {
 			$item->get_hits(),
 			$item->get_title(),
 			$item->is_enabled() ? 'active' : 'disabled',
-		);
+		];
 
-		$csv = array_map( array( $this, 'escape_csv' ), $csv );
+		$csv = array_map( [ $this, 'escape_csv' ], $csv );
 		return implode( ',', $csv );
 	}
 
@@ -130,12 +134,10 @@ class Red_Csv_File extends Red_FileIO {
 		global $wpdb;
 
 		$count = 0;
-		$group = Red_Group::get( $group_id );
+		$group = \Red_Group::get( $group_id );
 		if ( $group === false ) {
 			return 0;
 		}
-
-		/** @var Red_Group $group */
 
 		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) !== false ) {
 			if ( $csv === null ) {
@@ -144,15 +146,15 @@ class Red_Csv_File extends Red_FileIO {
 
 			/** @var array<int, string> $csv */
 			$csv = array_map(
-				function ( $v ) {
-					return (string) $v;
+				static function ( $value ) {
+					return (string) $value;
 				},
 				$csv
 			);
 			$item = $this->csv_as_item( $csv, $group );
 
 			if ( $item !== false && $this->item_is_valid( $item ) ) {
-				$created = Red_Item::create( $item );
+				$created = \Red_Item::create( $item );
 
 				// The query log can use up all the memory
 				$wpdb->queries = [];
@@ -208,23 +210,23 @@ class Red_Csv_File extends Red_FileIO {
 
 	/**
 	 * @param array<int, string> $csv
-	 * @param Red_Group          $group
+	 * @param \Red_Group         $group
 	 * @return CsvItem|false
 	 */
-	public function csv_as_item( $csv, Red_Group $group ) {
+	public function csv_as_item( $csv, $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
 
-			return array(
+			return [
 				'url' => trim( $csv[ self::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
+				'action_data' => [ 'url' => trim( $csv[ self::CSV_TARGET ] ) ],
 				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
 				'group_id' => $group->get_id(),
 				'match_type' => 'url',
 				'action_type' => $this->get_action_type( $code ),
 				'action_code' => $code,
 				'status' => $group->is_enabled() ? 'enabled' : 'disabled',
-			);
+			];
 		}
 
 		return false;
@@ -235,7 +237,7 @@ class Red_Csv_File extends Red_FileIO {
 	 * @return bool
 	 */
 	private function parse_regex( $value ) {
-		return intval( $value, 10 ) === 1 ? true : false;
+		return intval( $value, 10 ) === 1;
 	}
 
 	/**
@@ -251,4 +253,8 @@ class Red_Csv_File extends Red_FileIO {
 
 		return true;
 	}
+}
+
+if ( ! class_exists( 'Red_Csv_File', false ) ) {
+	\class_alias( '\Redirection\FileIO\Format\Csv', 'Red_Csv_File' );
 }

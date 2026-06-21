@@ -1,16 +1,19 @@
 <?php
 
-/**
-	* @phpstan-import-type GroupJson from Red_Group
-*/
+namespace Redirection\FileIO\Format;
 
-class Red_Rss_File extends Red_FileIO {
+use Redirection\FileIO\FileIO;
+
+/**
+ * @phpstan-import-type GroupJson from \Red_Group
+ */
+class Rss extends FileIO {
 	public function force_download() {
 		header( 'Content-type: text/xml; charset=' . get_option( 'blog_charset' ), true );
 	}
 
 	/**
-	 * @param array<Red_Item>  $items
+	 * @param array<\Red_Item>  $items
 	 * @param array<GroupJson> $groups
 	 * @return string
 	 */
@@ -59,4 +62,8 @@ class Red_Rss_File extends Red_FileIO {
 	public function load( $group, $filename, $data ) {
 		return 0;
 	}
+}
+
+if ( ! class_exists( 'Red_Rss_File', false ) ) {
+	\class_alias( '\Redirection\FileIO\Format\Rss', 'Red_Rss_File' );
 }

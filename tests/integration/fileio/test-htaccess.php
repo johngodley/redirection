@@ -1,6 +1,6 @@
 <?php
 
-require_once PLUGIN_PATH . '/models/htaccess.php';
+use Redirection\FileIO\Htaccess as Red_Htaccess;
 
 class HtaccessTest extends WP_UnitTestCase {
 	public function setUp(): void {
@@ -33,13 +33,15 @@ and a line at the end';
 
 	public function testNew() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'action_data' => '/target',
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'action_data' => '/target',
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -53,13 +55,15 @@ and a line at the end';
 
 	public function testReplaceExisting() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'action_data' => '/target',
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'action_data' => '/target',
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 		$file = $htaccess->get( $this->getExisting() );
 		$lines = explode( "\n", $file );
@@ -72,13 +76,15 @@ and a line at the end';
 
 	public function testAddToStart() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'action_data' => '/target',
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'action_data' => '/target',
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 		$file = $htaccess->get( "this is\nan existing file\n" );
 		$lines = explode( "\n", $file );
@@ -100,22 +106,26 @@ and a line at the end';
 
 	public function testRedirectUrl() {
 		$htaccess = new Red_Htaccess();
-		$item1 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test',
-			'action_data' => '/valid',
-			'action_code' => 301,
-		) );
-		$item2 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test.php',
-			'action_data' => '/valid',
-			'action_code' => 302,
-		) );
+		$item1 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test',
+				'action_data' => '/valid',
+				'action_code' => 301,
+			]
+		);
+		$item2 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test.php',
+				'action_data' => '/valid',
+				'action_code' => 302,
+			]
+		);
 		$htaccess->add( $item1 );
 		$htaccess->add( $item2 );
 
@@ -127,14 +137,16 @@ and a line at the end';
 
 	public function testRedirectUrlHash() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test',
-			'action_code' => 301,
-			'action_data' => '/target#hash',
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test',
+				'action_code' => 301,
+				'action_data' => '/target#hash',
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -144,15 +156,17 @@ and a line at the end';
 
 	public function testRedirectUrlRegex() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my\.test.*?',
-			'action_code' => 301,
-			'action_data' => '/target',
-			'regex' => true,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my\.test.*?',
+				'action_code' => 301,
+				'action_data' => '/target',
+				'regex' => true,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -162,15 +176,17 @@ and a line at the end';
 
 	public function testRedirectUrlRegexLimit() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '^/my-test.*?$',
-			'action_code' => 301,
-			'action_data' => '/target',
-			'regex' => true,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '^/my-test.*?$',
+				'action_code' => 301,
+				'action_data' => '/target',
+				'regex' => true,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -180,22 +196,26 @@ and a line at the end';
 
 	public function testError() {
 		$htaccess = new Red_Htaccess();
-		$item1 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'error',
-			'url' => '/my-test',
-			'action_code' => 404,
-			'action_data' => '/target',
-		) );
-		$item2 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'error',
-			'url' => '/my-test.php',
-			'action_code' => 410,
-			'action_data' => '/target',
-		) );
+		$item1 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'error',
+				'url' => '/my-test',
+				'action_code' => 404,
+				'action_data' => '/target',
+			]
+		);
+		$item2 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'error',
+				'url' => '/my-test.php',
+				'action_code' => 410,
+				'action_data' => '/target',
+			]
+		);
 		$htaccess->add( $item1 );
 		$htaccess->add( $item2 );
 
@@ -207,22 +227,26 @@ and a line at the end';
 
 	public function testRedirectUrlWithQuery() {
 		$htaccess = new Red_Htaccess();
-		$item1 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test?query=1',
-			'action_code' => 301,
-			'action_data' => '/target',
-		) );
-		$item2 = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test.php?query=1&thing=2',
-			'action_code' => 302,
-			'action_data' => '/target',
-		) );
+		$item1 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test?query=1',
+				'action_code' => 301,
+				'action_data' => '/target',
+			]
+		);
+		$item2 = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test.php?query=1&thing=2',
+				'action_code' => 302,
+				'action_data' => '/target',
+			]
+		);
 		$htaccess->add( $item1 );
 		$htaccess->add( $item2 );
 
@@ -236,14 +260,16 @@ and a line at the end';
 
 	public function testRedirectUrlWithTargetQuery() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my-test',
-			'action_data' => '/target?test=1&test=2%20',
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my-test',
+				'action_data' => '/target?test=1&test=2%20',
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -254,15 +280,17 @@ and a line at the end';
 	public function testInvalidRegex() {
 		$regex = "something\nwith newline";
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'regex' => true,
-			'action_type' => 'url',
-			'url' => $regex,
-			'action_data' => $regex,
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'regex' => true,
+				'action_type' => 'url',
+				'url' => $regex,
+				'action_data' => $regex,
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -274,15 +302,17 @@ and a line at the end';
 	public function testRegexInData() {
 		$regex = '/$1';
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'regex' => true,
-			'action_type' => 'url',
-			'url' => '/blog/(.*)',
-			'action_data' => $regex,
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'regex' => true,
+				'action_type' => 'url',
+				'url' => '/blog/(.*)',
+				'action_data' => $regex,
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 
 		$file = $htaccess->get( $this->getExisting() );
@@ -295,15 +325,17 @@ and a line at the end';
 	public function testCaseInsensitive() {
 		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) [
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/test',
-			'action_data' => '/target',
-			'action_code' => 301,
-			'match_data' => $match_data,
-		] );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/test',
+				'action_data' => '/target',
+				'action_code' => 301,
+				'match_data' => $match_data,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -313,15 +345,17 @@ and a line at the end';
 	public function testPassQuery() {
 		$match_data = json_encode( [ 'source' => [ 'flag_query' => 'pass' ] ] );
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) [
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/test',
-			'action_data' => '/target',
-			'action_code' => 301,
-			'match_data' => $match_data,
-		] );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/test',
+				'action_data' => '/target',
+				'action_code' => 301,
+				'match_data' => $match_data,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -330,14 +364,16 @@ and a line at the end';
 
 	public function testServerRedirect() {
 		$action_data = serialize( [ 'server' => 'https://otherdomain.com', 'url_notfrom' => '/target', 'url_from' => '/target' ] );
-		$item = new Red_Item( (object) [
-			'match_type' => 'server',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/test',
-			'action_data' => $action_data,
-			'action_code' => 301,
-		] );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'server',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/test',
+				'action_data' => $action_data,
+				'action_code' => 301,
+			]
+		);
 
 		$htaccess = new Red_Htaccess();
 		$htaccess->add( $item );
@@ -350,14 +386,16 @@ and a line at the end';
 
 	public function testRedirectUrlWithSpaces() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my test url',
-			'action_data' => '/target',
-			'action_code' => 301,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my test url',
+				'action_data' => '/target',
+				'action_code' => 301,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );
@@ -367,15 +405,17 @@ and a line at the end';
 
 	public function testRedirectUrlRegexWithSpaces() {
 		$htaccess = new Red_Htaccess();
-		$item = new Red_Item( (object) array(
-			'match_type' => 'url',
-			'id' => 1,
-			'action_type' => 'url',
-			'url' => '/my test.*',
-			'action_code' => 301,
-			'action_data' => '/target',
-			'regex' => true,
-		) );
+		$item = new Red_Item(
+			(object) [
+				'match_type' => 'url',
+				'id' => 1,
+				'action_type' => 'url',
+				'url' => '/my test.*',
+				'action_code' => 301,
+				'action_data' => '/target',
+				'regex' => true,
+			]
+		);
 		$htaccess->add( $item );
 
 		$lines = $this->getOutput( $htaccess );

@@ -1,5 +1,7 @@
 <?php
 
+require_once PLUGIN_PATH . '/matches/server.php';
+
 class ServerMatchTest extends WP_UnitTestCase {
 	public function testNoData() {
 		$match = new Server_Match();

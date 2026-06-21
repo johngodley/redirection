@@ -174,7 +174,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			}
 		}
 
-		$count = Red_FileIO::import( $group_id, $upload );
+		$count = \Redirection\FileIO\FileIO::import( $group_id, $upload );
 
 		// Import failure returns 0, but 0 can also mean no valid redirects in file
 		// For JSON files, pre-validate to distinguish between invalid JSON and empty/no-redirects

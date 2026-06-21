@@ -53,6 +53,66 @@ require_once __DIR__ . '/models/header.php';
 require_once __DIR__ . '/models/group.php';
 
 /**
+ * Autoload the migrated file I/O classes only.
+ *
+ * This lets us adopt autoloading incrementally for admin/CLI-only paths
+ * without changing the rest of the plugin bootstrap in one step.
+ *
+ * @param string $requested_class Requested class name.
+ * @return void
+ */
+function redirection_autoload_fileio( $requested_class ) {
+	$legacy = [
+		'Red_FileIO' => __DIR__ . '/includes/fileio/class-fileio.php',
+		'Red_Htaccess' => __DIR__ . '/includes/fileio/class-htaccess.php',
+		'Red_Apache_File' => __DIR__ . '/includes/fileio/format/class-apache.php',
+		'Red_Csv_File' => __DIR__ . '/includes/fileio/format/class-csv.php',
+		'Red_Json_File' => __DIR__ . '/includes/fileio/format/class-json.php',
+		'Red_Nginx_File' => __DIR__ . '/includes/fileio/format/class-nginx.php',
+		'Red_Rss_File' => __DIR__ . '/includes/fileio/format/class-rss.php',
+	];
+
+	if ( isset( $legacy[ $requested_class ] ) ) {
+		require_once $legacy[ $requested_class ];
+		return;
+	}
+
+	$prefix = 'Redirection\\FileIO\\';
+	if ( strncmp( $prefix, $requested_class, strlen( $prefix ) ) ) {
+		return;
+	}
+
+	$relative_class = substr( $requested_class, strlen( $prefix ) );
+	if ( $relative_class === '' ) {
+		return;
+	}
+
+	$normalize = static function ( $value ) {
+		return str_replace( '_', '-', strtolower( $value ) );
+	};
+
+	$segments = explode( '\\', $relative_class );
+	$class_name = array_pop( $segments );
+	if ( ! is_string( $class_name ) || $class_name === '' ) {
+		return;
+	}
+
+	$base_dir = __DIR__ . '/includes/fileio/';
+
+	if ( count( $segments ) > 0 ) {
+		$base_dir .= implode( '/', array_map( $normalize, $segments ) ) . '/';
+	}
+
+	$path = $base_dir . 'class-' . $normalize( $class_name ) . '.php';
+
+	if ( file_exists( $path ) ) {
+		require_once $path;
+	}
+}
+
+spl_autoload_register( 'redirection_autoload_fileio' );
+
+/**
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.
  *
  * @param object $upgrader The upgrader object.

@@ -42,7 +42,11 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	 * @return bool
 	 */
 	private function has_module_id( $wpdb ) {
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'module_id' ) !== false ) {
 			return true;
@@ -56,7 +60,11 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	 * @return bool
 	 */
 	private function has_group_id( $wpdb ) {
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'group_id' ) !== false ) {
 			return true;
@@ -70,7 +78,11 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	 * @return bool
 	 */
 	private function has_log_domain( $wpdb ) {
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_logs`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'domain` varchar' ) !== false ) {
 			return true;
@@ -84,7 +96,11 @@ class Red_Database_420 extends Red_Database_Upgrader {
 	 * @return bool
 	 */
 	private function has_404_domain( $wpdb ) {
+		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
+		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'domain` varchar' ) !== false ) {
 			return true;

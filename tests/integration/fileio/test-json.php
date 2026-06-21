@@ -1,11 +1,11 @@
 <?php
 
-require PLUGIN_PATH . '/fileio/json.php';
+use Redirection\FileIO\Format\Json;
 
 class JsonTest extends WP_UnitTestCase {
 	public function testExportEmpty() {
-		$json = new Red_Json_File();
-		$data = json_decode( $json->get_data( array(), array() ) );
+		$json = new Json();
+		$data = json_decode( $json->get_data( [], [] ) );
 
 		$this->assertTrue( empty( $data->groups ) );
 		$this->assertTrue( empty( $data->redirects ) );
@@ -13,18 +13,18 @@ class JsonTest extends WP_UnitTestCase {
 	}
 
 	public function testExportNew() {
-		$json = new Red_Json_File();
-		$redirects = [ new Red_Item( (object)[ 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ] ) ];
-		$groups = [ (new Red_Group( (object)[ 'name' => 'group', 'id' => 1 ] ) )->to_json() ];
+		$json = new Json();
+		$redirects = [ new Red_Item( (object) [ 'url' => 'source', 'match_type' => 'url', 'id' => 1, 'action_type' => 'url' ] ) ];
+		$groups = [ ( new Red_Group( (object) [ 'name' => 'group', 'id' => 1 ] ) )->to_json() ];
 
 		$data = json_decode( $json->get_data( $redirects, $groups ) );
 
-		$this->assertEquals( 'source', $data->redirects[ 0 ]->url );
-		$this->assertEquals( 1, $data->groups[ 0 ]->id );
+		$this->assertEquals( 'source', $data->redirects[0]->url );
+		$this->assertEquals( 1, $data->groups[0]->id );
 	}
 
 	public function testImportBad() {
-		$json = new Red_Json_File();
+		$json = new Json();
 		$data = $json->load( 0, 'thing', 'x' );
 		$this->assertEquals( 0, $data );
 	}
@@ -32,28 +32,28 @@ class JsonTest extends WP_UnitTestCase {
 	public function testImport() {
 		global $wpdb;
 
-		$import = array(
-			'groups' => array(
-				array(
+		$import = [
+			'groups' => [
+				[
 					'name' => 'groupx',
 					'id' => 5,
 					'module_id' => 1,
 					'enabled' => true,
-				),
-			),
-			'redirects' => array(
-				array(
+				],
+			],
+			'redirects' => [
+				[
 					'url' => '/source1',
 					'id' => 1,
 					'group_id' => 5,
 					'match_type' => 'url',
 					'action_type' => 'url',
-					'action_data' => array( 'url' => '/test' ),
-				),
-			),
-		);
+					'action_data' => [ 'url' => '/test' ],
+				],
+			],
+		];
 
-		$json = new Red_Json_File();
+		$json = new Json();
 		$data = $json->load( 0, 'thing', wp_json_encode( $import ) );
 		$this->assertEquals( 1, $data );
 

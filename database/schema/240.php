@@ -24,8 +24,10 @@ class Red_Database_240 extends Red_Database_Upgrader {
 	 */
 	private function has_ip_index( $wpdb ) {
 		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), 'key `ip` (' ) !== false ) {
 			return true;
@@ -40,8 +42,10 @@ class Red_Database_240 extends Red_Database_Upgrader {
 	 */
 	protected function has_varchar_ip( $wpdb ) {
 		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`ip` varchar(45)' ) !== false ) {
 			return true;
@@ -56,8 +60,10 @@ class Red_Database_240 extends Red_Database_Upgrader {
 	 */
 	protected function has_int_ip( $wpdb ) {
 		$wpdb->hide_errors();
+		$wpdb->suppress_errors( true );
 		$existing = $wpdb->get_row( "SHOW CREATE TABLE `{$wpdb->prefix}redirection_404`", ARRAY_N );
 		$wpdb->show_errors();
+		$wpdb->suppress_errors( false );
 
 		if ( isset( $existing[1] ) && strpos( strtolower( $existing[1] ), '`ip` int' ) !== false ) {
 			return true;
