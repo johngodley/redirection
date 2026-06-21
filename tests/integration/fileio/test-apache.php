@@ -100,4 +100,14 @@ class ApacheTest extends WP_UnitTestCase {
 		$this->assertEquals( [ 'url' => '/contact/' ], $item['action_data'] );
 		$this->assertEquals( '301', $item['action_code'] );
 	}
+
+	public function testRewriteRulePreservesEscapedDollar() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^prices\\$$ /prices/ [R=301,L]' );
+
+		$this->assertEquals( '^/prices\\$$', $item['url'] );
+		$this->assertTrue( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/prices/' ], $item['action_data'] );
+		$this->assertEquals( '301', $item['action_code'] );
+	}
 }

@@ -140,7 +140,7 @@ class Apache extends FileIO {
 	private function decode_url( $url ) {
 		$url = rawurldecode( $url );
 		$url = (string) preg_replace( '@\\\/@', '/', $url );
-		$url = (string) preg_replace( '@\\\\.@', '\\\\.', $url );
+		$url = (string) preg_replace( '@\\\\\\.@', '\\\\.', $url );
 		return $url;
 	}
 
@@ -170,7 +170,9 @@ class Apache extends FileIO {
 	private function is_regex( $url ) {
 		if ( $this->is_str_regex( $url ) ) {
 			$tmp = ltrim( $url, '^' );
-			$tmp = rtrim( $tmp, '$' );
+			if ( $this->has_end_anchor( $tmp ) ) {
+				$tmp = substr( $tmp, 0, -1 );
+			}
 
 			if ( $this->is_str_regex( $tmp ) ) {
 				return true;
@@ -189,9 +191,11 @@ class Apache extends FileIO {
 
 		if ( $this->is_str_regex( $url ) ) {
 			$has_start = strpos( $url, '^' ) === 0;
-			$has_end = substr( $url, -1 ) === '$';
+			$has_end = $this->has_end_anchor( $url );
 			$tmp = ltrim( $url, '^' );
-			$tmp = rtrim( $tmp, '$' );
+			if ( $has_end ) {
+				$tmp = substr( $tmp, 0, -1 );
+			}
 
 			if ( $this->is_str_regex( $tmp ) ) {
 				return ( $has_start ? '^' : '' ) . '/' . ltrim( $tmp, '/' ) . ( $has_end ? '$' : '' );
@@ -201,6 +205,32 @@ class Apache extends FileIO {
 		}
 
 		return $this->decode_url( $url );
+	}
+
+	/**
+	 * Determine if a regex ends with an unescaped $ anchor.
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	private function has_end_anchor( $url ) {
+		$length = strlen( $url );
+
+		if ( $length === 0 || substr( $url, -1 ) !== '$' ) {
+			return false;
+		}
+
+		$slashes = 0;
+
+		for ( $pos = $length - 2; $pos >= 0; $pos-- ) {
+			if ( substr( $url, $pos, 1 ) !== '\\' ) {
+				break;
+			}
+
+			$slashes++;
+		}
+
+		return $slashes % 2 === 0;
 	}
 
 	/**
