@@ -88,6 +88,26 @@ class ApacheTest extends WP_UnitTestCase {
 		$apache = new Apache();
 		$item = $apache->get_as_item( 'RewriteRule ^products/reporting\.html.*$ /products/ [R,L]' );
 
-		$this->assertEquals( '^/products/reporting\.html.*', $item['url'] );
+		$this->assertEquals( '^/products/reporting\.html.*$', $item['url'] );
+	}
+
+	public function testRewriteRulePreservesOptionalRegexEnd() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^/contact-us(/.*)?$ /contact/ [R=301,L]' );
+
+		$this->assertEquals( '^/contact-us(/.*)?$', $item['url'] );
+		$this->assertTrue( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/contact/' ], $item['action_data'] );
+		$this->assertEquals( '301', $item['action_code'] );
+	}
+
+	public function testRewriteRulePreservesEscapedDollar() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^prices\\$$ /prices/ [R=301,L]' );
+
+		$this->assertEquals( '^/prices\\$$', $item['url'] );
+		$this->assertTrue( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/prices/' ], $item['action_data'] );
+		$this->assertEquals( '301', $item['action_code'] );
 	}
 }

@@ -41,6 +41,14 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertTrue( $csv['regex'] );
 	}
 
+	public function testSourceTargetRegexPreservesQuestionMark() {
+		$importer = new Csv();
+		$csv = $importer->csv_as_item( [ '^/contact-us(/.*)?$', '/target' ], Red_Group::get( 1 ) );
+
+		$this->assertTrue( $csv['regex'] );
+		$this->assertEquals( '^/contact-us(/.*)?$', $csv['url'] );
+	}
+
 	public function testRedirectCode() {
 		$importer = new Csv();
 		$csv = $importer->csv_as_item( [ '/source', '/target', 0, 308 ], Red_Group::get( 1 ) );
