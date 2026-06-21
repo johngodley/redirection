@@ -188,11 +188,13 @@ class Apache extends FileIO {
 		$url = $this->decode_url( $url );
 
 		if ( $this->is_str_regex( $url ) ) {
+			$has_start = strpos( $url, '^' ) === 0;
+			$has_end = substr( $url, -1 ) === '$';
 			$tmp = ltrim( $url, '^' );
 			$tmp = rtrim( $tmp, '$' );
 
 			if ( $this->is_str_regex( $tmp ) ) {
-				return '^/' . ltrim( $tmp, '/' );
+				return ( $has_start ? '^' : '' ) . '/' . ltrim( $tmp, '/' ) . ( $has_end ? '$' : '' );
 			}
 
 			return '/' . ltrim( $tmp, '/' );
