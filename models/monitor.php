@@ -22,6 +22,11 @@ class Red_Monitor {
 	private $associated = '';
 
 	/**
+	 * @var bool
+	 */
+	private $monitor_keep_domain = false;
+
+	/**
 	 * @param array<string, mixed> $options
 	 */
 	public function __construct( array $options ) {
@@ -30,6 +35,7 @@ class Red_Monitor {
 		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
 			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
+			$this->monitor_keep_domain = isset( $options['monitor_keep_domain'] ) ? (bool) $options['monitor_keep_domain'] : false;
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) !== false ) {
@@ -206,8 +212,14 @@ class Red_Monitor {
 			return false;
 		}
 
-		$after = wp_parse_url( $permalink, PHP_URL_PATH );
-		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
+		$after_url = wp_parse_url( $permalink );
+		$after = isset( $after_url['path'] ) ? $after_url['path'] : null;
+		$after_host = isset( $after_url['host'] ) ? $after_url['host'] : null;
+		$after_scheme = isset( $after_url['scheme'] ) ? $after_url['scheme'] : ( is_ssl() ? 'https' : 'http' );
+
+		$before_url = wp_parse_url( esc_url( $before ) );
+		$before = isset( $before_url['path'] ) ? $before_url['path'] : null;
+		$before_host = isset( $before_url['host'] ) ? $before_url['host'] : null;
 
 		if ( is_string( $before ) && is_string( $after ) && apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
 			do_action( 'redirection_remove_existing', $after, $post_id );
@@ -221,6 +233,20 @@ class Red_Monitor {
 				'group_id'    => $this->monitor_group_id,
 			);
 
+			if ( $this->monitor_keep_domain && is_string( $after_host ) && $after_host !== '' && is_string( $before_host ) && $after_host !== $before_host ) {
+				$data = $this->add_domain_match( $data, $after_scheme, $after_host, $after );
+			}
+
+			/**
+			 * Filter the redirect data before creating a redirect for a modified post slug.
+			 *
+			 * @param array  $data    The redirect data to be created.
+			 * @param int    $post_id The ID of the modified post.
+			 * @param string $before  The previous URL path.
+			 * @param string $after   The new URL path.
+			 */
+			$data = apply_filters( 'redirection_monitor_data', $data, $post_id, $before, $after );
+
 			// Create a new redirect for this post
 			$new_item = Red_Item::create( $data );
 
@@ -230,7 +256,12 @@ class Red_Monitor {
 				if ( ! empty( $this->associated ) ) {
 					// Create an associated redirect for this post
 					$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
-					$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
+					if ( isset( $data['action_data']['url'] ) ) {
+						$data['action_data']['url'] = trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' );
+					}
+					if ( isset( $data['action_data']['url_from'] ) ) {
+						$data['action_data']['url_from'] = trailingslashit( $data['action_data']['url_from'] ) . ltrim( $this->associated, '/' );
+					}
 					Red_Item::create( $data );
 				}
 			}
@@ -239,5 +270,24 @@ class Red_Monitor {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Convert redirect data into a URL and server match scoped to the given domain.
+	 *
+	 * @param array<string, mixed> $data    Redirect data.
+	 * @param string               $scheme  URL scheme.
+	 * @param string               $host    Server host.
+	 * @param string               $target  Target URL path.
+	 * @return array<string, mixed>
+	 */
+	private function add_domain_match( array $data, string $scheme, string $host, string $target ): array {
+		$data['match_type'] = 'server';
+		$data['action_data'] = array(
+			'server'   => $scheme . '://' . $host,
+			'url_from' => $target,
+		);
+
+		return $data;
 	}
 }

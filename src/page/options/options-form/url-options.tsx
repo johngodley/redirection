@@ -18,6 +18,7 @@ interface Settings {
 	associated_redirect: string;
 	monitor_post: number;
 	monitor_types: string[];
+	monitor_keep_domain: boolean;
 }
 
 interface GroupOption {
