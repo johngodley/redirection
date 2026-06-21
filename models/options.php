@@ -34,6 +34,7 @@
  *    cache_key: int,
  *    plugin_update: string,
  *    update_notice: int,
+ *    force_lowercase: bool,
  *    flag_query: 'ignore'|'exact'|'pass'|'exactorder',
  *    flag_case: bool,
  *    flag_trailing: bool,
@@ -192,6 +193,7 @@ class Red_Options {
 			'cache_key' => 0,
 			'plugin_update' => 'prompt',
 			'update_notice' => 0,
+			'force_lowercase' => false,
 		];
 
 		$defaults = array_merge( $defaults, $flags->get_json() );
@@ -331,7 +333,7 @@ class Red_Options {
 		}
 
 		// Boolean settings
-		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits', 'force_lowercase' ] as $name ) {
 			if ( isset( $settings[ $name ] ) ) {
 				$options[ $name ] = $settings[ $name ] ? true : false;
 			}
