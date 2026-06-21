@@ -17,7 +17,7 @@
 		"build": "wp-scripts build",
 		"build:analyze": "ANALYZE=true pnpm build",
 		"build:stats": "wp-scripts build --webpack-bundle-analyzer",
-		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt modules models matches images fileio database api actions release/redirection && rm release/redirection/api/*.md",
+		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images database api actions release/redirection && rm release/redirection/api/*.md",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
 		"release": "bash dev/release-github.sh",
 		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",

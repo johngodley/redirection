@@ -224,21 +224,12 @@ class Red_Source_Flags {
 	 */
 	public function get_json_with_defaults() {
 		$settings = Red_Options::get();
-		$json = $this->get_json();
-		$defaults = [
-			self::FLAG_QUERY => $settings[ self::FLAG_QUERY ],
-			self::FLAG_CASE => $settings[ self::FLAG_CASE ],
-			self::FLAG_TRAILING => $settings[ self::FLAG_TRAILING ],
-			self::FLAG_REGEX => $settings[ self::FLAG_REGEX ],
+
+		return [
+			self::FLAG_QUERY => in_array( self::FLAG_QUERY, $this->values_set, true ) ? $this->flag_query : $settings[ self::FLAG_QUERY ],
+			self::FLAG_CASE => in_array( self::FLAG_CASE, $this->values_set, true ) ? $this->flag_case : $settings[ self::FLAG_CASE ],
+			self::FLAG_TRAILING => in_array( self::FLAG_TRAILING, $this->values_set, true ) ? $this->flag_trailing : $settings[ self::FLAG_TRAILING ],
+			self::FLAG_REGEX => in_array( self::FLAG_REGEX, $this->values_set, true ) ? $this->flag_regex : $settings[ self::FLAG_REGEX ],
 		];
-
-		foreach ( $this->values_set as $key ) {
-			// @phpstan-ignore isset.offset
-			if ( ! isset( $json[ $key ] ) ) {
-				$json[ $key ] = $defaults[ $key ];
-			}
-		}
-
-		return $json;
 	}
 }

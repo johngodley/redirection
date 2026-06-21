@@ -470,7 +470,8 @@ class Htaccess {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		if ( WP_Filesystem() === null ) {
+		$filesystem_ready = WP_Filesystem();
+		if ( $filesystem_ready !== true || ! isset( $wp_filesystem ) ) {
 			return false;
 		}
 

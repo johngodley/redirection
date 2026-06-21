@@ -43,9 +43,12 @@ class Apache extends FileIO {
 		}
 
 		$data = str_replace( "\n", "\r", $data );
-		$lines = array_filter( explode( "\r", $data ), static function ( $line ) {
-			return strlen( $line ) > 0;
-		} );
+		$lines = array_filter(
+			explode( "\r", $data ),
+			static function ( $line ) {
+				return strlen( $line ) > 0;
+			}
+		);
 		$count = 0;
 
 		foreach ( $lines as $line ) {
