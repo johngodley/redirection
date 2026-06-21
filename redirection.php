@@ -78,7 +78,7 @@ function redirection_autoload_fileio( $requested_class ) {
 	}
 
 	$prefix = 'Redirection\\FileIO\\';
-	if ( strncmp( $prefix, $requested_class, strlen( $prefix ) ) ) {
+	if ( strncmp( $prefix, $requested_class, strlen( $prefix ) ) !== 0 ) {
 		return;
 	}
 
