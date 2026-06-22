@@ -65,12 +65,7 @@ class Json extends FileIO {
 		if ( isset( $json['groups'] ) ) {
 			foreach ( $json['groups'] as $json_group ) {
 				$old_group_id = $json_group['id'];
-				unset( $json_group['id'] );
-
-				$json_group = \Red_Group::create( $json_group['name'], $json_group['module_id'], $json_group['enabled'] ? true : false );
-				if ( $json_group !== false ) {
-					$group_map[ $old_group_id ] = $json_group->get_id();
-				}
+				$group_map[ $old_group_id ] = $this->get_group_id( $old_group_id, $json_group );
 			}
 		}
 
@@ -81,10 +76,7 @@ class Json extends FileIO {
 				unset( $redirect['id'] );
 
 				if ( ! isset( $group_map[ $redirect['group_id'] ] ) ) {
-					$new_group = \Red_Group::create( 'Group', 1 );
-					if ( $new_group !== false ) {
-						$group_map[ $redirect['group_id'] ] = $new_group->get_id();
-					}
+					$group_map[ $redirect['group_id'] ] = $this->get_group_id( $redirect['group_id'] );
 				}
 
 				if ( $redirect['match_type'] === 'url' && isset( $redirect['action_data'] ) && ! is_array( $redirect['action_data'] ) ) {
@@ -105,6 +97,34 @@ class Json extends FileIO {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * @param int|string $group_id
+	 * @param array<string, mixed>|null $group
+	 * @return int
+	 */
+	private function get_group_id( $group_id, $group = null ) {
+		$group_id = intval( $group_id, 10 );
+		$existing = \Red_Group::get( $group_id );
+
+		if ( $existing !== false ) {
+			return $existing->get_id();
+		}
+
+		if ( $group !== null ) {
+			$created = \Red_Group::create( $group['name'], $group['module_id'], $group['enabled'] ? true : false );
+			if ( $created !== false ) {
+				return $created->get_id();
+			}
+		}
+
+		$created = \Red_Group::create( 'Group', 1 );
+		if ( $created !== false ) {
+			return $created->get_id();
+		}
+
+		return 0;
 	}
 }
 
