@@ -36,7 +36,7 @@ class JsonTest extends WP_UnitTestCase {
 			'groups' => [
 				[
 					'name' => 'groupx',
-					'id' => 5,
+					'id' => 5005,
 					'module_id' => 1,
 					'enabled' => true,
 				],
@@ -45,7 +45,7 @@ class JsonTest extends WP_UnitTestCase {
 				[
 					'url' => '/source1',
 					'id' => 1,
-					'group_id' => 5,
+					'group_id' => 5005,
 					'match_type' => 'url',
 					'action_type' => 'url',
 					'action_data' => [ 'url' => '/test' ],
