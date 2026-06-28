@@ -24,7 +24,6 @@ function PageContent( { page }: PageContentProps ) {
 			return <Logs />;
 
 		case 'import':
-		case 'io':
 			return <ImportPage />;
 
 		case 'export':

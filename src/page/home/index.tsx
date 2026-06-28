@@ -26,7 +26,6 @@ interface PageTitles {
 	redirect: string;
 	site: string;
 	groups: string;
-	io: string;
 	import: string;
 	export: string;
 	log: string;
@@ -40,7 +39,6 @@ const getTitles = (): PageTitles => ( {
 	redirect: __( 'Redirections', 'redirection' ),
 	site: __( 'Site', 'redirection' ),
 	groups: __( 'Groups', 'redirection' ),
-	io: __( 'Import redirects', 'redirection' ),
 	import: __( 'Import redirects', 'redirection' ),
 	export: __( 'Export redirects', 'redirection' ),
 	log: __( 'Logs', 'redirection' ),

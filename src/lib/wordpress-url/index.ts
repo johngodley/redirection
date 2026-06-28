@@ -1,4 +1,4 @@
-const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'import', 'export', 'options', 'support', 'site' ];
+const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'import', 'export', 'options', 'support', 'site' ];
 
 interface QueryParams {
 	[ key: string ]: string | number | undefined;
@@ -40,10 +40,6 @@ export function getPluginPage( url?: string ): string {
 	const params = getPageUrl( url );
 
 	if ( params.sub && ALLOWED_PAGES.includes( params.sub as string ) ) {
-		if ( params.sub === 'io' ) {
-			return 'import';
-		}
-
 		return params.sub as string;
 	}
 
