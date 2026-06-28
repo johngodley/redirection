@@ -5,6 +5,82 @@
  */
 class Redirection_Cli extends WP_CLI_Command {
 	/**
+	 * @param array<string, mixed> $extra CLI flags.
+	 * @return 'import'|'ignore'|'update'
+	 */
+	private function get_duplicate_mode( array $extra ) {
+		$mode = isset( $extra['duplicate-mode'] ) && is_string( $extra['duplicate-mode'] ) ? $extra['duplicate-mode'] : 'import';
+
+		if ( in_array( $mode, [ 'import', 'ignore', 'update' ], true ) ) {
+			return $mode;
+		}
+
+		WP_CLI::error( 'Invalid duplicate mode - import, ignore, or update supported' );
+		return 'import';
+	}
+
+	/**
+	 * @param array<string, mixed> $extra CLI flags.
+	 * @param string $flag Flag name.
+	 * @return bool
+	 */
+	private function get_boolean_flag( array $extra, $flag ) {
+		if ( ! isset( $extra[ $flag ] ) ) {
+			return false;
+		}
+
+		$value = $extra[ $flag ];
+		if ( $value === true || $value === false ) {
+			return $value;
+		}
+
+		if ( is_string( $value ) ) {
+			return in_array( strtolower( $value ), [ '1', 'true', 'yes' ], true );
+		}
+
+		if ( is_int( $value ) ) {
+			return $value === 1;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $source Import source.
+	 * @param string $type Import type.
+	 * @param array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * } $results Import results.
+	 * @return void
+	 */
+	private function display_import_results( $source, $type, array $results ) {
+		WP_CLI::success(
+			sprintf(
+				'Imported %d redirects from %s %s (%d created, %d updated, %d ignored, %d groups created)',
+				$results['created'] + $results['updated'],
+				$type,
+				$source,
+				$results['created'],
+				$results['updated'],
+				$results['ignored'],
+				$results['groups_created']
+			)
+		);
+	}
+
+	/**
 	 * Resolve a group ID, or return the first available group.
 	 *
 	 * @param int $group_id Group ID, or 0 to auto-select the first group.
@@ -46,6 +122,12 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * [--group=<groupid>]
 	 * : The group ID to import into. Defaults to the first available group.
 	 *
+	 * [--duplicate-mode=<mode>]
+	 * : Duplicate handling. One of import, ignore, or update. Defaults to import.
+	 *
+	 * [--delete-source]
+	 * : Delete the original source data after import for importers that support it.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp redirection plugin quick-redirects
@@ -59,15 +141,24 @@ class Redirection_Cli extends WP_CLI_Command {
 
 		$name = $args[0];
 		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
+		$options = [
+			'duplicate_mode' => $this->get_duplicate_mode( $extra ),
+			'delete_source' => $this->get_boolean_flag( $extra, 'delete-source' ),
+		];
 
 		$importer = Red_Plugin_Importer::get_importer( $name );
 		if ( $importer !== false && $group !== false ) {
-			$count = $importer->import_plugin( $group );
-			WP_CLI::success( sprintf( 'Imported %d redirects from plugin %s', $count, $name ) );
+			$results = $importer->import_plugin( $group, $options );
+			$this->display_import_results( $name, 'plugin', $results );
 			return;
 		}
 
-		WP_CLI::error( 'Invalid plugin name' );
+		if ( $importer === false ) {
+			WP_CLI::error( 'Invalid plugin name' );
+			return;
+		}
+
+		WP_CLI::error( 'Invalid group' );
 	}
 
 	/**
@@ -226,8 +317,14 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * : The group ID to import into. Defaults to the first available group. JSON
 	 *   contains it's own group
 	 *
+	 * [--use-groups-in-file]
+	 * : For JSON imports, use the groups defined in the file instead of importing into a single group.
+	 *
 	 * [--format=<importformat>]
 	 * : The import format - csv, apache, or json. Defaults to json
+	 *
+	 * [--duplicate-mode=<mode>]
+	 * : Duplicate handling. One of import, ignore, or update. Defaults to import.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -239,8 +336,9 @@ class Redirection_Cli extends WP_CLI_Command {
 	 */
 	public function import( $args, $extra ) {
 		$format = isset( $extra['format'] ) ? $extra['format'] : 'json';
-		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
 		$formats = new \Redirection\ImportExport\FormatFactory();
+		$use_file_groups = $this->get_boolean_flag( $extra, 'use-groups-in-file' );
+		$group = $use_file_groups && $format === 'json' ? 0 : $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
 
 		if ( $group === false ) {
 			WP_CLI::error( 'Invalid group' );
@@ -276,19 +374,11 @@ class Redirection_Cli extends WP_CLI_Command {
 			],
 			[
 				'format' => $format,
+				'duplicate_mode' => $this->get_duplicate_mode( $extra ),
 			]
 		);
 
-		WP_CLI::success(
-			sprintf(
-				'Imported %d redirects as %s (%d created, %d updated, %d ignored)',
-				$results['created'] + $results['updated'],
-				$format,
-				$results['created'],
-				$results['updated'],
-				$results['ignored']
-			)
-		);
+		$this->display_import_results( $format, 'file', $results );
 	}
 
 	/**
