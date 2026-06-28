@@ -78,8 +78,9 @@ function ImportOptions( {
 				<div className="groups__row">
 					<div className="groups__label">{ __( 'Delete original data', 'redirection' ) }</div>
 					<div className="groups__control">
-						<label className="groups__checkbox">
+						<label className="groups__checkbox" htmlFor="delete_source">
 							<input
+								id="delete_source"
 								type="checkbox"
 								name="delete_source"
 								checked={ deleteSource }

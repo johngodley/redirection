@@ -48,7 +48,7 @@ function ImportPage() {
 
 	const renderImporterPlaceholder = () => {
 		return (
-			<IoCard className="import-source-card import-source-card--placeholder">
+			<IoCard title="" className="import-source-card import-source-card--placeholder">
 				<Placeholder />
 			</IoCard>
 		);
@@ -102,7 +102,6 @@ function ImportPage() {
 						hover={ state.hover }
 						importingStatus={ importingStatus }
 						isImporting={ state.isImporting }
-						isJsonFile={ isJsonFile }
 						isSniffing={ state.isSniffing }
 						onAddFileClick={ onAddFileClick }
 						onClearFile={ onClearFile }

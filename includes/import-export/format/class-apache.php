@@ -10,6 +10,7 @@ use Redirection\ImportExport\ImportRedirect;
 
 /**
  * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  */
 class Apache extends FormatHandler {
 	/**
@@ -58,7 +59,7 @@ class Apache extends FormatHandler {
 	 * @param ImportRedirect $redirect Redirect saver.
 	 * @param string $filename Path to the file to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
-	 * @return array{created: int, updated: int, ignored: int, groups_created: int}
+	 * @return ImportResult
 	 */
 	public function load( $group, $redirect, $filename, $is_dry_run ) {
 		if ( $filename === '' ) {
@@ -78,7 +79,7 @@ class Apache extends FormatHandler {
 	 * @param ImportRedirect $redirect Redirect saver.
 	 * @param string $data Apache config data to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
-	 * @return array{created: int, updated: int, ignored: int, groups_created: int}
+	 * @return ImportResult
 	 */
 	public function load_from_string( $group, $redirect, $data, $is_dry_run ) {
 		$data = str_replace( "\n", "\r", $data );

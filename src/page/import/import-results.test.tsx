@@ -3,9 +3,9 @@ import { render, screen, within } from '@testing-library/react';
 import ImportResults from './import-results';
 import type { ImportStats } from './types';
 
-( global as any ).Redirectioni10n = {
+window.Redirectioni10n = {
 	pluginRoot: '/wp-admin/tools.php?page=redirection.php',
-};
+} as Redirectioni10n;
 
 function getPreviewResults( overrides: Partial< ImportStats > = {} ): ImportStats {
 	return {
@@ -45,23 +45,26 @@ function getPreviewResults( overrides: Partial< ImportStats > = {} ): ImportStat
 }
 
 describe( 'ImportResults', () => {
-	it.each( [ 'file', 'plugin' ] as const )( 'renders the shared preview table for %s imports', ( activeImportType ) => {
-		render(
-			<ImportResults
-				activeImportType={ activeImportType }
-				lastImport={ getPreviewResults() }
-				lastImportWasDryRun={ true }
-			/>
-		);
+	it.each( [ 'file', 'plugin' ] as const )(
+		'renders the shared preview table for %s imports',
+		( activeImportType ) => {
+			render(
+				<ImportResults
+					activeImportType={ activeImportType }
+					lastImport={ getPreviewResults() }
+					lastImportWasDryRun={ true }
+				/>
+			);
 
-		expect( screen.getByText( 'Preview results' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Preview only. No changes have been made.' ) ).toBeInTheDocument();
-		expect( screen.getByRole( 'table' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Redirects created' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Redirect updated' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Duplicate ignored' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Group created' ) ).toBeInTheDocument();
-	} );
+			expect( screen.getByText( 'Preview results' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Preview only. No changes have been made.' ) ).toBeInTheDocument();
+			expect( screen.getByRole( 'table' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Redirects created' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Redirect updated' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Duplicate ignored' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Group created' ) ).toBeInTheDocument();
+		}
+	);
 
 	it( 'renders richer preview rows, including update links and ignored styling', () => {
 		const { container } = render(
@@ -69,10 +72,7 @@ describe( 'ImportResults', () => {
 		);
 
 		const updatedLink = screen.getByRole( 'link', { name: '/updated' } );
-		expect( updatedLink ).toHaveAttribute(
-			'href',
-			'/wp-admin/tools.php?page=redirection.php&filterby%5Bid%5D=99'
-		);
+		expect( updatedLink ).toHaveAttribute( 'href', '/wp-admin/tools.php?page=redirection.php&filterby%5Bid%5D=99' );
 
 		const updatedRow = updatedLink.closest( 'tr' );
 		expect( updatedRow ).not.toHaveClass( 'io-preview-table__row--ignored' );

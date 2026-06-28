@@ -188,21 +188,6 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *     redirect_id?: int
 	 *   }>
 	 * }|WP_Error
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }|WP_Error
 	 */
 	public function route_plugin_import( WP_REST_Request $request ) {
 		include_once dirname( __DIR__ ) . '/models/importer.php';
@@ -229,6 +214,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			'updated' => 0,
 			'ignored' => 0,
 			'groups_created' => 0,
+			'preview' => [],
 		];
 
 		$group = Red_Group::get( $group_id );
@@ -256,21 +242,6 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @param WP_REST_Request $request Request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
 	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }|WP_Error
-	 * @return array{
 	 *   created: int,
 	 *   updated: int,
 	 *   ignored: int,
@@ -315,21 +286,6 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @param WP_REST_Request $request Request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
 	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }|WP_Error
-	 * @return array{
 	 *   created: int,
 	 *   updated: int,
 	 *   ignored: int,

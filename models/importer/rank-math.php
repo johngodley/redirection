@@ -61,7 +61,7 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 	 * Import redirects from RankMath.
 	 *
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		global $wpdb;

@@ -60,7 +60,7 @@ class Red_QuickRedirect_Importer extends Red_Plugin_Importer {
 	 * Import redirects from Quick Page/Post Redirects.
 	 *
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$redirects = get_option( 'quickppr_redirects' );

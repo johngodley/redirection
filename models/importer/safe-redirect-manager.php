@@ -146,24 +146,24 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 	/**
 	 * Create a Redirection item from a collected SRM post meta map.
 	 *
-	 * @param int              $group_id Target group ID.
-	 * @param array<string,string> $post    Map of SRM fields for a single link.
-	 * @return Red_Item|WP_Error Created redirect or error.
+	 * @param array<string, int|string> $post Map of SRM fields for a single link.
+	 * @return array<string, mixed>
 	 */
 	private function get_item_for_post( $post ) {
 		$regex = false;
-		$source = $post['from'];
+		$source = (string) $post['from'];
+		$target = (string) $post['to'];
 
-		if ( strpos( $post['from'], '*' ) !== false ) {
+		if ( strpos( $source, '*' ) !== false ) {
 			$regex = true;
 			$source = str_replace( '*', '.*', $source );
-		} elseif ( isset( $post['from_regex'] ) && $post['from_regex'] === '1' ) {
+		} elseif ( isset( $post['from_regex'] ) && (string) $post['from_regex'] === '1' ) {
 			$regex = true;
 		}
 
 		return array(
 			'url'         => $source,
-			'action_data' => array( 'url' => $post['to'] ),
+			'action_data' => array( 'url' => $target ),
 			'regex'       => $regex,
 			'match_type'  => 'url',
 			'action_type' => 'url',

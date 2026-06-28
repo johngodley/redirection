@@ -5,6 +5,10 @@ import { useGroupList, useImporterList, useImportRunner } from 'lib/api/hooks';
 import type { DuplicateMode, ImportMode, ImportMutationVariables } from 'lib/api/hooks';
 import type { ImportPlugin, ImportState, ImportStats } from './types';
 
+type ImportResponse = Partial< ImportStats > & {
+	preview?: ImportStats[ 'preview' ];
+};
+
 function getEmptyImportResult(): ImportStats {
 	return {
 		created: 0,
@@ -15,6 +19,15 @@ function getEmptyImportResult(): ImportStats {
 	};
 }
 
+function isDestructivePluginImport( request: ImportMutationVariables ) {
+	return (
+		request.sourceType === 'plugin' &&
+		request.mode === 'import' &&
+		request.deleteSource === true &&
+		( request.pluginId === 'wordpress-old-slugs' || request.pluginId === 'safe-redirect-manager' )
+	);
+}
+
 function useImportPage() {
 	const [ activeImportType, setActiveImportType ] = useState< 'file' | 'plugin' | null >( null );
 	const [ activePluginId, setActivePluginId ] = useState< string | null >( null );
@@ -23,7 +36,7 @@ function useImportPage() {
 	const [ file, setFile ] = useState< File | false >( false );
 	const [ duplicateMode, setDuplicateMode ] = useState< DuplicateMode >( 'import' );
 	const [ deleteSource, setDeleteSource ] = useState< boolean >( false );
-	const [ fileInfo, setFileInfo ] = useState< ImportState['fileInfo'] >( null );
+	const [ fileInfo, setFileInfo ] = useState< ImportState[ 'fileInfo' ] >( null );
 	const [ isSniffing, setIsSniffing ] = useState< boolean >( false );
 	const [ lastImport, setLastImport ] = useState< ImportStats | false >( false );
 	const [ lastImportWasDryRun, setLastImportWasDryRun ] = useState< boolean | null >( null );
@@ -31,17 +44,19 @@ function useImportPage() {
 	const dragDepthRef = useRef< number >( 0 );
 
 	const { data: groupData } = useGroupList( {} );
-	const groupRows = ( groupData?.items ?? [] ) as ImportState['groupRows'];
+	const groupRows = ( groupData?.items ?? [] ) as ImportState[ 'groupRows' ];
 	const { data: importerData = [], isLoading: isLoadingImporters } = useImporterList();
 	const importers = importerData as ImportPlugin[];
 
 	const importRunner = useImportRunner( {
 		onSuccess: ( data, variables ) => {
 			const isPreview = variables.mode === 'preview';
+			const response = data as ImportResponse;
+
 			setLastImport( {
 				...getEmptyImportResult(),
-				...( data as any ),
-				preview: ( data as any )?.preview || [],
+				...response,
+				preview: response.preview || [],
 			} );
 			setLastImportWasDryRun( isPreview );
 		},
@@ -51,8 +66,7 @@ function useImportPage() {
 	const hasCompletedImport = lastImport !== false && lastImportWasDryRun === false;
 	const activePlugin = importers.find( ( item ) => item.id === activePluginId ) || null;
 	const hasActiveImport = activeImportType === 'file' ? file !== false : activePlugin !== null;
-	const previewSupported =
-		activeImportType === 'file' ? true : activePlugin?.preview_supported === true;
+	const previewSupported = activeImportType === 'file' ? true : activePlugin?.preview_supported === true;
 
 	let importingStatus = 'idle';
 	if ( isImporting ) {
@@ -221,26 +235,21 @@ function useImportPage() {
 			return;
 		}
 
+		const confirmMessage = isDestructivePluginImport( request )
+			? __( 'This will import the redirects and delete the original data. Are you sure?', 'redirection' )
+			: sprintf(
+					// translators: %s is the plugin name
+					__( 'Are you sure you want to import from %s?', 'redirection' ),
+					pluginName
+			  );
+
 		if (
 			request.sourceType === 'plugin' &&
 			request.mode === 'import' &&
 			! (
 				// Browser confirm is intentional here to guard a destructive import action.
 				// eslint-disable-next-line no-alert
-				confirm(
-					request.deleteSource &&
-					( request.pluginId === 'wordpress-old-slugs' ||
-						request.pluginId === 'safe-redirect-manager' )
-						? __(
-								'This will import the redirects and delete the original data. Are you sure?',
-								'redirection'
-						  )
-						: sprintf(
-								// translators: %s is the plugin name
-								__( 'Are you sure you want to import from %s?', 'redirection' ),
-								pluginName
-						  )
-				)
+				confirm( confirmMessage )
 			)
 		) {
 			return;

@@ -37,12 +37,12 @@ describe( 'useImportPage', () => {
 				onSuccess?: ( data: any, variables: ImportMutationVariables ) => void;
 		  }
 		| undefined;
-	const originalConfirm = window.confirm;
+	let confirmSpy: jest.SpiedFunction< typeof window.confirm >;
 
 	beforeEach( () => {
 		jest.clearAllMocks();
 		runnerOptions = undefined;
-		window.confirm = jest.fn( () => true );
+		confirmSpy = jest.spyOn( window, 'confirm' ).mockImplementation( () => true );
 
 		mockUseGroupList.mockReturnValue( {
 			data: {
@@ -70,7 +70,7 @@ describe( 'useImportPage', () => {
 	} );
 
 	afterEach( () => {
-		window.confirm = originalConfirm;
+		jest.restoreAllMocks();
 	} );
 
 	it( 'clears preview state and restores the default group when switching from a JSON file to a plugin importer', async () => {
@@ -253,9 +253,6 @@ describe( 'useImportPage', () => {
 	} );
 
 	it( 'shows a destructive confirm before importing when delete original data is enabled', () => {
-		const confirmMock = jest.fn( () => true );
-		window.confirm = confirmMock;
-
 		const { result } = renderHook( () => useImportPage() );
 
 		act( () => {
@@ -278,7 +275,7 @@ describe( 'useImportPage', () => {
 			result.current.onImport( false );
 		} );
 
-		expect( confirmMock ).toHaveBeenCalledWith(
+		expect( confirmSpy ).toHaveBeenCalledWith(
 			'This will import the redirects and delete the original data. Are you sure?'
 		);
 		expect( mutate ).toHaveBeenCalledWith(
@@ -292,9 +289,6 @@ describe( 'useImportPage', () => {
 	} );
 
 	it( 'shows a destructive confirm before importing Safe Redirect Manager when delete original data is enabled', () => {
-		const confirmMock = jest.fn( () => true );
-		window.confirm = confirmMock;
-
 		const { result } = renderHook( () => useImportPage() );
 
 		act( () => {
@@ -317,7 +311,7 @@ describe( 'useImportPage', () => {
 			result.current.onImport( false );
 		} );
 
-		expect( confirmMock ).toHaveBeenCalledWith(
+		expect( confirmSpy ).toHaveBeenCalledWith(
 			'This will import the redirects and delete the original data. Are you sure?'
 		);
 		expect( mutate ).toHaveBeenCalledWith(

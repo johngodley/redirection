@@ -60,7 +60,7 @@ class Red_Simple301_Importer extends Red_Plugin_Importer {
 	 * Import redirects from Simple 301 Redirects.
 	 *
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$redirects = get_option( '301_redirects' );

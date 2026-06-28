@@ -7,11 +7,10 @@ interface FileDropzoneProps {
 	activeImportType: 'file' | 'plugin' | null;
 	file: File | false;
 	fileInfo: ImportSniffResult | null;
-	fileInputRef: React.RefObject< HTMLInputElement | null >;
+	fileInputRef: React.RefObject< HTMLInputElement >;
 	hover: boolean;
 	importingStatus: string;
 	isImporting: boolean;
-	isJsonFile: ( file: File ) => boolean;
 	isSniffing: boolean;
 	onAddFileClick: () => void;
 	onClearFile: () => void;
@@ -27,7 +26,6 @@ function FileDropzone( {
 	hover,
 	importingStatus,
 	isImporting,
-	isJsonFile,
 	isSniffing,
 	onAddFileClick,
 	onClearFile,
@@ -119,10 +117,12 @@ function FileDropzone( {
 			);
 		}
 
-		const details: CardMetaItem[] = [ {
-			label: __( 'Details', 'redirection' ),
-			value: getFileSize(),
-		} ];
+		const details: CardMetaItem[] = [
+			{
+				label: __( 'Details', 'redirection' ),
+				value: getFileSize(),
+			},
+		];
 		const stats: CardStatItem[] = [];
 		let type = '';
 
@@ -200,9 +200,26 @@ function FileDropzone( {
 		'dropzone-hover': hover,
 		'import-source-card--active': activeImportType === 'file' && file !== false,
 	} );
+	const isSelectable = activeImportType !== 'file' && file !== false;
+	const onCardKeyDown = ( event: React.KeyboardEvent< HTMLDivElement > ) => {
+		if ( ! isSelectable ) {
+			return;
+		}
+
+		if ( event.key === 'Enter' || event.key === ' ' ) {
+			event.preventDefault();
+			onClick();
+		}
+	};
 
 	return (
-		<div className={ classes } onClick={ activeImportType !== 'file' && file !== false ? onClick : undefined }>
+		<div
+			className={ classes }
+			onClick={ isSelectable ? onClick : undefined }
+			onKeyDown={ isSelectable ? onCardKeyDown : undefined }
+			role={ isSelectable ? 'button' : undefined }
+			tabIndex={ isSelectable ? 0 : undefined }
+		>
 			<input
 				ref={ fileInputRef }
 				type="file"
@@ -216,7 +233,12 @@ function FileDropzone( {
 				<div className="dropzone-selected">
 					{ renderSelectedFileCard() }
 					<div className="import-source-card__actions">
-						<button className="button-secondary" onClick={ onClearFile } disabled={ isImporting }>
+						<button
+							type="button"
+							className="button-secondary"
+							onClick={ onClearFile }
+							disabled={ isImporting }
+						>
 							{ __( 'Clear file', 'redirection' ) }
 						</button>
 					</div>

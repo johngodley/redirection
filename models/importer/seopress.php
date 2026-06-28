@@ -124,10 +124,12 @@ class Red_SEOPress_Importer extends Red_Plugin_Importer {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		return array_map(
-			'intval',
-			$wpdb->get_col(
-				"SELECT DISTINCT posts.ID FROM {$wpdb->posts} AS posts INNER JOIN {$wpdb->postmeta} AS pm ON posts.ID = pm.post_id WHERE pm.meta_key = '_seopress_redirections_enabled' AND pm.meta_value = 'yes' AND posts.post_type != 'seopress_404' AND posts.post_status = 'publish'"
+		return array_values(
+			array_map(
+				'intval',
+				$wpdb->get_col(
+					"SELECT DISTINCT posts.ID FROM {$wpdb->posts} AS posts INNER JOIN {$wpdb->postmeta} AS pm ON posts.ID = pm.post_id WHERE pm.meta_key = '_seopress_redirections_enabled' AND pm.meta_value = 'yes' AND posts.post_type != 'seopress_404' AND posts.post_status = 'publish'"
+				)
 			)
 		);
 	}
@@ -138,35 +140,40 @@ class Red_SEOPress_Importer extends Red_Plugin_Importer {
 	private function get_redirect_terms() {
 		global $wpdb;
 
-		if ( ! isset( $wpdb->termmeta ) ) {
+		$termmeta = $wpdb->termmeta ?? null;
+		if ( ! is_string( $termmeta ) ) {
 			return [];
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		return array_map(
-			'intval',
-			$wpdb->get_col(
-				"SELECT DISTINCT term_id FROM {$wpdb->termmeta} WHERE meta_key = '_seopress_redirections_enabled' AND meta_value = 'yes'"
+		return array_values(
+			array_map(
+				'intval',
+				$wpdb->get_col(
+					"SELECT DISTINCT term_id FROM {$wpdb->termmeta} WHERE meta_key = '_seopress_redirections_enabled' AND meta_value = 'yes'"
+				)
 			)
 		);
 	}
 
 	/**
-	 * @return list<object>
+	 * @return list<WP_Post>
 	 */
 	private function get_404_redirect_posts() {
-		return get_posts(
-			[
-				'post_type' => 'seopress_404',
-				'post_status' => 'publish',
-				'posts_per_page' => -1,
-				'meta_query' => [
-					[
-						'key' => '_seopress_redirections_enabled',
-						'value' => 'yes',
+		return array_values(
+			get_posts(
+				[
+					'post_type' => 'seopress_404',
+					'post_status' => 'publish',
+					'posts_per_page' => -1,
+					'meta_query' => [
+						[
+							'key' => '_seopress_redirections_enabled',
+							'value' => 'yes',
+						],
 					],
-				],
-			]
+				]
+			)
 		);
 	}
 

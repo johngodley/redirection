@@ -24,6 +24,7 @@
 		"lint": "pnpm lint:css && pnpm lint:js && pnpm lint:ts && pnpm lint:php",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"lint:fix": "wp-scripts lint-js --fix",
 		"lint:ts": "tsc --noEmit",
 		"lint:php": "composer run-script checks",
 		"test": "pnpm test:js && pnpm test:unit && pnpm test:integration",

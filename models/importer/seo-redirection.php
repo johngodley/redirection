@@ -66,7 +66,7 @@ class Red_SeoRedirection_Importer extends Red_Plugin_Importer {
 	 * Import redirects from SEO Redirection.
 	 *
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		global $wpdb;
@@ -88,9 +88,8 @@ class Red_SeoRedirection_Importer extends Red_Plugin_Importer {
 	/**
 	 * Create a Redirection item for an SEO Redirection row.
 	 *
-	 * @param int      $group_id Target group ID.
-	 * @param stdClass $seo      Row from WP_SEO_Redirection.
-	 * @return Red_Item|WP_Error|false Created redirect, error, or false if disabled.
+	 * @param stdClass $seo Row from WP_SEO_Redirection.
+	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_seo( $seo ) {
 		if ( intval( $seo->enabled, 10 ) === 0 ) {

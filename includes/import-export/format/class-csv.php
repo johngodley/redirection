@@ -22,6 +22,7 @@ use Redirection\ImportExport\Parser\CsvParser;
  *     status?: 'enabled'|'disabled'
  * }
  * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  */
 class Csv extends FormatHandler {
 	/**
@@ -118,7 +119,7 @@ class Csv extends FormatHandler {
 	 * @param ImportRedirect $redirect Redirect saver.
 	 * @param string $filename Path to the file to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
-	 * @return array{created: int, updated: int, ignored: int, groups_created: int}
+	 * @return ImportResult
 	 */
 	public function load( $group, $redirect, $filename, $is_dry_run ) {
 		$file = $this->files->open_read( $filename );

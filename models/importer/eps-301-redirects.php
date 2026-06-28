@@ -57,7 +57,7 @@ class Red_EPS301Redirects_Importer extends Red_Plugin_Importer {
 
 	/**
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$items = array();
@@ -70,7 +70,7 @@ class Red_EPS301Redirects_Importer extends Red_Plugin_Importer {
 	}
 
 	/**
-	 * @return list<object>
+	 * @return list<object{type: string, url_to: string, status: string, url_from: string}>
 	 */
 	private function get_redirects() {
 		global $wpdb;
@@ -98,7 +98,7 @@ class Red_EPS301Redirects_Importer extends Red_Plugin_Importer {
 	}
 
 	/**
-	 * @param object $redirect Redirect row.
+	 * @param object{type: string, url_to: string, status: string, url_from: string} $redirect Redirect row.
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_redirect( $redirect ) {

@@ -46,17 +46,18 @@ function Importer( props: ImporterProps ) {
 				},
 			] }
 			actions={
-				<button type="button" onClick={ clicker } className="button-secondary" disabled={ isImporting || isActive }>
+				<button
+					type="button"
+					onClick={ clicker }
+					className="button-secondary"
+					disabled={ isImporting || isActive }
+				>
 					{ isActive ? __( 'Selected', 'redirection' ) : __( 'Use importer', 'redirection' ) }
 				</button>
 			}
-			className={ clsx(
-				'import-source-card',
-				'import-source-card--plugin',
-				{
-					'import-source-card--active': isActive,
-				}
-			) }
+			className={ clsx( 'import-source-card', 'import-source-card--plugin', {
+				'import-source-card--active': isActive,
+			} ) }
 		/>
 	);
 }

@@ -10,6 +10,7 @@ use Redirection\ImportExport\Parser\JsonParser;
 
 /**
  * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  */
 class Json extends FormatHandler {
 	/**
@@ -68,7 +69,7 @@ class Json extends FormatHandler {
 	 * @param ImportRedirect $import_redirect Redirect saver.
 	 * @param string $filename Path to the file to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
-	 * @return array{created: int, updated: int, ignored: int, groups_created: int}
+	 * @return ImportResult
 	 */
 	public function load( $group, $import_redirect, $filename, $is_dry_run ) {
 		$data = $this->files->read( $filename );
@@ -84,7 +85,7 @@ class Json extends FormatHandler {
 	 * @param ImportRedirect $import_redirect Redirect saver.
 	 * @param string $data JSON data to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
-	 * @return array{created: int, updated: int, ignored: int, groups_created: int}
+	 * @return ImportResult
 	 */
 	public function load_from_string( $group, $import_redirect, $data, $is_dry_run ) {
 		global $wpdb;

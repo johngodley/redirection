@@ -72,7 +72,7 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 		return window.Redirectioni10n.pluginRoot + '&' + encodeURIComponent( 'filterby[id]' ) + '=' + redirectId;
 	};
 
-	const renderSource = ( row: ImportStats['preview'][ number ] ) => {
+	const renderSource = ( row: ImportStats[ 'preview' ][ number ] ) => {
 		if ( row.result === 'updated' && row.redirect_id ) {
 			return <a href={ getViewRedirectUrl( row.redirect_id ) }>{ row.source || ' ' }</a>;
 		}
@@ -108,12 +108,16 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 							{ lastImport.preview.map( ( row, index ) => (
 								<tr
 									key={ `${ row.source }-${ row.target }-${ index }` }
-									className={ row.result === 'ignored' ? 'io-preview-table__row--ignored' : undefined }
+									className={
+										row.result === 'ignored' ? 'io-preview-table__row--ignored' : undefined
+									}
 								>
 									<td>{ renderSource( row ) }</td>
 									<td>{ row.target || ' ' }</td>
 									<td className="io-preview-table__code">{ row.code || '' }</td>
-									<td className="io-preview-table__regex">{ row.regex ? __( 'Yes', 'redirection' ) : __( 'No', 'redirection' ) }</td>
+									<td className="io-preview-table__regex">
+										{ row.regex ? __( 'Yes', 'redirection' ) : __( 'No', 'redirection' ) }
+									</td>
 									<td>{ row.group || '' }</td>
 								</tr>
 							) ) }

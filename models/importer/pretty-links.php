@@ -110,9 +110,8 @@ class Red_PrettyLinks_Importer extends Red_Plugin_Importer {
 	/**
 	 * Create a Redirection item for a Pretty Links row.
 	 *
-	 * @param int      $group_id Target group ID.
-	 * @param stdClass $link     Row from prli_links.
-	 * @return Red_Item|WP_Error Created redirect or error.
+	 * @param stdClass $link Row from prli_links.
+	 * @return array<string, mixed>
 	 */
 	private function get_item_for_link( $link ) {
 		return array(

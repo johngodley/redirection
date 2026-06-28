@@ -45,10 +45,7 @@ export function useImporterList( options?: Omit< UseQueryOptions< any >, 'queryK
  * @param options
  */
 export function useImportRunner(
-	options?: Omit<
-		UseMutationOptions< any, Error, ImportMutationVariables >,
-		'mutationFn'
-	>
+	options?: Omit< UseMutationOptions< any, Error, ImportMutationVariables >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
 	const { addNotice, addError, incrementProgress, decrementProgress } = useMessageStore();

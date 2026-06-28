@@ -18,20 +18,21 @@ namespace Redirection\ImportExport;
  *     total: int,
  *     exporter: FormatHandler
  * }
+ * @phpstan-type ImportPreviewRow array{
+ *     source: string,
+ *     target: string,
+ *     code: int,
+ *     regex: bool,
+ *     group: string,
+ *     result: 'created'|'updated'|'ignored',
+ *     redirect_id?: int
+ * }
  * @phpstan-type ImportResult array{
  *     created: int,
  *     updated: int,
  *     ignored: int,
  *     groups_created: int,
- *     preview: array<int, array{
- *         source: string,
- *         target: string,
- *         code: int,
- *         regex: bool,
- *         group: string,
- *         result: 'created'|'updated'|'ignored',
- *         redirect_id?: int
- *     }>
+ *     preview: array<int, ImportPreviewRow>
  * }
  */
 abstract class FormatHandler {

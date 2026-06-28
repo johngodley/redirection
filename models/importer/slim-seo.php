@@ -60,7 +60,7 @@ class Red_SlimSeo_Importer extends Red_Plugin_Importer {
 
 	/**
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$redirects = get_option( 'ss_redirects' );
@@ -113,11 +113,6 @@ class Red_SlimSeo_Importer extends Red_Plugin_Importer {
 		);
 	}
 
-	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, mixed> $redirect Redirect data.
-	 * @return Red_Item|WP_Error|false
-	 */
 	/**
 	 * @param string $source Source URL.
 	 * @return string

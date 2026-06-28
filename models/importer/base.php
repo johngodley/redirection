@@ -1,12 +1,12 @@
 <?php
 
 /**
+ * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  * @phpstan-type ImporterInfo array{
  *   id: string,
  *   name: string,
  *   description: string,
  *   source: string,
- *   preview_supported: bool,
  *   total: int
  * }
  */
@@ -29,36 +29,7 @@ abstract class Red_Plugin_Importer {
 	);
 
 	/**
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	protected function get_empty_results() {
 		return [
@@ -87,8 +58,12 @@ abstract class Red_Plugin_Importer {
 				continue;
 			}
 
-			$data['preview_supported'] = $importer->supports_preview();
-			$results[] = $data;
+			$results[] = array_merge(
+				$data,
+				[
+					'preview_supported' => $importer->supports_preview(),
+				]
+			);
 		}
 
 		return $results;
@@ -100,36 +75,7 @@ abstract class Red_Plugin_Importer {
 	 * @param string $plugin Importer identifier.
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public static function preview( $plugin, $group_id, array $options = [] ) {
 		$importer = self::get_importer( $plugin );
@@ -172,36 +118,7 @@ abstract class Red_Plugin_Importer {
 	 * @param string $plugin   Importer identifier.
 	 * @param int    $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public static function import( $plugin, $group_id, array $options = [] ) {
 		$importer = self::get_importer( $plugin );
@@ -223,36 +140,7 @@ abstract class Red_Plugin_Importer {
 	 *
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public function import_plugin_results( $group_id, array $options = [] ) {
 		return $this->import_plugin( $group_id, $options );
@@ -263,36 +151,7 @@ abstract class Red_Plugin_Importer {
 	 *
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public function preview_plugin_results( $group_id, array $options = [] ) {
 		return $this->get_empty_results();
@@ -302,36 +161,7 @@ abstract class Red_Plugin_Importer {
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
 	 * @param array<int, array<string, mixed>|false> $items Redirect items.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	protected function preview_redirect_items( $group_id, array $options, array $items ) {
 		$options['dry_run'] = true;
@@ -342,36 +172,7 @@ abstract class Red_Plugin_Importer {
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
 	 * @param array<int, array<string, mixed>|false> $items Redirect items.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	protected function import_redirect_items( $group_id, array $options, array $items ) {
 		$options['dry_run'] = false;
@@ -382,36 +183,7 @@ abstract class Red_Plugin_Importer {
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
 	 * @param array<int, array<string, mixed>|false> $items Redirect items.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	protected function process_redirect_items( $group_id, array $options, array $items ) {
 		$group = new \Redirection\ImportExport\ImportGroup( $group_id, $options );
@@ -446,36 +218,7 @@ abstract class Red_Plugin_Importer {
 	 *
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	abstract public function import_plugin( $group_id, array $options = [] );
 
