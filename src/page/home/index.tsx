@@ -27,6 +27,8 @@ interface PageTitles {
 	site: string;
 	groups: string;
 	io: string;
+	import: string;
+	export: string;
 	log: string;
 	'404s': string;
 	options: string;
@@ -38,7 +40,9 @@ const getTitles = (): PageTitles => ( {
 	redirect: __( 'Redirections', 'redirection' ),
 	site: __( 'Site', 'redirection' ),
 	groups: __( 'Groups', 'redirection' ),
-	io: __( 'Import/Export', 'redirection' ),
+	io: __( 'Import redirects', 'redirection' ),
+	import: __( 'Import redirects', 'redirection' ),
+	export: __( 'Export redirects', 'redirection' ),
 	log: __( 'Logs', 'redirection' ),
 	'404s': __( '404 errors', 'redirection' ),
 	options: __( 'Options', 'redirection' ),
@@ -68,8 +72,12 @@ const getMenu = (): MenuOption[] =>
 			value: '404s',
 		},
 		{
-			name: __( 'Import/Export', 'redirection' ),
-			value: 'io',
+			name: __( 'Import', 'redirection' ),
+			value: 'import',
+		},
+		{
+			name: __( 'Export', 'redirection' ),
+			value: 'export',
 		},
 		{
 			name: __( 'Options', 'redirection' ),

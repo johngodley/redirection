@@ -5,26 +5,106 @@
  */
 class Red_PrettyLinks_Importer extends Red_Plugin_Importer {
 	/**
+	 * @return bool
+	 */
+	protected function supports_preview() {
+		return true;
+	}
+
+	/**
+	 * @param int $group_id Target group ID.
+	 * @param array<string, bool|string> $options Import options.
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 * @return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 */
+	public function preview_plugin_results( $group_id, array $options = [] ) {
+		global $wpdb;
+
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}prli_links" );
+		$items = array();
+
+		foreach ( $redirects as $redirect ) {
+			$items[] = $this->get_item_for_link( $redirect );
+		}
+
+		return $this->preview_redirect_items( $group_id, $options, $items );
+	}
+
+	/**
 	 * Import redirects from Pretty Links.
 	 *
 	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @param array<string, bool|string> $options Import options.
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 * @return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
 	 */
-	public function import_plugin( $group_id ) {
+	public function import_plugin( $group_id, array $options = [] ) {
 		global $wpdb;
 
-		$count = 0;
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}prli_links" );
+		$items = array();
 
 		foreach ( $redirects as $redirect ) {
-			$created = $this->create_for_item( $group_id, $redirect );
-
-			if ( $created instanceof Red_Item ) {
-				$count++;
-			}
+			$items[] = $this->get_item_for_link( $redirect );
 		}
 
-		return $count;
+		return $this->import_redirect_items( $group_id, $options, $items );
 	}
 
 	/**
@@ -34,19 +114,16 @@ class Red_PrettyLinks_Importer extends Red_Plugin_Importer {
 	 * @param stdClass $link     Row from prli_links.
 	 * @return Red_Item|WP_Error Created redirect or error.
 	 */
-	private function create_for_item( $group_id, $link ) {
-		$item = array(
+	private function get_item_for_link( $link ) {
+		return array(
 			'url'         => '/' . $link->slug,
 			'action_data' => array( 'url' => $link->url ),
 			'regex'       => false,
-			'group_id'    => $group_id,
 			'match_type'  => 'url',
 			'action_type' => 'url',
 			'title'       => $link->name,
 			'action_code' => $link->redirect_type,
 		);
-
-		return Red_Item::create( $item );
 	}
 
 	/**
@@ -63,6 +140,8 @@ class Red_PrettyLinks_Importer extends Red_Plugin_Importer {
 			return [
 				'id' => 'pretty-links',
 				'name' => 'PrettyLinks',
+				'description' => __( 'Rules created by Pretty Links.', 'redirection' ),
+				'source' => __( 'Database tables', 'redirection' ),
 				'total' => (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}prli_links" ),
 			];
 		}

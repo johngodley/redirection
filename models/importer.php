@@ -9,3 +9,7 @@ require_once __DIR__ . '/importer/simple301.php';
 require_once __DIR__ . '/importer/wordpress-old-slugs.php';
 require_once __DIR__ . '/importer/seo-redirection.php';
 require_once __DIR__ . '/importer/safe-redirect-manager.php';
+require_once __DIR__ . '/importer/seopress.php';
+require_once __DIR__ . '/importer/slim-seo.php';
+require_once __DIR__ . '/importer/eps-301-redirects.php';
+require_once __DIR__ . '/importer/fake-redirection.php';

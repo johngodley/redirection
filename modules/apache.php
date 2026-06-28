@@ -65,7 +65,7 @@ class Apache_Module extends Red_Module {
 		$items = Red_Item::get_all_for_module( $this->get_id() );
 
 		// Produce the .htaccess file
-		$htaccess = new \Redirection\FileIO\Htaccess();
+		$htaccess = new \Redirection\ImportExport\Htaccess();
 		if ( count( $items ) > 0 ) {
 			foreach ( $items as $item ) {
 				if ( $item->is_enabled() ) {
@@ -126,7 +126,7 @@ class Apache_Module extends Red_Module {
 
 		if ( ! empty( $this->location ) && $save['location'] !== $this->location && $save['location'] !== '' ) {
 			// Location has moved. Remove from old location
-			$htaccess = new \Redirection\FileIO\Htaccess();
+			$htaccess = new \Redirection\ImportExport\Htaccess();
 			$htaccess->save( $this->location, false );
 		}
 

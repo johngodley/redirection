@@ -1,6 +1,6 @@
 <?php
 
-use Redirection\FileIO\FileIO;
+use Redirection\ImportExport\FormatFactory;
 
 class ImportImportCsvTest extends Redirection_Api_Test {
 	private function get_endpoints() {
@@ -43,12 +43,92 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testPluginList() {
-		update_option( '301_redirects', [ 'redirect' ] );
+		global $wpdb;
 
-		$this->setNonce();
-		$result = $this->callApi( 'import/plugin' );
+		try {
+			update_option( '301_redirects', [ '/simple' => '/target' ] );
+			update_option(
+				'ss_redirects',
+				[
+					'fixture' => [
+						'type' => 301,
+						'condition' => 'exact-match',
+						'from' => 'slim-source',
+						'to' => '/slim-target/',
+						'note' => '',
+						'enable' => 1,
+						'ignoreParameters' => 0,
+					],
+				]
+			);
 
-		$this->assertEquals( 1, count( $result->data['importers'] ) );
+			$post_id = self::factory()->post->create(
+				[
+					'post_status' => 'publish',
+					'post_type' => 'post',
+				]
+			);
+
+			update_post_meta( $post_id, '_seopress_redirections_enabled', 'yes' );
+			update_post_meta( $post_id, '_seopress_redirections_type', '301' );
+			update_post_meta( $post_id, '_seopress_redirections_value', 'https://example.com/seopress-target/' );
+
+			$table = $wpdb->prefix . 'redirects';
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+			$wpdb->query(
+				"CREATE TABLE IF NOT EXISTS {$table} (
+					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					url_from VARCHAR(1024) DEFAULT '' NOT NULL,
+					url_to VARCHAR(1024) DEFAULT '' NOT NULL,
+					status VARCHAR(12) DEFAULT '301' NOT NULL,
+					type VARCHAR(12) DEFAULT 'url' NOT NULL,
+					count mediumint(9) DEFAULT 0 NOT NULL,
+					UNIQUE KEY id (id)
+				)"
+			);
+			// phpcs:enable
+			$wpdb->insert(
+				$table,
+				[
+					'url_from' => 'eps-source',
+					'url_to' => 'https://example.com/eps-target/',
+					'status' => '301',
+					'type' => 'url',
+					'count' => 0,
+				]
+			);
+
+			$this->setNonce();
+			$result = $this->callApi( 'import/plugin' );
+
+			$ids = array_column( $result->data['importers'], 'id' );
+			$importers = array_column( $result->data['importers'], null, 'id' );
+
+			$this->assertContains( 'wp-simple-redirect', $ids );
+			$this->assertContains( 'slim-seo', $ids );
+			$this->assertContains( 'seopress', $ids );
+			$this->assertTrue( $importers['slim-seo']['preview_supported'] );
+		} finally {
+			delete_option( '301_redirects' );
+			delete_option( 'ss_redirects' );
+
+			if ( isset( $post_id ) ) {
+				wp_delete_post( $post_id, true );
+			}
+
+			if ( isset( $table ) ) {
+				$wpdb->delete( $table, [ 'url_from' => 'eps-source' ] );
+			}
+		}
+	}
+
+	public function testPluginImporterRegistry() {
+		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
+
+		$this->assertInstanceOf( Red_EPS301Redirects_Importer::class, Red_Plugin_Importer::get_importer( 'eps-301-redirects' ) );
+		$this->assertInstanceOf( Red_FakeRedirection_Importer::class, Red_Plugin_Importer::get_importer( 'fake-redirection' ) );
+		$this->assertFalse( Red_Plugin_Importer::get_importer( 'not-a-plugin' ) );
 	}
 
 	public function testPluginImportWithNoGroups() {
@@ -70,7 +150,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	}
 
 	public function testBadCreate() {
-		$exporter = FileIO::create( 'monkey' );
+		$exporter = ( new FormatFactory() )->create( 'monkey' );
 		$this->assertFalse( $exporter );
 	}
 
@@ -78,8 +158,166 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$types = [ 'rss', 'csv', 'apache', 'nginx', 'json' ];
 
 		foreach ( $types as $type ) {
-			$exporter = FileIO::create( $type );
+			$exporter = ( new FormatFactory() )->create( $type );
 			$this->assertTrue( $exporter !== false );
+		}
+	}
+
+	public function testImportFileOptionValidation() {
+		$this->setNonce();
+
+		$result = $this->callApi( 'import/file/1', [ 'dry_run' => 'maybe' ], 'POST' );
+		$this->assertEquals( 400, $result->status );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+
+		$result = $this->callApi( 'import/file/1', [ 'duplicate_mode' => 'maybe' ], 'POST' );
+		$this->assertEquals( 400, $result->status );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testPluginImportOptionValidation() {
+		$this->setNonce();
+
+		$result = $this->callApi( 'import/plugin', [ 'plugin' => [ 'thing' ], 'delete_source' => 'maybe' ], 'POST' );
+		$this->assertEquals( 400, $result->status );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testWordPressOldSlugDeleteSourceOnlyRunsOnImport() {
+		global $wpdb;
+
+		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
+
+		$permalink_structure = get_option( 'permalink_structure' );
+		$group = Red_Group::create( 'import-test-group', 1 );
+		$post_id = self::factory()->post->create(
+			[
+				'post_status' => 'publish',
+				'post_type' => 'post',
+				'post_name' => 'new-import-target',
+			]
+		);
+
+		update_option( 'permalink_structure', '/%postname%/' );
+		update_post_meta( $post_id, '_wp_old_slug', 'old-import-source' );
+
+		$importer = Red_Plugin_Importer::get_importer( 'wordpress-old-slugs' );
+		$this->assertInstanceOf( Red_WordPressOldSlug_Importer::class, $importer );
+
+		try {
+			$preview = $importer->preview_plugin_results(
+				$group->get_id(),
+				[
+					'delete_source' => true,
+					'dry_run' => true,
+				]
+			);
+
+			$this->assertEquals( 1, $preview['created'] );
+			$this->assertCount( 1, get_post_meta( $post_id, '_wp_old_slug', false ) );
+
+			$result = $importer->import_plugin(
+				$group->get_id(),
+				[
+					'delete_source' => true,
+				]
+			);
+
+			$this->assertEquals( 1, $result['created'] );
+			$this->assertCount( 0, get_post_meta( $post_id, '_wp_old_slug', false ) );
+			$this->assertEquals(
+				1,
+				intval(
+					$wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE url=%s",
+							$preview['preview'][0]['source']
+						)
+					),
+					10
+				)
+			);
+		} finally {
+			update_option( 'permalink_structure', $permalink_structure );
+			delete_post_meta( $post_id, '_wp_old_slug', 'old-import-source' );
+			wp_delete_post( $post_id, true );
+
+			if ( $group instanceof Red_Group ) {
+				$group->delete();
+			}
+
+			if ( isset( $preview['preview'][0]['source'] ) ) {
+				$wpdb->delete( $wpdb->prefix . 'redirection_items', [ 'url' => $preview['preview'][0]['source'] ] );
+			}
+		}
+	}
+
+	public function testSafeRedirectManagerDeleteSourceOnlyRunsOnImport() {
+		global $wpdb;
+
+		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
+
+		$group = Red_Group::create( 'import-test-group', 1 );
+		$post_id = self::factory()->post->create(
+			[
+				'post_status' => 'publish',
+				'post_type' => 'post',
+			]
+		);
+
+		update_post_meta( $post_id, '_redirect_rule_from', '/safe-source/' );
+		update_post_meta( $post_id, '_redirect_rule_to', 'https://example.com/safe-target/' );
+		update_post_meta( $post_id, '_redirect_rule_status_code', '301' );
+
+		$importer = Red_Plugin_Importer::get_importer( 'safe-redirect-manager' );
+		$this->assertInstanceOf( Red_SafeRedirectManager_Importer::class, $importer );
+
+		try {
+			$preview = $importer->preview_plugin_results(
+				$group->get_id(),
+				[
+					'delete_source' => true,
+					'dry_run' => true,
+				]
+			);
+
+			$this->assertEquals( 1, $preview['created'] );
+			$this->assertSame( '/safe-source/', get_post_meta( $post_id, '_redirect_rule_from', true ) );
+
+			$result = $importer->import_plugin(
+				$group->get_id(),
+				[
+					'delete_source' => true,
+				]
+			);
+
+			$this->assertEquals( 1, $result['created'] );
+			$this->assertSame( '', get_post_meta( $post_id, '_redirect_rule_from', true ) );
+			$this->assertSame( '', get_post_meta( $post_id, '_redirect_rule_to', true ) );
+			$this->assertSame( '', get_post_meta( $post_id, '_redirect_rule_status_code', true ) );
+			$this->assertEquals(
+				1,
+				intval(
+					$wpdb->get_var(
+						$wpdb->prepare(
+							"SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE url=%s",
+							'/safe-source/'
+						)
+					),
+					10
+				)
+			);
+		} finally {
+			delete_post_meta( $post_id, '_redirect_rule_from', '/safe-source/' );
+			delete_post_meta( $post_id, '_redirect_rule_to', 'https://example.com/safe-target/' );
+			delete_post_meta( $post_id, '_redirect_rule_status_code', '301' );
+			wp_delete_post( $post_id, true );
+
+			if ( $group instanceof Red_Group ) {
+				$group->delete();
+			}
+
+			$wpdb->delete( $wpdb->prefix . 'redirection_items', [ 'url' => '/safe-source/' ] );
 		}
 	}
 }

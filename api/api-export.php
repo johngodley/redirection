@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\ImportExport\ExportService;
+
 /**
  * @api {get} /redirection/v1/export/:module/:format Export redirects
  * @apiName Export
@@ -74,7 +76,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 			$format = sanitize_text_field( $request['format'] );
 		}
 
-		$export = \Redirection\FileIO\FileIO::export( $module, $format );
+		$export = ( new ExportService() )->export( $module, $format );
 		if ( $export === false ) {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_module', 'Invalid module' ), __LINE__ );
 		}

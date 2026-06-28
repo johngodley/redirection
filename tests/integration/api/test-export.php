@@ -1,7 +1,5 @@
 <?php
 
-use Redirection\FileIO\FileIO;
-
 class ImportExportCsvTest extends Redirection_Api_Test {
 	public function setUp(): void {
 		global $wpdb;
@@ -52,9 +50,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	//  Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 	//  Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
 
-	//  $results = FileIO::export( 'apache', 'json' );
-
-	//  // Expect 1 redirect and 1 group
+		//  // Expect 1 redirect and 1 group
 	//  $this->assertEquals( 1, $results['total'] );
 	// }
 
@@ -67,9 +63,7 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 	//  Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ) );
 	//  Red_Item::create( array( 'url' => '1', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ) );
 
-	//  $results = FileIO::export( 'all', 'json' );
-
-	//  // Expect 2 redirect and 2 group
+		//  // Expect 2 redirect and 2 group
 	//  $this->assertEquals( 2, $results['total'] );
 	// }
 

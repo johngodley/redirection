@@ -5,6 +5,26 @@ import { handleApiError } from '../errors';
 import { queryKeys } from '../query-keys';
 import { useMessageStore } from 'stores';
 
+type ImportMode = 'preview' | 'import';
+type DuplicateMode = 'import' | 'ignore' | 'update';
+type FileImportVariables = {
+	sourceType: 'file';
+	mode: ImportMode;
+	file: File;
+	groupId: number;
+	duplicateMode: DuplicateMode;
+	deleteSource?: boolean;
+};
+type PluginImportVariables = {
+	sourceType: 'plugin';
+	mode: ImportMode;
+	pluginId: string;
+	groupId: number;
+	duplicateMode: DuplicateMode;
+	deleteSource?: boolean;
+};
+type ImportMutationVariables = FileImportVariables | PluginImportVariables;
+
 /**
  * Query hook for fetching available plugin importers
  * @param options
@@ -21,58 +41,80 @@ export function useImporterList( options?: Omit< UseQueryOptions< any >, 'queryK
 }
 
 /**
- * Mutation hook for importing redirects from plugins
+ * Mutation hook for running any import action
  * @param options
  */
-export function usePluginImport( options?: Omit< UseMutationOptions< any, Error, string[] >, 'mutationFn' > ) {
-	const queryClient = useQueryClient();
-	const { addNotice, addError } = useMessageStore();
-
-	return useMutation( {
-		mutationFn: async ( pluginIds: string[] ) => {
-			const response = await apiFetch( RedirectionApi.import.pluginImport( pluginIds ) );
-			return response;
-		},
-		onSuccess: () => {
-			addNotice( 'Import completed' );
-			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
-		},
-		onError: ( error ) => {
-			addError( error.message || 'Import failed' );
-		},
-		...options,
-	} );
-}
-
-/**
- * Mutation hook for importing files
- * @param options
- */
-export function useFileImport(
-	options?: Omit< UseMutationOptions< any, Error, { file: File; groupId: number } >, 'mutationFn' >
+export function useImportRunner(
+	options?: Omit<
+		UseMutationOptions< any, Error, ImportMutationVariables >,
+		'mutationFn'
+	>
 ) {
 	const queryClient = useQueryClient();
 	const { addNotice, addError, incrementProgress, decrementProgress } = useMessageStore();
 
 	return useMutation( {
-		mutationFn: async ( { file, groupId }: { file: File; groupId: number } ) => {
-			incrementProgress();
-			try {
-				const response = await apiFetch( RedirectionApi.import.upload( String( groupId ), file ) );
-				return response;
-			} catch ( error ) {
+		mutationFn: async ( variables ) => {
+			if ( variables.sourceType === 'file' ) {
+				incrementProgress();
+				try {
+					return await apiFetch(
+						RedirectionApi.import.upload( String( variables.groupId ), variables.file, {
+							dry_run: variables.mode === 'preview' ? 1 : 0,
+							duplicate_mode: variables.duplicateMode,
+							delete_source: variables.deleteSource ? 1 : 0,
+						} )
+					);
+				} catch ( error ) {
+					decrementProgress();
+					throw handleApiError( error );
+				}
+			}
+
+			if ( variables.mode === 'preview' ) {
+				return await apiFetch(
+					RedirectionApi.import.pluginPreview( variables.pluginId, {
+						group_id: variables.groupId,
+						duplicate_mode: variables.duplicateMode,
+						delete_source: variables.deleteSource ? 1 : 0,
+					} )
+				);
+			}
+
+			return await apiFetch(
+				RedirectionApi.import.pluginImport( {
+					plugin: [ variables.pluginId ],
+					group_id: variables.groupId,
+					duplicate_mode: variables.duplicateMode,
+					delete_source: variables.deleteSource ? 1 : 0,
+				} )
+			);
+		},
+		onSuccess: ( data, variables ) => {
+			if ( variables.sourceType === 'file' ) {
 				decrementProgress();
-				throw handleApiError( error );
+			}
+
+			if ( variables.mode === 'preview' ) {
+				addNotice( 'Preview completed' );
+			} else {
+				const created = ( data as any )?.created || 0;
+				const updated = ( data as any )?.updated || 0;
+				const ignored = ( data as any )?.ignored || 0;
+				const groupsCreated = ( data as any )?.groups_created || 0;
+
+				addNotice(
+					`Imported ${ created } new redirects, updated ${ updated } existing redirects, ignored ${ ignored } duplicates, ${ groupsCreated } groups created`
+				);
+				queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 			}
 		},
-		onSuccess: ( data ) => {
-			decrementProgress();
-			const imported = ( data as any )?.imported || 0;
-			addNotice( `Imported ${ imported } redirects` );
-			queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
-		},
-		onError: ( error ) => {
-			addError( error.message || 'Import failed' );
+		onError: ( error, variables ) => {
+			if ( variables.sourceType === 'file' ) {
+				decrementProgress();
+			}
+
+			addError( error.message || ( variables.mode === 'preview' ? 'Preview failed' : 'Import failed' ) );
 		},
 		...options,
 	} );
@@ -110,3 +152,5 @@ export function useExport(
 		...options,
 	} );
 }
+
+export type { DuplicateMode, FileImportVariables, ImportMode, ImportMutationVariables, PluginImportVariables };

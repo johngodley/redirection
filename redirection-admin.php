@@ -829,7 +829,7 @@ class Redirection_Admin {
 
 				$items = Red_Item::get_all_for_module( intval( $module, 10 ) );
 
-				$exporter = \Redirection\FileIO\FileIO::create( 'rss' );
+				$exporter = ( new \Redirection\ImportExport\FormatFactory() )->create( 'rss' );
 				if ( $exporter !== false ) {
 					$exporter->force_download();
 
@@ -860,7 +860,7 @@ class Redirection_Admin {
 	 */
 	private function try_export_redirects() {
 		$sub = $this->get_query( 'sub' );
-		if ( $sub !== 'io' ) {
+		if ( ! in_array( $sub, [ 'io', 'export' ], true ) ) {
 			return;
 		}
 
@@ -868,7 +868,7 @@ class Redirection_Admin {
 		$exporter = $this->get_query( 'exporter' );
 
 		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && $export !== null && $exporter !== null && check_admin_referer( 'wp_rest' ) !== false ) {
-			$export = \Redirection\FileIO\FileIO::export( $export, $exporter );
+			$export = ( new \Redirection\ImportExport\ExportService() )->export( $export, $exporter );
 
 			if ( $export !== false ) {
 				$export['exporter']->force_download();

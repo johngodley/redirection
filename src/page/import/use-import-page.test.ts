@@ -1,0 +1,332 @@
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { useGroupList, useImporterList, useImportRunner } from 'lib/api/hooks';
+import { isJsonFile, sniffImportFile } from 'component/import-export/import-sniff';
+import useImportPage from './use-import-page';
+import type { ImportMutationVariables } from 'lib/api/hooks';
+
+jest.mock( 'lib/api/hooks', () => ( {
+	...jest.requireActual( 'lib/api/hooks' ),
+	useGroupList: jest.fn(),
+	useImporterList: jest.fn(),
+	useImportRunner: jest.fn(),
+} ) );
+
+jest.mock( 'component/import-export/import-sniff', () => ( {
+	...jest.requireActual( 'component/import-export/import-sniff' ),
+	isJsonFile: jest.fn(),
+	sniffImportFile: jest.fn(),
+} ) );
+
+const mockUseGroupList = useGroupList as jest.MockedFunction< typeof useGroupList >;
+const mockUseImporterList = useImporterList as jest.MockedFunction< typeof useImporterList >;
+const mockUseImportRunner = useImportRunner as jest.MockedFunction< typeof useImportRunner >;
+const mockIsJsonFile = isJsonFile as jest.MockedFunction< typeof isJsonFile >;
+const mockSniffImportFile = sniffImportFile as jest.MockedFunction< typeof sniffImportFile >;
+
+describe( 'useImportPage', () => {
+	const mutate = jest.fn();
+	const plugin = {
+		id: 'wordpress',
+		name: 'WordPress permalink redirect',
+		description: 'Import redirects created by WordPress permalink redirects.',
+		preview_supported: true,
+		total: 4,
+	};
+	let runnerOptions:
+		| {
+				onSuccess?: ( data: any, variables: ImportMutationVariables ) => void;
+		  }
+		| undefined;
+	const originalConfirm = window.confirm;
+
+	beforeEach( () => {
+		jest.clearAllMocks();
+		runnerOptions = undefined;
+		window.confirm = jest.fn( () => true );
+
+		mockUseGroupList.mockReturnValue( {
+			data: {
+				items: [
+					{ id: 11, name: 'Imported redirects' },
+					{ id: 12, name: 'Secondary group' },
+				],
+			},
+		} as any );
+
+		mockUseImporterList.mockReturnValue( {
+			data: [ plugin ],
+			isLoading: false,
+		} as any );
+
+		mockUseImportRunner.mockImplementation( ( options ) => {
+			runnerOptions = options as typeof runnerOptions;
+
+			return {
+				mutate,
+				isPending: false,
+				isSuccess: false,
+			} as any;
+		} );
+	} );
+
+	afterEach( () => {
+		window.confirm = originalConfirm;
+	} );
+
+	it( 'clears preview state and restores the default group when switching from a JSON file to a plugin importer', async () => {
+		const file = new File( [ '{}' ], 'redirects.json', { type: 'application/json' } );
+
+		mockIsJsonFile.mockReturnValue( true );
+		mockSniffImportFile.mockResolvedValue( {
+			format: 'json',
+			valid: true,
+			version: '5.8.0',
+			groups: 1,
+			redirects: 2,
+		} );
+
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onFileInputChange( {
+				target: { files: [ file ] },
+			} as any );
+		} );
+
+		await waitFor( () => expect( result.current.state.fileInfo ).not.toBeNull() );
+
+		expect( result.current.state.activeImportType ).toBe( 'file' );
+		expect( result.current.state.group ).toBe( 0 );
+
+		act( () => {
+			runnerOptions?.onSuccess?.(
+				{
+					created: 0,
+					updated: 1,
+					ignored: 0,
+					groups_created: 0,
+					preview: [],
+				},
+				{
+					sourceType: 'file',
+					mode: 'preview',
+					file,
+					groupId: 0,
+					duplicateMode: 'update',
+				}
+			);
+		} );
+
+		expect( result.current.state.lastImport ).not.toBe( false );
+		expect( result.current.state.lastImportWasDryRun ).toBe( true );
+
+		act( () => {
+			result.current.onSelectPlugin( plugin );
+		} );
+
+		expect( result.current.state.activeImportType ).toBe( 'plugin' );
+		expect( result.current.state.activePluginId ).toBe( plugin.id );
+		expect( result.current.state.group ).toBe( 11 );
+		expect( result.current.state.lastImport ).toBe( false );
+		expect( result.current.state.lastImportWasDryRun ).toBeNull();
+	} );
+
+	it( 'clears preview state and deselects the plugin when switching back to a file importer', async () => {
+		const file = new File( [ 'source,target\n/one,/two' ], 'redirects.csv', { type: 'text/csv' } );
+
+		mockIsJsonFile.mockReturnValue( false );
+		mockSniffImportFile.mockResolvedValue( {
+			format: 'csv',
+			valid: true,
+			separator: ',',
+			columns: 2,
+			rows: 2,
+		} );
+
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( plugin );
+		} );
+
+		act( () => {
+			runnerOptions?.onSuccess?.(
+				{
+					created: 2,
+					updated: 0,
+					ignored: 0,
+					groups_created: 0,
+					preview: [],
+				},
+				{
+					sourceType: 'plugin',
+					mode: 'preview',
+					pluginId: plugin.id,
+					groupId: 11,
+					duplicateMode: 'import',
+				}
+			);
+		} );
+
+		expect( result.current.state.activePluginId ).toBe( plugin.id );
+		expect( result.current.state.lastImport ).not.toBe( false );
+
+		act( () => {
+			result.current.onFileInputChange( {
+				target: { files: [ file ] },
+			} as any );
+		} );
+
+		await waitFor( () => expect( result.current.state.fileInfo ).not.toBeNull() );
+
+		expect( result.current.state.activeImportType ).toBe( 'file' );
+		expect( result.current.state.activePluginId ).toBeNull();
+		expect( result.current.state.group ).toBe( 11 );
+		expect( result.current.state.lastImport ).toBe( false );
+		expect( result.current.state.lastImportWasDryRun ).toBeNull();
+	} );
+
+	it( 'passes delete original data for the WordPress permalink importer', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( {
+				...plugin,
+				id: 'wordpress-old-slugs',
+			} );
+		} );
+
+		act( () => {
+			result.current.onOptionsChange( {
+				target: {
+					name: 'delete_source',
+					checked: true,
+				},
+			} as any );
+		} );
+
+		act( () => {
+			result.current.onImport( true );
+		} );
+
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'plugin',
+				mode: 'preview',
+				pluginId: 'wordpress-old-slugs',
+				deleteSource: true,
+			} )
+		);
+	} );
+
+	it( 'passes delete original data for the Safe Redirect Manager importer', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( {
+				...plugin,
+				id: 'safe-redirect-manager',
+			} );
+		} );
+
+		act( () => {
+			result.current.onOptionsChange( {
+				target: {
+					name: 'delete_source',
+					checked: true,
+				},
+			} as any );
+		} );
+
+		act( () => {
+			result.current.onImport( true );
+		} );
+
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'plugin',
+				mode: 'preview',
+				pluginId: 'safe-redirect-manager',
+				deleteSource: true,
+			} )
+		);
+	} );
+
+	it( 'shows a destructive confirm before importing when delete original data is enabled', () => {
+		const confirmMock = jest.fn( () => true );
+		window.confirm = confirmMock;
+
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( {
+				...plugin,
+				id: 'wordpress-old-slugs',
+			} );
+		} );
+
+		act( () => {
+			result.current.onOptionsChange( {
+				target: {
+					name: 'delete_source',
+					checked: true,
+				},
+			} as any );
+		} );
+
+		act( () => {
+			result.current.onImport( false );
+		} );
+
+		expect( confirmMock ).toHaveBeenCalledWith(
+			'This will import the redirects and delete the original data. Are you sure?'
+		);
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'plugin',
+				mode: 'import',
+				pluginId: 'wordpress-old-slugs',
+				deleteSource: true,
+			} )
+		);
+	} );
+
+	it( 'shows a destructive confirm before importing Safe Redirect Manager when delete original data is enabled', () => {
+		const confirmMock = jest.fn( () => true );
+		window.confirm = confirmMock;
+
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( {
+				...plugin,
+				id: 'safe-redirect-manager',
+			} );
+		} );
+
+		act( () => {
+			result.current.onOptionsChange( {
+				target: {
+					name: 'delete_source',
+					checked: true,
+				},
+			} as any );
+		} );
+
+		act( () => {
+			result.current.onImport( false );
+		} );
+
+		expect( confirmMock ).toHaveBeenCalledWith(
+			'This will import the redirects and delete the original data. Are you sure?'
+		);
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'plugin',
+				mode: 'import',
+				pluginId: 'safe-redirect-manager',
+				deleteSource: true,
+			} )
+		);
+	} );
+} );

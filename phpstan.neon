@@ -9,7 +9,7 @@ parameters:
         - redirection-settings.php
         - matches
         - modules
-        - includes/fileio
+        - includes
         - database
         - models
         - api

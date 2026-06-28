@@ -5,39 +5,137 @@
  */
 class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 	/**
-	 * Import redirects for WordPress old slugs.
-	 *
-	 * @param int $group_id Target group ID.
-	 * @return int Number of imported redirects.
+	 * @return bool
 	 */
-	public function import_plugin( $group_id ) {
+	protected function supports_preview() {
+		return true;
+	}
+
+	/**
+	 * @param int $group_id Target group ID.
+	 * @param array<string, bool|string> $options Import options.
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 * @return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 */
+	public function preview_plugin_results( $group_id, array $options = [] ) {
 		global $wpdb;
 
-		$count = 0;
 		$redirects = $wpdb->get_results(
 			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id " .
 			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
 		);
+		$items = array();
 
 		foreach ( $redirects as $redirect ) {
-			$item = $this->create_for_item( $group_id, $redirect );
-
-			if ( $item instanceof Red_Item ) {
-				$count++;
-			}
+			$items[] = $this->get_item_for_redirect( $redirect );
 		}
 
-		return $count;
+		return $this->preview_redirect_items( $group_id, $options, $items );
 	}
 
 	/**
-	 * Create a Redirection item for a WordPress old slug row.
+	 * Import redirects for WordPress old slugs.
 	 *
-	 * @param int      $group_id Target group ID.
-	 * @param stdClass $redirect Row from postmeta/posts join.
-	 * @return Red_Item|WP_Error|false Created redirect, error, or false on permalink error.
+	 * @param int $group_id Target group ID.
+	 * @param array<string, bool|string> $options Import options.
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
+	 * @return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }
 	 */
-	private function create_for_item( $group_id, $redirect ) {
+	public function import_plugin( $group_id, array $options = [] ) {
+		global $wpdb;
+
+		$redirects = $wpdb->get_results(
+			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id " .
+			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+		);
+		$group = new \Redirection\ImportExport\ImportGroup( $group_id, $options );
+		$options['dry_run'] = false;
+		$import = new \Redirection\ImportExport\ImportRedirect( $options );
+
+		foreach ( $redirects as $redirect ) {
+			$item = $this->get_item_for_redirect( $redirect );
+			if ( $item === false ) {
+				continue;
+			}
+
+			$saved = $import->save( $item, $group );
+			if ( $saved && ! empty( $options['delete_source'] ) ) {
+				delete_metadata_by_mid( 'post', intval( $redirect->meta_id, 10 ) );
+			}
+		}
+
+		return [
+			'created' => $import->get_created(),
+			'updated' => $import->get_updated(),
+			'ignored' => $import->get_ignored(),
+			'groups_created' => $group->get_groups_created(),
+			'preview' => $import->get_preview_items(),
+		];
+	}
+
+	/**
+	 * Build redirect data for a WordPress old slug row.
+	 *
+	 * @param stdClass $redirect Row from postmeta/posts join.
+	 * @return array<string, mixed>|false
+	 */
+	private function get_item_for_redirect( $redirect ) {
 		$new = get_permalink( $redirect->post_id );
 		if ( $new === false ) {
 			return false;
@@ -52,17 +150,14 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		$old = str_replace( '\\', '', $old );
 		$old = str_replace( '//', '/', $old );
 
-		$data = array(
+		return array(
 			'url'         => $old,
 			'action_data' => array( 'url' => $new ),
 			'regex'       => false,
-			'group_id'    => $group_id,
 			'match_type'  => 'url',
 			'action_type' => 'url',
 			'action_code' => 301,
 		);
-
-		return Red_Item::create( $data );
 	}
 
 	/**
@@ -80,7 +175,9 @@ class Red_WordPressOldSlug_Importer extends Red_Plugin_Importer {
 		if ( $total !== null && intval( $total, 10 ) > 0 ) {
 			return array(
 				'id' => 'wordpress-old-slugs',
-				'name' => __( 'Default WordPress "old slugs"', 'redirection' ),
+				'name' => __( 'WordPress permalink redirect', 'redirection' ),
+				'description' => __( 'Redirects created by WordPress.', 'redirection' ),
+				'source' => __( 'WordPress post meta', 'redirection' ),
 				'total' => intval( $total, 10 ),
 			);
 		}
