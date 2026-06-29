@@ -111,17 +111,3 @@ export function nestedGroups( groups: Group[] ): NestedGroup[] {
 
 	return Object.keys( nested ).map( ( moduleName ) => ( { label: moduleName, value: nested[ moduleName ]! } ) );
 }
-
-export function getExportUrl( moduleId: string, modType: string ): string {
-	const nonce = window.Redirectioni10n.api.WP_API_nonce;
-
-	return (
-		window.Redirectioni10n.pluginRoot +
-		'&sub=export&export=' +
-		encodeURIComponent( moduleId ) +
-		'&exporter=' +
-		encodeURIComponent( modType ) +
-		'&_wpnonce=' +
-		encodeURIComponent( nonce )
-	);
-}

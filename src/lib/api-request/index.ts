@@ -44,6 +44,12 @@ export const RedirectionApi = {
 	},
 	export: {
 		file: ( module: string, format: string ) => getApiRequest( 'redirection/v1/export/' + module + '/' + format ),
+		redirect: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/redirect', data ),
+		redirectPreview: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/redirect/preview', data ),
+		log: ( format: string ) => getApiRequest( 'redirection/v1/export/log/' + format ),
+		logPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/log/preview', data ),
+		error: ( format: string ) => getApiRequest( 'redirection/v1/export/404/' + format ),
+		errorPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/404/preview', data ),
 	},
 	plugin: {
 		status: () => getApiRequest( 'redirection/v1/plugin' ),

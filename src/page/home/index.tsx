@@ -198,7 +198,7 @@ export default function Home() {
 								onClick={ () => setRedirectsAddTop( true ) }
 								className="page-title-action"
 							>
-								{ __( 'Add New', 'redirection' ) }
+								{ __( 'Add redirect', 'redirection' ) }
 							</button>
 						) }
 

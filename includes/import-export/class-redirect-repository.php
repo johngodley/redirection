@@ -83,4 +83,26 @@ class RedirectRepository {
 	public function get_all_for_module( $module_id ) {
 		return \Red_Item::get_all_for_module( intval( $module_id, 10 ) );
 	}
+
+	/**
+	 * @param int $group_id
+	 * @return array<int, \Red_Item>
+	 */
+	public function get_all_for_group( $group_id ) {
+		global $wpdb;
+
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$wpdb->prefix}redirection_items WHERE group_id=%d ORDER BY position",
+				intval( $group_id, 10 )
+			)
+		);
+		$items = [];
+
+		foreach ( (array) $rows as $row ) {
+			$items[] = new \Red_Item( $row );
+		}
+
+		return $items;
+	}
 }

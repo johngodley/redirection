@@ -808,8 +808,6 @@ class Redirection_Admin {
 		$current_page = $this->get_current_page();
 
 		if ( $page !== null && $current_page !== 'redirect' && $page === 'redirection.php' ) {
-			$this->try_export_logs();
-			$this->try_export_redirects();
 			$this->try_export_rss();
 		}
 	}
@@ -840,45 +838,6 @@ class Redirection_Admin {
 		}
 	}
 
-	/**
-	 * @return void
-	 */
-	private function try_export_logs() {
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && isset( $_POST['export-csv'] ) && check_admin_referer( 'wp_rest' ) !== false ) {
-			if ( $this->get_current_page() === 'log' ) {
-				Red_Redirect_Log::export_to_csv();
-			} elseif ( $this->get_current_page() === '404s' ) {
-				Red_404_Log::export_to_csv();
-			}
-
-			die();
-		}
-	}
-
-	/**
-	 * @return void
-	 */
-	private function try_export_redirects() {
-		$sub = $this->get_query( 'sub' );
-		if ( ! in_array( $sub, [ 'io', 'export' ], true ) ) {
-			return;
-		}
-
-		$export = $this->get_query( 'export' );
-		$exporter = $this->get_query( 'exporter' );
-
-		if ( Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE ) && $export !== null && $exporter !== null && check_admin_referer( 'wp_rest' ) !== false ) {
-			$export = ( new \Redirection\ImportExport\ExportService() )->export( $export, $exporter );
-
-			if ( $export !== false ) {
-				$export['exporter']->force_download();
-
-				// This data is not displayed and will be downloaded to a file
-				echo str_replace( '&amp;', '&', wp_kses( $export['data'], 'strip' ) );
-				die();
-			}
-		}
-	}
 }
 
 register_activation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_activated' ) );

@@ -28,6 +28,14 @@
 	margin-bottom: 32px;
 }
 
+.export-types {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 16px;
+	align-items: start;
+	margin-bottom: 32px;
+}
+
 .import-source-card {
 	transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 
@@ -94,6 +102,22 @@
 .import-actions {
 	margin-top: 16px;
 	margin-bottom: 24px;
+}
+
+.export-summary {
+	margin-bottom: 32px;
+}
+
+.export-preview-table {
+	margin-top: 16px;
+}
+
+.export-options {
+	margin-bottom: 16px;
+}
+
+.export-results {
+	margin-top: 24px;
 }
 
 .io-preview-table {
@@ -195,6 +219,10 @@
 
 	&__meta-row {
 		min-width: 0;
+	}
+
+	&__meta-row--full-width {
+		grid-column: 1 / -1;
 	}
 
 	&__meta-label {
@@ -306,6 +334,10 @@
 
 @media (max-width: 600px) {
 	.import-sources {
+		grid-template-columns: 1fr;
+	}
+
+	.export-types {
 		grid-template-columns: 1fr;
 	}
 

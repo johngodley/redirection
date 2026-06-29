@@ -6,6 +6,21 @@ require_once __DIR__ . '/log-redirect.php';
 /**
  * Base log class
  *
+ * @phpstan-type LogDbRow array{
+ *   id?: int|string,
+ *   created?: string,
+ *   url?: string,
+ *   agent?: string|null,
+ *   referrer?: string|null,
+ *   domain?: string|null,
+ *   ip?: string|null,
+ *   http_code?: int|string|null,
+ *   request_method?: string|null,
+ *   request_data?: mixed,
+ *   redirection_id?: int|string,
+ *   sent_to?: string,
+ *   redirect_by?: string|null
+ * }
  * @phpstan-type LogJson array{
  *   id: int,
  *   created: string,
@@ -134,20 +149,65 @@ abstract class Red_Log {
 	/**
 	 * Constructor
 	 *
-	 * @param LogJson $values Array of log values.
+	 * @phpstan-param LogDbRow $values
+	 * @param array<string, mixed> $values Array of log values.
 	 */
 	final public function __construct( $values ) {
-		foreach ( $values as $key => $value ) {
-			// @phpstan-ignore property.notFound, assign.propertyType
-			$this->$key = $value;
+		if ( isset( $values['id'] ) ) {
+			$this->id = intval( $values['id'], 10 );
 		}
 
-		// @phpstan-ignore isset.offset
-		if ( isset( $values['created'] ) ) {
+		if ( isset( $values['created'] ) && is_string( $values['created'] ) ) {
 			$converted = mysql2date( 'U', $values['created'] );
 
 			if ( $converted !== false ) {
 				$this->created = intval( $converted, 10 );
+			}
+		}
+
+		if ( isset( $values['url'] ) && is_string( $values['url'] ) ) {
+			$this->url = $values['url'];
+		}
+
+		if ( isset( $values['agent'] ) && is_string( $values['agent'] ) ) {
+			$this->agent = $values['agent'];
+		}
+
+		if ( isset( $values['referrer'] ) && is_string( $values['referrer'] ) ) {
+			$this->referrer = $values['referrer'];
+		}
+
+		if ( isset( $values['ip'] ) && is_string( $values['ip'] ) ) {
+			$this->ip = $values['ip'];
+		}
+
+		if ( isset( $values['domain'] ) && is_string( $values['domain'] ) ) {
+			$this->domain = $values['domain'];
+		}
+
+		if ( isset( $values['http_code'] ) ) {
+			$this->http_code = intval( $values['http_code'], 10 );
+		}
+
+		if ( isset( $values['request_method'] ) && is_string( $values['request_method'] ) ) {
+			$this->request_method = $values['request_method'];
+		}
+
+		if ( isset( $values['request_data'] ) && is_string( $values['request_data'] ) ) {
+			$this->request_data = $values['request_data'];
+		}
+
+		if ( $this instanceof Red_Redirect_Log ) {
+			if ( isset( $values['redirection_id'] ) ) {
+				$this->redirection_id = intval( $values['redirection_id'], 10 );
+			}
+
+			if ( isset( $values['sent_to'] ) && is_string( $values['sent_to'] ) ) {
+				$this->sent_to = $values['sent_to'];
+			}
+
+			if ( isset( $values['redirect_by'] ) && is_string( $values['redirect_by'] ) ) {
+				$this->redirect_by = $values['redirect_by'];
 			}
 		}
 	}
@@ -523,6 +583,11 @@ abstract class Red_Log {
 	 * @return void
 	 */
 	public static function export_to_csv() {
+		$data = static::get_export_data( 'csv' );
+		if ( $data === false ) {
+			return;
+		}
+
 		$filename = static::get_csv_filename() . '-' . date_i18n( get_option( 'date_format' ) ) . '.csv';
 
 		header( 'Content-Type: text/csv' );
@@ -530,36 +595,226 @@ abstract class Red_Log {
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
-		// phpcs:ignore
-		$stdout = fopen( 'php://output', 'w' );
+		echo $data;
+	}
+
+	/**
+	 * @param 'csv'|'json' $format
+	 * @return string|false
+	 */
+	public static function get_export_data( $format ) {
+		if ( $format === 'csv' ) {
+			return self::get_export_csv_data();
+		}
+
+		if ( $format === 'json' ) {
+			return self::get_export_json_data();
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static function get_export_total() {
+		global $wpdb;
+
+		$table = static::get_table_name( $wpdb );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM $table" );
+
+		return intval( $total, 10 );
+	}
+
+	/**
+	 * @param 'csv'|'json' $format
+	 * @param int $limit
+	 * @return array{total: int, estimated_size: int}
+	 */
+	public static function get_export_preview( $format, $limit = 20 ) {
+		$total_items = static::get_export_total();
+		$rows = self::get_export_array_rows( $limit );
+
+		return [
+			'total' => $total_items,
+			'estimated_size' => self::get_export_estimated_size( $format, $total_items, $rows ),
+		];
+	}
+
+	/**
+	 * @return string|false
+	 */
+	private static function get_export_csv_data() {
+		return self::get_export_csv_data_for_rows( self::get_export_object_rows() );
+	}
+
+	/**
+	 * @param array<int, object> $rows
+	 * @return string|false
+	 */
+	private static function get_export_csv_data_for_rows( array $rows ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
+		$stdout = fopen( 'php://temp', 'w+' );
 		if ( $stdout === false ) {
-			return;
+			return false;
 		}
 
 		fputcsv( $stdout, static::get_csv_header() );
 
+		foreach ( $rows as $row ) {
+			fputcsv( $stdout, static::get_csv_row( $row ) );
+		}
+
+		rewind( $stdout );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
+		$data = stream_get_contents( $stdout );
+		fclose( $stdout );
+
+		return $data === false ? false : $data;
+	}
+
+	/**
+	 * @return string|false
+	 */
+	private static function get_export_json_data() {
+		return self::get_export_json_data_for_rows( self::get_export_array_rows() );
+	}
+
+	/**
+	 * @phpstan-param array<int, LogDbRow> $rows
+	 * @param array<int, array<string, mixed>> $rows
+	 * @return string|false
+	 */
+	private static function get_export_json_data_for_rows( array $rows ) {
+		$items = [];
+
+		foreach ( $rows as $row ) {
+			$item = new static( $row );
+			$items[] = $item->to_json();
+		}
+
+		$data = wp_json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+
+		return is_string( $data ) ? $data . PHP_EOL : false;
+	}
+
+	/**
+	 * @return array<int, object>
+	 */
+	private static function get_export_object_rows( ?int $max_items = null ) {
 		global $wpdb;
 
 		$table = static::get_table_name( $wpdb );
-		// phpcs:ignore
-		$total_items = $wpdb->get_var( "SELECT COUNT(*) FROM $table" );
+		$total_items = static::get_export_total();
+		$target_total = $max_items === null ? $total_items : min( $total_items, intval( $max_items, 10 ) );
 		$exported = 0;
-
 		$limit = 100;
+		$items = [];
 
-		while ( $exported < $total_items ) {
-			// phpcs:ignore
-			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table LIMIT %d,%d", $exported, $limit ) );
+		while ( $exported < $target_total ) {
+			$current_limit = min( $limit, $target_total - $exported );
+			// Table name is generated internally.
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table LIMIT %d,%d", $exported, $current_limit ) );
 			$exported += count( $rows );
 
 			foreach ( $rows as $row ) {
-				$csv = static::get_csv_row( $row );
-				fputcsv( $stdout, $csv );
+				$items[] = $row;
 			}
 
-			if ( count( $rows ) < $limit ) {
+			if ( count( $rows ) < $current_limit ) {
 				break;
 			}
 		}
+
+		return $items;
+	}
+
+	/**
+	 * @phpstan-return array<int, LogDbRow>
+	 * @return array<int, array<string, mixed>>
+	 */
+	private static function get_export_array_rows( ?int $max_items = null ) {
+		global $wpdb;
+
+		$table = static::get_table_name( $wpdb );
+		$total_items = static::get_export_total();
+		$target_total = $max_items === null ? $total_items : min( $total_items, intval( $max_items, 10 ) );
+		$exported = 0;
+		$limit = 100;
+		$items = [];
+
+		while ( $exported < $target_total ) {
+			$current_limit = min( $limit, $target_total - $exported );
+			// Table name is generated internally.
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table LIMIT %d,%d", $exported, $current_limit ), ARRAY_A );
+			$exported += count( $rows );
+
+			foreach ( $rows as $row ) {
+				$items[] = $row;
+			}
+
+			if ( count( $rows ) < $current_limit ) {
+				break;
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * @phpstan-param array<int, LogDbRow> $sample_rows
+	 * @param array<int, array<string, mixed>> $sample_rows
+	 * @param 'csv'|'json' $format
+	 * @param int $total_items
+	 * @return int
+	 */
+	private static function get_export_estimated_size( $format, $total_items, array $sample_rows ) {
+		if ( $total_items === 0 ) {
+			return 0;
+		}
+
+		if ( count( $sample_rows ) >= $total_items ) {
+			$data = static::get_export_data( $format );
+
+			return is_string( $data ) ? strlen( $data ) : 0;
+		}
+
+		$empty_data = self::get_export_data_for_rows( $format, [] );
+		$sample_data = self::get_export_data_for_rows( $format, $sample_rows );
+		if ( $empty_data === false || $sample_data === false || count( $sample_rows ) === 0 ) {
+			return 0;
+		}
+
+		$item_size = max( 0, strlen( $sample_data ) - strlen( $empty_data ) ) / count( $sample_rows );
+
+		return intval( round( strlen( $empty_data ) + ( $item_size * $total_items ) ), 10 );
+	}
+
+	/**
+	 * @phpstan-param array<int, LogDbRow> $rows
+	 * @param array<int, array<string, mixed>> $rows
+	 * @param 'csv'|'json' $format
+	 * @return string|false
+	 */
+	private static function get_export_data_for_rows( $format, array $rows ) {
+		if ( $format === 'csv' ) {
+			$objects = [];
+
+			foreach ( $rows as $row ) {
+				$objects[] = (object) $row;
+			}
+
+			return self::get_export_csv_data_for_rows( $objects );
+		}
+
+		if ( $format === 'json' ) {
+			return self::get_export_json_data_for_rows( $rows );
+		}
+
+		return false;
 	}
 }

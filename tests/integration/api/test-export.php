@@ -6,6 +6,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_items" );
 		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_groups" );
+		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_logs" );
+		$wpdb->get_var( "TRUNCATE {$wpdb->prefix}redirection_404" );
 	}
 
 	private function get_endpoints() {
@@ -91,6 +93,104 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 
 		$this->assertEquals( 1, $result->data['total'] );
 		$this->assertEquals( $expected, trim( $result->data['data'] ) );
+	}
+
+	public function testRedirectPreviewByGroup() {
+		$group1 = Red_Group::create( 'group1', 1 );
+		$group2 = Red_Group::create( 'group2', 1 );
+
+		Red_Item::create( [ 'url' => '/one', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ] );
+		Red_Item::create( [ 'url' => '/two', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ] );
+
+		$this->setNonce();
+		$result = $this->callApi(
+			'export/redirect/preview',
+			[ 'scope_type' => 'group', 'scope_value' => $group1->get_id(), 'format' => 'json' ]
+		);
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertGreaterThan( 0, $result->data['estimated_size'] );
+	}
+
+	public function testRedirectExportByGroup() {
+		$group1 = Red_Group::create( 'group1', 1 );
+		$group2 = Red_Group::create( 'group2', 1 );
+
+		Red_Item::create( [ 'url' => '/one', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group1->get_id() ] );
+		Red_Item::create( [ 'url' => '/two', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $group2->get_id() ] );
+
+		$this->setNonce();
+		$result = $this->callApi(
+			'export/redirect',
+			[ 'scope_type' => 'group', 'scope_value' => $group1->get_id(), 'format' => 'json' ]
+		);
+		$json = json_decode( $result->data['data'] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( 1, count( $json->groups ) );
+		$this->assertEquals( '/one', $json->redirects[0]->url );
+	}
+
+	public function testRedirectExportByModule() {
+		$wordpress_group = Red_Group::create( 'wordpress-group', 1 );
+		$apache_group = Red_Group::create( 'apache-group', 2 );
+
+		Red_Item::create( [ 'url' => '/wordpress', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $wordpress_group->get_id() ] );
+		Red_Item::create( [ 'url' => '/apache', 'match_type' => 'url', 'action_type' => 'url', 'group_id' => $apache_group->get_id() ] );
+
+		$this->setNonce();
+		$result = $this->callApi(
+			'export/redirect',
+			[ 'scope_type' => 'module', 'scope_value' => 1, 'format' => 'json' ]
+		);
+		$json = json_decode( $result->data['data'] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( 1, count( $json->groups ) );
+		$this->assertEquals( '/wordpress', $json->redirects[0]->url );
+	}
+
+	public function testRedirectLogPreview() {
+		Red_Redirect_Log::create( 'domain', '/logged', '192.168.1.1', [ 'target' => '/target' ] );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/log/preview', [ 'format' => 'json' ] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertGreaterThan( 0, $result->data['estimated_size'] );
+	}
+
+	public function testRedirectLogJsonExport() {
+		Red_Redirect_Log::create( 'domain', '/logged', '192.168.1.1', [ 'target' => '/target' ] );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/log/json' );
+		$json = json_decode( $result->data['data'] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( '/logged', $json[0]->url );
+		$this->assertEquals( '/target', $json[0]->sent_to );
+	}
+
+	public function test404LogJsonExport() {
+		Red_404_Log::create( 'domain', '/missing', '192.168.1.1', [ 'agent' => 'tester' ] );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/404/json' );
+		$json = json_decode( $result->data['data'] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( '/missing', $json[0]->url );
+	}
+
+	public function test404LogPreview() {
+		Red_404_Log::create( 'domain', '/missing', '192.168.1.1', [ 'referrer' => '/from' ] );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/404/preview', [ 'format' => 'json' ] );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertGreaterThan( 0, $result->data['estimated_size'] );
 	}
 
 	// public function testExportJSON() {

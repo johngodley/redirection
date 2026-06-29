@@ -5,6 +5,7 @@ interface CardMetaItem {
 	label: string;
 	value: ReactNode;
 	description?: ReactNode;
+	fullWidth?: boolean;
 }
 
 interface CardStatItem {
@@ -44,7 +45,12 @@ function IoCard( {
 			{ meta.length > 0 && (
 				<div className="file-sniff__meta">
 					{ meta.map( ( detail ) => (
-						<div className="file-sniff__meta-row" key={ detail.label }>
+						<div
+							className={ clsx( 'file-sniff__meta-row', {
+								'file-sniff__meta-row--full-width': detail.fullWidth,
+							} ) }
+							key={ detail.label }
+						>
 							<div className="file-sniff__meta-label">{ detail.label }</div>
 							<div className="file-sniff__meta-value">{ detail.value }</div>
 							{ detail.description && (
