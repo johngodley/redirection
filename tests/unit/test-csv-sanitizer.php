@@ -7,6 +7,10 @@ class CsvSanitizerTest extends TestCase {
 		$this->assertEquals( 'hello world', Red_Csv_Sanitizer::escape( 'hello world' ) );
 	}
 
+	public function testEscapeHandlesNull() {
+		$this->assertEquals( '', Red_Csv_Sanitizer::escape( null ) );
+	}
+
 	public function testEscapesAsciiFormulaPrefix() {
 		$this->assertEquals( 'FORMULA =SUM(A1:A2)', Red_Csv_Sanitizer::escape( '=SUM(A1:A2)' ) );
 		$this->assertEquals( 'FORMULA @SUM(A1:A2)', Red_Csv_Sanitizer::escape( '@SUM(A1:A2)' ) );
@@ -39,5 +43,9 @@ class CsvSanitizerTest extends TestCase {
 
 	public function testUnescapeLeavesSafePrefixedValueAlone() {
 		$this->assertEquals( 'FORMULA hello', Red_Csv_Sanitizer::unescape( 'FORMULA hello' ) );
+	}
+
+	public function testUnescapeHandlesNull() {
+		$this->assertEquals( '', Red_Csv_Sanitizer::unescape( null ) );
 	}
 }

@@ -19,10 +19,12 @@ class Red_Csv_Sanitizer {
 	/**
 	 * Sanitize a value for CSV export.
 	 *
-	 * @param string $value CSV value.
+	 * @param mixed $value CSV value.
 	 * @return string
 	 */
 	public static function escape( $value ) {
+		$value = self::normalize_value( $value );
+
 		if ( $value === '' ) {
 			return $value;
 		}
@@ -38,10 +40,12 @@ class Red_Csv_Sanitizer {
 	/**
 	 * Remove a prefix previously added for CSV export.
 	 *
-	 * @param string $value CSV value.
+	 * @param mixed $value CSV value.
 	 * @return string
 	 */
 	public static function unescape( $value ) {
+		$value = self::normalize_value( $value );
+
 		if ( strncmp( $value, self::ESCAPE_PREFIX, strlen( self::ESCAPE_PREFIX ) ) === 0 ) {
 			$remainder = substr( $value, strlen( self::ESCAPE_PREFIX ) );
 
@@ -94,5 +98,23 @@ class Red_Csv_Sanitizer {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Normalize a CSV value to a string.
+	 *
+	 * @param mixed $value CSV value.
+	 * @return string
+	 */
+	private static function normalize_value( $value ) {
+		if ( $value === null ) {
+			return '';
+		}
+
+		if ( is_scalar( $value ) ) {
+			return (string) $value;
+		}
+
+		return '';
 	}
 }
