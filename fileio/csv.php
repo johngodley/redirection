@@ -40,7 +40,7 @@ class Red_Csv_File extends Red_FileIO {
 	 * @return string
 	 */
 	private function normalize_import_value( $value ) {
-		return trim( Red_Csv_Sanitizer::unescape( $value ) );
+		return trim( Red_Csv_Sanitizer::unescape( trim( $value ) ) );
 	}
 
 	public function force_download() {
@@ -162,7 +162,7 @@ class Red_Csv_File extends Red_FileIO {
 
 		/** @var Red_Group $group */
 
-		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) !== false ) {
+		while ( ( $csv = fgetcsv( $file, 5000, $separator, '"', '\\' ) ) !== false ) {
 			if ( $csv === null ) {
 				continue;
 			}

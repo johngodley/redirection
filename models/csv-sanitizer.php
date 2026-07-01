@@ -29,6 +29,10 @@ class Red_Csv_Sanitizer {
 			return $value;
 		}
 
+		if ( strncmp( $value, self::ESCAPE_PREFIX, strlen( self::ESCAPE_PREFIX ) ) === 0 ) {
+			return self::ESCAPE_PREFIX . $value;
+		}
+
 		if ( self::is_dangerous( $value ) ) {
 			// Add a plain text marker so spreadsheet apps cannot treat the value as a formula.
 			// A bracketed prefix keeps accidental collisions with exported data less likely.
@@ -46,6 +50,11 @@ class Red_Csv_Sanitizer {
 	 */
 	public static function unescape( $value ) {
 		$value = self::normalize_value( $value );
+		$doubled_prefix = self::ESCAPE_PREFIX . self::ESCAPE_PREFIX;
+
+		if ( strncmp( $value, $doubled_prefix, strlen( $doubled_prefix ) ) === 0 ) {
+			return substr( $value, strlen( self::ESCAPE_PREFIX ) );
+		}
 
 		if ( strncmp( $value, self::ESCAPE_PREFIX, strlen( self::ESCAPE_PREFIX ) ) === 0 ) {
 			$remainder = substr( $value, strlen( self::ESCAPE_PREFIX ) );

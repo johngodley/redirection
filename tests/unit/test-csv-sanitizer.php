@@ -36,9 +36,17 @@ class CsvSanitizerTest extends TestCase {
 		$this->assertEquals( "[FORMULA] =\xffSUM(A1:A2)", Red_Csv_Sanitizer::escape( "=\xffSUM(A1:A2)" ) );
 	}
 
+	public function testEscapesExistingProtectionPrefix() {
+		$this->assertEquals( '[FORMULA] [FORMULA] =SUM(A1:A2)', Red_Csv_Sanitizer::escape( '[FORMULA] =SUM(A1:A2)' ) );
+	}
+
 	public function testUnescapeRemovesProtectionPrefix() {
 		$this->assertEquals( '=SUM(A1:A2)', Red_Csv_Sanitizer::unescape( '[FORMULA] =SUM(A1:A2)' ) );
 		$this->assertEquals( "\t@SUM(A1:A2)", Red_Csv_Sanitizer::unescape( "[FORMULA] \t@SUM(A1:A2)" ) );
+	}
+
+	public function testUnescapeRestoresEscapedProtectionPrefix() {
+		$this->assertEquals( '[FORMULA] =SUM(A1:A2)', Red_Csv_Sanitizer::unescape( '[FORMULA] [FORMULA] =SUM(A1:A2)' ) );
 	}
 
 	public function testUnescapeLeavesSafePrefixedValueAlone() {

@@ -44,6 +44,23 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( $target, $csv );
 	}
 
+	public function testSourceTargetUnescapesProtectedValuesAfterWhitespaceTrim() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( " \t[FORMULA] =/source", "\n[FORMULA] @target ", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '=/source',
+			'action_data' => array( 'url' => '@target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
 	public function testSourceTargetUnescapesProtectedMalformedUtf8() {
 		$importer = new Red_Csv_File();
 		$csv = $importer->csv_as_item( array( "[FORMULA] =\xff/source", '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
@@ -66,6 +83,23 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$csv = $importer->csv_as_item( array( '[FORMULA] hello', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
 		$target = array(
 			'url' => '[FORMULA] hello',
+			'action_data' => array( 'url' => '/target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetLeavesEscapedProtectionPrefixAlone() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '[FORMULA] [FORMULA] =/source', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '[FORMULA] =/source',
 			'action_data' => array( 'url' => '/target' ),
 			'regex' => false,
 			'group_id' => 1,
