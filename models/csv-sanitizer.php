@@ -4,6 +4,8 @@
  * Sanitize values for CSV export.
  */
 class Red_Csv_Sanitizer {
+	const ESCAPE_PREFIX = 'FORMULA ';
+
 	/**
 	 * @var array<int, string>
 	 */
@@ -26,22 +28,26 @@ class Red_Csv_Sanitizer {
 		}
 
 		if ( self::is_dangerous( $value ) ) {
-			// Add a tab prefix to the value to prevent spreadsheet formula execution. The tab is likely to survive resaving
-			return "\t" . $value;
+			// Add a plain text marker so spreadsheet apps cannot treat the value as a formula.
+			return self::ESCAPE_PREFIX . $value;
 		}
 
 		return $value;
 	}
 
 	/**
-	 * Remove a tab prefix previously added for CSV export.
+	 * Remove a prefix previously added for CSV export.
 	 *
 	 * @param string $value CSV value.
 	 * @return string
 	 */
 	public static function unescape( $value ) {
-		if ( substr( $value, 0, 1 ) === "\t" && self::is_dangerous( substr( $value, 1 ) ) ) {
-			return substr( $value, 1 );
+		if ( strncmp( $value, self::ESCAPE_PREFIX, strlen( self::ESCAPE_PREFIX ) ) === 0 ) {
+			$remainder = substr( $value, strlen( self::ESCAPE_PREFIX ) );
+
+			if ( self::is_dangerous( $remainder ) ) {
+				return $remainder;
+			}
 		}
 
 		return $value;
@@ -59,11 +65,6 @@ class Red_Csv_Sanitizer {
 	private static function is_dangerous( $value ) {
 		if ( $value === '' ) {
 			return false;
-		}
-
-		$first = substr( $value, 0, 1 );
-		if ( $first === "\t" || $first === "\r" || $first === "\n" ) {
-			return true;
 		}
 
 		$length = strlen( $value );

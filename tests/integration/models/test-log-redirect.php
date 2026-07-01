@@ -11,7 +11,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 
 	public function testCsvRowEscapesFormulaValues() {
 		$row = [ 'created' => '=created', 'url' => '@url', 'sent_to' => '-sent_to', 'ip' => '+ip', 'referrer' => '=referrer', 'agent' => '@agent' ];
-		$expected = [ "\t=created", "\t@url", "\t-sent_to", "\t+ip", "\t=referrer", "\t@agent" ];
+		$expected = [ 'FORMULA =created', 'FORMULA @url', 'FORMULA -sent_to', 'FORMULA +ip', 'FORMULA =referrer', 'FORMULA @agent' ];
 		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
 
 		$this->assertEquals( $expected, $csv );
@@ -19,7 +19,15 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 
 	public function testCsvRowEscapesFormulaValuesWithLeadingWhitespace() {
 		$row = [ 'created' => ' =created', 'url' => "\t@url", 'sent_to' => ' -sent_to', 'ip' => "\r+ip", 'referrer' => ' =referrer', 'agent' => "\n@agent" ];
-		$expected = [ "\t =created", "\t\t@url", "\t -sent_to", "\t\r+ip", "\t =referrer", "\t\n@agent" ];
+		$expected = [ 'FORMULA  =created', "FORMULA \t@url", 'FORMULA  -sent_to', "FORMULA \r+ip", 'FORMULA  =referrer', "FORMULA \n@agent" ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowLeavesLeadingWhitespaceWithoutFormulaPrefixAlone() {
+		$row = [ 'created' => "\thello", 'url' => "\nurl", 'sent_to' => "\rsent_to", 'ip' => ' ip', 'referrer' => "\treferrer", 'agent' => "\nagent" ];
+		$expected = [ "\thello", "\nurl", "\rsent_to", ' ip', "\treferrer", "\nagent" ];
 		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
 
 		$this->assertEquals( $expected, $csv );
@@ -27,7 +35,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 
 	public function testCsvRowEscapesFormulaValuesWithFullWidthPrefix() {
 		$row = [ 'created' => '＝created', 'url' => '＋url', 'sent_to' => '－sent_to', 'ip' => '＠ip', 'referrer' => '＝referrer', 'agent' => '＠agent' ];
-		$expected = [ "\t＝created", "\t＋url", "\t－sent_to", "\t＠ip", "\t＝referrer", "\t＠agent" ];
+		$expected = [ 'FORMULA ＝created', 'FORMULA ＋url', 'FORMULA －sent_to', 'FORMULA ＠ip', 'FORMULA ＝referrer', 'FORMULA ＠agent' ];
 		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
 
 		$this->assertEquals( $expected, $csv );
@@ -35,7 +43,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 
 	public function testCsvRowEscapesFormulaValuesWithLeadingSpaceAndFullWidthPrefix() {
 		$row = [ 'created' => ' ＝created', 'url' => ' ＋url', 'sent_to' => ' －sent_to', 'ip' => ' ＠ip', 'referrer' => ' ＝referrer', 'agent' => ' ＠agent' ];
-		$expected = [ "\t ＝created", "\t ＋url", "\t －sent_to", "\t ＠ip", "\t ＝referrer", "\t ＠agent" ];
+		$expected = [ 'FORMULA  ＝created', 'FORMULA  ＋url', 'FORMULA  －sent_to', 'FORMULA  ＠ip', 'FORMULA  ＝referrer', 'FORMULA  ＠agent' ];
 		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
 
 		$this->assertEquals( $expected, $csv );
