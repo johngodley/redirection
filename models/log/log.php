@@ -528,6 +528,7 @@ abstract class Red_Log {
 		header( 'Content-Type: text/csv' );
 		header( 'Cache-Control: no-cache, must-revalidate' );
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'X-Content-Type-Options: nosniff' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
 		// phpcs:ignore

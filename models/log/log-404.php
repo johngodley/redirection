@@ -78,11 +78,11 @@ class Red_404_Log extends Red_Log {
 	public static function get_csv_row( $row ) {
 		/** @var Log404Row $row */
 		return [
-			$row->created,
-			$row->url,
-			$row->ip,
-			$row->referrer,
-			$row->agent,
+			Red_Csv_Sanitizer::escape( $row->created ),
+			Red_Csv_Sanitizer::escape( $row->url ),
+			Red_Csv_Sanitizer::escape( $row->ip ),
+			Red_Csv_Sanitizer::escape( $row->referrer ),
+			Red_Csv_Sanitizer::escape( $row->agent ),
 		];
 	}
 }

@@ -88,6 +88,8 @@ class Red_Csv_File extends Red_FileIO {
 			return $item;
 		}
 
+		$item = Red_Csv_Sanitizer::escape( $item );
+
 		return '"' . str_replace( '"', '""', $item ) . '"';
 	}
 
@@ -214,11 +216,13 @@ class Red_Csv_File extends Red_FileIO {
 	public function csv_as_item( $csv, Red_Group $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+			$source = trim( Red_Csv_Sanitizer::unescape( $csv[ self::CSV_SOURCE ] ), ' ' );
+			$target = trim( Red_Csv_Sanitizer::unescape( $csv[ self::CSV_TARGET ] ), ' ' );
 
 			return array(
-				'url' => trim( $csv[ self::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
-				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
+				'url' => $source,
+				'action_data' => array( 'url' => $target ),
+				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $source ),
 				'group_id' => $group->get_id(),
 				'match_type' => 'url',
 				'action_type' => $this->get_action_type( $code ),
