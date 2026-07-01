@@ -76,6 +76,7 @@ class Red_404_Log extends Red_Log {
 	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
+		self::load_csv_sanitizer();
 		/** @var Log404Row $row */
 		return [
 			Red_Csv_Sanitizer::escape( $row->created ),

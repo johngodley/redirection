@@ -154,6 +154,7 @@ class Red_Redirect_Log extends Red_Log {
 	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
+		self::load_csv_sanitizer();
 		/** @var RedirectCsvRow $row */
 		return [
 			Red_Csv_Sanitizer::escape( $row->created ),
