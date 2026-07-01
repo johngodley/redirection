@@ -4,7 +4,7 @@
  * Sanitize values for CSV export.
  */
 class Red_Csv_Sanitizer {
-	const ESCAPE_PREFIX = 'FORMULA ';
+	const ESCAPE_PREFIX = '[FORMULA] ';
 
 	/**
 	 * @var array<int, string>
@@ -31,6 +31,7 @@ class Red_Csv_Sanitizer {
 
 		if ( self::is_dangerous( $value ) ) {
 			// Add a plain text marker so spreadsheet apps cannot treat the value as a formula.
+			// A bracketed prefix keeps accidental collisions with exported data less likely.
 			return self::ESCAPE_PREFIX . $value;
 		}
 

@@ -29,10 +29,10 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testSourceTargetUnescapesProtectedValues() {
 		$importer = new Red_Csv_File();
-		$csv = $importer->csv_as_item( array( 'FORMULA =/source', "FORMULA \t@target", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$csv = $importer->csv_as_item( array( '[FORMULA] =/source', "[FORMULA] \t@target", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
 		$target = array(
 			'url' => '=/source',
-			'action_data' => array( 'url' => "\t@target" ),
+			'action_data' => array( 'url' => '@target' ),
 			'regex' => false,
 			'group_id' => 1,
 			'match_type' => 'url',
@@ -46,7 +46,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testSourceTargetUnescapesProtectedMalformedUtf8() {
 		$importer = new Red_Csv_File();
-		$csv = $importer->csv_as_item( array( "FORMULA =\xff/source", '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$csv = $importer->csv_as_item( array( "[FORMULA] =\xff/source", '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
 		$target = array(
 			'url' => "=\xff/source",
 			'action_data' => array( 'url' => '/target' ),
@@ -63,9 +63,9 @@ class ImportCsvTest extends WP_UnitTestCase {
 
 	public function testSourceTargetLeavesSafePrefixedValueAlone() {
 		$importer = new Red_Csv_File();
-		$csv = $importer->csv_as_item( array( 'FORMULA hello', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$csv = $importer->csv_as_item( array( '[FORMULA] hello', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
 		$target = array(
-			'url' => 'FORMULA hello',
+			'url' => '[FORMULA] hello',
 			'action_data' => array( 'url' => '/target' ),
 			'regex' => false,
 			'group_id' => 1,
@@ -123,6 +123,40 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( '/old', $redirect->url );
 		$this->assertEquals( '/new', $redirect->action_data );
 		$this->assertEquals( 301, $redirect->action_code );
+	}
+
+	public function testWhitespaceOnlySourceIsIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"\t \n\",\"/new\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE action_data='/new'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
+	}
+
+	public function testSourceAndTargetEqualAfterWhitespaceTrimAreIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"/same\",\"\t/same\n\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE url='/same'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
 	}
 
 	public function testSemicolon() {

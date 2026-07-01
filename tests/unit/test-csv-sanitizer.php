@@ -12,13 +12,13 @@ class CsvSanitizerTest extends TestCase {
 	}
 
 	public function testEscapesAsciiFormulaPrefix() {
-		$this->assertEquals( 'FORMULA =SUM(A1:A2)', Red_Csv_Sanitizer::escape( '=SUM(A1:A2)' ) );
-		$this->assertEquals( 'FORMULA @SUM(A1:A2)', Red_Csv_Sanitizer::escape( '@SUM(A1:A2)' ) );
+		$this->assertEquals( '[FORMULA] =SUM(A1:A2)', Red_Csv_Sanitizer::escape( '=SUM(A1:A2)' ) );
+		$this->assertEquals( '[FORMULA] @SUM(A1:A2)', Red_Csv_Sanitizer::escape( '@SUM(A1:A2)' ) );
 	}
 
 	public function testEscapesLeadingWhitespaceBeforeAsciiFormulaPrefix() {
-		$this->assertEquals( 'FORMULA  =SUM(A1:A2)', Red_Csv_Sanitizer::escape( ' =SUM(A1:A2)' ) );
-		$this->assertEquals( "FORMULA \t@SUM(A1:A2)", Red_Csv_Sanitizer::escape( "\t@SUM(A1:A2)" ) );
+		$this->assertEquals( '[FORMULA]  =SUM(A1:A2)', Red_Csv_Sanitizer::escape( ' =SUM(A1:A2)' ) );
+		$this->assertEquals( "[FORMULA] \t@SUM(A1:A2)", Red_Csv_Sanitizer::escape( "\t@SUM(A1:A2)" ) );
 	}
 
 	public function testLeavesLeadingWhitespaceWithoutFormulaPrefixAlone() {
@@ -28,21 +28,21 @@ class CsvSanitizerTest extends TestCase {
 	}
 
 	public function testEscapesFullWidthFormulaPrefix() {
-		$this->assertEquals( 'FORMULA ＝SUM(A1:A2)', Red_Csv_Sanitizer::escape( '＝SUM(A1:A2)' ) );
-		$this->assertEquals( 'FORMULA  ＝SUM(A1:A2)', Red_Csv_Sanitizer::escape( ' ＝SUM(A1:A2)' ) );
+		$this->assertEquals( '[FORMULA] ＝SUM(A1:A2)', Red_Csv_Sanitizer::escape( '＝SUM(A1:A2)' ) );
+		$this->assertEquals( '[FORMULA]  ＝SUM(A1:A2)', Red_Csv_Sanitizer::escape( ' ＝SUM(A1:A2)' ) );
 	}
 
 	public function testEscapesMalformedUtf8FormulaPrefix() {
-		$this->assertEquals( "FORMULA =\xffSUM(A1:A2)", Red_Csv_Sanitizer::escape( "=\xffSUM(A1:A2)" ) );
+		$this->assertEquals( "[FORMULA] =\xffSUM(A1:A2)", Red_Csv_Sanitizer::escape( "=\xffSUM(A1:A2)" ) );
 	}
 
 	public function testUnescapeRemovesProtectionPrefix() {
-		$this->assertEquals( '=SUM(A1:A2)', Red_Csv_Sanitizer::unescape( 'FORMULA =SUM(A1:A2)' ) );
-		$this->assertEquals( "\t@SUM(A1:A2)", Red_Csv_Sanitizer::unescape( "FORMULA \t@SUM(A1:A2)" ) );
+		$this->assertEquals( '=SUM(A1:A2)', Red_Csv_Sanitizer::unescape( '[FORMULA] =SUM(A1:A2)' ) );
+		$this->assertEquals( "\t@SUM(A1:A2)", Red_Csv_Sanitizer::unescape( "[FORMULA] \t@SUM(A1:A2)" ) );
 	}
 
 	public function testUnescapeLeavesSafePrefixedValueAlone() {
-		$this->assertEquals( 'FORMULA hello', Red_Csv_Sanitizer::unescape( 'FORMULA hello' ) );
+		$this->assertEquals( '[FORMULA] hello', Red_Csv_Sanitizer::unescape( '[FORMULA] hello' ) );
 	}
 
 	public function testUnescapeHandlesNull() {
