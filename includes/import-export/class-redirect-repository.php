@@ -105,4 +105,49 @@ class RedirectRepository {
 
 		return $items;
 	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 * @return array<int, \Red_Item>
+	 */
+	public function get_filtered_for_export( array $params = [] ) {
+		global $wpdb;
+
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
+			$items = array_values(
+				array_filter(
+					array_map( 'intval', $params['items'] ),
+					static function ( $item ) {
+						return $item > 0;
+					}
+				)
+			);
+
+			if ( count( $items ) === 0 ) {
+				return [];
+			}
+
+			$placeholders = implode( ',', array_fill( 0, count( $items ), '%d' ) );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id IN ($placeholders) ORDER BY position", ...$items );
+			$rows = $wpdb->get_results( $query );
+		} else {
+			$where = '';
+
+			if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+				$filters = new \Red_Item_Filters( $params['filterBy'] );
+				$where = $filters->get_as_sql();
+			}
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items {$where} ORDER BY position" );
+		}
+
+		return array_map(
+			static function ( $row ) {
+				return new \Red_Item( $row );
+			},
+			is_array( $rows ) ? $rows : []
+		);
+	}
 }

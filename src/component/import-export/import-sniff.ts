@@ -3,8 +3,7 @@ export type ImportSniffResult =
 			format: 'json';
 			valid: boolean;
 			version?: string;
-			redirects?: number;
-			groups?: number;
+			contents?: Partial< Record< 'settings' | 'groups' | 'redirects' | 'logs' | 'errors_404', number > >;
 			error?: 'not-redirection-json' | 'invalid-json' | 'read-failed';
 	  }
 	| {
@@ -24,6 +23,9 @@ export type ImportSniffResult =
 type CsvSeparator = ',' | ';' | '|' | '\t';
 
 const CSV_SEPARATORS: CsvSeparator[] = [ ',', ';', '|', '\t' ];
+const JSON_SECTIONS = [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ] as const;
+
+type JsonSection = ( typeof JSON_SECTIONS )[ number ];
 
 export function isJsonFile( file: File ) {
 	return file.name.toLowerCase().endsWith( '.json' );
@@ -53,15 +55,42 @@ export function sniffJsonText( text: string ): ImportSniffResult {
 			plugin?: { version?: string };
 			groups?: unknown[];
 			redirects?: unknown[];
+			settings?: Record< string, unknown >;
+			logs?: unknown[];
+			errors_404?: unknown[];
 		};
 
-		if (
-			typeof data !== 'object' ||
-			data === null ||
-			typeof data.plugin?.version !== 'string' ||
-			! Array.isArray( data.groups ) ||
-			! Array.isArray( data.redirects )
-		) {
+		const contents: Partial< Record< JsonSection, number > > = {};
+
+		if ( typeof data !== 'object' || data === null || Array.isArray( data ) ) {
+			return {
+				format: 'json',
+				valid: false,
+				error: 'not-redirection-json',
+			};
+		}
+
+		if ( Array.isArray( data.groups ) ) {
+			contents.groups = data.groups.length;
+		}
+
+		if ( Array.isArray( data.redirects ) ) {
+			contents.redirects = data.redirects.length;
+		}
+
+		if ( typeof data.settings === 'object' && data.settings !== null ) {
+			contents.settings = Object.keys( data.settings ).length;
+		}
+
+		if ( Array.isArray( data.logs ) ) {
+			contents.logs = data.logs.length;
+		}
+
+		if ( Array.isArray( data.errors_404 ) ) {
+			contents.errors_404 = data.errors_404.length;
+		}
+
+		if ( Object.keys( contents ).length === 0 ) {
 			return {
 				format: 'json',
 				valid: false,
@@ -72,9 +101,8 @@ export function sniffJsonText( text: string ): ImportSniffResult {
 		return {
 			format: 'json',
 			valid: true,
-			version: data.plugin.version,
-			groups: data.groups.length,
-			redirects: data.redirects.length,
+			version: typeof data.plugin?.version === 'string' ? data.plugin.version : undefined,
+			contents,
 		};
 	} catch {
 		return {

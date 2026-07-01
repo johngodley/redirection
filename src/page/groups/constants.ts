@@ -117,6 +117,14 @@ export const getBulk = (): BulkOption[] => [
 		id: 'disable',
 		name: __( 'Disable', 'redirection' ),
 	},
+	{
+		id: 'export-csv',
+		name: __( 'Export as CSV', 'redirection' ),
+	},
+	{
+		id: 'export-json',
+		name: __( 'Export as JSON', 'redirection' ),
+	},
 ];
 
 export const getSearchOptions = (): SearchOption[] => [

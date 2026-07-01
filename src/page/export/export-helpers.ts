@@ -10,7 +10,19 @@ function getExportTypeLabel( exportType: ExportType ) {
 		return __( 'Redirect logs', 'redirection' );
 	}
 
-	return __( '404 logs', 'redirection' );
+	if ( exportType === '404' ) {
+		return __( '404 logs', 'redirection' );
+	}
+
+	if ( exportType === 'group' ) {
+		return __( 'Groups', 'redirection' );
+	}
+
+	return __( 'Settings', 'redirection' );
+}
+
+function getExportTypesLabel( exportTypes: ExportType[] ) {
+	return exportTypes.map( ( exportType ) => getExportTypeLabel( exportType ) ).join( ', ' );
 }
 
 function getRedirectModuleLabel( redirectModule: RedirectModule ) {
@@ -59,7 +71,7 @@ function getExportFormatLabel( format: ExportFormat ) {
 
 function getExportFormatOptionLabel( format: ExportFormat ) {
 	if ( format === 'json' ) {
-		return __( 'Complete data (JSON)', 'redirection' );
+		return __( 'JSON (complete data)', 'redirection' );
 	}
 
 	return getExportFormatLabel( format );
@@ -82,14 +94,32 @@ function getExportFilename( exportType: ExportType, format: ExportFormat ) {
 		return `redirect-logs.${ format }`;
 	}
 
-	return `404-logs.${ format }`;
+	if ( exportType === '404' ) {
+		return `404-logs.${ format }`;
+	}
+
+	if ( exportType === 'group' ) {
+		return `groups.${ format }`;
+	}
+
+	return `settings.${ format }`;
+}
+
+function getExportSelectionFilename( exportTypes: ExportType[], format: ExportFormat ) {
+	if ( exportTypes.length === 1 && exportTypes[ 0 ] ) {
+		return getExportFilename( exportTypes[ 0 ], format );
+	}
+
+	return `redirection-export.${ format }`;
 }
 
 export {
 	getExportFilename,
 	getExportFormatLabel,
 	getExportFormatOptionLabel,
+	getExportSelectionFilename,
 	getExportTypeLabel,
+	getExportTypesLabel,
 	getRedirectModuleLabel,
 	getRedirectScopeLabel,
 };

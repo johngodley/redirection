@@ -15,6 +15,10 @@ function getEmptyImportResult(): ImportStats {
 		updated: 0,
 		ignored: 0,
 		groups_created: 0,
+		groups_imported: 0,
+		logs_imported: 0,
+		errors_imported: 0,
+		settings_imported: 0,
 		preview: [],
 	};
 }
@@ -36,6 +40,7 @@ function useImportPage() {
 	const [ file, setFile ] = useState< File | false >( false );
 	const [ duplicateMode, setDuplicateMode ] = useState< DuplicateMode >( 'import' );
 	const [ deleteSource, setDeleteSource ] = useState< boolean >( false );
+	const [ selectedSections, setSelectedSections ] = useState< string[] >( [] );
 	const [ fileInfo, setFileInfo ] = useState< ImportState[ 'fileInfo' ] >( null );
 	const [ isSniffing, setIsSniffing ] = useState< boolean >( false );
 	const [ lastImport, setLastImport ] = useState< ImportStats | false >( false );
@@ -63,6 +68,7 @@ function useImportPage() {
 	} );
 
 	const isImporting = importRunner.isPending;
+	const currentError = importRunner.error || null;
 	const hasCompletedImport = lastImport !== false && lastImportWasDryRun === false;
 	const activePlugin = importers.find( ( item ) => item.id === activePluginId ) || null;
 	const hasActiveImport = activeImportType === 'file' ? file !== false : activePlugin !== null;
@@ -91,6 +97,7 @@ function useImportPage() {
 		if ( file === false ) {
 			setFileInfo( null );
 			setIsSniffing( false );
+			setSelectedSections( [] );
 			return;
 		}
 
@@ -101,6 +108,9 @@ function useImportPage() {
 			.then( ( result ) => {
 				if ( isMounted ) {
 					setFileInfo( result );
+					if ( result.format === 'json' && result.valid && result.contents ) {
+						setSelectedSections( Object.keys( result.contents ) );
+					}
 				}
 			} )
 			.catch( () => {
@@ -124,11 +134,13 @@ function useImportPage() {
 	}, [ file ] );
 
 	const selectFile = ( selectedFile: File | false ) => {
+		importRunner.reset();
 		setLastImport( false );
 		setLastImportWasDryRun( null );
 		setFile( selectedFile );
 		setActiveImportType( 'file' );
 		setActivePluginId( null );
+		setSelectedSections( [] );
 		if ( selectedFile && isJsonFile( selectedFile ) ) {
 			setGroup( 0 );
 		} else if ( groupRows[ 0 ] ) {
@@ -193,6 +205,7 @@ function useImportPage() {
 
 	const onSelectFileImporter = () => {
 		if ( file !== false ) {
+			importRunner.reset();
 			setActiveImportType( 'file' );
 			setActivePluginId( null );
 			setLastImport( false );
@@ -209,6 +222,7 @@ function useImportPage() {
 				groupId: group,
 				duplicateMode,
 				deleteSource,
+				importSections: selectedSections,
 			};
 		}
 
@@ -257,10 +271,12 @@ function useImportPage() {
 
 		setLastImport( false );
 		setLastImportWasDryRun( null );
+		importRunner.reset();
 		importRunner.mutate( request );
 	};
 
 	const onClearFile = () => {
+		importRunner.reset();
 		setHover( false );
 		setFile( false );
 		if ( activeImportType === 'file' ) {
@@ -274,6 +290,7 @@ function useImportPage() {
 	};
 
 	const onCancel = () => {
+		importRunner.reset();
 		setActiveImportType( null );
 		setActivePluginId( null );
 		setDuplicateMode( 'import' );
@@ -282,6 +299,7 @@ function useImportPage() {
 	};
 
 	const onSelectPlugin = ( plugin: ImportPlugin ) => {
+		importRunner.reset();
 		setActiveImportType( 'plugin' );
 		setActivePluginId( plugin.id );
 		setLastImport( false );
@@ -296,15 +314,27 @@ function useImportPage() {
 		const { name, value } = event.target;
 
 		if ( name === 'group' ) {
+			importRunner.reset();
 			setGroup( parseInt( value, 10 ) );
 			setLastImport( false );
 			setLastImportWasDryRun( null );
 		} else if ( name === 'duplicate_mode' ) {
+			importRunner.reset();
 			setDuplicateMode( value as DuplicateMode );
 			setLastImport( false );
 			setLastImportWasDryRun( null );
 		} else if ( name === 'delete_source' && event.target instanceof HTMLInputElement ) {
+			importRunner.reset();
 			setDeleteSource( event.target.checked );
+			setLastImport( false );
+			setLastImportWasDryRun( null );
+		} else if ( name.startsWith( 'import_section_' ) && event.target instanceof HTMLInputElement ) {
+			const section = name.replace( 'import_section_', '' );
+
+			importRunner.reset();
+			setSelectedSections( ( current ) =>
+				event.target.checked ? [ ...current, section ] : current.filter( ( item ) => item !== section )
+			);
 			setLastImport( false );
 			setLastImportWasDryRun( null );
 		}
@@ -321,6 +351,8 @@ function useImportPage() {
 			deleteSource,
 			fileInfo,
 			isSniffing,
+			currentError,
+			selectedSections,
 			lastImport,
 			lastImportWasDryRun,
 			groupRows,

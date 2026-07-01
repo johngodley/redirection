@@ -36,6 +36,12 @@
 	margin-bottom: 32px;
 }
 
+.export-types-toggle {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 12px;
+}
+
 .import-source-card {
 	transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 
@@ -47,6 +53,17 @@
 
 	&__actions {
 		margin-top: 14px;
+
+		input[type="checkbox"] {
+			margin: 0;
+		}
+	}
+
+	&__options {
+		margin-top: 14px;
+		margin-bottom: 0;
+		padding-top: 14px;
+		border-top: 1px solid #dcdcde;
 	}
 
 	&--placeholder {
@@ -86,16 +103,24 @@
 			max-width: 320px;
 		}
 	}
+}
 
-	&__checkbox {
+.groups__checkbox {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #646970;
+	line-height: 1.2;
+
+	input,
+	input[type="checkbox"] {
+		margin: 0;
+		flex-shrink: 0;
+	}
+
+	span {
 		display: inline-flex;
 		align-items: center;
-		gap: 8px;
-		color: #646970;
-
-		input {
-			margin: 0;
-		}
 	}
 }
 
@@ -114,10 +139,29 @@
 
 .export-options {
 	margin-bottom: 16px;
+
+	&__label {
+		font-weight: 500;
+		margin-right: 20px;
+	}
+
+	select {
+		width: 100%;
+		max-width: 320px;
+	}
+
+	p {
+		margin: 0;
+	}
 }
 
 .export-results {
 	margin-top: 24px;
+}
+
+.import-export-error {
+	margin-top: 16px;
+	margin-bottom: 24px;
 }
 
 .io-preview-table {

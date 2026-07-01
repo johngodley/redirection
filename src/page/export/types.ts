@@ -1,4 +1,4 @@
-type ExportType = 'redirect' | 'log' | '404';
+type ExportType = 'redirect' | 'log' | '404' | 'group' | 'setting';
 type ExportAction = 'view' | 'download';
 type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
 type RedirectModule = 'all' | '1' | '2' | '3';
@@ -18,7 +18,7 @@ interface ExportTypeOption {
 }
 
 interface ExportState {
-	exportType: ExportType;
+	selectedTypes: ExportType[];
 	redirectScopeType: RedirectScopeType;
 	redirectModule: RedirectModule;
 	redirectGroup: number;
@@ -27,12 +27,13 @@ interface ExportState {
 	isPreviewLoading: boolean;
 	previewTotal: number | null;
 	previewEstimatedSize: number | null;
+	currentError: Error | null;
 	lastResult: ExportResult | false;
 }
 
 interface ExportResult {
 	action: ExportAction;
-	type: ExportType;
+	types: ExportType[];
 	format: ExportFormat;
 	data: string;
 	total: number | null;

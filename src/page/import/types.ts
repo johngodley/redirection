@@ -16,6 +16,10 @@ interface ImportStats {
 	updated: number;
 	ignored: number;
 	groups_created: number;
+	groups_imported: number;
+	logs_imported: number;
+	errors_imported: number;
+	settings_imported: number;
 	preview: ImportPreviewRow[];
 }
 
@@ -38,9 +42,11 @@ interface ImportState {
 	deleteSource: boolean;
 	fileInfo: ImportSniffResult | null;
 	isSniffing: boolean;
+	currentError: Error | null;
 	lastImport: ImportStats | false;
 	lastImportWasDryRun: boolean | null;
 	groupRows: Array< { id: number } & Record< string, unknown > >;
+	selectedSections: string[];
 	importers: ImportPlugin[];
 	isLoadingImporters: boolean;
 	isImporting: boolean;

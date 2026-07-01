@@ -9,7 +9,7 @@ import {
 	getGroupBy,
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
-import { useLogList, useLogBulkAction } from 'lib/api/hooks';
+import { useExport, useLogList, useLogBulkAction } from 'lib/api/hooks';
 import { cleanApiParams } from 'lib/api/utils';
 import { getRssUrl } from 'lib/wordpress-url';
 import { useTableUrlSync } from 'lib/hooks';
@@ -25,6 +25,7 @@ import LogPage, {
 import LogRowActions from './row-actions';
 import TableButtons from 'component/table/table-buttons';
 import getColumns from './columns';
+import { getExportFilename } from 'page/export/export-helpers';
 
 interface TableState {
 	groupBy?: string;
@@ -73,6 +74,7 @@ function Logs() {
 	} );
 
 	const logBulkAction = useLogBulkAction();
+	const exportMutation = useExport();
 
 	// Fetch logs with current table params - read directly from Query
 	const { data: logData, isLoading, isSuccess } = useLogList( table );
@@ -102,6 +104,33 @@ function Logs() {
 
 	const handleBulk = ( action: string ) => {
 		if ( table.selected.length === 0 && ! table.selectAll ) {
+			return;
+		}
+
+		if ( action === 'export-csv' || action === 'export-json' ) {
+			const params = {
+				...cleanApiParams( {
+					...( table.groupBy ? { groupBy: table.groupBy } : {} ),
+					...( table.selectAll
+						? {
+							global: true,
+							filterBy: table.filterBy,
+						}
+					: {
+							items: table.selected,
+						} ),
+				} ),
+				displaySelected: groupedTable.displaySelected ?? [],
+			};
+
+			exportMutation.mutate( {
+				exportType: 'log',
+				format: action === 'export-csv' ? 'csv' : 'json',
+				download: true,
+				filename: getExportFilename( 'log', action === 'export-csv' ? 'csv' : 'json' ),
+				params,
+			} );
+
 			return;
 		}
 

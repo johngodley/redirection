@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, Placeholder } from '@wp-plugin-components';
 import clsx from 'clsx';
+import ImportExportApiError from 'component/import-export/api-error';
 import IoCard from 'component/import-export/card';
 import Importer from 'component/import-export/importer';
 import { isJsonFile } from 'component/import-export/import-sniff';
@@ -45,6 +46,11 @@ function ImportPage() {
 			</>
 		);
 	};
+	const hasNoSelectedJsonSections =
+		state.activeImportType === 'file' &&
+		state.fileInfo?.format === 'json' &&
+		state.fileInfo.valid &&
+		state.selectedSections.length === 0;
 
 	const renderImporterPlaceholder = () => {
 		return (
@@ -122,7 +128,9 @@ function ImportPage() {
 						duplicateMode={ state.duplicateMode }
 						group={ state.group }
 						groupRows={ state.groupRows }
+						fileInfo={ state.fileInfo }
 						isJsonFile={ isJsonFile }
+						selectedSections={ state.selectedSections }
 						onChange={ onOptionsChange }
 					/>
 				) }
@@ -140,6 +148,7 @@ function ImportPage() {
 								disabled={
 									! state.hasActiveImport ||
 									! state.previewSupported ||
+									hasNoSelectedJsonSections ||
 									state.isImporting ||
 									( state.activeImportType === 'file' &&
 										( state.file === false ||
@@ -155,6 +164,7 @@ function ImportPage() {
 								onClick={ () => onImport( false ) }
 								disabled={
 									! state.hasActiveImport ||
+									hasNoSelectedJsonSections ||
 									state.isImporting ||
 									( state.activeImportType === 'file' &&
 										( state.file === false ||
@@ -168,6 +178,8 @@ function ImportPage() {
 						</>
 					) }
 				</div>
+
+				{ state.currentError && <ImportExportApiError error={ state.currentError } /> }
 
 				<ImportResults
 					activeImportType={ state.activeImportType }

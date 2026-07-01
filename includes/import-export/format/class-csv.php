@@ -121,7 +121,8 @@ class Csv extends FormatHandler {
 	 * @param bool $is_dry_run Whether this is a dry run.
 	 * @return ImportResult
 	 */
-	public function load( $group, $redirect, $filename, $is_dry_run ) {
+	public function load( $group, $redirect, $filename, $is_dry_run, array $options = [] ) {
+		unset( $options );
 		$file = $this->files->open_read( $filename );
 
 		if ( $file !== false ) {

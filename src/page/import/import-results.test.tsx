@@ -13,6 +13,10 @@ function getPreviewResults( overrides: Partial< ImportStats > = {} ): ImportStat
 		updated: 1,
 		ignored: 1,
 		groups_created: 1,
+		groups_imported: 0,
+		logs_imported: 0,
+		errors_imported: 0,
+		settings_imported: 0,
 		preview: [
 			{
 				source: '/created',

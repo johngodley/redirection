@@ -53,12 +53,13 @@ class ImportExportServiceTest extends TestCase {
 				return $this->response['data'];
 			}
 
-			public function load( $group, $redirect, $filename, $is_dry_run ) {
+			public function load( $group, $redirect, $filename, $is_dry_run, array $options = [] ) {
 				$this->calls[] = [
 					'group' => $group,
 					'redirect' => $redirect,
 					'filename' => $filename,
 					'is_dry_run' => $is_dry_run,
+					'options' => $options,
 				];
 				return $this->response;
 			}
@@ -120,9 +121,9 @@ class ImportExportServiceTest extends TestCase {
 			}
 		};
 		$groups = new class() extends GroupRepository {
-			public function get_all() {
+			public function get_all_for_export() {
 				return [
-					[ 'id' => 1, 'name' => 'group' ],
+					[ 'id' => 1, 'name' => 'group', 'module_id' => 1, 'status' => 'enabled' ],
 				];
 			}
 		};
@@ -140,6 +141,7 @@ class ImportExportServiceTest extends TestCase {
 
 		$this->assertEquals( 'exported-data', $result['data'] );
 		$this->assertEquals( 2, $result['total'] );
+		$this->assertEquals( [], $format->calls[0]['groups'] );
 	}
 
 	public function testExportServiceExportsSelectedModule() {
@@ -156,9 +158,9 @@ class ImportExportServiceTest extends TestCase {
 			}
 		};
 		$groups = new class() extends GroupRepository {
-			public function get_all_for_module( $module_id ) {
+			public function get_all_for_module_export( $module_id ) {
 				return [
-					[ 'id' => $module_id, 'name' => 'group' ],
+					[ 'id' => $module_id, 'name' => 'group', 'module_id' => $module_id, 'status' => 'enabled' ],
 				];
 			}
 		};
@@ -228,6 +230,9 @@ class ImportExportServiceTest extends TestCase {
 				return [
 					'groups' => [],
 					'redirects' => [],
+					'settings' => null,
+					'logs' => [],
+					'errors_404' => [],
 				];
 			}
 		};

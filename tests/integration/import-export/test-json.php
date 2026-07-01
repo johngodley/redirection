@@ -15,7 +15,7 @@ class JsonTest extends WP_UnitTestCase {
 		$json = new Json();
 		$data = json_decode( $json->get_data( [], [] ) );
 
-		$this->assertTrue( empty( $data->groups ) );
+		$this->assertObjectNotHasProperty( 'groups', $data );
 		$this->assertTrue( empty( $data->redirects ) );
 		$this->assertTrue( isset( $data->plugin->version ) );
 	}
@@ -185,6 +185,54 @@ class JsonTest extends WP_UnitTestCase {
 		$this->assertEquals( 1, $data['created'] );
 		$this->assertEquals( 0, $data['updated'] );
 		$this->assertEquals( 0, intval( $redirect, 10 ) );
+	}
+
+	public function testImportSupportsSettingsAndLogsSections() {
+		global $wpdb;
+
+		$options = Red_Options::get();
+		$import = [
+			'settings' => [
+				'https' => ! $options['https'],
+				'flag_case' => ! $options['flag_case'],
+			],
+			'logs' => [
+				[
+					'created' => current_time( 'mysql' ),
+					'url' => '/bundle-log',
+					'ip' => '127.0.0.1',
+					'referrer' => '/from',
+					'agent' => 'tester',
+				],
+			],
+			'errors_404' => [
+				[
+					'created' => current_time( 'mysql' ),
+					'url' => '/bundle-404',
+					'ip' => '127.0.0.2',
+					'referrer' => '/from',
+					'agent' => 'tester',
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load( new ImportGroup( 1 ), new ImportRedirect(), $file, false, [ 'import_sections' => [ 'settings', 'logs', 'errors_404' ] ] );
+
+		$this->assertEquals( 2, $data['settings_imported'] );
+		$this->assertEquals( 1, $data['logs_imported'] );
+		$this->assertEquals( 1, $data['errors_imported'] );
+		$this->assertEquals( ! $options['https'], Red_Options::get()['https'] );
+		$this->assertEquals( ! $options['flag_case'], Red_Options::get()['flag_case'] );
+		$this->assertEquals(
+			1,
+			intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE url='/bundle-log'" ), 10 )
+		);
+		$this->assertEquals(
+			1,
+			intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE url='/bundle-404'" ), 10 )
+		);
 	}
 
 	public function testImportUpdatesExistingRedirectById() {

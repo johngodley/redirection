@@ -25,7 +25,14 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 					: __( 'All matching redirects were ignored.', 'redirection' ),
 			},
 		];
-	} else if ( lastImport.created === 0 && lastImport.updated === 0 ) {
+	} else if (
+		lastImport.created === 0 &&
+		lastImport.updated === 0 &&
+		lastImport.groups_imported === 0 &&
+		lastImport.logs_imported === 0 &&
+		lastImport.errors_imported === 0 &&
+		lastImport.settings_imported === 0
+	) {
 		details = [
 			{
 				label: __( 'Status', 'redirection' ),
@@ -61,6 +68,22 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 		{
 			label: _n( 'Group created', 'Groups created', lastImport.groups_created, 'redirection' ),
 			value: lastImport.groups_created,
+		},
+		{
+			label: _n( 'Group imported', 'Groups imported', lastImport.groups_imported, 'redirection' ),
+			value: lastImport.groups_imported,
+		},
+		{
+			label: _n( 'Log imported', 'Logs imported', lastImport.logs_imported, 'redirection' ),
+			value: lastImport.logs_imported,
+		},
+		{
+			label: _n( '404 log imported', '404 logs imported', lastImport.errors_imported, 'redirection' ),
+			value: lastImport.errors_imported,
+		},
+		{
+			label: _n( 'Setting imported', 'Settings imported', lastImport.settings_imported, 'redirection' ),
+			value: lastImport.settings_imported,
 		},
 	];
 

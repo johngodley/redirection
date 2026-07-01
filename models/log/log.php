@@ -56,7 +56,10 @@ require_once __DIR__ . '/log-redirect.php';
  *   direction?: 'ASC'|'DESC',
  *   per_page?: int,
  *   page?: int,
- *   filterBy?: LogFilterParams
+ *   filterBy?: LogFilterParams,
+ *   groupBy?: 'ip'|'url'|'agent',
+ *   items?: array<int, string|int>,
+ *   global?: bool
  * }
  */
 abstract class Red_Log {
@@ -600,24 +603,60 @@ abstract class Red_Log {
 
 	/**
 	 * @param 'csv'|'json' $format
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @param array<int, string> $display_selected
 	 * @return string|false
 	 */
-	public static function get_export_data( $format ) {
+	public static function get_export_data( $format, array $params = [], array $display_selected = [] ) {
+		if ( self::should_export_all_rows( $params, $display_selected ) ) {
+			if ( $format === 'csv' ) {
+				return self::get_export_csv_data();
+			}
+
+			if ( $format === 'json' ) {
+				return self::get_export_json_data();
+			}
+
+			return false;
+		}
+
+		$rows = self::get_export_rows( $params );
+
 		if ( $format === 'csv' ) {
-			return self::get_export_csv_data();
+			return self::get_custom_export_csv_data( $rows, $display_selected, $params );
 		}
 
 		if ( $format === 'json' ) {
-			return self::get_export_json_data();
+			return self::get_custom_export_json_data( $rows, $display_selected, $params );
 		}
 
 		return false;
 	}
 
 	/**
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
 	 * @return int
 	 */
-	public static function get_export_total() {
+	public static function get_export_total( array $params = [] ) {
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
+			return count( self::get_export_rows( $params ) );
+		}
+
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
+			global $wpdb;
+
+			$table = static::get_table_name( $wpdb );
+			$query = self::get_query( $params );
+			$group = sanitize_text_field( $params['groupBy'] );
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$total = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM $table " . $query['where'] );
+
+			return intval( $total, 10 );
+		}
+
 		global $wpdb;
 
 		$table = static::get_table_name( $wpdb );
@@ -640,6 +679,14 @@ abstract class Red_Log {
 			'total' => $total_items,
 			'estimated_size' => self::get_export_estimated_size( $format, $total_items, $rows ),
 		];
+	}
+
+	/**
+	 * @phpstan-return array<int, LogDbRow>
+	 * @return array<int, array<string, mixed>>
+	 */
+	public static function get_export_bundle_rows() {
+		return self::get_export_array_rows();
 	}
 
 	/**
@@ -683,6 +730,26 @@ abstract class Red_Log {
 	}
 
 	/**
+	 * @param array<int, array<string, scalar|null>> $rows
+	 * @param array<int, string> $display_selected
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return string|false
+	 */
+	private static function get_custom_export_json_data( array $rows, array $display_selected, array $params = [] ) {
+		$items = [];
+		$fields = self::get_export_fields( $display_selected, $params );
+
+		foreach ( $rows as $row ) {
+			$items[] = self::filter_export_row( static::map_export_row( $row ), $fields );
+		}
+
+		$data = wp_json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+
+		return is_string( $data ) ? $data . PHP_EOL : false;
+	}
+
+	/**
 	 * @phpstan-param array<int, LogDbRow> $rows
 	 * @param array<int, array<string, mixed>> $rows
 	 * @return string|false
@@ -698,6 +765,38 @@ abstract class Red_Log {
 		$data = wp_json_encode( $items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 
 		return is_string( $data ) ? $data . PHP_EOL : false;
+	}
+
+	/**
+	 * @param array<int, array<string, scalar|null>> $rows
+	 * @param array<int, string> $display_selected
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return string|false
+	 */
+	private static function get_custom_export_csv_data( array $rows, array $display_selected, array $params = [] ) {
+		$fields = self::get_export_fields( $display_selected, $params );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
+		$stdout = fopen( 'php://temp', 'w+' );
+		if ( $stdout === false ) {
+			return false;
+		}
+
+		fputcsv( $stdout, array_map( [ static::class, 'get_export_field_label' ], $fields ) );
+
+		foreach ( $rows as $row ) {
+			$mapped_row = self::filter_export_row( static::map_export_row( $row ), $fields );
+			fputcsv( $stdout, array_values( $mapped_row ) );
+		}
+
+		rewind( $stdout );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
+		$data = stream_get_contents( $stdout );
+		fclose( $stdout );
+
+		return $data === false ? false : $data;
 	}
 
 	/**
@@ -816,5 +915,204 @@ abstract class Red_Log {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 * @param array<int, string> $display_selected
+	 * @return bool
+	 */
+	private static function should_export_all_rows( array $params, array $display_selected ) {
+		return count( $params ) === 0 && count( $display_selected ) === 0;
+	}
+
+	/**
+	 * @param array<int, string> $display_selected
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return array<int, string>
+	 */
+	protected static function get_export_fields( array $display_selected, array $params = [] ) {
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
+			$group = sanitize_text_field( $params['groupBy'] );
+
+			return [ $group, 'count' ];
+		}
+
+		$allowed = array_keys( static::get_export_field_labels() );
+
+		if ( count( $display_selected ) === 0 ) {
+			return $allowed;
+		}
+
+		return array_values(
+			array_filter(
+				$display_selected,
+				static function( $field ) use ( $allowed ) {
+					return in_array( $field, $allowed, true );
+				}
+			)
+		);
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	protected static function get_export_field_labels() {
+		return [
+			'date' => 'date',
+			'method' => 'method',
+			'domain' => 'domain',
+			'url' => 'source',
+			'target' => 'target',
+			'redirect_by' => 'redirect_by',
+			'code' => 'code',
+			'referrer' => 'referrer',
+			'agent' => 'agent',
+			'ip' => 'ip',
+			'count' => 'count',
+		];
+	}
+
+	/**
+	 * @param string $field
+	 * @return string
+	 */
+	protected static function get_export_field_label( $field ) {
+		$labels = static::get_export_field_labels();
+
+		return isset( $labels[ $field ] ) ? $labels[ $field ] : $field;
+	}
+
+	/**
+	 * @param array<string, scalar|null> $row
+	 * @return array<string, scalar|null>
+	 */
+	protected static function map_export_row( array $row ) {
+		return [
+			'date' => isset( $row['created'] ) ? $row['created'] : '',
+			'method' => isset( $row['request_method'] ) ? $row['request_method'] : '',
+			'domain' => isset( $row['domain'] ) ? $row['domain'] : '',
+			'url' => isset( $row['url'] ) ? $row['url'] : '',
+			'target' => '',
+			'redirect_by' => isset( $row['redirect_by'] ) ? $row['redirect_by'] : '',
+			'code' => isset( $row['http_code'] ) ? intval( $row['http_code'], 10 ) : 0,
+			'referrer' => isset( $row['referrer'] ) ? $row['referrer'] : '',
+			'agent' => isset( $row['agent'] ) ? $row['agent'] : '',
+			'ip' => isset( $row['ip'] ) ? $row['ip'] : '',
+			'count' => isset( $row['count'] ) ? intval( $row['count'], 10 ) : 0,
+		];
+	}
+
+	/**
+	 * @param array<string, scalar|null> $row
+	 * @param array<int, string> $fields
+	 * @return array<string, scalar|null>
+	 */
+	private static function filter_export_row( array $row, array $fields ) {
+		$filtered = [];
+
+		foreach ( $fields as $field ) {
+			$filtered[ $field ] = isset( $row[ $field ] ) ? $row[ $field ] : '';
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return array<int, array<string, scalar|null>>
+	 */
+	private static function get_export_rows( array $params ) {
+		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
+			return self::get_grouped_export_rows( sanitize_text_field( $params['groupBy'] ), $params );
+		}
+
+		return self::get_filtered_export_rows( $params );
+	}
+
+	/**
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return array<int, array<string, scalar|null>>
+	 */
+	private static function get_filtered_export_rows( array $params ) {
+		global $wpdb;
+
+		$query = self::get_query( $params );
+		$table = static::get_table_name( $wpdb );
+		$sql = "SELECT * FROM {$table} {$query['where']}";
+		$items = isset( $params['items'] ) && is_array( $params['items'] ) ? $params['items'] : [];
+
+		if ( count( $items ) > 0 ) {
+			$ids = array_values(
+				array_filter(
+					array_map(
+						static function( $item ) {
+							return is_numeric( $item ) ? intval( $item, 10 ) : 0;
+						},
+						$items
+					)
+				)
+			);
+
+			if ( count( $ids ) === 0 ) {
+				return [];
+			}
+
+			$sql .= $query['where'] === '' ? ' WHERE ' : ' AND ';
+			$sql .= 'id IN (' . implode( ',', array_map( 'intval', $ids ) ) . ')';
+		}
+
+		$sql .= ' ORDER BY id DESC';
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$rows = $wpdb->get_results( $sql, ARRAY_A );
+
+		return is_array( $rows ) ? $rows : [];
+	}
+
+	/**
+	 * @phpstan-param LogGetParams $params
+	 * @param string $group
+	 * @param array<string, mixed> $params
+	 * @return array<int, array<string, scalar|null>>
+	 */
+	private static function get_grouped_export_rows( $group, array $params ) {
+		global $wpdb;
+
+		$query = self::get_query( $params );
+		$table = static::get_table_name( $wpdb );
+		$sql = "SELECT COUNT(*) as count,$group FROM {$table} {$query['where']}";
+		$items = isset( $params['items'] ) && is_array( $params['items'] ) ? $params['items'] : [];
+
+		if ( count( $items ) > 0 ) {
+			$sanitized_items = array_values(
+				array_filter(
+					array_map(
+						static function( $item ) {
+							return is_scalar( $item ) ? strval( $item ) : '';
+						},
+						$items
+					)
+				)
+			);
+
+			if ( count( $sanitized_items ) === 0 ) {
+				return [];
+			}
+
+			$placeholders = implode( ',', array_fill( 0, count( $sanitized_items ), '%s' ) );
+			$sql .= $query['where'] === '' ? ' WHERE ' : ' AND ';
+			$sql .= $wpdb->prepare( "{$group} IN ({$placeholders})", $sanitized_items );
+		}
+
+		$sql .= " GROUP BY $group ORDER BY count DESC, $group";
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$rows = $wpdb->get_results( $sql, ARRAY_A );
+
+		return is_array( $rows ) ? $rows : [];
 	}
 }

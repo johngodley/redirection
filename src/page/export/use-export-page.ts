@@ -3,9 +3,9 @@ import { __ } from '@wordpress/i18n';
 import type { CardMetaItem } from 'component/import-export/card';
 import { useExport, useExportPreview, useGroupList } from 'lib/api/hooks';
 import {
-	getExportFilename,
 	getExportFormatLabel,
-	getExportTypeLabel,
+	getExportSelectionFilename,
+	getExportTypesLabel,
 	getRedirectModuleLabel,
 	getRedirectScopeLabel,
 } from './export-helpers';
@@ -41,12 +41,24 @@ const EXPORT_TYPES: ExportTypeOption[] = [
 		description: __( 'Export 404 request logs.', 'redirection' ),
 		formats: [ 'json', 'csv' ],
 	},
+	{
+		id: 'group',
+		name: __( 'Groups', 'redirection' ),
+		description: __( 'Export redirect groups and their module assignments.', 'redirection' ),
+		formats: [ 'json', 'csv' ],
+	},
+	{
+		id: 'setting',
+		name: __( 'Settings', 'redirection' ),
+		description: __( 'Export plugin settings and site-level Redirection options.', 'redirection' ),
+		formats: [ 'json' ],
+	},
 ];
 
 function useExportPage() {
 	const { data: groupData } = useGroupList( {} );
 	const groupRows = useMemo( () => ( groupData?.items ?? [] ) as GroupRow[], [ groupData?.items ] );
-	const [ exportType, setExportType ] = useState< ExportType >( 'redirect' );
+	const [ selectedTypes, setSelectedTypes ] = useState< ExportType[] >( [] );
 	const [ redirectScopeType, setRedirectScopeType ] = useState< RedirectScopeType >( 'all' );
 	const [ redirectModule, setRedirectModule ] = useState< RedirectModule >( 'all' );
 	const [ redirectGroup, setRedirectGroup ] = useState( 0 );
@@ -56,40 +68,60 @@ function useExportPage() {
 		onSuccess: ( response, variables ) => {
 			setLastResult( {
 				action: variables.download ? 'download' : 'view',
-				type: variables.exportType,
+				types: variables.exportTypes || [ variables.exportType ],
 				format: variables.format,
 				data: response.data,
 				total: response.total,
 			} );
 		},
 	} );
+	const hasSelectedTypes = selectedTypes.length > 0;
+	const hasAllTypesSelected = selectedTypes.length === EXPORT_TYPES.length;
+	const primaryExportType = selectedTypes[ 0 ] || 'redirect';
+	const hasRedirectExport = selectedTypes.includes( 'redirect' );
 	const previewQuery = useExportPreview( {
-		exportType,
+		exportType: primaryExportType,
+		exportTypes: selectedTypes,
 		format,
 		redirectScopeType,
 		redirectModule,
 		redirectGroup,
+	}, {
+		enabled: false,
 	} );
 
-	const activeExportType = EXPORT_TYPES.find( ( item ) => item.id === exportType ) || EXPORT_TYPES[ 0 ];
-	const availableFormats = activeExportType?.formats || [ 'csv' ];
+	const availableFormats = useMemo( () => {
+		if ( selectedTypes.length === 0 ) {
+			return [] as ExportFormat[];
+		}
+
+		if ( selectedTypes.length !== 1 ) {
+			return [ 'json' ] as ExportFormat[];
+		}
+
+		const activeExportType = EXPORT_TYPES.find( ( item ) => item.id === selectedTypes[ 0 ] );
+
+		return activeExportType?.formats || [ 'json' ];
+	}, [ selectedTypes ] );
 	const activeGroup = groupRows.find( ( group ) => group.id === redirectGroup ) || null;
 	const isExporting = exportMutation.isPending;
 	const isPreviewLoading = previewQuery.isLoading || previewQuery.isFetching;
+	const refetchPreview = previewQuery.refetch;
+	const currentError = exportMutation.error || null;
 	const previewTotal =
-		previewQuery.isError || typeof previewQuery.data?.total !== 'number' ? null : previewQuery.data.total;
+		! hasSelectedTypes || previewQuery.isError || typeof previewQuery.data?.total !== 'number' ? null : previewQuery.data.total;
 	const previewEstimatedSize =
-		previewQuery.isError || typeof previewQuery.data?.estimatedSize !== 'number'
+		! hasSelectedTypes || previewQuery.isError || typeof previewQuery.data?.estimatedSize !== 'number'
 			? null
 			: previewQuery.data.estimatedSize;
 	const summaryMeta: CardMetaItem[] = [
 		{
-			label: __( 'Export type', 'redirection' ),
-			value: getExportTypeLabel( exportType ),
+			label: __( 'Export', 'redirection' ),
+			value: hasSelectedTypes ? getExportTypesLabel( selectedTypes ) : __( 'No export selected', 'redirection' ),
 		},
 	];
 
-	if ( exportType === 'redirect' ) {
+	if ( hasRedirectExport ) {
 		summaryMeta.push( {
 			label: __( 'Scope', 'redirection' ),
 			value: getRedirectScopeLabel(
@@ -113,10 +145,12 @@ function useExportPage() {
 		}
 	}
 
-	summaryMeta.push( {
-		label: __( 'Format', 'redirection' ),
-		value: getExportFormatLabel( format ),
-	} );
+	if ( hasSelectedTypes ) {
+		summaryMeta.push( {
+			label: __( 'Format', 'redirection' ),
+			value: getExportFormatLabel( format ),
+		} );
+	}
 
 	useEffect( () => {
 		if ( redirectGroup === 0 && groupRows[ 0 ] ) {
@@ -124,15 +158,53 @@ function useExportPage() {
 		}
 	}, [ groupRows, redirectGroup ] );
 
-	const onSelectType = ( nextType: ExportType ) => {
-		const nextExportType = EXPORT_TYPES.find( ( item ) => item.id === nextType );
+	useEffect( () => {
+		if ( availableFormats.length === 0 ) {
+			return;
+		}
 
-		setExportType( nextType );
-		setFormat( nextExportType?.formats[ 0 ] || 'csv' );
+		if ( ! availableFormats.includes( format ) ) {
+			setFormat( availableFormats[ 0 ] || 'json' );
+		}
+	}, [ availableFormats, format ] );
+
+	useEffect( () => {
+		if ( ! hasSelectedTypes ) {
+			return;
+		}
+
+		refetchPreview();
+	}, [
+		hasSelectedTypes,
+		format,
+		primaryExportType,
+		redirectScopeType,
+		redirectModule,
+		redirectGroup,
+		selectedTypes,
+		refetchPreview,
+	] );
+
+	const onToggleType = ( nextType: ExportType ) => {
+		exportMutation.reset();
+		setSelectedTypes( ( current ) => {
+			if ( current.includes( nextType ) ) {
+				return current.filter( ( item ) => item !== nextType );
+			}
+
+			return [ ...current, nextType ];
+		} );
+		setLastResult( false );
+	};
+
+	const onToggleAllTypes = ( enabled: boolean ) => {
+		exportMutation.reset();
+		setSelectedTypes( enabled ? EXPORT_TYPES.map( ( item ) => item.id ) : [] );
 		setLastResult( false );
 	};
 
 	const onChange = ( name: 'redirectScopeType' | 'redirectModule' | 'redirectGroup' | 'format', value: string ) => {
+		exportMutation.reset();
 		if ( name === 'redirectScopeType' ) {
 			setRedirectScopeType( value as RedirectScopeType );
 		} else if ( name === 'redirectModule' ) {
@@ -147,24 +219,30 @@ function useExportPage() {
 	};
 
 	const runExport = ( action: ExportAction ) => {
-		const downloadNotice: Message | false =
-			action === 'download' ? { message: __( 'Export downloaded', 'redirection' ) } : false;
+		if ( selectedTypes.length === 0 ) {
+			return;
+		}
+
+		const completionNotice: Message = {
+			message: action === 'download' ? __( 'Export downloaded', 'redirection' ) : __( 'Export viewed', 'redirection' ),
+		};
 		const request = {
-			exportType,
+			exportType: primaryExportType,
+			exportTypes: selectedTypes,
 			format,
 			redirectScopeType,
 			redirectModule,
 			redirectGroup,
 			download: action === 'download',
-			downloadNotice,
-			...( action === 'download' ? { filename: getExportFilename( exportType, format ) } : {} ),
+			completionNotice,
+			...( action === 'download' ? { filename: getExportSelectionFilename( selectedTypes, format ) } : {} ),
 		};
 
 		exportMutation.mutate( request );
 	};
 
 	const state: ExportState = {
-		exportType,
+		selectedTypes,
 		redirectScopeType,
 		redirectModule,
 		redirectGroup,
@@ -173,6 +251,7 @@ function useExportPage() {
 		isPreviewLoading,
 		previewTotal,
 		previewEstimatedSize,
+		currentError,
 		lastResult,
 	};
 
@@ -181,9 +260,12 @@ function useExportPage() {
 		availableFormats,
 		groupRows,
 		summaryMeta,
+		hasAllTypesSelected,
+		hasSelectedTypes,
 		state,
 		onChange,
-		onSelectType,
+		onToggleType,
+		onToggleAllTypes,
 		onDownload: () => runExport( 'download' ),
 		onView: () => runExport( 'view' ),
 	};

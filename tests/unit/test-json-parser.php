@@ -36,6 +36,35 @@ class JsonParserTest extends TestCase {
 		$this->assertEquals( [ 'url' => '/target' ], $parsed['redirects'][0]['action_data'] );
 	}
 
+	public function testParseReturnsAdditionalBundleSections() {
+		$parser = new JsonParser();
+		$parsed = $parser->parse(
+			json_encode(
+				[
+					'settings' => [
+						'https' => true,
+					],
+					'logs' => [
+						[
+							'url' => '/logged',
+							'ip' => '127.0.0.1',
+						],
+					],
+					'errors_404' => [
+						[
+							'url' => '/missing',
+							'ip' => '127.0.0.2',
+						],
+					],
+				]
+			)
+		);
+
+		$this->assertTrue( $parsed['settings']['https'] );
+		$this->assertEquals( '/logged', $parsed['logs'][0]['url'] );
+		$this->assertEquals( '/missing', $parsed['errors_404'][0]['url'] );
+	}
+
 	public function testParseReturnsFalseForInvalidJson() {
 		$parser = new JsonParser();
 

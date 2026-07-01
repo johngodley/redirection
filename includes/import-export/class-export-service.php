@@ -5,11 +5,13 @@ namespace Redirection\ImportExport;
 /**
  * Export redirects to a file format.
  *
- * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type GroupExport from \Red_Group
  * @phpstan-import-type ExportResult from \Redirection\ImportExport\FormatHandler
  */
 class ExportService {
 	const PREVIEW_LIMIT = 20;
+	const BUNDLE_GROUPS = 'group';
+	const BUNDLE_SETTINGS = 'setting';
 
 	/**
 	 * @var FormatFactory
@@ -71,7 +73,7 @@ class ExportService {
 		}
 
 		return [
-			'data' => $exporter->get_data( $data['items'], $data['groups'] ),
+			'data' => $exporter->get_data( $data['items'], $this->get_export_groups_for_format( $format, $data['groups'] ) ),
 			'total' => count( $data['items'] ),
 			'exporter' => $exporter,
 		];
@@ -96,18 +98,115 @@ class ExportService {
 
 		return [
 			'total' => count( $data['items'] ),
-			'estimated_size' => $this->get_estimated_export_size( $exporter, $data['items'], $data['groups'] ),
+			'estimated_size' => $this->get_estimated_export_size( $exporter, $data['items'], $this->get_export_groups_for_format( $format, $data['groups'] ) ),
+		];
+	}
+
+	/**
+	 * @param array<int, string> $types
+	 * @param array{scope_type?: 'all'|'module'|'group', scope_value?: string|int} $options
+	 * @param string $format
+	 * @return array{data: string, total: int}|false
+	 */
+	public function export_bundle( array $types, array $options, $format ) {
+		$types = $this->normalize_bundle_types( $types );
+		if ( count( $types ) === 0 ) {
+			return false;
+		}
+
+		if ( $format === 'csv' && count( $types ) === 1 && $types[0] === self::BUNDLE_GROUPS ) {
+			$groups = $this->groups->get_all_for_export();
+
+			return [
+				'data' => $this->get_groups_csv( $groups ),
+				'total' => count( $groups ),
+			];
+		}
+
+		if ( $format !== 'json' ) {
+			return false;
+		}
+
+		$bundle = $this->get_bundle_export_data( $types, $options );
+
+		return [
+			'data' => wp_json_encode( $bundle['data'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . PHP_EOL,
+			'total' => $bundle['total'],
+		];
+	}
+
+	/**
+	 * @param array<int, string> $types
+	 * @param array{scope_type?: 'all'|'module'|'group', scope_value?: string|int} $options
+	 * @param string $format
+	 * @return array{total: int, estimated_size: int}|false
+	 */
+	public function preview_bundle( array $types, array $options, $format ) {
+		$export = $this->export_bundle( $types, $options, $format );
+
+		if ( $export === false ) {
+			return false;
+		}
+
+		return [
+			'total' => $export['total'],
+			'estimated_size' => strlen( $export['data'] ),
+		];
+	}
+
+	/**
+	 * @param string $format
+	 * @param array<string, mixed> $params
+	 * @return array{data: string, total: int}|false
+	 */
+	public function export_groups( $format, array $params = [] ) {
+		if ( ! in_array( $format, [ 'csv', 'json' ], true ) ) {
+			return false;
+		}
+
+		$groups = $this->groups->get_filtered_for_export( $params );
+
+		if ( $format === 'csv' ) {
+			return [
+				'data' => $this->get_groups_csv( $groups ),
+				'total' => count( $groups ),
+			];
+		}
+
+		return [
+			'data' => $this->get_groups_json( $groups ),
+			'total' => count( $groups ),
+		];
+	}
+
+	/**
+	 * @param string $format
+	 * @param array<string, mixed> $params
+	 * @return array{data: string, total: int}|false
+	 */
+	public function export_redirects( $format, array $params = [] ) {
+		$exporter = $this->formats->create( $format );
+		if ( $exporter === false ) {
+			return false;
+		}
+
+		$items = $this->redirects->get_filtered_for_export( $params );
+		$groups = $this->get_groups_for_redirect_items( $items );
+
+		return [
+			'data' => $exporter->get_data( $items, $this->get_export_groups_for_format( $format, $groups ) ),
+			'total' => count( $items ),
 		];
 	}
 
 	/**
 	 * @param 'all'|'module'|'group' $scope_type
 	 * @param string|int $scope_value
-	 * @return array{groups: array<GroupJson>, items: array<\Red_Item>}|false
+	 * @return array{groups: array<GroupExport>, items: array<\Red_Item>}|false
 	 */
 	private function get_export_data_for_scope( $scope_type, $scope_value ) {
 		if ( $scope_type === 'all' || $scope_value === 'all' || $scope_value === 0 ) {
-			$groups = $this->groups->get_all();
+			$groups = $this->groups->get_all_for_export();
 			$items = $this->redirects->get_all();
 
 			if ( is_array( $groups ) && is_array( $items ) ) {
@@ -121,14 +220,14 @@ class ExportService {
 		}
 
 		if ( $scope_type === 'group' ) {
-			$group = $this->groups->get( intval( $scope_value, 10 ) );
+			$group = $this->groups->get_export( intval( $scope_value, 10 ) );
 			if ( $group === false ) {
 				return false;
 			}
 
 			return [
-				'groups' => [ $group->to_json() ],
-				'items' => $this->redirects->get_all_for_group( $group->get_id() ),
+				'groups' => [ $group ],
+				'items' => $this->redirects->get_all_for_group( intval( $scope_value, 10 ) ),
 			];
 		}
 
@@ -137,7 +236,7 @@ class ExportService {
 			return false;
 		}
 
-		$groups = $this->groups->get_all_for_module( $module->get_id() );
+		$groups = $this->groups->get_all_for_module_export( $module->get_id() );
 		$items = $this->redirects->get_all_for_module( $module->get_id() );
 
 		if ( ! is_array( $groups ) || ! is_array( $items ) ) {
@@ -163,7 +262,7 @@ class ExportService {
 	/**
 	 * @param FormatHandler $exporter
 	 * @param array<\Red_Item> $items
-	 * @param array<GroupJson> $groups
+	 * @param array<GroupExport> $groups
 	 * @return int
 	 */
 	private function get_estimated_export_size( FormatHandler $exporter, array $items, array $groups ) {
@@ -187,8 +286,8 @@ class ExportService {
 
 	/**
 	 * @param array<\Red_Item> $items
-	 * @param array<GroupJson> $groups
-	 * @return array<GroupJson>
+	 * @param array<GroupExport> $groups
+	 * @return array<GroupExport>
 	 */
 	private function get_groups_for_items( array $items, array $groups ) {
 		$group_ids = array_map(
@@ -206,5 +305,167 @@ class ExportService {
 				}
 			)
 		);
+	}
+
+	/**
+	 * @param array<\Red_Item> $items
+	 * @return array<GroupExport>
+	 */
+	private function get_groups_for_redirect_items( array $items ) {
+		$groups = [];
+		$seen = [];
+
+		foreach ( $items as $item ) {
+			$group_id = $item->get_group_id();
+
+			if ( isset( $seen[ $group_id ] ) ) {
+				continue;
+			}
+
+			$group = $this->groups->get_export( $group_id );
+			if ( $group !== false ) {
+				$groups[] = $group;
+				$seen[ $group_id ] = true;
+			}
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * Redirect-only JSON exports should not include group data.
+	 *
+	 * @param string $format
+	 * @param array<GroupExport> $groups
+	 * @return array<GroupExport>
+	 */
+	private function get_export_groups_for_format( $format, array $groups ) {
+		if ( $format === 'json' ) {
+			return [];
+		}
+
+		return $groups;
+	}
+
+	/**
+	 * @param array<int, string> $types
+	 * @return array<int, string>
+	 */
+	private function normalize_bundle_types( array $types ) {
+		$allowed = [ 'redirect', 'log', '404', self::BUNDLE_GROUPS, self::BUNDLE_SETTINGS ];
+
+		return array_values(
+			array_unique(
+				array_values(
+					array_filter(
+						array_map( 'strval', $types ),
+						static function ( $type ) use ( $allowed ) {
+							return in_array( $type, $allowed, true );
+						}
+					)
+				)
+			)
+		);
+	}
+
+	/**
+	 * @param array<int, string> $types
+	 * @param array{scope_type?: 'all'|'module'|'group', scope_value?: string|int} $options
+	 * @return array{data: array<string, mixed>, total: int}
+	 */
+	private function get_bundle_export_data( array $types, array $options ) {
+		$details = ExportDetails::get();
+		$data = [
+			'plugin' => [
+				'version' => $details['version'],
+				'date' => $details['date'],
+			],
+		];
+		$total = 0;
+		$redirect_scope_type = isset( $options['scope_type'] ) ? $options['scope_type'] : 'all';
+		$redirect_scope_value = isset( $options['scope_value'] ) ? $options['scope_value'] : 'all';
+
+		if ( in_array( 'redirect', $types, true ) ) {
+			$redirect_data = $this->get_export_data_for_scope( $redirect_scope_type, $redirect_scope_value );
+
+			if ( $redirect_data !== false ) {
+				$data['groups'] = $redirect_data['groups'];
+				$data['redirects'] = array_map(
+					static function ( \Red_Item $item ) {
+						return $item->to_json();
+					},
+					$redirect_data['items']
+				);
+				$total += count( $redirect_data['items'] );
+
+				if ( in_array( self::BUNDLE_GROUPS, $types, true ) ) {
+					$total += count( $redirect_data['groups'] );
+				}
+			}
+		} elseif ( in_array( self::BUNDLE_GROUPS, $types, true ) ) {
+			$data['groups'] = $this->groups->get_all_for_export();
+			$total += count( $data['groups'] );
+		}
+
+		if ( in_array( 'log', $types, true ) ) {
+			$data['logs'] = \Red_Redirect_Log::get_export_bundle_rows();
+			$total += count( $data['logs'] );
+		}
+
+		if ( in_array( '404', $types, true ) ) {
+			$data['errors_404'] = \Red_404_Log::get_export_bundle_rows();
+			$total += count( $data['errors_404'] );
+		}
+
+		if ( in_array( self::BUNDLE_SETTINGS, $types, true ) ) {
+			$data['settings'] = \Red_Options::get();
+			$total += count( $data['settings'] );
+		}
+
+		return [
+			'data' => $data,
+			'total' => $total,
+		];
+	}
+
+	/**
+	 * @param array<int, array<string, mixed>> $groups
+	 * @return string
+	 */
+	private function get_groups_csv( array $groups ) {
+		$rows = [ 'id,name,module_id,status' ];
+
+		foreach ( $groups as $group ) {
+			$rows[] = implode(
+				',',
+				[
+					intval( $group['id'], 10 ),
+					'"' . str_replace( '"', '""', strval( $group['name'] ) ) . '"',
+					intval( $group['module_id'], 10 ),
+					'"' . str_replace( '"', '""', strval( $group['status'] ) ) . '"',
+				]
+			);
+		}
+
+		return implode( PHP_EOL, $rows ) . PHP_EOL;
+	}
+
+	/**
+	 * @param array<int, array<string, mixed>> $groups
+	 * @return string
+	 */
+	private function get_groups_json( array $groups ) {
+		$details = ExportDetails::get();
+
+		return wp_json_encode(
+			[
+				'plugin' => [
+					'version' => $details['version'],
+					'date' => $details['date'],
+				],
+				'groups' => $groups,
+			],
+			JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+		) . PHP_EOL;
 	}
 }

@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import IoCard, { type CardMetaItem, type CardStatItem } from 'component/import-export/card';
-import { getExportFormatLabel } from './export-helpers';
+import { getExportFormatLabel, getExportTypesLabel } from './export-helpers';
 import type { ExportResult } from './types';
 
 interface ExportResultsProps {
@@ -29,6 +29,10 @@ function ExportResults( { lastResult }: ExportResultsProps ) {
 		{
 			label: __( 'Format', 'redirection' ),
 			value: getExportFormatLabel( lastResult.format ),
+		},
+		{
+			label: __( 'Export', 'redirection' ),
+			value: getExportTypesLabel( lastResult.types ),
 		},
 	];
 	const stats: CardStatItem[] = [];

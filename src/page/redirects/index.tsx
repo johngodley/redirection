@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction } from 'lib/api/hooks';
+import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction, useExport } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore } from 'stores';
 import {
 	getDisplayGroups,
@@ -9,10 +9,12 @@ import {
 	getFilterOptions,
 	getSearchOptions,
 } from './constants';
+import { cleanApiParams } from 'lib/api/utils';
 import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import { nestedGroups } from 'lib/wordpress-url';
+import { getExportFilename } from 'page/export/export-helpers';
 import LogPage, {
 	type LogPageTable,
 	type LogOptions,
@@ -82,6 +84,7 @@ function Redirects() {
 	const enableMutation = useRedirectBulkAction( 'enable' );
 	const disableMutation = useRedirectBulkAction( 'disable' );
 	const resetMutation = useRedirectBulkAction( 'reset' );
+	const exportMutation = useExport();
 
 	// Fetch redirects with current table params - read directly from Query
 	const { data: redirectData, isLoading, isSuccess } = useRedirectList( table );
@@ -125,6 +128,29 @@ function Redirects() {
 			if ( ! window.confirm( message ) ) {
 				return;
 			}
+		}
+
+		if ( action === 'export-csv' || action === 'export-json' ) {
+			const params = cleanApiParams(
+				table.selectAll
+					? {
+						global: true,
+						filterBy: table.filterBy,
+					}
+					: {
+						items,
+					}
+			);
+
+			exportMutation.mutate( {
+				exportType: 'redirect',
+				format: action === 'export-csv' ? 'csv' : 'json',
+				download: true,
+				filename: getExportFilename( 'redirect', action === 'export-csv' ? 'csv' : 'json' ),
+				params,
+			} );
+
+			return;
 		}
 
 		if ( table.selectAll ) {

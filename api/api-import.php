@@ -51,6 +51,7 @@ use Redirection\ImportExport\ImportService;
  *  dry_run?: bool|string|int,
  *  duplicate_mode?: string,
  *  deduplicate?: bool|string|int,
+ *  import_sections?: list<string>|string,
  *  file?: array{
  *      tmp_name: string,
  *      name: string,
@@ -86,6 +87,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 						'deduplicate' => [
 							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
 							'validate_callback' => [ $this, 'validate_boolean_param' ],
+						],
+						'import_sections' => [
+							'sanitize_callback' => [ $this, 'sanitize_import_sections_param' ],
+							'validate_callback' => [ $this, 'validate_import_sections_param' ],
 						],
 					],
 				],
@@ -178,6 +183,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
 	 *   preview: array<int, array{
 	 *     source: string,
 	 *     target: string,
@@ -214,6 +223,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			'updated' => 0,
 			'ignored' => 0,
 			'groups_created' => 0,
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => [],
 		];
 
@@ -246,6 +259,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
 	 *   preview: array<int, array{
 	 *     source: string,
 	 *     target: string,
@@ -290,6 +307,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
 	 *   preview: array<int, array{
 	 *     source: string,
 	 *     target: string,
@@ -310,6 +331,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		$options = [
 			'dry_run' => isset( $params['dry_run'] ) ? $this->sanitize_boolean_param( $params['dry_run'] ) : false,
 			'duplicate_mode' => isset( $params['duplicate_mode'] ) ? $this->sanitize_duplicate_mode_param( $params['duplicate_mode'] ) : 'import',
+			'import_sections' => isset( $params['import_sections'] ) ? $this->sanitize_import_sections_param( $params['import_sections'] ) : [],
 		];
 
 		if ( ! isset( $params['duplicate_mode'] ) && isset( $params['deduplicate'] ) && $this->sanitize_boolean_param( $params['deduplicate'] ) ) {
@@ -336,7 +358,15 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 
 		// Import failure returns 0, but 0 can also mean no valid redirects in file
 		// For JSON files, pre-validate to distinguish between invalid JSON and empty/no-redirects
-		if ( $result['created'] === 0 && $result['updated'] === 0 && $extension === 'json' ) {
+		if (
+			$result['created'] === 0 &&
+			$result['updated'] === 0 &&
+			$result['groups_imported'] === 0 &&
+			$result['logs_imported'] === 0 &&
+			$result['errors_imported'] === 0 &&
+			$result['settings_imported'] === 0 &&
+			$extension === 'json'
+		) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
 			$content = file_get_contents( $upload['tmp_name'] );
 			if ( $content !== false ) {
@@ -411,5 +441,49 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		unset( $request, $param );
 
 		return is_string( $value ) && in_array( $value, [ 'import', 'ignore', 'update' ], true );
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @return list<string>
+	 */
+	public function sanitize_import_sections_param( $value ) {
+		$values = is_array( $value ) ? $value : [ $value ];
+		$allowed = [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ];
+		$sections = [];
+
+		foreach ( $values as $section ) {
+			if ( is_string( $section ) && in_array( $section, $allowed, true ) ) {
+				$sections[] = $section;
+			}
+		}
+
+		return array_values( array_unique( $sections ) );
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @param WP_REST_Request $request Request.
+	 * @param string $param Parameter name.
+	 * @return bool
+	 */
+	public function validate_import_sections_param( $value, WP_REST_Request $request, $param ) {
+		unset( $request, $param );
+
+		if ( is_string( $value ) ) {
+			return count( $this->sanitize_import_sections_param( $value ) ) === 1;
+		}
+
+		if ( ! is_array( $value ) ) {
+			return false;
+		}
+
+		foreach ( $value as $section ) {
+			if ( ! is_string( $section ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

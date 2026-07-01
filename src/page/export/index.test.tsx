@@ -10,18 +10,26 @@ jest.mock( './use-export-page', () => jest.fn() );
 
 const mockUseExportPage = useExportPage as jest.MockedFunction< typeof useExportPage >;
 
-function getSummaryMeta( exportType: ExportType, format: ExportFormat ): CardMetaItem[] {
-	return [
-		{ label: 'Export type', value: exportType === 'redirect' ? 'Redirects' : 'Redirect logs' },
-		{ label: 'Format', value: format === 'json' ? 'JSON' : 'CSV' },
+function getSummaryMeta( exportTypes: ExportType[], format: ExportFormat ): CardMetaItem[] {
+	const summary: CardMetaItem[] = [
+		{
+			label: 'Export type',
+			value: exportTypes.length === 0 ? 'No export selected' : exportTypes.includes( 'log' ) ? 'Redirects, Redirect logs' : 'Redirects',
+		},
 	];
+
+	if ( exportTypes.length > 0 ) {
+		summary.push( { label: 'Format', value: format === 'json' ? 'JSON' : 'CSV' } );
+	}
+
+	return summary;
 }
 
 describe( 'ExportPage', () => {
 	beforeEach( () => {
 		mockUseExportPage.mockImplementation( () => {
 			const React = require( 'react' ) as typeof import('react');
-			const [ exportType, setExportType ] = React.useState< ExportType >( 'redirect' );
+			const [ selectedTypes, setSelectedTypes ] = React.useState< ExportType[] >( [] );
 
 			return {
 				exportTypes: [
@@ -38,43 +46,86 @@ describe( 'ExportPage', () => {
 						formats: [ 'json', 'csv' ],
 					},
 				],
-				availableFormats: exportType === 'redirect' ? [ 'json', 'csv', 'apache', 'nginx' ] : [ 'json', 'csv' ],
+				availableFormats:
+					selectedTypes.length === 0
+						? []
+						: selectedTypes.length === 1 && selectedTypes[ 0 ] === 'redirect'
+							? [ 'json', 'csv', 'apache', 'nginx' ]
+							: [ 'json' ],
 				groupRows: [ { id: 11, name: 'Imported', moduleName: 'WordPress' } ],
-				summaryMeta: getSummaryMeta( exportType, 'json' ),
+				hasAllTypesSelected: selectedTypes.length === 2,
+				hasSelectedTypes: selectedTypes.length > 0,
+				summaryMeta: getSummaryMeta( selectedTypes, 'json' ),
 				state: {
-					exportType,
+					selectedTypes,
 					redirectScopeType: 'all',
 					redirectModule: 'all',
 					redirectGroup: 11,
 					format: 'json',
 					isExporting: false,
 					isPreviewLoading: false,
-					previewTotal: exportType === 'redirect' ? 2 : 1,
-					previewEstimatedSize: exportType === 'redirect' ? 2048 : 512,
+					previewTotal: selectedTypes.length === 0 ? null : selectedTypes.includes( 'log' ) ? 3 : 2,
+					previewEstimatedSize: selectedTypes.length === 0 ? null : selectedTypes.includes( 'log' ) ? 2560 : 2048,
+					currentError: null,
 					lastResult: false,
 				},
 				onChange: jest.fn(),
-				onSelectType: ( nextType: ExportType ) => setExportType( nextType ),
+				onToggleType: ( nextType: ExportType ) =>
+					setSelectedTypes( ( current ) =>
+						current.includes( nextType ) ? current.filter( ( item ) => item !== nextType ) : [ ...current, nextType ]
+					),
+				onToggleAllTypes: ( enabled: boolean ) => setSelectedTypes( enabled ? [ 'redirect', 'log' ] : [] ),
 				onDownload: jest.fn(),
 				onView: jest.fn(),
 			};
 		} );
 	} );
 
-	it( 'switches summary details when the export type changes', () => {
+	it( 'allows export selection to start empty and be built with checkboxes', () => {
 		render( <ExportPage /> );
 
 		expect( screen.getByText( 'Export preview' ) ).toBeInTheDocument();
-		expect( screen.getByText( '2.0 KB' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Items available' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Approximate file size' ) ).toBeInTheDocument();
+		expect( screen.getByText( 'No export selected' ) ).toBeInTheDocument();
+		expect( screen.getByText( 'Select one or more export types to choose a format.' ) ).toBeInTheDocument();
 
 		const logsCard = screen.getByText( 'Redirect logs' ).closest( '.file-sniff__card' );
 		expect( logsCard ).not.toBeNull();
-		fireEvent.click( within( logsCard as HTMLElement ).getByRole( 'button', { name: 'Use export' } ) );
+		fireEvent.click( within( logsCard as HTMLElement ).getByRole( 'checkbox', { name: 'Include in export' } ) );
 
 		expect( screen.getByText( '1' ) ).toBeInTheDocument();
 		expect( screen.getByText( '512 B' ) ).toBeInTheDocument();
-		expect( screen.getByText( 'Approximate file size' ) ).toBeInTheDocument();
+		expect( screen.getByText( 'Redirect logs' ) ).toBeInTheDocument();
+	} );
+
+	it( 'switches to a combined JSON export when multiple cards are selected', () => {
+		render( <ExportPage /> );
+
+		const redirectCard = screen.getByText( 'Redirects' ).closest( '.file-sniff__card' );
+		const logsCard = screen.getByText( 'Redirect logs' ).closest( '.file-sniff__card' );
+
+		expect( redirectCard ).not.toBeNull();
+		expect( logsCard ).not.toBeNull();
+
+		fireEvent.click( within( redirectCard as HTMLElement ).getByRole( 'checkbox', { name: 'Include in export' } ) );
+		fireEvent.click( within( logsCard as HTMLElement ).getByRole( 'checkbox', { name: 'Include in export' } ) );
+
+		expect( screen.getByText( '3' ) ).toBeInTheDocument();
+		expect( screen.getByText( '2.5 KB' ) ).toBeInTheDocument();
+		expect( screen.getByText( 'Redirects, Redirect logs' ) ).toBeInTheDocument();
+	} );
+
+	it( 'toggles all export cards with the select all checkbox', () => {
+		render( <ExportPage /> );
+
+		const selectAll = screen.getByRole( 'checkbox', { name: 'Select all' } );
+		fireEvent.click( selectAll );
+
+		expect( screen.getByRole( 'checkbox', { name: 'Include in export' } ) ).toBeChecked();
+		expect( screen.getAllByRole( 'checkbox', { name: 'Include in export' } )[ 1 ] ).toBeChecked();
+
+		fireEvent.click( selectAll );
+
+		expect( screen.getAllByRole( 'checkbox', { name: 'Include in export' } )[ 0 ] ).not.toBeChecked();
+		expect( screen.getAllByRole( 'checkbox', { name: 'Include in export' } )[ 1 ] ).not.toBeChecked();
 	} );
 } );

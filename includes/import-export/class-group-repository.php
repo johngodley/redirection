@@ -6,6 +6,7 @@ namespace Redirection\ImportExport;
  * Repository wrapper for group lookups and creation.
  *
  * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type GroupExport from \Red_Group
  */
 class GroupRepository {
 	/**
@@ -39,5 +40,97 @@ class GroupRepository {
 	 */
 	public function get_all_for_module( $module_id ) {
 		return \Red_Group::get_all_for_module( intval( $module_id, 10 ) );
+	}
+
+	/**
+	 * @param int $group_id
+	 * @return GroupExport|false
+	 */
+	public function get_export( $group_id ) {
+		$group = $this->get( $group_id );
+
+		if ( $group === false ) {
+			return false;
+		}
+
+		return $group->to_export();
+	}
+
+	/**
+	 * @return array<GroupExport>|false
+	 */
+	public function get_all_for_export() {
+		global $wpdb;
+
+		$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
+
+		return array_map(
+			static function ( $row ) {
+				return ( new \Red_Group( $row ) )->to_export();
+			},
+			is_array( $rows ) ? $rows : []
+		);
+	}
+
+	/**
+	 * @param int $module_id
+	 * @return array<GroupExport>|false
+	 */
+	public function get_all_for_module_export( $module_id ) {
+		global $wpdb;
+
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_groups WHERE module_id=%d", intval( $module_id, 10 ) ) );
+
+		return array_map(
+			static function ( $row ) {
+				return ( new \Red_Group( $row ) )->to_export();
+			},
+			is_array( $rows ) ? $rows : []
+		);
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 * @return array<GroupExport>
+	 */
+	public function get_filtered_for_export( array $params = [] ) {
+		global $wpdb;
+
+		$where = '';
+
+		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
+			$items = array_values(
+				array_filter(
+					array_map( 'intval', $params['items'] ),
+					static function ( $item ) {
+						return $item > 0;
+					}
+				)
+			);
+
+			if ( count( $items ) === 0 ) {
+				return [];
+			}
+
+			$placeholders = implode( ',', array_fill( 0, count( $items ), '%d' ) );
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_groups WHERE id IN ($placeholders)", ...$items );
+			$rows = $wpdb->get_results( $query );
+		} else {
+			if ( isset( $params['filterBy'] ) && is_array( $params['filterBy'] ) ) {
+				$filters = new \Red_Group_Filters( $params['filterBy'] );
+				$where = $filters->get_as_sql();
+			}
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups{$where}" );
+		}
+
+		return array_map(
+			static function ( $row ) {
+				return ( new \Red_Group( $row ) )->to_export();
+			},
+			is_array( $rows ) ? $rows : []
+		);
 	}
 }

@@ -128,20 +128,42 @@ function FileDropzone( {
 
 		if ( fileInfo.format === 'json' ) {
 			type = __( 'JSON', 'redirection' );
-			details.push( {
-				label: __( 'Plugin version', 'redirection' ),
-				value: fileInfo.version || '',
-			} );
-			stats.push(
-				{
-					label: _n( 'Group', 'Groups', fileInfo.groups || 0, 'redirection' ),
-					value: fileInfo.groups || 0,
-				},
-				{
-					label: _n( 'Redirect', 'Redirects', fileInfo.redirects || 0, 'redirection' ),
-					value: fileInfo.redirects || 0,
-				}
-			);
+			if ( fileInfo.version ) {
+				details.push( {
+					label: __( 'Plugin version', 'redirection' ),
+					value: fileInfo.version,
+				} );
+			}
+			if ( fileInfo.contents?.groups !== undefined ) {
+				stats.push( {
+					label: _n( 'Group', 'Groups', fileInfo.contents.groups || 0, 'redirection' ),
+					value: fileInfo.contents.groups || 0,
+				} );
+			}
+			if ( fileInfo.contents?.redirects !== undefined ) {
+				stats.push( {
+					label: _n( 'Redirect', 'Redirects', fileInfo.contents.redirects || 0, 'redirection' ),
+					value: fileInfo.contents.redirects || 0,
+				} );
+			}
+			if ( fileInfo.contents?.logs !== undefined ) {
+				stats.push( {
+					label: _n( 'Log', 'Logs', fileInfo.contents.logs || 0, 'redirection' ),
+					value: fileInfo.contents.logs || 0,
+				} );
+			}
+			if ( fileInfo.contents?.errors_404 !== undefined ) {
+				stats.push( {
+					label: _n( '404 log', '404 logs', fileInfo.contents.errors_404 || 0, 'redirection' ),
+					value: fileInfo.contents.errors_404 || 0,
+				} );
+			}
+			if ( fileInfo.contents?.settings !== undefined ) {
+				stats.push( {
+					label: __( 'Settings', 'redirection' ),
+					value: fileInfo.contents.settings || 0,
+				} );
+			}
 		}
 
 		if ( fileInfo.format === 'csv' ) {

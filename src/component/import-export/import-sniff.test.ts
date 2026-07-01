@@ -20,13 +20,80 @@ describe( 'import-sniff', () => {
 			format: 'json',
 			valid: true,
 			version: '5.8.0',
-			groups: 1,
-			redirects: 2,
+			contents: {
+				groups: 1,
+				redirects: 2,
+			},
 		} );
 	} );
 
-	it( 'rejects invalid Redirection JSON', () => {
+	it( 'detects a mixed Redirection JSON export', () => {
+		const result = sniffJsonText(
+			JSON.stringify( {
+				plugin: {
+					version: '5.8.0',
+					date: 'Mon, 22 Jun 2026 12:00:00 +0000',
+				},
+				settings: {
+					https: true,
+					monitor_post: false,
+				},
+				groups: [ { id: 1, name: 'Redirections' } ],
+				logs: [ { url: '/test', ip: '127.0.0.1' } ],
+				errors_404: [ { url: '/missing', ip: '127.0.0.1' } ],
+			} )
+		);
+
+		expect( result ).toEqual( {
+			format: 'json',
+			valid: true,
+			version: '5.8.0',
+			contents: {
+				settings: 2,
+				groups: 1,
+				logs: 1,
+				errors_404: 1,
+			},
+		} );
+	} );
+
+	it( 'detects sectioned Redirection JSON without plugin metadata', () => {
+		const result = sniffJsonText(
+			JSON.stringify( {
+				settings: {
+					https: true,
+					monitor_post: false,
+				},
+				logs: [ { url: '/test', ip: '127.0.0.1' } ],
+				errors_404: [ { url: '/missing', ip: '127.0.0.1' } ],
+			} )
+		);
+
+		expect( result ).toEqual( {
+			format: 'json',
+			valid: true,
+			version: undefined,
+			contents: {
+				settings: 2,
+				logs: 1,
+				errors_404: 1,
+			},
+		} );
+	} );
+
+	it( 'accepts redirects-only Redirection JSON', () => {
 		expect( sniffJsonText( '{"redirects":[]}' ) ).toEqual( {
+			format: 'json',
+			valid: true,
+			version: undefined,
+			contents: {
+				redirects: 0,
+			},
+		} );
+	} );
+
+	it( 'rejects JSON without supported Redirection sections', () => {
+		expect( sniffJsonText( '{"plugin":{"version":"5.8.0"},"foo":[]}' ) ).toEqual( {
 			format: 'json',
 			valid: false,
 			error: 'not-redirection-json',

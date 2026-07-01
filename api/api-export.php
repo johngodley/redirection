@@ -93,6 +93,18 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 
 		register_rest_route(
 			$api_namespace,
+			'/export/group/(?P<format>csv|json)',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_group_export' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			$api_namespace,
 			'/export/log/(?P<format>csv|json)',
 			[
 				[
@@ -122,6 +134,30 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::READABLE,
 					'callback' => [ $this, 'route_404_export' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			$api_namespace,
+			'/export/bundle',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_bundle_export' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
+
+		register_rest_route(
+			$api_namespace,
+			'/export/bundle/preview',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_bundle_preview' ],
 					'permission_callback' => [ $this, 'permission_callback_manage' ],
 				],
 			]
@@ -187,14 +223,21 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return ExportResponse|WP_Error
 	 */
 	public function route_redirect_export( WP_REST_Request $request ) {
-		$scope = $this->get_redirect_scope( $request );
 		$format = 'json';
 
 		if ( in_array( $request->get_param( 'format' ), [ 'csv', 'apache', 'nginx', 'json' ], true ) ) {
 			$format = sanitize_text_field( strval( $request->get_param( 'format' ) ) );
 		}
 
-		$export = ( new ExportService() )->export_scope( $scope['scope_type'], $scope['scope_value'], $format );
+		$params = $this->get_redirect_export_params( $request );
+
+		if ( isset( $params['items'] ) || isset( $params['global'] ) || isset( $params['filterBy'] ) ) {
+			$export = ( new ExportService() )->export_redirects( $format, $params );
+		} else {
+			$scope = $this->get_redirect_scope( $request );
+			$export = ( new ExportService() )->export_scope( $scope['scope_type'], $scope['scope_value'], $format );
+		}
+
 		if ( $export === false ) {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_scope', 'Invalid export scope' ), __LINE__ );
 		}
@@ -218,7 +261,29 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return ExportResponse|WP_Error
 	 */
 	public function route_log_export( WP_REST_Request $request ) {
-		return $this->get_log_export_response( Red_Redirect_Log::class, sanitize_text_field( strval( $request['format'] ) ) );
+		return $this->get_log_export_response(
+			Red_Redirect_Log::class,
+			sanitize_text_field( strval( $request['format'] ) ),
+			$request
+		);
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return ExportResponse|WP_Error
+	 */
+	public function route_group_export( WP_REST_Request $request ) {
+		$format = sanitize_text_field( strval( $request['format'] ) );
+		$result = ( new ExportService() )->export_groups( $format, $this->get_group_export_params( $request ) );
+
+		if ( $result === false ) {
+			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_format', 'Invalid export format' ), __LINE__ );
+		}
+
+		return [
+			'data' => $result['data'],
+			'total' => $result['total'],
+		];
 	}
 
 	/**
@@ -234,7 +299,52 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return ExportResponse|WP_Error
 	 */
 	public function route_404_export( WP_REST_Request $request ) {
-		return $this->get_log_export_response( Red_404_Log::class, sanitize_text_field( strval( $request['format'] ) ) );
+		return $this->get_log_export_response(
+			Red_404_Log::class,
+			sanitize_text_field( strval( $request['format'] ) ),
+			$request
+		);
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return ExportResponse|WP_Error
+	 */
+	public function route_bundle_export( WP_REST_Request $request ) {
+		$format = $this->get_bundle_format( $request );
+		$result = ( new ExportService() )->export_bundle(
+			$this->get_bundle_types( $request ),
+			$this->get_bundle_scope_options( $request ),
+			$format
+		);
+
+		if ( $result === false ) {
+			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_format', 'Invalid export format' ), __LINE__ );
+		}
+
+		return [
+			'data' => $result['data'],
+			'total' => $result['total'],
+		];
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return ExportPreviewResponse|WP_Error
+	 */
+	public function route_bundle_preview( WP_REST_Request $request ) {
+		$format = $this->get_bundle_format( $request );
+		$result = ( new ExportService() )->preview_bundle(
+			$this->get_bundle_types( $request ),
+			$this->get_bundle_scope_options( $request ),
+			$format
+		);
+
+		if ( $result === false ) {
+			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_format', 'Invalid export format' ), __LINE__ );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -271,14 +381,17 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	/**
 	 * @param class-string<Red_Log> $log_class
 	 * @param string $format
+	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return ExportResponse|WP_Error
 	 */
-	private function get_log_export_response( $log_class, $format ) {
+	private function get_log_export_response( $log_class, $format, WP_REST_Request $request ) {
 		if ( ! in_array( $format, [ 'csv', 'json' ], true ) ) {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_format', 'Invalid export format' ), __LINE__ );
 		}
 
-		$data = $log_class::get_export_data( $format );
+		$params = $this->get_log_export_params( $request );
+		$display_selected = $this->get_log_display_selected( $request );
+		$data = $log_class::get_export_data( $format, $params, $display_selected );
 
 		if ( $data === false ) {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_format', 'Invalid export format' ), __LINE__ );
@@ -286,8 +399,104 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 
 		return [
 			'data' => $data,
-			'total' => $log_class::get_export_total(),
+			'total' => $log_class::get_export_total( $params ),
 		];
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array<string, mixed>
+	 */
+	private function get_log_export_params( WP_REST_Request $request ) {
+		$params = [];
+		$request_params = $request->get_params();
+
+		if ( isset( $request_params['items'] ) && is_array( $request_params['items'] ) ) {
+			$params['items'] = array_values( $request_params['items'] );
+		}
+
+		if ( isset( $request_params['global'] ) ) {
+			$params['global'] = filter_var( $request_params['global'], FILTER_VALIDATE_BOOLEAN );
+		}
+
+		if ( isset( $request_params['groupBy'] ) ) {
+			$params['groupBy'] = sanitize_text_field( strval( $request_params['groupBy'] ) );
+		}
+
+		if ( isset( $request_params['filterBy'] ) && is_array( $request_params['filterBy'] ) ) {
+			$params['filterBy'] = $request_params['filterBy'];
+		}
+
+		return $params;
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array<int, string>
+	 */
+	private function get_log_display_selected( WP_REST_Request $request ) {
+		$display_selected = $request->get_param( 'displaySelected' );
+
+		if ( ! is_array( $display_selected ) ) {
+			return [];
+		}
+
+		return array_values(
+			array_filter(
+				array_map(
+					static function( $value ) {
+						return is_string( $value ) ? sanitize_text_field( $value ) : '';
+					},
+					$display_selected
+				)
+			)
+		);
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array<string, mixed>
+	 */
+	private function get_redirect_export_params( WP_REST_Request $request ) {
+		$params = [];
+		$request_params = $request->get_params();
+
+		if ( isset( $request_params['items'] ) && is_array( $request_params['items'] ) ) {
+			$params['items'] = array_values( $request_params['items'] );
+		}
+
+		if ( isset( $request_params['global'] ) ) {
+			$params['global'] = filter_var( $request_params['global'], FILTER_VALIDATE_BOOLEAN );
+		}
+
+		if ( isset( $request_params['filterBy'] ) && is_array( $request_params['filterBy'] ) ) {
+			$params['filterBy'] = $request_params['filterBy'];
+		}
+
+		return $params;
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array<string, mixed>
+	 */
+	private function get_group_export_params( WP_REST_Request $request ) {
+		$params = [];
+		$request_params = $request->get_params();
+
+		if ( isset( $request_params['items'] ) && is_array( $request_params['items'] ) ) {
+			$params['items'] = array_values( $request_params['items'] );
+		}
+
+		if ( isset( $request_params['global'] ) ) {
+			$params['global'] = filter_var( $request_params['global'], FILTER_VALIDATE_BOOLEAN );
+		}
+
+		if ( isset( $request_params['filterBy'] ) && is_array( $request_params['filterBy'] ) ) {
+			$params['filterBy'] = $request_params['filterBy'];
+		}
+
+		return $params;
 	}
 
 	/**
@@ -313,6 +522,56 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 
 		if ( $format === 'csv' || $format === 'apache' || $format === 'nginx' ) {
 			return $format;
+		}
+
+		return 'json';
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array<int, string>
+	 */
+	private function get_bundle_types( WP_REST_Request $request ) {
+		$types = $request->get_param( 'types' );
+
+		if ( ! is_array( $types ) ) {
+			return [];
+		}
+
+		return array_values(
+			array_filter(
+				array_map(
+					static function ( $type ) {
+						return is_string( $type ) ? sanitize_text_field( $type ) : '';
+					},
+					$types
+				)
+			)
+		);
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return array{scope_type?: 'all'|'module'|'group', scope_value?: string|int}
+	 */
+	private function get_bundle_scope_options( WP_REST_Request $request ) {
+		$scope = $this->get_redirect_scope( $request );
+
+		return [
+			'scope_type' => $scope['scope_type'],
+			'scope_value' => $scope['scope_value'],
+		];
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return 'json'|'csv'
+	 */
+	private function get_bundle_format( WP_REST_Request $request ) {
+		$format = $request->get_param( 'format' );
+
+		if ( $format === 'csv' ) {
+			return 'csv';
 		}
 
 		return 'json';

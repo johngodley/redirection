@@ -12,7 +12,7 @@ describe( 'ExportResults', () => {
 			<ExportResults
 				lastResult={ {
 					action: 'download',
-					type: 'redirect',
+					types: [ 'redirect' ],
 					format: 'json',
 					data: '',
 					total: 5348,
@@ -29,7 +29,7 @@ describe( 'ExportResults', () => {
 			<ExportResults
 				lastResult={ {
 					action: 'view',
-					type: 'redirect',
+					types: [ 'redirect' ],
 					format: 'csv',
 					data: 'source,target',
 					total: 2,

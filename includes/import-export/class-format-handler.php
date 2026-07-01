@@ -32,6 +32,10 @@ namespace Redirection\ImportExport;
  *     updated: int,
  *     ignored: int,
  *     groups_created: int,
+ *     groups_imported: int,
+ *     logs_imported: int,
+ *     errors_imported: int,
+ *     settings_imported: int,
  *     preview: array<int, ImportPreviewRow>
  * }
  */
@@ -89,9 +93,10 @@ abstract class FormatHandler {
 	 * @param ImportRedirect $redirect Redirect saver.
 	 * @param string $filename Path to the file to import.
 	 * @param bool $is_dry_run Whether this is a dry run.
+	 * @param array<string, mixed> $options Import options.
 	 * @return ImportResult
 	 */
-	abstract public function load( $group, $redirect, $filename, $is_dry_run );
+	abstract public function load( $group, $redirect, $filename, $is_dry_run, array $options = [] );
 
 	/**
 	 * @param ImportGroup $group Group resolver.
@@ -104,6 +109,10 @@ abstract class FormatHandler {
 			'updated' => $redirect->get_updated(),
 			'ignored' => $redirect->get_ignored(),
 			'groups_created' => $group->get_groups_created(),
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => $redirect->get_preview_items(),
 		];
 	}

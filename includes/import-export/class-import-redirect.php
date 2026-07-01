@@ -49,7 +49,7 @@ class ImportRedirect {
 	private $preview_items = [];
 
 	/**
-	 * @param array<string, bool|string> $options Import options.
+	 * @param array<string, bool|string|array<int, string>> $options Import options.
 	 */
 	public function __construct( array $options = [], ?RedirectDuplicateMatcher $duplicate_matcher = null, ?RedirectRepository $redirects = null ) {
 		$this->is_dry_run = isset( $options['dry_run'] ) ? $options['dry_run'] === true : false;

@@ -16,6 +16,7 @@ type FileImportVariables = {
 	groupId: number;
 	duplicateMode: DuplicateMode;
 	deleteSource?: boolean;
+	importSections?: string[];
 };
 type PluginImportVariables = {
 	sourceType: 'plugin';
@@ -26,7 +27,7 @@ type PluginImportVariables = {
 	deleteSource?: boolean;
 };
 type ImportMutationVariables = FileImportVariables | PluginImportVariables;
-type ExportType = 'redirect' | 'log' | '404';
+type ExportType = 'redirect' | 'log' | '404' | 'group' | 'setting';
 type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
 type RedirectScopeType = 'all' | 'module' | 'group';
 type ExportRequestVariables = {
@@ -34,13 +35,16 @@ type ExportRequestVariables = {
 	format: ExportFormat;
 	download?: boolean;
 	filename?: string;
-	downloadNotice?: string | Message | false;
+	completionNotice?: string | Message | false;
 	redirectScopeType?: RedirectScopeType;
 	redirectModule?: string;
 	redirectGroup?: number;
+	exportTypes?: ExportType[];
+	params?: Record< string, unknown >;
 };
 type ExportPreviewVariables = {
 	exportType: ExportType;
+	exportTypes?: ExportType[];
 	format?: ExportFormat;
 	redirectScopeType?: RedirectScopeType;
 	redirectModule?: string;
@@ -55,6 +59,18 @@ type ExportPreviewResponse = {
 	estimatedSize: number;
 };
 
+function shouldUseBundleExport( exportTypes?: ExportType[] ) {
+	if ( ! exportTypes || exportTypes.length === 0 ) {
+		return false;
+	}
+
+	if ( exportTypes.length > 1 ) {
+		return true;
+	}
+
+	return exportTypes[ 0 ] === 'group' || exportTypes[ 0 ] === 'setting';
+}
+
 function getRedirectScopeValue( redirectScopeType: RedirectScopeType, redirectModule: string, redirectGroup: number ) {
 	if ( redirectScopeType === 'group' ) {
 		return redirectGroup;
@@ -68,7 +84,27 @@ function getRedirectScopeValue( redirectScopeType: RedirectScopeType, redirectMo
 }
 
 function getExportRequest( variables: ExportRequestVariables ) {
+	if ( shouldUseBundleExport( variables.exportTypes ) ) {
+		const redirectScopeType = variables.redirectScopeType || 'all';
+		const redirectModule = variables.redirectModule || 'all';
+		const redirectGroup = variables.redirectGroup || 0;
+
+		return RedirectionApi.export.bundle( {
+			types: variables.exportTypes,
+			scope_type: redirectScopeType,
+			scope_value: getRedirectScopeValue( redirectScopeType, redirectModule, redirectGroup ),
+			format: variables.format,
+		} );
+	}
+
 	if ( variables.exportType === 'redirect' ) {
+		if ( variables.params ) {
+			return RedirectionApi.export.redirect( {
+				...variables.params,
+				format: variables.format,
+			} );
+		}
+
 		const redirectScopeType = variables.redirectScopeType || 'all';
 		const redirectModule = variables.redirectModule || 'all';
 		const redirectGroup = variables.redirectGroup || 0;
@@ -80,14 +116,31 @@ function getExportRequest( variables: ExportRequestVariables ) {
 		} );
 	}
 
-	if ( variables.exportType === 'log' ) {
-		return RedirectionApi.export.log( variables.format );
+	if ( variables.exportType === 'group' ) {
+		return RedirectionApi.export.group( variables.format, variables.params || {} );
 	}
 
-	return RedirectionApi.export.error( variables.format );
+	if ( variables.exportType === 'log' ) {
+		return RedirectionApi.export.log( variables.format, variables.params || {} );
+	}
+
+	return RedirectionApi.export.error( variables.format, variables.params || {} );
 }
 
 function getExportPreviewRequest( variables: ExportPreviewVariables ) {
+	if ( shouldUseBundleExport( variables.exportTypes ) ) {
+		const redirectScopeType = variables.redirectScopeType || 'all';
+		const redirectModule = variables.redirectModule || 'all';
+		const redirectGroup = variables.redirectGroup || 0;
+
+		return RedirectionApi.export.bundlePreview( {
+			types: variables.exportTypes,
+			scope_type: redirectScopeType,
+			scope_value: getRedirectScopeValue( redirectScopeType, redirectModule, redirectGroup ),
+			format: variables.format || 'json',
+		} );
+	}
+
 	if ( variables.exportType === 'redirect' ) {
 		const redirectScopeType = variables.redirectScopeType || 'all';
 		const redirectModule = variables.redirectModule || 'all';
@@ -130,7 +183,7 @@ export function useImportRunner(
 	options?: Omit< UseMutationOptions< any, Error, ImportMutationVariables >, 'mutationFn' >
 ) {
 	const queryClient = useQueryClient();
-	const { addNotice, addError, incrementProgress, decrementProgress } = useMessageStore();
+	const { addNotice, incrementProgress, decrementProgress } = useMessageStore();
 
 	return useMutation( {
 		mutationFn: async ( variables ) => {
@@ -142,10 +195,10 @@ export function useImportRunner(
 							dry_run: variables.mode === 'preview' ? 1 : 0,
 							duplicate_mode: variables.duplicateMode,
 							delete_source: variables.deleteSource ? 1 : 0,
+							import_sections: variables.importSections || [],
 						} )
 					);
 				} catch ( error ) {
-					decrementProgress();
 					throw handleApiError( error );
 				}
 			}
@@ -181,19 +234,25 @@ export function useImportRunner(
 				const updated = ( data as any )?.updated || 0;
 				const ignored = ( data as any )?.ignored || 0;
 				const groupsCreated = ( data as any )?.groups_created || 0;
+				const groupsImported = ( data as any )?.groups_imported || 0;
+				const logsImported = ( data as any )?.logs_imported || 0;
+				const errorsImported = ( data as any )?.errors_imported || 0;
+				const settingsImported = ( data as any )?.settings_imported || 0;
 
 				addNotice(
-					`Imported ${ created } new redirects, updated ${ updated } existing redirects, ignored ${ ignored } duplicates, ${ groupsCreated } groups created`
+					`Imported ${ created } new redirects, updated ${ updated } existing redirects, ignored ${ ignored } duplicates, ${ groupsCreated } groups created, ${ groupsImported } groups imported, ${ logsImported } logs imported, ${ errorsImported } 404 logs imported, ${ settingsImported } settings imported`
 				);
 				queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
+				queryClient.invalidateQueries( { queryKey: queryKeys.groups.all } );
+				queryClient.invalidateQueries( { queryKey: queryKeys.logs.all } );
+				queryClient.invalidateQueries( { queryKey: queryKeys.errors.all } );
+				queryClient.invalidateQueries( { queryKey: queryKeys.settings.all } );
 			}
 		},
-		onError: ( error, variables ) => {
+		onError: ( _error, variables ) => {
 			if ( variables.sourceType === 'file' ) {
 				decrementProgress();
 			}
-
-			addError( error.message || ( variables.mode === 'preview' ? 'Preview failed' : 'Import failed' ) );
 		},
 		...options,
 	} );
@@ -206,7 +265,7 @@ export function useImportRunner(
 export function useExport(
 	options?: Omit< UseMutationOptions< ExportResponse, Error, ExportRequestVariables >, 'mutationFn' >
 ) {
-	const { addNotice, addError, incrementProgress, decrementProgress } = useMessageStore();
+	const { addNotice, incrementProgress, decrementProgress } = useMessageStore();
 
 	return useMutation( {
 		mutationFn: async ( variables ) => {
@@ -224,19 +283,20 @@ export function useExport(
 
 				return response;
 			} catch ( error ) {
-				decrementProgress();
 				throw handleApiError( error );
 			}
 		},
 		onSuccess: ( _data, variables ) => {
 			decrementProgress();
 
-			if ( variables.download && variables.downloadNotice !== false ) {
-				addNotice( variables.downloadNotice || 'Export downloaded' );
+			if ( variables.completionNotice !== false ) {
+				addNotice(
+					variables.completionNotice || ( variables.download ? 'Export downloaded' : 'Export viewed' )
+				);
 			}
 		},
-		onError: ( error ) => {
-			addError( error.message || 'Export failed' );
+		onError: () => {
+			decrementProgress();
 		},
 		...options,
 	} );

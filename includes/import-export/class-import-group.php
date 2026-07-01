@@ -33,7 +33,7 @@ class ImportGroup {
 
 	/**
 	 * @param int $group_id Selected group ID.
-	 * @param array<string, bool|string> $options Import options.
+	 * @param array<string, bool|string|array<int, string>> $options Import options.
 	 */
 	public function __construct( $group_id, array $options = [], ?GroupRepository $groups = null ) {
 		$this->group_id = intval( $group_id, 10 );
