@@ -9,19 +9,64 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 		$this->assertEquals( $expected, $csv );
 	}
 
+	public function testCsvRowEscapesFormulaValues() {
+		$row = [ 'created' => '=created', 'url' => '@url', 'sent_to' => '-sent_to', 'ip' => '+ip', 'referrer' => '=referrer', 'agent' => '@agent' ];
+		$expected = [ '[FORMULA] =created', '[FORMULA] @url', '[FORMULA] -sent_to', '[FORMULA] +ip', '[FORMULA] =referrer', '[FORMULA] @agent' ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowEscapesFormulaValuesWithLeadingWhitespace() {
+		$row = [ 'created' => ' =created', 'url' => "\t@url", 'sent_to' => ' -sent_to', 'ip' => "\r+ip", 'referrer' => ' =referrer', 'agent' => "\n@agent" ];
+		$expected = [ '[FORMULA]  =created', "[FORMULA] \t@url", '[FORMULA]  -sent_to', "[FORMULA] \r+ip", '[FORMULA]  =referrer', "[FORMULA] \n@agent" ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowLeavesLeadingWhitespaceWithoutFormulaPrefixAlone() {
+		$row = [ 'created' => "\thello", 'url' => "\nurl", 'sent_to' => "\rsent_to", 'ip' => ' ip', 'referrer' => "\treferrer", 'agent' => "\nagent" ];
+		$expected = [ "\thello", "\nurl", "\rsent_to", ' ip', "\treferrer", "\nagent" ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowEscapesFormulaValuesWithFullWidthPrefix() {
+		$row = [ 'created' => '＝created', 'url' => '＋url', 'sent_to' => '－sent_to', 'ip' => '＠ip', 'referrer' => '＝referrer', 'agent' => '＠agent' ];
+		$expected = [ '[FORMULA] ＝created', '[FORMULA] ＋url', '[FORMULA] －sent_to', '[FORMULA] ＠ip', '[FORMULA] ＝referrer', '[FORMULA] ＠agent' ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowEscapesFormulaValuesWithLeadingSpaceAndFullWidthPrefix() {
+		$row = [ 'created' => ' ＝created', 'url' => ' ＋url', 'sent_to' => ' －sent_to', 'ip' => ' ＠ip', 'referrer' => ' ＝referrer', 'agent' => ' ＠agent' ];
+		$expected = [ '[FORMULA]  ＝created', '[FORMULA]  ＋url', '[FORMULA]  －sent_to', '[FORMULA]  ＠ip', '[FORMULA]  ＝referrer', '[FORMULA]  ＠agent' ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
 	public function testValidLog() {
-		$log = Red_Redirect_Log::create( 'domain', 'url', '192.168.1.1', [
-			'agent' => 'agent',
-			'referrer' => 'referrer',
-			'http_code' => 301,
-			'request_method' => 'GET',
-			'redirect_id' => 5,
-			'target' => 'target',
-			'redirect_by' => 'wordpress',
-			'request_data' => [
-				'cats' => 4,
-			],
-		] );
+		$log = Red_Redirect_Log::create(
+			'domain',
+			'url',
+			'192.168.1.1',
+			[
+				'agent' => 'agent',
+				'referrer' => 'referrer',
+				'http_code' => 301,
+				'request_method' => 'GET',
+				'redirect_id' => 5,
+				'target' => 'target',
+				'redirect_by' => 'wordpress',
+				'request_data' => [
+					'cats' => 4,
+				],
+			]
+		);
 
 		$json = Red_Redirect_Log::get_by_id( $log )->to_json();
 		$expected = [
@@ -49,15 +94,20 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 	}
 
 	public function testEmptyRedirectLog() {
-		$log = Red_Redirect_Log::create( 'domain', 'url', '192.168.1.1', [
-			'agent' => 'agent',
-			'referrer' => 'referrer',
-			'http_code' => 301,
-			'request_method' => 'GET',
-			'request_data' => [
-				'cats' => 4,
-			],
-		] );
+		$log = Red_Redirect_Log::create(
+			'domain',
+			'url',
+			'192.168.1.1',
+			[
+				'agent' => 'agent',
+				'referrer' => 'referrer',
+				'http_code' => 301,
+				'request_method' => 'GET',
+				'request_data' => [
+					'cats' => 4,
+				],
+			]
+		);
 
 		$entry = Red_Redirect_Log::get_by_id( $log );
 

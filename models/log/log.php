@@ -518,16 +518,27 @@ abstract class Red_Log {
 	}
 
 	/**
+	 * @return void
+	 */
+	protected static function load_csv_sanitizer() {
+		if ( ! class_exists( 'Red_Csv_Sanitizer', false ) ) {
+			require_once dirname( __DIR__ ) . '/csv-sanitizer.php';
+		}
+	}
+
+	/**
 	 * Export the log entry to CSV
 	 *
 	 * @return void
 	 */
 	public static function export_to_csv() {
+		static::load_csv_sanitizer();
 		$filename = static::get_csv_filename() . '-' . date_i18n( get_option( 'date_format' ) ) . '.csv';
 
 		header( 'Content-Type: text/csv' );
 		header( 'Cache-Control: no-cache, must-revalidate' );
 		header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
+		header( 'X-Content-Type-Options: nosniff' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
 		// phpcs:ignore

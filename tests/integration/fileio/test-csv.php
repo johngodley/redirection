@@ -22,7 +22,55 @@ class ExportCsvTest extends WP_UnitTestCase {
 		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '=/source', 'action_data' => '/target', 'action_code' => 301 ) );
 		$csv = $exporter->item_as_csv( $item );
 
-		$this->assertEquals( '"=/source","/target",0,301,"url",0,"","active"', $csv );
+		$this->assertEquals( '"[FORMULA] =/source","/target",0,301,"url",0,"","active"', $csv );
+	}
+
+	public function testEscapeFormulaInTarget() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '/source', 'action_data' => '=cmd', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"/source","[FORMULA] =cmd",0,301,"url",0,"","active"', $csv );
+	}
+
+	public function testEscapeFormulaWithLeadingSpace() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => ' =/source', 'action_data' => '/target', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"[FORMULA]  =/source","/target",0,301,"url",0,"","active"', $csv );
+	}
+
+	public function testEscapeFormulaWithLeadingTab() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => "\t@source", 'action_data' => '/target', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( "\"[FORMULA] \t@source\",\"/target\",0,301,\"url\",0,\"\",\"active\"", $csv );
+	}
+
+	public function testEscapeFormulaWithFullWidthPrefix() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => '＝SUM(A1:A2)', 'action_data' => '/target', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"[FORMULA] ＝SUM(A1:A2)","/target",0,301,"url",0,"","active"', $csv );
+	}
+
+	public function testEscapeFormulaWithLeadingSpaceAndFullWidthPrefix() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => ' ＝SUM(A1:A2)', 'action_data' => '/target', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( '"[FORMULA]  ＝SUM(A1:A2)","/target",0,301,"url",0,"","active"', $csv );
+	}
+
+	public function testEscapeFormulaWithMalformedUtf8() {
+		$exporter = new Red_Csv_File();
+		$item = new Red_Item( (object) array( 'match_type' => 'url', 'id' => 1, 'regex' => false, 'action_type' => 'url', 'url' => "=\xffSUM(A1:A2)", 'action_data' => '/target', 'action_code' => 301 ) );
+		$csv = $exporter->item_as_csv( $item );
+
+		$this->assertEquals( "\"[FORMULA] =\xffSUM(A1:A2)\",\"/target\",0,301,\"url\",0,\"\",\"active\"", $csv );
 	}
 
 	public function testEscapeCSVEmpty() {

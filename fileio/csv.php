@@ -21,6 +21,28 @@ class Red_Csv_File extends Red_FileIO {
 	const CSV_REGEX = 2;
 	const CSV_CODE = 3;
 
+	/**
+	 * @return void
+	 */
+	private function load_csv_sanitizer() {
+		if ( ! class_exists( 'Red_Csv_Sanitizer', false ) ) {
+			require_once dirname( __DIR__ ) . '/models/csv-sanitizer.php';
+		}
+	}
+
+	/**
+	 * Normalize a CSV field before validation and creation.
+	 *
+	 * This mirrors the later redirect sanitizer so import validation uses the
+	 * same effective values that will be saved.
+	 *
+	 * @param string $value CSV field value.
+	 * @return string
+	 */
+	private function normalize_import_value( $value ) {
+		return trim( Red_Csv_Sanitizer::unescape( trim( $value ) ) );
+	}
+
 	public function force_download() {
 		parent::force_download();
 
@@ -88,6 +110,9 @@ class Red_Csv_File extends Red_FileIO {
 			return $item;
 		}
 
+		$this->load_csv_sanitizer();
+		$item = Red_Csv_Sanitizer::escape( $item );
+
 		return '"' . str_replace( '"', '""', $item ) . '"';
 	}
 
@@ -137,7 +162,7 @@ class Red_Csv_File extends Red_FileIO {
 
 		/** @var Red_Group $group */
 
-		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) !== false ) {
+		while ( ( $csv = fgetcsv( $file, 5000, $separator, '"', '\\' ) ) !== false ) {
 			if ( $csv === null ) {
 				continue;
 			}
@@ -213,12 +238,15 @@ class Red_Csv_File extends Red_FileIO {
 	 */
 	public function csv_as_item( $csv, Red_Group $group ) {
 		if ( count( $csv ) > 1 && $csv[ self::CSV_SOURCE ] !== 'source' && $csv[ self::CSV_TARGET ] !== 'target' ) {
+			$this->load_csv_sanitizer();
 			$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+			$source = $this->normalize_import_value( $csv[ self::CSV_SOURCE ] );
+			$target = $this->normalize_import_value( $csv[ self::CSV_TARGET ] );
 
 			return array(
-				'url' => trim( $csv[ self::CSV_SOURCE ] ),
-				'action_data' => array( 'url' => trim( $csv[ self::CSV_TARGET ] ) ),
-				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
+				'url' => $source,
+				'action_data' => array( 'url' => $target ),
+				'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $source ),
 				'group_id' => $group->get_id(),
 				'match_type' => 'url',
 				'action_type' => $this->get_action_type( $code ),

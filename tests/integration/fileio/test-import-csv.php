@@ -27,6 +27,91 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( $target, $csv );
 	}
 
+	public function testSourceTargetUnescapesProtectedValues() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '[FORMULA] =/source', "[FORMULA] \t@target", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '=/source',
+			'action_data' => array( 'url' => '@target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetUnescapesProtectedValuesAfterWhitespaceTrim() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( " \t[FORMULA] =/source", "\n[FORMULA] @target ", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '=/source',
+			'action_data' => array( 'url' => '@target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetUnescapesProtectedMalformedUtf8() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( "[FORMULA] =\xff/source", '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => "=\xff/source",
+			'action_data' => array( 'url' => '/target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetLeavesSafePrefixedValueAlone() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '[FORMULA] hello', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '[FORMULA] hello',
+			'action_data' => array( 'url' => '/target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetLeavesEscapedProtectionPrefixAlone() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( '[FORMULA] [FORMULA] =/source', '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '[FORMULA] =/source',
+			'action_data' => array( 'url' => '/target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
 	public function testSourceTargetRegex() {
 		$importer = new Red_Csv_File();
 		$csv = $importer->csv_as_item( array( '/source.*', '/target' ), Red_Group::get( 1 ) );
@@ -74,13 +159,47 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( 301, $redirect->action_code );
 	}
 
+	public function testWhitespaceOnlySourceIsIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"\t \n\",\"/new\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE action_data='/new'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
+	}
+
+	public function testSourceAndTargetEqualAfterWhitespaceTrimAreIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"/same\",\"\t/same\n\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Red_Csv_File();
+		$count = $importer->load_from_file( $group->get_id(), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE url='/same'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
+	}
+
 	public function testSemicolon() {
 		global $wpdb;
 
 		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
 
 		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
-		$multi = file_get_contents( dirname( __FILE__ ) . '/fixtures/semicolon.csv' );
+		$multi = file_get_contents( __DIR__ . '/fixtures/semicolon.csv' );
 
 		$file = fopen( 'php://memory', 'w+' );
 
