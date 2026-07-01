@@ -27,6 +27,40 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( $target, $csv );
 	}
 
+	public function testSourceTargetUnescapesProtectedValues() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( "\t=/source", "\t\t@target", 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => '=/source',
+			'action_data' => array( 'url' => "\t@target" ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetUnescapesProtectedMalformedUtf8() {
+		$importer = new Red_Csv_File();
+		$csv = $importer->csv_as_item( array( "\t=\xff/source", '/target', 0, 'url', '301', 'url', '2', '' ), Red_Group::get( 1 ) );
+		$target = array(
+			'url' => "=\xff/source",
+			'action_data' => array( 'url' => '/target' ),
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		);
+
+		$this->assertEquals( $target, $csv );
+	}
+
 	public function testSourceTargetRegex() {
 		$importer = new Red_Csv_File();
 		$csv = $importer->csv_as_item( array( '/source.*', '/target' ), Red_Group::get( 1 ) );
@@ -80,7 +114,7 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
 
 		// Changing it here isn't really testing the problem, but it doesnt work otherwise from the CLI (web is fine)
-		$multi = file_get_contents( dirname( __FILE__ ) . '/fixtures/semicolon.csv' );
+		$multi = file_get_contents( __DIR__ . '/fixtures/semicolon.csv' );
 
 		$file = fopen( 'php://memory', 'w+' );
 
