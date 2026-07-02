@@ -3,9 +3,9 @@
 namespace Redirection\ImportExport\Importer;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class Simple301Importer extends PluginImporter {
+class Simple301 extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */

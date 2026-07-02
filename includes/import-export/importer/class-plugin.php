@@ -16,7 +16,7 @@ use Redirection\ImportExport\ImportRedirect;
  *   total: int
  * }
  */
-abstract class PluginImporter {
+abstract class Plugin {
 	/**
 	 * @return ImportResult
 	 */

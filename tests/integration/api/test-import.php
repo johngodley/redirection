@@ -1,8 +1,8 @@
 <?php
 
-use Redirection\ImportExport\Importer\PluginImporterRegistry;
-use Redirection\ImportExport\Importer\SafeRedirectManagerImporter;
-use Redirection\ImportExport\Importer\WordpressOldSlugsImporter;
+use Redirection\ImportExport\Importer\PluginRegistry;
+use Redirection\ImportExport\Importer\SafeRedirectManager;
+use Redirection\ImportExport\Importer\WordpressOldSlugs;
 
 class ImportImportCsvTest extends Redirection_Api_Test {
 	private function get_endpoints() {
@@ -179,8 +179,8 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		update_option( 'permalink_structure', '/%postname%/' );
 		update_post_meta( $post_id, '_wp_old_slug', 'old-import-source' );
 
-		$importer = PluginImporterRegistry::get_importer( 'wordpress-old-slugs' );
-		$this->assertInstanceOf( WordpressOldSlugsImporter::class, $importer );
+		$importer = PluginRegistry::get_importer( 'wordpress-old-slugs' );
+		$this->assertInstanceOf( WordpressOldSlugs::class, $importer );
 
 		try {
 			$preview = $importer->preview_plugin_results(
@@ -245,8 +245,8 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		update_post_meta( $post_id, '_redirect_rule_to', 'https://example.com/safe-target/' );
 		update_post_meta( $post_id, '_redirect_rule_status_code', '301' );
 
-		$importer = PluginImporterRegistry::get_importer( 'safe-redirect-manager' );
-		$this->assertInstanceOf( SafeRedirectManagerImporter::class, $importer );
+		$importer = PluginRegistry::get_importer( 'safe-redirect-manager' );
+		$this->assertInstanceOf( SafeRedirectManager::class, $importer );
 
 		try {
 			$preview = $importer->preview_plugin_results(

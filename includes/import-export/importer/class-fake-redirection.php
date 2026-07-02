@@ -3,9 +3,9 @@
 namespace Redirection\ImportExport\Importer;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class Eps301RedirectsImporter extends PluginImporter {
+class FakeRedirection extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */
@@ -36,27 +36,36 @@ class Eps301RedirectsImporter extends PluginImporter {
 	}
 
 	/**
-	 * @return list<object{type: string, url_to: string, status: string, url_from: string}>
+	 * @return list<object{match: string, to: string, redirect_code?: string}>
 	 */
 	private function get_redirects() {
 		global $wpdb;
 
-		if ( ! $this->table_exists() ) {
+		if ( ! $this->table_exists( 'irrp_redirections' ) ) {
 			return [];
 		}
 
-		$table = $wpdb->prefix . 'redirects';
+		$table = $wpdb->prefix . 'irrp_redirections';
+		$meta_table = $wpdb->prefix . 'irrp_redirectionmeta';
+		$join = '';
+
+		if ( $this->table_exists( 'irrp_redirectionmeta' ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$join = $wpdb->prepare( " LEFT JOIN {$meta_table} AS meta ON meta.redirect_id = redirects.id AND meta.meta_key = %s", 'redirect_code' );
+		}
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return $wpdb->get_results( "SELECT * FROM {$table} WHERE `status` != 'inactive'" );
+		return $wpdb->get_results( "SELECT redirects.*, COALESCE( meta.meta_value, '301' ) AS redirect_code FROM {$table} AS redirects{$join} WHERE redirects.`status` = 1 AND redirects.`type` = 'redirection'" );
 	}
 
 	/**
+	 * @param string $table_name Table name without prefix.
 	 * @return bool
 	 */
-	private function table_exists() {
+	private function table_exists( $table_name ) {
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'redirects';
+		$table = $wpdb->prefix . $table_name;
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = %s', $table ) );
 
@@ -64,14 +73,11 @@ class Eps301RedirectsImporter extends PluginImporter {
 	}
 
 	/**
-	 * @param object{type: string, url_to: string, status: string, url_from: string} $redirect Redirect row.
+	 * @param object{match: string, to: string, redirect_code?: string} $redirect Redirect row.
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_redirect( $redirect ) {
-		$target = $redirect->type === 'post' ? get_permalink( intval( $redirect->url_to, 10 ) ) : $redirect->url_to;
-		$code = intval( $redirect->status, 10 );
-
-		return $this->mapper->eps301( $redirect->url_from, $target, $code );
+		return $this->mapper->fake_redirection( $redirect );
 	}
 
 	/**
@@ -80,19 +86,19 @@ class Eps301RedirectsImporter extends PluginImporter {
 	public function get_data() {
 		global $wpdb;
 
-		if ( ! $this->table_exists() ) {
+		if ( ! $this->table_exists( 'irrp_redirections' ) ) {
 			return false;
 		}
 
-		$table = $wpdb->prefix . 'redirects';
+		$table = $wpdb->prefix . 'irrp_redirections';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$table} WHERE `status` != 'inactive'" );
+		$total = $wpdb->get_var( "SELECT COUNT(*) FROM {$table} WHERE `status` = 1 AND `type` = 'redirection'" );
 
 		if ( $total !== null && intval( $total, 10 ) > 0 ) {
 			return array(
-				'id' => 'eps-301-redirects',
-				'name' => '301 Redirects',
-				'description' => __( 'Redirects stored by 301 Redirects.', 'redirection' ),
+				'id' => 'fake-redirection',
+				'name' => 'Fake Redirection',
+				'description' => __( 'Redirects stored by Redirect Redirection.', 'redirection' ),
 				'source' => __( 'Database tables', 'redirection' ),
 				'total' => intval( $total, 10 ),
 			);

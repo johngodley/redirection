@@ -2,7 +2,7 @@
 
 namespace Redirection\ImportExport\Importer;
 
-class RankMathImporter extends PluginImporter {
+class RankMath extends Plugin {
 	/**
 	 * @return bool
 	 */

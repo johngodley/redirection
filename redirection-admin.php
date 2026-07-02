@@ -505,17 +505,9 @@ class Redirection_Admin {
 	}
 
 	/**
-	 * @return array{importers: list<array{id: string, name: string, total: int}>}|array{pluginStatus: array<string, mixed>}|array{}
+	 * @return array{pluginStatus: array<string, mixed>}|array{}
 	 */
 	private function get_preload_data(): array {
-		$status = new Red_Database_Status();
-
-		if ( $status->needs_installing() ) {
-			return [
-				'importers' => \Redirection\ImportExport\Importer\PluginImporterRegistry::get_plugins(),
-			];
-		}
-
 		if ( $this->get_current_page() === 'support' ) {
 			require_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 

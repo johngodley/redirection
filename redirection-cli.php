@@ -144,7 +144,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			'delete_source' => $this->get_boolean_flag( $extra, 'delete-source' ),
 		];
 
-		$importer = \Redirection\ImportExport\Importer\PluginImporterRegistry::get_importer( $name );
+		$importer = \Redirection\ImportExport\Importer\PluginRegistry::get_importer( $name );
 		if ( $importer !== false && $group !== false ) {
 			$results = $importer->import_plugin( $group, $options );
 			$this->display_import_results( $name, 'plugin', $results );

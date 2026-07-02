@@ -1,5 +1,7 @@
 <?php
 
+use Brain\Monkey\Functions;
+
 require_once PLUGIN_PATH . '/tests/unit/stubs/class-test-import-group-item.php';
 require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-group.php';
 require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-item.php';
@@ -26,20 +28,20 @@ require_once PLUGIN_PATH . '/includes/import-export/format/class-csv.php';
 require_once PLUGIN_PATH . '/includes/import-export/format/class-json.php';
 require_once PLUGIN_PATH . '/includes/import-export/format/class-nginx.php';
 require_once PLUGIN_PATH . '/includes/import-export/format/class-rss.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin-importer-registry.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin-registry.php';
 require_once PLUGIN_PATH . '/includes/import-export/importer/class-redirect-item-mapper.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-eps301-redirects-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-fake-redirection-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-pretty-links-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-quick-redirects-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-rank-math-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-safe-redirect-manager-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-seo-redirection-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-seopress-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-simple301-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-slim-seo-importer.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-wordpress-old-slugs-importer.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-eps301-redirects.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-fake-redirection.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-pretty-links.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-quick-redirects.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-rank-math.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-safe-redirect-manager.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-seo-redirection.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-seopress.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-simple301.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-slim-seo.php';
+require_once PLUGIN_PATH . '/includes/import-export/importer/class-wordpress-old-slugs.php';
 
 use Redirection\ImportExport\Format\Apache;
 use Redirection\ImportExport\Format\Csv;
@@ -47,10 +49,11 @@ use Redirection\ImportExport\Format\Json;
 use Redirection\ImportExport\Format\Nginx;
 use Redirection\ImportExport\Format\Rss;
 use Redirection\ImportExport\FormatFactory;
-use Redirection\ImportExport\Importer\Eps301RedirectsImporter;
-use Redirection\ImportExport\Importer\FakeRedirectionImporter;
-use Redirection\ImportExport\Importer\PluginImporter;
-use Redirection\ImportExport\Importer\PluginImporterRegistry;
+use Redirection\ImportExport\Importer\Eps301Redirects;
+use Redirection\ImportExport\Importer\FakeRedirection;
+use Redirection\ImportExport\Importer\Plugin;
+use Redirection\ImportExport\Importer\PluginRegistry;
+use Redirection\ImportExport\Importer\QuickRedirects;
 use Redirection\ImportExport\Importer\RedirectItemMapper;
 
 /**
@@ -103,9 +106,9 @@ class PluginImporterUnitTest extends TestCase {
 	}
 
 	public function testPluginImporterRegistryReturnsKnownImporters() {
-		$this->assertInstanceOf( Eps301RedirectsImporter::class, PluginImporterRegistry::get_importer( 'eps-301-redirects' ) );
-		$this->assertInstanceOf( FakeRedirectionImporter::class, PluginImporterRegistry::get_importer( 'fake-redirection' ) );
-		$this->assertFalse( PluginImporterRegistry::get_importer( 'not-a-plugin' ) );
+		$this->assertInstanceOf( Eps301Redirects::class, PluginRegistry::get_importer( 'eps-301-redirects' ) );
+		$this->assertInstanceOf( FakeRedirection::class, PluginRegistry::get_importer( 'fake-redirection' ) );
+		$this->assertFalse( PluginRegistry::get_importer( 'not-a-plugin' ) );
 	}
 
 	public function testFormatFactoryReturnsExpectedExporters() {
@@ -139,6 +142,19 @@ class PluginImporterUnitTest extends TestCase {
 		$this->assertSame( 'https://example.com/target/', $result['action_data']['url'] );
 		$this->assertFalse( $result['regex'] );
 		$this->assertSame( 301, $result['action_code'] );
+	}
+
+	public function testQuickRedirectsImporterIgnoresMalformedOptionValues() {
+		Functions\when( 'get_option' )->justReturn( 'not-an-array' );
+
+		$importer = new class() extends QuickRedirects {
+			public function get_items() {
+				return $this->get_redirect_items();
+			}
+		};
+
+		$this->assertSame( [], $importer->get_items() );
+		$this->assertFalse( $importer->get_data() );
 	}
 
 	public function testSlimSeoImporterRejectsDisabledOrIncompleteRedirects() {
@@ -405,7 +421,7 @@ class PluginImporterUnitTest extends TestCase {
 	}
 
 	public function testPreviewPluginResultsReturnsEmptyWhenPreviewNotSupported() {
-		$importer = new class() extends PluginImporter {
+		$importer = new class() extends Plugin {
 			public function get_data() {
 				return false;
 			}
@@ -429,7 +445,7 @@ class PluginImporterUnitTest extends TestCase {
 		global $wpdb;
 
 		$wpdb = $this->get_wpdb();
-		$importer = new class() extends PluginImporter {
+		$importer = new class() extends Plugin {
 			public function supports_preview() {
 				return true;
 			}
@@ -465,7 +481,7 @@ class PluginImporterUnitTest extends TestCase {
 		global $wpdb;
 
 		$wpdb = $this->get_wpdb();
-		$importer = new class() extends PluginImporter {
+		$importer = new class() extends Plugin {
 			protected function get_redirect_items() {
 				return [
 					[

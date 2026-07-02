@@ -1,7 +1,7 @@
 <?php
 
 use Redirection\ImportExport\ImportService;
-use Redirection\ImportExport\Importer\PluginImporterRegistry;
+use Redirection\ImportExport\Importer\PluginRegistry;
 
 /**
  * @api {get} /redirection/v1/import/file/:group_id Import redirects
@@ -169,7 +169,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return array{importers: array}
 	 */
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		return array( 'importers' => PluginImporterRegistry::get_plugins() );
+		return array( 'importers' => PluginRegistry::get_plugins() );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		}
 
 		foreach ( $plugins as $plugin ) {
-			$result = PluginImporterRegistry::import( $plugin, $group_id, $options );
+			$result = PluginRegistry::import( $plugin, $group_id, $options );
 			$total['created'] += $result['created'];
 			$total['updated'] += $result['updated'];
 			$total['ignored'] += $result['ignored'];
@@ -289,7 +289,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			);
 		}
 
-		return PluginImporterRegistry::preview( $plugin, $group_id, $options );
+		return PluginRegistry::preview( $plugin, $group_id, $options );
 	}
 
 	/**

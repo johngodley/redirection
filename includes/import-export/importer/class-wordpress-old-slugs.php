@@ -6,9 +6,9 @@ use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class WordpressOldSlugsImporter extends PluginImporter {
+class WordpressOldSlugs extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */

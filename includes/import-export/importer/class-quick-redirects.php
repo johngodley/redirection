@@ -3,9 +3,9 @@
 namespace Redirection\ImportExport\Importer;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class QuickRedirectsImporter extends PluginImporter {
+class QuickRedirects extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */
@@ -29,6 +29,10 @@ class QuickRedirectsImporter extends PluginImporter {
 		$redirects = get_option( 'quickppr_redirects' );
 		$items = array();
 
+		if ( ! is_array( $redirects ) ) {
+			return $items;
+		}
+
 		foreach ( $redirects as $source => $target ) {
 			$items[] = $this->mapper->quick_redirects( $source, $target );
 		}
@@ -44,7 +48,7 @@ class QuickRedirectsImporter extends PluginImporter {
 	public function get_data() {
 		$data = get_option( 'quickppr_redirects' );
 
-		if ( $data !== false ) {
+		if ( is_array( $data ) ) {
 			return array(
 				'id' => 'quick-redirects',
 				'name' => 'Quick Page/Post Redirects',

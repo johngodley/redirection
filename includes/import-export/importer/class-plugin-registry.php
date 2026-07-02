@@ -7,22 +7,22 @@ use Redirection\ImportExport\FormatHandler;
 /**
  * @phpstan-import-type ImportResult from FormatHandler
  */
-class PluginImporterRegistry {
+class PluginRegistry {
 	/**
-	 * @var array<string, class-string<PluginImporter>>
+	 * @var array<string, class-string<Plugin>>
 	 */
 	private const IMPORTERS = array(
-		'wp-simple-redirect' => Simple301Importer::class,
-		'seo-redirection' => SeoRedirectionImporter::class,
-		'safe-redirect-manager' => SafeRedirectManagerImporter::class,
-		'wordpress-old-slugs' => WordpressOldSlugsImporter::class,
-		'rank-math' => RankMathImporter::class,
-		'quick-redirects' => QuickRedirectsImporter::class,
-		'pretty-links' => PrettyLinksImporter::class,
-		'seopress' => SeopressImporter::class,
-		'slim-seo' => SlimSeoImporter::class,
-		'eps-301-redirects' => Eps301RedirectsImporter::class,
-		'fake-redirection' => FakeRedirectionImporter::class,
+		'wp-simple-redirect' => Simple301::class,
+		'seo-redirection' => SeoRedirection::class,
+		'safe-redirect-manager' => SafeRedirectManager::class,
+		'wordpress-old-slugs' => WordpressOldSlugs::class,
+		'rank-math' => RankMath::class,
+		'quick-redirects' => QuickRedirects::class,
+		'pretty-links' => PrettyLinks::class,
+		'seopress' => Seopress::class,
+		'slim-seo' => SlimSeo::class,
+		'eps-301-redirects' => Eps301Redirects::class,
+		'fake-redirection' => FakeRedirection::class,
 	);
 
 	/**
@@ -33,7 +33,7 @@ class PluginImporterRegistry {
 
 		foreach ( array_keys( self::IMPORTERS ) as $importer_id ) {
 			$importer = self::get_importer( $importer_id );
-			if ( ! $importer instanceof PluginImporter ) {
+			if ( ! $importer instanceof Plugin ) {
 				continue;
 			}
 
@@ -80,7 +80,7 @@ class PluginImporterRegistry {
 	 * Get an importer instance by ID.
 	 *
 	 * @param string $id Importer identifier.
-	 * @return PluginImporter|false
+	 * @return Plugin|false
 	 */
 	public static function get_importer( string $id ) {
 		if ( ! isset( self::IMPORTERS[ $id ] ) ) {

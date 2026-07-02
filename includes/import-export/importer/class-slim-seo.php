@@ -3,9 +3,9 @@
 namespace Redirection\ImportExport\Importer;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class SlimSeoImporter extends PluginImporter {
+class SlimSeo extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */

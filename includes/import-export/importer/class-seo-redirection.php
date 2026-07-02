@@ -3,9 +3,9 @@
 namespace Redirection\ImportExport\Importer;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class SeoRedirectionImporter extends PluginImporter {
+class SeoRedirection extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */

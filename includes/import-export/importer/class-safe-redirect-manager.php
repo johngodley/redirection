@@ -6,9 +6,9 @@ use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 
 /**
- * @phpstan-import-type ImporterInfo from PluginImporter
+ * @phpstan-import-type ImporterInfo from Plugin
  */
-class SafeRedirectManagerImporter extends PluginImporter {
+class SafeRedirectManager extends Plugin {
 	/**
 	 * @var RedirectItemMapper
 	 */
