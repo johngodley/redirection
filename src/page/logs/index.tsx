@@ -81,9 +81,9 @@ function Logs() {
 
 	// Derive status from Query states
 	let status = STATUS_IDLE;
-	if ( isLoading ) {
+	if ( isLoading && ! logData ) {
 		status = STATUS_LOADING;
-	} else if ( isSuccess ) {
+	} else if ( isSuccess || logData ) {
 		status = STATUS_COMPLETE;
 	}
 

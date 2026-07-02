@@ -54,7 +54,7 @@ function Groups() {
 	const total = groupData?.total ?? 0;
 
 	// Derive status from Query states
-	const status: 'loading' | 'complete' = isLoading ? 'loading' : 'complete';
+	const status: 'loading' | 'complete' = isLoading && ! groupData ? 'loading' : 'complete';
 
 	const handleChangePage = ( page: number ) => {
 		setGroupsTable( { page, selected: [], selectAll: false } );

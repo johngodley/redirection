@@ -5,6 +5,7 @@ import { RedirectListResponseSchema, type RedirectListResponse } from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { cleanApiParams } from '../utils';
+import { useMessageStore } from 'stores';
 
 /**
  * Query hook for fetching redirects list
@@ -22,13 +23,16 @@ export function useRedirectList(
 		queryKey: queryKeys.redirects.list( cleanedParams ),
 		refetchOnMount: 'always',
 		refetchOnReconnect: true,
+		placeholderData: ( previousData ) => previousData,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.redirect.list( cleanedParams ) );
 				// Validate response with Zod
 				return RedirectListResponseSchema.parse( response );
 			} catch ( error ) {
-				throw handleApiError( error );
+				const handledError = handleApiError( error );
+				useMessageStore.getState().addError( handledError.message || 'Failed to fetch redirects' );
+				throw handledError;
 			}
 		},
 		...options,
