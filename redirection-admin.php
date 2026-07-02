@@ -511,10 +511,8 @@ class Redirection_Admin {
 		$status = new Red_Database_Status();
 
 		if ( $status->needs_installing() ) {
-			include_once __DIR__ . '/models/importer.php';
-
 			return [
-				'importers' => Red_Plugin_Importer::get_plugins(),
+				'importers' => \Redirection\ImportExport\Importer\PluginImporterRegistry::get_plugins(),
 			];
 		}
 

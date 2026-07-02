@@ -130,7 +130,7 @@ class ExportService {
 		$bundle = $this->get_bundle_export_data( $types, $options );
 
 		return [
-			'data' => wp_json_encode( $bundle['data'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . PHP_EOL,
+			'data' => $this->encode_json_export( $bundle['data'] ),
 			'total' => $bundle['total'],
 		];
 	}
@@ -374,53 +374,16 @@ class ExportService {
 	 * @return array{data: array<string, mixed>, total: int}
 	 */
 	private function get_bundle_export_data( array $types, array $options ) {
-		$details = ExportDetails::get();
-		$data = [
-			'plugin' => [
-				'version' => $details['version'],
-				'date' => $details['date'],
-			],
-		];
+		$data = $this->get_bundle_export_header();
 		$total = 0;
 		$redirect_scope_type = isset( $options['scope_type'] ) ? $options['scope_type'] : 'all';
 		$redirect_scope_value = isset( $options['scope_value'] ) ? $options['scope_value'] : 'all';
 
-		if ( in_array( 'redirect', $types, true ) ) {
-			$redirect_data = $this->get_export_data_for_scope( $redirect_scope_type, $redirect_scope_value );
-
-			if ( $redirect_data !== false ) {
-				$data['groups'] = $redirect_data['groups'];
-				$data['redirects'] = array_map(
-					static function ( \Red_Item $item ) {
-						return $item->to_json();
-					},
-					$redirect_data['items']
-				);
-				$total += count( $redirect_data['items'] );
-
-				if ( in_array( self::BUNDLE_GROUPS, $types, true ) ) {
-					$total += count( $redirect_data['groups'] );
-				}
-			}
-		} elseif ( in_array( self::BUNDLE_GROUPS, $types, true ) ) {
-			$data['groups'] = $this->groups->get_all_for_export();
-			$total += count( $data['groups'] );
-		}
-
-		if ( in_array( 'log', $types, true ) ) {
-			$data['logs'] = \Red_Redirect_Log::get_export_bundle_rows();
-			$total += count( $data['logs'] );
-		}
-
-		if ( in_array( '404', $types, true ) ) {
-			$data['errors_404'] = \Red_404_Log::get_export_bundle_rows();
-			$total += count( $data['errors_404'] );
-		}
-
-		if ( in_array( self::BUNDLE_SETTINGS, $types, true ) ) {
-			$data['settings'] = \Red_Options::get();
-			$total += count( $data['settings'] );
-		}
+		$this->append_bundle_redirects( $data, $total, $types, $redirect_scope_type, $redirect_scope_value );
+		$this->append_bundle_groups( $data, $total, $types );
+		$this->append_bundle_logs( $data, $total, $types );
+		$this->append_bundle_404s( $data, $total, $types );
+		$this->append_bundle_settings( $data, $total, $types );
 
 		return [
 			'data' => $data,
@@ -433,21 +396,18 @@ class ExportService {
 	 * @return string
 	 */
 	private function get_groups_csv( array $groups ) {
-		$rows = [ 'id,name,module_id,status' ];
+		$rows = [];
 
 		foreach ( $groups as $group ) {
-			$rows[] = implode(
-				',',
-				[
-					intval( $group['id'], 10 ),
-					'"' . str_replace( '"', '""', strval( $group['name'] ) ) . '"',
-					intval( $group['module_id'], 10 ),
-					'"' . str_replace( '"', '""', strval( $group['status'] ) ) . '"',
-				]
-			);
+			$rows[] = [
+				intval( $group['id'], 10 ),
+				strval( $group['name'] ),
+				intval( $group['module_id'], 10 ),
+				strval( $group['status'] ),
+			];
 		}
 
-		return implode( PHP_EOL, $rows ) . PHP_EOL;
+		return $this->build_csv_data( [ 'id', 'name', 'module_id', 'status' ], $rows );
 	}
 
 	/**
@@ -455,17 +415,154 @@ class ExportService {
 	 * @return string
 	 */
 	private function get_groups_json( array $groups ) {
+		return $this->encode_json_export(
+			array_merge(
+				$this->get_bundle_export_header(),
+				[
+					'groups' => $groups,
+				]
+			)
+		);
+	}
+
+	/**
+	 * @return array{plugin: array{version: string, date: string}}
+	 */
+	private function get_bundle_export_header() {
 		$details = ExportDetails::get();
 
-		return wp_json_encode(
-			[
-				'plugin' => [
-					'version' => $details['version'],
-					'date' => $details['date'],
-				],
-				'groups' => $groups,
+		return [
+			'plugin' => [
+				'version' => $details['version'],
+				'date' => $details['date'],
 			],
-			JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-		) . PHP_EOL;
+		];
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @return string
+	 */
+	private function encode_json_export( array $data ) {
+		return wp_json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . PHP_EOL;
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @param int $total
+	 * @param array<int, string> $types
+	 * @param 'all'|'module'|'group' $redirect_scope_type
+	 * @param string|int $redirect_scope_value
+	 * @return void
+	 */
+	private function append_bundle_redirects( array &$data, int &$total, array $types, $redirect_scope_type, $redirect_scope_value ) {
+		if ( ! in_array( 'redirect', $types, true ) ) {
+			return;
+		}
+
+		$redirect_data = $this->get_export_data_for_scope( $redirect_scope_type, $redirect_scope_value );
+		if ( $redirect_data === false ) {
+			return;
+		}
+
+		$data['groups'] = $redirect_data['groups'];
+		$data['redirects'] = array_map(
+			static function ( \Red_Item $item ) {
+				return $item->to_json();
+			},
+			$redirect_data['items']
+		);
+		$total += count( $redirect_data['items'] );
+
+		if ( in_array( self::BUNDLE_GROUPS, $types, true ) ) {
+			$total += count( $redirect_data['groups'] );
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @param int $total
+	 * @param array<int, string> $types
+	 * @return void
+	 */
+	private function append_bundle_groups( array &$data, int &$total, array $types ) {
+		if ( in_array( 'redirect', $types, true ) || ! in_array( self::BUNDLE_GROUPS, $types, true ) ) {
+			return;
+		}
+
+		$data['groups'] = $this->groups->get_all_for_export();
+		$total += count( $data['groups'] );
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @param int $total
+	 * @param array<int, string> $types
+	 * @return void
+	 */
+	private function append_bundle_logs( array &$data, int &$total, array $types ) {
+		if ( ! in_array( 'log', $types, true ) ) {
+			return;
+		}
+
+		$data['logs'] = \Red_Redirect_Log::get_export_bundle_rows();
+		$total += count( $data['logs'] );
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @param int $total
+	 * @param array<int, string> $types
+	 * @return void
+	 */
+	private function append_bundle_404s( array &$data, int &$total, array $types ) {
+		if ( ! in_array( '404', $types, true ) ) {
+			return;
+		}
+
+		$data['errors_404'] = \Red_404_Log::get_export_bundle_rows();
+		$total += count( $data['errors_404'] );
+	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 * @param int $total
+	 * @param array<int, string> $types
+	 * @return void
+	 */
+	private function append_bundle_settings( array &$data, int &$total, array $types ) {
+		if ( ! in_array( self::BUNDLE_SETTINGS, $types, true ) ) {
+			return;
+		}
+
+		$data['settings'] = \Red_Options::get_import_export_options();
+		$total += count( $data['settings'] );
+	}
+
+	/**
+	 * @param array<int, string> $header
+	 * @param array<int, array<int, string|int>> $rows
+	 * @return string
+	 */
+	private function build_csv_data( array $header, array $rows ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
+		$stdout = fopen( 'php://temp', 'w+' );
+		if ( $stdout === false ) {
+			return '';
+		}
+
+		fputcsv( $stdout, $header );
+
+		foreach ( $rows as $row ) {
+			fputcsv( $stdout, $row );
+		}
+
+		rewind( $stdout );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
+		$data = stream_get_contents( $stdout );
+		fclose( $stdout );
+
+		return $data === false ? '' : $data;
 	}
 }

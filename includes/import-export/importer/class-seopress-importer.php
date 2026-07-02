@@ -1,96 +1,31 @@
 <?php
 
+namespace Redirection\ImportExport\Importer;
+
 /**
- * @phpstan-import-type ImporterInfo from Red_Plugin_Importer
+ * @phpstan-import-type ImporterInfo from PluginImporter
  */
-class Red_SEOPress_Importer extends Red_Plugin_Importer {
+class SeopressImporter extends PluginImporter {
+	/**
+	 * @var RedirectItemMapper
+	 */
+	private $mapper;
+
+	public function __construct( ?RedirectItemMapper $mapper = null ) {
+		$this->mapper = $mapper ? $mapper : new RedirectItemMapper();
+	}
+
 	/**
 	 * @return bool
 	 */
-	protected function supports_preview() {
+	public function supports_preview() {
 		return true;
 	}
 
 	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return array<int, array<string, mixed>|false>
 	 */
-	public function preview_plugin_results( $group_id, array $options = [] ) {
-		return $this->preview_redirect_items( $group_id, $options, $this->get_redirect_items() );
-	}
-
-	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 */
-	public function import_plugin( $group_id, array $options = [] ) {
-		return $this->import_redirect_items( $group_id, $options, $this->get_redirect_items() );
-	}
-
-	/**
-	 * @return array<int, array<string, mixed>>
-	 */
-	private function get_redirect_items() {
+	protected function get_redirect_items() {
 		$items = [];
 
 		foreach ( $this->get_redirect_posts() as $post_id ) {
@@ -186,18 +121,11 @@ class Red_SEOPress_Importer extends Red_Plugin_Importer {
 		$target = get_post_meta( $post_id, '_seopress_redirections_value', true );
 		$code = intval( get_post_meta( $post_id, '_seopress_redirections_type', true ), 10 );
 
-		if ( $source === false || empty( $target ) || $code === 0 ) {
+		if ( $source === false ) {
 			return false;
 		}
 
-		return array(
-			'url' => $this->get_path( $source ),
-			'action_data' => array( 'url' => $target ),
-			'regex' => false,
-			'match_type' => 'url',
-			'action_type' => 'url',
-			'action_code' => $code,
-		);
+		return $this->mapper->seopress_content( $source, (string) $target, $code );
 	}
 
 	/**
@@ -209,18 +137,11 @@ class Red_SEOPress_Importer extends Red_Plugin_Importer {
 		$target = get_term_meta( $term_id, '_seopress_redirections_value', true );
 		$code = intval( get_term_meta( $term_id, '_seopress_redirections_type', true ), 10 );
 
-		if ( is_wp_error( $source ) || empty( $target ) || $code === 0 ) {
+		if ( is_wp_error( $source ) ) {
 			return false;
 		}
 
-		return array(
-			'url' => $this->get_path( $source ),
-			'action_data' => array( 'url' => $target ),
-			'regex' => false,
-			'match_type' => 'url',
-			'action_type' => 'url',
-			'action_code' => $code,
-		);
+		return $this->mapper->seopress_content( $source, (string) $target, $code );
 	}
 
 	/**
@@ -231,38 +152,7 @@ class Red_SEOPress_Importer extends Red_Plugin_Importer {
 		$target = get_post_meta( $post->ID, '_seopress_redirections_value', true );
 		$code = intval( get_post_meta( $post->ID, '_seopress_redirections_type', true ), 10 );
 		$regex = get_post_meta( $post->ID, '_seopress_redirections_enabled_regex', true ) === 'yes';
-		$source = $post->post_title;
-
-		if ( empty( $target ) || empty( $source ) || $code === 0 ) {
-			return false;
-		}
-
-		if ( ! $regex && substr( $source, 0, 1 ) !== '/' ) {
-			$source = '/' . ltrim( $source, '/' );
-		}
-
-		return array(
-			'url' => $source,
-			'action_data' => array( 'url' => $target ),
-			'regex' => $regex,
-			'match_type' => 'url',
-			'action_type' => 'url',
-			'action_code' => $code,
-		);
-	}
-
-	/**
-	 * @param string $url URL.
-	 * @return string
-	 */
-	private function get_path( $url ) {
-		$path = wp_parse_url( $url, PHP_URL_PATH );
-
-		if ( ! is_string( $path ) || $path === '' ) {
-			return '/';
-		}
-
-		return $path;
+		return $this->mapper->seopress_404( $post->post_title, (string) $target, $code, $regex );
 	}
 
 	/**

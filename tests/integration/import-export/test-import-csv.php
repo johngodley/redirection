@@ -5,6 +5,40 @@ use Redirection\ImportExport\ImportRedirect;
 use Redirection\ImportExport\Format\Csv;
 
 class ImportCsvTest extends WP_UnitTestCase {
+	public function testSourceTargetUnescapesProtectedValues() {
+		$importer = new Csv();
+		$csv = $importer->csv_as_item( [ '[FORMULA] =/source', " \t[FORMULA] @target ", 0, 'url', '301', 'url', '2', '' ], Red_Group::get( 1 ) );
+		$target = [
+			'url' => '=/source',
+			'action_data' => [ 'url' => '@target' ],
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		];
+
+		$this->assertEquals( $target, $csv );
+	}
+
+	public function testSourceTargetLeavesEscapedProtectionPrefixAlone() {
+		$importer = new Csv();
+		$csv = $importer->csv_as_item( [ '[FORMULA] [FORMULA] =/source', '/target', 0, 'url', '301', 'url', '2', '' ], Red_Group::get( 1 ) );
+		$target = [
+			'url' => '[FORMULA] =/source',
+			'action_data' => [ 'url' => '/target' ],
+			'regex' => false,
+			'group_id' => 1,
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'status' => 'enabled',
+		];
+
+		$this->assertEquals( $target, $csv );
+	}
+
 	public function testCreateRedirect() {
 		global $wpdb;
 
@@ -22,6 +56,40 @@ class ImportCsvTest extends WP_UnitTestCase {
 		$this->assertEquals( '/old', $redirect->url );
 		$this->assertEquals( '/new', $redirect->action_data );
 		$this->assertEquals( 301, $redirect->action_code );
+	}
+
+	public function testWhitespaceOnlySourceIsIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"\t \n\",\"/new\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Csv();
+		$count = $importer->load_from_file( new ImportGroup( $group->get_id() ), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE action_data='/new'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
+	}
+
+	public function testSourceAndTargetEqualAfterWhitespaceTrimAreIgnored() {
+		global $wpdb;
+
+		$group = Red_Group::create( 'group', Red_Group::get( 1 )->get_module_id() );
+
+		$file = fopen( 'php://memory', 'w+' );
+		fwrite( $file, "\"/same\",\"\t/same\n\",\"0\",\"301\",\"url\",\"2\",\"\"" );
+		rewind( $file );
+
+		$importer = new Csv();
+		$count = $importer->load_from_file( new ImportGroup( $group->get_id() ), $file, ',' );
+		$redirect = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE url='/same'" );
+
+		$this->assertEquals( 0, $count );
+		$this->assertEquals( 0, intval( $redirect, 10 ) );
 	}
 
 	public function testSemicolon() {

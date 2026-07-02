@@ -48,9 +48,10 @@ function ImportOptions( {
 			? [ { value: '0', label: __( 'Use groups in file', 'redirection' ) }, ...items ]
 			: items;
 	const jsonSections = fileInfo?.format === 'json' && fileInfo.valid && fileInfo.contents ? fileInfo.contents : null;
+	const hasRedirectCsv = fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
 	const hasRedirectSection = jsonSections
 		? Number( jsonSections.redirects || 0 ) > 0 && selectedSections.includes( 'redirects' )
-		: activeImportType !== 'file';
+		: activeImportType === 'plugin' || hasRedirectCsv;
 
 	return (
 		<fieldset className="groups inline-edit-row" disabled={ disabled }>

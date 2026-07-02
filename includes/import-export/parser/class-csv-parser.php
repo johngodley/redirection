@@ -2,6 +2,8 @@
 
 namespace Redirection\ImportExport\Parser;
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * Parse CSV rows into redirect payloads.
  *
@@ -23,6 +25,23 @@ class CsvParser {
 	const CSV_CODE = 3;
 
 	/**
+	 * @var CsvSanitizer
+	 */
+	private $sanitizer;
+
+	public function __construct( ?CsvSanitizer $sanitizer = null ) {
+		$this->sanitizer = $sanitizer ? $sanitizer : new CsvSanitizer();
+	}
+
+	/**
+	 * @param string $value
+	 * @return string
+	 */
+	private function normalize_import_value( $value ) {
+		return trim( $this->sanitizer->unescape( trim( $value ) ) );
+	}
+
+	/**
 	 * @param array<int, string> $csv
 	 * @param \Red_Group|false|null $group
 	 * @return CsvItem|false
@@ -33,11 +52,13 @@ class CsvParser {
 		}
 
 		$code = isset( $csv[ self::CSV_CODE ] ) ? $this->get_valid_code( $csv[ self::CSV_CODE ] ) : 301;
+		$source = $this->normalize_import_value( $csv[ self::CSV_SOURCE ] );
+		$target = $this->normalize_import_value( $csv[ self::CSV_TARGET ] );
 
 		return [
-			'url' => trim( $csv[ self::CSV_SOURCE ] ),
-			'action_data' => [ 'url' => trim( $csv[ self::CSV_TARGET ] ) ],
-			'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $csv[ self::CSV_SOURCE ] ),
+			'url' => $source,
+			'action_data' => [ 'url' => $target ],
+			'regex' => isset( $csv[ self::CSV_REGEX ] ) ? $this->parse_regex( $csv[ self::CSV_REGEX ] ) : $this->is_regex( $source ),
 			'group_id' => is_object( $group ) && method_exists( $group, 'get_id' ) ? $group->get_id() : 0,
 			'match_type' => 'url',
 			'action_type' => $this->get_action_type( $code ),

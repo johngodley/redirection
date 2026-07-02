@@ -1,72 +1,38 @@
 <?php
 
+namespace Redirection\ImportExport\Importer;
+
 /**
- * @phpstan-import-type ImporterInfo from Red_Plugin_Importer
+ * @phpstan-import-type ImporterInfo from PluginImporter
  */
-class Red_FakeRedirection_Importer extends Red_Plugin_Importer {
+class FakeRedirectionImporter extends PluginImporter {
+	/**
+	 * @var RedirectItemMapper
+	 */
+	private $mapper;
+
+	public function __construct( ?RedirectItemMapper $mapper = null ) {
+		$this->mapper = $mapper ? $mapper : new RedirectItemMapper();
+	}
+
 	/**
 	 * @return bool
 	 */
-	protected function supports_preview() {
+	public function supports_preview() {
 		return true;
 	}
 
 	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return array<int, array<string, mixed>|false>
 	 */
-	public function preview_plugin_results( $group_id, array $options = [] ) {
+	protected function get_redirect_items() {
 		$items = array();
 
 		foreach ( $this->get_redirects() as $redirect ) {
 			$items[] = $this->get_item_for_redirect( $redirect );
 		}
 
-		return $this->preview_redirect_items( $group_id, $options, $items );
-	}
-
-	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 */
-	public function import_plugin( $group_id, array $options = [] ) {
-		$items = array();
-
-		foreach ( $this->get_redirects() as $redirect ) {
-			$items[] = $this->get_item_for_redirect( $redirect );
-		}
-
-		return $this->import_redirect_items( $group_id, $options, $items );
+		return $items;
 	}
 
 	/**
@@ -111,22 +77,7 @@ class Red_FakeRedirection_Importer extends Red_Plugin_Importer {
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_redirect( $redirect ) {
-		$source = (string) $redirect->match;
-		$target = (string) $redirect->to;
-		$code = isset( $redirect->redirect_code ) ? intval( $redirect->redirect_code, 10 ) : 301;
-
-		if ( $source === '' || $target === '' || $code === 0 ) {
-			return false;
-		}
-
-		return array(
-			'url' => $source,
-			'action_data' => array( 'url' => $target ),
-			'regex' => false,
-			'match_type' => 'url',
-			'action_type' => 'url',
-			'action_code' => $code,
-		);
+		return $this->mapper->fake_redirection( $redirect );
 	}
 
 	/**

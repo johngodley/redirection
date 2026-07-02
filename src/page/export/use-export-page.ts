@@ -50,7 +50,7 @@ const EXPORT_TYPES: ExportTypeOption[] = [
 	{
 		id: 'setting',
 		name: __( 'Settings', 'redirection' ),
-		description: __( 'Export plugin settings and site-level Redirection options.', 'redirection' ),
+		description: __( 'Export a portable subset of plugin settings and site-level Redirection options.', 'redirection' ),
 		formats: [ 'json' ],
 	},
 ];

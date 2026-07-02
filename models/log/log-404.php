@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * @phpstan-type Log404Row object{
  *   id: int,
@@ -93,13 +95,15 @@ class Red_404_Log extends Red_Log {
 	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
+		$sanitizer = new CsvSanitizer();
+
 		/** @var Log404Row $row */
 		return [
-			$row->created,
-			$row->url,
-			$row->ip,
-			$row->referrer,
-			$row->agent,
+			$sanitizer->escape( $row->created ),
+			$sanitizer->escape( $row->url ),
+			$sanitizer->escape( $row->ip ),
+			$sanitizer->escape( $row->referrer ),
+			$sanitizer->escape( $row->agent ),
 		];
 	}
 }

@@ -1,5 +1,6 @@
 <?php
 
+require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-htaccess-sanitizer.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-encoder.php';
 
 use Redirection\ImportExport\HtaccessEncoder;
@@ -21,11 +22,5 @@ class HtaccessEncoderTest extends TestCase {
 		$encoder = new HtaccessEncoder();
 
 		$this->assertEquals( '^contact-us(/.*)?$', $encoder->encode_regex( '^/contact-us(/.*)?$' ) );
-	}
-
-	public function testSanitizeRedirectRemovesUnsafeSequences() {
-		$encoder = new HtaccessEncoder();
-
-		$this->assertEquals( 'RewriteRuletestalert(1)', $encoder->sanitize_redirect( "RewriteRule\ttest\t<?alert(1)>" ) );
 	}
 }

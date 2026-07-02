@@ -60,11 +60,57 @@ class ImportGroupUnitTest extends TestCase {
 		$this->assertEquals( 1, $import_group->get_groups_created() );
 	}
 
-	public function testDryRunDoesNotCreateFallbackGroup() {
+	public function testDryRunCreatesPreviewFallbackGroupOncePerMissingFileGroupId() {
 		$repository = $this->get_repository();
 		$import_group = new ImportGroup( 0, [ 'dry_run' => true ], $repository );
 
-		$this->assertFalse( $import_group->get_group( 555 ) );
+		$first = $import_group->get_group( 555 );
+		$second = $import_group->get_group( 555 );
+
+		$this->assertIsObject( $first );
+		$this->assertEquals( 555, $first->get_id() );
+		$this->assertEquals( 'Group', $first->get_name() );
+		$this->assertTrue( $first->is_enabled() );
+		$this->assertSame( $first, $second );
 		$this->assertCount( 0, $repository->created );
+		$this->assertEquals( 1, $import_group->get_groups_created() );
+	}
+
+	public function testCreatesGroupFromExportedStatusAndCountsIt() {
+		$repository = $this->get_repository();
+		$import_group = new ImportGroup( 0, [], $repository );
+
+		$resolved = $import_group->get_group(
+			55,
+			[
+				'name' => 'Imported disabled',
+				'module_id' => 3,
+				'status' => 'disabled',
+			]
+		);
+
+		$this->assertIsObject( $resolved );
+		$this->assertCount( 1, $repository->created );
+		$this->assertEquals(
+			[
+				'name' => 'Imported disabled',
+				'module_id' => 3,
+				'enabled' => false,
+			],
+			$repository->created[0]
+		);
+		$this->assertEquals( 1, $import_group->get_groups_created() );
+	}
+
+	public function testMissingSelectedGroupOnlyCreatesOneFallbackGroup() {
+		$repository = $this->get_repository();
+		$import_group = new ImportGroup( 7, [], $repository );
+
+		$first = $import_group->get_group();
+		$second = $import_group->get_group();
+
+		$this->assertSame( $first, $second );
+		$this->assertCount( 1, $repository->created );
+		$this->assertEquals( 1, $import_group->get_groups_created() );
 	}
 }

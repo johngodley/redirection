@@ -1,6 +1,7 @@
 <?php
 
 use Redirection\ImportExport\ImportService;
+use Redirection\ImportExport\Importer\PluginImporterRegistry;
 
 /**
  * @api {get} /redirection/v1/import/file/:group_id Import redirects
@@ -168,9 +169,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return array{importers: array}
 	 */
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
-
-		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
+		return array( 'importers' => PluginImporterRegistry::get_plugins() );
 	}
 
 	/**
@@ -199,8 +198,6 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * }|WP_Error
 	 */
 	public function route_plugin_import( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
-
 		$params = $request->get_params();
 		/** @var ImportPluginPayload $params */
 		$plugin_param = $params['plugin'] ?? $request->get_param( 'plugin' );
@@ -239,7 +236,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		}
 
 		foreach ( $plugins as $plugin ) {
-			$result = Red_Plugin_Importer::import( $plugin, $group_id, $options );
+			$result = PluginImporterRegistry::import( $plugin, $group_id, $options );
 			$total['created'] += $result['created'];
 			$total['updated'] += $result['updated'];
 			$total['ignored'] += $result['ignored'];
@@ -275,8 +272,6 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * }|WP_Error
 	 */
 	public function route_plugin_preview( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
-
 		$params = $request->get_params();
 		$plugin = sanitize_text_field( strval( $request->get_param( 'plugin' ) ) );
 		$group_id = isset( $params['group_id'] ) ? intval( $params['group_id'], 10 ) : 0;
@@ -294,7 +289,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			);
 		}
 
-		return Red_Plugin_Importer::preview( $plugin, $group_id, $options );
+		return PluginImporterRegistry::preview( $plugin, $group_id, $options );
 	}
 
 	/**

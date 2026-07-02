@@ -276,6 +276,11 @@ class ImportExportServiceTest extends TestCase {
 				'updated' => 0,
 				'ignored' => 0,
 				'groups_created' => 0,
+				'groups_imported' => 0,
+				'logs_imported' => 0,
+				'errors_imported' => 0,
+				'settings_imported' => 0,
+				'preview' => [],
 			],
 			$result
 		);

@@ -17,6 +17,7 @@ class CsvParserTest extends TestCase {
 		require_once PLUGIN_PATH . '/tests/unit/stubs/class-test-import-group-item.php';
 		require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-group.php';
 		require_once PLUGIN_PATH . '/tests/unit/stubs/functions-http.php';
+		require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-csv-sanitizer.php';
 		require_once PLUGIN_PATH . '/includes/import-export/parser/class-csv-parser.php';
 	}
 
@@ -42,6 +43,25 @@ class CsvParserTest extends TestCase {
 
 		$this->assertTrue( $item['regex'] );
 		$this->assertEquals( 301, $item['action_code'] );
+	}
+
+	public function testParseRowUnescapesProtectedValues() {
+		$parser = new CsvParser();
+		Red_Group::$groups[9] = new Test_Import_Group_Item( 9 );
+		$group = Red_Group::get( 9 );
+
+		$item = $parser->parse_row( [ '[FORMULA] =/source', " \t[FORMULA] @target ", '0', '301' ], $group );
+
+		$this->assertEquals( '=/source', $item['url'] );
+		$this->assertEquals( [ 'url' => '@target' ], $item['action_data'] );
+	}
+
+	public function testParseRowLeavesEscapedProtectionPrefixAlone() {
+		$parser = new CsvParser();
+
+		$item = $parser->parse_row( [ '[FORMULA] [FORMULA] =/source', '/target', '0', '301' ] );
+
+		$this->assertEquals( '[FORMULA] =/source', $item['url'] );
 	}
 
 	public function testParseRowSkipsHeader() {

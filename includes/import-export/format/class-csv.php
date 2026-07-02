@@ -7,6 +7,7 @@ use Redirection\ImportExport\FileReader;
 use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 use Redirection\ImportExport\Parser\CsvParser;
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
 
 /**
  * CSV import/export handler
@@ -36,11 +37,18 @@ class Csv extends FormatHandler {
 	private $files;
 
 	/**
+	 * @var CsvSanitizer
+	 */
+	private $sanitizer;
+
+	/**
 	 * @param CsvParser|null $parser CSV row parser.
 	 * @param FileReader|null $files File reader.
+	 * @param CsvSanitizer|null $sanitizer CSV sanitizer.
 	 */
-	public function __construct( ?CsvParser $parser = null, ?FileReader $files = null ) {
-		$this->parser = $parser ? $parser : new CsvParser();
+	public function __construct( ?CsvParser $parser = null, ?FileReader $files = null, ?CsvSanitizer $sanitizer = null ) {
+		$this->sanitizer = $sanitizer ? $sanitizer : new CsvSanitizer();
+		$this->parser = $parser ? $parser : new CsvParser( $this->sanitizer );
 		$this->files = $files ? $files : new FileReader();
 	}
 
@@ -111,6 +119,8 @@ class Csv extends FormatHandler {
 			return $item;
 		}
 
+		$item = $this->sanitizer->escape( $item );
+
 		return '"' . str_replace( '"', '""', $item ) . '"';
 	}
 
@@ -125,7 +135,11 @@ class Csv extends FormatHandler {
 		unset( $options );
 		$file = $this->files->open_read( $filename );
 
-		if ( $file !== false ) {
+		if ( $file === false ) {
+			return $this->get_import_result( $group, $redirect );
+		}
+
+		try {
 			foreach ( $this->get_separators() as $separator ) {
 				$before = $redirect->get_total_handled();
 				fseek( $file, 0 );
@@ -136,9 +150,11 @@ class Csv extends FormatHandler {
 					return $this->get_import_result( $group, $redirect );
 				}
 			}
-		}
 
-		return $this->get_import_result( $group, $redirect );
+			return $this->get_import_result( $group, $redirect );
+		} finally {
+			fclose( $file );
+		}
 	}
 
 	/**
@@ -164,7 +180,7 @@ class Csv extends FormatHandler {
 		global $wpdb;
 
 		$count = 0;
-		while ( ( $csv = fgetcsv( $file, 5000, $separator ) ) !== false ) {
+		while ( ( $csv = fgetcsv( $file, 5000, $separator, '"', '\\' ) ) !== false ) {
 			if ( $csv === null ) {
 				continue;
 			}

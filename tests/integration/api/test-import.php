@@ -1,6 +1,8 @@
 <?php
 
-use Redirection\ImportExport\FormatFactory;
+use Redirection\ImportExport\Importer\PluginImporterRegistry;
+use Redirection\ImportExport\Importer\SafeRedirectManagerImporter;
+use Redirection\ImportExport\Importer\WordpressOldSlugsImporter;
 
 class ImportImportCsvTest extends Redirection_Api_Test {
 	private function get_endpoints() {
@@ -123,14 +125,6 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		}
 	}
 
-	public function testPluginImporterRegistry() {
-		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
-
-		$this->assertInstanceOf( Red_EPS301Redirects_Importer::class, Red_Plugin_Importer::get_importer( 'eps-301-redirects' ) );
-		$this->assertInstanceOf( Red_FakeRedirection_Importer::class, Red_Plugin_Importer::get_importer( 'fake-redirection' ) );
-		$this->assertFalse( Red_Plugin_Importer::get_importer( 'not-a-plugin' ) );
-	}
-
 	public function testPluginImportWithNoGroups() {
 		global $wpdb;
 
@@ -146,20 +140,6 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 			$this->assertEquals( 400, $result->status );
 		} finally {
 			$latest->create_groups( $wpdb, true );
-		}
-	}
-
-	public function testBadCreate() {
-		$exporter = ( new FormatFactory() )->create( 'monkey' );
-		$this->assertFalse( $exporter );
-	}
-
-	public function testGoodCreate() {
-		$types = [ 'rss', 'csv', 'apache', 'nginx', 'json' ];
-
-		foreach ( $types as $type ) {
-			$exporter = ( new FormatFactory() )->create( $type );
-			$this->assertTrue( $exporter !== false );
 		}
 	}
 
@@ -186,8 +166,6 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	public function testWordPressOldSlugDeleteSourceOnlyRunsOnImport() {
 		global $wpdb;
 
-		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
-
 		$permalink_structure = get_option( 'permalink_structure' );
 		$group = Red_Group::create( 'import-test-group', 1 );
 		$post_id = self::factory()->post->create(
@@ -201,8 +179,8 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		update_option( 'permalink_structure', '/%postname%/' );
 		update_post_meta( $post_id, '_wp_old_slug', 'old-import-source' );
 
-		$importer = Red_Plugin_Importer::get_importer( 'wordpress-old-slugs' );
-		$this->assertInstanceOf( Red_WordPressOldSlug_Importer::class, $importer );
+		$importer = PluginImporterRegistry::get_importer( 'wordpress-old-slugs' );
+		$this->assertInstanceOf( WordpressOldSlugsImporter::class, $importer );
 
 		try {
 			$preview = $importer->preview_plugin_results(
@@ -255,8 +233,6 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	public function testSafeRedirectManagerDeleteSourceOnlyRunsOnImport() {
 		global $wpdb;
 
-		include_once dirname( dirname( dirname( __DIR__ ) ) ) . '/models/importer.php';
-
 		$group = Red_Group::create( 'import-test-group', 1 );
 		$post_id = self::factory()->post->create(
 			[
@@ -269,8 +245,8 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		update_post_meta( $post_id, '_redirect_rule_to', 'https://example.com/safe-target/' );
 		update_post_meta( $post_id, '_redirect_rule_status_code', '301' );
 
-		$importer = Red_Plugin_Importer::get_importer( 'safe-redirect-manager' );
-		$this->assertInstanceOf( Red_SafeRedirectManager_Importer::class, $importer );
+		$importer = PluginImporterRegistry::get_importer( 'safe-redirect-manager' );
+		$this->assertInstanceOf( SafeRedirectManagerImporter::class, $importer );
 
 		try {
 			$preview = $importer->preview_plugin_results(

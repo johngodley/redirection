@@ -9,10 +9,12 @@ export type ImportSniffResult =
 	| {
 			format: 'csv';
 			valid: boolean;
+			type?: 'redirects' | 'groups' | 'logs' | 'errors_404';
+			importSupported?: boolean;
 			separator?: ',' | ';' | '|' | '\t';
 			columns?: number;
 			rows?: number;
-			error?: 'empty-csv' | 'separator-not-detected' | 'read-failed';
+			error?: 'empty-csv' | 'separator-not-detected' | 'unknown-csv-layout' | 'read-failed';
 	  }
 	| {
 			format: 'other';
@@ -141,12 +143,42 @@ export function sniffCsvText( text: string ): ImportSniffResult {
 		};
 	}
 
+	const header = parseCsvLine( sample[ 0 ] || '', detected.separator ).map( normalizeCsvHeader );
+	const csvType = getCsvTypeFromHeader( header );
+
+	if ( csvType === null ) {
+		const firstRow = parseCsvLine( sample[ 0 ] || '', detected.separator );
+
+		if ( looksLikeRedirectCsvRow( firstRow ) ) {
+			return {
+				format: 'csv',
+				valid: true,
+				type: 'redirects',
+				importSupported: true,
+				separator: detected.separator,
+				columns: detected.columns,
+				rows: lines.length,
+			};
+		}
+
+		return {
+			format: 'csv',
+			valid: false,
+			separator: detected.separator,
+			columns: detected.columns,
+			rows: Math.max( lines.length - 1, 0 ),
+			error: 'unknown-csv-layout',
+		};
+	}
+
 	return {
 		format: 'csv',
 		valid: true,
+		type: csvType,
+		importSupported: csvType === 'redirects',
 		separator: detected.separator,
 		columns: detected.columns,
-		rows: lines.length,
+		rows: Math.max( lines.length - 1, 0 ),
 	};
 }
 
@@ -203,6 +235,70 @@ function parseCsvLine( line: string, separator: CsvSeparator ) {
 	values.push( current );
 
 	return values;
+}
+
+function normalizeCsvHeader( value: string ) {
+	return value
+		.trim()
+		.toLowerCase()
+		.replace( /\s+/g, ' ' );
+}
+
+function getCsvTypeFromHeader( header: string[] ) {
+	if ( matchesHeader( header, [ 'source', 'target' ] ) || matchesHeader( header, [ 'source url', 'target url' ] ) ) {
+		return 'redirects' as const;
+	}
+
+	if ( matchesHeader( header, [ 'id', 'name', 'module_id', 'status' ] ) ) {
+		return 'groups' as const;
+	}
+
+	if ( matchesHeader( header, [ 'date', 'source', 'target', 'ip', 'referrer', 'agent' ] ) ) {
+		return 'logs' as const;
+	}
+
+	if ( matchesHeader( header, [ 'date', 'source', 'ip', 'referrer', 'useragent' ] ) ) {
+		return 'errors_404' as const;
+	}
+
+	return null;
+}
+
+function matchesHeader( header: string[], expected: string[] ) {
+	if ( header.length < expected.length ) {
+		return false;
+	}
+
+	return expected.every( ( value, index ) => header[ index ] === value );
+}
+
+function looksLikeRedirectCsvRow( row: string[] ) {
+	if ( row.length < 2 || row.length > 4 ) {
+		return false;
+	}
+
+	const source = row[ 0 ]?.trim() || '';
+	const target = row[ 1 ]?.trim() || '';
+	const regex = row[ 2 ]?.trim();
+	const code = row[ 3 ]?.trim();
+
+	if ( source.length === 0 || target.length === 0 ) {
+		return false;
+	}
+
+	if ( regex !== undefined && regex !== '' && regex !== '0' && regex !== '1' ) {
+		return false;
+	}
+
+	if ( code !== undefined && code !== '' ) {
+		const codeNumber = Number( code );
+
+		if ( ! Number.isInteger( codeNumber ) || codeNumber < 100 || codeNumber > 599 ) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 export function getSeparatorLabel( separator: CsvSeparator ) {

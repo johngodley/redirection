@@ -49,6 +49,10 @@ function FileDropzone( {
 			return __( 'Unable to detect a CSV separator', 'redirection' );
 		}
 
+		if ( fileInfo?.error === 'unknown-csv-layout' ) {
+			return __( 'Unknown CSV layout', 'redirection' );
+		}
+
 		if ( fileInfo?.error === 'unsupported-file-type' ) {
 			return __( 'Unsupported file type', 'redirection' );
 		}
@@ -124,6 +128,7 @@ function FileDropzone( {
 			},
 		];
 		const stats: CardStatItem[] = [];
+		let importNote = '';
 		let type = '';
 
 		if ( fileInfo.format === 'json' ) {
@@ -168,12 +173,58 @@ function FileDropzone( {
 
 		if ( fileInfo.format === 'csv' ) {
 			type = __( 'CSV', 'redirection' );
+
+			if ( fileInfo.type === 'redirects' ) {
+				importNote = __( 'This redirect CSV can be imported.', 'redirection' );
+			} else if ( fileInfo.type === 'groups' ) {
+				importNote = __( 'Group CSV exports can be viewed, but group import is only supported with JSON.', 'redirection' );
+			} else if ( fileInfo.type === 'logs' ) {
+				importNote = __( 'Redirect log CSV exports can be viewed, but log import is only supported with JSON.', 'redirection' );
+			} else if ( fileInfo.type === 'errors_404' ) {
+				importNote = __( '404 log CSV exports can be viewed, but 404 log import is only supported with JSON.', 'redirection' );
+			}
+
+			if ( fileInfo.type === 'redirects' ) {
+				details.push( {
+					label: __( 'Contains', 'redirection' ),
+					value: __( 'Redirects', 'redirection' ),
+				} );
+			}
+
+			if ( fileInfo.type === 'groups' ) {
+				details.push( {
+					label: __( 'Contains', 'redirection' ),
+					value: __( 'Groups', 'redirection' ),
+				} );
+			}
+
+			if ( fileInfo.type === 'logs' ) {
+				details.push( {
+					label: __( 'Contains', 'redirection' ),
+					value: __( 'Redirect logs', 'redirection' ),
+				} );
+			}
+
+			if ( fileInfo.type === 'errors_404' ) {
+				details.push( {
+					label: __( 'Contains', 'redirection' ),
+					value: __( '404 logs', 'redirection' ),
+				} );
+			}
+
 			details.push( {
 				label: __( 'Separator', 'redirection' ),
 				value: getSeparatorText(),
 			} );
 			stats.push( {
-				label: _n( 'Redirect', 'Redirects', fileInfo.rows || 0, 'redirection' ),
+				label:
+					fileInfo.type === 'groups'
+						? _n( 'Group', 'Groups', fileInfo.rows || 0, 'redirection' )
+						: fileInfo.type === 'logs'
+						? _n( 'Log', 'Logs', fileInfo.rows || 0, 'redirection' )
+						: fileInfo.type === 'errors_404'
+						? _n( '404 log', '404 logs', fileInfo.rows || 0, 'redirection' )
+						: _n( 'Redirect', 'Redirects', fileInfo.rows || 0, 'redirection' ),
 				value: fileInfo.rows || 0,
 			} );
 		}
@@ -182,7 +233,14 @@ function FileDropzone( {
 			<IoCard
 				title={ file.name }
 				badge={ __( 'File', 'redirection' ) }
-				meta={ [ { label: __( 'Import type', 'redirection' ), value: type }, ...details ] }
+				meta={ [
+					{
+						label: __( 'Import type', 'redirection' ),
+						value: type,
+						description: importNote || undefined,
+					},
+					...details,
+				] }
 				stats={ stats }
 				wrapped={ false }
 			/>

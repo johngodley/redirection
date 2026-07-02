@@ -1,48 +1,19 @@
 <?php
 
-class Red_RankMath_Importer extends Red_Plugin_Importer {
+namespace Redirection\ImportExport\Importer;
+
+class RankMathImporter extends PluginImporter {
 	/**
 	 * @return bool
 	 */
-	protected function supports_preview() {
+	public function supports_preview() {
 		return true;
 	}
 
 	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return array<int, array<string, mixed>|false>
 	 */
-	public function preview_plugin_results( $group_id, array $options = [] ) {
+	protected function get_redirect_items() {
 		global $wpdb;
 
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}rank_math_redirections" );
@@ -54,28 +25,7 @@ class Red_RankMath_Importer extends Red_Plugin_Importer {
 			}
 		}
 
-		return $this->preview_redirect_items( $group_id, $options, $items );
-	}
-
-	/**
-	 * Import redirects from RankMath.
-	 *
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 */
-	public function import_plugin( $group_id, array $options = [] ) {
-		global $wpdb;
-
-		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}rank_math_redirections" );
-		$items = array();
-
-		foreach ( $redirects as $redirect ) {
-			foreach ( $this->get_items_for_redirect( $redirect ) as $item ) {
-				$items[] = $item;
-			}
-		}
-
-		return $this->import_redirect_items( $group_id, $options, $items );
+		return $items;
 	}
 
 	/**

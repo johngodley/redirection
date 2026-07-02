@@ -56,4 +56,22 @@ class SettingsTest extends WP_UnitTestCase {
 		$options = red_get_options();
 		$this->assertFalse( isset( $options['cat'] ) );
 	}
+
+	public function testImportExportOptionsAreFilteredToPortableSettings() {
+		Red_Options::save(
+			[
+				'https' => true,
+				'flag_case' => true,
+				'update_notice' => 55,
+				'rest_api' => Red_Options::API_JSON_RELATIVE,
+			]
+		);
+
+		$options = Red_Options::get_import_export_options();
+
+		$this->assertTrue( $options['https'] );
+		$this->assertTrue( $options['flag_case'] );
+		$this->assertArrayNotHasKey( 'update_notice', $options );
+		$this->assertArrayNotHasKey( 'rest_api', $options );
+	}
 }

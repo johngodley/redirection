@@ -1,51 +1,34 @@
 <?php
 
+namespace Redirection\ImportExport\Importer;
+
+use Redirection\ImportExport\ImportGroup;
+use Redirection\ImportExport\ImportRedirect;
+
 /**
- * @phpstan-import-type ImporterInfo from Red_Plugin_Importer
+ * @phpstan-import-type ImporterInfo from PluginImporter
  */
-class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
+class SafeRedirectManagerImporter extends PluginImporter {
+	/**
+	 * @var RedirectItemMapper
+	 */
+	private $mapper;
+
+	public function __construct( ?RedirectItemMapper $mapper = null ) {
+		$this->mapper = $mapper ? $mapper : new RedirectItemMapper();
+	}
+
 	/**
 	 * @return bool
 	 */
-	protected function supports_preview() {
+	public function supports_preview() {
 		return true;
 	}
 
 	/**
-	 * @param int $group_id Target group ID.
-	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return array<int, array<string, mixed>|false>
 	 */
-	public function preview_plugin_results( $group_id, array $options = [] ) {
+	protected function get_redirect_items() {
 		$posts = $this->get_redirect_posts();
 		$items = array();
 
@@ -53,7 +36,7 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 			$items[] = $this->get_item_for_post( $post );
 		}
 
-		return $this->preview_redirect_items( $group_id, $options, $items );
+		return $items;
 	}
 
 	/**
@@ -93,9 +76,9 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 	 * }
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
-		$group = new \Redirection\ImportExport\ImportGroup( $group_id, $options );
+		$group = new ImportGroup( $group_id, $options );
 		$options['dry_run'] = false;
-		$import = new \Redirection\ImportExport\ImportRedirect( $options );
+		$import = new ImportRedirect( $options );
 
 		foreach ( $this->get_redirect_posts() as $post ) {
 			$item = $this->get_item_for_post( $post );
@@ -150,25 +133,7 @@ class Red_SafeRedirectManager_Importer extends Red_Plugin_Importer {
 	 * @return array<string, mixed>
 	 */
 	private function get_item_for_post( $post ) {
-		$regex = false;
-		$source = (string) $post['from'];
-		$target = (string) $post['to'];
-
-		if ( strpos( $source, '*' ) !== false ) {
-			$regex = true;
-			$source = str_replace( '*', '.*', $source );
-		} elseif ( isset( $post['from_regex'] ) && (string) $post['from_regex'] === '1' ) {
-			$regex = true;
-		}
-
-		return array(
-			'url'         => $source,
-			'action_data' => array( 'url' => $target ),
-			'regex'       => $regex,
-			'match_type'  => 'url',
-			'action_type' => 'url',
-			'action_code' => intval( $post['status_code'], 10 ),
-		);
+		return $this->mapper->safe_redirect_manager( $post );
 	}
 
 	/**

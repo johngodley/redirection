@@ -106,9 +106,11 @@ describe( 'import-sniff', () => {
 		expect( result ).toEqual( {
 			format: 'csv',
 			valid: true,
+			type: 'redirects',
+			importSupported: true,
 			separator: ';',
 			columns: 3,
-			rows: 3,
+			rows: 2,
 		} );
 		expect( getSeparatorLabel( ';' ) ).toBe( 'semicolon' );
 	} );
@@ -119,9 +121,70 @@ describe( 'import-sniff', () => {
 		expect( result ).toEqual( {
 			format: 'csv',
 			valid: true,
+			type: 'redirects',
+			importSupported: true,
 			separator: ',',
 			columns: 3,
+			rows: 1,
+		} );
+	} );
+
+	it( 'falls back to headerless redirect CSV', () => {
+		expect( sniffCsvText( '/one,/two,0,301\n/three,/four,1,302' ) ).toEqual( {
+			format: 'csv',
+			valid: true,
+			type: 'redirects',
+			importSupported: true,
+			separator: ',',
+			columns: 4,
 			rows: 2,
+		} );
+	} );
+
+	it( 'detects group CSV and marks it as not importable', () => {
+		expect( sniffCsvText( 'id,name,module_id,status\n1,Group,1,enabled' ) ).toEqual( {
+			format: 'csv',
+			valid: true,
+			type: 'groups',
+			importSupported: false,
+			separator: ',',
+			columns: 4,
+			rows: 1,
+		} );
+	} );
+
+	it( 'detects redirect log CSV and marks it as not importable', () => {
+		expect( sniffCsvText( 'date,source,target,ip,referrer,agent\n2026-07-02,/one,/two,127.0.0.1,,Test' ) ).toEqual( {
+			format: 'csv',
+			valid: true,
+			type: 'logs',
+			importSupported: false,
+			separator: ',',
+			columns: 6,
+			rows: 1,
+		} );
+	} );
+
+	it( 'detects 404 log CSV and marks it as not importable', () => {
+		expect( sniffCsvText( 'date,source,ip,referrer,useragent\n2026-07-02,/one,127.0.0.1,,Test' ) ).toEqual( {
+			format: 'csv',
+			valid: true,
+			type: 'errors_404',
+			importSupported: false,
+			separator: ',',
+			columns: 5,
+			rows: 1,
+		} );
+	} );
+
+	it( 'rejects unknown CSV layouts', () => {
+		expect( sniffCsvText( 'alpha,beta,gamma\n1,2,3' ) ).toEqual( {
+			format: 'csv',
+			valid: false,
+			separator: ',',
+			columns: 3,
+			rows: 1,
+			error: 'unknown-csv-layout',
 		} );
 	} );
 } );

@@ -110,11 +110,13 @@ class Json extends FormatHandler {
 		];
 
 		if ( ( $all_sections || in_array( 'settings', $sections, true ) ) && is_array( $parsed['settings'] ) ) {
+			$settings = \Red_Options::filter_import_export_options( $parsed['settings'] );
+
 			if ( ! $is_dry_run ) {
-				\Red_Options::save( $parsed['settings'] );
+				\Red_Options::save( $settings );
 			}
 
-			$result['settings_imported'] = count( $parsed['settings'] );
+			$result['settings_imported'] = count( $settings );
 		}
 
 		if ( $all_sections || in_array( 'groups', $sections, true ) ) {

@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * @phpstan-import-type LogJson from Red_Log
  * @phpstan-import-type LogFilterParams from Red_Log
@@ -173,14 +175,16 @@ class Red_Redirect_Log extends Red_Log {
 	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
+		$sanitizer = new CsvSanitizer();
+
 		/** @var RedirectCsvRow $row */
 		return [
-			$row->created,
-			$row->url,
-			$row->sent_to,
-			$row->ip,
-			$row->referrer,
-			$row->agent,
+			$sanitizer->escape( $row->created ),
+			$sanitizer->escape( $row->url ),
+			$sanitizer->escape( $row->sent_to ),
+			$sanitizer->escape( $row->ip ),
+			$sanitizer->escape( $row->referrer ),
+			$sanitizer->escape( $row->agent ),
 		];
 	}
 

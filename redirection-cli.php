@@ -137,8 +137,6 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * @return void
 	 */
 	public function plugin( $args, $extra ) {
-		include_once __DIR__ . '/models/importer.php';
-
 		$name = $args[0];
 		$group = $this->get_group( isset( $extra['group'] ) ? intval( $extra['group'], 10 ) : 0 );
 		$options = [
@@ -146,7 +144,7 @@ class Redirection_Cli extends WP_CLI_Command {
 			'delete_source' => $this->get_boolean_flag( $extra, 'delete-source' ),
 		];
 
-		$importer = Red_Plugin_Importer::get_importer( $name );
+		$importer = \Redirection\ImportExport\Importer\PluginImporterRegistry::get_importer( $name );
 		if ( $importer !== false && $group !== false ) {
 			$results = $importer->import_plugin( $group, $options );
 			$this->display_import_results( $name, 'plugin', $results );

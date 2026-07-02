@@ -2,10 +2,24 @@
 
 namespace Redirection\ImportExport;
 
+use Redirection\ImportExport\Sanitizer\HtaccessSanitizer;
+
 /**
  * Encode data for .htaccess rules.
  */
 class HtaccessEncoder {
+	/**
+	 * @var HtaccessSanitizer
+	 */
+	private $sanitizer;
+
+	/**
+	 * @param HtaccessSanitizer|null $sanitizer
+	 */
+	public function __construct( ?HtaccessSanitizer $sanitizer = null ) {
+		$this->sanitizer = $sanitizer ? $sanitizer : new HtaccessSanitizer();
+	}
+
 	/**
 	 * @param string $url From URL.
 	 * @param bool $ignore_trailing Ignore trailing slashes.
@@ -63,14 +77,7 @@ class HtaccessEncoder {
 	 * @return string
 	 */
 	public function encode_regex( $url ) {
-		$url = (string) preg_replace( "/[\r\n\t].*?$/s", '', $url );
-		$url = (string) preg_replace( '/[^\PC\s]/u', '', $url );
-		$url = str_replace( ' ', '\\s', $url );
-		$url = str_replace( '%24', '$', $url );
-		$url = ltrim( $url, '/' );
-		$url = (string) preg_replace( '@^\^/@', '^', $url );
-
-		return $url;
+		return $this->sanitizer->sanitize_regex( $url );
 	}
 
 	/**
@@ -78,10 +85,7 @@ class HtaccessEncoder {
 	 * @return string
 	 */
 	public function sanitize_redirect( $text ) {
-		$text = str_replace( [ "\r", "\n", "\t" ], '', $text );
-		$text = (string) preg_replace( '/[^\PC\s]/u', '', $text );
-
-		return str_replace( [ '<?', '>' ], '', $text );
+		return $this->sanitizer->sanitize_redirect( $text );
 	}
 
 	/**

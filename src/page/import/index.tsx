@@ -51,6 +51,11 @@ function ImportPage() {
 		state.fileInfo?.format === 'json' &&
 		state.fileInfo.valid &&
 		state.selectedSections.length === 0;
+	const hasUnsupportedCsvImport =
+		state.activeImportType === 'file' &&
+		state.fileInfo?.format === 'csv' &&
+		state.fileInfo.valid &&
+		state.fileInfo.importSupported === false;
 
 	const renderImporterPlaceholder = () => {
 		return (
@@ -93,7 +98,7 @@ function ImportPage() {
 					</p>
 					<p>
 						{ __(
-							'CSV does not include all information, and everything is imported/exported as "URL only" matches. Use the JSON format for a full set of data.',
+							'CSV files with a recognised header can be identified, but only redirect CSV can be imported. CSV does not include all information, and everything is imported/exported as "URL only" matches. Use JSON for full redirect data, and for importing groups, logs, 404s, or settings.',
 							'redirection'
 						) }
 					</p>
@@ -149,6 +154,7 @@ function ImportPage() {
 									! state.hasActiveImport ||
 									! state.previewSupported ||
 									hasNoSelectedJsonSections ||
+									hasUnsupportedCsvImport ||
 									state.isImporting ||
 									( state.activeImportType === 'file' &&
 										( state.file === false ||
@@ -165,6 +171,7 @@ function ImportPage() {
 								disabled={
 									! state.hasActiveImport ||
 									hasNoSelectedJsonSections ||
+									hasUnsupportedCsvImport ||
 									state.isImporting ||
 									( state.activeImportType === 'file' &&
 										( state.file === false ||

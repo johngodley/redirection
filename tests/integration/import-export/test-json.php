@@ -150,7 +150,75 @@ class JsonTest extends WP_UnitTestCase {
 		$this->assertCount( 2, $redirects );
 		$this->assertEquals( $redirects[0]->group_id, $redirects[1]->group_id );
 		$this->assertCount( 1, array_unique( array_map( 'intval', wp_list_pluck( $redirects, 'group_id' ) ) ) );
+		$this->assertEquals( 1, $data['groups_created'] );
 		$this->assertEquals( $before + 1, $after );
+	}
+
+	public function testImportCreatesDisabledGroupFromExportStatus() {
+		global $wpdb;
+
+		$import = [
+			'groups' => [
+				[
+					'name' => 'disabled group',
+					'id' => 5050,
+					'module_id' => 1,
+					'status' => 'disabled',
+				],
+			],
+			'redirects' => [
+				[
+					'url' => '/disabled-source',
+					'id' => 1,
+					'group_id' => 5050,
+					'match_type' => 'url',
+					'action_type' => 'url',
+					'action_data' => [ 'url' => '/disabled-target' ],
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load( new ImportGroup( 0 ), new ImportRedirect(), $file, false );
+		$group = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_groups WHERE name=%s ORDER BY id DESC LIMIT 1", 'disabled group' ) );
+
+		$this->assertEquals( 1, $data['groups_created'] );
+		$this->assertNotNull( $group );
+		$this->assertEquals( 'disabled', $group->status );
+	}
+
+	public function testDryRunPreviewsRedirectsThatNeedFallbackGroups() {
+		$import = [
+			'redirects' => [
+				[
+					'url' => '/preview-fallback-1',
+					'id' => 1,
+					'group_id' => 777,
+					'match_type' => 'url',
+					'action_type' => 'url',
+					'action_data' => [ 'url' => '/target-fallback-1' ],
+				],
+				[
+					'url' => '/preview-fallback-2',
+					'id' => 2,
+					'group_id' => 777,
+					'match_type' => 'url',
+					'action_type' => 'url',
+					'action_data' => [ 'url' => '/target-fallback-2' ],
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load( new ImportGroup( 0, [ 'dry_run' => true ] ), new ImportRedirect( [ 'dry_run' => true ] ), $file, true );
+
+		$this->assertEquals( 2, $data['created'] );
+		$this->assertEquals( 1, $data['groups_created'] );
+		$this->assertCount( 2, $data['preview'] );
+		$this->assertEquals( 'Group', $data['preview'][0]['group'] );
+		$this->assertEquals( 'Group', $data['preview'][1]['group'] );
 	}
 
 	public function testDryRunDoesNotCreateRedirects() {
@@ -195,6 +263,8 @@ class JsonTest extends WP_UnitTestCase {
 			'settings' => [
 				'https' => ! $options['https'],
 				'flag_case' => ! $options['flag_case'],
+				'rest_api' => Red_Options::API_JSON_RELATIVE,
+				'update_notice' => 123,
 			],
 			'logs' => [
 				[
@@ -225,6 +295,8 @@ class JsonTest extends WP_UnitTestCase {
 		$this->assertEquals( 1, $data['errors_imported'] );
 		$this->assertEquals( ! $options['https'], Red_Options::get()['https'] );
 		$this->assertEquals( ! $options['flag_case'], Red_Options::get()['flag_case'] );
+		$this->assertEquals( $options['rest_api'], Red_Options::get()['rest_api'] );
+		$this->assertEquals( $options['update_notice'], Red_Options::get()['update_notice'] );
 		$this->assertEquals(
 			1,
 			intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_logs WHERE url='/bundle-log'" ), 10 )
@@ -233,6 +305,32 @@ class JsonTest extends WP_UnitTestCase {
 			1,
 			intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE url='/bundle-404'" ), 10 )
 		);
+	}
+
+	public function testImportExportSettingsUsesPortableSubset() {
+		Red_Options::save(
+			[
+				'https' => true,
+				'flag_case' => true,
+				'update_notice' => 99,
+				'rest_api' => Red_Options::API_JSON_RELATIVE,
+				'database' => 'test-version',
+			]
+		);
+
+		$service = new \Redirection\ImportExport\ExportService();
+		$result = $service->export_bundle( [ 'setting' ], [], 'json' );
+
+		$this->assertNotFalse( $result );
+
+		$data = json_decode( $result['data'], true );
+
+		$this->assertTrue( $data['settings']['https'] );
+		$this->assertTrue( $data['settings']['flag_case'] );
+		$this->assertArrayNotHasKey( 'update_notice', $data['settings'] );
+		$this->assertArrayNotHasKey( 'rest_api', $data['settings'] );
+		$this->assertArrayNotHasKey( 'database', $data['settings'] );
+		$this->assertEquals( count( $data['settings'] ), $result['total'] );
 	}
 
 	public function testImportUpdatesExistingRedirectById() {

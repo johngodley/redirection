@@ -1,5 +1,6 @@
 <?php
 
+require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-htaccess-sanitizer.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-encoder.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-target-builder.php';
 
