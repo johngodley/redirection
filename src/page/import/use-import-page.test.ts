@@ -23,12 +23,37 @@ const mockUseImportRunner = useImportRunner as jest.MockedFunction< typeof useIm
 const mockIsJsonFile = isJsonFile as jest.MockedFunction< typeof isJsonFile >;
 const mockSniffImportFile = sniffImportFile as jest.MockedFunction< typeof sniffImportFile >;
 
+function getDeleteSourceEvent() {
+	const input = document.createElement( 'input' );
+	input.name = 'delete_source';
+	input.checked = true;
+
+	return {
+		currentTarget: input,
+	} as React.ChangeEvent< HTMLInputElement >;
+}
+
 describe( 'useImportPage', () => {
 	const mutate = jest.fn();
+	const reset = jest.fn();
 	const plugin = {
 		id: 'wordpress',
 		name: 'WordPress permalink redirect',
 		description: 'Import redirects created by WordPress permalink redirects.',
+		preview_supported: true,
+		total: 4,
+	};
+	const wordpressOldSlugsPlugin = {
+		id: 'wordpress-old-slugs',
+		name: 'WordPress permalink redirect',
+		description: 'Import redirects created by WordPress permalink redirects.',
+		preview_supported: true,
+		total: 4,
+	};
+	const safeRedirectManagerPlugin = {
+		id: 'safe-redirect-manager',
+		name: 'Safe Redirect Manager',
+		description: 'Import redirects created by Safe Redirect Manager.',
 		preview_supported: true,
 		total: 4,
 	};
@@ -54,7 +79,7 @@ describe( 'useImportPage', () => {
 		} as any );
 
 		mockUseImporterList.mockReturnValue( {
-			data: [ plugin ],
+			data: [ plugin, wordpressOldSlugsPlugin, safeRedirectManagerPlugin ],
 			isLoading: false,
 		} as any );
 
@@ -63,6 +88,7 @@ describe( 'useImportPage', () => {
 
 			return {
 				mutate,
+				reset,
 				isPending: false,
 				isSuccess: false,
 			} as any;
@@ -191,18 +217,12 @@ describe( 'useImportPage', () => {
 
 		act( () => {
 			result.current.onSelectPlugin( {
-				...plugin,
-				id: 'wordpress-old-slugs',
+				...wordpressOldSlugsPlugin,
 			} );
 		} );
 
 		act( () => {
-			result.current.onOptionsChange( {
-				target: {
-					name: 'delete_source',
-					checked: true,
-				},
-			} as any );
+			result.current.onOptionsChange( getDeleteSourceEvent() );
 		} );
 
 		act( () => {
@@ -224,18 +244,12 @@ describe( 'useImportPage', () => {
 
 		act( () => {
 			result.current.onSelectPlugin( {
-				...plugin,
-				id: 'safe-redirect-manager',
+				...safeRedirectManagerPlugin,
 			} );
 		} );
 
 		act( () => {
-			result.current.onOptionsChange( {
-				target: {
-					name: 'delete_source',
-					checked: true,
-				},
-			} as any );
+			result.current.onOptionsChange( getDeleteSourceEvent() );
 		} );
 
 		act( () => {
@@ -257,18 +271,12 @@ describe( 'useImportPage', () => {
 
 		act( () => {
 			result.current.onSelectPlugin( {
-				...plugin,
-				id: 'wordpress-old-slugs',
+				...wordpressOldSlugsPlugin,
 			} );
 		} );
 
 		act( () => {
-			result.current.onOptionsChange( {
-				target: {
-					name: 'delete_source',
-					checked: true,
-				},
-			} as any );
+			result.current.onOptionsChange( getDeleteSourceEvent() );
 		} );
 
 		act( () => {
@@ -293,18 +301,12 @@ describe( 'useImportPage', () => {
 
 		act( () => {
 			result.current.onSelectPlugin( {
-				...plugin,
-				id: 'safe-redirect-manager',
+				...safeRedirectManagerPlugin,
 			} );
 		} );
 
 		act( () => {
-			result.current.onOptionsChange( {
-				target: {
-					name: 'delete_source',
-					checked: true,
-				},
-			} as any );
+			result.current.onOptionsChange( getDeleteSourceEvent() );
 		} );
 
 		act( () => {

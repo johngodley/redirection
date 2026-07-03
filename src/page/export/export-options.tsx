@@ -10,13 +10,7 @@ interface ExportOptionsProps {
 	onChange: ( name: 'format', value: string ) => void;
 }
 
-function ExportOptions( {
-	selectedTypes,
-	format,
-	availableFormats,
-	disabled,
-	onChange,
-}: ExportOptionsProps ) {
+function ExportOptions( { selectedTypes, format, availableFormats, disabled, onChange }: ExportOptionsProps ) {
 	const hasSelectedTypes = selectedTypes.length > 0;
 
 	return (

@@ -72,12 +72,12 @@ function Groups() {
 			const params = cleanApiParams(
 				table.selectAll
 					? {
-						global: true,
-						filterBy: table.filterBy,
-					}
+							global: true,
+							filterBy: table.filterBy,
+					  }
 					: {
-						items: table.selected,
-					}
+							items: table.selected,
+					  }
 			);
 
 			exportMutation.mutate( {

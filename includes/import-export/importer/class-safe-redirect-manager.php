@@ -2,10 +2,12 @@
 
 namespace Redirection\ImportExport\Importer;
 
+use Redirection\ImportExport\FormatHandler;
 use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 
 /**
+ * @phpstan-import-type ImportResult from FormatHandler
  * @phpstan-import-type ImporterInfo from Plugin
  */
 class SafeRedirectManager extends Plugin {
@@ -44,36 +46,7 @@ class SafeRedirectManager extends Plugin {
 	 *
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$group = new ImportGroup( $group_id, $options );
@@ -98,6 +71,10 @@ class SafeRedirectManager extends Plugin {
 			'updated' => $import->get_updated(),
 			'ignored' => $import->get_ignored(),
 			'groups_created' => $group->get_groups_created(),
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => $import->get_preview_items(),
 		];
 	}

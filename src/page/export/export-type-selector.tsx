@@ -73,7 +73,9 @@ function ExportTypeSelector( {
 										<select
 											value={ redirectScopeType }
 											disabled={ isExporting }
-											onChange={ ( event ) => onChange( 'redirectScopeType', event.target.value ) }
+											onChange={ ( event ) =>
+												onChange( 'redirectScopeType', event.target.value )
+											}
 										>
 											<option value="all">{ __( 'Everything', 'redirection' ) }</option>
 											<option value="module">{ __( 'Module', 'redirection' ) }</option>
@@ -89,9 +91,13 @@ function ExportTypeSelector( {
 											<select
 												value={ redirectModule }
 												disabled={ isExporting }
-												onChange={ ( event ) => onChange( 'redirectModule', event.target.value ) }
+												onChange={ ( event ) =>
+													onChange( 'redirectModule', event.target.value )
+												}
 											>
-												<option value="1">{ __( 'WordPress redirects', 'redirection' ) }</option>
+												<option value="1">
+													{ __( 'WordPress redirects', 'redirection' ) }
+												</option>
 												<option value="2">{ __( 'Apache redirects', 'redirection' ) }</option>
 												<option value="3">{ __( 'Nginx redirects', 'redirection' ) }</option>
 											</select>
@@ -106,11 +112,15 @@ function ExportTypeSelector( {
 											<select
 												value={ String( redirectGroup ) }
 												disabled={ isExporting }
-												onChange={ ( event ) => onChange( 'redirectGroup', event.target.value ) }
+												onChange={ ( event ) =>
+													onChange( 'redirectGroup', event.target.value )
+												}
 											>
 												{ groupRows.map( ( group ) => (
 													<option key={ group.id } value={ group.id }>
-														{ group.moduleName ? `${ group.name } (${ group.moduleName })` : group.name }
+														{ group.moduleName
+															? `${ group.name } (${ group.moduleName })`
+															: group.name }
 													</option>
 												) ) }
 											</select>

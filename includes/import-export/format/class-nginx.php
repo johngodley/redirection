@@ -6,7 +6,7 @@ use Redirection\ImportExport\FormatHandler;
 use Redirection\ImportExport\ImportRedirect;
 
 /**
- * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type GroupExport from \Red_Group
  * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  * @phpstan-import-type RedirectMatchData from \Red_Item
  *
@@ -27,7 +27,7 @@ class Nginx extends FormatHandler {
 
 	/**
 	 * @param array<\Red_Item> $items
-	 * @param array<GroupJson> $groups
+	 * @param array<GroupExport> $groups
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {

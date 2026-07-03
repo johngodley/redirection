@@ -43,7 +43,7 @@ class CsvParser {
 
 	/**
 	 * @param array<int, string> $csv
-	 * @param \Red_Group|false|null $group
+	 * @param \Red_Group|\Redirection\ImportExport\ImportPreviewGroup|false|null $group
 	 * @return CsvItem|false
 	 */
 	public function parse_row( array $csv, $group = null ) {

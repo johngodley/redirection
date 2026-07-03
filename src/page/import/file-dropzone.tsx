@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import IoCard, { type CardMetaItem, type CardStatItem } from 'component/import-export/card';
 import type { ImportSniffResult } from './types';
 
+type CsvFileInfo = Extract< ImportSniffResult, { format: 'csv' } >;
+
 interface FileDropzoneProps {
 	activeImportType: 'file' | 'plugin' | null;
 	file: File | false;
@@ -100,6 +102,22 @@ function FileDropzone( {
 		return `${ ( file.size / ( 1024 * 1024 ) ).toFixed( 1 ) } MB`;
 	};
 
+	const getCsvRowLabel = ( csvFileInfo: CsvFileInfo, rows: number ) => {
+		if ( csvFileInfo.type === 'groups' ) {
+			return _n( 'Group', 'Groups', rows, 'redirection' );
+		}
+
+		if ( csvFileInfo.type === 'logs' ) {
+			return _n( 'Log', 'Logs', rows, 'redirection' );
+		}
+
+		if ( csvFileInfo.type === 'errors_404' ) {
+			return _n( '404 log', '404 logs', rows, 'redirection' );
+		}
+
+		return _n( 'Redirect', 'Redirects', rows, 'redirection' );
+	};
+
 	const renderSelectedFileCard = () => {
 		if ( file === false ) {
 			return null;
@@ -177,11 +195,20 @@ function FileDropzone( {
 			if ( fileInfo.type === 'redirects' ) {
 				importNote = __( 'This redirect CSV can be imported.', 'redirection' );
 			} else if ( fileInfo.type === 'groups' ) {
-				importNote = __( 'Group CSV exports can be viewed, but group import is only supported with JSON.', 'redirection' );
+				importNote = __(
+					'Group CSV exports can be viewed, but group import is only supported with JSON.',
+					'redirection'
+				);
 			} else if ( fileInfo.type === 'logs' ) {
-				importNote = __( 'Redirect log CSV exports can be viewed, but log import is only supported with JSON.', 'redirection' );
+				importNote = __(
+					'Redirect log CSV exports can be viewed, but log import is only supported with JSON.',
+					'redirection'
+				);
 			} else if ( fileInfo.type === 'errors_404' ) {
-				importNote = __( '404 log CSV exports can be viewed, but 404 log import is only supported with JSON.', 'redirection' );
+				importNote = __(
+					'404 log CSV exports can be viewed, but 404 log import is only supported with JSON.',
+					'redirection'
+				);
 			}
 
 			if ( fileInfo.type === 'redirects' ) {
@@ -217,14 +244,7 @@ function FileDropzone( {
 				value: getSeparatorText(),
 			} );
 			stats.push( {
-				label:
-					fileInfo.type === 'groups'
-						? _n( 'Group', 'Groups', fileInfo.rows || 0, 'redirection' )
-						: fileInfo.type === 'logs'
-						? _n( 'Log', 'Logs', fileInfo.rows || 0, 'redirection' )
-						: fileInfo.type === 'errors_404'
-						? _n( '404 log', '404 logs', fileInfo.rows || 0, 'redirection' )
-						: _n( 'Redirect', 'Redirects', fileInfo.rows || 0, 'redirection' ),
+				label: getCsvRowLabel( fileInfo, fileInfo.rows || 0 ),
 				value: fileInfo.rows || 0,
 			} );
 		}

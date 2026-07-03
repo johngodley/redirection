@@ -92,7 +92,7 @@ class Seopress extends Plugin {
 	}
 
 	/**
-	 * @return list<WP_Post>
+	 * @return list<\WP_Post>
 	 */
 	private function get_404_redirect_posts() {
 		return array_values(
@@ -101,6 +101,7 @@ class Seopress extends Plugin {
 					'post_type' => 'seopress_404',
 					'post_status' => 'publish',
 					'posts_per_page' => -1,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Importer needs to find only enabled SEOPress redirects stored in post meta.
 					'meta_query' => [
 						[
 							'key' => '_seopress_redirections_enabled',
@@ -145,7 +146,7 @@ class Seopress extends Plugin {
 	}
 
 	/**
-	 * @param WP_Post $post Post object.
+	 * @param \WP_Post $post Post object.
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_404_post( $post ) {

@@ -2,6 +2,7 @@
 
 require_once PLUGIN_PATH . '/tests/unit/stubs/class-test-import-group-item.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-group-repository.php';
+require_once PLUGIN_PATH . '/includes/import-export/class-import-preview-group.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-import-group.php';
 
 use Redirection\ImportExport\GroupRepository;

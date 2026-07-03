@@ -7,15 +7,6 @@ namespace Redirection\ImportExport\Importer;
  */
 class SeoRedirection extends Plugin {
 	/**
-	 * @var RedirectItemMapper
-	 */
-	private $mapper;
-
-	public function __construct( ?RedirectItemMapper $mapper = null ) {
-		$this->mapper = $mapper ? $mapper : new RedirectItemMapper();
-	}
-
-	/**
 	 * @return bool
 	 */
 	public function supports_preview() {
@@ -45,7 +36,7 @@ class SeoRedirection extends Plugin {
 	/**
 	 * Create a Redirection item for an SEO Redirection row.
 	 *
-	 * @param stdClass $seo Row from WP_SEO_Redirection.
+	 * @param \stdClass $seo Row from WP_SEO_Redirection.
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_seo( $seo ) {

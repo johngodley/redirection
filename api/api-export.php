@@ -444,7 +444,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 		return array_values(
 			array_filter(
 				array_map(
-					static function( $value ) {
+					static function ( $value ) {
 						return is_string( $value ) ? sanitize_text_field( $value ) : '';
 					},
 					$display_selected

@@ -26,6 +26,10 @@ abstract class Plugin {
 			'updated' => 0,
 			'ignored' => 0,
 			'groups_created' => 0,
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => [],
 		];
 	}
@@ -101,6 +105,10 @@ abstract class Plugin {
 			'updated' => $import->get_updated(),
 			'ignored' => $import->get_ignored(),
 			'groups_created' => $group->get_groups_created(),
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => $import->get_preview_items(),
 		];
 	}

@@ -4,8 +4,10 @@ namespace Redirection\ImportExport\Importer;
 
 use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
+use Redirection\ImportExport\FormatHandler;
 
 /**
+ * @phpstan-import-type ImportResult from FormatHandler
  * @phpstan-import-type ImporterInfo from Plugin
  */
 class WordpressOldSlugs extends Plugin {
@@ -43,36 +45,7 @@ class WordpressOldSlugs extends Plugin {
 	 *
 	 * @param int $group_id Target group ID.
 	 * @param array<string, bool|string> $options Import options.
-	 * @phpstan-return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
-	 * @return array{
-	 *   created: int,
-	 *   updated: int,
-	 *   ignored: int,
-	 *   groups_created: int,
-	 *   preview: array<int, array{
-	 *     source: string,
-	 *     target: string,
-	 *     code: int,
-	 *     regex: bool,
-	 *     group: string,
-	 *     result: 'created'|'updated'|'ignored',
-	 *     redirect_id?: int
-	 *   }>
-	 * }
+	 * @return ImportResult
 	 */
 	public function import_plugin( $group_id, array $options = [] ) {
 		$group = new ImportGroup( $group_id, $options );
@@ -96,12 +69,16 @@ class WordpressOldSlugs extends Plugin {
 			'updated' => $import->get_updated(),
 			'ignored' => $import->get_ignored(),
 			'groups_created' => $group->get_groups_created(),
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
 			'preview' => $import->get_preview_items(),
 		];
 	}
 
 	/**
-	 * @return array<int, object>
+	 * @return array<int, object{meta_id: int|string, post_id: int|string, meta_value: string}>
 	 */
 	private function get_redirect_rows() {
 		global $wpdb;
@@ -115,11 +92,11 @@ class WordpressOldSlugs extends Plugin {
 	/**
 	 * Build redirect data for a WordPress old slug row.
 	 *
-	 * @param stdClass $redirect Row from postmeta/posts join.
+	 * @param object{meta_id: int|string, post_id: int|string, meta_value: string} $redirect Row from postmeta/posts join.
 	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_redirect( $redirect ) {
-		$new = get_permalink( $redirect->post_id );
+		$new = get_permalink( intval( $redirect->post_id, 10 ) );
 		if ( $new === false ) {
 			return false;
 		}

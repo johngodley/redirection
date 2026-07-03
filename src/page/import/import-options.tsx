@@ -61,7 +61,11 @@ function ImportOptions( {
 					<div className="groups__label">{ __( 'Contents', 'redirection' ) }</div>
 					<div className="groups__control">
 						{ Object.entries( jsonSections ).map( ( [ section, total ] ) => (
-							<label className="groups__checkbox" htmlFor={ `import_section_${ section }` } key={ section }>
+							<label
+								className="groups__checkbox"
+								htmlFor={ `import_section_${ section }` }
+								key={ section }
+							>
 								<input
 									id={ `import_section_${ section }` }
 									type="checkbox"

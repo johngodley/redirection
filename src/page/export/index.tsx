@@ -87,7 +87,11 @@ function ExportPage() {
 					/>
 				</div>
 
-				<ExportActionSelector disabled={ state.isExporting || ! hasSelectedTypes } onView={ onView } onDownload={ onDownload } />
+				<ExportActionSelector
+					disabled={ state.isExporting || ! hasSelectedTypes }
+					onView={ onView }
+					onDownload={ onDownload }
+				/>
 
 				{ state.isExporting && (
 					<div className="loader-wrapper loader-textarea">

@@ -641,24 +641,22 @@ abstract class Red_Log {
 	 * @return int
 	 */
 	public static function get_export_total( array $params = [] ) {
+		global $wpdb;
+
 		if ( isset( $params['items'] ) && is_array( $params['items'] ) && count( $params['items'] ) > 0 ) {
 			return count( self::get_export_rows( $params ) );
 		}
 
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
-			global $wpdb;
-
+		$safe_group_by = self::get_safe_group_by( $params );
+		if ( $safe_group_by !== false ) {
 			$table = static::get_table_name( $wpdb );
 			$query = self::get_query( $params );
-			$group = sanitize_text_field( $params['groupBy'] );
 
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$total = $wpdb->get_var( "SELECT COUNT(DISTINCT $group) FROM $table " . $query['where'] );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $safe_group_by is restricted by get_safe_group_by() to a known column name.
+			$total = $wpdb->get_var( "SELECT COUNT(DISTINCT $safe_group_by) FROM $table " . $query['where'] );
 
 			return intval( $total, 10 );
 		}
-
-		global $wpdb;
 
 		$table = static::get_table_name( $wpdb );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -718,6 +716,7 @@ abstract class Red_Log {
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
 		$data = stream_get_contents( $stdout );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Temporary in-memory export buffer
 		fclose( $stdout );
 
 		return $data === false ? false : $data;
@@ -795,6 +794,7 @@ abstract class Red_Log {
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
 		$data = stream_get_contents( $stdout );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Temporary in-memory export buffer
 		fclose( $stdout );
 
 		return $data === false ? false : $data;
@@ -934,10 +934,9 @@ abstract class Red_Log {
 	 * @return array<int, string>
 	 */
 	protected static function get_export_fields( array $display_selected, array $params = [] ) {
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
-			$group = sanitize_text_field( $params['groupBy'] );
-
-			return [ $group, 'count' ];
+		$safe_group_by = self::get_safe_group_by( $params );
+		if ( $safe_group_by !== false ) {
+			return [ $safe_group_by, 'count' ];
 		}
 
 		$allowed = array_keys( static::get_export_field_labels() );
@@ -949,7 +948,7 @@ abstract class Red_Log {
 		return array_values(
 			array_filter(
 				$display_selected,
-				static function( $field ) use ( $allowed ) {
+				static function ( $field ) use ( $allowed ) {
 					return in_array( $field, $allowed, true );
 				}
 			)
@@ -1026,8 +1025,9 @@ abstract class Red_Log {
 	 * @return array<int, array<string, scalar|null>>
 	 */
 	private static function get_export_rows( array $params ) {
-		if ( isset( $params['groupBy'] ) && in_array( $params['groupBy'], [ 'ip', 'url', 'agent' ], true ) ) {
-			return self::get_grouped_export_rows( sanitize_text_field( $params['groupBy'] ), $params );
+		$safe_group_by = self::get_safe_group_by( $params );
+		if ( $safe_group_by !== false ) {
+			return self::get_grouped_export_rows( $safe_group_by, $params );
 		}
 
 		return self::get_filtered_export_rows( $params );
@@ -1050,7 +1050,7 @@ abstract class Red_Log {
 			$ids = array_values(
 				array_filter(
 					array_map(
-						static function( $item ) {
+						static function ( $item ) {
 							return is_numeric( $item ) ? intval( $item, 10 ) : 0;
 						},
 						$items
@@ -1076,23 +1076,24 @@ abstract class Red_Log {
 
 	/**
 	 * @phpstan-param LogGetParams $params
-	 * @param string $group
+	 * @param 'ip'|'url'|'agent' $safe_group_by
 	 * @param array<string, mixed> $params
 	 * @return array<int, array<string, scalar|null>>
 	 */
-	private static function get_grouped_export_rows( $group, array $params ) {
+	private static function get_grouped_export_rows( $safe_group_by, array $params ) {
 		global $wpdb;
 
 		$query = self::get_query( $params );
 		$table = static::get_table_name( $wpdb );
-		$sql = "SELECT COUNT(*) as count,$group FROM {$table} {$query['where']}";
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $safe_group_by is restricted by get_safe_group_by() to a known column name.
+		$sql = "SELECT COUNT(*) as count,$safe_group_by FROM {$table} {$query['where']}";
 		$items = isset( $params['items'] ) && is_array( $params['items'] ) ? $params['items'] : [];
 
 		if ( count( $items ) > 0 ) {
 			$sanitized_items = array_values(
 				array_filter(
 					array_map(
-						static function( $item ) {
+						static function ( $item ) {
 							return is_scalar( $item ) ? strval( $item ) : '';
 						},
 						$items
@@ -1106,14 +1107,37 @@ abstract class Red_Log {
 
 			$placeholders = implode( ',', array_fill( 0, count( $sanitized_items ), '%s' ) );
 			$sql .= $query['where'] === '' ? ' WHERE ' : ' AND ';
-			$sql .= $wpdb->prepare( "{$group} IN ({$placeholders})", $sanitized_items );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- $safe_group_by is restricted by get_safe_group_by() to a known column name, and the placeholder list is built from the number of sanitized items.
+			$sql .= $wpdb->prepare( $safe_group_by . ' IN (' . $placeholders . ')', $sanitized_items );
 		}
 
-		$sql .= " GROUP BY $group ORDER BY count DESC, $group";
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $safe_group_by is restricted by get_safe_group_by() to a known column name.
+		$sql .= " GROUP BY $safe_group_by ORDER BY count DESC, $safe_group_by";
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$rows = $wpdb->get_results( $sql, ARRAY_A );
 
 		return is_array( $rows ) ? $rows : [];
+	}
+
+	/**
+	 * Restrict groupBy to a known log column before it is used in SQL fragments.
+	 *
+	 * @phpstan-param LogGetParams $params
+	 * @param array<string, mixed> $params
+	 * @return 'ip'|'url'|'agent'|false
+	 */
+	private static function get_safe_group_by( array $params ) {
+		if ( ! isset( $params['groupBy'] ) || ! is_string( $params['groupBy'] ) ) {
+			return false;
+		}
+
+		$safe_group_by = sanitize_text_field( $params['groupBy'] );
+
+		if ( ! in_array( $safe_group_by, [ 'ip', 'url', 'agent' ], true ) ) {
+			return false;
+		}
+
+		return $safe_group_by;
 	}
 }

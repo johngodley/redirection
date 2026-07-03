@@ -154,15 +154,17 @@ describe( 'import-sniff', () => {
 	} );
 
 	it( 'detects redirect log CSV and marks it as not importable', () => {
-		expect( sniffCsvText( 'date,source,target,ip,referrer,agent\n2026-07-02,/one,/two,127.0.0.1,,Test' ) ).toEqual( {
-			format: 'csv',
-			valid: true,
-			type: 'logs',
-			importSupported: false,
-			separator: ',',
-			columns: 6,
-			rows: 1,
-		} );
+		expect( sniffCsvText( 'date,source,target,ip,referrer,agent\n2026-07-02,/one,/two,127.0.0.1,,Test' ) ).toEqual(
+			{
+				format: 'csv',
+				valid: true,
+				type: 'logs',
+				importSupported: false,
+				separator: ',',
+				columns: 6,
+				rows: 1,
+			}
+		);
 	} );
 
 	it( 'detects 404 log CSV and marks it as not importable', () => {

@@ -22,7 +22,7 @@ use Redirection\ImportExport\Sanitizer\CsvSanitizer;
  *     action_code: int,
  *     status?: 'enabled'|'disabled'
  * }
- * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type GroupExport from \Red_Group
  * @phpstan-import-type ImportResult from \Redirection\ImportExport\FormatHandler
  */
 class Csv extends FormatHandler {
@@ -61,7 +61,7 @@ class Csv extends FormatHandler {
 
 	/**
 	 * @param array<\Red_Item> $items
-	 * @param array<GroupJson> $groups
+	 * @param array<GroupExport> $groups
 	 * @return string
 	 */
 	public function get_data( array $items, array $groups ) {
@@ -153,6 +153,7 @@ class Csv extends FormatHandler {
 
 			return $this->get_import_result( $group, $redirect );
 		} finally {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Import reads from a temporary uploaded file handle.
 			fclose( $file );
 		}
 	}
@@ -180,8 +181,11 @@ class Csv extends FormatHandler {
 		global $wpdb;
 
 		$count = 0;
-		while ( ( $csv = fgetcsv( $file, 5000, $separator, '"', '\\' ) ) !== false ) {
+		$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
+
+		while ( $csv !== false ) {
 			if ( $csv === null ) {
+				$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
 				continue;
 			}
 
@@ -223,6 +227,8 @@ class Csv extends FormatHandler {
 				// The query log can use up all the memory
 				$wpdb->queries = [];
 			}
+
+			$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
 		}
 
 		return $count;
@@ -246,7 +252,7 @@ class Csv extends FormatHandler {
 
 	/**
 	 * @param array<int, string> $csv
-	 * @param \Red_Group|false|null $group
+	 * @param \Red_Group|\Redirection\ImportExport\ImportPreviewGroup|false|null $group
 	 * @return CsvItem|false
 	 */
 	public function csv_as_item( $csv, $group = null ) {

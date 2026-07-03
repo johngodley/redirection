@@ -5,7 +5,7 @@ namespace Redirection\ImportExport;
 /**
  * Base class for import/export formats.
  *
- * @phpstan-import-type GroupJson from \Red_Group
+ * @phpstan-import-type GroupExport from \Red_Group
  * @phpstan-type UploadedFile array{
  *     name: string,
  *     type: string,
@@ -82,7 +82,7 @@ abstract class FormatHandler {
 	 * Get export data for items and groups
 	 *
 	 * @param array<\Red_Item> $items Redirect items to export.
-	 * @param array<GroupJson> $groups Groups to export.
+	 * @param array<GroupExport> $groups Groups to export.
 	 * @return string Formatted export data.
 	 */
 	abstract public function get_data( array $items, array $groups );

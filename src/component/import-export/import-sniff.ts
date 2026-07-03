@@ -100,12 +100,17 @@ export function sniffJsonText( text: string ): ImportSniffResult {
 			};
 		}
 
-		return {
+		const result: ImportSniffResult = {
 			format: 'json',
 			valid: true,
-			version: typeof data.plugin?.version === 'string' ? data.plugin.version : undefined,
 			contents,
 		};
+
+		if ( typeof data.plugin?.version === 'string' ) {
+			result.version = data.plugin.version;
+		}
+
+		return result;
 	} catch {
 		return {
 			format: 'json',
@@ -238,10 +243,7 @@ function parseCsvLine( line: string, separator: CsvSeparator ) {
 }
 
 function normalizeCsvHeader( value: string ) {
-	return value
-		.trim()
-		.toLowerCase()
-		.replace( /\s+/g, ' ' );
+	return value.trim().toLowerCase().replace( /\s+/g, ' ' );
 }
 
 function getCsvTypeFromHeader( header: string[] ) {

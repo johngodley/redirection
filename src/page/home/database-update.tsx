@@ -175,7 +175,7 @@ function DownloadBackupLink() {
 			redirectGroup: 0,
 			download: true,
 			filename: 'redirection-backup.json',
-			downloadNotice: { message: __( 'Backup downloaded', 'redirection' ) },
+			completionNotice: { message: __( 'Backup downloaded', 'redirection' ) },
 		} );
 	}
 

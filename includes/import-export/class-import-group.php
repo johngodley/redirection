@@ -22,7 +22,7 @@ class ImportGroup {
 	private $is_dry_run = false;
 
 	/**
-	 * @var array<int, \Red_Group>
+	 * @var array<int, \Red_Group|ImportPreviewGroup>
 	 */
 	private $group_map = [];
 
@@ -44,7 +44,7 @@ class ImportGroup {
 	/**
 	 * @param int|string $file_group_id Group ID referenced by the file.
 	 * @param array<string, mixed>|null $group_data Group data from the file.
-	 * @return object|false
+	 * @return \Red_Group|ImportPreviewGroup|false
 	 */
 	public function get_group( $file_group_id = 0, $group_data = null ) {
 		if ( $this->group_id > 0 ) {
@@ -84,7 +84,7 @@ class ImportGroup {
 
 	/**
 	 * @param int $group_map_id Group mapping key.
-	 * @return object|false
+	 * @return \Red_Group|ImportPreviewGroup|false
 	 */
 	private function create_fallback_group( $group_map_id ) {
 		if ( $this->is_dry_run ) {
@@ -108,7 +108,7 @@ class ImportGroup {
 	/**
 	 * @param int $group_map_id Group mapping key.
 	 * @param array<string, mixed> $group_data Group data from the file.
-	 * @return object|false
+	 * @return \Red_Group|ImportPreviewGroup|false
 	 */
 	private function create_group_from_data( $group_map_id, array $group_data ) {
 		if ( ! isset( $group_data['name'], $group_data['module_id'] ) ) {
@@ -144,38 +144,10 @@ class ImportGroup {
 	 * @param string $name Group name.
 	 * @param int $module_id Module ID.
 	 * @param bool $enabled Whether the group is enabled.
-	 * @return object
+	 * @return ImportPreviewGroup
 	 */
 	private function get_preview_group( $group_id, $name, $module_id, $enabled ) {
-		return new class( $group_id, $name, $module_id, $enabled ) {
-			private $id;
-			private $name;
-			private $module_id;
-			private $enabled;
-
-			public function __construct( $group_id, $name, $module_id, $enabled ) {
-				$this->id = intval( $group_id, 10 );
-				$this->name = $name;
-				$this->module_id = intval( $module_id, 10 );
-				$this->enabled = $enabled ? true : false;
-			}
-
-			public function get_id() {
-				return $this->id;
-			}
-
-			public function get_name() {
-				return $this->name;
-			}
-
-			public function get_module_id() {
-				return $this->module_id;
-			}
-
-			public function is_enabled() {
-				return $this->enabled;
-			}
-		};
+		return new ImportPreviewGroup( intval( $group_id, 10 ), $name, intval( $module_id, 10 ), $enabled ? true : false );
 	}
 
 	/**

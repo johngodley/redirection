@@ -31,7 +31,7 @@ class RankMath extends Plugin {
 	/**
 	 * Build one or more redirect data rows for a RankMath entry.
 	 *
-	 * @param stdClass $redirect Row from rank_math_redirections.
+	 * @param \stdClass $redirect Row from rank_math_redirections.
 	 * @return array<int, array<string, mixed>>
 	 */
 	private function get_items_for_redirect( $redirect ) {

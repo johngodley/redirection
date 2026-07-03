@@ -16,12 +16,14 @@ describe( 'useExportPage', () => {
 	let previewTotal = 9;
 	let previewError = false;
 	let previewRefetch: jest.Mock;
+	let exportReset: jest.Mock;
 
 	beforeEach( () => {
 		jest.clearAllMocks();
 		previewTotal = 9;
 		previewError = false;
 		previewRefetch = jest.fn();
+		exportReset = jest.fn();
 
 		mockUseGroupList.mockReturnValue( {
 			data: {
@@ -34,6 +36,7 @@ describe( 'useExportPage', () => {
 
 		mockUseExport.mockReturnValue( {
 			mutate: jest.fn(),
+			reset: exportReset,
 			isPending: false,
 		} as any );
 

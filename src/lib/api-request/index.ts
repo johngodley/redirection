@@ -48,10 +48,12 @@ export const RedirectionApi = {
 		redirectPreview: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/redirect/preview', data ),
 		bundle: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/bundle', data ),
 		bundlePreview: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/bundle/preview', data ),
-		group: ( format: string, data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/group/' + format, data ),
+		group: ( format: string, data: TableParams = {} ) =>
+			getApiRequest( 'redirection/v1/export/group/' + format, data ),
 		log: ( format: string, data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/log/' + format, data ),
 		logPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/log/preview', data ),
-		error: ( format: string, data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/404/' + format, data ),
+		error: ( format: string, data: TableParams = {} ) =>
+			getApiRequest( 'redirection/v1/export/404/' + format, data ),
 		errorPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/404/preview', data ),
 	},
 	plugin: {

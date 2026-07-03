@@ -113,12 +113,12 @@ function Logs() {
 					...( table.groupBy ? { groupBy: table.groupBy } : {} ),
 					...( table.selectAll
 						? {
-							global: true,
-							filterBy: table.filterBy,
-						}
-					: {
-							items: table.selected,
-						} ),
+								global: true,
+								filterBy: table.filterBy,
+						  }
+						: {
+								items: table.selected,
+						  } ),
 				} ),
 				displaySelected: groupedTable.displaySelected ?? [],
 			};

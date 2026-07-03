@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import type { CardMetaItem } from 'component/import-export/card';
 import { useExport, useExportPreview, useGroupList } from 'lib/api/hooks';
+import type { ExportRequestVariables } from 'lib/api/hooks';
 import {
 	getExportFormatLabel,
 	getExportSelectionFilename,
@@ -50,12 +51,30 @@ const EXPORT_TYPES: ExportTypeOption[] = [
 	{
 		id: 'setting',
 		name: __( 'Settings', 'redirection' ),
-		description: __( 'Export a portable subset of plugin settings and site-level Redirection options.', 'redirection' ),
+		description: __(
+			'Export a portable subset of plugin settings and site-level Redirection options.',
+			'redirection'
+		),
 		formats: [ 'json' ],
 	},
 ];
 
-function useExportPage() {
+interface UseExportPageResult {
+	exportTypes: ExportTypeOption[];
+	availableFormats: ExportFormat[];
+	groupRows: GroupRow[];
+	summaryMeta: CardMetaItem[];
+	hasAllTypesSelected: boolean;
+	hasSelectedTypes: boolean;
+	state: ExportState;
+	onChange: ( name: 'redirectScopeType' | 'redirectModule' | 'redirectGroup' | 'format', value: string ) => void;
+	onToggleType: ( nextType: ExportType ) => void;
+	onToggleAllTypes: ( enabled: boolean ) => void;
+	onDownload: () => void;
+	onView: () => void;
+}
+
+function useExportPage(): UseExportPageResult {
 	const { data: groupData } = useGroupList( {} );
 	const groupRows = useMemo( () => ( groupData?.items ?? [] ) as GroupRow[], [ groupData?.items ] );
 	const [ selectedTypes, setSelectedTypes ] = useState< ExportType[] >( [] );
@@ -79,29 +98,32 @@ function useExportPage() {
 	const hasAllTypesSelected = selectedTypes.length === EXPORT_TYPES.length;
 	const primaryExportType = selectedTypes[ 0 ] || 'redirect';
 	const hasRedirectExport = selectedTypes.includes( 'redirect' );
-	const previewQuery = useExportPreview( {
-		exportType: primaryExportType,
-		exportTypes: selectedTypes,
-		format,
-		redirectScopeType,
-		redirectModule,
-		redirectGroup,
-	}, {
-		enabled: false,
-	} );
+	const previewQuery = useExportPreview(
+		{
+			exportType: primaryExportType,
+			exportTypes: selectedTypes,
+			format,
+			redirectScopeType,
+			redirectModule,
+			redirectGroup,
+		},
+		{
+			enabled: false,
+		}
+	);
 
-	const availableFormats = useMemo( () => {
+	const availableFormats = useMemo< ExportFormat[] >( () => {
 		if ( selectedTypes.length === 0 ) {
-			return [] as ExportFormat[];
+			return [];
 		}
 
 		if ( selectedTypes.length !== 1 ) {
-			return [ 'json' ] as ExportFormat[];
+			return [ 'json' ];
 		}
 
 		const activeExportType = EXPORT_TYPES.find( ( item ) => item.id === selectedTypes[ 0 ] );
 
-		return activeExportType?.formats || [ 'json' ];
+		return activeExportType?.formats ?? [ 'json' ];
 	}, [ selectedTypes ] );
 	const activeGroup = groupRows.find( ( group ) => group.id === redirectGroup ) || null;
 	const isExporting = exportMutation.isPending;
@@ -109,7 +131,9 @@ function useExportPage() {
 	const refetchPreview = previewQuery.refetch;
 	const currentError = exportMutation.error || null;
 	const previewTotal =
-		! hasSelectedTypes || previewQuery.isError || typeof previewQuery.data?.total !== 'number' ? null : previewQuery.data.total;
+		! hasSelectedTypes || previewQuery.isError || typeof previewQuery.data?.total !== 'number'
+			? null
+			: previewQuery.data.total;
 	const previewEstimatedSize =
 		! hasSelectedTypes || previewQuery.isError || typeof previewQuery.data?.estimatedSize !== 'number'
 			? null
@@ -224,9 +248,10 @@ function useExportPage() {
 		}
 
 		const completionNotice: Message = {
-			message: action === 'download' ? __( 'Export downloaded', 'redirection' ) : __( 'Export viewed', 'redirection' ),
+			message:
+				action === 'download' ? __( 'Export downloaded', 'redirection' ) : __( 'Export viewed', 'redirection' ),
 		};
-		const request = {
+		const request: ExportRequestVariables = {
 			exportType: primaryExportType,
 			exportTypes: selectedTypes,
 			format,
@@ -235,8 +260,11 @@ function useExportPage() {
 			redirectGroup,
 			download: action === 'download',
 			completionNotice,
-			...( action === 'download' ? { filename: getExportSelectionFilename( selectedTypes, format ) } : {} ),
 		};
+
+		if ( action === 'download' ) {
+			request.filename = getExportSelectionFilename( selectedTypes, format );
+		}
 
 		exportMutation.mutate( request );
 	};

@@ -392,7 +392,7 @@ class ExportService {
 	}
 
 	/**
-	 * @param array<int, array<string, mixed>> $groups
+	 * @param array<GroupExport> $groups
 	 * @return string
 	 */
 	private function get_groups_csv( array $groups ) {
@@ -411,7 +411,7 @@ class ExportService {
 	}
 
 	/**
-	 * @param array<int, array<string, mixed>> $groups
+	 * @param array<GroupExport> $groups
 	 * @return string
 	 */
 	private function get_groups_json( array $groups ) {
@@ -490,8 +490,9 @@ class ExportService {
 			return;
 		}
 
-		$data['groups'] = $this->groups->get_all_for_export();
-		$total += count( $data['groups'] );
+		$groups = $this->groups->get_all_for_export();
+		$data['groups'] = $groups;
+		$total += count( $groups );
 	}
 
 	/**
@@ -557,11 +558,12 @@ class ExportService {
 			fputcsv( $stdout, $row );
 		}
 
-		rewind( $stdout );
+			rewind( $stdout );
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
-		$data = stream_get_contents( $stdout );
-		fclose( $stdout );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Temporary in-memory export buffer
+			$data = stream_get_contents( $stdout );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Temporary in-memory export buffer
+			fclose( $stdout );
 
 		return $data === false ? '' : $data;
 	}

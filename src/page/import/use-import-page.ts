@@ -311,7 +311,7 @@ function useImportPage() {
 	};
 
 	const onOptionsChange = ( event: React.ChangeEvent< HTMLSelectElement | HTMLInputElement > ) => {
-		const { name, value } = event.target;
+		const { name, value } = event.currentTarget;
 
 		if ( name === 'group' ) {
 			importRunner.reset();
@@ -323,17 +323,20 @@ function useImportPage() {
 			setDuplicateMode( value as DuplicateMode );
 			setLastImport( false );
 			setLastImportWasDryRun( null );
-		} else if ( name === 'delete_source' && event.target instanceof HTMLInputElement ) {
+		} else if ( name === 'delete_source' && event.currentTarget instanceof HTMLInputElement ) {
+			const { checked } = event.currentTarget;
+
 			importRunner.reset();
-			setDeleteSource( event.target.checked );
+			setDeleteSource( checked );
 			setLastImport( false );
 			setLastImportWasDryRun( null );
-		} else if ( name.startsWith( 'import_section_' ) && event.target instanceof HTMLInputElement ) {
+		} else if ( name.startsWith( 'import_section_' ) && event.currentTarget instanceof HTMLInputElement ) {
 			const section = name.replace( 'import_section_', '' );
+			const { checked } = event.currentTarget;
 
 			importRunner.reset();
 			setSelectedSections( ( current ) =>
-				event.target.checked ? [ ...current, section ] : current.filter( ( item ) => item !== section )
+				checked ? [ ...current, section ] : current.filter( ( item ) => item !== section )
 			);
 			setLastImport( false );
 			setLastImportWasDryRun( null );

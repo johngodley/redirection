@@ -15,7 +15,12 @@ function ExportFormatSelector( { format, availableFormats, disabled, onChange }:
 			<label className="export-options__label" htmlFor="export-format">
 				{ __( 'Format', 'redirection' ) }
 			</label>
-			<select id="export-format" value={ format } disabled={ disabled } onChange={ ( event ) => onChange( event.target.value ) }>
+			<select
+				id="export-format"
+				value={ format }
+				disabled={ disabled }
+				onChange={ ( event ) => onChange( event.target.value ) }
+			>
 				{ availableFormats.map( ( item ) => (
 					<option key={ item } value={ item }>
 						{ getExportFormatOptionLabel( item ) }

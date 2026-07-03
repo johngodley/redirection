@@ -134,12 +134,12 @@ function Redirects() {
 			const params = cleanApiParams(
 				table.selectAll
 					? {
-						global: true,
-						filterBy: table.filterBy,
-					}
+							global: true,
+							filterBy: table.filterBy,
+					  }
 					: {
-						items,
-					}
+							items,
+					  }
 			);
 
 			exportMutation.mutate( {

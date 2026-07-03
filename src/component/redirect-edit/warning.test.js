@@ -1,4 +1,4 @@
-import { isRegex, getWarningFromState } from '../warning';
+import { isRegex, getWarningFromState } from './warning';
 
 describe( 'redirect warnings', () => {
 	describe( 'isRegex', () => {

@@ -1,4 +1,4 @@
-import { getTableResetOnDelete, cleanApiParams, getShowFilter } from '../utils';
+import { getTableResetOnDelete, cleanApiParams, getShowFilter } from './utils';
 
 // ---------------------------------------------------------------------------
 // getTableResetOnDelete

@@ -322,7 +322,9 @@ class Redirection_Admin {
 	 * @return string|null
 	 */
 	private function get_query( $name ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading current admin query parameters to decide which view to render.
 		if ( isset( $_GET[ $name ] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading current admin query parameters to decide which view to render.
 			return sanitize_text_field( $_GET[ $name ] );
 		}
 
@@ -827,7 +829,6 @@ class Redirection_Admin {
 			}
 		}
 	}
-
 }
 
 register_activation_hook( REDIRECTION_FILE, array( 'Redirection_Admin', 'plugin_activated' ) );
