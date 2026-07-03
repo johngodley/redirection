@@ -4,9 +4,10 @@ import IoCard, { type CardMetaItem, type CardStatItem } from 'component/import-e
 import type { ImportSniffResult } from './types';
 
 type CsvFileInfo = Extract< ImportSniffResult, { format: 'csv' } >;
+type ApacheFileInfo = Extract< ImportSniffResult, { format: 'apache' } >;
 
 interface FileDropzoneProps {
-	activeImportType: 'file' | 'plugin' | null;
+	activeImportType: 'file' | 'paste' | 'plugin' | null;
 	file: File | false;
 	fileInfo: ImportSniffResult | null;
 	fileInputRef: React.RefObject< HTMLInputElement >;
@@ -53,6 +54,10 @@ function FileDropzone( {
 
 		if ( fileInfo?.error === 'unknown-csv-layout' ) {
 			return __( 'Unknown CSV layout', 'redirection' );
+		}
+
+		if ( fileInfo?.error === 'unknown-apache-layout' ) {
+			return __( 'Unknown Apache .htaccess layout', 'redirection' );
 		}
 
 		if ( fileInfo?.error === 'unsupported-file-type' ) {
@@ -116,6 +121,22 @@ function FileDropzone( {
 		}
 
 		return _n( 'Redirect', 'Redirects', rows, 'redirection' );
+	};
+
+	const getApacheRuleLabel = ( apacheFileInfo: ApacheFileInfo, rules: number ) => {
+		if ( apacheFileInfo.ruleTypes?.includes( 'rewrite' ) && apacheFileInfo.ruleTypes.length === 1 ) {
+			return _n( 'Rewrite rule', 'Rewrite rules', rules, 'redirection' );
+		}
+
+		if ( apacheFileInfo.ruleTypes?.includes( 'redirect' ) && apacheFileInfo.ruleTypes.length === 1 ) {
+			return _n( 'Redirect rule', 'Redirect rules', rules, 'redirection' );
+		}
+
+		if ( apacheFileInfo.ruleTypes?.includes( 'redirectmatch' ) && apacheFileInfo.ruleTypes.length === 1 ) {
+			return _n( 'RedirectMatch rule', 'RedirectMatch rules', rules, 'redirection' );
+		}
+
+		return _n( 'Apache rule', 'Apache rules', rules, 'redirection' );
 	};
 
 	const renderSelectedFileCard = () => {
@@ -246,6 +267,19 @@ function FileDropzone( {
 			stats.push( {
 				label: getCsvRowLabel( fileInfo, fileInfo.rows || 0 ),
 				value: fileInfo.rows || 0,
+			} );
+		}
+
+		if ( fileInfo.format === 'apache' ) {
+			type = __( 'Apache .htaccess', 'redirection' );
+			importNote = __( 'This Apache .htaccess content can be imported.', 'redirection' );
+			details.push( {
+				label: __( 'Contains', 'redirection' ),
+				value: __( 'Apache redirect rules', 'redirection' ),
+			} );
+			stats.push( {
+				label: getApacheRuleLabel( fileInfo, fileInfo.rules || 0 ),
+				value: fileInfo.rules || 0,
 			} );
 		}
 

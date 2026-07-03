@@ -266,6 +266,77 @@ describe( 'useImportPage', () => {
 		);
 	} );
 
+	it( 'treats pasted JSON content as a paste importer and defaults the group to use groups in the file', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onPasteTextChange(
+				JSON.stringify( {
+					plugin: { version: '5.8.0' },
+					groups: [ { id: 1, name: 'Imported' } ],
+					redirects: [ { id: 2, url: '/source' } ],
+				} )
+			);
+		} );
+
+		expect( result.current.state.activeImportType ).toBe( 'paste' );
+		expect( result.current.state.group ).toBe( 0 );
+		expect( result.current.state.pasteFile?.name ).toBe( 'pasted-import.json' );
+		expect( result.current.state.pasteInfo ).toEqual(
+			expect.objectContaining( {
+				format: 'json',
+				valid: true,
+			} )
+		);
+		expect( result.current.state.selectedSections ).toEqual( [ 'groups', 'redirects' ] );
+	} );
+
+	it( 'submits pasted CSV content through the file import path', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onPasteTextChange( 'source,target\n/one,/two' );
+		} );
+
+		act( () => {
+			result.current.onImport( true );
+		} );
+
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'file',
+				mode: 'preview',
+				groupId: 11,
+				file: expect.objectContaining( {
+					name: 'pasted-import.csv',
+				} ),
+			} )
+		);
+	} );
+
+	it( 'submits pasted Apache content through the file import path using a .htaccess filename', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onPasteTextChange( 'RewriteRule ^old-path$ /new-path [R=301,L]' );
+		} );
+
+		act( () => {
+			result.current.onImport( true );
+		} );
+
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'file',
+				mode: 'preview',
+				groupId: 11,
+				file: expect.objectContaining( {
+					name: 'pasted-import.htaccess',
+				} ),
+			} )
+		);
+	} );
+
 	it( 'shows a destructive confirm before importing when delete original data is enabled', () => {
 		const { result } = renderHook( () => useImportPage() );
 

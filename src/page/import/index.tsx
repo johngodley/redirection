@@ -9,6 +9,7 @@ import 'component/import-export/style.scss';
 import FileDropzone from './file-dropzone';
 import ImportOptions from './import-options';
 import ImportResults from './import-results';
+import PasteImporter from './paste-importer';
 import type { ImportPlugin } from './types';
 import useImportPage from './use-import-page';
 
@@ -20,6 +21,7 @@ function ImportPage() {
 		onAddFileClick,
 		onCancel,
 		onClearFile,
+		onClearPaste,
 		onDragEnter,
 		onDragLeave,
 		onDragOver,
@@ -28,8 +30,13 @@ function ImportPage() {
 		onImport,
 		onOptionsChange,
 		onSelectFileImporter,
+		onSelectPasteImporter,
+		onPasteTextChange,
 		onSelectPlugin,
 	} = useImportPage();
+
+	const activeFile = state.activeImportType === 'paste' ? state.pasteFile : state.file;
+	const activeFileInfo = state.activeImportType === 'paste' ? state.pasteInfo : state.fileInfo;
 
 	const renderImporters = ( importerList: ImportPlugin[] ) => {
 		return (
@@ -47,15 +54,15 @@ function ImportPage() {
 		);
 	};
 	const hasNoSelectedJsonSections =
-		state.activeImportType === 'file' &&
-		state.fileInfo?.format === 'json' &&
-		state.fileInfo.valid &&
+		( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
+		activeFileInfo?.format === 'json' &&
+		activeFileInfo.valid &&
 		state.selectedSections.length === 0;
 	const hasUnsupportedCsvImport =
-		state.activeImportType === 'file' &&
-		state.fileInfo?.format === 'csv' &&
-		state.fileInfo.valid &&
-		state.fileInfo.importSupported === false;
+		( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
+		activeFileInfo?.format === 'csv' &&
+		activeFileInfo.valid &&
+		activeFileInfo.importSupported === false;
 
 	const renderImporterPlaceholder = () => {
 		return (
@@ -98,7 +105,7 @@ function ImportPage() {
 					</p>
 					<p>
 						{ __(
-							'CSV files with a recognised header can be identified, but only redirect CSV can be imported. CSV does not include all information, and everything is imported/exported as "URL only" matches. Use JSON for full redirect data, and for importing groups, logs, 404s, or settings.',
+							'CSV files need a recognised header otherwise they are assumed to be redirects. Use JSON for full data support.',
 							'redirection'
 						) }
 					</p>
@@ -119,6 +126,15 @@ function ImportPage() {
 						onClick={ onSelectFileImporter }
 						onFileInputChange={ onFileInputChange }
 					/>
+					<PasteImporter
+						activeImportType={ state.activeImportType }
+						isImporting={ state.isImporting }
+						pasteInfo={ state.pasteInfo }
+						pasteText={ state.pasteText }
+						onClearPaste={ onClearPaste }
+						onPasteTextChange={ onPasteTextChange }
+						onSelect={ onSelectPasteImporter }
+					/>
 					{ state.isLoadingImporters && renderImporterPlaceholder() }
 					{ state.importers.length > 0 && renderImporters( state.importers as ImportPlugin[] ) }
 				</div>
@@ -127,13 +143,13 @@ function ImportPage() {
 					<ImportOptions
 						activeImportType={ state.activeImportType }
 						activePluginId={ state.activePluginId }
-						file={ state.file }
+						file={ activeFile }
 						disabled={ ! state.hasActiveImport || state.isImporting }
 						deleteSource={ state.deleteSource }
 						duplicateMode={ state.duplicateMode }
 						group={ state.group }
 						groupRows={ state.groupRows }
-						fileInfo={ state.fileInfo }
+						fileInfo={ activeFileInfo }
 						isJsonFile={ isJsonFile }
 						selectedSections={ state.selectedSections }
 						onChange={ onOptionsChange }
@@ -156,11 +172,11 @@ function ImportPage() {
 									hasNoSelectedJsonSections ||
 									hasUnsupportedCsvImport ||
 									state.isImporting ||
-									( state.activeImportType === 'file' &&
-										( state.file === false ||
+									( ( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
+										( activeFile === false ||
 											state.isSniffing ||
-											state.fileInfo === null ||
-											state.fileInfo.valid === false ) )
+											activeFileInfo === null ||
+											activeFileInfo.valid === false ) )
 								}
 							>
 								{ __( 'Preview redirects', 'redirection' ) }
@@ -173,11 +189,11 @@ function ImportPage() {
 									hasNoSelectedJsonSections ||
 									hasUnsupportedCsvImport ||
 									state.isImporting ||
-									( state.activeImportType === 'file' &&
-										( state.file === false ||
+									( ( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
+										( activeFile === false ||
 											state.isSniffing ||
-											state.fileInfo === null ||
-											state.fileInfo.valid === false ) )
+											activeFileInfo === null ||
+											activeFileInfo.valid === false ) )
 								}
 							>
 								{ __( 'Import redirects', 'redirection' ) }

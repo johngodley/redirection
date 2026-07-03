@@ -1,4 +1,4 @@
-import { getSeparatorLabel, sniffCsvText, sniffJsonText } from './import-sniff';
+import { getSeparatorLabel, sniffApacheText, sniffCsvText, sniffJsonText } from './import-sniff';
 
 describe( 'import-sniff', () => {
 	it( 'detects a valid Redirection JSON export', () => {
@@ -187,6 +187,24 @@ describe( 'import-sniff', () => {
 			columns: 3,
 			rows: 1,
 			error: 'unknown-csv-layout',
+		} );
+	} );
+
+	it( 'detects Apache .htaccess redirect content', () => {
+		expect( sniffApacheText( 'RewriteRule ^old-path$ /new-path [R=301,L]\nRedirect /one /two' ) ).toEqual( {
+			format: 'apache',
+			valid: true,
+			importSupported: true,
+			rules: 2,
+			ruleTypes: [ 'rewrite', 'redirect' ],
+		} );
+	} );
+
+	it( 'rejects unknown Apache .htaccess layouts', () => {
+		expect( sniffApacheText( 'Options +FollowSymLinks\nRewriteEngine On' ) ).toEqual( {
+			format: 'apache',
+			valid: false,
+			error: 'unknown-apache-layout',
 		} );
 	} );
 } );

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
-import { isJsonFile, sniffImportFile } from 'component/import-export/import-sniff';
+import { isJsonFile, sniffImportFile, sniffImportText } from 'component/import-export/import-sniff';
 import { useGroupList, useImporterList, useImportRunner } from 'lib/api/hooks';
 import type { DuplicateMode, ImportMode, ImportMutationVariables } from 'lib/api/hooks';
 import type { ImportPlugin, ImportState, ImportStats } from './types';
@@ -32,16 +32,35 @@ function isDestructivePluginImport( request: ImportMutationVariables ) {
 	);
 }
 
+function getPastedFile( text: string, format: 'json' | 'csv' | 'apache' | 'other' ) {
+	if ( format === 'json' ) {
+		return new File( [ text ], 'pasted-import.json', { type: 'application/json' } );
+	}
+
+	if ( format === 'csv' ) {
+		return new File( [ text ], 'pasted-import.csv', { type: 'text/csv' } );
+	}
+
+	if ( format === 'apache' ) {
+		return new File( [ text ], 'pasted-import.htaccess', { type: 'text/plain' } );
+	}
+
+	return new File( [ text ], 'pasted-import.txt', { type: 'text/plain' } );
+}
+
 function useImportPage() {
-	const [ activeImportType, setActiveImportType ] = useState< 'file' | 'plugin' | null >( null );
+	const [ activeImportType, setActiveImportType ] = useState< 'file' | 'paste' | 'plugin' | null >( null );
 	const [ activePluginId, setActivePluginId ] = useState< string | null >( null );
 	const [ group, setGroup ] = useState< number >( 0 );
 	const [ hover, setHover ] = useState< boolean >( false );
 	const [ file, setFile ] = useState< File | false >( false );
+	const [ pasteFile, setPasteFile ] = useState< File | false >( false );
+	const [ pasteText, setPasteText ] = useState< string >( '' );
 	const [ duplicateMode, setDuplicateMode ] = useState< DuplicateMode >( 'import' );
 	const [ deleteSource, setDeleteSource ] = useState< boolean >( false );
 	const [ selectedSections, setSelectedSections ] = useState< string[] >( [] );
 	const [ fileInfo, setFileInfo ] = useState< ImportState[ 'fileInfo' ] >( null );
+	const [ pasteInfo, setPasteInfo ] = useState< ImportState[ 'pasteInfo' ] >( null );
 	const [ isSniffing, setIsSniffing ] = useState< boolean >( false );
 	const [ lastImport, setLastImport ] = useState< ImportStats | false >( false );
 	const [ lastImportWasDryRun, setLastImportWasDryRun ] = useState< boolean | null >( null );
@@ -71,8 +90,14 @@ function useImportPage() {
 	const currentError = importRunner.error || null;
 	const hasCompletedImport = lastImport !== false && lastImportWasDryRun === false;
 	const activePlugin = importers.find( ( item ) => item.id === activePluginId ) || null;
-	const hasActiveImport = activeImportType === 'file' ? file !== false : activePlugin !== null;
-	const previewSupported = activeImportType === 'file' ? true : activePlugin?.preview_supported === true;
+	const activeFile = activeImportType === 'paste' ? pasteFile : file;
+	const activeFileInfo = activeImportType === 'paste' ? pasteInfo : fileInfo;
+	const hasActiveImport =
+		activeImportType === 'file' || activeImportType === 'paste' ? activeFile !== false : activePlugin !== null;
+	const previewSupported =
+		activeImportType === 'file' || activeImportType === 'paste'
+			? true
+			: activePlugin?.preview_supported === true;
 
 	let importingStatus = 'idle';
 	if ( isImporting ) {
@@ -84,6 +109,8 @@ function useImportPage() {
 	useEffect( () => {
 		return () => {
 			setFile( false );
+			setPasteFile( false );
+			setPasteText( '' );
 			setActiveImportType( null );
 			setActivePluginId( null );
 			setLastImport( false );
@@ -133,6 +160,29 @@ function useImportPage() {
 		};
 	}, [ file ] );
 
+	useEffect( () => {
+		if ( pasteText.trim().length === 0 ) {
+			setPasteFile( false );
+			setPasteInfo( null );
+
+			if ( activeImportType === 'paste' ) {
+				setSelectedSections( [] );
+			}
+
+			return;
+		}
+
+		const result = sniffImportText( pasteText );
+		setPasteInfo( result );
+		setPasteFile( getPastedFile( pasteText, result.format ) );
+
+		if ( result.format === 'json' && result.valid && result.contents ) {
+			setSelectedSections( Object.keys( result.contents ) );
+		} else {
+			setSelectedSections( [] );
+		}
+	}, [ pasteText ] );
+
 	const selectFile = ( selectedFile: File | false ) => {
 		importRunner.reset();
 		setLastImport( false );
@@ -144,6 +194,23 @@ function useImportPage() {
 		if ( selectedFile && isJsonFile( selectedFile ) ) {
 			setGroup( 0 );
 		} else if ( groupRows[ 0 ] ) {
+			setGroup( groupRows[ 0 ].id );
+		}
+	};
+
+	const selectPastedText = ( text: string ) => {
+		const result = text.trim().length > 0 ? sniffImportText( text ) : null;
+
+		importRunner.reset();
+		setLastImport( false );
+		setLastImportWasDryRun( null );
+		setPasteText( text );
+		setActiveImportType( text.trim().length > 0 ? 'paste' : null );
+		setActivePluginId( null );
+
+		if ( result?.format === 'json' && result.valid ) {
+			setGroup( 0 );
+		} else if ( text.trim().length > 0 && groupRows[ 0 ] ) {
 			setGroup( groupRows[ 0 ].id );
 		}
 	};
@@ -213,12 +280,22 @@ function useImportPage() {
 		}
 	};
 
+	const onSelectPasteImporter = () => {
+		if ( pasteText.trim().length > 0 ) {
+			importRunner.reset();
+			setActiveImportType( 'paste' );
+			setActivePluginId( null );
+			setLastImport( false );
+			setLastImportWasDryRun( null );
+		}
+	};
+
 	const getImportRequest = ( mode: ImportMode ): ImportMutationVariables | null => {
-		if ( activeImportType === 'file' && file ) {
+		if ( ( activeImportType === 'file' || activeImportType === 'paste' ) && activeFile ) {
 			return {
 				sourceType: 'file',
 				mode,
-				file,
+				file: activeFile,
 				groupId: group,
 				duplicateMode,
 				deleteSource,
@@ -289,6 +366,19 @@ function useImportPage() {
 		}
 	};
 
+	const onClearPaste = () => {
+		importRunner.reset();
+		setPasteFile( false );
+		setPasteText( '' );
+		setPasteInfo( null );
+		if ( activeImportType === 'paste' ) {
+			setActiveImportType( null );
+		}
+		setSelectedSections( [] );
+		setLastImport( false );
+		setLastImportWasDryRun( null );
+	};
+
 	const onCancel = () => {
 		importRunner.reset();
 		setActiveImportType( null );
@@ -296,6 +386,7 @@ function useImportPage() {
 		setDuplicateMode( 'import' );
 		setDeleteSource( false );
 		onClearFile();
+		onClearPaste();
 	};
 
 	const onSelectPlugin = ( plugin: ImportPlugin ) => {
@@ -353,6 +444,9 @@ function useImportPage() {
 			duplicateMode,
 			deleteSource,
 			fileInfo,
+			pasteFile,
+			pasteText,
+			pasteInfo,
 			isSniffing,
 			currentError,
 			selectedSections,
@@ -371,6 +465,7 @@ function useImportPage() {
 		onAddFileClick,
 		onCancel,
 		onClearFile,
+		onClearPaste,
 		onDragEnter,
 		onDragLeave,
 		onDragOver,
@@ -378,6 +473,8 @@ function useImportPage() {
 		onFileInputChange,
 		onImport,
 		onOptionsChange,
+		onSelectPasteImporter,
+		onPasteTextChange: selectPastedText,
 		onSelectFileImporter,
 		onSelectPlugin,
 	};

@@ -20,3 +20,25 @@ export function downloadText( filename: string, data: string, format: ExportForm
 	link.remove();
 	window.URL.revokeObjectURL( url );
 }
+
+export async function copyText( data: string ) {
+	if ( navigator.clipboard?.writeText ) {
+		await navigator.clipboard.writeText( data );
+		return;
+	}
+
+	const textArea = document.createElement( 'textarea' );
+
+	textArea.value = data;
+	textArea.setAttribute( 'readonly', '' );
+	textArea.style.position = 'absolute';
+	textArea.style.left = '-9999px';
+	document.body.appendChild( textArea );
+	textArea.select();
+	const copied = document.execCommand( 'copy' );
+	textArea.remove();
+
+	if ( ! copied ) {
+		throw new Error( 'Unable to copy export data' );
+	}
+}

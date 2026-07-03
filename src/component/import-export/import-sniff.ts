@@ -17,6 +17,14 @@ export type ImportSniffResult =
 			error?: 'empty-csv' | 'separator-not-detected' | 'unknown-csv-layout' | 'read-failed';
 	  }
 	| {
+			format: 'apache';
+			valid: boolean;
+			importSupported: true;
+			rules?: number;
+			ruleTypes?: Array< 'rewrite' | 'redirect' | 'redirectmatch' >;
+			error?: 'unknown-apache-layout';
+	  }
+	| {
 			format: 'other';
 			valid: false;
 			error?: 'unsupported-file-type' | 'read-failed';
@@ -44,10 +52,87 @@ export async function sniffImportFile( file: File ): Promise< ImportSniffResult 
 		return sniffCsvText( text );
 	}
 
+	if ( file.name.toLowerCase().endsWith( '.htaccess' ) ) {
+		return sniffApacheText( text );
+	}
+
 	return {
 		format: 'other',
 		valid: false,
 		error: 'unsupported-file-type',
+	};
+}
+
+export function sniffImportText( text: string ): ImportSniffResult {
+	const normalized = text.replace( /^\ufeff/, '' ).trim();
+
+	if ( normalized.length === 0 ) {
+		return {
+			format: 'other',
+			valid: false,
+			error: 'read-failed',
+		};
+	}
+
+	if ( normalized.startsWith( '{' ) || normalized.startsWith( '[' ) ) {
+		return sniffJsonText( text );
+	}
+
+	const apacheResult = sniffApacheText( text );
+	if ( apacheResult.valid ) {
+		return apacheResult;
+	}
+
+	return sniffCsvText( text );
+}
+
+export function sniffApacheText( text: string ): ImportSniffResult {
+	const lines = text
+		.replace( /^\ufeff/, '' )
+		.replace( /\r\n/g, '\n' )
+		.replace( /\r/g, '\n' )
+		.split( '\n' )
+		.map( ( line ) => line.trim() )
+		.filter( ( line ) => line.length > 0 && ! line.startsWith( '#' ) );
+
+	if ( lines.length === 0 ) {
+		return {
+			format: 'apache',
+			valid: false,
+			error: 'unknown-apache-layout',
+		};
+	}
+
+	let rules = 0;
+	const ruleTypes = new Set< 'rewrite' | 'redirect' | 'redirectmatch' >();
+
+	lines.forEach( ( line ) => {
+		if ( /^rewriterule\s+/i.test( line ) ) {
+			rules += 1;
+			ruleTypes.add( 'rewrite' );
+		} else if ( /^redirectmatch\s+/i.test( line ) ) {
+			rules += 1;
+			ruleTypes.add( 'redirectmatch' );
+		} else if ( /^redirect\s+/i.test( line ) ) {
+			rules += 1;
+			ruleTypes.add( 'redirect' );
+		}
+	} );
+
+	if ( rules === 0 ) {
+		return {
+			format: 'apache',
+			valid: false,
+			error: 'unknown-apache-layout',
+		};
+	}
+
+	return {
+		format: 'apache',
+		valid: true,
+		importSupported: true,
+		rules,
+		ruleTypes: Array.from( ruleTypes ),
 	};
 }
 

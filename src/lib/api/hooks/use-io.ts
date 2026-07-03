@@ -1,7 +1,7 @@
 import { useMutation, useQuery, UseMutationOptions, UseQueryOptions, useQueryClient } from '@tanstack/react-query';
 import apiFetch from '@wp-plugin-lib/api-fetch';
 import { RedirectionApi } from 'lib/api-request';
-import { downloadText } from 'page/export/download';
+import { copyText, downloadText } from 'page/export/download';
 import { handleApiError } from '../errors';
 import { queryKeys } from '../query-keys';
 import { useMessageStore } from 'stores';
@@ -34,6 +34,7 @@ type ExportRequestVariables = {
 	exportType: ExportType;
 	format: ExportFormat;
 	download?: boolean;
+	copy?: boolean;
 	filename?: string;
 	completionNotice?: string | Message | false;
 	redirectScopeType?: RedirectScopeType;
@@ -160,6 +161,18 @@ function getExportPreviewRequest( variables: ExportPreviewVariables ) {
 	return RedirectionApi.export.errorPreview( { format: variables.format || 'json' } );
 }
 
+function getDefaultCompletionNotice( variables: ExportRequestVariables ) {
+	if ( variables.copy ) {
+		return 'Export copied';
+	}
+
+	if ( variables.download ) {
+		return 'Export downloaded';
+	}
+
+	return 'Export viewed';
+}
+
 /**
  * Query hook for fetching available plugin importers
  * @param options
@@ -281,6 +294,10 @@ export function useExport(
 					downloadText( variables.filename, response.data, variables.format );
 				}
 
+				if ( variables.copy ) {
+					await copyText( response.data );
+				}
+
 				return response;
 			} catch ( error ) {
 				throw handleApiError( error );
@@ -290,9 +307,7 @@ export function useExport(
 			decrementProgress();
 
 			if ( variables.completionNotice !== false ) {
-				addNotice(
-					variables.completionNotice || ( variables.download ? 'Export downloaded' : 'Export viewed' )
-				);
+				addNotice( variables.completionNotice || getDefaultCompletionNotice( variables ) );
 			}
 		},
 		onError: () => {

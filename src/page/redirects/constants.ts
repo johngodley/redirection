@@ -106,6 +106,14 @@ export const getBulk = (): BulkOption[] => [
 		id: 'export-json',
 		name: __( 'Export as JSON', 'redirection' ),
 	},
+	{
+		id: 'copy-csv',
+		name: __( 'Copy CSV', 'redirection' ),
+	},
+	{
+		id: 'copy-json',
+		name: __( 'Copy JSON', 'redirection' ),
+	},
 ];
 
 export const getDisplayOptions = (): DisplayOption[] => [

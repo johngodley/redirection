@@ -33,14 +33,17 @@ interface ImportPlugin {
 }
 
 interface ImportState {
-	activeImportType: 'file' | 'plugin' | null;
+	activeImportType: 'file' | 'paste' | 'plugin' | null;
 	activePluginId: string | null;
 	group: number;
 	hover: boolean;
 	file: File | false;
+	pasteFile: File | false;
+	pasteText: string;
 	duplicateMode: DuplicateMode;
 	deleteSource: boolean;
 	fileInfo: ImportSniffResult | null;
+	pasteInfo: ImportSniffResult | null;
 	isSniffing: boolean;
 	currentError: Error | null;
 	lastImport: ImportStats | false;

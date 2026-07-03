@@ -153,6 +153,10 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'import/file/1', [ 'duplicate_mode' => 'maybe' ], 'POST' );
 		$this->assertEquals( 400, $result->status );
 		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+
+		$result = $this->callApi( 'import/file/1', [ 'import_sections' => 'groups,redirects' ], 'POST' );
+		$this->assertEquals( 400, $result->status );
+		$this->assertEquals( 'redirect_import_invalid_file', $result->data['code'] );
 	}
 
 	public function testPluginImportOptionValidation() {

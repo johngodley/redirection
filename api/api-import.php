@@ -443,7 +443,12 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return list<string>
 	 */
 	public function sanitize_import_sections_param( $value ) {
-		$values = is_array( $value ) ? $value : [ $value ];
+		if ( is_string( $value ) ) {
+			$values = array_map( 'trim', explode( ',', $value ) );
+		} else {
+			$values = is_array( $value ) ? $value : [ $value ];
+		}
+
 		$allowed = [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ];
 		$sections = [];
 
@@ -466,7 +471,13 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		unset( $request, $param );
 
 		if ( is_string( $value ) ) {
-			return count( $this->sanitize_import_sections_param( $value ) ) === 1;
+			$values = array_filter( array_map( 'trim', explode( ',', $value ) ), 'strlen' );
+
+			if ( count( $values ) === 0 ) {
+				return false;
+			}
+
+			return count( $values ) === count( $this->sanitize_import_sections_param( $value ) );
 		}
 
 		if ( ! is_array( $value ) ) {

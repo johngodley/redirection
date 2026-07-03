@@ -66,6 +66,31 @@
 		border-top: 1px solid #dcdcde;
 	}
 
+	&__textarea-wrap {
+		margin-top: 14px;
+	}
+
+	&__textarea {
+		display: block;
+		width: 100%;
+		min-height: 160px;
+		padding: 12px;
+		border: 1px solid #c3c4c7;
+		border-radius: 4px;
+		background: #fff;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		font-size: 13px;
+		line-height: 1.45;
+		resize: vertical;
+		box-sizing: border-box;
+
+		&:focus {
+			border-color: #2271b1;
+			box-shadow: 0 0 0 1px #2271b1;
+			outline: none;
+		}
+	}
+
 	&--placeholder {
 		display: flex;
 		align-items: center;

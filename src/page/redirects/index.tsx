@@ -130,7 +130,7 @@ function Redirects() {
 			}
 		}
 
-		if ( action === 'export-csv' || action === 'export-json' ) {
+		if ( [ 'export-csv', 'export-json', 'copy-csv', 'copy-json' ].includes( action ) ) {
 			const params = cleanApiParams(
 				table.selectAll
 					? {
@@ -141,12 +141,18 @@ function Redirects() {
 							items,
 					  }
 			);
+			const format = action.endsWith( 'csv' ) ? 'csv' : 'json';
+			const isCopy = action.startsWith( 'copy-' );
 
 			exportMutation.mutate( {
 				exportType: 'redirect',
-				format: action === 'export-csv' ? 'csv' : 'json',
-				download: true,
-				filename: getExportFilename( 'redirect', action === 'export-csv' ? 'csv' : 'json' ),
+				format,
+				download: ! isCopy,
+				copy: isCopy,
+				filename: ! isCopy ? getExportFilename( 'redirect', format ) : undefined,
+				completionNotice: {
+					message: isCopy ? __( 'Export copied', 'redirection' ) : __( 'Export downloaded', 'redirection' ),
+				},
 				params,
 			} );
 

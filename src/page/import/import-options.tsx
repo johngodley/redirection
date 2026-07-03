@@ -11,7 +11,7 @@ interface GroupRow {
 }
 
 interface ImportOptionsProps {
-	activeImportType: 'file' | 'plugin' | null;
+	activeImportType: 'file' | 'paste' | 'plugin' | null;
 	activePluginId: string | null;
 	file: File | false;
 	disabled?: boolean;
@@ -44,14 +44,15 @@ function ImportOptions( {
 		activeImportType === 'plugin' &&
 		( activePluginId === 'wordpress-old-slugs' || activePluginId === 'safe-redirect-manager' );
 	const groupItems =
-		activeImportType === 'file' && file && isJsonFile( file )
+		( activeImportType === 'file' || activeImportType === 'paste' ) && file && isJsonFile( file )
 			? [ { value: '0', label: __( 'Use groups in file', 'redirection' ) }, ...items ]
 			: items;
 	const jsonSections = fileInfo?.format === 'json' && fileInfo.valid && fileInfo.contents ? fileInfo.contents : null;
 	const hasRedirectCsv = fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
+	const hasApacheImport = fileInfo?.format === 'apache' && fileInfo.valid;
 	const hasRedirectSection = jsonSections
 		? Number( jsonSections.redirects || 0 ) > 0 && selectedSections.includes( 'redirects' )
-		: activeImportType === 'plugin' || hasRedirectCsv;
+		: activeImportType === 'plugin' || hasRedirectCsv || hasApacheImport;
 
 	return (
 		<fieldset className="groups inline-edit-row" disabled={ disabled }>
