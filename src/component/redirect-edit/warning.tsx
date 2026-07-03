@@ -306,7 +306,7 @@ export const Warnings = ( { warnings }: WarningsProps ) => {
 
 	return (
 		<TableRow>
-			<div className="redirect-edit_warning notice notice-warning">
+			<div className="redirect-edit_warning notice notice-warning redirection-notice">
 				{ warnings.map( ( text: React.ReactNode, pos: number ) => (
 					<p key={ pos }>
 						<span className="dashicons dashicons-info" />
