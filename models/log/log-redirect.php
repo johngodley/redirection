@@ -175,7 +175,11 @@ class Red_Redirect_Log extends Red_Log {
 	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
-		$sanitizer = new CsvSanitizer();
+		static $sanitizer = null;
+
+		if ( $sanitizer === null ) {
+			$sanitizer = new CsvSanitizer();
+		}
 
 		/** @var RedirectCsvRow $row */
 		return [

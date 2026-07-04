@@ -16,17 +16,22 @@ define( 'REDIRECTION_BUILD', '${ md5 }' );
 define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 `;
 
-function generateVersion() {
-	const buildFile = path.resolve( __dirname, 'build/redirection.js' );
+function generateVersion( compilation ) {
+	const versionFile = path.resolve( __dirname, 'build/redirection-version.php' );
+	const asset = compilation.getAsset( 'redirection.js' );
 
-	if ( ! fs.existsSync( buildFile ) ) {
+	if ( ! asset ) {
+		if ( fs.existsSync( versionFile ) ) {
+			fs.unlinkSync( versionFile );
+		}
+
 		return;
 	}
 
-	const data = fs.readFileSync( buildFile );
+	const data = asset.source.source();
 	const md5 = crypto.createHash( 'md5' ).update( data ).digest( 'hex' );
 
-	fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
+	fs.writeFileSync( versionFile, versionHeader( md5 ) );
 }
 
 function isDefaultCssPlugin( plugin ) {

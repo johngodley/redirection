@@ -95,7 +95,11 @@ class Red_404_Log extends Red_Log {
 	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
-		$sanitizer = new CsvSanitizer();
+		static $sanitizer = null;
+
+		if ( $sanitizer === null ) {
+			$sanitizer = new CsvSanitizer();
+		}
 
 		/** @var Log404Row $row */
 		return [
