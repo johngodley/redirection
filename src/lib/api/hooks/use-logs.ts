@@ -25,6 +25,7 @@ export function useLogList(
 
 	return useQuery( {
 		queryKey: queryKeys.logs.list( cleanedParams ),
+		placeholderData: ( previousData ) => previousData,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.log.list( cleanedParams ) );
@@ -130,6 +131,7 @@ export function useErrorList(
 
 	return useQuery( {
 		queryKey: queryKeys.errors.list( cleanedParams ),
+		placeholderData: ( previousData ) => previousData,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.error.list( cleanedParams ) );

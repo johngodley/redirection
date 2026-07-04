@@ -5,6 +5,7 @@ import { GroupListResponseSchema, type GroupListResponse } from 'types';
 import { queryKeys } from '../query-keys';
 import { handleApiError } from '../errors';
 import { cleanApiParams } from '../utils';
+import { useMessageStore } from 'stores';
 
 /**
  * Query hook for fetching groups list
@@ -21,12 +22,15 @@ export function useGroupList(
 		queryKey: queryKeys.groups.list( cleanedParams ),
 		refetchOnMount: 'always',
 		refetchOnReconnect: true,
+		placeholderData: ( previousData ) => previousData,
 		queryFn: async () => {
 			try {
 				const response = await apiFetch( RedirectionApi.group.list( cleanedParams ) );
 				return GroupListResponseSchema.parse( response );
 			} catch ( error ) {
-				throw handleApiError( error );
+				const handledError = handleApiError( error );
+				useMessageStore.getState().addError( handledError.message || 'Failed to fetch groups' );
+				throw handledError;
 			}
 		},
 		...options,

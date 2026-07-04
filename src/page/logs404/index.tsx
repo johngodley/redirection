@@ -92,7 +92,7 @@ function Logs404() {
 
 	// Derive status from Query states
 	let status = STATUS_IDLE;
-	if ( isLoading ) {
+	if ( isLoading && ! errorData ) {
 		status = STATUS_LOADING;
 	} else if ( errorData ) {
 		status = STATUS_COMPLETE;

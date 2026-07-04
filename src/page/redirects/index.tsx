@@ -90,9 +90,9 @@ function Redirects() {
 
 	// Derive status from Query states
 	let status = STATUS_IDLE;
-	if ( isLoading ) {
+	if ( isLoading && ! redirectData ) {
 		status = STATUS_LOADING;
-	} else if ( isSuccess ) {
+	} else if ( isSuccess || redirectData ) {
 		status = STATUS_COMPLETE;
 	}
 

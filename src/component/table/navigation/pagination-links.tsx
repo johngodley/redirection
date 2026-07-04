@@ -16,16 +16,28 @@ interface PaginationLinksProps {
 function PaginationLinks( props: PaginationLinksProps ) {
 	const { page, total, perPage, onChangePage } = props;
 	const onePage = total <= perPage;
-	const [ currentPage, setPage ] = useState( page + 1 );
+	const [ currentPage, setPage ] = useState( String( page + 1 ) );
 
 	useEffect( () => {
-		setPage( page + 1 );
+		setPage( String( page + 1 ) );
 	}, [ page ] );
 
 	if ( onePage ) {
 		return null;
 	}
 	const max = getTotalPages( total, perPage );
+
+	const commitPage = () => {
+		if ( ! /^\d+$/.test( currentPage ) ) {
+			setPage( String( page + 1 ) );
+			return;
+		}
+
+		const nextPage = Number( currentPage );
+		const boundedPage = Math.min( max, Math.max( 1, nextPage ) );
+		setPage( String( boundedPage ) );
+		onChangePage( boundedPage - 1 );
+	};
 
 	return (
 		<>
@@ -58,8 +70,8 @@ function PaginationLinks( props: PaginationLinksProps ) {
 					value={ currentPage }
 					size={ 2 }
 					aria-describedby="table-paging"
-					onBlur={ () => onChangePage( Math.min( max - 1, Math.max( 0, currentPage - 1 ) ) ) }
-					onChange={ ( ev ) => setPage( parseInt( ev.target.value, 10 ) ) }
+					onBlur={ commitPage }
+					onChange={ ( ev ) => setPage( ev.target.value ) }
 				/>
 
 				<span className="tablenav-paging-text">
