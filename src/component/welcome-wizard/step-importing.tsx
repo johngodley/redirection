@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { __ } from '@wordpress/i18n';
-import { usePluginImport } from 'lib/api/hooks';
+import { useImportRunner } from 'lib/api/hooks';
 
 interface StepImportingOptions {
 	importers: string[];
@@ -13,21 +13,35 @@ interface StepImportingProps {
 }
 
 export default function StepImporting( { step, setStep, options }: StepImportingProps ) {
-	const pluginImport = usePluginImport();
-	const { mutate } = pluginImport;
+	const importRunner = useImportRunner();
+	const { mutate } = importRunner;
 
 	let importingStatus: 'idle' | 'loading' | 'success' | 'error' = 'idle';
-	if ( pluginImport.isPending ) {
+	if ( importRunner.isPending ) {
 		importingStatus = 'loading';
-	} else if ( pluginImport.isSuccess ) {
+	} else if ( importRunner.isSuccess ) {
 		importingStatus = 'success';
-	} else if ( pluginImport.isError ) {
+	} else if ( importRunner.isError ) {
 		importingStatus = 'error';
 	}
 
 	const doImport = useCallback( () => {
-		mutate( options.importers );
-	}, [ mutate, options.importers ] );
+		const importers = options.importers.filter( ( importer ) => importer.length > 0 );
+
+		if ( importers.length === 0 ) {
+			setStep( step + 1 );
+			return;
+		}
+
+		// Setup creates the default group before the importer step runs.
+		mutate( {
+			sourceType: 'plugin',
+			mode: 'import',
+			pluginId: importers,
+			groupId: 1,
+			duplicateMode: 'import',
+		} );
+	}, [ mutate, options.importers, setStep, step ] );
 
 	useEffect( () => {
 		doImport();

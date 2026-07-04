@@ -1,6 +1,13 @@
 import { ZodError } from 'zod';
 import { ErrorResponse } from 'types';
 
+type ApiError = Error & {
+	code?: string | number;
+	data?: unknown;
+	jsonData?: unknown;
+	request?: unknown;
+};
+
 /**
  * Custom error class for API validation failures
  */
@@ -66,7 +73,29 @@ export function handleApiError( error: unknown ): Error {
 	// Object with message
 	if ( typeof error === 'object' && error !== null && 'message' in error ) {
 		const err = error as ErrorResponse;
-		return new Error( err.message || 'Unknown error' );
+		const apiError = new Error( err.message || 'Unknown error' ) as ApiError;
+
+		if ( err.code !== undefined ) {
+			apiError.code = err.code;
+		}
+
+		if ( err.data !== undefined ) {
+			apiError.data = err.data;
+		}
+
+		if ( err.jsonData !== undefined ) {
+			apiError.jsonData = err.jsonData;
+		}
+
+		if ( err.request !== undefined ) {
+			apiError.request = err.request;
+		}
+
+		if ( typeof err.code === 'string' && err.code.length > 0 ) {
+			apiError.name = err.code;
+		}
+
+		return apiError;
 	}
 
 	// Fallback

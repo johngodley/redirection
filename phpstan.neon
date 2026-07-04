@@ -10,6 +10,7 @@ parameters:
         - matches
         - modules
         - includes/fileio
+        - includes/import-export
         - database
         - models
         - api

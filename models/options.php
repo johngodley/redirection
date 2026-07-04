@@ -49,6 +49,32 @@ class Red_Options {
 	public const OPTION_KEY = 'redirection_options';
 
 	/**
+	 * Portable settings that can be safely imported/exported.
+	 *
+	 * @var array<int, string>
+	 */
+	private const IMPORT_EXPORT_KEYS = [
+		'support',
+		'monitor_types',
+		'auto_target',
+		'expire_redirect',
+		'expire_404',
+		'log_external',
+		'log_header',
+		'track_hits',
+		'redirect_cache',
+		'ip_logging',
+		'https',
+		'headers',
+		'plugin_update',
+		'permalinks',
+		'flag_query',
+		'flag_case',
+		'flag_trailing',
+		'flag_regex',
+	];
+
+	/**
 	 * REST API location constants. Previously REDIRECTION_API_JSON*, now centralized here.
 	 */
 	public const API_JSON = 0;
@@ -76,6 +102,25 @@ class Red_Options {
 	 */
 	public static function get(): array {
 		return self::build_options();
+	}
+
+	/**
+	 * Get settings that are safe to import/export.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public static function get_import_export_options(): array {
+		return self::filter_import_export_options( self::build_options() );
+	}
+
+	/**
+	 * Filter a settings array to only include portable options.
+	 *
+	 * @param array<string, mixed> $settings
+	 * @return array<string, mixed>
+	 */
+	public static function filter_import_export_options( array $settings ): array {
+		return array_intersect_key( $settings, array_fill_keys( self::IMPORT_EXPORT_KEYS, true ) );
 	}
 
 	/**

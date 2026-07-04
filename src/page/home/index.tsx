@@ -38,7 +38,7 @@ const getTitles = (): PageTitles => ( {
 	redirect: __( 'Redirections', 'redirection' ),
 	site: __( 'Site', 'redirection' ),
 	groups: __( 'Groups', 'redirection' ),
-	io: __( 'Import/Export', 'redirection' ),
+	io: __( 'Import', 'redirection' ),
 	log: __( 'Logs', 'redirection' ),
 	'404s': __( '404 errors', 'redirection' ),
 	options: __( 'Options', 'redirection' ),
@@ -68,7 +68,7 @@ const getMenu = (): MenuOption[] =>
 			value: '404s',
 		},
 		{
-			name: __( 'Import/Export', 'redirection' ),
+			name: __( 'Import', 'redirection' ),
 			value: 'io',
 		},
 		{

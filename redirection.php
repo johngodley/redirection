@@ -53,7 +53,7 @@ require_once __DIR__ . '/models/header.php';
 require_once __DIR__ . '/models/group.php';
 
 /**
- * Autoload the migrated file I/O classes only.
+ * Autoload the migrated import/export classes only.
  *
  * This lets us adopt autoloading incrementally for admin/CLI-only paths
  * without changing the rest of the plugin bootstrap in one step.
@@ -61,23 +61,44 @@ require_once __DIR__ . '/models/group.php';
  * @param string $requested_class Requested class name.
  * @return void
  */
+function redirection_autoload_import_export( $requested_class ) {
+	redirection_autoload_namespace( $requested_class, 'Redirection\\ImportExport\\', __DIR__ . '/includes/import-export/' );
+}
+
+/**
+ * Autoload the legacy fileio classes.
+ *
+ * @param string $requested_class Requested class name.
+ * @return void
+ */
 function redirection_autoload_fileio( $requested_class ) {
-	$legacy = [
+	$legacy_classes = [
 		'Red_FileIO' => __DIR__ . '/includes/fileio/class-fileio.php',
 		'Red_Htaccess' => __DIR__ . '/includes/fileio/class-htaccess.php',
-		'Red_Apache_File' => __DIR__ . '/includes/fileio/format/class-apache.php',
 		'Red_Csv_File' => __DIR__ . '/includes/fileio/format/class-csv.php',
 		'Red_Json_File' => __DIR__ . '/includes/fileio/format/class-json.php',
+		'Red_Apache_File' => __DIR__ . '/includes/fileio/format/class-apache.php',
 		'Red_Nginx_File' => __DIR__ . '/includes/fileio/format/class-nginx.php',
 		'Red_Rss_File' => __DIR__ . '/includes/fileio/format/class-rss.php',
 	];
 
-	if ( isset( $legacy[ $requested_class ] ) ) {
-		require_once $legacy[ $requested_class ];
+	if ( isset( $legacy_classes[ $requested_class ] ) ) {
+		require_once $legacy_classes[ $requested_class ];
 		return;
 	}
 
-	$prefix = 'Redirection\\FileIO\\';
+	redirection_autoload_namespace( $requested_class, 'Redirection\\FileIO\\', __DIR__ . '/includes/fileio/' );
+}
+
+/**
+ * Autoload a namespaced class from a plugin directory.
+ *
+ * @param string $requested_class Requested class name.
+ * @param string $prefix Namespace prefix.
+ * @param string $base_dir Base directory.
+ * @return void
+ */
+function redirection_autoload_namespace( $requested_class, $prefix, $base_dir ) {
 	if ( strncmp( $prefix, $requested_class, strlen( $prefix ) ) !== 0 ) {
 		return;
 	}
@@ -88,7 +109,15 @@ function redirection_autoload_fileio( $requested_class ) {
 	}
 
 	$normalize = static function ( $value ) {
-		return str_replace( '_', '-', strtolower( $value ) );
+		$value = preg_replace( '/(?<!^)[A-Z]/', '-$0', $value );
+
+		if ( ! is_string( $value ) ) {
+			return '';
+		}
+
+		$value = str_replace( '_', '-', strtolower( $value ) );
+
+		return str_replace( 'file-i-o', 'fileio', $value );
 	};
 
 	$segments = explode( '\\', $relative_class );
@@ -96,8 +125,6 @@ function redirection_autoload_fileio( $requested_class ) {
 	if ( ! is_string( $class_name ) || $class_name === '' ) {
 		return;
 	}
-
-	$base_dir = __DIR__ . '/includes/fileio/';
 
 	if ( count( $segments ) > 0 ) {
 		$base_dir .= implode( '/', array_map( $normalize, $segments ) ) . '/';
@@ -110,6 +137,7 @@ function redirection_autoload_fileio( $requested_class ) {
 	}
 }
 
+spl_autoload_register( 'redirection_autoload_import_export' );
 spl_autoload_register( 'redirection_autoload_fileio' );
 
 /**

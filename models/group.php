@@ -21,6 +21,12 @@ require_once __DIR__ . '/group-filter.php';
  *     enabled: bool,
  *     default?: bool
  * }
+ * @phpstan-type GroupExport array{
+ *     id: int,
+ *     name: string,
+ *     module_id: int,
+ *     status: string
+ * }
  * @phpstan-type GroupFilteredResult array{
  *     items: array<GroupJson>,
  *     total: int
@@ -60,6 +66,13 @@ class Red_Group {
 	private $status = 'enabled';
 
 	/**
+	 * Group position
+	 *
+	 * @var integer
+	 */
+	private $position = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @param GroupData|string $values Values.
@@ -75,6 +88,10 @@ class Red_Group {
 
 			if ( isset( $values->status ) ) {
 				$this->status = $values->status;
+			}
+
+			if ( isset( $values->position ) ) {
+				$this->position = intval( $values->position, 10 );
 			}
 		}
 	}
@@ -336,6 +353,15 @@ class Red_Group {
 	}
 
 	/**
+	 * Get the group position
+	 *
+	 * @return int
+	 */
+	public function get_position() {
+		return $this->position;
+	}
+
+	/**
 	 * Get filtered groups with pagination
 	 *
 	 * @param array<string, mixed> $params Filter and pagination parameters.
@@ -417,6 +443,20 @@ class Red_Group {
 			'moduleName' => $module ? $module->get_name() : '',
 			'enabled' => $this->is_enabled(),
 		);
+	}
+
+	/**
+	 * Convert group to export representation
+	 *
+	 * @return GroupExport
+	 */
+	public function to_export() {
+		return [
+			'id' => $this->get_id(),
+			'name' => $this->get_name(),
+			'module_id' => $this->get_module_id(),
+			'status' => $this->status,
+		];
 	}
 
 	/**
