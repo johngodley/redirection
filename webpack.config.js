@@ -17,11 +17,22 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 `;
 
 function generateVersion() {
-	fs.readFile( path.resolve( __dirname, 'build/redirection.js' ), ( error, data ) => {
-		const md5 = crypto.createHash( 'md5' ).update( data, 'utf8' ).digest( 'hex' );
+	const data = fs.readFileSync( path.resolve( __dirname, 'build/redirection.js' ) );
+	const md5 = crypto.createHash( 'md5' ).update( data, 'utf8' ).digest( 'hex' );
 
-		fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
-	} );
+	fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
+}
+
+function isDefaultCssPlugin( plugin ) {
+	const pluginName = plugin?.constructor?.name;
+
+	return (
+		plugin instanceof MiniCSSExtractPlugin ||
+		pluginName === MiniCSSExtractPlugin.name ||
+		plugin instanceof RtlCssPlugin ||
+		pluginName === RtlCssPlugin.name ||
+		pluginName === 'RtlCSSPlugin'
+	);
 }
 
 // Custom RTL CSS Plugin to use redirection naming
@@ -114,10 +125,7 @@ const modified = {
 	],
 	plugins: [
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
-		...defaultConfig.plugins.filter(
-			( plugin ) =>
-				plugin?.constructor?.name !== 'MiniCssExtractPlugin' && plugin?.constructor?.name !== 'RtlCSSPlugin'
-		),
+		...defaultConfig.plugins.filter( ( plugin ) => ! isDefaultCssPlugin( plugin ) ),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
 		new CustomRtlCssPlugin(),
 
