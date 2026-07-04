@@ -72,6 +72,21 @@ function redirection_autoload_import_export( $requested_class ) {
  * @return void
  */
 function redirection_autoload_fileio( $requested_class ) {
+	$legacy_classes = [
+		'Red_FileIO' => __DIR__ . '/includes/fileio/class-fileio.php',
+		'Red_Htaccess' => __DIR__ . '/includes/fileio/class-htaccess.php',
+		'Red_Csv_File' => __DIR__ . '/includes/fileio/format/class-csv.php',
+		'Red_Json_File' => __DIR__ . '/includes/fileio/format/class-json.php',
+		'Red_Apache_File' => __DIR__ . '/includes/fileio/format/class-apache.php',
+		'Red_Nginx_File' => __DIR__ . '/includes/fileio/format/class-nginx.php',
+		'Red_Rss_File' => __DIR__ . '/includes/fileio/format/class-rss.php',
+	];
+
+	if ( isset( $legacy_classes[ $requested_class ] ) ) {
+		require_once $legacy_classes[ $requested_class ];
+		return;
+	}
+
 	redirection_autoload_namespace( $requested_class, 'Redirection\\FileIO\\', __DIR__ . '/includes/fileio/' );
 }
 
