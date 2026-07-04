@@ -2,21 +2,19 @@
 
 use Brain\Monkey\Functions;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
 class OpcacheClearTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
 		// Stub functions for each test (Brain\Monkey tears down stubs after each test)
-		Functions\stubs( [
-			'plugin_basename' => 'redirection/redirection.php',
-			'add_action' => null,
-			'add_filter' => null,
-			'is_admin' => false,
-		] );
+		Functions\stubs(
+			[
+				'plugin_basename' => 'redirection/redirection.php',
+				'add_action' => null,
+				'add_filter' => null,
+				'is_admin' => false,
+			]
+		);
 		Functions\when( 'function_exists' )->justReturn( true );
 
 		// Load the plugin file to get the real function (must be after stubs are set up)

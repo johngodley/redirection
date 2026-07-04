@@ -4,7 +4,7 @@ use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 use Redirection\ImportExport\Format\Csv;
 
-class ImportCsvTest extends WP_UnitTestCase {
+class ImportExportImportCsvTest extends WP_UnitTestCase {
 	public function testSourceTargetUnescapesProtectedValues() {
 		$importer = new Csv();
 		$csv = $importer->csv_as_item( [ '[FORMULA] =/source', " \t[FORMULA] @target ", 0, 'url', '301', 'url', '2', '' ], Red_Group::get( 1 ) );

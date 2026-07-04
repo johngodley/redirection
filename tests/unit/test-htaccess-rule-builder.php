@@ -4,20 +4,11 @@ require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-htaccess-san
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-encoder.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-target-builder.php';
 require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-rule-builder.php';
+require_once PLUGIN_PATH . '/tests/unit/stubs/class-url-match.php';
 
 use Redirection\ImportExport\HtaccessEncoder;
 use Redirection\ImportExport\HtaccessRuleBuilder;
 use Redirection\ImportExport\HtaccessTargetBuilder;
-
-if ( ! class_exists( 'URL_Match' ) ) {
-	class URL_Match {
-		public $url;
-
-		public function __construct( $url ) {
-			$this->url = $url;
-		}
-	}
-}
 
 class HtaccessRuleBuilderTest extends TestCase {
 	private function get_item( array $args, $match ) {
