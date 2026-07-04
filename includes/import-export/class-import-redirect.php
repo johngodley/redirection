@@ -86,12 +86,14 @@ class ImportRedirect {
 
 		if ( $this->is_dry_run ) {
 			$redirect['group_id'] = $resolved_group->get_id();
+			$redirect = $this->apply_default_group_status( $redirect, $resolved_group );
 			$this->add_preview_item( $redirect, $resolved_group->get_name(), 'created' );
 			$this->created++;
 			return true;
 		}
 
 		$redirect['group_id'] = $resolved_group->get_id();
+		$redirect = $this->apply_default_group_status( $redirect, $resolved_group );
 		$created = $this->redirects->create( $redirect );
 		if ( $created instanceof \Red_Item ) {
 			$this->add_preview_item( $redirect, $resolved_group->get_name(), 'created' );
@@ -182,6 +184,21 @@ class ImportRedirect {
 		if ( isset( $redirect['status'] ) && is_string( $redirect['status'] ) ) {
 			$this->redirects->set_enabled( $existing, $redirect['status'] !== 'disabled' );
 		}
+	}
+
+	/**
+	 * @param array<string, mixed> $redirect Redirect data being imported.
+	 * @param \Red_Group|\Redirection\ImportExport\ImportPreviewGroup $group Resolved group.
+	 * @return array<string, mixed>
+	 */
+	private function apply_default_group_status( array $redirect, $group ) {
+		if ( isset( $redirect['enabled'] ) || isset( $redirect['status'] ) || ! method_exists( $group, 'is_enabled' ) ) {
+			return $redirect;
+		}
+
+		$redirect['status'] = $group->is_enabled() ? 'enabled' : 'disabled';
+
+		return $redirect;
 	}
 
 	/**

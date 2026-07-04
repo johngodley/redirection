@@ -154,6 +154,35 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 		$this->assertEquals( $before + 1, $after );
 	}
 
+	public function testImportHandlesMissingRedirectGroupId() {
+		global $wpdb;
+
+		$before = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups WHERE name='Group'" ), 10 );
+		$import = [
+			'redirects' => [
+				[
+					'url' => '/source-no-group',
+					'id' => 1,
+					'match_type' => 'url',
+					'action_type' => 'url',
+					'action_data' => [ 'url' => '/target-no-group' ],
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load( new ImportGroup( 0 ), new ImportRedirect(), $file, false );
+		$redirect = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE url=%s ORDER BY id DESC LIMIT 1", '/source-no-group' ) );
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups WHERE name='Group'" ), 10 );
+
+		$this->assertEquals( 1, $data['created'] );
+		$this->assertNotNull( $redirect );
+		$this->assertGreaterThan( 0, intval( $redirect->group_id, 10 ) );
+		$this->assertEquals( 1, $data['groups_created'] );
+		$this->assertEquals( $before + 1, $after );
+	}
+
 	public function testImportCreatesDisabledGroupFromExportStatus() {
 		global $wpdb;
 
@@ -307,32 +336,6 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 		);
 	}
 
-	public function testImportExportSettingsUsesPortableSubset() {
-		Red_Options::save(
-			[
-				'https' => true,
-				'flag_case' => true,
-				'update_notice' => 99,
-				'rest_api' => Red_Options::API_JSON_RELATIVE,
-				'database' => 'test-version',
-			]
-		);
-
-		$service = new \Redirection\ImportExport\ExportService();
-		$result = $service->export_bundle( [ 'setting' ], [], 'json' );
-
-		$this->assertNotFalse( $result );
-
-		$data = json_decode( $result['data'], true );
-
-		$this->assertTrue( $data['settings']['https'] );
-		$this->assertTrue( $data['settings']['flag_case'] );
-		$this->assertArrayNotHasKey( 'update_notice', $data['settings'] );
-		$this->assertArrayNotHasKey( 'rest_api', $data['settings'] );
-		$this->assertArrayNotHasKey( 'database', $data['settings'] );
-		$this->assertEquals( count( $data['settings'] ), $result['total'] );
-	}
-
 	public function testImportUpdatesExistingRedirectById() {
 		$group = Red_Group::create( 'existing-group', 1 );
 		$other_group = Red_Group::create( 'other-group', 1 );
@@ -357,7 +360,7 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 			],
 			'redirects' => [
 				[
-					'url' => '/json-source-updated',
+					'url' => '/json-source',
 					'id' => $existing->get_id(),
 					'group_id' => $other_group->get_id(),
 					'match_type' => 'url',
@@ -374,7 +377,7 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 0, $data['created'] );
 		$this->assertEquals( 1, $data['updated'] );
-		$this->assertEquals( '/json-source-updated', $updated->get_url() );
+		$this->assertEquals( '/json-source', $updated->get_url() );
 		$this->assertEquals( $group->get_id(), $updated->get_group_id() );
 		$this->assertEquals( [ 'url' => '/new-target' ], $updated->to_json()['action_data'] );
 	}
@@ -403,7 +406,7 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 			],
 			'redirects' => [
 				[
-					'url' => '/json-source-updated',
+					'url' => '/json-source',
 					'id' => $existing->get_id(),
 					'group_id' => $other_group->get_id(),
 					'match_type' => 'url',

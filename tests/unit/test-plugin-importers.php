@@ -2,47 +2,6 @@
 
 use Brain\Monkey\Functions;
 
-require_once PLUGIN_PATH . '/tests/unit/stubs/class-test-import-group-item.php';
-require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-group.php';
-require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-item.php';
-require_once PLUGIN_PATH . '/tests/unit/stubs/functions.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-group-repository.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-redirect-repository.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-format-handler.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-format-factory.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-file-reader.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-export-details.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-target-builder.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-rule-builder.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-encoder.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-htaccess.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-import-group.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-redirect-duplicate-matcher.php';
-require_once PLUGIN_PATH . '/includes/import-export/class-import-redirect.php';
-require_once PLUGIN_PATH . '/includes/import-export/parser/class-csv-parser.php';
-require_once PLUGIN_PATH . '/includes/import-export/parser/class-json-parser.php';
-require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-csv-sanitizer.php';
-require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-htaccess-sanitizer.php';
-require_once PLUGIN_PATH . '/includes/import-export/format/class-apache.php';
-require_once PLUGIN_PATH . '/includes/import-export/format/class-csv.php';
-require_once PLUGIN_PATH . '/includes/import-export/format/class-json.php';
-require_once PLUGIN_PATH . '/includes/import-export/format/class-nginx.php';
-require_once PLUGIN_PATH . '/includes/import-export/format/class-rss.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin-registry.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-redirect-item-mapper.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-eps301-redirects.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-fake-redirection.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-pretty-links.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-quick-redirects.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-rank-math.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-safe-redirect-manager.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-seo-redirection.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-seopress.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-simple301.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-slim-seo.php';
-require_once PLUGIN_PATH . '/includes/import-export/importer/class-wordpress-old-slugs.php';
-
 use Redirection\ImportExport\Format\Apache;
 use Redirection\ImportExport\Format\Csv;
 use Redirection\ImportExport\Format\Json;
@@ -63,12 +22,56 @@ use Redirection\ImportExport\Importer\RedirectItemMapper;
  * @preserveGlobalState disabled
  */
 class PluginImporterUnitTest extends TestCase {
+	private function load_importer_dependencies() {
+		require_once PLUGIN_PATH . '/tests/unit/stubs/class-test-import-group-item.php';
+		require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-group.php';
+		require_once PLUGIN_PATH . '/tests/unit/stubs/class-red-item.php';
+		require_once PLUGIN_PATH . '/tests/unit/stubs/functions.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-group-repository.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-redirect-repository.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-format-handler.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-format-factory.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-file-reader.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-export-details.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-target-builder.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-rule-builder.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-htaccess-encoder.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-htaccess.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-import-group.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-redirect-duplicate-matcher.php';
+		require_once PLUGIN_PATH . '/includes/import-export/class-import-redirect.php';
+		require_once PLUGIN_PATH . '/includes/import-export/parser/class-csv-parser.php';
+		require_once PLUGIN_PATH . '/includes/import-export/parser/class-json-parser.php';
+		require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-csv-sanitizer.php';
+		require_once PLUGIN_PATH . '/includes/import-export/sanitizer/class-htaccess-sanitizer.php';
+		require_once PLUGIN_PATH . '/includes/import-export/format/class-apache.php';
+		require_once PLUGIN_PATH . '/includes/import-export/format/class-csv.php';
+		require_once PLUGIN_PATH . '/includes/import-export/format/class-json.php';
+		require_once PLUGIN_PATH . '/includes/import-export/format/class-nginx.php';
+		require_once PLUGIN_PATH . '/includes/import-export/format/class-rss.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-plugin-registry.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-redirect-item-mapper.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-eps301-redirects.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-fake-redirection.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-pretty-links.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-quick-redirects.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-rank-math.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-safe-redirect-manager.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-seo-redirection.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-seopress.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-simple301.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-slim-seo.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-wordpress-old-slugs.php';
+	}
+
 	private function get_mapper() {
 		return new RedirectItemMapper();
 	}
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->load_importer_dependencies();
 
 		Red_Group::reset();
 		Red_Item::reset();

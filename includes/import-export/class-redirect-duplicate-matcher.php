@@ -26,7 +26,7 @@ class RedirectDuplicateMatcher {
 	public function get_existing_redirect( array $redirect, $file_redirect_id ) {
 		if ( $file_redirect_id > 0 ) {
 			$existing = $this->redirects->get( $file_redirect_id );
-			if ( $existing !== false ) {
+			if ( $existing !== false && $this->matches_redirect_data( $existing, $redirect ) ) {
 				return $existing;
 			}
 		}
@@ -39,5 +39,24 @@ class RedirectDuplicateMatcher {
 			$redirect['url'],
 			isset( $redirect['regex'] ) ? $redirect['regex'] === true : false
 		);
+	}
+
+	/**
+	 * @param \Red_Item $existing Existing redirect.
+	 * @param array<string, mixed> $redirect Redirect data being imported.
+	 * @return bool
+	 */
+	private function matches_redirect_data( \Red_Item $existing, array $redirect ) {
+		if ( ! isset( $redirect['url'] ) || ! is_string( $redirect['url'] ) ) {
+			return false;
+		}
+
+		$data = $existing->to_json();
+		if ( ! is_array( $data ) || ! isset( $data['url'] ) || ! is_string( $data['url'] ) ) {
+			return false;
+		}
+
+		return $data['url'] === $redirect['url']
+			&& ( isset( $data['regex'] ) ? $data['regex'] === true : false ) === ( isset( $redirect['regex'] ) ? $redirect['regex'] === true : false );
 	}
 }

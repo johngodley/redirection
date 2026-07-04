@@ -45,6 +45,14 @@ class CsvParserTest extends TestCase {
 		$this->assertEquals( 301, $item['action_code'] );
 	}
 
+	public function testParseRowDoesNotSetStatusWithoutResolvedGroup() {
+		$parser = new CsvParser();
+
+		$item = $parser->parse_row( [ '/source', '/target', '0', '301' ] );
+
+		$this->assertArrayNotHasKey( 'status', $item );
+	}
+
 	public function testParseRowUnescapesProtectedValues() {
 		$parser = new CsvParser();
 		Red_Group::$groups[9] = new Test_Import_Group_Item( 9 );

@@ -126,14 +126,15 @@ class Json extends FormatHandler {
 		if ( $all_sections || in_array( 'redirects', $sections, true ) ) {
 			foreach ( $parsed['redirects'] as $item ) {
 				$file_redirect_id = isset( $item['id'] ) ? intval( $item['id'], 10 ) : 0;
+				$file_group_id = isset( $item['group_id'] ) ? intval( $item['group_id'], 10 ) : 0;
 
 				unset( $item['id'] );
 
 				$saved = $import_redirect->save(
 					$item,
 					$group,
-					$item['group_id'],
-					isset( $parsed['groups'][ intval( $item['group_id'], 10 ) ] ) ? $parsed['groups'][ intval( $item['group_id'], 10 ) ] : null,
+					$file_group_id,
+					isset( $parsed['groups'][ $file_group_id ] ) ? $parsed['groups'][ $file_group_id ] : null,
 					$file_redirect_id
 				);
 				if ( $saved === false ) {

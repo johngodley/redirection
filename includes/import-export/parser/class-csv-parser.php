@@ -63,7 +63,6 @@ class CsvParser {
 			'match_type' => 'url',
 			'action_type' => $this->get_action_type( $code ),
 			'action_code' => $code,
-			'status' => is_object( $group ) && method_exists( $group, 'is_enabled' ) && ! $group->is_enabled() ? 'disabled' : 'enabled',
 		];
 	}
 

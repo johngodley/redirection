@@ -62,7 +62,28 @@ require_once __DIR__ . '/models/group.php';
  * @return void
  */
 function redirection_autoload_import_export( $requested_class ) {
-	$prefix = 'Redirection\\ImportExport\\';
+	redirection_autoload_namespace( $requested_class, 'Redirection\\ImportExport\\', __DIR__ . '/includes/import-export/' );
+}
+
+/**
+ * Autoload the legacy fileio classes.
+ *
+ * @param string $requested_class Requested class name.
+ * @return void
+ */
+function redirection_autoload_fileio( $requested_class ) {
+	redirection_autoload_namespace( $requested_class, 'Redirection\\FileIO\\', __DIR__ . '/includes/fileio/' );
+}
+
+/**
+ * Autoload a namespaced class from a plugin directory.
+ *
+ * @param string $requested_class Requested class name.
+ * @param string $prefix Namespace prefix.
+ * @param string $base_dir Base directory.
+ * @return void
+ */
+function redirection_autoload_namespace( $requested_class, $prefix, $base_dir ) {
 	if ( strncmp( $prefix, $requested_class, strlen( $prefix ) ) !== 0 ) {
 		return;
 	}
@@ -79,7 +100,9 @@ function redirection_autoload_import_export( $requested_class ) {
 			return '';
 		}
 
-		return str_replace( '_', '-', strtolower( $value ) );
+		$value = str_replace( '_', '-', strtolower( $value ) );
+
+		return str_replace( 'file-i-o', 'fileio', $value );
 	};
 
 	$segments = explode( '\\', $relative_class );
@@ -87,8 +110,6 @@ function redirection_autoload_import_export( $requested_class ) {
 	if ( ! is_string( $class_name ) || $class_name === '' ) {
 		return;
 	}
-
-	$base_dir = __DIR__ . '/includes/import-export/';
 
 	if ( count( $segments ) > 0 ) {
 		$base_dir .= implode( '/', array_map( $normalize, $segments ) ) . '/';
@@ -102,6 +123,7 @@ function redirection_autoload_import_export( $requested_class ) {
 }
 
 spl_autoload_register( 'redirection_autoload_import_export' );
+spl_autoload_register( 'redirection_autoload_fileio' );
 
 /**
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.

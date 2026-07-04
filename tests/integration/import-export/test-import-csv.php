@@ -16,7 +16,6 @@ class ImportExportImportCsvTest extends WP_UnitTestCase {
 			'match_type' => 'url',
 			'action_type' => 'url',
 			'action_code' => 301,
-			'status' => 'enabled',
 		];
 
 		$this->assertEquals( $target, $csv );
@@ -33,7 +32,6 @@ class ImportExportImportCsvTest extends WP_UnitTestCase {
 			'match_type' => 'url',
 			'action_type' => 'url',
 			'action_code' => 301,
-			'status' => 'enabled',
 		];
 
 		$this->assertEquals( $target, $csv );

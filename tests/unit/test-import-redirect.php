@@ -74,7 +74,7 @@ class ImportRedirectTest extends TestCase {
 
 		$result = $matcher->get_existing_redirect(
 			[
-				'url' => '/ignored',
+				'url' => '/existing',
 				'regex' => false,
 			],
 			55
@@ -82,6 +82,41 @@ class ImportRedirectTest extends TestCase {
 
 		$this->assertSame( $item, $result );
 		$this->assertEquals( 1, Red_Item::$get_by_id_calls );
+	}
+
+	public function testGetExistingRedirectIgnoresIdMatchWhenUrlOrRegexDiffer() {
+		global $wpdb;
+
+		$wpdb = $this->get_wpdb( 77 );
+
+		$matcher = new RedirectDuplicateMatcher();
+		$item = Red_Item::add_existing(
+			55,
+			[
+				'url' => '/existing',
+				'regex' => false,
+			]
+		);
+		$fallback = Red_Item::add_existing(
+			77,
+			[
+				'url' => '/incoming',
+				'regex' => true,
+			]
+		);
+
+		$result = $matcher->get_existing_redirect(
+			[
+				'url' => '/incoming',
+				'regex' => true,
+			],
+			55
+		);
+
+		$this->assertNotSame( $item, $result );
+		$this->assertSame( $fallback, $result );
+		$this->assertEquals( 2, Red_Item::$get_by_id_calls );
+		$this->assertEquals( 1, $wpdb->get_var_calls );
 	}
 
 	public function testGetExistingRedirectFallsBackToUrlAndRegex() {
@@ -173,5 +208,23 @@ class ImportRedirectTest extends TestCase {
 		$this->assertEquals( 0, $wpdb->get_var_calls );
 		$this->assertEquals( 0, Red_Item::$get_by_id_calls );
 		$this->assertEquals( 1, $import->get_created() );
+	}
+
+	public function testSaveDefaultsStatusFromDisabledGroup() {
+		$import = new ImportRedirect( [ 'duplicate_mode' => 'import' ] );
+		$group = new ImportGroup( 2 );
+
+		Red_Group::$groups[2] = new Test_Import_Group_Item( 2, false, 'Disabled' );
+
+		$result = $import->save(
+			[
+				'url' => '/created',
+				'regex' => false,
+			],
+			$group
+		);
+
+		$this->assertTrue( $result );
+		$this->assertSame( 'disabled', Red_Item::$create_calls[0]['status'] );
 	}
 }
