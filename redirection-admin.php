@@ -147,7 +147,7 @@ class Redirection_Admin {
 
 		// Known HTML and so isn't escaped
 		// phpcs:ignore
-		echo '<div class="update-nag notice notice-warning" style="width: 95%">' . $message . '</div>';
+		echo '<div class="update-nag notice notice-warning redirection-notice" style="width: 95%">' . $message . '</div>';
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Redirection_Admin {
 	 */
 	public function show_incomplete_installation_notice() {
 		?>
-		<div class="notice notice-error">
+		<div class="notice notice-error redirection-notice">
 			<p>
 				<strong><?php esc_html_e( 'Redirection Error: Incomplete Installation Detected', 'redirection' ); ?></strong>
 			</p>
@@ -635,7 +635,7 @@ class Redirection_Admin {
 			return;
 		}
 		?>
-		<div class="notice notice-error">
+		<div class="notice notice-error redirection-notice">
 			<h1><?php echo esc_html( $this->fixit_failed->get_error_message() ); ?></h1>
 			<p><?php echo esc_html( $this->fixit_failed->get_error_data() ); ?></p>
 		</div>

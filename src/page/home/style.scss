@@ -117,9 +117,17 @@
 	padding-bottom: 10px !important;
 }
 
-/* Some plugins hide .notice - ensure our stuff always shows */
-.notice:not(.hidden) {
+/* Only show Redirection-owned admin notices on Redirection pages. */
+.notice.redirection-notice:not(.hidden),
+.notice.wpl-notice:not(.hidden),
+.update-nag.redirection-notice:not(.hidden),
+.update-nag.wpl-notice:not(.hidden) {
 	display: block !important;
+}
+
+.notice:not(.redirection-notice):not(.wpl-notice):not(.hidden),
+.update-nag:not(.redirection-notice):not(.wpl-notice):not(.hidden) {
+	display: none !important;
 }
 
 .database-switch {
