@@ -18,7 +18,6 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 
 function generateVersion( compilation ) {
 	const versionFile = path.resolve( __dirname, 'build/redirection-version.php' );
-	const versionDir = path.dirname( versionFile );
 	const asset = compilation.getAsset( 'redirection.js' );
 
 	if ( ! asset ) {
@@ -31,6 +30,7 @@ function generateVersion( compilation ) {
 
 	const data = asset.source.source();
 	const md5 = crypto.createHash( 'md5' ).update( data ).digest( 'hex' );
+	const versionDir = path.dirname( versionFile );
 
 	fs.mkdirSync( versionDir, { recursive: true } );
 	fs.writeFileSync( versionFile, versionHeader( md5 ) );

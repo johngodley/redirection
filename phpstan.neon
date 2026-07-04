@@ -17,7 +17,7 @@ parameters:
         - vendor
 
     bootstrapFiles:
-        - build/redirection-version.php
+        - dev/phpstan-bootstrap.php
 
     dynamicConstantNames:
         - WP_CLI
