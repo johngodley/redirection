@@ -83,9 +83,20 @@ class WordpressOldSlugs extends Plugin {
 	private function get_redirect_rows() {
 		global $wpdb;
 
+		$post_types = $this->get_supported_post_types();
+		if ( count( $post_types ) === 0 ) {
+			return [];
+		}
+
+		$sql = "SELECT {$wpdb->postmeta}.* FROM {$wpdb->postmeta} INNER JOIN {$wpdb->posts} ON {$wpdb->posts}.ID={$wpdb->postmeta}.post_id " .
+			"WHERE {$wpdb->postmeta}.meta_key = '_wp_old_slug' AND {$wpdb->postmeta}.meta_value != '' AND {$wpdb->posts}.post_status='publish' AND {$wpdb->posts}.post_type IN (" .
+			implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ')';
+
 		return $wpdb->get_results(
-			"SELECT {$wpdb->prefix}postmeta.* FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id " .
-			"WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+			$wpdb->prepare(
+				$sql,
+				$post_types
+			)
 		);
 	}
 
@@ -112,8 +123,19 @@ class WordpressOldSlugs extends Plugin {
 	public function get_data() {
 		global $wpdb;
 
+		$post_types = $this->get_supported_post_types();
+		if ( count( $post_types ) === 0 ) {
+			return false;
+		}
+
+		$sql = "SELECT COUNT(*) FROM {$wpdb->postmeta} INNER JOIN {$wpdb->posts} ON {$wpdb->posts}.ID={$wpdb->postmeta}.post_id WHERE {$wpdb->postmeta}.meta_key = '_wp_old_slug' AND {$wpdb->postmeta}.meta_value != '' AND {$wpdb->posts}.post_status='publish' AND {$wpdb->posts}.post_type IN (" .
+			implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ')';
+
 		$total = $wpdb->get_var(
-			"SELECT COUNT(*) FROM {$wpdb->prefix}postmeta INNER JOIN {$wpdb->prefix}posts ON {$wpdb->prefix}posts.ID={$wpdb->prefix}postmeta.post_id WHERE {$wpdb->prefix}postmeta.meta_key = '_wp_old_slug' AND {$wpdb->prefix}postmeta.meta_value != '' AND {$wpdb->prefix}posts.post_status='publish' AND {$wpdb->prefix}posts.post_type IN ('page', 'post')"
+			$wpdb->prepare(
+				$sql,
+				$post_types
+			)
 		);
 
 		if ( $total !== null && intval( $total, 10 ) > 0 ) {
@@ -127,5 +149,18 @@ class WordpressOldSlugs extends Plugin {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get post types that can provide old-slug redirects.
+	 *
+	 * @return array<int, string>
+	 */
+	private function get_supported_post_types() {
+		$post_types = get_post_types( [ 'public' => true ], 'names' );
+
+		unset( $post_types['attachment'] );
+
+		return array_values( $post_types );
 	}
 }
