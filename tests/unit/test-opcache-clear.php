@@ -16,9 +16,26 @@ class OpcacheClearTest extends TestCase {
 			]
 		);
 		Functions\when( 'function_exists' )->justReturn( true );
+		$this->create_version_file();
 
 		// Load the plugin file to get the real function (must be after stubs are set up)
 		require_once PLUGIN_PATH . '/redirection.php';
+	}
+
+	private function create_version_file(): void {
+		$build_dir = PLUGIN_PATH . '/build';
+		$version_file = $build_dir . '/redirection-version.php';
+
+		if ( ! is_dir( $build_dir ) ) {
+			mkdir( $build_dir, 0777, true );
+		}
+
+		if ( ! file_exists( $version_file ) ) {
+			file_put_contents(
+				$version_file,
+				"<?php\n\ndefine( 'REDIRECTION_VERSION', '5.8.0' );\ndefine( 'REDIRECTION_BUILD', 'test' );\ndefine( 'REDIRECTION_MIN_WP', '6.6' );\n"
+			);
+		}
 	}
 
 	public function testDoesNotCallOpcacheResetWhenActionIsNotUpdate() {

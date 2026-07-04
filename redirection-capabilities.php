@@ -106,7 +106,6 @@ class Redirection_Capabilities {
 			[ self::CAP_GROUP_MANAGE, 'groups' ],
 			[ self::CAP_404_MANAGE, '404s' ],
 			[ self::CAP_LOG_MANAGE, 'log' ],
-			[ self::CAP_IO_MANAGE, 'io' ],
 			[ self::CAP_IO_MANAGE, 'import' ],
 			[ self::CAP_IO_MANAGE, 'export' ],
 			[ self::CAP_OPTION_MANAGE, 'options' ],
