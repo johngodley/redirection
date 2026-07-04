@@ -147,7 +147,15 @@ const modified = {
 
 		{
 			apply( compiler ) {
-				compiler.hooks.afterEmit.tap( 'GenerateVersion', generateVersion );
+				compiler.hooks.thisCompilation.tap( 'GenerateVersion', ( compilation ) => {
+					compilation.hooks.processAssets.tap(
+						{
+							name: 'GenerateVersion',
+							stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
+						},
+						() => generateVersion( compilation )
+					);
+				} );
 			},
 		},
 
