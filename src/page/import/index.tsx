@@ -63,6 +63,20 @@ function ImportPage() {
 		activeFileInfo?.format === 'csv' &&
 		activeFileInfo.valid &&
 		activeFileInfo.importSupported === false;
+	const jsonSections =
+		activeFileInfo?.format === 'json' && activeFileInfo.valid && activeFileInfo.contents
+			? activeFileInfo.contents
+			: null;
+	const requiresGroups =
+		state.activeImportType === 'plugin' ||
+		( ( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
+			( ( jsonSections !== null &&
+				Number( jsonSections.redirects || 0 ) > 0 &&
+				state.selectedSections.includes( 'redirects' ) ) ||
+				( activeFileInfo?.format === 'csv' &&
+					activeFileInfo.valid &&
+					activeFileInfo.importSupported === true ) ||
+				( activeFileInfo?.format === 'apache' && activeFileInfo.valid ) ) );
 
 	const renderImporterPlaceholder = () => {
 		return (
@@ -144,7 +158,11 @@ function ImportPage() {
 						activeImportType={ state.activeImportType }
 						activePluginId={ state.activePluginId }
 						file={ activeFile }
-						disabled={ ! state.hasActiveImport || state.isImporting }
+						disabled={
+							! state.hasActiveImport ||
+							state.isImporting ||
+							( requiresGroups && ! state.hasGroups )
+						}
 						deleteSource={ state.deleteSource }
 						duplicateMode={ state.duplicateMode }
 						group={ state.group }
@@ -168,6 +186,7 @@ function ImportPage() {
 								onClick={ () => onImport( true ) }
 								disabled={
 									! state.hasActiveImport ||
+									( requiresGroups && ! state.hasGroups ) ||
 									! state.previewSupported ||
 									hasNoSelectedJsonSections ||
 									hasUnsupportedCsvImport ||
@@ -186,6 +205,7 @@ function ImportPage() {
 								onClick={ () => onImport( false ) }
 								disabled={
 									! state.hasActiveImport ||
+									( requiresGroups && ! state.hasGroups ) ||
 									hasNoSelectedJsonSections ||
 									hasUnsupportedCsvImport ||
 									state.isImporting ||

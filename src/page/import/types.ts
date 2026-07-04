@@ -49,6 +49,7 @@ interface ImportState {
 	lastImport: ImportStats | false;
 	lastImportWasDryRun: boolean | null;
 	groupRows: Array< { id: number } & Record< string, unknown > >;
+	hasGroups: boolean;
 	selectedSections: string[];
 	importers: ImportPlugin[];
 	isLoadingImporters: boolean;

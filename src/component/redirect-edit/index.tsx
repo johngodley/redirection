@@ -109,7 +109,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	} = props;
 
 	// Get state from stores and queries
-	const { data: groupData, isSuccess: hasLoadedGroups } = useGroupList( {} );
+	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupList( {} );
 	const groups = useMemo( () => groupData?.items ?? [], [ groupData ] );
 	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
 	const table = useTableStore( ( state ) => state.redirects );
@@ -135,6 +135,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	const { mutate: createRedirect } = useRedirectCreate();
 
 	const ref = useRef< HTMLFormElement >( null );
+	const hasRetriedEmptyGroups = useRef( false );
 
 	const getGroup = ( groupList: any[], group_id: number ): Group | undefined => {
 		return groupList.find( ( g: any ) => g.id === group_id );
@@ -172,6 +173,18 @@ function EditRedirect( props: EditRedirectProps ) {
 
 	const hasGroups = groups.length > 0;
 	const hasNoGroups = hasLoadedGroups && ! hasGroups;
+
+	useEffect( () => {
+		if ( hasGroups ) {
+			hasRetriedEmptyGroups.current = false;
+			return;
+		}
+
+		if ( hasLoadedGroups && ! hasRetriedEmptyGroups.current ) {
+			hasRetriedEmptyGroups.current = true;
+			void refetchGroups();
+		}
+	}, [ hasGroups, hasLoadedGroups, refetchGroups ] );
 
 	const {
 		url: initialUrl,

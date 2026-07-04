@@ -63,10 +63,12 @@ describe( 'useImportPage', () => {
 		  }
 		| undefined;
 	let confirmSpy: jest.SpiedFunction< typeof window.confirm >;
+	let refetchGroups: jest.Mock;
 
 	beforeEach( () => {
 		jest.clearAllMocks();
 		runnerOptions = undefined;
+		refetchGroups = jest.fn();
 		confirmSpy = jest.spyOn( window, 'confirm' ).mockImplementation( () => true );
 
 		mockUseGroupList.mockReturnValue( {
@@ -76,6 +78,8 @@ describe( 'useImportPage', () => {
 					{ id: 12, name: 'Secondary group' },
 				],
 			},
+			isSuccess: true,
+			refetch: refetchGroups,
 		} as any );
 
 		mockUseImporterList.mockReturnValue( {
@@ -123,6 +127,7 @@ describe( 'useImportPage', () => {
 
 		expect( result.current.state.activeImportType ).toBe( 'file' );
 		expect( result.current.state.group ).toBe( 0 );
+		expect( result.current.state.hasGroups ).toBe( true );
 
 		act( () => {
 			runnerOptions?.onSuccess?.(
@@ -228,6 +233,25 @@ describe( 'useImportPage', () => {
 
 		expect( result.current.state.activeImportType ).toBeNull();
 		expect( result.current.state.activePluginId ).toBeNull();
+	} );
+
+	it( 'refetches groups once when the initial group list is empty', async () => {
+		mockUseGroupList.mockReturnValue( {
+			data: {
+				items: [],
+			},
+			isSuccess: true,
+			refetch: refetchGroups,
+		} as any );
+
+		const { result, rerender } = renderHook( () => useImportPage() );
+
+		await waitFor( () => expect( refetchGroups ).toHaveBeenCalledTimes( 1 ) );
+		expect( result.current.state.hasGroups ).toBe( false );
+
+		rerender();
+
+		expect( refetchGroups ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	it( 'passes delete original data for the WordPress permalink importer', () => {
