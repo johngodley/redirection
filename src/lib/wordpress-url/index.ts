@@ -1,4 +1,4 @@
-const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'io', 'options', 'support', 'site' ];
+const ALLOWED_PAGES = [ 'groups', '404s', 'log', 'import', 'export', 'options', 'support', 'site' ];
 
 interface QueryParams {
 	[ key: string ]: string | number | undefined;
@@ -110,18 +110,4 @@ export function nestedGroups( groups: Group[] ): NestedGroup[] {
 	}
 
 	return Object.keys( nested ).map( ( moduleName ) => ( { label: moduleName, value: nested[ moduleName ]! } ) );
-}
-
-export function getExportUrl( moduleId: string, modType: string ): string {
-	const nonce = window.Redirectioni10n.api.WP_API_nonce;
-
-	return (
-		window.Redirectioni10n.pluginRoot +
-		'&sub=io&export=' +
-		encodeURIComponent( moduleId ) +
-		'&exporter=' +
-		encodeURIComponent( modType ) +
-		'&_wpnonce=' +
-		encodeURIComponent( nonce )
-	);
 }

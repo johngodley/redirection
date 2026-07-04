@@ -26,7 +26,8 @@ interface PageTitles {
 	redirect: string;
 	site: string;
 	groups: string;
-	io: string;
+	import: string;
+	export: string;
 	log: string;
 	'404s': string;
 	options: string;
@@ -38,7 +39,8 @@ const getTitles = (): PageTitles => ( {
 	redirect: __( 'Redirections', 'redirection' ),
 	site: __( 'Site', 'redirection' ),
 	groups: __( 'Groups', 'redirection' ),
-	io: __( 'Import', 'redirection' ),
+	import: __( 'Import redirects', 'redirection' ),
+	export: __( 'Export redirects', 'redirection' ),
 	log: __( 'Logs', 'redirection' ),
 	'404s': __( '404 errors', 'redirection' ),
 	options: __( 'Options', 'redirection' ),
@@ -69,7 +71,11 @@ const getMenu = (): MenuOption[] =>
 		},
 		{
 			name: __( 'Import', 'redirection' ),
-			value: 'io',
+			value: 'import',
+		},
+		{
+			name: __( 'Export', 'redirection' ),
+			value: 'export',
 		},
 		{
 			name: __( 'Options', 'redirection' ),
@@ -192,7 +198,7 @@ export default function Home() {
 								onClick={ () => setRedirectsAddTop( true ) }
 								className="page-title-action"
 							>
-								{ __( 'Add New', 'redirection' ) }
+								{ __( 'Add redirect', 'redirection' ) }
 							</button>
 						) }
 

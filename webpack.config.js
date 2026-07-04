@@ -1,4 +1,3 @@
-const fs = require( 'fs' );
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
@@ -6,23 +5,18 @@ const pkg = require( './package.json' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
 const RtlCssPlugin = require( '@wordpress/scripts/plugins/rtlcss-webpack-plugin' );
-const WebpackShellPluginNext = require( 'webpack-shell-plugin-next' );
-const crypto = require( 'crypto' );
 const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 
-const versionHeader = ( md5 ) => `<?php
+function isDefaultCssPlugin( plugin ) {
+	const pluginName = plugin?.constructor?.name;
 
-define( 'REDIRECTION_VERSION', '${ pkg.version }' );
-define( 'REDIRECTION_BUILD', '${ md5 }' );
-define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
-`;
-
-function generateVersion() {
-	fs.readFile( path.resolve( __dirname, 'build/redirection.js' ), ( error, data ) => {
-		const md5 = crypto.createHash( 'md5' ).update( data, 'utf8' ).digest( 'hex' );
-
-		fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
-	} );
+	return (
+		plugin instanceof MiniCSSExtractPlugin ||
+		pluginName === MiniCSSExtractPlugin.name ||
+		plugin instanceof RtlCssPlugin ||
+		pluginName === RtlCssPlugin.name ||
+		pluginName === 'RtlCSSPlugin'
+	);
 }
 
 // Custom RTL CSS Plugin to use redirection naming
@@ -115,9 +109,7 @@ const modified = {
 	],
 	plugins: [
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
-		...defaultConfig.plugins.filter(
-			( plugin ) => ! ( plugin instanceof MiniCSSExtractPlugin ) && ! ( plugin instanceof RtlCssPlugin )
-		),
+		...defaultConfig.plugins.filter( ( plugin ) => ! isDefaultCssPlugin( plugin ) ),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
 		new CustomRtlCssPlugin(),
 
@@ -125,15 +117,6 @@ const modified = {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
-
-		new WebpackShellPluginNext( {
-			onBuildEnd: {
-				scripts: [ generateVersion ],
-				blocking: true,
-				parallel: false,
-			},
-		} ),
-
 		// Add bundle analyzer when ANALYZE env var is set
 		...( process.env.ANALYZE ? [ new BundleAnalyzerPlugin() ] : [] ),
 	],

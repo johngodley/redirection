@@ -10,7 +10,7 @@ import {
 	getFilterOptions,
 } from './constants';
 import { useTableStore, useSettingsStore } from 'stores';
-import { useErrorList, useErrorBulkAction } from 'lib/api/hooks';
+import { useErrorList, useErrorBulkAction, useExport } from 'lib/api/hooks';
 import { cleanApiParams } from 'lib/api/utils';
 import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_404_DELETE } from 'lib/capabilities';
@@ -21,6 +21,7 @@ import CreateRedirect from './create-redirect';
 import ErrorRowActions from './row-actions';
 import TableButtons from 'component/table/table-buttons';
 import getColumns from './columns';
+import { getExportFilename } from 'page/export/export-helpers';
 
 interface TableState {
 	filterBy: Record< string, any >;
@@ -84,6 +85,7 @@ function Logs404() {
 	} );
 
 	const errorBulkAction = useErrorBulkAction();
+	const exportMutation = useExport();
 
 	// Fetch errors with current table params - read directly from Query
 	const { data: errorData, isFetching: isLoading } = useErrorList( table );
@@ -117,6 +119,33 @@ function Logs404() {
 
 	function handleBulk( action: string ) {
 		if ( table.selected.length === 0 && ! table.selectAll ) {
+			return;
+		}
+
+		if ( action === 'export-csv' || action === 'export-json' ) {
+			const params = {
+				...cleanApiParams( {
+					...( table.groupBy ? { groupBy: table.groupBy } : {} ),
+					...( table.selectAll
+						? {
+								global: true,
+								filterBy: table.filterBy,
+						  }
+						: {
+								items: table.selected,
+						  } ),
+				} ),
+				displaySelected: groupedTable.displaySelected ?? [],
+			};
+
+			exportMutation.mutate( {
+				exportType: '404',
+				format: action === 'export-csv' ? 'csv' : 'json',
+				download: true,
+				filename: getExportFilename( '404', action === 'export-csv' ? 'csv' : 'json' ),
+				params,
+			} );
+
 			return;
 		}
 

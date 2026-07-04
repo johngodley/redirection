@@ -37,7 +37,14 @@ if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 	return;
 }
 
-require_once __DIR__ . '/build/redirection-version.php';
+// Temporary compatibility for sites serving stale cached code during upgrades.
+// Remove once the 5.8.x transition window has passed.
+if ( file_exists( __DIR__ . '/build/redirection-version.php' ) ) {
+	require_once __DIR__ . '/build/redirection-version.php';
+} else {
+	require_once __DIR__ . '/redirection-version.php';
+}
+
 require_once __DIR__ . '/redirection-settings.php';
 require_once __DIR__ . '/models/options.php';
 require_once __DIR__ . '/models/redirect/redirect.php';
@@ -66,31 +73,6 @@ function redirection_autoload_import_export( $requested_class ) {
 }
 
 /**
- * Autoload the legacy fileio classes.
- *
- * @param string $requested_class Requested class name.
- * @return void
- */
-function redirection_autoload_fileio( $requested_class ) {
-	$legacy_classes = [
-		'Red_FileIO' => __DIR__ . '/includes/fileio/class-fileio.php',
-		'Red_Htaccess' => __DIR__ . '/includes/fileio/class-htaccess.php',
-		'Red_Csv_File' => __DIR__ . '/includes/fileio/format/class-csv.php',
-		'Red_Json_File' => __DIR__ . '/includes/fileio/format/class-json.php',
-		'Red_Apache_File' => __DIR__ . '/includes/fileio/format/class-apache.php',
-		'Red_Nginx_File' => __DIR__ . '/includes/fileio/format/class-nginx.php',
-		'Red_Rss_File' => __DIR__ . '/includes/fileio/format/class-rss.php',
-	];
-
-	if ( isset( $legacy_classes[ $requested_class ] ) ) {
-		require_once $legacy_classes[ $requested_class ];
-		return;
-	}
-
-	redirection_autoload_namespace( $requested_class, 'Redirection\\FileIO\\', __DIR__ . '/includes/fileio/' );
-}
-
-/**
  * Autoload a namespaced class from a plugin directory.
  *
  * @param string $requested_class Requested class name.
@@ -115,9 +97,7 @@ function redirection_autoload_namespace( $requested_class, $prefix, $base_dir ) 
 			return '';
 		}
 
-		$value = str_replace( '_', '-', strtolower( $value ) );
-
-		return str_replace( 'file-i-o', 'fileio', $value );
+		return str_replace( '_', '-', strtolower( $value ) );
 	};
 
 	$segments = explode( '\\', $relative_class );
@@ -138,7 +118,6 @@ function redirection_autoload_namespace( $requested_class, $prefix, $base_dir ) 
 }
 
 spl_autoload_register( 'redirection_autoload_import_export' );
-spl_autoload_register( 'redirection_autoload_fileio' );
 
 /**
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.

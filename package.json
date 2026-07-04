@@ -24,6 +24,7 @@
 		"lint": "pnpm lint:css && pnpm lint:js && pnpm lint:ts && pnpm lint:php",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
+		"lint:fix": "wp-scripts lint-js --fix",
 		"lint:ts": "tsc --noEmit",
 		"lint:php": "composer run-script checks",
 		"test": "pnpm test:js && pnpm test:unit && pnpm test:integration",
@@ -32,8 +33,7 @@
 		"test:js": "wp-scripts test-unit-js",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"wp-env:start": "wp-env start",
-		"wp-env:destroy": "wp-env destroy",
-		"doc": "apidoc -v -i api/ -o ./api-doc/"
+		"wp-env:destroy": "wp-env destroy"
 	},
 	"repository": {
 		"type": "git",
@@ -47,7 +47,7 @@
 	"homepage": "https://github.com/johngodley/redirection",
 	"devDependencies": {
 		"@hookform/resolvers": "^5.4.0",
-		"@tanstack/eslint-plugin-query": "^5.101.0",
+		"@tanstack/eslint-plugin-query": "^5.101.2",
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/react": "^16.3.2",
 		"@types/jest": "^30.0.0",
@@ -57,11 +57,10 @@
 		"@wordpress/base-styles": "^6.20.0",
 		"@wordpress/env": "^10.39.0",
 		"@wordpress/eslint-plugin": "^24.5.0",
-		"@wordpress/jest-preset-default": "^12.48.1",
-		"@wordpress/prettier-config": "^4.48.1",
+		"@wordpress/jest-preset-default": "^12.50.0",
+		"@wordpress/prettier-config": "^4.50.0",
 		"@wordpress/scripts": "^31.8.0",
-		"apidoc": "^1.2.0",
-		"autoprefixer": "^10.5.0",
+		"autoprefixer": "^10.5.2",
 		"chai": "^6.2.2",
 		"css-loader": "^7.1.4",
 		"download": "^8.0.0",
@@ -79,7 +78,7 @@
 		"node-fetch": "^2.7.0",
 		"npm-check-updates": "^19.6.6",
 		"path": "^0.12.7",
-		"postcss": "^8.5.15",
+		"postcss": "^8.5.16",
 		"postcss-focus": "^7.0.0",
 		"postcss-loader": "^8.2.1",
 		"postcss-preset-env": "^10.6.1",
@@ -91,22 +90,20 @@
 		"stylelint": "^16.26.1",
 		"terser-webpack-plugin": "^5.6.1",
 		"typescript": "^5.9.3",
-		"webpack": "^5.107.2",
+		"webpack": "^5.108.3",
 		"webpack-bundle-analyzer": "^5.3.0",
-		"webpack-bundle-size-analyzer": "^3.1.0",
-		"webpack-cli": "^6.0.1",
-		"webpack-shell-plugin-next": "^2.3.3"
+		"webpack-bundle-size-analyzer": "^3.1.0"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
 		"@headlessui/react": "^2.2.10",
-		"@tanstack/react-query": "^5.101.0",
-		"@tanstack/react-query-devtools": "^5.101.0",
+		"@tanstack/react-query": "^5.101.2",
+		"@tanstack/react-query-devtools": "^5.101.2",
 		"@wordpress/element": "^6.46.0",
-		"@wordpress/i18n": "^6.21.1",
+		"@wordpress/i18n": "^6.23.0",
 		"classnames": "^2.5.1",
 		"clsx": "^2.1.1",
-		"immer": "^11.1.8",
+		"immer": "^11.1.9",
 		"rc-progress": "^4.0.0",
 		"rc-util": "^5.44.4",
 		"react": "^18.3.1",
@@ -120,25 +117,13 @@
 		"zod": "^4.4.3",
 		"zustand": "^5.0.14"
 	},
-	"apidoc": {
-		"name": "Redirection REST API",
-		"version": "0.1.0",
-		"description": "WordPress REST API documentation for Redirection",
-		"title": "Redirection REST API",
-		"url": "https://redirection.me/wp-json",
-		"header": {
-			"title": "Introduction",
-			"filename": "./api/header.md"
-		},
-		"footer": {
-			"filename": "./api/footer.md"
-		},
-		"template": {
-			"withCompare": false
-		}
-	},
 	"wordpress": {
 		"supported": "6.6"
+	},
+	"pnpm": {
+		"overrides": {
+			"webpack": "$webpack"
+		}
 	},
 	"packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"
 }

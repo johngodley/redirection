@@ -9,8 +9,7 @@ parameters:
         - redirection-settings.php
         - matches
         - modules
-        - includes/fileio
-        - includes/import-export
+        - includes
         - database
         - models
         - api
@@ -18,7 +17,7 @@ parameters:
         - vendor
 
     bootstrapFiles:
-        - build/redirection-version.php
+        - redirection-version.php
 
     dynamicConstantNames:
         - WP_CLI

@@ -9,6 +9,22 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 		$this->assertEquals( $expected, $csv );
 	}
 
+	public function testCsvRowEscapesFormulaValues() {
+		$row = [ 'created' => '=created', 'url' => '@url', 'sent_to' => '-sent_to', 'ip' => '+ip', 'referrer' => '=referrer', 'agent' => '@agent' ];
+		$expected = [ '[FORMULA] =created', '[FORMULA] @url', '[FORMULA] -sent_to', '[FORMULA] +ip', '[FORMULA] =referrer', '[FORMULA] @agent' ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
+	public function testCsvRowLeavesLeadingWhitespaceWithoutFormulaPrefixAlone() {
+		$row = [ 'created' => "\thello", 'url' => "\nurl", 'sent_to' => "\rsent_to", 'ip' => ' ip', 'referrer' => "\treferrer", 'agent' => "\nagent" ];
+		$expected = [ "\thello", "\nurl", "\rsent_to", ' ip', "\treferrer", "\nagent" ];
+		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
+
+		$this->assertEquals( $expected, $csv );
+	}
+
 	public function testValidLog() {
 		$log = Red_Redirect_Log::create( 'domain', 'url', '192.168.1.1', [
 			'agent' => 'agent',

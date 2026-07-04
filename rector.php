@@ -8,7 +8,7 @@ return RectorConfig::configure()
 			__DIR__ . '/actions',
 			__DIR__ . '/api',
 			__DIR__ . '/database',
-			__DIR__ . '/fileio',
+			__DIR__ . '/includes/import-export',
 			__DIR__ . '/matches',
 			__DIR__ . '/models',
 			__DIR__ . '/modules',

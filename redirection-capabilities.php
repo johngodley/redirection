@@ -102,21 +102,24 @@ class Redirection_Capabilities {
 	 */
 	public static function get_available_pages() {
 		$pages = [
-			self::CAP_REDIRECT_MANAGE => 'redirect',
-			self::CAP_GROUP_MANAGE => 'groups',
-			self::CAP_404_MANAGE => '404s',
-			self::CAP_LOG_MANAGE => 'log',
-			self::CAP_IO_MANAGE => 'io',
-			self::CAP_OPTION_MANAGE => 'options',
-			self::CAP_SUPPORT_MANAGE => 'support',
-			self::CAP_SITE_MANAGE => 'site',
-			self::CAP_RSS => 'rss',
+			[ self::CAP_REDIRECT_MANAGE, 'redirect' ],
+			[ self::CAP_GROUP_MANAGE, 'groups' ],
+			[ self::CAP_404_MANAGE, '404s' ],
+			[ self::CAP_LOG_MANAGE, 'log' ],
+			[ self::CAP_IO_MANAGE, 'import' ],
+			[ self::CAP_IO_MANAGE, 'export' ],
+			[ self::CAP_OPTION_MANAGE, 'options' ],
+			[ self::CAP_SUPPORT_MANAGE, 'support' ],
+			[ self::CAP_SITE_MANAGE, 'site' ],
+			[ self::CAP_RSS, 'rss' ],
 		];
 
 		$available = [];
-		foreach ( $pages as $key => $page ) {
-			if ( self::has_access( $key ) ) {
-				$available[] = $page;
+		foreach ( $pages as $page ) {
+			list( $capability, $page_name ) = $page;
+
+			if ( self::has_access( $capability ) ) {
+				$available[] = $page_name;
 			}
 		}
 

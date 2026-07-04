@@ -1,6 +1,30 @@
 <?php
 
 class DatabaseTester {
+	/**
+	 * Normalize CREATE TABLE output so equivalent schemas compare cleanly across MySQL variants.
+	 *
+	 * @param string $sql
+	 * @return string
+	 */
+	private function normalize_create_table( $sql ) {
+		$sql = preg_replace( '/^\s+/m', '', $sql );
+		$sql = preg_replace( '/\s?COLLATE \w*/i', '', $sql );
+		$sql = preg_replace( '/\s?CHARACTER SET \w*/i', '', $sql );
+		$sql = preg_replace( '/\).*?$/', ') ' . ( new Red_Latest_Database() )->get_charset(), $sql );
+		$sql = preg_replace_callback(
+			'/\bint\(\d+\)( unsigned)?/i',
+			static function ( array $matches ) {
+				return isset( $matches[1] ) && $matches[1] !== '' ? 'int unsigned' : 'int';
+			},
+			$sql
+		);
+		$sql = preg_replace( '/\b(text|mediumtext) default null\b/i', '$1', $sql );
+		$sql = preg_replace( "/ default '?([0-9]+)'?(?=,|\n)/i", ' default $1', $sql );
+
+		return strtolower( str_replace( 'IF NOT EXISTS ', '', $sql ) );
+	}
+
 	public function get_create_table( $table ) {
 		global $wpdb;
 
@@ -25,17 +49,8 @@ class DatabaseTester {
 
 		foreach ( $database->get_all_tables() as $table => $expected ) {
 			$actual = $this->get_create_table( $table );
-			$actual = preg_replace( '/^\s+/m', '', $actual );
-			$actual = preg_replace( '/\s?COLLATE \w*/', '', $actual );
-			$actual = preg_replace( '/\s?CHARACTER SET \w*/', '', $actual );
-			$actual = preg_replace( '/\).*?$/', ') ' . $database->get_charset(), $actual );
-
-			// 'massage' all the SQL so we can try and match it
-			$expected = preg_replace( '/^\s+/m', '', $expected );
-			$expected = str_replace( 'IF NOT EXISTS ', '', $expected );
-
-			$expected = strtolower( $expected );
-			$actual = strtolower( $actual );
+			$actual = $this->normalize_create_table( $actual );
+			$expected = $this->normalize_create_table( $expected );
 
 			$unit->assertEquals( $expected, $actual, 'Database table for ' . $version . ' ' . $table . ' does not match' );
 		}

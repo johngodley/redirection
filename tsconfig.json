@@ -52,6 +52,8 @@
 		"**/*.spec.tsx",
 		"**/*.test.ts",
 		"**/*.test.tsx",
+		"**/*.test.js",
+		"**/*.test.jsx",
 		"**/__tests__/**/*",
 		"**/__mocks__/**/*"
 	]

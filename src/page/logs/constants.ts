@@ -70,7 +70,11 @@ export const getHeaders = ( groupBy?: string ): Header[] => {
 	];
 };
 
-export const getBulk = (): BulkOption[] => [ { id: 'delete', name: __( 'Delete', 'redirection' ) } ];
+export const getBulk = (): BulkOption[] => [
+	{ id: 'delete', name: __( 'Delete', 'redirection' ) },
+	{ id: 'export-csv', name: __( 'Export as CSV', 'redirection' ) },
+	{ id: 'export-json', name: __( 'Export as JSON', 'redirection' ) },
+];
 
 export const getDisplayGroups = ( groupBy?: string ): DisplayGroup[] => {
 	if ( groupBy ) {

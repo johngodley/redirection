@@ -1,4 +1,5 @@
 node_modules
+.pnpm-store
 .config.json
 .vscode
 yarn-error.log

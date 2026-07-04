@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * @phpstan-type Log404Row object{
  *   id: int,
@@ -70,19 +72,42 @@ class Red_404_Log extends Red_Log {
 	}
 
 	/**
+	 * @return array<string, string>
+	 */
+	protected static function get_export_field_labels() {
+		return [
+			'date' => 'date',
+			'method' => 'method',
+			'domain' => 'domain',
+			'url' => 'source',
+			'code' => 'code',
+			'referrer' => 'referrer',
+			'agent' => 'useragent',
+			'ip' => 'ip',
+			'count' => 'count',
+		];
+	}
+
+	/**
 	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
 	 * @return array<int, string|int>
 	 */
 	public static function get_csv_row( $row ) {
+		static $sanitizer = null;
+
+		if ( $sanitizer === null ) {
+			$sanitizer = new CsvSanitizer();
+		}
+
 		/** @var Log404Row $row */
 		return [
-			$row->created,
-			$row->url,
-			$row->ip,
-			$row->referrer,
-			$row->agent,
+			$sanitizer->escape( $row->created ),
+			$sanitizer->escape( $row->url ),
+			$sanitizer->escape( $row->ip ),
+			$sanitizer->escape( $row->referrer ),
+			$sanitizer->escape( $row->agent ),
 		];
 	}
 }

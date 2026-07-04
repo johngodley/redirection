@@ -3,11 +3,11 @@ import { sprintf, __ } from '@wordpress/i18n';
 import { createInterpolateElement, ExternalLink, Error } from '@wp-plugin-components';
 import TextareaAutosize from 'react-textarea-autosize';
 import Database from 'component/database';
+import { useExport } from 'lib/api/hooks';
 import { useFixStatus, useFinishUpgrade } from 'lib/api/hooks/use-settings';
 import { useSettingsStore } from 'stores';
 import { getErrorLinks, getErrorDetails } from 'lib/error-links';
 import DebugReport from 'page/home/debug';
-import { getExportUrl } from 'lib/wordpress-url';
 
 function hasFinished( status: string ) {
 	return status === 'finish-install' || status === 'finish-update';
@@ -157,6 +157,39 @@ interface ShowNoticeProps {
 	onShowUpgrade: () => void;
 }
 
+interface DownloadBackupLinkProps {
+	children?: React.ReactNode;
+}
+
+function DownloadBackupLink( { children }: DownloadBackupLinkProps ) {
+	const exportMutation = useExport();
+
+	function onClick( ev: React.MouseEvent< HTMLButtonElement > ) {
+		ev.preventDefault();
+
+		if ( exportMutation.isPending ) {
+			return;
+		}
+
+		exportMutation.mutate( {
+			exportType: 'redirect',
+			format: 'json',
+			redirectScopeType: 'all',
+			redirectModule: 'all',
+			redirectGroup: 0,
+			download: true,
+			filename: 'redirection-backup.json',
+			completionNotice: { message: __( 'Backup downloaded', 'redirection' ) },
+		} );
+	}
+
+	return (
+		<button type="button" className="button-link" onClick={ onClick } disabled={ exportMutation.isPending }>
+			{ children }
+		</button>
+	);
+}
+
 function ShowNotice( { onShowUpgrade }: ShowNoticeProps ) {
 	const [ isManual, setManual ] = useState( false );
 
@@ -181,7 +214,7 @@ function ShowNotice( { onShowUpgrade }: ShowNoticeProps ) {
 							'redirection'
 						),
 						{
-							download: <ExternalLink url={ getExportUrl( 'all', 'json' ) } />,
+							download: <DownloadBackupLink />,
 							import: <ExternalLink url="https://redirection.me/support/import-export-redirects/" />,
 						}
 					) }
