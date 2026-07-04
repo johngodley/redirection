@@ -53,13 +53,7 @@ describe( 'StepImporting', () => {
 			isError: false,
 		} as ReturnType< typeof useImportRunner > );
 
-		render(
-			<StepImporting
-				step={ 4 }
-				setStep={ setStep }
-				options={ { importers: [] } }
-			/>
-		);
+		render( <StepImporting step={ 4 } setStep={ setStep } options={ { importers: [] } } /> );
 
 		await waitFor( () => expect( setStep ).toHaveBeenCalledWith( 5 ) );
 		expect( mutate ).not.toHaveBeenCalled();
