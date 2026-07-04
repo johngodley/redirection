@@ -60,7 +60,7 @@
 		"@wordpress/jest-preset-default": "^12.50.0",
 		"@wordpress/prettier-config": "^4.50.0",
 		"@wordpress/scripts": "^31.8.0",
-"autoprefixer": "^10.5.2",
+		"autoprefixer": "^10.5.2",
 		"chai": "^6.2.2",
 		"css-loader": "^7.1.4",
 		"download": "^8.0.0",
@@ -117,7 +117,7 @@
 		"zod": "^4.4.3",
 		"zustand": "^5.0.14"
 	},
-"wordpress": {
+	"wordpress": {
 		"supported": "6.6"
 	},
 	"pnpm": {

@@ -157,7 +157,11 @@ interface ShowNoticeProps {
 	onShowUpgrade: () => void;
 }
 
-function DownloadBackupLink() {
+interface DownloadBackupLinkProps {
+	children?: React.ReactNode;
+}
+
+function DownloadBackupLink( { children }: DownloadBackupLinkProps ) {
 	const exportMutation = useExport();
 
 	function onClick( ev: React.MouseEvent< HTMLButtonElement > ) {
@@ -181,7 +185,7 @@ function DownloadBackupLink() {
 
 	return (
 		<button type="button" className="button-link" onClick={ onClick } disabled={ exportMutation.isPending }>
-			{ __( 'downloading a backup', 'redirection' ) }
+			{ children }
 		</button>
 	);
 }

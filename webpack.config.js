@@ -17,8 +17,14 @@ define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
 `;
 
 function generateVersion() {
-	const data = fs.readFileSync( path.resolve( __dirname, 'build/redirection.js' ) );
-	const md5 = crypto.createHash( 'md5' ).update( data, 'utf8' ).digest( 'hex' );
+	const buildFile = path.resolve( __dirname, 'build/redirection.js' );
+
+	if ( ! fs.existsSync( buildFile ) ) {
+		return;
+	}
+
+	const data = fs.readFileSync( buildFile );
+	const md5 = crypto.createHash( 'md5' ).update( data ).digest( 'hex' );
 
 	fs.writeFileSync( path.resolve( __dirname, 'build/redirection-version.php' ), versionHeader( md5 ) );
 }
