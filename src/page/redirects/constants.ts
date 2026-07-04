@@ -98,6 +98,22 @@ export const getBulk = (): BulkOption[] => [
 		id: 'reset',
 		name: __( 'Reset hits', 'redirection' ),
 	},
+	{
+		id: 'export-csv',
+		name: __( 'Export as CSV', 'redirection' ),
+	},
+	{
+		id: 'export-json',
+		name: __( 'Export as JSON', 'redirection' ),
+	},
+	{
+		id: 'copy-csv',
+		name: __( 'Copy CSV', 'redirection' ),
+	},
+	{
+		id: 'copy-json',
+		name: __( 'Copy JSON', 'redirection' ),
+	},
 ];
 
 export const getDisplayOptions = (): DisplayOption[] => [

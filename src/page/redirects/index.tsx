@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction } from 'lib/api/hooks';
+import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction, useExport } from 'lib/api/hooks';
+import type { ExportRequestVariables } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore } from 'stores';
 import {
 	getDisplayGroups,
@@ -9,10 +10,12 @@ import {
 	getFilterOptions,
 	getSearchOptions,
 } from './constants';
+import { cleanApiParams } from 'lib/api/utils';
 import { useTableUrlSync } from 'lib/hooks';
 import { has_capability, CAP_REDIRECT_ADD } from 'lib/capabilities';
 import { STATUS_IDLE, STATUS_LOADING, STATUS_COMPLETE } from 'lib/constants';
 import { nestedGroups } from 'lib/wordpress-url';
+import { getExportFilename } from 'page/export/export-helpers';
 import LogPage, {
 	type LogPageTable,
 	type LogOptions,
@@ -82,6 +85,7 @@ function Redirects() {
 	const enableMutation = useRedirectBulkAction( 'enable' );
 	const disableMutation = useRedirectBulkAction( 'disable' );
 	const resetMutation = useRedirectBulkAction( 'reset' );
+	const exportMutation = useExport();
 
 	// Fetch redirects with current table params - read directly from Query
 	const { data: redirectData, isLoading, isSuccess } = useRedirectList( table );
@@ -125,6 +129,40 @@ function Redirects() {
 			if ( ! window.confirm( message ) ) {
 				return;
 			}
+		}
+
+		if ( [ 'export-csv', 'export-json', 'copy-csv', 'copy-json' ].includes( action ) ) {
+			const params = cleanApiParams(
+				table.selectAll
+					? {
+							global: true,
+							filterBy: table.filterBy,
+					  }
+					: {
+							items,
+					  }
+			);
+			const format = action.endsWith( 'csv' ) ? 'csv' : 'json';
+			const isCopy = action.startsWith( 'copy-' );
+
+			const variables: ExportRequestVariables = {
+				exportType: 'redirect',
+				format,
+				download: ! isCopy,
+				copy: isCopy,
+				completionNotice: {
+					message: isCopy ? __( 'Export copied', 'redirection' ) : __( 'Export downloaded', 'redirection' ),
+				},
+				params,
+			};
+
+			if ( ! isCopy ) {
+				variables.filename = getExportFilename( 'redirect', format );
+			}
+
+			exportMutation.mutate( variables );
+
+			return;
 		}
 
 		if ( table.selectAll ) {

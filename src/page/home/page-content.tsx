@@ -3,7 +3,8 @@ import Support from 'page/support';
 import Site from 'page/site';
 import Logs from 'page/logs';
 import Logs404 from 'page/logs404';
-import ImportExport from 'page/io';
+import ImportPage from 'page/import';
+import ExportPage from 'page/export';
 import Groups from 'page/groups';
 import Redirects from 'page/redirects';
 
@@ -22,8 +23,11 @@ function PageContent( { page }: PageContentProps ) {
 		case 'log':
 			return <Logs />;
 
-		case 'io':
-			return <ImportExport />;
+		case 'import':
+			return <ImportPage />;
+
+		case 'export':
+			return <ExportPage />;
 
 		case 'groups':
 			return <Groups />;

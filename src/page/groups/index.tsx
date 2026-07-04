@@ -8,7 +8,8 @@ import {
 	getSearchOptions,
 } from './constants';
 import { useTableStore } from 'stores';
-import { useGroupList, useGroupBulkAction } from 'lib/api/hooks';
+import { useGroupList, useGroupBulkAction, useExport } from 'lib/api/hooks';
+import { cleanApiParams } from 'lib/api/utils';
 import { useTableUrlSync } from 'lib/hooks';
 import { getModules } from 'lib/modules';
 import { has_capability, CAP_GROUP_ADD } from 'lib/capabilities';
@@ -16,6 +17,7 @@ import LogPage from 'component/log-page';
 import CreateGroup from './create-group';
 import GroupRowActions from './row-actions';
 import getColumns, { type RowParams } from './columns';
+import { getExportFilename } from 'page/export/export-helpers';
 import type { TableState, Group, RowId } from 'types';
 import './style.scss';
 
@@ -47,6 +49,7 @@ function Groups() {
 	} );
 
 	const groupBulkAction = useGroupBulkAction();
+	const exportMutation = useExport();
 
 	// Fetch groups with current table params - read directly from Query
 	const { data: groupData, isLoading } = useGroupList( table );
@@ -62,6 +65,29 @@ function Groups() {
 
 	const handleBulk = ( action: string ) => {
 		if ( table.selected.length === 0 && ! table.selectAll ) {
+			return;
+		}
+
+		if ( action === 'export-csv' || action === 'export-json' ) {
+			const params = cleanApiParams(
+				table.selectAll
+					? {
+							global: true,
+							filterBy: table.filterBy,
+					  }
+					: {
+							items: table.selected,
+					  }
+			);
+
+			exportMutation.mutate( {
+				exportType: 'group',
+				format: action === 'export-csv' ? 'csv' : 'json',
+				download: true,
+				filename: getExportFilename( 'group', action === 'export-csv' ? 'csv' : 'json' ),
+				params,
+			} );
+
 			return;
 		}
 

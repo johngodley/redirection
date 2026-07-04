@@ -2,6 +2,10 @@
 
 use Brain\Monkey\Functions;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class OpcacheClearTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();

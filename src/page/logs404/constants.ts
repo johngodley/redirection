@@ -139,6 +139,14 @@ export const getBulk = ( groupBy?: string ): BulkOption[] => {
 			id: 'delete',
 			name: __( 'Delete', 'redirection' ),
 		},
+		{
+			id: 'export-csv',
+			name: __( 'Export as CSV', 'redirection' ),
+		},
+		{
+			id: 'export-json',
+			name: __( 'Export as JSON', 'redirection' ),
+		},
 	];
 
 	if ( groupBy === 'ip' ) {

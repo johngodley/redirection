@@ -6,7 +6,6 @@ const pkg = require( './package.json' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
 const RtlCssPlugin = require( '@wordpress/scripts/plugins/rtlcss-webpack-plugin' );
-const WebpackShellPluginNext = require( 'webpack-shell-plugin-next' );
 const crypto = require( 'crypto' );
 const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
 
@@ -116,7 +115,8 @@ const modified = {
 	plugins: [
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
 		...defaultConfig.plugins.filter(
-			( plugin ) => ! ( plugin instanceof MiniCSSExtractPlugin ) && ! ( plugin instanceof RtlCssPlugin )
+			( plugin ) =>
+				plugin?.constructor?.name !== 'MiniCssExtractPlugin' && plugin?.constructor?.name !== 'RtlCSSPlugin'
 		),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
 		new CustomRtlCssPlugin(),
@@ -126,13 +126,11 @@ const modified = {
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
 
-		new WebpackShellPluginNext( {
-			onBuildEnd: {
-				scripts: [ generateVersion ],
-				blocking: true,
-				parallel: false,
+		{
+			apply( compiler ) {
+				compiler.hooks.afterEmit.tap( 'GenerateVersion', generateVersion );
 			},
-		} ),
+		},
 
 		// Add bundle analyzer when ANALYZE env var is set
 		...( process.env.ANALYZE ? [ new BundleAnalyzerPlugin() ] : [] ),

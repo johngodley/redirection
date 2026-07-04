@@ -4,7 +4,7 @@ use Redirection\ImportExport\ImportGroup;
 use Redirection\ImportExport\ImportRedirect;
 use Redirection\ImportExport\Format\Json;
 
-class ImportExportJsonTest extends WP_UnitTestCase {
+class JsonTest extends WP_UnitTestCase {
 	private function create_temp_file( $contents ) {
 		$file = tempnam( sys_get_temp_dir(), 'red-json-' );
 		file_put_contents( $file, $contents );
