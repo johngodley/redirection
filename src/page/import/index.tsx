@@ -41,10 +41,10 @@ function ImportPage() {
 	const renderImporters = ( importerList: ImportPlugin[] ) => {
 		return (
 			<>
-				{ importerList.map( ( item, pos ) => (
+				{ importerList.map( ( item ) => (
 					<Importer
 						plugin={ item }
-						key={ pos }
+						key={ item.id }
 						onSelect={ onSelectPlugin }
 						isActive={ state.activePluginId === item.id && state.activeImportType === 'plugin' }
 						isImporting={ state.isImporting }

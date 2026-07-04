@@ -54,6 +54,8 @@ use Redirection\ImportExport\Importer\FakeRedirection;
 use Redirection\ImportExport\Importer\Plugin;
 use Redirection\ImportExport\Importer\PluginRegistry;
 use Redirection\ImportExport\Importer\QuickRedirects;
+use Redirection\ImportExport\Importer\RankMath;
+use Redirection\ImportExport\Importer\Simple301;
 use Redirection\ImportExport\Importer\RedirectItemMapper;
 
 /**
@@ -77,6 +79,7 @@ class PluginImporterUnitTest extends TestCase {
 		return new class( $return_value ) {
 			public $prefix = 'wp_';
 			public $get_var_calls = 0;
+			public $results = [];
 			public $prepared = [];
 			private $return_value;
 
@@ -101,6 +104,10 @@ class PluginImporterUnitTest extends TestCase {
 				}
 
 				return $this->return_value;
+			}
+
+			public function get_results( $query ) {
+				return $this->results;
 			}
 		};
 	}
@@ -133,6 +140,19 @@ class PluginImporterUnitTest extends TestCase {
 		$this->assertSame( 301, $result['action_code'] );
 	}
 
+	public function testSimple301ImporterIgnoresInvalidOptionValues() {
+		Functions\when( 'get_option' )->justReturn( false );
+
+		$importer = new class() extends Simple301 {
+			public function get_items() {
+				return $this->get_redirect_items();
+			}
+		};
+
+		$this->assertSame( [], $importer->get_items() );
+		$this->assertFalse( $importer->get_data() );
+	}
+
 	public function testQuickRedirectsImporterMapsDirectRedirects() {
 		$mapper = $this->get_mapper();
 
@@ -155,6 +175,27 @@ class PluginImporterUnitTest extends TestCase {
 
 		$this->assertSame( [], $importer->get_items() );
 		$this->assertFalse( $importer->get_data() );
+	}
+
+	public function testRankMathImporterIgnoresInvalidSerializedSources() {
+		global $wpdb;
+
+		$wpdb = $this->get_wpdb();
+		$wpdb->results = [
+			(object) [
+				'sources' => 'not-serialized',
+				'url_to' => '/target',
+				'header_code' => 301,
+			],
+		];
+
+		$importer = new class() extends RankMath {
+			public function get_items() {
+				return $this->get_redirect_items();
+			}
+		};
+
+		$this->assertSame( [], $importer->get_items() );
 	}
 
 	public function testSlimSeoImporterRejectsDisabledOrIncompleteRedirects() {

@@ -35,11 +35,23 @@ class RankMath extends Plugin {
 	 * @return array<int, array<string, mixed>>
 	 */
 	private function get_items_for_redirect( $redirect ) {
-		// phpcs:ignore
-		$sources = unserialize( $redirect->sources );
+		if ( ! is_string( $redirect->sources ) || preg_match( '/^a:\d+:\{.*\}$/s', $redirect->sources ) !== 1 ) {
+			return [];
+		}
+
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Importing existing Rank Math data.
+		$sources = unserialize( $redirect->sources, [ 'allowed_classes' => false ] );
 		$items = [];
 
+		if ( ! is_array( $sources ) ) {
+			return $items;
+		}
+
 		foreach ( $sources as $source ) {
+			if ( ! is_array( $source ) || ! isset( $source['pattern'], $source['comparison'] ) ) {
+				continue;
+			}
+
 			$url = $source['pattern'];
 			if ( substr( $url, 0, 1 ) !== '/' ) {
 				$url = '/' . $url;

@@ -21,7 +21,7 @@ type FileImportVariables = {
 type PluginImportVariables = {
 	sourceType: 'plugin';
 	mode: ImportMode;
-	pluginId: string;
+	pluginId: string | string[];
 	groupId: number;
 	duplicateMode: DuplicateMode;
 	deleteSource?: boolean;
@@ -217,6 +217,10 @@ export function useImportRunner(
 			}
 
 			if ( variables.mode === 'preview' ) {
+				if ( Array.isArray( variables.pluginId ) ) {
+					throw new Error( 'Plugin preview only supports a single importer' );
+				}
+
 				return await apiFetch(
 					RedirectionApi.import.pluginPreview( variables.pluginId, {
 						group_id: variables.groupId,
@@ -228,7 +232,7 @@ export function useImportRunner(
 
 			return await apiFetch(
 				RedirectionApi.import.pluginImport( {
-					plugin: [ variables.pluginId ],
+					plugin: Array.isArray( variables.pluginId ) ? variables.pluginId : [ variables.pluginId ],
 					group_id: variables.groupId,
 					duplicate_mode: variables.duplicateMode,
 					delete_source: variables.deleteSource ? 1 : 0,

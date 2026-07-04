@@ -26,15 +26,22 @@ export default function StepImporting( { step, setStep, options }: StepImporting
 	}
 
 	const doImport = useCallback( () => {
+		const importers = options.importers.filter( ( importer ) => importer.length > 0 );
+
+		if ( importers.length === 0 ) {
+			setStep( step + 1 );
+			return;
+		}
+
 		// Setup creates the default group before the importer step runs.
 		mutate( {
 			sourceType: 'plugin',
 			mode: 'import',
-			pluginId: options.importers[ 0 ] || '',
+			pluginId: importers,
 			groupId: 1,
 			duplicateMode: 'import',
 		} );
-	}, [ mutate, options.importers ] );
+	}, [ mutate, options.importers, setStep, step ] );
 
 	useEffect( () => {
 		doImport();

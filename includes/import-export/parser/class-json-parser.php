@@ -18,7 +18,7 @@ class JsonParser {
 	 */
 	public function parse( $data ) {
 		/** @var array<string, mixed>|false $json */
-		$json = @json_decode( $data, true );
+		$json = json_decode( $data, true );
 		if ( ! is_array( $json ) ) {
 			return false;
 		}

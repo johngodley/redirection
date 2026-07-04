@@ -1,4 +1,4 @@
-import type { ExportFormat } from './types';
+type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
 
 function getMimeType( format: ExportFormat ) {
 	if ( format === 'json' ) {

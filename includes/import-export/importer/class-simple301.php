@@ -29,6 +29,10 @@ class Simple301 extends Plugin {
 		$redirects = get_option( '301_redirects' );
 		$items = array();
 
+		if ( ! is_array( $redirects ) ) {
+			return $items;
+		}
+
 		foreach ( $redirects as $source => $target ) {
 			$items[] = $this->mapper->simple301( $source, $target );
 		}
@@ -44,7 +48,7 @@ class Simple301 extends Plugin {
 	public function get_data() {
 		$data = get_option( '301_redirects' );
 
-		if ( $data !== false ) {
+		if ( is_array( $data ) ) {
 			return array(
 				'id' => 'wp-simple-redirect',
 				'name' => 'Simple 301 Redirects',
