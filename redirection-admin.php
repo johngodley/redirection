@@ -356,7 +356,7 @@ class Redirection_Admin {
 			}
 		}
 
-		$build = REDIRECTION_VERSION . '-' . REDIRECTION_BUILD;
+		$build = REDIRECTION_VERSION;
 		$preload = $this->get_preload_data();
 		$options = Red_Options::get();
 		$versions = array(
@@ -385,7 +385,7 @@ class Redirection_Admin {
 
 		$assets = include plugin_dir_path( REDIRECTION_FILE ) . 'build/redirection.asset.php';
 		$dependencies = $assets['dependencies'];
-		$version = $assets['version'] . '-' . REDIRECTION_BUILD;
+		$version = REDIRECTION_VERSION;
 
 		wp_enqueue_script( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.js', $dependencies, $version, true );
 		wp_enqueue_style( 'redirection', plugin_dir_url( REDIRECTION_FILE ) . 'build/redirection.css', [], $version );

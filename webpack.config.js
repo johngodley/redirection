@@ -1,4 +1,3 @@
-const fs = require( 'fs' );
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
@@ -6,35 +5,7 @@ const pkg = require( './package.json' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const MiniCSSExtractPlugin = require( 'mini-css-extract-plugin' );
 const RtlCssPlugin = require( '@wordpress/scripts/plugins/rtlcss-webpack-plugin' );
-const crypto = require( 'crypto' );
 const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
-
-const versionHeader = ( md5 ) => `<?php
-
-define( 'REDIRECTION_VERSION', '${ pkg.version }' );
-define( 'REDIRECTION_BUILD', '${ md5 }' );
-define( 'REDIRECTION_MIN_WP', '${ pkg.wordpress.supported }' );
-`;
-
-function generateVersion( compilation ) {
-	const versionFile = path.resolve( __dirname, 'build/redirection-version.php' );
-	const asset = compilation.getAsset( 'redirection.js' );
-
-	if ( ! asset ) {
-		if ( fs.existsSync( versionFile ) ) {
-			fs.unlinkSync( versionFile );
-		}
-
-		return;
-	}
-
-	const data = asset.source.source();
-	const md5 = crypto.createHash( 'md5' ).update( data ).digest( 'hex' );
-	const versionDir = path.dirname( versionFile );
-
-	fs.mkdirSync( versionDir, { recursive: true } );
-	fs.writeFileSync( versionFile, versionHeader( md5 ) );
-}
 
 function isDefaultCssPlugin( plugin ) {
 	const pluginName = plugin?.constructor?.name;
@@ -146,21 +117,6 @@ const modified = {
 			'process.env': { NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' ) },
 			REDIRECTION_VERSION: "'" + pkg.version + "'",
 		} ),
-
-		{
-			apply( compiler ) {
-				compiler.hooks.thisCompilation.tap( 'GenerateVersion', ( compilation ) => {
-					compilation.hooks.processAssets.tap(
-						{
-							name: 'GenerateVersion',
-							stage: webpack.Compilation.PROCESS_ASSETS_STAGE_SUMMARIZE,
-						},
-						() => generateVersion( compilation )
-					);
-				} );
-			},
-		},
-
 		// Add bundle analyzer when ANALYZE env var is set
 		...( process.env.ANALYZE ? [ new BundleAnalyzerPlugin() ] : [] ),
 	],
