@@ -35,12 +35,26 @@ export const RedirectionApi = {
 	},
 	import: {
 		get: () => getApiRequest( 'redirection/v1/import' ),
-		upload: ( group: string, file: File ) => uploadApiRequest( 'redirection/v1/import/file/' + group, {}, file ),
+		upload: ( group: string, file: File, options: TableParams = {} ) =>
+			uploadApiRequest( 'redirection/v1/import/file/' + group, options, file ),
 		pluginList: () => getApiRequest( 'redirection/v1/import/plugin' ),
-		pluginImport: ( plugin: string[] ) => postApiRequest( 'redirection/v1/import/plugin', { plugin } ),
+		pluginImport: ( data: TableParams ) => postApiRequest( 'redirection/v1/import/plugin', data ),
+		pluginPreview: ( plugin: string, data: TableParams ) =>
+			getApiRequest( 'redirection/v1/import/plugin/' + encodeURIComponent( plugin ) + '/preview', data ),
 	},
 	export: {
 		file: ( module: string, format: string ) => getApiRequest( 'redirection/v1/export/' + module + '/' + format ),
+		redirect: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/redirect', data ),
+		redirectPreview: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/redirect/preview', data ),
+		bundle: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/bundle', data ),
+		bundlePreview: ( data: TableParams ) => getApiRequest( 'redirection/v1/export/bundle/preview', data ),
+		group: ( format: string, data: TableParams = {} ) =>
+			getApiRequest( 'redirection/v1/export/group/' + format, data ),
+		log: ( format: string, data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/log/' + format, data ),
+		logPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/log/preview', data ),
+		error: ( format: string, data: TableParams = {} ) =>
+			getApiRequest( 'redirection/v1/export/404/' + format, data ),
+		errorPreview: ( data: TableParams = {} ) => getApiRequest( 'redirection/v1/export/404/preview', data ),
 	},
 	plugin: {
 		status: () => getApiRequest( 'redirection/v1/plugin' ),

@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\ImportExport\ImportService;
+use Redirection\ImportExport\Importer\PluginRegistry;
+
 /**
  * @api {get} /redirection/v1/import/file/:group_id Import redirects
  * @apiName Import
@@ -9,7 +12,16 @@
  * @apiParam (URL) {Integer} :group_id The group ID to import into
  * @apiParam (File) {File} file The multipart form upload containing the file to import
  *
- * @apiSuccess {Integer} imported Number of items imported
+ * @apiSuccess {Integer} created Number of new redirects created
+ * @apiSuccess {Integer} updated Number of existing redirects updated
+ * @apiSuccess {Integer} ignored Number of duplicate redirects ignored
+ * @apiSuccess {Integer} groups_created Number of groups created during import
+ * @apiSuccess {Object[]} preview First 20 preview rows from the imported file
+ * @apiSuccess {String} preview.source Source URL
+ * @apiSuccess {String} preview.target Target URL
+ * @apiSuccess {Integer} preview.code HTTP code
+ * @apiSuccess {Boolean} preview.regex Whether the redirect is regex-based
+ * @apiSuccess {String} preview.group Target group name
  *
  * @apiUse 401Error
  * @apiUse 404Error
@@ -30,9 +42,17 @@
  */
 /**
  * @phpstan-type ImportPluginPayload array{
- *    plugin?: string|list<string>
+ *    plugin?: string|list<string>,
+ *    group_id?: int|string,
+ *    dry_run?: bool|string|int,
+ *    duplicate_mode?: string,
+ *    delete_source?: bool|string|int
  * }
  * @phpstan-type ImportFileParams array{
+ *  dry_run?: bool|string|int,
+ *  duplicate_mode?: string,
+ *  deduplicate?: bool|string|int,
+ *  import_sections?: list<string>|string,
  *  file?: array{
  *      tmp_name: string,
  *      name: string,
@@ -55,7 +75,25 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_import_file' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_file_import' ],
+					'args' => [
+						'dry_run' => [
+							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
+							'validate_callback' => [ $this, 'validate_boolean_param' ],
+						],
+						'duplicate_mode' => [
+							'sanitize_callback' => [ $this, 'sanitize_duplicate_mode_param' ],
+							'validate_callback' => [ $this, 'validate_duplicate_mode_param' ],
+						],
+						'deduplicate' => [
+							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
+							'validate_callback' => [ $this, 'validate_boolean_param' ],
+						],
+						'import_sections' => [
+							'sanitize_callback' => [ $this, 'sanitize_import_sections_param' ],
+							'validate_callback' => [ $this, 'validate_import_sections_param' ],
+						],
+					],
 				],
 			]
 		);
@@ -74,6 +112,38 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_plugin_import' ],
 					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'args' => [
+						'delete_source' => [
+							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
+							'validate_callback' => [ $this, 'validate_boolean_param' ],
+						],
+						'duplicate_mode' => [
+							'sanitize_callback' => [ $this, 'sanitize_duplicate_mode_param' ],
+							'validate_callback' => [ $this, 'validate_duplicate_mode_param' ],
+						],
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			$api_namespace,
+			'/import/plugin/(?P<plugin>[a-z0-9-]+)/preview',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_plugin_preview' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'args' => [
+						'delete_source' => [
+							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
+							'validate_callback' => [ $this, 'validate_boolean_param' ],
+						],
+						'duplicate_mode' => [
+							'sanitize_callback' => [ $this, 'sanitize_duplicate_mode_param' ],
+							'validate_callback' => [ $this, 'validate_duplicate_mode_param' ],
+						],
+					],
 				],
 			]
 		);
@@ -91,6 +161,26 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	}
 
 	/**
+	 * Permission callback for file imports.
+	 *
+	 * Redirect-only imports stay under IO permissions. JSON imports that include
+	 * additional sections require the relevant capability for that data type.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_file_import( WP_REST_Request $request ) {
+		if ( ! $this->permission_callback_manage( $request ) ) {
+			return false;
+		}
+
+		$sections = $this->sanitize_import_sections_param( $request->get_param( 'import_sections' ) );
+
+		return $this->has_import_section_permissions( $sections );
+	}
+
+	/**
 	 * List available plugin importers.
 	 *
 	 * @param WP_REST_Request $request Request.
@@ -99,9 +189,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return array{importers: array}
 	 */
 	public function route_plugin_import_list( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
-
-		return array( 'importers' => Red_Plugin_Importer::get_plugins() );
+		return array( 'importers' => PluginRegistry::get_plugins() );
 	}
 
 	/**
@@ -109,16 +197,29 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *
 	 * @param WP_REST_Request $request Request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
-	 * @phpstan-return array{imported: int}|WP_Error
-	 * @return array{imported: int}|WP_Error
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }|WP_Error
 	 */
 	public function route_plugin_import( WP_REST_Request $request ) {
-		include_once dirname( __DIR__ ) . '/models/importer.php';
-
 		$params = $request->get_params();
 		/** @var ImportPluginPayload $params */
-		$groups = Red_Group::get_all();
-		/** @var array<array{id: int, name: string, redirects: int, module_id: int, moduleName: string, enabled: bool, default?: bool}> $groups */
 		$plugin_param = $params['plugin'] ?? $request->get_param( 'plugin' );
 		if ( is_array( $plugin_param ) ) {
 			$plugins = array_map( 'strval', $plugin_param );
@@ -129,20 +230,86 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		}
 		/** @var list<string> $plugins */
 		$plugins = array_map( 'sanitize_text_field', $plugins );
-		$total = 0;
+		$group_id = isset( $params['group_id'] ) ? intval( $params['group_id'], 10 ) : 0;
+		$options = [
+			'duplicate_mode' => isset( $params['duplicate_mode'] ) ? $this->sanitize_duplicate_mode_param( $params['duplicate_mode'] ) : 'import',
+			'delete_source' => isset( $params['delete_source'] ) ? $this->sanitize_boolean_param( $params['delete_source'] ) : false,
+		];
+		$total = [
+			'created' => 0,
+			'updated' => 0,
+			'ignored' => 0,
+			'groups_created' => 0,
+			'groups_imported' => 0,
+			'logs_imported' => 0,
+			'errors_imported' => 0,
+			'settings_imported' => 0,
+			'preview' => [],
+		];
 
-		if ( count( $groups ) === 0 ) {
+		$group = Red_Group::get( $group_id );
+		if ( $group === false ) {
 			return $this->add_error_details(
-				new WP_Error( 'redirect_import_invalid_group', 'No groups are available for import' ),
+				new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ),
 				__LINE__
 			);
 		}
 
 		foreach ( $plugins as $plugin ) {
-			$total += Red_Plugin_Importer::import( $plugin, $groups[0]['id'] );
+			$result = PluginRegistry::import( $plugin, $group_id, $options );
+			$total['created'] += $result['created'];
+			$total['updated'] += $result['updated'];
+			$total['ignored'] += $result['ignored'];
+			$total['groups_created'] += $result['groups_created'];
 		}
 
-		return [ 'imported' => $total ];
+		return $total;
+	}
+
+	/**
+	 * Preview redirects using a selected plugin importer.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }|WP_Error
+	 */
+	public function route_plugin_preview( WP_REST_Request $request ) {
+		$params = $request->get_params();
+		$plugin = sanitize_text_field( strval( $request->get_param( 'plugin' ) ) );
+		$group_id = isset( $params['group_id'] ) ? intval( $params['group_id'], 10 ) : 0;
+		$options = [
+			'duplicate_mode' => isset( $params['duplicate_mode'] ) ? $this->sanitize_duplicate_mode_param( $params['duplicate_mode'] ) : 'import',
+			'delete_source' => isset( $params['delete_source'] ) ? $this->sanitize_boolean_param( $params['delete_source'] ) : false,
+			'dry_run' => true,
+		];
+
+		$group = Red_Group::get( $group_id );
+		if ( $group === false ) {
+			return $this->add_error_details(
+				new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ),
+				__LINE__
+			);
+		}
+
+		return PluginRegistry::preview( $plugin, $group_id, $options );
 	}
 
 	/**
@@ -150,13 +317,41 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *
 	 * @param WP_REST_Request $request Request.
 	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
-	 * @phpstan-return array{imported: int}|WP_Error
-	 * @return array{imported: int}|WP_Error
+	 * @phpstan-return array{
+	 *   created: int,
+	 *   updated: int,
+	 *   ignored: int,
+	 *   groups_created: int,
+	 *   groups_imported: int,
+	 *   logs_imported: int,
+	 *   errors_imported: int,
+	 *   settings_imported: int,
+	 *   preview: array<int, array{
+	 *     source: string,
+	 *     target: string,
+	 *     code: int,
+	 *     regex: bool,
+	 *     group: string,
+	 *     result: 'created'|'updated'|'ignored',
+	 *     redirect_id?: int
+	 *   }>
+	 * }|WP_Error
 	 */
 	public function route_import_file( WP_REST_Request $request ) {
 		$file_params = $request->get_file_params();
 		/** @var ImportFileParams $file_params */
+		$params = $request->get_params();
+		/** @var ImportFileParams $params */
 		$group_id = intval( $request['group_id'], 10 );
+		$options = [
+			'dry_run' => isset( $params['dry_run'] ) ? $this->sanitize_boolean_param( $params['dry_run'] ) : false,
+			'duplicate_mode' => isset( $params['duplicate_mode'] ) ? $this->sanitize_duplicate_mode_param( $params['duplicate_mode'] ) : 'import',
+			'import_sections' => isset( $params['import_sections'] ) ? $this->sanitize_import_sections_param( $params['import_sections'] ) : [],
+		];
+
+		if ( ! isset( $params['duplicate_mode'] ) && isset( $params['deduplicate'] ) && $this->sanitize_boolean_param( $params['deduplicate'] ) ) {
+			$options['duplicate_mode'] = 'update';
+		}
 
 		if ( ! isset( $file_params['file'] ) || ! is_uploaded_file( $file_params['file']['tmp_name'] ) ) {
 			return $this->add_error_details( new WP_Error( 'redirect_import_invalid_file', 'Invalid file upload' ), __LINE__ );
@@ -174,11 +369,23 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			}
 		}
 
-		$count = \Redirection\FileIO\FileIO::import( $group_id, $upload );
+		if ( $extension === 'json' && ! $this->has_json_import_permissions( $upload['tmp_name'], $options['import_sections'] ) ) {
+			return $this->get_forbidden_error();
+		}
+
+		$result = ( new ImportService() )->import( $group_id, $upload, $options );
 
 		// Import failure returns 0, but 0 can also mean no valid redirects in file
 		// For JSON files, pre-validate to distinguish between invalid JSON and empty/no-redirects
-		if ( $count === 0 && $extension === 'json' ) {
+		if (
+			$result['created'] === 0 &&
+			$result['updated'] === 0 &&
+			$result['groups_imported'] === 0 &&
+			$result['logs_imported'] === 0 &&
+			$result['errors_imported'] === 0 &&
+			$result['settings_imported'] === 0 &&
+			$extension === 'json'
+		) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
 			$content = file_get_contents( $upload['tmp_name'] );
 			if ( $content !== false ) {
@@ -192,8 +399,200 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			}
 		}
 
-		return array(
-			'imported' => $count,
+		return $result;
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @return bool
+	 */
+	public function sanitize_boolean_param( $value ) {
+		if ( is_bool( $value ) ) {
+			return $value;
+		}
+
+		if ( is_int( $value ) || is_string( $value ) ) {
+			return in_array( strtolower( (string) $value ), [ '1', 'true' ], true );
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @param WP_REST_Request $request Request.
+	 * @param string $param Parameter name.
+	 * @return bool
+	 */
+	public function validate_boolean_param( $value, WP_REST_Request $request, $param ) {
+		unset( $request, $param );
+
+		if ( is_bool( $value ) ) {
+			return true;
+		}
+
+		if ( is_int( $value ) || is_string( $value ) ) {
+			return in_array( strtolower( (string) $value ), [ '1', '0', 'true', 'false' ], true );
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @return 'import'|'ignore'|'update'
+	 */
+	public function sanitize_duplicate_mode_param( $value ) {
+		if ( is_string( $value ) && in_array( $value, [ 'import', 'ignore', 'update' ], true ) ) {
+			return $value;
+		}
+
+		return 'import';
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @param WP_REST_Request $request Request.
+	 * @param string $param Parameter name.
+	 * @return bool
+	 */
+	public function validate_duplicate_mode_param( $value, WP_REST_Request $request, $param ) {
+		unset( $request, $param );
+
+		return is_string( $value ) && in_array( $value, [ 'import', 'ignore', 'update' ], true );
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @return list<string>
+	 */
+	public function sanitize_import_sections_param( $value ) {
+		if ( is_string( $value ) ) {
+			$values = array_map( 'trim', explode( ',', $value ) );
+		} else {
+			$values = is_array( $value ) ? $value : [ $value ];
+		}
+
+		$allowed = [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ];
+		$sections = [];
+
+		foreach ( $values as $section ) {
+			if ( is_string( $section ) && in_array( $section, $allowed, true ) ) {
+				$sections[] = $section;
+			}
+		}
+
+		return array_values( array_unique( $sections ) );
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @param WP_REST_Request $request Request.
+	 * @param string $param Parameter name.
+	 * @return bool
+	 */
+	public function validate_import_sections_param( $value, WP_REST_Request $request, $param ) {
+		unset( $request, $param );
+
+		if ( is_string( $value ) ) {
+			$values = array_filter(
+				array_map( 'trim', explode( ',', $value ) ),
+				static function ( $val ) {
+					return strlen( $val ) > 0;
+				}
+			);
+
+			if ( count( $values ) === 0 ) {
+				return false;
+			}
+
+			return count( $values ) === count( $this->sanitize_import_sections_param( $value ) );
+		}
+
+		if ( ! is_array( $value ) ) {
+			return false;
+		}
+
+		foreach ( $value as $section ) {
+			if ( ! is_string( $section ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param list<string> $sections
+	 * @return bool
+	 */
+	private function has_import_section_permissions( array $sections ) {
+		foreach ( $sections as $section ) {
+			if ( $section === 'settings' && ! $this->can_manage_settings() ) {
+				return false;
+			}
+
+			if ( $section === 'groups' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_ADD ) ) {
+				return false;
+			}
+
+			if ( $section === 'logs' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
+				return false;
+			}
+
+			if ( $section === 'errors_404' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $filename
+	 * @param list<string> $requested_sections
+	 * @return bool
+	 */
+	private function has_json_import_permissions( $filename, array $requested_sections ) {
+		$sections = $requested_sections;
+
+		if ( count( $sections ) === 0 ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
+			$content = file_get_contents( $filename );
+			if ( $content !== false ) {
+				$decoded = json_decode( $content, true );
+
+				if ( is_array( $decoded ) ) {
+					$sections = [];
+
+					foreach ( [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ] as $section ) {
+						if ( array_key_exists( $section, $decoded ) ) {
+							$sections[] = $section;
+						}
+					}
+				}
+			}
+		}
+
+		return $this->has_import_section_permissions( $sections );
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function can_manage_settings() {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+	}
+
+	/**
+	 * @return WP_Error
+	 */
+	private function get_forbidden_error() {
+		return new WP_Error(
+			'rest_forbidden',
+			__( 'Sorry, you are not allowed to do that.' ),
+			[ 'status' => rest_authorization_required_code() ]
 		);
 	}
 }
