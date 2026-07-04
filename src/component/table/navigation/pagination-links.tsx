@@ -28,12 +28,12 @@ function PaginationLinks( props: PaginationLinksProps ) {
 	const max = getTotalPages( total, perPage );
 
 	const commitPage = () => {
-		const nextPage = parseInt( currentPage, 10 );
-		if ( Number.isNaN( nextPage ) ) {
+		if ( ! /^\d+$/.test( currentPage ) ) {
 			setPage( String( page + 1 ) );
 			return;
 		}
 
+		const nextPage = Number( currentPage );
 		const boundedPage = Math.min( max, Math.max( 1, nextPage ) );
 		setPage( String( boundedPage ) );
 		onChangePage( boundedPage - 1 );
