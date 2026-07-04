@@ -37,7 +37,17 @@ if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 	return;
 }
 
-require_once __DIR__ . '/build/redirection-version.php';
+$version_file = __DIR__ . '/build/redirection-version.php';
+
+if ( file_exists( $version_file ) ) {
+	require_once $version_file;
+} else {
+	// Fallback for test/source checkouts before assets have been built.
+	define( 'REDIRECTION_VERSION', '5.8.0' );
+	define( 'REDIRECTION_BUILD', 'dev' );
+	define( 'REDIRECTION_MIN_WP', '6.6' );
+}
+
 require_once __DIR__ . '/redirection-settings.php';
 require_once __DIR__ . '/models/options.php';
 require_once __DIR__ . '/models/redirect/redirect.php';

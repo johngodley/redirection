@@ -102,6 +102,22 @@ describe( 'useExportPage', () => {
 		expect( result.current.state.redirectGroup ).toBe( 11 );
 	} );
 
+	it( 'switches to a valid module when changing redirect scope to module', async () => {
+		const { result } = renderHook( () => useExportPage() );
+
+		act( () => {
+			result.current.onToggleType( 'redirect' );
+		} );
+
+		await waitFor( () => expect( result.current.state.previewTotal ).toBe( 9 ) );
+
+		act( () => {
+			result.current.onChange( 'redirectScopeType', 'module' );
+		} );
+
+		await waitFor( () => expect( result.current.state.redirectModule ).toBe( '1' ) );
+	} );
+
 	it( 'switches logs to combined JSON support and refreshes preview totals', async () => {
 		const { result } = renderHook( () => useExportPage() );
 

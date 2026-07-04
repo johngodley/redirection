@@ -9,10 +9,10 @@ interface ExportActionSelectorProps {
 function ExportActionSelector( { disabled, onView, onDownload }: ExportActionSelectorProps ) {
 	return (
 		<div className="import-actions">
-			<button className="button-secondary" onClick={ onView } disabled={ disabled }>
+			<button type="button" className="button-secondary" onClick={ onView } disabled={ disabled }>
 				{ __( 'View', 'redirection' ) }
 			</button>{ ' ' }
-			<button className="button-primary" onClick={ onDownload } disabled={ disabled }>
+			<button type="button" className="button-primary" onClick={ onDownload } disabled={ disabled }>
 				{ __( 'Download', 'redirection' ) }
 			</button>
 		</div>

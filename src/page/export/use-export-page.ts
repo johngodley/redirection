@@ -160,13 +160,6 @@ function useExportPage(): UseExportPageResult {
 				value: getRedirectModuleLabel( redirectModule ),
 			} );
 		}
-
-		if ( redirectScopeType === 'group' ) {
-			summaryMeta.push( {
-				label: __( 'Group', 'redirection' ),
-				value: activeGroup ? activeGroup.name : __( 'No group selected', 'redirection' ),
-			} );
-		}
 	}
 
 	if ( hasSelectedTypes ) {
@@ -181,6 +174,20 @@ function useExportPage(): UseExportPageResult {
 			setRedirectGroup( groupRows[ 0 ].id );
 		}
 	}, [ groupRows, redirectGroup ] );
+
+	useEffect( () => {
+		if ( redirectScopeType === 'module' && redirectModule === 'all' ) {
+			setRedirectModule( '1' );
+		}
+
+		if (
+			redirectScopeType === 'group' &&
+			groupRows[ 0 ] &&
+			! groupRows.some( ( group ) => group.id === redirectGroup )
+		) {
+			setRedirectGroup( groupRows[ 0 ].id );
+		}
+	}, [ groupRows, redirectGroup, redirectModule, redirectScopeType ] );
 
 	useEffect( () => {
 		if ( availableFormats.length === 0 ) {
@@ -230,7 +237,17 @@ function useExportPage(): UseExportPageResult {
 	const onChange = ( name: 'redirectScopeType' | 'redirectModule' | 'redirectGroup' | 'format', value: string ) => {
 		exportMutation.reset();
 		if ( name === 'redirectScopeType' ) {
-			setRedirectScopeType( value as RedirectScopeType );
+			const nextScope = value as RedirectScopeType;
+
+			setRedirectScopeType( nextScope );
+
+			if ( nextScope === 'module' && redirectModule === 'all' ) {
+				setRedirectModule( '1' );
+			}
+
+			if ( nextScope === 'group' && groupRows[ 0 ] && redirectGroup === 0 ) {
+				setRedirectGroup( groupRows[ 0 ].id );
+			}
 		} else if ( name === 'redirectModule' ) {
 			setRedirectModule( value as RedirectModule );
 		} else if ( name === 'redirectGroup' ) {

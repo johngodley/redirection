@@ -27,7 +27,7 @@ class OpcacheClearTest extends TestCase {
 		$version_file = $build_dir . '/redirection-version.php';
 
 		if ( ! is_dir( $build_dir ) ) {
-			mkdir( $build_dir, 0777, true );
+			mkdir( $build_dir, 0755, true );
 		}
 
 		if ( ! file_exists( $version_file ) ) {
