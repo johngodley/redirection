@@ -3,7 +3,7 @@ import IoCard, { type CardMetaItem, type CardStatItem } from 'component/import-e
 import type { ImportStats } from './types';
 
 interface ImportResultsProps {
-	activeImportType: 'file' | 'plugin' | null;
+	activeImportType: 'file' | 'plugin' | 'paste' | null;
 	lastImport: ImportStats | false;
 	lastImportWasDryRun: boolean | null;
 }

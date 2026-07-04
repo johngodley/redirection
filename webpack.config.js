@@ -115,7 +115,8 @@ const modified = {
 	plugins: [
 		// Replace the default MiniCSSExtractPlugin and RtlCssPlugin with custom ones
 		...defaultConfig.plugins.filter(
-			( plugin ) => plugin?.constructor?.name !== 'MiniCssExtractPlugin' && plugin?.constructor?.name !== 'RtlCSSPlugin'
+			( plugin ) =>
+				plugin?.constructor?.name !== 'MiniCssExtractPlugin' && plugin?.constructor?.name !== 'RtlCSSPlugin'
 		),
 		new MiniCSSExtractPlugin( { filename: 'redirection.css' } ),
 		new CustomRtlCssPlugin(),

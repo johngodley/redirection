@@ -1,4 +1,5 @@
 import { __, _n } from '@wordpress/i18n';
+import type { ReactNode } from 'react';
 import clsx from 'clsx';
 import IoCard, { type CardMetaItem, type CardStatItem } from 'component/import-export/card';
 import type { ImportSniffResult } from './types';
@@ -137,14 +138,16 @@ function PasteImporter( {
 			return meta;
 		}
 
+		let importTypeValue: ReactNode = __( 'CSV', 'redirection' );
+		if ( pasteInfo.format === 'json' ) {
+			importTypeValue = __( 'JSON', 'redirection' );
+		} else if ( pasteInfo.format === 'apache' ) {
+			importTypeValue = __( 'Apache .htaccess', 'redirection' );
+		}
+
 		meta[ 0 ] = {
 			label: __( 'Import type', 'redirection' ),
-			value:
-				pasteInfo.format === 'json'
-					? __( 'JSON', 'redirection' )
-					: pasteInfo.format === 'apache'
-						? __( 'Apache .htaccess', 'redirection' )
-						: __( 'CSV', 'redirection' ),
+			value: importTypeValue,
 		};
 		meta[ 1 ] = {
 			label: __( 'Details', 'redirection' ),

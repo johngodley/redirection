@@ -19,7 +19,7 @@ export type ImportSniffResult =
 	| {
 			format: 'apache';
 			valid: boolean;
-			importSupported: true;
+			importSupported?: boolean;
 			rules?: number;
 			ruleTypes?: Array< 'rewrite' | 'redirect' | 'redirectmatch' >;
 			error?: 'unknown-apache-layout';

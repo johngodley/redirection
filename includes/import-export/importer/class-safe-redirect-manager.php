@@ -107,7 +107,7 @@ class SafeRedirectManager extends Plugin {
 	 * Create a Redirection item from a collected SRM post meta map.
 	 *
 	 * @param array<string, int|string> $post Map of SRM fields for a single link.
-	 * @return array<string, mixed>
+	 * @return array<string, mixed>|false
 	 */
 	private function get_item_for_post( $post ) {
 		return $this->mapper->safe_redirect_manager( $post );

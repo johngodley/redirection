@@ -46,12 +46,7 @@ function Importer( props: ImporterProps ) {
 				},
 			] }
 			actions={
-				<button
-					type="button"
-					onClick={ clicker }
-					className="button-secondary"
-					disabled={ isImporting }
-				>
+				<button type="button" onClick={ clicker } className="button-secondary" disabled={ isImporting }>
 					{ isActive ? __( 'Clear importer', 'redirection' ) : __( 'Use importer', 'redirection' ) }
 				</button>
 			}

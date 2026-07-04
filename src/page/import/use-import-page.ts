@@ -91,13 +91,10 @@ function useImportPage() {
 	const hasCompletedImport = lastImport !== false && lastImportWasDryRun === false;
 	const activePlugin = importers.find( ( item ) => item.id === activePluginId ) || null;
 	const activeFile = activeImportType === 'paste' ? pasteFile : file;
-	const activeFileInfo = activeImportType === 'paste' ? pasteInfo : fileInfo;
 	const hasActiveImport =
 		activeImportType === 'file' || activeImportType === 'paste' ? activeFile !== false : activePlugin !== null;
 	const previewSupported =
-		activeImportType === 'file' || activeImportType === 'paste'
-			? true
-			: activePlugin?.preview_supported === true;
+		activeImportType === 'file' || activeImportType === 'paste' ? true : activePlugin?.preview_supported === true;
 
 	let importingStatus = 'idle';
 	if ( isImporting ) {
@@ -181,7 +178,7 @@ function useImportPage() {
 		} else {
 			setSelectedSections( [] );
 		}
-	}, [ pasteText ] );
+	}, [ pasteText, activeImportType ] );
 
 	const selectFile = ( selectedFile: File | false ) => {
 		importRunner.reset();

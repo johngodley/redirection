@@ -495,7 +495,12 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		unset( $request, $param );
 
 		if ( is_string( $value ) ) {
-			$values = array_filter( array_map( 'trim', explode( ',', $value ) ), 'strlen' );
+			$values = array_filter(
+				array_map( 'trim', explode( ',', $value ) ),
+				static function ( $val ) {
+					return strlen( $val ) > 0;
+				}
+			);
 
 			if ( count( $values ) === 0 ) {
 				return false;

@@ -128,7 +128,7 @@ class RedirectRepository {
 			}
 
 			$placeholders = implode( ',', array_fill( 0, count( $items ), '%d' ) );
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$query = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE id IN ($placeholders) ORDER BY position", ...$items );
 			$rows = $wpdb->get_results( $query );
 		} else {
@@ -139,7 +139,7 @@ class RedirectRepository {
 				$where = $filters->get_as_sql();
 			}
 
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$rows = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items {$where} ORDER BY position" );
 		}
 

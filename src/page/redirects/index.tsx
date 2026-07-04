@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction, useExport } from 'lib/api/hooks';
+import type { ExportRequestVariables } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore } from 'stores';
 import {
 	getDisplayGroups,
@@ -144,17 +145,22 @@ function Redirects() {
 			const format = action.endsWith( 'csv' ) ? 'csv' : 'json';
 			const isCopy = action.startsWith( 'copy-' );
 
-			exportMutation.mutate( {
+			const variables: ExportRequestVariables = {
 				exportType: 'redirect',
 				format,
 				download: ! isCopy,
 				copy: isCopy,
-				filename: ! isCopy ? getExportFilename( 'redirect', format ) : undefined,
 				completionNotice: {
 					message: isCopy ? __( 'Export copied', 'redirection' ) : __( 'Export downloaded', 'redirection' ),
 				},
 				params,
-			} );
+			};
+
+			if ( ! isCopy ) {
+				variables.filename = getExportFilename( 'redirect', format );
+			}
+
+			exportMutation.mutate( variables );
 
 			return;
 		}

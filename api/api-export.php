@@ -59,109 +59,109 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 			$api_namespace,
 			'/export/redirect/preview',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_redirect_preview' ],
-						'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_redirect_preview' ],
+					'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/redirect',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_redirect_export' ],
-						'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_redirect_export' ],
+					'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/log/preview',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_log_preview' ],
-						'permission_callback' => [ $this, 'permission_callback_log_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_log_preview' ],
+					'permission_callback' => [ $this, 'permission_callback_log_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/group/(?P<format>csv|json)',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_group_export' ],
-						'permission_callback' => [ $this, 'permission_callback_group_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_group_export' ],
+					'permission_callback' => [ $this, 'permission_callback_group_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/log/(?P<format>csv|json)',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_log_export' ],
-						'permission_callback' => [ $this, 'permission_callback_log_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_log_export' ],
+					'permission_callback' => [ $this, 'permission_callback_log_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/404/preview',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_404_preview' ],
-						'permission_callback' => [ $this, 'permission_callback_404_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_404_preview' ],
+					'permission_callback' => [ $this, 'permission_callback_404_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/404/(?P<format>csv|json)',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_404_export' ],
-						'permission_callback' => [ $this, 'permission_callback_404_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_404_export' ],
+					'permission_callback' => [ $this, 'permission_callback_404_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/bundle',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_bundle_export' ],
-						'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_bundle_export' ],
+					'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
+				],
+			]
+		);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/bundle/preview',
 			[
-					[
-						'methods' => WP_REST_Server::READABLE,
-						'callback' => [ $this, 'route_bundle_preview' ],
-						'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
-					],
-				]
-			);
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_bundle_preview' ],
+					'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
+				],
+			]
+		);
 	}
 
 	/**

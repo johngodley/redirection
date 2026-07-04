@@ -183,12 +183,17 @@ class RedirectItemMapper {
 
 	/**
 	 * @param array<string, int|string> $post Redirect data.
-	 * @return array<string, mixed>
+	 * @return array<string, mixed>|false
 	 */
 	public function safe_redirect_manager( array $post ) {
 		$regex = false;
-		$source = (string) $post['from'];
-		$target = (string) $post['to'];
+		$source = isset( $post['from'] ) ? (string) $post['from'] : '';
+		$target = isset( $post['to'] ) ? (string) $post['to'] : '';
+		$code = isset( $post['status_code'] ) ? intval( $post['status_code'], 10 ) : 0;
+
+		if ( $source === '' || $target === '' || $code === 0 ) {
+			return false;
+		}
 
 		if ( strpos( $source, '*' ) !== false ) {
 			$regex = true;
@@ -203,7 +208,7 @@ class RedirectItemMapper {
 			'regex' => $regex,
 			'match_type' => 'url',
 			'action_type' => 'url',
-			'action_code' => intval( $post['status_code'], 10 ),
+			'action_code' => $code,
 		);
 	}
 

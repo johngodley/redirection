@@ -354,6 +354,19 @@ class PluginImporterUnitTest extends TestCase {
 		$this->assertSame( 307, $result['action_code'] );
 	}
 
+	public function testSafeRedirectManagerImporterRejectsMissingStatusCode() {
+		$mapper = $this->get_mapper();
+
+		$this->assertFalse(
+			$mapper->safe_redirect_manager(
+				[
+					'from' => '/source/',
+					'to' => '/target/',
+				]
+			)
+		);
+	}
+
 	public function testFakeRedirectionImporterMapsRedirectRows() {
 		$mapper = $this->get_mapper();
 
