@@ -16,32 +16,96 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		];
 	}
 
-	// public function testNoPermission() {
-	//  $this->setUnauthorised();
+	public function testNoPermission() {
+		$this->setUnauthorised();
+		$this->check_endpoints(
+			[
+				[ 'export/1/csv', 'GET', [] ],
+				[ 'export/redirect', 'GET', [] ],
+				[ 'export/log/json', 'GET', [] ],
+				[ 'export/404/json', 'GET', [] ],
+				[ 'export/group/json', 'GET', [] ],
+				[ 'export/bundle', 'GET', [ 'types' => [ 'redirect' ], 'format' => 'json' ] ],
+			]
+		);
+	}
 
-	//  // None of these should work
-	//  $this->check_endpoints( $this->get_endpoints() );
-	// }
+	public function testEditorPermissionRedirectExportRequiresIoCapability() {
+		$this->setEditor();
 
-	// public function testEditorPermission() {
-	//  // Everything else is 403
-	//  $working = [
-	//      Redirection_Capabilities::CAP_IO_MANAGE => [ [ 'export/1/csv', 'GET' ] ],
-	//  ];
+		$redirect_routes = [
+			[ 'export/1/csv', [], 'GET' ],
+			[ 'export/redirect', [ 'format' => 'json' ], 'GET' ],
+			[ 'export/redirect/preview', [ 'format' => 'json' ], 'GET' ],
+			[ 'export/bundle', [ 'types' => [ 'redirect' ], 'format' => 'json' ], 'GET' ],
+			[ 'export/bundle/preview', [ 'types' => [ 'redirect' ], 'format' => 'json' ], 'GET' ],
+		];
 
-	//  $this->setEditor();
+		foreach ( $redirect_routes as $route ) {
+			$result = $this->callApi( $route[0], $route[1], $route[2] );
+			$this->assertEquals( 403, $result->status );
+			$this->assertEquals( 'rest_forbidden', $result->data['code'] );
+		}
 
-	//  foreach ( $working as $cap => $working_caps ) {
-	//      $this->add_capability( $cap );
-	//      $this->check_endpoints( $this->get_endpoints(), $working_caps );
-	//      $this->clear_capability();
-	//  }
-	// }
+		$this->add_capability( Redirection_Capabilities::CAP_IO_MANAGE );
 
-	// public function testAdminPermission() {
-	//  // All of these should work
-	//  $this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
-	// }
+		foreach ( $redirect_routes as $route ) {
+			$result = $this->callApi( $route[0], $route[1], $route[2] );
+			$this->assertNotEquals( 403, $result->status, $route[0] );
+		}
+
+		$this->clear_capability();
+	}
+
+	public function testEditorPermissionRequiresMatchingExportCapability() {
+		$this->setEditor();
+		$this->add_capability( Redirection_Capabilities::CAP_IO_MANAGE );
+
+		$group = $this->callApi( 'export/group/json' );
+		$this->assertEquals( 403, $group->status );
+
+		$log = $this->callApi( 'export/log/json' );
+		$this->assertEquals( 403, $log->status );
+
+		$error = $this->callApi( 'export/404/json' );
+		$this->assertEquals( 403, $error->status );
+
+		$setting = $this->callApi( 'export/bundle', [ 'types' => [ 'setting' ], 'format' => 'json' ] );
+		$this->assertEquals( 403, $setting->status );
+
+		$group_bundle = $this->callApi( 'export/bundle', [ 'types' => [ 'group' ], 'format' => 'json' ] );
+		$this->assertEquals( 403, $group_bundle->status );
+
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_GROUP_MANAGE ] );
+		$group = $this->callApi( 'export/group/json' );
+		$this->assertNotEquals( 403, $group->status );
+		$group_bundle = $this->callApi( 'export/bundle', [ 'types' => [ 'group' ], 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $group_bundle->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_LOG_MANAGE ] );
+		$log = $this->callApi( 'export/log/json' );
+		$this->assertNotEquals( 403, $log->status );
+		$log_bundle = $this->callApi( 'export/bundle', [ 'types' => [ 'log' ], 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $log_bundle->status );
+		$mixed_bundle = $this->callApi( 'export/bundle', [ 'types' => [ 'log', 'setting' ], 'format' => 'json' ] );
+		$this->assertEquals( 403, $mixed_bundle->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_404_MANAGE ] );
+		$error = $this->callApi( 'export/404/json' );
+		$this->assertNotEquals( 403, $error->status );
+		$error_bundle = $this->callApi( 'export/bundle', [ 'types' => [ '404' ], 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $error_bundle->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_OPTION_MANAGE ] );
+		$setting = $this->callApi( 'export/bundle', [ 'types' => [ 'setting' ], 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $setting->status );
+		$this->clear_capability();
+	}
 
 	// public function testExportNameModule() {
 	//  // Create 2 groups, one in apache, one in WordPress

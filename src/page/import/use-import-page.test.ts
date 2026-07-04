@@ -212,6 +212,24 @@ describe( 'useImportPage', () => {
 		expect( result.current.state.lastImportWasDryRun ).toBeNull();
 	} );
 
+	it( 'allows the active plugin importer to be toggled off', () => {
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onSelectPlugin( plugin );
+		} );
+
+		expect( result.current.state.activeImportType ).toBe( 'plugin' );
+		expect( result.current.state.activePluginId ).toBe( plugin.id );
+
+		act( () => {
+			result.current.onSelectPlugin( plugin );
+		} );
+
+		expect( result.current.state.activeImportType ).toBeNull();
+		expect( result.current.state.activePluginId ).toBeNull();
+	} );
+
 	it( 'passes delete original data for the WordPress permalink importer', () => {
 		const { result } = renderHook( () => useImportPage() );
 

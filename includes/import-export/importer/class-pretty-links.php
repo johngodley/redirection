@@ -61,7 +61,7 @@ class PrettyLinks extends Plugin {
 			return [
 				'id' => 'pretty-links',
 				'name' => 'PrettyLinks',
-				'description' => __( 'Rules created by Pretty Links.', 'redirection' ),
+				'description' => __( 'Redirects created by Pretty Links.', 'redirection' ),
 				'source' => __( 'Database tables', 'redirection' ),
 				'total' => (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}prli_links" ),
 			];

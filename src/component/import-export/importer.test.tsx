@@ -49,4 +49,26 @@ describe( 'Importer', () => {
 		fireEvent.click( screen.getByRole( 'button', { name: 'Use importer' } ) );
 		expect( onSelect ).toHaveBeenCalledTimes( 1 );
 	} );
+
+	it( 'allows the active importer to be cleared', () => {
+		const onSelect = jest.fn();
+
+		render(
+			<Importer
+				plugin={ {
+					id: 'wordpress-old-slugs',
+					name: 'WordPress permalink redirect',
+					description: 'Redirects created by WordPress.',
+					source: 'WordPress posts and post meta',
+					preview_supported: true,
+					total: 7,
+				} }
+				onSelect={ onSelect }
+				isActive={ true }
+			/>
+		);
+
+		fireEvent.click( screen.getByRole( 'button', { name: 'Clear importer' } ) );
+		expect( onSelect ).toHaveBeenCalledTimes( 1 );
+	} );
 } );

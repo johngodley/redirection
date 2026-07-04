@@ -50,7 +50,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::READABLE,
 					'callback' => [ $this, 'route_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
 				],
 			]
 		);
@@ -59,109 +59,109 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 			$api_namespace,
 			'/export/redirect/preview',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_redirect_preview' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_redirect_preview' ],
+						'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/redirect',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_redirect_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_redirect_export' ],
+						'permission_callback' => [ $this, 'permission_callback_redirect_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/log/preview',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_log_preview' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_log_preview' ],
+						'permission_callback' => [ $this, 'permission_callback_log_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/group/(?P<format>csv|json)',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_group_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_group_export' ],
+						'permission_callback' => [ $this, 'permission_callback_group_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/log/(?P<format>csv|json)',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_log_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_log_export' ],
+						'permission_callback' => [ $this, 'permission_callback_log_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/404/preview',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_404_preview' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_404_preview' ],
+						'permission_callback' => [ $this, 'permission_callback_404_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/404/(?P<format>csv|json)',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_404_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_404_export' ],
+						'permission_callback' => [ $this, 'permission_callback_404_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/bundle',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_bundle_export' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_bundle_export' ],
+						'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
+					],
+				]
+			);
 
 		register_rest_route(
 			$api_namespace,
 			'/export/bundle/preview',
 			[
-				[
-					'methods' => WP_REST_Server::READABLE,
-					'callback' => [ $this, 'route_bundle_preview' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
-				],
-			]
-		);
+					[
+						'methods' => WP_REST_Server::READABLE,
+						'callback' => [ $this, 'route_bundle_preview' ],
+						'permission_callback' => [ $this, 'permission_callback_bundle_export' ],
+					],
+				]
+			);
 	}
 
 	/**
@@ -172,6 +172,70 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_redirect_export( WP_REST_Request $request ) {
+		return $this->permission_callback_manage( $request );
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_group_export( WP_REST_Request $request ) {
+		return $this->permission_callback_manage( $request ) && $this->can_manage_groups();
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_log_export( WP_REST_Request $request ) {
+		return $this->permission_callback_manage( $request ) &&
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE );
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_404_export( WP_REST_Request $request ) {
+		return $this->permission_callback_manage( $request ) &&
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE );
+	}
+
+	/**
+	 * @param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_bundle_export( WP_REST_Request $request ) {
+		if ( ! $this->permission_callback_manage( $request ) ) {
+			return false;
+		}
+
+		foreach ( $this->get_bundle_types( $request ) as $type ) {
+			if ( $type === 'group' && ! $this->can_manage_groups() ) {
+				return false;
+			}
+
+			if ( $type === 'log' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
+				return false;
+			}
+
+			if ( $type === '404' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE ) ) {
+				return false;
+			}
+
+			if ( $type === 'setting' && ! $this->can_manage_settings() ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -575,5 +639,21 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 		}
 
 		return 'json';
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function can_manage_groups() {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_MANAGE ) ||
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function can_manage_settings() {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
 	}
 }

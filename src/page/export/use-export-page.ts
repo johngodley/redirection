@@ -27,7 +27,7 @@ const EXPORT_TYPES: ExportTypeOption[] = [
 	{
 		id: 'redirect',
 		name: __( 'Redirects', 'redirection' ),
-		description: __( 'Export redirect rules in Redirection or server formats.', 'redirection' ),
+		description: __( 'Export redirect rules in Redirection.', 'redirection' ),
 		formats: [ 'json', 'csv', 'apache', 'nginx' ],
 	},
 	{

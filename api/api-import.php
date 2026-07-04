@@ -75,7 +75,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 				[
 					'methods' => WP_REST_Server::EDITABLE,
 					'callback' => [ $this, 'route_import_file' ],
-					'permission_callback' => [ $this, 'permission_callback_manage' ],
+					'permission_callback' => [ $this, 'permission_callback_file_import' ],
 					'args' => [
 						'dry_run' => [
 							'sanitize_callback' => [ $this, 'sanitize_boolean_param' ],
@@ -158,6 +158,26 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 */
 	public function permission_callback_manage( WP_REST_Request $_request ) {
 		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
+	}
+
+	/**
+	 * Permission callback for file imports.
+	 *
+	 * Redirect-only imports stay under IO permissions. JSON imports that include
+	 * additional sections require the relevant capability for that data type.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @phpstan-param WP_REST_Request<array<string, mixed>> $request
+	 * @return bool
+	 */
+	public function permission_callback_file_import( WP_REST_Request $request ) {
+		if ( ! $this->permission_callback_manage( $request ) ) {
+			return false;
+		}
+
+		$sections = $this->sanitize_import_sections_param( $request->get_param( 'import_sections' ) );
+
+		return $this->has_import_section_permissions( $sections );
 	}
 
 	/**
@@ -349,6 +369,10 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			}
 		}
 
+		if ( $extension === 'json' && ! $this->has_json_import_permissions( $upload['tmp_name'], $options['import_sections'] ) ) {
+			return $this->get_forbidden_error();
+		}
+
 		$result = ( new ImportService() )->import( $group_id, $upload, $options );
 
 		// Import failure returns 0, but 0 can also mean no valid redirects in file
@@ -491,5 +515,79 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param list<string> $sections
+	 * @return bool
+	 */
+	private function has_import_section_permissions( array $sections ) {
+		foreach ( $sections as $section ) {
+			if ( $section === 'settings' && ! $this->can_manage_settings() ) {
+				return false;
+			}
+
+			if ( $section === 'groups' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_ADD ) ) {
+				return false;
+			}
+
+			if ( $section === 'logs' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
+				return false;
+			}
+
+			if ( $section === 'errors_404' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $filename
+	 * @param list<string> $requested_sections
+	 * @return bool
+	 */
+	private function has_json_import_permissions( $filename, array $requested_sections ) {
+		$sections = $requested_sections;
+
+		if ( count( $sections ) === 0 ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
+			$content = file_get_contents( $filename );
+			if ( $content !== false ) {
+				$decoded = json_decode( $content, true );
+
+				if ( is_array( $decoded ) ) {
+					$sections = [];
+
+					foreach ( [ 'settings', 'groups', 'redirects', 'logs', 'errors_404' ] as $section ) {
+						if ( array_key_exists( $section, $decoded ) ) {
+							$sections[] = $section;
+						}
+					}
+				}
+			}
+		}
+
+		return $this->has_import_section_permissions( $sections );
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function can_manage_settings() {
+		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+	}
+
+	/**
+	 * @return WP_Error
+	 */
+	private function get_forbidden_error() {
+		return new WP_Error(
+			'rest_forbidden',
+			__( 'Sorry, you are not allowed to do that.' ),
+			[ 'status' => rest_authorization_required_code() ]
+		);
 	}
 }

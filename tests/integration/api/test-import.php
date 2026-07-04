@@ -39,6 +39,49 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		}
 	}
 
+	public function testEditorPermissionRequiresMatchingSectionCapability() {
+		$this->setEditor();
+		$this->add_capability( Redirection_Capabilities::CAP_IO_MANAGE );
+
+		$settings = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'settings' ] ], 'POST' );
+		$this->assertEquals( 403, $settings->status );
+		$this->assertEquals( 'rest_forbidden', $settings->data['code'] );
+
+		$groups = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'groups' ] ], 'POST' );
+		$this->assertEquals( 403, $groups->status );
+		$this->assertEquals( 'rest_forbidden', $groups->data['code'] );
+
+		$logs = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'logs' ] ], 'POST' );
+		$this->assertEquals( 403, $logs->status );
+		$this->assertEquals( 'rest_forbidden', $logs->data['code'] );
+
+		$errors = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'errors_404' ] ], 'POST' );
+		$this->assertEquals( 403, $errors->status );
+		$this->assertEquals( 'rest_forbidden', $errors->data['code'] );
+
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_OPTION_MANAGE ] );
+		$settings = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'settings' ] ], 'POST' );
+		$this->assertNotEquals( 403, $settings->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_GROUP_ADD ] );
+		$groups = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'groups' ] ], 'POST' );
+		$this->assertNotEquals( 403, $groups->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_LOG_MANAGE ] );
+		$logs = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'logs' ] ], 'POST' );
+		$this->assertNotEquals( 403, $logs->status );
+		$this->clear_capability();
+
+		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_404_MANAGE ] );
+		$errors = $this->callApi( 'import/file/1', [ 'import_sections' => [ 'errors_404' ] ], 'POST' );
+		$this->assertNotEquals( 403, $errors->status );
+		$this->clear_capability();
+	}
+
 	public function testAdminPermission() {
 		// All of these should work
 		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );

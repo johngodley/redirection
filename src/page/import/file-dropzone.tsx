@@ -309,7 +309,7 @@ function FileDropzone( {
 				meta={ [
 					{ label: __( 'Import type', 'redirection' ), value: __( 'Upload a file', 'redirection' ) },
 					{
-						label: __( 'Supported files', 'redirection' ),
+						label: __( 'Supported formats', 'redirection' ),
 						value: __( 'CSV, JSON, and .htaccess', 'redirection' ),
 					},
 				] }

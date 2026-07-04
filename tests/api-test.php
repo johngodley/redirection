@@ -2,7 +2,7 @@
 
 class Redirection_Api_Test extends WP_Ajax_UnitTestCase {
 	private $nonce;
-	private $cap;
+	private $caps = [];
 
 	protected function callApi( $endpoint, array $params = array(), $method = 'GET' ) {
 		$request = new WP_REST_Request( $method, '/redirection/v1/' . $endpoint );
@@ -30,16 +30,22 @@ class Redirection_Api_Test extends WP_Ajax_UnitTestCase {
 	}
 
 	protected function add_capability( $cap ) {
-		$this->cap = $cap;
+		$this->caps = [ $cap ];
+		add_filter( Redirection_Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
+	}
+
+	protected function add_capabilities( array $caps ) {
+		$this->caps = array_values( $caps );
 		add_filter( Redirection_Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
 	}
 
 	protected function clear_capability() {
+		$this->caps = [];
 		remove_filter( Redirection_Capabilities::FILTER_CAPABILITY, [ $this, 'editor_cap' ], 10, 2 );
 	}
 
 	public function editor_cap( $cap, $name ) {
-		if ( $name === $this->cap ) {
+		if ( in_array( $name, $this->caps, true ) ) {
 			return 'editor';
 		}
 

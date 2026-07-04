@@ -391,10 +391,17 @@ function useImportPage() {
 
 	const onSelectPlugin = ( plugin: ImportPlugin ) => {
 		importRunner.reset();
-		setActiveImportType( 'plugin' );
-		setActivePluginId( plugin.id );
 		setLastImport( false );
 		setLastImportWasDryRun( null );
+
+		if ( activeImportType === 'plugin' && activePluginId === plugin.id ) {
+			setActiveImportType( null );
+			setActivePluginId( null );
+			return;
+		}
+
+		setActiveImportType( 'plugin' );
+		setActivePluginId( plugin.id );
 
 		if ( group === 0 && groupRows[ 0 ] ) {
 			setGroup( groupRows[ 0 ].id );
