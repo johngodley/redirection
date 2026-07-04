@@ -33,8 +33,7 @@
 		"test:js": "wp-scripts test-unit-js",
 		"test:e2e": "NODE_ENV=e2e jest --config=e2e-jest.js --testPathIgnorePatterns='/node_modules/|/client/' --testTimeout=30000 e2e",
 		"wp-env:start": "wp-env start",
-		"wp-env:destroy": "wp-env destroy",
-		"doc": "apidoc -v -i api/ -o ./api-doc/"
+		"wp-env:destroy": "wp-env destroy"
 	},
 	"repository": {
 		"type": "git",
@@ -61,8 +60,7 @@
 		"@wordpress/jest-preset-default": "^12.50.0",
 		"@wordpress/prettier-config": "^4.50.0",
 		"@wordpress/scripts": "^31.8.0",
-		"apidoc": "^1.2.0",
-		"autoprefixer": "^10.5.2",
+"autoprefixer": "^10.5.2",
 		"chai": "^6.2.2",
 		"css-loader": "^7.1.4",
 		"download": "^8.0.0",
@@ -94,9 +92,7 @@
 		"typescript": "^5.9.3",
 		"webpack": "^5.108.3",
 		"webpack-bundle-analyzer": "^5.3.0",
-		"webpack-bundle-size-analyzer": "^3.1.0",
-		"webpack-cli": "^6.0.1",
-		"webpack-shell-plugin-next": "^2.3.3"
+		"webpack-bundle-size-analyzer": "^3.1.0"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
@@ -121,25 +117,13 @@
 		"zod": "^4.4.3",
 		"zustand": "^5.0.14"
 	},
-	"apidoc": {
-		"name": "Redirection REST API",
-		"version": "0.1.0",
-		"description": "WordPress REST API documentation for Redirection",
-		"title": "Redirection REST API",
-		"url": "https://redirection.me/wp-json",
-		"header": {
-			"title": "Introduction",
-			"filename": "./api/header.md"
-		},
-		"footer": {
-			"filename": "./api/footer.md"
-		},
-		"template": {
-			"withCompare": false
-		}
-	},
-	"wordpress": {
+"wordpress": {
 		"supported": "6.6"
+	},
+	"pnpm": {
+		"overrides": {
+			"webpack": "$webpack"
+		}
 	},
 	"packageManager": "pnpm@10.33.4+sha512.1c67b3b359b2d408119ba1ed289f34b8fc3c6873412bec6fd264fbdc82489e510fcbecb9ce9d22dae7f3b76269d8441046014bdca53b9979cd7a561ad631b800"
 }
