@@ -27,7 +27,7 @@ class Rss extends FileIO {
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
 	<title>Redirection - <?php bloginfo_rss( 'name' ); ?></title>
-	<description><?php esc_html( bloginfo_rss( 'description' ) ); ?></description>
+	<description><?php echo esc_html( get_bloginfo_rss( 'description' ) ); ?></description>
 	<pubDate><?php echo esc_html( (string) mysql2date( 'D, d M Y H:i:s +0000', get_lastpostmodified( 'gmt' ), false ) ); ?></pubDate>
 	<generator>
 		<?php echo esc_html( 'http://wordpress.org/?v=' ); ?>

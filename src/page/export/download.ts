@@ -5,6 +5,10 @@ function getMimeType( format: ExportFormat ) {
 		return 'application/json;charset=utf-8';
 	}
 
+	if ( format === 'csv' ) {
+		return 'text/csv;charset=utf-8';
+	}
+
 	return 'text/plain;charset=utf-8';
 }
 
