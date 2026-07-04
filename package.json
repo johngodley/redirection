@@ -17,6 +17,7 @@
 		"build": "wp-scripts build",
 		"build:analyze": "ANALYZE=true pnpm build",
 		"build:stats": "wp-scripts build --webpack-bundle-analyzer",
+		"doc": "redocly build-docs dev/openapi.yaml -o release/api-doc.html --theme.openapi.nativeScrollbars=true",
 		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images database api actions release/redirection && rm release/redirection/api/*.md",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
 		"release": "bash dev/release-github.sh",
@@ -47,6 +48,7 @@
 	"homepage": "https://github.com/johngodley/redirection",
 	"devDependencies": {
 		"@hookform/resolvers": "^5.4.0",
+		"@redocly/cli": "^1.34.15",
 		"@tanstack/eslint-plugin-query": "^5.101.2",
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/react": "^16.3.2",

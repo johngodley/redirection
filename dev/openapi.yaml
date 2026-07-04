@@ -1,0 +1,1404 @@
+openapi: 3.0.3
+info:
+  title: Redirection REST API
+  version: 1.0.0
+  license:
+    name: GPL-3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+  description: |
+    WordPress API documentation for Redirection.
+
+    These endpoints are used by the Redirection plugin itself, and can also be
+    used externally.
+
+    This documentation is based on the currently maintained REST routes. It is
+    not yet exhaustive, and the API should not be considered stable.
+
+    All requests must be authenticated. Most endpoints require a user with the
+    relevant Redirection capability; in practice this often means an
+    administrator. See the [REST API authentication guide](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/).
+  contact:
+    url: https://redirection.me/
+servers:
+  - url: https://yoursite.com/wp-json
+    description: WordPress REST API base URL
+
+security:
+  - wordpressNonce: []
+
+tags:
+  - name: Redirect
+    description: Manage redirects
+  - name: Group
+    description: Manage redirect groups
+  - name: Log
+    description: Manage redirect logs
+  - name: Error 404
+    description: Manage 404 logs
+  - name: Settings
+    description: Manage Redirection settings
+  - name: Import/Export
+    description: Import and export Redirection data
+
+paths:
+  /redirection/v1/redirect:
+    get:
+      tags: [Redirect]
+      summary: Get redirects
+      description: Get a paged list of redirects after applying filters and ordering.
+      parameters:
+        - $ref: '#/components/parameters/FilterStatus'
+        - $ref: '#/components/parameters/FilterUrl'
+        - $ref: '#/components/parameters/FilterUrlMatch'
+        - $ref: '#/components/parameters/FilterMatchType'
+        - $ref: '#/components/parameters/FilterAction'
+        - $ref: '#/components/parameters/FilterHttp'
+        - $ref: '#/components/parameters/FilterAccess'
+        - $ref: '#/components/parameters/FilterTarget'
+        - $ref: '#/components/parameters/FilterTitle'
+        - $ref: '#/components/parameters/FilterGroup'
+        - $ref: '#/components/parameters/FilterId'
+        - $ref: '#/components/parameters/FilterModule'
+        - $ref: '#/components/parameters/OrderByRedirect'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Redirect list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    post:
+      tags: [Redirect]
+      summary: Create redirect
+      description: Create a new redirect and return the current redirect list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedirectWriteRequest'
+      responses:
+        '200':
+          description: Redirect list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/redirect/{id}:
+    post:
+      tags: [Redirect]
+      summary: Update redirect
+      description: Update an existing redirect.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedirectWriteRequest'
+      responses:
+        '200':
+          description: Redirect list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/bulk/redirect/{bulk}:
+    post:
+      tags: [Redirect]
+      summary: Bulk action on redirects
+      description: Enable, disable, delete, or reset a set of redirects.
+      parameters:
+        - name: bulk
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [delete, enable, disable, reset]
+        - $ref: '#/components/parameters/FilterStatus'
+        - $ref: '#/components/parameters/FilterUrl'
+        - $ref: '#/components/parameters/FilterUrlMatch'
+        - $ref: '#/components/parameters/FilterMatchType'
+        - $ref: '#/components/parameters/FilterAction'
+        - $ref: '#/components/parameters/FilterHttp'
+        - $ref: '#/components/parameters/FilterAccess'
+        - $ref: '#/components/parameters/FilterTarget'
+        - $ref: '#/components/parameters/FilterTitle'
+        - $ref: '#/components/parameters/FilterGroup'
+        - $ref: '#/components/parameters/FilterId'
+        - $ref: '#/components/parameters/FilterModule'
+        - $ref: '#/components/parameters/OrderByRedirect'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    oneOf:
+                      - type: integer
+                      - type: string
+                global:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: Redirect list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectListResponse'
+        '400':
+          $ref: '#/components/responses/MissingParamError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/group:
+    get:
+      tags: [Group]
+      summary: Get groups
+      description: Get a paged list of groups after applying filters and ordering.
+      parameters:
+        - $ref: '#/components/parameters/GroupFilterName'
+        - $ref: '#/components/parameters/GroupFilterStatus'
+        - $ref: '#/components/parameters/GroupFilterModule'
+        - $ref: '#/components/parameters/OrderByGroup'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: Group list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    post:
+      tags: [Group]
+      summary: Create group
+      description: Create a new group and return the current group list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupWriteRequest'
+      responses:
+        '200':
+          description: Group list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/group/{id}:
+    post:
+      tags: [Group]
+      summary: Update group
+      description: Update an existing group.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupWriteRequest'
+      responses:
+        '200':
+          description: Updated group
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item:
+                    $ref: '#/components/schemas/Group'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/bulk/group/{type}:
+    post:
+      tags: [Group]
+      summary: Bulk action on groups
+      description: Enable, disable, or delete groups.
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [delete, enable, disable]
+        - $ref: '#/components/parameters/GroupFilterName'
+        - $ref: '#/components/parameters/GroupFilterStatus'
+        - $ref: '#/components/parameters/GroupFilterModule'
+        - $ref: '#/components/parameters/OrderByGroup'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    oneOf:
+                      - type: integer
+                      - type: string
+                global:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: Group list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupListResponse'
+        '400':
+          $ref: '#/components/responses/MissingParamError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/log:
+    get:
+      tags: [Log]
+      summary: Get redirect logs
+      description: Get a paged list of redirect logs after applying filters and ordering.
+      parameters:
+        - $ref: '#/components/parameters/LogFilterIp'
+        - $ref: '#/components/parameters/LogFilterUrl'
+        - $ref: '#/components/parameters/LogFilterUrlExact'
+        - $ref: '#/components/parameters/LogFilterReferrer'
+        - $ref: '#/components/parameters/LogFilterAgent'
+        - $ref: '#/components/parameters/LogFilterTarget'
+        - $ref: '#/components/parameters/LogFilterDomain'
+        - $ref: '#/components/parameters/LogFilterRedirectBy'
+        - $ref: '#/components/parameters/LogFilterMethod'
+        - $ref: '#/components/parameters/LogOrderBy'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/LogGroupBy'
+      responses:
+        '200':
+          description: Log list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    post:
+      tags: [Log]
+      summary: Delete redirect logs by filter
+      description: Delete redirect logs by filter and return the refreshed list.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Log list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/bulk/log/{type}:
+    post:
+      tags: [Log]
+      summary: Bulk action on redirect logs
+      description: Delete redirect logs by ID or current grouping.
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [delete]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    oneOf:
+                      - type: integer
+                      - type: string
+                global:
+                  type: boolean
+                  default: false
+                groupBy:
+                  type: string
+                  enum: [ip, url, agent]
+      responses:
+        '200':
+          description: Log list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogListResponse'
+        '400':
+          $ref: '#/components/responses/MissingParamError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/404:
+    get:
+      tags: [Error 404]
+      summary: Get 404 logs
+      description: Get a paged list of 404 logs after applying filters and ordering.
+      parameters:
+        - $ref: '#/components/parameters/LogFilterIp'
+        - $ref: '#/components/parameters/LogFilterUrl'
+        - $ref: '#/components/parameters/LogFilterUrlExact'
+        - $ref: '#/components/parameters/LogFilterReferrer'
+        - $ref: '#/components/parameters/LogFilterAgent'
+        - $ref: '#/components/parameters/LogFilterTarget'
+        - $ref: '#/components/parameters/LogFilterDomain'
+        - $ref: '#/components/parameters/LogFilterMethod'
+        - $ref: '#/components/parameters/Error404FilterHttp'
+        - $ref: '#/components/parameters/LogOrderBy'
+        - $ref: '#/components/parameters/Direction'
+        - $ref: '#/components/parameters/PerPage'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/LogGroupBy'
+      responses:
+        '200':
+          description: 404 log list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404ListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/bulk/404/{type}:
+    post:
+      tags: [Error 404]
+      summary: Bulk action on 404 logs
+      description: Delete 404 logs by ID or current grouping.
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [delete]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    oneOf:
+                      - type: integer
+                      - type: string
+                global:
+                  type: boolean
+                  default: false
+                groupBy:
+                  type: string
+                  enum: [ip, url, agent]
+      responses:
+        '200':
+          description: 404 log list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404ListResponse'
+        '400':
+          $ref: '#/components/responses/MissingParamError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/setting:
+    get:
+      tags: [Settings]
+      summary: Get settings
+      description: Get Redirection settings and supporting data.
+      responses:
+        '200':
+          description: Settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    post:
+      tags: [Settings]
+      summary: Update settings
+      description: Partial updates are supported and only supplied values are changed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                settings:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/import/file/{group_id}:
+    post:
+      tags: [Import/Export]
+      summary: Import from file
+      description: Import redirects and other supported sections from an uploaded file.
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                dry_run:
+                  type: boolean
+                duplicate_mode:
+                  type: string
+                  enum: [import, ignore, update]
+                deduplicate:
+                  type: boolean
+                import_sections:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Import result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /redirection/v1/import/plugin:
+    get:
+      tags: [Import/Export]
+      summary: List plugin importers
+      description: Get available plugin importers.
+      responses:
+        '200':
+          description: Importer list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  importers:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    post:
+      tags: [Import/Export]
+      summary: Import from plugin
+      description: Import redirects from one or more supported plugins.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plugin:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                group_id:
+                  type: integer
+                duplicate_mode:
+                  type: string
+                  enum: [import, ignore, update]
+                delete_source:
+                  type: boolean
+      responses:
+        '200':
+          description: Import result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/import/plugin/{plugin}/preview:
+    get:
+      tags: [Import/Export]
+      summary: Preview plugin import
+      description: Run a dry-run preview for a plugin importer.
+      parameters:
+        - name: plugin
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: group_id
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: duplicate_mode
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [import, ignore, update]
+        - name: delete_source
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Import preview result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/redirect:
+    get:
+      tags: [Import/Export]
+      summary: Export redirects
+      description: Export redirects in CSV, JSON, Apache, or Nginx format.
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [csv, json, apache, nginx]
+        - name: module
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: filterBy[group]
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: filterBy[module]
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Export result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/redirect/preview:
+    get:
+      tags: [Import/Export]
+      summary: Preview redirect export
+      description: Get redirect export totals and estimated file size.
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [csv, json, apache, nginx]
+      responses:
+        '200':
+          description: Preview result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportPreviewResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/log/{format}:
+    get:
+      tags: [Import/Export]
+      summary: Export redirect logs
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [csv, json]
+      responses:
+        '200':
+          description: Export result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/log/preview:
+    get:
+      tags: [Import/Export]
+      summary: Preview redirect log export
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [csv, json]
+      responses:
+        '200':
+          description: Preview result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportPreviewResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/404/{format}:
+    get:
+      tags: [Import/Export]
+      summary: Export 404 logs
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [csv, json]
+      responses:
+        '200':
+          description: Export result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/404/preview:
+    get:
+      tags: [Import/Export]
+      summary: Preview 404 export
+      parameters:
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [csv, json]
+      responses:
+        '200':
+          description: Preview result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportPreviewResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/group/{format}:
+    get:
+      tags: [Import/Export]
+      summary: Export groups
+      parameters:
+        - name: format
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [csv, json]
+      responses:
+        '200':
+          description: Export result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/bundle:
+    get:
+      tags: [Import/Export]
+      summary: Export mixed bundle
+      description: Export multiple data types in a single JSON bundle.
+      parameters:
+        - name: types
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [redirect, log, '404', group, setting]
+      responses:
+        '200':
+          description: Export result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /redirection/v1/export/bundle/preview:
+    get:
+      tags: [Import/Export]
+      summary: Preview mixed bundle export
+      parameters:
+        - name: types
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [redirect, log, '404', group, setting]
+      responses:
+        '200':
+          description: Preview result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportPreviewResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  parameters:
+    Direction:
+      name: direction
+      in: query
+      schema:
+        type: string
+        enum: [asc, desc]
+    PerPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 25
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 0
+    FilterStatus:
+      name: filterBy[status]
+      in: query
+      schema:
+        type: string
+        enum: [enabled, disabled]
+    FilterUrl:
+      name: filterBy[url]
+      in: query
+      schema:
+        type: string
+    FilterUrlMatch:
+      name: filterBy[url-match]
+      in: query
+      schema:
+        type: string
+        enum: [regular, plain]
+    FilterMatchType:
+      name: filterBy[match]
+      in: query
+      schema:
+        type: string
+    FilterAction:
+      name: filterBy[action]
+      in: query
+      schema:
+        type: string
+    FilterHttp:
+      name: filterBy[http]
+      in: query
+      schema:
+        type: integer
+    FilterAccess:
+      name: filterBy[access]
+      in: query
+      schema:
+        type: string
+        enum: [year, month, all]
+    FilterTarget:
+      name: filterBy[target]
+      in: query
+      schema:
+        type: string
+    FilterTitle:
+      name: filterBy[title]
+      in: query
+      schema:
+        type: string
+    FilterGroup:
+      name: filterBy[group]
+      in: query
+      schema:
+        type: integer
+    FilterId:
+      name: filterBy[id]
+      in: query
+      schema:
+        type: integer
+    FilterModule:
+      name: filterBy[module]
+      in: query
+      schema:
+        type: integer
+    OrderByRedirect:
+      name: orderby
+      in: query
+      schema:
+        type: string
+        enum: [source, last_count, last_access, position, id]
+    GroupFilterName:
+      name: filterBy[name]
+      in: query
+      schema:
+        type: string
+    GroupFilterStatus:
+      name: filterBy[status]
+      in: query
+      schema:
+        type: string
+        enum: [enabled, disabled]
+    GroupFilterModule:
+      name: filterBy[module]
+      in: query
+      schema:
+        type: integer
+    OrderByGroup:
+      name: orderby
+      in: query
+      schema:
+        type: string
+        enum: [name]
+    LogFilterIp:
+      name: filterBy[ip]
+      in: query
+      schema:
+        type: string
+    LogFilterUrl:
+      name: filterBy[url]
+      in: query
+      schema:
+        type: string
+    LogFilterUrlExact:
+      name: filterBy[url-exact]
+      in: query
+      schema:
+        type: string
+    LogFilterReferrer:
+      name: filterBy[referrer]
+      in: query
+      schema:
+        type: string
+    LogFilterAgent:
+      name: filterBy[agent]
+      in: query
+      schema:
+        type: string
+    LogFilterTarget:
+      name: filterBy[target]
+      in: query
+      schema:
+        type: string
+    LogFilterDomain:
+      name: filterBy[domain]
+      in: query
+      schema:
+        type: string
+    LogFilterRedirectBy:
+      name: filterBy[redirect_by]
+      in: query
+      schema:
+        type: string
+    LogFilterMethod:
+      name: filterBy[method]
+      in: query
+      schema:
+        type: string
+        enum: [head, get, post]
+    Error404FilterHttp:
+      name: filterBy[http]
+      in: query
+      schema:
+        type: integer
+    LogOrderBy:
+      name: orderby
+      in: query
+      schema:
+        type: string
+        enum: [ip, url, total, count]
+    LogGroupBy:
+      name: groupBy
+      in: query
+      schema:
+        type: string
+        enum: [ip, url, agent]
+
+  responses:
+    BadRequestError:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFoundError:
+      description: Route not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    MissingParamError:
+      description: Missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+
+    RedirectWriteRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [enabled, disabled]
+        position:
+          type: integer
+        url:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        regex:
+          type: boolean
+        match_type:
+          type: string
+          enum: [url, referrer, agent, login, header, custom, cookie, role, server, ip, page, language]
+        match_data:
+          type: object
+          additionalProperties: true
+        title:
+          type: string
+        group_id:
+          type: integer
+        action_type:
+          type: string
+        action_code:
+          type: integer
+        action_data:
+          type: object
+          additionalProperties: true
+
+    Redirect:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        match_url:
+          type: string
+        match_data:
+          type: object
+          additionalProperties: true
+        match_type:
+          type: string
+        action_type:
+          type: string
+        action_code:
+          type: integer
+        action_data:
+          type: object
+          additionalProperties: true
+        title:
+          type: string
+        hits:
+          type: integer
+        regex:
+          type: boolean
+        group_id:
+          type: integer
+        position:
+          type: integer
+        last_access:
+          type: string
+        status:
+          type: string
+
+    RedirectListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Redirect'
+        total:
+          type: integer
+
+    GroupWriteRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        moduleID:
+          type: integer
+          enum: [1, 2, 3]
+        enabled:
+          type: boolean
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        enabled:
+          type: boolean
+        redirects:
+          type: integer
+        moduleName:
+          type: string
+        module_id:
+          type: integer
+
+    GroupListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        total:
+          type: integer
+
+    LogItem:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+        created:
+          type: string
+        created_time:
+          oneOf:
+            - type: integer
+            - type: string
+        url:
+          type: string
+        agent:
+          type: string
+          nullable: true
+        referrer:
+          type: string
+          nullable: true
+        ip:
+          type: string
+          nullable: true
+        target:
+          type: string
+          nullable: true
+        domain:
+          type: string
+          nullable: true
+        redirect_by:
+          type: string
+          nullable: true
+        count:
+          type: integer
+          nullable: true
+
+    LogListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogItem'
+        total:
+          type: integer
+
+    Error404Item:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+        created:
+          type: string
+        created_time:
+          oneOf:
+            - type: integer
+            - type: string
+        url:
+          type: string
+        agent:
+          type: string
+          nullable: true
+        referrer:
+          type: string
+          nullable: true
+        ip:
+          type: string
+          nullable: true
+        domain:
+          type: string
+          nullable: true
+        http_code:
+          type: integer
+          nullable: true
+        count:
+          type: integer
+          nullable: true
+
+    Error404ListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error404Item'
+        total:
+          type: integer
+
+    SettingsResponse:
+      type: object
+      properties:
+        settings:
+          type: object
+          additionalProperties: true
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              value:
+                type: integer
+        installed:
+          type: string
+        canDelete:
+          type: boolean
+        post_types:
+          type: array
+          items:
+            type: string
+
+    ImportPreviewItem:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        code:
+          type: integer
+        regex:
+          type: boolean
+        group:
+          type: string
+        result:
+          type: string
+          enum: [created, updated, ignored]
+        redirect_id:
+          type: integer
+
+    ImportResult:
+      type: object
+      properties:
+        created:
+          type: integer
+        updated:
+          type: integer
+        ignored:
+          type: integer
+        groups_created:
+          type: integer
+        groups_imported:
+          type: integer
+        logs_imported:
+          type: integer
+        errors_imported:
+          type: integer
+        settings_imported:
+          type: integer
+        preview:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportPreviewItem'
+
+    ExportResponse:
+      type: object
+      properties:
+        data:
+          type: string
+        total:
+          type: integer
+
+    ExportPreviewResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        estimated_size:
+          type: integer
+  securitySchemes:
+    wordpressNonce:
+      type: apiKey
+      in: header
+      name: X-WP-Nonce
