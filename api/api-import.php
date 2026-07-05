@@ -2,44 +2,6 @@
 
 use Redirection\ImportExport\ImportService;
 use Redirection\ImportExport\Importer\PluginRegistry;
-
-/**
- * @api {get} /redirection/v1/import/file/:group_id Import redirects
- * @apiName Import
- * @apiDescription Import redirects from CSV, JSON, or Apache .htaccess
- * @apiGroup Import/Export
- *
- * @apiParam (URL) {Integer} :group_id The group ID to import into
- * @apiParam (File) {File} file The multipart form upload containing the file to import
- *
- * @apiSuccess {Integer} created Number of new redirects created
- * @apiSuccess {Integer} updated Number of existing redirects updated
- * @apiSuccess {Integer} ignored Number of duplicate redirects ignored
- * @apiSuccess {Integer} groups_created Number of groups created during import
- * @apiSuccess {Object[]} preview First 20 preview rows from the imported file
- * @apiSuccess {String} preview.source Source URL
- * @apiSuccess {String} preview.target Target URL
- * @apiSuccess {Integer} preview.code HTTP code
- * @apiSuccess {Boolean} preview.regex Whether the redirect is regex-based
- * @apiSuccess {String} preview.group Target group name
- *
- * @apiUse 401Error
- * @apiUse 404Error
- * @apiError (Error 400) redirect_import_invalid_group Invalid group
- * @apiErrorExample {json} 404 Error Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "code": "redirect_import_invalid_group",
- *       "message": "Invalid group"
- *     }
- * @apiError (Error 400) redirect_import_invalid_file Invalid file upload
- * @apiErrorExample {json} 404 Error Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "code": "redirect_import_invalid_file",
- *       "message": "Invalid file upload"
- *     }
- */
 /**
  * @phpstan-type ImportPluginPayload array{
  *    plugin?: string|list<string>,
