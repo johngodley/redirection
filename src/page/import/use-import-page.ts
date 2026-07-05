@@ -125,7 +125,7 @@ function useImportPage() {
 
 		if ( hasLoadedGroups && ! hasRetriedEmptyGroups.current ) {
 			hasRetriedEmptyGroups.current = true;
-			refetchGroups();
+			void refetchGroups();
 		}
 	}, [ hasGroups, hasLoadedGroups, refetchGroups ] );
 
