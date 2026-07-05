@@ -277,6 +277,57 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		}
 	}
 
+	public function testWordPressOldSlugImporterSupportsPublicCustomPostTypes() {
+		$permalink_structure = get_option( 'permalink_structure' );
+		$group = Red_Group::create( 'import-test-group', 1 );
+
+		register_post_type(
+			'book',
+			[
+				'label' => 'Book',
+				'public' => true,
+			]
+		);
+
+		$post_id = self::factory()->post->create(
+			[
+				'post_status' => 'publish',
+				'post_type' => 'book',
+				'post_name' => 'new-book-target',
+			]
+		);
+
+		update_option( 'permalink_structure', '/%postname%/' );
+		update_post_meta( $post_id, '_wp_old_slug', 'old-book-source' );
+
+		$importer = PluginRegistry::get_importer( 'wordpress-old-slugs' );
+		$this->assertInstanceOf( WordpressOldSlugs::class, $importer );
+
+		try {
+			$preview = $importer->preview_plugin_results(
+				$group->get_id(),
+				[
+					'dry_run' => true,
+				]
+			);
+
+			$this->assertEquals( 1, $preview['created'] );
+			$this->assertSame( '/old-book-source/', $preview['preview'][0]['source'] );
+		} finally {
+			update_option( 'permalink_structure', $permalink_structure );
+			delete_post_meta( $post_id, '_wp_old_slug', 'old-book-source' );
+			wp_delete_post( $post_id, true );
+
+			if ( post_type_exists( 'book' ) ) {
+				unregister_post_type( 'book' );
+			}
+
+			if ( $group instanceof Red_Group ) {
+				$group->delete();
+			}
+		}
+	}
+
 	public function testSafeRedirectManagerDeleteSourceOnlyRunsOnImport() {
 		global $wpdb;
 
