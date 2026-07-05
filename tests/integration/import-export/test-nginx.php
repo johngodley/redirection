@@ -81,6 +81,18 @@ class NginxTest extends WP_UnitTestCase {
 		$this->assertEquals( '}', trim( $lines[7] ) );
 	}
 
+	public function testErrorCodeUsesEncodedExactLocation() {
+		$nginx = new Nginx();
+		$redirects = [ new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '/my page', 'action_code' => 410 ] ) ];
+
+		$file = $nginx->get_data( $redirects, [] );
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'location = /my%20page {', trim( $lines[5] ) );
+		$this->assertEquals( 'return 410;', trim( $lines[6] ) );
+		$this->assertEquals( '}', trim( $lines[7] ) );
+	}
+
 	public function testErrorCodeUsesRegexLocationWhenCaseInsensitive() {
 		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
 		$nginx = new Nginx();
