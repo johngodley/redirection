@@ -67,12 +67,15 @@ function ImportPage() {
 		activeFileInfo?.format === 'json' && activeFileInfo.valid && activeFileInfo.contents
 			? activeFileInfo.contents
 			: null;
+	const jsonRedirectsRequireExistingGroups =
+		jsonSections !== null &&
+		Number( jsonSections.redirects || 0 ) > 0 &&
+		state.selectedSections.includes( 'redirects' ) &&
+		state.group !== 0;
 	const requiresGroups =
 		state.activeImportType === 'plugin' ||
 		( ( state.activeImportType === 'file' || state.activeImportType === 'paste' ) &&
-			( ( jsonSections !== null &&
-				Number( jsonSections.redirects || 0 ) > 0 &&
-				state.selectedSections.includes( 'redirects' ) ) ||
+			( jsonRedirectsRequireExistingGroups ||
 				( activeFileInfo?.format === 'csv' &&
 					activeFileInfo.valid &&
 					activeFileInfo.importSupported === true ) ||
