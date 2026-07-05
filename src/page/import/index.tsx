@@ -159,9 +159,7 @@ function ImportPage() {
 						activePluginId={ state.activePluginId }
 						file={ activeFile }
 						disabled={
-							! state.hasActiveImport ||
-							state.isImporting ||
-							( requiresGroups && ! state.hasGroups )
+							! state.hasActiveImport || state.isImporting || ( requiresGroups && ! state.hasGroups )
 						}
 						deleteSource={ state.deleteSource }
 						duplicateMode={ state.duplicateMode }
