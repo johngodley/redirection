@@ -48,6 +48,14 @@ class RedirectTest extends WP_UnitTestCase {
 		remove_filter( 'wp_redirect', array( $this, 'captureRedirectResult' ) );
 	}
 
+	private function monitorAction( $hook ) {
+		$action = new MockAction();
+
+		add_action( $hook, array( $action, 'action' ), 10, 2 );
+
+		return $action;
+	}
+
 	private function get_item_data() {
 		return [
 			'id' => 1,
@@ -214,6 +222,33 @@ class RedirectTest extends WP_UnitTestCase {
 
 		$this->assertTrue( $result );
 		$this->assertEquals( '/dogs', $item->get_url() );
+	}
+
+	public function testCreateActionReturnsIdAndRedirect() {
+		$action = $this->monitorAction( 'redirection_redirect_updated' );
+		$item = $this->createRedirect();
+		$args = $action->get_args();
+
+		$this->assertInstanceOf( Red_Item::class, $item );
+		$this->assertEquals( 1, $action->get_call_count() );
+		$this->assertEquals( $item->get_id(), $args[0][0] );
+		$this->assertInstanceOf( Red_Item::class, $args[0][1] );
+		$this->assertEquals( $item->get_id(), $args[0][1]->get_id() );
+	}
+
+	public function testUpdateActionReturnsIdAndRedirect() {
+		$action = $this->monitorAction( 'redirection_redirect_updated' );
+		$item = $this->createRedirect();
+
+		$action->reset();
+		$result = $item->update( array( 'url' => '/dogs', 'group_id' => $this->group->get_id(), 'match_type' => 'url', 'action_type' => 'url' ) );
+		$args = $action->get_args();
+
+		$this->assertTrue( $result );
+		$this->assertEquals( 1, $action->get_call_count() );
+		$this->assertEquals( $item->get_id(), $args[0][0] );
+		$this->assertInstanceOf( Red_Item::class, $args[0][1] );
+		$this->assertEquals( $item->get_id(), $args[0][1]->get_id() );
 	}
 
 	public function testUpdateRegexMigrate() {
