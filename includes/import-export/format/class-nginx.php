@@ -264,6 +264,11 @@ class Nginx extends FormatHandler {
 	 */
 	private function get_location_line( $line, $source, $regex = false ) {
 		if ( $regex || ( isset( $source['flag_case'] ) && $source['flag_case'] ) ) {
+			if ( ! $regex ) {
+				$line = ltrim( $line, '^' );
+				$line = rtrim( $line, '$' );
+			}
+
 			$source_url = new \Red_Url_Encode( $line, $regex );
 			$from = $source_url->get_as_source();
 			$from = ltrim( $from, '^' );

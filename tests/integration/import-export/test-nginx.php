@@ -106,6 +106,19 @@ class NginxTest extends WP_UnitTestCase {
 		$this->assertEquals( '}', trim( $lines[7] ) );
 	}
 
+	public function testErrorCodeUsesRegexLocationWhenCaseInsensitiveWithAnchors() {
+		$match_data = json_encode( [ 'source' => [ 'flag_case' => true ] ] );
+		$nginx = new Nginx();
+		$redirects = [ new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'action_type' => 'error', 'url' => '^/test$', 'action_code' => 451, 'match_data' => $match_data ] ) ];
+
+		$file = $nginx->get_data( $redirects, [] );
+		$lines = explode( "\n", $file );
+
+		$this->assertEquals( 'location ~* ^/test$ {', trim( $lines[5] ) );
+		$this->assertEquals( 'return 451;', trim( $lines[6] ) );
+		$this->assertEquals( '}', trim( $lines[7] ) );
+	}
+
 	public function testErrorCodeUsesRegexLocationWhenRegex() {
 		$nginx = new Nginx();
 		$redirects = [ new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'error', 'url' => '^/test.*$', 'action_code' => 410 ] ) ];
