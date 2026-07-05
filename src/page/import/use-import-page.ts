@@ -66,9 +66,11 @@ function useImportPage() {
 	const [ lastImportWasDryRun, setLastImportWasDryRun ] = useState< boolean | null >( null );
 	const fileInputRef = useRef< HTMLInputElement >( null );
 	const dragDepthRef = useRef< number >( 0 );
+	const hasRetriedEmptyGroups = useRef( false );
 
-	const { data: groupData } = useGroupList( {} );
+	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupList( {} );
 	const groupRows = ( groupData?.items ?? [] ) as ImportState[ 'groupRows' ];
+	const hasGroups = groupRows.length > 0;
 	const { data: importerData = [], isLoading: isLoadingImporters } = useImporterList();
 	const importers = importerData as ImportPlugin[];
 
@@ -114,6 +116,18 @@ function useImportPage() {
 			setLastImportWasDryRun( null );
 		};
 	}, [] );
+
+	useEffect( () => {
+		if ( hasGroups ) {
+			hasRetriedEmptyGroups.current = false;
+			return;
+		}
+
+		if ( hasLoadedGroups && ! hasRetriedEmptyGroups.current ) {
+			hasRetriedEmptyGroups.current = true;
+			void refetchGroups();
+		}
+	}, [ hasGroups, hasLoadedGroups, refetchGroups ] );
 
 	useEffect( () => {
 		let isMounted = true;
@@ -457,6 +471,7 @@ function useImportPage() {
 			lastImport,
 			lastImportWasDryRun,
 			groupRows,
+			hasGroups,
 			importers,
 			isLoadingImporters,
 			isImporting,
