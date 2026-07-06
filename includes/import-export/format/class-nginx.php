@@ -128,6 +128,10 @@ class Nginx extends FormatHandler {
 		$source = isset( $match_data['source'] ) && is_array( $match_data['source'] ) ? $match_data['source'] : null;
 		$regex = $item->source_flags !== null && $item->source_flags->is_regex();
 
+		if ( $item->get_action_type() === 'error' ) {
+			return $this->get_error_location( $item->get_url(), $item->get_action_code(), $source, $regex );
+		}
+
 		return $this->get_redirect( $item->get_url(), $item->get_action_data(), $this->get_redirect_code( $item ), $source, $regex );
 	}
 
@@ -148,13 +152,13 @@ class Nginx extends FormatHandler {
 
 		if ( $match->url_from !== '' ) {
 			$lines[] = 'if ( $http_user_agent ~* ^' . $match->agent . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_from, $this->get_redirect_code( $item ), $source );
+			$lines[] = '        ' . $this->get_conditional_action( $item, $item->get_url(), $match->url_from, $source );
 			$lines[] = '    }';
 		}
 
 		if ( $match->url_notfrom !== '' ) {
 			$lines[] = 'if ( $http_user_agent !~* ^' . $match->agent . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_notfrom, $this->get_redirect_code( $item ), $source );
+			$lines[] = '        ' . $this->get_conditional_action( $item, $item->get_url(), $match->url_notfrom, $source );
 			$lines[] = '    }';
 		}
 
@@ -178,13 +182,13 @@ class Nginx extends FormatHandler {
 
 		if ( $match->url_from !== '' ) {
 			$lines[] = 'if ( $http_referer ~* ^' . $match->referrer . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_from, $this->get_redirect_code( $item ), $source );
+			$lines[] = '        ' . $this->get_conditional_action( $item, $item->get_url(), $match->url_from, $source );
 			$lines[] = '    }';
 		}
 
 		if ( $match->url_notfrom !== '' ) {
 			$lines[] = 'if ( $http_referer !~* ^' . $match->referrer . '$ ) {';
-			$lines[] = '        ' . $this->get_redirect( $item->get_url(), $match->url_notfrom, $this->get_redirect_code( $item ), $source );
+			$lines[] = '        ' . $this->get_conditional_action( $item, $item->get_url(), $match->url_notfrom, $source );
 			$lines[] = '    }';
 		}
 
@@ -217,5 +221,73 @@ class Nginx extends FormatHandler {
 		}
 
 		return 'rewrite ' . $from . '$ ' . $target_url->get_as_target() . ' ' . $code . ';';
+	}
+
+	/**
+	 * @param \Red_Item $item
+	 * @param string $line
+	 * @param string $target
+	 * @param SourceMatchOptions|null $source
+	 * @return string
+	 */
+	private function get_conditional_action( $item, $line, $target, $source ) {
+		if ( $item->get_action_type() === 'error' ) {
+			return $this->get_error_return( $item->get_action_code() );
+		}
+
+		return $this->get_redirect( $line, $target, $this->get_redirect_code( $item ), $source );
+	}
+
+	/**
+	 * @param string $line
+	 * @param int $code
+	 * @param SourceMatchOptions|null $source
+	 * @param bool $regex
+	 * @return string
+	 */
+	private function get_error_location( $line, $code, $source, $regex = false ) {
+		return implode(
+			"\n",
+			[
+				$this->get_location_line( $line, $source, $regex ) . ' {',
+				'        ' . $this->get_error_return( $code ),
+				'    }',
+			]
+		);
+	}
+
+	/**
+	 * @param string $line
+	 * @param SourceMatchOptions|null $source
+	 * @param bool $regex
+	 * @return string
+	 */
+	private function get_location_line( $line, $source, $regex = false ) {
+		if ( $regex || ( isset( $source['flag_case'] ) && $source['flag_case'] ) ) {
+			if ( ! $regex ) {
+				$line = ltrim( $line, '^' );
+				$line = rtrim( $line, '$' );
+			}
+
+			$source_url = new \Red_Url_Encode( $line, $regex );
+			$from = $source_url->get_as_source();
+			$from = ltrim( $from, '^' );
+			$from = rtrim( $from, '$' );
+			$from = (string) preg_replace( '/^%5E/', '', $from );
+
+			return 'location ' . ( isset( $source['flag_case'] ) && $source['flag_case'] ? '~* ' : '~ ' ) . '^' . $from . '$';
+		}
+
+		$source_url = new \Red_Url_Encode( $line );
+
+		return 'location = ' . $source_url->get_as_target();
+	}
+
+	/**
+	 * @param int $code
+	 * @return string
+	 */
+	private function get_error_return( $code ) {
+		return 'return ' . intval( $code, 10 ) . ';';
 	}
 }
