@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/log-404.php';
 require_once __DIR__ . '/log-redirect.php';
-//require_once dirname( __DIR__, 2 ) . '/includes/import-export/sanitizer/class-csv-sanitizer.php';
 
 use Redirection\ImportExport\Sanitizer\CsvSanitizer;
 
