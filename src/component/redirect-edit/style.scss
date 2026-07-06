@@ -70,12 +70,15 @@
 			margin-right: 4px;
 		}
 
+		.dashicons-info {
+			position: relative;
+			top: 3px;
+		}
+
 		p {
 			color: #444;
 			margin: 0;
 			line-height: 2;
-			display: flex;
-			align-items: center;
 		}
 
 		code {
