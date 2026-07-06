@@ -90,7 +90,7 @@ class Red_404_Log extends Red_Log {
 	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
-	 * @return array<int, string|int>
+	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
 		/** @var Log404Row $row */

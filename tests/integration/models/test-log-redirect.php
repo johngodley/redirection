@@ -9,7 +9,7 @@ class Log_Redirect_Test extends WP_UnitTestCase {
 		$this->assertEquals( $expected, $csv );
 	}
 
-	public function testCsvRowEscapesFormulaValues() {
+	public function testCsvRowReturnsRawFormulaValues() {
 		$row = [ 'created' => '=created', 'url' => '@url', 'sent_to' => '-sent_to', 'ip' => '+ip', 'referrer' => '=referrer', 'agent' => '@agent' ];
 		$expected = [ '=created', '@url', '-sent_to', '+ip', '=referrer', '@agent' ];
 		$csv = Red_Redirect_Log::get_csv_row( (object) $row );
