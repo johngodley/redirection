@@ -303,6 +303,19 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->assertEquals( '/logged,/target,tester', $lines[1] );
 	}
 
+	public function testRedirectLogCsvExportEscapesFormulaValues() {
+		Red_Redirect_Log::create( 'domain', '/logged', '192.168.1.1', [ 'target' => '/target', 'agent' => '=cmd' ] );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/log/csv' );
+
+		$lines = explode( "\n", trim( $result->data['data'] ) );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( 'date,source,target,ip,referrer,agent', $lines[0] );
+		$this->assertStringContainsString( '[FORMULA] =cmd', $lines[1] );
+	}
+
 	public function testRedirectLogJsonExportSelectedItems() {
 		$id_one = Red_Redirect_Log::create( 'domain', '/one', '192.168.1.1', [ 'target' => '/target-one' ] );
 		$id_two = Red_Redirect_Log::create( 'domain', '/two', '192.168.1.2', [ 'target' => '/target-two' ] );
@@ -355,6 +368,25 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->assertEquals( 1, $result->data['total'] );
 		$this->assertEquals( 'ip,count', $lines[0] );
 		$this->assertEquals( '192.168.1.1,2', $lines[1] );
+	}
+
+	public function test404CsvExportEscapesFormulaValues() {
+		Red_404_Log::create( 'domain', '/missing', '192.168.1.1', [ 'agent' => '=cmd' ] );
+
+		$this->setNonce();
+		$result = $this->callApi(
+			'export/404/csv',
+			[
+				'displaySelected' => [ 'url', 'agent' ],
+			]
+		);
+
+		$lines = explode( "\n", trim( $result->data['data'] ) );
+
+		$this->assertEquals( 1, $result->data['total'] );
+		$this->assertEquals( 'source,useragent', $lines[0] );
+		$this->assertStringContainsString( '/missing', $lines[1] );
+		$this->assertStringContainsString( '[FORMULA] =cmd', $lines[1] );
 	}
 
 	public function test404GroupedJsonExportIgnoresNonGroupedFields() {
@@ -427,6 +459,21 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->assertStringContainsString( 'csv-group', $result->data['data'] );
 	}
 
+	public function testBundleExportGroupsCsvEscapesFormulaValues() {
+		Red_Group::create( '=csv-group', 1 );
+
+		$this->setNonce();
+		$result = $this->callApi(
+			'export/bundle',
+			[
+				'types' => [ 'group' ],
+				'format' => 'csv',
+			]
+		);
+
+		$this->assertStringContainsString( '[FORMULA] =csv-group', $result->data['data'] );
+	}
+
 	public function testBundleExportGroupsJsonUsesStoredFields() {
 		$group = Red_Group::create( 'json-group', 1 );
 
@@ -490,6 +537,15 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->assertEquals( 1, $result->data['total'] );
 		$this->assertStringContainsString( 'disabled-group', $result->data['data'] );
 		$this->assertStringNotContainsString( 'enabled-group', $result->data['data'] );
+	}
+
+	public function testGroupExportCsvEscapesFormulaValues() {
+		Red_Group::create( '=group-name', 1 );
+
+		$this->setNonce();
+		$result = $this->callApi( 'export/group/csv' );
+
+		$this->assertStringContainsString( '[FORMULA] =group-name', $result->data['data'] );
 	}
 
 	// public function testExportJSON() {

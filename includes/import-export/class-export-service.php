@@ -2,6 +2,8 @@
 
 namespace Redirection\ImportExport;
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * Export redirects to a file format.
  *
@@ -546,6 +548,8 @@ class ExportService {
 	 * @return string
 	 */
 	private function build_csv_data( array $header, array $rows ) {
+		$sanitizer = new CsvSanitizer();
+
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
 		$stdout = fopen( 'php://temp', 'w+' );
 		if ( $stdout === false ) {
@@ -555,7 +559,7 @@ class ExportService {
 		fputcsv( $stdout, $header );
 
 		foreach ( $rows as $row ) {
-			fputcsv( $stdout, $row );
+			fputcsv( $stdout, array_map( [ $sanitizer, 'escape' ], $row ) );
 		}
 
 			rewind( $stdout );

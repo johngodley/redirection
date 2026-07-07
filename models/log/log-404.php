@@ -1,7 +1,5 @@
 <?php
 
-use Redirection\ImportExport\Sanitizer\CsvSanitizer;
-
 /**
  * @phpstan-type Log404Row object{
  *   id: int,
@@ -92,22 +90,17 @@ class Red_404_Log extends Red_Log {
 	 * Get the CSV row for this log object
 	 *
 	 * @param object $row Log row.
-	 * @return array<int, string|int>
+	 * @return array<int, string>
 	 */
 	public static function get_csv_row( $row ) {
-		static $sanitizer = null;
-
-		if ( $sanitizer === null ) {
-			$sanitizer = new CsvSanitizer();
-		}
-
 		/** @var Log404Row $row */
+		// Raw values are returned here. Formula escaping is applied by Red_Log's CSV writers.
 		return [
-			$sanitizer->escape( $row->created ),
-			$sanitizer->escape( $row->url ),
-			$sanitizer->escape( $row->ip ),
-			$sanitizer->escape( $row->referrer ),
-			$sanitizer->escape( $row->agent ),
+			(string) $row->created,
+			(string) $row->url,
+			(string) $row->ip,
+			(string) $row->referrer,
+			(string) $row->agent,
 		];
 	}
 }
