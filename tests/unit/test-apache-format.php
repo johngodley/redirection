@@ -78,4 +78,54 @@ class ApacheFormatTest extends TestCase {
 		$this->assertEquals( [ 'url' => '/prices/' ], $item['action_data'] );
 		$this->assertEquals( 301, $item['action_code'] );
 	}
+
+	public function testRewriteRuleUnescapesLiteralDots() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^wp-admin/tools\.php/?$ /xfds [R=301,L,NC,QSA]' );
+
+		$this->assertEquals( '/wp-admin/tools.php', $item['url'] );
+		$this->assertFalse( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/xfds' ], $item['action_data'] );
+		$this->assertEquals( 301, $item['action_code'] );
+		$this->assertEquals(
+			[
+				'source' => [
+					'flag_case' => true,
+					'flag_query' => 'pass',
+					'flag_trailing' => true,
+				],
+			],
+			$item['match_data']
+		);
+	}
+
+	public function testRewriteRuleWithOptionalTrailingSlashImportsAsStandardRedirect() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^uncategorized/hello-world/?$ http://latest.local/uncategorized/hello-world2/ [R=301,L,NC,QSA]' );
+
+		$this->assertEquals( '/uncategorized/hello-world', $item['url'] );
+		$this->assertFalse( $item['regex'] );
+		$this->assertEquals( [ 'url' => 'http://latest.local/uncategorized/hello-world2/' ], $item['action_data'] );
+		$this->assertEquals( 301, $item['action_code'] );
+		$this->assertEquals(
+			[
+				'source' => [
+					'flag_case' => true,
+					'flag_query' => 'pass',
+					'flag_trailing' => true,
+				],
+			],
+			$item['match_data']
+		);
+	}
+
+	public function testRewriteRulePreservesEscapedLiteralDotsForRegexPatterns() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^foo\.bar$ /target [R=301,L]' );
+
+		$this->assertEquals( '^/foo\.bar$', $item['url'] );
+		$this->assertTrue( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/target' ], $item['action_data'] );
+		$this->assertEquals( 301, $item['action_code'] );
+	}
 }

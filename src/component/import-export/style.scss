@@ -127,6 +127,13 @@
 			width: 100%;
 			max-width: 320px;
 		}
+
+		&--stacked {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+		}
 	}
 }
 
@@ -194,6 +201,7 @@
 
 	table {
 		margin-top: 0;
+		margin-bottom: 0;
 	}
 
 	th.io-preview-table__code,

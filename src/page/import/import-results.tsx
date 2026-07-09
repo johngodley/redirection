@@ -28,7 +28,9 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 	} else if (
 		lastImport.created === 0 &&
 		lastImport.updated === 0 &&
-		lastImport.groups_imported === 0 &&
+		lastImport.groups_created === 0 &&
+		lastImport.groups_updated === 0 &&
+		lastImport.groups_ignored === 0 &&
 		lastImport.logs_imported === 0 &&
 		lastImport.errors_imported === 0 &&
 		lastImport.settings_imported === 0
@@ -62,7 +64,7 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 			value: lastImport.updated,
 		},
 		{
-			label: _n( 'Duplicate ignored', 'Duplicates ignored', lastImport.ignored, 'redirection' ),
+			label: _n( 'Redirect ignored', 'Redirects ignored', lastImport.ignored, 'redirection' ),
 			value: lastImport.ignored,
 		},
 		{
@@ -70,8 +72,12 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 			value: lastImport.groups_created,
 		},
 		{
-			label: _n( 'Group imported', 'Groups imported', lastImport.groups_imported, 'redirection' ),
-			value: lastImport.groups_imported,
+			label: _n( 'Group updated', 'Groups updated', lastImport.groups_updated, 'redirection' ),
+			value: lastImport.groups_updated,
+		},
+		{
+			label: _n( 'Group ignored', 'Groups ignored', lastImport.groups_ignored, 'redirection' ),
+			value: lastImport.groups_ignored,
 		},
 		{
 			label: _n( 'Log imported', 'Logs imported', lastImport.logs_imported, 'redirection' ),
@@ -104,51 +110,49 @@ function ImportResults( { activeImportType, lastImport, lastImportWasDryRun }: I
 	};
 
 	return (
-		<>
-			<div className="file-sniff">
-				<IoCard
-					title={ isPreview ? __( 'Preview results', 'redirection' ) : __( 'Import results', 'redirection' ) }
-					badge={ __( 'Success', 'redirection' ) }
-					meta={ details }
-					stats={ stats }
-					variant="success"
-				/>
-			</div>
-
-			{ activeImportType !== null && lastImport.preview.length > 0 && (
-				<div className="io-preview-table">
-					<table className="wp-list-table widefat fixed striped items table-auto inline-edit-row">
-						<thead>
-							<tr>
-								<th>{ __( 'Source', 'redirection' ) }</th>
-								<th>{ __( 'Target', 'redirection' ) }</th>
-								<th className="io-preview-table__code">{ __( 'Code', 'redirection' ) }</th>
-								<th className="io-preview-table__regex">{ __( 'Regex', 'redirection' ) }</th>
-								<th>{ __( 'Group', 'redirection' ) }</th>
-							</tr>
-						</thead>
-						<tbody>
-							{ lastImport.preview.map( ( row, index ) => (
-								<tr
-									key={ `${ row.source }-${ row.target }-${ index }` }
-									className={
-										row.result === 'ignored' ? 'io-preview-table__row--ignored' : undefined
-									}
-								>
-									<td>{ renderSource( row ) }</td>
-									<td>{ row.target || ' ' }</td>
-									<td className="io-preview-table__code">{ row.code || '' }</td>
-									<td className="io-preview-table__regex">
-										{ row.regex ? __( 'Yes', 'redirection' ) : __( 'No', 'redirection' ) }
-									</td>
-									<td>{ row.group || '' }</td>
+		<div className="file-sniff">
+			<IoCard
+				title={ isPreview ? __( 'Preview results', 'redirection' ) : __( 'Import results', 'redirection' ) }
+				badge={ __( 'Success', 'redirection' ) }
+				meta={ details }
+				stats={ stats }
+				variant="success"
+			>
+				{ activeImportType !== null && lastImport.preview.length > 0 && (
+					<div className="io-preview-table">
+						<table className="wp-list-table widefat fixed striped items table-auto inline-edit-row">
+							<thead>
+								<tr>
+									<th>{ __( 'Source', 'redirection' ) }</th>
+									<th>{ __( 'Target', 'redirection' ) }</th>
+									<th className="io-preview-table__code">{ __( 'HTTP', 'redirection' ) }</th>
+									<th className="io-preview-table__regex">{ __( 'Regex', 'redirection' ) }</th>
+									<th>{ __( 'Group', 'redirection' ) }</th>
 								</tr>
-							) ) }
-						</tbody>
-					</table>
-				</div>
-			) }
-		</>
+							</thead>
+							<tbody>
+								{ lastImport.preview.map( ( row, index ) => (
+									<tr
+										key={ `${ row.source }-${ row.target }-${ index }` }
+										className={
+											row.result === 'ignored' ? 'io-preview-table__row--ignored' : undefined
+										}
+									>
+										<td>{ renderSource( row ) }</td>
+										<td>{ row.target || ' ' }</td>
+										<td className="io-preview-table__code">{ row.code || '' }</td>
+										<td className="io-preview-table__regex">
+											{ row.regex ? __( 'Yes', 'redirection' ) : __( 'No', 'redirection' ) }
+										</td>
+										<td>{ row.group || '' }</td>
+									</tr>
+								) ) }
+							</tbody>
+						</table>
+					</div>
+				) }
+			</IoCard>
+		</div>
 	);
 }
 

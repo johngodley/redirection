@@ -199,7 +199,7 @@ function ImportPage() {
 											activeFileInfo.valid === false ) )
 								}
 							>
-								{ __( 'Preview redirects', 'redirection' ) }
+								{ __( 'Preview', 'redirection' ) }
 							</button>{ ' ' }
 							<button
 								className="button-primary"
@@ -217,7 +217,7 @@ function ImportPage() {
 											activeFileInfo.valid === false ) )
 								}
 							>
-								{ __( 'Import redirects', 'redirection' ) }
+								{ __( 'Import', 'redirection' ) }
 							</button>
 						</>
 					) }

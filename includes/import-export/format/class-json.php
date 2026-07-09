@@ -103,7 +103,6 @@ class Json extends FormatHandler {
 		$sections = isset( $options['import_sections'] ) && is_array( $options['import_sections'] ) ? $options['import_sections'] : [];
 		$all_sections = count( $sections ) === 0;
 		$result = [
-			'groups_imported' => 0,
 			'logs_imported' => 0,
 			'errors_imported' => 0,
 			'settings_imported' => 0,
@@ -120,7 +119,7 @@ class Json extends FormatHandler {
 		}
 
 		if ( $all_sections || in_array( 'groups', $sections, true ) ) {
-			$result['groups_imported'] = $this->import_groups( $parsed['groups'], $is_dry_run );
+			$this->import_groups( $group, $parsed['groups'] );
 		}
 
 		if ( $all_sections || in_array( 'redirects', $sections, true ) ) {
@@ -158,36 +157,18 @@ class Json extends FormatHandler {
 	}
 
 	/**
+	 * @param ImportGroup $group Group resolver.
 	 * @param array<int, array<string, mixed>> $groups
-	 * @param bool $is_dry_run
-	 * @return int
+	 * @return void
 	 */
-	private function import_groups( array $groups, $is_dry_run ) {
-		$count = 0;
-
+	private function import_groups( ImportGroup $group, array $groups ) {
 		foreach ( $groups as $group_data ) {
 			if ( ! isset( $group_data['id'], $group_data['name'], $group_data['module_id'] ) ) {
 				continue;
 			}
 
-			$count++;
-			if ( $is_dry_run ) {
-				continue;
-			}
-
-			$existing = \Red_Group::get( intval( $group_data['id'], 10 ) );
-			if ( $existing !== false ) {
-				continue;
-			}
-
-			\Red_Group::create(
-				sanitize_text_field( strval( $group_data['name'] ) ),
-				intval( $group_data['module_id'], 10 ),
-				isset( $group_data['enabled'] ) ? $group_data['enabled'] === true : ( ! isset( $group_data['status'] ) || $group_data['status'] === 'enabled' )
-			);
+			$group->import_group( intval( $group_data['id'], 10 ), $group_data );
 		}
-
-		return $count;
 	}
 
 	/**

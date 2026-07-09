@@ -16,7 +16,8 @@ interface ImportStats {
 	updated: number;
 	ignored: number;
 	groups_created: number;
-	groups_imported: number;
+	groups_updated: number;
+	groups_ignored: number;
 	logs_imported: number;
 	errors_imported: number;
 	settings_imported: number;
