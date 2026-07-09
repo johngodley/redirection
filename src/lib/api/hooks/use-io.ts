@@ -251,13 +251,14 @@ export function useImportRunner(
 				const updated = ( data as any )?.updated || 0;
 				const ignored = ( data as any )?.ignored || 0;
 				const groupsCreated = ( data as any )?.groups_created || 0;
-				const groupsImported = ( data as any )?.groups_imported || 0;
+				const groupsUpdated = ( data as any )?.groups_updated || 0;
+				const groupsIgnored = ( data as any )?.groups_ignored || 0;
 				const logsImported = ( data as any )?.logs_imported || 0;
 				const errorsImported = ( data as any )?.errors_imported || 0;
 				const settingsImported = ( data as any )?.settings_imported || 0;
 
 				addNotice(
-					`Imported ${ created } new redirects, updated ${ updated } existing redirects, ignored ${ ignored } duplicates, ${ groupsCreated } groups created, ${ groupsImported } groups imported, ${ logsImported } logs imported, ${ errorsImported } 404 logs imported, ${ settingsImported } settings imported`
+					`Imported ${ created } new redirects, updated ${ updated } existing redirects, ignored ${ ignored } redirects, ${ groupsCreated } groups created, ${ groupsUpdated } groups updated, ${ groupsIgnored } groups ignored, ${ logsImported } logs imported, ${ errorsImported } 404 logs imported, ${ settingsImported } settings imported`
 				);
 				queryClient.invalidateQueries( { queryKey: queryKeys.redirects.lists() } );
 				queryClient.invalidateQueries( { queryKey: queryKeys.groups.all } );

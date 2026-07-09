@@ -13,6 +13,18 @@ function formatNumber( value: number ) {
 	return new Intl.NumberFormat( locale ).format( value );
 }
 
+function formatFileSize( size: number ) {
+	if ( size < 1024 ) {
+		return `${ size } B`;
+	}
+
+	if ( size < 1024 * 1024 ) {
+		return `${ ( size / 1024 ).toFixed( 1 ) } KB`;
+	}
+
+	return `${ ( size / ( 1024 * 1024 ) ).toFixed( 1 ) } MB`;
+}
+
 function ExportResults( { lastResult }: ExportResultsProps ) {
 	if ( lastResult === false ) {
 		return null;
@@ -33,6 +45,10 @@ function ExportResults( { lastResult }: ExportResultsProps ) {
 		{
 			label: __( 'Export', 'redirection' ),
 			value: getExportTypesLabel( lastResult.types ),
+		},
+		{
+			label: __( 'File size', 'redirection' ),
+			value: formatFileSize( new TextEncoder().encode( lastResult.data ).length ),
 		},
 	];
 	const stats: CardStatItem[] = [];

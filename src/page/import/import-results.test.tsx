@@ -13,7 +13,8 @@ function getPreviewResults( overrides: Partial< ImportStats > = {} ): ImportStat
 		updated: 1,
 		ignored: 1,
 		groups_created: 1,
-		groups_imported: 0,
+		groups_updated: 0,
+		groups_ignored: 0,
 		logs_imported: 0,
 		errors_imported: 0,
 		settings_imported: 0,
@@ -52,7 +53,7 @@ describe( 'ImportResults', () => {
 	it.each( [ 'file', 'plugin' ] as const )(
 		'renders the shared preview table for %s imports',
 		( activeImportType ) => {
-			render(
+			const { container } = render(
 				<ImportResults
 					activeImportType={ activeImportType }
 					lastImport={ getPreviewResults() }
@@ -63,10 +64,12 @@ describe( 'ImportResults', () => {
 			expect( screen.getByText( 'Preview results' ) ).toBeInTheDocument();
 			expect( screen.getByText( 'Preview only. No changes have been made.' ) ).toBeInTheDocument();
 			expect( screen.getByRole( 'table' ) ).toBeInTheDocument();
+			expect( container.querySelector( '.file-sniff__card .io-preview-table' ) ).not.toBeNull();
 			expect( screen.getByText( 'Redirects created' ) ).toBeInTheDocument();
 			expect( screen.getByText( 'Redirect updated' ) ).toBeInTheDocument();
-			expect( screen.getByText( 'Duplicate ignored' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Redirect ignored' ) ).toBeInTheDocument();
 			expect( screen.getByText( 'Group created' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Group ignored' ) ).toBeInTheDocument();
 		}
 	);
 

@@ -110,6 +110,7 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 
 		$this->assertEquals( 1, $data['created'] );
 		$this->assertEquals( 0, $data['updated'] );
+		$this->assertEquals( 1, $data['groups_ignored'] );
 		$this->assertEquals( $group->get_id(), intval( $redirect->group_id, 10 ) );
 		$this->assertCount( 0, $groups );
 	}
@@ -334,6 +335,96 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 			1,
 			intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_404 WHERE url='/bundle-404'" ), 10 )
 		);
+	}
+
+	public function testImportReturnsGroupCreateAndIgnoreCounts() {
+		$existing_group = Red_Group::create( 'existing-group', 1 );
+		$import = [
+			'groups' => [
+				[
+					'name' => 'existing-group',
+					'id' => $existing_group->get_id(),
+					'module_id' => 1,
+					'enabled' => true,
+				],
+				[
+					'name' => 'new-group',
+					'id' => 9999,
+					'module_id' => 1,
+					'enabled' => true,
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load( new ImportGroup( 1 ), new ImportRedirect(), $file, false, [ 'import_sections' => [ 'groups' ] ] );
+
+		$this->assertEquals( 1, $data['groups_created'] );
+		$this->assertEquals( 0, $data['groups_updated'] );
+		$this->assertEquals( 1, $data['groups_ignored'] );
+	}
+
+	public function testImportIgnoresExistingGroupMatchedByName() {
+		$existing_group = Red_Group::create( 'matched-by-name', 1, false );
+		$import = [
+			'groups' => [
+				[
+					'name' => 'matched-by-name',
+					'id' => 9999,
+					'module_id' => 2,
+					'enabled' => true,
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load(
+			new ImportGroup( 0, [ 'duplicate_mode' => 'ignore' ] ),
+			new ImportRedirect( [ 'duplicate_mode' => 'ignore' ] ),
+			$file,
+			false,
+			[ 'import_sections' => [ 'groups' ], 'duplicate_mode' => 'ignore' ]
+		);
+		$group = Red_Group::get( $existing_group->get_id(), true );
+
+		$this->assertEquals( 0, $data['groups_created'] );
+		$this->assertEquals( 0, $data['groups_updated'] );
+		$this->assertEquals( 1, $data['groups_ignored'] );
+		$this->assertEquals( 1, $group->get_module_id() );
+		$this->assertFalse( $group->is_enabled() );
+	}
+
+	public function testImportUpdatesExistingGroupMatchedByName() {
+		$existing_group = Red_Group::create( 'matched-update', 1, false );
+		$import = [
+			'groups' => [
+				[
+					'name' => 'matched-update',
+					'id' => 9998,
+					'module_id' => 2,
+					'enabled' => true,
+				],
+			],
+		];
+
+		$json = new Json();
+		$file = $this->create_temp_file( wp_json_encode( $import ) );
+		$data = $json->load(
+			new ImportGroup( 0, [ 'duplicate_mode' => 'update' ] ),
+			new ImportRedirect( [ 'duplicate_mode' => 'update' ] ),
+			$file,
+			false,
+			[ 'import_sections' => [ 'groups' ], 'duplicate_mode' => 'update' ]
+		);
+		$group = Red_Group::get( $existing_group->get_id(), true );
+
+		$this->assertEquals( 0, $data['groups_created'] );
+		$this->assertEquals( 1, $data['groups_updated'] );
+		$this->assertEquals( 0, $data['groups_ignored'] );
+		$this->assertEquals( 2, $group->get_module_id() );
+		$this->assertTrue( $group->is_enabled() );
 	}
 
 	public function testImportUpdatesExistingRedirectById() {

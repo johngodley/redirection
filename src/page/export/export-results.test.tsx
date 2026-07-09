@@ -22,6 +22,8 @@ describe( 'ExportResults', () => {
 
 		expect( screen.getByText( '5,348' ) ).toBeInTheDocument();
 		expect( screen.getByText( 'Items exported' ) ).toBeInTheDocument();
+		expect( screen.getByText( 'File size' ) ).toBeInTheDocument();
+		expect( screen.getByText( '0 B' ) ).toBeInTheDocument();
 	} );
 
 	it( 'renders the viewed export output inside the result card', () => {
@@ -41,5 +43,6 @@ describe( 'ExportResults', () => {
 		expect( card ).not.toBeNull();
 		expect( within( card as HTMLElement ).getByDisplayValue( 'source,target' ) ).toBeInTheDocument();
 		expect( within( card as HTMLElement ).getByText( 'View results' ) ).toBeInTheDocument();
+		expect( within( card as HTMLElement ).getByText( '13 B' ) ).toBeInTheDocument();
 	} );
 } );

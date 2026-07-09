@@ -117,6 +117,11 @@ class Apache extends FormatHandler {
 				'action_code' => $this->get_code( $matches[3] ?? '' ),
 				'regex' => $this->is_regex( $matches[1] ),
 			];
+
+			$match_data = $this->get_match_data( $matches[1], $matches[3] ?? '' );
+			if ( $match_data !== null ) {
+				$item['match_data'] = $match_data;
+			}
 		} elseif ( preg_match( '@Redirect\s+(.*?)\s+"(.*?)"\s+(.*)@i', $line, $matches ) > 0 || preg_match( '@Redirect\s+(.*?)\s+(.*?)\s+(.*)@i', $line, $matches ) > 0 ) {
 			$item = [
 				'url' => $this->decode_url( $matches[2] ),
@@ -174,7 +179,7 @@ class Apache extends FormatHandler {
 	private function decode_url( $url ) {
 		$url = rawurldecode( $url );
 		$url = (string) preg_replace( '@\\\/@', '/', $url );
-		$url = (string) preg_replace( '@\\\\\\.@', '\\\\.', $url );
+		$url = (string) preg_replace( '@\\\\\\.@', '.', $url );
 		return $url;
 	}
 
@@ -202,6 +207,10 @@ class Apache extends FormatHandler {
 	 * @return bool
 	 */
 	private function is_regex( $url ) {
+		if ( $this->is_optional_trailing_standard_rule( $url ) ) {
+			return false;
+		}
+
 		if ( $this->is_str_regex( $url ) ) {
 			$tmp = ltrim( $url, '^' );
 			if ( $this->has_end_anchor( $tmp ) ) {
@@ -221,6 +230,12 @@ class Apache extends FormatHandler {
 	 * @return string
 	 */
 	private function regex_url( $url ) {
+		$standard_url = $this->get_optional_trailing_standard_url( $url );
+
+		if ( $standard_url !== false ) {
+			return $standard_url;
+		}
+
 		$url = $this->decode_url( $url );
 
 		if ( $this->is_str_regex( $url ) ) {
@@ -239,6 +254,79 @@ class Apache extends FormatHandler {
 		}
 
 		return $this->decode_url( $url );
+	}
+
+	/**
+	 * @param string $url
+	 * @param string $flags
+	 * @return array{source: array<string, bool|string>}|null
+	 */
+	private function get_match_data( $url, $flags ) {
+		$source = [];
+
+		if ( stripos( $flags, 'NC' ) !== false ) {
+			$source['flag_case'] = true;
+		}
+
+		if ( stripos( $flags, 'QSA' ) !== false ) {
+			$source['flag_query'] = 'pass';
+		}
+
+		if ( $this->is_optional_trailing_standard_rule( $url ) ) {
+			$source['flag_trailing'] = true;
+		}
+
+		if ( count( $source ) === 0 ) {
+			return null;
+		}
+
+		return [ 'source' => $source ];
+	}
+
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
+	private function is_optional_trailing_standard_rule( $url ) {
+		return $this->get_optional_trailing_standard_url( $url ) !== false;
+	}
+
+	/**
+	 * @param string $url
+	 * @return string|false
+	 */
+	private function get_optional_trailing_standard_url( $url ) {
+		$tmp = ltrim( $url, '^' );
+
+		if ( ! $this->has_end_anchor( $tmp ) ) {
+			return false;
+		}
+
+		$tmp = substr( $tmp, 0, -1 );
+		if ( substr( $tmp, -2 ) !== '/?' ) {
+			return false;
+		}
+
+		$tmp = substr( $tmp, 0, -2 );
+		if ( $tmp === '' || $tmp === false ) {
+			return '/';
+		}
+
+		if ( $this->is_standard_rewrite_path( $tmp ) === false ) {
+			return false;
+		}
+
+		return '/' . ltrim( $this->decode_url( $tmp ), '/' );
+	}
+
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
+	private function is_standard_rewrite_path( $url ) {
+		$url = (string) preg_replace( '@\\\\\\.@', '', $url );
+
+		return ! $this->is_str_regex( $url );
 	}
 
 	/**

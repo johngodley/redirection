@@ -35,6 +35,33 @@ class GroupRepository {
 	}
 
 	/**
+	 * @param string $name
+	 * @return \Red_Group|false
+	 */
+	public function get_by_name( $name ) {
+		$groups = $this->get_all();
+		$safe_name = trim( sanitize_text_field( $name ) );
+
+		if ( $groups === false || $safe_name === '' ) {
+			return false;
+		}
+
+		foreach ( $groups as $group ) {
+			if ( ! isset( $group['name'], $group['id'] ) ) {
+				continue;
+			}
+
+			if ( trim( sanitize_text_field( strval( $group['name'] ) ) ) !== $safe_name ) {
+				continue;
+			}
+
+			return $this->get( intval( $group['id'], 10 ) );
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param int $module_id
 	 * @return array<GroupJson>|false
 	 */
@@ -54,6 +81,30 @@ class GroupRepository {
 		}
 
 		return $group->to_export();
+	}
+
+	/**
+	 * @param \Red_Group $group
+	 * @param string $name
+	 * @param int $module_id
+	 * @param bool $enabled
+	 * @return \Red_Group
+	 */
+	public function update( \Red_Group $group, $name, $module_id, $enabled ) {
+		$group->update(
+			[
+				'name' => $name,
+				'moduleId' => intval( $module_id, 10 ),
+			]
+		);
+
+		if ( $enabled ) {
+			$group->enable();
+		} else {
+			$group->disable();
+		}
+
+		return $group;
 	}
 
 	/**

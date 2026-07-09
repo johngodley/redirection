@@ -43,24 +43,28 @@ function ImportOptions( {
 	const showDeleteSource =
 		activeImportType === 'plugin' &&
 		( activePluginId === 'wordpress-old-slugs' || activePluginId === 'safe-redirect-manager' );
+	const isFileImport = activeImportType === 'file' || activeImportType === 'paste';
 	const groupItems =
-		( activeImportType === 'file' || activeImportType === 'paste' ) && file && isJsonFile( file )
+		isFileImport && file && isJsonFile( file )
 			? [ { value: '0', label: __( 'Use groups in file', 'redirection' ) }, ...items ]
 			: items;
-	const jsonSections = fileInfo?.format === 'json' && fileInfo.valid && fileInfo.contents ? fileInfo.contents : null;
-	const hasRedirectCsv = fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
-	const hasApacheImport = fileInfo?.format === 'apache' && fileInfo.valid;
+	const jsonSections =
+		isFileImport && fileInfo?.format === 'json' && fileInfo.valid && fileInfo.contents ? fileInfo.contents : null;
+	const hasRedirectCsv = isFileImport && fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
+	const hasApacheImport = isFileImport && fileInfo?.format === 'apache' && fileInfo.valid;
 	const hasRedirectSection = jsonSections
 		? Number( jsonSections.redirects || 0 ) > 0 && selectedSections.includes( 'redirects' )
 		: activeImportType === 'plugin' || hasRedirectCsv || hasApacheImport;
+	const hasOptions = jsonSections !== null || hasRedirectSection || showDeleteSource;
 
 	return (
 		<fieldset className="groups inline-edit-row" disabled={ disabled }>
 			<h3>{ __( 'Import options', 'redirection' ) }</h3>
+			{ ! hasOptions && <p>{ __( 'Select an import source to see available options.', 'redirection' ) }</p> }
 			{ jsonSections && (
 				<div className="groups__row">
 					<div className="groups__label">{ __( 'Contents', 'redirection' ) }</div>
-					<div className="groups__control">
+					<div className="groups__control groups__control--stacked">
 						{ Object.entries( jsonSections ).map( ( [ section, total ] ) => (
 							<label
 								className="groups__checkbox"
@@ -106,7 +110,7 @@ function ImportOptions( {
 						<div className="groups__control">
 							<Select
 								items={ [
-									{ value: 'import', label: __( 'Import everything', 'redirection' ) },
+									{ value: 'import', label: __( 'Do not check duplicates', 'redirection' ) },
 									{ value: 'ignore', label: __( 'Ignore duplicates', 'redirection' ) },
 									{ value: 'update', label: __( 'Update duplicates', 'redirection' ) },
 								] }
