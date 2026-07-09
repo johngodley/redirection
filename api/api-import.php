@@ -164,7 +164,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
-	 *   groups_imported: int,
+	 *   groups_updated: int,
+	 *   groups_ignored: int,
 	 *   logs_imported: int,
 	 *   errors_imported: int,
 	 *   settings_imported: int,
@@ -202,7 +203,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			'updated' => 0,
 			'ignored' => 0,
 			'groups_created' => 0,
-			'groups_imported' => 0,
+			'groups_updated' => 0,
+			'groups_ignored' => 0,
 			'logs_imported' => 0,
 			'errors_imported' => 0,
 			'settings_imported' => 0,
@@ -223,6 +225,11 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			$total['updated'] += $result['updated'];
 			$total['ignored'] += $result['ignored'];
 			$total['groups_created'] += $result['groups_created'];
+			$total['groups_updated'] += $result['groups_updated'];
+			$total['groups_ignored'] += $result['groups_ignored'];
+			$total['logs_imported'] += $result['logs_imported'];
+			$total['errors_imported'] += $result['errors_imported'];
+			$total['settings_imported'] += $result['settings_imported'];
 		}
 
 		return $total;
@@ -238,7 +245,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
-	 *   groups_imported: int,
+	 *   groups_updated: int,
+	 *   groups_ignored: int,
 	 *   logs_imported: int,
 	 *   errors_imported: int,
 	 *   settings_imported: int,
@@ -284,7 +292,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 *   updated: int,
 	 *   ignored: int,
 	 *   groups_created: int,
-	 *   groups_imported: int,
+	 *   groups_updated: int,
+	 *   groups_ignored: int,
 	 *   logs_imported: int,
 	 *   errors_imported: int,
 	 *   settings_imported: int,
@@ -342,7 +351,9 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 		if (
 			$result['created'] === 0 &&
 			$result['updated'] === 0 &&
-			$result['groups_imported'] === 0 &&
+			$result['groups_created'] === 0 &&
+			$result['groups_updated'] === 0 &&
+			$result['groups_ignored'] === 0 &&
 			$result['logs_imported'] === 0 &&
 			$result['errors_imported'] === 0 &&
 			$result['settings_imported'] === 0 &&

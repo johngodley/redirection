@@ -84,18 +84,10 @@ class ImportGroup {
 			return $this->group_map[ $file_group_id ];
 		}
 
-		if ( $this->duplicate_mode !== 'import' ) {
-			$existing = $file_group_id > 0 ? $this->groups->get( $file_group_id ) : false;
-			if ( $existing !== false ) {
-				return $this->get_matching_group( $file_group_id, $existing, $group_data );
-			}
-
-			if ( $group_data !== null ) {
-				$existing = $this->get_matching_group_by_name( $group_data );
-				if ( $existing !== false ) {
-					return $this->get_matching_group( $file_group_id, $existing, $group_data );
-				}
-			}
+		$existing = $file_group_id > 0 ? $this->groups->get( $file_group_id ) : false;
+		if ( $existing !== false ) {
+			$this->group_map[ $file_group_id ] = $existing;
+			return $existing;
 		}
 
 		if ( $group_data !== null ) {
@@ -106,6 +98,34 @@ class ImportGroup {
 		}
 
 		return $this->create_fallback_group( $file_group_id );
+	}
+
+	/**
+	 * Import a group record from a file and track duplicate handling.
+	 *
+	 * @param int|string $file_group_id Group ID referenced by the file.
+	 * @param array<string, mixed> $group_data Group data from the file.
+	 * @return \Red_Group|ImportPreviewGroup|false
+	 */
+	public function import_group( $file_group_id, array $group_data ) {
+		$file_group_id = intval( $file_group_id, 10 );
+		if ( isset( $this->group_map[ $file_group_id ] ) ) {
+			return $this->group_map[ $file_group_id ];
+		}
+
+		$existing = $file_group_id > 0 ? $this->groups->get( $file_group_id ) : false;
+		if ( $existing !== false ) {
+			return $this->get_matching_group( $file_group_id, $existing, $group_data );
+		}
+
+		if ( $this->duplicate_mode !== 'import' ) {
+			$existing = $this->get_matching_group_by_name( $group_data );
+			if ( $existing !== false ) {
+				return $this->get_matching_group( $file_group_id, $existing, $group_data );
+			}
+		}
+
+		return $this->create_group_from_data( $file_group_id, $group_data );
 	}
 
 	/**

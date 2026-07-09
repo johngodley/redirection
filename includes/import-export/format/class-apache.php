@@ -174,12 +174,17 @@ class Apache extends FormatHandler {
 
 	/**
 	 * @param string $url
+	 * @param bool $preserve_escaped_dots Preserve escaped literal dots.
 	 * @return string
 	 */
-	private function decode_url( $url ) {
+	private function decode_url( $url, $preserve_escaped_dots = false ) {
 		$url = rawurldecode( $url );
 		$url = (string) preg_replace( '@\\\/@', '/', $url );
-		$url = (string) preg_replace( '@\\\\\\.@', '.', $url );
+
+		if ( ! $preserve_escaped_dots ) {
+			$url = (string) preg_replace( '@\\\\\\.@', '.', $url );
+		}
+
 		return $url;
 	}
 
@@ -236,7 +241,7 @@ class Apache extends FormatHandler {
 			return $standard_url;
 		}
 
-		$url = $this->decode_url( $url );
+		$url = $this->decode_url( $url, true );
 
 		if ( $this->is_str_regex( $url ) ) {
 			$has_start = strpos( $url, '^' ) === 0;

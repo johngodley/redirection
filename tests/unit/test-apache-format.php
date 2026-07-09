@@ -118,4 +118,14 @@ class ApacheFormatTest extends TestCase {
 			$item['match_data']
 		);
 	}
+
+	public function testRewriteRulePreservesEscapedLiteralDotsForRegexPatterns() {
+		$apache = new Apache();
+		$item = $apache->get_as_item( 'RewriteRule ^foo\.bar$ /target [R=301,L]' );
+
+		$this->assertEquals( '^/foo\.bar$', $item['url'] );
+		$this->assertTrue( $item['regex'] );
+		$this->assertEquals( [ 'url' => '/target' ], $item['action_data'] );
+		$this->assertEquals( 301, $item['action_code'] );
+	}
 }

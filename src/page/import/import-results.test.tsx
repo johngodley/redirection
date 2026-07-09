@@ -69,7 +69,7 @@ describe( 'ImportResults', () => {
 			expect( screen.getByText( 'Redirect updated' ) ).toBeInTheDocument();
 			expect( screen.getByText( 'Redirect ignored' ) ).toBeInTheDocument();
 			expect( screen.getByText( 'Group created' ) ).toBeInTheDocument();
-			expect( screen.getByText( 'Group ignored' ) ).toBeInTheDocument();
+			expect( screen.getByText( 'Groups ignored' ) ).toBeInTheDocument();
 		}
 	);
 

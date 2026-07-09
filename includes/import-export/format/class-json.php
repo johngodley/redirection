@@ -167,7 +167,7 @@ class Json extends FormatHandler {
 				continue;
 			}
 
-			$group->get_group( intval( $group_data['id'], 10 ), $group_data );
+			$group->import_group( intval( $group_data['id'], 10 ), $group_data );
 		}
 	}
 

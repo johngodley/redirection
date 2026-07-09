@@ -50,7 +50,8 @@ function ImportOptions( {
 			: items;
 	const jsonSections =
 		isFileImport && fileInfo?.format === 'json' && fileInfo.valid && fileInfo.contents ? fileInfo.contents : null;
-	const hasRedirectCsv = isFileImport && fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
+	const hasRedirectCsv =
+		isFileImport && fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
 	const hasApacheImport = isFileImport && fileInfo?.format === 'apache' && fileInfo.valid;
 	const hasRedirectSection = jsonSections
 		? Number( jsonSections.redirects || 0 ) > 0 && selectedSections.includes( 'redirects' )

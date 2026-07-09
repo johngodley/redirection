@@ -25,6 +25,10 @@ function formatFileSize( size: number ) {
 	return `${ ( size / ( 1024 * 1024 ) ).toFixed( 1 ) } MB`;
 }
 
+function getFileSize( data: string ) {
+	return new Blob( [ data ] ).size;
+}
+
 function ExportResults( { lastResult }: ExportResultsProps ) {
 	if ( lastResult === false ) {
 		return null;
@@ -48,7 +52,7 @@ function ExportResults( { lastResult }: ExportResultsProps ) {
 		},
 		{
 			label: __( 'File size', 'redirection' ),
-			value: formatFileSize( new TextEncoder().encode( lastResult.data ).length ),
+			value: formatFileSize( getFileSize( lastResult.data ) ),
 		},
 	];
 	const stats: CardStatItem[] = [];
