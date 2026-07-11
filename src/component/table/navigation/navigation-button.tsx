@@ -16,7 +16,7 @@ function NavigationButton( props: NavigationButtonProps ) {
 	if ( disabled ) {
 		return (
 			<span className="tablenav-pages-navspan button disabled" aria-hidden="true">
-				{ button }
+				<span>{ button }</span>
 			</span>
 		);
 	}

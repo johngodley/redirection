@@ -52,6 +52,11 @@
  * Mobile version of stuff
  */
 @media screen and (max-width: 782px) {
+	.update-notice .button {
+		display: block;
+		margin-top: 8px;
+	}
+
 	.import {
 		select {
 			width: 100%;

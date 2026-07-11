@@ -10,7 +10,7 @@ const CheckColumn = ( props: CheckColumnProps ) => {
 	const { onSelect, disabled, selected } = props;
 
 	return (
-		<td className="manage-column column-cb check-column-red">
+		<th scope="col" className="manage-column column-cb check-column-red">
 			<label className="screen-reader-text" htmlFor="redirection-select-all">
 				{ __( 'Select All', 'redirection' ) }
 			</label>
@@ -21,7 +21,7 @@ const CheckColumn = ( props: CheckColumnProps ) => {
 				checked={ selected }
 				onChange={ ( ev ) => onSelect( ev.target.checked ) }
 			/>
-		</td>
+		</th>
 	);
 };
 
