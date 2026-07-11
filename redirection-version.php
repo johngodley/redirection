@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'REDIRECTION_VERSION' ) ) {
-	define( 'REDIRECTION_VERSION', '5.8.0' );
+	define( 'REDIRECTION_VERSION', '5.9.0' );
 }
 
 if ( ! defined( 'REDIRECTION_BUILD' ) ) {

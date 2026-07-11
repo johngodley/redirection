@@ -1,6 +1,6 @@
 {
 	"name": "redirection",
-	"version": "5.8.0",
+	"version": "5.9.0",
 	"description": "Redirection is a WordPress plugin to manage 301 redirections and keep track of 404 errors without requiring knowledge of Apache .htaccess files.",
 	"main": "redirection.php",
 	"browser": {
@@ -18,7 +18,7 @@
 		"build:analyze": "ANALYZE=true pnpm build",
 		"build:stats": "wp-scripts build --webpack-bundle-analyzer",
 		"doc": "redocly build-docs dev/openapi.yaml -o release/api-doc.html --theme.openapi.nativeScrollbars=true",
-		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images database api actions release/redirection && rm release/redirection/api/*.md",
+		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images database api actions release/redirection && rm release/redirection/rector.php",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
 		"release": "bash dev/release-github.sh",
 		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",
