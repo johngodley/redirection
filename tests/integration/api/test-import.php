@@ -10,6 +10,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 			[ 'import/file/1', 'POST', [] ],
 			[ 'import/plugin', 'GET', [] ],
 			[ 'import/plugin', 'POST', [ 'plugin' => [ 'thing' ] ] ],
+			[ 'import/plugin/thing/preview', 'GET', [] ],
 		];
 	}
 
@@ -22,13 +23,14 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 
 	public function testEditorPermission() {
 		// Everything else is 403
-		$working = [
-			Redirection_Capabilities::CAP_IO_MANAGE => [
-				[ 'import/plugin', 'GET' ],
-				[ 'import/plugin', 'POST' ],
-				[ 'import/file/1', 'POST' ],
-			],
-		];
+			$working = [
+				Redirection_Capabilities::CAP_IO_MANAGE => [
+					[ 'import/plugin', 'GET' ],
+					[ 'import/plugin', 'POST' ],
+					[ 'import/file/1', 'POST' ],
+					[ 'import/plugin/thing/preview', 'GET' ],
+				],
+			];
 
 		$this->setEditor();
 

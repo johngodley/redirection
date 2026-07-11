@@ -22,10 +22,13 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 			[
 				[ 'export/1/csv', 'GET', [] ],
 				[ 'export/redirect', 'GET', [] ],
+				[ 'export/log/preview', 'GET', [ 'format' => 'json' ] ],
 				[ 'export/log/json', 'GET', [] ],
+				[ 'export/404/preview', 'GET', [ 'format' => 'json' ] ],
 				[ 'export/404/json', 'GET', [] ],
 				[ 'export/group/json', 'GET', [] ],
 				[ 'export/bundle', 'GET', [ 'types' => [ 'redirect' ], 'format' => 'json' ] ],
+				[ 'export/bundle/preview', 'GET', [ 'types' => [ 'redirect' ], 'format' => 'json' ] ],
 			]
 		);
 	}
@@ -64,8 +67,14 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$group = $this->callApi( 'export/group/json' );
 		$this->assertEquals( 403, $group->status );
 
+		$log_preview = $this->callApi( 'export/log/preview', [ 'format' => 'json' ] );
+		$this->assertEquals( 403, $log_preview->status );
+
 		$log = $this->callApi( 'export/log/json' );
 		$this->assertEquals( 403, $log->status );
+
+		$error_preview = $this->callApi( 'export/404/preview', [ 'format' => 'json' ] );
+		$this->assertEquals( 403, $error_preview->status );
 
 		$error = $this->callApi( 'export/404/json' );
 		$this->assertEquals( 403, $error->status );
@@ -86,6 +95,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->clear_capability();
 
 		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_LOG_MANAGE ] );
+		$log_preview = $this->callApi( 'export/log/preview', [ 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $log_preview->status );
 		$log = $this->callApi( 'export/log/json' );
 		$this->assertNotEquals( 403, $log->status );
 		$log_bundle = $this->callApi( 'export/bundle', [ 'types' => [ 'log' ], 'format' => 'json' ] );
@@ -95,6 +106,8 @@ class ImportExportCsvTest extends Redirection_Api_Test {
 		$this->clear_capability();
 
 		$this->add_capabilities( [ Redirection_Capabilities::CAP_IO_MANAGE, Redirection_Capabilities::CAP_404_MANAGE ] );
+		$error_preview = $this->callApi( 'export/404/preview', [ 'format' => 'json' ] );
+		$this->assertNotEquals( 403, $error_preview->status );
 		$error = $this->callApi( 'export/404/json' );
 		$this->assertNotEquals( 403, $error->status );
 		$error_bundle = $this->callApi( 'export/bundle', [ 'types' => [ '404' ], 'format' => 'json' ] );
