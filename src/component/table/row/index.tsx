@@ -97,7 +97,12 @@ function RowColumns( props: RowColumnsProps ) {
 				{ columns
 					.filter( ( column ) => displaySelected.includes( column.name ) || column.alwaysDisplay === true )
 					.map( ( column ) => (
-						<td key={ column.name } className={ `column-${ column.name }` }>
+						<td
+							key={ column.name }
+							className={ clsx( `column-${ column.name }`, {
+								'column-primary': column.name === primary?.name,
+							} ) }
+						>
 							{ column.content }
 
 							{ column.name === ( primary ? primary.name : columns[ 0 ]?.name ) && actions }

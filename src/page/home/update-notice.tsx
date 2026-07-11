@@ -17,7 +17,7 @@ function UpdateNotice() {
 	}
 
 	return (
-		<Notice>
+		<Notice className="update-notice">
 			<p>
 				{ createInterpolateElement(
 					sprintf(

@@ -88,24 +88,26 @@ const Table = ( props: TableProps ) => {
 	} );
 
 	return (
-		<table className={ classes }>
-			<thead>{ header }</thead>
+		<div className="redirect-table-wrapper">
+			<table className={ classes }>
+				<thead>{ header }</thead>
 
-			<tbody>
-				<TableRows
-					rows={ rows }
-					table={ table }
-					headers={ headers }
-					status={ status }
-					getRow={ getRow }
-					getRowActions={ getRowActions }
-					{ ...( onSelect ? { onSelect } : {} ) }
-					saving={ saving }
-				/>
-			</tbody>
+				<tbody>
+					<TableRows
+						rows={ rows }
+						table={ table }
+						headers={ headers }
+						status={ status }
+						getRow={ getRow }
+						getRowActions={ getRowActions }
+						{ ...( onSelect ? { onSelect } : {} ) }
+						saving={ saving }
+					/>
+				</tbody>
 
-			<tfoot>{ header }</tfoot>
-		</table>
+				<tfoot>{ header }</tfoot>
+			</table>
+		</div>
 	);
 };
 

@@ -155,3 +155,28 @@
 		margin: 0;
 	}
 }
+
+@media screen and (max-width: 782px) {
+	.redirect-edit tbody tr:not(:last-child) td {
+		padding-bottom: 12px;
+	}
+
+	.redirect-edit tbody tr.redirect-edit__source td {
+		> .wpl-popover__toggle {
+			flex: 1 0 100%;
+			margin-right: 0;
+			margin-top: 8px;
+			width: 100%;
+		}
+
+		.wpl-multioption__button {
+			justify-content: flex-start;
+			max-width: none;
+			width: 100%;
+
+			svg {
+				margin-left: auto;
+			}
+		}
+	}
+}
