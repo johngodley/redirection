@@ -20,6 +20,10 @@
 	},
 	"scripts": {
 		"analyse": "@php ./vendor/bin/phpstan analyse --no-interaction --configuration=phpstan.neon $*",
+		"analyse-min": "@php ./vendor/bin/phpstan analyse --no-interaction --configuration=phpstan.neon $*",
+		"analyse-max": "@php ./vendor/bin/phpstan analyse --no-interaction --configuration=phpstan-max.neon $*",
+		"check-max": "@php ./vendor/bin/rector process --dry-run --config=rector-max.php --no-progress-bar",
+		"fix-max": "@php ./vendor/bin/rector process --config=rector-max.php --no-progress-bar",
 		"checks": "composer lint; composer analyse",
 		"baseline": "vendor/bin/phpstan analyse --configuration phpstan.neon  --generate-baseline",
 		"lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n",
