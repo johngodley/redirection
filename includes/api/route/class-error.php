@@ -1,5 +1,11 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Filtered;
+use WP_REST_Request;
+use WP_REST_Server;
+
 /**
  * @phpstan-type Log404Response array{
  *   items: list<array<string, mixed>|object>,
@@ -8,7 +14,7 @@
  *
  * 404 API endpoint
  */
-class Redirection_Api_404 extends Redirection_Api_Filter_Route {
+class Error extends Filtered {
 	/**
 	 * 404 API endpoint constructor
 	 *
@@ -66,7 +72,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_404_MANAGE );
 	}
 
 	/**
@@ -76,7 +82,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 	 * @return bool
 	 */
 	public function permission_callback_delete( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_DELETE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_404_DELETE );
 	}
 
 	/**
@@ -103,7 +109,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 
 			foreach ( $items as $item ) {
 				if ( is_numeric( $item ) ) {
-					Red_404_Log::delete( intval( $item, 10 ) );
+					\Red_404_Log::delete( intval( $item, 10 ) );
 				} elseif ( isset( $params['groupBy'] ) ) {
 					$group_by = sanitize_text_field( $params['groupBy'] );
 					$delete_by = 'url-exact';
@@ -112,7 +118,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 						$delete_by = $group_by;
 					}
 
-					Red_404_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
+					\Red_404_Log::delete_all( [ 'filterBy' => [ $delete_by => $item ] ] );
 				}
 			}
 
@@ -120,7 +126,7 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 				unset( $params['groupBy'] );
 			}
 		} elseif ( isset( $params['global'] ) && $params['global'] !== false ) {
-			Red_404_Log::delete_all( $params );
+			\Red_404_Log::delete_all( $params );
 		}
 
 		return $this->get_404( $params );
@@ -139,9 +145,9 @@ class Redirection_Api_404 extends Redirection_Api_Filter_Route {
 				$group_by = 'url';
 			}
 
-			return Red_404_Log::get_grouped( $group_by, $params );
+			return \Red_404_Log::get_grouped( $group_by, $params );
 		}
 
-		return Red_404_Log::get_filtered( $params );
+		return \Red_404_Log::get_filtered( $params );
 	}
 }

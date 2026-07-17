@@ -1,7 +1,11 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database\Upgrader;
+
 // Note: not localised as the messages aren't important enough
-class Red_Database_231 extends Red_Database_Upgrader {
+class Upgrade231 extends Upgrader {
 	/**
 	 * @return array<string, string>
 	 */

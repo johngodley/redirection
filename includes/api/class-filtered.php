@@ -1,6 +1,12 @@
 <?php
 
-class Redirection_Api_Filter_Route extends Redirection_Api_Route {
+namespace Redirection\Api;
+
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
+
+class Filtered extends Route {
 	/**
 	 * Validate filter param against allowed fields
 	 *
@@ -64,7 +70,7 @@ class Redirection_Api_Filter_Route extends Redirection_Api_Route {
 		// Use a fallback value if the class doesn't exist
 		$max_per_page = 200; // Default fallback value
 		if ( class_exists( 'Red_Item' ) ) {
-			$max_per_page = Red_Item::MAX_PER_PAGE;
+			$max_per_page = \Red_Item::MAX_PER_PAGE;
 		}
 
 		return [

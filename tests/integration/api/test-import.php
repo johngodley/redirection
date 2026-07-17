@@ -1,5 +1,6 @@
 <?php
 
+use Redirection\Database\Database;
 use Redirection\ImportExport\Importer\PluginRegistry;
 use Redirection\ImportExport\Importer\SafeRedirectManager;
 use Redirection\ImportExport\Importer\WordpressOldSlugs;
@@ -173,7 +174,7 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 	public function testPluginImportWithNoGroups() {
 		global $wpdb;
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 
 		try {
 			$wpdb->query( "TRUNCATE {$wpdb->prefix}redirection_groups" );

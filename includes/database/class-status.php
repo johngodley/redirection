@@ -1,5 +1,7 @@
 <?php
 
+namespace Redirection\Database;
+
 /**
  * @phpstan-type DatabaseStatus array{
  *   status: string|false,
@@ -14,7 +16,7 @@
  *   complete?: int|float
  * }
  */
-class Red_Database_Status {
+class Status {
 	// Used in < 3.7 versions of Redirection, but since migrated to general settings
 	const OLD_DB_VERSION = 'redirection_version';
 	const DB_UPGRADE_STAGE = 'database_stage';
@@ -90,7 +92,7 @@ class Red_Database_Status {
 	 * @return void
 	 */
 	public function load_stage(): void {
-		$settings = Red_Options::get();
+		$settings = \Red_Options::get();
 
 		if ( isset( $settings[ self::DB_UPGRADE_STAGE ] ) ) {
 			$stage_data = $settings[ self::DB_UPGRADE_STAGE ];
@@ -118,7 +120,7 @@ class Red_Database_Status {
 	 * @return bool true if needs installing, false otherwise
 	 */
 	public function needs_installing(): bool {
-		$settings = Red_Options::get();
+		$settings = \Red_Options::get();
 
 		if ( $settings['database'] === '' && $this->get_old_version() === false ) {
 			return true;
@@ -152,7 +154,7 @@ class Red_Database_Status {
 	 * @return string Current database version
 	 */
 	public function get_current_version(): string {
-		$settings = Red_Options::get();
+		$settings = \Red_Options::get();
 
 		if ( $settings['database'] !== '' ) {
 			if ( $settings['database'] === '+OK' ) {
@@ -190,7 +192,7 @@ class Red_Database_Status {
 	 * @return void
 	 */
 	public function check_tables_exist(): void {
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$missing = $latest->get_missing_tables();
 
 		// No tables installed - do a fresh install
@@ -246,7 +248,7 @@ class Red_Database_Status {
 			}
 		}
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$this->debug = array_merge( $this->debug, $latest->get_table_schema() );
 		$this->debug[] = 'Stage: ' . $this->get_current_stage();
 	}
@@ -416,7 +418,7 @@ class Red_Database_Status {
 	/**
 	 * Set the status information for a database upgrade
 	 *
-	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @param Upgrade[] $upgrades List of upgrade versions.
 	 * @return void
 	 */
 	public function start_install( array $upgrades ) {
@@ -427,7 +429,7 @@ class Red_Database_Status {
 	/**
 	 * Start database upgrade process
 	 *
-	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @param Upgrade[] $upgrades List of upgrade versions.
 	 * @return void
 	 */
 	public function start_upgrade( array $upgrades ) {
@@ -438,14 +440,14 @@ class Red_Database_Status {
 	/**
 	 * Set upgrade stages
 	 *
-	 * @param Red_Database_Upgrade[] $upgrades List of upgrade versions.
+	 * @param Upgrade[] $upgrades List of upgrade versions.
 	 * @return void
 	 */
 	private function set_stages( array $upgrades ) {
 		$this->stages = [];
 
 		foreach ( $upgrades as $upgrade ) {
-			$upgrader = Red_Database_Upgrader::get( $upgrade );
+			$upgrader = Upgrader::get( $upgrade );
 			$this->stages = array_merge( $this->stages, array_keys( $upgrader->get_stages() ) );
 		}
 
@@ -485,11 +487,11 @@ class Red_Database_Status {
 	 */
 	private function get_manual_upgrade(): array {
 		$queries = [];
-		$database = new Red_Database();
+		$database = new Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), false );
 
 		foreach ( $upgraders as $upgrade ) {
-			$upgrade = Red_Database_Upgrader::get( $upgrade );
+			$upgrade = Upgrader::get( $upgrade );
 
 			$stages = $upgrade->get_stages();
 			foreach ( array_keys( $stages ) as $stage ) {
@@ -505,7 +507,7 @@ class Red_Database_Status {
 	 * @return string|false
 	 */
 	private function get_next_stage( string $stage ) {
-		$database = new Red_Database();
+		$database = new Database();
 		$upgraders = $database->get_upgrades_for_version( $this->get_current_version(), $this->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
@@ -516,7 +518,7 @@ class Red_Database_Status {
 			return false;
 		}
 
-		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
+		$upgrader = Upgrader::get( $upgraders[0] );
 
 		// Where are we in this?
 		$pos = array_search( $stage, $this->stages, true );
@@ -559,7 +561,7 @@ class Red_Database_Status {
 	 */
 	private function clear_cache(): void {
 		// Clear Red_Options in-memory cache
-		Red_Options::reset();
+		\Red_Options::reset();
 
 		// Clear WordPress object cache if available
 		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) && function_exists( 'wp_cache_flush' ) ) {

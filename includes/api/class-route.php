@@ -1,6 +1,11 @@
 <?php
 
-class Redirection_Api_Route {
+namespace Redirection\Api;
+
+use WP_Error;
+use WP_REST_Request;
+
+class Route {
 	/**
 	 * Add DB error details to a WP_Error
 	 *
@@ -33,7 +38,7 @@ class Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_PLUGIN );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_PLUGIN );
 	}
 
 	/**

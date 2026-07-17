@@ -1,5 +1,12 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Filtered;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
+
 /**
  * Group API endpoint
  *
@@ -8,7 +15,7 @@
  *   total: int
  * }
  */
-class Redirection_Api_Group extends Redirection_Api_Filter_Route {
+class Group extends Filtered {
 	/**
 	 * 404 API endpoint constructor
 	 *
@@ -92,7 +99,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_MANAGE ) || Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_GROUP_MANAGE ) || \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_REDIRECT_MANAGE );
 	}
 
 	/**
@@ -103,7 +110,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 */
 	public function permission_callback_bulk( WP_REST_Request $request ) {
 		if ( $request['bulk'] === 'delete' ) {
-			return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_DELETE );
+			return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_GROUP_DELETE );
 		}
 
 		return $this->permission_callback_add( $request );
@@ -116,7 +123,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 * @return bool
 	 */
 	public function permission_callback_add( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_ADD );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_GROUP_ADD );
 	}
 
 	/**
@@ -149,7 +156,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 * @return GroupListResponse
 	 */
 	public function route_list( WP_REST_Request $request ) {
-		return Red_Group::get_filtered( $request->get_params() ); // @phpstan-ignore-line
+		return \Red_Group::get_filtered( $request->get_params() ); // @phpstan-ignore-line
 	}
 
 	/**
@@ -171,10 +178,10 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 			$module = intval( $params['moduleId'], 10 );
 		}
 
-		$group = Red_Group::create( $name, $module );
+		$group = \Red_Group::create( $name, $module );
 
 		if ( $group !== false ) {
-			return Red_Group::get_filtered( $params ); // @phpstan-ignore-line
+			return \Red_Group::get_filtered( $params ); // @phpstan-ignore-line
 		}
 
 		return $this->add_error_details( new WP_Error( 'redirect_group_invalid', 'Invalid group or parameters' ), __LINE__ );
@@ -188,7 +195,7 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 	 */
 	public function route_update( WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$group = Red_Group::get( intval( $request['id'], 10 ) );
+		$group = \Red_Group::get( intval( $request['id'], 10 ) );
 
 		if ( $group !== false ) {
 			$result = $group->update( $params );
@@ -217,12 +224,12 @@ class Redirection_Api_Group extends Redirection_Api_Filter_Route {
 			$items = $params['items'];
 		} elseif ( isset( $params['global'] ) && $params['global'] !== false ) {
 			// Groups have additional actions that fire and so we need to action them individually
-			$groups = Red_Group::get_all( $params );
+			$groups = \Red_Group::get_all( $params );
 			$items = array_column( $groups, 'id' );
 		}
 
 		foreach ( $items as $item ) {
-			$group = Red_Group::get( intval( $item, 10 ) );
+			$group = \Red_Group::get( intval( $item, 10 ) );
 
 			if ( is_object( $group ) ) {
 				if ( $action === 'delete' ) {

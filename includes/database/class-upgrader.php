@@ -1,8 +1,10 @@
 <?php
 
-require_once __DIR__ . '/database-upgrade.php';
+namespace Redirection\Database;
 
-abstract class Red_Database_Upgrader {
+use Redirection\Database\Schema\Latest;
+
+abstract class Upgrader {
 	/**
 	 * @var list<string>
 	 */
@@ -37,10 +39,10 @@ abstract class Red_Database_Upgrader {
 	/**
 	 * Run a particular stage on the current upgrader
 	 *
-	 * @param Red_Database_Status $status
+	 * @param Status $status
 	 * @return void
 	 */
-	public function perform_stage( Red_Database_Status $status ): void {
+	public function perform_stage( Status $status ): void {
 		global $wpdb;
 
 		$stage = $status->get_current_stage();
@@ -48,7 +50,7 @@ abstract class Red_Database_Upgrader {
 			try {
 				$this->invoke_stage( $stage, $wpdb, true );
 				$status->set_ok( $this->get_reason( $stage ) );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				$status->set_error( $e->getMessage() );
 			}
 		} else {
@@ -105,11 +107,12 @@ abstract class Red_Database_Upgrader {
 	/**
 	 * Performs a $wpdb->query, and throws an exception if an error occurs
 	 *
-	 * @param wpdb   $wpdb WordPress database instance.
+	 * @param \wpdb  $wpdb WordPress database instance.
 	 * @param string $sql SQL query.
 	 * @return bool true if query is performed ok, otherwise an exception is thrown
+	 * @throws \Exception When the query fails.
 	 */
-	protected function do_query( wpdb $wpdb, string $sql ): bool {
+	protected function do_query( \wpdb $wpdb, string $sql ): bool {
 		if ( ! $this->live ) {
 			$this->queries[] = $sql;
 			return true;
@@ -121,7 +124,7 @@ abstract class Red_Database_Upgrader {
 
 		if ( $result === false ) {
 			/* translators: 1: SQL string */
-			throw new Exception( sprintf( 'Failed to perform query "%s"', $sql ) ); // phpcs:ignore
+			throw new \Exception( sprintf( 'Failed to perform query "%s"', $sql ) ); // phpcs:ignore
 		}
 
 		return true;
@@ -130,15 +133,17 @@ abstract class Red_Database_Upgrader {
 	/**
 	 * Load a database upgrader class
 	 *
-	 * @param Red_Database_Upgrade $version
-	 * @return Red_Database_Upgrader Database upgrader
+	 * @param Upgrade $version
+	 * @return Upgrader Database upgrader
 	 */
-	public static function get( Red_Database_Upgrade $version ): Red_Database_Upgrader {
-		include_once __DIR__ . '/schema/' . str_replace( [ '..', '/' ], '', $version->get_file() );
-
+	public static function get( Upgrade $version ): Upgrader {
 		$class = $version->get_class();
 
-		return new $class();
+		if ( class_exists( $class ) && is_subclass_of( $class, self::class ) ) {
+			return new $class();
+		}
+
+		return new Latest();
 	}
 
 	/**
@@ -151,11 +156,11 @@ abstract class Red_Database_Upgrader {
 
 	/**
 	 * @param string $stage
-	 * @param wpdb   $wpdb
+	 * @param \wpdb  $wpdb
 	 * @param bool   $live
 	 * @return void
 	 */
-	private function invoke_stage( string $stage, wpdb $wpdb, bool $live ): void {
+	private function invoke_stage( string $stage, \wpdb $wpdb, bool $live ): void {
 		if ( ! method_exists( $this, $stage ) ) {
 			return;
 		}
@@ -165,11 +170,11 @@ abstract class Red_Database_Upgrader {
 		$two_param_methods = [ 'create_groups' ];
 
 		if ( in_array( $stage, $two_param_methods, true ) ) {
-			/** @var callable(wpdb, bool): void $callable */
+			/** @var callable(\wpdb, bool): void $callable */
 			$callable = [ $this, $stage ];
 			call_user_func( $callable, $wpdb, $live );
 		} else {
-			/** @var callable(wpdb): void $callable */
+			/** @var callable(\wpdb): void $callable */
 			$callable = [ $this, $stage ];
 			call_user_func( $callable, $wpdb );
 		}

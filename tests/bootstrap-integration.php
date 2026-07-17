@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Database\Schema\Latest;
+
 /**
  * PHPUnit bootstrap file.
  *
@@ -28,9 +30,9 @@ require_once "{$_tests_dir}/includes/functions.php";
 function _manually_load_plugin() {
 	require PLUGIN_PATH . '/redirection.php';
 	require PLUGIN_PATH . '/redirection-admin.php';
-	require PLUGIN_PATH . '/database/schema/latest.php';
+	require PLUGIN_PATH . '/includes/database/schema/class-latest.php';
 
-	$database = new Red_Latest_Database();
+	$database = new Latest();
 	$database->remove();
 	$database->install();
 }

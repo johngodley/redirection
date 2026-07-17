@@ -1,21 +1,21 @@
 <?php
 
-require_once __DIR__ . '/database-status.php';
-require_once __DIR__ . '/database-upgrade.php';
-require_once __DIR__ . '/database-upgrader.php';
+namespace Redirection\Database;
 
-class Red_Database {
+use Redirection\Database\Schema;
+
+class Database {
 	/**
 	 * Get all upgrades for a database version
 	 *
 	 * @param string $current_version
 	 * @param string|false $current_stage
-	 * @return list<Red_Database_Upgrade> Array of versions from self::get_upgrades()
+	 * @return list<Upgrade> Array of versions from self::get_upgrades()
 	 */
 	public function get_upgrades_for_version( $current_version, $current_stage ) {
-		if ( empty( $current_version ) ) {
+		if ( $current_version === '' ) {
 			return [
-				new Red_Database_Upgrade( REDIRECTION_DB_VERSION, 'latest.php', 'Red_Latest_Database' ),
+				new Upgrade( REDIRECTION_DB_VERSION, Schema\Latest::class ),
 			];
 		}
 
@@ -24,7 +24,7 @@ class Red_Database {
 
 		foreach ( $this->get_upgrades() as $upgrade ) {
 			if ( ! $found ) {
-				$upgrader = Red_Database_Upgrader::get( $upgrade );
+				$upgrader = Upgrader::get( $upgrade );
 
 				$stage_present = is_string( $current_stage ) && in_array( $current_stage, array_keys( $upgrader->get_stages() ), true );
 				$same_version = $current_stage === false && version_compare( $upgrade->get_version(), $current_version, 'gt' );
@@ -45,9 +45,10 @@ class Red_Database {
 	/**
 	 * Apply a particular upgrade stage
 	 *
+	 * @param Status $status Database status.
 	 * @return void
 	 */
-	public function apply_upgrade( Red_Database_Status $status ) {
+	public function apply_upgrade( Status $status ) {
 		$upgraders = $this->get_upgrades_for_version( $status->get_current_version(), $status->get_current_stage() );
 
 		if ( count( $upgraders ) === 0 ) {
@@ -64,7 +65,7 @@ class Red_Database {
 		}
 
 		// Look at first upgrade
-		$upgrader = Red_Database_Upgrader::get( $upgraders[0] );
+		$upgrader = Upgrader::get( $upgraders[0] );
 
 		// Perform the upgrade
 		$upgrader->perform_stage( $status );
@@ -108,31 +109,29 @@ class Red_Database {
 	/**
 	 * Get latest database installer
 	 *
-	 * @return Red_Latest_Database Red_Latest_Database
+	 * @return Schema\Latest Latest database installer.
 	 */
 	public static function get_latest_database() {
-		include_once __DIR__ . '/schema/latest.php';
-
-		return new Red_Latest_Database();
+		return new Schema\Latest();
 	}
 
 	/**
-	 * List of all upgrades and their associated file
+	 * List of all upgrades
 	 *
-	 * @return list<Red_Database_Upgrade> Database upgrade array
+	 * @return list<Upgrade> Database upgrade array
 	 */
 	public function get_upgrades() {
 		return [
-			new Red_Database_Upgrade( '2.0.1', '201.php', 'Red_Database_201' ),
-			new Red_Database_Upgrade( '2.1.16', '216.php', 'Red_Database_216' ),
-			new Red_Database_Upgrade( '2.2', '220.php', 'Red_Database_220' ),
-			new Red_Database_Upgrade( '2.3.1', '231.php', 'Red_Database_231' ),
-			new Red_Database_Upgrade( '2.3.2', '232.php', 'Red_Database_232' ),
-			new Red_Database_Upgrade( '2.3.3', '233.php', 'Red_Database_233' ),
-			new Red_Database_Upgrade( '2.4', '240.php', 'Red_Database_240' ),
-			new Red_Database_Upgrade( '4.0', '400.php', 'Red_Database_400' ),
-			new Red_Database_Upgrade( '4.1', '410.php', 'Red_Database_410' ),
-			new Red_Database_Upgrade( '4.2', '420.php', 'Red_Database_420' ),
+			new Upgrade( '2.0.1', Schema\Upgrade201::class ),
+			new Upgrade( '2.1.16', Schema\Upgrade216::class ),
+			new Upgrade( '2.2', Schema\Upgrade220::class ),
+			new Upgrade( '2.3.1', Schema\Upgrade231::class ),
+			new Upgrade( '2.3.2', Schema\Upgrade232::class ),
+			new Upgrade( '2.3.3', Schema\Upgrade233::class ),
+			new Upgrade( '2.4', Schema\Upgrade240::class ),
+			new Upgrade( '4.0', Schema\Upgrade400::class ),
+			new Upgrade( '4.1', Schema\Upgrade410::class ),
+			new Upgrade( '4.2', Schema\Upgrade420::class ),
 		];
 	}
 }

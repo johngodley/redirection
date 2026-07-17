@@ -1,6 +1,12 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Route as BaseRoute;
 use Redirection\ImportExport\ExportService;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
 
 /**
  * @phpstan-type ExportResponse array{
@@ -12,7 +18,7 @@ use Redirection\ImportExport\ExportService;
  *   estimated_size: int
  * }
  */
-class Redirection_Api_Export extends Redirection_Api_Route {
+class Export extends BaseRoute {
 	/**
 	 * Export API endpoint constructor
 	 *
@@ -148,7 +154,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_IO_MANAGE );
 	}
 
 	/**
@@ -173,7 +179,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 */
 	public function permission_callback_log_export( WP_REST_Request $request ) {
 		return $this->permission_callback_manage( $request ) &&
-			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE );
+			\Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_LOG_MANAGE );
 	}
 
 	/**
@@ -182,7 +188,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 */
 	public function permission_callback_404_export( WP_REST_Request $request ) {
 		return $this->permission_callback_manage( $request ) &&
-			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE );
+			\Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_404_MANAGE );
 	}
 
 	/**
@@ -199,11 +205,11 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 				return false;
 			}
 
-			if ( $type === 'log' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
+			if ( $type === 'log' && ! \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
 				return false;
 			}
 
-			if ( $type === '404' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE ) ) {
+			if ( $type === '404' && ! \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_404_MANAGE ) ) {
 				return false;
 			}
 
@@ -294,7 +300,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return ExportPreviewResponse
 	 */
 	public function route_log_preview( WP_REST_Request $request ) {
-		return Red_Redirect_Log::get_export_preview( $this->get_log_preview_format( $request ) );
+		return \Red_Redirect_Log::get_export_preview( $this->get_log_preview_format( $request ) );
 	}
 
 	/**
@@ -303,7 +309,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 */
 	public function route_log_export( WP_REST_Request $request ) {
 		return $this->get_log_export_response(
-			Red_Redirect_Log::class,
+			\Red_Redirect_Log::class,
 			sanitize_text_field( strval( $request['format'] ) ),
 			$request
 		);
@@ -332,7 +338,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return ExportPreviewResponse
 	 */
 	public function route_404_preview( WP_REST_Request $request ) {
-		return Red_404_Log::get_export_preview( $this->get_log_preview_format( $request ) );
+		return \Red_404_Log::get_export_preview( $this->get_log_preview_format( $request ) );
 	}
 
 	/**
@@ -341,7 +347,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 */
 	public function route_404_export( WP_REST_Request $request ) {
 		return $this->get_log_export_response(
-			Red_404_Log::class,
+			\Red_404_Log::class,
 			sanitize_text_field( strval( $request['format'] ) ),
 			$request
 		);
@@ -420,7 +426,7 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	}
 
 	/**
-	 * @param class-string<Red_Log> $log_class
+	 * @param class-string<\Red_Log> $log_class
 	 * @param string $format
 	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return ExportResponse|WP_Error
@@ -622,15 +628,15 @@ class Redirection_Api_Export extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	private function can_manage_groups() {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_MANAGE ) ||
-			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_REDIRECT_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_GROUP_MANAGE ) ||
+			\Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_REDIRECT_MANAGE );
 	}
 
 	/**
 	 * @return bool
 	 */
 	private function can_manage_settings() {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
-			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			\Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_SITE_MANAGE );
 	}
 }

@@ -1,7 +1,12 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database\Database;
+use Redirection\Database\Upgrader;
+
 // Note: not localised as the messages aren't important enough
-class Red_Database_233 extends Red_Database_Upgrader {
+class Upgrade233 extends Upgrader {
 	/**
 	 * @return array<string, string>
 	 */
@@ -18,7 +23,7 @@ class Red_Database_233 extends Red_Database_Upgrader {
 	protected function fix_invalid_groups_233( $wpdb ) {
 		$this->do_query( $wpdb, "UPDATE {$wpdb->prefix}redirection_groups SET module_id=1 WHERE module_id > 2" );
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		return $latest->create_groups( $wpdb );
 	}
 }
