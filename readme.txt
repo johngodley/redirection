@@ -18,7 +18,7 @@ It has been a WordPress plugin for over 10 years and has been recommended countl
 
 Full documentation can be found at [https://redirection.me](https://redirection.me)
 
-Redirection is compatible with PHP from 7.4 to 8.4.
+Redirection is compatible with PHP from 7.4 to 8.5.
 
 = Redirect manager =
 

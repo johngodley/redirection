@@ -556,10 +556,10 @@ class ExportService {
 			return '';
 		}
 
-		fputcsv( $stdout, $header );
+		fputcsv( $stdout, $header, ',', '"', '\\' );
 
 		foreach ( $rows as $row ) {
-			fputcsv( $stdout, array_map( [ $sanitizer, 'escape' ], $row ) );
+			fputcsv( $stdout, array_map( [ $sanitizer, 'escape' ], $row ), ',', '"', '\\' );
 		}
 
 			rewind( $stdout );

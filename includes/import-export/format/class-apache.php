@@ -313,7 +313,7 @@ class Apache extends FormatHandler {
 		}
 
 		$tmp = substr( $tmp, 0, -2 );
-		if ( $tmp === '' || $tmp === false ) {
+		if ( $tmp === '' ) {
 			return '/';
 		}
 

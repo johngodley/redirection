@@ -74,8 +74,16 @@ jobs:
         run: composer run-script lint
 
   static-analysis:
-    name: Static Analysis (PHPStan)
+    name: Static Analysis (PHPStan, PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: '7.4'
+            analyse-script: analyse-min
+          - php-version: '8.5'
+            analyse-script: analyse-max
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -94,7 +102,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-version }}
           coverage: none
           tools: composer
 
@@ -118,11 +126,50 @@ jobs:
         run: pnpm build
 
       - name: Run PHPStan
-        run: composer run-script analyse
+        run: composer run-script ${{ matrix.analyse-script }}
+
+  php-max-compat:
+    name: PHP Max Compatibility Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+          tools: composer
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHP max compatibility checks
+        run: composer run-script check-max
 
   test-php-integration:
-    name: PHP Integration Tests
+    name: PHP Integration Tests (PHP ${{ matrix.php-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - '7.4'
+          - '8.5'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -141,7 +188,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-version }}
           extensions: mysqli
           coverage: none
           tools: composer, phpunit
