@@ -183,7 +183,7 @@ class Csv extends FormatHandler {
 		$count = 0;
 		$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
 
-		while ( $csv !== false ) {
+		while ( is_array( $csv ) ) {
 			/** @var array<int, string> $csv */
 			$csv = array_map(
 				static function ( $value ) {
