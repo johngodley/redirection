@@ -6,9 +6,7 @@ return RectorConfig::configure()
 	->withPaths(
 		[
 			__DIR__ . '/actions',
-			__DIR__ . '/api',
-			__DIR__ . '/database',
-			__DIR__ . '/includes/import-export',
+			__DIR__ . '/includes',
 			__DIR__ . '/matches',
 			__DIR__ . '/models',
 			__DIR__ . '/modules',

@@ -60,19 +60,6 @@ require_once __DIR__ . '/models/header.php';
 require_once __DIR__ . '/models/group.php';
 
 /**
- * Autoload the migrated import/export classes only.
- *
- * This lets us adopt autoloading incrementally for admin/CLI-only paths
- * without changing the rest of the plugin bootstrap in one step.
- *
- * @param string $requested_class Requested class name.
- * @return void
- */
-function redirection_autoload_import_export( $requested_class ) {
-	redirection_autoload_namespace( $requested_class, 'Redirection\\ImportExport\\', __DIR__ . '/includes/import-export/' );
-}
-
-/**
  * Autoload a namespaced class from a plugin directory.
  *
  * @param string $requested_class Requested class name.
@@ -117,7 +104,17 @@ function redirection_autoload_namespace( $requested_class, $prefix, $base_dir ) 
 	}
 }
 
-spl_autoload_register( 'redirection_autoload_import_export' );
+/**
+ * Autoload namespaced Redirection classes from the includes directory.
+ *
+ * @param string $requested_class Requested class name.
+ * @return void
+ */
+function redirection_autoload( $requested_class ) {
+	redirection_autoload_namespace( $requested_class, 'Redirection\\', __DIR__ . '/includes/' );
+}
+
+spl_autoload_register( 'redirection_autoload' );
 
 /**
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.
@@ -185,9 +182,8 @@ function red_is_admin() {
  */
 function red_start_rest() {
 	require_once __DIR__ . '/redirection-admin.php';
-	require_once __DIR__ . '/api/api.php';
 
-	Redirection_Api::init();
+	Redirection\Api\Api::init();
 	Redirection_Admin::init();
 
 	remove_action( 'rest_api_init', 'red_start_rest' );
@@ -202,7 +198,6 @@ function redirection_locale() {
 
 if ( red_is_admin() || red_is_wpcli() ) {
 	require_once __DIR__ . '/redirection-admin.php';
-	require_once __DIR__ . '/api/api.php';
 } else {
 	require_once __DIR__ . '/redirection-front.php';
 }

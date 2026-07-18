@@ -10,9 +10,7 @@ parameters:
         - matches
         - modules
         - includes
-        - database
         - models
-        - api
     excludePaths:
         - vendor
 

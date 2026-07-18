@@ -6,8 +6,6 @@
 	<file>./modules</file>
 	<file>./matches</file>
 	<file>./includes</file>
-	<file>./database</file>
-	<file>./api</file>
 	<file>./redirection-admin.php</file>
 	<file>./redirection-capabilities.php</file>
 	<file>./redirection-front.php</file>

@@ -1,6 +1,8 @@
 <?php
 
-require_once dirname( REDIRECTION_FILE ) . '/database/database.php';
+use Redirection\Database\Database;
+use Redirection\Database\Schema\Latest;
+use Redirection\Database\Status;
 
 /**
  * Diagnostic and repair tool for Redirection plugin
@@ -44,7 +46,7 @@ class Red_Fixer {
 	 * @return DebugInfo
 	 */
 	public function get_debug() {
-		$status = new Red_Database_Status();
+		$status = new Status();
 		$ip = [];
 
 		foreach ( Redirection_Request::get_ip_headers() as $var ) {
@@ -69,8 +71,8 @@ class Red_Fixer {
 	 */
 	public function save_debug( $name, $value ) {
 		if ( $name === 'database' ) {
-			$database = new Red_Database();
-			$status = new Red_Database_Status();
+			$database = new Database();
+			$status = new Status();
 
 			foreach ( $database->get_upgrades() as $upgrade ) {
 				if ( $value === $upgrade->get_version() ) {
@@ -106,7 +108,7 @@ class Red_Fixer {
 					'id' => 'db',
 					'name' => __( 'Database tables', 'redirection' ),
 				],
-				$this->get_database_status( Red_Database::get_latest_database() )
+				$this->get_database_status( Database::get_latest_database() )
 			),
 			[
 				'name' => __( 'Valid groups', 'redirection' ),
@@ -145,7 +147,7 @@ class Red_Fixer {
 	/**
 	 * Get database table status
 	 *
-	 * @param Red_Latest_Database $database Database instance.
+	 * @param Latest $database Database instance.
 	 * @return array{status: string, message: string}
 	 */
 	private function get_database_status( $database ) {
@@ -223,7 +225,7 @@ class Red_Fixer {
 	 * @return bool|WP_Error
 	 */
 	private function fix_db() {
-		$database = Red_Database::get_latest_database();
+		$database = Database::get_latest_database();
 		return $database->install();
 	}
 

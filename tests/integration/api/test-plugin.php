@@ -2,6 +2,8 @@
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+use Redirection\Database\Database;
+
 class RedirectionApiPluginTest extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
@@ -105,7 +107,7 @@ class RedirectionApiPluginTest extends Redirection_Api_Test {
 
 	public function testFixStatus() {
 		global $wpdb;
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$options = Red_Options::get();
 
 		try {

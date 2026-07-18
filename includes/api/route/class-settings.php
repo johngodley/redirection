@@ -1,7 +1,13 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Route as BaseRoute;
+use WP_REST_Request;
+use WP_REST_Server;
+
 /**
- * @phpstan-import-type RedirectionOptions from Red_Options
+ * @phpstan-import-type RedirectionOptions from \Red_Options
  *
  * @phpstan-type SettingsResponse array{
  *   settings: RedirectionOptions,
@@ -19,7 +25,7 @@
  *   warning?: string
  * }
  */
-class Redirection_Api_Settings extends Redirection_Api_Route {
+class Settings extends BaseRoute {
 	/**
 	 * Settings API endpoint constructor
 	 *
@@ -58,8 +64,8 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 		}
 
 		return [
-			'settings' => Red_Options::get(),
-			'groups' => $this->groups_to_json( Red_Group::get_for_select() ),
+			'settings' => \Red_Options::get(),
+			'groups' => $this->groups_to_json( \Red_Group::get_for_select() ),
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
 			'post_types' => red_get_post_types(),
@@ -73,7 +79,7 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) || Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_OPTION_MANAGE ) || \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_SITE_MANAGE );
 	}
 
 	/**
@@ -87,8 +93,8 @@ class Redirection_Api_Settings extends Redirection_Api_Route {
 		$result = true;
 
 		if ( isset( $params['location'] ) && strlen( $params['location'] ) > 0 ) {
-			$module = Red_Module::get( 2 );
-			if ( $module !== false && $module instanceof Apache_Module ) {
+			$module = \Red_Module::get( 2 );
+			if ( $module !== false && $module instanceof \Apache_Module ) {
 				$result = $module->can_save( sanitize_text_field( $params['location'] ) );
 			}
 		}

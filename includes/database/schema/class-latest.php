@@ -1,9 +1,14 @@
 <?php
 
+namespace Redirection\Database\Schema;
+
+use Redirection\Database\Status;
+use Redirection\Database\Upgrader;
+
 /**
  * Latest database schema
  */
-class Red_Latest_Database extends Red_Database_Upgrader {
+class Latest extends Upgrader {
 	/**
 	 * @return array<string, string>
 	 */
@@ -64,7 +69,7 @@ class Red_Latest_Database extends Red_Database_Upgrader {
 		delete_option( 'redirection_root' );
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_options' );
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Status::OLD_DB_VERSION );
 	}
 
 	/**

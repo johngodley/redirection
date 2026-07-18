@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Database\Database;
+
 class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	private function get_endpoints() {
 		return [
@@ -100,7 +102,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testSaveMonitorPostWithNoGroupsFallsBackToZero() {
 		global $wpdb;
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$options = Red_Options::get();
 
 		try {
@@ -252,7 +254,7 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 	public function testLastGroupIdWithNoGroupsFallsBackToZero() {
 		global $wpdb;
 
-		$latest = Red_Database::get_latest_database();
+		$latest = Database::get_latest_database();
 		$options = Red_Options::get();
 
 		try {

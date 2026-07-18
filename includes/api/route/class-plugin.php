@@ -1,12 +1,21 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Route as BaseRoute;
+use Redirection\Database\Database;
+use Redirection\Database\Status;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
+
 /**
  * 'Plugin' functions for Redirection
  *
- * @phpstan-import-type DatabaseStatus from Red_Database_Status
- * @phpstan-import-type FixerJson from Red_Fixer
+ * @phpstan-import-type DatabaseStatus from \Redirection\Database\Status
+ * @phpstan-import-type FixerJson from \Red_Fixer
  */
-class Redirection_Api_Plugin extends Redirection_Api_Route {
+class Plugin extends BaseRoute {
 	/**
 	 * Register REST routes for plugin actions
 	 *
@@ -139,7 +148,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SUPPORT_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_SUPPORT_MANAGE );
 	}
 
 	/**
@@ -150,7 +159,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback_setup( WP_REST_Request $request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
 			$this->permission_callback_manage( $request );
 	}
 
@@ -164,7 +173,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	public function route_status( WP_REST_Request $request ) {
 		include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 
-		$fixer = new Red_Fixer();
+		$fixer = new \Red_Fixer();
 		return $fixer->get_json();
 	}
 
@@ -179,7 +188,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 		include_once dirname( REDIRECTION_FILE ) . '/models/fixer.php';
 
 		$params = $request->get_params();
-		$fixer = new Red_Fixer();
+		$fixer = new \Red_Fixer();
 
 		if ( isset( $params['name'] ) && isset( $params['value'] ) ) {
 			global $wpdb;
@@ -188,7 +197,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 			$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
 			if ( $groups === 0 ) {
-				$group = Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
+				$group = \Red_Group::create( __( 'Redirections', 'redirection' ), 1 );
 
 				if ( $group === false ) {
 					return $this->add_error_details( new WP_Error( 'redirect_group_create_failed', 'Unable to create group' ), __LINE__ );
@@ -215,7 +224,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 			return new WP_Error( 'redirect_delete_multi', 'Multisite installations must delete the plugin from the network admin' );
 		}
 
-		Redirection_Admin::plugin_uninstall();
+		\Redirection_Admin::plugin_uninstall();
 
 		$current = get_option( 'active_plugins' );
 		$plugin_position = array_search( basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), $current, true );
@@ -249,7 +258,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 */
 	public function route_database( WP_REST_Request $request ) {
 		$params = $request->get_params();
-		$status = new Red_Database_Status();
+		$status = new Status();
 		/** @var string|false $upgrade */
 		$upgrade = false;
 
@@ -273,7 +282,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 
 		$should_upgrade = $upgrade === false || $status->get_current_stage() !== false;
 		if ( $should_upgrade ) {
-			$database = new Red_Database();
+			$database = new Database();
 			$database->apply_upgrade( $status );
 		}
 
@@ -286,7 +295,7 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 	 * @return array{success: true}
 	 */
 	public function route_finish() {
-		$status = new Red_Database_Status();
+		$status = new Status();
 		$status->finish();
 
 		return array( 'success' => true );
@@ -321,13 +330,13 @@ class Redirection_Api_Plugin extends Redirection_Api_Route {
 			);
 		}
 
-		$status = new Red_Database_Status();
+		$status = new Status();
 
 		if ( $reason === 'database' ) {
 			$status->save_db_version( $current );
 
 			// After manual database install, ensure default groups are created
-			$latest = Red_Database::get_latest_database();
+			$latest = Database::get_latest_database();
 			$latest->create_groups( $wpdb, true );
 
 			$status->finish();

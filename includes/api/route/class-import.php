@@ -1,7 +1,13 @@
 <?php
 
+namespace Redirection\Api\Route;
+
+use Redirection\Api\Route as BaseRoute;
 use Redirection\ImportExport\ImportService;
 use Redirection\ImportExport\Importer\PluginRegistry;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Server;
 /**
  * @phpstan-type ImportPluginPayload array{
  *    plugin?: string|list<string>,
@@ -24,7 +30,7 @@ use Redirection\ImportExport\Importer\PluginRegistry;
  *  }
  * }
  */
-class Redirection_Api_Import extends Redirection_Api_Route {
+class Import extends BaseRoute {
 	/**
 	 * @param non-falsy-string $api_namespace REST namespace.
 	 */
@@ -119,7 +125,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	public function permission_callback_manage( WP_REST_Request $_request ) {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_IO_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_IO_MANAGE );
 	}
 
 	/**
@@ -211,7 +217,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			'preview' => [],
 		];
 
-		$group = Red_Group::get( $group_id );
+		$group = \Red_Group::get( $group_id );
 		if ( $group === false ) {
 			return $this->add_error_details(
 				new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ),
@@ -271,7 +277,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 			'dry_run' => true,
 		];
 
-		$group = Red_Group::get( $group_id );
+		$group = \Red_Group::get( $group_id );
 		if ( $group === false ) {
 			return $this->add_error_details(
 				new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ),
@@ -334,7 +340,7 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 
 		// JSON imports don't need a group, but all other formats do
 		if ( $extension !== 'json' ) {
-			$group = Red_Group::get( $group_id );
+			$group = \Red_Group::get( $group_id );
 			if ( $group === false ) {
 				return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 			}
@@ -505,15 +511,15 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 				return false;
 			}
 
-			if ( $section === 'groups' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_GROUP_ADD ) ) {
+			if ( $section === 'groups' && ! \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_GROUP_ADD ) ) {
 				return false;
 			}
 
-			if ( $section === 'logs' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
+			if ( $section === 'logs' && ! \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_LOG_MANAGE ) ) {
 				return false;
 			}
 
-			if ( $section === 'errors_404' && ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_404_MANAGE ) ) {
+			if ( $section === 'errors_404' && ! \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_404_MANAGE ) ) {
 				return false;
 			}
 		}
@@ -554,8 +560,8 @@ class Redirection_Api_Import extends Redirection_Api_Route {
 	 * @return bool
 	 */
 	private function can_manage_settings() {
-		return Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
-			Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+		return \Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_OPTION_MANAGE ) ||
+			\Redirection_Capabilities::has_access( \Redirection_Capabilities::CAP_SITE_MANAGE );
 	}
 
 	/**

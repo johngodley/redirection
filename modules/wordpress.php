@@ -1,5 +1,7 @@
 <?php
 
+use Redirection\Database\Status;
+
 /**
  * WordPress redirect module.
  *
@@ -167,7 +169,7 @@ class WordPress_Module extends Red_Module {
 	 */
 	public function log_back_compat( $insert ) {
 		// Remove columns not supported in older versions
-		$status = new Red_Database_Status();
+		$status = new Status();
 
 		if ( ! $status->does_support( '4.2' ) ) {
 			foreach ( [ 'request_data', 'request_method', 'http_code', 'domain', 'redirect_by' ] as $ignore ) {

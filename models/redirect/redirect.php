@@ -5,6 +5,8 @@ require_once __DIR__ . '/redirect-filter.php';
 require_once __DIR__ . '/redirect-options.php';
 require_once __DIR__ . '/redirect-cache.php';
 
+use Redirection\Database\Status;
+
 /**
  * Redirect class
  *
@@ -402,7 +404,7 @@ class Red_Item {
 	 * @return Red_Item[]
 	 */
 	public static function get_for_url( $url ) {
-		$status = new Red_Database_Status();
+		$status = new Status();
 
 		// deprecate
 		if ( $status->does_support( '4.0' ) ) {

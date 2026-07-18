@@ -1,6 +1,10 @@
 <?php
 
-class Red_Database_400 extends Red_Database_Upgrader {
+namespace Redirection\Database\Schema;
+
+use Redirection\Database\Upgrader;
+
+class Upgrade400 extends Upgrader {
 	/**
 	 * @return array<string, string>
 	 */

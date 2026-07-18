@@ -1,5 +1,8 @@
 <?php
 
+use Redirection\Database\Schema\Latest;
+use Redirection\Database\Status;
+
 class LatestDatabaseTest extends WP_UnitTestCase {
 	/**
 	 * Previous database prefix, stored during setUp to restore in tearDown
@@ -44,7 +47,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testInstallClean() {
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 
 		$this->assertTrue( $this->checkTableExists( 'redirection_items' ) );
@@ -54,7 +57,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testInstallExisting() {
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 		$database->install();
 
@@ -68,10 +71,10 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		add_option( 'redirection_post', 'test' );
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
-		add_option( Red_Database_Status::OLD_DB_VERSION, 'test' );
-		red_set_options( [ Red_Database_Status::DB_UPGRADE_STAGE => 'something' ] );
+		add_option( Status::OLD_DB_VERSION, 'test' );
+		red_set_options( [ Status::DB_UPGRADE_STAGE => 'something' ] );
 
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 		$database->remove();
 
@@ -83,14 +86,16 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'redirection_post' ) );
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );
-		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
-		$this->assertFalse( get_option( Red_Database_Status::DB_UPGRADE_STAGE ) );
+		$this->assertFalse( get_option( Status::OLD_DB_VERSION ) );
+
+		$settings = Red_Options::get();
+		$this->assertArrayNotHasKey( Status::DB_UPGRADE_STAGE, $settings );
 	}
 
 	public function testDefaultGroupsClean() {
 		global $wpdb;
 
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 
 		$groups = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_groups" );
@@ -100,7 +105,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 	public function testDefaultGroupsExisting() {
 		global $wpdb;
 
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 		$database->create_groups( $wpdb );
 
@@ -109,25 +114,25 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 	}
 
 	public function testVersion() {
-		delete_option( Red_Database_Status::OLD_DB_VERSION );
+		delete_option( Status::OLD_DB_VERSION );
 
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 
 		$settings = red_get_options();
-		$this->assertFalse( get_option( Red_Database_Status::OLD_DB_VERSION ) );
+		$this->assertFalse( get_option( Status::OLD_DB_VERSION ) );
 		$this->assertEquals( REDIRECTION_DB_VERSION, $settings['database'] );
 	}
 
 	public function testMissingTables() {
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$missing = $database->get_missing_tables();
 
 		$this->assertEquals( 4, count( $missing ) );
 	}
 
 	public function testGetSchema() {
-		$database = new Red_Latest_Database();
+		$database = new Latest();
 		$database->install();
 
 		$schema = $database->get_table_schema();
