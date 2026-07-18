@@ -14,9 +14,6 @@ parameters:
     excludePaths:
         - vendor
 
-    bootstrapFiles:
-        - redirection-version.php
-
     dynamicConstantNames:
         - WP_CLI
 

@@ -430,7 +430,7 @@ class Redirection_Admin {
 				'preload' => $preload,
 				'versions' => implode( "\n", $versions ),
 				'version' => REDIRECTION_VERSION,
-				'build' => REDIRECTION_BUILD,
+				'build' => REDIRECTION_VERSION,
 				'database' => $status->get_json(),
 				'caps' => [
 					'pages' => Redirection_Capabilities::get_available_pages(),
@@ -663,7 +663,7 @@ class Redirection_Admin {
 				);
 				?>
 			</p>
-			<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . rawurlencode( REDIRECTION_VERSION ) . '-' . rawurlencode( REDIRECTION_BUILD ) ); ?></code></p>
+			<p><code><?php echo esc_html( plugin_dir_url( REDIRECTION_FILE ) . 'redirection.js?ver=' . rawurlencode( REDIRECTION_VERSION ) ); ?></code></p>
 			<p><?php esc_html_e( 'Please note that Redirection requires the WordPress REST API to be enabled. If you have disabled this then you won\'t be able to use Redirection', 'redirection' ); ?></p>
 			<p>
 				<?php
