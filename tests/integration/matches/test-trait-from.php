@@ -7,7 +7,9 @@ class FromTraitTest extends WP_UnitTestCase {
 		];
 
 		foreach ( $matches as $klass => $file ) {
-			require_once PLUGIN_PATH . '/matches/' . $file;
+			if ( ! class_exists( $klass, false ) ) {
+				require_once PLUGIN_PATH . '/matches/' . $file;
+			}
 
 			// Test URL when matched
 			$match = new $klass( serialize( [ 'url' => '/url' ] ) );

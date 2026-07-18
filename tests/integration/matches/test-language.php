@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/language.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/language.php';
+}
 
 class LanguageMatchTest extends WP_UnitTestCase {
 	public function testNoData() {

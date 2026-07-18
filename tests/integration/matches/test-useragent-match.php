@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/user-agent.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/user-agent.php';
+}
 
 class UserAgentMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

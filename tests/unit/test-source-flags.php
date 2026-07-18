@@ -2,7 +2,10 @@
 
 require_once PLUGIN_PATH . '/models/url/url-flags.php';
 require_once PLUGIN_PATH . '/models/options.php';
-require_once PLUGIN_PATH . '/redirection-settings.php';
+
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/redirection-settings.php';
+}
 
 use Brain\Monkey\Functions;
 
@@ -156,7 +159,7 @@ class SourceFlagsTest extends TestCase {
 		// Reset the options cache before setting options
 		Red_Options::reset();
 
-		red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
+		\red_set_options( [ 'flag_case' => false, 'flag_trailing' => false, 'flag_query' => 'exact', 'flag_regex' => false ] );
 
 		// Mock get_option again for the get_json_with_defaults call
 		Functions\expect( 'get_option' )

@@ -1,0 +1,105 @@
+<?php
+
+namespace Redirection\Compare;
+
+/**
+ * @phpstan-type LoginMap array{
+ *    logged_in?: string,
+ *    logged_out?: string
+ * }
+ * @phpstan-type LoginResult array{
+ *    logged_in: string,
+ *    logged_out: string
+ * }
+ * @phpstan-type LoginData array{
+ *    logged_in: string,
+ *    logged_out: string
+ * }
+ *
+ * Check whether the user is logged in or out
+ *
+ * @phpstan-extends Compare<LoginMap, LoginResult>
+ */
+class Login extends Compare {
+	/**
+	 * Target URL when logged in.
+	 *
+	 * @var string
+	 */
+	public $logged_in = '';
+
+	/**
+	 * Target URL when logged out.
+	 *
+	 * @var string
+	 */
+	public $logged_out = '';
+
+	public function name() {
+		return __( 'URL and login status', 'redirection' );
+	}
+
+	/**
+	 * @param array $details Match details.
+	 * @param bool  $no_target_url Whether the action has a target URL.
+	 * @phpstan-param LoginMap $details
+	 * @return LoginResult|null
+	 */
+	public function save( array $details, $no_target_url = false ) {
+		if ( $no_target_url ) {
+			return null;
+		}
+
+		return [
+			'logged_in' => isset( $details['logged_in'] ) ? $this->sanitize_url( $details['logged_in'] ) : '',
+			'logged_out' => isset( $details['logged_out'] ) ? $this->sanitize_url( $details['logged_out'] ) : '',
+		];
+	}
+
+	public function is_match( $url ) {
+		return is_user_logged_in();
+	}
+
+	public function get_target_url( $requested_url, $source_url, \Redirection\Url\SourceFlags $flags, $match ) {
+		$target = false;
+
+		if ( $match && $this->logged_in !== '' ) {
+			$target = $this->logged_in;
+		} elseif ( ! $match && $this->logged_out !== '' ) {
+			$target = $this->logged_out;
+		}
+
+		if ( $flags->is_regex() && $target !== false ) {
+			$target = $this->get_target_regex_url( $source_url, $target, $requested_url, $flags );
+		}
+
+		return $target;
+	}
+
+	/**
+	 * @return LoginData
+	 */
+	public function get_data() {
+		return [
+			'logged_in' => $this->logged_in,
+			'logged_out' => $this->logged_out,
+		];
+	}
+
+	/**
+	 * Load the match data into this instance.
+	 *
+	 * @param string|LoginMap $values Match values, as read from the database (plain text, serialized PHP, or parsed array).
+	 * @return void
+	 */
+	public function load( $values ) {
+		if ( is_string( $values ) ) {
+			$values = @unserialize( $values );
+		}
+
+		if ( is_array( $values ) ) {
+			$this->logged_in = $values['logged_in'] ?? '';
+			$this->logged_out = $values['logged_out'] ?? '';
+		}
+	}
+}

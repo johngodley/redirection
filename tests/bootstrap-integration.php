@@ -10,6 +10,11 @@ use Redirection\Database\Schema\Latest;
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 define( 'PLUGIN_PATH', dirname( __DIR__ ) );
+$redirection_refactor = getenv( 'REDIRECTION_REFACTOR' );
+
+if ( $redirection_refactor !== false && $redirection_refactor !== '' && ! defined( 'REDIRECTION_REFACTOR' ) ) {
+	define( 'REDIRECTION_REFACTOR', true );
+}
 
 // Forward custom PHPUnit Polyfills configuration to PHPUnit bootstrap file.
 $_phpunit_polyfills_path = getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' );
@@ -29,7 +34,6 @@ require_once "{$_tests_dir}/includes/functions.php";
  */
 function _manually_load_plugin() {
 	require PLUGIN_PATH . '/redirection.php';
-	require PLUGIN_PATH . '/redirection-admin.php';
 	require PLUGIN_PATH . '/includes/database/schema/class-latest.php';
 
 	$database = new Latest();
