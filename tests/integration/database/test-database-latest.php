@@ -89,7 +89,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( Status::OLD_DB_VERSION ) );
 
 		$settings = Red_Options::get();
-		$this->assertFalse( $settings[ Status::DB_UPGRADE_STAGE ] );
+		$this->assertArrayNotHasKey( Status::DB_UPGRADE_STAGE, $settings );
 	}
 
 	public function testDefaultGroupsClean() {
