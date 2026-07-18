@@ -15,6 +15,8 @@ For full license details see license.txt
 
 define( 'REDIRECTION_DB_VERSION', '4.2' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
+define( 'REDIRECTION_VERSION', '5.9.0' );
+define( 'REDIRECTION_MIN_WP', '6.6' );
 
 if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 	define( 'REDIRECTION_FLYING_SOLO', apply_filters( 'redirection_flying_solo', true ) );
@@ -35,14 +37,6 @@ if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 	}
 
 	return;
-}
-
-// Temporary compatibility for sites serving stale cached code during upgrades.
-// Remove once the 5.8.x transition window has passed.
-if ( file_exists( __DIR__ . '/build/redirection-version.php' ) ) {
-	require_once __DIR__ . '/build/redirection-version.php';
-} else {
-	require_once __DIR__ . '/redirection-version.php';
 }
 
 require_once __DIR__ . '/redirection-settings.php';
