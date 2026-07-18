@@ -87,7 +87,9 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );
 		$this->assertFalse( get_option( Status::OLD_DB_VERSION ) );
-		$this->assertFalse( get_option( Status::DB_UPGRADE_STAGE ) );
+
+		$settings = Red_Options::get();
+		$this->assertFalse( $settings[ Status::DB_UPGRADE_STAGE ] );
 	}
 
 	public function testDefaultGroupsClean() {

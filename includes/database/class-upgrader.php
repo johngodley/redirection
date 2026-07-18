@@ -143,7 +143,7 @@ abstract class Upgrader {
 			return new $class();
 		}
 
-		return new Latest();
+		return new InvalidUpgrader( $class );
 	}
 
 	/**

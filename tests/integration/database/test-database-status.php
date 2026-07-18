@@ -1,8 +1,10 @@
 <?php
 
 use Redirection\Database\Database;
+use Redirection\Database\InvalidUpgrader;
 use Redirection\Database\Schema\Latest;
 use Redirection\Database\Status;
+use Redirection\Database\Upgrade;
 use Redirection\Database\Upgrader;
 
 class DatabaseStatusTest extends WP_UnitTestCase {
@@ -99,6 +101,19 @@ class DatabaseStatusTest extends WP_UnitTestCase {
 		$stage = $status->get_current_stage();
 
 		$this->assertFalse( $stage );
+	}
+
+	public function testInvalidUpgraderIsSurfaced() {
+		$upgrade = new Upgrade( '9.9.9', 'Redirection\\Database\\Schema\\MissingUpgrade' );
+		$upgrader = Upgrader::get( $upgrade );
+
+		$this->assertInstanceOf( InvalidUpgrader::class, $upgrader );
+
+		$status = new Status();
+		$upgrader->perform_stage( $status );
+
+		$this->assertTrue( $status->is_error() );
+		$this->assertStringContainsString( 'MissingUpgrade', $status->get_json()['reason'] );
 	}
 
 	public function testStatusNotRunningNoUpgrade() {
