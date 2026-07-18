@@ -446,34 +446,6 @@ class Redirection_Admin {
 	}
 
 	/**
-	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
-	 *
-	 * @param array<string, mixed> $validate
-	 * @return array<string, mixed>
-	 */
-	public function ip_geo_block( array $validate ): array {
-		$url = Redirection_Request::get_request_url();
-		$override = array(
-			'tools.php?page=redirection.php',
-			'action=red_proxy&rest_path=redirection',
-		);
-
-		foreach ( $override as $path ) {
-			if ( strpos( $url, $path ) !== false ) {
-				return array(
-					'result' => 'passed',
-					'auth' => false,
-					'asn' => false,
-					'code' => false,
-					'ip' => false,
-				);
-			}
-		}
-
-		return $validate;
-	}
-
-	/**
 	 * @return void
 	 */
 	private function run_fixit() {
