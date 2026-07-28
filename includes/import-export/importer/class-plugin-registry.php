@@ -22,6 +22,7 @@ class PluginRegistry {
 		'seopress' => Seopress::class,
 		'slim-seo' => SlimSeo::class,
 		'eps-301-redirects' => Eps301Redirects::class,
+		'yoast-seo' => YoastSeo::class,
 		'fake-redirection' => FakeRedirection::class,
 	);
 
