@@ -569,6 +569,24 @@ class PluginImporterUnitTest extends TestCase {
 		$this->assertSame( 451, $result['action_code'] );
 	}
 
+	public function testYoastSeoImporterMapsServerErrorRedirectsWithEmptyTarget() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'broken/page',
+				'url' => '',
+				'type' => 500,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/broken/page', $result['url'] );
+		$this->assertSame( '', $result['action_data']['url'] );
+		$this->assertSame( 'error', $result['action_type'] );
+		$this->assertSame( 500, $result['action_code'] );
+	}
+
 	public function testYoastSeoImporterRejectsInvalidRows() {
 		$mapper = $this->get_mapper();
 

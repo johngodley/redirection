@@ -265,7 +265,7 @@ class RedirectItemMapper {
 		$target = isset( $redirect['url'] ) ? (string) $redirect['url'] : '';
 		$code = isset( $redirect['type'] ) ? intval( $redirect['type'], 10 ) : 0;
 		$regex = isset( $redirect['format'] ) && $redirect['format'] === 'regex';
-		$is_error = $code > 400 && $code < 500;
+		$is_error = in_array( $code, array( 400, 401, 403, 404, 410, 418, 451, 500, 501, 502, 503, 504 ), true );
 
 		if ( $origin === '' || $code === 0 || ( $target === '' && ! $is_error ) ) {
 			return false;
