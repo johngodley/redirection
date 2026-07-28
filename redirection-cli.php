@@ -112,7 +112,7 @@ class Redirection_Cli extends WP_CLI_Command {
 	 * ## OPTIONS
 	 *
 	 * <name>
-	 * : The plugin name to import from. Supported importers include wp-simple-redirect, seo-redirection, safe-redirect-manager, wordpress-old-slugs, rank-math, quick-redirects, pretty-links, seopress, slim-seo, eps-301-redirects, and fake-redirection.
+	 * : The plugin name to import from. Supported importers include wp-simple-redirect, seo-redirection, safe-redirect-manager, wordpress-old-slugs, rank-math, quick-redirects, pretty-links, seopress, slim-seo, eps-301-redirects, yoast-seo, and fake-redirection.
 	 *
 	 * [--group=<groupid>]
 	 * : The group ID to import into. Defaults to the first available group.

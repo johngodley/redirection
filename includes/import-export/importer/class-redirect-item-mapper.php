@@ -255,4 +255,31 @@ class RedirectItemMapper {
 			'action_code' => $code,
 		);
 	}
+
+	/**
+	 * @param array<string, mixed> $redirect Redirect data.
+	 * @return array<string, mixed>|false
+	 */
+	public function yoast_seo( array $redirect ) {
+		$origin = isset( $redirect['origin'] ) ? (string) $redirect['origin'] : '';
+		$target = isset( $redirect['url'] ) ? (string) $redirect['url'] : '';
+		$code = isset( $redirect['type'] ) ? intval( $redirect['type'], 10 ) : 0;
+		$regex = isset( $redirect['format'] ) && $redirect['format'] === 'regex';
+		$is_error = in_array( $code, array( 400, 401, 403, 404, 410, 418, 451, 500, 501, 502, 503, 504 ), true );
+
+		if ( $origin === '' || $code === 0 || ( $target === '' && ! $is_error ) ) {
+			return false;
+		}
+
+		$source = $regex ? $origin : $this->normalize_source( $origin );
+
+		return array(
+			'url' => $source,
+			'action_data' => array( 'url' => $target === '' ? '' : $this->normalize_target( $target ) ),
+			'regex' => $regex,
+			'match_type' => 'url',
+			'action_type' => $is_error ? 'error' : 'url',
+			'action_code' => $code,
+		);
+	}
 }

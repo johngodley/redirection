@@ -15,6 +15,7 @@ use Redirection\ImportExport\Importer\PluginRegistry;
 use Redirection\ImportExport\Importer\QuickRedirects;
 use Redirection\ImportExport\Importer\RankMath;
 use Redirection\ImportExport\Importer\Simple301;
+use Redirection\ImportExport\Importer\YoastSeo;
 use Redirection\ImportExport\Importer\RedirectItemMapper;
 
 /**
@@ -63,6 +64,7 @@ class PluginImporterUnitTest extends TestCase {
 		require_once PLUGIN_PATH . '/includes/import-export/importer/class-simple301.php';
 		require_once PLUGIN_PATH . '/includes/import-export/importer/class-slim-seo.php';
 		require_once PLUGIN_PATH . '/includes/import-export/importer/class-wordpress-old-slugs.php';
+		require_once PLUGIN_PATH . '/includes/import-export/importer/class-yoast-seo.php';
 	}
 
 	private function get_mapper() {
@@ -475,6 +477,215 @@ class PluginImporterUnitTest extends TestCase {
 
 		$this->assertFalse( $mapper->eps301( 'source/', false, 301 ) );
 		$this->assertFalse( $mapper->eps301( 'source/', '/target/', 0 ) );
+	}
+
+	public function testYoastSeoImporterMapsPlainRedirects() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'old/url',
+				'url' => 'new/url/301',
+				'type' => 301,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/old/url', $result['url'] );
+		$this->assertSame( '/new/url/301', $result['action_data']['url'] );
+		$this->assertFalse( $result['regex'] );
+		$this->assertSame( 301, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterKeepsAbsoluteTarget() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'this/is/the/old/url-here',
+				'url' => 'https://site.com/new/url',
+				'type' => 307,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/this/is/the/old/url-here', $result['url'] );
+		$this->assertSame( 'https://site.com/new/url', $result['action_data']['url'] );
+		$this->assertFalse( $result['regex'] );
+		$this->assertSame( 307, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterKeepsRegexSourceUnchanged() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => '/regex/.*',
+				'url' => 'test2/301',
+				'type' => 301,
+				'format' => 'regex',
+			]
+		);
+
+		$this->assertSame( '/regex/.*', $result['url'] );
+		$this->assertSame( '/test2/301', $result['action_data']['url'] );
+		$this->assertTrue( $result['regex'] );
+		$this->assertSame( 301, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterMapsErrorRedirectsWithEmptyTarget() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'gone/page',
+				'url' => '',
+				'type' => 410,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/gone/page', $result['url'] );
+		$this->assertSame( '', $result['action_data']['url'] );
+		$this->assertSame( 'error', $result['action_type'] );
+		$this->assertSame( 410, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterMapsLegalRedirectsWithEmptyTarget() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'blocked/page',
+				'url' => '',
+				'type' => 451,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/blocked/page', $result['url'] );
+		$this->assertSame( '', $result['action_data']['url'] );
+		$this->assertSame( 'error', $result['action_type'] );
+		$this->assertSame( 451, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterMapsServerErrorRedirectsWithEmptyTarget() {
+		$mapper = $this->get_mapper();
+
+		$result = $mapper->yoast_seo(
+			[
+				'origin' => 'broken/page',
+				'url' => '',
+				'type' => 500,
+				'format' => 'plain',
+			]
+		);
+
+		$this->assertSame( '/broken/page', $result['url'] );
+		$this->assertSame( '', $result['action_data']['url'] );
+		$this->assertSame( 'error', $result['action_type'] );
+		$this->assertSame( 500, $result['action_code'] );
+	}
+
+	public function testYoastSeoImporterRejectsInvalidRows() {
+		$mapper = $this->get_mapper();
+
+		$this->assertFalse(
+			$mapper->yoast_seo(
+				[
+					'origin' => '',
+					'url' => 'target',
+					'type' => 301,
+					'format' => 'plain',
+				]
+			)
+		);
+		$this->assertFalse(
+			$mapper->yoast_seo(
+				[
+					'origin' => 'source',
+					'url' => '',
+					'type' => 301,
+					'format' => 'plain',
+				]
+			)
+		);
+		$this->assertFalse(
+			$mapper->yoast_seo(
+				[
+					'origin' => 'source',
+					'url' => 'target',
+					'type' => 0,
+					'format' => 'plain',
+				]
+			)
+		);
+	}
+
+	public function testYoastSeoImporterMapsOptionRows() {
+		Functions\when( 'get_option' )->justReturn(
+			[
+				[
+					'origin' => 'old/url',
+					'url' => 'new/url/301',
+					'type' => 301,
+					'format' => 'plain',
+				],
+				[
+					'origin' => '/regex/.*',
+					'url' => 'test2/301',
+					'type' => 301,
+					'format' => 'regex',
+				],
+			]
+		);
+
+		$importer = new class() extends YoastSeo {
+			public function get_items() {
+				return $this->get_redirect_items();
+			}
+		};
+
+		$items = $importer->get_items();
+
+		$this->assertCount( 2, $items );
+		$this->assertSame( '/old/url', $items[0]['url'] );
+		$this->assertSame( '/regex/.*', $items[1]['url'] );
+		$this->assertTrue( $items[1]['regex'] );
+	}
+
+	public function testYoastSeoImporterIgnoresMissingOption() {
+		Functions\when( 'get_option' )->justReturn( false );
+
+		$importer = new class() extends YoastSeo {
+			public function get_items() {
+				return $this->get_redirect_items();
+			}
+		};
+
+		$this->assertSame( [], $importer->get_items() );
+		$this->assertFalse( $importer->get_data() );
+	}
+
+	public function testYoastSeoImporterReportsTotalFromOption() {
+		Functions\when( '__' )->returnArg();
+		Functions\when( 'get_option' )->justReturn(
+			[
+				[ 'origin' => 'a', 'url' => 'b', 'type' => 301, 'format' => 'plain' ],
+				[ 'origin' => 'c', 'url' => 'd', 'type' => 302, 'format' => 'plain' ],
+			]
+		);
+
+		$importer = new YoastSeo();
+		$data = $importer->get_data();
+
+		$this->assertSame( 'yoast-seo', $data['id'] );
+		$this->assertSame( 2, $data['total'] );
+		$this->assertTrue( $importer->supports_preview() );
+	}
+
+	public function testPluginImporterRegistryReturnsYoastSeoImporter() {
+		$this->assertInstanceOf( YoastSeo::class, PluginRegistry::get_importer( 'yoast-seo' ) );
 	}
 
 	public function testPreviewPluginResultsReturnsEmptyWhenPreviewNotSupported() {
