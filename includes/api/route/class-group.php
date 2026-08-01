@@ -49,6 +49,19 @@ class Group extends Filtered {
 			]
 		);
 
+		// GET /group/dropdown - Lightweight, unpaginated group list for dropdowns
+		register_rest_route(
+			$api_namespace,
+			'/group/dropdown',
+			[
+				[
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => [ $this, 'route_dropdown' ],
+					'permission_callback' => [ $this, 'permission_callback_manage' ],
+				],
+			]
+		);
+
 		// POST /group/:id - Update group
 		register_rest_route(
 			$api_namespace,
@@ -157,6 +170,16 @@ class Group extends Filtered {
 	 */
 	public function route_list( WP_REST_Request $request ) {
 		return \Red_Group::get_filtered( $request->get_params() ); // @phpstan-ignore-line
+	}
+
+	/**
+	 * Get a lightweight, unpaginated group list for use in dropdowns
+	 *
+	 * @param WP_REST_Request<array<string, mixed>> $request The request.
+	 * @return GroupListResponse
+	 */
+	public function route_dropdown( WP_REST_Request $request ) {
+		return \Red_Group::get_for_dropdown(); // @phpstan-ignore-line
 	}
 
 	/**

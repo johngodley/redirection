@@ -199,14 +199,14 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 	}
 
 	// public function testBulkDisable() {
-	// 	$this->createAB();
-	// 	$group = Red_Group::create( 'test', 1 );
+	//  $this->createAB();
+	//  $group = Red_Group::create( 'test', 1 );
 
-	// 	$result = $this->callApi( 'bulk/group/disable', array( 'items' => $group->get_id() ), 'POST' );
-	// 	$this->assertEquals( 3, count( $result->data['items'] ) );
+	//  $result = $this->callApi( 'bulk/group/disable', array( 'items' => $group->get_id() ), 'POST' );
+	//  $this->assertEquals( 3, count( $result->data['items'] ) );
 
-	// 	$group = Red_Group::get( $group->get_id() );
-	// 	$this->assertFalse( $group->is_enabled() );
+	//  $group = Red_Group::get( $group->get_id() );
+	//  $this->assertFalse( $group->is_enabled() );
 	// }
 
 	public function testBulkEnable() {
@@ -265,5 +265,18 @@ class RedirectionApiGroupTest extends Redirection_Api_Test {
 
 		$result = $this->callApi( 'group', array( 'moduleId' => 2, 'name' => 'yes', 'id' => 0 ), 'POST' );
 		$this->assertEquals( 3, count( $result->data['items'] ) );
+	}
+
+	public function testDropdownNoPermission() {
+		$this->setUnauthorised();
+
+		$this->check_endpoints( [ [ 'group/dropdown', 'GET', [] ] ] );
+	}
+
+	public function testDropdownReturnsAllGroups() {
+		$this->createAB( 30 );
+
+		$result = $this->callApi( 'group/dropdown' );
+		$this->assertEquals( 30, count( $result->data['items'] ) );
 	}
 }

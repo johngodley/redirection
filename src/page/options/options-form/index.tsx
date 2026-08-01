@@ -8,7 +8,7 @@ import UrlOptions from './url-options';
 import './style.scss';
 import { useSettingsUpdate } from 'lib/api/hooks/use-settings';
 import { useSettingsStore } from 'stores';
-import { useGroupList } from 'lib/api/hooks';
+import { useGroupDropdown } from 'lib/api/hooks';
 import { nestedGroups } from 'lib/wordpress-url';
 
 interface GroupOption {
@@ -40,7 +40,7 @@ function OptionsForm() {
 	const installed = useSettingsStore( ( state ) => state.values?.installed ?? '' );
 	const warning = useSettingsStore( ( state ) => state.values?.warning ?? '' );
 	const settingsPostTypes = useSettingsStore( ( state ) => state.values?.postTypes );
-	const { data: groupData } = useGroupList( {} );
+	const { data: groupData } = useGroupDropdown();
 	const groups = ( groupData?.items ? nestedGroups( groupData.items as any ) : [] ) as GroupOption[];
 	const { mutate: updateSettings } = useSettingsUpdate();
 
