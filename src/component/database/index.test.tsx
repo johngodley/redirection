@@ -56,7 +56,10 @@ function createWrapper() {
 	);
 }
 
-// Helper to mock the settings store with database state
+const mockSetDatabase = jest.fn();
+
+// Helper to mock the settings store with database state. Returns the mutable state
+// object so tests can simulate what a later poll "sees" via useSettingsStore.getState().
 function mockDatabaseState( database: Partial< DatabaseState > ) {
 	const state = {
 		database: {
@@ -70,21 +73,28 @@ function mockDatabaseState( database: Partial< DatabaseState > ) {
 			complete: 0,
 			...database,
 		},
+		setDatabase: mockSetDatabase,
 	};
 	mockUseSettingsStore.mockImplementation( ( selector: any ) => {
 		return selector ? selector( state ) : state;
 	} );
+	( mockUseSettingsStore as any ).getState = jest.fn( () => state );
+
+	return state;
 }
 
 describe( 'Database Component', () => {
 	const mockMutate = jest.fn();
+	const mockMutateAsync = jest.fn().mockResolvedValue( undefined );
 
 	beforeEach( () => {
 		jest.clearAllMocks();
 		jest.useFakeTimers();
+		mockMutateAsync.mockResolvedValue( undefined );
 
 		mockUseDatabaseUpgrade.mockReturnValue( {
 			mutate: mockMutate,
+			mutateAsync: mockMutateAsync,
 		} as any );
 	} );
 
@@ -106,7 +116,7 @@ describe( 'Database Component', () => {
 			expect( screen.getByText( 'Setting up Redirection' ) ).toBeInTheDocument();
 		} );
 
-		it( 'should automatically trigger upgrade after delay when work is needed', () => {
+		it( 'should automatically trigger upgrade after delay when work is needed', async () => {
 			mockDatabaseState( {
 				status: 'need-install',
 				result: 'ok',
@@ -116,12 +126,12 @@ describe( 'Database Component', () => {
 
 			render( <Database />, { wrapper: createWrapper() } );
 
-			expect( mockMutate ).not.toHaveBeenCalled();
+			expect( mockMutateAsync ).not.toHaveBeenCalled();
 
 			// Fast-forward time by 1 second (DELAY = 1000)
-			jest.advanceTimersByTime( 1000 );
+			await jest.advanceTimersByTimeAsync( 1000 );
 
-			expect( mockMutate ).toHaveBeenCalledWith( '' );
+			expect( mockMutateAsync ).toHaveBeenCalledWith( '' );
 		} );
 
 		it( 'should show progress bar with correct percentage', () => {
@@ -177,7 +187,7 @@ describe( 'Database Component', () => {
 			expect( screen.getByText( 'Upgrading Redirection' ) ).toBeInTheDocument();
 		} );
 
-		it( 'should automatically trigger upgrade for updates', () => {
+		it( 'should automatically trigger upgrade for updates', async () => {
 			mockDatabaseState( {
 				status: 'need-update',
 				result: 'ok',
@@ -188,9 +198,9 @@ describe( 'Database Component', () => {
 
 			render( <Database />, { wrapper: createWrapper() } );
 
-			jest.advanceTimersByTime( 1000 );
+			await jest.advanceTimersByTimeAsync( 1000 );
 
-			expect( mockMutate ).toHaveBeenCalledWith( '' );
+			expect( mockMutateAsync ).toHaveBeenCalledWith( '' );
 		} );
 	} );
 
@@ -241,7 +251,7 @@ describe( 'Database Component', () => {
 			expect( screen.queryByTestId( 'spinner' ) ).not.toBeInTheDocument();
 		} );
 
-		it( 'should not trigger upgrade when finished', () => {
+		it( 'should not trigger upgrade when finished', async () => {
 			mockDatabaseState( {
 				status: 'finish-install',
 				result: 'ok',
@@ -250,9 +260,9 @@ describe( 'Database Component', () => {
 
 			render( <Database />, { wrapper: createWrapper() } );
 
-			jest.advanceTimersByTime( 1000 );
+			await jest.advanceTimersByTimeAsync( 1000 );
 
-			expect( mockMutate ).not.toHaveBeenCalled();
+			expect( mockMutateAsync ).not.toHaveBeenCalled();
 		} );
 	} );
 
@@ -300,7 +310,7 @@ describe( 'Database Component', () => {
 			expect( screen.queryByTestId( 'spinner' ) ).not.toBeInTheDocument();
 		} );
 
-		it( 'should not trigger upgrade when error occurs', () => {
+		it( 'should not trigger upgrade when error occurs', async () => {
 			mockDatabaseState( {
 				status: 'need-install',
 				result: 'error',
@@ -310,9 +320,9 @@ describe( 'Database Component', () => {
 
 			render( <Database />, { wrapper: createWrapper() } );
 
-			jest.advanceTimersByTime( 1000 );
+			await jest.advanceTimersByTimeAsync( 1000 );
 
-			expect( mockMutate ).not.toHaveBeenCalled();
+			expect( mockMutateAsync ).not.toHaveBeenCalled();
 		} );
 
 		it( 'should call retry mutation with "retry" when retry is clicked', () => {
@@ -427,6 +437,76 @@ describe( 'Database Component', () => {
 			);
 
 			expect( screen.queryByTestId( 'child-content' ) ).not.toBeInTheDocument();
+		} );
+	} );
+
+	describe( 'Polling loop', () => {
+		it( 'should keep polling even when the server reports the same progress twice in a row', async () => {
+			// Regression test: the poll used to be re-armed only when complete/status/result
+			// actually changed value. If the server ever echoed back the same progress twice,
+			// nothing in the effect's dependency array changed, so it silently stopped polling
+			// forever with no error and no further requests.
+			mockDatabaseState( {
+				status: 'need-install',
+				result: 'ok',
+				complete: 50,
+			} );
+
+			render( <Database />, { wrapper: createWrapper() } );
+
+			await jest.advanceTimersByTimeAsync( 1000 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 1 );
+
+			await jest.advanceTimersByTimeAsync( 1000 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 2 );
+
+			await jest.advanceTimersByTimeAsync( 1000 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 3 );
+		} );
+
+		it( 'should report a stuck error after sustained no-progress instead of polling forever', async () => {
+			mockDatabaseState( {
+				status: 'need-install',
+				result: 'ok',
+				complete: 50,
+			} );
+
+			render( <Database />, { wrapper: createWrapper() } );
+
+			// 30 consecutive no-progress polls trip the stuck detector (STUCK_THRESHOLD).
+			await jest.advanceTimersByTimeAsync( 1000 * 31 );
+
+			expect( mockSetDatabase ).toHaveBeenCalledWith(
+				expect.objectContaining( {
+					result: 'error',
+					reason: expect.stringContaining( 'stuck' ),
+				} )
+			);
+
+			// It should have polled up to the threshold, then stopped rather than continuing.
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 30 );
+
+			const callsAtDetection = mockMutateAsync.mock.calls.length;
+			await jest.advanceTimersByTimeAsync( 1000 * 3 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( callsAtDetection );
+		} );
+
+		it( 'should not keep polling after the component unmounts', async () => {
+			mockDatabaseState( {
+				status: 'need-install',
+				result: 'ok',
+				complete: 50,
+			} );
+
+			const { unmount } = render( <Database />, { wrapper: createWrapper() } );
+
+			await jest.advanceTimersByTimeAsync( 1000 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 1 );
+
+			unmount();
+
+			await jest.advanceTimersByTimeAsync( 1000 * 3 );
+			expect( mockMutateAsync ).toHaveBeenCalledTimes( 1 );
 		} );
 	} );
 } );
