@@ -39,6 +39,7 @@ use Redirection\Settings\Settings;
 class Group {
 	const DEFAULT_PER_PAGE = 25;
 	const MAX_PER_PAGE = 200;
+	const DROPDOWN_LIMIT = 1000;
 
 	/**
 	 * Group ID
@@ -422,6 +423,62 @@ class Group {
 		return [
 			'items' => $items,
 			'total' => intval( $total_items, 10 ),
+		];
+	}
+
+	/**
+	 * Get all groups for use in a dropdown/select control
+	 *
+	 * Unlike get_filtered() this doesn't calculate a per-group redirect count, since
+	 * that isn't needed for a dropdown and would mean a query per group.
+	 *
+	 * @return GroupFilteredResult
+	 */
+	public static function get_for_dropdown() {
+		global $wpdb;
+
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, name, module_id, status FROM {$wpdb->prefix}redirection_groups ORDER BY name ASC LIMIT %d",
+				self::DROPDOWN_LIMIT
+			)
+		);
+
+		$options = Settings::get();
+		$items = [];
+
+		foreach ( $rows as $row ) {
+			$group = new Group( $row );
+			$group_json = $group->to_dropdown_json();
+
+			if ( $group->get_id() === $options['last_group_id'] ) {
+				$group_json['default'] = true;
+			}
+
+			$items[] = $group_json;
+		}
+
+		return [
+			'items' => $items,
+			'total' => count( $items ),
+		];
+	}
+
+	/**
+	 * Convert group to a lightweight JSON representation for dropdowns
+	 *
+	 * @return GroupJson
+	 */
+	public function to_dropdown_json() {
+		$module = Module::get( $this->get_module_id() );
+
+		return [
+			'id' => $this->get_id(),
+			'name' => $this->get_name(),
+			'redirects' => 0,
+			'module_id' => $this->get_module_id(),
+			'moduleName' => $module ? $module->get_name() : '',
+			'enabled' => $this->is_enabled(),
 		];
 	}
 
