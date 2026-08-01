@@ -51,6 +51,33 @@ class HtaccessTargetBuilderTest extends TestCase {
 		);
 	}
 
+	public function testBuildErrorTargetUsesForbiddenFlagFor403() {
+		$builder = new HtaccessTargetBuilder( new HtaccessEncoder() );
+
+		$this->assertEquals(
+			'/ [F]',
+			$builder->build( 'error', '/ignored', 403, $this->get_match_data() )
+		);
+	}
+
+	public function testBuildErrorTargetUsesStatusCodeFor404() {
+		$builder = new HtaccessTargetBuilder( new HtaccessEncoder() );
+
+		$this->assertEquals(
+			'- [R=404,L]',
+			$builder->build( 'error', '/ignored', 404, $this->get_match_data() )
+		);
+	}
+
+	public function testBuildErrorTargetUsesStatusCodeForOtherCodes() {
+		$builder = new HtaccessTargetBuilder( new HtaccessEncoder() );
+
+		$this->assertEquals(
+			'- [R=500,L]',
+			$builder->build( 'error', '/ignored', 500, $this->get_match_data() )
+		);
+	}
+
 	public function testBuildPassTargetUsesLastFlag() {
 		$builder = new HtaccessTargetBuilder( new HtaccessEncoder() );
 
