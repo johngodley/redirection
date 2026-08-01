@@ -13,7 +13,7 @@ import MatchType from './match-type';
 import MatchTarget from './match';
 import ActionTarget from './action';
 import { getWarningFromState, Warnings } from './warning';
-import { useRedirectUpdate, useRedirectCreate, useGroupList } from 'lib/api/hooks';
+import { useRedirectUpdate, useRedirectCreate, useGroupDropdown } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore, useMessageStore } from 'stores';
 import {
 	ACTION_URL,
@@ -109,7 +109,7 @@ function EditRedirect( props: EditRedirectProps ) {
 	} = props;
 
 	// Get state from stores and queries
-	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupList( {} );
+	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupDropdown();
 	const groups = useMemo( () => groupData?.items ?? [], [ groupData ] );
 	const addTop = useTableStore( ( state ) => state.redirectsAddTop );
 	const table = useTableStore( ( state ) => state.redirects );

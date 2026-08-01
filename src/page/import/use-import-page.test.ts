@@ -1,12 +1,12 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { useGroupList, useImporterList, useImportRunner } from 'lib/api/hooks';
+import { useGroupDropdown, useImporterList, useImportRunner } from 'lib/api/hooks';
 import { isJsonFile, sniffImportFile } from 'component/import-export/import-sniff';
 import useImportPage from './use-import-page';
 import type { ImportMutationVariables } from 'lib/api/hooks';
 
 jest.mock( 'lib/api/hooks', () => ( {
 	...jest.requireActual( 'lib/api/hooks' ),
-	useGroupList: jest.fn(),
+	useGroupDropdown: jest.fn(),
 	useImporterList: jest.fn(),
 	useImportRunner: jest.fn(),
 } ) );
@@ -17,7 +17,7 @@ jest.mock( 'component/import-export/import-sniff', () => ( {
 	sniffImportFile: jest.fn(),
 } ) );
 
-const mockUseGroupList = useGroupList as jest.MockedFunction< typeof useGroupList >;
+const mockUseGroupDropdown = useGroupDropdown as jest.MockedFunction< typeof useGroupDropdown >;
 const mockUseImporterList = useImporterList as jest.MockedFunction< typeof useImporterList >;
 const mockUseImportRunner = useImportRunner as jest.MockedFunction< typeof useImportRunner >;
 const mockIsJsonFile = isJsonFile as jest.MockedFunction< typeof isJsonFile >;
@@ -71,7 +71,7 @@ describe( 'useImportPage', () => {
 		refetchGroups = jest.fn();
 		confirmSpy = jest.spyOn( window, 'confirm' ).mockImplementation( () => true );
 
-		mockUseGroupList.mockReturnValue( {
+		mockUseGroupDropdown.mockReturnValue( {
 			data: {
 				items: [
 					{ id: 11, name: 'Imported redirects' },
@@ -236,7 +236,7 @@ describe( 'useImportPage', () => {
 	} );
 
 	it( 'refetches groups once when the initial group list is empty', async () => {
-		mockUseGroupList.mockReturnValue( {
+		mockUseGroupDropdown.mockReturnValue( {
 			data: {
 				items: [],
 			},

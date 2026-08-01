@@ -40,6 +40,7 @@ export function useGroupCreate(
 			decrementProgress();
 			addNotice( 'Group created' );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
+			queryClient.invalidateQueries( { queryKey: queryKeys.groups.dropdown() } );
 		},
 		onError: ( error ) => {
 			addError( error.message || 'Failed to create group' );
@@ -74,6 +75,7 @@ export function useGroupUpdate( options?: Omit< UseMutationOptions< Group, Error
 			decrementProgress();
 			addNotice( 'Group saved' );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
+			queryClient.invalidateQueries( { queryKey: queryKeys.groups.dropdown() } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.detail( data.id ) } );
 		},
 		onError: ( error ) => {
@@ -111,6 +113,7 @@ export function useGroupDelete(
 			addNotice( 'Groups deleted' );
 			setGroupsSelected( [] );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
+			queryClient.invalidateQueries( { queryKey: queryKeys.groups.dropdown() } );
 		},
 		onError: ( error ) => {
 			addError( error.message || 'Failed to delete groups' );
@@ -154,6 +157,7 @@ export function useGroupBulkAction(
 			// Reset to first page and clear selections after any bulk action
 			setGroupsTable( { page: 0, selected: [], selectAll: false } );
 			queryClient.invalidateQueries( { queryKey: queryKeys.groups.lists() } );
+			queryClient.invalidateQueries( { queryKey: queryKeys.groups.dropdown() } );
 		},
 		onError: ( error ) => {
 			addError( error.message || 'Failed to perform group action' );

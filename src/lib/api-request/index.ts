@@ -22,6 +22,7 @@ export const RedirectionApi = {
 	},
 	group: {
 		list: ( data: TableParams ) => getApiRequest( 'redirection/v1/group', data ),
+		dropdown: () => getApiRequest( 'redirection/v1/group/dropdown' ),
 		update: ( id: number, data: any ) => postApiRequest( 'redirection/v1/group/' + id, data ),
 		create: ( data: any, query?: TableParams ) => postApiRequest( 'redirection/v1/group', data, query ),
 	},

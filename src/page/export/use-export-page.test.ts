@@ -1,16 +1,16 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { useExport, useExportPreview, useGroupList } from 'lib/api/hooks';
+import { useExport, useExportPreview, useGroupDropdown } from 'lib/api/hooks';
 import useExportPage from './use-export-page';
 
 jest.mock( 'lib/api/hooks', () => ( {
 	...jest.requireActual( 'lib/api/hooks' ),
 	useExport: jest.fn(),
 	useExportPreview: jest.fn(),
-	useGroupList: jest.fn(),
+	useGroupDropdown: jest.fn(),
 } ) );
 const mockUseExport = useExport as jest.MockedFunction< typeof useExport >;
 const mockUseExportPreview = useExportPreview as jest.MockedFunction< typeof useExportPreview >;
-const mockUseGroupList = useGroupList as jest.MockedFunction< typeof useGroupList >;
+const mockUseGroupDropdown = useGroupDropdown as jest.MockedFunction< typeof useGroupDropdown >;
 
 describe( 'useExportPage', () => {
 	let previewTotal = 9;
@@ -25,7 +25,7 @@ describe( 'useExportPage', () => {
 		previewRefetch = jest.fn();
 		exportReset = jest.fn();
 
-		mockUseGroupList.mockReturnValue( {
+		mockUseGroupDropdown.mockReturnValue( {
 			data: {
 				items: [
 					{ id: 11, name: 'Imported redirects', moduleName: 'WordPress' },

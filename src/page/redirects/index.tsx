@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useRedirectList, useGroupList, useRedirectDelete, useRedirectBulkAction, useExport } from 'lib/api/hooks';
+import { useRedirectList, useGroupDropdown, useRedirectDelete, useRedirectBulkAction, useExport } from 'lib/api/hooks';
 import type { ExportRequestVariables } from 'lib/api/hooks';
 import { useTableStore, useSettingsStore } from 'stores';
 import {
@@ -77,7 +77,7 @@ function Redirects() {
 	} );
 
 	// Fetch groups for dropdown - read directly from Query
-	const { data: groupData, isSuccess: groupSuccess } = useGroupList( {} );
+	const { data: groupData, isSuccess: groupSuccess } = useGroupDropdown();
 	const groupRows = groupData?.items ?? [];
 
 	// Bulk action mutations

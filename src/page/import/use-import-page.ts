@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
 import { isJsonFile, sniffImportFile, sniffImportText } from 'component/import-export/import-sniff';
-import { useGroupList, useImporterList, useImportRunner } from 'lib/api/hooks';
+import { useGroupDropdown, useImporterList, useImportRunner } from 'lib/api/hooks';
 import type { DuplicateMode, ImportMode, ImportMutationVariables } from 'lib/api/hooks';
 import type { ImportPlugin, ImportState, ImportStats } from './types';
 
@@ -69,7 +69,7 @@ function useImportPage() {
 	const dragDepthRef = useRef< number >( 0 );
 	const hasRetriedEmptyGroups = useRef( false );
 
-	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupList( {} );
+	const { data: groupData, isSuccess: hasLoadedGroups, refetch: refetchGroups } = useGroupDropdown();
 	const groupRows = ( groupData?.items ?? [] ) as ImportState[ 'groupRows' ];
 	const hasGroups = groupRows.length > 0;
 	const { data: importerData = [], isLoading: isLoadingImporters } = useImporterList();

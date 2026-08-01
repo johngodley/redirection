@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import type { CardMetaItem } from 'component/import-export/card';
-import { useExport, useExportPreview, useGroupList } from 'lib/api/hooks';
+import { useExport, useExportPreview, useGroupDropdown } from 'lib/api/hooks';
 import type { ExportRequestVariables } from 'lib/api/hooks';
 import {
 	getExportFormatLabel,
@@ -75,7 +75,7 @@ interface UseExportPageResult {
 }
 
 function useExportPage(): UseExportPageResult {
-	const { data: groupData } = useGroupList( {} );
+	const { data: groupData } = useGroupDropdown();
 	const groupRows = useMemo( () => ( groupData?.items ?? [] ) as GroupRow[], [ groupData?.items ] );
 	const [ selectedTypes, setSelectedTypes ] = useState< ExportType[] >( [] );
 	const [ redirectScopeType, setRedirectScopeType ] = useState< RedirectScopeType >( 'all' );

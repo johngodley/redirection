@@ -19,6 +19,7 @@ export const queryKeys = {
 		lists: () => [ ...queryKeys.groups.all, 'list' ] as const,
 		list: ( params: any ) => [ ...queryKeys.groups.lists(), params ] as const,
 		detail: ( id: number ) => [ ...queryKeys.groups.all, 'detail', id ] as const,
+		dropdown: () => [ ...queryKeys.groups.all, 'dropdown' ] as const,
 	},
 	logs: {
 		all: [ 'logs' ] as const,
