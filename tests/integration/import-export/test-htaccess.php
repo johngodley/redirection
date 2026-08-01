@@ -221,7 +221,7 @@ and a line at the end';
 
 		$lines = $this->getOutput( $htaccess );
 
-		$this->assertEquals( 'RewriteRule ^my-test$ / [F]', trim( $lines[5] ) );
+		$this->assertEquals( 'RewriteRule ^my-test$ - [R=404,L]', trim( $lines[5] ) );
 		$this->assertEquals( 'RewriteRule ^my-test\.php$ / [G]', trim( $lines[6] ) );
 	}
 

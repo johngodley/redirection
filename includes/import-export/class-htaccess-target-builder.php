@@ -120,13 +120,18 @@ class HtaccessTargetBuilder {
 	 * @return string
 	 */
 	private function action_error( string $data, int $code, array $match_data ) {
-		$flags = $this->get_source_flags( [ 'F' ], $match_data['source'], $data );
+		if ( $code === 403 ) {
+			$flags = $this->get_source_flags( [ 'F' ], $match_data['source'], $data );
+			return $this->add_flags( '/', $flags );
+		}
 
 		if ( $code === 410 ) {
 			$flags = $this->get_source_flags( [ 'G' ], $match_data['source'], $data );
+			return $this->add_flags( '/', $flags );
 		}
 
-		return $this->add_flags( '/', $flags );
+		$flags = $this->get_source_flags( [ sprintf( 'R=%d', $code ), 'L' ], $match_data['source'], $data );
+		return $this->add_flags( '-', $flags );
 	}
 
 	/**
