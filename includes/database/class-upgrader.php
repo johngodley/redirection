@@ -50,7 +50,7 @@ abstract class Upgrader {
 			try {
 				$this->invoke_stage( $stage, $wpdb, true );
 				$status->set_ok( $this->get_reason( $stage ) );
-			} catch ( \Exception $e ) {
+			} catch ( \Throwable $e ) {
 				$status->set_error( $e->getMessage() );
 			}
 		} else {
