@@ -595,7 +595,7 @@ abstract class Log {
 			return;
 		}
 
-		fputcsv( $stdout, static::get_csv_header() );
+		fputcsv( $stdout, static::get_csv_header(), ',', '"', '\\' );
 
 		global $wpdb;
 
@@ -613,7 +613,7 @@ abstract class Log {
 
 			foreach ( $rows as $row ) {
 				$csv = static::get_csv_row( $row );
-				fputcsv( $stdout, $csv );
+				fputcsv( $stdout, $csv, ',', '"', '\\' );
 			}
 
 			if ( count( $rows ) < $limit ) {
