@@ -28,7 +28,7 @@ export const MATCH_LANGUAGE = 'language';
  * @param actionType
  */
 export function hasUrlTarget( actionType: string ): boolean {
-	return actionType === ACTION_URL || actionType === ACTION_RANDOM;
+	return actionType === ACTION_URL || actionType === ACTION_PASS;
 }
 
 /**
