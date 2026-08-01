@@ -1,4 +1,12 @@
-import { getMatchState } from 'lib/redirect-constants';
+import {
+	getMatchState,
+	hasUrlTarget,
+	ACTION_URL,
+	ACTION_RANDOM,
+	ACTION_PASS,
+	ACTION_ERROR,
+	ACTION_NOTHING,
+} from 'lib/redirect-constants';
 
 const URL_FROM = 'https://example.com/matched';
 const URL_NOTFROM = 'https://example.com/unmatched';
@@ -7,6 +15,28 @@ const withUrlFromNotfrom = ( extra ) => ( {
 	url_from: URL_FROM,
 	url_notfrom: URL_NOTFROM,
 	...extra,
+} );
+
+describe( 'hasUrlTarget', () => {
+	test( 'pass-through actions have a URL target', () => {
+		expect( hasUrlTarget( ACTION_PASS ) ).toBe( true );
+	} );
+
+	test( 'redirect to URL actions have a URL target', () => {
+		expect( hasUrlTarget( ACTION_URL ) ).toBe( true );
+	} );
+
+	test( 'random actions do not have a URL target', () => {
+		expect( hasUrlTarget( ACTION_RANDOM ) ).toBe( false );
+	} );
+
+	test( 'error actions do not have a URL target', () => {
+		expect( hasUrlTarget( ACTION_ERROR ) ).toBe( false );
+	} );
+
+	test( 'do-nothing actions do not have a URL target', () => {
+		expect( hasUrlTarget( ACTION_NOTHING ) ).toBe( false );
+	} );
 } );
 
 describe( 'getMatchState', () => {
