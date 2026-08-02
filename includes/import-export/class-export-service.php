@@ -538,7 +538,7 @@ class ExportService {
 			return;
 		}
 
-		$data['settings'] = \Red_Options::get_import_export_options();
+		$data['settings'] = \Red_Options::filter_by_capability( \Red_Options::get_import_export_options() );
 		$total += count( $data['settings'] );
 	}
 

@@ -288,6 +288,8 @@ class ImportExportJsonTest extends WP_UnitTestCase {
 	public function testImportSupportsSettingsAndLogsSections() {
 		global $wpdb;
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
 		$options = Red_Options::get();
 		$import = [
 			'settings' => [

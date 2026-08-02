@@ -109,7 +109,7 @@ class Json extends FormatHandler {
 		];
 
 		if ( ( $all_sections || in_array( 'settings', $sections, true ) ) && is_array( $parsed['settings'] ) ) {
-			$settings = \Red_Options::filter_import_export_options( $parsed['settings'] );
+			$settings = \Red_Options::filter_by_capability( \Red_Options::filter_import_export_options( $parsed['settings'] ) );
 
 			if ( ! $is_dry_run ) {
 				\Red_Options::save( $settings );

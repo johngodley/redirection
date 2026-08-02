@@ -2,6 +2,7 @@
 
 namespace Redirection\Settings;
 
+use Redirection\Core\Capabilities;
 use Redirection\Group\Group;
 use Redirection\Module\Module;
 use Redirection\Redirect\Sanitize;
@@ -92,6 +93,57 @@ class Settings {
 	];
 
 	/**
+	 * Settings fields owned by the Site page/capability (CAP_SITE_MANAGE).
+	 * Anything not listed here is considered Options-owned (CAP_OPTION_MANAGE).
+	 *
+	 * @var array<int, string>
+	 */
+	private const SITE_ONLY_FIELDS = [
+		'https',
+		'preferred_domain',
+		'headers',
+		'relocate',
+		'aliases',
+		'permalinks',
+	];
+
+	/**
+	 * Settings fields owned by the Options page/capability (CAP_OPTION_MANAGE).
+	 *
+	 * @var array<int, string>
+	 */
+	private const OPTION_ONLY_FIELDS = [
+		'support',
+		'token',
+		'monitor_post',
+		'monitor_types',
+		'associated_redirect',
+		'auto_target',
+		'expire_redirect',
+		'expire_404',
+		'log_external',
+		'log_header',
+		'track_hits',
+		'redirect_cache',
+		'ip_logging',
+		'ip_headers',
+		'ip_proxy',
+		'last_group_id',
+		'rest_api',
+		'location',
+		'modules',
+		'plugin_update',
+		'flag_query',
+		'flag_case',
+		'flag_trailing',
+		'flag_regex',
+		'database',
+		'database_stage',
+		'cache_key',
+		'update_notice',
+	];
+
+	/**
 	 * In-memory cache for build_options result.
 	 *
 	 * @var RedirectionOptions|null
@@ -131,6 +183,27 @@ class Settings {
 	 */
 	public static function filter_import_export_options( array $settings ): array {
 		return array_intersect_key( $settings, array_fill_keys( self::IMPORT_EXPORT_KEYS, true ) );
+	}
+
+	/**
+	 * Restrict a settings array to only the fields the current user's capabilities allow
+	 * them to read or write. Used at every request-facing boundary (REST routes, import,
+	 * export) so a fine-grained Options-only or Site-only delegate cannot read or write
+	 * fields belonging to the other capability domain.
+	 *
+	 * @param array<string, mixed> $settings
+	 * @return array<string, mixed>
+	 */
+	public static function filter_by_capability( array $settings ): array {
+		if ( ! Capabilities::has_access( Capabilities::CAP_SITE_MANAGE ) ) {
+			$settings = array_diff_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+		}
+
+		if ( ! Capabilities::has_access( Capabilities::CAP_OPTION_MANAGE ) ) {
+			$settings = array_diff_key( $settings, array_flip( self::OPTION_ONLY_FIELDS ) );
+		}
+
+		return $settings;
 	}
 
 	/**

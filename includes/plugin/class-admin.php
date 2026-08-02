@@ -362,7 +362,7 @@ class Admin {
 
 			if ( $action === 'fixit' ) {
 				$this->run_fixit();
-			} elseif ( $action === 'rest_api' && isset( $_REQUEST['rest_api'] ) && is_string( $_REQUEST['rest_api'] ) ) {
+			} elseif ( $action === 'rest_api' && isset( $_REQUEST['rest_api'] ) && is_string( $_REQUEST['rest_api'] ) && Capabilities::has_access( Capabilities::CAP_OPTION_MANAGE ) ) {
 				$this->set_rest_api( intval( $_REQUEST['rest_api'], 10 ) );
 			}
 		}
