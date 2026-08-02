@@ -13,7 +13,7 @@ class Url extends Action {
 	 * @return void
 	 */
 	protected function redirect_to( $target ) {
-		// This is a known redirect, possibly extenal
+		// This is a known redirect, possibly external
 		// phpcs:ignore
 		$redirect = wp_redirect( $target, $this->get_code(), 'redirection' );
 

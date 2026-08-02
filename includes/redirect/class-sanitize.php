@@ -284,7 +284,7 @@ class Sanitize {
 	 * @return string|WP_Error
 	 */
 	protected function get_url( $url, $regex ) {
-		$url = self::sanitize_url( $url, $regex );
+		$url = $this->sanitize_url( $url, $regex );
 
 		if ( $url === '' ) {
 			return new WP_Error( 'redirect', 'Invalid source URL' );
