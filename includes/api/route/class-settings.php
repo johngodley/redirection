@@ -10,7 +10,7 @@ use WP_REST_Server;
  * @phpstan-import-type RedirectionOptions from \Red_Options
  *
  * Note: `settings` is a filtered subset of RedirectionOptions - fields owned by a
- * capability the current user lacks are removed by Settings::filter_by_capability().
+ * capability the current user lacks are removed by \Red_Options::filter_by_capability().
  *
  * @phpstan-type SettingsResponse array{
  *   settings: array<string, mixed>,

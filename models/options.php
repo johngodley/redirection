@@ -75,8 +75,11 @@ class Red_Options {
 	];
 
 	/**
-	 * Settings fields owned by the Site page/capability (CAP_SITE_MANAGE).
-	 * Anything not listed here is considered Options-owned (CAP_OPTION_MANAGE).
+	 * Settings fields owned by the Site page/capability (CAP_SITE_MANAGE). This is the only
+	 * source of truth for the Option/Site split: any field NOT in this list is treated as
+	 * Options-owned (CAP_OPTION_MANAGE) by filter_by_capability(), including any field added
+	 * to RedirectionOptions in future. This is deliberate - a forgotten field defaults to the
+	 * more restrictive Options bucket rather than silently bypassing capability filtering.
 	 *
 	 * @var array<int, string>
 	 */
@@ -87,42 +90,6 @@ class Red_Options {
 		'relocate',
 		'aliases',
 		'permalinks',
-	];
-
-	/**
-	 * Settings fields owned by the Options page/capability (CAP_OPTION_MANAGE).
-	 *
-	 * @var array<int, string>
-	 */
-	private const OPTION_ONLY_FIELDS = [
-		'support',
-		'token',
-		'monitor_post',
-		'monitor_types',
-		'associated_redirect',
-		'auto_target',
-		'expire_redirect',
-		'expire_404',
-		'log_external',
-		'log_header',
-		'track_hits',
-		'redirect_cache',
-		'ip_logging',
-		'ip_headers',
-		'ip_proxy',
-		'last_group_id',
-		'rest_api',
-		'location',
-		'modules',
-		'plugin_update',
-		'flag_query',
-		'flag_case',
-		'flag_trailing',
-		'flag_regex',
-		'database',
-		'database_stage',
-		'cache_key',
-		'update_notice',
 	];
 
 	/**
@@ -184,15 +151,27 @@ class Red_Options {
 	 * @return array<string, mixed>
 	 */
 	public static function filter_by_capability( array $settings ): array {
-		if ( ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE ) ) {
-			$settings = array_diff_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+		$has_site = Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+		$has_option = Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE );
+
+		if ( $has_site && $has_option ) {
+			return $settings;
 		}
 
-		if ( ! Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE ) ) {
-			$settings = array_diff_key( $settings, array_flip( self::OPTION_ONLY_FIELDS ) );
+		$site_fields = array_intersect_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+		$option_fields = array_diff_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+
+		$allowed = [];
+
+		if ( $has_site ) {
+			$allowed = array_merge( $allowed, $site_fields );
 		}
 
-		return $settings;
+		if ( $has_option ) {
+			$allowed = array_merge( $allowed, $option_fields );
+		}
+
+		return $allowed;
 	}
 
 	/**
