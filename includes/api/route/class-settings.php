@@ -9,15 +9,18 @@ use WP_REST_Server;
 /**
  * @phpstan-import-type RedirectionOptions from \Red_Options
  *
+ * Note: `settings` is a filtered subset of RedirectionOptions - fields owned by a
+ * capability the current user lacks are removed by \Red_Options::filter_by_capability().
+ *
  * @phpstan-type SettingsResponse array{
- *   settings: RedirectionOptions,
+ *   settings: array<string, mixed>,
  *   groups: array<int, object>,
  *   installed: string,
  *   canDelete: bool,
  *   post_types: array<int|string>
  * }
  * @phpstan-type SettingsResponseWithWarning array{
- *   settings: RedirectionOptions,
+ *   settings: array<string, mixed>,
  *   groups: array<int, object>,
  *   installed: string,
  *   canDelete: bool,
@@ -64,7 +67,7 @@ class Settings extends BaseRoute {
 		}
 
 		return [
-			'settings' => \Red_Options::get(),
+			'settings' => \Red_Options::filter_by_capability( \Red_Options::get() ),
 			'groups' => $this->groups_to_json( \Red_Group::get_for_select() ),
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
@@ -89,7 +92,7 @@ class Settings extends BaseRoute {
 	 * @return SettingsResponseWithWarning
 	 */
 	public function route_save_settings( WP_REST_Request $request ) {
-		$params = $request->get_params();
+		$params = \Red_Options::filter_by_capability( $request->get_params() );
 		$result = true;
 
 		if ( isset( $params['location'] ) && strlen( $params['location'] ) > 0 ) {

@@ -44,6 +44,72 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 		$this->check_endpoints( $this->get_endpoints(), $this->get_endpoints() );
 	}
 
+	public function testOptionOnlyCannotReadOrWriteSiteFields() {
+		$original = Red_Options::get();
+
+		try {
+			$this->setEditor();
+			$this->add_capability( Redirection_Capabilities::CAP_OPTION_MANAGE );
+
+			$get_result = $this->callApi( 'setting' );
+			$this->assertArrayHasKey( 'token', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'https', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'headers', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'aliases', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'permalinks', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'preferred_domain', $get_result->data['settings'] );
+
+			$post_result = $this->callApi(
+				'setting',
+				array(
+					'https' => ! $original['https'],
+					'token' => 'option-only-token',
+				),
+				'POST'
+			);
+
+			$this->assertArrayNotHasKey( 'https', $post_result->data['settings'] );
+			$this->assertEquals( 'option-only-token', $post_result->data['settings']['token'] );
+			$this->assertEquals( $original['https'], Red_Options::get()['https'] );
+		} finally {
+			$this->clear_capability();
+			update_option( Red_Options::OPTION_KEY, $original );
+			Red_Options::reset();
+		}
+	}
+
+	public function testSiteOnlyCannotReadOrWriteOptionFields() {
+		$original = Red_Options::get();
+
+		try {
+			$this->setEditor();
+			$this->add_capability( Redirection_Capabilities::CAP_SITE_MANAGE );
+
+			$get_result = $this->callApi( 'setting' );
+			$this->assertArrayHasKey( 'https', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'token', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'rest_api', $get_result->data['settings'] );
+			$this->assertArrayNotHasKey( 'ip_headers', $get_result->data['settings'] );
+
+			$post_result = $this->callApi(
+				'setting',
+				array(
+					'rest_api' => Red_Options::API_JSON_RELATIVE,
+					'https' => ! $original['https'],
+				),
+				'POST'
+			);
+
+			$this->assertArrayNotHasKey( 'rest_api', $post_result->data['settings'] );
+			$this->assertEquals( ! $original['https'], $post_result->data['settings']['https'] );
+			$this->assertEquals( $original['rest_api'], Red_Options::get()['rest_api'] );
+		} finally {
+			$this->clear_capability();
+			update_option( Red_Options::OPTION_KEY, $original );
+			Red_Options::reset();
+		}
+	}
+
 	public function testLoadSettings() {
 		$this->setNonce();
 		$result = $this->callApi( 'setting' );

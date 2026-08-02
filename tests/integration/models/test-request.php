@@ -171,8 +171,9 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 
-		$this->assertEquals( '192.1.1.1', $result );
-		$this->assertEquals( '192.1.1.1', $this->ip );
+		// The right-most value is used.
+		$this->assertEquals( '192.1.2.3', $result );
+		$this->assertEquals( '192.1.2.3', $this->ip );
 
 		$this->removeMonitorRequestIP();
 	}

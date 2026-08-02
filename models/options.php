@@ -75,6 +75,24 @@ class Red_Options {
 	];
 
 	/**
+	 * Settings fields owned by the Site page/capability (CAP_SITE_MANAGE). This is the only
+	 * source of truth for the Option/Site split: any field NOT in this list is treated as
+	 * Options-owned (CAP_OPTION_MANAGE) by filter_by_capability(), including any field added
+	 * to RedirectionOptions in future. This is deliberate - a forgotten field defaults to the
+	 * more restrictive Options bucket rather than silently bypassing capability filtering.
+	 *
+	 * @var array<int, string>
+	 */
+	private const SITE_ONLY_FIELDS = [
+		'https',
+		'preferred_domain',
+		'headers',
+		'relocate',
+		'aliases',
+		'permalinks',
+	];
+
+	/**
 	 * REST API location constants. Previously REDIRECTION_API_JSON*, now centralized here.
 	 */
 	public const API_JSON = 0;
@@ -121,6 +139,39 @@ class Red_Options {
 	 */
 	public static function filter_import_export_options( array $settings ): array {
 		return array_intersect_key( $settings, array_fill_keys( self::IMPORT_EXPORT_KEYS, true ) );
+	}
+
+	/**
+	 * Restrict a settings array to only the fields the current user's capabilities allow
+	 * them to read or write. Used at every request-facing boundary (REST routes, import,
+	 * export) so a fine-grained Options-only or Site-only delegate cannot read or write
+	 * fields belonging to the other capability domain.
+	 *
+	 * @param array<string, mixed> $settings
+	 * @return array<string, mixed>
+	 */
+	public static function filter_by_capability( array $settings ): array {
+		$has_site = Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_SITE_MANAGE );
+		$has_option = Redirection_Capabilities::has_access( Redirection_Capabilities::CAP_OPTION_MANAGE );
+
+		if ( $has_site && $has_option ) {
+			return $settings;
+		}
+
+		$site_fields = array_intersect_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+		$option_fields = array_diff_key( $settings, array_flip( self::SITE_ONLY_FIELDS ) );
+
+		$allowed = [];
+
+		if ( $has_site ) {
+			$allowed = array_merge( $allowed, $site_fields );
+		}
+
+		if ( $has_option ) {
+			$allowed = array_merge( $allowed, $option_fields );
+		}
+
+		return $allowed;
 	}
 
 	/**
