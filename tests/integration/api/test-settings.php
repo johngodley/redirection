@@ -70,11 +70,9 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 
 			$this->assertArrayNotHasKey( 'https', $post_result->data['settings'] );
 			$this->assertEquals( 'option-only-token', $post_result->data['settings']['token'] );
-
-			$this->clear_capability();
-
 			$this->assertEquals( $original['https'], Red_Options::get()['https'] );
 		} finally {
+			$this->clear_capability();
 			update_option( Red_Options::OPTION_KEY, $original );
 			Red_Options::reset();
 		}
@@ -104,11 +102,9 @@ class RedirectionApiSettingsTest extends Redirection_Api_Test {
 
 			$this->assertArrayNotHasKey( 'rest_api', $post_result->data['settings'] );
 			$this->assertEquals( ! $original['https'], $post_result->data['settings']['https'] );
-
-			$this->clear_capability();
-
 			$this->assertEquals( $original['rest_api'], Red_Options::get()['rest_api'] );
 		} finally {
+			$this->clear_capability();
 			update_option( Red_Options::OPTION_KEY, $original );
 			Red_Options::reset();
 		}
