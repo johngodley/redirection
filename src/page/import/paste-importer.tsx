@@ -130,7 +130,7 @@ function PasteImporter( {
 			},
 			{
 				label: __( 'Supported formats', 'redirection' ),
-				value: __( 'CSV, JSON, and .htaccess', 'redirection' ),
+				value: __( 'CSV, JSON, and .htaccess', 'redirection' ), // Paste import doesn't auto-detect _redirects content, see sniffImportText().
 			},
 		];
 
@@ -233,12 +233,20 @@ function PasteImporter( {
 			];
 		}
 
-		return [
-			{
-				label: getCsvRowLabel( pasteInfo, pasteInfo.rows || 0 ),
-				value: pasteInfo.rows || 0,
-			},
-		];
+		if ( pasteInfo.format === 'redirects-file' ) {
+			return [];
+		}
+
+		if ( pasteInfo.format === 'csv' ) {
+			return [
+				{
+					label: getCsvRowLabel( pasteInfo, pasteInfo.rows || 0 ),
+					value: pasteInfo.rows || 0,
+				},
+			];
+		}
+
+		return [];
 	};
 
 	return (

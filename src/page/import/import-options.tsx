@@ -53,9 +53,10 @@ function ImportOptions( {
 	const hasRedirectCsv =
 		isFileImport && fileInfo?.format === 'csv' && fileInfo.valid && fileInfo.importSupported === true;
 	const hasApacheImport = isFileImport && fileInfo?.format === 'apache' && fileInfo.valid;
+	const hasRedirectsFileImport = isFileImport && fileInfo?.format === 'redirects-file' && fileInfo.valid;
 	const hasRedirectSection = jsonSections
 		? Number( jsonSections.redirects || 0 ) > 0 && selectedSections.includes( 'redirects' )
-		: activeImportType === 'plugin' || hasRedirectCsv || hasApacheImport;
+		: activeImportType === 'plugin' || hasRedirectCsv || hasApacheImport || hasRedirectsFileImport;
 	const hasOptions = jsonSections !== null || hasRedirectSection || showDeleteSource;
 
 	return (

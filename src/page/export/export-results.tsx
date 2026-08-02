@@ -60,7 +60,14 @@ function ExportResults( { lastResult }: ExportResultsProps ) {
 	if ( lastResult.total !== null ) {
 		stats.push( {
 			label: __( 'Items exported', 'redirection' ),
-			value: formatNumber( lastResult.total ),
+			value: formatNumber( lastResult.total - ( lastResult.skipped ?? 0 ) ),
+		} );
+	}
+
+	if ( lastResult.skipped ) {
+		stats.push( {
+			label: __( 'Skipped (unsupported for this format)', 'redirection' ),
+			value: formatNumber( lastResult.skipped ),
 		} );
 	}
 

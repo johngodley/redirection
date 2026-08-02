@@ -6,6 +6,7 @@ use Redirection\ImportExport\Format\Apache;
 use Redirection\ImportExport\Format\Csv;
 use Redirection\ImportExport\Format\Json;
 use Redirection\ImportExport\Format\Nginx;
+use Redirection\ImportExport\Format\RedirectsFile;
 use Redirection\ImportExport\Format\Rss;
 
 /**
@@ -20,6 +21,7 @@ class FormatFactory {
 		'csv' => Csv::class,
 		'apache' => Apache::class,
 		'nginx' => Nginx::class,
+		'redirects-file' => RedirectsFile::class,
 		'json' => Json::class,
 	];
 
@@ -51,6 +53,12 @@ class FormatFactory {
 	 * @return FormatHandler
 	 */
 	public function create_importer_for_filename( $filename ) {
+		if ( strtolower( basename( $filename ) ) === '_redirects' ) {
+			$importer = $this->create( 'redirects-file' );
+
+			return $importer !== false ? $importer : new Apache();
+		}
+
 		$parts = pathinfo( $filename );
 		$extension = isset( $parts['extension'] ) ? strtolower( $parts['extension'] ) : '';
 		$type = isset( self::IMPORTER_EXTENSIONS[ $extension ] ) ? self::IMPORTER_EXTENSIONS[ $extension ] : 'apache';

@@ -1,4 +1,10 @@
-import { getSeparatorLabel, sniffApacheText, sniffCsvText, sniffJsonText } from './import-sniff';
+import {
+	getSeparatorLabel,
+	sniffApacheText,
+	sniffCsvText,
+	sniffJsonText,
+	sniffRedirectsFileText,
+} from './import-sniff';
 
 describe( 'import-sniff', () => {
 	it( 'detects a valid Redirection JSON export', () => {
@@ -205,6 +211,32 @@ describe( 'import-sniff', () => {
 			format: 'apache',
 			valid: false,
 			error: 'unknown-apache-layout',
+		} );
+	} );
+
+	it( 'detects a valid _redirects file', () => {
+		expect( sniffRedirectsFileText( '/old /new 301\n/blog/* /news/:splat 301' ) ).toEqual( {
+			format: 'redirects-file',
+			valid: true,
+			importSupported: true,
+			rules: 2,
+		} );
+	} );
+
+	it( 'ignores comments and blank lines when counting _redirects rules', () => {
+		expect( sniffRedirectsFileText( '# comment\n\n/old /new 301' ) ).toEqual( {
+			format: 'redirects-file',
+			valid: true,
+			importSupported: true,
+			rules: 1,
+		} );
+	} );
+
+	it( 'rejects a _redirects file with no recognisable rules', () => {
+		expect( sniffRedirectsFileText( '/old /new 200\n/a/*/b /c 301' ) ).toEqual( {
+			format: 'redirects-file',
+			valid: false,
+			error: 'unknown-redirects-file-layout',
 		} );
 	} );
 } );

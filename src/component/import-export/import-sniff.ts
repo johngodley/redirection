@@ -25,6 +25,13 @@ export type ImportSniffResult =
 			error?: 'unknown-apache-layout';
 	  }
 	| {
+			format: 'redirects-file';
+			valid: boolean;
+			importSupported?: boolean;
+			rules?: number;
+			error?: 'unknown-redirects-file-layout';
+	  }
+	| {
 			format: 'other';
 			valid: false;
 			error?: 'unsupported-file-type' | 'read-failed';
@@ -43,6 +50,10 @@ export function isJsonFile( file: File ) {
 
 export async function sniffImportFile( file: File ): Promise< ImportSniffResult > {
 	const text = await file.text();
+
+	if ( file.name.toLowerCase() === '_redirects' ) {
+		return sniffRedirectsFileText( text );
+	}
 
 	if ( isJsonFile( file ) ) {
 		return sniffJsonText( text );
@@ -133,6 +144,67 @@ export function sniffApacheText( text: string ): ImportSniffResult {
 		importSupported: true,
 		rules,
 		ruleTypes: Array.from( ruleTypes ),
+	};
+}
+
+const REDIRECTS_FILE_STATUS_CODES = [ '301', '302', '303', '307', '308' ];
+
+export function sniffRedirectsFileText( text: string ): ImportSniffResult {
+	const lines = text
+		.replace( /^\ufeff/, '' )
+		.replace( /\r\n/g, '\n' )
+		.replace( /\r/g, '\n' )
+		.split( '\n' )
+		.map( ( line ) => line.trim() )
+		.filter( ( line ) => line.length > 0 && ! line.startsWith( '#' ) );
+
+	let rules = 0;
+
+	lines.forEach( ( line ) => {
+		const parts = line.split( /\s+/ );
+
+		if ( parts.length < 2 || parts.length > 3 ) {
+			return;
+		}
+
+		const from = parts[ 0 ] || '';
+		const to = parts[ 1 ] || '';
+		const status = ( parts[ 2 ] || '301' ).replace( /!$/, '' );
+
+		if ( ! REDIRECTS_FILE_STATUS_CODES.includes( status ) ) {
+			return;
+		}
+
+		if ( /:(?!splat\b)[a-zA-Z_]/.test( `${ from } ${ to }` ) ) {
+			return;
+		}
+
+		const splatCount = ( from.match( /\*/g ) || [] ).length;
+
+		if ( splatCount > 1 || ( splatCount === 1 && ! from.endsWith( '*' ) ) ) {
+			return;
+		}
+
+		if ( splatCount === 0 && to.includes( ':splat' ) ) {
+			return;
+		}
+
+		rules++;
+	} );
+
+	if ( rules === 0 ) {
+		return {
+			format: 'redirects-file',
+			valid: false,
+			error: 'unknown-redirects-file-layout',
+		};
+	}
+
+	return {
+		format: 'redirects-file',
+		valid: true,
+		importSupported: true,
+		rules,
 	};
 }
 

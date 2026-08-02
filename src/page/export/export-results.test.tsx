@@ -16,6 +16,7 @@ describe( 'ExportResults', () => {
 					format: 'json',
 					data: '',
 					total: 5348,
+					skipped: null,
 				} }
 			/>
 		);
@@ -35,6 +36,7 @@ describe( 'ExportResults', () => {
 					format: 'csv',
 					data: 'source,target',
 					total: 2,
+					skipped: null,
 				} }
 			/>
 		);
@@ -44,5 +46,42 @@ describe( 'ExportResults', () => {
 		expect( within( card as HTMLElement ).getByDisplayValue( 'source,target' ) ).toBeInTheDocument();
 		expect( within( card as HTMLElement ).getByText( 'View results' ) ).toBeInTheDocument();
 		expect( within( card as HTMLElement ).getByText( '13 B' ) ).toBeInTheDocument();
+	} );
+
+	it( 'shows a skipped-item stat when the export reports skipped items', () => {
+		render(
+			<ExportResults
+				lastResult={ {
+					action: 'download',
+					types: [ 'redirect' ],
+					format: 'redirects-file',
+					data: '',
+					total: 42,
+					skipped: 5,
+				} }
+			/>
+		);
+
+		expect( screen.getByText( 'Skipped (unsupported for this format)' ) ).toBeInTheDocument();
+		expect( screen.getByText( '5' ) ).toBeInTheDocument();
+		expect( screen.getByText( '37' ) ).toBeInTheDocument();
+		expect( screen.queryByText( '42' ) ).not.toBeInTheDocument();
+	} );
+
+	it( 'omits the skipped-item stat when nothing was skipped', () => {
+		render(
+			<ExportResults
+				lastResult={ {
+					action: 'download',
+					types: [ 'redirect' ],
+					format: 'json',
+					data: '',
+					total: 42,
+					skipped: 0,
+				} }
+			/>
+		);
+
+		expect( screen.queryByText( 'Skipped (unsupported for this format)' ) ).not.toBeInTheDocument();
 	} );
 } );

@@ -28,7 +28,7 @@ type PluginImportVariables = {
 };
 type ImportMutationVariables = FileImportVariables | PluginImportVariables;
 type ExportType = 'redirect' | 'log' | '404' | 'group' | 'setting';
-type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
+type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx' | 'redirects-file';
 type RedirectScopeType = 'all' | 'module' | 'group';
 type ExportRequestVariables = {
 	exportType: ExportType;
@@ -54,6 +54,7 @@ type ExportPreviewVariables = {
 type ExportResponse = {
 	data: string;
 	total: number;
+	skipped?: number;
 };
 type ExportPreviewResponse = {
 	total: number;
@@ -293,6 +294,7 @@ export function useExport(
 				const response = ( await apiFetch( getExportRequest( variables ) ) ) as {
 					data: string;
 					total: number;
+					skipped?: number;
 				};
 
 				if ( variables.download && variables.filename ) {
