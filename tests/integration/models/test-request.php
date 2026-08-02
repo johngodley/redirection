@@ -171,8 +171,7 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 
-		// The last address is used, as it's the one appended by the trusted proxy (REMOTE_ADDR) -
-		// earlier addresses are client-controlled and cannot be trusted.
+		// The right-most value is used.
 		$this->assertEquals( '192.1.2.3', $result );
 		$this->assertEquals( '192.1.2.3', $this->ip );
 

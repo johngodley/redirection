@@ -5,6 +5,12 @@ use Redirection\ImportExport\ImportRedirect;
 use Redirection\ImportExport\Format\Json;
 
 class ImportExportJsonTest extends WP_UnitTestCase {
+	public function tearDown(): void {
+		parent::tearDown();
+
+		wp_set_current_user( 0 );
+	}
+
 	private function create_temp_file( $contents ) {
 		$file = tempnam( sys_get_temp_dir(), 'red-json-' );
 		file_put_contents( $file, $contents );
