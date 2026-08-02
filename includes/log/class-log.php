@@ -605,6 +605,7 @@ abstract class Log {
 		$exported = 0;
 
 		$limit = 100;
+		$sanitizer = new \Redirection\ImportExport\Sanitizer\CsvSanitizer();
 
 		while ( $exported < $total_items ) {
 			// phpcs:ignore
@@ -612,7 +613,7 @@ abstract class Log {
 			$exported += count( $rows );
 
 			foreach ( $rows as $row ) {
-				$csv = static::get_csv_row( $row );
+				$csv = array_map( [ $sanitizer, 'escape' ], static::get_csv_row( $row ) );
 				fputcsv( $stdout, $csv, ',', '"', '\\' );
 			}
 

@@ -14,12 +14,12 @@ class Redirection_IP {
 	/**
 	 * Constructor. Validates and normalizes an IP address
 	 *
-	 * @param string $ip IP address to validate (may be comma-separated list, first value will be used).
+	 * @param string $ip IP address to validate (may be comma-separated list; the last value is used, as it is the one appended by the nearest, trusted, proxy - earlier values are client-controlled).
 	 */
 	public function __construct( $ip = '' ) {
 		$ip = sanitize_text_field( $ip );
 		$ip = explode( ',', $ip );
-		$ip = array_shift( $ip );
+		$ip = array_pop( $ip );
 		$ip = filter_var( $ip, FILTER_VALIDATE_IP );
 		if ( $ip === false ) {
 			return;
