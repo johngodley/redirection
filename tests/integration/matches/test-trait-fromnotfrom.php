@@ -14,7 +14,9 @@ class FromNotFromTraitTest extends WP_UnitTestCase {
 		];
 
 		foreach ( $matches as $klass => $file ) {
-			require_once PLUGIN_PATH . '/matches/' . $file;
+			if ( ! class_exists( $klass, false ) ) {
+				require_once PLUGIN_PATH . '/matches/' . $file;
+			}
 
 			// Test a match to from
 			$match = new $klass( serialize( [ 'url_from' => '/from', 'url_notfrom' => '/notfrom' ] ) );

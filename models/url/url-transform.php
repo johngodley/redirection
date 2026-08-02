@@ -62,7 +62,7 @@ class Red_Url_Transform {
 	}
 
 	/**
-	 * Peform a shortcode
+	 * Perform a shortcode
 	 *
 	 * @param ShortcodeAttrs $attrs Shortcode attributes.
 	 * @param string|null $content Shortcode content.

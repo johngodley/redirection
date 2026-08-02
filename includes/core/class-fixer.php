@@ -1,0 +1,310 @@
+<?php
+
+namespace Redirection\Core;
+
+use Redirection\Database\Database;
+use Redirection\Database\Schema\Latest;
+use Redirection\Database\Status as DatabaseStatus;
+use Redirection\Group\Group;
+use Redirection\Request\Request;
+use Redirection\Settings\Settings;
+use WP_Error;
+
+/**
+ * Diagnostic and repair tool for Redirection plugin
+ *
+ * @phpstan-type StatusItem array{
+ *     id: string,
+ *     name: string,
+ *     message: string,
+ *     status: string
+ * }
+ * @phpstan-type DebugInfo array{
+ *     database: array{
+ *         current: string,
+ *         latest: string
+ *     },
+ *     ip_header: array<string, string|false>
+ * }
+ * @phpstan-type FixerJson array{
+ *     status: array<StatusItem>,
+ *     debug: DebugInfo
+ * }
+ */
+class Fixer {
+	const REGEX_LIMIT = 200;
+
+	/**
+	 * Get JSON representation of fixer status and debug info
+	 *
+	 * @return FixerJson
+	 */
+	public function get_json() {
+		return [
+			'status' => $this->get_status(),
+			'debug' => $this->get_debug(),
+		];
+	}
+
+	/**
+	 * Get debug information
+	 *
+	 * @return DebugInfo
+	 */
+	public function get_debug() {
+		$status = new DatabaseStatus();
+		$ip = [];
+
+		foreach ( Request::get_ip_headers() as $var ) {
+			$ip[ $var ] = isset( $_SERVER[ $var ] ) ? sanitize_text_field( $_SERVER[ $var ] ) : false;
+		}
+
+		return [
+			'database' => [
+				'current' => $status->get_current_version(),
+				'latest' => REDIRECTION_DB_VERSION,
+			],
+			'ip_header' => $ip,
+		];
+	}
+
+	/**
+	 * Save debug setting
+	 *
+	 * @param string $name Setting name.
+	 * @param string $value Setting value.
+	 * @return void
+	 */
+	public function save_debug( $name, $value ) {
+		if ( $name === 'database' ) {
+			$database = new Database();
+			$status = new DatabaseStatus();
+
+			foreach ( $database->get_upgrades() as $upgrade ) {
+				if ( $value === $upgrade->get_version() ) {
+					$status->finish();
+					$status->save_db_version( $value );
+
+					// Switch to prompt mode
+					Settings::save( [ 'plugin_update' => 'prompt' ] );
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get status of all diagnostic checks
+	 *
+	 * @return array<StatusItem>
+	 */
+	public function get_status() {
+		global $wpdb;
+
+		$options = Settings::get();
+
+		$groups = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_groups" ), 10 );
+		$bad_group = $this->get_missing();
+		$monitor_group = $options['monitor_post'];
+		$valid_monitor = Group::get( $monitor_group ) !== false || $monitor_group === 0;
+
+		$status = [
+			array_merge(
+				[
+					'id' => 'db',
+					'name' => __( 'Database tables', 'redirection' ),
+				],
+				$this->get_database_status( Database::get_latest_database() )
+			),
+			[
+				'name' => __( 'Valid groups', 'redirection' ),
+				'id' => 'groups',
+				'message' => $groups === 0 ? __( 'No valid groups, so you will not be able to create any redirects', 'redirection' ) : __( 'Valid groups detected', 'redirection' ),
+				'status' => $groups === 0 ? 'problem' : 'good',
+			],
+			[
+				'name' => __( 'Valid redirect group', 'redirection' ),
+				'id' => 'redirect_groups',
+				'message' => count( $bad_group ) > 0 ? __( 'Redirects with invalid groups detected', 'redirection' ) : __( 'All redirects have a valid group', 'redirection' ),
+				'status' => count( $bad_group ) > 0 ? 'problem' : 'good',
+			],
+			[
+				'name' => __( 'Post monitor group', 'redirection' ),
+				'id' => 'monitor',
+				'message' => $valid_monitor === false ? __( 'Post monitor group is invalid', 'redirection' ) : __( 'Post monitor group is valid', 'redirection' ),
+				'status' => $valid_monitor === false ? 'problem' : 'good',
+			],
+			$this->get_http_settings(),
+		];
+
+		$regex_count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items WHERE regex=1" );
+		if ( $regex_count > self::REGEX_LIMIT ) {
+			$status[] = [
+				'name' => __( 'Regular Expressions', 'redirection' ),
+				'id' => 'regex',
+				'message' => __( 'Too many regular expressions may impact site performance', 'redirection' ),
+				'status' => 'problem',
+			];
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Get database table status
+	 *
+	 * @param Latest $database Database instance.
+	 * @return array{status: string, message: string}
+	 */
+	private function get_database_status( $database ) {
+		$missing = $database->get_missing_tables();
+
+		return [
+			'status' => count( $missing ) === 0 ? 'good' : 'error',
+			'message' => count( $missing ) === 0 ? __( 'All tables present', 'redirection' ) : __( 'The following tables are missing:', 'redirection' ) . ' ' . join( ',', $missing ),
+		];
+	}
+
+	/**
+	 * Get HTTP settings status
+	 *
+	 * @return StatusItem
+	 */
+	private function get_http_settings() {
+		$site = wp_parse_url( get_site_url(), PHP_URL_SCHEME );
+		$home = wp_parse_url( get_home_url(), PHP_URL_SCHEME );
+
+		$message = __( 'Site and home are consistent', 'redirection' );
+		if ( $site !== $home ) {
+			/* translators: 1: Site URL, 2: Home URL */
+			$message = sprintf( __( 'Site and home URL are inconsistent. Please correct from your Settings > General page: %1$1s is not %2$2s', 'redirection' ), get_site_url(), get_home_url() );
+		}
+
+		return [
+			'name' => __( 'Site and home protocol', 'redirection' ),
+			'id' => 'redirect_url',
+			'message' => $message,
+			'status' => $site === $home ? 'good' : 'problem',
+		];
+	}
+
+	/**
+	 * Fix all issues found in status
+	 *
+	 * @param array<StatusItem> $status Status items to fix.
+	 * @return array<StatusItem>|WP_Error Updated status or error.
+	 */
+	public function fix( $status ) {
+		foreach ( $status as $item ) {
+			if ( $item['status'] !== 'good' ) {
+				$fixer = 'fix_' . $item['id'];
+
+				$result = true;
+				if ( method_exists( $this, $fixer ) ) {
+					// @phpstan-ignore method.dynamicName
+					$result = $this->$fixer();
+				}
+
+				if ( is_wp_error( $result ) ) {
+					return $result;
+				}
+			}
+		}
+
+		return $this->get_status();
+	}
+
+	/**
+	 * Get redirects with missing groups
+	 *
+	 * @return list<object{id: string}>
+	 */
+	private function get_missing() {
+		global $wpdb;
+
+		return $wpdb->get_results( "SELECT {$wpdb->prefix}redirection_items.id FROM {$wpdb->prefix}redirection_items LEFT JOIN {$wpdb->prefix}redirection_groups ON {$wpdb->prefix}redirection_items.group_id = {$wpdb->prefix}redirection_groups.id WHERE {$wpdb->prefix}redirection_groups.id IS NULL" );
+	}
+
+	/**
+	 * Fix database tables
+	 *
+	 * @return bool|WP_Error
+	 */
+	private function fix_db() {
+		$database = Database::get_latest_database();
+		return $database->install();
+	}
+
+	/**
+	 * Fix missing groups
+	 *
+	 * @return bool|WP_Error
+	 */
+	private function fix_groups() {
+		if ( Group::create( __( 'Redirections', 'redirection' ), 1 ) === false ) {
+			return new WP_Error( 'redirect_group_create_failed', 'Unable to create group' );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Fix redirects with invalid groups
+	 *
+	 * @return bool|WP_Error
+	 */
+	private function fix_redirect_groups() {
+		global $wpdb;
+
+		$missing = $this->get_missing();
+		$group_id = $this->get_valid_group();
+
+		if ( is_wp_error( $group_id ) ) {
+			return $group_id;
+		}
+
+		foreach ( $missing as $row ) {
+			$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'group_id' => $group_id ], [ 'id' => $row->id ] );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Fix invalid monitor group setting
+	 *
+	 * @return bool|WP_Error
+	 */
+	private function fix_monitor() {
+		$group_id = $this->get_valid_group();
+
+		if ( is_wp_error( $group_id ) ) {
+			return $group_id;
+		}
+
+		Settings::save( [ 'monitor_post' => $group_id ] );
+
+		return true;
+	}
+
+	/**
+	 * Get a valid group ID
+	 *
+	 * @return int|WP_Error
+	 */
+	private function get_valid_group() {
+		$groups = Group::get_all();
+
+		if ( count( $groups ) === 0 ) {
+			$group = Group::create( __( 'Redirections', 'redirection' ), 1 );
+
+			if ( $group !== false ) {
+				return $group->get_id();
+			}
+
+			return new WP_Error( 'redirect_group_create_failed', 'Unable to create group' );
+		}
+
+		return $groups[0]['id'];
+	}
+}

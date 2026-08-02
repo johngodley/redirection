@@ -52,7 +52,13 @@ class Error_Action extends Red_Action {
 	}
 
 	public function template_include() {
-		return get_404_template();
+		$template = get_404_template();
+
+		if ( ! is_string( $template ) || $template === '' ) {
+			$template = get_index_template();
+		}
+
+		return $template;
 	}
 
 	public function name() {

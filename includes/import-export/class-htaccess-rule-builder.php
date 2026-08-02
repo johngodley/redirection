@@ -36,11 +36,7 @@ class HtaccessRuleBuilder {
 
 		switch ( $item->get_match_type() ) {
 			case 'url':
-				if ( $item->match instanceof \URL_Match ) {
-					return $this->add_url( $item, $item->match->url );
-				}
-
-				return [];
+				return $this->add_url( $item, $item->match->url );
 
 			case 'referrer':
 				return $this->add_referrer( $item, $item->match );

@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/server.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/server.php';
+}
 
 class ServerMatchTest extends WP_UnitTestCase {
 	public function testNoData() {

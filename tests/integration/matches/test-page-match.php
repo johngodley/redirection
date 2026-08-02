@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/page.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/page.php';
+}
 
 class PageMatchTest extends WP_UnitTestCase {
 	private function set_404( $is_404 ) {

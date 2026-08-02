@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/custom-filter.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/custom-filter.php';
+}
 
 class CustomMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

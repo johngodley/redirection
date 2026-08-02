@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/http-header.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/http-header.php';
+}
 
 class HeaderMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

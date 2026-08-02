@@ -23,7 +23,7 @@ if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
 }
 
 // This file must support PHP < 7.4 so as not to crash
-if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
+if ( version_compare( phpversion(), '7.4' ) < 0 ) {
 	add_filter( 'plugin_action_links_' . basename( dirname( REDIRECTION_FILE ) ) . '/' . basename( REDIRECTION_FILE ), 'red_deprecated_php' );
 
 	/**
@@ -38,20 +38,6 @@ if ( version_compare( PHP_VERSION, '7.4' ) < 0 ) {
 
 	return;
 }
-
-require_once __DIR__ . '/redirection-settings.php';
-require_once __DIR__ . '/models/options.php';
-require_once __DIR__ . '/models/redirect/redirect.php';
-require_once __DIR__ . '/models/url/url.php';
-require_once __DIR__ . '/models/regex.php';
-require_once __DIR__ . '/models/module.php';
-require_once __DIR__ . '/models/log/log.php';
-require_once __DIR__ . '/models/flusher.php';
-require_once __DIR__ . '/models/match.php';
-require_once __DIR__ . '/models/action.php';
-require_once __DIR__ . '/models/request.php';
-require_once __DIR__ . '/models/header.php';
-require_once __DIR__ . '/models/group.php';
 
 /**
  * Autoload a namespaced class from a plugin directory.
@@ -109,6 +95,35 @@ function redirection_autoload( $requested_class ) {
 }
 
 spl_autoload_register( 'redirection_autoload' );
+
+/**
+ * Set REDIRECTION_REFACTOR to true to enable the refactor mode, using autoloading for all classes.
+ * This is implemented as a dual-mode plugin to allow for a smooth(er) transition to the new codebase.
+ *
+ * @return bool
+ */
+function red_is_refactor_enabled() {
+	// @phpstan-ignore booleanAnd.rightAlwaysTrue
+	return defined( 'REDIRECTION_REFACTOR' ) && REDIRECTION_REFACTOR;
+}
+
+if ( red_is_refactor_enabled() ) {
+	require_once __DIR__ . '/redirection-refactor.php';
+} else {
+	require_once __DIR__ . '/redirection-settings.php';
+	require_once __DIR__ . '/models/options.php';
+	require_once __DIR__ . '/models/redirect/redirect.php';
+	require_once __DIR__ . '/models/url/url.php';
+	require_once __DIR__ . '/models/regex.php';
+	require_once __DIR__ . '/models/module.php';
+	require_once __DIR__ . '/models/log/log.php';
+	require_once __DIR__ . '/models/flusher.php';
+	require_once __DIR__ . '/models/match.php';
+	require_once __DIR__ . '/models/action.php';
+	require_once __DIR__ . '/models/request.php';
+	require_once __DIR__ . '/models/header.php';
+	require_once __DIR__ . '/models/group.php';
+}
 
 /**
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.
@@ -175,8 +190,14 @@ function red_is_admin() {
  * @return void
  */
 function red_start_rest() {
-	require_once __DIR__ . '/redirection-admin.php';
+	if ( red_is_refactor_enabled() ) {
+		Redirection\Api\Api::init();
+		Redirection\Plugin\Admin::init();
+		remove_action( 'rest_api_init', 'red_start_rest' );
+		return;
+	}
 
+	require_once __DIR__ . '/redirection-admin.php';
 	Redirection\Api\Api::init();
 	Redirection_Admin::init();
 
@@ -190,13 +211,35 @@ function redirection_locale() {
 	load_plugin_textdomain( 'redirection', false, dirname( plugin_basename( REDIRECTION_FILE ) ) . '/locale/' );
 }
 
-if ( red_is_admin() || red_is_wpcli() ) {
+if ( red_is_refactor_enabled() ) {
+	if ( red_is_admin() || red_is_wpcli() ) {
+		register_activation_hook( REDIRECTION_FILE, [ Redirection\Plugin\Admin::class, 'plugin_activated' ] );
+
+		// @phpstan-ignore return.void
+		add_action( 'init', [ Redirection\Plugin\Admin::class, 'init' ] );
+	} else {
+		// @phpstan-ignore return.void
+		add_action( 'plugins_loaded', [ Redirection\Plugin\Front::class, 'init' ] );
+	}
+
+	if ( red_is_wpcli() ) {
+		WP_CLI::add_command( 'redirection', Redirection\Plugin\Cli::class );
+
+		add_action(
+			Redirection\Plugin\Flusher::DELETE_HOOK,
+			function () {
+				$flusher = new Redirection\Plugin\Flusher();
+				$flusher->flush();
+			}
+		);
+	}
+} elseif ( red_is_admin() || red_is_wpcli() ) {
 	require_once __DIR__ . '/redirection-admin.php';
 } else {
 	require_once __DIR__ . '/redirection-front.php';
 }
 
-if ( red_is_wpcli() ) {
+if ( ! red_is_refactor_enabled() && red_is_wpcli() ) {
 	require_once __DIR__ . '/redirection-cli.php';
 }
 

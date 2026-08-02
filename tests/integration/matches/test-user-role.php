@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/user-role.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/user-role.php';
+}
 
 class UserRoleMatchTest extends WP_UnitTestCase {
 	public function testTargetSanitized() {

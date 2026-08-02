@@ -25,7 +25,10 @@ class ErrorTest extends WP_UnitTestCase {
 		$action->run( 410, 'test' );
 
 		$this->assertTrue( get_query_var( 'is_404' ) );
-		$this->assertEquals( get_404_template(), $action->template_include() );
+		// Falls back to the index template when the theme has no 404 template, rather than returning an empty string.
+		$expected_template = get_404_template();
+		$expected_template = $expected_template !== '' ? $expected_template : get_index_template();
+		$this->assertEquals( $expected_template, $action->template_include() );
 		$this->assertFalse( $action->pre_handle_404() );
 		$this->assertEquals( [], $wp_query->posts );
 	}

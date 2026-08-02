@@ -1,6 +1,8 @@
 <?php
 
-require_once PLUGIN_PATH . '/matches/ip.php';
+if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
+	require_once PLUGIN_PATH . '/matches/ip.php';
+}
 
 class IPMatchTest extends WP_UnitTestCase {
 	public function setUp() : void {
