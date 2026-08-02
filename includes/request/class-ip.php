@@ -21,7 +21,7 @@ class Ip {
 	public function __construct( $ip = '' ) {
 		$ip = sanitize_text_field( $ip );
 		$ip = explode( ',', $ip );
-		$ip = array_pop( $ip );
+		$ip = trim( (string) array_pop( $ip ) );
 		$ip = filter_var( $ip, FILTER_VALIDATE_IP );
 		if ( $ip === false ) {
 			return;
