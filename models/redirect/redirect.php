@@ -472,9 +472,10 @@ class Red_Item {
 				FROM {$wpdb->prefix}redirection_items INNER JOIN {$wpdb->prefix}redirection_groups ON
 				{$wpdb->prefix}redirection_groups.id={$wpdb->prefix}redirection_items.group_id AND {$wpdb->prefix}redirection_groups.status='enabled'
 				AND {$wpdb->prefix}redirection_groups.module_id=%d WHERE ({$wpdb->prefix}redirection_items.regex=1
-				OR {$wpdb->prefix}redirection_items.url=%s)",
+				OR {$wpdb->prefix}redirection_items.url=%s) LIMIT %d",
 				WordPress_Module::MODULE_ID,
-				$url
+				$url,
+				self::MAX_REDIRECTS
 			)
 		);
 
