@@ -260,11 +260,11 @@ class Redirect extends Filtered {
 			}
 		}
 
-		if ( ! $this->permission_callback_manage( $request ) ) {
-			return $this->add_error_details( new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to do that.' ) ), __LINE__, rest_authorization_required_code() );
+		if ( $this->permission_callback_manage( $request ) ) {
+			return $this->route_list( $request );
 		}
 
-		return $this->route_list( $request );
+		return [ 'items' => [], 'total' => 0 ];
 	}
 
 	/**
