@@ -482,15 +482,15 @@ function looksLikeRedirectCsvRow( row: string[] ) {
 export function getSniffedImportFormat(
 	result: ImportSniffResult | null
 ): 'apache' | 'csv' | 'redirects-file' | undefined {
-	if ( result === null || ! result.valid || ! result.importSupported ) {
+	if ( result === null || ! result.valid ) {
 		return undefined;
 	}
 
-	if ( result.format === 'apache' || result.format === 'csv' || result.format === 'redirects-file' ) {
-		return result.format;
+	if ( result.format !== 'apache' && result.format !== 'csv' && result.format !== 'redirects-file' ) {
+		return undefined;
 	}
 
-	return undefined;
+	return result.importSupported ? result.format : undefined;
 }
 
 export function getSeparatorLabel( separator: CsvSeparator ) {

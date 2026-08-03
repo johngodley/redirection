@@ -18,7 +18,7 @@ type FileImportVariables = {
 	duplicateMode: DuplicateMode;
 	deleteSource?: boolean;
 	importSections?: string[];
-	format?: FileImportFormat;
+	format?: FileImportFormat | undefined;
 };
 type PluginImportVariables = {
 	sourceType: 'plugin';
