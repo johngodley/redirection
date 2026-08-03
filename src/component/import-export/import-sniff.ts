@@ -471,6 +471,28 @@ function looksLikeRedirectCsvRow( row: string[] ) {
 	return true;
 }
 
+/**
+ * The importer used server-side is normally guessed from the uploaded filename, which can
+ * disagree with what was actually sniffed from the content (eg a `_redirects` file saved as
+ * `_redirects.txt`, or a file with no recognised extension at all). Where sniffing already
+ * identified a supported format, pass it through explicitly so import uses the same format
+ * the UI told the user it detected.
+ * @param result Sniff result for the file or pasted content being imported.
+ */
+export function getSniffedImportFormat(
+	result: ImportSniffResult | null
+): 'apache' | 'csv' | 'redirects-file' | undefined {
+	if ( result === null || ! result.valid || ! result.importSupported ) {
+		return undefined;
+	}
+
+	if ( result.format === 'apache' || result.format === 'csv' || result.format === 'redirects-file' ) {
+		return result.format;
+	}
+
+	return undefined;
+}
+
 export function getSeparatorLabel( separator: CsvSeparator ) {
 	if ( separator === ',' ) {
 		return 'comma';

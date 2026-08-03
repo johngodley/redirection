@@ -220,6 +220,7 @@ class RedirectsFileFormatTest extends TestCase {
 
 		$this->assertStringContainsString( "/old /new 301\n", $data );
 		$this->assertEquals( 0, $format->get_skipped_count() );
+		$this->assertEquals( 1, $format->get_exported_count() );
 	}
 
 	public function testGetDataExportsSplatRedirect() {
@@ -350,6 +351,32 @@ class RedirectsFileFormatTest extends TestCase {
 		$this->assertEquals( 0, $format->get_skipped_count() );
 	}
 
+	public function testGetDataDoesNotCountDisabledItemsAsExported() {
+		$format = new RedirectsFile();
+		$enabled = $this->get_item(
+			[
+				'url' => '/old',
+				'action_data' => '/new',
+				'action_code' => 301,
+			]
+		);
+		$disabled = $this->get_item(
+			[
+				'url' => '/old2',
+				'action_data' => '/new2',
+				'action_code' => 301,
+				'enabled' => false,
+			]
+		);
+
+		$format->get_data( [ $enabled, $disabled ], [] );
+
+		// Neither skipped (unsupported) nor exported (written) - `total - exported - skipped`
+		// is how many callers should treat as disabled/excluded.
+		$this->assertEquals( 0, $format->get_skipped_count() );
+		$this->assertEquals( 1, $format->get_exported_count() );
+	}
+
 	public function testGetSkippedCountResetsBetweenCalls() {
 		$format = new RedirectsFile();
 		$skippable = $this->get_item(
@@ -369,8 +396,10 @@ class RedirectsFileFormatTest extends TestCase {
 
 		$format->get_data( [ $skippable ], [] );
 		$this->assertEquals( 1, $format->get_skipped_count() );
+		$this->assertEquals( 0, $format->get_exported_count() );
 
 		$format->get_data( [ $exportable ], [] );
 		$this->assertEquals( 0, $format->get_skipped_count() );
+		$this->assertEquals( 1, $format->get_exported_count() );
 	}
 }

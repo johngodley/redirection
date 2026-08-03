@@ -130,4 +130,18 @@ abstract class FormatHandler {
 	public function get_skipped_count() {
 		return 0;
 	}
+
+	/**
+	 * Number of items actually written during the last get_data() call.
+	 *
+	 * Formats can exclude items for reasons other than being unsupported (eg
+	 * disabled redirects), so this can be lower than `total - get_skipped_count()`.
+	 * Returns null when a format doesn't track this, meaning every given item
+	 * that wasn't counted as skipped was written.
+	 *
+	 * @return int|null
+	 */
+	public function get_exported_count() {
+		return null;
+	}
 }

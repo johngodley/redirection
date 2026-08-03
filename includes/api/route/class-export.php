@@ -12,7 +12,8 @@ use WP_REST_Server;
  * @phpstan-type ExportResponse array{
  *   data: string,
  *   total: int,
- *   skipped?: int
+ *   skipped?: int,
+ *   exported?: int
  * }
  * @phpstan-type ExportPreviewResponse array{
  *   total: int,
@@ -241,11 +242,7 @@ class Export extends BaseRoute {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_module', 'Invalid module' ), __LINE__ );
 		}
 
-		return array(
-			'data' => $export['data'],
-			'total' => $export['total'],
-			'skipped' => $export['exporter']->get_skipped_count(),
-		);
+		return $this->get_export_response( $export );
 	}
 
 	/**
@@ -291,11 +288,26 @@ class Export extends BaseRoute {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_scope', 'Invalid export scope' ), __LINE__ );
 		}
 
-		return [
+		return $this->get_export_response( $export );
+	}
+
+	/**
+	 * @param array{data: string, total: int, exporter: \Redirection\ImportExport\FormatHandler} $export
+	 * @return ExportResponse
+	 */
+	private function get_export_response( array $export ) {
+		$response = [
 			'data' => $export['data'],
 			'total' => $export['total'],
 			'skipped' => $export['exporter']->get_skipped_count(),
 		];
+
+		$exported = $export['exporter']->get_exported_count();
+		if ( $exported !== null ) {
+			$response['exported'] = $exported;
+		}
+
+		return $response;
 	}
 
 	/**

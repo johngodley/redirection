@@ -84,4 +84,25 @@ describe( 'ExportResults', () => {
 
 		expect( screen.queryByText( 'Skipped (unsupported for this format)' ) ).not.toBeInTheDocument();
 	} );
+
+	it( 'uses the explicit exported count when disabled redirects were excluded without being skipped', () => {
+		render(
+			<ExportResults
+				lastResult={ {
+					action: 'download',
+					types: [ 'redirect' ],
+					format: 'redirects-file',
+					data: '',
+					total: 42,
+					skipped: 5,
+					// 42 total, 5 skipped (unsupported), and 7 more excluded for being
+					// disabled - total - skipped would wrongly report 37 "exported".
+					exported: 30,
+				} }
+			/>
+		);
+
+		expect( screen.getByText( '30' ) ).toBeInTheDocument();
+		expect( screen.queryByText( '37' ) ).not.toBeInTheDocument();
+	} );
 } );

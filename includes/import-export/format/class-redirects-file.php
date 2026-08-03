@@ -33,6 +33,11 @@ class RedirectsFile extends FormatHandler {
 	private $skipped = 0;
 
 	/**
+	 * @var int
+	 */
+	private $exported = 0;
+
+	/**
 	 * @param FileReader|null $files File reader.
 	 */
 	public function __construct( ?FileReader $files = null ) {
@@ -54,6 +59,7 @@ class RedirectsFile extends FormatHandler {
 	public function get_data( array $items, array $groups ) {
 		unset( $groups );
 		$this->skipped = 0;
+		$this->exported = 0;
 
 		$details = $this->get_export_details();
 		$lines = [
@@ -76,6 +82,7 @@ class RedirectsFile extends FormatHandler {
 			}
 
 			$lines[] = $line;
+			$this->exported++;
 		}
 
 		return implode( PHP_EOL, $lines ) . PHP_EOL;
@@ -86,6 +93,13 @@ class RedirectsFile extends FormatHandler {
 	 */
 	public function get_skipped_count() {
 		return $this->skipped;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_exported_count() {
+		return $this->exported;
 	}
 
 	/**

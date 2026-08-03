@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
-import { isJsonFile, sniffImportFile, sniffImportText } from 'component/import-export/import-sniff';
+import {
+	getSniffedImportFormat,
+	isJsonFile,
+	sniffImportFile,
+	sniffImportText,
+} from 'component/import-export/import-sniff';
 import { useGroupDropdown, useImporterList, useImportRunner } from 'lib/api/hooks';
 import type { DuplicateMode, ImportMode, ImportMutationVariables } from 'lib/api/hooks';
 import type { ImportPlugin, ImportSniffResult, ImportState, ImportStats } from './types';
@@ -308,6 +313,8 @@ function useImportPage() {
 
 	const getImportRequest = ( mode: ImportMode ): ImportMutationVariables | null => {
 		if ( ( activeImportType === 'file' || activeImportType === 'paste' ) && activeFile ) {
+			const sniffResult = activeImportType === 'paste' ? pasteInfo : fileInfo;
+
 			return {
 				sourceType: 'file',
 				mode,
@@ -316,6 +323,7 @@ function useImportPage() {
 				duplicateMode,
 				deleteSource,
 				importSections: selectedSections,
+				format: getSniffedImportFormat( sniffResult ),
 			};
 		}
 

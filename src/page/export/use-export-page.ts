@@ -92,6 +92,7 @@ function useExportPage(): UseExportPageResult {
 				data: response.data,
 				total: response.total,
 				skipped: response.skipped ?? null,
+				exported: response.exported ?? null,
 			} );
 		},
 	} );

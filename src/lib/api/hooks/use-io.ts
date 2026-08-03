@@ -9,6 +9,7 @@ import type { Message } from 'stores';
 
 type ImportMode = 'preview' | 'import';
 type DuplicateMode = 'import' | 'ignore' | 'update';
+type FileImportFormat = 'apache' | 'csv' | 'redirects-file';
 type FileImportVariables = {
 	sourceType: 'file';
 	mode: ImportMode;
@@ -17,6 +18,7 @@ type FileImportVariables = {
 	duplicateMode: DuplicateMode;
 	deleteSource?: boolean;
 	importSections?: string[];
+	format?: FileImportFormat;
 };
 type PluginImportVariables = {
 	sourceType: 'plugin';
@@ -55,6 +57,7 @@ type ExportResponse = {
 	data: string;
 	total: number;
 	skipped?: number;
+	exported?: number;
 };
 type ExportPreviewResponse = {
 	total: number;
@@ -210,6 +213,7 @@ export function useImportRunner(
 							duplicate_mode: variables.duplicateMode,
 							delete_source: variables.deleteSource ? 1 : 0,
 							import_sections: variables.importSections || [],
+							format: variables.format,
 						} )
 					);
 				} catch ( error ) {
@@ -355,6 +359,7 @@ export type {
 	ExportRequestVariables,
 	ExportResponse,
 	ExportType,
+	FileImportFormat,
 	FileImportVariables,
 	ImportMode,
 	ImportMutationVariables,

@@ -38,6 +38,7 @@ interface ExportResult {
 	data: string;
 	total: number | null;
 	skipped: number | null;
+	exported?: number | null;
 }
 
 export type {
