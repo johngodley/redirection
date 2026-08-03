@@ -460,37 +460,8 @@ class Admin {
 	 * @return void
 	 */
 	private function run_hacks() {
-		add_filter( 'ip-geo-block-admin', [ $this, 'ip_geo_block' ] );
 		add_filter( 'option_rank_math_notifications', [ $this, 'rank_math_notifications' ] );
 		add_filter( 'qtranslate_language_detect_redirect', [ $this, 'qtranslate_language_detect_redirect' ], 10, 2 );
-	}
-
-	/**
-	 * This works around the IP Geo Block plugin being very aggressive and breaking Redirection
-	 *
-	 * @param array<string, mixed> $validate
-	 * @return array<string, mixed>
-	 */
-	public function ip_geo_block( array $validate ): array {
-		$url = Request::get_request_url();
-		$override = [
-			'tools.php?page=redirection.php',
-			'action=red_proxy&rest_path=redirection',
-		];
-
-		foreach ( $override as $path ) {
-			if ( strpos( $url, $path ) !== false ) {
-				return [
-					'result' => 'passed',
-					'auth' => false,
-					'asn' => false,
-					'code' => false,
-					'ip' => false,
-				];
-			}
-		}
-
-		return $validate;
 	}
 
 	/**

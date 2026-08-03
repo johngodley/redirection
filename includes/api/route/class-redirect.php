@@ -189,7 +189,11 @@ class Redirect extends Filtered {
 			}
 		}
 
-		return $this->route_list( $request );
+		if ( $this->permission_callback_manage( $request ) ) {
+			return $this->route_list( $request );
+		}
+
+		return [ 'items' => [], 'total' => 0 ];
 	}
 
 	/**
@@ -256,7 +260,11 @@ class Redirect extends Filtered {
 			}
 		}
 
-		return $this->route_list( $request );
+		if ( $this->permission_callback_manage( $request ) ) {
+			return $this->route_list( $request );
+		}
+
+		return [ 'items' => [], 'total' => 0 ];
 	}
 
 	/**
