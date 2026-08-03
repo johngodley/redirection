@@ -383,15 +383,10 @@ function FileDropzone( {
 				type="file"
 				style={ { display: 'none' } }
 				onChange={ onFileInputChange }
-				// The HTML `accept` attribute only matches MIME types and extensions
-				// (strings starting with "."), not exact filenames — there's no
-				// standard way to filter the OS picker to files literally named
-				// `_redirects` (no extension). Some browsers do accept a bare
-				// filename here and use it as a hint, so it's included for that
-				// case, but this is a best-effort addition, not a guarantee the
-				// file will be selectable via the "Add file" button in every
-				// browser. Drag-and-drop is unaffected either way.
-				accept=".json,.csv,.htaccess,_redirects"
+				// No `accept` filter: the HTML attribute only matches MIME types and
+				// dot-prefixed extensions, so it can't target an extensionless file
+				// like `_redirects` without also hiding it from the OS picker.
+				// Format detection instead happens after selection, via sniffImportFile.
 			/>
 			{ file === false ? (
 				renderInitialDrop()

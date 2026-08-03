@@ -67,6 +67,12 @@ export async function sniffImportFile( file: File ): Promise< ImportSniffResult 
 		return sniffApacheText( text );
 	}
 
+	const genericResult = sniffImportText( text );
+
+	if ( genericResult.valid ) {
+		return genericResult;
+	}
+
 	return {
 		format: 'other',
 		valid: false,
@@ -92,6 +98,11 @@ export function sniffImportText( text: string ): ImportSniffResult {
 	const apacheResult = sniffApacheText( text );
 	if ( apacheResult.valid ) {
 		return apacheResult;
+	}
+
+	const redirectsFileResult = sniffRedirectsFileText( text );
+	if ( redirectsFileResult.valid ) {
+		return redirectsFileResult;
 	}
 
 	return sniffCsvText( text );

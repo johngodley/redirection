@@ -2,9 +2,20 @@ import {
 	getSeparatorLabel,
 	sniffApacheText,
 	sniffCsvText,
+	sniffImportFile,
+	sniffImportText,
 	sniffJsonText,
 	sniffRedirectsFileText,
 } from './import-sniff';
+
+function createTextFile( content: string, name: string ) {
+	const file = new File( [ content ], name );
+
+	// jsdom's File doesn't implement Blob#text(), which sniffImportFile relies on.
+	Object.defineProperty( file, 'text', { value: () => Promise.resolve( content ) } );
+
+	return file;
+}
 
 describe( 'import-sniff', () => {
 	it( 'detects a valid Redirection JSON export', () => {
@@ -237,6 +248,58 @@ describe( 'import-sniff', () => {
 			format: 'redirects-file',
 			valid: false,
 			error: 'unknown-redirects-file-layout',
+		} );
+	} );
+
+	it( 'detects pasted _redirects content', () => {
+		expect( sniffImportText( '/old /new 301\n/blog/* /news/:splat 301' ) ).toEqual( {
+			format: 'redirects-file',
+			valid: true,
+			importSupported: true,
+			rules: 2,
+		} );
+	} );
+
+	it( 'still detects pasted Apache content ahead of _redirects content', () => {
+		expect( sniffImportText( 'RewriteRule ^old-path$ /new-path [R=301,L]' ) ).toEqual( {
+			format: 'apache',
+			valid: true,
+			importSupported: true,
+			rules: 1,
+			ruleTypes: [ 'rewrite' ],
+		} );
+	} );
+
+	it( 'falls back to CSV when pasted content matches neither Apache nor _redirects', () => {
+		expect( sniffImportText( 'source,target\n/one,/two' ) ).toEqual( {
+			format: 'csv',
+			valid: true,
+			type: 'redirects',
+			importSupported: true,
+			separator: ',',
+			columns: 2,
+			rows: 1,
+		} );
+	} );
+
+	it( 'detects a _redirects file dropped with a non-standard name', async () => {
+		const file = createTextFile( '/old /new 301', '_redirects.txt' );
+
+		await expect( sniffImportFile( file ) ).resolves.toEqual( {
+			format: 'redirects-file',
+			valid: true,
+			importSupported: true,
+			rules: 1,
+		} );
+	} );
+
+	it( 'rejects an unrecognised file that matches no known format', async () => {
+		const file = createTextFile( 'just some random prose about redirects', 'notes' );
+
+		await expect( sniffImportFile( file ) ).resolves.toEqual( {
+			format: 'other',
+			valid: false,
+			error: 'unsupported-file-type',
 		} );
 	} );
 } );

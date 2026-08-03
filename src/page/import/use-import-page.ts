@@ -46,6 +46,10 @@ function getPastedFile( text: string, format: ImportSniffResult[ 'format' ] ) {
 		return new File( [ text ], 'pasted-import.htaccess', { type: 'text/plain' } );
 	}
 
+	if ( format === 'redirects-file' ) {
+		return new File( [ text ], '_redirects', { type: 'text/plain' } );
+	}
+
 	return new File( [ text ], 'pasted-import.txt', { type: 'text/plain' } );
 }
 
