@@ -257,6 +257,61 @@ class RedirectsFileFormatTest extends TestCase {
 		$this->assertEquals( 0, $format->get_skipped_count() );
 	}
 
+	public function testGetDataExportsSplatRedirectWhenBackreferenceIsFollowedByNonDigit() {
+		$format = new RedirectsFile();
+		$item = $this->get_item(
+			[
+				'url' => '^/blog/(.*)$',
+				'action_data' => '/news/$1-archive',
+				'action_code' => 301,
+				'regex' => true,
+			]
+		);
+
+		$data = $format->get_data( [ $item ], [] );
+
+		$this->assertStringContainsString( "/blog/* /news/:splat-archive 301\n", $data );
+		$this->assertEquals( 0, $format->get_skipped_count() );
+	}
+
+	public function testGetDataExportsSplatRedirectWithBracedBackreferenceFollowedByDigit() {
+		$format = new RedirectsFile();
+		$item = $this->get_item(
+			[
+				'url' => '^/blog/(.*)$',
+				'action_data' => '/news/${1}0',
+				'action_code' => 301,
+				'regex' => true,
+			]
+		);
+
+		$data = $format->get_data( [ $item ], [] );
+
+		// The braces make this unambiguous, so it's still group 1 followed by a literal "0".
+		$this->assertStringContainsString( "/blog/* /news/:splat0 301\n", $data );
+		$this->assertEquals( 0, $format->get_skipped_count() );
+	}
+
+	public function testGetDataSkipsAmbiguousNumericBackreference() {
+		$format = new RedirectsFile();
+		$item = $this->get_item(
+			[
+				'url' => '^/blog/(.*)$',
+				// There's only one capture group, so "$10" isn't a valid backreference to
+				// group 10 - but it also can't be safely assumed to mean "$1" followed by a
+				// literal "0" without risking silently wrong output, so this is skipped.
+				'action_data' => '/news/$10',
+				'action_code' => 301,
+				'regex' => true,
+			]
+		);
+
+		$data = $format->get_data( [ $item ], [] );
+
+		$this->assertStringNotContainsString( '/news/', $data );
+		$this->assertEquals( 1, $format->get_skipped_count() );
+	}
+
 	public function testGetDataSkipsNonUrlMatchType() {
 		$format = new RedirectsFile();
 		$item = $this->get_item(

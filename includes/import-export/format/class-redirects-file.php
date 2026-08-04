@@ -23,6 +23,13 @@ class RedirectsFile extends FormatHandler {
 	const STATUS_CODES = [ '301', '302', '303', '307', '308' ];
 
 	/**
+	 * Matches `$1`/`${1}` as a standalone backreference. A bare `$1` must not be
+	 * followed by another digit, otherwise it's part of a different (unsupported)
+	 * backreference such as `$10` or `$12` rather than group 1 plus literal digits.
+	 */
+	const BACKREFERENCE_PATTERN = '/\$\{1\}|\$1(?!\d)/';
+
+	/**
 	 * @var FileReader
 	 */
 	private $files;
@@ -278,10 +285,12 @@ class RedirectsFile extends FormatHandler {
 			return $target;
 		}
 
-		if ( strpos( $target, '$1' ) === false && strpos( $target, '${1}' ) === false ) {
+		if ( preg_match( self::BACKREFERENCE_PATTERN, $target ) !== 1 ) {
 			return false;
 		}
 
-		return str_replace( [ '${1}', '$1' ], ':splat', $target );
+		$replaced = preg_replace( self::BACKREFERENCE_PATTERN, ':splat', $target );
+
+		return $replaced !== null ? $replaced : false;
 	}
 }
