@@ -31,6 +31,7 @@ function supportLink( rel: string, anchor?: string ): string {
 
 // Empty object constant to avoid creating new object on every render
 const EMPTY_POST_TYPES: PostTypes = {};
+const EMPTY_TAXONOMIES: PostTypes = {};
 const EMPTY_SETTINGS: SettingsValues = {};
 
 function OptionsForm() {
@@ -40,12 +41,14 @@ function OptionsForm() {
 	const installed = useSettingsStore( ( state ) => state.values?.installed ?? '' );
 	const warning = useSettingsStore( ( state ) => state.values?.warning ?? '' );
 	const settingsPostTypes = useSettingsStore( ( state ) => state.values?.postTypes );
+	const settingsTaxonomies = useSettingsStore( ( state ) => state.values?.taxonomies );
 	const { data: groupData } = useGroupDropdown();
 	const groups = ( groupData?.items ? nestedGroups( groupData.items as any ) : [] ) as GroupOption[];
 	const { mutate: updateSettings } = useSettingsUpdate();
 
 	const [ settings, setSettings ] = useState( values ?? EMPTY_SETTINGS );
 	const postTypes = settingsPostTypes ?? EMPTY_POST_TYPES;
+	const taxonomies = settingsTaxonomies ?? EMPTY_TAXONOMIES;
 
 	function onSubmit( ev: React.FormEvent ) {
 		ev.preventDefault();
@@ -79,6 +82,7 @@ function OptionsForm() {
 					getLink={ supportLink }
 					groups={ groups }
 					postTypes={ postTypes }
+					taxonomies={ taxonomies }
 				/>
 
 				<OtherOptions

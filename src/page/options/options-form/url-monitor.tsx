@@ -15,6 +15,7 @@ interface Settings {
 	associated_redirect: string;
 	monitor_post: number;
 	monitor_types: string[];
+	monitor_terms: string[];
 }
 
 interface UrlMonitoringProps {
@@ -23,6 +24,7 @@ interface UrlMonitoringProps {
 	groups: GroupOption[];
 	getLink: ( rel: string, anchor?: string ) => string;
 	postTypes: PostTypes;
+	taxonomies: PostTypes;
 }
 
 function getPostTypes(
@@ -65,6 +67,32 @@ function getPostTypes(
 	return types;
 }
 
+function getTaxonomies(
+	taxonomies: PostTypes,
+	monitor_terms: string[],
+	onChangeMonitor: ( ev: React.ChangeEvent< HTMLInputElement > ) => void
+) {
+	return Object.entries( taxonomies ).map( ( [ key, label ] ) => (
+		<p key={ key }>
+			<input
+				id={ 'monitor-term-' + key }
+				type="checkbox"
+				name={ 'monitor_term_' + key }
+				onChange={ onChangeMonitor }
+				checked={ monitor_terms.includes( key ) }
+			/>
+
+			<label htmlFor={ 'monitor-term-' + key }>
+				{ sprintf(
+					// translators: %(taxonomy)s is the taxonomy name (e.g. category)
+					__( 'Monitor changes to %(taxonomy)s terms', 'redirection' ),
+					{ taxonomy: label.toLowerCase() }
+				) }
+			</label>
+		</p>
+	) );
+}
+
 function getMonitorPost( post: number, groups: GroupOption[] ): number {
 	if ( parseInt( post.toString(), 10 ) === 0 && groups.length > 0 ) {
 		if ( groups.length > 0 && groups[ 0 ] ) {
@@ -82,9 +110,9 @@ function getMonitorPost( post: number, groups: GroupOption[] ): number {
 }
 
 function UrlMonitoring( props: UrlMonitoringProps ) {
-	const { onChange, settings, groups, getLink, postTypes } = props;
-	const { associated_redirect, monitor_post, monitor_types } = settings;
-	const canMonitor = monitor_types.length > 0;
+	const { onChange, settings, groups, getLink, postTypes, taxonomies } = props;
+	const { associated_redirect, monitor_post, monitor_types, monitor_terms } = settings;
+	const canMonitor = monitor_types.length > 0 || monitor_terms.length > 0;
 
 	function onChangeMonitor( ev: React.ChangeEvent< HTMLInputElement > ) {
 		const type = ev.target.name.replace( 'monitor_type_', '' );
@@ -101,10 +129,26 @@ function UrlMonitoring( props: UrlMonitoringProps ) {
 		} );
 	}
 
+	function onChangeTermMonitor( ev: React.ChangeEvent< HTMLInputElement > ) {
+		const taxonomy = ev.target.name.replace( 'monitor_term_', '' );
+		const terms = monitor_terms.filter( ( item ) => item !== taxonomy );
+
+		if ( ev.target.checked ) {
+			terms.push( taxonomy );
+		}
+
+		onChange( {
+			monitor_terms: terms,
+			monitor_post: terms.length > 0 || monitor_types.length > 0 ? getMonitorPost( monitor_post, groups ) : 0,
+			associated_redirect: terms.length > 0 || monitor_types.length > 0 ? associated_redirect : '',
+		} );
+	}
+
 	return (
 		<>
 			<TableRow title={ __( 'URL Monitor', 'redirection' ) + ':' } url={ getLink( 'options', 'monitor' ) }>
 				{ getPostTypes( postTypes, monitor_types, onChangeMonitor ) }
+				{ getTaxonomies( taxonomies, monitor_terms, onChangeTermMonitor ) }
 			</TableRow>
 
 			{ canMonitor && (

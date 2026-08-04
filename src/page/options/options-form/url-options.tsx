@@ -18,6 +18,7 @@ interface Settings {
 	associated_redirect: string;
 	monitor_post: number;
 	monitor_types: string[];
+	monitor_terms: string[];
 }
 
 interface GroupOption {
@@ -35,6 +36,7 @@ interface UrlOptionsProps {
 	getLink: ( rel: string, anchor?: string ) => string;
 	groups: GroupOption[];
 	postTypes: PostTypes;
+	taxonomies: PostTypes;
 }
 
 export const queryMatch = (): Option[] => [
@@ -51,7 +53,7 @@ const expireTimes = (): Option[] => [
 ];
 
 function UrlOptions( props: UrlOptionsProps ) {
-	const { settings, onChange, getLink, groups, postTypes } = props;
+	const { settings, onChange, getLink, groups, postTypes, taxonomies } = props;
 	const { flag_case, flag_trailing, flag_query, auto_target, redirect_cache, cache_key } = settings;
 
 	return (
@@ -67,6 +69,7 @@ function UrlOptions( props: UrlOptionsProps ) {
 				groups={ groups }
 				getLink={ getLink }
 				postTypes={ postTypes }
+				taxonomies={ taxonomies }
 			/>
 			<TableRow
 				title={ __( 'Default URL settings', 'redirection' ) + ':' }
