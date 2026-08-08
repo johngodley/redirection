@@ -274,7 +274,7 @@ class RedirectsFileFormatTest extends TestCase {
 		$this->assertEquals( 0, $format->get_skipped_count() );
 	}
 
-	public function testGetDataExportsSplatRedirectWithBracedBackreferenceFollowedByDigit() {
+	public function testGetDataSkipsBracedBackreferenceFollowedByWordCharacter() {
 		$format = new RedirectsFile();
 		$item = $this->get_item(
 			[
@@ -287,8 +287,28 @@ class RedirectsFileFormatTest extends TestCase {
 
 		$data = $format->get_data( [ $item ], [] );
 
-		// The braces make this unambiguous, so it's still group 1 followed by a literal "0".
-		$this->assertStringContainsString( "/blog/* /news/:splat0 301\n", $data );
+		// The braces make this unambiguous (group 1 followed by a literal "0"), but the
+		// resulting "/news/:splat0" can't be told apart from an unsupported named
+		// placeholder on import, so it would never round-trip. Skip it instead.
+		$this->assertStringNotContainsString( '/news/', $data );
+		$this->assertEquals( 1, $format->get_skipped_count() );
+	}
+
+	public function testGetDataExportsSplatRedirectWithNoBackreference() {
+		$format = new RedirectsFile();
+		$item = $this->get_item(
+			[
+				'url' => '^/blog/(.*)$',
+				'action_data' => '/news',
+				'action_code' => 301,
+				'regex' => true,
+			]
+		);
+
+		$data = $format->get_data( [ $item ], [] );
+
+		// The target doesn't need to reference the captured group at all.
+		$this->assertStringContainsString( "/blog/* /news 301\n", $data );
 		$this->assertEquals( 0, $format->get_skipped_count() );
 	}
 

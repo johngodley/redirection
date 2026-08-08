@@ -286,11 +286,28 @@ class RedirectsFile extends FormatHandler {
 		}
 
 		if ( preg_match( self::BACKREFERENCE_PATTERN, $target ) !== 1 ) {
+			if ( strpos( $target, '$' ) === false ) {
+				// No `$` at all: the target doesn't reference the captured group, so it can
+				// be exported as a literal string and still round-trip correctly on import.
+				return $target;
+			}
+
+			// A `$` is present but isn't an unambiguous `$1`/`${1}` backreference (eg `$10`,
+			// `$2`) - this can't be safely resolved, so skip it rather than risk silently
+			// wrong output.
 			return false;
 		}
 
 		$replaced = preg_replace( self::BACKREFERENCE_PATTERN, ':splat', $target );
 
-		return $replaced !== null ? $replaced : false;
+		if ( $replaced === null || preg_match( '/:splat\w/', $replaced ) === 1 ) {
+			// `:splat` immediately followed by a word character (eg "$1" + "0" becoming
+			// "splat0") is indistinguishable from an unsupported named placeholder to the
+			// importer/sniffer, so it would be silently dropped on re-import. Skip instead
+			// of producing a file that can't round-trip.
+			return false;
+		}
+
+		return $replaced;
 	}
 }
