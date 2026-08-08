@@ -481,9 +481,13 @@ function looksLikeRedirectCsvRow( row: string[] ) {
  */
 export function getSniffedImportFormat(
 	result: ImportSniffResult | null
-): 'apache' | 'csv' | 'redirects-file' | undefined {
+): 'apache' | 'csv' | 'redirects-file' | 'json' | undefined {
 	if ( result === null || ! result.valid ) {
 		return undefined;
+	}
+
+	if ( result.format === 'json' ) {
+		return result.format;
 	}
 
 	if ( result.format !== 'apache' && result.format !== 'csv' && result.format !== 'redirects-file' ) {

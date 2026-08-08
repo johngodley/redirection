@@ -9,7 +9,7 @@ import type { Message } from 'stores';
 
 type ImportMode = 'preview' | 'import';
 type DuplicateMode = 'import' | 'ignore' | 'update';
-type FileImportFormat = 'apache' | 'csv' | 'redirects-file';
+type FileImportFormat = 'apache' | 'csv' | 'redirects-file' | 'json';
 type FileImportVariables = {
 	sourceType: 'file';
 	mode: ImportMode;

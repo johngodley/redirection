@@ -1,5 +1,6 @@
 import {
 	getSeparatorLabel,
+	getSniffedImportFormat,
 	sniffApacheText,
 	sniffCsvText,
 	sniffImportFile,
@@ -300,6 +301,44 @@ describe( 'import-sniff', () => {
 			format: 'other',
 			valid: false,
 			error: 'unsupported-file-type',
+		} );
+	} );
+
+	it( 'detects a Redirection JSON export dropped with a non-standard name', async () => {
+		const file = createTextFile( JSON.stringify( { redirects: [ { id: 1, url: '/source' } ] } ), 'export' );
+
+		await expect( sniffImportFile( file ) ).resolves.toEqual( {
+			format: 'json',
+			valid: true,
+			contents: { redirects: 1 },
+		} );
+	} );
+
+	describe( 'getSniffedImportFormat', () => {
+		it( 'forwards a valid Redirection JSON sniff so the server uses the JSON importer', () => {
+			expect( getSniffedImportFormat( { format: 'json', valid: true, contents: { redirects: 1 } } ) ).toBe(
+				'json'
+			);
+		} );
+
+		it( 'does not forward an invalid JSON sniff', () => {
+			expect( getSniffedImportFormat( { format: 'json', valid: false, error: 'invalid-json' } ) ).toBeUndefined();
+		} );
+
+		it( 'forwards a supported _redirects sniff', () => {
+			expect(
+				getSniffedImportFormat( { format: 'redirects-file', valid: true, importSupported: true, rules: 1 } )
+			).toBe( 'redirects-file' );
+		} );
+
+		it( 'does not forward an unsupported _redirects sniff', () => {
+			expect(
+				getSniffedImportFormat( { format: 'redirects-file', valid: true, importSupported: false, rules: 1 } )
+			).toBeUndefined();
+		} );
+
+		it( 'returns undefined for a null sniff result', () => {
+			expect( getSniffedImportFormat( null ) ).toBeUndefined();
 		} );
 	} );
 } );
