@@ -1,4 +1,4 @@
-type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
+type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx' | 'redirects-file';
 
 function getMimeType( format: ExportFormat ) {
 	if ( format === 'json' ) {

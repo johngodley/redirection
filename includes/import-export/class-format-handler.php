@@ -119,4 +119,29 @@ abstract class FormatHandler {
 			'preview' => $redirect->get_preview_items(),
 		];
 	}
+
+	/**
+	 * Number of items skipped during the last get_data() call, for formats
+	 * that only support a subset of what Redirection can represent. Formats
+	 * that always export everything they're given can ignore this.
+	 *
+	 * @return int
+	 */
+	public function get_skipped_count() {
+		return 0;
+	}
+
+	/**
+	 * Number of items actually written during the last get_data() call.
+	 *
+	 * Formats can exclude items for reasons other than being unsupported (eg
+	 * disabled redirects), so this can be lower than `total - get_skipped_count()`.
+	 * Returns null when a format doesn't track this, meaning every given item
+	 * that wasn't counted as skipped was written.
+	 *
+	 * @return int|null
+	 */
+	public function get_exported_count() {
+		return null;
+	}
 }

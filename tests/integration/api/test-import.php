@@ -203,6 +203,22 @@ class ImportImportCsvTest extends Redirection_Api_Test {
 		$result = $this->callApi( 'import/file/1', [ 'import_sections' => 'groups,redirects' ], 'POST' );
 		$this->assertEquals( 400, $result->status );
 		$this->assertEquals( 'redirect_import_invalid_file', $result->data['code'] );
+
+		$result = $this->callApi( 'import/file/1', [ 'format' => 'maybe' ], 'POST' );
+		$this->assertEquals( 400, $result->status );
+		$this->assertEquals( 'rest_invalid_param', $result->data['code'] );
+	}
+
+	public function testImportFileAcceptsFormatOverrides() {
+		$this->setNonce();
+
+		// A `format` override is only used once a file has actually been uploaded, but every
+		// allowed value should pass REST param validation (ie. not be rejected with
+		// rest_invalid_param) and reach the file-upload check instead.
+		foreach ( [ 'apache', 'csv', 'redirects-file', 'json' ] as $format ) {
+			$result = $this->callApi( 'import/file/1', [ 'format' => $format ], 'POST' );
+			$this->assertEquals( 'redirect_import_invalid_file', $result->data['code'], "format={$format} should pass validation" );
+		}
 	}
 
 	public function testPluginImportOptionValidation() {

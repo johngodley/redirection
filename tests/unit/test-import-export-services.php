@@ -21,11 +21,13 @@ require_once PLUGIN_PATH . '/includes/import-export/parser/class-json-parser.php
 require_once PLUGIN_PATH . '/includes/import-export/format/class-apache.php';
 require_once PLUGIN_PATH . '/includes/import-export/format/class-csv.php';
 require_once PLUGIN_PATH . '/includes/import-export/format/class-json.php';
+require_once PLUGIN_PATH . '/includes/import-export/format/class-redirects-file.php';
 
 use Redirection\ImportExport\ExportService;
 use Redirection\ImportExport\Format\Apache;
 use Redirection\ImportExport\Format\Csv;
 use Redirection\ImportExport\Format\Json;
+use Redirection\ImportExport\Format\RedirectsFile;
 use Redirection\ImportExport\FormatHandler;
 use Redirection\ImportExport\FormatFactory;
 use Redirection\ImportExport\GroupRepository;
@@ -198,6 +200,46 @@ class ImportExportServiceTest extends TestCase {
 		$this->assertEquals( 1, $result['total'] );
 	}
 
+	public function testExportServiceRedirectsIncludesExporterForSkippedCountReporting() {
+		$format = $this->get_format( [ 'data' => 'exported-data' ] );
+		$formats = new class( $format ) extends FormatFactory {
+			private $format;
+
+			public function __construct( $format ) {
+				$this->format = $format;
+			}
+
+			public function create( $type ) {
+				return $type === 'redirects-file' ? $this->format : false;
+			}
+		};
+		$groups = new class() extends GroupRepository {
+			public function get_export( $group_id ) {
+				unset( $group_id );
+				return false;
+			}
+		};
+		$redirects = new class() extends RedirectRepository {
+			public function get_filtered_for_export( array $params = [] ) {
+				unset( $params );
+
+				return [
+					new class() {
+						public function get_group_id() {
+							return 0;
+						}
+					},
+				];
+			}
+		};
+
+		$service = new ExportService( $formats, $groups, $redirects, new ModuleRepository() );
+		$result = $service->export_redirects( 'redirects-file', [] );
+
+		$this->assertSame( $format, $result['exporter'] );
+		$this->assertEquals( 1, $result['total'] );
+	}
+
 	public function testCsvUsesInjectedParser() {
 		$parser = new class() extends CsvParser {
 			public function parse_row( array $csv, $group = null ) {
@@ -299,5 +341,19 @@ class ImportExportServiceTest extends TestCase {
 		$importer = $factory->create_importer_for_filename( 'redirects.rules' );
 
 		$this->assertInstanceOf( Apache::class, $importer );
+	}
+
+	public function testFormatFactoryCreatesRedirectsFileImporterForExactFilename() {
+		$factory = new FormatFactory();
+		$importer = $factory->create_importer_for_filename( '_redirects' );
+
+		$this->assertInstanceOf( RedirectsFile::class, $importer );
+	}
+
+	public function testFormatFactoryCreatesRedirectsFileImporterCaseInsensitively() {
+		$factory = new FormatFactory();
+		$importer = $factory->create_importer_for_filename( '_REDIRECTS' );
+
+		$this->assertInstanceOf( RedirectsFile::class, $importer );
 	}
 }

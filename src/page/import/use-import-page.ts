@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
-import { isJsonFile, sniffImportFile, sniffImportText } from 'component/import-export/import-sniff';
+import {
+	getSniffedImportFormat,
+	isJsonFile,
+	sniffImportFile,
+	sniffImportText,
+} from 'component/import-export/import-sniff';
 import { useGroupDropdown, useImporterList, useImportRunner } from 'lib/api/hooks';
 import type { DuplicateMode, ImportMode, ImportMutationVariables } from 'lib/api/hooks';
-import type { ImportPlugin, ImportState, ImportStats } from './types';
+import type { ImportPlugin, ImportSniffResult, ImportState, ImportStats } from './types';
 
 type ImportResponse = Partial< ImportStats > & {
 	preview?: ImportStats[ 'preview' ];
@@ -33,7 +38,7 @@ function isDestructivePluginImport( request: ImportMutationVariables ) {
 	);
 }
 
-function getPastedFile( text: string, format: 'json' | 'csv' | 'apache' | 'other' ) {
+function getPastedFile( text: string, format: ImportSniffResult[ 'format' ] ) {
 	if ( format === 'json' ) {
 		return new File( [ text ], 'pasted-import.json', { type: 'application/json' } );
 	}
@@ -44,6 +49,10 @@ function getPastedFile( text: string, format: 'json' | 'csv' | 'apache' | 'other
 
 	if ( format === 'apache' ) {
 		return new File( [ text ], 'pasted-import.htaccess', { type: 'text/plain' } );
+	}
+
+	if ( format === 'redirects-file' ) {
+		return new File( [ text ], '_redirects', { type: 'text/plain' } );
 	}
 
 	return new File( [ text ], 'pasted-import.txt', { type: 'text/plain' } );
@@ -304,6 +313,8 @@ function useImportPage() {
 
 	const getImportRequest = ( mode: ImportMode ): ImportMutationVariables | null => {
 		if ( ( activeImportType === 'file' || activeImportType === 'paste' ) && activeFile ) {
+			const sniffResult = activeImportType === 'paste' ? pasteInfo : fileInfo;
+
 			return {
 				sourceType: 'file',
 				mode,
@@ -312,6 +323,7 @@ function useImportPage() {
 				duplicateMode,
 				deleteSource,
 				importSections: selectedSections,
+				format: getSniffedImportFormat( sniffResult ),
 			};
 		}
 

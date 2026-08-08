@@ -379,6 +379,45 @@ describe( 'useImportPage', () => {
 		);
 	} );
 
+	it( 'passes the sniffed format for an uploaded file whose name does not match its detected content', async () => {
+		// A _redirects file saved with a non-standard name: the server picks its importer
+		// from the filename/extension, which would guess wrong here without an explicit
+		// override, so the detected format must be sent along with the upload.
+		const file = new File( [ '/old /new 301' ], '_redirects.txt', { type: 'text/plain' } );
+
+		mockIsJsonFile.mockReturnValue( false );
+		mockSniffImportFile.mockResolvedValue( {
+			format: 'redirects-file',
+			valid: true,
+			importSupported: true,
+			rules: 1,
+		} );
+
+		const { result } = renderHook( () => useImportPage() );
+
+		act( () => {
+			result.current.onFileInputChange( {
+				target: { files: [ file ] },
+			} as any );
+		} );
+
+		await waitFor( () => expect( result.current.state.fileInfo ).not.toBeNull() );
+
+		act( () => {
+			result.current.onImport( true );
+		} );
+
+		expect( mutate ).toHaveBeenCalledWith(
+			expect.objectContaining( {
+				sourceType: 'file',
+				format: 'redirects-file',
+				file: expect.objectContaining( {
+					name: '_redirects.txt',
+				} ),
+			} )
+		);
+	} );
+
 	it( 'shows a destructive confirm before importing when delete original data is enabled', () => {
 		const { result } = renderHook( () => useImportPage() );
 

@@ -61,6 +61,10 @@ class Import extends BaseRoute {
 							'sanitize_callback' => [ $this, 'sanitize_import_sections_param' ],
 							'validate_callback' => [ $this, 'validate_import_sections_param' ],
 						],
+						'format' => [
+							'sanitize_callback' => [ $this, 'sanitize_import_format_param' ],
+							'validate_callback' => [ $this, 'validate_import_format_param' ],
+						],
 					],
 				],
 			]
@@ -326,6 +330,13 @@ class Import extends BaseRoute {
 			'import_sections' => isset( $params['import_sections'] ) ? $this->sanitize_import_sections_param( $params['import_sections'] ) : [],
 		];
 
+		if ( isset( $params['format'] ) ) {
+			$format = $this->sanitize_import_format_param( $params['format'] );
+			if ( $format !== null ) {
+				$options['format'] = $format;
+			}
+		}
+
 		if ( ! isset( $params['duplicate_mode'] ) && isset( $params['deduplicate'] ) && $this->sanitize_boolean_param( $params['deduplicate'] ) ) {
 			$options['duplicate_mode'] = 'update';
 		}
@@ -338,15 +349,19 @@ class Import extends BaseRoute {
 		$parts = pathinfo( $upload['name'] );
 		$extension = isset( $parts['extension'] ) ? strtolower( $parts['extension'] ) : '';
 
+		// The format override takes priority over the filename-guessed extension, so a JSON
+		// file uploaded under a non-`.json` name still gets the JSON-specific handling below.
+		$is_json = $extension === 'json' || ( isset( $options['format'] ) && $options['format'] === 'json' );
+
 		// JSON imports don't need a group, but all other formats do
-		if ( $extension !== 'json' ) {
+		if ( ! $is_json ) {
 			$group = \Red_Group::get( $group_id );
 			if ( $group === false ) {
 				return $this->add_error_details( new WP_Error( 'redirect_import_invalid_group', 'Invalid group' ), __LINE__ );
 			}
 		}
 
-		if ( $extension === 'json' && ! $this->has_json_import_permissions( $upload['tmp_name'], $options['import_sections'] ) ) {
+		if ( $is_json && ! $this->has_json_import_permissions( $upload['tmp_name'], $options['import_sections'] ) ) {
 			return $this->get_forbidden_error();
 		}
 
@@ -363,7 +378,7 @@ class Import extends BaseRoute {
 			$result['logs_imported'] === 0 &&
 			$result['errors_imported'] === 0 &&
 			$result['settings_imported'] === 0 &&
-			$extension === 'json'
+			$is_json
 		) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
 			$content = file_get_contents( $upload['tmp_name'] );
@@ -439,6 +454,41 @@ class Import extends BaseRoute {
 		unset( $request, $param );
 
 		return is_string( $value ) && in_array( $value, [ 'import', 'ignore', 'update' ], true );
+	}
+
+	/**
+	 * Explicit format override for file imports.
+	 *
+	 * The importer is normally chosen from the uploaded filename, but that guess can be
+	 * wrong for files that don't carry a recognised extension (eg `_redirects.txt`, or a
+	 * file with no extension at all). Clients that have already sniffed the content can
+	 * pass the detected format here to make sure the same format is used on import.
+	 *
+	 * @param mixed $value Parameter value.
+	 * @return 'apache'|'csv'|'redirects-file'|'json'|null
+	 */
+	public function sanitize_import_format_param( $value ) {
+		$allowed = [ 'apache', 'csv', 'redirects-file', 'json' ];
+
+		if ( is_string( $value ) && in_array( $value, $allowed, true ) ) {
+			return $value;
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param mixed $value Parameter value.
+	 * @param WP_REST_Request $request Request.
+	 * @param string $param Parameter name.
+	 * @return bool
+	 */
+	public function validate_import_format_param( $value, WP_REST_Request $request, $param ) {
+		unset( $request, $param );
+
+		$allowed = [ 'apache', 'csv', 'redirects-file', 'json' ];
+
+		return is_string( $value ) && in_array( $value, $allowed, true );
 	}
 
 	/**

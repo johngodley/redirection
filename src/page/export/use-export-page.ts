@@ -28,7 +28,7 @@ const EXPORT_TYPES: ExportTypeOption[] = [
 		id: 'redirect',
 		name: __( 'Redirects', 'redirection' ),
 		description: __( 'Export redirect rules in Redirection.', 'redirection' ),
-		formats: [ 'json', 'csv', 'apache', 'nginx' ],
+		formats: [ 'json', 'csv', 'apache', 'nginx', 'redirects-file' ],
 	},
 	{
 		id: 'log',
@@ -91,6 +91,8 @@ function useExportPage(): UseExportPageResult {
 				format: variables.format,
 				data: response.data,
 				total: response.total,
+				skipped: response.skipped ?? null,
+				exported: response.exported ?? null,
 			} );
 		},
 	} );

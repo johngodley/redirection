@@ -60,6 +60,13 @@ function FileDropzone( {
 			return __( 'Unknown Apache .htaccess layout', 'redirection' );
 		}
 
+		if ( fileInfo?.error === 'unknown-redirects-file-layout' ) {
+			return __(
+				"This doesn't look like a valid _redirects file — check the from/to/status syntax on each line.",
+				'redirection'
+			);
+		}
+
 		if ( fileInfo?.error === 'unsupported-file-type' ) {
 			return __( 'Unsupported file type', 'redirection' );
 		}
@@ -137,6 +144,10 @@ function FileDropzone( {
 		}
 
 		return _n( 'Apache rule', 'Apache rules', rules, 'redirection' );
+	};
+
+	const getRedirectsFileRuleLabel = ( rules: number ) => {
+		return _n( 'Redirect rule', 'Redirect rules', rules, 'redirection' );
 	};
 
 	const renderSelectedFileCard = () => {
@@ -283,6 +294,19 @@ function FileDropzone( {
 			} );
 		}
 
+		if ( fileInfo.format === 'redirects-file' ) {
+			type = __( '_redirects', 'redirection' );
+			importNote = __( 'This _redirects file can be imported.', 'redirection' );
+			details.push( {
+				label: __( 'Contains', 'redirection' ),
+				value: __( 'Netlify/Cloudflare Pages redirect rules', 'redirection' ),
+			} );
+			stats.push( {
+				label: getRedirectsFileRuleLabel( fileInfo.rules || 0 ),
+				value: fileInfo.rules || 0,
+			} );
+		}
+
 		return (
 			<IoCard
 				title={ file.name }
@@ -310,7 +334,7 @@ function FileDropzone( {
 					{ label: __( 'Import type', 'redirection' ), value: __( 'Upload a file', 'redirection' ) },
 					{
 						label: __( 'Supported formats', 'redirection' ),
-						value: __( 'CSV, JSON, and .htaccess', 'redirection' ),
+						value: __( 'CSV, JSON, .htaccess, and _redirects', 'redirection' ),
 					},
 				] }
 				children={
@@ -359,7 +383,10 @@ function FileDropzone( {
 				type="file"
 				style={ { display: 'none' } }
 				onChange={ onFileInputChange }
-				accept=".json,.csv,.htaccess"
+				// No `accept` filter: the HTML attribute only matches MIME types and
+				// dot-prefixed extensions, so it can't target an extensionless file
+				// like `_redirects` without also hiding it from the OS picker.
+				// Format detection instead happens after selection, via sniffImportFile.
 			/>
 			{ file === false ? (
 				renderInitialDrop()

@@ -58,9 +58,18 @@ function ExportResults( { lastResult }: ExportResultsProps ) {
 	const stats: CardStatItem[] = [];
 
 	if ( lastResult.total !== null ) {
+		const exportedCount = lastResult.exported ?? lastResult.total - ( lastResult.skipped ?? 0 );
+
 		stats.push( {
 			label: __( 'Items exported', 'redirection' ),
-			value: formatNumber( lastResult.total ),
+			value: formatNumber( exportedCount ),
+		} );
+	}
+
+	if ( lastResult.skipped ) {
+		stats.push( {
+			label: __( 'Skipped (unsupported for this format)', 'redirection' ),
+			value: formatNumber( lastResult.skipped ),
 		} );
 	}
 

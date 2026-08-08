@@ -9,6 +9,7 @@ import type { Message } from 'stores';
 
 type ImportMode = 'preview' | 'import';
 type DuplicateMode = 'import' | 'ignore' | 'update';
+type FileImportFormat = 'apache' | 'csv' | 'redirects-file' | 'json';
 type FileImportVariables = {
 	sourceType: 'file';
 	mode: ImportMode;
@@ -17,6 +18,7 @@ type FileImportVariables = {
 	duplicateMode: DuplicateMode;
 	deleteSource?: boolean;
 	importSections?: string[];
+	format?: FileImportFormat | undefined;
 };
 type PluginImportVariables = {
 	sourceType: 'plugin';
@@ -28,7 +30,7 @@ type PluginImportVariables = {
 };
 type ImportMutationVariables = FileImportVariables | PluginImportVariables;
 type ExportType = 'redirect' | 'log' | '404' | 'group' | 'setting';
-type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx';
+type ExportFormat = 'json' | 'csv' | 'apache' | 'nginx' | 'redirects-file';
 type RedirectScopeType = 'all' | 'module' | 'group';
 type ExportRequestVariables = {
 	exportType: ExportType;
@@ -54,6 +56,8 @@ type ExportPreviewVariables = {
 type ExportResponse = {
 	data: string;
 	total: number;
+	skipped?: number;
+	exported?: number;
 };
 type ExportPreviewResponse = {
 	total: number;
@@ -209,6 +213,7 @@ export function useImportRunner(
 							duplicate_mode: variables.duplicateMode,
 							delete_source: variables.deleteSource ? 1 : 0,
 							import_sections: variables.importSections || [],
+							format: variables.format,
 						} )
 					);
 				} catch ( error ) {
@@ -293,6 +298,7 @@ export function useExport(
 				const response = ( await apiFetch( getExportRequest( variables ) ) ) as {
 					data: string;
 					total: number;
+					skipped?: number;
 				};
 
 				if ( variables.download && variables.filename ) {
@@ -353,6 +359,7 @@ export type {
 	ExportRequestVariables,
 	ExportResponse,
 	ExportType,
+	FileImportFormat,
 	FileImportVariables,
 	ImportMode,
 	ImportMutationVariables,

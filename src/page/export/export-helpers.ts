@@ -66,6 +66,10 @@ function getExportFormatLabel( format: ExportFormat ) {
 		return __( 'Apache .htaccess', 'redirection' );
 	}
 
+	if ( format === 'redirects-file' ) {
+		return __( '_redirects (Netlify/Cloudflare)', 'redirection' );
+	}
+
 	return __( 'Nginx rewrite rules', 'redirection' );
 }
 
@@ -78,6 +82,10 @@ function getExportFormatOptionLabel( format: ExportFormat ) {
 }
 
 function getExportFilename( exportType: ExportType, format: ExportFormat ) {
+	if ( format === 'redirects-file' ) {
+		return '_redirects';
+	}
+
 	if ( exportType === 'redirect' ) {
 		if ( format === 'apache' ) {
 			return 'redirects.htaccess';

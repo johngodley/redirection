@@ -53,6 +53,13 @@ function PasteImporter( {
 			return __( 'Unknown Apache .htaccess layout', 'redirection' );
 		}
 
+		if ( pasteInfo?.error === 'unknown-redirects-file-layout' ) {
+			return __(
+				"This doesn't look like a valid _redirects file — check the from/to/status syntax on each line.",
+				'redirection'
+			);
+		}
+
 		return __( 'Unsupported pasted content', 'redirection' );
 	};
 
@@ -122,6 +129,10 @@ function PasteImporter( {
 		return _n( 'Apache rule', 'Apache rules', rules, 'redirection' );
 	};
 
+	const getRedirectsFileRuleLabel = ( rules: number ) => {
+		return _n( 'Redirect rule', 'Redirect rules', rules, 'redirection' );
+	};
+
 	const getMeta = (): CardMetaItem[] => {
 		const meta: CardMetaItem[] = [
 			{
@@ -130,7 +141,7 @@ function PasteImporter( {
 			},
 			{
 				label: __( 'Supported formats', 'redirection' ),
-				value: __( 'CSV, JSON, and .htaccess', 'redirection' ),
+				value: __( 'CSV, JSON, .htaccess, and _redirects', 'redirection' ),
 			},
 		];
 
@@ -143,6 +154,8 @@ function PasteImporter( {
 			importTypeValue = __( 'JSON', 'redirection' );
 		} else if ( pasteInfo.format === 'apache' ) {
 			importTypeValue = __( 'Apache .htaccess', 'redirection' );
+		} else if ( pasteInfo.format === 'redirects-file' ) {
+			importTypeValue = __( '_redirects', 'redirection' );
 		}
 
 		meta[ 0 ] = {
@@ -172,6 +185,13 @@ function PasteImporter( {
 			meta.push( {
 				label: __( 'Contains', 'redirection' ),
 				value: __( 'Apache redirect rules', 'redirection' ),
+			} );
+		}
+
+		if ( pasteInfo.format === 'redirects-file' ) {
+			meta.push( {
+				label: __( 'Contains', 'redirection' ),
+				value: __( 'Netlify/Cloudflare Pages redirect rules', 'redirection' ),
 			} );
 		}
 
@@ -233,12 +253,25 @@ function PasteImporter( {
 			];
 		}
 
-		return [
-			{
-				label: getCsvRowLabel( pasteInfo, pasteInfo.rows || 0 ),
-				value: pasteInfo.rows || 0,
-			},
-		];
+		if ( pasteInfo.format === 'redirects-file' ) {
+			return [
+				{
+					label: getRedirectsFileRuleLabel( pasteInfo.rules || 0 ),
+					value: pasteInfo.rules || 0,
+				},
+			];
+		}
+
+		if ( pasteInfo.format === 'csv' ) {
+			return [
+				{
+					label: getCsvRowLabel( pasteInfo, pasteInfo.rows || 0 ),
+					value: pasteInfo.rows || 0,
+				},
+			];
+		}
+
+		return [];
 	};
 
 	return (

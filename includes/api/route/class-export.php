@@ -11,7 +11,9 @@ use WP_REST_Server;
 /**
  * @phpstan-type ExportResponse array{
  *   data: string,
- *   total: int
+ *   total: int,
+ *   skipped?: int,
+ *   exported?: int
  * }
  * @phpstan-type ExportPreviewResponse array{
  *   total: int,
@@ -28,7 +30,7 @@ class Export extends BaseRoute {
 		// GET /export/:module/:format - Export redirects to specified format
 		register_rest_route(
 			$api_namespace,
-			'/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json)',
+			'/export/(?P<module>1|2|3|all)/(?P<format>csv|apache|nginx|json|redirects-file)',
 			[
 				[
 					'methods' => WP_REST_Server::READABLE,
@@ -231,7 +233,7 @@ class Export extends BaseRoute {
 		$module = sanitize_text_field( $request['module'] );
 		$format = 'json';
 
-		if ( in_array( $request['format'], [ 'csv', 'apache', 'nginx', 'json' ], true ) ) {
+		if ( in_array( $request['format'], [ 'csv', 'apache', 'nginx', 'json', 'redirects-file' ], true ) ) {
 			$format = sanitize_text_field( $request['format'] );
 		}
 
@@ -240,10 +242,7 @@ class Export extends BaseRoute {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_module', 'Invalid module' ), __LINE__ );
 		}
 
-		return array(
-			'data' => $export['data'],
-			'total' => $export['total'],
-		);
+		return $this->get_export_response( $export );
 	}
 
 	/**
@@ -272,7 +271,7 @@ class Export extends BaseRoute {
 	public function route_redirect_export( WP_REST_Request $request ) {
 		$format = 'json';
 
-		if ( in_array( $request->get_param( 'format' ), [ 'csv', 'apache', 'nginx', 'json' ], true ) ) {
+		if ( in_array( $request->get_param( 'format' ), [ 'csv', 'apache', 'nginx', 'json', 'redirects-file' ], true ) ) {
 			$format = sanitize_text_field( strval( $request->get_param( 'format' ) ) );
 		}
 
@@ -289,10 +288,26 @@ class Export extends BaseRoute {
 			return $this->add_error_details( new WP_Error( 'redirect_export_invalid_scope', 'Invalid export scope' ), __LINE__ );
 		}
 
-		return [
+		return $this->get_export_response( $export );
+	}
+
+	/**
+	 * @param array{data: string, total: int, exporter: \Redirection\ImportExport\FormatHandler} $export
+	 * @return ExportResponse
+	 */
+	private function get_export_response( array $export ) {
+		$response = [
 			'data' => $export['data'],
 			'total' => $export['total'],
+			'skipped' => $export['exporter']->get_skipped_count(),
 		];
+
+		$exported = $export['exporter']->get_exported_count();
+		if ( $exported !== null ) {
+			$response['exported'] = $exported;
+		}
+
+		return $response;
 	}
 
 	/**
@@ -562,12 +577,12 @@ class Export extends BaseRoute {
 
 	/**
 	 * @param WP_REST_Request<array<string, mixed>> $request
-	 * @return 'csv'|'apache'|'nginx'|'json'
+	 * @return 'csv'|'apache'|'nginx'|'json'|'redirects-file'
 	 */
 	private function get_redirect_preview_format( WP_REST_Request $request ) {
 		$format = $request->get_param( 'format' );
 
-		if ( $format === 'csv' || $format === 'apache' || $format === 'nginx' ) {
+		if ( $format === 'csv' || $format === 'apache' || $format === 'nginx' || $format === 'redirects-file' ) {
 			return $format;
 		}
 
