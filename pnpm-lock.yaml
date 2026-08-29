@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  webpack: ^5.109.2
+  webpack: ^5.110.1
 
 importers:
 
@@ -2412,7 +2412,7 @@ packages:
       react-refresh: '>=0.10.0 <1.0.0'
       sockjs-client: ^1.4.0
       type-fest: '>=0.17.0 <5.0.0'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-dev-server: 3.x || 4.x || 5.x
       webpack-hot-middleware: 2.x
       webpack-plugin-serve: 0.x || 1.x
@@ -3250,21 +3250,21 @@ packages:
     resolution: {integrity: sha512-wy0mglZpDSiSS0XHrVR+BAdId2+yxPSoJW8fsna3ZpYSlufjvxnP4YbKTCBZnNIcGN4r6ZPXV55X4mYExOfLmw==, tarball: https://registry.npmjs.org/@webpack-cli/configtest/-/configtest-2.1.1.tgz}
     engines: {node: '>=14.15.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-cli: 5.x.x
 
   '@webpack-cli/info@2.0.2':
     resolution: {integrity: sha512-zLHQdI/Qs1UyT5UBdWNqsARasIA+AaF8t+4u2aS2nEpBQh2mWIVb8qAklq0eUENnC5mOItrIB4LiS9xMtph18A==, tarball: https://registry.npmjs.org/@webpack-cli/info/-/info-2.0.2.tgz}
     engines: {node: '>=14.15.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-cli: 5.x.x
 
   '@webpack-cli/serve@2.0.5':
     resolution: {integrity: sha512-lqaoKnRYBdo1UgDX8uF24AfGMifWK19TxPmM5FHc2vAGxrJ/qtyUyFBWoY1tISZdelsQ5fBcOusifo5o5wSJxQ==, tarball: https://registry.npmjs.org/@webpack-cli/serve/-/serve-2.0.5.tgz}
     engines: {node: '>=14.15.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-cli: 5.x.x
       webpack-dev-server: '*'
     peerDependenciesMeta:
@@ -3305,7 +3305,7 @@ packages:
     resolution: {integrity: sha512-ttmz4kHACQlh4LffKBowI1MjdofrYtHITPvkv58r1shBUS+F9BAntwXKAwjdKpQJ3/FGBzWiOS/AZ1KYI+3Y2A==, tarball: https://registry.npmjs.org/@wordpress/dependency-extraction-webpack-plugin/-/dependency-extraction-webpack-plugin-6.54.0.tgz}
     engines: {node: '>=18.12.0', npm: '>=8.19.2'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   '@wordpress/deprecated@4.54.0':
     resolution: {integrity: sha512-CpTcvBtDLStxslBm2HvMrQVbZ8cS0iYjKQvaW2vJcJxf+C0CDO0bS86juBnjcxtSRXFPGtBhxx6DKVP6L3pntw==, tarball: https://registry.npmjs.org/@wordpress/deprecated/-/deprecated-4.54.0.tgz}
@@ -3802,7 +3802,7 @@ packages:
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       '@babel/core': ^7.12.0
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   babel-plugin-istanbul@6.1.1:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==, tarball: https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-6.1.1.tgz}
@@ -4339,7 +4339,7 @@ packages:
     resolution: {integrity: sha512-xFVltahqlsRcyyJqQbDY6EYTtyQZF9rf+JPjwHObLdPFMEISqkFkr7mFoVOC6BfYS/dNThyoQKvziugm+OnwBg==, tarball: https://registry.npmjs.org/copy-webpack-plugin/-/copy-webpack-plugin-10.2.4.tgz}
     engines: {node: '>= 12.20.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   core-js-compat@3.50.0:
     resolution: {integrity: sha512-XGpFGbMLHwSt74YLTKho7Ib242qi6O8MSX+sRokV4oz7iKXvQWGYZthjIhjRGMxjzVkAubBO512dKGYcefmX3Q==, tarball: https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.50.0.tgz}
@@ -4423,7 +4423,7 @@ packages:
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -4435,7 +4435,7 @@ packages:
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -5751,7 +5751,7 @@ packages:
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x || 2.x
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -6982,7 +6982,7 @@ packages:
     resolution: {integrity: sha512-AOSS0IdEB95ayVkxn5oGzNQwqAi2J0Jb/kKm43t7H73s8+f5873g0yuj0PNvK4dO75mu5DHg4nlgp4k6Kga8eg==, tarball: https://registry.npmjs.org/mini-css-extract-plugin/-/mini-css-extract-plugin-2.10.2.tgz}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   minimalistic-assert@1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==, tarball: https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz}
@@ -7035,7 +7035,7 @@ packages:
       lightningcss: '*'
       postcss: '*'
       uglify-js: '*'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@minify-html/node':
         optional: true
@@ -7766,7 +7766,7 @@ packages:
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   postcss-loader@8.2.1:
     resolution: {integrity: sha512-k98jtRzthjj3f76MYTs9JTpRqV1RaaMhEU0Lpw9OTmQZQdppg4B30VZ74BojuBHt3F4KyubHJoXCMUeM8Bqeow==, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-8.2.1.tgz}
@@ -7774,7 +7774,7 @@ packages:
     peerDependencies:
       '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
       postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -8509,7 +8509,7 @@ packages:
       node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
       sass: ^1.3.0
       sass-embedded: '*'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
@@ -8757,7 +8757,7 @@ packages:
     resolution: {integrity: sha512-BokxPoLjyl3iOrgkWaakaxqnelAJSS+0V+De0kKIq6lyWrXuiPgYTGp6z3iHmqljKAaLXwZa+ctD8GccRJeVvg==, tarball: https://registry.npmjs.org/source-map-loader/-/source-map-loader-3.0.2.tgz}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   source-map-support@0.5.13:
     resolution: {integrity: sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==, tarball: https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.13.tgz}
@@ -8932,7 +8932,7 @@ packages:
     resolution: {integrity: sha512-1V4WqhhZZgjVAVJyt7TdDPZoPBPNHbekX4fWnCJL1yQukhCeZhJySUL+gL9y6sNdN95uEOS83Y55SqHcP7MzLA==, tarball: https://registry.npmjs.org/style-loader/-/style-loader-4.0.0.tgz}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   style-search@0.1.0:
     resolution: {integrity: sha512-Dj1Okke1C3uKKwQcetra4jSuk0DqbzbYtXipzFlFMZtowbF1x7BKJwB9AayVMyFARvU8EDrZdcax4At/452cAg==, tarball: https://registry.npmjs.org/style-search/-/style-search-0.1.0.tgz}
@@ -9086,7 +9086,7 @@ packages:
       lightningcss: '*'
       postcss: '*'
       uglify-js: '*'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       '@minify-html/node':
         optional: true
@@ -9393,7 +9393,7 @@ packages:
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       file-loader: '*'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
     peerDependenciesMeta:
       file-loader:
         optional: true
@@ -9566,7 +9566,7 @@ packages:
     hasBin: true
     peerDependencies:
       '@webpack-cli/generators': '*'
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-bundle-analyzer: '*'
       webpack-dev-server: '*'
     peerDependenciesMeta:
@@ -9581,14 +9581,14 @@ packages:
     resolution: {integrity: sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==, tarball: https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-5.3.4.tgz}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
 
   webpack-dev-server@4.15.2:
     resolution: {integrity: sha512-0XavAZbNJ5sDrCbkpWL8mia0o5WPOd2YGtxrEiZkBK9FjLppIUK2TgxK6qGD2P3hUXTJNNPVibrerKcx5WkR1g==, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.15.2.tgz}
     engines: {node: '>= 12.13.0'}
     hasBin: true
     peerDependencies:
-      webpack: ^5.109.2
+      webpack: ^5.110.1
       webpack-cli: '*'
     peerDependenciesMeta:
       webpack:
