@@ -20,14 +20,7 @@ use WP_REST_Server;
  *  dry_run?: bool|string|int,
  *  duplicate_mode?: string,
  *  deduplicate?: bool|string|int,
- *  import_sections?: list<string>|string,
- *  file?: array{
- *      tmp_name: string,
- *      name: string,
- *      size: int,
- *      type: string,
- *      error: int
- *  }
+ *  import_sections?: list<string>|string
  * }
  */
 class Import extends BaseRoute {
@@ -320,7 +313,6 @@ class Import extends BaseRoute {
 	 */
 	public function route_import_file( WP_REST_Request $request ) {
 		$file_params = $request->get_file_params();
-		/** @var ImportFileParams $file_params */
 		$params = $request->get_params();
 		/** @var ImportFileParams $params */
 		$group_id = intval( $request['group_id'], 10 );
