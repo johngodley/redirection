@@ -18,7 +18,7 @@
 		"build:analyze": "ANALYZE=true pnpm build",
 		"build:stats": "wp-scripts build --webpack-bundle-analyzer",
 		"doc": "redocly build-docs dev/openapi.yaml -o release/api-doc.html --theme.openapi.nativeScrollbars=true",
-		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images actions release/redirection && rm release/redirection/rector.php",
+		"plugin": "pnpm build && rm -rf release && mkdir -p release/redirection && cp -R *.php changelog.txt readme.txt build license.txt includes modules models matches images actions release/redirection && rm release/redirection/rector.php release/redirection/rector-max.php",
 		"plugin:zip": "pnpm plugin && cd release && zip -r redirection.zip redirection",
 		"release": "bash dev/release-github.sh",
 		"release:svn": "pnpm plugin:zip && dev/svn.sh $npm_package_version",
