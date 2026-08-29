@@ -30,7 +30,7 @@ function CacheDetect() {
 			<p>
 				{ createInterpolateElement(
 					__(
-						'If reloading does not fix this then ask your host or caching provider to exclude the WordPress admin area (/wp-admin/) from any page caching. If you are using Cloudflare then please read this: {{link}}clearing your cache.{{/link}}',
+						'If reloading does not fix this, ask your host or caching provider to exclude the WordPress admin area (/wp-admin/) from any page caching. If you are using Cloudflare then please read this: {{link}}clearing your cache.{{/link}}',
 						'redirection'
 					),
 					{
