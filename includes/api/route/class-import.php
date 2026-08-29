@@ -20,7 +20,8 @@ use WP_REST_Server;
  *  dry_run?: bool|string|int,
  *  duplicate_mode?: string,
  *  deduplicate?: bool|string|int,
- *  import_sections?: list<string>|string
+ *  import_sections?: list<string>|string,
+ *  format?: string
  * }
  */
 class Import extends BaseRoute {
