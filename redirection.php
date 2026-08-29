@@ -3,11 +3,11 @@
 Plugin Name: Redirection
 Plugin URI: https://redirection.me/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 5.9.0
+Version: 5.10.0
 Author: John Godley
 Text Domain: redirection
 Requires PHP: 7.4
-Requires at least: 6.6
+Requires at least: 6.7
 ============================================================================================================
 For full license details see license.txt
 ============================================================================================================
