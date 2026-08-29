@@ -15,7 +15,7 @@ For full license details see license.txt
 
 define( 'REDIRECTION_DB_VERSION', '4.2' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
-define( 'REDIRECTION_VERSION', '5.9.0' );
+define( 'REDIRECTION_VERSION', '5.10.0' );
 define( 'REDIRECTION_MIN_WP', '6.6' );
 
 if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
