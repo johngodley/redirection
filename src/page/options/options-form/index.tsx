@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { FormTable } from 'component/form-table';
 import { Button } from '@wp-plugin-components';
 import LogOptions from './log-options';
+import IgnorePostTypesOptions from './ignore-posttypes';
 import OtherOptions from './other-options';
 import UrlOptions from './url-options';
 import './style.scss';
@@ -73,6 +74,12 @@ function OptionsForm() {
 		<form onSubmit={ onSubmit }>
 			<FormTable>
 				<LogOptions settings={ settings as any } onChange={ onChange } getLink={ supportLink } />
+				<IgnorePostTypesOptions
+					settings={ settings as any }
+					onChange={ onChange }
+					getLink={ supportLink }
+					postTypes={ postTypes }
+				/>
 				<UrlOptions
 					settings={ settings as any }
 					onChange={ onChange }

@@ -341,7 +341,7 @@ class WordPress_Module extends Red_Module {
 		$request = new Red_Url_Request( Redirection_Request::get_request_url() );
 
 		// Make sure we don't try and redirect something essential
-		if ( $request->is_valid() && ! $request->is_protected_url() ) {
+		if ( $request->is_valid() && ! $request->is_protected_url() && ! $request->is_ignore_posttypes() ) {
 			do_action( 'redirection_first', $request->get_decoded_url(), $this );
 
 			// Get all redirects that match the URL
