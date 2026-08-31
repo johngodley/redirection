@@ -39,7 +39,8 @@
  *    flag_trailing: bool,
  *    flag_regex: bool,
  *    database_stage?: array{stage?: string|false, stages?: array<mixed>, status?: string|false},
- *    location?: string
+ *    location?: string,
+ *    monitor_children: bool
  * }
  */
 class Red_Options {
@@ -264,6 +265,7 @@ class Red_Options {
 			'token' => md5( uniqid() ),
 			'monitor_post' => 0,
 			'monitor_types' => [],
+			'monitor_children' => false,
 			'associated_redirect' => '',
 			'auto_target' => '',
 			'expire_redirect' => 7,
@@ -427,7 +429,7 @@ class Red_Options {
 		}
 
 		// Boolean settings
-		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits', 'monitor_children' ] as $name ) {
 			if ( isset( $settings[ $name ] ) ) {
 				$options[ $name ] = $settings[ $name ] ? true : false;
 			}
@@ -464,6 +466,7 @@ class Red_Options {
 		if ( ! empty( $options['monitor_post'] ) && count( $options['monitor_types'] ) === 0 ) {
 			// If we have a monitor_post set, but no types, then blank everything
 			$options['monitor_post'] = 0;
+			$options['monitor_children'] = false;
 			$options['associated_redirect'] = '';
 		}
 
