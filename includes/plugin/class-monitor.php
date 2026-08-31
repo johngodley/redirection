@@ -22,6 +22,16 @@ class Monitor {
 	private $monitor_types = [];
 
 	/**
+	 * @var list<string>
+	 */
+	private $monitor_terms = [];
+
+	/**
+	 * @var array<int, string>
+	 */
+	private $updated_terms = [];
+
+	/**
 	 * @var string
 	 */
 	private $associated = '';
@@ -31,8 +41,9 @@ class Monitor {
 	 */
 	public function __construct( array $options ) {
 		$this->monitor_types = apply_filters( 'redirection_monitor_types', $options['monitor_types'] ?? [] );
+		$this->monitor_terms = apply_filters( 'redirection_monitor_terms', $options['monitor_terms'] ?? [] );
 
-		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
+		if ( ( count( $this->monitor_types ) > 0 || count( $this->monitor_terms ) > 0 ) && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
 			$this->associated = $options['associated_redirect'] ?? '';
 
@@ -46,7 +57,68 @@ class Monitor {
 				if ( in_array( 'trash', $this->monitor_types, true ) ) {
 					add_action( 'wp_trash_post', [ $this, 'post_trashed' ] );
 				}
+
+				if ( count( $this->monitor_terms ) > 0 ) {
+					add_action( 'pre_edit_term', [ $this, 'pre_edit_term' ], 10, 2 );
+					add_action( 'edited_term', [ $this, 'edited_term' ], 10, 3 );
+				}
 			}
+		}
+	}
+
+	/**
+	 * Remember the previous term URL before WordPress updates its slug.
+	 *
+	 * @param int $term_id
+	 * @param string $taxonomy
+	 * @return void
+	 */
+	public function pre_edit_term( int $term_id, string $taxonomy ): void {
+		if ( ! in_array( $taxonomy, $this->monitor_terms, true ) ) {
+			return;
+		}
+
+		$url = get_term_link( $term_id, $taxonomy );
+		if ( ! is_wp_error( $url ) ) {
+			$this->updated_terms[ $term_id ] = $url;
+		}
+	}
+
+	/**
+	 * Create a redirect when a monitored term URL changes.
+	 *
+	 * @param int $term_id
+	 * @param int $tt_id
+	 * @param string $taxonomy
+	 * @return void
+	 */
+	public function edited_term( int $term_id, int $tt_id, string $taxonomy ): void {
+		if ( ! isset( $this->updated_terms[ $term_id ] ) || ! in_array( $taxonomy, $this->monitor_terms, true ) ) {
+			return;
+		}
+
+		$before = wp_parse_url( $this->updated_terms[ $term_id ], PHP_URL_PATH );
+		$after_url = get_term_link( $term_id, $taxonomy );
+		$after = is_wp_error( $after_url ) ? false : wp_parse_url( $after_url, PHP_URL_PATH );
+		unset( $this->updated_terms[ $term_id ] );
+
+		if ( ! is_string( $before ) || ! is_string( $after ) || ! apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
+			return;
+		}
+
+		do_action( 'redirection_remove_existing', $after, $term_id );
+		$data = [
+			'url' => $before,
+			'action_data' => [ 'url' => $after ],
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'group_id' => $this->monitor_group_id,
+		];
+		$new_item = Redirect::create( $data );
+
+		if ( ! is_wp_error( $new_item ) ) {
+			do_action( 'redirection_monitor_created', $new_item, $before, $term_id );
 		}
 	}
 
