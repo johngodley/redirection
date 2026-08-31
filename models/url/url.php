@@ -7,6 +7,7 @@ require_once __DIR__ . '/url-flags.php';
 require_once __DIR__ . '/url-request.php';
 require_once __DIR__ . '/url-transform.php';
 require_once __DIR__ . '/url-encode.php';
+require_once __DIR__ . '/url-lower.php';
 
 class Red_Url {
 	/**

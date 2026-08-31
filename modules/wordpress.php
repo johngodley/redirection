@@ -293,11 +293,21 @@ class WordPress_Module extends Red_Module {
 
 		// Relocate domain?
 		if ( strlen( $options['relocate'] ) > 0 ) {
-			return $canonical->relocate_request( $options['relocate'], Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+			$target = $canonical->relocate_request( $options['relocate'], Redirection_Request::get_server_name(), Redirection_Request::get_request_url() );
+		} else {
+			// Force HTTPS or www
+			$target = $canonical->get_redirect( Redirection_Request::get_request_server_name(), Redirection_Request::get_request_url() );
 		}
 
-		// Force HTTPS or www
-		return $canonical->get_redirect( Redirection_Request::get_request_server_name(), Redirection_Request::get_request_url() );
+		if ( ! empty( $options['force_lowercase'] ) ) {
+			$lowercase = Red_Url_Lowercase::get_target( Redirection_Request::get_request_url(), $target !== false ? $target : home_url() );
+
+			if ( $lowercase !== false ) {
+				$target = $lowercase;
+			}
+		}
+
+		return $target;
 	}
 
 	/**

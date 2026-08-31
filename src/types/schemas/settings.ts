@@ -19,6 +19,7 @@ export const SettingsSchema = z
 		rest_api: z.number().int().optional(),
 		https: z.boolean().optional(),
 		headers: z.array( z.unknown() ).optional(),
+		force_lowercase: z.boolean().optional(),
 		flag_regex: z.boolean().optional(),
 		flag_query: z.string().optional(),
 		flag_trailing: z.boolean().optional(),

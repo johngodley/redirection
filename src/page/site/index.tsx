@@ -19,6 +19,7 @@ interface SiteSettings {
 	https?: boolean;
 	aliases?: string[];
 	permalinks?: string[];
+	force_lowercase?: boolean;
 }
 
 export default function Site() {
@@ -36,6 +37,7 @@ export default function Site() {
 	const [ relocate, setRelocate ] = useState< string >( '' );
 	const [ aliases, setAliases ] = useState< string[] >( [] );
 	const [ permalinks, setPermalinks ] = useState< string[] >( [] );
+	const [ forceLowercase, setForceLowercase ] = useState< boolean >( false );
 
 	useEffect( () => {
 		if ( values ) {
@@ -45,6 +47,7 @@ export default function Site() {
 			setRelocate( ( values.relocate || '' ) as string );
 			setAliases( ( values.aliases || [] ) as string[] );
 			setPermalinks( ( values.permalinks || [] ) as string[] );
+			setForceLowercase( values.force_lowercase || false );
 		}
 	}, [ values ] );
 
@@ -57,6 +60,7 @@ export default function Site() {
 			aliases: aliases.filter( ( item ) => item ).map( getDomainOnly ),
 			relocate: getDomainAndPathOnly( relocate ),
 			permalinks,
+			force_lowercase: forceLowercase,
 		} );
 	};
 
@@ -78,6 +82,9 @@ export default function Site() {
 		}
 		if ( settings.permalinks !== undefined ) {
 			setPermalinks( settings.permalinks );
+		}
+		if ( settings.force_lowercase !== undefined ) {
+			setForceLowercase( settings.force_lowercase );
 		}
 	};
 
@@ -110,6 +117,7 @@ export default function Site() {
 					https={ https }
 					siteDomain={ siteDomain as string }
 					preferredDomain={ preferredDomain }
+					forceLowercase={ forceLowercase }
 					onChange={ onChange }
 				/>
 			) }
