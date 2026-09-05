@@ -10,9 +10,9 @@ use Redirection\Database\Schema\Latest;
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 define( 'PLUGIN_PATH', dirname( __DIR__ ) );
-$redirection_refactor = filter_var( getenv( 'REDIRECTION_REFACTOR' ), FILTER_VALIDATE_BOOLEAN );
 
-if ( $redirection_refactor && ! defined( 'REDIRECTION_REFACTOR' ) ) {
+// Refactor mode is now the only supported mode, so it's always on for tests.
+if ( ! defined( 'REDIRECTION_REFACTOR' ) ) {
 	define( 'REDIRECTION_REFACTOR', true );
 }
 

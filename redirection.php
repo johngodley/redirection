@@ -97,14 +97,15 @@ function redirection_autoload( $requested_class ) {
 spl_autoload_register( 'redirection_autoload' );
 
 /**
- * Set REDIRECTION_REFACTOR to true to enable the refactor mode, using autoloading for all classes.
- * This is implemented as a dual-mode plugin to allow for a smooth(er) transition to the new codebase.
+ * Refactor mode - using autoloading for all classes under includes/ - is now the only supported
+ * runtime mode. The REDIRECTION_REFACTOR constant is no longer read. The pre-refactor files
+ * (models/, redirection-admin.php, redirection-front.php, redirection-cli.php,
+ * redirection-settings.php) are left in place for reference but are no longer reachable.
  *
  * @return bool
  */
 function red_is_refactor_enabled() {
-	// @phpstan-ignore booleanAnd.rightAlwaysTrue
-	return defined( 'REDIRECTION_REFACTOR' ) && REDIRECTION_REFACTOR;
+	return true;
 }
 
 if ( red_is_refactor_enabled() ) {
