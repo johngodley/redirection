@@ -15,6 +15,7 @@ use Redirection\Request\Request;
 use Redirection\Core\Fixer;
 use Redirection\Core\Capabilities;
 use Redirection\Settings\Settings;
+use Redirection\Cache\Listener;
 use WP_Error;
 
 class Admin {
@@ -68,7 +69,7 @@ class Admin {
 			3
 		);
 		add_action( 'redirection_redirect_updated', [ $this, 'set_default_group' ], 10, 2 );
-		add_action( 'redirection_redirect_updated', [ $this, 'clear_cache' ] );
+		Listener::init();
 
 		if ( defined( 'REDIRECTION_FLYING_SOLO' ) && REDIRECTION_FLYING_SOLO ) {
 			add_filter( 'script_loader_src', [ $this, 'flying_solo' ], 10, 2 );
@@ -604,19 +605,6 @@ class Admin {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Update the cache key when updating or creating a redirect
-	 *
-	 * @return void
-	 */
-	public function clear_cache() {
-		$settings = Settings::get();
-
-		if ( $settings['cache_key'] > 0 ) {
-			Settings::save( [ 'cache_key' => time() ] );
-		}
 	}
 
 	/**

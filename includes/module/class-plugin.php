@@ -559,14 +559,34 @@ class Plugin extends Module {
 				// No cache - just use WP function
 				nocache_headers();
 			} else {
-				// Custom cache
-				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s T', time() + $options['redirect_cache'] * 60 * 60 ) );
-				header( 'Cache-Control: max-age=' . $options['redirect_cache'] * 60 * 60 );
+				foreach ( $this->get_cache_headers( intval( $status, 10 ), $options['redirect_cache'] ) as $name => $value ) {
+					header( $name . ': ' . $value );
+				}
 			}
 		}
 
 		status_header( $status );
 		return $url;
+	}
+
+	/**
+	 * Get redirect cache headers.
+	 *
+	 * @param integer $status HTTP status.
+	 * @param integer $redirect_cache The `redirect_cache` setting, in hours.
+	 * @return array<string, string> Header name to value.
+	 */
+	public function get_cache_headers( $status, $redirect_cache ) {
+		if ( $status !== 301 || $redirect_cache <= 0 ) {
+			return [];
+		}
+
+		$seconds = $redirect_cache * 60 * 60;
+
+		return [
+			'Expires' => gmdate( 'D, d M Y H:i:s T', time() + $seconds ),
+			'Cache-Control' => 'max-age=' . $seconds . ', s-maxage=0',
+		];
 	}
 
 	/**

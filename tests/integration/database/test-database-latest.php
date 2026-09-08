@@ -1,5 +1,6 @@
 <?php
 
+use Redirection\Cache\Generic;
 use Redirection\Database\Schema\Latest;
 use Redirection\Database\Status;
 
@@ -72,6 +73,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		add_option( 'redirection_root', 'test' );
 		add_option( 'redirection_index', 'test' );
 		add_option( Status::OLD_DB_VERSION, 'test' );
+		add_option( Generic::OPTION, 'test' );
 		red_set_options( [ Status::DB_UPGRADE_STAGE => 'something' ] );
 
 		$database = new Latest();
@@ -87,6 +89,7 @@ class LatestDatabaseTest extends WP_UnitTestCase {
 		$this->assertFalse( get_option( 'redirection_root' ) );
 		$this->assertFalse( get_option( 'redirection_index' ) );
 		$this->assertFalse( get_option( Status::OLD_DB_VERSION ) );
+		$this->assertFalse( get_option( Generic::OPTION ) );
 
 		$settings = Red_Options::get();
 		$this->assertArrayNotHasKey( Status::DB_UPGRADE_STAGE, $settings );
