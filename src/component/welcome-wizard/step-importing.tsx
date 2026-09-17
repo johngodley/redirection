@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useImportRunner } from 'lib/api/hooks';
 
@@ -39,11 +39,19 @@ export default function StepImporting( { step, setStep, options }: StepImporting
 			mode: 'import',
 			pluginId: importers,
 			groupId: 1,
-			duplicateMode: 'import',
+			duplicateMode: 'ignore',
 		} );
 	}, [ mutate, options.importers, setStep, step ] );
 
+	// Import once on mount. doImport changes on every parent render, which each import triggers.
+	const hasStarted = useRef( false );
+
 	useEffect( () => {
+		if ( hasStarted.current ) {
+			return;
+		}
+
+		hasStarted.current = true;
 		doImport();
 	}, [ doImport ] );
 

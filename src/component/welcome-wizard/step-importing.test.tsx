@@ -37,9 +37,30 @@ describe( 'StepImporting', () => {
 				mode: 'import',
 				pluginId: [ 'wordpress-old-slugs', 'safe-redirect-manager' ],
 				groupId: 1,
-				duplicateMode: 'import',
+				duplicateMode: 'ignore',
 			} )
 		);
+	} );
+
+	test( 'only imports once when the parent re-renders with a new setStep', async () => {
+		const mutate = jest.fn();
+		const options = { importers: [ 'wordpress-old-slugs' ] };
+
+		mockUseImportRunner.mockReturnValue( {
+			mutate,
+			isPending: false,
+			isSuccess: false,
+			isError: false,
+		} as ReturnType< typeof useImportRunner > );
+
+		const { rerender } = render( <StepImporting step={ 5 } setStep={ jest.fn() } options={ options } /> );
+
+		await waitFor( () => expect( mutate ).toHaveBeenCalledTimes( 1 ) );
+
+		rerender( <StepImporting step={ 5 } setStep={ jest.fn() } options={ options } /> );
+		rerender( <StepImporting step={ 5 } setStep={ jest.fn() } options={ options } /> );
+
+		expect( mutate ).toHaveBeenCalledTimes( 1 );
 	} );
 
 	test( 'skips the step if there are no importers', async () => {
