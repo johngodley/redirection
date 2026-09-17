@@ -168,7 +168,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - '7.4'
+          - '8.1'
           - '8.5'
     steps:
       - name: Checkout code
@@ -213,9 +213,16 @@ jobs:
         run: pnpm build
 
       - name: Start WordPress environment
+        # Drives the PHP version of the container that actually runs the tests.
+        # Without this the matrix only changes the host PHP used by Composer,
+        # and every job runs the suite in the phpVersion from .wp-env.json.
+        env:
+          WP_ENV_PHP_VERSION: ${{ matrix.php-version }}
         run: pnpm wp-env:start
 
       - name: Run PHPUnit integration tests
+        env:
+          WP_ENV_PHP_VERSION: ${{ matrix.php-version }}
         run: pnpm test:integration
 
   test-js:
