@@ -181,7 +181,7 @@ class Csv extends FormatHandler {
 		global $wpdb;
 
 		$count = 0;
-		$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
+		$csv = CsvSanitizer::get_row( $file, $separator );
 
 		while ( is_array( $csv ) ) {
 			/** @var array<int, string> $csv */
@@ -223,7 +223,7 @@ class Csv extends FormatHandler {
 				$wpdb->queries = [];
 			}
 
-			$csv = fgetcsv( $file, 5000, $separator, '"', '\\' );
+			$csv = CsvSanitizer::get_row( $file, $separator );
 		}
 
 		return $count;
