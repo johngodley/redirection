@@ -384,6 +384,20 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->resetCaptured();
 	}
 
+	public function testRegexMatchCannotRedirectOffsite() {
+		$this->capturedRedirect();
+
+		// An encoded slash decodes to a real slash, making the captured value start with a slash
+		$request = new Red_Url_Request( '/old/%2Ftest.example/login' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		// The target stays on this site, and is not treated as a protocol relative URL
+		$this->assertEquals( '/test.example/login', $this->captured_url );
+		$this->resetCaptured();
+	}
+
 	public function testRegexMatch() {
 		$this->capturedRedirect();
 
