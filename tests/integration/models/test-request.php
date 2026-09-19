@@ -346,4 +346,77 @@ class RequestTest extends WP_UnitTestCase {
 		$this->assertEquals( 'cat', $result );
 		unset( $_COOKIE['cookie'] );
 	}
+
+	private function setRequestHeaders( $headers ) {
+		foreach ( $headers as $name => $value ) {
+			$_SERVER[ $name ] = $value;
+		}
+	}
+
+	private function clearRequestHeaders( $headers ) {
+		foreach ( array_keys( $headers ) as $name ) {
+			unset( $_SERVER[ $name ] );
+		}
+	}
+
+	public function testCredentialHeadersIgnored() {
+		$headers = [
+			'HTTP_AUTHORIZATION' => 'Bearer secret-token',
+			'HTTP_PROXY_AUTHORIZATION' => 'Basic secret-proxy',
+			'HTTP_COOKIE' => 'session=secret-cookie',
+			'HTTP_HOST' => 'example.com',
+			'HTTP_X_CUSTOM' => 'custom',
+		];
+		$this->setRequestHeaders( $headers );
+
+		$result = Redirection_Request::get_request_headers();
+
+		$this->assertArrayNotHasKey( 'Authorization', $result );
+		$this->assertArrayNotHasKey( 'Proxy-Authorization', $result );
+		$this->assertArrayNotHasKey( 'Cookie', $result );
+		$this->assertArrayNotHasKey( 'Host', $result );
+
+		// No credential value leaks under any other name.
+		$this->assertNotContains( 'Bearer secret-token', $result );
+		$this->assertNotContains( 'Basic secret-proxy', $result );
+		$this->assertNotContains( 'session=secret-cookie', $result );
+
+		// Everything else is still collected.
+		$this->assertEquals( 'custom', $result['X-Custom'] );
+
+		$this->clearRequestHeaders( $headers );
+	}
+
+	public $ignored_headers = [];
+
+	public function ignore_custom_header( $ignore ) {
+		$this->ignored_headers = $ignore;
+
+		return array_merge( $ignore, [ 'x-custom' ] );
+	}
+
+	public function testIgnoredHeadersFilter() {
+		$headers = [
+			'HTTP_AUTHORIZATION' => 'Bearer secret-token',
+			'HTTP_X_CUSTOM' => 'custom',
+		];
+		$this->setRequestHeaders( $headers );
+
+		add_filter( 'redirection_request_headers_ignore', array( $this, 'ignore_custom_header' ) );
+
+		$result = Redirection_Request::get_request_headers();
+
+		// The filter is given the credential headers as defaults.
+		$this->assertContains( 'authorization', $this->ignored_headers );
+		$this->assertContains( 'proxy-authorization', $this->ignored_headers );
+		$this->assertContains( 'cookie', $this->ignored_headers );
+		$this->assertContains( 'host', $this->ignored_headers );
+
+		// And a filtered addition is also ignored.
+		$this->assertArrayNotHasKey( 'X-Custom', $result );
+		$this->assertArrayNotHasKey( 'Authorization', $result );
+
+		remove_filter( 'redirection_request_headers_ignore', array( $this, 'ignore_custom_header' ) );
+		$this->clearRequestHeaders( $headers );
+	}
 }

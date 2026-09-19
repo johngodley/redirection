@@ -31,8 +31,10 @@ class Redirection_Request {
 		$ignore = apply_filters(
 			'redirection_request_headers_ignore',
 			[
+				'authorization',
 				'cookie',
 				'host',
+				'proxy-authorization',
 			]
 		);
 		$headers = [];
