@@ -3,7 +3,7 @@
 Plugin Name: Redirection
 Plugin URI: https://redirection.me/
 Description: Manage all your 301 redirects and monitor 404 errors
-Version: 5.10.0
+Version: 5.10.1
 Author: John Godley
 Text Domain: redirection
 Requires PHP: 7.4
@@ -15,7 +15,7 @@ For full license details see license.txt
 
 define( 'REDIRECTION_DB_VERSION', '4.2' );     // DB schema version. Only change if DB needs changing
 define( 'REDIRECTION_FILE', __FILE__ );
-define( 'REDIRECTION_VERSION', '5.10.0' );
+define( 'REDIRECTION_VERSION', '5.10.1' );
 define( 'REDIRECTION_MIN_WP', '6.6' );
 
 if ( ! defined( 'REDIRECTION_FLYING_SOLO' ) ) {
