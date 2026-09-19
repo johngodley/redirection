@@ -62,4 +62,67 @@ class CsvSanitizerTest extends TestCase {
 	public function testUnescapeHandlesNull() {
 		$this->assertEquals( '', $this->get_sanitizer()->unescape( null ) );
 	}
+
+	private function write_row( array $row ) {
+		$handle = fopen( 'php://memory', 'r+' );
+
+		CsvSanitizer::put_row( $handle, $row );
+		rewind( $handle );
+		$line = stream_get_contents( $handle );
+		fclose( $handle );
+
+		return rtrim( $line, "\r\n" );
+	}
+
+	private function parse_as_spreadsheet( $line ) {
+		return str_getcsv( $line, ',', '"', '' );
+	}
+
+	public function testPutRowKeepsBackslashQuotePayloadInOneColumn() {
+		$payload = 'safe\\",=1+1,"';
+		$columns = $this->parse_as_spreadsheet( $this->write_row( [ 'GET', $payload, 'referrer' ] ) );
+
+		$this->assertCount( 3, $columns );
+		$this->assertEquals( [ 'GET', $payload, 'referrer' ], $columns );
+	}
+
+	public function testPutRowDoesNotLeakAFormulaIntoItsOwnColumn() {
+		$columns = $this->parse_as_spreadsheet( $this->write_row( [ 'GET', 'safe\\",=1+1,"', 'referrer' ] ) );
+
+		$this->assertNotContains( '=1+1', $columns );
+	}
+
+	public function testPutRowContainsFormulaPayloadsHiddenBehindABackslashQuote() {
+		$payloads = [
+			'agent\\",=cmd|\' /c calc\'!A1,"',
+			'http://example.com/\\",@SUM(1+1),"',
+			'\\",-2+3+cmd|\' /c calc\'!A1,"',
+			'trailing backslash\\',
+			'"\\",=1+1,"',
+		];
+
+		foreach ( $payloads as $payload ) {
+			$columns = $this->parse_as_spreadsheet( $this->write_row( [ 'a', $payload, 'b' ] ) );
+
+			$this->assertCount( 3, $columns, 'Payload broke out of its column: ' . $payload );
+			$this->assertEquals( $payload, $columns[1], 'Payload was altered: ' . $payload );
+		}
+	}
+
+	public function testPutRowStillQuotesOrdinaryValues() {
+		$this->assertEquals( 'a,"b,c",d', $this->write_row( [ 'a', 'b,c', 'd' ] ) );
+		$this->assertEquals( 'a,"b""c",d', $this->write_row( [ 'a', 'b"c', 'd' ] ) );
+	}
+
+	public function testGetRowReadsBackWhatPutRowWrote() {
+		$row = [ 'a', 'safe\\",=1+1,"', 'b\\', 'c"d' ];
+		$handle = fopen( 'php://memory', 'r+' );
+
+		CsvSanitizer::put_row( $handle, $row );
+		rewind( $handle );
+		$read = CsvSanitizer::get_row( $handle, ',' );
+		fclose( $handle );
+
+		$this->assertEquals( $row, $read );
+	}
 }

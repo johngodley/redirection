@@ -8,6 +8,17 @@ namespace Redirection\ImportExport\Sanitizer;
 class CsvSanitizer {
 	const ESCAPE_PREFIX = '[FORMULA] ';
 
+	const DELIMITER = ',';
+	const ENCLOSURE = '"';
+
+	/**
+	 * Empty for RFC 4180. A `\` escape stops PHP doubling an enclosure that
+	 * follows it.
+	 *
+	 * @var string
+	 */
+	const ESCAPE = '';
+
 	/**
 	 * @var array<int, string>
 	 */
@@ -17,6 +28,29 @@ class CsvSanitizer {
 		'－',
 		'＠',
 	);
+
+	/**
+	 * Write a CSV row.
+	 *
+	 * @param resource $handle Stream to write to.
+	 * @param array<int, string|int|float|null> $row Row values.
+	 * @return int|false
+	 */
+	public static function put_row( $handle, array $row ) {
+		return fputcsv( $handle, $row, self::DELIMITER, self::ENCLOSURE, self::ESCAPE );
+	}
+
+	/**
+	 * Read a CSV row.
+	 *
+	 * @param resource $handle Stream to read from.
+	 * @param string $delimiter Field delimiter.
+	 * @param int<0, max> $length Maximum line length.
+	 * @return array<int, string|null>|false|null
+	 */
+	public static function get_row( $handle, $delimiter = self::DELIMITER, $length = 5000 ) {
+		return fgetcsv( $handle, $length, $delimiter, self::ENCLOSURE, self::ESCAPE );
+	}
 
 	/**
 	 * Sanitize a value for CSV export.

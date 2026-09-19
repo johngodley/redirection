@@ -3,6 +3,8 @@
 require_once __DIR__ . '/log-404.php';
 require_once __DIR__ . '/log-redirect.php';
 
+use Redirection\ImportExport\Sanitizer\CsvSanitizer;
+
 /**
  * Base log class
  *
@@ -700,7 +702,7 @@ abstract class Red_Log {
 	 * @return string|false
 	 */
 	private static function get_export_csv_data_for_rows( array $rows ) {
-		$sanitizer = new \Redirection\ImportExport\Sanitizer\CsvSanitizer();
+		$sanitizer = new CsvSanitizer();
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
 		$stdout = fopen( 'php://temp', 'w+' );
@@ -708,10 +710,10 @@ abstract class Red_Log {
 			return false;
 		}
 
-		fputcsv( $stdout, static::get_csv_header(), ',', '"', '\\' );
+		CsvSanitizer::put_row( $stdout, static::get_csv_header() );
 
 		foreach ( $rows as $row ) {
-			fputcsv( $stdout, array_map( [ $sanitizer, 'escape' ], static::get_csv_row( $row ) ), ',', '"', '\\' );
+			CsvSanitizer::put_row( $stdout, array_map( [ $sanitizer, 'escape' ], static::get_csv_row( $row ) ) );
 		}
 
 		rewind( $stdout );
@@ -778,7 +780,7 @@ abstract class Red_Log {
 	 */
 	private static function get_custom_export_csv_data( array $rows, array $display_selected, array $params = [] ) {
 		$fields = self::get_export_fields( $display_selected, $params );
-		$sanitizer = new \Redirection\ImportExport\Sanitizer\CsvSanitizer();
+		$sanitizer = new CsvSanitizer();
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Temporary in-memory export buffer
 		$stdout = fopen( 'php://temp', 'w+' );
@@ -786,11 +788,11 @@ abstract class Red_Log {
 			return false;
 		}
 
-		fputcsv( $stdout, array_map( [ static::class, 'get_export_field_label' ], $fields ), ',', '"', '\\' );
+		CsvSanitizer::put_row( $stdout, array_map( [ static::class, 'get_export_field_label' ], $fields ) );
 
 		foreach ( $rows as $row ) {
 			$mapped_row = self::filter_export_row( static::map_export_row( $row ), $fields );
-			fputcsv( $stdout, array_map( [ $sanitizer, 'escape' ], array_values( $mapped_row ) ), ',', '"', '\\' );
+			CsvSanitizer::put_row( $stdout, array_map( [ $sanitizer, 'escape' ], array_values( $mapped_row ) ) );
 		}
 
 		rewind( $stdout );
