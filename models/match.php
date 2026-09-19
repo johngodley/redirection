@@ -181,7 +181,35 @@ abstract class Red_Match {
 	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
 		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
 
-		return $regex->replace( $target_url, $requested_url );
+		return $this->keep_target_relative( $target_url, $regex->replace( $target_url, $requested_url ) );
+	}
+
+	/**
+	 * Stop a regex replacement turning a site relative target into one that points at another site.
+	 *
+	 * A target of `/$1` is relative to this site. If the captured value itself begins with a slash then
+	 * the replaced target becomes `//example.com/path`, which a browser treats as a protocol relative URL
+	 * pointing at `example.com`. Collapse the leading separators so the target stays on this site.
+	 *
+	 * @param string $target_url Target URL, before the replacement.
+	 * @param string $replaced Target URL, after the replacement.
+	 * @return string
+	 */
+	private function keep_target_relative( $target_url, $replaced ) {
+		// Only applies to a target the user has written as relative to this site
+		if ( substr( $target_url, 0, 1 ) !== '/' || substr( $target_url, 0, 2 ) === '//' ) {
+			return $replaced;
+		}
+
+		// A browser treats a backslash as a slash, and both WordPress and the browser remove control
+		// characters, so check the target as it will finally be seen
+		$check = (string) preg_replace( '/[\x00-\x20\x7F]/', '', str_replace( '\\', '/', $replaced ) );
+
+		if ( substr( $check, 0, 2 ) !== '//' ) {
+			return $replaced;
+		}
+
+		return (string) preg_replace( '@^[/\\\\\x00-\x20\x7F]+@', '/', $replaced );
 	}
 
 	/**
