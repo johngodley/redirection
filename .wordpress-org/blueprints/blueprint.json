@@ -1,0 +1,55 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/wp-admin/tools.php?page=redirection.php",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "extraLibraries": [
+    "wp-cli"
+  ],
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin"
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Redirection Playground Demo",
+        "permalink_structure": "/%postname%/"
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "redirection"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/demo-redirects.htaccess",
+      "data": "Redirect 301 /old-promo/ /new-promo/\nRedirect 302 /out-of-stock/ /docs/\n"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp redirection database install"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp redirection import /wordpress/demo-redirects.htaccess --format=apache"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp post create --post_type=page --post_status=publish --post_name=new-promo --post_title='New promo landing (Redirection demo)' --post_content='You reached this page via a redirect created by the Redirection plugin in this Playground demo.'"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp post create --post_type=page --post_status=publish --post_name=docs --post_title='Docs landing (Redirection demo)' --post_content='This page is the 302 target for /out-of-stock/, configured via the Redirection plugin.'"
+    }
+  ]
+}
