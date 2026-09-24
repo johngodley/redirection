@@ -100,4 +100,36 @@ class Red_Url_Request {
 
 		return false;
 	}
+
+	/**
+	 * Check if the current URL's post type is in the ignored post types list.
+	 *
+	 * This function resolves the original URL to a post ID, determines its post type,
+	 * and compares it against the `ignore_posttypes` setting.
+	 *
+	 * @return bool True if the post type is in the ignore list, false otherwise.
+	 */
+	public function is_ignore_posttypes(){
+
+
+		$options = $options = Red_Options::get();;
+
+		if( empty( $options['ignore_posttypes'][0] ) ){
+			return false;
+		}
+
+		// Resolve the original URL to a post ID.
+		$post_id = url_to_postid( $this->original_url );
+		if( empty( $post_id ) ){
+			return false;
+		}
+
+		$post_type = get_post_type( $post_id );
+		if( empty( $post_type ) ){
+			return false;
+		}
+
+		// Check if the post type is listed in ignored post types.
+		return in_array( $post_type, $options['ignore_posttypes'], true );
+	}
 }

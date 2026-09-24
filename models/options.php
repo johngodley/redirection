@@ -39,7 +39,8 @@
  *    flag_trailing: bool,
  *    flag_regex: bool,
  *    database_stage?: array{stage?: string|false, stages?: array<mixed>, status?: string|false},
- *    location?: string
+ *    location?: string,
+ *    ignore_posttypes?: array<string>,
  * }
  */
 class Red_Options {
@@ -288,6 +289,7 @@ class Red_Options {
 			'cache_key' => 0,
 			'plugin_update' => 'prompt',
 			'update_notice' => 0,
+            'ignore_posttypes' => [],
 		];
 
 		$defaults = array_merge( $defaults, $flags->get_json() );
@@ -367,16 +369,36 @@ class Red_Options {
 			$options['rest_api'] = intval( $settings['rest_api'], 10 );
 		}
 
-		if ( isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] ) ) {
+
+	    $ignore_posttypes_settings_exist = isset( $settings['ignore_posttypes'] ) && is_array( $settings['ignore_posttypes'] );
+        $monitor_types_settings_exist = isset( $settings['monitor_types'] ) && is_array( $settings['monitor_types'] );
+
+		if ( $monitor_types_settings_exist || $ignore_posttypes_settings_exist ) {
 			$allowed = red_get_post_types( false );
 
-			foreach ( $settings['monitor_types'] as $type ) {
-				if ( in_array( $type, $allowed, true ) ) {
-					$monitor_types[] = $type;
-				}
-			}
+            if( $monitor_types_settings_exist ){
 
-			$options['monitor_types'] = $monitor_types;
+                foreach ( $settings['monitor_types'] as $type ) {
+                    if ( in_array( $type, $allowed, true ) ) {
+                        $monitor_types[] = $type;
+                    }
+                }
+
+                $options['monitor_types'] = $monitor_types;
+                
+            }
+
+            if( $ignore_posttypes_settings_exist ){
+
+                $ignore_posttypes = [];
+                foreach ( $settings['ignore_posttypes'] as $post_type ) {
+                    if ( in_array( $post_type, $allowed, true ) ) {
+                        $ignore_posttypes[] = $post_type;
+                    }
+                }
+        
+                $options['ignore_posttypes'] = $ignore_posttypes;
+            }
 		}
 
 		if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redirect'] ) ) {
