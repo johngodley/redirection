@@ -166,8 +166,8 @@ class Red_Item_Sanitize {
 			return new WP_Error( 'redirect', 'Invalid redirect action' );
 		}
 
-		$data['action_type'] = sanitize_text_field( $details['action_type'] );
-		$data['action_code'] = $this->get_code( $details['action_type'], $action_code );
+		$data['action_type'] = isset( $details['action_type'] ) ? sanitize_text_field( $details['action_type'] ) : '';
+		$data['action_code'] = $this->get_code( $data['action_type'], $action_code );
 
 		if ( isset( $details['action_data'] ) && is_array( $details['action_data'] ) ) {
 			$match_data = $matcher->save( $details['action_data'] ? $details['action_data'] : array(), ! $this->is_url_type( $data['action_type'] ) );
@@ -246,7 +246,9 @@ class Red_Item_Sanitize {
 			return 404;
 		}
 
-		return 0;
+		// Default to 301 for unknown action types to prevent wp_redirect() from
+		// calling wp_die() when it receives a non-3xx status code.
+		return 301;
 	}
 
 	/**
