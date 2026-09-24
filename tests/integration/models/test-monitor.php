@@ -33,11 +33,12 @@ class MonitorTest extends WP_UnitTestCase {
 		);
 	}
 
-	private function getActiveOptions( $group_id = 1, $types = 'post', $associated = '' ) {
+	private function getActiveOptions( $group_id = 1, $types = 'post', $associated = '', $monitor_children = false ) {
 		return array(
 			'monitor_post' => $group_id,
 			'monitor_types' => array( $types ),
 			'associated_redirect' => $associated,
+			'monitor_children' => $monitor_children,
 		);
 	}
 
@@ -376,5 +377,116 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertInstanceOf( 'Red_Item', $args[0][0] );
 		$this->assertEquals( $url, $args[0][1] );
 		$this->assertEquals( $post, $args[0][2] );
+	}
+
+	public function testChildRedirectsCreatedWhenEnabled() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( $this->group->get_id(), 'page', '', true ) );
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Parent', 'post_name' => 'parent' ) );
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Child', 'post_name' => 'child', 'post_parent' => $parent ) );
+		$before_parent = parse_url( get_permalink( $parent ), PHP_URL_PATH );
+		$before_child = parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+
+		$this->factory->post->update_object( $parent, array( 'post_name' => 'renamed' ) );
+		$after_child = parse_url( get_permalink( $child ), PHP_URL_PATH );
+
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+		$this->assertEquals( $total + 2, $after );
+
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 2" );
+		$parent_redirect = $redirects[1];
+		$child_redirect = $redirects[0];
+
+		$this->assertEquals( $before_parent, $parent_redirect->url );
+		$this->assertEquals( '/renamed/', $parent_redirect->action_data );
+		$this->assertEquals( $before_child, $child_redirect->url );
+		$this->assertEquals( $after_child, $child_redirect->action_data );
+	}
+
+	public function testChildRedirectsNotCreatedWhenDisabled() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( $this->group->get_id(), 'page', '', false ) );
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Parent', 'post_name' => 'parent' ) );
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Child', 'post_name' => 'child', 'post_parent' => $parent ) );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+
+		$this->factory->post->update_object( $parent, array( 'post_name' => 'renamed' ) );
+
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+		$this->assertEquals( $total + 1, $after );
+	}
+
+	public function testNonHierarchicalChildrenIgnored() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( $this->group->get_id(), 'post', '', true ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'Post', 'post_name' => 'post' ) );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+
+		$this->factory->post->update_object( $post, array( 'post_name' => 'renamed' ) );
+
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+		$this->assertEquals( $total + 1, $after );
+	}
+
+	public function testGrandchildRedirectsCreated() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( $this->group->get_id(), 'page', '', true ) );
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Parent', 'post_name' => 'parent' ) );
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Child', 'post_name' => 'child', 'post_parent' => $parent ) );
+		$grandchild = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Grandchild', 'post_name' => 'grandchild', 'post_parent' => $child ) );
+		$before_parent = parse_url( get_permalink( $parent ), PHP_URL_PATH );
+		$before_child = parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$before_grandchild = parse_url( get_permalink( $grandchild ), PHP_URL_PATH );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+
+		$this->factory->post->update_object( $parent, array( 'post_name' => 'renamed' ) );
+		$after_child = parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$after_grandchild = parse_url( get_permalink( $grandchild ), PHP_URL_PATH );
+
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+		$this->assertEquals( $total + 3, $after );
+
+		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 3" );
+		$parent_redirect = $redirects[2];
+		$child_redirect = $redirects[1];
+		$grandchild_redirect = $redirects[0];
+
+		$this->assertEquals( $before_parent, $parent_redirect->url );
+		$this->assertEquals( '/renamed/', $parent_redirect->action_data );
+		$this->assertEquals( $before_child, $child_redirect->url );
+		$this->assertEquals( $after_child, $child_redirect->action_data );
+		$this->assertEquals( $before_grandchild, $grandchild_redirect->url );
+		$this->assertEquals( $after_grandchild, $grandchild_redirect->action_data );
+	}
+
+	public function testChildExistingRedirectDisabled() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( $this->getActiveOptions( $this->group->get_id(), 'page', '', true ) );
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Parent', 'post_name' => 'parent' ) );
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_title' => 'Child', 'post_name' => 'child', 'post_parent' => $parent ) );
+		$total = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+
+		Red_Item::create( array(
+			'url' => '/renamed/child/',
+			'action_data' => array( 'url' => '/somewhere/' ),
+			'match_type' => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'group_id' => $this->group->get_id(),
+		) );
+
+		$this->factory->post->update_object( $parent, array( 'post_name' => 'renamed' ) );
+
+		$after = intval( $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}redirection_items" ), 10 );
+		$this->assertEquals( $total + 3, $after );
+
+		$existing = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items WHERE url = '/renamed/child/' ORDER BY id ASC LIMIT 1" );
+		$this->assertEquals( 'disabled', $existing->status );
 	}
 }
