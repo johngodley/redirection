@@ -15,6 +15,7 @@ interface Settings {
 	associated_redirect: string;
 	monitor_post: number;
 	monitor_types: string[];
+	monitor_keep_domain: boolean;
 }
 
 interface UrlMonitoringProps {
@@ -83,7 +84,7 @@ function getMonitorPost( post: number, groups: GroupOption[] ): number {
 
 function UrlMonitoring( props: UrlMonitoringProps ) {
 	const { onChange, settings, groups, getLink, postTypes } = props;
-	const { associated_redirect, monitor_post, monitor_types } = settings;
+	const { associated_redirect, monitor_post, monitor_types, monitor_keep_domain } = settings;
 	const canMonitor = monitor_types.length > 0;
 
 	function onChangeMonitor( ev: React.ChangeEvent< HTMLInputElement > ) {
@@ -98,8 +99,10 @@ function UrlMonitoring( props: UrlMonitoringProps ) {
 			monitor_types: filteredTypes,
 			monitor_post: filteredTypes.length > 0 ? getMonitorPost( monitor_post, groups ) : 0,
 			associated_redirect: filteredTypes.length > 0 ? associated_redirect : '',
+			monitor_keep_domain: filteredTypes.length > 0 ? monitor_keep_domain : false,
 		} );
 	}
+
 
 	return (
 		<>
@@ -131,6 +134,18 @@ function UrlMonitoring( props: UrlMonitoringProps ) {
 						/>
 						&nbsp;
 						{ __( 'Create associated redirect (added to end of URL)', 'redirection' ) }
+					</p>
+					<p>
+						<input
+							id="monitor-keep-domain"
+							type="checkbox"
+							name="monitor_keep_domain"
+							onChange={ onChange as any }
+							checked={ monitor_keep_domain }
+						/>
+						<label htmlFor="monitor-keep-domain">
+							{ __( 'Keep domain in generated redirect', 'redirection' ) }
+						</label>
 					</p>
 				</TableRow>
 			) }

@@ -11,6 +11,7 @@
  *    monitor_post: int,
  *    monitor_types: array<string>,
  *    associated_redirect: string,
+ *    monitor_keep_domain: bool,
  *    auto_target: string,
  *    expire_redirect: int,
  *    expire_404: int,
@@ -265,6 +266,7 @@ class Red_Options {
 			'monitor_post' => 0,
 			'monitor_types' => [],
 			'associated_redirect' => '',
+			'monitor_keep_domain' => false,
 			'auto_target' => '',
 			'expire_redirect' => 7,
 			'expire_404' => 7,
@@ -391,6 +393,7 @@ class Red_Options {
 		if ( isset( $settings['monitor_types'] ) && count( $monitor_types ) === 0 ) {
 			$options['monitor_post'] = 0;
 			$options['associated_redirect'] = '';
+			$options['monitor_keep_domain'] = false;
 		} elseif ( isset( $settings['monitor_post'] ) ) {
 			$options['monitor_post'] = max( 0, intval( $settings['monitor_post'], 10 ) );
 
@@ -427,7 +430,7 @@ class Red_Options {
 		}
 
 		// Boolean settings
-		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits', 'monitor_keep_domain' ] as $name ) {
 			if ( isset( $settings[ $name ] ) ) {
 				$options[ $name ] = $settings[ $name ] ? true : false;
 			}
