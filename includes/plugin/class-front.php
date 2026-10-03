@@ -68,9 +68,9 @@ class Front {
 
 		$options = Settings::get();
 		if ( $options['ip_logging'] === 0 ) {
-			add_filter( 'redirection_request_ip', [ $this, 'no_ip_logging' ] );
+			add_filter( 'redirection_log_ip', [ $this, 'no_ip_logging' ] );
 		} elseif ( $options['ip_logging'] === 2 ) {
-			add_filter( 'redirection_request_ip', [ $this, 'mask_ip' ] );
+			add_filter( 'redirection_log_ip', [ $this, 'mask_ip' ] );
 		}
 	}
 

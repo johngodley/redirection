@@ -5,8 +5,26 @@ if ( ! defined( 'REDIRECTION_REFACTOR' ) || ! REDIRECTION_REFACTOR ) {
 }
 
 class IPMatchTest extends WP_UnitTestCase {
+	private $remote_addr = null;
+
 	public function setUp() : void {
-		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+		parent::setUp();
+
+		$this->remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
+	}
+
+	public function tearDown() : void {
+		if ( $this->remote_addr === null ) {
+			unset( $_SERVER['REMOTE_ADDR'] );
+		} else {
+			$_SERVER['REMOTE_ADDR'] = $this->remote_addr;
+		}
+
+		$front = Redirection::init();
+		remove_filter( 'redirection_log_ip', array( $front, 'no_ip_logging' ) );
+		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
+
+		parent::tearDown();
 	}
 
 	public function testNoData() {
@@ -87,6 +105,42 @@ class IPMatchTest extends WP_UnitTestCase {
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.2';
 
 		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1', '192.168.1.2' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
+	}
+
+	/**
+	 * Log privacy settings are for logging, and must not affect matching.
+	 */
+	public function testMatchWithNoIpLogging() {
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );
+
+		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
+	}
+
+	public function testMatchWithMaskedIpLogging() {
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'mask_ip' ) );
+
+		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.1' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertTrue( $match->is_match( '' ) );
+	}
+
+	public function testNoMatchWithMaskedIpLogging() {
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'mask_ip' ) );
+
+		// The masked IP must not be used to match, so this masked form does not match.
+		$match = new Ip_Match( serialize( array( 'ip' => [ '192.168.1.0' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
+		$this->assertFalse( $match->is_match( '' ) );
+	}
+
+	public function testMatchIpv6WithMaskedIpLogging() {
+		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'mask_ip' ) );
+
+		$match = new Ip_Match( serialize( array( 'ip' => [ '2001:db8:85a3:10:10:8a2e:370:7334' ], 'url_from' => '', 'url_notfrom' => '' ) ) );
 		$this->assertTrue( $match->is_match( '' ) );
 	}
 }

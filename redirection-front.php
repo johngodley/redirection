@@ -56,9 +56,9 @@ class Redirection {
 
 		$options = Red_Options::get();
 		if ( $options['ip_logging'] === 0 ) {
-			add_filter( 'redirection_request_ip', array( $this, 'no_ip_logging' ) );
+			add_filter( 'redirection_log_ip', array( $this, 'no_ip_logging' ) );
 		} elseif ( $options['ip_logging'] === 2 ) {
-			add_filter( 'redirection_request_ip', array( $this, 'mask_ip' ) );
+			add_filter( 'redirection_log_ip', array( $this, 'mask_ip' ) );
 		}
 	}
 
