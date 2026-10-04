@@ -130,7 +130,7 @@ if ( red_is_refactor_enabled() ) {
  * Clear PHP opcache when plugin is updated. This is to help with mid-update errors.
  *
  * @param object $upgrader The upgrader object.
- * @param array{action: string, type: string, plugins?: string[]} $options The upgrade options.
+ * @param array{action: string, type: string, plugin?: string, plugins?: string[]} $options The upgrade options.
  * @return void
  */
 function redirection_clear_opcache_on_upgrade( $upgrader, $options ) {
@@ -139,7 +139,11 @@ function redirection_clear_opcache_on_upgrade( $upgrader, $options ) {
 	}
 
 	$plugin_basename = plugin_basename( REDIRECTION_FILE );
-	$plugins = $options['plugins'] ?? [];
+	$plugins = isset( $options['plugins'] ) && is_array( $options['plugins'] ) ? $options['plugins'] : [];
+
+	if ( isset( $options['plugin'] ) && is_string( $options['plugin'] ) ) {
+		$plugins[] = $options['plugin'];
+	}
 
 	if ( ! in_array( $plugin_basename, $plugins, true ) ) {
 		return;
