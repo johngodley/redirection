@@ -103,7 +103,7 @@ class Ip extends Compare {
 	}
 
 	public function is_match( $url ) {
-		$matched = $this->get_matching_ips( Request::get_ip() );
+		$matched = $this->get_matching_ips( Request::get_raw_ip() );
 
 		return count( $matched ) > 0;
 	}

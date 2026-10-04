@@ -804,7 +804,7 @@ class Redirect {
 				];
 			}
 
-			RedirectLog::create( Request::get_server(), $url, Request::get_log_ip(), $details );
+			RedirectLog::create( Request::get_server(), $url, Request::get_ip(), $details );
 		}
 	}
 

@@ -224,7 +224,7 @@ class WordPress_Module extends Red_Module {
 				];
 			}
 
-			Red_404_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_log_ip(), $details );
+			Red_404_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_ip(), $details );
 		}
 	}
 
@@ -513,7 +513,7 @@ class WordPress_Module extends Red_Module {
 			$details['request_data']['headers'] = Redirection_Request::get_request_headers();
 		}
 
-		Red_Redirect_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_log_ip(), $details );
+		Red_Redirect_Log::create( Redirection_Request::get_server(), Redirection_Request::get_request_url(), Redirection_Request::get_ip(), $details );
 
 		return $agent;
 	}

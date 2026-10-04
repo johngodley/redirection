@@ -20,12 +20,12 @@ class RequestTest extends WP_UnitTestCase {
 		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 	}
 
-	public function setUp() : void {
+	public function setUp(): void {
 		$this->resetIpSettings();
 		$this->resetLogIpFilters();
 	}
 
-	public function tearDown() : void {
+	public function tearDown(): void {
 		$this->resetLogIpFilters();
 
 		parent::tearDown();
@@ -290,27 +290,27 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testNoIPLogging() {
-		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );;
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );
 		red_set_options( array( 'ip_logging' => 0 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
-		$result = Redirection_Request::get_log_ip();
+		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '', $result );
 	}
 
 	/**
 	 * Log privacy settings must not affect the request IP, which is used for matching.
 	 */
-	public function testNoIPLoggingKeepsRequestIP() {
+	public function testNoIPLoggingKeepsRawIP() {
 		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );
 		red_set_options( array( 'ip_logging' => 0 ) );
 
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
-		$this->assertEquals( '192.168.1.1', Redirection_Request::get_ip() );
+		$this->assertEquals( '192.168.1.1', Redirection_Request::get_raw_ip() );
 	}
 
 	public function testMaskIP4() {
@@ -323,25 +323,25 @@ class RequestTest extends WP_UnitTestCase {
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
 
-		$result = Redirection_Request::get_log_ip();
+		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '192.168.1.0', $result );
-		$this->assertEquals( '192.168.1.1', Redirection_Request::get_ip() );
+		$this->assertEquals( '192.168.1.1', Redirection_Request::get_raw_ip() );
 		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMaskIP6() {
 		$front = Redirection::init();
 
-		add_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );;
+		add_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 		red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
 		unset( $_SERVER['REMOTE_ADDR'] );
 		$_SERVER['REMOTE_ADDR'] = '2001:db8:85a3:10:10:8a2e:370:7334';
 
-		$result = Redirection_Request::get_log_ip();
+		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '2001:db8:85a3:10::', $result );
-		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', Redirection_Request::get_ip() );
+		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', Redirection_Request::get_raw_ip() );
 		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 	}
 

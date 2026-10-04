@@ -218,14 +218,11 @@ class Redirection_Request {
 	}
 
 	/**
-	 * Get the browser IP, as used for matching a request.
-	 *
-	 * This is the real client IP and is deliberately not subject to the log privacy
-	 * settings - those apply to logging only. Use `get_log_ip()` when storing an IP.
+	 * Get the browser IP without applying the logging privacy settings.
 	 *
 	 * @return string
 	 */
-	public static function get_ip() {
+	public static function get_raw_ip() {
 		$options = Red_Options::get();
 		$ip = new Redirection_IP();
 
@@ -247,14 +244,14 @@ class Redirection_Request {
 	}
 
 	/**
-	 * Get the browser IP for storing in a log.
+	 * Get the browser IP.
 	 *
-	 * This applies the log privacy settings, and may be masked or removed entirely.
+	 * This applies the logging privacy settings, and may be masked or removed entirely.
 	 *
 	 * @return string
 	 */
-	public static function get_log_ip() {
-		return apply_filters( 'redirection_log_ip', self::get_ip() );
+	public static function get_ip() {
+		return apply_filters( 'redirection_log_ip', self::get_raw_ip() );
 	}
 
 	/**

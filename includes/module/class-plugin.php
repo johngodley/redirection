@@ -237,7 +237,7 @@ class Plugin extends Module {
 				];
 			}
 
-			ErrorLog::create( Request::get_server(), Request::get_request_url(), Request::get_log_ip(), $details );
+			ErrorLog::create( Request::get_server(), Request::get_request_url(), Request::get_ip(), $details );
 		}
 	}
 
@@ -524,7 +524,7 @@ class Plugin extends Module {
 			$details['request_data']['headers'] = Request::get_request_headers();
 		}
 
-		RedirectLog::create( Request::get_server(), Request::get_request_url(), Request::get_log_ip(), $details );
+		RedirectLog::create( Request::get_server(), Request::get_request_url(), Request::get_ip(), $details );
 
 		return $agent;
 	}

@@ -798,7 +798,7 @@ class Red_Item {
 				];
 			}
 
-			Red_Redirect_Log::create( Redirection_Request::get_server(), $url, Redirection_Request::get_log_ip(), $details );
+			Red_Redirect_Log::create( Redirection_Request::get_server(), $url, Redirection_Request::get_ip(), $details );
 		}
 	}
 
