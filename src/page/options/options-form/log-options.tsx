@@ -121,7 +121,7 @@ function LogOptions( props: LogOptionsProps ) {
 						<p>
 							{ createInterpolateElement(
 								__(
-									'Please ensure you trust the data in these headers. If using a proxy then set its address below.',
+									'Please ensure you trust the data in these headers. If using a proxy then set its address below. Incorrect configuration may allow browser-controlled data to be used as the client IP address.',
 									'redirection'
 								),
 								{ code: <code /> }
