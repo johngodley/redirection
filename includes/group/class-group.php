@@ -280,6 +280,8 @@ class Group {
 			Module::flush_by_module( $this->module_id );
 		}
 
+		do_action( 'redirection_group_updated', intval( $this->id ) );
+
 		return true;
 	}
 
@@ -290,6 +292,8 @@ class Group {
 	 */
 	public function delete() {
 		global $wpdb;
+
+		$id = intval( $this->id );
 
 		// Delete all items in this group
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}redirection_items WHERE group_id=%d", $this->id ) );
@@ -309,6 +313,8 @@ class Group {
 				]
 			);
 		}
+
+		do_action( 'redirection_group_deleted', $id );
 	}
 
 	/**
@@ -334,6 +340,8 @@ class Group {
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => 'enabled' ], [ 'group_id' => $this->id ] );
 
 		Module::flush( $this->id );
+
+		do_action( 'redirection_group_updated', intval( $this->id ) );
 	}
 
 	/**
@@ -348,6 +356,8 @@ class Group {
 		$wpdb->update( $wpdb->prefix . 'redirection_items', [ 'status' => 'disabled' ], [ 'group_id' => $this->id ] );
 
 		Module::flush( $this->id );
+
+		do_action( 'redirection_group_updated', intval( $this->id ) );
 	}
 
 	/**

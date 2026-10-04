@@ -2,6 +2,7 @@
 
 namespace Redirection\Database\Schema;
 
+use Redirection\Cache\Generic;
 use Redirection\Database\Status;
 use Redirection\Database\Upgrader;
 
@@ -70,6 +71,7 @@ class Latest extends Upgrader {
 		delete_option( 'redirection_index' );
 		delete_option( 'redirection_options' );
 		delete_option( Status::OLD_DB_VERSION );
+		delete_option( Generic::OPTION );
 	}
 
 	/**
