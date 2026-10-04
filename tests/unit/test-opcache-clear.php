@@ -63,6 +63,20 @@ class OpcacheClearTest extends TestCase {
 		$this->assertTrue( true );
 	}
 
+	public function testDoesNotCallOpcacheResetForDifferentSinglePlugin() {
+		Functions\expect( 'opcache_reset' )->never();
+
+		$options = [
+			'action' => 'update',
+			'type' => 'plugin',
+			'plugin' => 'other-plugin/other-plugin.php',
+		];
+
+		redirection_clear_opcache_on_upgrade( null, $options );
+
+		$this->assertTrue( true );
+	}
+
 	public function testDoesNotCallOpcacheResetWhenPluginsKeyIsMissing() {
 		Functions\expect( 'opcache_reset' )->never();
 
@@ -76,7 +90,7 @@ class OpcacheClearTest extends TestCase {
 		$this->assertTrue( true );
 	}
 
-	public function testCallsOpcacheResetWhenConditionsMet() {
+	public function testCallsOpcacheResetForBulkUpdate() {
 		Functions\expect( 'opcache_reset' )->once();
 
 		$options = [
@@ -88,5 +102,19 @@ class OpcacheClearTest extends TestCase {
 		redirection_clear_opcache_on_upgrade( null, $options );
 
 		$this->assertTrue( true ); // Mockery verifies the expectation in tearDown
+	}
+
+	public function testCallsOpcacheResetForSingleUpdate() {
+		Functions\expect( 'opcache_reset' )->once();
+
+		$options = [
+			'action' => 'update',
+			'type' => 'plugin',
+			'plugin' => 'redirection/redirection.php',
+		];
+
+		redirection_clear_opcache_on_upgrade( null, $options );
+
+		$this->assertTrue( true );
 	}
 }

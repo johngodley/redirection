@@ -29,8 +29,6 @@
 		"lint": "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -n",
 		"format": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n",
 		"format-file": "@php ./vendor/bin/phpcbf --standard=phpcs.xml -n --",
-		"test:integration:refactor": "REDIRECTION_REFACTOR=1 php -d display_errors=1 -d display_startup_errors=1 ./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,",
-		"test:unit:refactor": "REDIRECTION_REFACTOR=1 ./vendor/bin/phpunit --colors=always --configuration phpunit-unit.xml",
 		"test-integration": "./vendor/bin/phpunit --testsuite integration --colors=always --configuration phpunit-integration.xml --exclude-group AdminOnly,,",
 		"test-unit": "./vendor/bin/phpunit --colors=always --configuration phpunit-unit.xml"
 	},
