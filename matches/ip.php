@@ -90,7 +90,7 @@ class IP_Match extends Red_Match {
 	}
 
 	public function is_match( $url ) {
-		$matched = $this->get_matching_ips( Redirection_Request::get_ip() );
+		$matched = $this->get_matching_ips( Redirection_Request::get_raw_ip() );
 
 		return count( $matched ) > 0;
 	}

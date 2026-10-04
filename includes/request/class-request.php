@@ -32,12 +32,15 @@ class Request {
 	public static function get_request_headers() {
 		$ignore = apply_filters(
 			'redirection_request_headers_ignore',
-			[
-				'authorization',
-				'cookie',
-				'host',
-				'proxy-authorization',
-			]
+			array_merge(
+				[
+					'authorization',
+					'cookie',
+					'host',
+					'proxy-authorization',
+				],
+				self::get_ip_header_names()
+			)
 		);
 		$headers = [];
 
@@ -190,11 +193,38 @@ class Request {
 	}
 
 	/**
-	 * Get browser IP
+	 * Get the IP header names in the format used when logging headers.
+	 *
+	 * A request's IP appears in these headers, so they are always excluded from logged
+	 * headers, regardless of the IP logging setting. This only covers the known headers
+	 * from `get_ip_headers()` - an IP in any other header (such as `X-Real-IP`) is still logged.
+	 *
+	 * @return string[]
+	 */
+	private static function get_ip_header_names() {
+		$headers = array_filter(
+			self::get_ip_headers(),
+			static function ( $header ) {
+				return substr( $header, 0, 5 ) === 'HTTP_';
+			}
+		);
+
+		return array_values(
+			array_map(
+				static function ( $header ) {
+					return strtolower( str_replace( '_', '-', substr( $header, 5 ) ) );
+				},
+				$headers
+			)
+		);
+	}
+
+	/**
+	 * Get the browser IP without applying the logging privacy settings.
 	 *
 	 * @return string
 	 */
-	public static function get_ip() {
+	public static function get_raw_ip() {
 		$options = Settings::get();
 		$ip = new Ip();
 
@@ -213,6 +243,17 @@ class Request {
 		}
 
 		return apply_filters( 'redirection_request_ip', $ip->get() );
+	}
+
+	/**
+	 * Get the browser IP.
+	 *
+	 * This applies the logging privacy settings, and may be masked or removed entirely.
+	 *
+	 * @return string
+	 */
+	public static function get_ip() {
+		return apply_filters( 'redirection_log_ip', self::get_raw_ip() );
 	}
 
 	/**

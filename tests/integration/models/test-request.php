@@ -13,9 +13,22 @@ class RequestTest extends WP_UnitTestCase {
 		red_set_options( [ 'ip_headers' => [ $header ] ] );
 	}
 
-	public function setUp() : void {
-		remove_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );
+	private function resetLogIpFilters() {
+		$front = Redirection::init();
+
+		remove_filter( 'redirection_log_ip', array( $front, 'no_ip_logging' ) );
+		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
+	}
+
+	public function setUp(): void {
 		$this->resetIpSettings();
+		$this->resetLogIpFilters();
+	}
+
+	public function tearDown(): void {
+		$this->resetLogIpFilters();
+
+		parent::tearDown();
 	}
 
 	private function monitorAction( $hook ) {
@@ -277,7 +290,7 @@ class RequestTest extends WP_UnitTestCase {
 	}
 
 	public function testNoIPLogging() {
-		add_filter( 'redirection_request_ip', array( Redirection::init(), 'no_ip_logging' ) );;
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );
 		red_set_options( array( 'ip_logging' => 0 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
@@ -288,10 +301,22 @@ class RequestTest extends WP_UnitTestCase {
 		$this->assertEquals( '', $result );
 	}
 
+	/**
+	 * Log privacy settings must not affect the request IP, which is used for matching.
+	 */
+	public function testNoIPLoggingKeepsRawIP() {
+		add_filter( 'redirection_log_ip', array( Redirection::init(), 'no_ip_logging' ) );
+		red_set_options( array( 'ip_logging' => 0 ) );
+
+		$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+
+		$this->assertEquals( '192.168.1.1', Redirection_Request::get_raw_ip() );
+	}
+
 	public function testMaskIP4() {
 		$front = Redirection::init();
 
-		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
+		add_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 		red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
@@ -300,13 +325,14 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '192.168.1.0', $result );
-		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
+		$this->assertEquals( '192.168.1.1', Redirection_Request::get_raw_ip() );
+		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMaskIP6() {
 		$front = Redirection::init();
 
-		add_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );;
+		add_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 		red_set_options( array( 'ip_logging' => 2 ) );
 
 		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
@@ -315,7 +341,8 @@ class RequestTest extends WP_UnitTestCase {
 
 		$result = Redirection_Request::get_ip();
 		$this->assertEquals( '2001:db8:85a3:10::', $result );
-		remove_filter( 'redirection_request_ip', array( $front, 'mask_ip' ) );
+		$this->assertEquals( '2001:db8:85a3:10:10:8a2e:370:7334', Redirection_Request::get_raw_ip() );
+		remove_filter( 'redirection_log_ip', array( $front, 'mask_ip' ) );
 	}
 
 	public function testMissingHeader() {
@@ -383,6 +410,62 @@ class RequestTest extends WP_UnitTestCase {
 
 		// Everything else is still collected.
 		$this->assertEquals( 'custom', $result['X-Custom'] );
+
+		$this->clearRequestHeaders( $headers );
+	}
+
+	public function testIpHeadersIgnored() {
+		$headers = [
+			'HTTP_CF_CONNECTING_IP' => '203.0.113.45',
+			'HTTP_CLIENT_IP' => '203.0.113.45',
+			'HTTP_X_FORWARDED_FOR' => '203.0.113.45, 10.0.0.1',
+			'HTTP_X_FORWARDED' => '203.0.113.45',
+			'HTTP_X_CLUSTER_CLIENT_IP' => '203.0.113.45',
+			'HTTP_FORWARDED_FOR' => '203.0.113.45',
+			'HTTP_FORWARDED' => 'for=203.0.113.45',
+			'HTTP_VIA' => '1.1 203.0.113.45',
+			'HTTP_X_CUSTOM' => 'custom',
+		];
+		$this->setRequestHeaders( $headers );
+
+		$result = Redirection_Request::get_request_headers();
+
+		$this->assertArrayNotHasKey( 'Cf-Connecting-Ip', $result );
+		$this->assertArrayNotHasKey( 'Client-Ip', $result );
+		$this->assertArrayNotHasKey( 'X-Forwarded-For', $result );
+		$this->assertArrayNotHasKey( 'X-Forwarded', $result );
+		$this->assertArrayNotHasKey( 'X-Cluster-Client-Ip', $result );
+		$this->assertArrayNotHasKey( 'Forwarded-For', $result );
+		$this->assertArrayNotHasKey( 'Forwarded', $result );
+		$this->assertArrayNotHasKey( 'Via', $result );
+
+		// The IP must not leak from any of the known IP headers.
+		foreach ( $result as $value ) {
+			$this->assertStringNotContainsString( '203.0.113.45', $value );
+		}
+
+		// Everything else is still collected.
+		$this->assertEquals( 'custom', $result['X-Custom'] );
+
+		$this->clearRequestHeaders( $headers );
+	}
+
+	/**
+	 * Every known header used to determine the client IP must be excluded from logged headers.
+	 */
+	public function testAllIpHeadersAreIgnored() {
+		$headers = [];
+		foreach ( Redirection_Request::get_ip_headers() as $header ) {
+			if ( substr( $header, 0, 5 ) === 'HTTP_' ) {
+				$headers[ $header ] = '203.0.113.45';
+			}
+		}
+
+		$this->setRequestHeaders( $headers );
+
+		$result = Redirection_Request::get_request_headers();
+
+		$this->assertNotContains( '203.0.113.45', $result );
 
 		$this->clearRequestHeaders( $headers );
 	}
