@@ -21,6 +21,7 @@ use Redirection\Url\SourceFlags;
  *    token: string,
  *    monitor_post: int,
  *    monitor_types: array<string>,
+ *    monitor_terms: array<string>,
  *    associated_redirect: string,
  *    auto_target: string,
  *    expire_redirect: int,
@@ -74,6 +75,7 @@ class Settings {
 	private const IMPORT_EXPORT_KEYS = [
 		'support',
 		'monitor_types',
+		'monitor_terms',
 		'auto_target',
 		'expire_redirect',
 		'expire_404',
@@ -276,6 +278,7 @@ class Settings {
 			'token' => md5( uniqid() ),
 			'monitor_post' => 0,
 			'monitor_types' => [],
+			'monitor_terms' => [],
 			'associated_redirect' => '',
 			'auto_target' => '',
 			'expire_redirect' => 7,
@@ -339,6 +342,7 @@ class Settings {
 	private static function apply_settings( array $settings ): array {
 		$options = self::build_options();
 		$monitor_types = [];
+		$monitor_terms = [];
 
 		if ( isset( $settings['database'] ) ) {
 			$options['database'] = sanitize_text_field( $settings['database'] );
@@ -396,6 +400,18 @@ class Settings {
 			$options['monitor_types'] = $monitor_types;
 		}
 
+		if ( isset( $settings['monitor_terms'] ) && is_array( $settings['monitor_terms'] ) ) {
+			$allowed = red_get_taxonomies( false );
+
+			foreach ( $settings['monitor_terms'] as $taxonomy ) {
+				if ( in_array( $taxonomy, $allowed, true ) ) {
+					$monitor_terms[] = $taxonomy;
+				}
+			}
+
+			$options['monitor_terms'] = $monitor_terms;
+		}
+
 		if ( isset( $settings['associated_redirect'] ) && is_string( $settings['associated_redirect'] ) ) {
 			$options['associated_redirect'] = '';
 
@@ -405,7 +421,7 @@ class Settings {
 			}
 		}
 
-		if ( isset( $settings['monitor_types'] ) && count( $monitor_types ) === 0 ) {
+		if ( ( isset( $settings['monitor_types'] ) || isset( $settings['monitor_terms'] ) ) && count( $monitor_types ) === 0 && count( $monitor_terms ) === 0 ) {
 			$options['monitor_post'] = 0;
 			$options['associated_redirect'] = '';
 		} elseif ( isset( $settings['monitor_post'] ) ) {
@@ -478,7 +494,7 @@ class Settings {
 			}
 		}
 
-		if ( $options['monitor_post'] !== 0 && count( $options['monitor_types'] ) === 0 ) {
+		if ( $options['monitor_post'] !== 0 && count( $options['monitor_types'] ) === 0 && count( $options['monitor_terms'] ) === 0 ) {
 			// If we have a monitor_post set, but no types, then blank everything
 			$options['monitor_post'] = 0;
 			$options['associated_redirect'] = '';

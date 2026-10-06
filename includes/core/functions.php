@@ -42,6 +42,25 @@ function red_get_post_types( bool $full = true ): array {
 }
 
 /**
+ * @param bool $full
+ * @return array<string, string>|list<string>
+ */
+function red_get_taxonomies( bool $full = true ): array {
+	$taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
+	$taxonomy_names = [];
+
+	foreach ( $taxonomies as $taxonomy ) {
+		if ( $full && strlen( $taxonomy->label ) > 0 ) {
+			$taxonomy_names[ $taxonomy->name ] = $taxonomy->label;
+		} else {
+			$taxonomy_names[] = $taxonomy->name;
+		}
+	}
+
+	return apply_filters( 'redirection_taxonomies', $taxonomy_names );
+}
+
+/**
  * @param string $url
  * @return array<string, mixed>|false
  */

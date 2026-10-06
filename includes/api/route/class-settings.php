@@ -17,7 +17,8 @@ use WP_REST_Server;
  *   groups: array<int, object>,
  *   installed: string,
  *   canDelete: bool,
- *   post_types: array<int|string>
+ *   post_types: array<int|string>,
+ *   taxonomies: array<int|string>
  * }
  * @phpstan-type SettingsResponseWithWarning array{
  *   settings: array<string, mixed>,
@@ -25,6 +26,7 @@ use WP_REST_Server;
  *   installed: string,
  *   canDelete: bool,
  *   post_types: array<int|string>,
+ *   taxonomies: array<int|string>,
  *   warning?: string
  * }
  */
@@ -72,6 +74,7 @@ class Settings extends BaseRoute {
 			'installed' => get_home_path(),
 			'canDelete' => ! is_multisite(),
 			'post_types' => red_get_post_types(),
+			'taxonomies' => red_get_taxonomies(),
 		];
 	}
 
