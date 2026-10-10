@@ -22,6 +22,11 @@ class Red_Monitor {
 	private $associated = '';
 
 	/**
+	 * @var bool
+	 */
+	private $monitor_children = false;
+
+	/**
 	 * @param array<string, mixed> $options
 	 */
 	public function __construct( array $options ) {
@@ -30,6 +35,7 @@ class Red_Monitor {
 		if ( count( $this->monitor_types ) > 0 && $options['monitor_post'] > 0 ) {
 			$this->monitor_group_id = intval( $options['monitor_post'], 10 );
 			$this->associated = isset( $options['associated_redirect'] ) ? $options['associated_redirect'] : '';
+			$this->monitor_children = ! empty( $options['monitor_children'] );
 
 			// Only monitor if permalinks enabled
 			if ( get_option( 'permalink_structure' ) !== false ) {
@@ -209,35 +215,103 @@ class Red_Monitor {
 		$after = wp_parse_url( $permalink, PHP_URL_PATH );
 		$before = wp_parse_url( esc_url( $before ), PHP_URL_PATH );
 
-		if ( is_string( $before ) && is_string( $after ) && apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
-			do_action( 'redirection_remove_existing', $after, $post_id );
-
-			$data = array(
-				'url'         => $before,
-				'action_data' => array( 'url' => $after ),
-				'match_type'  => 'url',
-				'action_type' => 'url',
-				'action_code' => 301,
-				'group_id'    => $this->monitor_group_id,
-			);
-
-			// Create a new redirect for this post
-			$new_item = Red_Item::create( $data );
-
-			if ( ! is_wp_error( $new_item ) ) {
-				do_action( 'redirection_monitor_created', $new_item, $before, $post_id );
-
-				if ( ! empty( $this->associated ) ) {
-					// Create an associated redirect for this post
-					$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
-					$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
-					Red_Item::create( $data );
-				}
-			}
-
-			return true;
+		if ( ! is_string( $before ) || ! is_string( $after ) || ! apply_filters( 'redirection_permalink_changed', false, $before, $after ) ) {
+			return false;
 		}
 
-		return false;
+		$created = $this->create_redirect( $post_id, $before, $after );
+
+		$post_type = get_post_type( $post_id );
+		if ( $created && $this->monitor_children && is_string( $post_type ) && is_post_type_hierarchical( $post_type ) ) {
+			$this->create_children_redirects( $post_id, $before, $after );
+		}
+
+		return $created;
+	}
+
+	/**
+	 * Create a monitor redirect for a post id from before to after.
+	 *
+	 * @param int $post_id
+	 * @param string $before
+	 * @param string $after
+	 * @return bool
+	 */
+	private function create_redirect( int $post_id, string $before, string $after ): bool {
+		do_action( 'redirection_remove_existing', $after, $post_id );
+
+		$data = array(
+			'url'         => $before,
+			'action_data' => array( 'url' => $after ),
+			'match_type'  => 'url',
+			'action_type' => 'url',
+			'action_code' => 301,
+			'group_id'    => $this->monitor_group_id,
+		);
+
+		$new_item = Red_Item::create( $data );
+
+		if ( is_wp_error( $new_item ) ) {
+			return false;
+		}
+
+		do_action( 'redirection_monitor_created', $new_item, $before, $post_id );
+
+		if ( ! empty( $this->associated ) ) {
+			$data['url'] = trailingslashit( $data['url'] ) . ltrim( $this->associated, '/' );
+			$data['action_data'] = array( 'url' => trailingslashit( $data['action_data']['url'] ) . ltrim( $this->associated, '/' ) );
+			Red_Item::create( $data );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Create redirects for descendant pages when a hierarchical parent slug changes.
+	 *
+	 * @param int $post_id
+	 * @param string $before
+	 * @param string $after
+	 * @return void
+	 */
+	private function create_children_redirects( int $post_id, string $before, string $after ): void {
+		$post_type = get_post_type( $post_id );
+		if ( $post_type === false || ! is_post_type_hierarchical( $post_type ) ) {
+			return;
+		}
+
+		$descendants = get_pages(
+			array(
+				'child_of'    => $post_id,
+				'post_type'   => $post_type,
+				'post_status' => 'publish',
+			)
+		);
+
+		if ( ! is_array( $descendants ) || count( $descendants ) === 0 ) {
+			return;
+		}
+
+		$old_prefix = trailingslashit( $before );
+		$new_prefix = trailingslashit( $after );
+
+		foreach ( $descendants as $child ) {
+			$child_permalink = get_permalink( $child->ID );
+			if ( $child_permalink === false ) {
+				continue;
+			}
+
+			$child_after = wp_parse_url( $child_permalink, PHP_URL_PATH );
+			if ( ! is_string( $child_after ) || strpos( $child_after, $new_prefix ) !== 0 ) {
+				continue;
+			}
+
+			$child_before = $old_prefix . substr( $child_after, strlen( $new_prefix ) );
+			if ( $child_before === $child_after ) {
+				continue;
+			}
+
+			$this->create_redirect( $child->ID, $child_before, $child_after );
+		}
 	}
 }

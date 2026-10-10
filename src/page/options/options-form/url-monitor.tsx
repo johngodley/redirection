@@ -15,6 +15,7 @@ interface Settings {
 	associated_redirect: string;
 	monitor_post: number;
 	monitor_types: string[];
+	monitor_children?: boolean;
 }
 
 interface UrlMonitoringProps {
@@ -83,7 +84,7 @@ function getMonitorPost( post: number, groups: GroupOption[] ): number {
 
 function UrlMonitoring( props: UrlMonitoringProps ) {
 	const { onChange, settings, groups, getLink, postTypes } = props;
-	const { associated_redirect, monitor_post, monitor_types } = settings;
+	const { associated_redirect, monitor_post, monitor_types, monitor_children } = settings;
 	const canMonitor = monitor_types.length > 0;
 
 	function onChangeMonitor( ev: React.ChangeEvent< HTMLInputElement > ) {
@@ -131,6 +132,18 @@ function UrlMonitoring( props: UrlMonitoringProps ) {
 						/>
 						&nbsp;
 						{ __( 'Create associated redirect (added to end of URL)', 'redirection' ) }
+					</p>
+					<p>
+						<input
+							id="monitor-children"
+							type="checkbox"
+							name="monitor_children"
+							onChange={ onChange as any }
+							checked={ !! monitor_children }
+						/>
+						<label htmlFor="monitor-children">
+							{ __( 'Create redirects for child pages when a parent slug changes', 'redirection' ) }
+						</label>
 					</p>
 				</TableRow>
 			) }
