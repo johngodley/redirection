@@ -228,7 +228,7 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testNoHooks() {
 		$monitor = new Red_Monitor( array( 'monitor_post' => 0, 'monitor_types' => array() ) );
 
-		$this->assertFalse( has_action( 'post_updated', array( $monitor, 'post_updated' ) ) );
+		$this->assertFalse( has_action( 'wp_after_insert_post', array( $monitor, 'post_after_insert' ) ) );
 		$this->assertFalse( has_action( 'edit_form_advanced', array( $monitor, 'insert_old_post' ) ) );
 		$this->assertFalse( has_action( 'edit_page_form', array( $monitor, 'insert_old_post' ) ) );
 	}
@@ -236,7 +236,7 @@ class MonitorTest extends WP_UnitTestCase {
 	public function testHasHooks() {
 		$monitor = new Red_Monitor( $this->getActiveOptions() );
 
-		$this->assertEquals( 11, has_action( 'post_updated', array( $monitor, 'post_updated' ) ) );
+		$this->assertEquals( 11, has_action( 'wp_after_insert_post', array( $monitor, 'post_after_insert' ) ) );
 		$this->assertEquals( 10, has_action( 'pre_post_update', array( $monitor, 'pre_post_update' ) ) );
 	}
 
