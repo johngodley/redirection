@@ -10,6 +10,7 @@ interface CanonicalSettingsProps {
 	https: boolean;
 	preferredDomain: string;
 	siteDomain: string;
+	forceLowercase: boolean;
 	onChange: ( value: { [ key: string ]: string | boolean } ) => void;
 }
 
@@ -95,12 +96,15 @@ function getCanonical( domain: string, https: boolean, preferred: string ): stri
 	return ( https ? 'https://' : 'http://' ) + domain;
 }
 
-function CanonicalSettings( { https, preferredDomain, siteDomain, onChange }: CanonicalSettingsProps ) {
+function CanonicalSettings( { https, preferredDomain, siteDomain, forceLowercase, onChange }: CanonicalSettingsProps ) {
 	const alert = showAlert( siteDomain, https, preferredDomain );
 	const changePreferred = ( ev: React.ChangeEvent< HTMLInputElement > ) => {
 		onChange( { [ ev.target.name ]: ev.target.value } );
 	};
 	const changeHttps = ( ev: React.ChangeEvent< HTMLInputElement > ) => {
+		onChange( { [ ev.target.name ]: ev.target.checked } );
+	};
+	const changeForceLowercase = ( ev: React.ChangeEvent< HTMLInputElement > ) => {
 		onChange( { [ ev.target.name ]: ev.target.checked } );
 	};
 
@@ -137,6 +141,44 @@ function CanonicalSettings( { https, preferredDomain, siteDomain, onChange }: Ca
 							// translators: %(strong)s is the warning title
 							__(
 								'{{strong}}Warning{{/strong}}: ensure your HTTPS is working before forcing a redirect.',
+								'redirection'
+							),
+							{
+								strong: <strong />,
+							}
+						) }
+					</p>
+				</div>
+			) }
+
+			<p>
+				<input
+					id="canonical-force-lowercase"
+					type="checkbox"
+					name="force_lowercase"
+					onChange={ changeForceLowercase }
+					checked={ forceLowercase }
+				/>
+				&nbsp;
+				<label htmlFor="canonical-force-lowercase">
+					{ createInterpolateElement(
+						__(
+							'Force all URL paths to lowercase - {{code}}/MyPage{{/code}} ⇒ {{code}}/mypage{{/code}}',
+							'redirection'
+						),
+						{
+							code: <code />,
+						}
+					) }
+				</label>
+			</p>
+
+			{ forceLowercase && (
+				<div className="inline-notice inline-warning">
+					<p>
+						{ createInterpolateElement(
+							__(
+								'{{strong}}Warning{{/strong}}: this may break media files with mixed-case filenames.',
 								'redirection'
 							),
 							{
