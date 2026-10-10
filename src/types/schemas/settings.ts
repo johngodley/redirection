@@ -15,6 +15,7 @@ export const SettingsSchema = z
 		monitor_post: z.number().int().optional(),
 		monitor_types: z.array( z.string() ).optional(),
 		associated_redirect: z.string().optional(),
+		monitor_keep_domain: z.boolean().optional(),
 		redirect_cache: z.number().int().optional(),
 		rest_api: z.number().int().optional(),
 		https: z.boolean().optional(),

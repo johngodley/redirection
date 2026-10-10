@@ -377,4 +377,100 @@ class MonitorTest extends WP_UnitTestCase {
 		$this->assertEquals( $url, $args[0][1] );
 		$this->assertEquals( $post, $args[0][2] );
 	}
+
+	public function testKeepDomainFalseCreatesUrlMatch() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( [
+			'monitor_post' => $this->group->get_id(),
+			'monitor_types' => [ 'post' ],
+			'associated_redirect' => '',
+			'monitor_keep_domain' => false,
+		] );
+		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
+		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
+		$after = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
+
+		$this->assertTrue( $monitor->check_for_modified_slug( $this->post_id, $before ) );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+		$this->assertEquals( $before, $redirect->url );
+		$this->assertEquals( 'url', $redirect->match_type );
+		$this->assertEquals( $after, $redirect->action_data );
+	}
+
+	public function testKeepDomainTrueCreatesServerMatch() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( [
+			'monitor_post' => $this->group->get_id(),
+			'monitor_types' => [ 'post' ],
+			'associated_redirect' => '',
+			'monitor_keep_domain' => true,
+		] );
+		$before = get_permalink( $this->post_id );
+
+		// Simulate Polylang/WPML domain-per-language by changing the home URL for this request.
+		add_filter( 'pre_option_home', function() {
+			return 'http://example.nl';
+		} );
+		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
+		$after = get_permalink( $this->post_id );
+		$after_path = parse_url( $after, PHP_URL_PATH );
+
+		$this->assertEquals( 'example.nl', parse_url( $after, PHP_URL_HOST ) );
+		$this->assertTrue( $monitor->check_for_modified_slug( $this->post_id, $before ) );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+		$this->assertEquals( parse_url( $before, PHP_URL_PATH ), $redirect->url );
+		$this->assertEquals( 'server', $redirect->match_type );
+
+		$action_data = maybe_unserialize( $redirect->action_data );
+		$this->assertEquals( 'http://example.nl', $action_data['server'] );
+		$this->assertEquals( $after_path, $action_data['url_from'] );
+	}
+
+	public function testKeepDomainTrueSameHostCreatesUrlMatch() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( [
+			'monitor_post' => $this->group->get_id(),
+			'monitor_types' => [ 'post' ],
+			'associated_redirect' => '',
+			'monitor_keep_domain' => true,
+		] );
+		$before = get_permalink( $this->post_id );
+		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
+		$after = get_permalink( $this->post_id );
+
+		$this->assertTrue( $monitor->check_for_modified_slug( $this->post_id, $before ) );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+		$this->assertEquals( parse_url( $before, PHP_URL_PATH ), $redirect->url );
+		$this->assertEquals( 'url', $redirect->match_type );
+		$this->assertEquals( parse_url( $after, PHP_URL_PATH ), $redirect->action_data );
+	}
+
+	public function testMonitorDataFilterCanModifyRedirect() {
+		global $wpdb;
+
+		$monitor = new Red_Monitor( [
+			'monitor_post' => $this->group->get_id(),
+			'monitor_types' => [ 'post' ],
+			'associated_redirect' => '',
+			'monitor_keep_domain' => false,
+		] );
+		$before = parse_url( get_permalink( $this->post_id ), PHP_URL_PATH );
+		$this->factory->post->update_object( $this->post_id, array( 'post_name' => 'something' ) );
+
+		add_filter( 'redirection_monitor_data', function( $data, $post_id, $before, $after ) {
+			$data['action_code'] = 302;
+			return $data;
+		}, 10, 4 );
+
+		$this->assertTrue( $monitor->check_for_modified_slug( $this->post_id, $before ) );
+
+		$redirect = $wpdb->get_row( "SELECT * FROM {$wpdb->prefix}redirection_items ORDER BY id DESC LIMIT 1" );
+		$this->assertEquals( 302, $redirect->action_code );
+	}
 }
