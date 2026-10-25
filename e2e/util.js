@@ -1,8 +1,4 @@
-const fetch = require( 'node-fetch' );
-
-const BASE_URL = 'http://redirection-e2e.local';
-
-jest.setTimeout( 30000 );
+const BASE_URL = process.env.E2E_BASE_URL || 'http://localhost:8889';
 
 function testItem( source, target ) {
 	return fetch( BASE_URL + source.url, {
@@ -12,9 +8,8 @@ function testItem( source, target ) {
 		expect( status ).toEqual( target.status );
 
 		if ( target.location ) {
-			const fullTarget = target.location.indexOf( 'http:' ) === -1 ? BASE_URL + target.location : target.location;
-
-			expect( headers.get( 'location' ) ).toBe( fullTarget );
+			// {home} is the site URL, for redirects that WordPress makes absolute
+			expect( headers.get( 'location' ) ).toBe( target.location.replace( '{home}', BASE_URL ) );
 		}
 
 		if ( target.agent ) {

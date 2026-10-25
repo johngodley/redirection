@@ -43,7 +43,7 @@
 				"url": "/plain-redirect-absolute"
 			},
 			"target": {
-				"location": "http://wordpress.org/",
+				"location": "http://wordpress.org",
 				"status": 301,
 				"agent": true
 			}
@@ -170,7 +170,7 @@
 		"Test plain 301 redirect ignore query",
 		{
 			"source": {
-				"url": "/plain-query-ignore?param1=1&param2=2"
+				"url": "/plain-query-ignore?first=1&second=2"
 			},
 			"target": {
 				"location": "/plain-redirect",
@@ -183,7 +183,7 @@
 		"Test plain 301 redirect exact query in same order",
 		{
 			"source": {
-				"url": "/plain-query-exact?param1=1&param2=2"
+				"url": "/plain-query-exact?first=1&second=2"
 			},
 			"target": {
 				"location": "/plain-redirect",
@@ -196,7 +196,7 @@
 		"Test plain 301 redirect exact query in any order",
 		{
 			"source": {
-				"url": "/plain-query-exact?param2=2&param1=1"
+				"url": "/plain-query-exact?second=2&first=1"
 			},
 			"target": {
 				"location": "/plain-redirect",
@@ -446,7 +446,7 @@
 				"url": "/2022/07/06/migrated-permalink/"
 			},
 			"target": {
-				"location": "/migrated-permalink/",
+				"location": "{home}/migrated-permalink/",
 				"status": 301,
 				"agent": true
 			}
