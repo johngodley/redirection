@@ -233,6 +233,18 @@ jobs:
       - name: Run e2e tests
         run: pnpm test:e2e
 
+      # TEMPORARY: diagnose plain-query-exact failing in CI only
+      - name: Diagnose e2e failure
+        if: failure()
+        run: |
+          pnpm exec wp-env run tests-cli wp db query "SELECT i.id,i.url,i.match_url,i.match_data,i.status,i.position,g.status AS gstatus FROM wp_redirection_items i JOIN wp_redirection_groups g ON g.id=i.group_id WHERE i.match_url LIKE '%query%' OR i.match_url='regex'"
+          pnpm exec wp-env run tests-cli wp redirection setting flag_query --verbose
+          pnpm exec wp-env run tests-cli wp eval 'var_dump( Redirection\Redirect\Redirect::get_for_matched_url( "/plain-query-exact?param1=1&param2=2" ) );'
+          curl -si 'http://localhost:8889/plain-query-exact?param1=1&param2=2' | head -20
+          curl -si 'http://localhost:8889/plain-query-ignore?param1=1&param2=2' | head -5
+          pnpm exec wp-env run tests-cli wp db query "SELECT url,ip,agent,http_code FROM wp_redirection_404 ORDER BY id DESC LIMIT 10"
+          pnpm exec wp-env logs tests --no-watch 2>&1 | tail -50
+
   test-js:
     name: JavaScript Tests
     runs-on: ubuntu-latest
