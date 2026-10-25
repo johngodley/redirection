@@ -287,6 +287,28 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		}
 	}
 
+	public function testRegexTargetCaptureInDomainIsErrorAfterRemovedCharacters() {
+		$targets = [
+			'"https://$1/',
+			'|https://$1/',
+			'%0ahttps://$1/',
+			'"//$1/',
+			'|//$1',
+			'"https:$1',
+			'h"ttps://$1/',
+			'https://"$1/',
+		];
+
+		foreach ( $targets as $target ) {
+			$this->assertWPError( $this->get_regex_target( $target ), $target );
+		}
+	}
+
+	public function testRegexTargetCaptureAfterDomainMovesToPathAfterRemovedCharacters() {
+		$this->assertEquals( '"https://good.example/$1', $this->get_regex_target( '"https://good.example$1' ) );
+		$this->assertEquals( 'https://good.example"/$1', $this->get_regex_target( 'https://good.example"$1' ) );
+	}
+
 	public function testRegexTargetCaptureInSchemeIsError() {
 		$this->assertWPError( $this->get_regex_target( 'http$1://good.example/' ) );
 		$this->assertWPError( $this->get_regex_target( '$1://good.example/' ) );

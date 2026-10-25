@@ -64,11 +64,22 @@ class Regex {
 	 */
 	public function replace( $replace_pattern, $target ) {
 		$regex = $this->get_regex();
-		$result = @preg_replace( $regex, $replace_pattern, $target );
 
-		if ( is_null( $result ) ) {
+		if ( @preg_match_all( $regex, $target, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) === false ) {
 			return $target;
 		}
+
+		// This is the same as preg_replace, except that text from the target is encoded
+		$result = '';
+		$offset = 0;
+
+		foreach ( $matches as $match ) {
+			$result .= $this->encode_transforms( substr( $target, $offset, $match[0][1] - $offset ) );
+			$result .= $this->expand_references( $replace_pattern, $match );
+			$offset = $match[0][1] + strlen( $match[0][0] );
+		}
+
+		$result .= $this->encode_transforms( substr( $target, $offset ) );
 
 		// Space encode the target
 		$split = explode( '?', $result );
@@ -79,6 +90,48 @@ class Regex {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Expand the `$1`, `${1}`, and `\1` references in a replace pattern, in the same way as preg_replace.
+	 *
+	 * @param string $replace_pattern The regex replace pattern.
+	 * @param array<int, array{0: string, 1: int}> $match Match, with offsets.
+	 * @return string
+	 */
+	private function expand_references( $replace_pattern, array $match ) {
+		return (string) preg_replace_callback(
+			'@\\\\([\\\\$])|\\\\([0-9]{1,2})|\$([0-9]{1,2})|\$\{([0-9]{1,2})\}@',
+			function ( $reference ) use ( $match ) {
+				// An escaped backslash or dollar
+				if ( $reference[1] !== '' ) {
+					return $reference[1];
+				}
+
+				$index = intval( implode( '', array_slice( $reference, 2 ) ), 10 );
+
+				if ( isset( $match[ $index ] ) && $match[ $index ][1] !== -1 ) {
+					return $this->encode_transforms( $match[ $index ][0] );
+				}
+
+				return '';
+			},
+			$replace_pattern
+		);
+	}
+
+	/**
+	 * Encode text from the requested URL so it can't be used as a URL transform. Only the target entered by the user can do this.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	private function encode_transforms( $text ) {
+		return str_replace(
+			[ '[', ']', '%userid%', '%userlogin%', '%userurl%' ],
+			[ '%5B', '%5D', '%25userid%25', '%25userlogin%25', '%25userurl%25' ],
+			$text
+		);
 	}
 
 	/**

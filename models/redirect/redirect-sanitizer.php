@@ -246,6 +246,10 @@ class Red_Item_Sanitize {
 
 		$error = new WP_Error( 'redirect', 'Regular expression captures cannot be used in the scheme or domain of a target URL' );
 
+		// Check the target as it will finally be seen, after WordPress has removed any characters
+		$first_capture = (int) strpos( $marked, $marker );
+		$marked = wp_sanitize_redirect( $marked );
+
 		if ( preg_match( '@^([a-z][a-z0-9+.-]*):@i', $marked, $matches ) === 1 ) {
 			if ( strpos( $matches[1], $marker ) !== false ) {
 				return $error;
@@ -275,12 +279,10 @@ class Red_Item_Sanitize {
 			return $url;
 		}
 
-		// A capture straight after the domain can be moved into the path. Text before the first capture is unchanged by the marker
+		// A capture straight after the domain can be moved into the path, keeping the target as it was entered
 		$after = substr( $domain, $position );
 		if ( $position > 0 && preg_match( '@[a-z0-9\]]$@i', substr( $domain, 0, $position ) ) === 1 && preg_match( '@^(?:' . $marker . ')+$@', $after ) === 1 ) {
-			$offset = $matches[1][1] + $position;
-
-			return substr( $url, 0, $offset ) . '/' . substr( $url, $offset );
+			return substr( $url, 0, $first_capture ) . '/' . substr( $url, $first_capture );
 		}
 
 		return $error;

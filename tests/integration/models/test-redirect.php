@@ -469,19 +469,31 @@ class RedirectTest extends WP_UnitTestCase {
 		$this->assertEquals( '/%2F%2Ftest.example/login', wp_sanitize_redirect( $action->get_target() ) );
 	}
 
-	public function testEmptyShortcodeCannotMakeRegexTargetProtocolRelative() {
+	public function testCapturedShortcodeIsNotTransformed() {
 		$requests = [
-			'/old/%5Bupper%5D%5B%2Fupper%5D%2Ftest.example/login',
-			'/old/%5Blower%5D%2F%5B%2Flower%5D%2Ftest.example/login',
-			'/old/%5Buserlogin%5D%2Ftest.example/login',
-			'/old/%25userlogin%25%2Ftest.example/login',
+			'/old/%5Bupper%5D%5B%2Fupper%5D%2Ftest.example/login' => '/%5Bupper%5D%5B/upper%5D/test.example/login',
+			'/old/%5Blower%5D%2F%5B%2Flower%5D%2Ftest.example/login' => '/%5Blower%5D/%5B/lower%5D/test.example/login',
+			'/old/%5Buserlogin%5D%2Ftest.example/login' => '/%5Buserlogin%5D/test.example/login',
+			'/old/%25userlogin%25%2Ftest.example/login' => '/%25userlogin%25/test.example/login',
 		];
 
-		foreach ( $requests as $request ) {
+		foreach ( $requests as $request => $expected ) {
 			$action = $this->getRegexAction( $request, '/$1' );
 
-			$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $action->get_target() ), $request );
+			$this->assertEquals( $expected, $action->get_target(), $request );
 		}
+	}
+
+	public function testShortcodeAroundCaptureIsTransformed() {
+		$action = $this->getRegexAction( '/old/My-Page', '/[lower]$1[/lower]' );
+
+		$this->assertEquals( '/my-page', $action->get_target() );
+	}
+
+	public function testShortcodeAroundCaptureCannotRedirectOffsite() {
+		$action = $this->getRegexAction( '/old/%2F%2FTEST.example/login', '[lower]$1[/lower]' );
+
+		$this->assertEquals( '/test.example/login', $action->get_target() );
 	}
 
 	public function testPassRegexMatchCannotFetchExternalUrl() {
@@ -514,7 +526,7 @@ class RedirectTest extends WP_UnitTestCase {
 		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
 		$action->run();
 
-		$this->assertEquals( '/HTTPS://TEST.EXAMPLE/LOGIN', $this->captured_url );
+		$this->assertEquals( '%5Bupper%5Dhttps://test.example/login%5B/upper%5D', $this->captured_url );
 		$this->resetCaptured();
 	}
 
