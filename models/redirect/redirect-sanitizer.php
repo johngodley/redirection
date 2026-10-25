@@ -171,6 +171,15 @@ class Red_Item_Sanitize {
 
 		if ( isset( $details['action_data'] ) && is_array( $details['action_data'] ) ) {
 			$match_data = $matcher->save( $details['action_data'] ? $details['action_data'] : array(), ! $this->is_url_type( $data['action_type'] ) );
+
+			if ( $data['regex'] === 1 ) {
+				$match_data = $this->sanitize_regex_targets( $match_data );
+
+				if ( is_wp_error( $match_data ) ) {
+					return $match_data;
+				}
+			}
+
 			$data['action_data'] = is_array( $match_data ) ? serialize( $match_data ) : $match_data;
 		}
 
@@ -182,6 +191,99 @@ class Red_Item_Sanitize {
 		}
 
 		return apply_filters( 'redirection_validate_redirect', $data );
+	}
+
+	/**
+	 * Check the target URLs of a regex redirect.
+	 *
+	 * @param mixed $match_data Match data.
+	 * @return mixed|\WP_Error
+	 */
+	private function sanitize_regex_targets( $match_data ) {
+		if ( is_string( $match_data ) ) {
+			return $this->sanitize_regex_target( $match_data );
+		}
+
+		if ( ! is_array( $match_data ) ) {
+			return $match_data;
+		}
+
+		foreach ( [ 'url', 'url_from', 'url_notfrom', 'logged_in', 'logged_out' ] as $key ) {
+			if ( isset( $match_data[ $key ] ) && is_string( $match_data[ $key ] ) ) {
+				$target = $this->sanitize_regex_target( $match_data[ $key ] );
+
+				if ( is_wp_error( $target ) ) {
+					return $target;
+				}
+
+				$match_data[ $key ] = $target;
+			}
+		}
+
+		return $match_data;
+	}
+
+	/**
+	 * Stop a regex capture being used in the scheme or domain of a target URL.
+	 *
+	 * A capture straight after the domain, such as `https://example.com$1`, is moved into the path. Any other capture in the
+	 * scheme or domain is an error.
+	 *
+	 * @param string $url Target URL.
+	 * @return string|\WP_Error
+	 */
+	private function sanitize_regex_target( $url ) {
+		$marker = 'redirectioncapture';
+		while ( stripos( $url, $marker ) !== false ) {
+			$marker .= 'x';
+		}
+
+		// Replace captures with text that is valid in a scheme or domain
+		$marked = (string) preg_replace( '@\$\{[0-9]+\}|\$[0-9]+|\\\\[0-9]+@', $marker, $url );
+		if ( $marked === $url ) {
+			return $url;
+		}
+
+		$error = new WP_Error( 'redirect', 'Regular expression captures cannot be used in the scheme or domain of a target URL' );
+
+		if ( preg_match( '@^([a-z][a-z0-9+.-]*):@i', $marked, $matches ) === 1 ) {
+			if ( strpos( $matches[1], $marker ) !== false ) {
+				return $error;
+			}
+
+			// Only these schemes have a domain, and a browser finds it even without the `//`
+			if ( ! in_array( strtolower( $matches[1] ), [ 'file', 'ftp', 'http', 'https', 'ws', 'wss' ], true ) ) {
+				return $url;
+			}
+
+			$start = strlen( $matches[0] );
+		} elseif ( preg_match( '@^[/\\\\]{2}@', $marked ) === 1 ) {
+			$start = 0;
+		} else {
+			// A relative target is checked when the redirect happens
+			return $url;
+		}
+
+		if ( preg_match( '@[/\\\\]*([^/\\\\?#]*)@', $marked, $matches, PREG_OFFSET_CAPTURE, $start ) !== 1 ) {
+			return $error;
+		}
+
+		$domain = $matches[1][0];
+		$position = strpos( $domain, $marker );
+
+		if ( $position === false ) {
+			return $url;
+		}
+
+		// A capture straight after the domain can be moved into the path. Text before the first capture is unchanged by the marker
+		$after = substr( $domain, $position );
+		if ( $position > 0 && preg_match( '@[a-z0-9\]]$@i', substr( $domain, 0, $position ) ) === 1 && preg_match( '@^(?:' . $marker . ')+$@', $after ) === 1 ) {
+			$offset = $matches[1][1] + $position;
+
+			return substr( $url, 0, $offset ) . '/' . substr( $url, $offset );
+		}
+
+		return $error;
 	}
 
 	/**

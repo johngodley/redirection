@@ -43,6 +43,10 @@ class RedirectTest extends WP_UnitTestCase {
 		return false;
 	}
 
+	public function replaceRedirectTarget() {
+		return 'https://plugin.example/target';
+	}
+
 	private function resetCaptured() {
 		$this->captured_url = false;
 		remove_filter( 'wp_redirect', array( $this, 'captureRedirectResult' ) );
@@ -396,6 +400,193 @@ class RedirectTest extends WP_UnitTestCase {
 		// The target stays on this site, and is not treated as a protocol relative URL
 		$this->assertEquals( '/test.example/login', $this->captured_url );
 		$this->resetCaptured();
+	}
+
+	public function testRegexMatchCannotRedirectOffsiteAfterSanitizing() {
+		$this->capturedRedirect();
+
+		$request = new Red_Url_Request( '/old/%22%2Ftest.example/login' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $this->captured_url ) );
+		$this->resetCaptured();
+	}
+
+	public function testCapturedRegexMatchCannotRedirectOffsite() {
+		$this->capturedRedirect();
+
+		$request = new Red_Url_Request( '/old/%2F%2Ftest.example/login' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		$this->assertEquals( '/test.example/login', $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testCapturedRegexMatchFromStartOfPathCannotRedirectOffsite() {
+		$this->capturedRedirect();
+
+		$request = new Red_Url_Request( '/%2Ftest.example/old' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^(/.*)/old$', 'match_url' => 'regex', 'action_data' => '$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		$this->assertEquals( '/test.example', wp_sanitize_redirect( $this->captured_url ) );
+		$this->resetCaptured();
+	}
+
+	public function testRegexMatchWithEncodedNewlineCannotRedirectOffsite() {
+		$this->capturedRedirect();
+
+		$request = new Red_Url_Request( '/old/%250a%2Ftest.example/login' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $this->captured_url ) );
+		$this->resetCaptured();
+	}
+
+	/**
+	 * @param string $request_url Request URL, encoded.
+	 * @param string $target Target URL.
+	 * @param string $action_type Action type.
+	 * @return Red_Action|false
+	 */
+	private function getRegexAction( $request_url, $target, $action_type = 'url' ) {
+		$request = new Red_Url_Request( $request_url );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => $action_type, 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => $target, 'action_code' => 301, 'status' => 'enabled' ] );
+
+		return $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+	}
+
+	public function testRegexMatchWithDoubleEncodedSlashStaysRelative() {
+		$action = $this->getRegexAction( '/old/%252F%252Ftest.example/login', '/$1' );
+
+		$this->assertEquals( '/%2F%2Ftest.example/login', wp_sanitize_redirect( $action->get_target() ) );
+	}
+
+	public function testEmptyShortcodeCannotMakeRegexTargetProtocolRelative() {
+		$requests = [
+			'/old/%5Bupper%5D%5B%2Fupper%5D%2Ftest.example/login',
+			'/old/%5Blower%5D%2F%5B%2Flower%5D%2Ftest.example/login',
+			'/old/%5Buserlogin%5D%2Ftest.example/login',
+			'/old/%25userlogin%25%2Ftest.example/login',
+		];
+
+		foreach ( $requests as $request ) {
+			$action = $this->getRegexAction( $request, '/$1' );
+
+			$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $action->get_target() ), $request );
+		}
+	}
+
+	public function testPassRegexMatchCannotFetchExternalUrl() {
+		$requests = [
+			'/old/https%3A%2F%2Ftest.example/login',
+			'/old/%5Blower%5DHTTPS%3A%2F%2Ftest.example%2Flogin%5B%2Flower%5D',
+		];
+
+		foreach ( $requests as $request ) {
+			$action = $this->getRegexAction( $request, '$1', 'pass' );
+
+			$this->assertInstanceOf( 'Redirection\Action\Pass', $action );
+			$this->assertFalse( $action->is_external( $action->get_target() ), $request );
+		}
+	}
+
+	public function testLoginRegexMatchCannotRedirectOffsite() {
+		$request = new Red_Url_Request( '/old/%2F%2Ftest.example/login' );
+		$item = new Red_Item( (object) [ 'match_type' => 'login', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => serialize( [ 'logged_in' => '$1', 'logged_out' => '$1' ] ), 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+
+		$this->assertEquals( '/test.example/login', $action->get_target() );
+	}
+
+	public function testTransformedRegexMatchCannotRedirectOffsite() {
+		$this->capturedRedirect();
+
+		$request = new Red_Url_Request( '/old/%5Bupper%5Dhttps%3A%2F%2Ftest.example%2Flogin%5B%2Fupper%5D' );
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
+		$action->run();
+
+		$this->assertEquals( '/HTTPS://TEST.EXAMPLE/LOGIN', $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testRegexCaptureAfterHostRedirects() {
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old(/.*)$', 'match_url' => 'regex', 'action_data' => 'https://good.example$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( 'https://good.example/page', $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testConfiguredRegexHostCanBeTransformed() {
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => 'https://[lower]GOOD.EXAMPLE[/lower]/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( 'https://good.example/page', $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testConfiguredRegexUrlCanBeTransformed() {
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '[upper]https://good.example/$1[/upper]', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( 'HTTPS://GOOD.EXAMPLE/PAGE', $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testConfiguredRegexPostCanBeTransformed() {
+		$post_id = self::factory()->post->create();
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => (string) $post_id, 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( get_permalink( $post_id ), $this->captured_url );
+		$this->resetCaptured();
+	}
+
+	public function testEarlierRegexTargetFilterCanSetExplicitHost() {
+		add_filter( 'redirection_url_target', array( $this, 'replaceRedirectTarget' ), 5 );
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( 'https://plugin.example/target', $this->captured_url );
+		$this->resetCaptured();
+		remove_filter( 'redirection_url_target', array( $this, 'replaceRedirectTarget' ), 5 );
+	}
+
+	public function testRegexTargetFilterCanSetExplicitHost() {
+		add_filter( 'redirection_url_target', array( $this, 'replaceRedirectTarget' ), 20 );
+		$this->capturedRedirect();
+
+		$item = new Red_Item( (object) [ 'match_type' => 'url', 'id' => 1, 'regex' => true, 'action_type' => 'url', 'url' => '^/old/(.*)$', 'match_url' => 'regex', 'action_data' => '/$1', 'action_code' => 301, 'status' => 'enabled' ] );
+		$action = $item->get_match( '/old/page' );
+		$action->run();
+
+		$this->assertEquals( 'https://plugin.example/target', $this->captured_url );
+		$this->resetCaptured();
+		remove_filter( 'redirection_url_target', array( $this, 'replaceRedirectTarget' ), 20 );
 	}
 
 	public function testRegexMatch() {

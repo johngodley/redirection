@@ -740,7 +740,7 @@ class Redirect {
 			}
 
 			// Allow plugins a look
-			$target_url = apply_filters( 'redirection_url_target', $target_url, $url->get_url() );
+			$target_url = apply_filters( 'redirection_url_target', $target_url, $url->get_url(), $this->match );
 
 			// Do we have still have a target?
 			if ( ! $target_url ) {

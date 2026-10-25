@@ -52,7 +52,7 @@ class Redirection {
 		}
 
 		add_action( Red_Flusher::DELETE_HOOK, array( $this, 'clean_redirection_logs' ) );
-		add_filter( 'redirection_url_target', [ $this, 'transform_url' ] );
+		add_filter( 'redirection_url_target', [ $this, 'transform_url' ], 10, 3 );
 
 		$options = Red_Options::get();
 		if ( $options['ip_logging'] === 0 ) {
@@ -63,13 +63,21 @@ class Redirection {
 	}
 
 	/**
-	 * @param string $url
+	 * @param string $url URL.
+	 * @param string $source_url Source URL.
+	 * @param Red_Match<array<string, mixed>, (array<string, mixed>|string)>|null $match Match object.
 	 * @return string
 	 */
-	public function transform_url( $url ) {
+	public function transform_url( $url, $source_url = '', $match = null ) {
 		$transformer = new Red_Url_Transform();
+		$original_url = $url;
+		$url = $transformer->transform( $url );
 
-		return $transformer->transform( $url );
+		if ( $match instanceof Red_Match ) {
+			return $match->validate_target_url( $url, $original_url, [ $transformer, 'transform' ] );
+		}
+
+		return $url;
 	}
 
 	/**
