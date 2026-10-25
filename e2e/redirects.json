@@ -652,7 +652,7 @@
         },
         {
             "id": 25,
-            "url": "/plain-query-exact?param1=1&param2=2",
+            "url": "/plain-query-exact?first=1&second=2",
             "match_url": "/plain-query-exact",
             "match_data": {
                 "source": {
