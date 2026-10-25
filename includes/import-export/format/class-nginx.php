@@ -204,15 +204,8 @@ class Nginx extends FormatHandler {
 	 * @return string
 	 */
 	private function get_redirect( $line, $target, $code, $source, $regex = false ) {
-		$line = ltrim( $line, '^' );
-		$line = rtrim( $line, '$' );
-
-		$source_url = new \Red_Url_Encode( $line, $regex );
 		$target_url = new \Red_Url_Encode( $target );
-
-		$from = $source_url->get_as_source();
-		$from = ltrim( $from, '^' );
-		$from = rtrim( $from, '$' );
+		$from = $this->get_source_pattern( $line, $regex );
 
 		if ( isset( $source['flag_case'] ) && $source['flag_case'] ) {
 			$from = '(?i)^' . $from;
@@ -221,6 +214,44 @@ class Nginx extends FormatHandler {
 		}
 
 		return 'rewrite ' . $from . '$ ' . $target_url->get_as_target() . ' ' . $code . ';';
+	}
+
+	/**
+	 * Convert a redirect source into an nginx pattern, without ^ or $ anchors.
+	 *
+	 * nginx matches `rewrite` and regex `location` patterns against the full
+	 * request URI, which always begins with a slash. Red_Url_Encode strips the
+	 * leading slash from regex sources and leaves some regex metacharacters
+	 * percent-encoded (for example a source `\.` becomes `%5C.`), so both are
+	 * restored here.
+	 *
+	 * @param string $line Source URL.
+	 * @param bool $regex Is the source a regex?
+	 * @return string
+	 */
+	private function get_source_pattern( $line, $regex = false ) {
+		$line = ltrim( $line, '^' );
+		$line = rtrim( $line, '$' );
+
+		$source_url = new \Red_Url_Encode( $line, $regex );
+		$from = $source_url->get_as_source();
+
+		if ( $regex ) {
+			$from = str_replace(
+				[ '%5C', '%5E', '%7B', '%7D', '%3D', '%3A', '%21', '%2C' ],
+				[ '\\', '^', '{', '}', '=', ':', '!', ',' ],
+				$from
+			);
+		}
+
+		$from = ltrim( $from, '^' );
+		$from = rtrim( $from, '$' );
+
+		if ( $line !== '' && $line[0] === '/' && ( $from === '' || $from[0] !== '/' ) ) {
+			$from = '/' . $from;
+		}
+
+		return $from;
 	}
 
 	/**
@@ -263,19 +294,12 @@ class Nginx extends FormatHandler {
 	 * @return string
 	 */
 	private function get_location_line( $line, $source, $regex = false ) {
-		if ( $regex || ( isset( $source['flag_case'] ) && $source['flag_case'] ) ) {
-			if ( ! $regex ) {
-				$line = ltrim( $line, '^' );
-				$line = rtrim( $line, '$' );
-			}
+		$is_case = isset( $source['flag_case'] ) && $source['flag_case'];
 
-			$source_url = new \Red_Url_Encode( $line, $regex );
-			$from = $source_url->get_as_source();
-			$from = ltrim( $from, '^' );
-			$from = rtrim( $from, '$' );
-			$from = (string) preg_replace( '/^%5E/', '', $from );
+		if ( $regex || $is_case ) {
+			$from = $this->get_source_pattern( $line, $regex );
 
-			return 'location ' . ( isset( $source['flag_case'] ) && $source['flag_case'] ? '~* ' : '~ ' ) . '^' . $from . '$';
+			return 'location ' . ( $is_case ? '~* ' : '~ ' ) . '^' . $from . '$';
 		}
 
 		$source_url = new \Red_Url_Encode( $line );
