@@ -43,7 +43,7 @@
 				"url": "/plain-redirect-absolute"
 			},
 			"target": {
-				"location": "http://wordpress.org/",
+				"location": "http://wordpress.org",
 				"status": 301,
 				"agent": true
 			}
@@ -446,7 +446,7 @@
 				"url": "/2022/07/06/migrated-permalink/"
 			},
 			"target": {
-				"location": "/migrated-permalink/",
+				"location": "{home}/migrated-permalink/",
 				"status": 301,
 				"agent": true
 			}

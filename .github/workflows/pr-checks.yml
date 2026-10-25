@@ -225,6 +225,14 @@ jobs:
           WP_ENV_PHP_VERSION: ${{ matrix.php-version }}
         run: pnpm test:integration
 
+      - name: Set up e2e environment
+        env:
+          WP_ENV_PHP_VERSION: ${{ matrix.php-version }}
+        run: pnpm test:e2e:setup
+
+      - name: Run e2e tests
+        run: pnpm test:e2e
+
   test-js:
     name: JavaScript Tests
     runs-on: ubuntu-latest

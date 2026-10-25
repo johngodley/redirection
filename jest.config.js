@@ -2,6 +2,7 @@ const defaultConfig = require( '@wordpress/scripts/config/jest-unit.config.js' )
 
 module.exports = {
 	...defaultConfig,
+	testPathIgnorePatterns: [ '/node_modules/', '<rootDir>/vendor/', '<rootDir>/e2e/' ],
 	moduleNameMapper: {
 		...defaultConfig.moduleNameMapper,
 		'^@wp-plugin-lib/api-fetch/api-method$': '<rootDir>/src/__mocks__/@wp-plugin-lib/api-method.ts',
