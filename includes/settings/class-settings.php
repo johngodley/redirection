@@ -43,6 +43,7 @@ use Redirection\Url\SourceFlags;
  *    aliases: array<string>,
  *    permalinks: array<mixed>,
  *    cache_key: int,
+ *    cache_purge: bool,
  *    plugin_update: string,
  *    update_notice: int,
  *    flag_query: 'ignore'|'exact'|'pass'|'exactorder',
@@ -298,6 +299,7 @@ class Settings {
 			'aliases' => [],
 			'permalinks' => [],
 			'cache_key' => 0,
+			'cache_purge' => true,
 			'plugin_update' => 'prompt',
 			'update_notice' => 0,
 		];
@@ -444,7 +446,7 @@ class Settings {
 		}
 
 		// Boolean settings
-		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits' ] as $name ) {
+		foreach ( [ 'support', 'https', 'log_external', 'log_header', 'track_hits', 'cache_purge' ] as $name ) {
 			if ( isset( $settings[ $name ] ) ) {
 				$options[ $name ] = $settings[ $name ] ? true : false;
 			}

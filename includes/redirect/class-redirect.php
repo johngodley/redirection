@@ -686,9 +686,10 @@ class Redirect {
 			$data['match_data'] = wp_json_encode( $data['match_data'], JSON_UNESCAPED_SLASHES );
 		}
 
+		$previous = clone $this;
 		$result = $wpdb->update( $wpdb->prefix . 'redirection_items', $data, [ 'id' => $this->id ] );
 		if ( $result !== false ) {
-			do_action( 'redirection_redirect_updated', $this->id, self::get_by_id( $this->id ) );
+			do_action( 'redirection_redirect_updated', $this->id, self::get_by_id( $this->id ), $previous );
 			$this->load_from_data( $data );
 
 			Module::flush( $this->group_id );
