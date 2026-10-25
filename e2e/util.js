@@ -38,6 +38,8 @@ function testItem( source, target ) {
 		}
 
 		if ( target.sameOrigin ) {
+			expect( responseHeaders.get( 'location' ) ).toBeTruthy();
+
 			// Resolve the location as a browser would, relative to the requested URL
 			const location = new URL( responseHeaders.get( 'location' ), BASE_URL + source.url );
 

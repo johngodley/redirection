@@ -261,11 +261,10 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertEquals( 'mailto:$1', $this->get_regex_target( 'mailto:$1' ) );
 	}
 
-	public function testRegexTargetCaptureAfterDomainMovesToPath() {
-		$this->assertEquals( 'https://good.example/$1', $this->get_regex_target( 'https://good.example$1' ) );
-		$this->assertEquals( 'https://good.example/${1}', $this->get_regex_target( 'https://good.example${1}' ) );
-		$this->assertEquals( '//good.example/$1$2', $this->get_regex_target( '//good.example$1$2' ) );
-		$this->assertEquals( 'https://good.example:8080/$1', $this->get_regex_target( 'https://good.example:8080$1' ) );
+	public function testRegexTargetCaptureAfterDomainIsUnchanged() {
+		foreach ( [ 'https://good.example$1', 'https://good.example${1}', '//good.example$1$2', 'https://good.example:8080$1' ] as $target ) {
+			$this->assertEquals( $target, $this->get_regex_target( $target ) );
+		}
 	}
 
 	public function testRegexTargetCaptureInDomainIsError() {
@@ -304,9 +303,9 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		}
 	}
 
-	public function testRegexTargetCaptureAfterDomainMovesToPathAfterRemovedCharacters() {
-		$this->assertEquals( '"https://good.example/$1', $this->get_regex_target( '"https://good.example$1' ) );
-		$this->assertEquals( 'https://good.example"/$1', $this->get_regex_target( 'https://good.example"$1' ) );
+	public function testRegexTargetCaptureAfterDomainIsUnchangedAfterRemovedCharacters() {
+		$this->assertEquals( '"https://good.example$1', $this->get_regex_target( '"https://good.example$1' ) );
+		$this->assertEquals( 'https://good.example"$1', $this->get_regex_target( 'https://good.example"$1' ) );
 	}
 
 	public function testRegexTargetCaptureInSchemeIsError() {
@@ -314,10 +313,10 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 		$this->assertWPError( $this->get_regex_target( '$1://good.example/' ) );
 	}
 
-	public function testRegexTargetCaptureAfterDomainMovesToPathForLogin() {
+	public function testRegexTargetCaptureAfterDomainIsUnchangedForLogin() {
 		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '^/old(.*)$', 'regex' => 1, 'match_type' => 'login', 'action_data' => [ 'logged_in' => 'https://good.example$1', 'logged_out' => '/$1' ] ] ) );
 
-		$this->assertEquals( [ 'logged_in' => 'https://good.example/$1', 'logged_out' => '/$1' ], unserialize( $result['action_data'] ) );
+		$this->assertEquals( [ 'logged_in' => 'https://good.example$1', 'logged_out' => '/$1' ], unserialize( $result['action_data'] ) );
 	}
 
 	public function testNonRegexTargetIsUnchanged() {

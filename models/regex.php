@@ -58,9 +58,10 @@ class Red_Regex {
 	 *
 	 * @param string $replace_pattern The regex replace pattern.
 	 * @param string $target Text to match the regex against.
+	 * @param bool $keep_before Keep any text before the first match, as preg_replace does.
 	 * @return string Replaced text
 	 */
-	public function replace( $replace_pattern, $target ) {
+	public function replace( $replace_pattern, $target, $keep_before = true ) {
 		$regex = $this->get_regex();
 
 		if ( @preg_match_all( $regex, $target, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) === false ) {
@@ -69,7 +70,7 @@ class Red_Regex {
 
 		// This is the same as preg_replace, except that text from the target is encoded
 		$result = '';
-		$offset = 0;
+		$offset = ! $keep_before && count( $matches ) > 0 ? $matches[0][0][1] : 0;
 
 		foreach ( $matches as $match ) {
 			$result .= $this->encode_transforms( substr( $target, $offset, $match[0][1] - $offset ) );
@@ -125,9 +126,19 @@ class Red_Regex {
 	 * @return string
 	 */
 	private function encode_transforms( $text ) {
+		return self::encode_tags( str_replace( [ '[', ']' ], [ '%5B', '%5D' ], $text ) );
+	}
+
+	/**
+	 * Encode the deprecated `%userid%` style tags so they can't be used as a URL transform.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	public static function encode_tags( $text ) {
 		return str_replace(
-			[ '[', ']', '%userid%', '%userlogin%', '%userurl%' ],
-			[ '%5B', '%5D', '%25userid%25', '%25userlogin%25', '%25userurl%25' ],
+			[ '%userid%', '%userlogin%', '%userurl%' ],
+			[ '%25userid%25', '%25userlogin%25', '%25userurl%25' ],
 			$text
 		);
 	}

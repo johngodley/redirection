@@ -194,14 +194,18 @@ abstract class Red_Match {
 	 */
 	protected function get_target_regex_url( $source_url, $target_url, $requested_url, Red_Source_Flags $flags ) {
 		$regex = new Red_Regex( $source_url, $flags->is_ignore_case() );
-		$replaced = $regex->replace( $target_url, $requested_url );
+		$has_origin = $this->has_origin( $target_url );
+
+		// Text from the request before the match is dropped from a target with its own scheme or host, so it can't come
+		// before that scheme or host
+		$replaced = $regex->replace( $target_url, $requested_url, ! $has_origin );
 
 		$this->relative_target = null;
 		$this->target_template = null;
 
-		// A target the user has written with its own scheme or host is left as they wrote it
-		if ( $this->has_origin( $target_url ) ) {
-			return $replaced;
+		// A target the user has written with its own scheme or host keeps that host
+		if ( $has_origin ) {
+			return $this->keep_target_host( $target_url, $replaced );
 		}
 
 		$this->target_template = $target_url;
@@ -232,6 +236,11 @@ abstract class Red_Match {
 			return $target_url;
 		}
 
+		// A captured post ID is transformed into its permalink, which is on this site
+		if ( is_numeric( $original_url ) ) {
+			return $target_url;
+		}
+
 		return $this->keep_target_relative( $target_url );
 	}
 
@@ -246,19 +255,45 @@ abstract class Red_Match {
 	 * @return string
 	 */
 	private function keep_target_relative( $replaced ) {
-		// A browser treats a backslash as a slash, and WordPress removes other characters, so check the target as it will
-		// finally be seen
-		$replaced = wp_sanitize_redirect( $replaced );
-
+		// The target is checked as it will finally be seen, but only changed if needed. Removing characters before the
+		// target is transformed could join captured text into a transform, such as `%user|login%`
 		if ( ! $this->has_origin( $replaced ) ) {
 			return $replaced;
 		}
 
-		return '/' . ltrim( $replaced, '/' );
+		// A browser treats a backslash as a slash, and WordPress removes other characters. Removing them can join
+		// captured text into a tag, such as `%user|login%`, so encode any tags before the target is transformed
+		return '/' . ltrim( Red_Regex::encode_tags( wp_sanitize_redirect( $replaced ) ), '/' );
 	}
 
 	/**
-	 * Does the URL have a scheme or host?
+	 * Stop a regex replacement changing the host of a target that has one.
+	 *
+	 * Text from the request straight after the host always starts the path. This can be a capture, such as in
+	 * `https://example.com$1`, or text after the match, such as with a source of `^/old` and a target of
+	 * `https://example.com`. Without this a value of `@other.example` would make `other.example` the host.
+	 *
+	 * @param string $target_url Target URL, before the replacement.
+	 * @param string $replaced Target URL, after the replacement.
+	 * @return string
+	 */
+	private function keep_target_host( $target_url, $replaced ) {
+		if ( preg_match( '@^(?:[a-z][a-z0-9+.-]*:)?//[^/\\\\?#$]+@i', $target_url, $matches ) !== 1 ) {
+			return $replaced;
+		}
+
+		$host = $matches[0];
+		$path = substr( $replaced, strlen( $host ) );
+
+		if ( strpos( $replaced, $host ) !== 0 || $path === '' || in_array( $path[0], [ '/', '?', '#' ], true ) ) {
+			return $replaced;
+		}
+
+		return $host . '/' . $path;
+	}
+
+	/**
+	 * Does the URL have a scheme or host? This is checked as the browser will see it, after WordPress has sanitized it.
 	 *
 	 * @param string $url URL.
 	 * @return bool

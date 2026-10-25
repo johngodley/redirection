@@ -56,6 +56,15 @@ class CoreRegexTest extends TestCase {
 		$this->assertEquals( '/%5Bupper%5Dx%5B/upper%5Dnew/page', $regex->replace( 'new/$1', '/[upper]x[/upper]old/page' ) );
 	}
 
+	public function testReplaceCanDropTextBeforeMatch() {
+		$regex = new Regex( '/old/(.*)' );
+
+		$this->assertEquals( '/x/new/page', $regex->replace( '/new/$1', '/x/old/page' ) );
+		$this->assertEquals( '/new/page', $regex->replace( '/new/$1', '/x/old/page', false ) );
+		$this->assertEquals( '/new/page/x', $regex->replace( '/new/$1', '/x/old/page/x', false ) );
+		$this->assertEquals( '/x/y', $regex->replace( '/new/$1', '/x/y', false ) );
+	}
+
 	public function testReplacePatternCanUseShortcode() {
 		$regex = new Regex( '^/old/(.*)$' );
 

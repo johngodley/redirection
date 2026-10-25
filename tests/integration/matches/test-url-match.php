@@ -64,7 +64,7 @@ class UrlMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testRegexTargetIsNotProtocolRelativeWithBackslash() {
-		$this->assertEquals( '/test.example/login', $this->get_regex_target( '/old/\\test.example/login' ) );
+		$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $this->get_regex_target( '/old/\\test.example/login' ) ) );
 	}
 
 	public function testRegexTargetIsNotProtocolRelativeWithControlCharacter() {
