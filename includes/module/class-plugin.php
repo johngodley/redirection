@@ -165,8 +165,6 @@ class Plugin extends Module {
 		$options = Settings::get();
 
 		if ( count( $options['permalinks'] ) > 0 ) {
-			include_once dirname( __DIR__ ) . '/wordpress/class-permalinks.php';
-
 			$permalinks = new Permalinks( $options['permalinks'] );
 			$permalinks->migrate( $query );
 		}
