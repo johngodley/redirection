@@ -497,15 +497,16 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testCapturedCharactersRemovedByRedirectSanitizingDoNotCreateTransform() {
-		wp_set_current_user( self::factory()->user->create( [ 'user_login' => 'captureuser' ] ) );
+		$user = self::factory()->user->create_and_get();
+		wp_set_current_user( $user->ID );
 
 		$action = $this->getRegexAction( '/old/%25user%7Clogin%25', '/$1' );
 
-		$this->assertStringNotContainsString( 'captureuser', $action->get_target() );
+		$this->assertStringNotContainsString( $user->user_login, $action->get_target() );
 	}
 
 	public function testCapturedCharactersRemovedFromRelativeTargetDoNotCreateTransform() {
-		wp_set_current_user( self::factory()->user->create( [ 'user_login' => 'captureuser' ] ) );
+		wp_set_current_user( self::factory()->user->create() );
 
 		$requests = [
 			[ '/old/%2F%2Ftest.example%2F%25user%7Clogin%25', '/$1', '/test.example/%25userlogin%25' ],
