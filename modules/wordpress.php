@@ -529,8 +529,9 @@ class WordPress_Module extends Red_Module {
 		$this->redirect_url = $url;
 		$this->redirect_code = $status;
 
-		$this->iis_fix( $url );
-		$this->cgi_fix( $url, $status );
+		// These send their own headers before WordPress has sanitized the URL
+		$this->iis_fix( wp_sanitize_redirect( $url ) );
+		$this->cgi_fix( wp_sanitize_redirect( $url ), $status );
 
 		if ( intval( $status, 10 ) === 307 ) {
 			status_header( $status );

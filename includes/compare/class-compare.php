@@ -3,6 +3,7 @@
 namespace Redirection\Compare;
 
 use Redirection\Core\Regex;
+use Redirection\Url\Transform;
 
 require_once __DIR__ . '/trait-fromnotfrom.php';
 require_once __DIR__ . '/trait-fromurl.php';
@@ -79,14 +80,28 @@ require_once __DIR__ . '/trait-fromurl.php';
  */
 abstract class Compare {
 	/**
-	 * Regex target that must stay relative to this site, or `null` if there isn't one.
+	 * Regex target, after replacement, or `null` if there isn't one.
 	 *
 	 * @var string|null
 	 */
-	private $relative_target = null;
+	private $regex_target = null;
 
 	/**
-	 * Configured target for `$relative_target`, before regex replacement.
+	 * Regex target, with placeholders for any brackets in text from the request.
+	 *
+	 * @var string|null
+	 */
+	private $masked_target = null;
+
+	/**
+	 * Placeholders used in `$masked_target`, for each bracket.
+	 *
+	 * @var array<string, string>
+	 */
+	private $placeholders = [];
+
+	/**
+	 * Configured target for a regex target that must stay relative to this site, or `null` if there isn't one.
 	 *
 	 * @var string|null
 	 */
@@ -210,52 +225,79 @@ abstract class Compare {
 		$regex = new Regex( $source_url, $flags->is_ignore_case() );
 		$has_origin = $this->has_origin( $target_url );
 
+		// Brackets in text from the request are given placeholders that can't be guessed, so that only the target the user
+		// has written can use a shortcode. The target itself is unchanged. A placeholder starts with a letter that isn't hex,
+		// so that it can't follow a `%0` from the request and be removed by WordPress as a `%0a` or `%0d`
+		$this->placeholders = [
+			'[' => 'z' . bin2hex( random_bytes( 16 ) ),
+			']' => 'z' . bin2hex( random_bytes( 16 ) ),
+		];
+
 		// Text from the request before the match is dropped from a target with its own scheme or host, so it can't come
 		// before that scheme or host
 		$replaced = $regex->replace( $target_url, $requested_url, ! $has_origin );
+		$masked = $regex->replace( $target_url, $requested_url, ! $has_origin, $this->placeholders );
 
-		$this->relative_target = null;
 		$this->target_template = null;
 
 		// A target the user has written with its own scheme or host keeps that host
 		if ( $has_origin ) {
-			return $this->keep_target_host( $target_url, $replaced );
+			$this->regex_target = $this->keep_target_host( $target_url, $replaced );
+			$this->masked_target = $this->keep_target_host( $target_url, $masked );
+
+			return $this->regex_target;
 		}
 
 		$this->target_template = $target_url;
-		$this->relative_target = $this->keep_target_relative( $replaced );
 
-		return $this->relative_target;
+		// The target is checked as it will finally be seen, but only changed if needed
+		if ( $this->has_origin( $replaced ) ) {
+			$replaced = $this->make_relative( $replaced );
+			$masked = $this->make_relative( $masked );
+		}
+
+		$this->regex_target = $replaced;
+		$this->masked_target = $masked;
+
+		return $this->regex_target;
 	}
 
 	/**
-	 * Recheck a site relative regex target after it has been transformed.
+	 * Transform the shortcodes in a target URL.
 	 *
-	 * A shortcode in the captured data, such as `[upper]https://example.com[/upper]`, only becomes an absolute URL once
-	 * it has been transformed.
+	 * Text from the request in a regex target can't be used as a shortcode. A site relative regex target is checked again
+	 * after it has been transformed, as a shortcode around captured data, such as `[lower]$1[/lower]`, may only become an
+	 * absolute URL once it has been transformed.
 	 *
-	 * @param string $target_url Target URL, after transformation.
-	 * @param string $original_url Target URL, before transformation.
-	 * @param callable(string):string $transformer Target transformer.
+	 * @param string $target_url Target URL.
+	 * @param Transform $transformer Target transformer.
 	 * @return string
 	 */
-	public function validate_target_url( $target_url, $original_url, $transformer ) {
-		// Only check our own regex target, and not one that an earlier filter has replaced
-		if ( $this->relative_target === null || $this->target_template === null || $original_url !== $this->relative_target ) {
-			return $target_url;
+	public function transform_target_url( $target_url, Transform $transformer ) {
+		if ( $this->regex_target === null || $this->masked_target === null || $this->regex_target === '' ) {
+			return $transformer->transform( $target_url );
+		}
+
+		// An earlier filter may have added to our regex target, so it is replaced wherever it is
+		$masked = str_replace( $this->regex_target, $this->masked_target, $target_url );
+		$transformed = $transformer->transform( $masked, array_flip( $this->placeholders ) );
+
+		// Only recheck a site relative target, and not one that an earlier filter has changed
+		if ( $this->target_template === null || $target_url !== $this->regex_target ) {
+			return $transformed;
 		}
 
 		// The configured target may itself transform into an absolute URL, such as a post ID
-		if ( ! $this->has_origin( $target_url ) || $this->has_origin( $transformer( $this->target_template ) ) ) {
-			return $target_url;
+		if ( ! $this->has_origin( $transformed ) || $this->has_origin( $transformer->transform( $this->target_template ) ) ) {
+			return $transformed;
 		}
 
 		// A captured post ID is transformed into its permalink, which is on this site
-		if ( is_numeric( $original_url ) ) {
-			return $target_url;
+		if ( is_numeric( $target_url ) ) {
+			return $transformed;
 		}
 
-		return $this->keep_target_relative( $target_url );
+		return $this->make_relative( $transformed );
 	}
 
 	/**
@@ -265,19 +307,12 @@ abstract class Compare {
 	 * target becomes `//example.com/path`, which a browser treats as a protocol relative URL pointing at `example.com`.
 	 * Similarly a target of `$1` can be given a scheme. Remove these so the target stays on this site.
 	 *
-	 * @param string $replaced Target URL, after the replacement.
+	 * @param string $url Target URL, with a scheme or host.
 	 * @return string
 	 */
-	private function keep_target_relative( $replaced ) {
-		// The target is checked as it will finally be seen, but only changed if needed. Removing characters before the
-		// target is transformed could join captured text into a transform, such as `%user|login%`
-		if ( ! $this->has_origin( $replaced ) ) {
-			return $replaced;
-		}
-
-		// A browser treats a backslash as a slash, and WordPress removes other characters. Removing them can join
-		// captured text into a tag, such as `%user|login%`, so encode any tags before the target is transformed
-		return '/' . ltrim( Regex::encode_tags( wp_sanitize_redirect( $replaced ) ), '/' );
+	private function make_relative( $url ) {
+		// A browser treats a backslash as a slash, and WordPress removes other characters
+		return '/' . ltrim( wp_sanitize_redirect( $url ), '/' );
 	}
 
 	/**
@@ -287,16 +322,20 @@ abstract class Compare {
 	 * `https://example.com$1`, or text after the match, such as with a source of `^/old` and a target of
 	 * `https://example.com`. Without this a value of `@other.example` would make `other.example` the host.
 	 *
+	 * A browser finds the host of these schemes even without the `//`, such as in `https:example.com`, and treats a
+	 * backslash as a slash. Any other scheme has a host only after a `//`.
+	 *
 	 * @param string $target_url Target URL, before the replacement.
 	 * @param string $replaced Target URL, after the replacement.
 	 * @return string
 	 */
 	private function keep_target_host( $target_url, $replaced ) {
-		if ( preg_match( '@^(?:[a-z][a-z0-9+.-]*:)?//[^/\\\\?#$]+@i', $target_url, $matches ) !== 1 ) {
+		if ( preg_match( '@^(?:(?:file|ftp|https?|wss?):[/\\\\]*|(?:[a-z][a-z0-9+.-]*:)?[/\\\\]{2,})[^/\\\\?#$]+@i', $target_url, $matches ) !== 1 ) {
 			return $replaced;
 		}
 
-		$host = $matches[0];
+		// The replacement turns an escaped backslash into a single one
+		$host = (string) preg_replace( '@\\\\([\\\\$])@', '$1', $matches[0] );
 		$path = substr( $replaced, strlen( $host ) );
 
 		if ( strpos( $replaced, $host ) !== 0 || $path === '' || in_array( $path[0], [ '/', '?', '#' ], true ) ) {
@@ -307,13 +346,22 @@ abstract class Compare {
 	}
 
 	/**
-	 * Does the URL have a scheme or host? This is checked as the browser will see it, after WordPress has sanitized it.
+	 * Does the URL have a scheme or host? This is checked as the browser will see it, both before and after WordPress has
+	 * sanitized it. A browser treats a backslash as a slash and ignores control characters, but WordPress removes them.
 	 *
 	 * @param string $url URL.
 	 * @return bool
 	 */
 	private function has_origin( $url ) {
-		return preg_match( '@^(?:[a-z][a-z0-9+.-]*:|//)@i', wp_sanitize_redirect( $url ) ) === 1;
+		$unsanitized = (string) preg_replace( '/[\x00-\x20\x7F]/', '', str_replace( '\\', '/', $url ) );
+
+		foreach ( [ $unsanitized, wp_sanitize_redirect( $url ) ] as $check ) {
+			if ( preg_match( '@^(?:[a-z][a-z0-9+.-]*:|//)@i', $check ) === 1 ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

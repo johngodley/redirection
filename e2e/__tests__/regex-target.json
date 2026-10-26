@@ -776,7 +776,7 @@
 			},
 			"target": {
 				"status": 301,
-				"location": "/%5Bupper%5Dhttps://other.example%5B/upper%5D",
+				"location": "/[upper]https://other.example[/upper]",
 				"agent": true
 			}
 		}
@@ -854,7 +854,7 @@
 			},
 			"target": {
 				"status": 301,
-				"location": "%5Bupper%5Dhttps://other.example%5B/upper%5D",
+				"location": "[upper]https://other.example[/upper]",
 				"agent": true
 			}
 		}
@@ -932,7 +932,7 @@
 			},
 			"target": {
 				"status": 301,
-				"location": "/plain-redirect/%5BUPPER%5D",
+				"location": "/plain-redirect/[UPPER]",
 				"agent": true
 			}
 		}
@@ -1010,7 +1010,7 @@
 			},
 			"target": {
 				"status": 301,
-				"location": "/%25userlogin%25",
+				"location": "/%userlogin%",
 				"agent": true
 			}
 		}

@@ -59,26 +59,27 @@ class Red_Regex {
 	 * @param string $replace_pattern The regex replace pattern.
 	 * @param string $target Text to match the regex against.
 	 * @param bool $keep_before Keep any text before the first match, as preg_replace does.
+	 * @param array<string, string> $placeholders Characters in text from the target to replace with a placeholder.
 	 * @return string Replaced text
 	 */
-	public function replace( $replace_pattern, $target, $keep_before = true ) {
+	public function replace( $replace_pattern, $target, $keep_before = true, array $placeholders = [] ) {
 		$regex = $this->get_regex();
 
 		if ( @preg_match_all( $regex, $target, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE ) === false ) {
 			return $target;
 		}
 
-		// This is the same as preg_replace, except that text from the target is encoded
+		// This is the same as preg_replace, except that text from the target can use placeholders
 		$result = '';
 		$offset = ! $keep_before && count( $matches ) > 0 ? $matches[0][0][1] : 0;
 
 		foreach ( $matches as $match ) {
-			$result .= $this->encode_transforms( substr( $target, $offset, $match[0][1] - $offset ) );
-			$result .= $this->expand_references( $replace_pattern, $match );
+			$result .= strtr( substr( $target, $offset, $match[0][1] - $offset ), $placeholders );
+			$result .= $this->expand_references( $replace_pattern, $match, $placeholders );
 			$offset = $match[0][1] + strlen( $match[0][0] );
 		}
 
-		$result .= $this->encode_transforms( substr( $target, $offset ) );
+		$result .= strtr( substr( $target, $offset ), $placeholders );
 
 		// Space encode the target
 		$split = explode( '?', $result );
@@ -96,12 +97,13 @@ class Red_Regex {
 	 *
 	 * @param string $replace_pattern The regex replace pattern.
 	 * @param array<int, array{0: string, 1: int}> $match Match, with offsets.
+	 * @param array<string, string> $placeholders Characters in a reference to replace with a placeholder.
 	 * @return string
 	 */
-	private function expand_references( $replace_pattern, array $match ) {
+	private function expand_references( $replace_pattern, array $match, array $placeholders ) {
 		return (string) preg_replace_callback(
 			'@\\\\([\\\\$])|\\\\([0-9]{1,2})|\$([0-9]{1,2})|\$\{([0-9]{1,2})\}@',
-			function ( $reference ) use ( $match ) {
+			function ( $reference ) use ( $match, $placeholders ) {
 				// An escaped backslash or dollar
 				if ( $reference[1] !== '' ) {
 					return $reference[1];
@@ -110,36 +112,12 @@ class Red_Regex {
 				$index = intval( implode( '', array_slice( $reference, 2 ) ), 10 );
 
 				if ( isset( $match[ $index ] ) && $match[ $index ][1] !== -1 ) {
-					return $this->encode_transforms( $match[ $index ][0] );
+					return strtr( $match[ $index ][0], $placeholders );
 				}
 
 				return '';
 			},
 			$replace_pattern
-		);
-	}
-
-	/**
-	 * Encode text from the requested URL so it can't be used as a URL transform. Only the target entered by the user can do this.
-	 *
-	 * @param string $text Text.
-	 * @return string
-	 */
-	private function encode_transforms( $text ) {
-		return self::encode_tags( str_replace( [ '[', ']' ], [ '%5B', '%5D' ], $text ) );
-	}
-
-	/**
-	 * Encode the deprecated `%userid%` style tags so they can't be used as a URL transform.
-	 *
-	 * @param string $text Text.
-	 * @return string
-	 */
-	public static function encode_tags( $text ) {
-		return str_replace(
-			[ '%userid%', '%userlogin%', '%userurl%' ],
-			[ '%25userid%25', '%25userlogin%25', '%25userurl%25' ],
-			$text
 		);
 	}
 

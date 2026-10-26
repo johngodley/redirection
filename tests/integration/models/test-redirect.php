@@ -470,11 +470,12 @@ class RedirectTest extends WP_UnitTestCase {
 	}
 
 	public function testCapturedShortcodeIsNotTransformed() {
+		wp_set_current_user( self::factory()->user->create() );
+
 		$requests = [
-			'/old/%5Bupper%5D%5B%2Fupper%5D%2Ftest.example/login' => '/%5Bupper%5D%5B/upper%5D/test.example/login',
-			'/old/%5Blower%5D%2F%5B%2Flower%5D%2Ftest.example/login' => '/%5Blower%5D/%5B/lower%5D/test.example/login',
-			'/old/%5Buserlogin%5D%2Ftest.example/login' => '/%5Buserlogin%5D/test.example/login',
-			'/old/%25userlogin%25%2Ftest.example/login' => '/%25userlogin%25/test.example/login',
+			'/old/%5Bupper%5D%5B%2Fupper%5D%2Ftest.example/login' => '/[upper][/upper]/test.example/login',
+			'/old/%5Blower%5D%2F%5B%2Flower%5D%2Ftest.example/login' => '/[lower]/[/lower]/test.example/login',
+			'/old/%5Buserlogin%5D%2Ftest.example/login' => '/[userlogin]/test.example/login',
 		];
 
 		foreach ( $requests as $request => $expected ) {
@@ -494,28 +495,6 @@ class RedirectTest extends WP_UnitTestCase {
 		$action = $this->getRegexAction( '/old/%2F%2FTEST.example/login', '[lower]$1[/lower]' );
 
 		$this->assertEquals( '/test.example/login', $action->get_target() );
-	}
-
-	public function testCapturedCharactersRemovedByRedirectSanitizingDoNotCreateTransform() {
-		$user = self::factory()->user->create_and_get();
-		wp_set_current_user( $user->ID );
-
-		$action = $this->getRegexAction( '/old/%25user%7Clogin%25', '/$1' );
-
-		$this->assertStringNotContainsString( $user->user_login, $action->get_target() );
-	}
-
-	public function testCapturedCharactersRemovedFromRelativeTargetDoNotCreateTransform() {
-		wp_set_current_user( self::factory()->user->create() );
-
-		$requests = [
-			[ '/old/%2F%2Ftest.example%2F%25user%7Clogin%25', '/$1', '/test.example/%25userlogin%25' ],
-			[ '/old/https:%2F%2Ftest.example%2F%25user%7Clogin%25', '$1', '/https://test.example/%25userlogin%25' ],
-		];
-
-		foreach ( $requests as [ $request, $target, $expected ] ) {
-			$this->assertEquals( $expected, $this->getRegexAction( $request, $target )->get_target(), $request );
-		}
 	}
 
 	public function testCapturedSchemeWithRemovedCharactersCannotRedirectOffsite() {
@@ -620,8 +599,51 @@ class RedirectTest extends WP_UnitTestCase {
 		$action = $item->get_match( $request->get_decoded_url(), $request->get_original_url() );
 		$action->run();
 
-		$this->assertEquals( '%5Bupper%5Dhttps://test.example/login%5B/upper%5D', $this->captured_url );
+		$this->assertEquals( '[upper]https://test.example/login[/upper]', $this->captured_url );
 		$this->resetCaptured();
+	}
+
+	public function testCapturedBracketsAreUnchanged() {
+		$requests = [
+			'/old/x?param[]=1' => '/new/x?param[]=1',
+			'/old/a[b]' => '/new/a[b]',
+		];
+
+		foreach ( $requests as $request => $expected ) {
+			$this->assertEquals( $expected, $this->getRegexAction( $request, '/new/$1' )->get_target(), $request );
+		}
+	}
+
+	public function testShortcodeAroundCapturedBracketsIsTransformed() {
+		$this->assertEquals( '/A[B]', $this->getRegexAction( '/old/a[b]', '/[upper]$1[/upper]' )->get_target() );
+		$this->assertEquals( '/' . md5( 'a[b]' ), $this->getRegexAction( '/old/a[b]', '/[md5]$1[/md5]' )->get_target() );
+	}
+
+	public function testCapturedBracketsAfterRemovedCharactersAreUnchanged() {
+		// The placeholders are random, so repeat to cover any that would form a `%0a` or `%0d`
+		for ( $i = 0; $i < 100; $i++ ) {
+			$this->assertEquals( '/a.example/%0[x]', $this->getRegexAction( '/old///a.example/%0[x]', '$1' )->get_target() );
+		}
+	}
+
+	public function testCapturedShortcodeAfterHostIsNotTransformed() {
+		wp_set_current_user( self::factory()->user->create() );
+
+		$this->assertEquals( 'https://good.example/[userlogin]', $this->getRegexAction( '/old/[userlogin]', 'https://good.example/$1' )->get_target() );
+	}
+
+	public function testCapturedShortcodeIsNotTransformedWhenEarlierFilterAddsToTarget() {
+		wp_set_current_user( self::factory()->user->create() );
+		add_filter( 'redirection_url_target', array( $this, 'addToRedirectTarget' ), 5 );
+
+		$target = $this->getRegexAction( '/old/[userlogin]', '/$1' )->get_target();
+		remove_filter( 'redirection_url_target', array( $this, 'addToRedirectTarget' ), 5 );
+
+		$this->assertEquals( '/[userlogin]?added=1', $target );
+	}
+
+	public function addToRedirectTarget( $url ) {
+		return $url . '?added=1';
 	}
 
 	public function testRegexCaptureAfterHostRedirects() {

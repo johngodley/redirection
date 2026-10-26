@@ -64,7 +64,7 @@ class UrlMatchTest extends WP_UnitTestCase {
 	}
 
 	public function testRegexTargetIsNotProtocolRelativeWithBackslash() {
-		$this->assertEquals( '/test.example/login', wp_sanitize_redirect( $this->get_regex_target( '/old/\\test.example/login' ) ) );
+		$this->assertEquals( '/test.example/login', $this->get_regex_target( '/old/\\test.example/login' ) );
 	}
 
 	public function testRegexTargetIsNotProtocolRelativeWithControlCharacter() {
@@ -173,5 +173,25 @@ class UrlMatchTest extends WP_UnitTestCase {
 
 	public function testRegexTargetAllowsEmptyCaptureAfterHost() {
 		$this->assertEquals( 'https://good.example', $this->get_regex_target( '/old', 'https://good.example$1', '^/old(.*)$' ) );
+	}
+
+	public function testRegexTargetKeepsHostWithoutSlashes() {
+		$targets = [
+			'https:good.example$1' => 'https:good.example/@test.example',
+			'https:/good.example$1' => 'https:/good.example/@test.example',
+			'https:\\\\good.example$1' => 'https:\\good.example/@test.example',
+			'\\\\good.example$1' => '\\good.example/@test.example',
+			'HTTP:good.example$1' => 'HTTP:good.example/@test.example',
+			'myapp://good.example$1' => 'myapp://good.example/@test.example',
+			'///good.example$1' => '///good.example/@test.example',
+		];
+
+		foreach ( $targets as $target => $expected ) {
+			$this->assertEquals( $expected, $this->get_regex_target( '/old@test.example', $target, '^/old(.*)$' ), $target );
+		}
+	}
+
+	public function testRegexTargetWithNonSpecialSchemeIsUnchanged() {
+		$this->assertEquals( 'mailto:user@example.com', $this->get_regex_target( '/old@example.com', 'mailto:user$1', '^/old(.*)$' ) );
 	}
 }

@@ -70,14 +70,12 @@ class Redirection {
 	 */
 	public function transform_url( $url, $source_url = '', $match = null ) {
 		$transformer = new Red_Url_Transform();
-		$original_url = $url;
-		$url = $transformer->transform( $url );
 
 		if ( $match instanceof Red_Match ) {
-			return $match->validate_target_url( $url, $original_url, [ $transformer, 'transform' ] );
+			return $match->transform_target_url( $url, $transformer );
 		}
 
-		return $url;
+		return $transformer->transform( $url );
 	}
 
 	/**
