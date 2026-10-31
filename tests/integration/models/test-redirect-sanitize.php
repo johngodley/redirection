@@ -247,4 +247,81 @@ class RedirectSanitizeTest extends WP_UnitTestCase {
 
 		$this->assertEquals( $flags['source'], $result['match_data']['source'] );
 	}
+
+	private function get_regex_target( $target ) {
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '^/old(.*)$', 'regex' => 1, 'action_data' => [ 'url' => $target ] ] ) );
+
+		return is_wp_error( $result ) ? $result : $result['action_data'];
+	}
+
+	public function testRegexTargetCaptureInPathIsUnchanged() {
+		$this->assertEquals( 'https://good.example/$1', $this->get_regex_target( 'https://good.example/$1' ) );
+		$this->assertEquals( '/$1', $this->get_regex_target( '/$1' ) );
+		$this->assertEquals( '$1', $this->get_regex_target( '$1' ) );
+		$this->assertEquals( 'mailto:$1', $this->get_regex_target( 'mailto:$1' ) );
+	}
+
+	public function testRegexTargetCaptureAfterDomainIsUnchanged() {
+		foreach ( [ 'https://good.example$1', 'https://good.example${1}', '//good.example$1$2', 'https://good.example:8080$1' ] as $target ) {
+			$this->assertEquals( $target, $this->get_regex_target( $target ) );
+		}
+	}
+
+	public function testRegexTargetCaptureInDomainIsError() {
+		$targets = [
+			'https://$1/',
+			'https://$1.good.example/',
+			'https://good$1.example/',
+			'https://good.example.$1',
+			'https://good.example:$1',
+			'https://user@$1',
+			'https://$1@good.example/',
+			'https:$1',
+			'https:/$1',
+			'//$1',
+		];
+
+		foreach ( $targets as $target ) {
+			$this->assertWPError( $this->get_regex_target( $target ), $target );
+		}
+	}
+
+	public function testRegexTargetCaptureInDomainIsErrorAfterRemovedCharacters() {
+		$targets = [
+			'"https://$1/',
+			'|https://$1/',
+			'%0ahttps://$1/',
+			'"//$1/',
+			'|//$1',
+			'"https:$1',
+			'h"ttps://$1/',
+			'https://"$1/',
+		];
+
+		foreach ( $targets as $target ) {
+			$this->assertWPError( $this->get_regex_target( $target ), $target );
+		}
+	}
+
+	public function testRegexTargetCaptureAfterDomainIsUnchangedAfterRemovedCharacters() {
+		$this->assertEquals( '"https://good.example$1', $this->get_regex_target( '"https://good.example$1' ) );
+		$this->assertEquals( 'https://good.example"$1', $this->get_regex_target( 'https://good.example"$1' ) );
+	}
+
+	public function testRegexTargetCaptureInSchemeIsError() {
+		$this->assertWPError( $this->get_regex_target( 'http$1://good.example/' ) );
+		$this->assertWPError( $this->get_regex_target( '$1://good.example/' ) );
+	}
+
+	public function testRegexTargetCaptureAfterDomainIsUnchangedForLogin() {
+		$result = $this->sanitizer->get( $this->get_new( [ 'url' => '^/old(.*)$', 'regex' => 1, 'match_type' => 'login', 'action_data' => [ 'logged_in' => 'https://good.example$1', 'logged_out' => '/$1' ] ] ) );
+
+		$this->assertEquals( [ 'logged_in' => 'https://good.example$1', 'logged_out' => '/$1' ], unserialize( $result['action_data'] ) );
+	}
+
+	public function testNonRegexTargetIsUnchanged() {
+		$result = $this->sanitizer->get( $this->get_new( [ 'action_data' => [ 'url' => 'https://good.example$1' ] ] ) );
+
+		$this->assertEquals( 'https://good.example$1', $result['action_data'] );
+	}
 }

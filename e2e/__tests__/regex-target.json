@@ -1,0 +1,1151 @@
+[
+	[
+		"Regex /$1 target with captured protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-safe///other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured slash and backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-safe//\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured double backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/\\\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured encoded backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured double encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/%252F%252Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/https://other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured scheme without slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/https:other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/javascript:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured mixed case javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/JaVaScRiPt:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured data scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/data:text/html,test"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured encoded newline before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/%0D%0A//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured encoded tab before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/%09//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured encoded space before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-safe/%20//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-bare///other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured slash and backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-bare//\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured double backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/\\\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured encoded backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured double encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/%252F%252Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/https://other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured scheme without slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/https:other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/javascript:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured mixed case javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/JaVaScRiPt:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured data scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/data:text/html,test"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured encoded newline before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/%0D%0A//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured encoded tab before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/%09//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured encoded space before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-bare/%20//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-login///other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-login/\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured slash and backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-login//\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured double backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-login/\\\\other.example",
+				"raw": true
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured encoded backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-login/%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured double encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-login/%252F%252Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-login/https://other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured scheme without slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-login/https:other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-login/javascript:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured mixed case javascript scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-login/JaVaScRiPt:void(0)"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured data scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-login/data:text/html,test"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured encoded newline before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-login/%0D%0A//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured encoded tab before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-login/%09//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with captured encoded space before slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-login/%20//other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex cookie $1 target with captured protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-cookie///other.example",
+				"headers": {
+					"cookie": "cookie=cookievalue"
+				}
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex cookie $1 target with captured scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-cookie/https://other.example",
+				"headers": {
+					"cookie": "cookie=cookievalue"
+				}
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured encoded protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured encoded slash and backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%2F%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured encoded scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=https%3A%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured scheme with encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=https:%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured encoded newline before encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%0A%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured encoded null before encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%00%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 query target with captured lookalike slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%E2%88%95%E2%88%95other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured encoded protocol relative stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured encoded slash and backslash stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%2F%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured encoded scheme stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=https%3A%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured scheme with encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=https:%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured encoded newline before encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%0A%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured encoded null before encoded slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%00%2F%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with captured lookalike slashes stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%E2%88%95%E2%88%95other.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target does not transform captured shortcode",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=[upper]https://other.example[/upper]"
+			},
+			"target": {
+				"status": 301,
+				"location": "/[upper]https://other.example[/upper]",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured encoded shortcode stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%5Bupper%5Dhttps:%2F%2Fother.example%5B%2Fupper%5D"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with captured shortcode that removes a slash stays on site",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%5Blower%5D%2F%5B%2Flower%5D%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target does not transform captured %userlogin%",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%25userlogin%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "/%25userlogin%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target does not transform captured %userurl%",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%25userurl%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "/%25userurl%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target does not transform captured %userid%",
+		{
+			"source": {
+				"url": "/regex-query-safe?u=%25userid%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "/%25userid%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target does not transform captured shortcode",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=[upper]https://other.example[/upper]"
+			},
+			"target": {
+				"status": 301,
+				"location": "[upper]https://other.example[/upper]",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured encoded shortcode stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%5Bupper%5Dhttps:%2F%2Fother.example%5B%2Fupper%5D"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with captured shortcode that removes a slash stays on site",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%5Blower%5D%2F%5B%2Flower%5D%2Fother.example"
+			},
+			"target": {
+				"status": 301,
+				"sameOrigin": true,
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target does not transform captured %userlogin%",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%25userlogin%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "%25userlogin%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target does not transform captured %userurl%",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%25userurl%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "%25userurl%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target does not transform captured %userid%",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=%25userid%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "%25userid%25",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex shortcode around capture does not transform captured shortcode",
+		{
+			"source": {
+				"url": "/regex-upper/%5Bupper%5D"
+			},
+			"target": {
+				"status": 301,
+				"location": "/plain-redirect/[UPPER]",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with simple capture",
+		{
+			"source": {
+				"url": "/regex-safe/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "/page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with nested capture",
+		{
+			"source": {
+				"url": "/regex-safe/a/b/c"
+			},
+			"target": {
+				"status": 301,
+				"location": "/a/b/c",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with query string capture",
+		{
+			"source": {
+				"url": "/regex-safe/page?a=b"
+			},
+			"target": {
+				"status": 301,
+				"location": "/page?a=b",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with encoded space",
+		{
+			"source": {
+				"url": "/regex-safe/hello%20world"
+			},
+			"target": {
+				"status": 301,
+				"location": "/hello%20world",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target with encoded unicode",
+		{
+			"source": {
+				"url": "/regex-safe/%E4%B8%AD%E5%9B%BD"
+			},
+			"target": {
+				"status": 301,
+				"location": "/%E4%B8%AD%E5%9B%BD",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex /$1 target does not transform captured %userlogin% in path",
+		{
+			"source": {
+				"url": "/regex-safe/%25userlogin%25"
+			},
+			"target": {
+				"status": 301,
+				"location": "/%userlogin%",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 target with simple capture",
+		{
+			"source": {
+				"url": "/regex-bare/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex $1 query target with simple capture",
+		{
+			"source": {
+				"url": "/regex-query-bare?u=page"
+			},
+			"target": {
+				"status": 301,
+				"location": "page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex logged out $1 target with simple capture",
+		{
+			"source": {
+				"url": "/regex-login/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex cookie matched $1 target with simple capture",
+		{
+			"source": {
+				"url": "/regex-cookie/page",
+				"headers": {
+					"cookie": "cookie=cookievalue"
+				}
+			},
+			"target": {
+				"status": 301,
+				"location": "page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex cookie not matched target with capture",
+		{
+			"source": {
+				"url": "/regex-cookie/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "/cookie/notmatch/page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex absolute target with capture in path",
+		{
+			"source": {
+				"url": "/regex-host/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "https://good.example/page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex absolute target with captured backslash stays on host",
+		{
+			"source": {
+				"url": "/regex-host/%5Cother.example"
+			},
+			"target": {
+				"status": 301,
+				"location": "https://good.example/other.example",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex absolute target with configured shortcode in host",
+		{
+			"source": {
+				"url": "/regex-host-transform/page"
+			},
+			"target": {
+				"status": 301,
+				"location": "https://good.example/page",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex shortcode around capture is transformed",
+		{
+			"source": {
+				"url": "/regex-upper/cat"
+			},
+			"target": {
+				"status": 301,
+				"location": "/plain-redirect/CAT",
+				"agent": true
+			}
+		}
+	],
+	[
+		"Regex shortcode around capture with query string is transformed",
+		{
+			"source": {
+				"url": "/regex-upper/cat?a=b"
+			},
+			"target": {
+				"status": 301,
+				"location": "/plain-redirect/CAT?A=B",
+				"agent": true
+			}
+		}
+	]
+]
